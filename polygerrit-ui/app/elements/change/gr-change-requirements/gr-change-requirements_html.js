@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import '@polymer/paper-dialog/paper-dialog.js';
 
 export const htmlTemplate = html`
     <style include="shared-styles">
@@ -81,6 +82,26 @@ export const htmlTemplate = html`
       .spacer {
         height: var(--spacing-m);
       }
+
+      /** overrides */
+      :host {
+        --paper-dialog-background-color: var(--background-color-primary);
+      }
+
+      /* test section */
+      #suggestionDialog h2 {
+        padding: var(--spacing-m);
+      }
+      #suggestionDialog table {
+        border-collapse: collapse;
+        margin: 0 var(--spacing-l);
+      }
+      #suggestionDialog table td,
+      #suggestionDialog table th {
+        border: 1px solid var(--border-color);
+        text-align: left;
+        padding: var(--spacing-m);
+      }
     </style>
     <template is="dom-repeat" items="[[_requirements]]">
       <section>
@@ -112,7 +133,6 @@ export const htmlTemplate = html`
       <div class="value">
         <iron-icon id="showHide" icon="[[_computeShowHideIcon(_showOptionalLabels)]]">
         </iron-icon>
-      
       </div>
     </section>
     <template is="dom-repeat" items="[[_optionalLabels]]">
@@ -134,4 +154,67 @@ export const htmlTemplate = html`
       </section>
     </template>
     <section class\$="spacer [[_computeShowOptional(_optionalLabels.*)]] [[_computeSectionClass(_showOptionalLabels)]]"></section>
+    <paper-dialog id="suggestionDialog" modal>
+      <h2>Owner's approval required</h2>
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Message</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <input type="checkbox" checked />
+            </td>
+            <td>(3 files) test.js,a.js,b.js</td>
+            <td>Owner not included in the reviewers</td>
+          </tr>
+          <template is="dom-if" if="[[_testFetched]]">
+            <tr>
+              <td colspan="3">
+                Suggested reviewers:
+                <template is="dom-repeat" items="[[_testSuggestionItems]]">
+                  <label>
+                    <input on-click="_testEnableApply" type="checkbox" /> [[item.name]]
+                  </label>
+                </template>
+              </td>
+            </tr>
+          </template>
+          <tr>
+            <td>
+              <input type="checkbox" />
+            </td>
+            <td>test.html</td>
+            <td>Owner has not given approval</td>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" />
+            </td>
+            <td>(2 files) readme.md, a.md</td>
+            <td>Owner has approved</td>
+          </tr>
+          <tr>
+            <td>
+              <input type="checkbox" />
+            </td>
+            <td>(3 files) test.text, a.txt, v.txt</td>
+            <td>No owner approval needed</td>
+          </tr>
+        </tbody>
+      </table>
+      <gr-button link on-click="_testGetSuggestion" disabled$="[[_testFetching]]">
+        [[_testSuggestButtonText]]
+      </gr-button>
+      <div class="buttons">
+        <paper-button dialog-confirm autofocus>Close</paper-button>
+        <template is="dom-if" if="[[_testFetched]]">
+          <paper-button dialog-confirm disabled$="[[!_testApplyEnabled]]">Apply</paper-button>
+        </template>
+      </div>
+    </paper-dialog>
 `;

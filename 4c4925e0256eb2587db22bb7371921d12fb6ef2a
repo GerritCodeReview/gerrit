@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "9faec577_499bfe3f",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-30T10:20:36Z",
+      "side": 1,
+      "message": "first, it\u0027s not a global variable as you can only use it when you import it from the module.\n\nregarding tests, you still can define something like `TEST_ONLY` and export that, I believe it is a pretty common pattern to export something to tests only, like:\n\n`export const TEST_ONLY \u003d {GrReporting}`\n\nto use in tests you can just:\n```\nimport {TEST_ONLY} from \"./xxx\";\nconst {GrReporting} \u003d TEST_ONLY;\nconst testReportingIntance \u003d new GrReporting();\n```",
+      "parentUuid": "4ecb192f_47e3a4a2",
+      "revId": "4c4925e0256eb2587db22bb7371921d12fb6ef2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1b5a05d7_6598a9e5",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 17

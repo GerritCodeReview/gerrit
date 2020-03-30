@@ -258,6 +258,8 @@ class GrDiffView extends mixinBehaviors( [
       '_getProjectConfig(_change.project)',
       '_getFiles(_changeNum, _patchRange.*, _changeComments)',
       '_setReviewedObserver(_loggedIn, params.*, _prefs)',
+      '_recomputeComments(_files.changeFilesByPath,' +
+      '_path, _patchRange, _projectConfig)',
     ];
   }
 
@@ -1104,6 +1106,28 @@ class GrDiffView extends mixinBehaviors( [
       this._commentsForDiff = this._getCommentsForPath(this._path,
           this._patchRange, this._projectConfig);
     });
+  }
+
+  _recomputeComments(files, path, patchRange, projectConfig) {
+    // Polymer 2: check for undefined
+    if ([
+      files,
+      path,
+      patchRange,
+      projectConfig,
+    ].some(arg => arg === undefined)) {
+      return undefined;
+    }
+
+    const file = files[path];
+    if (file && file.old_path) {
+      this._commentsForDiff = this._changeComments.getCommentsBySideForFile(
+          {path, oldPath: file.old_path},
+          patchRange,
+          projectConfig);
+
+      this.$.diffHost.comments = this._commentsForDiff;
+    }
   }
 
   _getPaths(patchRange) {

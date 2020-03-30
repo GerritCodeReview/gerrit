@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1cb5dc1c_cd9ed0e1",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-30T10:29:06Z",
+      "side": 1,
+      "message": "May be this method should accept serverConfig as parameter also?\nBefore maxReviewersDisplayed was set to a constant value and it worked, but I am not sure that now binding to serverConfig always assign property before this method is called.",
+      "range": {
+        "startLine": 187,
+        "startChar": 2,
+        "endLine": 187,
+        "endChar": 42
+      },
+      "revId": "525191f78072bda5a492cf3ac3b851d6e4c8015f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

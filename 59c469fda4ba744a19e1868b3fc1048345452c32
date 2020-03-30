@@ -1,9 +1,11 @@
 {
   "checks": {
     "gerritforge:codestyle-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "SCHEDULED",
+      "state": "SUCCESSFUL",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-codestyle/52910/console",
+      "finished": "2020-03-30T16:45:36Z",
       "created": "2020-03-30T16:08:53Z",
-      "updated": "2020-03-30T16:08:53Z"
+      "updated": "2020-03-30T16:34:09Z"
     },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "SCHEDULED",

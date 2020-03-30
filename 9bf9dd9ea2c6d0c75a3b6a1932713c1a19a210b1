@@ -34,6 +34,24 @@
       "revId": "9bf9dd9ea2c6d0c75a3b6a1932713c1a19a210b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29dfb256_e0153763",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/ExternalGroupsSerializerTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-30T09:36:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27556ce2_c3fa34d5",
+      "revId": "9bf9dd9ea2c6d0c75a3b6a1932713c1a19a210b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

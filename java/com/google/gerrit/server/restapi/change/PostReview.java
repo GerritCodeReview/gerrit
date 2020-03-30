@@ -53,6 +53,7 @@ import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RobotComment;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -225,7 +226,11 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input)
       throws RestApiException, UpdateException, IOException, PermissionBackendException,
           ConfigInvalidException, PatchListNotAvailableException {
-    return apply(revision, input, TimeUtil.nowTs());
+    try {
+      return apply(revision, input, TimeUtil.nowTs());
+    } catch (PatchListNotAvailableException ex) {
+      throw new StorageException(ex);
+    }
   }
 
   public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input, Timestamp ts)

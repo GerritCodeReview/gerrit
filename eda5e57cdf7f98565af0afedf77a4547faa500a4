@@ -70,6 +70,24 @@
       "revId": "eda5e57cdf7f98565af0afedf77a4547faa500a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d0987c4_6aa3c62a",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-30T07:53:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9851c343_60b8d7e5",
+      "revId": "eda5e57cdf7f98565af0afedf77a4547faa500a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

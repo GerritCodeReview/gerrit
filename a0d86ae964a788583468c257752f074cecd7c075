@@ -22,6 +22,30 @@
       "revId": "a0d86ae964a788583468c257752f074cecd7c075",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e3ac0d9_286269db",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-30T07:53:00Z",
+      "side": 1,
+      "message": "ya, I agree that this and also checks for unresolved / hasDraft can be short with ternary operators, and wrote with ternary inside this one first, but I found the `if` is much readable compared to ternary operators in such cases, and L147 makes it also very clear that the line is undefined for file comments. To be honest, for sorting with so many different situations, I would rather keep it like this so people who read it later can know every conditions very clear.",
+      "parentUuid": "12599cc9_9ddfa22d",
+      "range": {
+        "startLine": 148,
+        "startChar": 12,
+        "endLine": 149,
+        "endChar": 46
+      },
+      "revId": "a0d86ae964a788583468c257752f074cecd7c075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

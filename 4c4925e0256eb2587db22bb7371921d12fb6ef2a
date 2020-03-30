@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "e13631a0_a91cff38",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-30T09:32:45Z",
+      "side": 1,
+      "message": "if its a singleton, why don\u0027t just export it from the this file directly ? why bother having the `GrReportingProvider` at all ?\n\nwon\u0027t be easier to use like following:\n\n```\nimport {reporting} from \"../../gr-reporting.js\";\n```\n\nso you don\u0027t need to attach it to every component, i mean, why it has be a property on every component ?",
+      "parentUuid": "21c86824_99074ff5",
+      "revId": "4c4925e0256eb2587db22bb7371921d12fb6ef2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1b5a05d7_6598a9e5",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 17

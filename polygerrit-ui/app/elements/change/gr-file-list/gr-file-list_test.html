@@ -671,47 +671,50 @@ suite('gr-file-list tests', () => {
 
       test('i key shows/hides selected inline diff', () => {
         const paths = Object.keys(element._filesByPath);
-        sandbox.stub(element, '_expandedPathsChanged');
+        sandbox.stub(element, '_expandedFilesChanged');
         flushAsynchronousOperations();
         const files = dom(element.root).querySelectorAll('.file-row');
         element.$.fileCursor.stops = files;
         element.$.fileCursor.setCursorAtIndex(0);
         assert.equal(element.diffs.length, 0);
-        assert.equal(element._expandedFilePaths.length, 0);
+        assert.equal(element._expandedFiles.length, 0);
 
         MockInteractions.keyUpOn(element, 73, null, 'i');
         flushAsynchronousOperations();
         assert.equal(element.diffs.length, 1);
         assert.equal(element.diffs[0].path, paths[0]);
-        assert.equal(element._expandedFilePaths.length, 1);
-        assert.equal(element._expandedFilePaths[0], paths[0]);
+        assert.equal(element._expandedFiles.length, 1);
+        assert.equal(element._expandedFiles[0].path, paths[0]);
 
         MockInteractions.keyUpOn(element, 73, null, 'i');
         flushAsynchronousOperations();
         assert.equal(element.diffs.length, 0);
-        assert.equal(element._expandedFilePaths.length, 0);
+        assert.equal(element._expandedFiles.length, 0);
 
         element.$.fileCursor.setCursorAtIndex(1);
         MockInteractions.keyUpOn(element, 73, null, 'i');
         flushAsynchronousOperations();
         assert.equal(element.diffs.length, 1);
         assert.equal(element.diffs[0].path, paths[1]);
-        assert.equal(element._expandedFilePaths.length, 1);
-        assert.equal(element._expandedFilePaths[0], paths[1]);
+        assert.equal(element._expandedFiles.length, 1);
+        assert.equal(element._expandedFiles[0].path, paths[1]);
 
         MockInteractions.keyUpOn(element, 73, 'shift', 'i');
         flushAsynchronousOperations();
         assert.equal(element.diffs.length, paths.length);
-        assert.equal(element._expandedFilePaths.length, paths.length);
+        assert.equal(element._expandedFiles.length, paths.length);
         for (const index in element.diffs) {
           if (!element.diffs.hasOwnProperty(index)) { continue; }
-          assert.include(element._expandedFilePaths, element.diffs[index].path);
+          assert.isTrue(
+              element._expandedFiles
+                  .some(f => f.path === element.diffs[index].path)
+          );
         }
 
         MockInteractions.keyUpOn(element, 73, 'shift', 'i');
         flushAsynchronousOperations();
         assert.equal(element.diffs.length, 0);
-        assert.equal(element._expandedFilePaths.length, 0);
+        assert.equal(element._expandedFiles.length, 0);
       });
 
       test('r key toggles reviewed flag', () => {
@@ -883,7 +886,7 @@ suite('gr-file-list tests', () => {
       const toggleExpandSpy = sandbox.spy(element, '_togglePathExpanded');
 
       const row = dom(element.root)
-          .querySelector('.row[data-path="f1.txt"]');
+          .querySelector(`.row[data-file='{"path":"f1.txt"}']`);
 
       // Click on the expand button, resulting in _togglePathExpanded being
       // called and not resulting in a call to _reviewFile.
@@ -962,7 +965,7 @@ suite('gr-file-list tests', () => {
         patchNum: '2',
       };
       element.$.fileCursor.setCursorAtIndex(0);
-      sandbox.stub(element, '_expandedPathsChanged');
+      sandbox.stub(element, '_expandedFilesChanged');
       flushAsynchronousOperations();
       const fileRows =
           dom(element.root).querySelectorAll('.row:not(.header-row)');
@@ -974,7 +977,9 @@ suite('gr-file-list tests', () => {
       assert.isNotOk(showHideCheck.checked);
       MockInteractions.tap(showHideLabel);
       assert.isOk(showHideCheck.checked);
-      assert.notEqual(element._expandedFilePaths.indexOf('myfile.txt'), -1);
+      assert.notEqual(
+          element._expandedFiles.findIndex(f => f.path === 'myfile.txt'),
+          -1);
     });
 
     test('diff mode correctly toggles the diffs', () => {
@@ -1020,7 +1025,7 @@ suite('gr-file-list tests', () => {
         basePatchNum: 'PARENT',
         patchNum: '2',
       };
-      sandbox.stub(element, '_expandedPathsChanged');
+      sandbox.stub(element, '_expandedFilesChanged');
       flushAsynchronousOperations();
       const commitMsgFile = dom(element.root)
           .querySelectorAll('.row:not(.header-row) a.pathLink')[0];
@@ -1047,22 +1052,22 @@ suite('gr-file-list tests', () => {
 
       assert.equal(element.shadowRoot
           .querySelector('iron-icon').icon, 'gr-icons:expand-more');
-      assert.equal(element._expandedFilePaths.length, 0);
-      element._togglePathExpanded(path);
+      assert.equal(element._expandedFiles.length, 0);
+      element._togglePathExpanded({path});
       flushAsynchronousOperations();
       assert.equal(collapseStub.lastCall.args[0].length, 0);
       assert.equal(element.shadowRoot
           .querySelector('iron-icon').icon, 'gr-icons:expand-less');
 
       assert.equal(renderSpy.callCount, 1);
-      assert.include(element._expandedFilePaths, path);
-      element._togglePathExpanded(path);
+      assert.isTrue(element._expandedFiles.some(f => f.path === path));
+      element._togglePathExpanded({path});
       flushAsynchronousOperations();
 
       assert.equal(element.shadowRoot
           .querySelector('iron-icon').icon, 'gr-icons:expand-more');
       assert.equal(renderSpy.callCount, 1);
-      assert.notInclude(element._expandedFilePaths, path);
+      assert.isFalse(element._expandedFiles.some(f => f.path === path));
       assert.equal(collapseStub.lastCall.args[0].length, 1);
     });
 
@@ -1081,13 +1086,13 @@ suite('gr-file-list tests', () => {
 
       element.collapseAllDiffs();
       flushAsynchronousOperations();
-      assert.equal(element._expandedFilePaths.length, 0);
+      assert.equal(element._expandedFiles.length, 0);
       assert.isFalse(element._showInlineDiffs);
       assert.isTrue(cursorUpdateStub.calledTwice);
       assert.equal(collapseStub.lastCall.args[0].length, 1);
     });
 
-    test('_expandedPathsChanged', done => {
+    test('_expandedFilesChanged', done => {
       sandbox.stub(element, '_reviewFile');
       const path = 'path/to/my/file.txt';
       const diffs = [{
@@ -1105,7 +1110,7 @@ suite('gr-file-list tests', () => {
       sinon.stub(element, 'diffs', {
         get() { return diffs; },
       });
-      element.push('_expandedFilePaths', path);
+      element.push('_expandedFiles', {path});
     });
 
     test('_clearCollapsedDiffs', () => {
@@ -1126,11 +1131,11 @@ suite('gr-file-list tests', () => {
       flushAsynchronousOperations();
       assert.equal(element.filesExpanded,
           GrFileListConstants.FilesExpandedState.NONE);
-      element.push('_expandedFilePaths', 'baz.bar');
+      element.push('_expandedFiles', {path: 'baz.bar'});
       flushAsynchronousOperations();
       assert.equal(element.filesExpanded,
           GrFileListConstants.FilesExpandedState.SOME);
-      element.push('_expandedFilePaths', 'foo.bar');
+      element.push('_expandedFiles', {path: 'foo.bar'});
       flushAsynchronousOperations();
       assert.equal(element.filesExpanded,
           GrFileListConstants.FilesExpandedState.ALL);
@@ -1169,7 +1174,9 @@ suite('gr-file-list tests', () => {
           return Promise.resolve();
         },
       }];
-      element._renderInOrder(['p2', 'p1', 'p0'], diffs, 3)
+      element._renderInOrder([
+        {path: 'p2'}, {path: 'p1'}, {path: 'p0'},
+      ], diffs, 3)
           .then(() => {
             assert.isFalse(reviewStub.called);
             assert.isTrue(loadCommentSpy.called);
@@ -1206,7 +1213,9 @@ suite('gr-file-list tests', () => {
           return Promise.resolve();
         },
       }];
-      element._renderInOrder(['p2', 'p1', 'p0'], diffs, 3)
+      element._renderInOrder([
+        {path: 'p2'}, {path: 'p1'}, {path: 'p0'},
+      ], diffs, 3)
           .then(() => {
             assert.equal(reviewStub.callCount, 3);
             done();
@@ -1223,10 +1232,10 @@ suite('gr-file-list tests', () => {
         reload() { return Promise.resolve(); },
       }];
 
-      return element._renderInOrder(['p'], diffs, 1).then(() => {
+      return element._renderInOrder([{path: 'p'}], diffs, 1).then(() => {
         assert.isFalse(reviewStub.called);
         delete element.diffPrefs.manual_review;
-        return element._renderInOrder(['p'], diffs, 1).then(() => {
+        return element._renderInOrder([{path: 'p'}], diffs, 1).then(() => {
           assert.isTrue(reviewStub.called);
           assert.isTrue(reviewStub.calledWithExactly('p', true));
         });

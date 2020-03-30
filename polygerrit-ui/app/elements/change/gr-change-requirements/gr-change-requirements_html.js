@@ -112,7 +112,6 @@ export const htmlTemplate = html`
       <div class="value">
         <iron-icon id="showHide" icon="[[_computeShowHideIcon(_showOptionalLabels)]]">
         </iron-icon>
-      
       </div>
     </section>
     <template is="dom-repeat" items="[[_optionalLabels]]">

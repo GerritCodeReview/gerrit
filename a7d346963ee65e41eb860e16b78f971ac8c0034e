@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "611ef181_4ce16ff0",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-30T14:19:45Z",
+      "side": 1,
+      "message": "See my comments here:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/257954/27/polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.js#78",
+      "range": {
+        "startLine": 75,
+        "startChar": 49,
+        "endLine": 76,
+        "endChar": 8
+      },
+      "revId": "a7d346963ee65e41eb860e16b78f971ac8c0034e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

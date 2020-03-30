@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39424c0a_e5ab6840",
+        "filename": "java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-30T08:04:43Z",
+      "side": 1,
+      "message": "Talked to Edwin, the current behavior is to just return defaults for broken configs. Will adapt this part to do the same.",
+      "range": {
+        "startLine": 226,
+        "startChar": 1,
+        "endLine": 227,
+        "endChar": 36
+      },
+      "revId": "603f651528549052a787850ed0be6aa3f07c6dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "447ad318_b24f9891",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-30T12:53:25Z",
+      "side": 1,
+      "message": "It can be false?\nFirst condition is only checking for undefined.",
+      "parentUuid": "203c4504_e6571022",
+      "range": {
+        "startLine": 209,
+        "startChar": 12,
+        "endLine": 209,
+        "endChar": 33
+      },
+      "revId": "4bd0c897e59571267c637856deff23cc2e5d2fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca186236_fd259c88",
         "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
         "patchSetId": 12
@@ -39,6 +63,24 @@
       "revId": "4bd0c897e59571267c637856deff23cc2e5d2fed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38c34769_55751947",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-30T12:53:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca186236_fd259c88",
+      "revId": "4bd0c897e59571267c637856deff23cc2e5d2fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "6aa16729_5134d898",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog_html.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-30T12:53:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7057290b_2f46276e",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 270
+      },
+      "revId": "4bd0c897e59571267c637856deff23cc2e5d2fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "afe73fe0_f3bbe752",
         "filename": "polygerrit-ui/app/elements/shared/gr-dialog/gr-dialog_html.js",
         "patchSetId": 12
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "f742f1c6_2aed0a4a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dialog/gr-dialog_html.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-30T12:53:25Z",
+      "side": 1,
+      "message": "I think it was added by Dmitrii\u0027s script.",
+      "parentUuid": "afe73fe0_f3bbe752",
+      "revId": "4bd0c897e59571267c637856deff23cc2e5d2fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02627c45_38010273",
         "filename": "polygerrit-ui/app/elements/shared/gr-dialog/gr-dialog_test.html",
         "patchSetId": 12
@@ -96,6 +180,24 @@
       "revId": "4bd0c897e59571267c637856deff23cc2e5d2fed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36c9cb98_2aa4e282",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dialog/gr-dialog_test.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-30T12:53:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02627c45_38010273",
+      "revId": "4bd0c897e59571267c637856deff23cc2e5d2fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -3238,13 +3238,33 @@ public class ChangeIT extends AbstractDaemonTest {
 
     assertThat(changeInfo.revisions.get(changeInfo.currentRevision).commit.message)
         .contains(subject);
+  }
 
-    // No subject: reuse message from previous patchset.
+  @Test
+  public void createMergePatchSet_SubjectCarriesOverByDefault() throws Exception {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    createBranch("dev");
+
+    // create a change for master
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    String subject = result.getChange().change().getSubject();
+
+    // push a commit into dev branch
+    testRepo.reset(initialHead);
+    PushOneCommit.Result pushResult =
+        pushFactory.create(user.newIdent(), testRepo).to("refs/heads/dev");
+    pushResult.assertOkStatus();
+    MergeInput mergeInput = new MergeInput();
+    mergeInput.source = "dev";
+    MergePatchSetInput in = new MergePatchSetInput();
+    in.merge = mergeInput;
     in.subject = null;
+
+    // Ensure subject carries over
     gApi.changes().id(changeId).createMergePatchSet(in);
-    changeInfo = gApi.changes().id(changeId).get(ALL_REVISIONS, CURRENT_COMMIT, CURRENT_REVISION);
-    assertThat(changeInfo.revisions.get(changeInfo.currentRevision).commit.message)
-        .contains(subject);
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    assertThat(changeInfo.subject).isEqualTo(subject);
   }
 
   @Test

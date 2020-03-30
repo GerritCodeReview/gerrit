@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "da81db2f_3235ec5e",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-30T08:03:20Z",
+      "side": 1,
+      "message": "yes, due to the `/`, it will always show before any other characters. and if both starts with `/`, then sort by the second and following chars, like `/COMMIT_MSG` and `/MERGE_LIST`",
+      "parentUuid": "eb7e3c1c_22018441",
+      "revId": "a0d86ae964a788583468c257752f074cecd7c075",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12599cc9_9ddfa22d",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 2

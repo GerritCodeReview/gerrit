@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59cf8be7_113227e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-30T10:22:28Z",
+      "side": 1,
+      "message": "The gr-account-label is used in admin. Does admin see display name instead of username after this change? If yes - is it safe to show user-defined name in admin settings? User can set its own display name to the name of other user and admin have to check exact emails.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "3d409ee8bf4742b63f25cdae39e31a92ccb6a88a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

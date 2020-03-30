@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89ad0923_4e24b9b7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3254,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-30T13:00:58Z",
+      "side": 1,
+      "message": "Why is this needed?\nIf I read this correctly, we reset the local repo to the commit of the remote master branch. Then we push this commit to the master branch, but the master branch is already on this commit and hence nothing is changed.",
+      "range": {
+        "startLine": 3252,
+        "startChar": 4,
+        "endLine": 3254,
+        "endChar": 35
+      },
+      "revId": "492f56e23e37966d8255cb6cf19ae153cadee46e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6f3d79f_c9601d08",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3258,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-30T13:00:58Z",
+      "side": 1,
+      "message": "This is the result of a direct push, which is not creating any change. Can you please rename this to avoid confusion?",
+      "range": {
+        "startLine": 3258,
+        "startChar": 25,
+        "endLine": 3258,
+        "endChar": 32
+      },
+      "revId": "492f56e23e37966d8255cb6cf19ae153cadee46e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

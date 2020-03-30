@@ -187,9 +187,9 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     assertThat(robotCommentsList.stream().map(c -> c.message).collect(toList()))
         .containsExactly("robot comment 1", "robot comment 2", "robot comment 3");
 
-    String uploadPsMessageId =
+    String message1ChangeId =
         allMessages.stream()
-            .filter(c -> c.message.equals("Uploaded patch set 1."))
+            .filter(c -> c.message.contains("robot message 1"))
             .collect(onlyElement())
             .id;
     String message2ChangeId =
@@ -221,11 +221,10 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
     /**
      * Upload PS message, robot message 1 & robot comment 1 all have the same timestamp. The robot
-     * comment is matched to the PS upload message because it occurs first in the list. A comment is
-     * matched with the first change message having a timestamp not less than the comment.
-     * TODO(ghareeb): enhance the matching to ignore auto-generated messages.
+     * comment is matched to robot message 1 because the PS upload message is auto-generated and is
+     * ignored in matching
      */
-    assertThat(uploadPsMessageId).isEqualTo(comment1MessageId);
+    assertThat(message1ChangeId).isEqualTo(comment1MessageId);
     assertThat(message2ChangeId).isEqualTo(comment2MessageId);
     assertThat(message3ChangeId).isEqualTo(comment3MessageId);
   }

@@ -128,15 +128,39 @@ suite('gr-hovercard tests', () => {
   test('card is scheduled to show on enter and hides on leave', done => {
     const button = dom(document).querySelector('button');
     assert.isFalse(element._isShowing);
-    button.addEventListener('mouseenter', event => {
+    const enterHandler = event => {
       assert.isTrue(element._isScheduledToShow);
       button.dispatchEvent(new CustomEvent('mouseleave'));
-    });
-    button.addEventListener('mouseleave', event => {
+    };
+    const leaveHandler = event => {
       assert.isFalse(element._isScheduledToShow);
       assert.isFalse(element._isShowing);
+      button.removeEventListener('mouseenter', enterHandler);
+      button.removeEventListener('mouseleave', leaveHandler);
       done();
-    });
+    };
+    button.addEventListener('mouseenter', enterHandler);
+    button.addEventListener('mouseleave', leaveHandler);
+    button.dispatchEvent(new CustomEvent('mouseenter'));
+  });
+
+  test('card should disappear on click', done => {
+    const button = dom(document).querySelector('button');
+    assert.isFalse(element._isShowing);
+    const enterHandler = event => {
+      assert.isTrue(element._isScheduledToShow);
+      // click to hide
+      MockInteractions.tap(button);
+    };
+    const leaveHandler = event => {
+      assert.isFalse(element._isScheduledToShow);
+      assert.isFalse(element._isShowing);
+      button.removeEventListener('mouseenter', enterHandler);
+      button.removeEventListener('click', leaveHandler);
+      done();
+    };
+    button.addEventListener('mouseenter', enterHandler);
+    button.addEventListener('click', leaveHandler);
     button.dispatchEvent(new CustomEvent('mouseenter'));
   });
 });

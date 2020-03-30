@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.MoreCollectors.onlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
@@ -48,7 +49,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.MoreCollectors;
 import com.google.common.collect.Streams;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
@@ -2056,32 +2056,32 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     /**
      * Note that the following 3 items have the same timestamp: comment "comment_PS2", message
-     * "Uploaded patch set 2.", and message "Patch Set 2:\n\n(1 comment)". For same change message
-     * timestamps, the matching to a specific message is not guaranteed. TODO(ghareeb) enhance the
-     * matching to ignore change messages with "auto-generated" tag
+     * "Uploaded patch set 2.", and message "Patch Set 2:\n\n(1 comment)". The comment will not be
+     * matched with the upload change message because it is auto-generated. Same goes for patch set
+     * 3.
      */
     String commentPs2MessageId =
         comments.stream()
             .filter(c -> c.message.equals("comment_PS2."))
-            .collect(MoreCollectors.onlyElement())
+            .collect(onlyElement())
             .changeMessageId;
 
     String commentPs3MessageId =
         comments.stream()
             .filter(c -> c.message.equals("comment_PS3."))
-            .collect(MoreCollectors.onlyElement())
+            .collect(onlyElement())
             .changeMessageId;
 
     String message2Id =
         allMessages.stream()
-            .filter(m -> m.message.equals("Uploaded patch set 2."))
-            .collect(MoreCollectors.onlyElement())
+            .filter(m -> m.message.equals("Patch Set 2:\n\n(1 comment)"))
+            .collect(onlyElement())
             .id;
 
     String message3Id =
         allMessages.stream()
-            .filter(m -> m.message.equals("Uploaded patch set 3."))
-            .collect(MoreCollectors.onlyElement())
+            .filter(m -> m.message.equals("Patch Set 3:\n\n(1 comment)"))
+            .collect(onlyElement())
             .id;
 
     assertThat(commentPs2MessageId).isEqualTo(message2Id);

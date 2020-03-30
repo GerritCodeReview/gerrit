@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d580ad4_f4fc06b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-30T09:40:30Z",
+      "side": 1,
+      "message": "Thanks, this commit message is really well written!",
+      "revId": "e589fdada4743cb16de056cde2b808907c12641e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c1220bf_959858ae",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6181,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-30T09:40:30Z",
+      "side": 1,
+      "message": "the default",
+      "range": {
+        "startLine": 6181,
+        "startChar": 59,
+        "endLine": 6181,
+        "endChar": 66
+      },
+      "revId": "e589fdada4743cb16de056cde2b808907c12641e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1418740_59db369b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6182,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-30T09:40:30Z",
+      "side": 1,
+      "message": "\"source commit/source change\", or just \"source\"",
+      "range": {
+        "startLine": 6182,
+        "startChar": 7,
+        "endLine": 6182,
+        "endChar": 20
+      },
+      "revId": "e589fdada4743cb16de056cde2b808907c12641e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7807a156_717c7951",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6182,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-30T09:40:30Z",
+      "side": 1,
+      "message": "the topic of the resulting",
+      "range": {
+        "startLine": 6182,
+        "startChar": 62,
+        "endLine": 6182,
+        "endChar": 75
+      },
+      "revId": "e589fdada4743cb16de056cde2b808907c12641e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2ab0d17_9922f503",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6182,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-30T09:40:30Z",
+      "side": 1,
+      "message": "What will be the default topic, if the source is a commit?",
+      "range": {
+        "startLine": 6182,
+        "startChar": 22,
+        "endLine": 6182,
+        "endChar": 47
+      },
+      "revId": "e589fdada4743cb16de056cde2b808907c12641e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26e42c14_870702ab",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6184,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-30T09:40:30Z",
+      "side": 1,
+      "message": "source change",
+      "range": {
+        "startLine": 6184,
+        "startChar": 18,
+        "endLine": 6184,
+        "endChar": 24
+      },
+      "revId": "e589fdada4743cb16de056cde2b808907c12641e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4abbb30f_d86c6495",
+        "filename": "java/com/google/gerrit/extensions/api/changes/CherryPickInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-03-30T09:40:30Z",
+      "side": 1,
+      "message": "The cherry-pick REST endpoints should take care to trim the topic to avoid leading/trailing whitespace and to be consistent with other REST endpoints that accept a topic in the input (e.g. see CreateChange REST endpoint).",
+      "revId": "e589fdada4743cb16de056cde2b808907c12641e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

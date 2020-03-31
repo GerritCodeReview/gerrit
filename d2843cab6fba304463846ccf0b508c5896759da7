@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "11d9c85c_a37211ae",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-31T09:28:44Z",
+      "side": 1,
+      "message": "Yeah, you beat me to the new uploaded patchset.",
+      "parentUuid": "d0b0dea0_3d423d8c",
+      "range": {
+        "startLine": 204,
+        "startChar": 18,
+        "endLine": 204,
+        "endChar": 39
+      },
+      "revId": "d2843cab6fba304463846ccf0b508c5896759da7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d9255d6_5e90619e",
         "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
         "patchSetId": 14
@@ -39,6 +63,24 @@
       "revId": "d2843cab6fba304463846ccf0b508c5896759da7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91e76fec_dcbe2cc7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-31T09:28:44Z",
+      "side": 1,
+      "message": "I published an edit on patchset 13. \nWeird.",
+      "parentUuid": "4d9255d6_5e90619e",
+      "revId": "d2843cab6fba304463846ccf0b508c5896759da7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

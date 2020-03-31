@@ -27,6 +27,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.a
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static com.google.gerrit.truth.MapSubject.assertThatMap;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static java.util.stream.Collectors.toList;
@@ -846,7 +847,8 @@ public class GroupsIT extends AbstractDaemonTest {
     List<String> expectedGroups =
         groups.getAllGroupReferences().map(GroupReference::getName).sorted().collect(toList());
     assertThat(expectedGroups.size()).isAtLeast(2);
-    assertThat(gApi.groups().list().getAsMap().keySet())
+    assertThatMap(gApi.groups().list().getAsMap())
+        .keys()
         .containsExactlyElementsIn(expectedGroups)
         .inOrder();
   }
@@ -893,20 +895,19 @@ public class GroupsIT extends AbstractDaemonTest {
     gApi.groups().create(in);
 
     requestScopeOperations.setApiUser(user.id());
-    assertThat(gApi.groups().list().getAsMap()).doesNotContainKey(newGroupName);
+    assertThatMap(gApi.groups().list().getAsMap()).doesNotContainKey(newGroupName);
 
     requestScopeOperations.setApiUser(admin.id());
     gApi.groups().id(newGroupName).addMembers(user.username());
 
     requestScopeOperations.setApiUser(user.id());
-    assertThat(gApi.groups().list().getAsMap()).containsKey(newGroupName);
+    assertThatMap(gApi.groups().list().getAsMap()).containsKey(newGroupName);
   }
 
   @Test
   public void suggestGroup() throws Exception {
     Map<String, GroupInfo> groups = gApi.groups().list().withSuggest("adm").getAsMap();
-    assertThat(groups).containsKey("Administrators");
-    assertThat(groups).hasSize(1);
+    assertThatMap(groups).keys().containsExactly("Administrators");
     assertBadRequest(gApi.groups().list().withSuggest("adm").withSubstring("foo"));
     assertBadRequest(gApi.groups().list().withSuggest("adm").withRegex("foo.*"));
     assertBadRequest(gApi.groups().list().withSuggest("adm").withUser("user"));
@@ -923,36 +924,30 @@ public class GroupsIT extends AbstractDaemonTest {
     // Choose a substring which isn't part of any group or test method within this class.
     String substring = "efghijk";
     Map<String, GroupInfo> groups = gApi.groups().list().withSubstring(substring).getAsMap();
-    assertThat(groups).containsKey(group);
-    assertThat(groups).hasSize(1);
+    assertThatMap(groups).keys().containsExactly(group);
 
     groups = gApi.groups().list().withSubstring("abcdefghi").getAsMap();
-    assertThat(groups).containsKey(group);
-    assertThat(groups).hasSize(1);
+    assertThatMap(groups).keys().containsExactly(group);
 
     String otherGroup = name("Abcdefghijklmnop2");
     gApi.groups().create(otherGroup);
     groups = gApi.groups().list().withSubstring(substring).getAsMap();
-    assertThat(groups).hasSize(2);
-    assertThat(groups).containsKey(group);
-    assertThat(groups).containsKey(otherGroup);
+    assertThatMap(groups).keys().containsExactly(group, otherGroup);
 
     groups = gApi.groups().list().withSubstring("non-existing-substring").getAsMap();
-    assertThat(groups).isEmpty();
+    assertThatMap(groups).isEmpty();
   }
 
   @Test
   public void withRegex() throws Exception {
     Map<String, GroupInfo> groups = gApi.groups().list().withRegex("Admin.*").getAsMap();
-    assertThat(groups).containsKey("Administrators");
-    assertThat(groups).hasSize(1);
+    assertThatMap(groups).keys().containsExactly("Administrators");
 
     groups = gApi.groups().list().withRegex("admin.*").getAsMap();
-    assertThat(groups).isEmpty();
+    assertThatMap(groups).isEmpty();
 
     groups = gApi.groups().list().withRegex(".*istrators").getAsMap();
-    assertThat(groups).containsKey("Administrators");
-    assertThat(groups).hasSize(1);
+    assertThatMap(groups).keys().containsExactly("Administrators");
 
     assertBadRequest(gApi.groups().list().withRegex(".*istrators").withSubstring("s"));
   }
@@ -961,8 +956,7 @@ public class GroupsIT extends AbstractDaemonTest {
   public void allGroupInfoFieldsSetCorrectly() throws Exception {
     InternalGroup adminGroup = adminGroup();
     Map<String, GroupInfo> groups = gApi.groups().list().addGroup(adminGroup.getName()).getAsMap();
-    assertThat(groups).hasSize(1);
-    assertThat(groups).containsKey("Administrators");
+    assertThatMap(groups).keys().containsExactly("Administrators");
     assertGroupInfo(adminGroup, Iterables.getOnlyElement(groups.values()));
   }
 

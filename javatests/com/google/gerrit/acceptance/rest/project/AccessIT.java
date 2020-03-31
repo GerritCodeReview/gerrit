@@ -20,6 +20,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.ConfigSubject.assertThat;
+import static com.google.gerrit.truth.MapSubject.assertThatMap;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
@@ -430,7 +431,8 @@ public class AccessIT extends AbstractDaemonTest {
 
     accessInput.add.put(REFS_ALL, accessSection);
     ProjectAccessInfo result = pApi().access(accessInput);
-    assertThat(result.groups.keySet())
+    assertThatMap(result.groups)
+        .keys()
         .containsExactly(
             SystemGroupBackend.PROJECT_OWNERS.get(), SystemGroupBackend.ANONYMOUS_USERS.get());
 
@@ -443,7 +445,8 @@ public class AccessIT extends AbstractDaemonTest {
 
     // Get call returns groups too.
     ProjectAccessInfo loggedInResult = pApi().access();
-    assertThat(loggedInResult.groups.keySet())
+    assertThatMap(loggedInResult.groups)
+        .keys()
         .containsExactly(
             SystemGroupBackend.PROJECT_OWNERS.get(), SystemGroupBackend.ANONYMOUS_USERS.get());
 
@@ -456,7 +459,8 @@ public class AccessIT extends AbstractDaemonTest {
     // PROJECT_OWNERS is invisible to anonymous user, but GetAccess disregards visibility.
     requestScopeOperations.setApiUserAnonymous();
     ProjectAccessInfo anonResult = pApi().access();
-    assertThat(anonResult.groups.keySet())
+    assertThatMap(anonResult.groups)
+        .keys()
         .containsExactly(
             SystemGroupBackend.PROJECT_OWNERS.get(), SystemGroupBackend.ANONYMOUS_USERS.get());
   }
@@ -510,12 +514,8 @@ public class AccessIT extends AbstractDaemonTest {
 
     ProjectAccessInfo updatedAccessSectionInfo =
         gApi.projects().name(allProjects.get()).access(accessInput);
-    assertThat(
-            updatedAccessSectionInfo
-                .local
-                .get(AccessSection.GLOBAL_CAPABILITIES)
-                .permissions
-                .keySet())
+    assertThatMap(updatedAccessSectionInfo.local.get(AccessSection.GLOBAL_CAPABILITIES).permissions)
+        .keys()
         .containsAtLeastElementsIn(accessSectionInfo.permissions.keySet());
   }
 
@@ -544,12 +544,9 @@ public class AccessIT extends AbstractDaemonTest {
 
       ProjectAccessInfo updatedAccessSectionInfo =
           gApi.projects().name(allProjects.get()).access(accessInput);
-      assertThat(
-              updatedAccessSectionInfo
-                  .local
-                  .get(AccessSection.GLOBAL_CAPABILITIES)
-                  .permissions
-                  .keySet())
+      assertThatMap(
+              updatedAccessSectionInfo.local.get(AccessSection.GLOBAL_CAPABILITIES).permissions)
+          .keys()
           .containsAtLeastElementsIn(accessSectionInfo.permissions.keySet());
     }
   }
@@ -644,12 +641,8 @@ public class AccessIT extends AbstractDaemonTest {
 
     ProjectAccessInfo updatedProjectAccessInfo =
         gApi.projects().name(allProjects.get()).access(accessInput);
-    assertThat(
-            updatedProjectAccessInfo
-                .local
-                .get(AccessSection.GLOBAL_CAPABILITIES)
-                .permissions
-                .keySet())
+    assertThatMap(updatedProjectAccessInfo.local.get(AccessSection.GLOBAL_CAPABILITIES).permissions)
+        .keys()
         .containsAtLeastElementsIn(accessSectionInfo.permissions.keySet());
 
     // Remove
@@ -657,12 +650,8 @@ public class AccessIT extends AbstractDaemonTest {
     accessInput.remove.put(AccessSection.GLOBAL_CAPABILITIES, accessSectionInfo);
 
     updatedProjectAccessInfo = gApi.projects().name(allProjects.get()).access(accessInput);
-    assertThat(
-            updatedProjectAccessInfo
-                .local
-                .get(AccessSection.GLOBAL_CAPABILITIES)
-                .permissions
-                .keySet())
+    assertThatMap(updatedProjectAccessInfo.local.get(AccessSection.GLOBAL_CAPABILITIES).permissions)
+        .keys()
         .containsNoneIn(accessSectionInfo.permissions.keySet());
   }
 
@@ -754,14 +743,12 @@ public class AccessIT extends AbstractDaemonTest {
 
     // Assert that the permission was synced from All-Projects (global) to All-Users (ref)
     Map<String, AccessSectionInfo> local = gApi.projects().name("All-Users").access().local;
-    assertThat(local).isNotNull();
-    assertThat(local).containsKey(RefNames.REFS_GROUPS + "*");
+    assertThatMap(local).keys().contains(RefNames.REFS_GROUPS + "*");
     Map<String, PermissionInfo> permissions = local.get(RefNames.REFS_GROUPS + "*").permissions;
-    assertThat(permissions).hasSize(2);
     // READ is the default permission and should be preserved by the syncer
-    assertThat(permissions.keySet()).containsExactly(Permission.READ, Permission.CREATE);
+    assertThatMap(permissions).keys().containsExactly(Permission.READ, Permission.CREATE);
     Map<String, PermissionRuleInfo> rules = permissions.get(Permission.CREATE).rules;
-    assertThat(rules.values()).containsExactly(pri);
+    assertThatMap(rules).values().containsExactly(pri);
 
     // Revoke the permission
     accessInput.add.clear();
@@ -770,12 +757,10 @@ public class AccessIT extends AbstractDaemonTest {
 
     // Assert that the permission was synced from All-Projects (global) to All-Users (ref)
     Map<String, AccessSectionInfo> local2 = gApi.projects().name("All-Users").access().local;
-    assertThat(local2).isNotNull();
-    assertThat(local2).containsKey(RefNames.REFS_GROUPS + "*");
+    assertThatMap(local2).keys().contains(RefNames.REFS_GROUPS + "*");
     Map<String, PermissionInfo> permissions2 = local2.get(RefNames.REFS_GROUPS + "*").permissions;
-    assertThat(permissions2).hasSize(1);
     // READ is the default permission and should be preserved by the syncer
-    assertThat(permissions2.keySet()).containsExactly(Permission.READ);
+    assertThatMap(permissions2).keys().containsExactly(Permission.READ);
   }
 
   @Test
@@ -803,14 +788,13 @@ public class AccessIT extends AbstractDaemonTest {
 
     // Assert that the permissions were synced from All-Projects (global) to All-Users (ref)
     Map<String, AccessSectionInfo> local = gApi.projects().name("All-Users").access().local;
-    assertThat(local).isNotNull();
-    assertThat(local).containsKey(RefNames.REFS_GROUPS + "*");
+    assertThatMap(local).keys().contains(RefNames.REFS_GROUPS + "*");
     Map<String, PermissionInfo> permissions = local.get(RefNames.REFS_GROUPS + "*").permissions;
-    assertThat(permissions).hasSize(2);
     // READ is the default permission and should be preserved by the syncer
-    assertThat(permissions.keySet()).containsExactly(Permission.READ, Permission.CREATE);
+    assertThatMap(permissions).keys().containsExactly(Permission.READ, Permission.CREATE);
     Map<String, PermissionRuleInfo> rules = permissions.get(Permission.CREATE).rules;
-    assertThat(rules.keySet())
+    assertThatMap(rules)
+        .keys()
         .containsExactly(SystemGroupBackend.REGISTERED_USERS.get(), adminGroupUuid().get());
     assertThat(rules.get(SystemGroupBackend.REGISTERED_USERS.get())).isEqualTo(pri);
     assertThat(rules.get(adminGroupUuid().get())).isEqualTo(pri);

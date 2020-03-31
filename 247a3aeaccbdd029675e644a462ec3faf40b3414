@@ -70,6 +70,24 @@
       "revId": "247a3aeaccbdd029675e644a462ec3faf40b3414",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df312285_1d65fe46",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-31T08:09:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "357b9549_dfd8d50f",
+      "revId": "247a3aeaccbdd029675e644a462ec3faf40b3414",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

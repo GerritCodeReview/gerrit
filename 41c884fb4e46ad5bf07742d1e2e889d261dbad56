@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34941121_c9e6a303",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-31T10:02:57Z",
+      "side": 1,
+      "message": "I just realize this, I think you want to return empty string when `change.revisions` or change.current_revision not exists. But with your current logic, currentPatchNum will be 0 and it will return the tooltip if patchNum is not 0, i am not sure if that\u0027s expected or not.",
+      "revId": "41c884fb4e46ad5bf07742d1e2e889d261dbad56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

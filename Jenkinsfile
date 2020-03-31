@@ -16,6 +16,7 @@
 
 import groovy.json.JsonSlurper
 import groovy.json.JsonOutput
+import hudson.model.Run
 
 class Globals {
     static final String gerritUrl = "https://gerrit-review.googlesource.com/"
@@ -25,36 +26,29 @@ class Globals {
     static final String gerritRepositoryNameSha1Suffix = "-a6a0e4682515f3521897c5f950d1394f4619d928"
 }
 
-class Build {
-    String url
-    String result
-
-    Build(url, result) {
-        this.url = url
-        this.result = result
-    }
-}
-
 class Builds {
     static Set<String> modes = []
-    static Build codeStyle = null
+    static Run codeStyle = null
     static Map verification = [:]
 }
 
 class GerritCheck {
     String uuid
-    Build build
+    Run build
     String consoleUrl
 
     GerritCheck(name, build) {
         this.uuid = "gerritforge:" + name.replaceAll("(bazel/)", "") +
             Globals.gerritRepositoryNameSha1Suffix
         this.build = build
-        this.consoleUrl = "${build.url}console"
+        this.consoleUrl = "${build.getUrl()}console"
     }
 
     def getCheckResultFromBuild() {
-        def resultString = build.result.toString()
+        if (!build.getResult()) {
+            return "RUNNING"
+        }
+        def resultString = build.getResult().toString()
         if (resultString == 'SUCCESS') {
             return "SUCCESSFUL"
         } else if (resultString == 'NOT_BUILT' || resultString == 'ABORTED') {
@@ -114,17 +108,20 @@ def prepareBuildsForMode(buildName, mode="reviewdb", retryTimes = 1) {
                         string(name: 'CHANGE_URL', value: "${Globals.gerritUrl}c/${env.GERRIT_PROJECT}/+/${env.GERRIT_CHANGE_NUMBER}"),
                         string(name: 'MODE', value: mode),
                         string(name: 'TARGET_BRANCH', value: env.GERRIT_BRANCH)
-                    ], propagate: false
+                    ], propagate: false, wait: true
+                    println "build triggered: ${slaveBuild}"
                 } finally {
-                    if (buildName == "Gerrit-codestyle"){
-                        Builds.codeStyle = new Build(
-                            slaveBuild.getAbsoluteUrl(), slaveBuild.getResult())
-                    } else {
-                        Builds.verification[mode] = new Build(
-                            slaveBuild.getAbsoluteUrl(), slaveBuild.getResult())
-                    }
-                    if (slaveBuild.getResult() == "SUCCESS") {
-                        break
+                    if (slaveBuild) {
+                        if (buildName == "Gerrit-codestyle"){
+                            Builds.codeStyle = slaveBuild
+                            postCheck(new GerritCheck("codestyle", slaveBuild))
+                        } else {
+                            Builds.verification[mode] = slaveBuild
+                            postCheck(new GerritCheck(mode, slaveBuild))
+                        }
+                        if (slaveBuild.getResult() == "SUCCESS") {
+                            break
+                        }
                     }
                 }
             }
@@ -199,7 +196,7 @@ def setResult(resultVerify, resultCodeStyle) {
 def findCodestyleFilesInLog(build) {
     def codeStyleFiles = []
     def needsFormatting = false
-    def response = httpRequest "${build.url}consoleText"
+    def response = httpRequest "${build.getUrl()}consoleText"
     response.content.eachLine {
         needsFormatting = needsFormatting || (it ==~ /.*Need Formatting.*/)
         if(needsFormatting && it ==~ /\[.*\]/) {
@@ -233,13 +230,13 @@ node ('master') {
         }
 
         stage('Report to Gerrit'){
-            resCodeStyle = getLabelValue(1, Builds.codeStyle.result)
+            resCodeStyle = getLabelValue(1, Builds.codeStyle.getResult())
             gerritReview labels: ['Code-Style': resCodeStyle]
             postCheck(new GerritCheck("codestyle", Builds.codeStyle))
 
             def verificationResults = Builds.verification.collect { k, v -> v }
             def resVerify = verificationResults.inject(1) {
-                acc, build -> getLabelValue(acc, build.result)
+                acc, build -> getLabelValue(acc, build.getResult())
             }
             gerritReview labels: ['Verified': resVerify]
 

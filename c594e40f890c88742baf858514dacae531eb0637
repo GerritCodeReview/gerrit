@@ -1,0 +1,267 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1094aad5_a3a6a6f7",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-31T14:26:20Z",
+      "side": 1,
+      "message": "If you do this in a separate change it\u0027s easier to tell the refactoring apart from the new feature you are implementing here. That helps us later also if things break because Git blame then shows that for most lines in ListChangeComment, we just moved code around while the actual new feature touches less lines.",
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a94a491_1542bafb",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-31T14:26:20Z",
+      "side": 1,
+      "message": "[This is an optional remark from the sideline, has nothing to do with your code]\n\nThe map vs. list distinction leads to a lot of duplicate code.\n\nI am not convinced that the Map/List distinction we make in CommentFormatter by providing two formatting methods is necessary in the first place, though. In the end, we have a low number of comments O(thousands) at maximum and this is an in-memory operation. (Gerrit\u0027s usual performance problems are IO, Git interactions, etc.).\n\nChangeApi#commentsAsList, draftsAsList, etc. are only exposed on the Java API, not the REST API and I bet the callers are either only tests or a very small number of plugins. We could just remove these methods entirely which makes it so that we can delete a good chunk of code. Then we\u0027ll always deal with a map here and callers that want it as a list can use flatMap and sort.",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 82
+      },
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8bd7ebe_8e53d5d0",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-31T14:26:20Z",
+      "side": 1,
+      "message": "nit: d",
+      "range": {
+        "startLine": 102,
+        "startChar": 46,
+        "endLine": 102,
+        "endChar": 47
+      },
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b59ce1c7_af87d405",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-31T14:26:20Z",
+      "side": 1,
+      "message": "nit: parameter doesn\u0027t exist",
+      "range": {
+        "startLine": 108,
+        "startChar": 12,
+        "endLine": 108,
+        "endChar": 16
+      },
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c913e30b_59209780",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-31T14:26:20Z",
+      "side": 1,
+      "message": "nit: can be static",
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7df25514_d115bf46",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-31T14:26:20Z",
+      "side": 1,
+      "message": "nit: this could use a one-liner to explain what we are doing.\n\n// We want to associated ... so we advance the pointer until ...",
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cd0a496_102980f8",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-31T14:26:20Z",
+      "side": 1,
+      "message": "Using get on a List is potentially wasteful. That depends on which list we use. On a LinkedList, it would make this method quadratic because get is linear (traverse until you get to index n).\n\nYou could change the interface to expect an ArrayList, but in this case it\u0027s better to keep this as is because you are also expecting the passed list to be mutable. That\u0027s dangerous because it\u0027s not enforced.\n\nI would keep the List\u003c\u003e in the signature and make a copy of the list into an ArrayList inside the method. For that, you can use a Stream (does the sorting and collection in a single call.\n\nchangeMessages.stream().sorted(...).collect(Collectors.toCollection(ArrayList::new))",
+      "range": {
+        "startLine": 122,
+        "startChar": 49,
+        "endLine": 122,
+        "endChar": 52
+      },
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed7bfd09_59c3d43a",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeDrafts.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-31T14:26:20Z",
+      "side": 1,
+      "message": "IMO it\u0027s much nicer now that you don\u0027t have to implement an empty method here.",
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8495c342_a2e4bc6e",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 2067,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-31T14:26:20Z",
+      "side": 1,
+      "message": "If you store these in a local variable, it makes debugging a failing test much easier:",
+      "range": {
+        "startLine": 2064,
+        "startChar": 12,
+        "endLine": 2067,
+        "endChar": 32
+      },
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb764cc1_1869b46b",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 2089,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-31T14:26:20Z",
+      "side": 1,
+      "message": "nit: unrelated changes (here and below)",
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbefac23_42d91b5d",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/ListChangeCommentsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-31T14:26:20Z",
+      "side": 1,
+      "message": "We usually use ImmutableList.of everywhere ... which here will surface the problem about expecting a mutable list that I commented on in the implementation :-)",
+      "range": {
+        "startLine": 50,
+        "startChar": 33,
+        "endLine": 50,
+        "endChar": 51
+      },
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec9297bf_538c621e",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/ListChangeCommentsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-31T14:26:20Z",
+      "side": 1,
+      "message": "When linkCommentsToChangeMessages is static you can spare the instantiation here.",
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c58038b6_b9201dda",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/ListChangeCommentsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-31T14:26:20Z",
+      "side": 1,
+      "message": "nit: static (here and below)",
+      "range": {
+        "startLine": 61,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 10
+      },
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

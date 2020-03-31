@@ -580,9 +580,9 @@ on `refs/*` (unless you are ok with bypassing submit rules).
 === Selecting Merge Base
 
 By default new changes are opened only for new unique commits
-that have never before been seen by the Gerrit server. Clients
-may override that behavior and force new changes to be created
-by setting the merge base SHA-1 using the '%base' argument:
+that are not part of any branch in refs/heads. Clients may
+override that behavior and force new changes to be created by
+setting the merge base SHA-1 using the '%base' argument:
 
 ----
   git push ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/master%base=$(git rev-parse origin/master)

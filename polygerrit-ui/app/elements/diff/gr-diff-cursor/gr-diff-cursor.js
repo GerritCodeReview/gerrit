@@ -275,7 +275,6 @@ class GrDiffCursor extends mixinBehaviors([Gerrit.FireBehavior],
   }
 
   reInitCursor() {
-    this._updateStops();
     if (this.initialLineNumber) {
       this.moveToLineNumber(this.initialLineNumber, this.side);
       this.initialLineNumber = null;

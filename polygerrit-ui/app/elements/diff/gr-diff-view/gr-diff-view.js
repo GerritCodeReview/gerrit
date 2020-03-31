@@ -314,6 +314,9 @@ class GrDiffView extends mixinBehaviors( [
     this.addEventListener('open-fix-preview',
         this._onOpenFixPreview.bind(this));
     this.$.cursor.push('diffs', this.$.diffHost);
+    this.$.diffHost.addEventListener('render', () => {
+      this.$.cursor.reInitCursor();
+    });
   }
 
   _getLoggedIn() {

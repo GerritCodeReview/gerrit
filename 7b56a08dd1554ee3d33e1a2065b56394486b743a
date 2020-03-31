@@ -124,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "8cf4876d_340279cf",
+        "filename": "tools/js/eslint.bzl",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-31T12:17:45Z",
+      "side": 1,
+      "message": "Ok, I added Thomas and Luca to CC.\nBut I am quite sure, the new rules don\u0027t change behavior of every jobs. Maximum it can change only behavior of a job which run linter.",
+      "parentUuid": "5028a154_e8118bb7",
+      "revId": "7b56a08dd1554ee3d33e1a2065b56394486b743a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a58e18e4_3d97b75d",
         "filename": "tools/js/eslint.bzl",
         "patchSetId": 13

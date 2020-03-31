@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4025ea26_8cd4e1af",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 25
+      },
+      "lineNbr": 1429,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-31T17:06:05Z",
+      "side": 1,
+      "message": "Yes. Removed.",
+      "parentUuid": "8f290d7d_62e16e83",
+      "revId": "cb1ed2626c72fe792c97a117cb8db84f3ceee621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6feec2cf_1bd33afe",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
         "patchSetId": 25
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "7dae4359_4075033c",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
+        "patchSetId": 25
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-31T17:06:05Z",
+      "side": 1,
+      "message": "Most of them seem pretty self-explanatory.\nI added for \"_statuses\".\n\"statusCherryPick\" is obsolete and removed.",
+      "parentUuid": "6feec2cf_1bd33afe",
+      "range": {
+        "startLine": 82,
+        "startChar": 1,
+        "endLine": 102,
+        "endChar": 8
+      },
+      "revId": "cb1ed2626c72fe792c97a117cb8db84f3ceee621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf32b101_8df7e7db",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_html.js",
         "patchSetId": 25
@@ -56,6 +98,24 @@
       "revId": "cb1ed2626c72fe792c97a117cb8db84f3ceee621",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01e7b04f_8eff3610",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_html.js",
+        "patchSetId": 25
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-31T17:06:05Z",
+      "side": 1,
+      "message": "It\u0027s not really consistent. \nRemoved it.",
+      "parentUuid": "cf32b101_8df7e7db",
+      "revId": "cb1ed2626c72fe792c97a117cb8db84f3ceee621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

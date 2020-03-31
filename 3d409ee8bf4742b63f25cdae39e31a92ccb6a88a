@@ -22,6 +22,47 @@
       "revId": "3d409ee8bf4742b63f25cdae39e31a92ccb6a88a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ce01f4f_91a5ae0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-31T08:57:02Z",
+      "side": 1,
+      "message": "+1, it might be better to allow override from the component level so we can override the config in certain pages.",
+      "parentUuid": "59cf8be7_113227e4",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "3d409ee8bf4742b63f25cdae39e31a92ccb6a88a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ad4afbc_95733951",
+        "filename": "polygerrit-ui/app/scripts/gr-display-name-utils/gr-display-name-utils.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-31T08:57:02Z",
+      "side": 1,
+      "message": "i am not sure about this as not all regions in the world use the `firstName lastName` pattern... if localization / internationalization is not a concern for gerrit, then maybe its fine.",
+      "revId": "3d409ee8bf4742b63f25cdae39e31a92ccb6a88a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

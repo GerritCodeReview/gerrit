@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d7d29894_6667d101",
+        "filename": "package.json",
+        "patchSetId": 15
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-31T12:38:41Z",
+      "side": 1,
+      "message": "https://github.com/bazelbuild/bazelisk says:\nInstall it as the bazel binary in your PATH (e.g. /usr/local/bin). Never worry about upgrading Bazel to the latest version again.\n\nAlso, this is for developer use only, and as I can see, this npm commands are not used in gerrit-ci. Our dev docs use bazel everywhere, so I am not sure about using bazelisk here.",
+      "parentUuid": "0bea5482_3e0246bc",
+      "range": {
+        "startLine": 23,
+        "startChar": 15,
+        "endLine": 23,
+        "endChar": 20
+      },
+      "revId": "4c5189bed1eb08b107c27ef74d39494fba1dd436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6c3714d5_a45354f2",
         "filename": "package.json",
         "patchSetId": 15

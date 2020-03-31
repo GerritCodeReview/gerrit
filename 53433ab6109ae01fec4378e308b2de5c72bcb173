@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "940c34bb_fca9512e",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-31T19:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50e61fdc_751a1811",
+      "range": {
+        "startLine": 117,
+        "startChar": 13,
+        "endLine": 119,
+        "endChar": 88
+      },
+      "revId": "53433ab6109ae01fec4378e308b2de5c72bcb173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35a4be2e_34a96a4f",
         "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2020-03-31T14:29:39Z",
       "side": 1,
       "message": "Nice, it\u0027s great how this demonstrates the current situation and how you fix it!",
+      "revId": "53433ab6109ae01fec4378e308b2de5c72bcb173",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d090c29_f9a174d3",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2059,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-31T19:05:15Z",
+      "side": 1,
+      "message": "Yes, I made it intentionally verbose for better visibility.\nThanks.",
+      "parentUuid": "35a4be2e_34a96a4f",
       "revId": "53433ab6109ae01fec4378e308b2de5c72bcb173",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

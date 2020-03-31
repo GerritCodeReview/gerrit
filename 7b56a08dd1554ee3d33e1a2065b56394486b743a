@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "6ebf7721_a3e2ab77",
+        "filename": "tools/js/eslint.bzl",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-31T12:22:25Z",
+      "side": 1,
+      "message": "ya that\u0027s what I mean, every linter job. I am wondering if CI is ok with installing eslint and related lint plugins for every linter job or not if that\u0027s the case.\n\n@Luca, @Thomas",
+      "parentUuid": "8cf4876d_340279cf",
+      "revId": "7b56a08dd1554ee3d33e1a2065b56394486b743a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a58e18e4_3d97b75d",
         "filename": "tools/js/eslint.bzl",
         "patchSetId": 13

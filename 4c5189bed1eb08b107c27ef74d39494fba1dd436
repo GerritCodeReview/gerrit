@@ -92,6 +92,30 @@
       "revId": "4c5189bed1eb08b107c27ef74d39494fba1dd436",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c47c803_49d34d59",
+        "filename": "tools/js/eslint.bzl",
+        "patchSetId": 15
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-31T12:40:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0e26e84_b9532d83",
+      "range": {
+        "startLine": 53,
+        "startChar": 36,
+        "endLine": 53,
+        "endChar": 37
+      },
+      "revId": "4c5189bed1eb08b107c27ef74d39494fba1dd436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e005a7c3_dedf4131",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-31T13:08:21Z",
+      "side": 1,
+      "message": "Uploaded as abandoned RFC for visibility: https://gerrit-review.googlesource.com/c/gerrit/+/261256",
+      "range": {
+        "startLine": 61,
+        "startChar": 2,
+        "endLine": 61,
+        "endChar": 27
+      },
+      "revId": "603f651528549052a787850ed0be6aa3f07c6dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39424c0a_e5ab6840",
         "filename": "java/com/google/gerrit/server/account/AccountState.java",
         "patchSetId": 1

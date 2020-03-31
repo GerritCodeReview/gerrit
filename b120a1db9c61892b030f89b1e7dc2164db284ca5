@@ -22,6 +22,30 @@
       "revId": "b120a1db9c61892b030f89b1e7dc2164db284ca5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecfb4669_3b21305b",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-31T21:17:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "399d7ded_ac653eaa",
+      "range": {
+        "startLine": 70,
+        "startChar": 16,
+        "endLine": 70,
+        "endChar": 44
+      },
+      "revId": "b120a1db9c61892b030f89b1e7dc2164db284ca5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

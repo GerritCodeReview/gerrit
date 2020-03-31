@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.extensions.client.ListChangesOption.CHANGE_ACTIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_ACTIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
+import static com.google.gerrit.truth.MapSubject.assertThatMap;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -89,21 +90,16 @@ public class ActionsIT extends AbstractDaemonTest {
     gApi.changes().id(changeId2).current().review(ReviewInput.approve());
     gApi.changes().id(changeId2).current().submit();
     Map<String, ActionInfo> actions1 = getChangeActions(changeId1);
-    assertThat(actions1).containsKey("revert");
-    assertThat(actions1).containsKey("revert_submission");
+    assertThatMap(actions1).keys().containsAtLeast("revert", "revert_submission");
     Map<String, ActionInfo> actions2 = getChangeActions(changeId2);
-    assertThat(actions2).containsKey("revert");
-    assertThat(actions2).containsKey("revert_submission");
+    assertThatMap(actions2).keys().containsAtLeast("revert", "revert_submission");
   }
 
   @Test
   public void revisionActionsOneChangePerTopicUnapproved() throws Exception {
     String changeId = createChangeWithTopic().getChangeId();
     Map<String, ActionInfo> actions = getActions(changeId);
-    assertThat(actions).hasSize(3);
-    assertThat(actions).containsKey("cherrypick");
-    assertThat(actions).containsKey("rebase");
-    assertThat(actions).containsKey("description");
+    assertThatMap(actions).keys().containsExactly("cherrypick", "rebase", "description");
   }
 
   @Test
@@ -507,11 +503,7 @@ public class ActionsIT extends AbstractDaemonTest {
   }
 
   private void commonActionsAssertions(Map<String, ActionInfo> actions) {
-    assertThat(actions).hasSize(4);
-    assertThat(actions).containsKey("cherrypick");
-    assertThat(actions).containsKey("submit");
-    assertThat(actions).containsKey("description");
-    assertThat(actions).containsKey("rebase");
+    assertThatMap(actions).keys().containsExactly("cherrypick", "submit", "description", "rebase");
   }
 
   private PushOneCommit.Result createChangeWithTopic() throws Exception {

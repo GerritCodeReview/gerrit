@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "50abfc48_08f85c93",
+        "filename": "package.json",
+        "patchSetId": 15
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-31T14:24:06Z",
+      "side": 1,
+      "message": "Thank you, I didn\u0027t notice polylint script. package.json is updated.",
+      "parentUuid": "3b4a7d1f_eefbe00a",
+      "range": {
+        "startLine": 23,
+        "startChar": 15,
+        "endLine": 23,
+        "endChar": 20
+      },
+      "revId": "4c5189bed1eb08b107c27ef74d39494fba1dd436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c3714d5_a45354f2",
         "filename": "package.json",
         "patchSetId": 15
@@ -93,6 +117,30 @@
       "revId": "4c5189bed1eb08b107c27ef74d39494fba1dd436",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ead175f3_b8bc7f7b",
+        "filename": "package.json",
+        "patchSetId": 15
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-03-31T14:24:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c3714d5_a45354f2",
+      "range": {
+        "startLine": 24,
+        "startChar": 18,
+        "endLine": 24,
+        "endChar": 23
+      },
+      "revId": "4c5189bed1eb08b107c27ef74d39494fba1dd436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

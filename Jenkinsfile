@@ -54,6 +54,9 @@ class GerritCheck {
     }
 
     def getCheckResultFromBuild() {
+        if (!build.result) {
+            return "RUNNING"
+        }
         def resultString = build.result.toString()
         if (resultString == 'SUCCESS') {
             return "SUCCESSFUL"
@@ -119,9 +122,11 @@ def prepareBuildsForMode(buildName, mode="reviewdb", retryTimes = 1) {
                     if (buildName == "Gerrit-codestyle"){
                         Builds.codeStyle = new Build(
                             slaveBuild.getAbsoluteUrl(), slaveBuild.getResult())
+                        postCheck(new GerritCheck("codestyle", Builds.codeStyle))
                     } else {
-                        Builds.verification[mode] = new Build(
-                            slaveBuild.getAbsoluteUrl(), slaveBuild.getResult())
+                        def build = new Build(slaveBuild.getAbsoluteUrl(), slaveBuild.getResult())
+                        Builds.verification[mode] = build
+                        postCheck(new GerritCheck(mode, build))
                     }
                     if (slaveBuild.getResult() == "SUCCESS") {
                         break

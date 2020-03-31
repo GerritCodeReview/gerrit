@@ -309,7 +309,7 @@ class GrDiffCursor extends mixinBehaviors([Gerrit.FireBehavior],
   }
 
   _handleDiffRenderContent() {
-    this.handleDiffUpdate();
+    this._updateStops();
     // When done rendering, turn focus on move and automatic scrolling back on
     this._focusOnMove = true;
     this._preventAutoScrollOnManualScroll = false;

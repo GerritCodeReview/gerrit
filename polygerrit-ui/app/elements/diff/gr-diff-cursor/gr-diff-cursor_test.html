@@ -120,8 +120,9 @@ suite('gr-diff-cursor tests', () => {
   });
 
   test('cursor scroll behavior', () => {
-    cursorElement._handleDiffRenderStart();
     assert.equal(cursorElement._scrollBehavior, 'keep-visible');
+
+    cursorElement._handleDiffRenderStart();
     assert.isTrue(cursorElement._focusOnMove);
 
     cursorElement._handleWindowScroll();
@@ -129,8 +130,10 @@ suite('gr-diff-cursor tests', () => {
     assert.isFalse(cursorElement._focusOnMove);
 
     cursorElement._handleDiffRenderContent();
-    assert.equal(cursorElement._scrollBehavior, 'keep-visible');
     assert.isTrue(cursorElement._focusOnMove);
+
+    cursorElement.reInitCursor();
+    assert.equal(cursorElement._scrollBehavior, 'keep-visible');
   });
 
   suite('unified diff', () => {
@@ -238,6 +241,7 @@ suite('gr-diff-cursor tests', () => {
 
     function renderHandler() {
       diffElement.removeEventListener('render', renderHandler);
+      cursorElement.reInitCursor();
       assert.isFalse(moveToNumStub.called);
       assert.isTrue(moveToChunkStub.called);
       assert.equal(scrollBehaviorDuringMove, 'never');
@@ -255,6 +259,7 @@ suite('gr-diff-cursor tests', () => {
     const moveToChunkStub = sandbox.stub(cursorElement, 'moveToFirstChunk');
     function renderHandler() {
       diffElement.removeEventListener('render', renderHandler);
+      cursorElement.reInitCursor();
       assert.isFalse(moveToChunkStub.called);
       assert.isTrue(moveToNumStub.called);
       assert.equal(moveToNumStub.lastCall.args[0], 10);
@@ -382,11 +387,11 @@ suite('gr-diff-cursor tests', () => {
   });
 
   test('expand context updates stops', done => {
-    sandbox.spy(cursorElement, 'handleDiffUpdate');
+    sandbox.spy(cursorElement, '_updateStops');
     MockInteractions.tap(diffElement.shadowRoot
         .querySelector('.showContext'));
     flush(() => {
-      assert.isTrue(cursorElement.handleDiffUpdate.called);
+      assert.isTrue(cursorElement._updateStops.called);
       done();
     });
   });

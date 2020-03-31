@@ -13,9 +13,11 @@
       "updated": "2020-03-31T18:24:03Z"
     },
     "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "SCHEDULED",
+      "state": "SUCCESSFUL",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/82984/console",
+      "finished": "2020-03-31T19:02:30Z",
       "created": "2020-03-31T18:24:04Z",
-      "updated": "2020-03-31T18:24:04Z"
+      "updated": "2020-03-31T18:51:02Z"
     }
   }
 }

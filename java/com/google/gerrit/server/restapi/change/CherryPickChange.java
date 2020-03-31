@@ -352,6 +352,15 @@ public class CherryPickChange {
           bu.setRepository(git, revWalk, oi);
           bu.setNotify(resolveNotify(input));
           Change.Id changeId;
+          String newTopic = null;
+          if (input.topic != null) {
+            newTopic = Strings.emptyToNull(input.topic.trim());
+          }
+          if (newTopic == null
+              && sourceChange != null
+              && !Strings.isNullOrEmpty(sourceChange.getTopic())) {
+            newTopic = sourceChange.getTopic() + "-" + newDest.shortName();
+          }
           if (destChanges.size() == 1) {
             // The change key exists on the destination branch. The cherry pick
             // will be added as a new patch set. If "idForNewChange" is not null we must fail,
@@ -373,19 +382,11 @@ public class CherryPickChange {
                     git,
                     destChanges.get(0).notes(),
                     cherryPickCommit,
-                    sourceChange.currentPatchSetId());
+                    sourceChange.currentPatchSetId(),
+                    newTopic);
           } else {
             // Change key not found on destination branch. We can create a new
             // change.
-            String newTopic = null;
-            if (input.topic != null) {
-              newTopic = Strings.emptyToNull(input.topic.trim());
-            }
-            if (newTopic == null
-                && sourceChange != null
-                && !Strings.isNullOrEmpty(sourceChange.getTopic())) {
-              newTopic = sourceChange.getTopic() + "-" + newDest.shortName();
-            }
             changeId =
                 createNewChange(
                     bu,
@@ -464,12 +465,14 @@ public class CherryPickChange {
       Repository git,
       ChangeNotes destNotes,
       CodeReviewCommit cherryPickCommit,
-      PatchSet.Id sourcePatchSetId)
+      PatchSet.Id sourcePatchSetId,
+      String topic)
       throws IOException {
     Change destChange = destNotes.getChange();
     PatchSet.Id psId = ChangeUtil.nextPatchSetId(git, destChange.currentPatchSetId());
     PatchSetInserter inserter = patchSetInserterFactory.create(destNotes, psId, cherryPickCommit);
     inserter.setMessage("Uploaded patch set " + inserter.getPatchSetId().get() + ".");
+    inserter.setTopic(topic);
     bu.addOp(destChange.getId(), inserter);
     if (destChange.getCherryPickOf() == null
         || !destChange.getCherryPickOf().equals(sourcePatchSetId)) {

@@ -6183,6 +6183,8 @@ on the source. If the source is a change with a topic, the resulting topic
 of the cherry-picked change will be {source_change_topic}-{destination_branch}.
 Otherwise, if the source change has no topic, or the source is a commit,
 the created change will have no topic.
+If the change already exists, the topic will not change if not set. If set, the
+topic will be overridden.
 |===========================
 
 [[comment-info]]

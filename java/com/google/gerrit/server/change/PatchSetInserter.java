@@ -96,6 +96,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private boolean fireRevisionCreated = true;
   private boolean allowClosed;
   private boolean sendEmail = true;
+  private String topic;
 
   // Fields set during some phase of BatchUpdate.Op.
   private Change change;
@@ -186,6 +187,11 @@ public class PatchSetInserter implements BatchUpdateOp {
     return this;
   }
 
+  public PatchSetInserter setTopic(String topic) {
+    this.topic = topic;
+    return this;
+  }
+
   public Change getChange() {
     checkState(change != null, "getChange() only valid after executing update");
     return change;
@@ -257,6 +263,10 @@ public class PatchSetInserter implements BatchUpdateOp {
     change.setCurrentPatchSet(patchSetInfo);
     if (changeMessage != null) {
       cmUtil.addChangeMessage(update, changeMessage);
+    }
+    if (topic != null) {
+      change.setTopic(topic);
+      update.setTopic(topic);
     }
     return true;
   }

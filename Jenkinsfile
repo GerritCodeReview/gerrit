@@ -54,7 +54,10 @@ class GerritCheck {
     }
 
     def getCheckResultFromBuild() {
-        def resultString = build.result.toString()
+        if (!build.getResult()) {
+            return "RUNNING"
+        }
+        def resultString = build.getResult().toString()
         if (resultString == 'SUCCESS') {
             return "SUCCESSFUL"
         } else if (resultString == 'NOT_BUILT' || resultString == 'ABORTED') {
@@ -108,6 +111,7 @@ def prepareBuildsForMode(buildName, mode="reviewdb", retryTimes = 1) {
             def slaveBuild = null
             for (int i = 1; i <= retryTimes; i++) {
                 try {
+                    postCheck(new GerritCheck(mode, new Build(currentBuild.getAbsoluteUrl(), null)))
                     slaveBuild = build job: "${buildName}", parameters: [
                         string(name: 'REFSPEC', value: "refs/changes/${env.BRANCH_NAME}"),
                         string(name: 'BRANCH', value: env.GERRIT_PATCHSET_REVISION),

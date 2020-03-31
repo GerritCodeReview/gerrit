@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0b0dea0_3d423d8c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-31T09:22:33Z",
+      "side": 1,
+      "message": "i guess you don\u0027t need this any more :)",
+      "range": {
+        "startLine": 204,
+        "startChar": 18,
+        "endLine": 204,
+        "endChar": 39
+      },
+      "revId": "d2843cab6fba304463846ccf0b508c5896759da7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d9255d6_5e90619e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-31T09:22:33Z",
+      "side": 1,
+      "message": "interesting, why this came back ? outdated local branch :)",
+      "revId": "d2843cab6fba304463846ccf0b508c5896759da7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

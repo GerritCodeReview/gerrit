@@ -178,6 +178,24 @@
     },
     {
       "key": {
+        "uuid": "7662163c_b335c067",
+        "filename": "tools/js/eslint.bzl",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-03-31T12:37:31Z",
+      "side": 1,
+      "message": "Is bazel able to cache the eslint installation? If yes, a regular update of the slave images would already reduce the downloads considerably, if bazel would just use the cached eslint, if eslint wasn\u0027t updated in the meantime.",
+      "parentUuid": "1097a93c_4116472e",
+      "revId": "7b56a08dd1554ee3d33e1a2065b56394486b743a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a58e18e4_3d97b75d",
         "filename": "tools/js/eslint.bzl",
         "patchSetId": 13

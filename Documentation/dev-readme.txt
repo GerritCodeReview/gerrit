@@ -152,6 +152,12 @@ To create changes as users of Gerrit would, run:
 git push origin HEAD:refs/for/master
 ----
 
+[[e2e]]
+=== End-to-end tests
+
+<<dev-e2e-tests#,This document>> describes how `e2e` (load or functional) test
+scenarios are implemented using link:https://gatling.io/[`Gatling`].
+
 [[run_daemon]]
 === Running the Daemon
 

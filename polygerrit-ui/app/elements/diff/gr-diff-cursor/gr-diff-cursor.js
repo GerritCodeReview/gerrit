@@ -284,10 +284,10 @@ class GrDiffCursor extends mixinBehaviors([Gerrit.FireBehavior],
   }
 
   _handleWindowScroll() {
-    if (this._listeningForScroll) {
+    if (this._preventAutoScrollOnManualScroll) {
       this._scrollBehavior = ScrollBehavior.NEVER;
       this._focusOnMove = false;
-      this._listeningForScroll = false;
+      this._preventAutoScrollOnManualScroll = false;
     }
   }
 
@@ -303,11 +303,11 @@ class GrDiffCursor extends mixinBehaviors([Gerrit.FireBehavior],
     }
     this._scrollBehavior = ScrollBehavior.KEEP_VISIBLE;
     this._focusOnMove = true;
-    this._listeningForScroll = false;
+    this._preventAutoScrollOnManualScroll = false;
   }
 
   _handleDiffRenderStart() {
-    this._listeningForScroll = true;
+    this._preventAutoScrollOnManualScroll = true;
   }
 
   createCommentInPlace() {

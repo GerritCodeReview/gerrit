@@ -275,12 +275,20 @@ class GrDiffCursor extends mixinBehaviors([Gerrit.FireBehavior],
   }
 
   reInitCursor() {
-    if (this.initialLineNumber) {
-      this.moveToLineNumber(this.initialLineNumber, this.side);
-      this.initialLineNumber = null;
-    } else {
-      this.moveToFirstChunk();
+    if (!this.diffRow) {
+      // does not scroll during init unless requested
+      const scrollingBehaviorForInit = this.initialLineNumber ?
+        ScrollBehavior.KEEP_VISIBLE :
+        ScrollBehavior.NEVER;
+      this._scrollBehavior = scrollingBehaviorForInit;
+      if (this.initialLineNumber) {
+        this.moveToLineNumber(this.initialLineNumber, this.side);
+        this.initialLineNumber = null;
+      } else {
+        this.moveToFirstChunk();
+      }
     }
+    this._scrollBehavior = ScrollBehavior.KEEP_VISIBLE;
   }
 
   _handleWindowScroll() {
@@ -293,15 +301,7 @@ class GrDiffCursor extends mixinBehaviors([Gerrit.FireBehavior],
 
   handleDiffUpdate() {
     this._updateStops();
-    if (!this.diffRow) {
-      // does not scroll during init unless requested
-      const scrollingBehaviorForInit = this.initialLineNumber ?
-        ScrollBehavior.KEEP_VISIBLE :
-        ScrollBehavior.NEVER;
-      this._scrollBehavior = scrollingBehaviorForInit;
-      this.reInitCursor();
-    }
-    this._scrollBehavior = ScrollBehavior.KEEP_VISIBLE;
+    this.reInitCursor();
   }
 
   _handleDiffRenderStart() {

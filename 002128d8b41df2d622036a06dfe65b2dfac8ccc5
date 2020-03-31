@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "95fb5d09_b66eccb3",
+        "filename": "java/com/google/gerrit/extensions/common/CommentInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-31T13:00:34Z",
+      "side": 1,
+      "message": "Thanks for the tip. Done.",
+      "parentUuid": "d78ba7e3_2a9b725d",
+      "range": {
+        "startLine": 23,
+        "startChar": 16,
+        "endLine": 23,
+        "endChar": 31
+      },
+      "revId": "002128d8b41df2d622036a06dfe65b2dfac8ccc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4164e418_4b0e2bae",
         "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c272f239_1724a838",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-31T13:00:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4164e418_4b0e2bae",
+      "range": {
+        "startLine": 33,
+        "startChar": 14,
+        "endLine": 33,
+        "endChar": 58
+      },
+      "revId": "002128d8b41df2d622036a06dfe65b2dfac8ccc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8cc93b1_b53cf2dd",
         "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
         "patchSetId": 6
@@ -68,6 +116,30 @@
       "revId": "002128d8b41df2d622036a06dfe65b2dfac8ccc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b550add_c5cba1e6",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-31T13:00:34Z",
+      "side": 1,
+      "message": "Thanks for the tip! Makes sense. I added a unit test.\nNote: can\u0027t make it static because the method depends on the non-static method ChangeMessagesUtil#byChange.",
+      "parentUuid": "a8cc93b1_b53cf2dd",
+      "range": {
+        "startLine": 76,
+        "startChar": 87,
+        "endLine": 76,
+        "endChar": 91
+      },
+      "revId": "002128d8b41df2d622036a06dfe65b2dfac8ccc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +177,24 @@
       "writtenOn": "2020-03-31T08:06:38Z",
       "side": 1,
       "message": "It\u0027s good to have a single IT demonstrating that this works, but the actual logic of linking CommentInfo and ChangeMessage is better tested as a unit test.",
+      "revId": "002128d8b41df2d622036a06dfe65b2dfac8ccc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09ae45cf_20572544",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2028,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-31T13:00:34Z",
+      "side": 1,
+      "message": "Makes sense. Thanks for the tip. \nI added another unit test.",
+      "parentUuid": "f5cb9e87_20ccb44a",
       "revId": "002128d8b41df2d622036a06dfe65b2dfac8ccc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

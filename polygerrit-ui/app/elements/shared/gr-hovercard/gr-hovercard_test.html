@@ -45,8 +45,6 @@ import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 suite('gr-hovercard tests', () => {
   let element;
   let sandbox;
-  // For css animations
-  const TRANSITION_TIME = 500;
 
   setup(() => {
     sandbox = sinon.sandbox.create();
@@ -84,29 +82,22 @@ suite('gr-hovercard tests', () => {
             (targetTop + targetRect.height + element.offset) + 'px'));
   });
 
-  test('hide', done => {
+  test('hide', () => {
     element.hide({});
-    setTimeout(() => {
-      const style = getComputedStyle(element);
-      assert.isFalse(element._isShowing);
-      assert.isFalse(element.classList.contains('hovered'));
-      assert.equal(style.opacity, '0');
-      assert.equal(style.visibility, 'hidden');
-      assert.notEqual(element.container, dom(element).parentNode);
-      done();
-    }, TRANSITION_TIME);
+    const style = getComputedStyle(element);
+    assert.isFalse(element._isShowing);
+    assert.isFalse(element.classList.contains('hovered'));
+    assert.equal(style.display, 'none');
+    assert.notEqual(element.container, dom(element).parentNode);
   });
 
-  test('show', done => {
+  test('show', () => {
     element.show({});
-    setTimeout(() => {
-      const style = getComputedStyle(element);
-      assert.isTrue(element._isShowing);
-      assert.isTrue(element.classList.contains('hovered'));
-      assert.equal(style.opacity, '1');
-      assert.equal(style.visibility, 'visible');
-      done();
-    }, TRANSITION_TIME);
+    const style = getComputedStyle(element);
+    assert.isTrue(element._isShowing);
+    assert.isTrue(element.classList.contains('hovered'));
+    assert.equal(style.opacity, '1');
+    assert.equal(style.visibility, 'visible');
   });
 
   test('showDelayed does not show immediately', done => {

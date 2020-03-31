@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08ead45d_a1575aea",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-31T20:40:18Z",
+      "side": 1,
+      "message": "Elastic verification depends on [1] https://github.com/blacktop/docker-elasticsearch-alpine/pull/32",
+      "range": {
+        "startLine": 56,
+        "startChar": 16,
+        "endLine": 56,
+        "endChar": 44
+      },
+      "revId": "e2439b437a413acbaece96d8acd339f96decf937",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

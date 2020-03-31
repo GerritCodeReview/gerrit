@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "fea8f1d1_d7c33aa0",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-31T19:05:15Z",
+      "side": 1,
+      "message": "Thanks for your thorough explanation. I will follow the usage of the list/map usages and I can do a follow up change to tackle this.",
+      "parentUuid": "4a94a491_1542bafb",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 82
+      },
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8bd7ebe_8e53d5d0",
         "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
         "patchSetId": 7
@@ -62,6 +86,30 @@
       "revId": "c594e40f890c88742baf858514dacae531eb0637",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b85a208_75fdcadd",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-31T19:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8bd7ebe_8e53d5d0",
+      "range": {
+        "startLine": 102,
+        "startChar": 46,
+        "endLine": 102,
+        "endChar": 47
+      },
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +136,30 @@
     },
     {
       "key": {
+        "uuid": "c359cc4e_dc62ae39",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-31T19:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b59ce1c7_af87d405",
+      "range": {
+        "startLine": 108,
+        "startChar": 12,
+        "endLine": 108,
+        "endChar": 16
+      },
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c913e30b_59209780",
         "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
         "patchSetId": 7
@@ -105,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "30a4059d_ea66efd0",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-31T19:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c913e30b_59209780",
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7df25514_d115bf46",
         "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
         "patchSetId": 7
@@ -119,6 +209,24 @@
       "revId": "c594e40f890c88742baf858514dacae531eb0637",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b94753f1_547becc7",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-31T19:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7df25514_d115bf46",
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -145,6 +253,30 @@
     },
     {
       "key": {
+        "uuid": "7a3e66eb_d7f8751c",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-31T19:05:15Z",
+      "side": 1,
+      "message": "That was very useful. Thanks Patrick for taking the time to explain!\nDone.",
+      "parentUuid": "8cd0a496_102980f8",
+      "range": {
+        "startLine": 122,
+        "startChar": 49,
+        "endLine": 122,
+        "endChar": 52
+      },
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed7bfd09_59c3d43a",
         "filename": "java/com/google/gerrit/server/restapi/change/ListChangeDrafts.java",
         "patchSetId": 7
@@ -156,6 +288,24 @@
       "writtenOn": "2020-03-31T14:26:20Z",
       "side": 1,
       "message": "IMO it\u0027s much nicer now that you don\u0027t have to implement an empty method here.",
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1c54cd2_8e4cf946",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeDrafts.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-31T19:05:15Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "ed7bfd09_59c3d43a",
       "revId": "c594e40f890c88742baf858514dacae531eb0637",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -185,6 +335,30 @@
     },
     {
       "key": {
+        "uuid": "2f138ec4_993c2bfa",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 2067,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-31T19:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8495c342_a2e4bc6e",
+      "range": {
+        "startLine": 2064,
+        "startChar": 12,
+        "endLine": 2067,
+        "endChar": 32
+      },
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb764cc1_1869b46b",
         "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 7
@@ -199,6 +373,24 @@
       "revId": "c594e40f890c88742baf858514dacae531eb0637",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f160f0e8_4e9cdaa3",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 2089,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-31T19:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb764cc1_1869b46b",
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -225,6 +417,30 @@
     },
     {
       "key": {
+        "uuid": "3f8db390_4b03500e",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/ListChangeCommentsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-31T19:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbefac23_42d91b5d",
+      "range": {
+        "startLine": 50,
+        "startChar": 33,
+        "endLine": 50,
+        "endChar": 51
+      },
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec9297bf_538c621e",
         "filename": "javatests/com/google/gerrit/server/restapi/change/ListChangeCommentsTest.java",
         "patchSetId": 7
@@ -239,6 +455,24 @@
       "revId": "c594e40f890c88742baf858514dacae531eb0637",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa88490e_d50ac0e3",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/ListChangeCommentsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-31T19:05:15Z",
+      "side": 1,
+      "message": "Yes. much better.\nDone.",
+      "parentUuid": "ec9297bf_538c621e",
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -262,6 +496,30 @@
       "revId": "c594e40f890c88742baf858514dacae531eb0637",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd4c3f1c_b32ce1d0",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/ListChangeCommentsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-03-31T19:05:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c58038b6_b9201dda",
+      "range": {
+        "startLine": 61,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 10
+      },
+      "revId": "c594e40f890c88742baf858514dacae531eb0637",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

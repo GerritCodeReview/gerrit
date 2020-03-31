@@ -144,8 +144,25 @@ public class GroupConfig extends VersionedMetaData {
   public static GroupConfig loadForGroup(
       Project.NameKey projectName, Repository repository, AccountGroup.UUID groupUuid)
       throws IOException, ConfigInvalidException {
+    return loadForGroup(projectName, repository, groupUuid, null);
+  }
+
+  /**
+   * @see GroupConfig#loadForGroup(Project.NameKey, Repository, AccountGroup.UUID). This method will
+   *     load the group for a specific revision.
+   */
+  public static GroupConfig loadForGroup(
+      Project.NameKey projectName,
+      Repository repository,
+      AccountGroup.UUID groupUuid,
+      ObjectId groupRefObjectId)
+      throws IOException, ConfigInvalidException {
     GroupConfig groupConfig = new GroupConfig(groupUuid);
-    groupConfig.load(projectName, repository);
+    if (groupRefObjectId == null) {
+      groupConfig.load(projectName, repository);
+    } else {
+      groupConfig.load(projectName, repository, groupRefObjectId);
+    }
     return groupConfig;
   }
 

@@ -16,6 +16,7 @@ package com.google.gerrit.server.group.db;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.AccountGroupByIdAudit;
@@ -30,6 +31,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -47,6 +50,8 @@ import org.eclipse.jgit.lib.Repository;
  */
 @Singleton
 public class Groups {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
   private final AuditLogReader auditLogReader;
@@ -74,10 +79,28 @@ public class Groups {
     }
   }
 
+  /**
+   * Loads an internal group from NoteDb using the group UUID. This method returns the latest state
+   * of the internal group.
+   */
   private static Optional<InternalGroup> getGroupFromNoteDb(
       AllUsersName allUsersName, Repository allUsersRepository, AccountGroup.UUID groupUuid)
       throws IOException, ConfigInvalidException {
-    GroupConfig groupConfig = GroupConfig.loadForGroup(allUsersName, allUsersRepository, groupUuid);
+    return getGroupFromNoteDb(allUsersName, allUsersRepository, groupUuid, null);
+  }
+
+  /**
+   * Loads an internal group from NoteDb at the revision provided as {@link ObjectId}. This method
+   * is used to get a specific state of this group.
+   */
+  private static Optional<InternalGroup> getGroupFromNoteDb(
+      AllUsersName allUsersName,
+      Repository allUsersRepository,
+      AccountGroup.UUID uuid,
+      ObjectId groupRefObjectId)
+      throws IOException, ConfigInvalidException {
+    GroupConfig groupConfig =
+        GroupConfig.loadForGroup(allUsersName, allUsersRepository, uuid, groupRefObjectId);
     Optional<InternalGroup> loadedGroup = groupConfig.getLoadedGroup();
     if (loadedGroup.isPresent()) {
       // Check consistency with group name notes.
@@ -104,24 +127,31 @@ public class Groups {
    * Returns all known external groups. External groups are 'known' when they are specified as a
    * subgroup of an internal group.
    *
+   * @param internalGroupsRefs contains a list of all groups refs that we should inspect
    * @return a stream of the UUIDs of the known external groups
    * @throws IOException if an error occurs while reading from NoteDb
    * @throws ConfigInvalidException if the data in NoteDb is in an incorrect format
    */
-  public Stream<AccountGroup.UUID> getExternalGroups() throws IOException, ConfigInvalidException {
+  public Stream<AccountGroup.UUID> getExternalGroups(ImmutableList<Ref> internalGroupsRefs)
+      throws IOException, ConfigInvalidException {
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
-      return getExternalGroupsFromNoteDb(allUsersName, allUsersRepo);
+      return getExternalGroupsFromNoteDb(allUsersName, allUsersRepo, internalGroupsRefs);
     }
   }
 
   private static Stream<AccountGroup.UUID> getExternalGroupsFromNoteDb(
-      AllUsersName allUsersName, Repository allUsersRepo)
+      AllUsersName allUsersName, Repository allUsersRepo, ImmutableList<Ref> internalGroupsRefs)
       throws IOException, ConfigInvalidException {
-    ImmutableList<GroupReference> allInternalGroups = GroupNameNotes.loadAllGroups(allUsersRepo);
     ImmutableSet.Builder<AccountGroup.UUID> allSubgroups = ImmutableSet.builder();
-    for (GroupReference internalGroup : allInternalGroups) {
+    for (Ref internalGroupRef : internalGroupsRefs) {
+      AccountGroup.UUID uuid = AccountGroup.UUID.fromRef(internalGroupRef.getName());
+      if (uuid == null) {
+        logger.atWarning().log(
+            "Failed to get the group UUID from ref: %s", internalGroupRef.getName());
+        continue;
+      }
       Optional<InternalGroup> group =
-          getGroupFromNoteDb(allUsersName, allUsersRepo, internalGroup.getUUID());
+          getGroupFromNoteDb(allUsersName, allUsersRepo, uuid, internalGroupRef.getObjectId());
       group.map(InternalGroup::getSubgroups).ifPresent(allSubgroups::addAll);
     }
     return allSubgroups.build().stream().filter(groupUuid -> !groupUuid.isInternalGroup());

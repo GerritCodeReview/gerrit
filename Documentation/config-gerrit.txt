@@ -966,6 +966,19 @@ cache `"groups_bysubgroups"`::
 Caches the parent groups of a subgroup.  If direct updates are made
 to the `account_group_includes` table, this cache should be flushed.
 
+cache `"groups_external"`::
++
+Caches all the external groups available to Gerrit. The cache holds a
+single entry which maps to the latest available of all external groups'
+UUIDs. This cache uses "groups_external_persisted" to load its value.
+
+cache `"groups_external_persisted"`::
++
+Caches all external groups available to Gerrit at some point in history.
+The cache key is representation of a specific groups state in NoteDb and
+the value is the list of all external groups.
+The cache is persisted to enhance performance.
+
 cache `"ldap_groups"`::
 +
 Caches the LDAP groups that a user belongs to, if LDAP has been

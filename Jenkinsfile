@@ -54,6 +54,9 @@ class GerritCheck {
     }
 
     def getCheckResultFromBuild() {
+        if (!build.result) {
+            return "RUNNING"
+        }
         def resultString = build.result.toString()
         if (resultString == 'SUCCESS') {
             return "SUCCESSFUL"
@@ -135,9 +138,13 @@ def prepareBuildsForMode(buildName, mode="reviewdb", retryTimes = 1) {
 def collectBuilds() {
     def builds = [:]
     if (hasChangeNumber()) {
-       builds["Gerrit-codestyle"] = prepareBuildsForMode("Gerrit-codestyle")
+       def codeStyleBuild = prepareBuildsForMode("Gerrit-codestyle")
+       builds["Gerrit-codestyle"] = codeStyleBuild
+       postCheck(new GerritCheck("codestyle", codeStyleBuild))
        Builds.modes.each {
-          builds["Gerrit-verification(${it})"] = prepareBuildsForMode("Gerrit-verifier-bazel", it)
+          def modeBuild = prepareBuildsForMode("Gerrit-verifier-bazel", it)
+          builds["Gerrit-verification(${it})"] = modeBuild
+          postCheck(new GerritCheck(it, modeBuild))
        }
     } else {
        builds["java8"] = { -> build "Gerrit-bazel-${env.BRANCH_NAME}" }

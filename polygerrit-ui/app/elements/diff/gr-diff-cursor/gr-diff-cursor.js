@@ -302,12 +302,17 @@ class GrDiffCursor extends mixinBehaviors([Gerrit.FireBehavior],
       this.reInitCursor();
     }
     this._scrollBehavior = ScrollBehavior.KEEP_VISIBLE;
-    this._focusOnMove = true;
-    this._preventAutoScrollOnManualScroll = false;
   }
 
   _handleDiffRenderStart() {
     this._preventAutoScrollOnManualScroll = true;
+  }
+
+  _handleDiffRenderContent() {
+    this.handleDiffUpdate();
+    // When done rendering, turn focus on move and automatic scrolling back on
+    this._focusOnMove = true;
+    this._preventAutoScrollOnManualScroll = false;
   }
 
   createCommentInPlace() {
@@ -471,7 +476,8 @@ class GrDiffCursor extends mixinBehaviors([Gerrit.FireBehavior],
         i < splice.index + splice.addedCount;
         i++) {
         this.listen(this.diffs[i], 'render-start', '_handleDiffRenderStart');
-        this.listen(this.diffs[i], 'render-content', 'handleDiffUpdate');
+        this.listen(
+            this.diffs[i], 'render-content', '_handleDiffRenderContent');
       }
 
       for (i = 0;
@@ -480,7 +486,7 @@ class GrDiffCursor extends mixinBehaviors([Gerrit.FireBehavior],
         this.unlisten(splice.removed[i],
             'render-start', '_handleDiffRenderStart');
         this.unlisten(splice.removed[i],
-            'render-content', 'handleDiffUpdate');
+            'render-content', '_handleDiffRenderContent');
       }
     }
   }

@@ -34,6 +34,24 @@
       "revId": "41c884fb4e46ad5bf07742d1e2e889d261dbad56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5d6b756_853398d6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-31T11:44:58Z",
+      "side": 1,
+      "message": "I won\u0027t assume `change.revisions` always exists actually. The fields on a change are controlled by ListChangesOption we passed when we fetch change, currently we always have `ListChangesOption.ALL_REVISIONS` when we fetch change. But its not necessary there all the time, we removed ListChangesOption.CHANGE_ACTIONS before: https://gerrit-review.googlesource.com/c/gerrit/+/238972\n\nI think the important part is the logic of your code should be correct regardless, i.e: should we show tooltip when no revisions or current revision info ?",
+      "parentUuid": "98aad0a6_23029928",
+      "revId": "41c884fb4e46ad5bf07742d1e2e889d261dbad56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

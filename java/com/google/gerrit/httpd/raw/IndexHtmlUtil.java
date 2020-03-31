@@ -50,15 +50,14 @@ import java.util.regex.Pattern;
 public class IndexHtmlUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private static final Gson gson = OutputFormat.JSON_COMPACT.newGson();
+  public static final String CHANGE_CANONICAL_URL = ".*/c/(?<project>.+)/\\+/(?<changeNum>\\d+)";
+  public static final String BASE_PATCH_NUM_URL_PART = "(/(-?\\d+|edit)(\\.\\.(\\d+|edit))?)";
+  public static final Pattern CHANGE_URL_PATTERN =
+      Pattern.compile(CHANGE_CANONICAL_URL + BASE_PATCH_NUM_URL_PART + "?" + "/?$");
+  public static final Pattern DIFF_URL_PATTERN =
+      Pattern.compile(CHANGE_CANONICAL_URL + BASE_PATCH_NUM_URL_PART + "(/(.+))" + "/?$");
 
-  public static final String changeCanonicalUrl = ".*/c/(?<project>.+)/\\+/(?<changeNum>\\d+)";
-  public static final String basePatchNumUrlPart = "(/(-?\\d+|edit)(\\.\\.(\\d+|edit))?)";
-  public static final Pattern changeUrlPattern =
-      Pattern.compile(changeCanonicalUrl + basePatchNumUrlPart + "?" + "/?$");
-
-  public static final Pattern diffUrlPattern =
-      Pattern.compile(changeCanonicalUrl + basePatchNumUrlPart + "(/(.+))" + "/?$");
+  private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
 
   public static String getDefaultChangeDetailHex() {
     Set<ListChangesOption> options =
@@ -124,7 +123,7 @@ public class IndexHtmlUtil {
 
     Set<String> enabledExperiments = experimentData(urlParameterMap);
     if (!enabledExperiments.isEmpty()) {
-      data.put("enabledExperiments", serializeObject(gson, enabledExperiments));
+      data.put("enabledExperiments", serializeObject(GSON, enabledExperiments));
     }
     return data.build();
   }
@@ -135,21 +134,21 @@ public class IndexHtmlUtil {
     ImmutableMap.Builder<String, Object> data = ImmutableMap.builder();
     Map<String, SanitizedContent> initialData = new HashMap<>();
     Server serverApi = gerritApi.config().server();
-    initialData.put("\"/config/server/info\"", serializeObject(gson, serverApi.getInfo()));
-    initialData.put("\"/config/server/version\"", serializeObject(gson, serverApi.getVersion()));
-    initialData.put("\"/config/server/top-menus\"", serializeObject(gson, serverApi.topMenus()));
+    initialData.put("\"/config/server/info\"", serializeObject(GSON, serverApi.getInfo()));
+    initialData.put("\"/config/server/version\"", serializeObject(GSON, serverApi.getVersion()));
+    initialData.put("\"/config/server/top-menus\"", serializeObject(GSON, serverApi.topMenus()));
 
     try {
       AccountApi accountApi = gerritApi.accounts().self();
-      initialData.put("\"/accounts/self/detail\"", serializeObject(gson, accountApi.get()));
+      initialData.put("\"/accounts/self/detail\"", serializeObject(GSON, accountApi.get()));
       initialData.put(
-          "\"/accounts/self/preferences\"", serializeObject(gson, accountApi.getPreferences()));
+          "\"/accounts/self/preferences\"", serializeObject(GSON, accountApi.getPreferences()));
       initialData.put(
           "\"/accounts/self/preferences.diff\"",
-          serializeObject(gson, accountApi.getDiffPreferences()));
+          serializeObject(GSON, accountApi.getDiffPreferences()));
       initialData.put(
           "\"/accounts/self/preferences.edit\"",
-          serializeObject(gson, accountApi.getEditPreferences()));
+          serializeObject(GSON, accountApi.getEditPreferences()));
       data.put("userIsAuthenticated", true);
     } catch (AuthException e) {
       logger.atFine().withCause(e).log(
@@ -202,11 +201,11 @@ public class IndexHtmlUtil {
       data.put("defaultChangeDetailHex", getDefaultChangeDetailHex());
       data.put("defaultDiffDetailHex", getDefaultDiffDetailHex());
 
-      String changeRequestsPath = computeChangeRequestsPath(requestedURL, changeUrlPattern);
+      String changeRequestsPath = computeChangeRequestsPath(requestedURL, CHANGE_URL_PATTERN);
       if (changeRequestsPath != null) {
         data.put("preloadChangePage", "true");
       } else {
-        changeRequestsPath = computeChangeRequestsPath(requestedURL, diffUrlPattern);
+        changeRequestsPath = computeChangeRequestsPath(requestedURL, DIFF_URL_PATTERN);
         data.put("preloadDiffPage", "true");
       }
 

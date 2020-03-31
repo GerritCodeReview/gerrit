@@ -275,40 +275,44 @@ class GrDiffCursor extends mixinBehaviors([Gerrit.FireBehavior],
   }
 
   reInitCursor() {
-    this._updateStops();
-    if (this.initialLineNumber) {
-      this.moveToLineNumber(this.initialLineNumber, this.side);
-      this.initialLineNumber = null;
-    } else {
-      this.moveToFirstChunk();
-    }
-  }
-
-  _handleWindowScroll() {
-    if (this._listeningForScroll) {
-      this._scrollBehavior = ScrollBehavior.NEVER;
-      this._focusOnMove = false;
-      this._listeningForScroll = false;
-    }
-  }
-
-  handleDiffUpdate() {
-    this._updateStops();
     if (!this.diffRow) {
       // does not scroll during init unless requested
       const scrollingBehaviorForInit = this.initialLineNumber ?
         ScrollBehavior.KEEP_VISIBLE :
         ScrollBehavior.NEVER;
       this._scrollBehavior = scrollingBehaviorForInit;
-      this.reInitCursor();
+      if (this.initialLineNumber) {
+        this.moveToLineNumber(this.initialLineNumber, this.side);
+        this.initialLineNumber = null;
+      } else {
+        this.moveToFirstChunk();
+      }
     }
     this._scrollBehavior = ScrollBehavior.KEEP_VISIBLE;
-    this._focusOnMove = true;
-    this._listeningForScroll = false;
+  }
+
+  _handleWindowScroll() {
+    if (this._preventAutoScrollOnManualScroll) {
+      this._scrollBehavior = ScrollBehavior.NEVER;
+      this._focusOnMove = false;
+      this._preventAutoScrollOnManualScroll = false;
+    }
+  }
+
+  handleDiffUpdate() {
+    this._updateStops();
+    this.reInitCursor();
   }
 
   _handleDiffRenderStart() {
-    this._listeningForScroll = true;
+    this._preventAutoScrollOnManualScroll = true;
+  }
+
+  _handleDiffRenderContent() {
+    this._updateStops();
+    // When done rendering, turn focus on move and automatic scrolling back on
+    this._focusOnMove = true;
+    this._preventAutoScrollOnManualScroll = false;
   }
 
   createCommentInPlace() {
@@ -472,7 +476,8 @@ class GrDiffCursor extends mixinBehaviors([Gerrit.FireBehavior],
         i < splice.index + splice.addedCount;
         i++) {
         this.listen(this.diffs[i], 'render-start', '_handleDiffRenderStart');
-        this.listen(this.diffs[i], 'render-content', 'handleDiffUpdate');
+        this.listen(
+            this.diffs[i], 'render-content', '_handleDiffRenderContent');
       }
 
       for (i = 0;
@@ -481,7 +486,7 @@ class GrDiffCursor extends mixinBehaviors([Gerrit.FireBehavior],
         this.unlisten(splice.removed[i],
             'render-start', '_handleDiffRenderStart');
         this.unlisten(splice.removed[i],
-            'render-content', 'handleDiffUpdate');
+            'render-content', '_handleDiffRenderContent');
       }
     }
   }

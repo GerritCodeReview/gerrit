@@ -256,15 +256,32 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
 
     // Add it to the DOM and calculate its position
     this.container.appendChild(this);
-    this.updatePosition();
-
-    // Trigger the transition
     this.classList.add(HOVER_CLASS);
+    this.updatePosition();
+  }
+
+  updatePosition() {
+    const positionsToTry = [this.position, 'right', 'bottom-right', 'top-right',
+      'bottom', 'top', 'bottom-left', 'top-left', 'left'];
+    for (const position of positionsToTry) {
+      this.updatePositionTo(position);
+      if (this.isInsideViewport()) return;
+    }
+  }
+
+  isInsideViewport() {
+    const thisRect = this.getBoundingClientRect();
+    if (thisRect.top < 0) return false;
+    if (thisRect.left < 0) return false;
+    const docuRect = document.documentElement.getBoundingClientRect();
+    if (thisRect.bottom > docuRect.height) return false;
+    if (thisRect.right > docuRect.width) return false;
+    return true;
   }
 
   /**
-   * Updates the hovercard's position based on the `position` attribute
-   * and the current position of the `target` element.
+   * Updates the hovercard's position based the current position of the `target`
+   * element.
    *
    * The hovercard is supposed to stay open if the user hovers over it.
    * To keep it open when the user moves away from the target, the bounding
@@ -274,25 +291,26 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
    * update the position of the tooltip while it is already visible (the
    * target element has moved and the tooltip is still open).
    */
-  updatePosition() {
+  updatePositionTo(position) {
     if (!this._target) { return; }
 
-    // Calculate the necessary measurements and positions
-    const parentRect = document.documentElement.getBoundingClientRect();
+    // Make sure that thisRect will not get any paddings and such included
+    // in the width and height of the bounding client rect.
+    this.style.cssText = '';
+
+    const docuRect = document.documentElement.getBoundingClientRect();
     const targetRect = this._target.getBoundingClientRect();
     const thisRect = this.getBoundingClientRect();
 
-    const targetLeft = targetRect.left - parentRect.left;
-    const targetTop = targetRect.top - parentRect.top;
+    const targetLeft = targetRect.left - docuRect.left;
+    const targetTop = targetRect.top - docuRect.top;
 
     let hovercardLeft;
     let hovercardTop;
     const diagonalPadding = this.offset + DIAGONAL_OVERFLOW;
     let cssText = '';
 
-    // Find the top and left position values based on the position attribute
-    // of the hovercard.
-    switch (this.position) {
+    switch (position) {
       case 'top':
         hovercardLeft = targetLeft + (targetRect.width - thisRect.width) / 2;
         hovercardTop = targetTop - thisRect.height - this.offset;
@@ -312,38 +330,38 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
             `padding-right:${this.offset}px; margin-right:-${this.offset}px;`;
         break;
       case 'right':
-        hovercardLeft = targetRect.right + this.offset;
+        hovercardLeft = targetLeft + targetRect.width + this.offset;
         hovercardTop = targetTop + (targetRect.height - thisRect.height) / 2;
         cssText +=
             `padding-left:${this.offset}px; margin-left:-${this.offset}px;`;
         break;
       case 'bottom-right':
-        hovercardLeft = targetRect.left + targetRect.width + this.offset;
-        hovercardTop = targetRect.top + targetRect.height + this.offset;
+        hovercardLeft = targetLeft + targetRect.width + this.offset;
+        hovercardTop = targetTop + targetRect.height + this.offset;
         cssText += `padding-top:${diagonalPadding}px;`;
         cssText += `padding-left:${diagonalPadding}px;`;
         cssText += `margin-left:-${diagonalPadding}px;`;
         cssText += `margin-top:-${diagonalPadding}px;`;
         break;
       case 'bottom-left':
-        hovercardLeft = targetRect.left - thisRect.width - this.offset;
-        hovercardTop = targetRect.top + targetRect.height + this.offset;
+        hovercardLeft = targetLeft - thisRect.width - this.offset;
+        hovercardTop = targetTop + targetRect.height + this.offset;
         cssText += `padding-top:${diagonalPadding}px;`;
         cssText += `padding-right:${diagonalPadding}px;`;
         cssText += `margin-right:-${diagonalPadding}px;`;
         cssText += `margin-top:-${diagonalPadding}px;`;
         break;
       case 'top-left':
-        hovercardLeft = targetRect.left - thisRect.width - this.offset;
-        hovercardTop = targetRect.top - thisRect.height - this.offset;
+        hovercardLeft = targetLeft - thisRect.width - this.offset;
+        hovercardTop = targetTop - thisRect.height - this.offset;
         cssText += `padding-bottom:${diagonalPadding}px;`;
         cssText += `padding-right:${diagonalPadding}px;`;
         cssText += `margin-bottom:-${diagonalPadding}px;`;
         cssText += `margin-right:-${diagonalPadding}px;`;
         break;
       case 'top-right':
-        hovercardLeft = targetRect.left + targetRect.width + this.offset;
-        hovercardTop = targetRect.top - thisRect.height - this.offset;
+        hovercardLeft = targetLeft + targetRect.width + this.offset;
+        hovercardTop = targetTop - thisRect.height - this.offset;
         cssText += `padding-bottom:${diagonalPadding}px;`;
         cssText += `padding-left:${diagonalPadding}px;`;
         cssText += `margin-bottom:-${diagonalPadding}px;`;
@@ -351,12 +369,6 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
         break;
     }
 
-    // Prevent hovercard from appearing outside the viewport.
-    // TODO(kaspern): fix hovercard appearing outside viewport on bottom and
-    // right.
-    if (hovercardLeft < 0) { hovercardLeft = 0; }
-    if (hovercardTop < 0) { hovercardTop = 0; }
-    // Set the hovercard's position
     cssText += `left:${hovercardLeft}px; top:${hovercardTop}px;`;
     this.style.cssText = cssText;
   }

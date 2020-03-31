@@ -109,7 +109,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     changeId = newChange(admin.newIdent());
     ps = getCurrentPatchSet(changeId);
     assertThat(ps).isNotNull();
-    amendChange(admin.newIdent(), changeId);
+    addNewPatchSet(changeId);
     changeId2 = newChange2(admin.newIdent());
   }
 
@@ -134,7 +134,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void deleteEditOfOlderPatchSet() throws Exception {
     createArbitraryEditFor(changeId2);
-    amendChange(admin.newIdent(), changeId2);
+    addNewPatchSet(changeId2);
 
     gApi.changes().id(changeId2).edit().delete();
     assertThat(getEdit(changeId2)).isAbsent();
@@ -237,7 +237,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     PatchSet previousPatchSet = getCurrentPatchSet(changeId2);
     createEmptyEditFor(changeId2);
     gApi.changes().id(changeId2).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
-    amendChange(admin.newIdent(), changeId2);
+    addNewPatchSet(changeId2);
     PatchSet currentPatchSet = getCurrentPatchSet(changeId2);
 
     Optional<EditInfo> originalEdit = getEdit(changeId2);
@@ -256,7 +256,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
     PatchSet previousPatchSet = getCurrentPatchSet(changeId2);
     createEmptyEditFor(changeId2);
     gApi.changes().id(changeId2).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
-    amendChange(admin.newIdent(), changeId2);
+    addNewPatchSet(changeId2);
     PatchSet currentPatchSet = getCurrentPatchSet(changeId2);
 
     Optional<EditInfo> originalEdit = getEdit(changeId2);
@@ -445,9 +445,89 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void retrieveFilesInEdit() throws Exception {
-    createEmptyEditFor(changeId);
-    assertFiles(changeId, ImmutableList.of(COMMIT_MSG, FILE_NAME, FILE_NAME2));
+  public void editIsDiffedAgainstPatchSetParentByDefault() throws Exception {
+    // Create a patch set. The previous patch set contained FILE_NAME.
+    addNewPatchSetWithModifiedFile(
+        changeId2, "file_in_latest_patch_set.txt", "Content of a file in latest patch set.");
+
+    // Create an empty edit on top of that patch set.
+    createEmptyEditFor(changeId2);
+
+    Optional<EditInfo> edit =
+        gApi.changes()
+            .id(changeId2)
+            .edit()
+            .detail()
+            .withOption(ChangeEditDetailOption.LIST_FILES)
+            .get();
+
+    assertThat(edit)
+        .value()
+        .files()
+        .keys()
+        .containsExactly(COMMIT_MSG, FILE_NAME, "file_in_latest_patch_set.txt");
+  }
+
+  @Test
+  public void editCanBeDiffedAgainstCurrentPatchSet() throws Exception {
+    // Create a patch set.
+    addNewPatchSetWithModifiedFile(
+        changeId2, "file_in_latest_patch_set.txt", "Content of a file in latest patch set.");
+    String currentPatchSetId = gApi.changes().id(changeId2).get().currentRevision;
+
+    // Create an edit on top of that patch set and add a new file.
+    gApi.changes()
+        .id(changeId2)
+        .edit()
+        .modifyFile(
+            "file_in_change_edit.txt",
+            RawInputUtil.create("Content of the file added to the current change edit."));
+
+    // Diff the edit against the patch set.
+    Optional<EditInfo> edit =
+        gApi.changes()
+            .id(changeId2)
+            .edit()
+            .detail()
+            .withOption(ChangeEditDetailOption.LIST_FILES)
+            .withBase(currentPatchSetId)
+            .get();
+
+    assertThat(edit).value().files().keys().containsExactly(COMMIT_MSG, "file_in_change_edit.txt");
+  }
+
+  @Test
+  public void editCanBeDiffedAgainstEarlierPatchSet() throws Exception {
+    // Create two patch sets.
+    addNewPatchSetWithModifiedFile(
+        changeId2, "file_in_old_patch_set.txt", "Content of file in older patch set.");
+    String previousPatchSetId = gApi.changes().id(changeId2).get().currentRevision;
+    addNewPatchSetWithModifiedFile(
+        changeId2, "file_in_latest_patch_set.txt", "Content of a file in latest patch set.");
+
+    // Create an edit and add a new file.
+    gApi.changes()
+        .id(changeId2)
+        .edit()
+        .modifyFile(
+            "file_in_change_edit.txt",
+            RawInputUtil.create("Content of the file added to the current change edit."));
+
+    // Diff the edit against the previous patch set.
+    Optional<EditInfo> edit =
+        gApi.changes()
+            .id(changeId2)
+            .edit()
+            .detail()
+            .withOption(ChangeEditDetailOption.LIST_FILES)
+            .withBase(previousPatchSetId)
+            .get();
+
+    assertThat(edit)
+        .value()
+        .files()
+        .keys()
+        .containsExactly(COMMIT_MSG, "file_in_latest_patch_set.txt", "file_in_change_edit.txt");
   }
 
   @Test
@@ -606,10 +686,34 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void addNewFile() throws Exception {
     createEmptyEditFor(changeId);
-    assertFiles(changeId, ImmutableList.of(COMMIT_MSG, FILE_NAME, FILE_NAME2));
+    Optional<EditInfo> originalEdit =
+        gApi.changes()
+            .id(changeId)
+            .edit()
+            .detail()
+            .withOption(ChangeEditDetailOption.LIST_FILES)
+            .get();
+    assertThat(originalEdit)
+        .value()
+        .files()
+        .keys()
+        .containsExactly(COMMIT_MSG, FILE_NAME, FILE_NAME2);
+
     gApi.changes().id(changeId).edit().modifyFile(FILE_NAME3, RawInputUtil.create(CONTENT_NEW));
+
     ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME3), CONTENT_NEW);
-    assertFiles(changeId, ImmutableList.of(COMMIT_MSG, FILE_NAME, FILE_NAME2, FILE_NAME3));
+    Optional<EditInfo> adjustedEdit =
+        gApi.changes()
+            .id(changeId)
+            .edit()
+            .detail()
+            .withOption(ChangeEditDetailOption.LIST_FILES)
+            .get();
+    assertThat(adjustedEdit)
+        .value()
+        .files()
+        .keys()
+        .containsExactly(COMMIT_MSG, FILE_NAME, FILE_NAME2, FILE_NAME3);
   }
 
   @Test
@@ -822,16 +926,16 @@ public class ChangeEditIT extends AbstractDaemonTest {
     return push.to("refs/for/master").getChangeId();
   }
 
-  private String amendChange(PersonIdent ident, String changeId) throws Exception {
+  private void addNewPatchSet(String changeId) throws Exception {
+    addNewPatchSetWithModifiedFile(changeId, FILE_NAME2, new String(CONTENT_NEW2, UTF_8));
+  }
+
+  private void addNewPatchSetWithModifiedFile(String changeId, String filePath, String fileContent)
+      throws Exception {
     PushOneCommit push =
         pushFactory.create(
-            ident,
-            testRepo,
-            PushOneCommit.SUBJECT,
-            FILE_NAME2,
-            new String(CONTENT_NEW2, UTF_8),
-            changeId);
-    return push.to("refs/for/master").getChangeId();
+            admin.newIdent(), testRepo, PushOneCommit.SUBJECT, filePath, fileContent, changeId);
+    push.to("refs/for/master");
   }
 
   private String newChange2(PersonIdent ident) throws Exception {
@@ -848,19 +952,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private void ensureSameBytes(Optional<BinaryResult> fileContent, byte[] expectedFileBytes)
       throws IOException {
     assertThat(fileContent).value().bytes().isEqualTo(expectedFileBytes);
-  }
-
-  private void assertFiles(String changeId, List<String> expected) throws Exception {
-    Optional<EditInfo> info =
-        gApi.changes()
-            .id(changeId)
-            .edit()
-            .detail()
-            .withOption(ChangeEditDetailOption.LIST_FILES)
-            .get();
-    assertThat(info).isPresent();
-    assertThat(info.get().files).isNotNull();
-    assertThat(info.get().files.keySet()).containsExactlyElementsIn(expected);
   }
 
   private String urlEdit(String changeId) {

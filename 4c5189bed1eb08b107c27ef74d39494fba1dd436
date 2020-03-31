@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "3b4a7d1f_eefbe00a",
+        "filename": "package.json",
+        "patchSetId": 15
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-03-31T14:00:43Z",
+      "side": 1,
+      "message": "However, we should check, whether bazelisk or bazel is used as a binary and prefer bazelisk. This is done in all other places. See the polylint npm script below for example.",
+      "parentUuid": "d7d29894_6667d101",
+      "range": {
+        "startLine": 23,
+        "startChar": 15,
+        "endLine": 23,
+        "endChar": 20
+      },
+      "revId": "4c5189bed1eb08b107c27ef74d39494fba1dd436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6c3714d5_a45354f2",
         "filename": "package.json",
         "patchSetId": 15

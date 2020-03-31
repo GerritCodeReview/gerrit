@@ -214,6 +214,24 @@
     },
     {
       "key": {
+        "uuid": "49c1ef79_c2b259b4",
+        "filename": "tools/js/eslint.bzl",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-03-31T14:00:43Z",
+      "side": 1,
+      "message": "I just did this following small test on my own machine, having your change checked out:\n\n  git clean -ffdx\n  bazelisk clean --expunge\n  bazelisk test polygerrit-ui/app:lint_test\n  # \u003d\u003e packages were downloaded and node_modules exists\n  git clean -ffdx\n  # \u003d\u003e node_modules is gone from the repository\n  # switched off wifi\n  bazelisk test polygerrit-ui/app:lint_test\n  # \u003d\u003e node_modules exists again and tests ran\n\nSo some cache was apparently used to get the packages, which means that this does what I asked for and the packages are not downloaded every time the build is done.",
+      "parentUuid": "fe6dfc8e_40892b00",
+      "revId": "7b56a08dd1554ee3d33e1a2065b56394486b743a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a58e18e4_3d97b75d",
         "filename": "tools/js/eslint.bzl",
         "patchSetId": 13

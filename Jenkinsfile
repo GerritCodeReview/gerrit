@@ -16,6 +16,7 @@
 
 import groovy.json.JsonSlurper
 import groovy.json.JsonOutput
+import hudson.model.Run
 
 class Globals {
     static final String gerritUrl = "https://gerrit-review.googlesource.com/"
@@ -25,25 +26,15 @@ class Globals {
     static final String gerritRepositoryNameSha1Suffix = "-a6a0e4682515f3521897c5f950d1394f4619d928"
 }
 
-class Build {
-    String url
-    String result
-
-    Build(url, result) {
-        this.url = url
-        this.result = result
-    }
-}
-
 class Builds {
     static Set<String> modes = []
-    static Build codeStyle = null
+    static Run codeStyle = null
     static Map verification = [:]
 }
 
 class GerritCheck {
     String uuid
-    Build build
+    Run build
     String consoleUrl
 
     GerritCheck(name, build) {
@@ -54,6 +45,9 @@ class GerritCheck {
     }
 
     def getCheckResultFromBuild() {
+        if (!build.result) {
+            return "RUNNING"
+        }
         def resultString = build.result.toString()
         if (resultString == 'SUCCESS') {
             return "SUCCESSFUL"
@@ -114,16 +108,17 @@ def prepareBuildsForMode(buildName, mode="reviewdb", retryTimes = 1) {
                         string(name: 'CHANGE_URL', value: "${Globals.gerritUrl}c/${env.GERRIT_PROJECT}/+/${env.GERRIT_CHANGE_NUMBER}"),
                         string(name: 'MODE', value: mode),
                         string(name: 'TARGET_BRANCH', value: env.GERRIT_BRANCH)
-                    ], propagate: false
+                    ], propagate: false, wait: false
+                    slaveBuild.waitForStart()
                 } finally {
                     if (buildName == "Gerrit-codestyle"){
-                        Builds.codeStyle = new Build(
-                            slaveBuild.getAbsoluteUrl(), slaveBuild.getResult())
+                        Builds.codeStyle = slaveBuild
+                        postCheck(new GerritCheck("codestyle", slaveBuild))
                     } else {
-                        Builds.verification[mode] = new Build(
-                            slaveBuild.getAbsoluteUrl(), slaveBuild.getResult())
+                        Builds.verification[mode] = slaveBuild
+                        postCheck(new GerritCheck(mode, slaveBuild))
                     }
-                    if (slaveBuild.getResult() == "SUCCESS") {
+                    if (slaveBuild.result == "SUCCESS") {
                         break
                     }
                 }

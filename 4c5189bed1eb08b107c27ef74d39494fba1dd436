@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0bea5482_3e0246bc",
+        "filename": "package.json",
+        "patchSetId": 15
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-03-31T12:27:06Z",
+      "side": 1,
+      "message": "Don\u0027t run bazel directly, but rather invoke bazelisk",
+      "range": {
+        "startLine": 23,
+        "startChar": 15,
+        "endLine": 23,
+        "endChar": 20
+      },
+      "revId": "4c5189bed1eb08b107c27ef74d39494fba1dd436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c3714d5_a45354f2",
+        "filename": "package.json",
+        "patchSetId": 15
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-03-31T12:27:06Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 24,
+        "startChar": 18,
+        "endLine": 24,
+        "endChar": 23
+      },
+      "revId": "4c5189bed1eb08b107c27ef74d39494fba1dd436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

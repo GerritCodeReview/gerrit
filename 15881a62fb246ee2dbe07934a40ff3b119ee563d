@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "157c84ee_e248ab67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-31T11:10:02Z",
+      "side": 1,
+      "message": "is this a requirement for the eslint change after this one ? if so, can you mention that in the commit and maybe set a topic for them as well.",
+      "revId": "15881a62fb246ee2dbe07934a40ff3b119ee563d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

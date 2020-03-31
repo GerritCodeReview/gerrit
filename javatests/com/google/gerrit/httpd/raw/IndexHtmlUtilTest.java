@@ -15,9 +15,9 @@
 package com.google.gerrit.httpd.raw;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.httpd.raw.IndexHtmlUtil.changeUrlPattern;
+import static com.google.gerrit.httpd.raw.IndexHtmlUtil.CHANGE_URL_PATTERN;
+import static com.google.gerrit.httpd.raw.IndexHtmlUtil.DIFF_URL_PATTERN;
 import static com.google.gerrit.httpd.raw.IndexHtmlUtil.computeChangeRequestsPath;
-import static com.google.gerrit.httpd.raw.IndexHtmlUtil.diffUrlPattern;
 import static com.google.gerrit.httpd.raw.IndexHtmlUtil.experimentData;
 import static com.google.gerrit.httpd.raw.IndexHtmlUtil.staticTemplateData;
 
@@ -119,20 +119,21 @@ public class IndexHtmlUtilTest {
 
   @Test
   public void computeChangePath() throws Exception {
-    assertThat(computeChangeRequestsPath("/c/project/+/123", changeUrlPattern))
+    assertThat(computeChangeRequestsPath("/c/project/+/123", CHANGE_URL_PATTERN))
         .isEqualTo("changes/project~123");
 
-    assertThat(computeChangeRequestsPath("/c/project/+/124/2", changeUrlPattern))
+    assertThat(computeChangeRequestsPath("/c/project/+/124/2", CHANGE_URL_PATTERN))
         .isEqualTo("changes/project~124");
 
-    assertThat(computeChangeRequestsPath("/c/project/src/+/23", changeUrlPattern))
+    assertThat(computeChangeRequestsPath("/c/project/src/+/23", CHANGE_URL_PATTERN))
         .isEqualTo("changes/project%2Fsrc~23");
 
-    assertThat(computeChangeRequestsPath("/q/project/src/+/23", changeUrlPattern)).isEqualTo(null);
-
-    assertThat(computeChangeRequestsPath("/c/Scripts/+/232/1//COMMIT_MSG", changeUrlPattern))
+    assertThat(computeChangeRequestsPath("/q/project/src/+/23", CHANGE_URL_PATTERN))
         .isEqualTo(null);
-    assertThat(computeChangeRequestsPath("/c/Scripts/+/232/1//COMMIT_MSG", diffUrlPattern))
+
+    assertThat(computeChangeRequestsPath("/c/Scripts/+/232/1//COMMIT_MSG", CHANGE_URL_PATTERN))
+        .isEqualTo(null);
+    assertThat(computeChangeRequestsPath("/c/Scripts/+/232/1//COMMIT_MSG", DIFF_URL_PATTERN))
         .isEqualTo("changes/Scripts~232");
   }
 

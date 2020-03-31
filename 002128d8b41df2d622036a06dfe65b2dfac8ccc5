@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "d78ba7e3_2a9b725d",
+        "filename": "java/com/google/gerrit/extensions/common/CommentInfo.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-31T08:06:38Z",
+      "side": 1,
+      "message": "please document this new field in rest-api-changes where CommentInfo is documented",
+      "range": {
+        "startLine": 23,
+        "startChar": 16,
+        "endLine": 23,
+        "endChar": 31
+      },
+      "revId": "002128d8b41df2d622036a06dfe65b2dfac8ccc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4164e418_4b0e2bae",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-31T08:06:38Z",
+      "side": 1,
+      "message": "Since this change is essentially a refactoring and tech debt cleanup, can you please untangle this situation here in a new refactoring change before this change?\n\nWhat we have here is a REST API endpoint that inherits from another REST API endpoint because it\u0027s convenient. That\u0027s an anti-pattern because ListChangeComments is-not-a ListChangeDrafts (not every comment is a draft) and REST endpoints are service layer that should use *Utils for static methods and other service objects with @Inject constructors for more complex tasks it wants to share.\n\nSo in the end, we want a\n\nListChangeDrafts implements RestReadView\u003cChangeResource\u003e\n\nand a \n\nListChangeComments implements RestReadView\u003cChangeResource\u003e",
+      "range": {
+        "startLine": 33,
+        "startChar": 14,
+        "endLine": 33,
+        "endChar": 58
+      },
+      "revId": "002128d8b41df2d622036a06dfe65b2dfac8ccc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8cc93b1_b53cf2dd",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-31T08:06:38Z",
+      "side": 1,
+      "message": "If you pass in a List\u003cChangeMessage\u003e and put this method either in a static Util class or make it package-private and static here, you can write a unit test (not an IT) for it, which is much faster and easier.",
+      "range": {
+        "startLine": 76,
+        "startChar": 87,
+        "endLine": 76,
+        "endChar": 91
+      },
+      "revId": "002128d8b41df2d622036a06dfe65b2dfac8ccc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fe7f2fb9_dbbd2e5a",
         "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
         "patchSetId": 6
@@ -22,6 +91,23 @@
       "revId": "002128d8b41df2d622036a06dfe65b2dfac8ccc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5cb9e87_20ccb44a",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2028,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-03-31T08:06:38Z",
+      "side": 1,
+      "message": "It\u0027s good to have a single IT demonstrating that this works, but the actual logic of linking CommentInfo and ChangeMessage is better tested as a unit test.",
+      "revId": "002128d8b41df2d622036a06dfe65b2dfac8ccc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

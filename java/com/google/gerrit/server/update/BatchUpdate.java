@@ -51,7 +51,9 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.RequestId;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.LimitExceededException;
@@ -488,7 +490,11 @@ public class BatchUpdate implements AutoCloseable {
       logDebug("Executing updateRepo on %d ops", ops.size());
       RepoContextImpl ctx = new RepoContextImpl();
       for (BatchUpdateOp op : ops.values()) {
-        op.updateRepo(ctx);
+        try (TraceContext.TraceTimer ignored =
+            TraceContext.newTimer(
+                op.getClass().getSimpleName() + "#updateRepo", Metadata.empty())) {
+          op.updateRepo(ctx);
+        }
       }
 
       logDebug("Executing updateRepo on %d RepoOnlyOps", repoOnlyOps.size());
@@ -591,7 +597,11 @@ public class BatchUpdate implements AutoCloseable {
           id,
           lazy(() -> e.getValue().stream().map(op -> op.getClass().getName()).collect(toSet())));
       for (BatchUpdateOp op : e.getValue()) {
-        dirty |= op.updateChange(ctx);
+        try (TraceContext.TraceTimer ignored =
+            TraceContext.newTimer(
+                op.getClass().getSimpleName() + "#updateChange", Metadata.empty())) {
+          dirty |= op.updateChange(ctx);
+        }
       }
       if (!dirty) {
         logDebug("No ops reported dirty, short-circuiting");
@@ -630,11 +640,17 @@ public class BatchUpdate implements AutoCloseable {
   private void executePostOps() throws Exception {
     ContextImpl ctx = new ContextImpl();
     for (BatchUpdateOp op : ops.values()) {
-      op.postUpdate(ctx);
+      try (TraceContext.TraceTimer ignored =
+          TraceContext.newTimer(op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
+        op.postUpdate(ctx);
+      }
     }
 
     for (RepoOnlyOp op : repoOnlyOps) {
-      op.postUpdate(ctx);
+      try (TraceContext.TraceTimer ignored =
+          TraceContext.newTimer(op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
+        op.postUpdate(ctx);
+      }
     }
   }
 

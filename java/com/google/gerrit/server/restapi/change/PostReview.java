@@ -102,6 +102,8 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.CommentAdded;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.DiffSummary;
@@ -446,21 +448,23 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       Change change,
       List<ReviewerAddition> reviewerAdditions,
       NotifyResolver.Result notify) {
-    List<Account.Id> to = new ArrayList<>();
-    List<Account.Id> cc = new ArrayList<>();
-    List<Address> toByEmail = new ArrayList<>();
-    List<Address> ccByEmail = new ArrayList<>();
-    for (ReviewerAddition addition : reviewerAdditions) {
-      if (addition.state() == ReviewerState.REVIEWER) {
-        to.addAll(addition.reviewers);
-        toByEmail.addAll(addition.reviewersByEmail);
-      } else if (addition.state() == ReviewerState.CC) {
-        cc.addAll(addition.reviewers);
-        ccByEmail.addAll(addition.reviewersByEmail);
+    try (TraceContext.TraceTimer ignored = newTimer("batchEmailReviewers")) {
+      List<Account.Id> to = new ArrayList<>();
+      List<Account.Id> cc = new ArrayList<>();
+      List<Address> toByEmail = new ArrayList<>();
+      List<Address> ccByEmail = new ArrayList<>();
+      for (ReviewerAddition addition : reviewerAdditions) {
+        if (addition.state() == ReviewerState.REVIEWER) {
+          to.addAll(addition.reviewers);
+          toByEmail.addAll(addition.reviewersByEmail);
+        } else if (addition.state() == ReviewerState.CC) {
+          cc.addAll(addition.reviewers);
+          ccByEmail.addAll(addition.reviewersByEmail);
+        }
       }
+      addReviewersEmail.emailReviewers(
+          user.asIdentifiedUser(), change, to, cc, toByEmail, ccByEmail, notify);
     }
-    addReviewersEmail.emailReviewers(
-        user.asIdentifiedUser(), change, to, cc, toByEmail, ccByEmail, notify);
   }
 
   private RevisionResource onBehalfOf(RevisionResource rev, LabelTypes labelTypes, ReviewInput in)
@@ -603,6 +607,10 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         .filter(Objects::nonNull)
         .filter(comment -> !Strings.nullToEmpty(comment.message).trim().isEmpty())
         .collect(toList());
+  }
+
+  private TraceContext.TraceTimer newTimer(String method) {
+    return TraceContext.newTimer(getClass().getSimpleName() + "#" + method, Metadata.empty());
   }
 
   private <T extends CommentInput> void checkComments(
@@ -879,10 +887,19 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ps = psUtil.get(ctx.getNotes(), psId);
       List<RobotComment> newRobotComments =
           in.robotComments == null ? ImmutableList.of() : getNewRobotComments(ctx);
-      boolean dirty = insertComments(ctx, newRobotComments);
-      dirty |= insertRobotComments(ctx, newRobotComments);
-      dirty |= updateLabels(projectState, ctx);
-      dirty |= insertMessage(ctx);
+      boolean dirty = false;
+      try (TraceContext.TraceTimer ignored = newTimer("insertComments")) {
+        dirty |= insertComments(ctx, newRobotComments);
+      }
+      try (TraceContext.TraceTimer ignored = newTimer("insertRobotComments")) {
+        dirty |= insertRobotComments(ctx, newRobotComments);
+      }
+      try (TraceContext.TraceTimer ignored = newTimer("updateLabels")) {
+        dirty |= updateLabels(projectState, ctx);
+      }
+      try (TraceContext.TraceTimer ignored = newTimer("insertMessage")) {
+        dirty |= insertMessage(ctx);
+      }
       return dirty;
     }
 

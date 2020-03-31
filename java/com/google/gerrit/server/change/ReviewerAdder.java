@@ -58,6 +58,8 @@ import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -200,41 +202,44 @@ public class ReviewerAdder {
   public ReviewerAddition prepare(
       ChangeNotes notes, CurrentUser user, AddReviewerInput input, boolean allowGroup)
       throws IOException, PermissionBackendException, ConfigInvalidException {
-    requireNonNull(input.reviewer);
-    boolean confirmed = input.confirmed();
-    boolean allowByEmail =
-        projectCache
-            .get(notes.getProjectName())
-            .orElseThrow(illegalState(notes.getProjectName()))
-            .is(BooleanProjectConfig.ENABLE_REVIEWER_BY_EMAIL);
+    try (TraceContext.TraceTimer ignored =
+        TraceContext.newTimer(getClass().getSimpleName() + "#prepare", Metadata.empty())) {
+      requireNonNull(input.reviewer);
+      boolean confirmed = input.confirmed();
+      boolean allowByEmail =
+          projectCache
+              .get(notes.getProjectName())
+              .orElseThrow(illegalState(notes.getProjectName()))
+              .is(BooleanProjectConfig.ENABLE_REVIEWER_BY_EMAIL);
 
-    ReviewerAddition byAccountId = addByAccountId(input, notes, user);
+      ReviewerAddition byAccountId = addByAccountId(input, notes, user);
 
-    ReviewerAddition wholeGroup = null;
-    if (!byAccountId.exactMatchFound) {
-      wholeGroup = addWholeGroup(input, notes, user, confirmed, allowGroup, allowByEmail);
-      if (wholeGroup != null && wholeGroup.exactMatchFound) {
+      ReviewerAddition wholeGroup = null;
+      if (!byAccountId.exactMatchFound) {
+        wholeGroup = addWholeGroup(input, notes, user, confirmed, allowGroup, allowByEmail);
+        if (wholeGroup != null && wholeGroup.exactMatchFound) {
+          return wholeGroup;
+        }
+      }
+
+      if (wholeGroup != null
+          && byAccountId.failureType == FailureType.NOT_FOUND
+          && wholeGroup.failureType == FailureType.NOT_FOUND) {
+        return fail(
+            byAccountId.input,
+            FailureType.NOT_FOUND,
+            byAccountId.result.error + "\n" + wholeGroup.result.error);
+      }
+
+      if (byAccountId.failureType != FailureType.NOT_FOUND) {
+        return byAccountId;
+      }
+      if (wholeGroup != null) {
         return wholeGroup;
       }
-    }
 
-    if (wholeGroup != null
-        && byAccountId.failureType == FailureType.NOT_FOUND
-        && wholeGroup.failureType == FailureType.NOT_FOUND) {
-      return fail(
-          byAccountId.input,
-          FailureType.NOT_FOUND,
-          byAccountId.result.error + "\n" + wholeGroup.result.error);
+      return addByEmail(input, notes, user);
     }
-
-    if (byAccountId.failureType != FailureType.NOT_FOUND) {
-      return byAccountId;
-    }
-    if (wholeGroup != null) {
-      return wholeGroup;
-    }
-
-    return addByEmail(input, notes, user);
   }
 
   public ReviewerAddition ccCurrentUser(CurrentUser user, RevisionResource revision) {

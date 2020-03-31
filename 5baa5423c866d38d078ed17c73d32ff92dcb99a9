@@ -22,6 +22,30 @@
       "revId": "5baa5423c866d38d078ed17c73d32ff92dcb99a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77035a3a_3dc83f95",
+        "filename": "Documentation/dev-readme.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-03-31T15:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f247d6d_5890d16c",
+      "range": {
+        "startLine": 155,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 0
+      },
+      "revId": "5baa5423c866d38d078ed17c73d32ff92dcb99a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

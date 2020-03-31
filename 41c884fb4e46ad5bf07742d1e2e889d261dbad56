@@ -52,6 +52,24 @@
       "revId": "41c884fb4e46ad5bf07742d1e2e889d261dbad56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f950a251_a43cba0c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-03-31T12:00:34Z",
+      "side": 1,
+      "message": "As discussed offline,\nadded a comment\nremoved the fallback",
+      "parentUuid": "b5d6b756_853398d6",
+      "revId": "41c884fb4e46ad5bf07742d1e2e889d261dbad56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

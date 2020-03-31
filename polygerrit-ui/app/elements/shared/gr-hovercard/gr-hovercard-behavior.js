@@ -194,16 +194,6 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
     if (!this._isShowing) {
       return;
     }
-    const targetRect = this._target.getBoundingClientRect();
-    const x = e.clientX;
-    const y = e.clientY;
-    if (x > targetRect.left && x < targetRect.right && y > targetRect.top &&
-        y < targetRect.bottom) {
-      // Sometimes the hovercard itself obscures the mouse pointer, and
-      // that generates a mouseleave event. We don't want to hide the hovercard
-      // in that situation.
-      return;
-    }
 
     // If the user is now hovering over the hovercard or the user is returning
     // from the hovercard but now hovering over the target (to stop an annoying

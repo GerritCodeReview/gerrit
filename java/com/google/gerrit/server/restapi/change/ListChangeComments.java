@@ -14,37 +14,72 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.restapi.change.CommentJson.CommentFormatter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.util.List;
+import java.util.Map;
 
 @Singleton
-public class ListChangeComments extends ListChangeDrafts {
+public class ListChangeComments implements RestReadView<ChangeResource> {
+  private final ChangeData.Factory changeDataFactory;
+  private final Provider<CommentJson> commentJson;
+  private final CommentsUtil commentsUtil;
+
   @Inject
   ListChangeComments(
       ChangeData.Factory changeDataFactory,
       Provider<CommentJson> commentJson,
       CommentsUtil commentsUtil) {
-    super(changeDataFactory, commentJson, commentsUtil);
+    this.changeDataFactory = changeDataFactory;
+    this.commentJson = commentJson;
+    this.commentsUtil = commentsUtil;
   }
 
   @Override
-  protected Iterable<Comment> listComments(ChangeResource rsrc) {
+  public Response<Map<String, List<CommentInfo>>> apply(ChangeResource rsrc)
+      throws AuthException, PermissionBackendException {
+    if (!rsrc.getUser().isIdentifiedUser()) {
+      throw new AuthException("Authentication required");
+    }
+    return Response.ok(getAsMap(listComments(rsrc)));
+  }
+
+  public List<CommentInfo> getComments(ChangeResource rsrc)
+      throws AuthException, PermissionBackendException {
+    if (!rsrc.getUser().isIdentifiedUser()) {
+      throw new AuthException("Authentication required");
+    }
+    return getAsList(listComments(rsrc));
+  }
+
+  private Iterable<Comment> listComments(ChangeResource rsrc) {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
     return commentsUtil.publishedByChange(cd.notes());
   }
 
-  @Override
-  protected boolean includeAuthorInfo() {
-    return true;
+  private ImmutableList<CommentInfo> getAsList(Iterable<Comment> comments)
+      throws PermissionBackendException {
+    return getCommentFormatter().formatAsList(comments);
   }
 
-  @Override
-  public boolean requireAuthentication() {
-    return false;
+  private Map<String, List<CommentInfo>> getAsMap(Iterable<Comment> comments)
+      throws PermissionBackendException {
+    return getCommentFormatter().format(comments);
+  }
+
+  private CommentFormatter getCommentFormatter() {
+    return commentJson.get().setFillAccounts(true).setFillPatchSet(true).newCommentFormatter();
   }
 }

@@ -80,9 +80,11 @@ export const htmlTemplate = html`
       }
       .collapsed .content {
         flex: 1;
-        margin-right: var(--spacing-xs);
+        margin-right: var(--spacing-m);
         min-width: 0;
         overflow: hidden;
+      }
+      .collapsed .content.messageContent {
         text-overflow: ellipsis;
       }
       .collapsed .dateContainer {
@@ -200,7 +202,7 @@ export const htmlTemplate = html`
           </div>
         </template>
         <template is="dom-if" if="[[message.message]]">
-          <div class="content">
+          <div class="content messageContent">
             <div class="message hideOnOpen">[[_messageContentCollapsed]]</div>
             <gr-formatted-text no-trailing-margin="" class="message hideOnCollapsed" content="[[_messageContentExpanded]]" config="[[_projectConfig.commentlinks]]"></gr-formatted-text>
             <template is="dom-if" if="[[!_isMessageContentEmpty()]]">

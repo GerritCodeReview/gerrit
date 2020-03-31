@@ -21,16 +21,12 @@ GrHoverCardSharedStyle.innerHTML =
   `<template>
     <style include="shared-styles">
       :host {
-        box-sizing: border-box;
-        opacity: 0;
         position: absolute;
-        transition: opacity 200ms;
-        visibility: hidden;
+        display: none;
         z-index: 200;
       }
       :host(.hovered) {
-        visibility: visible;
-        opacity: 1;
+        display: block;
       }
       /* You have to use a <div class="container"> in your hovercard in order
          to pick up this consistent styling. */

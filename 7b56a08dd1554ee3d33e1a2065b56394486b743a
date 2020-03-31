@@ -1,0 +1,129 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8c3812f_fa21b0c0",
+        "filename": "package.json",
+        "patchSetId": 13
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-31T11:36:23Z",
+      "side": 1,
+      "message": "i remember we have certain ignored patterns (not sure why) before, do we need to keep them ?",
+      "revId": "7b56a08dd1554ee3d33e1a2065b56394486b743a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a4a54a9_0606d2bb",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 13
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-31T11:36:23Z",
+      "side": 1,
+      "message": "not sure if you need to change the gerrit-ci-scripts or not, i forgot what target they are using.",
+      "revId": "7b56a08dd1554ee3d33e1a2065b56394486b743a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ce15ac1_d7c45427",
+        "filename": "tools/js/BUILD",
+        "patchSetId": 13
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-31T11:36:23Z",
+      "side": 1,
+      "message": "why this is needed ?  i thought the file is removed",
+      "revId": "7b56a08dd1554ee3d33e1a2065b56394486b743a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5028a154_e8118bb7",
+        "filename": "tools/js/eslint.bzl",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-31T11:36:23Z",
+      "side": 1,
+      "message": "so with this change, the `eslint` used in linter test, at least for master branch, will be the same as the one defined in package.json right ? and will it install it on every job ? can you loop in luca or thomas on this, I think they were trying to avoid installing dependencies on job level. After all the CI will be ran there.",
+      "revId": "7b56a08dd1554ee3d33e1a2065b56394486b743a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a58e18e4_3d97b75d",
+        "filename": "tools/js/eslint.bzl",
+        "patchSetId": 13
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-31T11:36:23Z",
+      "side": 1,
+      "message": "just curious, what is the `rlocation` ?",
+      "range": {
+        "startLine": 52,
+        "startChar": 12,
+        "endLine": 52,
+        "endChar": 21
+      },
+      "revId": "7b56a08dd1554ee3d33e1a2065b56394486b743a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96998e49_7f74fbbc",
+        "filename": "tools/js/eslint.bzl",
+        "patchSetId": 13
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-31T11:36:23Z",
+      "side": 1,
+      "message": "can you document a bit here on these ignored patterns ?",
+      "revId": "7b56a08dd1554ee3d33e1a2065b56394486b743a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9646e629_3f3029c5",
+        "filename": "tools/js/eslint.bzl",
+        "patchSetId": 13
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-31T11:36:23Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "7b56a08dd1554ee3d33e1a2065b56394486b743a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

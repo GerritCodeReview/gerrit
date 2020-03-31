@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4f0c529_2352c23b",
+        "filename": "polygerrit-ui/app/lint_test.sh",
+        "patchSetId": 13
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-03-31T11:36:23Z",
+      "side": 0,
+      "message": "nice! Finally we can remove this file",
+      "revId": "dd6575b3c66c93ac0ec8d21ebf7cedd4e3269932",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

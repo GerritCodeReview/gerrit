@@ -16,11 +16,13 @@ package com.google.gerrit.extensions.common.testing;
 
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.gerrit.extensions.common.testing.CommitInfoSubject.commits;
+import static com.google.gerrit.truth.MapSubject.mapEntries;
 
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.gerrit.extensions.common.EditInfo;
+import com.google.gerrit.truth.MapSubject;
 import com.google.gerrit.truth.OptionalSubject;
 import java.util.Optional;
 
@@ -54,5 +56,10 @@ public class EditInfoSubject extends Subject {
   public StringSubject baseRevision() {
     isNotNull();
     return check("baseRevision").that(editInfo.baseRevision);
+  }
+
+  public MapSubject files() {
+    isNotNull();
+    return check("files").about(mapEntries()).that(editInfo.files);
   }
 }

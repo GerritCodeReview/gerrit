@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "dc575a81_abdfd073",
+        "filename": "java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-04-01T13:38:01Z",
+      "side": 1,
+      "message": "I understand that you combined the general/edit/diff preferences here into a single raw preference. Is this for easier serialization?\nI feel it would have been better to add a comment explaining why we did that, or maybe moving it to a separate change prior to this one to reduce the clutter.\nUpdate: I saw your comments in StoredPreferences.",
+      "range": {
+        "startLine": 210,
+        "startChar": 38,
+        "endLine": 210,
+        "endChar": 53
+      },
+      "revId": "603f651528549052a787850ed0be6aa3f07c6dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "39424c0a_e5ab6840",
         "filename": "java/com/google/gerrit/server/account/AccountState.java",
         "patchSetId": 1
@@ -41,6 +64,29 @@
         "startChar": 1,
         "endLine": 227,
         "endChar": 36
+      },
+      "revId": "603f651528549052a787850ed0be6aa3f07c6dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b4bfbb8_887c6d01",
+        "filename": "proto/cache.proto",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-04-01T13:38:01Z",
+      "side": 1,
+      "message": "nit: next ID 3",
+      "range": {
+        "startLine": 304,
+        "startChar": 3,
+        "endLine": 304,
+        "endChar": 13
       },
       "revId": "603f651528549052a787850ed0be6aa3f07c6dbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

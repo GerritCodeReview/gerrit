@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d468340_848cac9f",
+        "filename": "java/com/google/gerrit/entities/Account.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-04-01T13:38:01Z",
+      "side": 0,
+      "message": "Was this serializer ever used before? I didn\u0027t find references to it (except for the test AccountCacheTest).",
+      "range": {
+        "startLine": 128,
+        "startChar": 2,
+        "endLine": 128,
+        "endChar": 17
+      },
+      "revId": "a3f0c6b640f369a59edcdf54cf77e9efbde1886a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97eb6d5d_95203e9a",
+        "filename": "java/com/google/gerrit/server/account/AccountCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-04-01T13:38:01Z",
+      "side": 0,
+      "message": "Evictions are not needed because persisted caches are immutable, is this correct?",
+      "range": {
+        "startLine": 82,
+        "startChar": 2,
+        "endLine": 82,
+        "endChar": 44
+      },
+      "revId": "a3f0c6b640f369a59edcdf54cf77e9efbde1886a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8475294a_10b38f8d",
+        "filename": "java/com/google/gerrit/server/account/ProjectWatches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-04-01T13:38:01Z",
+      "side": 0,
+      "message": "Same to Account. Was this serializer used anywhere prior to this change?",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 46
+      },
+      "revId": "a3f0c6b640f369a59edcdf54cf77e9efbde1886a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

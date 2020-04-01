@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e3ce16d7_d44df9ef",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-01T14:18:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9dd71dc2_0aea6b30",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 15
+      },
+      "revId": "9cb21c539c535fea9cfdbfc4d61a7a296d649682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fea76000_9ce84e9e",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 4
@@ -39,6 +63,24 @@
       "revId": "9cb21c539c535fea9cfdbfc4d61a7a296d649682",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd5c95a4_63c2ea0e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-01T14:18:49Z",
+      "side": 1,
+      "message": "yes, this info needs to be serialized and add to the dom so be used in `handleFileListClick` and I did not want to change that just yet. So I want to keep the info minimum.",
+      "parentUuid": "fea76000_9ce84e9e",
+      "revId": "9cb21c539c535fea9cfdbfc4d61a7a296d649682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "6bfed620_6f573595",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-01T14:18:49Z",
+      "side": 1,
+      "message": "ya nice finding",
+      "parentUuid": "4f597965_8b2095eb",
+      "revId": "9cb21c539c535fea9cfdbfc4d61a7a296d649682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d94fc7a_b26239ac",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 4
@@ -73,6 +133,24 @@
       "revId": "9cb21c539c535fea9cfdbfc4d61a7a296d649682",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9efb4590_3e91844f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-01T14:18:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d94fc7a_b26239ac",
+      "revId": "9cb21c539c535fea9cfdbfc4d61a7a296d649682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

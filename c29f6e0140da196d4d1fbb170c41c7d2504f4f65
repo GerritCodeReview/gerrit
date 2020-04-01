@@ -70,6 +70,30 @@
       "revId": "c29f6e0140da196d4d1fbb170c41c7d2504f4f65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53ad7c14_60b21c9d",
+        "filename": "package.json",
+        "patchSetId": 20
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-01T10:33:52Z",
+      "side": 1,
+      "message": "It works, thank you.\nI moved this code from the \"polylint\" script and because I don\u0027t have enough experience with .sh scripts I afraid to touch it.",
+      "parentUuid": "b7207aad_4c42c1cc",
+      "range": {
+        "startLine": 23,
+        "startChar": 25,
+        "endLine": 23,
+        "endChar": 59
+      },
+      "revId": "c29f6e0140da196d4d1fbb170c41c7d2504f4f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -128,7 +128,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String submissionId;
   private String topic;
   private String commit;
-  private List<AttentionSetUpdate> attentionSetUpdates;
+  private Set<AttentionSetUpdate> attentionSetUpdates;
   private Optional<Account.Id> assignee;
   private Set<String> hashtags;
   private String changeMessage;
@@ -369,7 +369,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
    * All updates must have a timestamp of null since we use the commit's timestamp. There also must
    * not be multiple updates for a single user.
    */
-  public void setAttentionSetUpdates(List<AttentionSetUpdate> attentionSetUpdates) {
+  public void setAttentionSetUpdates(Set<AttentionSetUpdate> attentionSetUpdates) {
     checkArgument(
         attentionSetUpdates.stream().noneMatch(a -> a.timestamp() != null),
         "must not specify timestamp for write");

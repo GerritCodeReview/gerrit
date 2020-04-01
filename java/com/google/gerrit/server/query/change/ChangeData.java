@@ -298,7 +298,7 @@ public class ChangeData {
   private List<ReviewerStatusUpdate> reviewerUpdates;
   private PersonIdent author;
   private PersonIdent committer;
-  private ImmutableList<AttentionSetUpdate> attentionSet;
+  private ImmutableSet<AttentionSetUpdate> attentionSet;
   private int parentCount;
   private Integer unresolvedCommentCount;
   private Integer totalCommentCount;
@@ -601,10 +601,10 @@ public class ChangeData {
   }
 
   /** Returns the most recent update (i.e. status) per user. */
-  public ImmutableList<AttentionSetUpdate> attentionSet() {
+  public ImmutableSet<AttentionSetUpdate> attentionSet() {
     if (attentionSet == null) {
       if (!lazyLoad) {
-        return ImmutableList.of();
+        return ImmutableSet.of();
       }
       attentionSet = notes().getAttentionSet();
     }

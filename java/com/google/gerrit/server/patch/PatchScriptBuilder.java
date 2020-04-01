@@ -173,7 +173,6 @@ class PatchScriptBuilder {
             new TextSource(a.src), new TextSource(b.src), finalEdits, comments);
 
     return new PatchScript(
-        change.getKey(),
         content.getChangeType(),
         content.getOldName(),
         content.getNewName(),

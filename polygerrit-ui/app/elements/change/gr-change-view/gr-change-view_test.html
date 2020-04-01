@@ -41,6 +41,8 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import '../../edit/gr-edit-constants.js';
 import './gr-change-view.js';
+import {PRIMARY_TABS, SECONDARY_TABS} from '../../../constants/constants.js';
+
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 suite('gr-change-view tests', () => {
   const kb = window.Gerrit.KeyboardShortcutBinder;
@@ -61,10 +63,6 @@ suite('gr-change-view tests', () => {
   let navigateToChangeStub;
   const TEST_SCROLL_TOP_PX = 100;
 
-  const CommentTabs = {
-    CHANGE_LOG: 0,
-    COMMENT_THREADS: 1,
-  };
   const ROBOT_COMMENTS_LIMIT = 10;
 
   const THREADS = [
@@ -364,13 +362,51 @@ suite('gr-change-view tests', () => {
           'change-view-tab-header-url');
     });
 
-    test('handleShowTab switched tab correctly', done => {
-      const paperTabs = element.shadowRoot.querySelector('#primaryTabs');
-      assert.equal(paperTabs.selected, 0);
-      element._handleShowTab({detail:
+    test('_setActivePrimaryTab switched tab correctly', done => {
+      element._setActivePrimaryTab({detail:
           {tab: 'change-view-tab-header-url'}});
       flush(() => {
-        assert.equal(paperTabs.selected, 1);
+        assert.equal(element._activeTabs[0], 'change-view-tab-header-url');
+        done();
+      });
+    });
+
+    test('show-primary-tab switched primary tab correctly', done => {
+      element.fire('show-primary-tab', {tab: 'change-view-tab-header-url'});
+      flush(() => {
+        assert.equal(element._activeTabs[0], 'change-view-tab-header-url');
+        done();
+      });
+    });
+
+    test('param change should switch primary tab correctly', done => {
+      assert.equal(element._activeTabs[0], PRIMARY_TABS.FILES);
+      const queryMap = new Map();
+      queryMap.set('primaryTab', PRIMARY_TABS.FINDINGS);
+      // view is required
+      element.params = Object.assign(
+          {
+            view: Gerrit.Nav.View.CHANGE,
+          },
+          element.params, {queryMap});
+      flush(() => {
+        assert.equal(element._activeTabs[0], PRIMARY_TABS.FINDINGS);
+        done();
+      });
+    });
+
+    test('invalid param change should not switch primary tab', done => {
+      assert.equal(element._activeTabs[0], PRIMARY_TABS.FILES);
+      const queryMap = new Map();
+      queryMap.set('primaryTab', 'random');
+      // view is required
+      element.params = Object.assign(
+          {
+            view: Gerrit.Nav.View.CHANGE,
+          },
+          element.params, {queryMap});
+      flush(() => {
+        assert.equal(element._activeTabs[0], PRIMARY_TABS.FILES);
         done();
       });
     });
@@ -658,7 +694,7 @@ suite('gr-change-view tests', () => {
 
   test('thread list modified', () => {
     sandbox.spy(element, '_handleReloadDiffComments');
-    element._currentView = CommentTabs.COMMENT_THREADS;
+    element._activeTabs = [PRIMARY_TABS.FILES, SECONDARY_TABS.COMMENT_THREADS];
     flushAsynchronousOperations();
 
     return element._reloadComments().then(() => {
@@ -721,25 +757,55 @@ suite('gr-change-view tests', () => {
 
     test('tab switch works correctly', done => {
       assert.isTrue(element._paramsChanged.called);
-      assert.equal(element.$.commentTabs.selected, CommentTabs.CHANGE_LOG);
-      assert.equal(element._currentView, CommentTabs.CHANGE_LOG);
+      assert.equal(element._activeTabs[1], SECONDARY_TABS.CHANGE_LOG);
 
       const commentTab = element.shadowRoot.querySelector(
           'paper-tab.commentThreads'
       );
       // Switch to comment thread tab
       MockInteractions.tap(commentTab);
-      const commentTabs = element.$.commentTabs;
-      assert.equal(commentTabs.selected,
-          CommentTabs.COMMENT_THREADS);
-      assert.equal(element._currentView, CommentTabs.COMMENT_THREADS);
+      assert.equal(element._activeTabs[1], SECONDARY_TABS.COMMENT_THREADS);
 
       // Switch back to 'Change Log' tab
       element._paramsChanged(element.params);
       flush(() => {
-        assert.equal(commentTabs.selected,
-            CommentTabs.CHANGE_LOG);
-        assert.equal(element._currentView, CommentTabs.CHANGE_LOG);
+        assert.equal(element._activeTabs[1], SECONDARY_TABS.CHANGE_LOG);
+        done();
+      });
+    });
+
+    test('show-secondary-tab event works', () => {
+      assert.equal(element._activeTabs[1], SECONDARY_TABS.CHANGE_LOG);
+      // Switch to comment thread tab
+      element.fire('show-secondary-tab', {tab: SECONDARY_TABS.COMMENT_THREADS});
+      assert.equal(element._activeTabs[1], SECONDARY_TABS.COMMENT_THREADS);
+    });
+
+    test('param change should switched secondary tab correctly', done => {
+      assert.equal(element._activeTabs[1], SECONDARY_TABS.CHANGE_LOG);
+      const queryMap = new Map();
+      queryMap.set('secondaryTab', SECONDARY_TABS.COMMENT_THREADS);
+      // view is required
+      element.params = Object.assign(
+          {view: Gerrit.Nav.View.CHANGE},
+          element.params, {queryMap}
+      );
+      flush(() => {
+        assert.equal(element._activeTabs[1], SECONDARY_TABS.COMMENT_THREADS);
+        done();
+      });
+    });
+
+    test('invalid secondaryTab should not switch tab', done => {
+      assert.equal(element._activeTabs[1], SECONDARY_TABS.CHANGE_LOG);
+      const queryMap = new Map();
+      queryMap.set('secondaryTab', 'random');
+      // view is required
+      element.params = Object.assign({
+        view: Gerrit.Nav.View.CHANGE,
+      }, element.params, {queryMap});
+      flush(() => {
+        assert.equal(element._activeTabs[1], SECONDARY_TABS.CHANGE_LOG);
         done();
       });
     });

@@ -66,7 +66,7 @@ export const htmlTemplate = html`
     </template>
     <div id="threads">
       <template is="dom-if" if="[[!threads.length]]">
-        [[_computeNoThreadsMessage(tab)]]
+        [[emptyThreadMsg]]
       </template>
       <template is="dom-repeat" items="[[_filteredThreads]]" as="thread" initial-count="5" target-framerate="60">
         <gr-comment-thread show-file-path="" change-num="[[changeNum]]" comments="[[thread.comments]]" comment-side="[[thread.commentSide]]" project-name="[[change.project]]" is-on-parent="[[_isOnParent(thread.commentSide)]]" line-num="[[thread.line]]" patch-num="[[thread.patchNum]]" path="[[thread.path]]" root-id="{{thread.rootId}}" on-thread-changed="_handleCommentsChanged" on-thread-discard="_handleThreadDiscard"></gr-comment-thread>

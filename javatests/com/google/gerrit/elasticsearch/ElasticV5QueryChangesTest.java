@@ -44,7 +44,9 @@ public class ElasticV5QueryChangesTest extends AbstractQueryChangesTest {
     }
 
     container = ElasticContainer.createAndStart(ElasticVersion.V5_6);
-    nodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
+    nodeInfo =
+        new ElasticNodeInfo(
+            container.getHttpHost().getHostName(), container.getHttpHost().getPort());
   }
 
   @AfterClass
@@ -68,7 +70,7 @@ public class ElasticV5QueryChangesTest extends AbstractQueryChangesTest {
     InMemoryModule.setDefaults(elasticsearchConfig);
     String indicesPrefix = testName.getSanitizedMethodName();
     ElasticTestUtils.configure(
-        elasticsearchConfig, nodeInfo.port, indicesPrefix, ElasticVersion.V5_6);
+        elasticsearchConfig, nodeInfo.hostname, nodeInfo.port, indicesPrefix, ElasticVersion.V5_6);
     return Guice.createInjector(new InMemoryModule(elasticsearchConfig));
   }
 }

@@ -61,12 +61,10 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
-import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
-import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -330,23 +328,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       for (ReviewerAddition reviewerResult : reviewerResults) {
         reviewerResult.op.suppressEmail(); // Send a single batch email below.
         bu.addOp(revision.getChange().getId(), reviewerResult.op);
-        if (!ccOrReviewer && reviewerResult.result.reviewers != null) {
-          for (ReviewerInfo reviewerInfo : reviewerResult.result.reviewers) {
-            if (Objects.equals(id.get(), reviewerInfo._accountId)) {
-              logger.atFine().log("calling user is explicitly added as reviewer");
-              ccOrReviewer = true;
-              break;
-            }
-          }
-        }
-        if (!ccOrReviewer && reviewerResult.result.ccs != null) {
-          for (AccountInfo accountInfo : reviewerResult.result.ccs) {
-            if (Objects.equals(id.get(), accountInfo._accountId)) {
-              logger.atFine().log("calling user is explicitly added as cc");
-              ccOrReviewer = true;
-              break;
-            }
-          }
+        if (!ccOrReviewer && reviewerResult.reviewers.contains(id)) {
+          logger.atFine().log("calling user is explicitly added as reviewer or CC");
+          ccOrReviewer = true;
         }
       }
 

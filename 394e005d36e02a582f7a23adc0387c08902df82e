@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9b187877_296c8753",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-04-01T16:55:34Z",
+      "side": 1,
+      "message": "no, my concern was about the _contents_ of the reviewers column. the comment count column is uncritical, in particular if you address the concern about it being unnecessarily wide.\n\nand even if you roll it out with AS (not sure what that entails), there is no reason to make it conditional on AS.",
+      "parentUuid": "d1085d86_59129a28",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 63
+      },
+      "revId": "394e005d36e02a582f7a23adc0387c08902df82e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7384325e_e5c81299",
         "filename": "/COMMIT_MSG",
         "patchSetId": 29

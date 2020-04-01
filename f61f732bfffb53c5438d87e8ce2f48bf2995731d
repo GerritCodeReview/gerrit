@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "81118803_4ee04a82",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-04-01T10:54:54Z",
+      "side": 1,
+      "message": "note - still interested in hearing an answer to this.",
+      "parentUuid": "7a1cf746_f5c8d5ac",
+      "revId": "f61f732bfffb53c5438d87e8ce2f48bf2995731d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74719062_4bdc5ab3",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.js",
         "patchSetId": 1

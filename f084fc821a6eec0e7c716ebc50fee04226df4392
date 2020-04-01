@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99922a21_1226c952",
+        "filename": "Documentation/dev-community.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-04-01T21:18:32Z",
+      "side": 1,
+      "message": "use title case ?",
+      "revId": "f084fc821a6eec0e7c716ebc50fee04226df4392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

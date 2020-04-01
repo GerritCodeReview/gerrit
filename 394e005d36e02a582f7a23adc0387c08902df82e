@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d1085d86_59129a28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-01T15:51:52Z",
+      "side": 1,
+      "message": "Yes, it *could* stand on its own and be rolled out separately.\n\nBut as you have pointed out, users could have concerns about the dashboard getting too full with columns. So we want to dogfood this and carefully roll this out. It makes sense to have just one bigger carefully planned rollout than multiple small ones. Less changes for the users, easier to manage for the developer.",
+      "parentUuid": "a59288a6_579cace7",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 63
+      },
+      "revId": "394e005d36e02a582f7a23adc0387c08902df82e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7384325e_e5c81299",
         "filename": "/COMMIT_MSG",
         "patchSetId": 29
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "4b6a49d0_a2352f56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-01T15:51:52Z",
+      "side": 1,
+      "message": "I understand the concern, but I don\u0027t have a good solution to it. I remember that we briefly discussed this during the UX design phase, but eventually this is the design that we have come up with: https://www.gerritcodereview.com/design-docs/attention-set-solution-1-user-interface.html\n\nWill ask Delphine once more.",
+      "parentUuid": "7384325e_e5c81299",
+      "range": {
+        "startLine": 16,
+        "startChar": 7,
+        "endLine": 16,
+        "endChar": 34
+      },
+      "revId": "394e005d36e02a582f7a23adc0387c08902df82e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f67fa6a_cef5edc2",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.js",
         "patchSetId": 29
@@ -68,6 +116,30 @@
       "revId": "394e005d36e02a582f7a23adc0387c08902df82e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f2d90db_77115253",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.js",
+        "patchSetId": 29
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-01T15:51:52Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "0f67fa6a_cef5edc2",
+      "range": {
+        "startLine": 158,
+        "startChar": 14,
+        "endLine": 158,
+        "endChar": 38
+      },
+      "revId": "394e005d36e02a582f7a23adc0387c08902df82e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

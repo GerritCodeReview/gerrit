@@ -127,6 +127,29 @@ suite('gr-cursor-manager tests', () => {
     assert.equal(element.index, -1);
   });
 
+  test('next() goes to first element when no cursor is set', () => {
+    element.stops = list.querySelectorAll('li');
+    element.next();
+
+    assert.equal(element.index, 0);
+    assert.equal(element.target, list.children[0]);
+    assert.isTrue(list.children[0].classList.contains('targeted'));
+    assert.isTrue(element.isAtStart());
+    assert.isFalse(element.isAtEnd());
+  });
+
+  test('next() goes to first element when no cursor is set', () => {
+    element.stops = list.querySelectorAll('li');
+    element.previous();
+
+    const lastIndex = list.children.length - 1;
+    assert.equal(element.index, lastIndex);
+    assert.equal(element.target, list.children[lastIndex]);
+    assert.isTrue(list.children[lastIndex].classList.contains('targeted'));
+    assert.isFalse(element.isAtStart());
+    assert.isTrue(element.isAtEnd());
+  });
+
   test('_moveCursor', () => {
     // Initialize the cursor with its stops.
     element.stops = list.querySelectorAll('li');
@@ -143,8 +166,8 @@ suite('gr-cursor-manager tests', () => {
     assert.isTrue(getTargetHeight.called);
   });
 
-  test('_moveCursor from -1 does not check height', () => {
-    element.stops = list.querySelectorAll('li');
+  test('_moveCursor from for invalid index does not check height', () => {
+    element.stops = [];
     const getTargetHeight = sinon.stub();
     element._moveCursor(1, () => false, getTargetHeight);
     assert.isFalse(getTargetHeight.called);

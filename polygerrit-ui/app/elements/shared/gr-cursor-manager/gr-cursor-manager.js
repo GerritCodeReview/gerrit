@@ -326,11 +326,15 @@ class GrCursorManager extends GestureEventListeners(
    * @private
    */
   _getNextindex(delta, opt_condition, opt_clipToTop) {
-    if (!this.stops.length || this.index === -1) {
+    if (!this.stops.length) {
       return -1;
     }
-
     let newIndex = this.index;
+    // If the cursor is not yet set and we are going backwards, start at the
+    // back.
+    if (this.index === -1 && delta < 0) {
+      newIndex = this.stops.length;
+    }
     do {
       newIndex = newIndex + delta;
     } while (newIndex > 0 &&

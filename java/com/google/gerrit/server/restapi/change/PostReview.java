@@ -373,8 +373,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           revision.getChange().getId(), new Op(projectState, revision.getPatchSet().id(), input));
 
       // Notify based on ReviewInput, ignoring the notify settings from any AddReviewerInputs.
-      NotifyResolver.Result notify =
-          notifyResolver.resolve(getNotifyHandling(input, output, revision), input.notifyDetails);
+      NotifyResolver.Result notify = notifyResolver.resolve(input.notify, input.notifyDetails);
       bu.setNotify(notify);
 
       bu.execute();
@@ -390,17 +389,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     return Response.ok(output);
-  }
-
-  private NotifyHandling getNotifyHandling(
-      ReviewInput input, ReviewResult output, RevisionResource revision) {
-    if (input.notify != null) {
-      return input.notify;
-    }
-    if ((output.ready != null && output.ready) || !revision.getChange().isWorkInProgress()) {
-      return NotifyHandling.ALL;
-    }
-    return NotifyHandling.NONE;
   }
 
   private NotifyHandling defaultNotify(Change c, ReviewInput in) {

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c3fd7650_f1e4049a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-01T12:15:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9f1069c_3468e55e",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 8
+      },
+      "revId": "324c57b3a43ec74f6fab49b795d1403e0a94137a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1dff65f_ab4e9fc7",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "67a036e4_7a1cd4ea",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-01T12:15:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1dff65f_ab4e9fc7",
+      "range": {
+        "startLine": 264,
+        "startChar": 27,
+        "endLine": 265,
+        "endChar": 58
+      },
+      "revId": "324c57b3a43ec74f6fab49b795d1403e0a94137a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dce7e46e_6008505a",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
         "patchSetId": 4
@@ -62,6 +110,24 @@
       "revId": "324c57b3a43ec74f6fab49b795d1403e0a94137a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e68578b8_2bfbad6e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-01T12:15:27Z",
+      "side": 1,
+      "message": "Done. But used `visibility:hidden` instead of opacity.",
+      "parentUuid": "dce7e46e_6008505a",
+      "revId": "324c57b3a43ec74f6fab49b795d1403e0a94137a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "c43fc8a1_2549d05f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-01T12:15:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a79a759_de75e0c1",
+      "revId": "324c57b3a43ec74f6fab49b795d1403e0a94137a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f81d77e_72b56d33",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
         "patchSetId": 4
@@ -96,6 +180,24 @@
       "revId": "324c57b3a43ec74f6fab49b795d1403e0a94137a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8823dbd3_ce8c07e7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-01T12:15:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f81d77e_72b56d33",
+      "revId": "324c57b3a43ec74f6fab49b795d1403e0a94137a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

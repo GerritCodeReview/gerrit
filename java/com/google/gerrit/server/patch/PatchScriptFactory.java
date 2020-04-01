@@ -25,7 +25,6 @@ import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
-import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -52,8 +51,6 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -226,11 +223,9 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         final PatchScriptBuilder b = newBuilder();
         final PatchListEntry content = list.get(fileName);
 
-        Optional<ImmutableList<Patch>> history = loadHistory(content, changeEdit);
-        Optional<CommentDetail> comments =
-            loadComments(content, changeEdit, history.orElse(ImmutableList.of()));
+        Optional<CommentDetail> comments = loadComments(content, changeEdit);
 
-        return b.toPatchScript(git, list, content, comments.orElse(null), history.orElse(null));
+        return b.toPatchScript(git, list, content, comments.orElse(null));
       } catch (PatchListNotAvailableException e) {
         throw new NoSuchChangeException(changeId, e);
       } catch (IOException e) {
@@ -248,26 +243,12 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     }
   }
 
-  private Optional<CommentDetail> loadComments(
-      PatchListEntry content, boolean changeEdit, ImmutableList<Patch> history) {
+  private Optional<CommentDetail> loadComments(PatchListEntry content, boolean changeEdit) {
     if (!loadComments) {
       return Optional.empty();
     }
     return new CommentsLoader(psa, psb, userProvider, notes, commentsUtil)
-        .load(
-            changeEdit,
-            content.getChangeType(),
-            content.getOldName(),
-            content.getNewName(),
-            history);
-  }
-
-  private Optional<ImmutableList<Patch>> loadHistory(PatchListEntry content, boolean changeEdit) {
-    if (!loadHistory) {
-      return Optional.empty();
-    }
-    HistoryLoader loader = new HistoryLoader(psa, psb, psUtil, notes, fileName);
-    return Optional.of(loader.load(changeEdit, content.getChangeType(), content.getOldName()));
+        .load(changeEdit, content.getChangeType(), content.getOldName(), content.getNewName());
   }
 
   private Optional<ObjectId> getAId() {
@@ -325,59 +306,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     }
   }
 
-  private static class HistoryLoader {
-    private final PatchSet.Id psa;
-    private final PatchSet.Id psb;
-    private final PatchSetUtil psUtil;
-    private final ChangeNotes notes;
-    private final String fileName;
-
-    HistoryLoader(
-        PatchSet.Id psa, PatchSet.Id psb, PatchSetUtil psUtil, ChangeNotes notes, String fileName) {
-      this.psa = psa;
-      this.psb = psb;
-      this.psUtil = psUtil;
-      this.notes = notes;
-      this.fileName = fileName;
-    }
-
-    private ImmutableList<Patch> load(boolean changeEdit, ChangeType changeType, String oldName) {
-      // This seems like a cheap trick. It doesn't properly account for a
-      // file that gets renamed between patch set 1 and patch set 2. We
-      // will wind up packing the wrong Patch object because we didn't do
-      // proper rename detection between the patch sets.
-      //
-      ImmutableList.Builder<Patch> historyBuilder = ImmutableList.builder();
-      for (PatchSet ps : psUtil.byChange(notes)) {
-        String name = fileName;
-        if (psa != null) {
-          switch (changeType) {
-            case COPIED:
-            case RENAMED:
-              if (ps.id().equals(psa)) {
-                name = oldName;
-              }
-              break;
-
-            case MODIFIED:
-            case DELETED:
-            case ADDED:
-            case REWRITE:
-              break;
-          }
-        }
-
-        Patch p = new Patch(Patch.key(ps.id(), name));
-        historyBuilder.add(p);
-      }
-      if (changeEdit) {
-        Patch p = new Patch(Patch.key(PatchSet.id(psb.changeId(), 0), fileName));
-        historyBuilder.add(p);
-      }
-      return historyBuilder.build();
-    }
-  }
-
   private static class CommentsLoader {
     private final PatchSet.Id psa;
     private final PatchSet.Id psb;
@@ -400,36 +328,30 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     }
 
     private Optional<CommentDetail> load(
-        boolean changeEdit,
-        ChangeType changeType,
-        String oldName,
-        String newName,
-        ImmutableList<Patch> history) {
+        boolean changeEdit, ChangeType changeType, String oldName, String newName) {
       // TODO: Implement this method with CommentDetailBuilder (this class doesn't exists yet).
       // This is a legacy code which create final object and populate it and then returns it.
       if (changeEdit) {
         return Optional.empty();
       }
-      Map<Patch.Key, Patch> byKey = new HashMap<>();
-      history.forEach(p -> byKey.put(p.getKey(), p));
 
       comments = new CommentDetail(psa, psb);
       switch (changeType) {
         case ADDED:
         case MODIFIED:
-          loadPublished(byKey, newName);
+          loadPublished(newName);
           break;
 
         case DELETED:
-          loadPublished(byKey, newName);
+          loadPublished(newName);
           break;
 
         case COPIED:
         case RENAMED:
           if (psa != null) {
-            loadPublished(byKey, oldName);
+            loadPublished(oldName);
           }
-          loadPublished(byKey, newName);
+          loadPublished(newName);
           break;
 
         case REWRITE:
@@ -442,19 +364,19 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         switch (changeType) {
           case ADDED:
           case MODIFIED:
-            loadDrafts(byKey, me, newName);
+            loadDrafts(me, newName);
             break;
 
           case DELETED:
-            loadDrafts(byKey, me, newName);
+            loadDrafts(me, newName);
             break;
 
           case COPIED:
           case RENAMED:
             if (psa != null) {
-              loadDrafts(byKey, me, oldName);
+              loadDrafts(me, oldName);
             }
-            loadDrafts(byKey, me, newName);
+            loadDrafts(me, newName);
             break;
 
           case REWRITE:
@@ -464,27 +386,15 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       return Optional.of(comments);
     }
 
-    private void loadPublished(Map<Patch.Key, Patch> byKey, String file) {
+    private void loadPublished(String file) {
       for (Comment c : commentsUtil.publishedByChangeFile(notes, file)) {
         comments.include(notes.getChangeId(), c);
-        PatchSet.Id psId = PatchSet.id(notes.getChangeId(), c.key.patchSetId);
-        Patch.Key pKey = Patch.key(psId, c.key.filename);
-        Patch p = byKey.get(pKey);
-        if (p != null) {
-          p.setCommentCount(p.getCommentCount() + 1);
-        }
       }
     }
 
-    private void loadDrafts(Map<Patch.Key, Patch> byKey, Account.Id me, String file) {
+    private void loadDrafts(Account.Id me, String file) {
       for (Comment c : commentsUtil.draftByChangeFileAuthor(notes, file, me)) {
         comments.include(notes.getChangeId(), c);
-        PatchSet.Id psId = PatchSet.id(notes.getChangeId(), c.key.patchSetId);
-        Patch.Key pKey = Patch.key(psId, c.key.filename);
-        Patch p = byKey.get(pKey);
-        if (p != null) {
-          p.setDraftCount(p.getDraftCount() + 1);
-        }
       }
     }
   }

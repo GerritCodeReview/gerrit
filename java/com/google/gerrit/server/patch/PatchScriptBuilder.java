@@ -76,11 +76,7 @@ class PatchScriptBuilder {
   }
 
   PatchScript toPatchScript(
-      Repository git,
-      PatchList list,
-      PatchListEntry content,
-      CommentDetail comments,
-      ImmutableList<Patch> history)
+      Repository git, PatchList list, PatchListEntry content, CommentDetail comments)
       throws IOException {
 
     PatchFileChange change =
@@ -96,7 +92,7 @@ class PatchScriptBuilder {
     ResolvedSides sides =
         resolveSides(
             git, sidesResolver, oldName(change), newName(change), list.getOldId(), list.getNewId());
-    return build(sides.a, sides.b, change, comments, history);
+    return build(sides.a, sides.b, change, comments);
   }
 
   private ResolvedSides resolveSides(
@@ -146,7 +142,7 @@ class PatchScriptBuilder {
             ChangeType.MODIFIED,
             PatchType.UNIFIED);
 
-    return build(a, b, change, null, null);
+    return build(a, b, change, null);
   }
 
   private PatchSide resolveSideA(
@@ -158,11 +154,7 @@ class PatchScriptBuilder {
   }
 
   private PatchScript build(
-      PatchSide a,
-      PatchSide b,
-      PatchFileChange content,
-      CommentDetail comments,
-      ImmutableList<Patch> history) {
+      PatchSide a, PatchSide b, PatchFileChange content, CommentDetail comments) {
 
     ImmutableList<Edit> contentEdits = content.getEdits();
     ImmutableSet<Edit> editsDueToRebase = content.getEditsDueToRebase();
@@ -197,7 +189,6 @@ class PatchScriptBuilder {
         b.displayMethod,
         a.mimeType,
         b.mimeType,
-        history,
         intralineResult.failure,
         intralineResult.timeout,
         content.getPatchType() == Patch.PatchType.BINARY,

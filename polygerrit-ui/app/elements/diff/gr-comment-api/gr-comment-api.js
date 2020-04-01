@@ -342,6 +342,7 @@ class ChangeComments {
       comments.left = comments.left.concat(commentsForOldPath.left);
       comments.right = comments.right.concat(commentsForOldPath.right);
     }
+    return comments;
   }
 
   /**

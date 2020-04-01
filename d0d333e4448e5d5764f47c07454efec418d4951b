@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d34cfc7_fdfec490",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-01T19:10:16Z",
+      "side": 1,
+      "message": "Add debug logs for automatic account creation case\n\n(More explicit as a slogan.)",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 29
+      },
+      "revId": "d0d333e4448e5d5764f47c07454efec418d4951b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a83ccaa1_d7dadb01",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-01T19:10:16Z",
+      "side": 1,
+      "message": "%s not found. A new",
+      "range": {
+        "startLine": 140,
+        "startChar": 37,
+        "endLine": 140,
+        "endChar": 57
+      },
+      "revId": "d0d333e4448e5d5764f47c07454efec418d4951b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

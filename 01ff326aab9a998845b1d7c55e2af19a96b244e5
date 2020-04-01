@@ -365,6 +365,30 @@
     },
     {
       "key": {
+        "uuid": "df04b6d7_bec5e231",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1759,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-01T11:54:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b7bc6cbd_9d427c2c",
+      "range": {
+        "startLine": 1759,
+        "startChar": 8,
+        "endLine": 1759,
+        "endChar": 37
+      },
+      "revId": "01ff326aab9a998845b1d7c55e2af19a96b244e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "955337df_a77ae700",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 3

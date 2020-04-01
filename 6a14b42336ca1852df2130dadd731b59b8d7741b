@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3262135f_0ef60d0e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-01T11:54:47Z",
+      "side": 1,
+      "message": "It might be nice to put the button into \"loading\" state while the API call is in progress, so the user will get feedback that the click has been registered and something is happening in the background. You can find an example here:\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/258416/3/polygerrit-ui/app/elements/admin/gr-repo-access/gr-repo-access.js",
+      "revId": "6a14b42336ca1852df2130dadd731b59b8d7741b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2255040_102a9f66",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1815,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-01T11:54:47Z",
+      "side": 1,
+      "message": "Maybe just revert to the original state here.",
+      "range": {
+        "startLine": 1813,
+        "startChar": 1,
+        "endLine": 1815,
+        "endChar": 28
+      },
+      "revId": "6a14b42336ca1852df2130dadd731b59b8d7741b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e4a90b0_21729c8c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-01T11:54:47Z",
+      "side": 1,
+      "message": "indentation",
+      "revId": "6a14b42336ca1852df2130dadd731b59b8d7741b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

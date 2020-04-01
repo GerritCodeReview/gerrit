@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0418d06b_06316f4a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-01T11:38:54Z",
+      "side": 1,
+      "message": "What about this?\n\n  /**\n   * A changed content means that either a different change has been loaded or new\n   * content was saved. Either way, let\u0027s reset the component.\n   */\n  _onContentChange(content) {\n    this.editing \u003d false;\n    this._newContent \u003d \u0027\u0027;\n  }\n\nYou could even leave out the `this.editing \u003d false;`, because that is passed in from the change view.\n\n`this._newContent` will be computed automatically when `this.editing` switches to true.",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 3
+      },
+      "revId": "f14890973c072d487d94dec309f21378f155de41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

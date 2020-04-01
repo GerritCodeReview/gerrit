@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7fd77712_5be9dd9f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2020-04-01T14:02:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3262135f_0ef60d0e",
+      "revId": "6a14b42336ca1852df2130dadd731b59b8d7741b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a2255040_102a9f66",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 4
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "cbc64aae_a0ed8c9e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1815,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2020-04-01T14:02:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2255040_102a9f66",
+      "range": {
+        "startLine": 1813,
+        "startChar": 1,
+        "endLine": 1815,
+        "endChar": 28
+      },
+      "revId": "6a14b42336ca1852df2130dadd731b59b8d7741b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e4a90b0_21729c8c",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 4
@@ -56,6 +98,24 @@
       "revId": "6a14b42336ca1852df2130dadd731b59b8d7741b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6be380c_611fb5e1",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2020-04-01T14:02:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e4a90b0_21729c8c",
+      "revId": "6a14b42336ca1852df2130dadd731b59b8d7741b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

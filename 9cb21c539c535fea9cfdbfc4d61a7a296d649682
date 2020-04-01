@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9dd71dc2_0aea6b30",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-01T11:24:07Z",
+      "side": 1,
+      "message": "Maybe add a comment that these are FileInfo objects.",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 15
+      },
+      "revId": "9cb21c539c535fea9cfdbfc4d61a7a296d649682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fea76000_9ce84e9e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-01T11:24:07Z",
+      "side": 1,
+      "message": "I am really looking forward to TypeScript and to having proper state stores. :-)\n\nIs there a specific reason why you create a new type instead of just using the entire FileInfo?\n\nWould it make sense to define this {path,oldPath} type as something? Maybe as FileData?",
+      "revId": "9cb21c539c535fea9cfdbfc4d61a7a296d649682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f597965_8b2095eb",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-01T11:24:07Z",
+      "side": 1,
+      "message": "maybe\n\n  this._toggleFileExpanded(this._computeDataFile(file));",
+      "revId": "9cb21c539c535fea9cfdbfc4d61a7a296d649682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d94fc7a_b26239ac",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 454,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-01T11:24:07Z",
+      "side": 1,
+      "message": "maybe\n\n  newFiles.push(this._computeDataFile(this._shownFiles[i]));",
+      "revId": "9cb21c539c535fea9cfdbfc4d61a7a296d649682",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

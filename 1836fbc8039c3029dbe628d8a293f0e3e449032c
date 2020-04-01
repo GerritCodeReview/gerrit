@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bd0ad53c_ae1cc80c",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-01T15:52:01Z",
+      "side": 1,
+      "message": "Yes, this is temporary and I don\u0027t expect this to grow. So leaving as it, although you are of course right that the current code does not scale well.",
+      "parentUuid": "e44af826_1258771b",
+      "range": {
+        "startLine": 76,
+        "startChar": 6,
+        "endLine": 78,
+        "endChar": 0
+      },
+      "revId": "1836fbc8039c3029dbe628d8a293f0e3e449032c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "abfe99b1_306444f8",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
         "patchSetId": 27
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "0d2801ef_3e41b610",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-01T15:52:01Z",
+      "side": 1,
+      "message": "Changed HTML template to use :last-of-type selector.",
+      "parentUuid": "abfe99b1_306444f8",
+      "range": {
+        "startLine": 251,
+        "startChar": 2,
+        "endLine": 254,
+        "endChar": 0
+      },
+      "revId": "1836fbc8039c3029dbe628d8a293f0e3e449032c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67d7555d_d9871955",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.js",
         "patchSetId": 27
@@ -68,6 +116,30 @@
       "revId": "1836fbc8039c3029dbe628d8a293f0e3e449032c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9a0fc16_a39442d5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-01T15:52:01Z",
+      "side": 1,
+      "message": "Yes, this is a standard pattern in display:inline layout, because otherwise you will have a space rendered between the account link and the comma.",
+      "parentUuid": "67d7555d_d9871955",
+      "range": {
+        "startLine": 160,
+        "startChar": 99,
+        "endLine": 161,
+        "endChar": 10
+      },
+      "revId": "1836fbc8039c3029dbe628d8a293f0e3e449032c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

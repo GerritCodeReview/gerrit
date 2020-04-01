@@ -143,7 +143,6 @@ public class GetDiff implements RestReadView<FileResource> {
     }
 
     try {
-      psf.setLoadHistory(false);
       psf.setLoadComments(context != DiffPreferencesInfo.WHOLE_FILE_CONTEXT);
       PatchScript ps = psf.call();
       Project.NameKey projectName = resource.getRevision().getChange().getProject();

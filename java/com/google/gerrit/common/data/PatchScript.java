@@ -17,7 +17,6 @@ package com.google.gerrit.common.data;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
@@ -69,7 +68,6 @@ public class PatchScript {
   private final DiffPreferencesInfo diffPrefs;
   private final ImmutableList<Edit> edits;
   private final ImmutableSet<Edit> editsDueToRebase;
-  private final ImmutableList<Patch> history;
   private final boolean intralineFailure;
   private final boolean intralineTimeout;
   private final boolean binary;
@@ -93,7 +91,6 @@ public class PatchScript {
       DisplayMethod mb,
       String mta,
       String mtb,
-      ImmutableList<Patch> hist,
       boolean idf,
       boolean idt,
       boolean bin,
@@ -105,7 +102,6 @@ public class PatchScript {
     diffPrefs = dp;
     edits = e;
     this.editsDueToRebase = editsDueToRebase;
-    history = hist;
     intralineFailure = idf;
     intralineTimeout = idt;
     binary = bin;
@@ -132,10 +128,6 @@ public class PatchScript {
 
   public String getNewName() {
     return fileInfoB.name;
-  }
-
-  public List<Patch> getHistory() {
-    return history;
   }
 
   public DiffPreferencesInfo getDiffPrefs() {

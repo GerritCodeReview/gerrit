@@ -138,8 +138,6 @@ public class PatchList implements Serializable {
    * <p>The returned list items do not populate:
    *
    * <ul>
-   *   <li>{@link Patch#getCommentCount()}
-   *   <li>{@link Patch#getDraftCount()}
    *   <li>{@link Patch#isReviewedByCurrentUser()}
    * </ul>
    *

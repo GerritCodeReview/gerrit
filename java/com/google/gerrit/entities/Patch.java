@@ -168,12 +168,6 @@ public final class Patch {
   /** What type of patch is this; see {@link PatchType}. */
   protected char patchType;
 
-  /** Number of published comments on this patch. */
-  protected int nbrComments;
-
-  /** Number of drafts by the current user; not persisted in the datastore. */
-  protected int nbrDrafts;
-
   /** Number of lines added to the file. */
   protected int insertions;
 
@@ -196,22 +190,6 @@ public final class Patch {
 
   public Patch.Key getKey() {
     return key;
-  }
-
-  public int getCommentCount() {
-    return nbrComments;
-  }
-
-  public void setCommentCount(int n) {
-    nbrComments = n;
-  }
-
-  public int getDraftCount() {
-    return nbrDrafts;
-  }
-
-  public void setDraftCount(int n) {
-    nbrDrafts = n;
   }
 
   public int getInsertions() {

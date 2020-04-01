@@ -16,7 +16,6 @@ package com.google.gerrit.common.data;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
@@ -62,7 +61,6 @@ public class PatchScript {
     }
   }
 
-  private final Change.Key changeId;
   private final ChangeType changeType;
   private final ImmutableList<String> header;
   private final DiffPreferencesInfo diffPrefs;
@@ -75,7 +73,6 @@ public class PatchScript {
   private final PatchScriptFileInfo fileInfoB;
 
   public PatchScript(
-      Change.Key ck,
       ChangeType ct,
       String on,
       String nn,
@@ -96,7 +93,6 @@ public class PatchScript {
       boolean bin,
       String cma,
       String cmb) {
-    changeId = ck;
     changeType = ct;
     header = h;
     diffPrefs = dp;
@@ -108,10 +104,6 @@ public class PatchScript {
 
     fileInfoA = new PatchScriptFileInfo(on, om, ca, ma, mta, cma);
     fileInfoB = new PatchScriptFileInfo(nn, nm, cb, mb, mtb, cmb);
-  }
-
-  public Change.Key getChangeId() {
-    return changeId;
   }
 
   public List<String> getPatchHeader() {

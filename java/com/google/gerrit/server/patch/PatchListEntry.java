@@ -33,7 +33,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.Patch.PatchType;
-import com.google.gerrit.entities.PatchSet;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -226,16 +225,6 @@ public class PatchListEntry {
       headerLines.add(RawParseUtils.decode(UTF_8, header, b, e));
     }
     return headerLines.build();
-  }
-
-  Patch toPatch(PatchSet.Id setId) {
-    final Patch p = new Patch(Patch.key(setId, getNewName()));
-    p.setChangeType(getChangeType());
-    p.setPatchType(getPatchType());
-    p.setSourceFileName(getOldName());
-    p.setInsertions(insertions);
-    p.setDeletions(deletions);
-    return p;
   }
 
   private static ImmutableList<Edit> deepCopyEdits(List<Edit> edits) {

@@ -29,7 +29,6 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
-import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.UserIdentity;
@@ -488,13 +487,9 @@ public class EventFactory {
         p.author = asAccountAttribute(author.getAccount());
       }
 
-      List<Patch> list = patchListCache.get(change, patchSet).toPatchList(pId);
-      for (Patch pe : list) {
-        if (!Patch.isMagic(pe.getFileName())) {
-          p.sizeDeletions -= pe.getDeletions();
-          p.sizeInsertions += pe.getInsertions();
-        }
-      }
+      PatchList patchList = patchListCache.get(change, patchSet);
+      p.sizeDeletions = patchList.getDeletions();
+      p.sizeInsertions = patchList.getInsertions();
       p.kind = changeKindCache.getChangeKind(change, patchSet);
     } catch (IOException | StorageException e) {
       logger.atSevere().withCause(e).log("Cannot load patch set data for %s", patchSet.id());

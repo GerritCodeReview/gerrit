@@ -26,7 +26,6 @@ import static org.eclipse.jgit.lib.ObjectIdSerializer.writeWithoutMarker;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Patch;
-import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.git.ObjectIds;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -34,7 +33,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -130,27 +128,6 @@ public class PatchList implements Serializable {
   /** @return total number of lines removed. */
   public int getDeletions() {
     return deletions;
-  }
-
-  /**
-   * Get a sorted, modifiable list of all files in this list.
-   *
-   * <p>The returned list items do not populate:
-   *
-   * <ul>
-   *   <li>{@link Patch#isReviewedByCurrentUser()}
-   * </ul>
-   *
-   * @param setId the patch set identity these patches belong to. This really should not need to be
-   *     specified, but is a current legacy artifact of how the cache is keyed versus how the
-   *     database is keyed.
-   */
-  public List<Patch> toPatchList(PatchSet.Id setId) {
-    final ArrayList<Patch> r = new ArrayList<>(patches.length);
-    for (PatchListEntry e : patches) {
-      r.add(e.toPatch(setId));
-    }
-    return r;
   }
 
   /** Find an entry by name, returning an empty entry if not present. */

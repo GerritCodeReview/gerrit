@@ -334,7 +334,14 @@ export const htmlTemplate = html`
       }
     </style>
     <div class="container loading" hidden\$="[[!_loading]]">Loading...</div>
-    <div id="mainContent" class="container" on-show-checks-table="_handleShowTab" hidden\$="{{_loading}}">
+    <!-- TODO(taoalpha): remove on-show-checks-table,
+    Gerrit should not have any thing too special for a plugin,
+    replace with a generic event: show-primary-tab. -->
+    <div
+      id="mainContent"
+      class="container"
+      on-show-checks-table="_setActivePrimaryTab"
+      hidden\$="{{_loading}}">
       <section class="changeInfoSection">
         <div class\$="[[_computeHeaderClass(_editMode)]]">
           <div class="headerTitle">
@@ -412,8 +419,8 @@ export const htmlTemplate = html`
         </div>
       </section>
 
-      <paper-tabs id="primaryTabs" on-selected-changed="_handleFileTabChange">
-        <paper-tab data-name\$="[[_files_tab_name]]">Files</paper-tab>
+      <paper-tabs id="primaryTabs" on-selected-changed="_setActivePrimaryTab">
+        <paper-tab data-name\$="[[_constants.PRIMARY_TABS.FILES]]">Files</paper-tab>
         <template is="dom-repeat" items="[[_dynamicTabHeaderEndpoints]]" as="tabHeader">
           <paper-tab data-name\$="[[tabHeader]]">
               <gr-endpoint-decorator name\$="[[tabHeader]]">
@@ -424,23 +431,31 @@ export const htmlTemplate = html`
               </gr-endpoint-decorator>
           </paper-tab>
         </template>
-        <paper-tab data-name\$="[[_findings_tab_name]]">
+        <paper-tab data-name\$="[[_constants.PRIMARY_TABS.FINDINGS]]">
           Findings
         </paper-tab>
       </paper-tabs>
 
       <section class="patchInfo">
-        <div hidden\$="[[!_findIfTabMatches(_currentTabName, _files_tab_name)]]">
+        <div hidden\$="[[!_isTabActive(_constants.PRIMARY_TABS.FILES, _activeTabs)]]">
           <gr-file-list-header id="fileListHeader" account="[[_account]]" all-patch-sets="[[_allPatchSets]]" change="[[_change]]" change-num="[[_changeNum]]" revision-info="[[_revisionInfo]]" change-comments="[[_changeComments]]" commit-info="[[_commitInfo]]" change-url="[[_computeChangeUrl(_change)]]" edit-mode="[[_editMode]]" logged-in="[[_loggedIn]]" server-config="[[_serverConfig]]" shown-file-count="[[_shownFileCount]]" diff-prefs="[[_diffPrefs]]" diff-view-mode="{{viewState.diffMode}}" patch-num="{{_patchRange.patchNum}}" base-patch-num="{{_patchRange.basePatchNum}}" files-expanded="[[_filesExpanded]]" diff-prefs-disabled="[[_diffPrefsDisabled]]" on-open-diff-prefs="_handleOpenDiffPrefs" on-open-download-dialog="_handleOpenDownloadDialog" on-open-upload-help-dialog="_handleOpenUploadHelpDialog" on-open-included-in-dialog="_handleOpenIncludedInDialog" on-expand-diffs="_expandAllDiffs" on-collapse-diffs="_collapseAllDiffs">
           </gr-file-list-header>
           <gr-file-list id="fileList" class="hideOnMobileOverlay" diff-prefs="{{_diffPrefs}}" change="[[_change]]" change-num="[[_changeNum]]" patch-range="{{_patchRange}}" change-comments="[[_changeComments]]" drafts="[[_diffDrafts]]" revisions="[[_change.revisions]]" project-config="[[_projectConfig]]" selected-index="{{viewState.selectedFileIndex}}" diff-view-mode="[[viewState.diffMode]]" edit-mode="[[_editMode]]" num-files-shown="{{_numFilesShown}}" files-expanded="{{_filesExpanded}}" file-list-increment="{{_numFilesShown}}" on-files-shown-changed="_setShownFiles" on-file-action-tap="_handleFileActionTap" on-reload-drafts="_reloadDraftsWithCallback">
           </gr-file-list>
         </div>
 
-        <template is="dom-if" if="[[_findIfTabMatches(_currentTabName, _findings_tab_name)]]">
+        <template is="dom-if" if="[[_isTabActive(_constants.PRIMARY_TABS.FINDINGS, _activeTabs)]]">
           <gr-dropdown-list class="patch-set-dropdown" items="[[_robotCommentsPatchSetDropdownItems]]" on-value-change="_handleRobotCommentPatchSetChanged" value="[[_currentRobotCommentsPatchSet]]">
           </gr-dropdown-list>
-          <gr-thread-list threads="[[_robotCommentThreads]]" change="[[_change]]" change-num="[[_changeNum]]" logged-in="[[_loggedIn]]" tab="[[_findings_tab_name]]" hide-toggle-buttons="" on-thread-list-modified="_handleReloadDiffComments"></gr-thread-list>
+          <gr-thread-list
+            threads="[[_robotCommentThreads]]"
+            change="[[_change]]"
+            change-num="[[_changeNum]]"
+            logged-in="[[_loggedIn]]"
+            hide-toggle-buttons
+            empty-thread-msg="[[_constants.NO_ROBOT_COMMENTS_THREADS_MESSAGE]]"
+            on-thread-list-modified="_handleReloadDiffComments">
+          </gr-thread-list>
           <template is="dom-if" if="[[_showRobotCommentsButton]]">
             <gr-button class="show-robot-comments" on-click="_toggleShowRobotComments">
               [[_computeShowText(_showAllRobotComments)]]
@@ -448,7 +463,7 @@ export const htmlTemplate = html`
           </template>
         </template>
 
-        <template is="dom-if" if="[[_findIfTabMatches(_currentTabName, _selectedTabPluginHeader)]]">
+        <template is="dom-if" if="[[_isTabActive(_selectedTabPluginHeader, _activeTabs)]]">
           <gr-endpoint-decorator name\$="[[_selectedTabPluginEndpoint]]">
             <gr-endpoint-param name="change" value="[[_change]]">
             </gr-endpoint-param>
@@ -465,20 +480,24 @@ export const htmlTemplate = html`
         </gr-endpoint-param>
       </gr-endpoint-decorator>
 
-      <paper-tabs id="commentTabs" on-selected-changed="_handleCommentTabChange">
-        <paper-tab class="changeLog">Change Log</paper-tab>
-        <paper-tab class="commentThreads">
+      <paper-tabs id="secondaryTabs" on-selected-changed="_setActiveSecondaryTab">
+        <paper-tab
+          data-name\$="[[_constants.SECONDARY_TABS.CHANGE_LOG]]"
+          class="changeLog">
+          Change Log
+        </paper-tab>
+        <paper-tab
+          data-name\$="[[_constants.SECONDARY_TABS.COMMENT_THREADS]]"
+          class="commentThreads">
           <gr-tooltip-content has-tooltip="" title\$="[[_computeTotalCommentCounts(_change.unresolved_comment_count, _changeComments)]]">
             <span>Comment Threads</span></gr-tooltip-content>
         </paper-tab>
       </paper-tabs>
       <section class="changeLog">
-        <template is="dom-if" if="[[_isSelectedView(_currentView,
-          _commentTabs.CHANGE_LOG)]]">
+        <template is="dom-if" if="[[_isTabActive(_constants.SECONDARY_TABS.CHANGE_LOG, _activeTabs)]]">
           <gr-messages-list class="hideOnMobileOverlay" change-num="[[_changeNum]]" labels="[[_change.labels]]" messages="[[_change.messages]]" reviewer-updates="[[_change.reviewer_updates]]" change-comments="[[_changeComments]]" project-name="[[_change.project]]" show-reply-buttons="[[_loggedIn]]" on-message-anchor-tap="_handleMessageAnchorTap" on-reply="_handleMessageReply"></gr-messages-list>
         </template>
-        <template is="dom-if" if="[[_isSelectedView(_currentView,
-          _commentTabs.COMMENT_THREADS)]]">
+        <template is="dom-if" if="[[_isTabActive(_constants.SECONDARY_TABS.COMMENT_THREADS, _activeTabs)]]">
           <gr-thread-list threads="[[_commentThreads]]" change="[[_change]]" change-num="[[_changeNum]]" logged-in="[[_loggedIn]]" only-show-robot-comments-with-human-reply="" on-thread-list-modified="_handleReloadDiffComments"></gr-thread-list>
         </template>
       </section>

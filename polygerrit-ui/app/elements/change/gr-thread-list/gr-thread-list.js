@@ -25,18 +25,14 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-thread-list_html.js';
 
+import {NO_THREADS_MESSAGE} from '../../../constants/messages.js';
+
 /**
  * Fired when a comment is saved or deleted
  *
  * @event thread-list-modified
  * @extends Polymer.Element
  */
-const NO_THREADS_MESSAGE = 'There are no inline comment threads on any diff '
-  + 'for this change.';
-const NO_ROBOT_COMMENTS_THREADS_MESSAGE = 'There are no findings for this ' +
-  'patchset.';
-const FINDINGS_TAB_NAME = '__gerrit_internal_findings';
-
 class GrThreadList extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {
@@ -78,9 +74,9 @@ class GrThreadList extends GestureEventListeners(
         type: Boolean,
         value: false,
       },
-      tab: {
+      emptyThreadMsg: {
         type: String,
-        value: '',
+        value: NO_THREADS_MESSAGE,
       },
     };
   }
@@ -89,13 +85,6 @@ class GrThreadList extends GestureEventListeners(
 
   _computeShowDraftToggle(loggedIn) {
     return loggedIn ? 'show' : '';
-  }
-
-  _computeNoThreadsMessage(tab) {
-    if (tab === FINDINGS_TAB_NAME) {
-      return NO_ROBOT_COMMENTS_THREADS_MESSAGE;
-    }
-    return NO_THREADS_MESSAGE;
   }
 
   /**

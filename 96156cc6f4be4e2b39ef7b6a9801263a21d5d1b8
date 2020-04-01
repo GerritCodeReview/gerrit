@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cce8a3fb_611b7deb",
+        "filename": "java/com/google/gerrit/server/project/Reachable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-04-01T15:48:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58f9d509_e195249e",
+      "range": {
+        "startLine": 58,
+        "startChar": 49,
+        "endLine": 58,
+        "endChar": 53
+      },
+      "revId": "96156cc6f4be4e2b39ef7b6a9801263a21d5d1b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9df67d79_a5cef627",
         "filename": "java/com/google/gerrit/server/project/Reachable.java",
         "patchSetId": 5
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "7e587d3e_0f034c33",
+        "filename": "java/com/google/gerrit/server/project/Reachable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-04-01T15:48:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9df67d79_a5cef627",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 15
+      },
+      "revId": "96156cc6f4be4e2b39ef7b6a9801263a21d5d1b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "350d6c4c_7132405b",
+        "filename": "java/com/google/gerrit/server/project/Reachable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-04-01T15:48:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c13a8567_b6add60b",
+      "range": {
+        "startLine": 66,
+        "startChar": 48,
+        "endLine": 66,
+        "endChar": 52
+      },
+      "revId": "96156cc6f4be4e2b39ef7b6a9801263a21d5d1b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6fc1690_2b8e2810",
         "filename": "java/com/google/gerrit/server/project/Reachable.java",
         "patchSetId": 5
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "e3c736d2_d87c85c2",
+        "filename": "java/com/google/gerrit/server/project/Reachable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-04-01T15:48:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6fc1690_2b8e2810",
+      "range": {
+        "startLine": 69,
+        "startChar": 10,
+        "endLine": 69,
+        "endChar": 59
+      },
+      "revId": "96156cc6f4be4e2b39ef7b6a9801263a21d5d1b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42532af9_eafd39fb",
         "filename": "java/com/google/gerrit/server/project/Reachable.java",
         "patchSetId": 5
@@ -114,6 +210,30 @@
       "revId": "96156cc6f4be4e2b39ef7b6a9801263a21d5d1b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d1ef46e_bd440ba2",
+        "filename": "java/com/google/gerrit/server/project/Reachable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-04-01T15:48:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42532af9_eafd39fb",
+      "range": {
+        "startLine": 83,
+        "startChar": 10,
+        "endLine": 83,
+        "endChar": 85
+      },
+      "revId": "96156cc6f4be4e2b39ef7b6a9801263a21d5d1b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -46,6 +46,30 @@
       "revId": "c29f6e0140da196d4d1fbb170c41c7d2504f4f65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7207aad_4c42c1cc",
+        "filename": "package.json",
+        "patchSetId": 20
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-01T10:27:57Z",
+      "side": 1,
+      "message": "Strange, it does work for me:\n\n  if which bazelisk \u003e/dev/null; then bazel_bin\u003dbazelisk; else bazel_bin\u003dbazel; fi \u0026\u0026 echo $bazel_bin\n\nA couple of things:\n\n- You need to redirect stdout, not stderr\n- If bazelisk is found, then use it (you currently do the other way around)\n\nHTH\n\nLuca.",
+      "parentUuid": "5c4392ad_659c3865",
+      "range": {
+        "startLine": 23,
+        "startChar": 25,
+        "endLine": 23,
+        "endChar": 59
+      },
+      "revId": "c29f6e0140da196d4d1fbb170c41c7d2504f4f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

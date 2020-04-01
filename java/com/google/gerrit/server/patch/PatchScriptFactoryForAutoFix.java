@@ -132,7 +132,6 @@ public class PatchScriptFactoryForAutoFix implements Callable<PatchScript> {
 
   private PatchScriptBuilder newBuilder() {
     PatchScriptBuilder b = builderFactory.get();
-    b.setChange(notes.getChange());
     b.setDiffPrefs(diffPrefs);
     return b;
   }

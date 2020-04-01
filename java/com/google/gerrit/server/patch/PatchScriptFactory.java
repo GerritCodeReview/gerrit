@@ -276,7 +276,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
   private PatchScriptBuilder newBuilder() {
     final PatchScriptBuilder b = builderFactory.get();
-    b.setChange(notes.getChange());
     b.setDiffPrefs(diffPrefs);
     if (diffPrefs.intralineDifference) {
       b.setIntraLineDiffCalculator(

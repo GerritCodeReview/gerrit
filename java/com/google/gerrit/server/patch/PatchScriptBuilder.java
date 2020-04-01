@@ -21,7 +21,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.FixReplacement;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.ChangeType;
@@ -53,7 +52,6 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 
 class PatchScriptBuilder {
 
-  private Change change;
   private DiffPreferencesInfo diffPrefs;
   private final FileTypeRegistry registry;
   private IntraLineDiffCalculator intralineDiffCalculator;
@@ -61,10 +59,6 @@ class PatchScriptBuilder {
   @Inject
   PatchScriptBuilder(FileTypeRegistry ftr) {
     registry = ftr;
-  }
-
-  void setChange(Change c) {
-    this.change = c;
   }
 
   void setDiffPrefs(DiffPreferencesInfo dp) {
@@ -173,7 +167,6 @@ class PatchScriptBuilder {
             new TextSource(a.src), new TextSource(b.src), finalEdits, comments);
 
     return new PatchScript(
-        change.getKey(),
         content.getChangeType(),
         content.getOldName(),
         content.getNewName(),

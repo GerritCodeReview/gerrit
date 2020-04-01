@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90fc1283_b05ea77b",
+        "filename": "java/com/google/gerrit/truth/MapSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-01T01:10:26Z",
+      "side": 1,
+      "message": "Is it likely that this can be added to the truth library itself?",
+      "revId": "e44a5e45daa9f29e26e5aa213a3cba4e101badd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f17f6ba_b9c7a01a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-01T01:10:26Z",
+      "side": 1,
+      "message": "Should this rather be:\n\n keys().doesNotContain(newGroupName)\n\n?",
+      "range": {
+        "startLine": 898,
+        "startChar": 50,
+        "endLine": 898,
+        "endChar": 68
+      },
+      "revId": "e44a5e45daa9f29e26e5aa213a3cba4e101badd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec9fe739_c2683cab",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 904,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-01T01:10:26Z",
+      "side": 1,
+      "message": "Same here:\n\n keys().contains(newGroupName);\n\n?",
+      "range": {
+        "startLine": 904,
+        "startChar": 50,
+        "endLine": 904,
+        "endChar": 77
+      },
+      "revId": "e44a5e45daa9f29e26e5aa213a3cba4e101badd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77bbe45a_2a2d8314",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-01T01:10:26Z",
+      "side": 1,
+      "message": "Is it necessary to change this? groups is already a map, and isEmpty is already supported by Truth\u0027s MapSubject.",
+      "range": {
+        "startLine": 938,
+        "startChar": 4,
+        "endLine": 938,
+        "endChar": 17
+      },
+      "revId": "e44a5e45daa9f29e26e5aa213a3cba4e101badd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3acb6da4_564ab40c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 947,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-01T01:10:26Z",
+      "side": 1,
+      "message": "And here",
+      "range": {
+        "startLine": 947,
+        "startChar": 4,
+        "endLine": 947,
+        "endChar": 17
+      },
+      "revId": "e44a5e45daa9f29e26e5aa213a3cba4e101badd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

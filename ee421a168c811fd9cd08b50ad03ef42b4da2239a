@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "956429d8_ed6ce6b2",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-04-01T21:16:23Z",
+      "side": 1,
+      "message": "should we name this \"Contributor Guide\" similar to \"User Guide\":\n\n\u003d\u003d Contributor Guide\n\n. link:dev-community.html[Gerrit Community]\n. link:dev-community.html#how-to-contribute[How to Contribute]",
+      "revId": "ee421a168c811fd9cd08b50ad03ef42b4da2239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

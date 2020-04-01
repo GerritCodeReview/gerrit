@@ -15,6 +15,7 @@
 package com.google.gerrit.lucene;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.lucene.AbstractLuceneIndex.sortFieldName;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
@@ -138,6 +139,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String TOTAL_COMMENT_COUNT_FIELD = ChangeField.TOTAL_COMMENT_COUNT.getName();
   private static final String UNRESOLVED_COMMENT_COUNT_FIELD =
       ChangeField.UNRESOLVED_COMMENT_COUNT.getName();
+  private static final String ATTENTION_SET_FULL_FIELD = ChangeField.ATTENTION_SET_FULL.getName();
 
   @FunctionalInterface
   static interface IdTerm {
@@ -548,6 +550,9 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (fields.contains(PENDING_REVIEWER_BY_EMAIL_FIELD)) {
       decodePendingReviewersByEmail(doc, cd);
     }
+    if (fields.contains(ATTENTION_SET_FULL_FIELD)) {
+      decodeAttentionSet(doc, cd);
+    }
     decodeSubmitRecords(
         doc, SUBMIT_RECORD_STRICT_FIELD, ChangeField.SUBMIT_RULE_OPTIONS_STRICT, cd);
     decodeSubmitRecords(
@@ -670,6 +675,14 @@ public class LuceneChangeIndex implements ChangeIndex {
             cd.getId(),
             FluentIterable.from(doc.get(PENDING_REVIEWER_BY_EMAIL_FIELD))
                 .transform(IndexableField::stringValue)));
+  }
+
+  private void decodeAttentionSet(ListMultimap<String, IndexableField> doc, ChangeData cd) {
+    ChangeField.parseAttentionSet(
+        doc.get(ATTENTION_SET_FULL_FIELD).stream()
+            .map(field -> field.binaryValue().utf8ToString())
+            .collect(toImmutableSet()),
+        cd);
   }
 
   private void decodeSubmitRecords(

@@ -22,6 +22,30 @@
       "revId": "4a2109d0e0a174e86569583d8a0fc8e05215bf4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca83ae19_6620880f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-04-01T10:19:47Z",
+      "side": 1,
+      "message": "Done!\nIf it ever were it\u0027s at least not true anymore.",
+      "parentUuid": "aa7e2145_9b7ee2f3",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 0
+      },
+      "revId": "4a2109d0e0a174e86569583d8a0fc8e05215bf4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

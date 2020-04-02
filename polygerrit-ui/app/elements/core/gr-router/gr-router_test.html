@@ -1427,6 +1427,7 @@ suite('gr-router tests', () => {
               null, // 5 Unused
               7, // 6 Patch number
             ],
+            queryMap: new Map(),
           };
         }
 
@@ -1457,6 +1458,7 @@ suite('gr-router tests', () => {
             changeNum: 1234,
             basePatchNum: 4,
             patchNum: 7,
+            queryMap: new Map(),
           });
           assert.isFalse(redirectStub.called);
           assert.isTrue(normalizeRangeStub.called);
@@ -1639,8 +1641,8 @@ suite('gr-router tests', () => {
           element._parseQueryString('a=b&c=d&e=f'),
           [['a', 'b'], ['c', 'd'], ['e', 'f']]);
       assert.deepEqual(
-          element._parseQueryString('&a=b&&&e=f&'),
-          [['a', 'b'], ['e', 'f']]);
+          element._parseQueryString('&a=b&&&e=f&c'),
+          [['a', 'b'], ['e', 'f'], ['c', '']]);
     });
   });
 });

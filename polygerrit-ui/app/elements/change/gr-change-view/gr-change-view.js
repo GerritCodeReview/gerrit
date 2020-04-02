@@ -56,12 +56,14 @@ import '../gr-reply-dialog/gr-reply-dialog.js';
 import '../gr-thread-list/gr-thread-list.js';
 import '../gr-upload-help-dialog/gr-upload-help-dialog.js';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {beforeNextRender} from '@polymer/polymer/lib/utils/render-status.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-view_html.js';
+
+import {PRIMARY_TABS, SECONDARY_TABS} from '../../../constants/constants.js';
+import {NO_ROBOT_COMMENTS_THREADS_MESSAGE} from '../../../constants/messages.js';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -105,19 +107,21 @@ const DiffViewMode = {
   UNIFIED: 'UNIFIED_DIFF',
 };
 
-const CommentTabs = {
-  CHANGE_LOG: 0,
-  COMMENT_THREADS: 1,
-  ROBOT_COMMENTS: 2,
-};
-
 const CHANGE_DATA_TIMING_LABEL = 'ChangeDataLoaded';
 const CHANGE_RELOAD_TIMING_LABEL = 'ChangeReloaded';
 const SEND_REPLY_TIMING_LABEL = 'SendReply';
 // Making the tab names more unique in case a plugin adds one with same name
-const FILES_TAB_NAME = '__gerrit_internal_files';
-const FINDINGS_TAB_NAME = '__gerrit_internal_findings';
 const ROBOT_COMMENTS_LIMIT = 10;
+
+// types used in this file
+/**
+ * Type for the custom event to switch tab.
+ *
+ * @typedef {Object} SwitchTabEventDetail
+ * @property {?string} tab - name of the tab to set as active, from custom event
+ * @property {?boolean} scrollIntoView - scroll into the tab afterwards, from custom event
+ * @property {?number} value - index of tab to set as active, from paper-tabs event
+ */
 
 /**
  * @appliesMixin Gerrit.FireMixin
@@ -263,9 +267,13 @@ class GrChangeView extends mixinBehaviors( [
         type: String,
         value: '',
       },
-      _commentTabs: {
+      _constants: {
         type: Object,
-        value: CommentTabs,
+        value: {
+          SECONDARY_TABS,
+          PRIMARY_TABS,
+          NO_ROBOT_COMMENTS_THREADS_MESSAGE,
+        },
       },
       _lineHeight: Number,
       _changeIdCommitMessageError: {
@@ -356,10 +364,6 @@ class GrChangeView extends mixinBehaviors( [
         type: Boolean,
         value: undefined,
       },
-      _currentView: {
-        type: Number,
-        value: CommentTabs.CHANGE_LOG,
-      },
       _showFileTabContent: {
         type: Boolean,
         value: true,
@@ -389,17 +393,14 @@ class GrChangeView extends mixinBehaviors( [
       _currentRobotCommentsPatchSet: {
         type: Number,
       },
-      _files_tab_name: {
-        type: String,
-        value: FILES_TAB_NAME,
-      },
-      _findings_tab_name: {
-        type: String,
-        value: FINDINGS_TAB_NAME,
-      },
-      _currentTabName: {
-        type: String,
-        value: FILES_TAB_NAME,
+
+      /**
+       * @type {Array<string>} this is a two-element tuple to always
+       * hold the current active tab for both primary and secondary tabs
+       */
+      _activeTabs: {
+        type: Array,
+        value: [PRIMARY_TABS.FILES, SECONDARY_TABS.CHANGE_LOG],
       },
       _showAllRobotComments: {
         type: Boolean,
@@ -489,7 +490,7 @@ class GrChangeView extends mixinBehaviors( [
             console.warn('Different number of tab headers and tab content.');
           }
         })
-        .then(() => this._setPrimaryTab());
+        .then(() => this._initActiveTabs(this.params));
 
     this.addEventListener('comment-save', this._handleCommentSave.bind(this));
     this.addEventListener('comment-refresh', this._reloadDrafts.bind(this));
@@ -507,6 +508,11 @@ class GrChangeView extends mixinBehaviors( [
         this._onCloseFixPreview.bind(this));
     this.listen(window, 'scroll', '_handleScroll');
     this.listen(document, 'visibilitychange', '_handleVisibilityChange');
+
+    this.addEventListener('show-primary-tab',
+        e => this._setActivePrimaryTab(e));
+    this.addEventListener('show-secondary-tab',
+        e => this._setActiveSecondaryTab(e));
   }
 
   /** @override */
@@ -567,60 +573,94 @@ class GrChangeView extends mixinBehaviors( [
     }
   }
 
-  _handleCommentTabChange() {
-    this._currentView = this.$.commentTabs.selected;
-    const type = Object.keys(CommentTabs).find(key => CommentTabs[key] ===
-        this._currentView);
-    this.$.reporting.reportInteraction('comment-tab-changed', {tabName:
-        type});
+  _isTabActive(tab, activeTabs) {
+    return activeTabs.includes(tab);
   }
 
-  _isSelectedView(currentView, view) {
-    return currentView === view;
-  }
-
-  _findIfTabMatches(currentTab, tab) {
-    return currentTab === tab;
-  }
-
-  _handleFileTabChange(e) {
-    const selectedIndex = e.target.selected;
-    const tabs = e.target.querySelectorAll('paper-tab');
-    this._currentTabName = tabs[selectedIndex] &&
-      tabs[selectedIndex].dataset.name;
-    const source = e && e.type ? e.type : '';
-    const pluginIndex = (this._dynamicTabHeaderEndpoints || []).indexOf(
-        this._currentTabName);
-    if (pluginIndex !== -1) {
-      this._selectedTabPluginEndpoint = this._dynamicTabContentEndpoints[
-          pluginIndex];
-      this._selectedTabPluginHeader = this._dynamicTabHeaderEndpoints[
-          pluginIndex];
+  /**
+   * Actual implementation of switching a tab
+   *
+   * @param {!HTMLElement} paperTabs - the parent tabs container
+   * @param {!SwitchTabEventDetail} activeDetails
+   */
+  _setActiveTab(paperTabs, activeDetails) {
+    const {activeTabName, activeTabIndex, scrollIntoView} = activeDetails;
+    const tabs = paperTabs.querySelectorAll('paper-tab');
+    let activeIndex = -1;
+    if (activeTabIndex !== undefined) {
+      activeIndex = activeTabIndex;
     } else {
-      this._selectedTabPluginEndpoint = '';
-      this._selectedTabPluginHeader = '';
+      for (let i = 0; i <= tabs.length; i++) {
+        const tab = tabs[i];
+        if (tab.dataset.name === activeTabName) {
+          activeIndex = i;
+          break;
+        }
+      }
     }
-    this.$.reporting.reportInteraction('tab-changed',
-        {tabName: this._currentTabName, source});
-  }
-
-  _handleShowTab(e) {
-    const primaryTabs = this.shadowRoot.querySelector('#primaryTabs');
-    const tabs = primaryTabs.querySelectorAll('paper-tab');
-    let idx = -1;
-    tabs.forEach((tab, index) => {
-      if (tab.dataset.name === e.detail.tab) idx = index;
-    });
-    if (idx === -1) {
-      console.error(e.detail.tab + ' tab not found');
+    if (activeIndex === -1) {
+      console.warn('tab not found with given info', activeTab);
       return;
     }
-    primaryTabs.selected = idx;
-    primaryTabs.scrollIntoView();
-    this.$.reporting.reportInteraction('show-tab', {tabName: e.detail.tab});
+    const tabName = tabs[activeIndex].dataset.name;
+    if (scrollIntoView) {
+      paperTabs.scrollIntoView();
+    }
+    if (paperTabs.selected !== activeIndex) {
+      paperTabs.selected = activeIndex;
+      this.$.reporting.reportInteraction('show-tab', {tabName});
+    }
+    return tabName;
   }
 
-  _handleEditCommitMessage(e) {
+  /**
+   * Changes active primary tab.
+   *
+   * @param {CustomEvent<SwitchTabEventDetail>} e
+   */
+  _setActivePrimaryTab(e) {
+    const primaryTabs = this.shadowRoot.querySelector('#primaryTabs');
+    const activeTabName = this._setActiveTab(primaryTabs, {
+      activeTabName: e.detail.tab,
+      activeTabIndex: e.detail.value,
+      scrollIntoView: e.detail.scrollIntoView,
+    });
+    if (activeTabName) {
+      this._activeTabs = [activeTabName, this._activeTabs[1]];
+
+      // update plugin endpoint if its a plugin tab
+      const pluginIndex = (this._dynamicTabHeaderEndpoints || []).indexOf(
+          activeTabName);
+      if (pluginIndex !== -1) {
+        this._selectedTabPluginEndpoint = this._dynamicTabContentEndpoints[
+            pluginIndex];
+        this._selectedTabPluginHeader = this._dynamicTabHeaderEndpoints[
+            pluginIndex];
+      } else {
+        this._selectedTabPluginEndpoint = '';
+        this._selectedTabPluginHeader = '';
+      }
+    }
+  }
+
+  /**
+   * Changes active secondary tab.
+   *
+   * @param {CustomEvent<SwitchTabEventDetail>} e
+   */
+  _setActiveSecondaryTab(e) {
+    const secondaryTabs = this.shadowRoot.querySelector('#secondaryTabs');
+    const activeTabName = this._setActiveTab(secondaryTabs, {
+      activeTabName: e.detail.tab,
+      activeTabIndex: e.detail.value,
+      scrollIntoView: e.detail.scrollIntoView,
+    });
+    if (activeTabName) {
+      this._activeTabs = [this._activeTabs[0], activeTabName];
+    }
+  }
+
+  _handleEditCommitMessage() {
     this._editingCommitMessage = true;
     this.$.commitMessageEditor.focusTextarea();
   }
@@ -633,15 +673,16 @@ class GrChangeView extends mixinBehaviors( [
 
     this.$.commitMessageEditor.disabled = true;
     this.$.restAPI.putChangeCommitMessage(
-        this._changeNum, message).then(resp => {
-      this.$.commitMessageEditor.disabled = false;
-      if (!resp.ok) { return; }
+        this._changeNum, message)
+        .then(resp => {
+          this.$.commitMessageEditor.disabled = false;
+          if (!resp.ok) { return; }
 
-      this._latestCommitMessage = this._prepareCommitMsgForLinkify(
-          message);
-      this._editingCommitMessage = false;
-      this._reloadWindow();
-    })
+          this._latestCommitMessage = this._prepareCommitMsgForLinkify(
+              message);
+          this._editingCommitMessage = false;
+          this._reloadWindow();
+        })
         .catch(err => {
           this.$.commitMessageEditor.disabled = false;
         });
@@ -980,8 +1021,6 @@ class GrChangeView extends mixinBehaviors( [
   }
 
   _paramsChanged(value) {
-    this._currentView = CommentTabs.CHANGE_LOG;
-    this._setPrimaryTab();
     if (value.view !== Gerrit.Nav.View.CHANGE) {
       this._initialLoadComplete = false;
       return;
@@ -1026,6 +1065,34 @@ class GrChangeView extends mixinBehaviors( [
     this._reload(true).then(() => {
       this._performPostLoadTasks();
     });
+
+    Gerrit.awaitPluginsLoaded().then(() => {
+      this._initActiveTabs(value);
+    });
+  }
+
+  _initActiveTabs(params = {}) {
+    let primaryTab = PRIMARY_TABS.FILES;
+    if (params.queryMap && params.queryMap.has('tab')) {
+      primaryTab = params.queryMap.get('tab');
+    }
+    this._setActivePrimaryTab({
+      detail: {
+        tab: primaryTab,
+      },
+    });
+
+    // TODO: should drop this once we move CommentThreads tab
+    // to primary as well
+    let secondaryTab = SECONDARY_TABS.CHANGE_LOG;
+    if (params.queryMap && params.queryMap.has('secondaryTab')) {
+      secondaryTab = params.queryMap.get('secondaryTab');
+    }
+    this._setActiveSecondaryTab({
+      detail: {
+        tab: secondaryTab,
+      },
+    });
   }
 
   _sendShowChangeEvent() {
@@ -1033,28 +1100,6 @@ class GrChangeView extends mixinBehaviors( [
       change: this._change,
       patchNum: this._patchRange.patchNum,
       info: {mergeable: this._mergeable},
-    });
-  }
-
-  _setPrimaryTab() {
-    // Selected has to be set after the paper-tabs are visible, because
-    // the selected underline depends on calculations made by the browser.
-    // paper-tabs depends on iron-resizable-behavior, which only fires on
-    // attached() without using RenderStatus.beforeNextRender. Not changing
-    // this when migrating from Polymer 1 to 2 was probably an oversight by
-    // the paper component maintainers.
-    // https://polymer-library.polymer-project.org/2.0/docs/upgrade#attach-time-attached-connectedcallback
-    // By calling _onTabSizingChanged() we are reaching into the private API
-    // of paper-tabs, but we believe this workaround is acceptable for the
-    // time being.
-    beforeNextRender(this, () => {
-      this.$.commentTabs.selected = 0;
-      this.$.commentTabs._onTabSizingChanged();
-      const primaryTabs = this.shadowRoot.querySelector('#primaryTabs');
-      if (primaryTabs) {
-        primaryTabs.selected = 0;
-        primaryTabs._onTabSizingChanged();
-      }
     });
   }
 

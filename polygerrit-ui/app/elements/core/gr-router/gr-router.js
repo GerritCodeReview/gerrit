@@ -683,6 +683,21 @@ class GrRouter extends mixinBehaviors( [
     this.$.restAPI.getLoggedIn().then(() => { next(); });
   }
 
+  /**  Page.js middleware that try parse the querystring into queryMap. */
+  _queryStringMiddleware(ctx, next) {
+    let queryMap = new Map();
+    if (ctx.querystring) {
+      // https://caniuse.com/#search=URLSearchParams
+      if (window.URLSearchParams) {
+        queryMap = new URLSearchParams(ctx.querystring);
+      } else {
+        queryMap = new Map(this._parseQueryString(ctx.querystring));
+      }
+    }
+    ctx.queryMap = queryMap;
+    next();
+  }
+
   /**
    * Map a route to a method on the router.
    *
@@ -702,12 +717,15 @@ class GrRouter extends mixinBehaviors( [
           handlerName);
       return;
     }
-    page(pattern, this._loadUserMiddleware.bind(this), data => {
-      this.$.reporting.locationChanged(handlerName);
-      const promise = opt_authRedirect ?
-        this._redirectIfNotLoggedIn(data) : Promise.resolve();
-      promise.then(() => { this[handlerName](data); });
-    });
+    page(pattern,
+        (ctx, next) => this._loadUserMiddleware(ctx, next),
+        (ctx, next) => this._queryStringMiddleware(ctx, next),
+        data => {
+          this.$.reporting.locationChanged(handlerName);
+          const promise = opt_authRedirect ?
+            this._redirectIfNotLoggedIn(data) : Promise.resolve();
+          promise.then(() => { this[handlerName](data); });
+        });
   }
 
   _startRouter() {
@@ -1340,6 +1358,7 @@ class GrRouter extends mixinBehaviors( [
       basePatchNum: ctx.params[4],
       patchNum: ctx.params[6],
       view: Gerrit.Nav.View.CHANGE,
+      queryMap: ctx.queryMap,
     };
 
     this.$.reporting.setRepoName(params.project);

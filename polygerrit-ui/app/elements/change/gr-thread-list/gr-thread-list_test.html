@@ -34,6 +34,7 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import './gr-thread-list.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {NO_THREADS_MESSAGE} from '../../../constants/messages.js';
 suite('gr-thread-list tests', () => {
   let element;
   let sandbox;
@@ -353,16 +354,41 @@ suite('gr-thread-list tests', () => {
     assert.equal(dispatchSpy.lastCall.args[0].detail.path, '/COMMIT_MSG');
   });
 
-  suite('findings tab', () => {
+  suite('hideToggleButtons', () => {
     setup(done => {
       element.hideToggleButtons = true;
       flush(() => {
         done();
       });
     });
+
     test('toggle buttons are hidden', () => {
       assert.equal(element.shadowRoot.querySelector('.header').style.display,
           'none');
+    });
+  });
+
+  suite('empty thread', () => {
+    setup(done => {
+      element.threads = [];
+      flush(() => {
+        done();
+      });
+    });
+
+    test('default empty message should show', () => {
+      assert.equal(
+          element.shadowRoot.querySelector('#threads').textContent.trim(),
+          NO_THREADS_MESSAGE
+      );
+    });
+
+    test('can override empty message', () => {
+      element.emptyThreadMsg = 'test';
+      assert.equal(
+          element.shadowRoot.querySelector('#threads').textContent.trim(),
+          'test'
+      );
     });
   });
 });

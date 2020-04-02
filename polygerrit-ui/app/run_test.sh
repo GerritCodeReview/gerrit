@@ -14,4 +14,5 @@ ${bazel_bin} test \
       --test_env="DISPLAY=${DISPLAY}" \
       --test_env="WCT_HEADLESS_MODE=${WCT_HEADLESS_MODE}" \
       "$@" \
-      //polygerrit-ui/app:wct_test
+      //polygerrit-ui/app:wct_test \
+      //polygerrit-ui:karma_test

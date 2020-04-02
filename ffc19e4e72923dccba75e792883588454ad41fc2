@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b40f7b46_d7ce6450",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-02T11:01:54Z",
+      "side": 1,
+      "message": "this seems to be a bit weird to let comments column depend on attention set. If we don\u0027t want to have this rolled out before we explicitly turn it on, maybe have all columns depends on one config ? like \u0027config.change.enabled_columns\u0027 which default to enable all but Comments.",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 75,
+        "endChar": 77
+      },
+      "revId": "ffc19e4e72923dccba75e792883588454ad41fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,18 +25,10 @@ import java.util.UUID;
 import org.eclipse.jgit.lib.Config;
 
 public final class ElasticTestUtils {
-  public static class ElasticNodeInfo {
-    public final String hostname;
-    public final int port;
-
-    public ElasticNodeInfo(String hostname, int port) {
-      this.hostname = hostname;
-      this.port = port;
-    }
-  }
-
   public static void configure(
-      Config config, String hostname, int port, String prefix, ElasticVersion version) {
+      Config config, ElasticContainer container, String prefix, ElasticVersion version) {
+    String hostname = container.getHttpHost().getHostName();
+    int port = container.getHttpHost().getPort();
     config.setEnum("index", null, "type", IndexType.ELASTICSEARCH);
     config.setString("elasticsearch", null, "server", "http://" + hostname + ":" + port);
     config.setString("elasticsearch", null, "prefix", prefix);
@@ -47,8 +39,8 @@ public final class ElasticTestUtils {
     }
   }
 
-  public static void configure(Config config, String hostname, int port, String prefix) {
-    configure(config, hostname, port, prefix, null);
+  public static void configure(Config config, ElasticContainer container, String prefix) {
+    configure(config, container, prefix, null);
   }
 
   public static void createAllIndexes(Injector injector) throws IOException {
@@ -61,12 +53,9 @@ public final class ElasticTestUtils {
 
   public static Config getConfig(ElasticVersion version) {
     ElasticContainer container = ElasticContainer.createAndStart(version);
-    ElasticNodeInfo elasticNodeInfo =
-        new ElasticNodeInfo(
-            container.getHttpHost().getHostName(), container.getHttpHost().getPort());
     String indicesPrefix = UUID.randomUUID().toString();
     Config cfg = new Config();
-    configure(cfg, elasticNodeInfo.hostname, elasticNodeInfo.port, indicesPrefix, version);
+    configure(cfg, container, indicesPrefix, version);
     return cfg;
   }
 

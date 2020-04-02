@@ -14,7 +14,6 @@
 
 package com.google.gerrit.elasticsearch;
 
-import com.google.gerrit.elasticsearch.ElasticTestUtils.ElasticNodeInfo;
 import com.google.gerrit.server.query.change.AbstractQueryChangesTest;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.InMemoryModule;
@@ -36,23 +35,17 @@ public class ElasticV7QueryChangesTest extends AbstractQueryChangesTest {
     return IndexConfig.createForElasticsearch();
   }
 
-  private static ElasticNodeInfo nodeInfo;
   private static ElasticContainer container;
   private static CloseableHttpAsyncClient client;
 
   @BeforeClass
   public static void startIndexService() {
-    if (nodeInfo != null) {
-      // do not start Elasticsearch twice
-      return;
+    if (container == null) {
+      // Only start Elasticsearch once
+      container = ElasticContainer.createAndStart(ElasticVersion.V7_6);
+      client = HttpAsyncClients.createDefault();
+      client.start();
     }
-
-    container = ElasticContainer.createAndStart(ElasticVersion.V7_6);
-    nodeInfo =
-        new ElasticNodeInfo(
-            container.getHttpHost().getHostName(), container.getHttpHost().getPort());
-    client = HttpAsyncClients.createDefault();
-    client.start();
   }
 
   @AfterClass
@@ -67,7 +60,8 @@ public class ElasticV7QueryChangesTest extends AbstractQueryChangesTest {
     client.execute(
         new HttpPost(
             String.format(
-                "http://localhost:%d/%s*/_close", nodeInfo.port, getSanitizedMethodName())),
+                "http://localhost:%d/%s*/_close",
+                container.getHttpHost().getPort(), getSanitizedMethodName())),
         HttpClientContext.create(),
         null);
   }
@@ -83,8 +77,7 @@ public class ElasticV7QueryChangesTest extends AbstractQueryChangesTest {
     Config elasticsearchConfig = new Config(config);
     InMemoryModule.setDefaults(elasticsearchConfig);
     String indicesPrefix = getSanitizedMethodName();
-    ElasticTestUtils.configure(
-        elasticsearchConfig, nodeInfo.hostname, nodeInfo.port, indicesPrefix);
+    ElasticTestUtils.configure(elasticsearchConfig, container, indicesPrefix);
     return Guice.createInjector(new InMemoryModule(elasticsearchConfig, notesMigration));
   }
 }

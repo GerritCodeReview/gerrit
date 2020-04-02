@@ -22,6 +22,30 @@
       "revId": "22aa30d2c30ebc253bab36a7e5120c4ed823beed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fb4b63b_47e10930",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-02T13:33:20Z",
+      "side": 1,
+      "message": "\u003e Too late, but typo here: Unhardcode\n\nGah, thanks.",
+      "parentUuid": "5661a58c_afd295fe",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 24
+      },
+      "revId": "22aa30d2c30ebc253bab36a7e5120c4ed823beed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

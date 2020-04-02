@@ -218,7 +218,7 @@ public class IndexHtmlUtil {
   }
 
   /** Returns experimentData to be used in {@code index.html}. */
-  static Set<String> experimentData(Map<String, String[]> urlParameterMap)
+  public static Set<String> experimentData(Map<String, String[]> urlParameterMap)
       throws URISyntaxException {
     Set<String> enabledExperiments = new HashSet<>();
 

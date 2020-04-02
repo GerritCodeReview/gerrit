@@ -160,6 +160,24 @@ public class IndexHtmlUtil {
     return data.build();
   }
 
+  /** Returns experimentData to be used in {@code index.html}. */
+  public static Set<String> experimentData(Map<String, String[]> urlParameterMap)
+      throws URISyntaxException {
+    Set<String> enabledExperiments = new HashSet<>();
+
+    // Allow enable experiments with url
+    // ?experiment=a&experiment=b should result in:
+    // "experiment" => [a,b]
+    if (urlParameterMap.containsKey("experiment")) {
+      String[] experiments = urlParameterMap.get("experiment");
+      for (String exp : experiments) {
+        enabledExperiments.add(exp);
+      }
+    }
+
+    return enabledExperiments;
+  }
+
   /** Returns all static parameters of {@code index.html}. */
   static Map<String, Object> staticTemplateData(
       String canonicalURL,
@@ -215,24 +233,6 @@ public class IndexHtmlUtil {
     }
 
     return data.build();
-  }
-
-  /** Returns experimentData to be used in {@code index.html}. */
-  static Set<String> experimentData(Map<String, String[]> urlParameterMap)
-      throws URISyntaxException {
-    Set<String> enabledExperiments = new HashSet<>();
-
-    // Allow enable experiments with url
-    // ?experiment=a&experiment=b should result in:
-    // "experiment" => [a,b]
-    if (urlParameterMap.containsKey("experiment")) {
-      String[] experiments = urlParameterMap.get("experiment");
-      for (String exp : experiments) {
-        enabledExperiments.add(exp);
-      }
-    }
-
-    return enabledExperiments;
   }
 
   private static String computeCanonicalPath(@Nullable String canonicalURL)

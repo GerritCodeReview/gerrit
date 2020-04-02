@@ -22,6 +22,53 @@
       "revId": "4036283acf085dca9a7b4c3d62c81f822462968a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8b7b0e3_de83ca49",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticV6QueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-02T09:49:49Z",
+      "side": 1,
+      "message": "good catch.  however this is not a regression in this change; it\u0027s something that was missed in the previous fix to use the docker env variable. this should be fixed (also in the other file) in a follow-up change",
+      "parentUuid": "ca736117_67e847f7",
+      "range": {
+        "startLine": 63,
+        "startChar": 24,
+        "endLine": 63,
+        "endChar": 33
+      },
+      "revId": "4036283acf085dca9a7b4c3d62c81f822462968a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bde1d7d6_467adea1",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticV7QueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-02T09:49:49Z",
+      "side": 1,
+      "message": "and here",
+      "range": {
+        "startLine": 63,
+        "startChar": 24,
+        "endLine": 63,
+        "endChar": 33
+      },
+      "revId": "4036283acf085dca9a7b4c3d62c81f822462968a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

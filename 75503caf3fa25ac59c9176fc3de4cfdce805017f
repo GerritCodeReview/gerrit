@@ -1,0 +1,255 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc4d559d_1e04aaef",
+        "filename": "polygerrit-ui/app/constants/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-02T10:22:37Z",
+      "side": 1,
+      "message": "Cool, I like the folder and the files in here!\n\nShould we also put enums and types in here?\n\nWhat about moving these files to app/shared/, e.g. app/shared/constants.js?",
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a5f87c7_1cfb77e3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-02T10:22:37Z",
+      "side": 1,
+      "message": "What do you think about using wildcard imports for these?\n\n  import * as constants from \u0027../../../constants/constants.js\u0027;\n  import * as messages from \u0027../../../constants/messages.js\u0027;\n\nFor constants, utilities, etc. I like this approach, because then it is clear where they come from. For classes individual imports are probably better.",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 81
+      },
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc234d17_0eb6de50",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-02T10:22:37Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4857c9e8_0763de1c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-02T10:22:37Z",
+      "side": 1,
+      "message": "Constants cannot be accessed directly from the Polymer HTML template? :-/\n\nMaybe ask in the Polymer chat whether a better pattern for this exists?",
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1973e77e_e0ea0629",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-02T10:22:37Z",
+      "side": 1,
+      "message": "Maybe it is better to break this up into two props _activePrimaryTab and _activeSecondaryTab? If you don\u0027t want that, then add a comment how this array works: Must always have two entries, etc.",
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd6674ac_0a2f2828",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-02T10:22:37Z",
+      "side": 1,
+      "message": "remove line",
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cc48f4b_b353cba4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-02T10:22:37Z",
+      "side": 1,
+      "message": "maybe document this to be of type SwitchTabEventDetail",
+      "range": {
+        "startLine": 566,
+        "startChar": 27,
+        "endLine": 566,
+        "endChar": 40
+      },
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61eea5fd_99316877",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-02T10:22:37Z",
+      "side": 1,
+      "message": "Should type definitions always be moved to the top of the file maybe?",
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f816a519_407ef9fd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1063,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-02T10:22:37Z",
+      "side": 1,
+      "message": "This name somewhat competes with _setActiveTab. I would emphasize that this in an init method and rename it to something like `initActiveTabs`.",
+      "range": {
+        "startLine": 1063,
+        "startChar": 2,
+        "endLine": 1063,
+        "endChar": 17
+      },
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a195178f_c457aed8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1064,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-02T10:22:37Z",
+      "side": 1,
+      "message": "remove line",
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "482039f7_464f8f4b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1066,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-02T10:22:37Z",
+      "side": 1,
+      "message": "I would prefer \"tab\" here in order to not blow up the URL. Note that maybe we will drop support for secondary tabs entirely once \"Comments\" have moved up.",
+      "range": {
+        "startLine": 1066,
+        "startChar": 48,
+        "endLine": 1066,
+        "endChar": 58
+      },
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07e2dac8_fa5d51f6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-02T10:22:37Z",
+      "side": 1,
+      "message": "remove line",
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27653168_73c9ed49",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1355,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-02T10:22:37Z",
+      "side": 1,
+      "message": "Optional: It would super nice, if we had `params` typed and documented.",
+      "range": {
+        "startLine": 1355,
+        "startChar": 10,
+        "endLine": 1355,
+        "endChar": 16
+      },
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

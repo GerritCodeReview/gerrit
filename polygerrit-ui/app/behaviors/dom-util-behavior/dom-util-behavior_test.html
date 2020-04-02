@@ -38,8 +38,8 @@ limitations under the License.
 
 <script type="module">
 import '../../test/common-test-setup.js';
-import './dom-util-behavior.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
+import {DomUtilBehavior} from './dom-util-behavior.js';
 suite('dom-util-behavior tests', () => {
   let element;
   let divs;
@@ -48,7 +48,7 @@ suite('dom-util-behavior tests', () => {
     // Define a Polymer element that uses this behavior.
     Polymer({
       is: 'test-element',
-      behaviors: [Gerrit.DomUtilBehavior],
+      behaviors: [DomUtilBehavior],
     });
   });
 

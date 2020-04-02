@@ -1,44 +1,21 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2015 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2017 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>gr-change-view</title>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
-<script src="/node_modules/page/page.js"></script>
-
-<test-fixture id="basic">
-  <template>
-    <gr-change-view></gr-change-view>
-  </template>
-</test-fixture>
-
-<test-fixture id="blank">
-  <template>
-    <div></div>
-  </template>
-</test-fixture>
-
-<script type="module">
-import '../../../test/common-test-setup.js';
+import '../../../test/common-test-setup-karma.js';
 import '../../edit/gr-edit-constants.js';
 import './gr-change-view.js';
 import {PrimaryTabs, SecondaryTabs} from '../../../constants/constants.js';
@@ -312,7 +289,8 @@ suite('gr-change-view tests', () => {
       getDiffDrafts() { return Promise.resolve({}); },
       _fetchSharedCacheURL() { return Promise.resolve({}); },
     });
-    element = fixture('basic');
+    element = document.createElement('gr-change-view');
+    document.body.append(element);
     sandbox.stub(element.$.actions, 'reload').returns(Promise.resolve());
     pluginLoader.loadPlugins([]);
     pluginApi.install(
@@ -334,6 +312,7 @@ suite('gr-change-view tests', () => {
   teardown(done => {
     flush(() => {
       sandbox.restore();
+      element.remove();
       done();
     });
   });
@@ -2349,4 +2328,3 @@ suite('gr-change-view tests', () => {
     });
   });
 });
-</script>

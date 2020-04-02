@@ -15,6 +15,10 @@
  * limitations under the License.
  */
 import '../scripts/bundled-polymer.js';
+import './test-fixture.js';
+import 'chai/chai.js';
+import 'lodash/lodash.js';
+self.assert = chai.assert;
 
 import 'polymer-resin/standalone/polymer-resin.js';
 import '../behaviors/safe-types-behavior/safe-types-behavior.js';
@@ -52,3 +56,25 @@ setup(() => {
     Gerrit._testOnly_resetPlugins();
   }
 });
+
+/**
+ * Triggers a flush of any pending events, observations, etc and calls you back
+ * after they have been processed.
+ *
+ * @param {function()} callback
+ */
+function flush(callback) {
+  // Ideally, this function would be a call to Polymer.dom.flush, but that
+  // doesn't support a callback yet
+  // (https://github.com/Polymer/polymer-dev/issues/851),
+  // ...and there's cross-browser flakiness to deal with.
+  // Make sure that we're invoking the callback with no arguments so that the
+  // caller can pass Mocha callbacks, etc.
+  var done = function done() {
+    callback();
+  };
+  window.Polymer.dom.flush();
+  window.setTimeout(done, 0);
+}
+
+self.flush = flush;

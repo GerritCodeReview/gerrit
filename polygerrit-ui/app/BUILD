@@ -49,6 +49,7 @@ filegroup(
             "test/**",
             "samples/**",
             "**/*_test.js",
+            "**/*_ktest.js",
         ],
     ),
 )

@@ -1,9 +1,9 @@
 {
   "checks": {
     "gerritforge:codestyle-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "NOT_STARTED",
+      "state": "SCHEDULED",
       "created": "2020-04-02T21:45:56Z",
-      "updated": "2020-04-02T22:47:11Z"
+      "updated": "2020-04-02T22:51:01Z"
     },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "SCHEDULED",

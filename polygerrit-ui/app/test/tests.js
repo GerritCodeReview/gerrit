@@ -27,7 +27,6 @@ const elements = [
   // This seemed to be flakey when it was farther down the list. Keep at the
   // beginning.
   'gr-app_test.html',
-  'admin/gr-access-section/gr-access-section_test.html',
   'admin/gr-admin-group-list/gr-admin-group-list_test.html',
   'admin/gr-admin-view/gr-admin-view_test.html',
   'admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_test.html',
@@ -62,7 +61,6 @@ const elements = [
   'change/gr-change-metadata/gr-change-metadata-it_test.html',
   'change/gr-change-metadata/gr-change-metadata_test.html',
   'change/gr-change-requirements/gr-change-requirements_test.html',
-  'change/gr-change-view/gr-change-view_test.html',
   'change/gr-comment-list/gr-comment-list_test.html',
   'change/gr-commit-info/gr-commit-info_test.html',
   'change/gr-confirm-abandon-dialog/gr-confirm-abandon-dialog_test.html',
@@ -222,7 +220,6 @@ for (let file of elements) {
 // Behaviors tests.
 /* eslint-disable max-len */
 const behaviors = [
-  'async-foreach-behavior/async-foreach-behavior_test.html',
   'base-url-behavior/base-url-behavior_test.html',
   'docs-url-behavior/docs-url-behavior_test.html',
   'dom-util-behavior/dom-util-behavior_test.html',

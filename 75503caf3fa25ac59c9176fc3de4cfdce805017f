@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "54d09a4e_fab4ab01",
+        "filename": "polygerrit-ui/app/constants/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-02T12:09:14Z",
+      "side": 1,
+      "message": "probably not types, we already have a top level types folder, but enums, ya if its reused across multiple files. I don\u0027t want to blow this up if we move every constants and messages here. Especially constants, If its only used in the component and its tests, then maybe better to have it in the component itself. That\u0027s why I emphasis on the \u0027used cross files\u0027 part :)\n\nI actually want to keep it in \u0027constants\u0027 folder to make the purpose of this folder more clear (not only for shared stuff). And also this seems match with a lot angular / react apps regarding how they construct the constants and messages as well.",
+      "parentUuid": "fc4d559d_1e04aaef",
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a5f87c7_1cfb77e3",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "dd9d6dcf_e0179070",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-02T12:09:14Z",
+      "side": 1,
+      "message": "hah i actually thought about this, but when i remember that we have the plan to modularize code chunks, import individuals is better. And also it makes it easier to read / write code, since its pretty clear what you need for this component and what are not needed",
+      "parentUuid": "6a5f87c7_1cfb77e3",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 81
+      },
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc234d17_0eb6de50",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 2
@@ -56,6 +98,24 @@
       "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87818bdd_f59c3f95",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-02T12:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc234d17_0eb6de50",
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "9c078859_02392dd5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-02T12:09:14Z",
+      "side": 1,
+      "message": "nope, its a known issue: https://www.google.com/search?q\u003dnon-template+value+passed+to+Polymer%27s+html+function\n\nbasically the htmlLiteral from polymer will run expressions `${}` inside with its own context",
+      "parentUuid": "4857c9e8_0763de1c",
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1973e77e_e0ea0629",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 2
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "587a94fc_820b0944",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-02T12:09:14Z",
+      "side": 1,
+      "message": "ya I am thinking this is an `tuple\u0027 type in ts, I will document this.",
+      "parentUuid": "1973e77e_e0ea0629",
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd6674ac_0a2f2828",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 2
@@ -107,6 +203,24 @@
       "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7559555f_d9e3a6a4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-02T12:09:14Z",
+      "side": 1,
+      "message": "was planned to use that as section separator, i guess empty line before should be enough",
+      "parentUuid": "cd6674ac_0a2f2828",
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -133,6 +247,30 @@
     },
     {
       "key": {
+        "uuid": "8837acb2_55e98e43",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-02T12:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cc48f4b_b353cba4",
+      "range": {
+        "startLine": 566,
+        "startChar": 27,
+        "endLine": 566,
+        "endChar": 40
+      },
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61eea5fd_99316877",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 2
@@ -147,6 +285,24 @@
       "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4b0e40d_cbb9dc78",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-02T12:09:14Z",
+      "side": 1,
+      "message": "not necessary, thought it\u0027s easier to link them when closer. but ya, I can have them defined at the top.",
+      "parentUuid": "61eea5fd_99316877",
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -173,6 +329,30 @@
     },
     {
       "key": {
+        "uuid": "4a19422f_b2453189",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1063,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-02T12:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f816a519_407ef9fd",
+      "range": {
+        "startLine": 1063,
+        "startChar": 2,
+        "endLine": 1063,
+        "endChar": 17
+      },
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a195178f_c457aed8",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 2
@@ -187,6 +367,24 @@
       "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1c29ee9_39c3a998",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1064,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-02T12:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a195178f_c457aed8",
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -213,6 +411,30 @@
     },
     {
       "key": {
+        "uuid": "869c18de_1ea79726",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1066,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-02T12:09:14Z",
+      "side": 1,
+      "message": "sounds good, i will use \u0027tab\u0027 for primaryTab and still support \u0027secondaryTab\u0027 for now, can remove that once we move comments to top.",
+      "parentUuid": "482039f7_464f8f4b",
+      "range": {
+        "startLine": 1066,
+        "startChar": 48,
+        "endLine": 1066,
+        "endChar": 58
+      },
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07e2dac8_fa5d51f6",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 2
@@ -227,6 +449,24 @@
       "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52419fff_4093fa1d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-02T12:09:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07e2dac8_fa5d51f6",
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -250,6 +490,30 @@
       "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a211df76_b2b90427",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1355,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-02T12:09:14Z",
+      "side": 1,
+      "message": "ya I have a todo to clean up this file as well. Currently it has so many params and they are different for different pages as well :(",
+      "parentUuid": "27653168_73c9ed49",
+      "range": {
+        "startLine": 1355,
+        "startChar": 10,
+        "endLine": 1355,
+        "endChar": 16
+      },
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

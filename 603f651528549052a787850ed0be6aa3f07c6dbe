@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "8ca74488_ce4e040e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-02T15:01:11Z",
+      "side": 1,
+      "message": "from",
+      "range": {
+        "startLine": 26,
+        "startChar": 10,
+        "endLine": 26,
+        "endChar": 13
+      },
+      "revId": "603f651528549052a787850ed0be6aa3f07c6dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b511d9a6_e1ebb0be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-02T15:01:11Z",
+      "side": 1,
+      "message": "drop this word",
+      "range": {
+        "startLine": 44,
+        "startChar": 16,
+        "endLine": 44,
+        "endChar": 21
+      },
+      "revId": "603f651528549052a787850ed0be6aa3f07c6dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "907f6dcf_eac8e440",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-02T15:01:11Z",
+      "side": 1,
+      "message": "We",
+      "range": {
+        "startLine": 59,
+        "startChar": 3,
+        "endLine": 59,
+        "endChar": 6
+      },
+      "revId": "603f651528549052a787850ed0be6aa3f07c6dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e005a7c3_dedf4131",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -22,6 +91,52 @@
       "revId": "603f651528549052a787850ed0be6aa3f07c6dbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c9dea1f_e1919622",
+        "filename": "java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-02T15:01:11Z",
+      "side": 1,
+      "message": "reindexAndCopy",
+      "range": {
+        "startLine": 342,
+        "startChar": 24,
+        "endLine": 342,
+        "endChar": 36
+      },
+      "revId": "603f651528549052a787850ed0be6aa3f07c6dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f780ad0_37417f5d",
+        "filename": "java/com/google/gerrit/acceptance/ProjectResetter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-02T15:01:11Z",
+      "side": 1,
+      "message": "reindexAccount",
+      "range": {
+        "startLine": 370,
+        "startChar": 15,
+        "endLine": 370,
+        "endChar": 37
+      },
+      "revId": "603f651528549052a787850ed0be6aa3f07c6dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {
@@ -64,6 +179,46 @@
         "startChar": 1,
         "endLine": 227,
         "endChar": 36
+      },
+      "revId": "603f651528549052a787850ed0be6aa3f07c6dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5087e262_7f0f9116",
+        "filename": "javatests/com/google/gerrit/acceptance/ProjectResetterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-02T15:01:11Z",
+      "side": 1,
+      "message": "These tests are all testing evicting from the account cache. Are they still needed if eviction is no longer done?",
+      "revId": "603f651528549052a787850ed0be6aa3f07c6dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1cb27e4_d81f60b0",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIndexerIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-02T15:01:11Z",
+      "side": 1,
+      "message": "Maybe better drop the whole test. If now the SHA1 is the cache key, the cache cannot be stale anymore.",
+      "range": {
+        "startLine": 88,
+        "startChar": 2,
+        "endLine": 97,
+        "endChar": 3
       },
       "revId": "603f651528549052a787850ed0be6aa3f07c6dbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

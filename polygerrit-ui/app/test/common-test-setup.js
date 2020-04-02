@@ -15,6 +15,9 @@
  * limitations under the License.
  */
 import '../scripts/bundled-polymer.js';
+import './test-fixture.js';
+import 'chai/chai.js';
+self.assert = chai.assert;
 
 import 'polymer-resin/standalone/polymer-resin.js';
 import '../behaviors/safe-types-behavior/safe-types-behavior.js';
@@ -52,3 +55,4 @@ setup(() => {
     Gerrit._testOnly_resetPlugins();
   }
 });
+

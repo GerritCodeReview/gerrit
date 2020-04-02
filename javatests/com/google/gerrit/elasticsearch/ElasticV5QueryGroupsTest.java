@@ -14,7 +14,6 @@
 
 package com.google.gerrit.elasticsearch;
 
-import com.google.gerrit.elasticsearch.ElasticTestUtils.ElasticNodeInfo;
 import com.google.gerrit.server.query.group.AbstractQueryGroupsTest;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.InMemoryModule;
@@ -31,18 +30,14 @@ public class ElasticV5QueryGroupsTest extends AbstractQueryGroupsTest {
     return IndexConfig.createForElasticsearch();
   }
 
-  private static ElasticNodeInfo nodeInfo;
   private static ElasticContainer container;
 
   @BeforeClass
   public static void startIndexService() {
-    if (nodeInfo != null) {
-      // do not start Elasticsearch twice
-      return;
+    if (container == null) {
+      // Only start Elasticsearch once
+      container = ElasticContainer.createAndStart(ElasticVersion.V5_6);
     }
-
-    container = ElasticContainer.createAndStart(ElasticVersion.V5_6);
-    nodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
   }
 
   @AfterClass
@@ -63,8 +58,7 @@ public class ElasticV5QueryGroupsTest extends AbstractQueryGroupsTest {
     Config elasticsearchConfig = new Config(config);
     InMemoryModule.setDefaults(elasticsearchConfig);
     String indicesPrefix = testName.getSanitizedMethodName();
-    ElasticTestUtils.configure(
-        elasticsearchConfig, nodeInfo.port, indicesPrefix, ElasticVersion.V5_6);
+    ElasticTestUtils.configure(elasticsearchConfig, container, indicesPrefix, ElasticVersion.V5_6);
     return Guice.createInjector(new InMemoryModule(elasticsearchConfig));
   }
 }

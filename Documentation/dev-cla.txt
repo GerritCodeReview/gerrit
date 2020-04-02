@@ -1,7 +1,7 @@
 :linkattrs:
 = Gerrit Code Review - Contributor License Agreement
 
-In order to link::dev-community.html#how-to-contribute[contribute] to
+In order to link:dev-community.html#how-to-contribute[contribute] to
 Gerrit a Contributor License Agreement must be completed before
 contributions are accepted. To view and accept the agreements do the
 following:

@@ -181,7 +181,7 @@ module.exports = {
       },
     },
     {
-      "files": ["*.html", "common-test-setup.js"],
+      "files": ["*.html", "common-test-setup.js", "common-test-setup-karma.js", "*_test.js"],
       // Additional global variables allowed in tests
       "globals": {
         // Global variables from 3rd party test libraries/frameworks.

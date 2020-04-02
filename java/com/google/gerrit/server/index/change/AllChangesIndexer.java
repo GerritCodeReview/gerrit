@@ -47,8 +47,8 @@ import java.util.Objects;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ProgressMonitor;
@@ -175,7 +175,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
                 return null;
               },
               directExecutor()));
-    } catch (ExecutionException e) {
+    } catch (TimeoutException e) {
       logger.atSevere().withCause(e).log("Error in batch indexer");
       ok.set(false);
     }

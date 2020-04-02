@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/dom-util-behavior/dom-util-behavior.js';
 import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
@@ -44,6 +43,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-file-list_html.js';
 import {AsyncForeachBehavior} from '../../../behaviors/async-foreach-behavior/async-foreach-behavior.js';
+import {DomUtilBehavior} from '../../../behaviors/dom-util-behavior/dom-util-behavior.js';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;

@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../base-url-behavior/base-url-behavior.js';
 
 import '../gr-url-encoding-behavior/gr-url-encoding-behavior.js';
+import {BaseUrlBehavior} from '../base-url-behavior/base-url-behavior.js';
 (function(window) {
   'use strict';
 
@@ -56,7 +56,7 @@ import '../gr-url-encoding-behavior/gr-url-encoding-behavior.js';
       return 0;
     },
   },
-  Gerrit.BaseUrlBehavior,
+  BaseUrlBehavior,
   Gerrit.URLEncodingBehavior,
   ];
 

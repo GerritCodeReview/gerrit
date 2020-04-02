@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+
 (function(window) {
   'use strict';
 
@@ -30,7 +32,7 @@
   }
 
   function getBaseUrl() {
-    return Gerrit.BaseUrlBehavior.getBaseUrl();
+    return BaseUrlBehavior.getBaseUrl();
   }
 
   /**
@@ -50,7 +52,7 @@
     if (url.protocol === PRELOADED_PROTOCOL) {
       return url.pathname;
     }
-    const base = Gerrit.BaseUrlBehavior.getBaseUrl();
+    const base = BaseUrlBehavior.getBaseUrl();
     let pathname = url.pathname.replace(base, '');
     // Load from ASSETS_PATH
     if (window.ASSETS_PATH && url.href.includes(window.ASSETS_PATH)) {

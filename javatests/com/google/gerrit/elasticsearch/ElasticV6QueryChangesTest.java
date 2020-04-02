@@ -56,16 +56,18 @@ public class ElasticV6QueryChangesTest extends AbstractQueryChangesTest {
   }
 
   @After
-  public void closeIndex() {
-    client.execute(
-        new HttpPost(
-            String.format(
-                "http://%s:%d/%s*/_close",
-                container.getHttpHost().getHostName(),
-                container.getHttpHost().getPort(),
-                getSanitizedMethodName())),
-        HttpClientContext.create(),
-        null);
+  public void closeIndex() throws Exception {
+    client
+        .execute(
+            new HttpPost(
+                String.format(
+                    "http://%s:%d/%s*/_close",
+                    container.getHttpHost().getHostName(),
+                    container.getHttpHost().getPort(),
+                    getSanitizedMethodName())),
+            HttpClientContext.create(),
+            null)
+        .get();
   }
 
   @Override

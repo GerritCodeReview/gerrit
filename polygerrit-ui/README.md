@@ -148,16 +148,59 @@ $(bazel info output_base)/external/local_jdk/bin/java \
 ## Running Tests
 
 For daily development you typically only want to run and debug individual tests.
-Run the local [Go proxy server](#go-server) and navigate for example to
-<http://localhost:8081/elements/shared/gr-account-entry/gr-account-entry_test.html>.
-Check "Disable cache" in the "Network" tab of Chrome's dev tools, so code
-changes are picked up on "reload".
+There are 2 types of fronted tests in gerrit:
+- Karma tests - all tests matches `*_test.js` pattern
+- *deprecated* web-component-tester(WCT) tests - all tests matches the `*_test.html` pattern.
 
 Our CI integration ensures that all tests are run when you upload a change to
 Gerrit, but you can also run all tests locally in headless mode:
 
 ```sh
 npm test
+```
+
+### Running Karma tests
+There are several ways to run Karma tests:
+
+* Run all Karma tests in headless mode:
+```sh
+npm run test:karma
+# You can use short alias:
+npm run tk
+```
+
+* Run all Karma tests in debug mode (the command opens Chrome browser with
+the default Karma page; you should click the "Debug" button to start testing):
+```sh
+npm test:karma
+# You can use short alias:
+npm tk
+```
+
+* Run a single test file in debug mode:
+```
+npm run test:karma:debug async-foreach-behavior_test.js
+# Or short form:
+npm tkd async-foreach-behavior_test.js
+```
+
+* You can run tests in IDE:
+- [Running tests in Intellij](https://www.jetbrains.com/help/idea/running-unit-tests-on-karma.html#ws_karma_running)
+- 
+
+### Running WCT tests
+
+Run the local [Go proxy server](#go-server) and navigate for example to
+<http://localhost:8081/elements/shared/gr-account-entry/gr-account-entry_test.html>.
+Check "Disable cache" in the "Network" tab of Chrome's dev tools, so code
+changes are picked up on "reload".
+
+You can also run all WCT tests locally in headless mode:
+
+```sh
+npm test:wct
+# You can use short alias:
+npm tw
 ```
 
 To allow the tests to run in Safari:

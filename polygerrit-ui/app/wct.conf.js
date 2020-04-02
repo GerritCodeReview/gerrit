@@ -32,6 +32,7 @@ const headless = 'WCT_HEADLESS_MODE' in process.env ?
 const headlessBrowserOptions = {
   chrome: ['start-maximized', 'headless', 'disable-gpu', 'no-sandbox'],
   firefox: ['-headless'],
+  // loggingPrefs: {'browser':'ALL','driver':'ALL', 'client':'ALL', 'profiler':'ALL', 'server':'ALL'},
 };
 
 const defaultBrowserOptions = {
@@ -46,6 +47,10 @@ module.exports = {
   moduleResolution: 'node',
   wctPackageName: 'wct-browser-legacy',
   testTimeout: 100000,
+  // loggingPrefs: {'browser':'ALL','driver':'ALL', 'client':'ALL', 'profiler':'ALL', 'server':'ALL'},
+  browserOptions: {
+    loggingPrefs: {'browser':'ALL','driver':'ALL', 'client':'ALL', 'profiler':'ALL', 'server':'ALL'},
+  },
   plugins: {
     local: {
       skipSeleniumInstall: true,

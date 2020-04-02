@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a5a1ddc_179d7964",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-02T08:41:08Z",
+      "side": 1,
+      "message": "nit: if this was a standalone change my advice would be to inline these methods as they are one-liners. But I see you use them in follow-ups more heavily, so seems fine to start them here.",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 3
+      },
+      "revId": "96110f5945e39a8f7a0c3f60765df27c1938ba72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

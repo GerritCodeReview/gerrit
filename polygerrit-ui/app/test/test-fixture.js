@@ -15,18 +15,18 @@
 
 // Copied from @polymer/test-fixture/test-fixture.html
 
-(function () {
-  var TestFixturePrototype = Object.create(HTMLElement.prototype);
-  var TestFixtureExtension = {
+(function() {
+  const TestFixturePrototype = Object.create(HTMLElement.prototype);
+  const TestFixtureExtension = {
     _fixtureTemplates: null,
 
     _elementsFixtured: false,
 
-    get elementsFixtured () {
+    get elementsFixtured() {
       return this._elementsFixtured;
     },
 
-    get fixtureTemplates () {
+    get fixtureTemplates() {
       if (!this._fixtureTemplates) {
         this._fixtureTemplates = this.querySelectorAll('template');
       }
@@ -34,14 +34,14 @@
       return this._fixtureTemplates;
     },
 
-    create: function (model) {
-      var generatedDoms = [];
+    create(model) {
+      const generatedDoms = [];
 
       this.restore();
 
       this.removeElements(this.fixtureTemplates);
 
-      this.forElements(this.fixtureTemplates, function (fixtureTemplate) {
+      this.forElements(this.fixtureTemplates, function(fixtureTemplate) {
         generatedDoms.push(
             this.createFrom(fixtureTemplate, model)
         );
@@ -56,10 +56,10 @@
       return generatedDoms;
     },
 
-    createFrom: function (fixtureTemplate, model) {
-      var fixturedFragment;
-      var fixturedElements;
-      var fixturedElement;
+    createFrom(fixtureTemplate, model) {
+      let fixturedFragment;
+      let fixturedElements;
+      let fixturedElement;
 
       if (!(fixtureTemplate &&
           fixtureTemplate.tagName === 'TEMPLATE')) {
@@ -85,14 +85,14 @@
       return fixturedElements;
     },
 
-    restore: function () {
+    restore() {
       if (!this._elementsFixtured) {
         return;
       }
 
       this.removeElements(this.children);
 
-      this.forElements(this.fixtureTemplates, function (fixtureTemplate) {
+      this.forElements(this.fixtureTemplates, function(fixtureTemplate) {
         this.appendChild(fixtureTemplate);
       }, this);
 
@@ -103,7 +103,7 @@
       this.forcePolyfillAttachedStateSynchrony();
     },
 
-    forcePolyfillAttachedStateSynchrony: function () {
+    forcePolyfillAttachedStateSynchrony() {
       // Force synchrony in attachedCallback and detachedCallback where
       // implemented, in the event that we are dealing with the async Web
       // Components Polyfill.
@@ -112,11 +112,11 @@
       }
     },
 
-    collectElementChildren: function (parent) {
+    collectElementChildren(parent) {
       // Note: Safari 7.1 does not support `firstElementChild` or
       // `nextElementSibling`, so we do things the old-fashioned way:
-      var elements = [];
-      var child = parent.firstChild;
+      const elements = [];
+      let child = parent.firstChild;
 
       while (child) {
         if (child.nodeType === Node.ELEMENT_NODE) {
@@ -129,19 +129,19 @@
       return elements;
     },
 
-    removeElements: function (elements) {
-      this.forElements(elements, function (element) {
+    removeElements(elements) {
+      this.forElements(elements, function(element) {
         this.removeChild(element);
       }, this);
     },
 
-    forElements: function (elements, iterator, context) {
+    forElements(elements, iterator, context) {
       Array.prototype.slice.call(elements)
-      .forEach(iterator, context);
+          .forEach(iterator, context);
     },
 
-    stamp: function (fixtureTemplate, model) {
-      var stamped;
+    stamp(fixtureTemplate, model) {
+      let stamped;
       // Check if we are dealing with a "stampable" `<template>`. This is a
       // vaguely defined special case of a `<template>` that is a custom
       // element with a public `stamp` method that implements some manner of
@@ -170,21 +170,21 @@
       }
 
       return stamped;
-    }
+    },
   };
 
   Object.getOwnPropertyNames(TestFixtureExtension)
-  .forEach(function (property) {
-    Object.defineProperty(
-        TestFixturePrototype,
-        property,
-        Object.getOwnPropertyDescriptor(TestFixtureExtension, property)
-    );
-  });
+      .forEach(property => {
+        Object.defineProperty(
+            TestFixturePrototype,
+            property,
+            Object.getOwnPropertyDescriptor(TestFixtureExtension, property)
+        );
+      });
 
   try {
     document.registerElement('test-fixture', {
-      prototype: TestFixturePrototype
+      prototype: TestFixturePrototype,
     });
   } catch (e) {
     if (window.WCT) {

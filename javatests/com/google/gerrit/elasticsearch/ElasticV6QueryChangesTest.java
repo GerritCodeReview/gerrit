@@ -20,6 +20,8 @@ import com.google.gerrit.testing.InMemoryModule;
 import com.google.gerrit.testing.IndexConfig;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import java.util.concurrent.Future;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
@@ -57,15 +59,23 @@ public class ElasticV6QueryChangesTest extends AbstractQueryChangesTest {
 
   @After
   public void closeIndex() {
-    client.execute(
-        new HttpPost(
-            String.format(
-                "http://%s:%d/%s*/_close",
-                container.getHttpHost().getHostName(),
-                container.getHttpHost().getPort(),
-                getSanitizedMethodName())),
-        HttpClientContext.create(),
-        null);
+    // Close the index after each test to prevent exceeding Elasticsearch's
+    // shard limit (see Issue 10120).
+    // We don't wait for the result, to avoid blocking subsequent tests. If
+    // some close operations fail it's OK; this is only against a test
+    // instance of Elasticsearch that gets destroyed when all tests have
+    // completed.
+    @SuppressWarnings("unused")
+    Future<HttpResponse> unused =
+        client.execute(
+            new HttpPost(
+                String.format(
+                    "http://%s:%d/%s*/_close",
+                    container.getHttpHost().getHostName(),
+                    container.getHttpHost().getPort(),
+                    getSanitizedMethodName())),
+            HttpClientContext.create(),
+            null);
   }
 
   @Override

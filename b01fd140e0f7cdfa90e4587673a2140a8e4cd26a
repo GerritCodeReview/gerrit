@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0a1cc8a_0f12ace7",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-02T10:48:03Z",
+      "side": 1,
+      "message": "maybe document the value is also used in the UI text, for me, enum usually is used in code logic only but not in the UI text",
+      "revId": "b01fd140e0f7cdfa90e4587673a2140a8e4cd26a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef845113_8f8f17fd",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-02T10:48:03Z",
+      "side": 1,
+      "message": "i think this should be `@type {ExpandAllState}` :)",
+      "range": {
+        "startLine": 83,
+        "startChar": 10,
+        "endLine": 83,
+        "endChar": 14
+      },
+      "revId": "b01fd140e0f7cdfa90e4587673a2140a8e4cd26a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

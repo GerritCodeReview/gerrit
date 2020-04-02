@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b8829524_3f0847ee",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-04-02T14:08:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96fc8f32_0ec5c4bb",
+      "range": {
+        "startLine": 86,
+        "startChar": 3,
+        "endLine": 87,
+        "endChar": 73
+      },
+      "revId": "fc25ffb6d9aa1d07bb1b50f2daa86d08b976047b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5ed6357_34fb0c2d",
         "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
         "patchSetId": 9
@@ -45,6 +69,30 @@
       "revId": "fc25ffb6d9aa1d07bb1b50f2daa86d08b976047b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05108782_45053168",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-04-02T14:08:00Z",
+      "side": 1,
+      "message": "I guess I did that to convert it to mutable, but the link method now does that.\nDone.",
+      "parentUuid": "a5ed6357_34fb0c2d",
+      "range": {
+        "startLine": 88,
+        "startChar": 45,
+        "endLine": 88,
+        "endChar": 71
+      },
+      "revId": "fc25ffb6d9aa1d07bb1b50f2daa86d08b976047b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8fb49ed2_b3f8f6a8",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-04-02T14:08:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58885fe9_306f0e80",
+      "range": {
+        "startLine": 114,
+        "startChar": 29,
+        "endLine": 114,
+        "endChar": 36
+      },
+      "revId": "fc25ffb6d9aa1d07bb1b50f2daa86d08b976047b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ce8a42f_b973cf2d",
         "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
         "patchSetId": 9
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "5ead1c86_ba641489",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-04-02T14:08:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ce8a42f_b973cf2d",
+      "range": {
+        "startLine": 117,
+        "startChar": 32,
+        "endLine": 117,
+        "endChar": 44
+      },
+      "revId": "fc25ffb6d9aa1d07bb1b50f2daa86d08b976047b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38f503b1_9698a6bc",
         "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
         "patchSetId": 9
@@ -114,6 +210,30 @@
       "revId": "fc25ffb6d9aa1d07bb1b50f2daa86d08b976047b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d620ca08_2b7d1347",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-04-02T14:08:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38f503b1_9698a6bc",
+      "range": {
+        "startLine": 126,
+        "startChar": 9,
+        "endLine": 126,
+        "endChar": 10
+      },
+      "revId": "fc25ffb6d9aa1d07bb1b50f2daa86d08b976047b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

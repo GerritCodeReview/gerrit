@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14cba2c1_13ced14b",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-02T10:34:33Z",
+      "side": 1,
+      "message": "nit: method ordering (needs to move up so that public is before package private)",
+      "revId": "15296e5f9879dc9ddac423daf8de1a95752c2a27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

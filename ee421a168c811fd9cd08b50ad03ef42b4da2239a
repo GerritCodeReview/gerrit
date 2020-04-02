@@ -16,6 +16,24 @@
       "revId": "ee421a168c811fd9cd08b50ad03ef42b4da2239a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c35e1d5f_b97d63e9",
+        "filename": "Documentation/index.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-02T16:04:59Z",
+      "side": 1,
+      "message": "\u003e should we name this \"Contributor Guide\" similar to \"User Guide\":\n\u003e \n\u003e \u003d\u003d Contributor Guide\n\u003e \n\u003e . link:dev-community.html[Gerrit Community]\n\u003e . link:dev-community.html#how-to-contribute[How to Contribute]\n\nYes. However I think the plural form is preferred; done.",
+      "parentUuid": "956429d8_ed6ce6b2",
+      "revId": "ee421a168c811fd9cd08b50ad03ef42b4da2239a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

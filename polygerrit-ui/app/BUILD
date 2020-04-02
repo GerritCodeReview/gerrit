@@ -58,6 +58,7 @@ filegroup(
     name = "test-srcs-fg",
     srcs = [
         "test/common-test-setup.js",
+        "test/common-test-setup-karma.js",
         "test/index.html",
         ":pg_code",
         "@ui_dev_npm//:node_modules",

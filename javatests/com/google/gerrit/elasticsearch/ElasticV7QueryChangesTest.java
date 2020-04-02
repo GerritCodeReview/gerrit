@@ -60,8 +60,10 @@ public class ElasticV7QueryChangesTest extends AbstractQueryChangesTest {
     client.execute(
         new HttpPost(
             String.format(
-                "http://localhost:%d/%s*/_close",
-                container.getHttpHost().getPort(), getSanitizedMethodName())),
+                "http://%s:%d/%s*/_close",
+                container.getHttpHost().getHostName(),
+                container.getHttpHost().getPort(),
+                getSanitizedMethodName())),
         HttpClientContext.create(),
         null);
   }

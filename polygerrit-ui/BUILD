@@ -32,3 +32,29 @@ go_binary(
         "@org_golang_x_tools//godoc/vfs/zipfs:go_default_library",
     ],
 )
+
+sh_test(
+    name = "karma_test",
+    size = "enormous",
+    srcs = ["karma_test.sh"],
+    args = [
+        "$(location @ui_dev_npm//karma/bin:karma)",
+        "$(location karma.conf.js)",
+    ],
+    data = [
+        "//polygerrit-ui/app:test-srcs-fg",
+        "karma.conf.js",
+        "@ui_dev_npm//karma/bin:karma",
+        "@ui_dev_npm//karma-chrome-launcher",
+        "@ui_dev_npm//@open-wc/karma-esm",
+        "@ui_dev_npm//karma-mocha",
+        "@ui_dev_npm//mocha",
+        "@ui_dev_npm//chai",
+        "@ui_dev_npm//karma-mocha-reporter",
+    ],
+    # Should not run sandboxed.
+    tags = [
+        "local",
+        "manual",
+    ],
+)

@@ -18,6 +18,7 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
@@ -164,8 +165,8 @@ public class MultiProgressMonitor {
    *
    * @see #waitFor(Future, long, TimeUnit)
    */
-  public void waitFor(Future<?> workerFuture) throws ExecutionException {
-    waitFor(workerFuture, 0, null);
+  public <T> T waitFor(Future<T> workerFuture) throws TimeoutException {
+    return waitFor(workerFuture, 0, null);
   }
 
   /**
@@ -182,11 +183,10 @@ public class MultiProgressMonitor {
    * @throws ExecutionException if this thread or a worker thread was interrupted, the worker was
    *     cancelled, or timed out waiting for a worker to call {@link #end()}.
    */
-  public void waitFor(Future<?> workerFuture, long timeoutTime, TimeUnit timeoutUnit)
-      throws ExecutionException {
+  public <T> T waitFor(Future<T> workerFuture, long timeoutTime, TimeUnit timeoutUnit)
+      throws TimeoutException {
     long overallStart = System.nanoTime();
     long deadline;
-    String detailMessage = "";
     if (timeoutTime > 0) {
       deadline = overallStart + NANOSECONDS.convert(timeoutTime, timeoutUnit);
     } else {
@@ -200,7 +200,7 @@ public class MultiProgressMonitor {
         try {
           NANOSECONDS.timedWait(this, left);
         } catch (InterruptedException e) {
-          throw new ExecutionException(e);
+          throw new UncheckedExecutionException(e);
         }
 
         // Send an update on every wakeup (manual or spurious), but only move
@@ -210,7 +210,7 @@ public class MultiProgressMonitor {
         if (deadline > 0 && now > deadline) {
           workerFuture.cancel(true);
           if (workerFuture.isCancelled()) {
-            detailMessage =
+            String detailMessage =
                 String.format(
                     "(timeout %sms, cancelled)",
                     TimeUnit.MILLISECONDS.convert(now - deadline, NANOSECONDS));
@@ -240,14 +240,15 @@ public class MultiProgressMonitor {
     // The loop exits as soon as the worker calls end(), but we give it another
     // maxInterval to finish up and return.
     try {
-      workerFuture.get(maxIntervalNanos, NANOSECONDS);
-    } catch (InterruptedException e) {
-      throw new ExecutionException(e);
-    } catch (CancellationException e) {
-      throw new ExecutionException(detailMessage, e);
+      return workerFuture.get(maxIntervalNanos, NANOSECONDS);
+    } catch (InterruptedException | CancellationException e) {
+      logger.atWarning().withCause(e).log("unable to finish processing");
+      throw new TimeoutException(e.getMessage());
     } catch (TimeoutException e) {
       workerFuture.cancel(true);
-      throw new ExecutionException(e);
+      throw e;
+    } catch (ExecutionException e) {
+      throw new UncheckedExecutionException(e);
     }
   }
 

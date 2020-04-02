@@ -14,10 +14,12 @@
 
 package com.google.gerrit.server.git.receive;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.quota.QuotaGroupDefinitions.REPOSITORY_SIZE_GROUP;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.data.Capable;
@@ -66,10 +68,13 @@ import com.google.inject.name.Named;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
-import java.util.List;
+import java.util.Set;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PreReceiveHook;
@@ -84,7 +89,7 @@ import org.eclipse.jgit.transport.ReceivePack;
  * of time, it runs in the background so it can be monitored for timeouts and cancelled, and have
  * stalls reported to the user from the main thread.
  */
-public class AsyncReceiveCommits implements PreReceiveHook {
+public class AsyncReceiveCommits {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String TIMEOUT_NAME = "ReceiveCommitsOverallTimeout";
@@ -119,74 +124,30 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     }
   }
 
-  private class Worker implements ProjectRunnable {
-    final MultiProgressMonitor progress;
-    final String name;
+  private static MultiProgressMonitor newMultiProgressMonitor(MessageSender messageSender) {
+    return new MultiProgressMonitor(
+        new OutputStream() {
+          @Override
+          public void write(int b) {
+            messageSender.sendBytes(new byte[] {(byte) b});
+          }
 
-    private final Collection<ReceiveCommand> commands;
+          @Override
+          public void write(byte[] what, int off, int len) {
+            messageSender.sendBytes(what, off, len);
+          }
 
-    private Worker(Collection<ReceiveCommand> commands, String name) {
-      this.commands = commands;
-      this.name = name;
-      progress = new MultiProgressMonitor(new MessageSenderOutputStream(), "Processing changes");
-    }
+          @Override
+          public void write(byte[] what) {
+            messageSender.sendBytes(what);
+          }
 
-    @Override
-    public void run() {
-      String oldName = Thread.currentThread().getName();
-      Thread.currentThread().setName(oldName + "-for-" + name);
-      try {
-        receiveCommits.processCommands(commands, progress);
-      } finally {
-        Thread.currentThread().setName(oldName);
-      }
-    }
-
-    @Override
-    public Project.NameKey getProjectNameKey() {
-      return receiveCommits.getProject().getNameKey();
-    }
-
-    @Override
-    public String getRemoteName() {
-      return null;
-    }
-
-    @Override
-    public boolean hasCustomizedPrint() {
-      return true;
-    }
-
-    @Override
-    public String toString() {
-      return "receive-commits";
-    }
-
-    void sendMessages() {
-      receiveCommits.sendMessages();
-    }
-
-    private class MessageSenderOutputStream extends OutputStream {
-      @Override
-      public void write(int b) {
-        receiveCommits.getMessageSender().sendBytes(new byte[] {(byte) b});
-      }
-
-      @Override
-      public void write(byte[] what, int off, int len) {
-        receiveCommits.getMessageSender().sendBytes(what, off, len);
-      }
-
-      @Override
-      public void write(byte[] what) {
-        receiveCommits.getMessageSender().sendBytes(what);
-      }
-
-      @Override
-      public void flush() {
-        receiveCommits.getMessageSender().flush();
-      }
-    }
+          @Override
+          public void flush() {
+            messageSender.flush();
+          }
+        },
+        "Processing changes");
   }
 
   private enum PushType {
@@ -245,7 +206,6 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
   private final Metrics metrics;
   private final ReceiveCommits receiveCommits;
-  private final ResultChangeIds resultChangeIds;
   private final PermissionBackend.ForProject perm;
   private final ReceivePack receivePack;
   private final ExecutorService executor;
@@ -303,7 +263,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     receivePack.setCheckReceivedObjects(projectState.getConfig().getCheckReceivedObjects());
     receivePack.setRefFilter(new ReceiveRefFilter());
     receivePack.setAllowPushOptions(true);
-    receivePack.setPreReceiveHook(this);
+    receivePack.setPreReceiveHook(asHook());
     receivePack.setPostReceiveHook(lazyPostReceive.create(user, projectName));
 
     try {
@@ -323,10 +283,8 @@ public class AsyncReceiveCommits implements PreReceiveHook {
             queryProvider,
             projectName,
             user.getAccountId()));
-    resultChangeIds = new ResultChangeIds();
     receiveCommits =
-        factory.create(
-            projectState, user, receivePack, repo, allRefsWatcher, messageSender, resultChangeIds);
+        factory.create(projectState, user, receivePack, repo, allRefsWatcher, messageSender);
     receiveCommits.init();
     QuotaResponse.Aggregated availableTokens =
         quotaBackend.user(user).project(projectName).availableTokens(REPOSITORY_SIZE_GROUP);
@@ -361,48 +319,89 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     return Capable.OK;
   }
 
-  @Override
-  public void onPreReceive(ReceivePack rp, Collection<ReceiveCommand> commands) {
+  /**
+   * Returns a {@link PreReceiveHook} implementation that can be used directly by JGit when
+   * processing a push.
+   */
+  public PreReceiveHook asHook() {
+    return (rp, commands) -> {
+      checkState(receivePack == rp, "can't perform PreReceive for a different receive pack");
+      long startNanos = System.nanoTime();
+      ReceiveCommitsResult result;
+      try {
+        result = preReceive(commands);
+      } catch (TimeoutException e) {
+        metrics.timeouts.increment();
+        logger.atWarning().withCause(e).log(
+            "Timeout in ReceiveCommits while processing changes for project %s",
+            projectState.getName());
+        receivePack.sendError("timeout while processing changes");
+        rejectCommandsNotAttempted(commands);
+        return;
+      } catch (Exception e) {
+        logger.atSevere().withCause(e.getCause()).log("error while processing push");
+        receivePack.sendError("internal error");
+        rejectCommandsNotAttempted(commands);
+        return;
+      } finally {
+        // Flush the messages queued up until now (if any).
+        receiveCommits.sendMessages();
+      }
+      reportMetrics(result, System.nanoTime() - startNanos);
+    };
+  }
+
+  /** Processes {@code commands}, applies them to Git storage and communicates back on the wire. */
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public ReceiveCommitsResult preReceive(Collection<ReceiveCommand> commands)
+      throws TimeoutException, UncheckedExecutionException {
     if (commands.stream().anyMatch(c -> c.getResult() != Result.NOT_ATTEMPTED)) {
       // Stop processing when command was already processed by previously invoked
       // pre-receive hooks
-      return;
+      return ReceiveCommitsResult.empty();
     }
 
-    long startNanos = System.nanoTime();
-    Worker w = new Worker(commands, Thread.currentThread().getName());
+    MultiProgressMonitor monitor = newMultiProgressMonitor(receiveCommits.getMessageSender());
+    Callable<ReceiveCommitsResult> callable =
+        () -> {
+          String oldName = Thread.currentThread().getName();
+          Thread.currentThread().setName(oldName + "-for-" + Thread.currentThread().getName());
+          try {
+            return receiveCommits.processCommands(commands, monitor);
+          } finally {
+            Thread.currentThread().setName(oldName);
+          }
+        };
+
     try {
-      w.progress.waitFor(
-          executor.submit(scopePropagator.wrap(w)), timeoutMillis, TimeUnit.MILLISECONDS);
-    } catch (ExecutionException e) {
-      metrics.timeouts.increment();
-      logger.atWarning().withCause(e).log(
-          "Error in ReceiveCommits while processing changes for project %s",
-          projectState.getName());
-      rp.sendError("internal error while processing changes");
-      // ReceiveCommits has tried its best to catch errors, so anything at this
-      // point is very bad.
-      for (ReceiveCommand c : commands) {
-        if (c.getResult() == Result.NOT_ATTEMPTED) {
-          c.setResult(Result.REJECTED_OTHER_REASON, "internal error");
-        }
+      // WorkQueue does not support Callable<T>, so we have to covert it here.
+      FutureTask<ReceiveCommitsResult> runnable =
+          ProjectRunnable.fromCallable(
+              callable, receiveCommits.getProject().getNameKey(), "receive-commits");
+      monitor.waitFor(
+          executor.submit(scopePropagator.wrap(runnable)), timeoutMillis, TimeUnit.MILLISECONDS);
+      if (!runnable.isDone()) {
+        // At this point we are either done or have thrown a TimeoutException and bailed out.
+        throw new IllegalStateException("unable to get receive commits result");
       }
-    } finally {
-      w.sendMessages();
+      return runnable.get();
+    } catch (InterruptedException | ExecutionException e) {
+      throw new UncheckedExecutionException(e);
     }
+  }
 
-    long deltaNanos = System.nanoTime() - startNanos;
-    int totalChanges = 0;
-
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public void reportMetrics(ReceiveCommitsResult result, long deltaNanos) {
     PushType pushType;
-    if (resultChangeIds.isMagicPush()) {
+    int totalChanges = 0;
+    if (result.magicPush()) {
       pushType = PushType.CREATE_REPLACE;
-      List<Change.Id> created = resultChangeIds.get(ResultChangeIds.Key.CREATED);
-      List<Change.Id> replaced = resultChangeIds.get(ResultChangeIds.Key.REPLACED);
+      Set<Change.Id> created = result.changes().get(ReceiveCommitsResult.Key.CREATED);
+      Set<Change.Id> replaced = result.changes().get(ReceiveCommitsResult.Key.REPLACED);
       metrics.changes.record(pushType, created.size() + replaced.size());
       totalChanges = replaced.size() + created.size();
     } else {
-      List<Change.Id> autoclosed = resultChangeIds.get(ResultChangeIds.Key.AUTOCLOSED);
+      Set<Change.Id> autoclosed = result.changes().get(ReceiveCommitsResult.Key.AUTOCLOSED);
       if (!autoclosed.isEmpty()) {
         pushType = PushType.AUTOCLOSE;
         metrics.changes.record(pushType, autoclosed.size());
@@ -411,21 +410,25 @@ public class AsyncReceiveCommits implements PreReceiveHook {
         pushType = PushType.NORMAL;
       }
     }
-
     if (totalChanges > 0) {
       metrics.latencyPerChange.record(pushType, deltaNanos / totalChanges, NANOSECONDS);
     }
-
     metrics.latencyPerPush.record(pushType, deltaNanos, NANOSECONDS);
-  }
-
-  /** Returns the Change.Ids that were processed in onPreReceive */
-  @UsedAt(UsedAt.Project.GOOGLE)
-  public ResultChangeIds getResultChangeIds() {
-    return resultChangeIds;
   }
 
   public ReceivePack getReceivePack() {
     return receivePack;
+  }
+
+  /**
+   * Marks all commands that were not processed yet as {@code REJECTED_OTHER_REASON}. Intended to be
+   * used to finish up remaining commands when errors occur during processing.
+   */
+  private static void rejectCommandsNotAttempted(Collection<ReceiveCommand> commands) {
+    for (ReceiveCommand c : commands) {
+      if (c.getResult() == Result.NOT_ATTEMPTED) {
+        c.setResult(Result.REJECTED_OTHER_REASON, "internal error");
+      }
+    }
   }
 }

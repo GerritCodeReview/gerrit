@@ -26,6 +26,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
@@ -47,7 +48,6 @@ import java.util.Objects;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -175,7 +175,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
                 return null;
               },
               directExecutor()));
-    } catch (ExecutionException e) {
+    } catch (UncheckedExecutionException e) {
       logger.atSevere().withCause(e).log("Error in batch indexer");
       ok.set(false);
     }

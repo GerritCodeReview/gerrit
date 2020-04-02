@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7e1ca342_e78dd9ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-02T08:59:06Z",
+      "side": 1,
+      "message": "mixin?",
+      "range": {
+        "startLine": 10,
+        "startChar": 41,
+        "endLine": 10,
+        "endChar": 56
+      },
+      "revId": "23fc40e3d24efd91bb1894dd193d2539abaa17ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7301255b_a683f39a",
         "filename": "polygerrit-ui/app/behaviors/base-url-behavior/base-url-behavior.js",
         "patchSetId": 7
@@ -52,6 +75,24 @@
       "revId": "23fc40e3d24efd91bb1894dd193d2539abaa17ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50ef3b07_d24b93e3",
+        "filename": "polygerrit-ui/app/behaviors/base-url-behavior/base-url-behavior.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-02T08:59:06Z",
+      "side": 1,
+      "message": "That is fine.",
+      "parentUuid": "7839aed0_84749017",
+      "revId": "23fc40e3d24efd91bb1894dd193d2539abaa17ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

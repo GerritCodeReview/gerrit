@@ -1,5 +1,6 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_binary")
 load("//tools/bzl:genrule2.bzl", "genrule2")
+load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -30,5 +31,40 @@ go_binary(
     deps = [
         "@org_golang_x_tools//godoc/vfs/httpfs:go_default_library",
         "@org_golang_x_tools//godoc/vfs/zipfs:go_default_library",
+    ],
+)
+
+sh_binary(
+    name="karma_bin",
+    srcs = ["@ui_dev_npm//:node_modules/karma/bin/karma"],
+    data = [
+        "@ui_dev_npm//karma/bin:karma",
+        "@ui_dev_npm//karma-chrome-launcher",
+        "@ui_dev_npm//@open-wc/karma-esm",
+        "@ui_dev_npm//karma-mocha",
+        "@ui_dev_npm//mocha",
+        "@ui_dev_npm//chai",
+        "@ui_dev_npm//karma-mocha-reporter",
+    ],
+)
+
+sh_test(
+    name = "karma_test",
+    size = "enormous",
+    srcs = ["karma_test.sh"],
+    args = [
+        "$(location :karma_bin)",
+        "$(location karma.conf.js)",
+    ],
+    data = [
+        ":karma_bin",
+        "//polygerrit-ui/app:test-srcs-fg",
+        "karma.conf.js",
+    ],
+    # Should not run sandboxed.
+    tags = [
+        "local",
+        "manual",
+        "karma"
     ],
 )

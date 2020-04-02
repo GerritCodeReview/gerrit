@@ -23,6 +23,11 @@ import {SafeTypes} from '../behaviors/safe-types-behavior/safe-types-behavior.js
 import {initAppContext} from '../services/app-context-init.js';
 import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader.js';
 
+// Returns true if tests run under the Karma
+function isKarmaTest() {
+  return typeof window.__karma__ !== 'undefined';
+}
+
 security.polymer_resin.install({
   allowedIdentifierPrefixes: [''],
   reportHandler(isViolation, fmt, ...args) {
@@ -57,7 +62,9 @@ security.polymer_resin.install({
 // Note, that fixture(...) and stub(..) methods are registered different by
 // WCT. This is why these methods implemented slightly different here.
 const cleanups = [];
-if (!window.fixture) {
+if (isKarmaTest || !window.fixture) {
+  // For karma always set our implementation
+  // (karma doesn't provide the fixture method)
   window.fixture = function(fixtureId, model) {
     // This method is inspired by WCT method
     cleanups.push(() => document.getElementById(fixtureId).restore());
@@ -78,7 +85,9 @@ setup(() => {
   initAppContext();
 });
 
-if (window.stub) {
+if (isKarmaTest || window.stub) {
+  // For karma always set our implementation
+  // (karma doesn't provide the stub method)
   window.stub = function(tagName, implementation) {
     // This method is inspired by WCT method
     const proto = document.createElement(tagName).constructor.prototype;

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0dc50cf8_dbda1b17",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-02T10:53:34Z",
+      "side": 1,
+      "message": "existing code, but this is just confusing.... why not just have this 2 merged into the maxReviewers... and make it a REAL max...",
+      "range": {
+        "startLine": 214,
+        "startChar": 46,
+        "endLine": 214,
+        "endChar": 49
+      },
+      "revId": "c9dcbf536bd7176f84f82686f3d143d324f787f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0557e1db_f1dbb3cf",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_html.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-02T10:53:34Z",
+      "side": 1,
+      "message": "is this necessary ? seems you will have an empty div even when no reviewers  set",
+      "revId": "c9dcbf536bd7176f84f82686f3d143d324f787f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

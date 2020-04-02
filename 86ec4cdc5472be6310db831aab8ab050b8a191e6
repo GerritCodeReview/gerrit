@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "7ef273d8_2ec26699",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 25
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-02T11:07:54Z",
+      "side": 1,
+      "message": "tests missing for this part",
+      "revId": "86ec4cdc5472be6310db831aab8ab050b8a191e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9ca9dc95_76b395d1",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_html.js",
         "patchSetId": 25
@@ -46,6 +63,30 @@
       "revId": "86ec4cdc5472be6310db831aab8ab050b8a191e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c438f3b_06d7d1cb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_html.js",
+        "patchSetId": 25
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-02T11:07:54Z",
+      "side": 1,
+      "message": "which probably can be solved with better css and layout, this is too hacky...",
+      "parentUuid": "e95843f1_b75630d6",
+      "range": {
+        "startLine": 55,
+        "startChar": 76,
+        "endLine": 56,
+        "endChar": 6
+      },
+      "revId": "86ec4cdc5472be6310db831aab8ab050b8a191e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

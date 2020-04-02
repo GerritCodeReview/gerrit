@@ -46,6 +46,30 @@
       "revId": "4195b4c06d8dee2f825c365a0669f16f1b0b7f58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b825c70_dd0790b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-02T13:36:39Z",
+      "side": 1,
+      "message": "Now I remember why I hadn\u0027t already backported that change: there are other places in the code that cause the unused Future warning and it\u0027s not worth fixing them on this branch.\n\nI\u0027ve just updated this commit to remove the bit about ignoring the result.",
+      "parentUuid": "7ba2d683_d59640ce",
+      "range": {
+        "startLine": 13,
+        "startChar": 32,
+        "endLine": 14,
+        "endChar": 36
+      },
+      "revId": "4195b4c06d8dee2f825c365a0669f16f1b0b7f58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -217,11 +217,10 @@ public class GroupsIT extends AbstractDaemonTest {
     gApi.groups().id(group2.get()).addGroups("ldap:external_g2");
 
     assertThat(groupIncludeCache.allExternalMembers())
-        .containsExactlyElementsIn(
+        .containsAtLeastElementsIn(
             ImmutableList.of(
                 AccountGroup.UUID.parse("ldap:external_g1"),
-                AccountGroup.UUID.parse("ldap:external_g2"),
-                AccountGroup.UUID.parse("global:Registered-Users")));
+                AccountGroup.UUID.parse("ldap:external_g2")));
 
     assertThat(groupIncludeCache.parentGroupsOf(AccountGroup.UUID.parse("ldap:external_g1")))
         .containsExactly(group1);
@@ -247,18 +246,14 @@ public class GroupsIT extends AbstractDaemonTest {
 
     /** GroupIncludeCache should return ldap:external_g2 only */
     assertThat(groupIncludeCache.allExternalMembers())
-        .containsExactlyElementsIn(
-            ImmutableList.of(
-                AccountGroup.UUID.parse("ldap:external_g2"),
-                AccountGroup.UUID.parse("global:Registered-Users")));
+        .contains(AccountGroup.UUID.parse("ldap:external_g2"));
 
     /** Testing groups.getExternalGroups() with the old Snapshot */
     assertThat(groups.getExternalGroups(snapshot.groupsRefs()))
-        .containsExactlyElementsIn(
+        .containsAtLeastElementsIn(
             ImmutableList.of(
                 AccountGroup.UUID.parse("ldap:external_g1"),
-                AccountGroup.UUID.parse("ldap:external_g2"),
-                AccountGroup.UUID.parse("global:Registered-Users")));
+                AccountGroup.UUID.parse("ldap:external_g2")));
   }
 
   private ObjectId getObjectIdFromSnapshot(GroupsSnapshotReader.Snapshot snapshot, String refName) {

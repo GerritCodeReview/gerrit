@@ -1,10 +1,10 @@
 [
   {
-    "url": "ssh://admin@localhost:29418/loadtest-repo",
+    "url": "ssh://admin@HOSTNAME:SSH_PORT/loadtest-repo",
     "cmd": "clone"
   },
   {
-    "url": "http://localhost:8080/loadtest-repo",
+    "url": "http://HOSTNAME:HTTP_PORT/loadtest-repo",
     "cmd": "clone"
   }
 ]

@@ -21,7 +21,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
-import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.FixReplacement;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.ChangeType;
@@ -53,7 +52,6 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 
 class PatchScriptBuilder {
 
-  private Change change;
   private DiffPreferencesInfo diffPrefs;
   private final FileTypeRegistry registry;
   private IntraLineDiffCalculator intralineDiffCalculator;
@@ -61,10 +59,6 @@ class PatchScriptBuilder {
   @Inject
   PatchScriptBuilder(FileTypeRegistry ftr) {
     registry = ftr;
-  }
-
-  void setChange(Change c) {
-    this.change = c;
   }
 
   void setDiffPrefs(DiffPreferencesInfo dp) {
@@ -76,11 +70,7 @@ class PatchScriptBuilder {
   }
 
   PatchScript toPatchScript(
-      Repository git,
-      PatchList list,
-      PatchListEntry content,
-      CommentDetail comments,
-      ImmutableList<Patch> history)
+      Repository git, PatchList list, PatchListEntry content, CommentDetail comments)
       throws IOException {
 
     PatchFileChange change =
@@ -96,7 +86,7 @@ class PatchScriptBuilder {
     ResolvedSides sides =
         resolveSides(
             git, sidesResolver, oldName(change), newName(change), list.getOldId(), list.getNewId());
-    return build(sides.a, sides.b, change, comments, history);
+    return build(sides.a, sides.b, change, comments);
   }
 
   private ResolvedSides resolveSides(
@@ -146,7 +136,7 @@ class PatchScriptBuilder {
             ChangeType.MODIFIED,
             PatchType.UNIFIED);
 
-    return build(a, b, change, null, null);
+    return build(a, b, change, null);
   }
 
   private PatchSide resolveSideA(
@@ -158,11 +148,7 @@ class PatchScriptBuilder {
   }
 
   private PatchScript build(
-      PatchSide a,
-      PatchSide b,
-      PatchFileChange content,
-      CommentDetail comments,
-      ImmutableList<Patch> history) {
+      PatchSide a, PatchSide b, PatchFileChange content, CommentDetail comments) {
 
     ImmutableList<Edit> contentEdits = content.getEdits();
     ImmutableSet<Edit> editsDueToRebase = content.getEditsDueToRebase();
@@ -181,7 +167,6 @@ class PatchScriptBuilder {
             new TextSource(a.src), new TextSource(b.src), finalEdits, comments);
 
     return new PatchScript(
-        change.getKey(),
         content.getChangeType(),
         content.getOldName(),
         content.getNewName(),
@@ -197,7 +182,6 @@ class PatchScriptBuilder {
         b.displayMethod,
         a.mimeType,
         b.mimeType,
-        history,
         intralineResult.failure,
         intralineResult.timeout,
         content.getPatchType() == Patch.PatchType.BINARY,

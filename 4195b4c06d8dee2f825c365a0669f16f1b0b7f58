@@ -22,6 +22,30 @@
       "revId": "4195b4c06d8dee2f825c365a0669f16f1b0b7f58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ba2d683_d59640ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-02T13:24:44Z",
+      "side": 1,
+      "message": "Ugh, I forgot about that.\n\nI guess it doesn\u0027t really make a lot of difference then, if it\u0027s been there for so long nobody noticed.\n\nI\u0027ll backport that change.",
+      "parentUuid": "3b681e8d_ae27c931",
+      "range": {
+        "startLine": 13,
+        "startChar": 32,
+        "endLine": 14,
+        "endChar": 36
+      },
+      "revId": "4195b4c06d8dee2f825c365a0669f16f1b0b7f58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

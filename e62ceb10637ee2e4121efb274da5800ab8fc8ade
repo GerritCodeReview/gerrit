@@ -22,6 +22,30 @@
       "revId": "e62ceb10637ee2e4121efb274da5800ab8fc8ade",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f7e2756_82d050ed",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticV5QueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-02T14:18:13Z",
+      "side": 1,
+      "message": "Yep, good catch.",
+      "parentUuid": "275259ef_647cbe39",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 38
+      },
+      "revId": "e62ceb10637ee2e4121efb274da5800ab8fc8ade",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

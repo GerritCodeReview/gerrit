@@ -124,6 +124,7 @@ def _wct_test(name, srcs, split_index, split_count):
         tags = [
             "local",
             "manual",
+            "wct",
         ],
     )
 

@@ -25,7 +25,6 @@ limitations under the License.
 <script src="/components/wct-browser-legacy/browser.js"></script>
 <script type="module">
 import '../../test/common-test-setup.js';
-import './rest-client-behavior.js';
 /** @type {string} */
 window.CANONICAL_PATH = '/r';
 </script>
@@ -46,9 +45,9 @@ window.CANONICAL_PATH = '/r';
 
 <script type="module">
 import '../../test/common-test-setup.js';
-import './rest-client-behavior.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import {BaseUrlBehavior} from '../base-url-behavior/base-url-behavior.js';
+import {RESTClientBehavior} from './rest-client-behavior.js';
 suite('rest-client-behavior tests', () => {
   let element;
   // eslint-disable-next-line no-unused-vars
@@ -60,7 +59,7 @@ suite('rest-client-behavior tests', () => {
       is: 'test-element',
       behaviors: [
         BaseUrlBehavior,
-        Gerrit.RESTClientBehavior,
+        RESTClientBehavior,
       ],
     });
   });

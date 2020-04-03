@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 import '../../../scripts/bundled-polymer.js';
-
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import '@polymer/iron-dropdown/iron-dropdown.js';
 import {IronFitBehavior} from '@polymer/iron-fit-behavior/iron-fit-behavior.js';

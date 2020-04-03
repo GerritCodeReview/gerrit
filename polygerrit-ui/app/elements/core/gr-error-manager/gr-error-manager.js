@@ -23,7 +23,6 @@
 */
 
 import '../../../scripts/bundled-polymer.js';
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../gr-error-dialog/gr-error-dialog.js';
 import '../gr-reporting/gr-reporting.js';
 import '../../shared/gr-alert/gr-alert.js';

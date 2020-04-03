@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../gr-coverage-layer/gr-coverage-layer.js';
 import '../gr-diff-processor/gr-diff-processor.js';
 import '../../shared/gr-hovercard/gr-hovercard.js';

@@ -17,7 +17,6 @@
 import '../../../behaviors/gr-list-view-behavior/gr-list-view-behavior.js';
 
 import '../../../scripts/bundled-polymer.js';
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../styles/gr-table-styles.js';
 import '../../../styles/shared-styles.js';
 import '../../core/gr-navigation/gr-navigation.js';

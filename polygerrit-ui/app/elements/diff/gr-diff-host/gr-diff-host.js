@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import '../../core/gr-reporting/gr-reporting.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';

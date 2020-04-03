@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51e3ee65_88708634",
+        "filename": "java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-03T02:34:08Z",
+      "side": 1,
+      "message": "This causes issue 12524; the field needs to be decoded from base64 like on L435\n\nFixed in https://gerrit-review.googlesource.com/c/gerrit/+/261739",
+      "range": {
+        "startLine": 412,
+        "startChar": 25,
+        "endLine": 412,
+        "endChar": 49
+      },
+      "revId": "82b6f4f848af5b51ef89758acaa7adb7e8165289",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

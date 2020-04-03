@@ -15,9 +15,7 @@
  * limitations under the License.
  */
 import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/iron-input/iron-input.js';
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../shared/gr-avatar/gr-avatar.js';
 import '../../shared/gr-date-formatter/gr-date-formatter.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';

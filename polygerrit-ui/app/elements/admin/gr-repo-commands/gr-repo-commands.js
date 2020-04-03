@@ -17,7 +17,6 @@
 import '../../../scripts/bundled-polymer.js';
 
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../styles/gr-form-styles.js';
 import '../../../styles/gr-subpage-styles.js';
 import '../../../styles/shared-styles.js';

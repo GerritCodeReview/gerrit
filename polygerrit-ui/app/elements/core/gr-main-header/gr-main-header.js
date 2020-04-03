@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
 import '../../shared/gr-dropdown/gr-dropdown.js';

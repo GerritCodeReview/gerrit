@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 import '../../../styles/shared-styles.js';
 import '../../core/gr-navigation/gr-navigation.js';

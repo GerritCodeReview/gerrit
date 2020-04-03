@@ -19,7 +19,6 @@ import '../../../behaviors/gr-list-view-behavior/gr-list-view-behavior.js';
 import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import '@polymer/iron-input/iron-input.js';
 import '../../../scripts/bundled-polymer.js';
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../styles/gr-form-styles.js';
 import '../../../styles/gr-table-styles.js';
 import '../../../styles/shared-styles.js';

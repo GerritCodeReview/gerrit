@@ -70,6 +70,30 @@
       "revId": "6c9f7b9b2aba947d260cbd004a51e8381bae3702",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0d9fc8c_d3ec1a3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-03T13:32:21Z",
+      "side": 1,
+      "message": "Is there a smart process for checking that? I assume this problem comes up every time when cleaning up code.",
+      "parentUuid": "fc4d351d_8788cd02",
+      "range": {
+        "startLine": 7,
+        "startChar": 22,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "6c9f7b9b2aba947d260cbd004a51e8381bae3702",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import '../../../styles/shared-styles.js';
@@ -103,7 +102,7 @@ const FileStatus = {
  */
 class GrFileList extends mixinBehaviors( [
   AsyncForeachBehavior,
-  Gerrit.DomUtilBehavior,
+  DomUtilBehavior,
   Gerrit.KeyboardShortcutBehavior,
   Gerrit.PatchSetBehavior,
   Gerrit.PathListBehavior,

@@ -18,7 +18,6 @@ import '../../../scripts/bundled-polymer.js';
 
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
 import '@polymer/iron-input/iron-input.js';
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param.js';
 import '../../shared/gr-download-commands/gr-download-commands.js';

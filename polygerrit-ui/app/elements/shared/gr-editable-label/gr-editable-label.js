@@ -20,7 +20,6 @@ import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior
 import {IronOverlayBehaviorImpl} from '@polymer/iron-overlay-behavior/iron-overlay-behavior.js';
 import '@polymer/iron-dropdown/iron-dropdown.js';
 import '@polymer/paper-input/paper-input.js';
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../styles/shared-styles.js';
 import '../gr-button/gr-button.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';

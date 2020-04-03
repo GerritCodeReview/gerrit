@@ -17,7 +17,6 @@
 import '../../../scripts/bundled-polymer.js';
 
 import '@polymer/iron-icon/iron-icon.js';
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../shared/gr-account-label/gr-account-label.js';
 import '../../shared/gr-account-chip/gr-account-chip.js';
 import '../../shared/gr-button/gr-button.js';

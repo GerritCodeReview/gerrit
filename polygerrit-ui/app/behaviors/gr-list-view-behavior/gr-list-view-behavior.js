@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import '../gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import {BaseUrlBehavior} from '../base-url-behavior/base-url-behavior.js';
 
 /** @polymerBehavior ListViewBehavior */

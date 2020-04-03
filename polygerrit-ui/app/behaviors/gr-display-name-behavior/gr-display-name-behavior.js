@@ -16,38 +16,22 @@
  */
 import '../../scripts/gr-display-name-utils/gr-display-name-utils.js';
 
-(function(window) {
-  'use strict';
+/** @polymerBehavior Gerrit.DisplayNameBehavior */
+export const DisplayNameBehavior = {
+  // TODO(dmfilippov) replace DisplayNameBehavior with GrDisplayNameUtils
 
-  window.Gerrit = window.Gerrit || {};
+  getUserName(config, account) {
+    return GrDisplayNameUtils.getUserName(config, account);
+  },
 
-  /** @polymerBehavior Gerrit.DisplayNameBehavior */
-  Gerrit.DisplayNameBehavior = {
-    // TODO(dmfilippov) replace DisplayNameBehavior with GrDisplayNameUtils
+  getGroupDisplayName(group) {
+    return GrDisplayNameUtils.getGroupDisplayName(group);
+  },
+};
 
-    getUserName(config, account) {
-      return GrDisplayNameUtils.getUserName(config, account);
-    },
-
-    getGroupDisplayName(group) {
-      return GrDisplayNameUtils.getGroupDisplayName(group);
-    },
-  };
-
-  // eslint-disable-next-line no-unused-vars
-  function defineEmptyMixin() {
-    // This is a temporary function.
-    // Polymer linter doesn't process correctly the following code:
-    // class MyElement extends Polymer.mixinBehaviors([legacyBehaviors], ...) {...}
-    // To workaround this issue, the mock mixin is declared in this method.
-    // In the following changes, legacy behaviors will be converted to mixins.
-
-    /**
-     * @polymer
-     * @mixinFunction
-     */
-    Gerrit.DisplayNameMixin = base =>
-      class extends base {
-      };
-  }
-})(window);
+// TODO(dmfilippov) Remove the following lines with assignments
+// Plugins can use the behavior because it was accessible with
+// the global Gerrit... variable. To avoid breaking changes in plugins
+// temporary assign global variables.
+window.Gerrit = window.Gerrit || {};
+window.Gerrit.DisplayNameBehavior = DisplayNameBehavior;

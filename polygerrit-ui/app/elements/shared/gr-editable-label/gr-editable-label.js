@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {IronOverlayBehaviorImpl} from '@polymer/iron-overlay-behavior/iron-overlay-behavior.js';
 import '@polymer/iron-dropdown/iron-dropdown.js';
 import '@polymer/paper-input/paper-input.js';
@@ -29,17 +28,17 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-editable-label_html.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
+import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
 
 /**
- * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @extends Polymer.Element
  */
 class GrEditableLabel extends mixinBehaviors( [
   FireBehavior,
-  Gerrit.KeyboardShortcutBehavior,
+  KeyboardShortcutBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

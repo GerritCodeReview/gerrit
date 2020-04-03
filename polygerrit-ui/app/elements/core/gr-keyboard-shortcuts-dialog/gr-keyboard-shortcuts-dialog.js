@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import '../../shared/gr-button/gr-button.js';
 import '../gr-key-binding-display/gr-key-binding-display.js';
 import '../../../styles/shared-styles.js';
@@ -26,16 +25,16 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-keyboard-shortcuts-dialog_html.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
+import {KeyboardShortcutBehavior, KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 
-const {ShortcutSection} = window.Gerrit.KeyboardShortcutBinder;
+const {ShortcutSection} = KeyboardShortcutBinder;
 
 /**
- * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @extends Polymer.Element
  */
 class GrKeyboardShortcutsDialog extends mixinBehaviors( [
   FireBehavior,
-  Gerrit.KeyboardShortcutBehavior,
+  KeyboardShortcutBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

@@ -42,8 +42,9 @@ import '../../../test/common-test-setup.js';
 import '../../edit/gr-edit-constants.js';
 import './gr-change-view.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 suite('gr-change-view tests', () => {
-  const kb = window.Gerrit.KeyboardShortcutBinder;
+  const kb = KeyboardShortcutBinder;
   kb.bindShortcut(kb.Shortcut.SEND_REPLY, 'ctrl+enter');
   kb.bindShortcut(kb.Shortcut.REFRESH_CHANGE, 'shift+r');
   kb.bindShortcut(kb.Shortcut.OPEN_REPLY_DIALOG, 'a');

@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import '@polymer/paper-tabs/paper-tabs.js';
@@ -60,6 +59,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-view_html.js';
+import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 
 import {PrimaryTabs, SecondaryTabs} from '../../../constants/constants.js';
 import {NO_ROBOT_COMMENTS_THREADS_MSG} from '../../../constants/messages.js';
@@ -123,14 +123,14 @@ const ROBOT_COMMENTS_LIMIT = 10;
  */
 
 /**
+ * @appliesMixin PatchSetMixin
  * @appliesMixin Gerrit.KeyboardShortcutMixin
- * @appliesMixin Gerrit.PatchSetMixin
  * @appliesMixin Gerrit.RESTClientMixin
  * @extends Polymer.Element
  */
 class GrChangeView extends mixinBehaviors( [
   Gerrit.KeyboardShortcutBehavior,
-  Gerrit.PatchSetBehavior,
+  PatchSetBehavior,
   Gerrit.RESTClientBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

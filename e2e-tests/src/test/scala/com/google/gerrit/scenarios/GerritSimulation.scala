@@ -35,12 +35,13 @@ class GerritSimulation extends Simulation {
 
   protected val url: PartialFunction[(String, Any), Any] = {
     case ("url", url) =>
-      var in = replaceProperty("hostname", "localhost", url.toString)
+      var in = replaceOverride(url.toString)
+      in = replaceProperty("hostname", "localhost", in)
       in = replaceProperty("http_port", 8080, in)
       replaceProperty("ssh_port", 29418, in)
   }
 
-  private def replaceProperty(term: String, default: Any, in: String): String = {
+  protected def replaceProperty(term: String, default: Any, in: String): String = {
     val key: String = term.toUpperCase
     val property = pack + "." + term
     var value = default
@@ -54,5 +55,20 @@ class GerritSimulation extends Simulation {
         value = Integer.getInteger(property, default.asInstanceOf[Integer])
     }
     in.replaceAllLiterally(key, value.toString)
+  }
+
+  /**
+   * Meant to be optionally overridden by plugins or other extensions.
+   * Such potential overriding methods, such as the example below,
+   * typically return resulting call(s) to [[replaceProperty()]].
+   * This is usually similar to how [[url]] is implemented above.
+   *
+   * <pre>
+   * override def replaceOverride(in: String): String = {
+   * // Simple e.g., replaceProperty("EXTENSION_JSON_KEY", "default", in)
+   * </pre>
+   */
+  def replaceOverride(in: String): String = {
+    in
   }
 }

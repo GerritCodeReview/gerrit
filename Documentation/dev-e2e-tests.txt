@@ -154,7 +154,14 @@ with either one or many of these supported properties, from the core framework:
 
 Above, the properties can be set with values matching specific deployment topologies under test.
 The example values shown above are the currently coded default ones. The framework could support
-differing or more properties over time. Plugin (non-core) scenarios may do so just as well.
+differing or more properties over time.
+
+Plugin or otherwise non-core scenarios may do so just as well. The core java package
+`com.google.gerrit.scenarios` from the example above has to be replaced with the one under which
+those scenario classes are. Such extending scenarios can also add extension-specific properties.
+Early examples of this can be found in the Gerrit
+`link:https://gerrit.googlesource.com/plugins/high-availability[high-availability]` and
+`link:https://gerrit.googlesource.com/plugins/multi-site[multi-site]` plugins test code.
 
 == How to run tests
 

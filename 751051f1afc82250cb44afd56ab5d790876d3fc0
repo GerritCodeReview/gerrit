@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a122bb61_17f88483",
+        "filename": "polygerrit-ui/app/utils/flags.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-03T08:39:40Z",
+      "side": 1,
+      "message": "I would propose that we try to find a way to distinguish services and utils. My first thought is that services are singletons with state while utils are just stateless functions. Would you agree? Then this would rather be a FlagService, right?",
+      "revId": "751051f1afc82250cb44afd56ab5d790876d3fc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7caf6efe_93efa144",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-03T13:48:02Z",
+      "side": 1,
+      "message": "Nit: Style guide for JS comments: https://google.github.io/styleguide/jsguide.html#formatting-block-comment-style",
+      "revId": "9e05c5871518d9e292edde655a2979fda7df9e80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

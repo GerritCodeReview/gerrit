@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
 import '../../shared/gr-dropdown/gr-dropdown.js';
 import '../../shared/gr-icons/gr-icons.js';
@@ -32,6 +31,7 @@ import {htmlTemplate} from './gr-main-header_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {DocsUrlBehavior} from '../../../behaviors/docs-url-behavior/docs-url-behavior.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
+import {AdminNavBehavior} from '../../../behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.js';
 
 const DEFAULT_LINKS = [{
   title: 'Changes',
@@ -86,11 +86,10 @@ const AUTH_TYPES_WITH_REGISTER_URL = new Set([
 ]);
 
 /**
- * @appliesMixin Gerrit.AdminNavMixin
  * @extends Polymer.Element
  */
 class GrMainHeader extends mixinBehaviors( [
-  Gerrit.AdminNavBehavior,
+  AdminNavBehavior,
   BaseUrlBehavior,
   DocsUrlBehavior,
   FireBehavior,

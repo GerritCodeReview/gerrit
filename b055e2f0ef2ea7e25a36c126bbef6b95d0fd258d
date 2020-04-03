@@ -45,6 +45,30 @@
       "revId": "b055e2f0ef2ea7e25a36c126bbef6b95d0fd258d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfe2ffc9_2badffe5",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-03T13:11:12Z",
+      "side": 1,
+      "message": "Yes only Linux. But why is this a problem? Everyone is on Linux anyway. As I understood, only Gerrit maintainers should use RBE for granted. Others can pay for GCP and buy RBE service, of course.\n\nCan you try to activate RBE on GerritForge CI: on top of this change, run from GCP worker node, and pass this:\n\n  $ bazel test --config\u003dremote javatests/...\n\nDoes it work? Or do you have authentication error? Or, to test this we have to add another change to gerrit-ci-scripts repository and add the option: --config\u003dremote to BAZEL_OPTIONS? So that you can test GerritForge build on RBE?",
+      "parentUuid": "8e012fbb_1517c289",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 14
+      },
+      "revId": "b055e2f0ef2ea7e25a36c126bbef6b95d0fd258d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-icons/gr-icons.js';
@@ -28,13 +27,13 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-requirements_html.js';
+import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 
 /**
- * @appliesMixin Gerrit.RESTClientMixin
  * @extends Polymer.Element
  */
 class GrChangeRequirements extends mixinBehaviors( [
-  Gerrit.RESTClientBehavior,
+  RESTClientBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

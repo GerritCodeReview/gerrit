@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import '../../../styles/shared-styles.js';
 import '../gr-change-list/gr-change-list.js';
 import '../../core/gr-reporting/gr-reporting.js';
@@ -34,16 +33,16 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-dashboard-view_html.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
+import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\$\{project\}/g;
 
 /**
- * @appliesMixin Gerrit.RESTClientMixin
  * @extends Polymer.Element
  */
 class GrDashboardView extends mixinBehaviors( [
   FireBehavior,
-  Gerrit.RESTClientBehavior,
+  RESTClientBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

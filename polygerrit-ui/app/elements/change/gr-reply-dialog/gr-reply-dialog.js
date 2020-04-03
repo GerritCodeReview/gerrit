@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
 import '../../core/gr-reporting/gr-reporting.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
@@ -44,6 +43,7 @@ import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-beh
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -81,7 +81,6 @@ const EMPTY_REPLY_MESSAGE = 'Cannot send an empty reply.';
 const SEND_REPLY_TIMING_LABEL = 'SendReply';
 
 /**
- * @appliesMixin Gerrit.RESTClientMixin
  * @extends Polymer.Element
  */
 class GrReplyDialog extends mixinBehaviors( [
@@ -89,7 +88,7 @@ class GrReplyDialog extends mixinBehaviors( [
   FireBehavior,
   KeyboardShortcutBehavior,
   PatchSetBehavior,
-  Gerrit.RESTClientBehavior,
+  RESTClientBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

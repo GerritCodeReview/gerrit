@@ -94,6 +94,30 @@
       "revId": "8a3995e7b4787a9eeea688d3970a554c34ad8a61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c70ce2df_2117931c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-03T21:07:05Z",
+      "side": 1,
+      "message": "Resolving.\n\nIn emergency situations it is possible for us to maintain temporary patches such that we can deviate from master, but that is cumbersome. And as far as I know nobody else is running master and desperately waiting for this change to land, so I think the negative impact should be manageable.\n\nThat said, I am sorry about how this went. Holding the change back before submission would have been the easier approach. :-)",
+      "parentUuid": "216990e2_275ef8ce",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 289
+      },
+      "revId": "8a3995e7b4787a9eeea688d3970a554c34ad8a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

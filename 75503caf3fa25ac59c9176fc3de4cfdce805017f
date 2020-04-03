@@ -83,6 +83,29 @@
     },
     {
       "key": {
+        "uuid": "c745e298_45699171",
+        "filename": "polygerrit-ui/app/constants/messages.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-03T09:18:58Z",
+      "side": 1,
+      "message": "I would prefer group it in enums, by topics:\nexport const ThreadsMessages \u003d {\n  NO_THREAD: \u0027...\u0027,\n  \u0027NO_ROBOT_COMMENTS\u0027: \u0027...\u0027\n}\nAt some point we will have hundreds messages. Without grouping it will be ultrahard to find all of them",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 0
+      },
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6a5f87c7_1cfb77e3",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 2

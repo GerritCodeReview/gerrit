@@ -35,7 +35,7 @@ link:dev-cla.html[contributor's agreement] on file with the project.
 ** link:dev-roles.html#release-manager[Release Manager]
 
 [[how-to-contribute]]
-== How to contribute?
+== How to Contribute
 * link:dev-cla.html[Contributor License Agreement]
 * link:dev-contributing.html#contribution-processes[Contribution Processes]
 ** link:dev-contributing.html#lightweight-contribution-process[Lightweight Contribution Process]

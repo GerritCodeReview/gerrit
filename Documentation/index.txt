@@ -10,11 +10,13 @@
 . link:intro-quick.html[Product Overview]
 . link:intro-how-gerrit-works.html[How Gerrit Works]
 . link:intro-gerrit-walkthrough.html[Basic Gerrit Walkthrough]
-.. link:intro-gerrit-walkthrough-github.html[Basic Gerrit Walkthrough -- For GitHub Users]
-. link:dev-community.html[Gerrit Community]
-.. link:dev-contributing.html[Contributor Guide]
+. link:intro-gerrit-walkthrough-github.html[Basic Gerrit Walkthrough -- For GitHub Users]
 
-== Guides
+== Contributor Guides
+. link:dev-community.html[Gerrit Community]
+. link:dev-community.html#how-to-contribute[How to Contribute]
+
+== User Guides
 . link:intro-user.html[User Guide]
 . link:intro-project-owner.html[Project Owner Guide]
 . link:https://source.android.com/source/developing[Default Android Workflow,role=external,window=_blank] (external)

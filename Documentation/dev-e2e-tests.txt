@@ -107,16 +107,16 @@ The `CloneUsingBothProtocols` scenario is fed with the data coming from the
 file contains the commands and repository used during the e2e test. That file currently looks like
 below. This scenario serves as a simple example with no actual load in it. It can be used to test
 or validate the local setup. More complex scenarios can be further developed, under the
-`com.google.gerrit.scenarios` package.
+`com.google.gerrit.scenarios` package. The uppercase keywords are discussed further below.
 
 ----
 [
   {
-    "url": "ssh://admin@localhost:29418/loadtest-repo",
+    "url": "ssh://admin@HOSTNAME:SSH_PORT/loadtest-repo",
     "cmd": "clone"
   },
   {
-    "url": "http://localhost:8080/loadtest-repo",
+    "url": "http://HOSTNAME:HTTP_PORT/loadtest-repo",
     "cmd": "clone"
   }
 ]
@@ -142,6 +142,21 @@ file's `http` section shows which shell environment variables can be used to set
 
 Executing the `CloneUsingBothProtocols` scenario, as is, does require setting the http credentials.
 That is because of the aforementioned create/delete project (http) scenarios composed within it.
+
+=== Environment properties
+
+The `JAVA_OPTS` environment variable
+link:https://gatling.io/docs/current/cookbook/passing_parameters[can optionally be used] to define
+non-default values for keys found in scenario `json` data files. That variable can currently be set
+with either one or many of these supported properties, from the core framework:
+
+* `-Dcom.google.gerrit.scenarios.hostname=localhost`
+* `-Dcom.google.gerrit.scenarios.ssh_port=29418`
+* `-Dcom.google.gerrit.scenarios.http_port=8080`
+
+Above, the properties can be set with values matching specific deployment topologies under test.
+The example values shown above are the currently coded default ones. The framework could support
+differing or more properties over time. Plugin (non-core) scenarios may do so just as well.
 
 == How to run tests
 

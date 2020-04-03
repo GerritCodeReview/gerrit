@@ -18,7 +18,6 @@ import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
 
 import '@polymer/iron-input/iron-input.js';
 import '../../../scripts/bundled-polymer.js';
-import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import '../../../styles/gr-form-styles.js';
 import '../../../styles/shared-styles.js';
 import '../../core/gr-navigation/gr-navigation.js';
@@ -33,12 +32,12 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-create-change-dialog_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
+import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 
 const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';
 
 /**
- * @appliesMixin Gerrit.URLEncodingMixin
  * @extends Polymer.Element
  */
 class GrCreateChangeDialog extends mixinBehaviors( [
@@ -48,7 +47,7 @@ class GrCreateChangeDialog extends mixinBehaviors( [
    * e.g gr-repo-commands_test.
    */
   FireBehavior,
-  Gerrit.URLEncodingBehavior,
+  URLEncodingBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

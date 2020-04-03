@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import '../../../styles/gr-menu-page-styles.js';
 import '../../../styles/gr-subpage-styles.js';
 import '../../../styles/shared-styles.js';
@@ -33,6 +32,7 @@ import {htmlTemplate} from './gr-repo-access_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 import {AccessBehavior} from '../../../behaviors/gr-access-behavior/gr-access-behavior.js';
+import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 
 const Defs = {};
 
@@ -85,14 +85,13 @@ Defs.sections;
 Defs.projectAccessInput;
 
 /**
- * @appliesMixin Gerrit.URLEncodingMixin
  * @extends Polymer.Element
  */
 class GrRepoAccess extends mixinBehaviors( [
   AccessBehavior,
   BaseUrlBehavior,
   FireBehavior,
-  Gerrit.URLEncodingBehavior,
+  URLEncodingBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

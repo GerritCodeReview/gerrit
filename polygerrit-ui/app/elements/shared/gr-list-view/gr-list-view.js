@@ -18,7 +18,6 @@ import '../../../scripts/bundled-polymer.js';
 
 import '@polymer/iron-input/iron-input.js';
 import '@polymer/iron-icon/iron-icon.js';
-import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import '../../../styles/shared-styles.js';
 import '../gr-button/gr-button.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
@@ -27,16 +26,16 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-list-view_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 
 const REQUEST_DEBOUNCE_INTERVAL_MS = 200;
 
 /**
- * @appliesMixin Gerrit.URLEncodingMixin
  * @extends Polymer.Element
  */
 class GrListView extends mixinBehaviors( [
   BaseUrlBehavior,
-  Gerrit.URLEncodingBehavior,
+  URLEncodingBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

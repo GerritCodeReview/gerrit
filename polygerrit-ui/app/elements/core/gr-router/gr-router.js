@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import '../gr-navigation/gr-navigation.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../gr-reporting/gr-reporting.js';
@@ -29,6 +28,7 @@ self.page = page;
 import {htmlTemplate} from './gr-router_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
+import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 
 const RoutePattern = {
   ROOT: '/',
@@ -217,13 +217,12 @@ if (!app) {
 })();
 
 /**
- * @appliesMixin Gerrit.URLEncodingMixin
  * @extends Polymer.Element
  */
 class GrRouter extends mixinBehaviors( [
   BaseUrlBehavior,
   PatchSetBehavior,
-  Gerrit.URLEncodingBehavior,
+  URLEncodingBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

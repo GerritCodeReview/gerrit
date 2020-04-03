@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import '../../../scripts/bundled-polymer.js';
 import '../../../styles/gr-change-list-styles.js';
@@ -38,6 +37,7 @@ import {htmlTemplate} from './gr-change-list-item_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {ChangeTableBehavior} from '../../../behaviors/gr-change-table-behavior/gr-change-table-behavior.js';
 import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
+import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 
 const CHANGE_SIZE = {
   XS: 10,
@@ -48,7 +48,6 @@ const CHANGE_SIZE = {
 
 /**
  * @appliesMixin Gerrit.RESTClientMixin
- * @appliesMixin Gerrit.URLEncodingMixin
  * @extends Polymer.Element
  */
 class GrChangeListItem extends mixinBehaviors( [
@@ -56,7 +55,7 @@ class GrChangeListItem extends mixinBehaviors( [
   ChangeTableBehavior,
   PathListBehavior,
   Gerrit.RESTClientBehavior,
-  Gerrit.URLEncodingBehavior,
+  URLEncodingBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

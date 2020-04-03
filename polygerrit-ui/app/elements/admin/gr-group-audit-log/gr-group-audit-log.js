@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../behaviors/gr-list-view-behavior/gr-list-view-behavior.js';
 
 import '../../../scripts/bundled-polymer.js';
 import '../../../styles/gr-table-styles.js';
@@ -29,16 +28,16 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-group-audit-log_html.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
+import {ListViewBehavior} from '../../../behaviors/gr-list-view-behavior/gr-list-view-behavior.js';
 
 const GROUP_EVENTS = ['ADD_GROUP', 'REMOVE_GROUP'];
 
 /**
- * @appliesMixin Gerrit.ListViewMixin
  * @extends Polymer.Element
  */
 class GrGroupAuditLog extends mixinBehaviors( [
   FireBehavior,
-  Gerrit.ListViewBehavior,
+  ListViewBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

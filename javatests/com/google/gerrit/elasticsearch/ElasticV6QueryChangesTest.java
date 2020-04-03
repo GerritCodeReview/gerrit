@@ -63,6 +63,8 @@ public class ElasticV6QueryChangesTest extends AbstractQueryChangesTest {
 
   @After
   public void closeIndex() throws Exception {
+    // Close the index after each test to prevent exceeding Elasticsearch's
+    // shard limit (see Issue 10120).
     client
         .execute(
             new HttpPost(

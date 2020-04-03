@@ -1,5 +1,5 @@
 [
   {
-    "url": "http://localhost:8080/a/projects/loadtest-repo/delete-project~delete"
+    "url": "http://HOSTNAME:HTTP_PORT/a/projects/loadtest-repo/delete-project~delete"
   }
 ]

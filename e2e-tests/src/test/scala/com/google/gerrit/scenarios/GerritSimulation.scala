@@ -23,7 +23,8 @@ import io.gatling.http.request.builder.HttpRequestBuilder
 class GerritSimulation extends Simulation {
   implicit val conf: GatlingGitConfiguration = GatlingGitConfiguration()
 
-  private val path: String = this.getClass.getPackage.getName.replaceAllLiterally(".", "/")
+  private val pack: String = this.getClass.getPackage.getName
+  private val path: String = pack.replaceAllLiterally(".", "/")
   protected val name: String = this.getClass.getSimpleName
   protected val resource: String = s"data/$path/$name.json"
 
@@ -31,4 +32,27 @@ class GerritSimulation extends Simulation {
   protected val httpProtocol: HttpProtocolBuilder = http.basicAuth(
     conf.httpConfiguration.userName,
     conf.httpConfiguration.password)
+
+  protected val url: PartialFunction[(String, Any), Any] = {
+    case ("url", url) =>
+      var in = replaceProperty("hostname", "localhost", url.toString)
+      in = replaceProperty("http_port", 8080, in)
+      replaceProperty("ssh_port", 29418, in)
+  }
+
+  private def replaceProperty(term: String, default: Any, in: String): String = {
+    val key: String = term.toUpperCase
+    val property = pack + "." + term
+    var value = default
+    default match {
+      case _: String =>
+        val propertyValue = Option(System.getProperty(property))
+        if (propertyValue.nonEmpty) {
+          value = propertyValue.get
+        }
+      case _: Integer =>
+        value = Integer.getInteger(property, default.asInstanceOf[Integer])
+    }
+    in.replaceAllLiterally(key, value.toString)
+  }
 }

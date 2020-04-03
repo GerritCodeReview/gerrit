@@ -42,8 +42,9 @@ void (0);
 import '../../../test/common-test-setup.js';
 import './gr-search-bar.js';
 import '../../../scripts/util.js';
+import {KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 suite('gr-search-bar tests', () => {
-  const kb = window.Gerrit.KeyboardShortcutBinder;
+  const kb = KeyboardShortcutBinder;
   kb.bindShortcut(kb.Shortcut.SEARCH, '/');
 
   let element;

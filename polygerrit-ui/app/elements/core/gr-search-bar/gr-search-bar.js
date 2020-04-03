@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import '../../../scripts/bundled-polymer.js';
 import '../../shared/gr-autocomplete/gr-autocomplete.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
@@ -26,6 +25,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-search-bar_html.js';
 import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
+import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 
 // Possible static search options for auto complete, without negations.
 const SEARCH_OPERATORS = [
@@ -114,11 +114,10 @@ const MAX_AUTOCOMPLETE_RESULTS = 10;
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+\s*/g;
 
 /**
- * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @extends Polymer.Element
  */
 class GrSearchBar extends mixinBehaviors( [
-  Gerrit.KeyboardShortcutBehavior,
+  KeyboardShortcutBehavior,
   URLEncodingBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

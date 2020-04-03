@@ -32,8 +32,9 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-keyboard-shortcuts-dialog.js';
+import {KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 suite('gr-keyboard-shortcuts-dialog tests', () => {
-  const kb = window.Gerrit.KeyboardShortcutBinder;
+  const kb = KeyboardShortcutBinder;
   let element;
 
   setup(() => {

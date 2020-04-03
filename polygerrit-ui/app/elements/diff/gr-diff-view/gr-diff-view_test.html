@@ -42,9 +42,10 @@ import '../../../test/common-test-setup.js';
 import '../../../scripts/util.js';
 import './gr-diff-view.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 suite('gr-diff-view tests', () => {
   suite('basic tests', () => {
-    const kb = window.Gerrit.KeyboardShortcutBinder;
+    const kb = KeyboardShortcutBinder;
     kb.bindShortcut(kb.Shortcut.LEFT_PANE, 'shift+left');
     kb.bindShortcut(kb.Shortcut.RIGHT_PANE, 'shift+right');
     kb.bindShortcut(kb.Shortcut.NEXT_LINE, 'j', 'down');

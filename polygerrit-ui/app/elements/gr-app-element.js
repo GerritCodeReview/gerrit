@@ -17,7 +17,6 @@
 import '../scripts/util.js';
 
 import '../scripts/bundled-polymer.js';
-import '../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import '../styles/shared-styles.js';
 import '../styles/themes/app-theme.js';
 import './admin/gr-admin-view/gr-admin-view.js';
@@ -52,14 +51,14 @@ import moment from 'moment/src/moment.js';
 self.moment = moment;
 import {htmlTemplate} from './gr-app-element_html.js';
 import {BaseUrlBehavior} from '../behaviors/base-url-behavior/base-url-behavior.js';
+import {KeyboardShortcutBehavior} from '../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 
 /**
- * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @extends Polymer.Element
  */
 class GrAppElement extends mixinBehaviors( [
   BaseUrlBehavior,
-  Gerrit.KeyboardShortcutBehavior,
+  KeyboardShortcutBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

@@ -16,124 +16,106 @@
  */
 import '../../scripts/util.js';
 
-(function(window) {
-  'use strict';
+/** @polymerBehavior Gerrit.PathListBehavior */
+export const PathListBehavior = {
 
-  window.Gerrit = window.Gerrit || {};
-  /** @polymerBehavior Gerrit.PathListBehavior */
-  Gerrit.PathListBehavior = {
+  COMMIT_MESSAGE_PATH: '/COMMIT_MSG',
+  MERGE_LIST_PATH: '/MERGE_LIST',
 
-    COMMIT_MESSAGE_PATH: '/COMMIT_MSG',
-    MERGE_LIST_PATH: '/MERGE_LIST',
+  /**
+   * @param {string} a
+   * @param {string} b
+   * @return {number}
+   */
+  specialFilePathCompare(a, b) {
+    // The commit message always goes first.
+    if (a === PathListBehavior.COMMIT_MESSAGE_PATH) {
+      return -1;
+    }
+    if (b === PathListBehavior.COMMIT_MESSAGE_PATH) {
+      return 1;
+    }
 
-    /**
-     * @param {string} a
-     * @param {string} b
-     * @return {number}
-     */
-    specialFilePathCompare(a, b) {
-      // The commit message always goes first.
-      if (a === Gerrit.PathListBehavior.COMMIT_MESSAGE_PATH) {
+    // The merge list always comes next.
+    if (a === PathListBehavior.MERGE_LIST_PATH) {
+      return -1;
+    }
+    if (b === PathListBehavior.MERGE_LIST_PATH) {
+      return 1;
+    }
+
+    const aLastDotIndex = a.lastIndexOf('.');
+    const aExt = a.substr(aLastDotIndex + 1);
+    const aFile = a.substr(0, aLastDotIndex) || a;
+
+    const bLastDotIndex = b.lastIndexOf('.');
+    const bExt = b.substr(bLastDotIndex + 1);
+    const bFile = b.substr(0, bLastDotIndex) || b;
+
+    // Sort header files above others with the same base name.
+    const headerExts = ['h', 'hxx', 'hpp'];
+    if (aFile.length > 0 && aFile === bFile) {
+      if (headerExts.includes(aExt) && headerExts.includes(bExt)) {
+        return a.localeCompare(b);
+      }
+      if (headerExts.includes(aExt)) {
         return -1;
       }
-      if (b === Gerrit.PathListBehavior.COMMIT_MESSAGE_PATH) {
+      if (headerExts.includes(bExt)) {
         return 1;
       }
+    }
+    return aFile.localeCompare(bFile) || a.localeCompare(b);
+  },
 
-      // The merge list always comes next.
-      if (a === Gerrit.PathListBehavior.MERGE_LIST_PATH) {
-        return -1;
-      }
-      if (b === Gerrit.PathListBehavior.MERGE_LIST_PATH) {
-        return 1;
-      }
+  computeDisplayPath(path) {
+    if (path === PathListBehavior.COMMIT_MESSAGE_PATH) {
+      return 'Commit message';
+    } else if (path === PathListBehavior.MERGE_LIST_PATH) {
+      return 'Merge list';
+    }
+    return path;
+  },
 
-      const aLastDotIndex = a.lastIndexOf('.');
-      const aExt = a.substr(aLastDotIndex + 1);
-      const aFile = a.substr(0, aLastDotIndex) || a;
+  isMagicPath(path) {
+    return !!path &&
+        (path === PathListBehavior.COMMIT_MESSAGE_PATH || path ===
+            PathListBehavior.MERGE_LIST_PATH);
+  },
 
-      const bLastDotIndex = b.lastIndexOf('.');
-      const bExt = b.substr(bLastDotIndex + 1);
-      const bFile = b.substr(0, bLastDotIndex) || b;
+  computeTruncatedPath(path) {
+    return PathListBehavior.truncatePath(
+        PathListBehavior.computeDisplayPath(path));
+  },
 
-      // Sort header files above others with the same base name.
-      const headerExts = ['h', 'hxx', 'hpp'];
-      if (aFile.length > 0 && aFile === bFile) {
-        if (headerExts.includes(aExt) && headerExts.includes(bExt)) {
-          return a.localeCompare(b);
-        }
-        if (headerExts.includes(aExt)) {
-          return -1;
-        }
-        if (headerExts.includes(bExt)) {
-          return 1;
-        }
-      }
-      return aFile.localeCompare(bFile) || a.localeCompare(b);
-    },
+  /**
+   * Truncates URLs to display filename only
+   * Example
+   * // returns '.../text.html'
+   * util.truncatePath.('dir/text.html');
+   * Example
+   * // returns 'text.html'
+   * util.truncatePath.('text.html');
+   *
+   * @param {string} path
+   * @param {number=} opt_threshold
+   * @return {string} Returns the truncated value of a URL.
+   */
+  truncatePath(path, opt_threshold) {
+    const threshold = opt_threshold || 1;
+    const pathPieces = path.split('/');
 
-    computeDisplayPath(path) {
-      if (path === Gerrit.PathListBehavior.COMMIT_MESSAGE_PATH) {
-        return 'Commit message';
-      } else if (path === Gerrit.PathListBehavior.MERGE_LIST_PATH) {
-        return 'Merge list';
-      }
-      return path;
-    },
+    if (pathPieces.length <= threshold) { return path; }
 
-    isMagicPath(path) {
-      return !!path &&
-          (path === Gerrit.PathListBehavior.COMMIT_MESSAGE_PATH || path ===
-              Gerrit.PathListBehavior.MERGE_LIST_PATH);
-    },
+    const index = pathPieces.length - threshold;
+    // Character is an ellipsis.
+    return `\u2026/${pathPieces.slice(index).join('/')}`;
+  },
+};
 
-    computeTruncatedPath(path) {
-      return Gerrit.PathListBehavior.truncatePath(
-          Gerrit.PathListBehavior.computeDisplayPath(path));
-    },
-
-    /**
-     * Truncates URLs to display filename only
-     * Example
-     * // returns '.../text.html'
-     * util.truncatePath.('dir/text.html');
-     * Example
-     * // returns 'text.html'
-     * util.truncatePath.('text.html');
-     *
-     * @param {string} path
-     * @param {number=} opt_threshold
-     * @return {string} Returns the truncated value of a URL.
-     */
-    truncatePath(path, opt_threshold) {
-      const threshold = opt_threshold || 1;
-      const pathPieces = path.split('/');
-
-      if (pathPieces.length <= threshold) { return path; }
-
-      const index = pathPieces.length - threshold;
-      // Character is an ellipsis.
-      return `\u2026/${pathPieces.slice(index).join('/')}`;
-    },
-  };
-
-  // eslint-disable-next-line no-unused-vars
-  function defineEmptyMixin() {
-    // This is a temporary function.
-    // Polymer linter doesn't process correctly the following code:
-    // class MyElement extends Polymer.mixinBehaviors([legacyBehaviors], ...) {...}
-    // To workaround this issue, the mock mixin is declared in this method.
-    // In the following changes, legacy behaviors will be converted to mixins.
-
-    /**
-     * @polymer
-     * @mixinFunction
-     */
-    Gerrit.PathListMixin = base =>
-      class extends base {
-        computeDisplayPath(path) {}
-
-        computeTruncatedPath(path) {}
-      };
-  }
-})(window);
+// TODO(dmfilippov) Remove the following lines with assignments
+// Plugins can use the behavior because it was accessible with
+// the global Gerrit... variable. To avoid breaking changes in plugins
+// temporary assign global variables.
+window.Gerrit = window.Gerrit || {};
+window.Gerrit.PathListBehavior = PathListBehavior;

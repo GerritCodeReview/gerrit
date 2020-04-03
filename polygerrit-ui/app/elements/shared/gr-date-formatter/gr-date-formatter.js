@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js';
 import '../gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../../styles/shared-styles.js';
 import '../../../scripts/util.js';
@@ -25,6 +24,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-date-formatter_html.js';
+import {TooltipBehavior} from '../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js';
 
 const Duration = {
   HOUR: 1000 * 60 * 60,
@@ -62,11 +62,10 @@ const DateFormats = {
 };
 
 /**
- * @appliesMixin Gerrit.TooltipMixin
  * @extends Polymer.Element
  */
 class GrDateFormatter extends mixinBehaviors( [
-  Gerrit.TooltipBehavior,
+  TooltipBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

@@ -18,7 +18,6 @@ import '../../../scripts/bundled-polymer.js';
 
 import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../styles/shared-styles.js';
 import '../../core/gr-reporting/gr-reporting.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
@@ -41,6 +40,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-comment_html.js';
+import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 
 const STORAGE_DEBOUNCE_INTERVAL = 400;
 const TOAST_DEBOUNCE_INTERVAL = 200;
@@ -69,12 +69,11 @@ const RESPECTFUL_REVIEW_TIPS= [
 ];
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @extends Polymer.Element
  */
 class GrComment extends mixinBehaviors( [
-  Gerrit.FireBehavior,
+  FireBehavior,
   Gerrit.KeyboardShortcutBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

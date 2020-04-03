@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../styles/shared-styles.js';
 import '../gr-autocomplete/gr-autocomplete.js';
 import '../gr-rest-api-interface/gr-rest-api-interface.js';

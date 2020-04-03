@@ -29,6 +29,7 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import './gr-event-helper.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
+import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 Polymer({
   is: 'some-element',
 
@@ -40,7 +41,7 @@ Polymer({
   },
 
   behaviors: [
-    Gerrit.FireBehavior,
+    FireBehavior,
   ],
 });
 </script>

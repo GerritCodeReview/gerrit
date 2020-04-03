@@ -23,7 +23,6 @@
 */
 
 import '../../../scripts/bundled-polymer.js';
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../gr-error-dialog/gr-error-dialog.js';
 import '../gr-reporting/gr-reporting.js';
 import '../../shared/gr-alert/gr-alert.js';
@@ -36,6 +35,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-error-manager_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 
 const HIDE_ALERT_TIMEOUT_MS = 5000;
 const CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
@@ -46,12 +46,11 @@ const TOO_MANY_FILES = 'too many files to find conflicts';
 const AUTHENTICATION_REQUIRED = 'Authentication required\n';
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @extends Polymer.Element
  */
 class GrErrorManager extends mixinBehaviors( [
   BaseUrlBehavior,
-  Gerrit.FireBehavior,
+  FireBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

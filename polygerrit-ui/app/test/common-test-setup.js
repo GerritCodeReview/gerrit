@@ -37,15 +37,6 @@ security.polymer_resin.install({
   },
   safeTypesBridge: Gerrit.SafeTypes.safeTypesBridge,
 });
-self.mockPromise = () => {
-  let res;
-  const promise = new Promise(resolve => {
-    res = resolve;
-  });
-  promise.resolve = res;
-  return promise;
-};
-self.isHidden = el => getComputedStyle(el).display === 'none';
 setup(() => {
   if (!window.Gerrit) { return; }
   if (Gerrit._testOnly_resetPlugins) {

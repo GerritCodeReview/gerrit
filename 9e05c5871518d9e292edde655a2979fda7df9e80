@@ -16,6 +16,24 @@
       "revId": "9e05c5871518d9e292edde655a2979fda7df9e80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d41cadc_fc111e69",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-04-03T16:13:33Z",
+      "side": 1,
+      "message": "I use the default vscode multi line command for the commenting.",
+      "parentUuid": "7caf6efe_93efa144",
+      "revId": "9e05c5871518d9e292edde655a2979fda7df9e80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

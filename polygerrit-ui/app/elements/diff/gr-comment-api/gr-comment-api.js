@@ -16,13 +16,13 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-comment-api_html.js';
+import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 
 const PARENT = 'PARENT';
 
@@ -40,11 +40,11 @@ class ChangeComments {
   constructor(comments, robotComments, drafts, changeNum) {
     // TODO(taoalpha): replace these with exported methods from patchset behavior
     this._patchNumEquals =
-    Gerrit.PatchSetBehavior.patchNumEquals;
+      PatchSetBehavior.patchNumEquals;
     this._isMergeParent =
-    Gerrit.PatchSetBehavior.isMergeParent;
+      PatchSetBehavior.isMergeParent;
     this._getParentIndex =
-    Gerrit.PatchSetBehavior.getParentIndex;
+      PatchSetBehavior.getParentIndex;
 
     this._comments = comments;
     this._robotComments = robotComments;
@@ -542,11 +542,10 @@ class ChangeComments {
 }
 
 /**
- * @appliesMixin Gerrit.PatchSetMixin
  * @extends Polymer.Element
  */
 class GrCommentApi extends mixinBehaviors( [
-  Gerrit.PatchSetBehavior,
+  PatchSetBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

@@ -170,6 +170,9 @@ export const htmlTemplate = html`
         margin: var(--spacing-l) 0;
         padding: 0 var(--spacing-l);
       }
+      #startReviewBtn {
+        margin-left: var(--spacing-s);
+      }
       .collapseToggleContainer {
         display: flex;
         margin-bottom: 8px;

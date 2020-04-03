@@ -31,7 +31,6 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Enums;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -422,8 +421,7 @@ public class ChangeField {
         continue;
       }
 
-      com.google.common.base.Optional<ReviewerStateInternal> reviewerState =
-          Enums.getIfPresent(ReviewerStateInternal.class, v.substring(0, i));
+      Optional<ReviewerStateInternal> reviewerState = getReviewerState(v.substring(0, i));
       if (!reviewerState.isPresent()) {
         logger.atWarning().log(
             "Failed to parse reviewer state of reviewer field from change %s: %s",
@@ -474,8 +472,7 @@ public class ChangeField {
         continue;
       }
 
-      com.google.common.base.Optional<ReviewerStateInternal> reviewerState =
-          Enums.getIfPresent(ReviewerStateInternal.class, v.substring(0, i));
+      Optional<ReviewerStateInternal> reviewerState = getReviewerState(v.substring(0, i));
       if (!reviewerState.isPresent()) {
         logger.atWarning().log(
             "Failed to parse reviewer state of reviewer by email field from change %s: %s",
@@ -503,6 +500,14 @@ public class ChangeField {
       b.put(reviewerState.get(), address, timestamp);
     }
     return ReviewerByEmailSet.fromTable(b.build());
+  }
+
+  private static Optional<ReviewerStateInternal> getReviewerState(String value) {
+    try {
+      return Optional.of(ReviewerStateInternal.valueOf(value));
+    } catch (IllegalArgumentException | NullPointerException e) {
+      return Optional.empty();
+    }
   }
 
   private static ImmutableSet<Integer> getAttentionSetUserIds(ChangeData changeData) {

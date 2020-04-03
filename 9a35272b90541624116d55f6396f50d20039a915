@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8d4422b_f05bdea6",
+        "filename": "bug-template-for-core-plugin-request.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-03T14:21:11Z",
+      "side": 1,
+      "message": "This TODO needs to be resolved before submit.",
+      "revId": "9a35272b90541624116d55f6396f50d20039a915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

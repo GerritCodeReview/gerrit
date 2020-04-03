@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3a86e800_325e7561",
+        "filename": "Documentation/dev-core-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-03T14:21:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bce2fc18_39ab4088",
+      "range": {
+        "startLine": 99,
+        "startChar": 23,
+        "endLine": 99,
+        "endChar": 26
+      },
+      "revId": "b841073bec01c1b4fab62d6212f94be4ced1383a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e8e1e0f_93bb7dd0",
         "filename": "Documentation/dev-core-plugins.txt",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "b841073bec01c1b4fab62d6212f94be4ced1383a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6472797e_93e22fff",
+        "filename": "Documentation/dev-core-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-03T14:21:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e8e1e0f_93bb7dd0",
+      "range": {
+        "startLine": 128,
+        "startChar": 47,
+        "endLine": 128,
+        "endChar": 68
+      },
+      "revId": "b841073bec01c1b4fab62d6212f94be4ced1383a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "a7fe31d1_b10d1ba3",
+        "filename": "Documentation/dev-core-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-03T14:21:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f90c911_38a4ab38",
+      "range": {
+        "startLine": 133,
+        "startChar": 31,
+        "endLine": 133,
+        "endChar": 40
+      },
+      "revId": "b841073bec01c1b4fab62d6212f94be4ced1383a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c1d0989_faa68a2b",
         "filename": "Documentation/dev-core-plugins.txt",
         "patchSetId": 2
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "c0ee68a8_f47138d7",
+        "filename": "Documentation/dev-core-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-03T14:21:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c1d0989_faa68a2b",
+      "range": {
+        "startLine": 142,
+        "startChar": 19,
+        "endLine": 142,
+        "endChar": 41
+      },
+      "revId": "b841073bec01c1b4fab62d6212f94be4ced1383a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4e5dab19_af139334",
         "filename": "Documentation/dev-core-plugins.txt",
         "patchSetId": 2
@@ -114,6 +210,30 @@
       "revId": "b841073bec01c1b4fab62d6212f94be4ced1383a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74cd0e19_c54c42da",
+        "filename": "Documentation/dev-core-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-03T14:21:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e5dab19_af139334",
+      "range": {
+        "startLine": 143,
+        "startChar": 12,
+        "endLine": 143,
+        "endChar": 36
+      },
+      "revId": "b841073bec01c1b4fab62d6212f94be4ced1383a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -164,6 +284,30 @@
     },
     {
       "key": {
+        "uuid": "c14fdd67_e3b072f7",
+        "filename": "bug-template-for-core-plugin-request.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-03T14:21:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b897f48d_d51a910e",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "b841073bec01c1b4fab62d6212f94be4ced1383a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0e32575_ca9584f9",
         "filename": "bug-template-for-core-plugin-request.txt",
         "patchSetId": 2
@@ -184,6 +328,30 @@
       "revId": "b841073bec01c1b4fab62d6212f94be4ced1383a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "923b9710_8bda93e9",
+        "filename": "bug-template-for-core-plugin-request.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-03T14:21:11Z",
+      "side": 1,
+      "message": "Yes, this is only optional information. Made this clearer.",
+      "parentUuid": "f0e32575_ca9584f9",
+      "range": {
+        "startLine": 28,
+        "startChar": 8,
+        "endLine": 28,
+        "endChar": 35
+      },
+      "revId": "b841073bec01c1b4fab62d6212f94be4ced1383a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -210,6 +378,30 @@
     },
     {
       "key": {
+        "uuid": "4ad14d4b_80f0cc2e",
+        "filename": "bug-template-for-core-plugin-request.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-03T14:21:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66d03044_5fa93a4e",
+      "range": {
+        "startLine": 30,
+        "startChar": 7,
+        "endLine": 30,
+        "endChar": 8
+      },
+      "revId": "b841073bec01c1b4fab62d6212f94be4ced1383a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "834b8e13_7a9ec743",
         "filename": "bug-template-for-core-plugin-request.txt",
         "patchSetId": 2
@@ -230,6 +422,30 @@
       "revId": "b841073bec01c1b4fab62d6212f94be4ced1383a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "392b5e6e_3c497e51",
+        "filename": "bug-template-for-core-plugin-request.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-03T14:21:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "834b8e13_7a9ec743",
+      "range": {
+        "startLine": 39,
+        "startChar": 17,
+        "endLine": 39,
+        "endChar": 28
+      },
+      "revId": "b841073bec01c1b4fab62d6212f94be4ced1383a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -256,6 +472,30 @@
     },
     {
       "key": {
+        "uuid": "2d84555f_4e00467f",
+        "filename": "bug-template-for-core-plugin-request.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-03T14:21:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdc4f5dd_8d0ced3c",
+      "range": {
+        "startLine": 42,
+        "startChar": 26,
+        "endLine": 42,
+        "endChar": 36
+      },
+      "revId": "b841073bec01c1b4fab62d6212f94be4ced1383a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e8ff3c6_9c6ff847",
         "filename": "bug-template-for-core-plugin-request.txt",
         "patchSetId": 2
@@ -279,6 +519,30 @@
     },
     {
       "key": {
+        "uuid": "a6631e01_b171a3fd",
+        "filename": "bug-template-for-core-plugin-request.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-03T14:21:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e8ff3c6_9c6ff847",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 24
+      },
+      "revId": "b841073bec01c1b4fab62d6212f94be4ced1383a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cb00bef_4f967f7a",
         "filename": "bug-template-for-core-plugin-request.txt",
         "patchSetId": 2
@@ -299,6 +563,30 @@
       "revId": "b841073bec01c1b4fab62d6212f94be4ced1383a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "857aad27_0c094e97",
+        "filename": "bug-template-for-core-plugin-request.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-03T14:21:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cb00bef_4f967f7a",
+      "range": {
+        "startLine": 47,
+        "startChar": 42,
+        "endLine": 47,
+        "endChar": 71
+      },
+      "revId": "b841073bec01c1b4fab62d6212f94be4ced1383a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

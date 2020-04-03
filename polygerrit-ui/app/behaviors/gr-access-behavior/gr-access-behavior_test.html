@@ -31,8 +31,8 @@ limitations under the License.
 
 <script type="module">
 import '../../test/common-test-setup.js';
-import './gr-access-behavior.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
+import {AccessBehavior} from './gr-access-behavior.js';
 suite('gr-access-behavior tests', () => {
   let element;
 
@@ -40,7 +40,7 @@ suite('gr-access-behavior tests', () => {
     // Define a Polymer element that uses this behavior.
     Polymer({
       is: 'test-element',
-      behaviors: [Gerrit.AccessBehavior],
+      behaviors: [AccessBehavior],
     });
   });
 

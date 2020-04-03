@@ -17,7 +17,6 @@
 import '../../../scripts/bundled-polymer.js';
 
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
-import '../../../behaviors/gr-access-behavior/gr-access-behavior.js';
 import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import '../../../styles/gr-form-styles.js';
 import '../../../styles/shared-styles.js';
@@ -30,6 +29,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-rule-editor_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {AccessBehavior} from '../../../behaviors/gr-access-behavior/gr-access-behavior.js';
 
 /**
  * Fired when the rule has been modified or removed.
@@ -79,12 +79,11 @@ const FORCE_EDIT_OPTIONS = [
 ];
 
 /**
- * @appliesMixin Gerrit.AccessMixin
  * @appliesMixin Gerrit.URLEncodingMixin
  * @extends Polymer.Element
  */
 class GrRuleEditor extends mixinBehaviors( [
-  Gerrit.AccessBehavior,
+  AccessBehavior,
   BaseUrlBehavior,
   Gerrit.URLEncodingBehavior,
 ], GestureEventListeners(

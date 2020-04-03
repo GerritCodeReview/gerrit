@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import '../../../scripts/bundled-polymer.js';
-import '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import '../../core/gr-reporting/gr-reporting.js';
 import '../../plugins/gr-admin-api/gr-admin-api.js';
 import '../../plugins/gr-attribute-helper/gr-attribute-helper.js';

@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
+
+import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 
 /**
  * @constructor
@@ -75,7 +76,7 @@ RevisionInfo.prototype.getParentCount = function(patchNum) {
  */
 RevisionInfo.prototype.getParentId = function(patchNum, parentIndex) {
   const rev = Object.values(this._change.revisions).find(rev =>
-    Gerrit.PatchSetBehavior.patchNumEquals(rev._number, patchNum));
+    PatchSetBehavior.patchNumEquals(rev._number, patchNum));
   return rev.commit.parents[parentIndex].commit;
 };
 

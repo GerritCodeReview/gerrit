@@ -16,12 +16,12 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-limited-text_html.js';
+import {TooltipBehavior} from '../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js';
 
 /**
  * The gr-limited-text element is for displaying text with a maximum length
@@ -29,11 +29,10 @@ import {htmlTemplate} from './gr-limited-text_html.js';
  * configured limit, then an ellipsis indicates that the text was truncated
  * and a tooltip containing the full text is enabled.
  *
- * @appliesMixin Gerrit.TooltipMixin
  * @extends Polymer.Element
  */
 class GrLimitedText extends mixinBehaviors( [
-  Gerrit.TooltipBehavior,
+  TooltipBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {
@@ -52,7 +51,7 @@ class GrLimitedText extends mixinBehaviors( [
         value: null,
       },
 
-      /** Boolean property used by Gerrit.TooltipBehavior. */
+      /** Boolean property used by TooltipBehavior. */
       hasTooltip: {
         type: Boolean,
         value: false,

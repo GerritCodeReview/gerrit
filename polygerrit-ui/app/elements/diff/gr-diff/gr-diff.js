@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-button/gr-button.js';
 import '../gr-diff-builder/gr-diff-builder-element.js';
@@ -33,6 +32,7 @@ import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {htmlTemplate} from './gr-diff_html.js';
+import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 
 const ERR_COMMENT_ON_EDIT = 'You cannot comment on an edit.';
 const ERR_COMMENT_ON_EDIT_BASE = 'You cannot comment on the base patch set ' +
@@ -109,11 +109,10 @@ const COMMIT_MSG_LINE_LENGTH = 72;
 const RENDER_DIFF_TABLE_DEBOUNCE_NAME = 'renderDiffTable';
 
 /**
- * @appliesMixin Gerrit.PatchSetMixin
  * @extends Polymer.Element
  */
 class GrDiff extends mixinBehaviors( [
-  Gerrit.PatchSetBehavior,
+  PatchSetBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

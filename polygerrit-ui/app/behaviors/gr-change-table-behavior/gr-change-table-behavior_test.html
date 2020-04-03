@@ -39,8 +39,8 @@ limitations under the License.
 
 <script type="module">
 import '../../test/common-test-setup.js';
-import './gr-change-table-behavior.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
+import {ChangeTableBehavior} from './gr-change-table-behavior.js';
 suite('gr-change-table-behavior tests', () => {
   let element;
   // eslint-disable-next-line no-unused-vars
@@ -50,7 +50,7 @@ suite('gr-change-table-behavior tests', () => {
     // Define a Polymer element that uses this behavior.
     Polymer({
       is: 'test-element',
-      behaviors: [Gerrit.ChangeTableBehavior],
+      behaviors: [ChangeTableBehavior],
     });
   });
 

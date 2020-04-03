@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import '../../../scripts/bundled-polymer.js';
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';

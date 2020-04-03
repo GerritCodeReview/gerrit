@@ -20,7 +20,6 @@ import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js'
 import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import '../../../scripts/bundled-polymer.js';
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../styles/gr-change-list-styles.js';
 import '../../core/gr-navigation/gr-navigation.js';
 import '../../shared/gr-cursor-manager/gr-cursor-manager.js';

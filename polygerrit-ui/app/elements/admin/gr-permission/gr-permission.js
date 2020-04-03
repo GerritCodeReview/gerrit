@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../behaviors/gr-access-behavior/gr-access-behavior.js';
 import '@polymer/paper-toggle-button/paper-toggle-button.js';
 import '../../../styles/gr-form-styles.js';

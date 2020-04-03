@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../behaviors/gr-display-name-behavior/gr-display-name-behavior.js';
-
 import '../../../scripts/bundled-polymer.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-dropdown/gr-dropdown.js';
@@ -31,7 +29,6 @@ import {htmlTemplate} from './gr-account-dropdown_html.js';
 const INTERPOLATE_URL_PATTERN = /\$\{([\w]+)\}/g;
 
 /**
- * @appliesMixin Gerrit.DisplayNameMixin
  * @extends Polymer.Element
  */
 class GrAccountDropdown extends mixinBehaviors( [

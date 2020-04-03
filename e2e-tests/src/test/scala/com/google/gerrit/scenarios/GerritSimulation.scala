@@ -42,7 +42,6 @@ class GerritSimulation extends Simulation {
   }
 
   protected def replaceProperty(term: String, default: Any, in: String): String = {
-    val key: String = term.toUpperCase
     val property = pack + "." + term
     var value = default
     default match {
@@ -54,6 +53,11 @@ class GerritSimulation extends Simulation {
       case _: Integer =>
         value = Integer.getInteger(property, default.asInstanceOf[Integer])
     }
+    replaceKeyWith(term, value, in)
+  }
+
+  protected def replaceKeyWith(term: String, value: Any, in: String): String = {
+    val key: String = term.toUpperCase
     in.replaceAllLiterally(key, value.toString)
   }
 

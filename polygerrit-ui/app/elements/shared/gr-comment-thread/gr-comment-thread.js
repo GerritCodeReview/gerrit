@@ -29,19 +29,19 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-comment-thread_html.js';
 import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
+import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
 
 /**
- * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @extends Polymer.Element
  */
 class GrCommentThread extends mixinBehaviors( [
   /**
    * Not used in this element rather other elements tests
    */
-  Gerrit.KeyboardShortcutBehavior,
+  KeyboardShortcutBehavior,
   PathListBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

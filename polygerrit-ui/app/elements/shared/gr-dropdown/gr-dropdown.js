@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import '../../../scripts/bundled-polymer.js';
 import '@polymer/iron-dropdown/iron-dropdown.js';
 import '../gr-button/gr-button.js';
@@ -30,17 +29,17 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-dropdown_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 
 const REL_NOOPENER = 'noopener';
 const REL_EXTERNAL = 'external';
 
 /**
- * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @extends Polymer.Element
  */
 class GrDropdown extends mixinBehaviors( [
   BaseUrlBehavior,
-  Gerrit.KeyboardShortcutBehavior,
+  KeyboardShortcutBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

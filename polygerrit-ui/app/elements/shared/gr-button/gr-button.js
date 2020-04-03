@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js';
 import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import '@polymer/paper-button/paper-button.js';
 import '../../../styles/shared-styles.js';
@@ -27,15 +26,15 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-button_html.js';
 import '../../../scripts/util.js';
+import {TooltipBehavior} from '../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js';
 
 /**
  * @appliesMixin Gerrit.KeyboardShortcutMixin
- * @appliesMixin Gerrit.TooltipMixin
  * @extends Polymer.Element
  */
 class GrButton extends mixinBehaviors( [
   Gerrit.KeyboardShortcutBehavior,
-  Gerrit.TooltipBehavior,
+  TooltipBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

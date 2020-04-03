@@ -22,6 +22,30 @@
       "revId": "e7f356f53fc218ec9b1cd66934691cea86752827",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa0588b1_3d807f82",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-04-03T11:02:25Z",
+      "side": 0,
+      "message": "There is another test method in this class: includeExternalGroup() which causes adding this group. This is the only added external group which is returned from the groups external cache (in addition to my 2 LDAP groups in this change here).\n\nThis other test adds the REGISTERED_USERS group as a subgroup of a group created in the test, causing it to be treated as an external group.\n\n```\nAccountGroup.UUI group \u003d newGroup()\nString subgroupUuid \u003d SystemGroupBackend.REGISTERED_USERS.get()\ngApi.groups().id(group.get()).addGroups(subgroupUuid)\n```\n\nMy test was flaky because running the whole class makes the groups cache returns the REGISTERED_USERS in my test, but running only my test method doesn\u0027t cause that.",
+      "parentUuid": "e2f6681d_bdbae06c",
+      "range": {
+        "startLine": 224,
+        "startChar": 41,
+        "endLine": 224,
+        "endChar": 64
+      },
+      "revId": "e7f356f53fc218ec9b1cd66934691cea86752827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

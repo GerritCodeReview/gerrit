@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import '@polymer/iron-dropdown/iron-dropdown.js';
 import '@polymer/iron-input/iron-input.js';
 import '../../../styles/shared-styles.js';
@@ -48,6 +47,7 @@ import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -67,7 +67,6 @@ const DiffViewMode = {
 
 /**
  * @appliesMixin PatchSetMixin
- * @appliesMixin Gerrit.RESTClientMixin
  * @extends Polymer.Element
  */
 class GrDiffView extends mixinBehaviors( [
@@ -75,7 +74,7 @@ class GrDiffView extends mixinBehaviors( [
   KeyboardShortcutBehavior,
   PatchSetBehavior,
   PathListBehavior,
-  Gerrit.RESTClientBehavior,
+  RESTClientBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

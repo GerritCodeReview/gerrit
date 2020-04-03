@@ -31,8 +31,8 @@ limitations under the License.
 
 <script type="module">
 import '../../test/common-test-setup.js';
-import './gr-display-name-behavior.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
+import {DisplayNameBehavior} from './gr-display-name-behavior.js';
 suite('gr-display-name-behavior tests', () => {
   let element;
   // eslint-disable-next-line no-unused-vars
@@ -47,7 +47,7 @@ suite('gr-display-name-behavior tests', () => {
     Polymer({
       is: 'test-element-anon',
       behaviors: [
-        Gerrit.DisplayNameBehavior,
+        DisplayNameBehavior,
       ],
     });
   });

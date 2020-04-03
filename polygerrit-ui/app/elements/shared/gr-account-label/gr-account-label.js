@@ -17,7 +17,6 @@
 import '../../../scripts/bundled-polymer.js';
 
 import '@polymer/iron-icon/iron-icon.js';
-import '../../../behaviors/gr-display-name-behavior/gr-display-name-behavior.js';
 import '../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js';
 import '../../../styles/shared-styles.js';
 import '../gr-avatar/gr-avatar.js';
@@ -29,13 +28,13 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-account-label_html.js';
+import {DisplayNameBehavior} from '../../../behaviors/gr-display-name-behavior/gr-display-name-behavior.js';
 
 /**
- * @appliesMixin Gerrit.DisplayNameMixin
  * @extends Polymer.Element
  */
 class GrAccountLabel extends mixinBehaviors( [
-  Gerrit.DisplayNameBehavior,
+  DisplayNameBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

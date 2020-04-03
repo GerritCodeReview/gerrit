@@ -37,7 +37,7 @@ def eslint(name, plugins, srcs, config, ignore, extensions = [".js"], data = [])
             extensions inside the package where eslint macro is called.
         {name}_bin rule - runs eslint with specified settings; ignores srcs. To use this rule
             you must pass a folder to check, for example:
-            baze run {name}_test -- --fix $(pwd)/polygerrit-ui/app
+            bazel run {name}_test -- --fix $(pwd)/polygerrit-ui/app
     """
     entry_point = "@npm//:node_modules/eslint/bin/eslint.js"
     bin_data = [

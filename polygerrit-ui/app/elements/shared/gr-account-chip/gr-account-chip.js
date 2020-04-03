@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../gr-account-link/gr-account-link.js';
 import '../gr-button/gr-button.js';
 import '../gr-icons/gr-icons.js';

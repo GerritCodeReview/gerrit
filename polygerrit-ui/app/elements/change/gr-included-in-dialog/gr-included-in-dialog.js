@@ -17,7 +17,6 @@
 import '../../../scripts/bundled-polymer.js';
 
 import '@polymer/iron-input/iron-input.js';
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';

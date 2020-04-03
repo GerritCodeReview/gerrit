@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 import '../../../scripts/bundled-polymer.js';
-
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../behaviors/gr-access-behavior/gr-access-behavior.js';
 import '@polymer/iron-input/iron-input.js';
 import '../../../styles/gr-form-styles.js';

@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.js';
 import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import '../../../styles/gr-menu-page-styles.js';
 import '../../../styles/gr-page-nav-styles.js';
@@ -48,7 +47,6 @@ import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-beh
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
 /**
- * @appliesMixin Gerrit.AdminNavMixin
  * @appliesMixin Gerrit.URLEncodingMixin
  * @extends Polymer.Element
  */

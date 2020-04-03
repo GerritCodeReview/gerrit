@@ -31,8 +31,8 @@ limitations under the License.
 
 <script type="module">
 import '../../test/common-test-setup.js';
-import './gr-admin-nav-behavior.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
+import {AdminNavBehavior} from './gr-admin-nav-behavior.js';
 suite('gr-admin-nav-behavior tests', () => {
   let element;
   let sandbox;
@@ -44,7 +44,7 @@ suite('gr-admin-nav-behavior tests', () => {
     Polymer({
       is: 'test-element',
       behaviors: [
-        Gerrit.AdminNavBehavior,
+        AdminNavBehavior,
       ],
     });
   });

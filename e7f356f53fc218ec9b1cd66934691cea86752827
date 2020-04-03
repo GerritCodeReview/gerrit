@@ -46,6 +46,30 @@
       "revId": "e7f356f53fc218ec9b1cd66934691cea86752827",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb52b70a_e38725e1",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-04-03T11:07:06Z",
+      "side": 0,
+      "message": "Should we modify tests so that they don\u0027t affect the class state after they finish, e.g. by removing the external groups in the other method as well as mine? or maybe in the @After method?",
+      "parentUuid": "aa0588b1_3d807f82",
+      "range": {
+        "startLine": 224,
+        "startChar": 41,
+        "endLine": 224,
+        "endChar": 64
+      },
+      "revId": "e7f356f53fc218ec9b1cd66934691cea86752827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

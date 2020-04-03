@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import '../../../behaviors/gr-change-table-behavior/gr-change-table-behavior.js';
 import '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
@@ -37,6 +36,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-list-item_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {ChangeTableBehavior} from '../../../behaviors/gr-change-table-behavior/gr-change-table-behavior.js';
 
 const CHANGE_SIZE = {
   XS: 10,
@@ -46,7 +46,6 @@ const CHANGE_SIZE = {
 };
 
 /**
- * @appliesMixin Gerrit.ChangeTableMixin
  * @appliesMixin Gerrit.PathListMixin
  * @appliesMixin Gerrit.RESTClientMixin
  * @appliesMixin Gerrit.URLEncodingMixin
@@ -54,7 +53,7 @@ const CHANGE_SIZE = {
  */
 class GrChangeListItem extends mixinBehaviors( [
   BaseUrlBehavior,
-  Gerrit.ChangeTableBehavior,
+  ChangeTableBehavior,
   Gerrit.PathListBehavior,
   Gerrit.RESTClientBehavior,
   Gerrit.URLEncodingBehavior,

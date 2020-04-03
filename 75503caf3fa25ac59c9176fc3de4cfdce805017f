@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "e078b779_d6c20616",
+        "filename": "polygerrit-ui/app/constants/constants.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-03T09:26:50Z",
+      "side": 1,
+      "message": "ya good point. maybe copy the content from the link next time since external people won\u0027t be able to visit the link",
+      "parentUuid": "bbab52a4_6ca5998e",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 25
+      },
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c2110c99_18143fd2",
         "filename": "polygerrit-ui/app/constants/constants.js",
         "patchSetId": 2
@@ -71,6 +95,30 @@
       "writtenOn": "2020-04-03T09:16:29Z",
       "side": 1,
       "message": "SecondaryTabs?\nhttps://engdoc.corp.google.com/eng/doc/devguide/js/styleguide.md?cl\u003dhead#features-objects-enums",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 27
+      },
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7915b833_dd6f4582",
+        "filename": "polygerrit-ui/app/constants/constants.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-03T09:26:50Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "c2110c99_18143fd2",
       "range": {
         "startLine": 25,
         "startChar": 13,
@@ -103,6 +151,30 @@
       "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f45ef92f_eb952f2a",
+        "filename": "polygerrit-ui/app/constants/messages.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-03T09:26:50Z",
+      "side": 1,
+      "message": "ya I thought about that actually. but I currently don\u0027t have a really good idea on how we should structure all messages, and some messages can be used across topics, like: NO_ROBOT_COMMENTS can be used not only in THREADS_MESSAGE, but maybe also for FINDINGS summary.\n\nOnce we have more messages here, we may have a better idea on how we want to organize them, maybe even split into sub_files etc. And replace them can be pretty easy.",
+      "parentUuid": "c745e298_45699171",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 0
+      },
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -22,6 +22,30 @@
       "revId": "1e3eb4035f53351a2af0ebad66cc905e949c4442",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca323d7a_3f60d59b",
+        "filename": "polygerrit-ui/app/constants/constants.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-03T09:26:50Z",
+      "side": 1,
+      "message": "sometimes it can be hard to know who is the owner for some constants, but it might be easier to know whether it should be a constant or not. So i think its easier to have a single place you know where all constants defined compared to searching for multiple constants files to understand which one I should import from.",
+      "parentUuid": "1d97f60c_e97c2e6b",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 29,
+        "endChar": 0
+      },
+      "revId": "1e3eb4035f53351a2af0ebad66cc905e949c4442",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

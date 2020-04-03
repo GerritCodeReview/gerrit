@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/gr-access-behavior/gr-access-behavior.js';
 import '@polymer/paper-toggle-button/paper-toggle-button.js';
 import '../../../styles/gr-form-styles.js';
 import '../../../styles/gr-menu-page-styles.js';
@@ -32,6 +31,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-permission_html.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
+import {AccessBehavior} from '../../../behaviors/gr-access-behavior/gr-access-behavior.js';
 
 const MAX_AUTOCOMPLETE_RESULTS = 20;
 
@@ -40,9 +40,6 @@ const RANGE_NAMES = [
   'BATCH CHANGES LIMIT',
 ];
 
-/**
- * @appliesMixin Gerrit.AccessMixin
- */
 /**
  * Fired when the permission has been modified or removed.
  *
@@ -55,7 +52,7 @@ const RANGE_NAMES = [
  * @extends Polymer.Element
  */
 class GrPermission extends mixinBehaviors( [
-  Gerrit.AccessBehavior,
+  AccessBehavior,
   /**
    * Unused in this element, but called by other elements in tests
    * e.g gr-access-section_test.

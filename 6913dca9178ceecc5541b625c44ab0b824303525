@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbfd2392_ffe097e0",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-03T09:21:02Z",
+      "side": 1,
+      "message": "I finally found the setting in IJ to turn this off. Thanks for fixing.",
+      "range": {
+        "startLine": 299,
+        "startChar": 10,
+        "endLine": 299,
+        "endChar": 28
+      },
+      "revId": "6913dca9178ceecc5541b625c44ab0b824303525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

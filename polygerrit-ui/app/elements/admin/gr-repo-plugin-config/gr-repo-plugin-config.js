@@ -18,7 +18,6 @@ import '../../../scripts/bundled-polymer.js';
 
 import '@polymer/iron-input/iron-input.js';
 import '@polymer/paper-toggle-button/paper-toggle-button.js';
-import '../../../behaviors/gr-repo-plugin-config-behavior/gr-repo-plugin-config-behavior.js';
 import '../../../styles/gr-form-styles.js';
 import '../../../styles/gr-subpage-styles.js';
 import '../../../styles/shared-styles.js';
@@ -32,13 +31,13 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-repo-plugin-config_html.js';
+import {RepoPluginConfig} from '../../../behaviors/gr-repo-plugin-config-behavior/gr-repo-plugin-config-behavior.js';
 
 /**
- * @appliesMixin Gerrit.RepoPluginConfigMixin
  * @extends Polymer.Element
  */
 class GrRepoPluginConfig extends mixinBehaviors( [
-  Gerrit.RepoPluginConfig,
+  RepoPluginConfig,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

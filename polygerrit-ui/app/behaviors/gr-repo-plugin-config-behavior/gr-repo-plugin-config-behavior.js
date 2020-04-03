@@ -14,40 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(window) {
-  'use strict';
 
-  window.Gerrit = window.Gerrit || {};
+/** @polymerBehavior Gerrit.RepoPluginConfig*/
+export const RepoPluginConfig = {
+  // Should be kept in sync with
+  // gerrit/java/com/google/gerrit/extensions/api/projects/ProjectConfigEntryType.java.
+  ENTRY_TYPES: {
+    ARRAY: 'ARRAY',
+    BOOLEAN: 'BOOLEAN',
+    INT: 'INT',
+    LIST: 'LIST',
+    LONG: 'LONG',
+    STRING: 'STRING',
+  },
+  PLUGIN_CONFIG_CHANGED: 'plugin-config-changed',
+};
 
-  /** @polymerBehavior Gerrit.RepoPluginConfig*/
-  Gerrit.RepoPluginConfig = {
-    // Should be kept in sync with
-    // gerrit/java/com/google/gerrit/extensions/api/projects/ProjectConfigEntryType.java.
-    ENTRY_TYPES: {
-      ARRAY: 'ARRAY',
-      BOOLEAN: 'BOOLEAN',
-      INT: 'INT',
-      LIST: 'LIST',
-      LONG: 'LONG',
-      STRING: 'STRING',
-    },
-    PLUGIN_CONFIG_CHANGED: 'plugin-config-changed',
-  };
-
-  // eslint-disable-next-line no-unused-vars
-  function defineEmptyMixin() {
-    // This is a temporary function.
-    // Polymer linter doesn't process correctly the following code:
-    // class MyElement extends Polymer.mixinBehaviors([legacyBehaviors], ...) {...}
-    // To workaround this issue, the mock mixin is declared in this method.
-    // In the following changes, legacy behaviors will be converted to mixins.
-
-    /**
-     * @polymer
-     * @mixinFunction
-     */
-    Gerrit.RepoPluginConfigMixin = base =>
-      class extends base {
-      };
-  }
-})(window);
+// TODO(dmfilippov) Remove the following lines with assignments
+// Plugins can use the behavior because it was accessible with
+// the global Gerrit... variable. To avoid breaking changes in plugins
+// temporary assign global variables.
+window.Gerrit = window.Gerrit || {};
+window.Gerrit.RepoPluginConfig = RepoPluginConfig;

@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/gr-list-view-behavior/gr-list-view-behavior.js';
 import '../../../styles/gr-table-styles.js';
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-list-view/gr-list-view.js';
@@ -27,14 +26,14 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-plugin-list_html.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
+import {ListViewBehavior} from '../../../behaviors/gr-list-view-behavior/gr-list-view-behavior.js';
 
 /**
- * @appliesMixin Gerrit.ListViewMixin
  * @extends Polymer.Element
  */
 class GrPluginList extends mixinBehaviors( [
   FireBehavior,
-  Gerrit.ListViewBehavior,
+  ListViewBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import '@polymer/paper-button/paper-button.js';
 import '../../../styles/shared-styles.js';
 import '../../core/gr-reporting/gr-reporting.js';
@@ -27,13 +26,13 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-button_html.js';
 import '../../../scripts/util.js';
 import {TooltipBehavior} from '../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js';
+import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 
 /**
- * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @extends Polymer.Element
  */
 class GrButton extends mixinBehaviors( [
-  Gerrit.KeyboardShortcutBehavior,
+  KeyboardShortcutBehavior,
   TooltipBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
 import '../../core/gr-reporting/gr-reporting.js';
@@ -43,6 +42,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-reply-dialog_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
+import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -80,13 +80,12 @@ const EMPTY_REPLY_MESSAGE = 'Cannot send an empty reply.';
 const SEND_REPLY_TIMING_LABEL = 'SendReply';
 
 /**
- * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @appliesMixin Gerrit.RESTClientMixin
  * @extends Polymer.Element
  */
 class GrReplyDialog extends mixinBehaviors( [
   BaseUrlBehavior,
-  Gerrit.KeyboardShortcutBehavior,
+  KeyboardShortcutBehavior,
   PatchSetBehavior,
   Gerrit.RESTClientBehavior,
 ], GestureEventListeners(

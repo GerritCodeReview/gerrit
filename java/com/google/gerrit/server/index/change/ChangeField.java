@@ -47,7 +47,6 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitRequirement;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
-import com.google.gerrit.entities.AttentionSetUpdate.Operation;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSetApproval;
@@ -297,7 +296,7 @@ public class ChangeField {
     final long timestampMillis;
     final int userId;
     final String reason;
-    final Operation operation;
+    final AttentionSetUpdate.Operation operation;
 
     StoredAttentionSetEntry(AttentionSetUpdate attentionSetUpdate) {
       timestampMillis = attentionSetUpdate.timestamp().toEpochMilli();

@@ -17,7 +17,6 @@
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
 
 import '../../../scripts/bundled-polymer.js';
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../gr-dialog/gr-dialog.js';
 import '../../../styles/shared-styles.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';

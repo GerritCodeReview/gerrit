@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import '@polymer/paper-tabs/paper-tabs.js';
@@ -62,6 +61,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-view_html.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
+import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -121,14 +121,13 @@ const ROBOT_COMMENTS_LIMIT = 10;
 
 /**
  * @appliesMixin Gerrit.KeyboardShortcutMixin
- * @appliesMixin Gerrit.PatchSetMixin
  * @appliesMixin Gerrit.RESTClientMixin
  * @extends Polymer.Element
  */
 class GrChangeView extends mixinBehaviors( [
   FireBehavior,
   Gerrit.KeyboardShortcutBehavior,
-  Gerrit.PatchSetBehavior,
+  PatchSetBehavior,
   Gerrit.RESTClientBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

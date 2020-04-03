@@ -22,6 +22,30 @@
       "revId": "412cf647af843866792d126a3f2a52e360a1439d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c538d64_518cc9f2",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-03T13:56:07Z",
+      "side": 1,
+      "message": "No, since we want the voting to be visible to all maintainers, and the community manager mailing list is only visible to the community managers.",
+      "parentUuid": "1633830e_2cd35019",
+      "range": {
+        "startLine": 84,
+        "startChar": 7,
+        "endLine": 84,
+        "endChar": 53
+      },
+      "revId": "412cf647af843866792d126a3f2a52e360a1439d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

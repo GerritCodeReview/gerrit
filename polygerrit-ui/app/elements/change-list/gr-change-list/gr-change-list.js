@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import '../../../behaviors/gr-change-table-behavior/gr-change-table-behavior.js';
 import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
@@ -35,6 +34,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-list_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
+import {ChangeTableBehavior} from '../../../behaviors/gr-change-table-behavior/gr-change-table-behavior.js';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
@@ -42,7 +42,6 @@ const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
 const MAX_SHORTCUT_CHARS = 5;
 
 /**
- * @appliesMixin Gerrit.ChangeTableMixin
  * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @appliesMixin Gerrit.RESTClientMixin
  * @appliesMixin Gerrit.URLEncodingMixin
@@ -50,7 +49,7 @@ const MAX_SHORTCUT_CHARS = 5;
  */
 class GrChangeList extends mixinBehaviors( [
   BaseUrlBehavior,
-  Gerrit.ChangeTableBehavior,
+  ChangeTableBehavior,
   FireBehavior,
   Gerrit.KeyboardShortcutBehavior,
   Gerrit.RESTClientBehavior,

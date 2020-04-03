@@ -49,8 +49,9 @@ import '../../shared/gr-rest-api-interface/mock-diff-response_test.js';
 import './gr-file-list.js';
 import '../../diff/gr-comment-api/gr-comment-api-mock_test.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 suite('gr-file-list tests', () => {
-  const kb = window.Gerrit.KeyboardShortcutBinder;
+  const kb = KeyboardShortcutBinder;
   kb.bindShortcut(kb.Shortcut.LEFT_PANE, 'shift+left');
   kb.bindShortcut(kb.Shortcut.RIGHT_PANE, 'shift+right');
   kb.bindShortcut(kb.Shortcut.TOGGLE_INLINE_DIFF, 'i:keyup');

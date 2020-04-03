@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import '@polymer/iron-input/iron-input.js';
 import '../../../scripts/bundled-polymer.js';
 import '../../../styles/gr-form-styles.js';
@@ -38,6 +37,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-repo-detail-list_html.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 import {ListViewBehavior} from '../../../behaviors/gr-list-view-behavior/gr-list-view-behavior.js';
+import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 
 const DETAIL_TYPES = {
   BRANCHES: 'branches',
@@ -47,13 +47,12 @@ const DETAIL_TYPES = {
 const PGP_START = '-----BEGIN PGP SIGNATURE-----';
 
 /**
- * @appliesMixin Gerrit.URLEncodingMixin
  * @extends Polymer.Element
  */
 class GrRepoDetailList extends mixinBehaviors( [
   ListViewBehavior,
   FireBehavior,
-  Gerrit.URLEncodingBehavior,
+  URLEncodingBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

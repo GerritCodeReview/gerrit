@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 import '../../../scripts/bundled-polymer.js';
-
-import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import '../../../styles/gr-menu-page-styles.js';
 import '../../../styles/gr-page-nav-styles.js';
 import '../../../styles/shared-styles.js';
@@ -43,17 +41,17 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-admin-view_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
 /**
- * @appliesMixin Gerrit.URLEncodingMixin
  * @extends Polymer.Element
  */
 class GrAdminView extends mixinBehaviors( [
   Gerrit.AdminNavBehavior,
   BaseUrlBehavior,
-  Gerrit.URLEncodingBehavior,
+  URLEncodingBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

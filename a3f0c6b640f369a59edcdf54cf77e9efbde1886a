@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d35db5e7_8b91671f",
+        "filename": "java/com/google/gerrit/entities/Account.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-03T13:25:57Z",
+      "side": 0,
+      "message": "No, I added it as pre work for this. It wasn\u0027t the best idea because I had to move the code now because the serializer interface returns a byte array and I need to stich the proto together.",
+      "parentUuid": "3d468340_848cac9f",
+      "range": {
+        "startLine": 128,
+        "startChar": 2,
+        "endLine": 128,
+        "endChar": 17
+      },
+      "revId": "a3f0c6b640f369a59edcdf54cf77e9efbde1886a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97eb6d5d_95203e9a",
         "filename": "java/com/google/gerrit/server/account/AccountCache.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "eff43f6e_3a44d771",
+        "filename": "java/com/google/gerrit/server/account/AccountCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-03T13:25:57Z",
+      "side": 0,
+      "message": "Yes, that is correct.\n\nImmutable here means that the SHA1 of the generating refs is part of the key, so updating the data in Git automatically causes a cache miss without any eviction. The values in the cache are immutable as they are generated once and never changed besides being garbage collected at some point.",
+      "parentUuid": "97eb6d5d_95203e9a",
+      "range": {
+        "startLine": 82,
+        "startChar": 2,
+        "endLine": 82,
+        "endChar": 44
+      },
+      "revId": "a3f0c6b640f369a59edcdf54cf77e9efbde1886a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8475294a_10b38f8d",
         "filename": "java/com/google/gerrit/server/account/ProjectWatches.java",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "a3f0c6b640f369a59edcdf54cf77e9efbde1886a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33a42a16_557f3c6d",
+        "filename": "java/com/google/gerrit/server/account/ProjectWatches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-03T13:25:57Z",
+      "side": 0,
+      "message": "Same answer as for the other serializer :-)",
+      "parentUuid": "8475294a_10b38f8d",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 46
+      },
+      "revId": "a3f0c6b640f369a59edcdf54cf77e9efbde1886a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

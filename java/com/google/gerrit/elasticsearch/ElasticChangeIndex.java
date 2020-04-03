@@ -378,7 +378,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
         ChangeField.SUBMIT_RULE_OPTIONS_STRICT,
         cd);
 
-    // Stored-submit-record-leniant.
+    // Stored-submit-record-lenient.
     decodeSubmitRecords(
         source,
         ChangeField.STORED_SUBMIT_RECORD_LENIENT.getName(),

@@ -17,7 +17,6 @@
 import '../../../scripts/bundled-polymer.js';
 
 import '@polymer/iron-icon/iron-icon.js';
-import '../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js';
 import '../../../styles/shared-styles.js';
 import '../gr-avatar/gr-avatar.js';
 import '../gr-hovercard-account/gr-hovercard-account.js';

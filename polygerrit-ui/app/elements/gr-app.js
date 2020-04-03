@@ -25,18 +25,18 @@ import './gr-app-init.js';
 import './font-roboto-local-loader.js';
 import '../scripts/bundled-polymer.js';
 import 'polymer-resin/standalone/polymer-resin.js';
-import '../behaviors/safe-types-behavior/safe-types-behavior.js';
 import './gr-app-element.js';
 import './change-list/gr-embed-dashboard/gr-embed-dashboard.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-app_html.js';
+import {SafeTypes} from '../behaviors/safe-types-behavior/safe-types-behavior.js';
 
 security.polymer_resin.install({
   allowedIdentifierPrefixes: [''],
   reportHandler: security.polymer_resin.CONSOLE_LOGGING_REPORT_HANDLER,
-  safeTypesBridge: Gerrit.SafeTypes.safeTypesBridge,
+  safeTypesBridge: SafeTypes.safeTypesBridge,
 });
 
 /** @extends Polymer.Element */

@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 import '@polymer/iron-input/iron-input.js';
 import '../../core/gr-navigation/gr-navigation.js';
 import '../../shared/gr-autocomplete/gr-autocomplete.js';

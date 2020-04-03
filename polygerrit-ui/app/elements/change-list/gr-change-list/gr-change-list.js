@@ -20,7 +20,6 @@ import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js'
 import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import '../../../scripts/bundled-polymer.js';
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../styles/gr-change-list-styles.js';
 import '../../core/gr-navigation/gr-navigation.js';
 import '../../shared/gr-cursor-manager/gr-cursor-manager.js';
@@ -35,6 +34,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-list_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
@@ -43,7 +43,6 @@ const MAX_SHORTCUT_CHARS = 5;
 
 /**
  * @appliesMixin Gerrit.ChangeTableMixin
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @appliesMixin Gerrit.RESTClientMixin
  * @appliesMixin Gerrit.URLEncodingMixin
@@ -52,7 +51,7 @@ const MAX_SHORTCUT_CHARS = 5;
 class GrChangeList extends mixinBehaviors( [
   BaseUrlBehavior,
   Gerrit.ChangeTableBehavior,
-  Gerrit.FireBehavior,
+  FireBehavior,
   Gerrit.KeyboardShortcutBehavior,
   Gerrit.RESTClientBehavior,
   Gerrit.URLEncodingBehavior,

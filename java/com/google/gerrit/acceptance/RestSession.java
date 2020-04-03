@@ -14,13 +14,14 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.net.HttpHeaders.ACCEPT;
+import static com.google.common.net.HttpHeaders.CONTENT_TYPE;
+import static com.google.gerrit.json.OutputFormat.JSON_COMPACT;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.net.HttpHeaders;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RawInput;
-import com.google.gerrit.json.OutputFormat;
 import java.io.IOException;
 import org.apache.http.Header;
 import org.apache.http.client.fluent.Request;
@@ -40,7 +41,7 @@ public class RestSession extends HttpSession {
   }
 
   public RestResponse getJsonAccept(String endPoint) throws IOException {
-    return getWithHeader(endPoint, new BasicHeader(HttpHeaders.ACCEPT, "application/json"));
+    return getWithHeader(endPoint, new BasicHeader(ACCEPT, "application/json"));
   }
 
   public RestResponse getWithHeader(String endPoint, Header header) throws IOException {
@@ -74,8 +75,7 @@ public class RestSession extends HttpSession {
       put.addHeader(header);
     }
     if (content != null) {
-      put.addHeader(new BasicHeader("Content-Type", "application/json"));
-      put.body(new StringEntity(OutputFormat.JSON_COMPACT.newGson().toJson(content), UTF_8));
+      addContentToRequest(put, content);
     }
     return execute(put);
   }
@@ -83,7 +83,7 @@ public class RestSession extends HttpSession {
   public RestResponse putRaw(String endPoint, RawInput stream) throws IOException {
     requireNonNull(stream);
     Request put = Request.Put(getUrl(endPoint));
-    put.addHeader(new BasicHeader("Content-Type", stream.getContentType()));
+    put.addHeader(new BasicHeader(CONTENT_TYPE, stream.getContentType()));
     put.body(
         new BufferedHttpEntity(
             new InputStreamEntity(stream.getInputStream(), stream.getContentLength())));
@@ -105,10 +105,14 @@ public class RestSession extends HttpSession {
       post.addHeader(header);
     }
     if (content != null) {
-      post.addHeader(new BasicHeader("Content-Type", "application/json"));
-      post.body(new StringEntity(OutputFormat.JSON_COMPACT.newGson().toJson(content), UTF_8));
+      addContentToRequest(post, content);
     }
     return execute(post);
+  }
+
+  private static void addContentToRequest(Request request, Object content) {
+    request.addHeader(new BasicHeader(CONTENT_TYPE, "application/json"));
+    request.body(new StringEntity(JSON_COMPACT.newGson().toJson(content), UTF_8));
   }
 
   public RestResponse delete(String endPoint) throws IOException {

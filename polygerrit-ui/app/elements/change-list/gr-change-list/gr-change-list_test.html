@@ -42,9 +42,10 @@ import '../../../test/common-test-setup.js';
 import './gr-change-list.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
+import {KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 suite('gr-change-list basic tests', () => {
   // Define keybindings before attaching other fixtures.
-  const kb = window.Gerrit.KeyboardShortcutBinder;
+  const kb = KeyboardShortcutBinder;
   kb.bindShortcut(kb.Shortcut.CURSOR_NEXT_CHANGE, 'j');
   kb.bindShortcut(kb.Shortcut.CURSOR_PREV_CHANGE, 'k');
   kb.bindShortcut(kb.Shortcut.OPEN_CHANGE, 'o');

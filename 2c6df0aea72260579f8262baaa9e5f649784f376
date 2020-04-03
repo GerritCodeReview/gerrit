@@ -22,6 +22,30 @@
       "revId": "2c6df0aea72260579f8262baaa9e5f649784f376",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8749e437_75efbcc8",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-03T06:06:21Z",
+      "side": 1,
+      "message": "The NullPointerException is raised when the input is null.  In the case where the input is not null, but doesn\u0027t represent a valid enum value, it returns IllegalArgumentException.\n\nSo we still have to catch an exception, even if we use ofNullable.\n\nI haven\u0027t looked at the implementation of Enums.getIfPresent but I imagine it\u0027s doing the same as this code here.",
+      "parentUuid": "636b1dfc_f2b703b2",
+      "range": {
+        "startLine": 507,
+        "startChar": 22,
+        "endLine": 507,
+        "endChar": 24
+      },
+      "revId": "2c6df0aea72260579f8262baaa9e5f649784f376",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

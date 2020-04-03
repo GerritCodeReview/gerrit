@@ -148,8 +148,9 @@ public class GroupConfig extends VersionedMetaData {
   }
 
   /**
-   * @see GroupConfig#loadForGroup(Project.NameKey, Repository, AccountGroup.UUID). This method will
-   *     load the group for a specific revision.
+   * Load the group for a specific revision.
+   *
+   * @see GroupConfig#loadForGroup(Project.NameKey, Repository, AccountGroup.UUID)
    */
   public static GroupConfig loadForGroup(
       Project.NameKey projectName,

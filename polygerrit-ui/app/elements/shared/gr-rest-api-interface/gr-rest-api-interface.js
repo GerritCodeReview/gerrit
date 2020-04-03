@@ -23,7 +23,6 @@
 */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import './gr-etag-decorator.js';
 import './gr-rest-apis/gr-rest-api-helper.js';
 import './gr-auth.js';
@@ -37,6 +36,7 @@ import 'whatwg-fetch/fetch.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
+import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 
 const DiffViewMode = {
   SIDE_BY_SIDE: 'SIDE_BY_SIDE',
@@ -61,14 +61,13 @@ const ANONYMIZED_REVISION_BASE_URL = ANONYMIZED_CHANGE_BASE_URL +
     '/revisions/*';
 
 /**
- * @appliesMixin Gerrit.RESTClientMixin
  * @extends Polymer.Element
  */
 class GrRestApiInterface extends mixinBehaviors( [
   FireBehavior,
   PathListBehavior,
   PatchSetBehavior,
-  Gerrit.RESTClientBehavior,
+  RESTClientBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

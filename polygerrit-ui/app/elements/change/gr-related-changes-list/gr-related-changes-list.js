@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import '../../core/gr-navigation/gr-navigation.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../../styles/shared-styles.js';
@@ -28,15 +27,15 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-related-changes-list_html.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
+import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 
 /**
- * @appliesMixin Gerrit.RESTClientMixin
  * @extends Polymer.Element
  */
 class GrRelatedChangesList extends mixinBehaviors( [
   FireBehavior,
   PatchSetBehavior,
-  Gerrit.RESTClientBehavior,
+  RESTClientBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

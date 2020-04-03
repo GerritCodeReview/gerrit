@@ -22,6 +22,30 @@
       "revId": "8a3995e7b4787a9eeea688d3970a554c34ad8a61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6aaa2c5d_719e8b18",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-03T16:44:13Z",
+      "side": 1,
+      "message": "we always on master :) we don\u0027t have a separate folk, so gerrit-review site is pretty always on master (maybe not the latest master, but always master at a certain time point)",
+      "parentUuid": "df24fedb_268d6b34",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 289
+      },
+      "revId": "8a3995e7b4787a9eeea688d3970a554c34ad8a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

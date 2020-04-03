@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.raw;
 
 import static com.google.template.soy.data.ordainers.GsonOrdainer.serializeObject;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
@@ -37,8 +38,9 @@ import com.google.gson.Gson;
 import com.google.template.soy.data.SanitizedContent;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
@@ -162,19 +164,14 @@ public class IndexHtmlUtil {
 
   /** Returns experimentData to be used in {@code index.html}. */
   public static Set<String> experimentData(Map<String, String[]> urlParameterMap) {
-    Set<String> enabledExperiments = new HashSet<>();
-
     // Allow enable experiments with url
     // ?experiment=a&experiment=b should result in:
     // "experiment" => [a,b]
     if (urlParameterMap.containsKey("experiment")) {
-      String[] experiments = urlParameterMap.get("experiment");
-      for (String exp : experiments) {
-        enabledExperiments.add(exp);
-      }
+      return Arrays.asList(urlParameterMap.get("experiment")).stream().collect(toSet());
     }
 
-    return enabledExperiments;
+    return Collections.emptySet();
   }
 
   /** Returns all static parameters of {@code index.html}. */

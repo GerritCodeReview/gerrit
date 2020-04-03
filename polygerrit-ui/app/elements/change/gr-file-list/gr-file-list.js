@@ -44,6 +44,7 @@ import {AsyncForeachBehavior} from '../../../behaviors/async-foreach-behavior/as
 import {DomUtilBehavior} from '../../../behaviors/dom-util-behavior/dom-util-behavior.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
+import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -96,7 +97,6 @@ const FileStatus = {
 
 /**
  * @appliesMixin Gerrit.KeyboardShortcutMixin
- * @appliesMixin Gerrit.PathListMixin
  * @extends Polymer.Element
  */
 class GrFileList extends mixinBehaviors( [
@@ -105,7 +105,7 @@ class GrFileList extends mixinBehaviors( [
   FireBehavior,
   Gerrit.KeyboardShortcutBehavior,
   PatchSetBehavior,
-  Gerrit.PathListBehavior,
+  PathListBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

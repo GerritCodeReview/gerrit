@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 import '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import '../../core/gr-navigation/gr-navigation.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
@@ -35,6 +34,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-editor-view_html.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
+import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -45,14 +45,13 @@ const STORAGE_DEBOUNCE_INTERVAL_MS = 100;
 
 /**
  * @appliesMixin Gerrit.KeyboardShortcutMixin
- * @appliesMixin Gerrit.PathListMixin
  * @extends Polymer.Element
  */
 class GrEditorView extends mixinBehaviors( [
   FireBehavior,
   Gerrit.KeyboardShortcutBehavior,
   PatchSetBehavior,
-  Gerrit.PathListBehavior,
+  PathListBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

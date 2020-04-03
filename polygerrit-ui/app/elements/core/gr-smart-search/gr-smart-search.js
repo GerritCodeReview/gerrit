@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/gr-display-name-behavior/gr-display-name-behavior.js';
 import '../gr-navigation/gr-navigation.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../gr-search-bar/gr-search-bar.js';
@@ -25,17 +24,17 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-smart-search_html.js';
+import {DisplayNameBehavior} from '../../../behaviors/gr-display-name-behavior/gr-display-name-behavior.js';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 const SELF_EXPRESSION = 'self';
 const ME_EXPRESSION = 'me';
 
 /**
- * @appliesMixin Gerrit.DisplayNameMixin
  * @extends Polymer.Element
  */
 class GrSmartSearch extends mixinBehaviors( [
-  Gerrit.DisplayNameBehavior,
+  DisplayNameBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

@@ -123,7 +123,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     }
 
     @Override
-    public Response<?> apply(ChangeResource resource, IdString id, FileContentInput input)
+    public Response<Object> apply(ChangeResource resource, IdString id, FileContentInput input)
         throws AuthException, BadRequestException, ResourceConflictException, IOException,
             PermissionBackendException {
       putEdit.apply(resource, id.get(), input);
@@ -142,7 +142,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     }
 
     @Override
-    public Response<?> apply(ChangeResource rsrc, IdString id, Input in)
+    public Response<Object> apply(ChangeResource rsrc, IdString id, Input in)
         throws IOException, AuthException, BadRequestException, ResourceConflictException,
             PermissionBackendException {
       return deleteContent.apply(rsrc, id.get());
@@ -245,7 +245,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     }
 
     @Override
-    public Response<?> apply(ChangeResource resource, Post.Input input)
+    public Response<Object> apply(ChangeResource resource, Post.Input input)
         throws AuthException, BadRequestException, IOException, ResourceConflictException,
             PermissionBackendException {
       Project.NameKey project = resource.getProject();
@@ -292,13 +292,13 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     }
 
     @Override
-    public Response<?> apply(ChangeEditResource rsrc, FileContentInput input)
+    public Response<Object> apply(ChangeEditResource rsrc, FileContentInput input)
         throws AuthException, BadRequestException, ResourceConflictException, IOException,
             PermissionBackendException {
       return apply(rsrc.getChangeResource(), rsrc.getPath(), input);
     }
 
-    public Response<?> apply(ChangeResource rsrc, String path, FileContentInput input)
+    public Response<Object> apply(ChangeResource rsrc, String path, FileContentInput input)
         throws AuthException, BadRequestException, ResourceConflictException, IOException,
             PermissionBackendException {
       if (input.content == null) {
@@ -343,13 +343,13 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     }
 
     @Override
-    public Response<?> apply(ChangeEditResource rsrc, Input input)
+    public Response<Object> apply(ChangeEditResource rsrc, Input input)
         throws AuthException, BadRequestException, ResourceConflictException, IOException,
             PermissionBackendException {
       return apply(rsrc.getChangeResource(), rsrc.getPath());
     }
 
-    public Response<?> apply(ChangeResource rsrc, String filePath)
+    public Response<Object> apply(ChangeResource rsrc, String filePath)
         throws AuthException, BadRequestException, IOException, ResourceConflictException,
             PermissionBackendException {
       try (Repository repository = repositoryManager.openRepository(rsrc.getProject())) {

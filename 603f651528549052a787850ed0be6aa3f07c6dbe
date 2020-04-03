@@ -140,6 +140,29 @@
     },
     {
       "key": {
+        "uuid": "762bec11_4d0a60e2",
+        "filename": "java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-03T08:56:19Z",
+      "side": 1,
+      "message": "Would it be better to use Config?\nThe caller in AccountCacheImpl converts the Config to text, and in this class we convert the text back into a Config. This conversion seems unneeded.",
+      "range": {
+        "startLine": 128,
+        "startChar": 36,
+        "endLine": 128,
+        "endChar": 42
+      },
+      "revId": "603f651528549052a787850ed0be6aa3f07c6dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dc575a81_abdfd073",
         "filename": "java/com/google/gerrit/server/account/AccountState.java",
         "patchSetId": 1
@@ -179,6 +202,99 @@
         "startChar": 1,
         "endLine": 227,
         "endChar": 36
+      },
+      "revId": "603f651528549052a787850ed0be6aa3f07c6dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bda52ee5_4c159c56",
+        "filename": "java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-03T08:56:19Z",
+      "side": 1,
+      "message": "If you represent the configs as Config objects rather than as Strings, this exception cannot happen here. This means the cache cannot contain invalid config preferences, but since we anyway would not use them, that seems fine.",
+      "parentUuid": "39424c0a_e5ab6840",
+      "range": {
+        "startLine": 226,
+        "startChar": 1,
+        "endLine": 227,
+        "endChar": 36
+      },
+      "revId": "603f651528549052a787850ed0be6aa3f07c6dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53a9d476_aaaf8024",
+        "filename": "java/com/google/gerrit/server/account/CachedAccountDetails.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-03T08:56:19Z",
+      "side": 1,
+      "message": "Would it be better to make this a JGit Config object?",
+      "range": {
+        "startLine": 84,
+        "startChar": 11,
+        "endLine": 84,
+        "endChar": 17
+      },
+      "revId": "603f651528549052a787850ed0be6aa3f07c6dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3aaa130_ba070505",
+        "filename": "java/com/google/gerrit/server/account/CachedAccountDetails.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-03T08:56:19Z",
+      "side": 1,
+      "message": "Do we need to persist the meta ID in the value, when it is already part of the key?\nI guess we do, because we do not know the cache key when deserializing?",
+      "range": {
+        "startLine": 112,
+        "startChar": 13,
+        "endLine": 112,
+        "endChar": 64
+      },
+      "revId": "603f651528549052a787850ed0be6aa3f07c6dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60403bd4_59714e36",
+        "filename": "java/com/google/gerrit/server/account/StoredPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-03T08:56:19Z",
+      "side": 1,
+      "message": "I think things would be simpler, if we would return Config here.",
+      "range": {
+        "startLine": 188,
+        "startChar": 2,
+        "endLine": 188,
+        "endChar": 8
       },
       "revId": "603f651528549052a787850ed0be6aa3f07c6dbe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

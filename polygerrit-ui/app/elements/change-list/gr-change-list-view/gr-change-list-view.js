@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import '../../../scripts/bundled-polymer.js';
 import '../../core/gr-navigation/gr-navigation.js';
 import '../../shared/gr-icons/gr-icons.js';
@@ -31,6 +30,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-list-view_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
+import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 
 const LookupQueryPatterns = {
   CHANGE_ID: /^\s*i?[0-9a-f]{7,40}\s*$/i,
@@ -45,13 +45,12 @@ const REPO_QUERY_PATTERN =
 const LIMIT_OPERATOR_PATTERN = /\blimit:(\d+)/i;
 
 /**
- * @appliesMixin Gerrit.URLEncodingMixin
  * @extends Polymer.Element
  */
 class GrChangeListView extends mixinBehaviors( [
   BaseUrlBehavior,
   FireBehavior,
-  Gerrit.URLEncodingBehavior,
+  URLEncodingBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

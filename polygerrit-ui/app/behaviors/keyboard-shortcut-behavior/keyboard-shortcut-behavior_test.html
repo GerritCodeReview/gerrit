@@ -39,10 +39,10 @@ limitations under the License.
 
 <script type="module">
 import '../../test/common-test-setup.js';
-import './keyboard-shortcut-behavior.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
+import {KeyboardShortcutBehavior, KeyboardShortcutBinder} from './keyboard-shortcut-behavior.js';
 suite('keyboard-shortcut-behavior tests', () => {
-  const kb = window.Gerrit.KeyboardShortcutBinder;
+  const kb = KeyboardShortcutBinder;
 
   let element;
   let overlay;
@@ -52,7 +52,7 @@ suite('keyboard-shortcut-behavior tests', () => {
     // Define a Polymer element that uses this behavior.
     Polymer({
       is: 'test-element',
-      behaviors: [Gerrit.KeyboardShortcutBehavior],
+      behaviors: [KeyboardShortcutBehavior],
       keyBindings: {
         k: '_handleKey',
         enter: '_handleKey',

@@ -37,6 +37,52 @@
     },
     {
       "key": {
+        "uuid": "bbab52a4_6ca5998e",
+        "filename": "polygerrit-ui/app/constants/constants.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-03T09:16:29Z",
+      "side": 1,
+      "message": "PrimaryTabs?\nhttps://engdoc.corp.google.com/eng/doc/devguide/js/styleguide.md?cl\u003dhead#features-objects-enums",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 25
+      },
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2110c99_18143fd2",
+        "filename": "polygerrit-ui/app/constants/constants.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-03T09:16:29Z",
+      "side": 1,
+      "message": "SecondaryTabs?\nhttps://engdoc.corp.google.com/eng/doc/devguide/js/styleguide.md?cl\u003dhead#features-objects-enums",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 27
+      },
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6a5f87c7_1cfb77e3",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 2

@@ -19,25 +19,25 @@ load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary", "nodejs_test")
 def eslint(name, plugins, srcs, config, ignore, extensions = [".js"], data = []):
     """ Macro to define eslint rules for files.
 
-        Args:
-            name: name of the rule
-            plugins: list of npm dependencies with plugins, for example "@npm//eslint-config-google"
-            srcs: list of files to be checked (ignored in {name}_bin rule)
-            config: eslint config file
-            ignore: eslint ignore file
-            extensions: list of file extensions to be checked. This is an additional filter for
-                srcs list. Each extension must start with '.' character.
-                Default: [".js"].
-            data: list of additional dependencies. For example if a config file extends an another
-                file, this other file must be added to data.
+    Args:
+        name: name of the rule
+        plugins: list of npm dependencies with plugins, for example "@npm//eslint-config-google"
+        srcs: list of files to be checked (ignored in {name}_bin rule)
+        config: eslint config file
+        ignore: eslint ignore file
+        extensions: list of file extensions to be checked. This is an additional filter for
+            srcs list. Each extension must start with '.' character.
+            Default: [".js"].
+        data: list of additional dependencies. For example if a config file extends an another
+            file, this other file must be added to data.
 
-        Generate: 2 rules:
-            {name}_test rule - runs eslint tests. You can run this rule with
-                'bazel test {name}_test' command. The rule tests all files from srcs with specified
-                extensions inside the package where eslint macro is called.
-            {name}_bin rule - runs eslint with specified settings; ignores srcs. To use this rule
-                you must pass a folder to check, for example:
-                baze run {name}_test -- --fix $(pwd)/polygerrit-ui/app
+    Generate: 2 rules:
+        {name}_test rule - runs eslint tests. You can run this rule with
+            'bazel test {name}_test' command. The rule tests all files from srcs with specified
+            extensions inside the package where eslint macro is called.
+        {name}_bin rule - runs eslint with specified settings; ignores srcs. To use this rule
+            you must pass a folder to check, for example:
+            baze run {name}_test -- --fix $(pwd)/polygerrit-ui/app
     """
     entry_point = "@npm//:node_modules/eslint/bin/eslint.js"
     bin_data = [

@@ -28,19 +28,6 @@ module.exports = {
     "browser": true,
     "es6": true
   },
-  "globals": {
-    "__dirname": false,
-    "app": false,
-    "page": false,
-    "Polymer": false,
-    "process": false,
-    "require": false,
-    "Gerrit": false,
-    "Promise": false,
-    "assert": false,
-    "test": false,
-    "flushAsynchronousOperations": false
-  },
   "rules": {
     "no-confusing-arrow": "error",
     "newline-per-chained-call": ["error", {"ignoreChainWithDepth": 2}],
@@ -97,7 +84,9 @@ module.exports = {
         "message": "Remove suite.only."
       }
     ],
-    "no-undef": "off",
+    // no-undef disables global variable.
+    // "globals" declares allowed global variables.
+    "no-undef": ["error"],
     "no-useless-escape": "off",
     "no-var": "error",
     "operator-linebreak": "off",
@@ -169,11 +158,131 @@ module.exports = {
     "import/no-unused-modules": 2,
     "import/no-default-export": 2
   },
+
+  // List of allowed globals in all files
+  "globals": {
+    // Polygerrit global variables.
+    // You must not add anything new in this list!
+    // Instead export variables from modules
+    // TODO(dmfilippov): Remove global variables from polygerrit
+    "Auth": "readonly",
+    "EventEmitter": "readonly",
+    "FetchPromisesCache": "readonly",
+    "Gerrit": "readonly",
+    "GrAdminApi": "readonly",
+    "GrAnnotation": "readonly",
+    "GrAnnotationActionsContext": "readonly",
+    "GrAnnotationActionsInterface": "readonly",
+    "GrAttributeHelper": "readonly",
+    "GrChangeActionsInterface": "readonly",
+    "GrChangeMetadataApi": "readonly",
+    "GrChangeReplyInterface": "readonly",
+    "GrChangeViewApi": "readonly",
+    "GrCountStringFormatter": "readonly",
+    "GrDiffBuilder": "readonly",
+    "GrDiffBuilderBinary": "readonly",
+    "GrDiffBuilderImage": "readonly",
+    "GrDiffBuilderSideBySide": "readonly",
+    "GrDiffBuilderUnified": "readonly",
+    "GrDiffGroup": "readonly",
+    "GrDiffLine": "readonly",
+    "GrDisplayNameUtils": "readonly",
+    "GrDomHook": "readonly",
+    "GrDomHooksManager": "readonly",
+    "GrEditConstants": "readonly",
+    "GrEmailSuggestionsProvider": "readonly",
+    "GrEtagDecorator": "readonly",
+    "GrEventHelper": "readonly",
+    "GrFileListConstants": "readonly",
+    "GrGroupSuggestionsProvider": "readonly",
+    "GrLinkTextParser": "readonly",
+    "GrPluginActionContext": "readonly",
+    "GrPluginEndpoints": "readonly",
+    "GrPluginRestApi": "readonly",
+    "GrPopupInterface": "readonly",
+    "GrRangeNormalizer": "readonly",
+    "GrRepoApi": "readonly",
+    "GrReporting": "readonly",
+    "GrRestApiHelper": "readonly",
+    "GrReviewerSuggestionsProvider": "readonly",
+    "GrReviewerUpdatesParser": "readonly",
+    "GrSettingsApi": "readonly",
+    "GrStylesApi": "readonly",
+    "GrThemeApi": "readonly",
+    "PluginLoader": "readonly",
+    "SiteBasedCache": "readonly",
+    "util": "readonly",
+    // Global variables from 3rd party libraries.
+    // You should not anything in this list, always try to import
+    // If import is not possible - you can extend this list
+    "Polymer": "readonly",
+    "ShadyCSS": "readonly",
+    "linkify": "readonly",
+    "moment": "readonly",
+    "page": "readonly",
+    "security": "readonly",
+  },
   "overrides": [
     {
       "files": ["*.html", "test.js", "test-infra.js", "template_test.js"],
       "rules": {
         "jsdoc/require-file-overview": "off"
+      },
+    },
+    {
+      "files": ["*.html", "common-test-setup.js"],
+      // Additional global variables allowed in tests
+      "globals": {
+        // Global variables from 3rd party test libraries/frameworks.
+        // You can extend this list if you want to use other global
+        // variables from these libraries and import is not possible
+        "MockInteractions": "readonly",
+        "_": "readonly",
+        "a11ySuite": "readonly",
+        "assert": "readonly",
+        "expect": "readonly",
+        "fixture": "readonly",
+        "flush": "readonly",
+        "flushAsynchronousOperations": "readonly",
+        "setup": "readonly",
+        "sinon": "readonly",
+        "stub": "readonly",
+        "suite": "readonly",
+        "suiteSetup": "readonly",
+        "teardown": "readonly",
+        "test": "readonly",
+        // Polygerrit global variables.
+        // You must not add anything new in this list!
+        // Instead export variables from modules
+        // TODO(dmfilippov): Remove global variables from polygerrit
+        "isHidden": "readonly",
+        "mockPromise": "readonly",
+
+      }
+    },
+    {
+      "files": "import-href.js",
+      "globals": {
+        "HTMLImports": "readonly",
+      }
+    },
+    {
+      "files": ["test/functional/**/*.js", "wct.conf.js", "template_test.js"],
+      // Settings for functional tests. These scripts are node scripts.
+      // Turn off "no-undef" to allow any global variable
+      "env": {
+        "browser": false,
+        "node": true,
+        "es6": false
+      },
+      "rules": {
+        "no-undef": "off",
+      }
+    },
+    {
+      "files": "test/index.html",
+      "globals": {
+        "WCT": "readonly",
       }
     },
     {
@@ -190,5 +299,5 @@ module.exports = {
   ],
   "settings": {
     "html/report-bad-indent": "error"
-  }
+  },
 };

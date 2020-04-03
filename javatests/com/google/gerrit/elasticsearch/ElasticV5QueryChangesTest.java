@@ -24,10 +24,8 @@ import com.google.inject.Injector;
 import org.eclipse.jgit.lib.Config;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Rule;
 
-@Ignore("Tests failing because of the attention-set changes, see Issue 12524")
 public class ElasticV5QueryChangesTest extends AbstractQueryChangesTest {
   @ConfigSuite.Default
   public static Config defaultConfig() {

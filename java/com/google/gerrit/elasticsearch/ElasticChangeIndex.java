@@ -409,7 +409,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     if (fields.contains(ChangeField.ATTENTION_SET_FULL.getName())) {
       ChangeField.parseAttentionSet(
           FluentIterable.from(source.getAsJsonArray(ChangeField.ATTENTION_SET_FULL.getName()))
-              .transform(JsonElement::getAsString)
+              .transform(ElasticChangeIndex::decodeBase64JsonElement)
               .toSet(),
           cd);
     }
@@ -432,10 +432,14 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     }
     ChangeField.parseSubmitRecords(
         FluentIterable.from(records)
-            .transform(i -> new String(decodeBase64(i.getAsString()), UTF_8))
+            .transform(ElasticChangeIndex::decodeBase64JsonElement)
             .toList(),
         opts,
         out);
+  }
+
+  private static String decodeBase64JsonElement(JsonElement input) {
+    return new String(decodeBase64(input.getAsString()), UTF_8);
   }
 
   private void decodeUnresolvedCommentCount(JsonObject doc, String fieldName, ChangeData out) {

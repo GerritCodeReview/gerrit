@@ -251,13 +251,6 @@ module.exports = {
         "suiteSetup": "readonly",
         "teardown": "readonly",
         "test": "readonly",
-        // Polygerrit global variables.
-        // You must not add anything new in this list!
-        // Instead export variables from modules
-        // TODO(dmfilippov): Remove global variables from polygerrit
-        "isHidden": "readonly",
-        "mockPromise": "readonly",
-
       }
     },
     {

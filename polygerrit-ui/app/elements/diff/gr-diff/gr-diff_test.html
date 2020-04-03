@@ -626,7 +626,9 @@ suite('gr-diff tests', () => {
 
       test('getCursorStops', () => {
         setupDiff();
-        assert.equal(element.getCursorStops().length, 50);
+        const ROWS = 48;
+        const FILE_ROW = 1;
+        assert.equal(element.getCursorStops().length, ROWS + FILE_ROW);
       });
     });
 

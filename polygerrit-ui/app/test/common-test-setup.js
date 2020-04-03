@@ -17,10 +17,11 @@
 import '../scripts/bundled-polymer.js';
 
 import 'polymer-resin/standalone/polymer-resin.js';
-import '../behaviors/safe-types-behavior/safe-types-behavior.js';
 import '@polymer/iron-test-helpers/iron-test-helpers.js';
 import './test-router.js';
 import moment from 'moment/src/moment.js';
+import {SafeTypes} from '../behaviors/safe-types-behavior/safe-types-behavior.js';
+
 self.moment = moment;
 security.polymer_resin.install({
   allowedIdentifierPrefixes: [''],
@@ -35,7 +36,7 @@ security.polymer_resin.install({
         JSON.stringify(args));
     }
   },
-  safeTypesBridge: Gerrit.SafeTypes.safeTypesBridge,
+  safeTypesBridge: SafeTypes.safeTypesBridge,
 });
 setup(() => {
   if (!window.Gerrit) { return; }

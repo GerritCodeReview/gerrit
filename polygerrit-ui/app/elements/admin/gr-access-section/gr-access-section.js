@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 import '../../../scripts/bundled-polymer.js';
-
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../behaviors/gr-access-behavior/gr-access-behavior.js';
 import '@polymer/iron-input/iron-input.js';
 import '../../../styles/gr-form-styles.js';
@@ -32,6 +30,7 @@ import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {htmlTemplate} from './gr-access-section_html.js';
+import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 
 /**
  * Fired when the section has been modified or removed.
@@ -55,7 +54,6 @@ const LABEL = 'Label';
 
 /**
  * @appliesMixin Gerrit.AccessMixin
- * @appliesMixin Gerrit.FireMixin
  * @extends Polymer.Element
  */
 class GrAccessSection extends mixinBehaviors( [
@@ -64,7 +62,7 @@ class GrAccessSection extends mixinBehaviors( [
    * Unused in this element, but called by other elements in tests
    * e.g gr-repo-access_test.
    */
-  Gerrit.FireBehavior,
+  FireBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

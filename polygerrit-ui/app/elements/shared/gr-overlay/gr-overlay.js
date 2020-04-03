@@ -17,24 +17,23 @@
 import '../../../scripts/bundled-polymer.js';
 
 import {IronOverlayBehaviorImpl, IronOverlayBehavior} from '@polymer/iron-overlay-behavior/iron-overlay-behavior.js';
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../styles/shared-styles.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-overlay_html.js';
+import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
 const BREAKPOINT_FULLSCREEN_OVERLAY = '50em';
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @extends Polymer.Element
  */
 class GrOverlay extends mixinBehaviors( [
-  Gerrit.FireBehavior,
+  FireBehavior,
   IronOverlayBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

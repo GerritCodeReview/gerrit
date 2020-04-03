@@ -17,7 +17,6 @@
 
 import '@polymer/iron-input/iron-input.js';
 import '../../../scripts/bundled-polymer.js';
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../styles/gr-form-styles.js';
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-button/gr-button.js';
@@ -28,14 +27,14 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-cla-view_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @extends Polymer.Element
  */
 class GrClaView extends mixinBehaviors( [
   BaseUrlBehavior,
-  Gerrit.FireBehavior,
+  FireBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

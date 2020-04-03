@@ -70,6 +70,30 @@
       "revId": "2c6df0aea72260579f8262baaa9e5f649784f376",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f999111_24ac642f",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-03T06:17:55Z",
+      "side": 1,
+      "message": "If I understand correctly, ofNullable can be used when the input given to it is null, i.e. in this case if the valueOf method call would return null. In this case though, it throws NPE, which we still need to catch.",
+      "parentUuid": "126685cb_9da754b6",
+      "range": {
+        "startLine": 507,
+        "startChar": 22,
+        "endLine": 507,
+        "endChar": 24
+      },
+      "revId": "2c6df0aea72260579f8262baaa9e5f649784f376",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -17,66 +17,68 @@
 
 import '../gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import {BaseUrlBehavior} from '../base-url-behavior/base-url-behavior.js';
-(function(window) {
-  'use strict';
 
-  window.Gerrit = window.Gerrit || {};
-
-  /** @polymerBehavior Gerrit.ListViewBehavior */
-  Gerrit.ListViewBehavior = [{
-    computeLoadingClass(loading) {
-      return loading ? 'loading' : '';
-    },
-
-    computeShownItems(items) {
-      return items.slice(0, 25);
-    },
-
-    getUrl(path, item) {
-      return this.getBaseUrl() + path + this.encodeURL(item, true);
-    },
-
-    /**
-     * @param {Object} params
-     * @return {string}
-     */
-    getFilterValue(params) {
-      if (!params) { return ''; }
-      return params.filter || '';
-    },
-
-    /**
-     * @param {Object} params
-     * @return {number}
-     */
-    getOffsetValue(params) {
-      if (params && params.offset) {
-        return params.offset;
-      }
-      return 0;
-    },
+/** @polymerBehavior ListViewBehavior */
+export const ListViewBehavior = [{
+  computeLoadingClass(loading) {
+    return loading ? 'loading' : '';
   },
-  BaseUrlBehavior,
-  Gerrit.URLEncodingBehavior,
-  ];
 
-  // eslint-disable-next-line no-unused-vars
-  function defineEmptyMixin() {
-    // This is a temporary function.
-    // Polymer linter doesn't process correctly the following code:
-    // class MyElement extends Polymer.mixinBehaviors([legacyBehaviors], ...) {...}
-    // To workaround this issue, the mock mixin is declared in this method.
-    // In the following changes, legacy behaviors will be converted to mixins.
+  computeShownItems(items) {
+    return items.slice(0, 25);
+  },
 
-    /**
-     * @polymer
-     * @mixinFunction
-     */
-    Gerrit.ListViewMixin = base =>
-      class extends base {
-        computeLoadingClass(loading) {}
+  getUrl(path, item) {
+    return this.getBaseUrl() + path + this.encodeURL(item, true);
+  },
 
-        computeShownItems(items) {}
-      };
-  }
-})(window);
+  /**
+   * @param {Object} params
+   * @return {string}
+   */
+  getFilterValue(params) {
+    if (!params) { return ''; }
+    return params.filter || '';
+  },
+
+  /**
+   * @param {Object} params
+   * @return {number}
+   */
+  getOffsetValue(params) {
+    if (params && params.offset) {
+      return params.offset;
+    }
+    return 0;
+  },
+},
+BaseUrlBehavior,
+Gerrit.URLEncodingBehavior,
+];
+
+// eslint-disable-next-line no-unused-vars
+function defineEmptyMixin() {
+  // This is a temporary function.
+  // Polymer linter doesn't process correctly the following code:
+  // class MyElement extends Polymer.mixinBehaviors([legacyBehaviors], ...) {...}
+  // To workaround this issue, the mock mixin is declared in this method.
+  // In the following changes, legacy behaviors will be converted to mixins.
+
+  /**
+   * @polymer
+   * @mixinFunction
+   */
+  const ListViewMixin = base => // eslint-disable-line no-unused-vars
+    class extends base {
+      computeLoadingClass(loading) {}
+
+      computeShownItems(items) {}
+    };
+}
+
+// TODO(dmfilippov) Remove the following lines with assignments
+// Plugins can use the behavior because it was accessible with
+// the global Gerrit... variable. To avoid breaking changes in plugins
+// temporary assign global variables.
+window.Gerrit = window.Gerrit || {};
+window.Gerrit.ListViewBehavior = ListViewBehavior;

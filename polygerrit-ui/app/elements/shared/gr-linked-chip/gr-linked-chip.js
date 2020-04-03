@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js';
 import '../gr-button/gr-button.js';
 import '../gr-icons/gr-icons.js';
 import '../gr-limited-text/gr-limited-text.js';

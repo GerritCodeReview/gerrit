@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3ce50eb_154f77bc",
+        "filename": "java/com/google/gerrit/server/group/db/GroupConfig.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-03T02:37:01Z",
+      "side": 1,
+      "message": "Malformed Javadoc.\n\nFixed in https://gerrit-review.googlesource.com/c/gerrit/+/261736",
+      "range": {
+        "startLine": 151,
+        "startChar": 5,
+        "endLine": 152,
+        "endChar": 48
+      },
+      "revId": "25297243a8446bf1a41e2a0ebe8ecb6c6d431809",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

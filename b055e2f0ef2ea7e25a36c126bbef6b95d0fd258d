@@ -69,6 +69,30 @@
       "revId": "b055e2f0ef2ea7e25a36c126bbef6b95d0fd258d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e3f3b45_07e3bcc3",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-03T13:51:32Z",
+      "side": 1,
+      "message": "\u003e Yes only Linux. But why is this a problem? Everyone is on Linux anyway. \n\nehm ... I saw lots of MacBooks around in the last Summits/Hackathons ;-)\nBut I have a Linux VM as well, will try there again.\n\n\u003e Can you try to activate RBE on GerritForge CI: on top of this change, run from GCP worker node, and pass this:\n\u003e \n\u003e   $ bazel test --config\u003dremote javatests/...\n\nSure, will try that.",
+      "parentUuid": "dfe2ffc9_2badffe5",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 14
+      },
+      "revId": "b055e2f0ef2ea7e25a36c126bbef6b95d0fd258d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

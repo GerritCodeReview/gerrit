@@ -16,11 +16,11 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 const $_documentContainer = document.createElement('template');
 
 $_documentContainer.innerHTML = `<dom-module id="gr-select">
@@ -31,11 +31,10 @@ $_documentContainer.innerHTML = `<dom-module id="gr-select">
 document.head.appendChild($_documentContainer.content);
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @extends Polymer.Element
  */
 class GrSelect extends mixinBehaviors( [
-  Gerrit.FireBehavior,
+  FireBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

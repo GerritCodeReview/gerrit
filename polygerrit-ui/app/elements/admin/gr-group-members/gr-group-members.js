@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import '../../../scripts/bundled-polymer.js';
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
@@ -35,6 +34,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-group-members_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 
 const SUGGESTIONS_LIMIT = 15;
 const SAVING_ERROR_TEXT = 'Group may not exist, or you may not have '+
@@ -43,13 +43,12 @@ const SAVING_ERROR_TEXT = 'Group may not exist, or you may not have '+
 const URL_REGEX = '^(?:[a-z]+:)?//';
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.URLEncodingMixin
  * @extends Polymer.Element
  */
 class GrGroupMembers extends mixinBehaviors( [
   BaseUrlBehavior,
-  Gerrit.FireBehavior,
+  FireBehavior,
   Gerrit.URLEncodingBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

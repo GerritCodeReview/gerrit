@@ -56,16 +56,7 @@ ELASTICSEARCH_TESTS_V7 = {i: "ElasticV7Query" + i.capitalize() + SUFFIX for i in
 ELASTICSEARCH_TAGS = [
     "docker",
     "elastic",
-    "exclusive",
 ]
-
-[junit_tests(
-    name = "elasticsearch_query_%ss_test_V5" % name,
-    size = "large",
-    srcs = [src],
-    tags = ELASTICSEARCH_TAGS,
-    deps = ELASTICSEARCH_DEPS + [QUERY_TESTS_DEP % name],
-) for name, src in ELASTICSEARCH_TESTS_V5.items()]
 
 [junit_tests(
     name = "elasticsearch_query_%ss_test_V6" % name,

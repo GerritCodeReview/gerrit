@@ -65,7 +65,10 @@ class GrDownloadCommands extends mixinBehaviors( [
   }
 
   focusOnCopy() {
-    this.shadowRoot.querySelector('gr-shell-command').focusOnCopy();
+    const shellCommand = this.shadowRoot.querySelector('gr-shell-command');
+    if (shellCommand) {
+      shellCommand.focusOnCopy();
+    }
   }
 
   _getLoggedIn() {

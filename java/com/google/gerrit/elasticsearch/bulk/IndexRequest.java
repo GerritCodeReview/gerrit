@@ -14,11 +14,9 @@
 
 package com.google.gerrit.elasticsearch.bulk;
 
-import com.google.gerrit.elasticsearch.ElasticQueryAdapter;
-
 public class IndexRequest extends ActionRequest {
 
-  public IndexRequest(String id, String index, String type, ElasticQueryAdapter adapter) {
-    super("index", id, index, type, adapter);
+  public IndexRequest(String id, String index) {
+    super("index", id, index);
   }
 }

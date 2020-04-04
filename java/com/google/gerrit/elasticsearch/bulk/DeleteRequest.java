@@ -14,11 +14,9 @@
 
 package com.google.gerrit.elasticsearch.bulk;
 
-import com.google.gerrit.elasticsearch.ElasticQueryAdapter;
-
 public class DeleteRequest extends ActionRequest {
 
-  public DeleteRequest(String id, String index, String type, ElasticQueryAdapter adapter) {
-    super("delete", id, index, type, adapter);
+  public DeleteRequest(String id, String index) {
+    super("delete", id, index);
   }
 }

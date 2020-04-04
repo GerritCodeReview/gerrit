@@ -18,8 +18,13 @@ import io.gatling.core.Predef._
 import io.gatling.core.feeder.FileBasedFeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
 
-class DeleteProject extends GerritSimulation {
+class DeleteProject extends ProjectSimulation {
   private val data: FileBasedFeederBuilder[Any]#F#F = jsonFile(resource).convert(url).queue
+
+  def this(default: String) {
+    this()
+    this.default = default
+  }
 
   val test: ScenarioBuilder = scenario(name)
       .feed(data)

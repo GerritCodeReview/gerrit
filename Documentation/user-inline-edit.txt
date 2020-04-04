@@ -227,8 +227,6 @@ To download a change:
 . Copy the desired scheme from the Download drop-down.
 . Paste the command into a terminal window.
 
-image::images/inline-edit-actions-download.png[width=600]
-
 GERRIT
 
 Part of link:index.html[Gerrit Code Review]

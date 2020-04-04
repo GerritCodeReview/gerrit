@@ -14,24 +14,10 @@
 
 package com.google.gerrit.scenarios
 
-import io.gatling.core.Predef._
-import io.gatling.core.feeder.FileBasedFeederBuilder
-import io.gatling.core.structure.ScenarioBuilder
+class ProjectSimulation extends GerritSimulation {
+  protected var default: String = "project"
 
-class CreateProject extends ProjectSimulation {
-  private val data: FileBasedFeederBuilder[Any]#F#F = jsonFile(resource).convert(url).queue
-
-  def this(default: String) {
-    this()
-    this.default = default
+  override def replaceOverride(in: String): String = {
+    replaceProperty("project", default, in)
   }
-
-  val test: ScenarioBuilder = scenario(name)
-      .feed(data)
-      .exec(httpRequest)
-
-  setUp(
-    test.inject(
-      atOnceUsers(1)
-    )).protocols(httpProtocol)
 }

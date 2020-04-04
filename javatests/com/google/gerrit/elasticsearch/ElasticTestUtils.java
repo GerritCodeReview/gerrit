@@ -25,22 +25,13 @@ import java.util.UUID;
 import org.eclipse.jgit.lib.Config;
 
 public final class ElasticTestUtils {
-  public static void configure(
-      Config config, ElasticContainer container, String prefix, ElasticVersion version) {
+  public static void configure(Config config, ElasticContainer container, String prefix) {
     String hostname = container.getHttpHost().getHostName();
     int port = container.getHttpHost().getPort();
     config.setEnum("index", null, "type", IndexType.ELASTICSEARCH);
     config.setString("elasticsearch", null, "server", "http://" + hostname + ":" + port);
     config.setString("elasticsearch", null, "prefix", prefix);
     config.setInt("index", null, "maxLimit", 10000);
-    String password = version == ElasticVersion.V5_6 ? "changeme" : null;
-    if (password != null) {
-      config.setString("elasticsearch", null, "password", password);
-    }
-  }
-
-  public static void configure(Config config, ElasticContainer container, String prefix) {
-    configure(config, container, prefix, null);
   }
 
   public static void createAllIndexes(Injector injector) throws IOException {
@@ -55,7 +46,7 @@ public final class ElasticTestUtils {
     ElasticContainer container = ElasticContainer.createAndStart(version);
     String indicesPrefix = UUID.randomUUID().toString();
     Config cfg = new Config();
-    configure(cfg, container, indicesPrefix, version);
+    configure(cfg, container, indicesPrefix);
     return cfg;
   }
 

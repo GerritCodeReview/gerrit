@@ -16,15 +16,12 @@ package com.google.gerrit.elasticsearch;
 
 import static com.google.gerrit.elasticsearch.ElasticVersion.V6_7;
 
-import com.google.gson.JsonObject;
-
 public class ElasticQueryAdapter {
   static final String V6_TYPE = "_doc";
 
   private static final String INCLUDE_TYPE = "include_type_name=true";
   private static final String INDICES = "?allow_no_indices=false";
 
-  private final boolean useV5Type;
   private final boolean useV6Type;
   private final boolean omitType;
   private final int defaultNumberOfShards;
@@ -39,7 +36,6 @@ public class ElasticQueryAdapter {
   private final String includeTypeNameParam;
 
   ElasticQueryAdapter(ElasticVersion version) {
-    this.useV5Type = !version.isV6OrLater();
     this.useV6Type = version.isV6();
     this.omitType = version.isV7OrLater();
     this.defaultNumberOfShards = version.isV7OrLater() ? 1 : 5;
@@ -52,12 +48,6 @@ public class ElasticQueryAdapter {
     this.indexProperty = "true";
     this.rawFieldsKey = "_source";
     this.includeTypeNameParam = version.isAtLeastMinorVersion(V6_7) ? "?" + INCLUDE_TYPE : "";
-  }
-
-  public void setType(JsonObject properties, String type) {
-    if (useV5Type) {
-      properties.addProperty("_type", type);
-    }
   }
 
   public String searchFilteringName() {
@@ -84,14 +74,6 @@ public class ElasticQueryAdapter {
     return rawFieldsKey;
   }
 
-  boolean deleteToReplace() {
-    return useV5Type;
-  }
-
-  boolean useV5Type() {
-    return useV5Type;
-  }
-
   boolean useV6Type() {
     return useV6Type;
   }
@@ -105,14 +87,7 @@ public class ElasticQueryAdapter {
   }
 
   String getType() {
-    return getType("");
-  }
-
-  String getType(String type) {
-    if (useV6Type()) {
-      return V6_TYPE;
-    }
-    return useV5Type() ? type : "";
+    return useV6Type() ? V6_TYPE : "";
   }
 
   String getVersionDiscoveryUrl(String name) {

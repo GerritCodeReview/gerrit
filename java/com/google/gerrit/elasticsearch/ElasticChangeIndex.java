@@ -24,7 +24,6 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -32,7 +31,6 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.elasticsearch.bulk.BulkRequest;
-import com.google.gerrit.elasticsearch.bulk.DeleteRequest;
 import com.google.gerrit.elasticsearch.bulk.IndexRequest;
 import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
 import com.google.gerrit.index.QueryOptions;
@@ -42,7 +40,6 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.ReviewerByEmailSet;
@@ -58,7 +55,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -112,28 +108,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
   @Override
   public void replace(ChangeData cd) throws IOException {
-    String deleteIndex;
-    String insertIndex;
-
-    try {
-      if (cd.change().getStatus().isOpen()) {
-        insertIndex = OPEN_CHANGES;
-        deleteIndex = CLOSED_CHANGES;
-      } else {
-        insertIndex = CLOSED_CHANGES;
-        deleteIndex = OPEN_CHANGES;
-      }
-    } catch (OrmException e) {
-      throw new IOException(e);
-    }
-
-    ElasticQueryAdapter adapter = client.adapter();
-    BulkRequest bulk =
-        new IndexRequest(getId(cd), indexName, adapter.getType(insertIndex), adapter)
-            .add(new UpdateRequest<>(schema, cd));
-    if (adapter.deleteToReplace()) {
-      bulk.add(new DeleteRequest(cd.getId().toString(), indexName, deleteIndex, adapter));
-    }
+    BulkRequest bulk = new IndexRequest(getId(cd), indexName).add(new UpdateRequest<>(schema, cd));
 
     String uri = getURI(type, BULK);
     Response response = postRequest(uri, bulk, getRefreshParam());
@@ -185,19 +160,13 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   }
 
   @Override
-  protected String getDeleteActions(Id c) {
-    if (!client.adapter().useV5Type()) {
-      return delete(client.adapter().getType(), c);
-    }
-    return delete(OPEN_CHANGES, c) + delete(CLOSED_CHANGES, c);
+  protected String getDeleteActions(Change.Id c) {
+    return getDeleteRequest(c);
   }
 
   @Override
   protected String getMappings() {
-    if (!client.adapter().useV5Type()) {
-      return getMappingsFor(client.adapter().getType(), mapping.changes);
-    }
-    return gson.toJson(ImmutableMap.of(MAPPINGS, mapping));
+    return getMappingsFor(client.adapter().getType(), mapping.changes);
   }
 
   @Override

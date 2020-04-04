@@ -73,8 +73,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
   @Override
   public void replace(InternalGroup group) throws IOException {
     BulkRequest bulk =
-        new IndexRequest(getId(group), indexName, type, client.adapter())
-            .add(new UpdateRequest<>(schema, group));
+        new IndexRequest(getId(group), indexName).add(new UpdateRequest<>(schema, group));
 
     String uri = getURI(type, BULK);
     Response response = postRequest(uri, bulk, getRefreshParam());
@@ -96,12 +95,12 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
 
   @Override
   protected String getDeleteActions(AccountGroup.UUID g) {
-    return delete(type, g);
+    return getDeleteRequest(g);
   }
 
   @Override
   protected String getMappings() {
-    return getMappingsForSingleType(GROUPS, mapping.groups);
+    return getMappingsForSingleType(mapping.groups);
   }
 
   @Override

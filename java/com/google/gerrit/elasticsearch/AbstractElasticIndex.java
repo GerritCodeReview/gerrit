@@ -126,8 +126,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
       SitePaths sitePaths,
       Schema<V> schema,
       ElasticRestClientProvider client,
-      String indexName,
-      String indexType) {
+      String indexName) {
     this.config = config;
     this.sitePaths = sitePaths;
     this.schema = schema;
@@ -136,16 +135,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     this.indexName = config.getIndexName(indexName, schema.getVersion());
     this.indexNameRaw = indexName;
     this.client = client;
-    this.type = client.adapter().getType(indexType);
-  }
-
-  AbstractElasticIndex(
-      ElasticConfiguration cfg,
-      SitePaths sitePaths,
-      Schema<V> schema,
-      ElasticRestClientProvider client,
-      String indexName) {
-    this(cfg, sitePaths, schema, client, indexName, indexName);
+    this.type = client.adapter().getType();
   }
 
   @Override
@@ -211,8 +201,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
 
   protected abstract String getId(V v);
 
-  protected String getMappingsForSingleType(String candidateType, MappingProperties properties) {
-    return getMappingsFor(client.adapter().getType(candidateType), properties);
+  protected String getMappingsForSingleType(MappingProperties properties) {
+    return getMappingsFor(client.adapter().getType(), properties);
   }
 
   protected String getMappingsFor(String type, MappingProperties properties) {
@@ -228,8 +218,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
     return gson.toJson(mappings);
   }
 
-  protected String delete(String type, K id) {
-    return new DeleteRequest(id.toString(), indexName, type, client.adapter()).toString();
+  protected String getDeleteRequest(K id) {
+    return new DeleteRequest(id.toString(), indexName).toString();
   }
 
   protected abstract V fromDocument(JsonObject doc, Set<String> fields);

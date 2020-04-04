@@ -73,7 +73,7 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
   @Override
   public void replace(ProjectData projectState) throws IOException {
     BulkRequest bulk =
-        new IndexRequest(projectState.getProject().getName(), indexName, type, client.adapter())
+        new IndexRequest(projectState.getProject().getName(), indexName)
             .add(new UpdateRequest<>(schema, projectState));
 
     String uri = getURI(type, BULK);
@@ -96,12 +96,12 @@ public class ElasticProjectIndex extends AbstractElasticIndex<Project.NameKey, P
 
   @Override
   protected String getDeleteActions(Project.NameKey nameKey) {
-    return delete(type, nameKey);
+    return getDeleteRequest(nameKey);
   }
 
   @Override
   protected String getMappings() {
-    return getMappingsForSingleType(PROJECTS, mapping.projects);
+    return getMappingsForSingleType(mapping.projects);
   }
 
   @Override

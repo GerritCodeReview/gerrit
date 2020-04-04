@@ -26,11 +26,6 @@ import org.eclipse.jgit.lib.Config;
 /** Tests for every supported {@link IndexType#isElasticsearch()} most recent index version. */
 public class ElasticIndexIT extends AbstractIndexTests {
 
-  @ConfigSuite.Default
-  public static Config elasticsearchV5() {
-    return getConfig(ElasticVersion.V5_6);
-  }
-
   @ConfigSuite.Config
   public static Config elasticsearchV6() {
     return getConfig(ElasticVersion.V6_8);

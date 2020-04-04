@@ -118,6 +118,30 @@
       "revId": "8a3995e7b4787a9eeea688d3970a554c34ad8a61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "41b38ece_e0a4ca2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-04-04T01:49:26Z",
+      "side": 1,
+      "message": "I believe that the fork is only for the java code, where as the UI is always using upstream? (I may be wrong, but i\u0027m sure its only the java code that is forked)",
+      "parentUuid": "c70ce2df_2117931c",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 289
+      },
+      "revId": "8a3995e7b4787a9eeea688d3970a554c34ad8a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

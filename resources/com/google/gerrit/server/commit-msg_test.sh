@@ -63,9 +63,9 @@ index 625fd613d9..03aeba3b21 100755
 @@ -38,6 +38,7 @@
  context
  line
- 
+
 +hello, world
- 
+
  context
  line
 EOF
@@ -111,7 +111,7 @@ EOF
 }
 
 # Change-Id goes after existing trailers.
-function test_at_end {
+function test_at_start {
   cat << EOF > input
 bla bla
 
@@ -119,16 +119,16 @@ Bug: #123
 EOF
 
   ${hook} input || fail "failed hook execution"
-  result=$(tail -1 input | grep ^Change-Id)
+  result=$(git interpret-trailers --parse input | head -1 | grep ^Change-Id)
   if [[ -z "${result}" ]] ; then
     echo "after: "
     cat input
 
-    fail "did not find Change-Id at end"
+    fail "did not find Change-Id at start"
   fi
 }
 
-function test_dash_at_end {
+function test_dash_at_start {
   if [[ ! -x /bin/dash ]] ; then
     echo "/bin/dash not installed; skipping dash test."
     return
@@ -142,12 +142,12 @@ EOF
 
   /bin/dash ${hook} input || fail "failed hook execution"
 
-  result=$(tail -1 input | grep ^Change-Id)
+  result=$(git interpret-trailers --parse input | head -1 | grep ^Change-Id)
   if [[ -z "${result}" ]] ; then
     echo "after: "
     cat input
 
-    fail "did not find Change-Id at end"
+    fail "did not find Change-Id at start"
   fi
 }
 

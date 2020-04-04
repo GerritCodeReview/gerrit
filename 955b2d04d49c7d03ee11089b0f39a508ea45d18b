@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6046a215_3aa2800c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-04T21:33:54Z",
+      "side": 1,
+      "message": "version",
+      "range": {
+        "startLine": 9,
+        "startChar": 62,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "955b2d04d49c7d03ee11089b0f39a508ea45d18b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8829b0a_a1dfdd0b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3126,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-04T21:33:54Z",
+      "side": 1,
+      "message": "Elasticsearch",
+      "range": {
+        "startLine": 3126,
+        "startChar": 3,
+        "endLine": 3126,
+        "endChar": 16
+      },
+      "revId": "955b2d04d49c7d03ee11089b0f39a508ea45d18b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

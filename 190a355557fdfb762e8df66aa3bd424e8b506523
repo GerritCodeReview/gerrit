@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a10d8dda_0ca1e8cc",
+        "filename": "javatests/com/google/gerrit/acceptance/edit/ChangeEditIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-04T03:38:04Z",
+      "side": 1,
+      "message": "This could be just added in the test \"no content provided\" that already exists on line 597",
+      "range": {
+        "startLine": 592,
+        "startChar": 4,
+        "endLine": 592,
+        "endChar": 29
+      },
+      "revId": "190a355557fdfb762e8df66aa3bd424e8b506523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -22,13 +22,18 @@ import scala.concurrent.duration._
 
 class CloneUsingBothProtocols extends GitSimulation {
   private val data: FileBasedFeederBuilder[Any]#F#F = jsonFile(resource).convert(url).queue
+  private val default: String = name
+
+  override def replaceOverride(in: String): String = {
+    replaceKeyWith("_project", default, in)
+  }
 
   private val test: ScenarioBuilder = scenario(name)
       .feed(data)
       .exec(gitRequest)
 
-  private val createProject = new CreateProject
-  private val deleteProject = new DeleteProject
+  private val createProject = new CreateProject(default)
+  private val deleteProject = new DeleteProject(default)
 
   setUp(
     createProject.test.inject(

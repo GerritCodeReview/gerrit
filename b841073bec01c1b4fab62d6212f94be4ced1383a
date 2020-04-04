@@ -308,6 +308,30 @@
     },
     {
       "key": {
+        "uuid": "dc8825ed_5ed4985d",
+        "filename": "bug-template-for-core-plugin-request.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-04T23:40:59Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c14fdd67_e3b072f7",
+      "range": {
+        "startLine": 9,
+        "startChar": 38,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "b841073bec01c1b4fab62d6212f94be4ced1383a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0e32575_ca9584f9",
         "filename": "bug-template-for-core-plugin-request.txt",
         "patchSetId": 2

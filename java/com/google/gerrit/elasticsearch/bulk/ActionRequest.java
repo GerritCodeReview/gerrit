@@ -14,7 +14,6 @@
 
 package com.google.gerrit.elasticsearch.bulk;
 
-import com.google.gerrit.elasticsearch.ElasticQueryAdapter;
 import com.google.gson.JsonObject;
 
 abstract class ActionRequest extends BulkRequest {
@@ -22,16 +21,11 @@ abstract class ActionRequest extends BulkRequest {
   private final String action;
   private final String id;
   private final String index;
-  private final String type;
-  private final ElasticQueryAdapter adapter;
 
-  protected ActionRequest(
-      String action, String id, String index, String type, ElasticQueryAdapter adapter) {
+  protected ActionRequest(String action, String id, String index) {
     this.action = action;
     this.id = id;
     this.index = index;
-    this.type = type;
-    this.adapter = adapter;
   }
 
   @Override
@@ -39,7 +33,6 @@ abstract class ActionRequest extends BulkRequest {
     JsonObject properties = new JsonObject();
     properties.addProperty("_id", id);
     properties.addProperty("_index", index);
-    adapter.setType(properties, type);
 
     JsonObject jsonAction = new JsonObject();
     jsonAction.add(action, properties);

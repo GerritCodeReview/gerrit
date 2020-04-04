@@ -74,7 +74,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
   @Override
   public void replace(AccountState as) {
     BulkRequest bulk =
-        new IndexRequest(getId(as), indexName, type, client.adapter())
+        new IndexRequest(getId(as), indexName)
             .add(new UpdateRequest<>(schema, as, ImmutableSet.of()));
 
     String uri = getURI(type, BULK);
@@ -105,12 +105,12 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
 
   @Override
   protected String getDeleteActions(Account.Id a) {
-    return delete(type, a);
+    return getDeleteRequest(a);
   }
 
   @Override
   protected String getMappings() {
-    return getMappingsForSingleType(ACCOUNTS, mapping.accounts);
+    return getMappingsForSingleType(mapping.accounts);
   }
 
   @Override

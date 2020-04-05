@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "38564a57_82dd174b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-05T00:39:18Z",
+      "side": 1,
+      "message": "discontinued",
+      "range": {
+        "startLine": 7,
+        "startChar": 24,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "955b2d04d49c7d03ee11089b0f39a508ea45d18b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6046a215_3aa2800c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

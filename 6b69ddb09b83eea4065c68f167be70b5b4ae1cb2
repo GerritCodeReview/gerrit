@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b126645d_38572431",
+        "filename": "java/com/google/gerrit/elasticsearch/ElasticQueryAdapter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-05T10:19:29Z",
+      "side": 1,
+      "message": "This could be simplified using ternary operator.",
+      "range": {
+        "startLine": 89,
+        "startChar": 2,
+        "endLine": 94,
+        "endChar": 3
+      },
+      "revId": "6b69ddb09b83eea4065c68f167be70b5b4ae1cb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

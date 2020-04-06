@@ -24,27 +24,21 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-metadata-api">
 
 document.head.appendChild($_documentContainer.content);
 
-(function(window) {
-  'use strict';
+/** @constructor */
+export function GrChangeMetadataApi(plugin) {
+  this._hook = null;
+  this.plugin = plugin;
+}
 
-  /** @constructor */
-  function GrChangeMetadataApi(plugin) {
-    this._hook = null;
-    this.plugin = plugin;
+GrChangeMetadataApi.prototype._createHook = function() {
+  this._hook = this.plugin.hook('change-metadata-item');
+};
+
+GrChangeMetadataApi.prototype.onLabelsChanged = function(callback) {
+  if (!this._hook) {
+    this._createHook();
   }
-
-  GrChangeMetadataApi.prototype._createHook = function() {
-    this._hook = this.plugin.hook('change-metadata-item');
-  };
-
-  GrChangeMetadataApi.prototype.onLabelsChanged = function(callback) {
-    if (!this._hook) {
-      this._createHook();
-    }
-    this._hook.onAttached(element =>
-      this.plugin.attributeHelper(element).bind('labels', callback));
-    return this;
-  };
-
-  window.GrChangeMetadataApi = GrChangeMetadataApi;
-})(window);
+  this._hook.onAttached(element =>
+    this.plugin.attributeHelper(element).bind('labels', callback));
+  return this;
+};

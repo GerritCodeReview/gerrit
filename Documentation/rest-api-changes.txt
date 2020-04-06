@@ -2728,6 +2728,20 @@ Put content of a file to a change edit.
   PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit/foo HTTP/1.0
 ----
 
+To upload a file as binary data in the request body:
+
+.Request
+----
+  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit/foo HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "binary_content": "data:text/plain;base64,SGVsbG8sIFdvcmxkIQ=="
+  }
+----
+
+Note that it must be base-64 encoded data uri.
+
 When change edit doesn't exist for this change yet it is created. When file
 content isn't provided, it is wiped out for that file. As response
 "`204 No Content`" is returned.

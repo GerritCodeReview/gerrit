@@ -168,9 +168,6 @@ module.exports = {
     "Gerrit": "readonly",
     "GrPluginActionContext": "readonly",
     "GrReporting": "readonly",
-    "GrSettingsApi": "readonly",
-    "GrStylesApi": "readonly",
-    "PluginLoader": "readonly",
     // Global variables from 3rd party libraries.
     // You should not add anything in this list, always try to import
     // If import is not possible - you can extend this list

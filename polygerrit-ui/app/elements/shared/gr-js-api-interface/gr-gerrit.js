@@ -22,6 +22,7 @@
 
 import {GrPluginEndpoints} from './gr-plugin-endpoints.js';
 import {EventEmitter} from '../gr-event-interface/gr-event-interface.js';
+import {PluginLoader} from './gr-plugin-loader.js';
 
 (function(window) {
   'use strict';

@@ -37,9 +37,9 @@ import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-beh
 import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface.js';
 import {GrSettingsApi} from '../../plugins/gr-settings-api/gr-settings-api.js';
 import {GrPluginActionContext} from './gr-plugin-action-context.js';
+import {PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils.js';
 
 suite('gr-js-api-interface tests', () => {
-  const {PLUGIN_LOADING_TIMEOUT_MS} = window._apiUtils;
   let element;
   let plugin;
   let errorStub;

@@ -16,14 +16,11 @@
  */
 import '../../../scripts/bundled-polymer.js';
 import '../../core/gr-reporting/gr-reporting.js';
-import '../../plugins/gr-settings-api/gr-settings-api.js';
-import '../../plugins/gr-styles-api/gr-styles-api.js';
 import '../gr-rest-api-interface/gr-rest-api-interface.js';
 import './gr-api-utils.js';
 import './gr-js-api-interface-element.js';
 import './gr-plugin-action-context.js';
 import './gr-public-js-api.js';
-import './gr-plugin-loader.js';
 import './gr-gerrit.js';
 
 /*

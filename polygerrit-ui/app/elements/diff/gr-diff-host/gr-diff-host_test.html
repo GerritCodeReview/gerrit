@@ -34,6 +34,7 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import './gr-diff-host.js';
 import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 suite('gr-diff-host tests', () => {
   let element;
@@ -409,7 +410,7 @@ suite('gr-diff-host tests', () => {
     });
 
     test('reload() loads files weblinks', () => {
-      const weblinksStub = sandbox.stub(Gerrit.Nav, '_generateWeblinks')
+      const weblinksStub = sandbox.stub(GerritNav, '_generateWeblinks')
           .returns({name: 'stubb', url: '#s'});
       sandbox.stub(element.$.restAPI, 'getDiff').returns(Promise.resolve({
         content: [],
@@ -427,7 +428,7 @@ suite('gr-diff-host tests', () => {
             weblinks: undefined,
           },
           repo: 'test-project',
-          type: Gerrit.Nav.WeblinkType.FILE}));
+          type: GerritNav.WeblinkType.FILE}));
         assert.isTrue(weblinksStub.secondCall.calledWith({
           commit: 'test-commit',
           file: 'test-path',
@@ -435,7 +436,7 @@ suite('gr-diff-host tests', () => {
             weblinks: undefined,
           },
           repo: 'test-project',
-          type: Gerrit.Nav.WeblinkType.FILE}));
+          type: GerritNav.WeblinkType.FILE}));
         assert.deepEqual(element.filesWeblinks, {
           meta_a: [{name: 'stubb', url: '#s'}],
           meta_b: [{name: 'stubb', url: '#s'}],

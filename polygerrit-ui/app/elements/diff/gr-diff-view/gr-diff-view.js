@@ -19,7 +19,6 @@ import '../../../scripts/bundled-polymer.js';
 import '@polymer/iron-dropdown/iron-dropdown.js';
 import '@polymer/iron-input/iron-input.js';
 import '../../../styles/shared-styles.js';
-import '../../core/gr-navigation/gr-navigation.js';
 import '../../core/gr-reporting/gr-reporting.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-dropdown/gr-dropdown.js';
@@ -48,6 +47,7 @@ import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -484,7 +484,7 @@ class GrDiffView extends mixinBehaviors( [
       return;
     }
 
-    Gerrit.Nav.navigateToDiff(this._change, this._commentSkips.previous,
+    GerritNav.navigateToDiff(this._change, this._commentSkips.previous,
         this._patchRange.patchNum, this._patchRange.basePatchNum);
   }
 
@@ -497,7 +497,7 @@ class GrDiffView extends mixinBehaviors( [
       return;
     }
 
-    Gerrit.Nav.navigateToDiff(this._change, this._commentSkips.next,
+    GerritNav.navigateToDiff(this._change, this._commentSkips.next,
         this._patchRange.patchNum, this._patchRange.basePatchNum);
   }
 
@@ -617,7 +617,7 @@ class GrDiffView extends mixinBehaviors( [
       return;
     }
 
-    Gerrit.Nav.navigateToDiff(this._change, newPath.path,
+    GerritNav.navigateToDiff(this._change, newPath.path,
         this._patchRange.patchNum, this._patchRange.basePatchNum);
   }
 
@@ -647,9 +647,9 @@ class GrDiffView extends mixinBehaviors( [
 
   _goToEditFile() {
     // TODO(taoalpha): add a shortcut for editing
-    const editUrl = Gerrit.Nav.getEditUrlForDiff(
+    const editUrl = GerritNav.getEditUrlForDiff(
         this._change, this._path, this._patchRange.patchNum);
-    return Gerrit.Nav.navigateToRelativeUrl(editUrl);
+    return GerritNav.navigateToRelativeUrl(editUrl);
   }
 
   /**
@@ -707,7 +707,7 @@ class GrDiffView extends mixinBehaviors( [
   }
 
   _paramsChanged(value) {
-    if (value.view !== Gerrit.Nav.View.DIFF) { return; }
+    if (value.view !== GerritNav.View.DIFF) { return; }
 
     if (value.changeNum && value.project) {
       this.$.restAPI.setInProjectLookup(value.changeNum, value.project);
@@ -825,7 +825,7 @@ class GrDiffView extends mixinBehaviors( [
       return;
     }
 
-    if (params.view === Gerrit.Nav.View.DIFF) {
+    if (params.view === GerritNav.View.DIFF) {
       this._setReviewed(true);
     }
   }
@@ -868,7 +868,7 @@ class GrDiffView extends mixinBehaviors( [
     if ([change, patchRange, path].some(arg => arg === undefined)) {
       return '';
     }
-    return Gerrit.Nav.getUrlForDiff(change, path, patchRange.patchNum,
+    return GerritNav.getUrlForDiff(change, path, patchRange.patchNum,
         patchRange.basePatchNum);
   }
 
@@ -910,13 +910,13 @@ class GrDiffView extends mixinBehaviors( [
       return '';
     }
     const range = this._getChangeUrlRange(patchRange, revisions);
-    return Gerrit.Nav.getUrlForChange(change, range.patchNum,
+    return GerritNav.getUrlForChange(change, range.patchNum,
         range.basePatchNum);
   }
 
   _navigateToChange(change, patchRange, revisions) {
     const range = this._getChangeUrlRange(patchRange, revisions);
-    Gerrit.Nav.navigateToChange(change, range.patchNum, range.basePatchNum);
+    GerritNav.navigateToChange(change, range.patchNum, range.basePatchNum);
   }
 
   _computeChangePath(change, patchRangeRecord, revisions) {
@@ -976,7 +976,7 @@ class GrDiffView extends mixinBehaviors( [
       return;
     }
 
-    Gerrit.Nav.navigateToDiff(this._change, path, this._patchRange.patchNum,
+    GerritNav.navigateToDiff(this._change, path, this._patchRange.patchNum,
         this._patchRange.basePatchNum);
   }
 
@@ -992,7 +992,7 @@ class GrDiffView extends mixinBehaviors( [
     const {basePatchNum, patchNum} = e.detail;
     if (this.patchNumEquals(basePatchNum, this._patchRange.basePatchNum) &&
         this.patchNumEquals(patchNum, this._patchRange.patchNum)) { return; }
-    Gerrit.Nav.navigateToDiff(
+    GerritNav.navigateToDiff(
         this._change, this._path, patchNum, basePatchNum);
   }
 
@@ -1036,7 +1036,7 @@ class GrDiffView extends mixinBehaviors( [
     const cursorAddress = this.$.cursor.getAddress();
     const number = cursorAddress ? cursorAddress.number : undefined;
     const leftSide = cursorAddress ? cursorAddress.leftSide : undefined;
-    const url = Gerrit.Nav.getUrlForDiffById(this._changeNum,
+    const url = GerritNav.getUrlForDiffById(this._changeNum,
         this._change.project, this._path, this._patchRange.patchNum,
         this._patchRange.basePatchNum, number, leftSide);
     history.replaceState(null, '', url);

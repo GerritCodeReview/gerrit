@@ -34,6 +34,8 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-repo-commands.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+
 suite('gr-repo-commands tests', () => {
   let element;
   let sandbox;
@@ -86,8 +88,8 @@ suite('gr-repo-commands tests', () => {
 
     setup(() => {
       createChangeStub = sandbox.stub(element.$.restAPI, 'createChange');
-      urlStub = sandbox.stub(Gerrit.Nav, 'getEditUrlForDiff');
-      sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl');
+      urlStub = sandbox.stub(GerritNav, 'getEditUrlForDiff');
+      sandbox.stub(GerritNav, 'navigateToRelativeUrl');
       handleSpy = sandbox.spy(element, '_handleEditRepoConfig');
       alertStub = sandbox.stub();
       element.addEventListener('show-alert', alertStub);

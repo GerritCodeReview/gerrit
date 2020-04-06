@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6ef723a5_63ff497b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-04-06T13:41:47Z",
+      "side": 1,
+      "message": "Sure. I thought it would be clear from the change.\nI Updated the commit message.",
+      "parentUuid": "60eb38b8_a2cdf365",
+      "revId": "df489f9779fab3ab5e9b6a6ec524e155deb22fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b62d6422_e1841426",
         "filename": "javatests/com/google/gerrit/server/restapi/change/ListChangeCommentsTest.java",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "df489f9779fab3ab5e9b6a6ec524e155deb22fd6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb7bfc7b_c1b76776",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/ListChangeCommentsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-04-06T13:41:47Z",
+      "side": 1,
+      "message": "Inside the Google infrastructure, we need a JUnit 4 @RunWith annnotation for all JUnit 4 test classes. JUnit 4 test classes missing this annotation will not be run. Adding @RunWith(JUnit4.class) to the class will fix this issue. \n\nI\u0027m not sure how much is this relevant (or not) for open source. If not, I can remove this line and apply the fix in our codebase internally.",
+      "parentUuid": "b62d6422_e1841426",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 22
+      },
+      "revId": "df489f9779fab3ab5e9b6a6ec524e155deb22fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

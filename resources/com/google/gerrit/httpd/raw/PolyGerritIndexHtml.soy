@@ -75,7 +75,7 @@
     {if $enabledExperiments}
       // ENABLED_EXPERIMENTS is a list of string that contains all enabled experiments
       // for the given user.
-      window.ENABLED_EXPERIMENTS = JSON.parse($enabledExperiments);
+      window.ENABLED_EXPERIMENTS = JSON.parse({$enabledExperiments});
     {/if}
   </script>{\n}
 

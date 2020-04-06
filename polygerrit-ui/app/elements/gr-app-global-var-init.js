@@ -58,6 +58,9 @@ import {GrAnnotationActionsInterface} from './shared/gr-js-api-interface/gr-anno
 import {GrChangeMetadataApi} from './plugins/gr-change-metadata-api/gr-change-metadata-api.js';
 import {GrEmailSuggestionsProvider} from '../scripts/gr-email-suggestions-provider/gr-email-suggestions-provider.js';
 import {GrGroupSuggestionsProvider} from '../scripts/gr-group-suggestions-provider/gr-group-suggestions-provider.js';
+import {GrEventHelper} from './plugins/gr-event-helper/gr-event-helper.js';
+import {GrPluginRestApi} from './shared/gr-js-api-interface/gr-plugin-rest-api.js';
+import {GrRepoApi} from './plugins/gr-repo-api/gr-repo-api.js';
 
 export function initGlobalVariables() {
   window.GrDisplayNameUtils = GrDisplayNameUtils;
@@ -99,4 +102,7 @@ export function initGlobalVariables() {
   window.GrChangeMetadataApi = GrChangeMetadataApi;
   window.GrEmailSuggestionsProvider = GrEmailSuggestionsProvider;
   window.GrGroupSuggestionsProvider = GrGroupSuggestionsProvider;
+  window.GrEventHelper = GrEventHelper;
+  window.GrPluginRestApi = GrPluginRestApi;
+  window.GrRepoApi = GrRepoApi;
 }

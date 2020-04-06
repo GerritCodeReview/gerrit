@@ -366,6 +366,8 @@ public class PostReviewIT extends AbstractDaemonTest {
     assertThat(getRobotComments(r.getChangeId())).hasSize(1);
   }
 
+  // ö add test here (and for the other 2 entry points) to verify the change message is included.
+
   private List<RobotCommentInfo> getRobotComments(String changeId) throws RestApiException {
     return gApi.changes().id(changeId).robotComments().values().stream()
         .flatMap(Collection::stream)

@@ -166,11 +166,8 @@ module.exports = {
     // Instead export variables from modules
     // TODO(dmfilippov): Remove global variables from polygerrit
     "Gerrit": "readonly",
-    "GrChangeMetadataApi": "readonly",
     "GrChangeViewApi": "readonly",
-    "GrEmailSuggestionsProvider": "readonly",
     "GrEventHelper": "readonly",
-    "GrGroupSuggestionsProvider": "readonly",
     "GrPluginActionContext": "readonly",
     "GrPluginRestApi": "readonly",
     "GrRepoApi": "readonly",

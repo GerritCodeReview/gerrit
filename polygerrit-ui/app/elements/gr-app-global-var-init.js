@@ -55,6 +55,9 @@ import {EventEmitter} from './shared/gr-event-interface/gr-event-interface.js';
 import {GrAdminApi} from './plugins/gr-admin-api/gr-admin-api.js';
 import {GrAnnotationActionsContext} from './shared/gr-js-api-interface/gr-annotation-actions-context.js';
 import {GrAnnotationActionsInterface} from './shared/gr-js-api-interface/gr-annotation-actions-js-api.js';
+import {GrChangeMetadataApi} from './plugins/gr-change-metadata-api/gr-change-metadata-api.js';
+import {GrEmailSuggestionsProvider} from '../scripts/gr-email-suggestions-provider/gr-email-suggestions-provider.js';
+import {GrGroupSuggestionsProvider} from '../scripts/gr-group-suggestions-provider/gr-group-suggestions-provider.js';
 
 export function initGlobalVariables() {
   window.GrDisplayNameUtils = GrDisplayNameUtils;
@@ -93,4 +96,7 @@ export function initGlobalVariables() {
   window.GrAdminApi = GrAdminApi;
   window.GrAnnotationActionsContext = GrAnnotationActionsContext;
   window.GrAnnotationActionsInterface = GrAnnotationActionsInterface;
+  window.GrChangeMetadataApi = GrChangeMetadataApi;
+  window.GrEmailSuggestionsProvider = GrEmailSuggestionsProvider;
+  window.GrGroupSuggestionsProvider = GrGroupSuggestionsProvider;
 }

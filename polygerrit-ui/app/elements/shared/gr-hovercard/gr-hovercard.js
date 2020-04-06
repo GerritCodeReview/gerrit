@@ -17,7 +17,6 @@
 import '../../../scripts/bundled-polymer.js';
 
 import '../../../styles/shared-styles.js';
-import '../../../scripts/rootElement.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-hovercard_html.js';

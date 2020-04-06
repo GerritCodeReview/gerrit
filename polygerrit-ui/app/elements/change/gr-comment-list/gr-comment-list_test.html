@@ -34,6 +34,8 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import './gr-comment-list.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+
 suite('gr-comment-list tests', () => {
   let element;
   let sandbox;
@@ -41,7 +43,7 @@ suite('gr-comment-list tests', () => {
   setup(() => {
     element = fixture('basic');
     sandbox = sinon.sandbox.create();
-    sandbox.stub(Gerrit.Nav, 'mapCommentlinks', x => x);
+    sandbox.stub(GerritNav, 'mapCommentlinks', x => x);
   });
 
   teardown(() => { sandbox.restore(); });
@@ -103,7 +105,7 @@ suite('gr-comment-list tests', () => {
   });
 
   test('_computeDiffLineURL', () => {
-    const getUrlStub = sandbox.stub(Gerrit.Nav, 'getUrlForDiffById');
+    const getUrlStub = sandbox.stub(GerritNav, 'getUrlForDiffById');
     element.projectName = 'proj';
     element.changeNum = 123;
 

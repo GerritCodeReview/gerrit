@@ -35,6 +35,8 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import './gr-repo-access.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+
 suite('gr-repo-access tests', () => {
   let element;
   let sandbox;
@@ -1162,7 +1164,7 @@ suite('gr-repo-access tests', () => {
       };
       sandbox.stub(element.$.restAPI, 'getRepoAccessRights').returns(
           Promise.resolve(JSON.parse(JSON.stringify(accessRes))));
-      sandbox.stub(Gerrit.Nav, 'navigateToChange');
+      sandbox.stub(GerritNav, 'navigateToChange');
       let resolver;
       const saveStub = sandbox.stub(element.$.restAPI,
           'setRepoAccessRights')
@@ -1177,7 +1179,7 @@ suite('gr-repo-access tests', () => {
       resolver({_number: 1});
       flush(() => {
         assert.isTrue(saveStub.called);
-        assert.isTrue(Gerrit.Nav.navigateToChange.notCalled);
+        assert.isTrue(GerritNav.navigateToChange.notCalled);
         done();
       });
     });
@@ -1209,7 +1211,7 @@ suite('gr-repo-access tests', () => {
       };
       sandbox.stub(element.$.restAPI, 'getRepoAccessRights').returns(
           Promise.resolve(JSON.parse(JSON.stringify(accessRes))));
-      sandbox.stub(Gerrit.Nav, 'navigateToChange');
+      sandbox.stub(GerritNav, 'navigateToChange');
       let resolver;
       const saveForReviewStub = sandbox.stub(element.$.restAPI,
           'setRepoAccessRightsForReview')
@@ -1224,7 +1226,7 @@ suite('gr-repo-access tests', () => {
       resolver({_number: 1});
       flush(() => {
         assert.isTrue(saveForReviewStub.called);
-        assert.isTrue(Gerrit.Nav.navigateToChange
+        assert.isTrue(GerritNav.navigateToChange
             .lastCall.calledWithExactly({_number: 1}));
         done();
       });

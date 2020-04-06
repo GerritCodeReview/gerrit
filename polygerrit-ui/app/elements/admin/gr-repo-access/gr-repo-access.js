@@ -19,7 +19,6 @@ import '../../../scripts/bundled-polymer.js';
 import '../../../styles/gr-menu-page-styles.js';
 import '../../../styles/gr-subpage-styles.js';
 import '../../../styles/shared-styles.js';
-import '../../core/gr-navigation/gr-navigation.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../gr-access-section/gr-access-section.js';
 import {flush, dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
@@ -32,6 +31,7 @@ import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-beh
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 import {AccessBehavior} from '../../../behaviors/gr-access-behavior/gr-access-behavior.js';
 import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 const Defs = {};
 
@@ -485,7 +485,7 @@ class GrRepoAccess extends mixinBehaviors( [
     return this.$.restAPI
         .setRepoAccessRightsForReview(this.repo, obj)
         .then(change => {
-          Gerrit.Nav.navigateToChange(change);
+          GerritNav.navigateToChange(change);
         })
         .finally(() => {
           this._modified = false;

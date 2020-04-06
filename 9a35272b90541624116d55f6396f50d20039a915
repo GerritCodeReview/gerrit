@@ -145,6 +145,24 @@
     },
     {
       "key": {
+        "uuid": "67c0d0e6_1bbacb13",
+        "filename": "bug-template-for-core-plugin-request.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-06T13:43:18Z",
+      "side": 1,
+      "message": "Thanks. My expectation would be that the ESC looks at this during their next meeting, which I believe is tomorrow?",
+      "parentUuid": "a2d02e0f_07dba28c",
+      "revId": "9a35272b90541624116d55f6396f50d20039a915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75f84d09_84fd05bf",
         "filename": "bug-template-for-core-plugin-request.txt",
         "patchSetId": 3

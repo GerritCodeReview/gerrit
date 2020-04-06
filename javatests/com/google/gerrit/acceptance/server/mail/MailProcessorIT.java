@@ -347,8 +347,9 @@ public class MailProcessorIT extends AbstractMailIT {
   }
 
   @Test
-  @GerritConfig(name = "change.maxComments", value = "4")
+  @GerritConfig(name = "change.maxComments", value = "10")
   public void limitNumberOfComments() throws Exception {
+    // This change has 2 change messages and 2 comments.
     String changeId = createChangeWithReview();
     CommentInput commentInput = new CommentInput();
     commentInput.line = 1;
@@ -359,6 +360,7 @@ public class MailProcessorIT extends AbstractMailIT {
     ReviewInput reviewInput = new ReviewInput();
     reviewInput.comments = ImmutableMap.of(FILE_NAME, ImmutableList.of(commentInput));
     reviewInput.robotComments = ImmutableMap.of(FILE_NAME, ImmutableList.of(robotCommentInput));
+    // Add 1 change message and another 2 comments. Total count is now 7, which is still OK.
     gApi.changes().id(changeId).current().review(reviewInput);
 
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
@@ -367,12 +369,24 @@ public class MailProcessorIT extends AbstractMailIT {
         MailProcessingUtil.rfcDateformatter.format(
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
 
-    MailMessage.Builder b = messageBuilderWithDefaultFields();
-    String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, null, COMMENT_TEXT, null);
-    b.textContent(txt + textFooterForChange(changeInfo._number, ts));
+    MailMessage.Builder mailMessage = messageBuilderWithDefaultFields();
+    String txt =
+        newPlaintextBody(
+            getChangeUrl(changeInfo) + "/1",
+            "1) change message",
+            "2) reply to comment",
+            "3) file comment",
+            "4) reply to file comment");
+    mailMessage.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
+    // ö When counting the NEW change message (for # of comments; also for other limits?), we also
+    // need
+    // to count the EXISTING change messages. Maybe that's simple in CommentCountValidator? It
+    // already
+    // accesses state.
     Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
-    mailProcessor.process(b.build());
+    // The email adds 4 new comments (of which 1 is the change message).
+    mailProcessor.process(mailMessage.build());
     assertThat(testCommentHelper.getPublishedComments(changeId)).isEqualTo(commentsBefore);
 
     assertNotifyTo(user);

@@ -45,7 +45,9 @@ public class CommentCountValidator implements CommentValidator {
     ChangeNotes notes =
         notesFactory.createChecked(Project.nameKey(ctx.getProject()), Change.id(ctx.getChangeId()));
     int numExistingComments = notes.getComments().size() + notes.getRobotComments().size();
-    if (!comments.isEmpty() && numExistingComments + comments.size() > maxComments) {
+    int numExistingChangeMessages = notes.getChangeMessages().size();
+    if (!comments.isEmpty()
+        && numExistingComments + numExistingChangeMessages + comments.size() > maxComments) {
       // This warning really applies to the set of all comments, but we need to pick one to attach
       // the message to.
       CommentForValidation commentForFailureMessage = Iterables.getLast(comments);

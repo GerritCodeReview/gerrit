@@ -32,7 +32,6 @@ import '../gr-storage/gr-storage.js';
 import '../gr-textarea/gr-textarea.js';
 import '../gr-tooltip-content/gr-tooltip-content.js';
 import '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog.js';
-import '../../../scripts/rootElement.js';
 import {flush, dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
@@ -40,6 +39,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-comment_html.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {getRootElement} from '../../../scripts/rootElement.js';
 
 const STORAGE_DEBOUNCE_INTERVAL = 400;
 const TOAST_DEBOUNCE_INTERVAL = 200;
@@ -194,7 +194,7 @@ class GrComment extends mixinBehaviors( [
 
       /**
        * Property for storing references to overlay elements. When the overlays
-       * are moved to Gerrit.getRootElement() to be shown they are no-longer
+       * are moved to getRootElement() to be shown they are no-longer
        * children, so they can't be queried along the tree, so they are stored
        * here.
        */
@@ -808,7 +808,7 @@ class GrComment extends mixinBehaviors( [
   }
 
   _openOverlay(overlay) {
-    dom(Gerrit.getRootElement()).appendChild(overlay);
+    dom(getRootElement()).appendChild(overlay);
     return overlay.open();
   }
 
@@ -826,7 +826,7 @@ class GrComment extends mixinBehaviors( [
   }
 
   _closeOverlay(overlay) {
-    dom(Gerrit.getRootElement()).removeChild(overlay);
+    dom(getRootElement()).removeChild(overlay);
     overlay.close();
   }
 

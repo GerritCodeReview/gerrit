@@ -33,6 +33,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-repo_html.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 const STATES = {
   active: {value: 'ACTIVE', label: 'Active'},
@@ -366,7 +367,7 @@ class GrRepo extends mixinBehaviors( [
   }
 
   _computeChangesUrl(name) {
-    return Gerrit.Nav.getUrlForProjectChanges(name);
+    return GerritNav.getUrlForProjectChanges(name);
   }
 
   _handlePluginConfigChanged({detail: {name, config, notifyPath}}) {

@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../core/gr-navigation/gr-navigation.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param.js';
 import '../../shared/gr-button/gr-button.js';
@@ -34,6 +33,7 @@ import {htmlTemplate} from './gr-editor-view_html.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -135,7 +135,7 @@ class GrEditorView extends mixinBehaviors( [
   }
 
   _paramsChanged(value) {
-    if (value.view !== Gerrit.Nav.View.EDIT) {
+    if (value.view !== GerritNav.View.EDIT) {
       return;
     }
 
@@ -185,7 +185,7 @@ class GrEditorView extends mixinBehaviors( [
 
   _viewEditInChangeView() {
     const patch = this._successfulSave ? this.EDIT_NAME : this._patchNum;
-    Gerrit.Nav.navigateToChange(this._change, patch, null,
+    GerritNav.navigateToChange(this._change, patch, null,
         patch !== this.EDIT_NAME);
   }
 

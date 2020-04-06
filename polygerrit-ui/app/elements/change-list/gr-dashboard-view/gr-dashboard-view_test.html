@@ -34,6 +34,8 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import './gr-dashboard-view.js';
 import {isHidden} from '../../../test/test-utils.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+
 suite('gr-dashboard-view tests', () => {
   let element;
   let sandbox;
@@ -186,7 +188,7 @@ suite('gr-dashboard-view tests', () => {
 
     test('content is refreshed when user param is updated', () => {
       element.params = {
-        view: Gerrit.Nav.View.DASHBOARD,
+        view: GerritNav.View.DASHBOARD,
         user: 'self',
       };
       return paramsChangedPromise.then(() => {
@@ -198,7 +200,7 @@ suite('gr-dashboard-view tests', () => {
   suite('selfOnly sections', () => {
     test('viewing self dashboard includes selfOnly sections', () => {
       element.params = {
-        view: Gerrit.Nav.View.DASHBOARD,
+        view: GerritNav.View.DASHBOARD,
         sections: [
           {query: '1'},
           {query: '2', selfOnly: true},
@@ -213,7 +215,7 @@ suite('gr-dashboard-view tests', () => {
 
     test('viewing another user\'s dashboard omits selfOnly sections', () => {
       element.params = {
-        view: Gerrit.Nav.View.DASHBOARD,
+        view: GerritNav.View.DASHBOARD,
         sections: [
           {query: '1'},
           {query: '2', selfOnly: true},
@@ -228,7 +230,7 @@ suite('gr-dashboard-view tests', () => {
 
   test('suffixForDashboard is included in getChanges query', () => {
     element.params = {
-      view: Gerrit.Nav.View.DASHBOARD,
+      view: GerritNav.View.DASHBOARD,
       sections: [
         {query: '1'},
         {query: '2', suffixForDashboard: 'suffix'},
@@ -357,7 +359,7 @@ suite('gr-dashboard-view tests', () => {
       done();
     });
     element.params = {
-      view: Gerrit.Nav.View.DASHBOARD,
+      view: GerritNav.View.DASHBOARD,
       project: 'project',
       dashboard: 'dashboard',
     };
@@ -366,7 +368,7 @@ suite('gr-dashboard-view tests', () => {
   test('params change triggers dashboardDisplayed()', () => {
     sandbox.stub(element.$.reporting, 'dashboardDisplayed');
     element.params = {
-      view: Gerrit.Nav.View.DASHBOARD,
+      view: GerritNav.View.DASHBOARD,
       project: 'project',
       dashboard: 'dashboard',
     };

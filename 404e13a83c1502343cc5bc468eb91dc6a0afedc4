@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a87e70b9_822ac5a4",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListRobotComments.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-06T08:31:29Z",
+      "side": 1,
+      "message": "Good point!",
+      "parentUuid": "3d5257e2_98adfc12",
+      "range": {
+        "startLine": 66,
+        "startChar": 17,
+        "endLine": 66,
+        "endChar": 45
+      },
+      "revId": "404e13a83c1502343cc5bc468eb91dc6a0afedc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d698edc1_936966cf",
         "filename": "java/com/google/gerrit/server/restapi/change/ListRobotComments.java",
         "patchSetId": 10

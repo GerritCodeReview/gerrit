@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "a2d02e0f_07dba28c",
+        "filename": "bug-template-for-core-plugin-request.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-06T13:27:54Z",
+      "side": 1,
+      "message": "Thanks. I answered all questions according to the new template: [1].\n\nGiven that this issue is already opened for years, we should expect a decision in the next couple of weeks (or months)?\n\n* [1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d10732#c7",
+      "parentUuid": "461acb07_5488cda3",
+      "revId": "9a35272b90541624116d55f6396f50d20039a915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75f84d09_84fd05bf",
         "filename": "bug-template-for-core-plugin-request.txt",
         "patchSetId": 3

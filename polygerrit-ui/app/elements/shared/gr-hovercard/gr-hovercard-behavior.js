@@ -17,8 +17,8 @@
 import '../../../scripts/bundled-polymer.js';
 
 import '../../../styles/shared-styles.js';
-import '../../../scripts/rootElement.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {getRootElement} from '../../../scripts/rootElement.js';
 
 const HOVER_CLASS = 'hovered';
 const HIDE_CLASS = 'hide';
@@ -143,7 +143,7 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
   ready() {
     super.ready();
     // First, check to see if the container has already been created.
-    this.container = Gerrit.getRootElement()
+    this.container = getRootElement()
         .querySelector('#' + this.containerId);
 
     if (this.container) { return; }
@@ -151,7 +151,7 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
     // If it does not exist, create and initialize the hovercard container.
     this.container = document.createElement('div');
     this.container.setAttribute('id', this.containerId);
-    Gerrit.getRootElement().appendChild(this.container);
+    getRootElement().appendChild(this.container);
   }
 
   removeListeners() {

@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "072581ef_3af7fdda",
+        "filename": "bug-template-for-core-plugin-request.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-06T09:29:02Z",
+      "side": 1,
+      "message": "I think we can just copy\u0026paste the template into the existing issue to add all needed information, so that we can hand it over to the ESC.",
+      "parentUuid": "13e5a56d_924d2367",
+      "revId": "9a35272b90541624116d55f6396f50d20039a915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75f84d09_84fd05bf",
         "filename": "bug-template-for-core-plugin-request.txt",
         "patchSetId": 3

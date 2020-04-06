@@ -45,6 +45,30 @@
       "revId": "9aa54822b1f78a55bb7dc0ae82318c74e9ead0fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c54bce3b_3333fcfc",
+        "filename": "tools/remote-bazelrc",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-06T11:35:11Z",
+      "side": 1,
+      "message": "Will remove it here. Should this hard coded project name also be removed in many other places? See output from Zoekt:\n\n  https://cs.bazel.build/search?q\u003dr%3Agerrit+api-project-164060093628",
+      "parentUuid": "20601d6b_775c0895",
+      "range": {
+        "startLine": 24,
+        "startChar": 44,
+        "endLine": 24,
+        "endChar": 69
+      },
+      "revId": "9aa54822b1f78a55bb7dc0ae82318c74e9ead0fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

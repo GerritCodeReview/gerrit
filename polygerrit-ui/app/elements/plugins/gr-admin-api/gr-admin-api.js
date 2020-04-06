@@ -14,30 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(window) {
-  'use strict';
 
-  // Prevent redefinition.
-  if (window.GrAdminApi) { return; }
+/** @constructor */
+export function GrAdminApi(plugin) {
+  this.plugin = plugin;
+  plugin.on('admin-menu-links', this);
+  this._menuLinks = [];
+}
 
-  /** @constructor */
-  function GrAdminApi(plugin) {
-    this.plugin = plugin;
-    plugin.on('admin-menu-links', this);
-    this._menuLinks = [];
-  }
+/**
+ * @param {string} text
+ * @param {string} url
+ */
+GrAdminApi.prototype.addMenuLink = function(text, url, opt_capability) {
+  this._menuLinks.push({text, url, capability: opt_capability || null});
+};
 
-  /**
-   * @param {string} text
-   * @param {string} url
-   */
-  GrAdminApi.prototype.addMenuLink = function(text, url, opt_capability) {
-    this._menuLinks.push({text, url, capability: opt_capability || null});
-  };
-
-  GrAdminApi.prototype.getMenuLinks = function() {
-    return this._menuLinks.slice(0);
-  };
-
-  window.GrAdminApi = GrAdminApi;
-})(window);
+GrAdminApi.prototype.getMenuLinks = function() {
+  return this._menuLinks.slice(0);
+};

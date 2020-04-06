@@ -17,103 +17,88 @@
 
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 
-(function(window) {
-  'use strict';
+export const PRELOADED_PROTOCOL = 'preloaded:';
+export const PLUGIN_LOADING_TIMEOUT_MS = 10000;
 
-  const PRELOADED_PROTOCOL = 'preloaded:';
-  const PLUGIN_LOADING_TIMEOUT_MS = 10000;
-
-  let _restAPI;
-  function getRestAPI() {
-    if (!_restAPI) {
-      _restAPI = document.createElement('gr-rest-api-interface');
-    }
-    return _restAPI;
+let _restAPI;
+export function getRestAPI() {
+  if (!_restAPI) {
+    _restAPI = document.createElement('gr-rest-api-interface');
   }
+  return _restAPI;
+}
 
-  function getBaseUrl() {
-    return BaseUrlBehavior.getBaseUrl();
-  }
+export function getBaseUrl() {
+  return BaseUrlBehavior.getBaseUrl();
+}
 
-  /**
-   * Retrieves the name of the plugin base on the url.
-   *
-   * @param {string|URL} url
-   */
-  function getPluginNameFromUrl(url) {
-    if (!(url instanceof URL)) {
-      try {
-        url = new URL(url);
-      } catch (e) {
-        console.warn(e);
-        return null;
-      }
-    }
-    if (url.protocol === PRELOADED_PROTOCOL) {
-      return url.pathname;
-    }
-    const base = BaseUrlBehavior.getBaseUrl();
-    let pathname = url.pathname.replace(base, '');
-    // Load from ASSETS_PATH
-    if (window.ASSETS_PATH && url.href.includes(window.ASSETS_PATH)) {
-      pathname = url.href.replace(window.ASSETS_PATH, '');
-    }
-    // Site theme is server from predefined path.
-    if (pathname === '/static/gerrit-theme.html') {
-      return 'gerrit-theme';
-    } else if (!pathname.startsWith('/plugins')) {
-      console.warn('Plugin not being loaded from /plugins base path:',
-          url.href, '— Unable to determine name.');
+/**
+ * Retrieves the name of the plugin base on the url.
+ *
+ * @param {string|URL} url
+ */
+export function getPluginNameFromUrl(url) {
+  if (!(url instanceof URL)) {
+    try {
+      url = new URL(url);
+    } catch (e) {
+      console.warn(e);
       return null;
     }
-
-    // Pathname should normally look like this:
-    // /plugins/PLUGINNAME/static/SCRIPTNAME.html
-    // Or, for app/samples:
-    // /plugins/PLUGINNAME.html
-    // TODO(taoalpha): guard with a regex
-    return pathname.split('/')[2].split('.')[0];
+  }
+  if (url.protocol === PRELOADED_PROTOCOL) {
+    return url.pathname;
+  }
+  const base = BaseUrlBehavior.getBaseUrl();
+  let pathname = url.pathname.replace(base, '');
+  // Load from ASSETS_PATH
+  if (window.ASSETS_PATH && url.href.includes(window.ASSETS_PATH)) {
+    pathname = url.href.replace(window.ASSETS_PATH, '');
+  }
+  // Site theme is server from predefined path.
+  if (pathname === '/static/gerrit-theme.html') {
+    return 'gerrit-theme';
+  } else if (!pathname.startsWith('/plugins')) {
+    console.warn('Plugin not being loaded from /plugins base path:',
+        url.href, '— Unable to determine name.');
+    return null;
   }
 
-  // TODO(taoalpha): to be deprecated.
-  function send(method, url, opt_callback, opt_payload) {
-    return getRestAPI().send(method, url, opt_payload)
-        .then(response => {
-          if (response.status < 200 || response.status >= 300) {
-            return response.text().then(text => {
-              if (text) {
-                return Promise.reject(new Error(text));
-              } else {
-                return Promise.reject(new Error(response.status));
-              }
-            });
-          } else {
-            return getRestAPI().getResponseObject(response);
-          }
-        })
-        .then(response => {
-          if (opt_callback) {
-            opt_callback(response);
-          }
-          return response;
-        });
-  }
+  // Pathname should normally look like this:
+  // /plugins/PLUGINNAME/static/SCRIPTNAME.html
+  // Or, for app/samples:
+  // /plugins/PLUGINNAME.html
+  // TODO(taoalpha): guard with a regex
+  return pathname.split('/')[2].split('.')[0];
+}
 
-  // TEST only methods / properties
+// TODO(taoalpha): to be deprecated.
+export function send(method, url, opt_callback, opt_payload) {
+  return getRestAPI().send(method, url, opt_payload)
+      .then(response => {
+        if (response.status < 200 || response.status >= 300) {
+          return response.text().then(text => {
+            if (text) {
+              return Promise.reject(new Error(text));
+            } else {
+              return Promise.reject(new Error(response.status));
+            }
+          });
+        } else {
+          return getRestAPI().getResponseObject(response);
+        }
+      })
+      .then(response => {
+        if (opt_callback) {
+          opt_callback(response);
+        }
+        return response;
+      });
+}
 
-  function testOnly_resetInternalState() {
-    _restAPI = undefined;
-  }
+// TEST only methods / properties
 
-  window._apiUtils = {
-    getPluginNameFromUrl,
-    send,
-    getRestAPI,
-    getBaseUrl,
-    PRELOADED_PROTOCOL,
-    PLUGIN_LOADING_TIMEOUT_MS,
+export function testOnly_resetInternalState() {
+  _restAPI = undefined;
+}
 
-    // TEST only methods
-    testOnly_resetInternalState,
-  };
-})(window);

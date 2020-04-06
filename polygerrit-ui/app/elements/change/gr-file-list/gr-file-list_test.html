@@ -50,6 +50,7 @@ import '../../diff/gr-comment-api/gr-comment-api-mock_test.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {GrFileListConstants} from '../gr-file-list-constants.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 suite('gr-file-list tests', () => {
   const kb = KeyboardShortcutBinder;
@@ -638,7 +639,7 @@ suite('gr-file-list tests', () => {
         assert.equal(element.selectedIndex, 1);
         MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
 
-        const navStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
+        const navStub = sandbox.stub(GerritNav, 'navigateToDiff');
         assert.equal(element.$.fileCursor.index, 2);
         assert.equal(element.selectedIndex, 2);
 
@@ -1278,7 +1279,7 @@ suite('gr-file-list tests', () => {
 
   suite('diff url file list', () => {
     test('diff url', () => {
-      const diffStub = sandbox.stub(Gerrit.Nav, 'getUrlForDiff')
+      const diffStub = sandbox.stub(GerritNav, 'getUrlForDiff')
           .returns('/c/gerrit/+/1/1/index.php');
       const change = {
         _number: 1,
@@ -1295,7 +1296,7 @@ suite('gr-file-list tests', () => {
     });
 
     test('diff url commit msg', () => {
-      const diffStub = sandbox.stub(Gerrit.Nav, 'getUrlForDiff')
+      const diffStub = sandbox.stub(GerritNav, 'getUrlForDiff')
           .returns('/c/gerrit/+/1/1//COMMIT_MSG');
       const change = {
         _number: 1,
@@ -1312,7 +1313,7 @@ suite('gr-file-list tests', () => {
     });
 
     test('edit url', () => {
-      const editStub = sandbox.stub(Gerrit.Nav, 'getEditUrlForDiff')
+      const editStub = sandbox.stub(GerritNav, 'getEditUrlForDiff')
           .returns('/c/gerrit/+/1/edit/index.php,edit');
       const change = {
         _number: 1,
@@ -1329,7 +1330,7 @@ suite('gr-file-list tests', () => {
     });
 
     test('edit url commit msg', () => {
-      const editStub = sandbox.stub(Gerrit.Nav, 'getEditUrlForDiff')
+      const editStub = sandbox.stub(GerritNav, 'getEditUrlForDiff')
           .returns('/c/gerrit/+/1/edit//COMMIT_MSG,edit');
       const change = {
         _number: 1,
@@ -1762,7 +1763,7 @@ suite('gr-file-list tests', () => {
     test('_openSelectedFile behavior', () => {
       const _filesByPath = element._filesByPath;
       element.set('_filesByPath', {});
-      const navStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
+      const navStub = sandbox.stub(GerritNav, 'navigateToDiff');
       // Noop when there are no files.
       element._openSelectedFile();
       assert.isFalse(navStub.called);

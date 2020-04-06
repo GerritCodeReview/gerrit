@@ -43,6 +43,8 @@ import './gr-change-list.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
 import {KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+
 suite('gr-change-list basic tests', () => {
   // Define keybindings before attaching other fixtures.
   const kb = KeyboardShortcutBinder;
@@ -192,7 +194,7 @@ suite('gr-change-list basic tests', () => {
       assert.equal(element.selectedIndex, 2);
       assert.isTrue(elementItems[2].hasAttribute('selected'));
 
-      const navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+      const navStub = sandbox.stub(GerritNav, 'navigateToChange');
       assert.equal(element.selectedIndex, 2);
       MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
       assert.deepEqual(navStub.lastCall.args[0], {_number: 2},
@@ -559,7 +561,7 @@ suite('gr-change-list basic tests', () => {
         assert.equal(element.selectedIndex, 1);
         MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
 
-        const navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+        const navStub = sandbox.stub(GerritNav, 'navigateToChange');
         assert.equal(element.selectedIndex, 2);
 
         MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'

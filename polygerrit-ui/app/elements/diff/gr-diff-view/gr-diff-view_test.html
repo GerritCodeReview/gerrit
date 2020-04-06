@@ -42,6 +42,8 @@ import '../../../test/common-test-setup.js';
 import './gr-diff-view.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+
 suite('gr-diff-view tests', () => {
   suite('basic tests', () => {
     const kb = KeyboardShortcutBinder;
@@ -115,7 +117,7 @@ suite('gr-diff-view tests', () => {
       sandbox.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
       sandbox.spy(element, '_paramsChanged');
       element.params = {
-        view: Gerrit.Nav.View.DIFF,
+        view: GerritNav.View.DIFF,
         changeNum: '42',
         patchNum: '2',
         basePatchNum: '1',
@@ -152,8 +154,8 @@ suite('gr-diff-view tests', () => {
       element.changeViewState.selectedFileIndex = 1;
       element._loggedIn = true;
 
-      const diffNavStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
-      const changeNavStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+      const diffNavStub = sandbox.stub(GerritNav, 'navigateToDiff');
+      const changeNavStub = sandbox.stub(GerritNav, 'navigateToChange');
 
       MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
       assert(changeNavStub.lastCall.calledWith(element._change),
@@ -258,8 +260,8 @@ suite('gr-diff-view tests', () => {
           ['chell.go', 'glados.txt', 'wheatley.md']);
       element._path = 'glados.txt';
 
-      const diffNavStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
-      const changeNavStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+      const diffNavStub = sandbox.stub(GerritNav, 'navigateToDiff');
+      const changeNavStub = sandbox.stub(GerritNav, 'navigateToChange');
 
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       assert.isTrue(changeNavStub.notCalled, 'The `a` keyboard shortcut ' +
@@ -326,8 +328,8 @@ suite('gr-diff-view tests', () => {
           ['chell.go', 'glados.txt', 'wheatley.md']);
       element._path = 'glados.txt';
 
-      const diffNavStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
-      const changeNavStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+      const diffNavStub = sandbox.stub(GerritNav, 'navigateToDiff');
+      const changeNavStub = sandbox.stub(GerritNav, 'navigateToChange');
 
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       assert.isTrue(changeNavStub.notCalled, 'The `a` keyboard shortcut ' +
@@ -385,7 +387,7 @@ suite('gr-diff-view tests', () => {
           b: {_number: 2, commit: {parents: []}},
         },
       };
-      const redirectStub = sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl');
+      const redirectStub = sandbox.stub(GerritNav, 'navigateToRelativeUrl');
       flush(() => {
         const editBtn = element.shadowRoot
             .querySelector('.editButton gr-button');
@@ -507,11 +509,11 @@ suite('gr-diff-view tests', () => {
     suite('url params', () => {
       setup(() => {
         sandbox.stub(
-            Gerrit.Nav,
+            GerritNav,
             'getUrlForDiff',
             (c, p, pn, bpn) => `${c._number}-${p}-${pn}-${bpn}`);
         sandbox.stub(
-            Gerrit.Nav
+            GerritNav
             , 'getUrlForChange',
             (c, pn, bpn) => `${c._number}-${pn}-${bpn}`);
       });
@@ -640,7 +642,7 @@ suite('gr-diff-view tests', () => {
     });
 
     test('_handlePatchChange calls navigateToDiff correctly', () => {
-      const navigateStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
+      const navigateStub = sandbox.stub(GerritNav, 'navigateToDiff');
       element._change = {_number: 321, project: 'foo/bar'};
       element._path = 'path/to/file.txt';
 
@@ -670,7 +672,7 @@ suite('gr-diff-view tests', () => {
       sandbox.stub(element.$.diffHost, 'reload');
       element._loggedIn = true;
       element.params = {
-        view: Gerrit.Nav.View.DIFF,
+        view: GerritNav.View.DIFF,
         changeNum: '42',
         patchNum: '2',
         basePatchNum: '1',
@@ -696,7 +698,7 @@ suite('gr-diff-view tests', () => {
 
       element._loggedIn = true;
       element.params = {
-        view: Gerrit.Nav.View.DIFF,
+        view: GerritNav.View.DIFF,
         changeNum: '42',
         patchNum: '2',
         basePatchNum: '1',
@@ -718,11 +720,11 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(saveReviewedStub.lastCall.calledWithExactly(true));
       const callCount = saveReviewedStub.callCount;
 
-      element.set('params.view', Gerrit.Nav.View.CHANGE);
+      element.set('params.view', GerritNav.View.CHANGE);
       flushAsynchronousOperations();
 
       // saveReviewedState observer observes params, but should not fire when
-      // view !== Gerrit.Nav.View.DIFF.
+      // view !== GerritNav.View.DIFF.
       assert.equal(saveReviewedStub.callCount, callCount);
     });
 
@@ -743,7 +745,7 @@ suite('gr-diff-view tests', () => {
 
       element._loggedIn = true;
       element.params = {
-        view: Gerrit.Nav.View.DIFF,
+        view: GerritNav.View.DIFF,
         changeNum: '42',
         patchNum: '2',
         basePatchNum: '1',
@@ -830,7 +832,7 @@ suite('gr-diff-view tests', () => {
 
       test('uses the patchNum and basePatchNum ', done => {
         element.params = {
-          view: Gerrit.Nav.View.DIFF,
+          view: GerritNav.View.DIFF,
           changeNum: '42',
           patchNum: '4',
           basePatchNum: '2',
@@ -847,7 +849,7 @@ suite('gr-diff-view tests', () => {
 
       test('uses the parent when there is no base patch num ', done => {
         element.params = {
-          view: Gerrit.Nav.View.DIFF,
+          view: GerritNav.View.DIFF,
           changeNum: '42',
           patchNum: '5',
           path: '/COMMIT_MSG',
@@ -902,7 +904,7 @@ suite('gr-diff-view tests', () => {
     });
 
     test('_onLineSelected', () => {
-      const getUrlStub = sandbox.stub(Gerrit.Nav, 'getUrlForDiffById');
+      const getUrlStub = sandbox.stub(GerritNav, 'getUrlForDiffById');
       const replaceStateStub = sandbox.stub(history, 'replaceState');
       sandbox.stub(element.$.cursor, 'getAddress')
           .returns({number: 123, isLeftSide: false});
@@ -923,7 +925,7 @@ suite('gr-diff-view tests', () => {
     });
 
     test('_onLineSelected w/o line address', () => {
-      const getUrlStub = sandbox.stub(Gerrit.Nav, 'getUrlForDiffById');
+      const getUrlStub = sandbox.stub(GerritNav, 'getUrlForDiffById');
       sandbox.stub(history, 'replaceState');
       sandbox.stub(element.$.cursor, 'moveToLineNumber');
       sandbox.stub(element.$.cursor, 'getAddress').returns(null);
@@ -1039,7 +1041,7 @@ suite('gr-diff-view tests', () => {
 
         setup(() => {
           navToChangeStub = sandbox.stub(element, '_navToChangeView');
-          navToDiffStub = sandbox.stub(Gerrit.Nav, 'navigateToDiff');
+          navToDiffStub = sandbox.stub(GerritNav, 'navigateToDiff');
           element._files = getFilesFromFileList([
             'path/one.jpg', 'path/two.m4v', 'path/three.wav',
           ]);
@@ -1198,7 +1200,7 @@ suite('gr-diff-view tests', () => {
       sandbox.stub(element, '_initCursor');
       const setStub = sandbox.stub(element.$.restAPI, 'setInProjectLookup');
       element._paramsChanged({
-        view: Gerrit.Nav.View.DIFF,
+        view: GerritNav.View.DIFF,
         changeNum: 101,
         project: 'test-project',
         path: '',
@@ -1228,25 +1230,25 @@ suite('gr-diff-view tests', () => {
       element._files = getFilesFromFileList(['file1', 'file2', 'file3']);
       sandbox.stub(element, '_getLineOfInterest');
       sandbox.stub(element, '_initCursor');
-      sandbox.stub(Gerrit.Nav, 'navigateToDiff');
+      sandbox.stub(GerritNav, 'navigateToDiff');
 
       // Load file1
       element._paramsChanged({
-        view: Gerrit.Nav.View.DIFF,
+        view: GerritNav.View.DIFF,
         patchNum: 1,
         changeNum: 101,
         project: 'test-project',
         path: 'file1',
       });
-      assert.isTrue(Gerrit.Nav.navigateToDiff.notCalled);
+      assert.isTrue(GerritNav.navigateToDiff.notCalled);
 
       // Switch to file2
       element.$.dropdown.value = 'file2';
-      assert.isTrue(Gerrit.Nav.navigateToDiff.calledOnce);
+      assert.isTrue(GerritNav.navigateToDiff.calledOnce);
 
       // This is to mock the param change triggered by above navigate
       element._paramsChanged({
-        view: Gerrit.Nav.View.DIFF,
+        view: GerritNav.View.DIFF,
         patchNum: 1,
         changeNum: 101,
         project: 'test-project',
@@ -1254,7 +1256,7 @@ suite('gr-diff-view tests', () => {
       });
 
       // No extra call
-      assert.isTrue(Gerrit.Nav.navigateToDiff.calledOnce);
+      assert.isTrue(GerritNav.navigateToDiff.calledOnce);
     });
 
     test('_computeDownloadDropdownLinks', () => {

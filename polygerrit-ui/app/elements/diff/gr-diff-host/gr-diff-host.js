@@ -31,6 +31,7 @@ import {htmlTemplate} from './gr-diff-host_html.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {GrDiffBuilder} from '../gr-diff-builder/gr-diff-builder.js';
 import {util} from '../../../scripts/util.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -440,10 +441,10 @@ class GrDiffHost extends mixinBehaviors( [
       return {};
     }
     return {
-      meta_a: Gerrit.Nav.getFileWebLinks(
+      meta_a: GerritNav.getFileWebLinks(
           this.projectName, this.commitRange.baseCommit, this.path,
           {weblinks: diff && diff.meta_a && diff.meta_a.web_links}),
-      meta_b: Gerrit.Nav.getFileWebLinks(
+      meta_b: GerritNav.getFileWebLinks(
           this.projectName, this.commitRange.commit, this.path,
           {weblinks: diff && diff.meta_b && diff.meta_b.web_links}),
     };

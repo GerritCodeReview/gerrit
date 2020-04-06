@@ -20,7 +20,6 @@ import '@polymer/iron-input/iron-input.js';
 import '../../../scripts/bundled-polymer.js';
 import '../../../styles/gr-form-styles.js';
 import '../../../styles/shared-styles.js';
-import '../../core/gr-navigation/gr-navigation.js';
 import '../../shared/gr-autocomplete/gr-autocomplete.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
@@ -32,6 +31,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-create-change-dialog_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';
@@ -119,7 +119,7 @@ class GrCreateChangeDialog extends mixinBehaviors( [
         this.baseCommit || null)
         .then(changeCreated => {
           if (!changeCreated) { return; }
-          Gerrit.Nav.navigateToChange(changeCreated);
+          GerritNav.navigateToChange(changeCreated);
         });
   }
 

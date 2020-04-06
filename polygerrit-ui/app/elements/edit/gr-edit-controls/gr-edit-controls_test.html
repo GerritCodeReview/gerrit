@@ -34,6 +34,8 @@ import '../../../test/common-test-setup.js';
 import './gr-edit-controls.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+
 suite('gr-edit-controls tests', () => {
   let element;
   let sandbox;
@@ -69,8 +71,8 @@ suite('gr-edit-controls tests', () => {
 
     setup(() => {
       navStubs = [
-        sandbox.stub(Gerrit.Nav, 'getEditUrlForDiff'),
-        sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl'),
+        sandbox.stub(GerritNav, 'getEditUrlForDiff'),
+        sandbox.stub(GerritNav, 'navigateToRelativeUrl'),
       ];
       openAutoCcmplete = element.$.openDialog.querySelector('gr-autocomplete');
     });
@@ -100,7 +102,7 @@ suite('gr-edit-controls tests', () => {
         MockInteractions.tap(element.$.openDialog.shadowRoot
             .querySelector('gr-button[primary]'));
         for (const stub of navStubs) { assert.isTrue(stub.called); }
-        assert.deepEqual(Gerrit.Nav.getEditUrlForDiff.lastCall.args,
+        assert.deepEqual(GerritNav.getEditUrlForDiff.lastCall.args,
             [element.change, 'src/test.cpp', element.patchNum]);
         assert.isTrue(closeDialogSpy.called);
       });
@@ -128,7 +130,7 @@ suite('gr-edit-controls tests', () => {
     let deleteAutocomplete;
 
     setup(() => {
-      navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+      navStub = sandbox.stub(GerritNav, 'navigateToChange');
       deleteStub = sandbox.stub(element.$.restAPI, 'deleteFileInChangeEdit');
       deleteAutocomplete =
           element.$.deleteDialog.querySelector('gr-autocomplete');
@@ -212,7 +214,7 @@ suite('gr-edit-controls tests', () => {
       '.newPathInput';
 
     setup(() => {
-      navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+      navStub = sandbox.stub(GerritNav, 'navigateToChange');
       renameStub = sandbox.stub(element.$.restAPI, 'renameFileInChangeEdit');
       renameAutocomplete =
           element.$.renameDialog.querySelector('gr-autocomplete');
@@ -305,7 +307,7 @@ suite('gr-edit-controls tests', () => {
     let restoreStub;
 
     setup(() => {
-      navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+      navStub = sandbox.stub(GerritNav, 'navigateToChange');
       restoreStub = sandbox.stub(element.$.restAPI, 'restoreFileInChangeEdit');
     });
 

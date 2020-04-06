@@ -31,6 +31,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-repo_html.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 const STATES = {
   active: {value: 'ACTIVE', label: 'Active'},
@@ -367,7 +368,7 @@ class GrRepo extends GestureEventListeners(
   }
 
   _computeChangesUrl(name) {
-    return Gerrit.Nav.getUrlForProjectChanges(name);
+    return GerritNav.getUrlForProjectChanges(name);
   }
 
   _handlePluginConfigChanged({detail: {name, config, notifyPath}}) {

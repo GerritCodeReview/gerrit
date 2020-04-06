@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../gr-navigation/gr-navigation.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../gr-reporting/gr-reporting.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
@@ -28,6 +27,7 @@ import {htmlTemplate} from './gr-router_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
+import {GerritNav} from '../gr-navigation/gr-navigation.js';
 
 const RoutePattern = {
   ROOT: '/',
@@ -276,7 +276,7 @@ class GrRouter extends mixinBehaviors( [
   _generateUrl(params) {
     const base = this.getBaseUrl();
     let url = '';
-    const Views = Gerrit.Nav.View;
+    const Views = GerritNav.View;
 
     if (params.view === Views.SEARCH) {
       url = this._generateSearchUrl(params);
@@ -304,11 +304,11 @@ class GrRouter extends mixinBehaviors( [
   _generateWeblinks(params) {
     const type = params.type;
     switch (type) {
-      case Gerrit.Nav.WeblinkType.FILE:
+      case GerritNav.WeblinkType.FILE:
         return this._getFileWebLinks(params);
-      case Gerrit.Nav.WeblinkType.CHANGE:
+      case GerritNav.WeblinkType.CHANGE:
         return this._getChangeWeblinks(params);
-      case Gerrit.Nav.WeblinkType.PATCHSET:
+      case GerritNav.WeblinkType.PATCHSET:
         return this._getPatchSetWeblink(params);
       default:
         console.warn(`Unsupported weblink ${type}!`);
@@ -491,7 +491,7 @@ class GrRouter extends mixinBehaviors( [
 
     let suffix = `${range}/${this.encodeURL(params.path, true)}`;
 
-    if (params.view === Gerrit.Nav.View.EDIT) { suffix += ',edit'; }
+    if (params.view === GerritNav.View.EDIT) { suffix += ',edit'; }
 
     if (params.lineNum) {
       suffix += '#';
@@ -513,9 +513,9 @@ class GrRouter extends mixinBehaviors( [
    */
   _generateGroupUrl(params) {
     let url = `/admin/groups/${this.encodeURL(params.groupId + '', true)}`;
-    if (params.detail === Gerrit.Nav.GroupDetailView.MEMBERS) {
+    if (params.detail === GerritNav.GroupDetailView.MEMBERS) {
       url += ',members';
-    } else if (params.detail === Gerrit.Nav.GroupDetailView.LOG) {
+    } else if (params.detail === GerritNav.GroupDetailView.LOG) {
       url += ',audit-log';
     }
     return url;
@@ -527,15 +527,15 @@ class GrRouter extends mixinBehaviors( [
    */
   _generateRepoUrl(params) {
     let url = `/admin/repos/${this.encodeURL(params.repoName + '', true)}`;
-    if (params.detail === Gerrit.Nav.RepoDetailView.ACCESS) {
+    if (params.detail === GerritNav.RepoDetailView.ACCESS) {
       url += ',access';
-    } else if (params.detail === Gerrit.Nav.RepoDetailView.BRANCHES) {
+    } else if (params.detail === GerritNav.RepoDetailView.BRANCHES) {
       url += ',branches';
-    } else if (params.detail === Gerrit.Nav.RepoDetailView.TAGS) {
+    } else if (params.detail === GerritNav.RepoDetailView.TAGS) {
       url += ',tags';
-    } else if (params.detail === Gerrit.Nav.RepoDetailView.COMMANDS) {
+    } else if (params.detail === GerritNav.RepoDetailView.COMMANDS) {
       url += ',commands';
-    } else if (params.detail === Gerrit.Nav.RepoDetailView.DASHBOARDS) {
+    } else if (params.detail === GerritNav.RepoDetailView.DASHBOARDS) {
       url += ',dashboards';
     }
     return url;
@@ -727,7 +727,7 @@ class GrRouter extends mixinBehaviors( [
       page.base(base);
     }
 
-    Gerrit.Nav.setup(
+    GerritNav.setup(
         url => { page.show(url); },
         this._generateUrl.bind(this),
         params => this._generateWeblinks(params),
@@ -1021,7 +1021,7 @@ class GrRouter extends mixinBehaviors( [
         }
       } else {
         this._setParams({
-          view: Gerrit.Nav.View.DASHBOARD,
+          view: GerritNav.View.DASHBOARD,
           user: data.params[0],
         });
       }
@@ -1067,7 +1067,7 @@ class GrRouter extends mixinBehaviors( [
     if (sections.length > 0) {
       // Custom dashboard view.
       this._setParams({
-        view: Gerrit.Nav.View.DASHBOARD,
+        view: GerritNav.View.DASHBOARD,
         user: 'self',
         sections,
         title,
@@ -1083,7 +1083,7 @@ class GrRouter extends mixinBehaviors( [
   _handleProjectDashboardRoute(data) {
     const project = data.params[0];
     this._setParams({
-      view: Gerrit.Nav.View.DASHBOARD,
+      view: GerritNav.View.DASHBOARD,
       project,
       dashboard: decodeURIComponent(data.params[1]),
     });
@@ -1100,30 +1100,30 @@ class GrRouter extends mixinBehaviors( [
 
   _handleGroupRoute(data) {
     this._setParams({
-      view: Gerrit.Nav.View.GROUP,
+      view: GerritNav.View.GROUP,
       groupId: data.params[0],
     });
   }
 
   _handleGroupAuditLogRoute(data) {
     this._setParams({
-      view: Gerrit.Nav.View.GROUP,
-      detail: Gerrit.Nav.GroupDetailView.LOG,
+      view: GerritNav.View.GROUP,
+      detail: GerritNav.GroupDetailView.LOG,
       groupId: data.params[0],
     });
   }
 
   _handleGroupMembersRoute(data) {
     this._setParams({
-      view: Gerrit.Nav.View.GROUP,
-      detail: Gerrit.Nav.GroupDetailView.MEMBERS,
+      view: GerritNav.View.GROUP,
+      detail: GerritNav.GroupDetailView.MEMBERS,
       groupId: data.params[0],
     });
   }
 
   _handleGroupListOffsetRoute(data) {
     this._setParams({
-      view: Gerrit.Nav.View.ADMIN,
+      view: GerritNav.View.ADMIN,
       adminView: 'gr-admin-group-list',
       offset: data.params[1] || 0,
       filter: null,
@@ -1133,7 +1133,7 @@ class GrRouter extends mixinBehaviors( [
 
   _handleGroupListFilterOffsetRoute(data) {
     this._setParams({
-      view: Gerrit.Nav.View.ADMIN,
+      view: GerritNav.View.ADMIN,
       adminView: 'gr-admin-group-list',
       offset: data.params.offset,
       filter: data.params.filter,
@@ -1142,7 +1142,7 @@ class GrRouter extends mixinBehaviors( [
 
   _handleGroupListFilterRoute(data) {
     this._setParams({
-      view: Gerrit.Nav.View.ADMIN,
+      view: GerritNav.View.ADMIN,
       adminView: 'gr-admin-group-list',
       filter: data.params.filter || null,
     });
@@ -1164,8 +1164,8 @@ class GrRouter extends mixinBehaviors( [
   _handleRepoCommandsRoute(data) {
     const repo = data.params[0];
     this._setParams({
-      view: Gerrit.Nav.View.REPO,
-      detail: Gerrit.Nav.RepoDetailView.COMMANDS,
+      view: GerritNav.View.REPO,
+      detail: GerritNav.RepoDetailView.COMMANDS,
       repo,
     });
     this.$.reporting.setRepoName(repo);
@@ -1174,8 +1174,8 @@ class GrRouter extends mixinBehaviors( [
   _handleRepoAccessRoute(data) {
     const repo = data.params[0];
     this._setParams({
-      view: Gerrit.Nav.View.REPO,
-      detail: Gerrit.Nav.RepoDetailView.ACCESS,
+      view: GerritNav.View.REPO,
+      detail: GerritNav.RepoDetailView.ACCESS,
       repo,
     });
     this.$.reporting.setRepoName(repo);
@@ -1184,8 +1184,8 @@ class GrRouter extends mixinBehaviors( [
   _handleRepoDashboardsRoute(data) {
     const repo = data.params[0];
     this._setParams({
-      view: Gerrit.Nav.View.REPO,
-      detail: Gerrit.Nav.RepoDetailView.DASHBOARDS,
+      view: GerritNav.View.REPO,
+      detail: GerritNav.RepoDetailView.DASHBOARDS,
       repo,
     });
     this.$.reporting.setRepoName(repo);
@@ -1193,8 +1193,8 @@ class GrRouter extends mixinBehaviors( [
 
   _handleBranchListOffsetRoute(data) {
     this._setParams({
-      view: Gerrit.Nav.View.REPO,
-      detail: Gerrit.Nav.RepoDetailView.BRANCHES,
+      view: GerritNav.View.REPO,
+      detail: GerritNav.RepoDetailView.BRANCHES,
       repo: data.params[0],
       offset: data.params[2] || 0,
       filter: null,
@@ -1203,8 +1203,8 @@ class GrRouter extends mixinBehaviors( [
 
   _handleBranchListFilterOffsetRoute(data) {
     this._setParams({
-      view: Gerrit.Nav.View.REPO,
-      detail: Gerrit.Nav.RepoDetailView.BRANCHES,
+      view: GerritNav.View.REPO,
+      detail: GerritNav.RepoDetailView.BRANCHES,
       repo: data.params.repo,
       offset: data.params.offset,
       filter: data.params.filter,
@@ -1213,8 +1213,8 @@ class GrRouter extends mixinBehaviors( [
 
   _handleBranchListFilterRoute(data) {
     this._setParams({
-      view: Gerrit.Nav.View.REPO,
-      detail: Gerrit.Nav.RepoDetailView.BRANCHES,
+      view: GerritNav.View.REPO,
+      detail: GerritNav.RepoDetailView.BRANCHES,
       repo: data.params.repo,
       filter: data.params.filter || null,
     });
@@ -1222,8 +1222,8 @@ class GrRouter extends mixinBehaviors( [
 
   _handleTagListOffsetRoute(data) {
     this._setParams({
-      view: Gerrit.Nav.View.REPO,
-      detail: Gerrit.Nav.RepoDetailView.TAGS,
+      view: GerritNav.View.REPO,
+      detail: GerritNav.RepoDetailView.TAGS,
       repo: data.params[0],
       offset: data.params[2] || 0,
       filter: null,
@@ -1232,8 +1232,8 @@ class GrRouter extends mixinBehaviors( [
 
   _handleTagListFilterOffsetRoute(data) {
     this._setParams({
-      view: Gerrit.Nav.View.REPO,
-      detail: Gerrit.Nav.RepoDetailView.TAGS,
+      view: GerritNav.View.REPO,
+      detail: GerritNav.RepoDetailView.TAGS,
       repo: data.params.repo,
       offset: data.params.offset,
       filter: data.params.filter,
@@ -1242,8 +1242,8 @@ class GrRouter extends mixinBehaviors( [
 
   _handleTagListFilterRoute(data) {
     this._setParams({
-      view: Gerrit.Nav.View.REPO,
-      detail: Gerrit.Nav.RepoDetailView.TAGS,
+      view: GerritNav.View.REPO,
+      detail: GerritNav.RepoDetailView.TAGS,
       repo: data.params.repo,
       filter: data.params.filter || null,
     });
@@ -1251,7 +1251,7 @@ class GrRouter extends mixinBehaviors( [
 
   _handleRepoListOffsetRoute(data) {
     this._setParams({
-      view: Gerrit.Nav.View.ADMIN,
+      view: GerritNav.View.ADMIN,
       adminView: 'gr-repo-list',
       offset: data.params[1] || 0,
       filter: null,
@@ -1261,7 +1261,7 @@ class GrRouter extends mixinBehaviors( [
 
   _handleRepoListFilterOffsetRoute(data) {
     this._setParams({
-      view: Gerrit.Nav.View.ADMIN,
+      view: GerritNav.View.ADMIN,
       adminView: 'gr-repo-list',
       offset: data.params.offset,
       filter: data.params.filter,
@@ -1270,7 +1270,7 @@ class GrRouter extends mixinBehaviors( [
 
   _handleRepoListFilterRoute(data) {
     this._setParams({
-      view: Gerrit.Nav.View.ADMIN,
+      view: GerritNav.View.ADMIN,
       adminView: 'gr-repo-list',
       filter: data.params.filter || null,
     });
@@ -1291,7 +1291,7 @@ class GrRouter extends mixinBehaviors( [
   _handleRepoRoute(data) {
     const repo = data.params[0];
     this._setParams({
-      view: Gerrit.Nav.View.REPO,
+      view: GerritNav.View.REPO,
       repo,
     });
     this.$.reporting.setRepoName(repo);
@@ -1299,7 +1299,7 @@ class GrRouter extends mixinBehaviors( [
 
   _handlePluginListOffsetRoute(data) {
     this._setParams({
-      view: Gerrit.Nav.View.ADMIN,
+      view: GerritNav.View.ADMIN,
       adminView: 'gr-plugin-list',
       offset: data.params[1] || 0,
       filter: null,
@@ -1308,7 +1308,7 @@ class GrRouter extends mixinBehaviors( [
 
   _handlePluginListFilterOffsetRoute(data) {
     this._setParams({
-      view: Gerrit.Nav.View.ADMIN,
+      view: GerritNav.View.ADMIN,
       adminView: 'gr-plugin-list',
       offset: data.params.offset,
       filter: data.params.filter,
@@ -1317,7 +1317,7 @@ class GrRouter extends mixinBehaviors( [
 
   _handlePluginListFilterRoute(data) {
     this._setParams({
-      view: Gerrit.Nav.View.ADMIN,
+      view: GerritNav.View.ADMIN,
       adminView: 'gr-plugin-list',
       filter: data.params.filter || null,
     });
@@ -1325,14 +1325,14 @@ class GrRouter extends mixinBehaviors( [
 
   _handlePluginListRoute(data) {
     this._setParams({
-      view: Gerrit.Nav.View.ADMIN,
+      view: GerritNav.View.ADMIN,
       adminView: 'gr-plugin-list',
     });
   }
 
   _handleQueryRoute(data) {
     this._setParams({
-      view: Gerrit.Nav.View.SEARCH,
+      view: GerritNav.View.SEARCH,
       query: data.params[0],
       offset: data.params[2],
     });
@@ -1353,7 +1353,7 @@ class GrRouter extends mixinBehaviors( [
       changeNum: ctx.params[1],
       basePatchNum: ctx.params[4],
       patchNum: ctx.params[6],
-      view: Gerrit.Nav.View.CHANGE,
+      view: GerritNav.View.CHANGE,
       queryMap: ctx.queryMap,
     };
 
@@ -1369,7 +1369,7 @@ class GrRouter extends mixinBehaviors( [
       basePatchNum: ctx.params[4],
       patchNum: ctx.params[6],
       path: ctx.params[8],
-      view: Gerrit.Nav.View.DIFF,
+      view: GerritNav.View.DIFF,
     };
 
     const address = this._parseLineAddress(ctx.hash);
@@ -1387,7 +1387,7 @@ class GrRouter extends mixinBehaviors( [
       changeNum: ctx.params[0],
       basePatchNum: ctx.params[3],
       patchNum: ctx.params[5],
-      view: Gerrit.Nav.View.CHANGE,
+      view: GerritNav.View.CHANGE,
       querystring: ctx.querystring,
     };
 
@@ -1405,7 +1405,7 @@ class GrRouter extends mixinBehaviors( [
       basePatchNum: ctx.params[2],
       patchNum: ctx.params[4],
       path: ctx.params[5],
-      view: Gerrit.Nav.View.DIFF,
+      view: GerritNav.View.DIFF,
     };
 
     const address = this._parseLineAddress(ctx.hash);
@@ -1426,7 +1426,7 @@ class GrRouter extends mixinBehaviors( [
       patchNum: ctx.params[2],
       path: ctx.params[3],
       lineNum: ctx.hash,
-      view: Gerrit.Nav.View.EDIT,
+      view: GerritNav.View.EDIT,
     });
     this.$.reporting.setRepoName(project);
   }
@@ -1438,7 +1438,7 @@ class GrRouter extends mixinBehaviors( [
       project,
       changeNum: ctx.params[1],
       patchNum: ctx.params[3],
-      view: Gerrit.Nav.View.CHANGE,
+      view: GerritNav.View.CHANGE,
       edit: true,
     });
     this.$.reporting.setRepoName(project);
@@ -1462,7 +1462,7 @@ class GrRouter extends mixinBehaviors( [
   }
 
   _handleNewAgreementsRoute(data) {
-    data.params.view = Gerrit.Nav.View.AGREEMENTS;
+    data.params.view = GerritNav.View.AGREEMENTS;
     this._setParams(data.params);
   }
 
@@ -1472,13 +1472,13 @@ class GrRouter extends mixinBehaviors( [
     // undo that to have valid tokens.
     const token = data.params[0].replace(/ /g, '+');
     this._setParams({
-      view: Gerrit.Nav.View.SETTINGS,
+      view: GerritNav.View.SETTINGS,
       emailToken: token,
     });
   }
 
   _handleSettingsRoute(data) {
-    this._setParams({view: Gerrit.Nav.View.SETTINGS});
+    this._setParams({view: GerritNav.View.SETTINGS});
   }
 
   _handleRegisterRoute(ctx) {
@@ -1511,7 +1511,7 @@ class GrRouter extends mixinBehaviors( [
   }
 
   _handlePluginScreen(ctx) {
-    const view = Gerrit.Nav.View.PLUGIN_SCREEN;
+    const view = GerritNav.View.PLUGIN_SCREEN;
     const plugin = ctx.params[0];
     const screen = ctx.params[1];
     this._setParams({view, plugin, screen});
@@ -1519,7 +1519,7 @@ class GrRouter extends mixinBehaviors( [
 
   _handleDocumentationSearchRoute(data) {
     this._setParams({
-      view: Gerrit.Nav.View.DOCUMENTATION_SEARCH,
+      view: GerritNav.View.DOCUMENTATION_SEARCH,
       filter: data.params.filter || null,
     });
   }

@@ -26,6 +26,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-apply-fix-dialog_html.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 /**
  * @extends Polymer.Element
@@ -229,7 +230,7 @@ class GrApplyFixDialog extends GestureEventListeners(
         )
         .then(res => {
           if (res && res.ok) {
-            Gerrit.Nav.navigateToChange(this.change, 'edit', this._patchNum);
+            GerritNav.navigateToChange(this.change, 'edit', this._patchNum);
             this._close();
           }
           this._isApplyFixLoading = false;

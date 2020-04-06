@@ -34,6 +34,8 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import '../../core/gr-router/gr-router.js';
 import './gr-commit-info.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+
 suite('gr-commit-info tests', () => {
   let element;
   let sandbox;
@@ -47,8 +49,8 @@ suite('gr-commit-info tests', () => {
     sandbox.restore();
   });
 
-  test('weblinks use Gerrit.Nav interface', () => {
-    const weblinksStub = sandbox.stub(Gerrit.Nav, '_generateWeblinks')
+  test('weblinks use GerritNav interface', () => {
+    const weblinksStub = sandbox.stub(GerritNav, '_generateWeblinks')
         .returns([{name: 'stubb', url: '#s'}]);
     element.change = {};
     element.commitInfo = {};
@@ -67,7 +69,7 @@ suite('gr-commit-info tests', () => {
 
   test('use web link when available', () => {
     const router = document.createElement('gr-router');
-    sandbox.stub(Gerrit.Nav, '_generateWeblinks',
+    sandbox.stub(GerritNav, '_generateWeblinks',
         router._generateWeblinks.bind(router));
 
     element.change = {labels: [], project: ''};
@@ -83,7 +85,7 @@ suite('gr-commit-info tests', () => {
 
   test('does not relativize web links that begin with scheme', () => {
     const router = document.createElement('gr-router');
-    sandbox.stub(Gerrit.Nav, '_generateWeblinks',
+    sandbox.stub(GerritNav, '_generateWeblinks',
         router._generateWeblinks.bind(router));
 
     element.change = {labels: [], project: ''};
@@ -101,7 +103,7 @@ suite('gr-commit-info tests', () => {
 
   test('ignore web links that are neither gitweb nor gitiles', () => {
     const router = document.createElement('gr-router');
-    sandbox.stub(Gerrit.Nav, '_generateWeblinks',
+    sandbox.stub(GerritNav, '_generateWeblinks',
         router._generateWeblinks.bind(router));
 
     element.change = {project: 'project-name'};

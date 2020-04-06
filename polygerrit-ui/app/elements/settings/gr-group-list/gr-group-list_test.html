@@ -34,6 +34,8 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import './gr-group-list.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+
 suite('gr-group-list tests', () => {
   let sandbox;
   let element;
@@ -92,7 +94,7 @@ suite('gr-group-list tests', () => {
   });
 
   test('_computeGroupPath', () => {
-    sandbox.stub(Gerrit.Nav, 'getUrlForGroup',
+    sandbox.stub(GerritNav, 'getUrlForGroup',
         () => '/admin/groups/e2cd66f88a2db4d391ac068a92d987effbe872f5');
 
     let group = {

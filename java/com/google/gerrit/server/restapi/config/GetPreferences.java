@@ -18,31 +18,27 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.StoredPreferences;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ConfigResource;
-import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.config.DefaultPreferenceCache;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Repository;
 
 @Singleton
 public class GetPreferences implements RestReadView<ConfigResource> {
-  private final GitRepositoryManager gitMgr;
-  private final AllUsersName allUsersName;
+  private final DefaultPreferenceCache defaultPreferenceCache;
 
   @Inject
-  public GetPreferences(GitRepositoryManager gitMgr, AllUsersName allUsersName) {
-    this.gitMgr = gitMgr;
-    this.allUsersName = allUsersName;
+  public GetPreferences(DefaultPreferenceCache defaultPreferenceCache) {
+    this.defaultPreferenceCache = defaultPreferenceCache;
   }
 
   @Override
   public Response<GeneralPreferencesInfo> apply(ConfigResource rsrc)
       throws IOException, ConfigInvalidException {
-    try (Repository git = gitMgr.openRepository(allUsersName)) {
-      return Response.ok(StoredPreferences.readDefaultGeneralPreferences(allUsersName, git));
-    }
+    return Response.ok(
+        StoredPreferences.parseGeneralPreferences(
+            defaultPreferenceCache.get().asConfig(), null, null));
   }
 }

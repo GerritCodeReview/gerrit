@@ -75,7 +75,7 @@ public abstract class CachedPreferences {
     }
   }
 
-  private Config asConfig() {
+  public Config asConfig() {
     Config cfg = new Config();
     try {
       cfg.fromText(config());

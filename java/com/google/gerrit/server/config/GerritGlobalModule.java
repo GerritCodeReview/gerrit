@@ -232,6 +232,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(ChangeKindCacheImpl.module());
     install(ChangeFinder.module());
     install(ConflictsCacheImpl.module());
+    install(DefaultPreferenceCacheImpl.module());
     install(GroupCacheImpl.module());
     install(GroupIncludeCacheImpl.module());
     install(MergeabilityCacheImpl.module());

@@ -206,10 +206,6 @@ import {GrChangeMetadataApi} from '../../plugins/gr-change-metadata-api/gr-chang
     return new GrChangeReplyInterface(this);
   };
 
-  Plugin.prototype.changeView = function() {
-    return new GrChangeViewApi(this);
-  };
-
   Plugin.prototype.theme = function() {
     return new GrThemeApi(this);
   };

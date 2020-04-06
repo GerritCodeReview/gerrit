@@ -43,7 +43,7 @@ public abstract class CommentForValidation {
   }
 
   public static CommentForValidation create(
-      CommentSource source, CommentType type, String text, long size) {
+      CommentSource source, CommentType type, String text, int size) {
     return new AutoValue_CommentForValidation(source, type, text, size);
   }
 
@@ -61,7 +61,7 @@ public abstract class CommentForValidation {
    * Returns this instance's approximate size in bytes for the purpose of applying size limits. For
    * robot comments this may be significantly larger than the size of the comment text.
    */
-  public abstract long getApproximateSize();
+  public abstract int getApproximateSize();
 
   public CommentValidationFailure failValidation(String message) {
     return CommentValidationFailure.create(this, message);

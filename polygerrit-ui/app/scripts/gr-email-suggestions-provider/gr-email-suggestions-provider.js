@@ -16,33 +16,24 @@
  */
 import {GrDisplayNameUtils} from '../gr-display-name-utils/gr-display-name-utils.js';
 
-(function(window) {
-  'use strict';
-
-  if (window.GrEmailSuggestionsProvider) {
-    return;
+export class GrEmailSuggestionsProvider {
+  constructor(restAPI) {
+    this._restAPI = restAPI;
   }
 
-  class GrEmailSuggestionsProvider {
-    constructor(restAPI) {
-      this._restAPI = restAPI;
-    }
-
-    getSuggestions(input) {
-      return this._restAPI.getSuggestedAccounts(`${input}`)
-          .then(accounts => {
-            if (!accounts) { return []; }
-            return accounts;
-          });
-    }
-
-    makeSuggestionItem(account) {
-      return {
-        name: GrDisplayNameUtils.getAccountDisplayName(null, account),
-        value: {account, count: 1},
-      };
-    }
+  getSuggestions(input) {
+    return this._restAPI.getSuggestedAccounts(`${input}`)
+        .then(accounts => {
+          if (!accounts) { return []; }
+          return accounts;
+        });
   }
 
-  window.GrEmailSuggestionsProvider = GrEmailSuggestionsProvider;
-})(window);
+  makeSuggestionItem(account) {
+    return {
+      name: GrDisplayNameUtils.getAccountDisplayName(null, account),
+      value: {account, count: 1},
+    };
+  }
+}
+

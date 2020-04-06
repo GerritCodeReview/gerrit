@@ -24,6 +24,7 @@ import {GrThemeApi} from '../../plugins/gr-theme-api/gr-theme-api.js';
 import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface.js';
 import {GrAdminApi} from '../../plugins/gr-admin-api/gr-admin-api.js';
 import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api.js';
+import {GrChangeMetadataApi} from '../../plugins/gr-change-metadata-api/gr-change-metadata-api.js';
 
 (function(window) {
   'use strict';

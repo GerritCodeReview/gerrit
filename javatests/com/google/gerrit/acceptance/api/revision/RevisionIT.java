@@ -93,6 +93,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.GetRevisionActions;
 import com.google.inject.Inject;
@@ -1296,6 +1297,25 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(changes).hasSize(1);
     assertThat(changes.get(0).changeId).isEqualTo(r2.getChangeId());
     assertThat(changes.get(0).mergeable).isEqualTo(Boolean.TRUE);
+  }
+
+  @Test
+  public void mergeableOtherBranches() throws Exception {
+    String head = repo().exactRef(HEAD).getLeaf().getObjectId().getName();
+    createBranchWithRevision(BranchNameKey.create(project, "mergeable-other-branch"), head);
+    createBranchWithRevision(BranchNameKey.create(project, "ignored"), head);
+    PushOneCommit.Result change1 = createChange();
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .setBranchOrderSection(
+              BranchOrderSection.create(
+                  ImmutableList.of("master", "nonexistent", "mergeable-other-branch")));
+      u.save();
+    }
+
+    MergeableInfo mergeableInfo =
+        gApi.changes().id(change1.getChangeId()).current().mergeableOtherBranches();
+    assertThat(mergeableInfo.mergeableInto).containsExactly("mergeable-other-branch");
   }
 
   @Test

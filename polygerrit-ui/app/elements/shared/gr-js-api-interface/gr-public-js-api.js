@@ -31,6 +31,11 @@ import {GrRepoApi} from '../../plugins/gr-repo-api/gr-repo-api.js';
 import {GrSettingsApi} from '../../plugins/gr-settings-api/gr-settings-api.js';
 import {GrStylesApi} from '../../plugins/gr-styles-api/gr-styles-api.js';
 import {GrPluginActionContext} from './gr-plugin-action-context.js';
+import {
+  PRELOADED_PROTOCOL,
+  getPluginNameFromUrl,
+  send,
+} from './gr-api-utils.js';
 
 (function(window) {
   'use strict';
@@ -39,13 +44,6 @@ import {GrPluginActionContext} from './gr-plugin-action-context.js';
     CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK: 'change-view-integration',
     CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK: 'change-metadata-item',
   };
-
-  // Import utils methods
-  const {
-    PRELOADED_PROTOCOL,
-    getPluginNameFromUrl,
-    send,
-  } = window._apiUtils;
 
   /**
    * Plugin-provided custom components can affect content in extension

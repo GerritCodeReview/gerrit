@@ -27,12 +27,12 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-js-api-interface.js';
+import {getPluginNameFromUrl} from './gr-api-utils.js';
+
 const PRELOADED_PROTOCOL = 'preloaded:';
 
 suite('gr-api-utils tests', () => {
   suite('test getPluginNameFromUrl', () => {
-    const {getPluginNameFromUrl} = window._apiUtils;
-
     test('with empty string', () => {
       assert.equal(getPluginNameFromUrl(''), null);
     });

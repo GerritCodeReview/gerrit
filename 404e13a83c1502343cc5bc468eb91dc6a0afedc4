@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3d5257e2_98adfc12",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListRobotComments.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-04-06T08:30:05Z",
+      "side": 1,
+      "message": "CommentJson\u0027s responsibility is to convert Gerrit entities to their corresponding FE entities (*Info). Moving this method there would clutter the class.\n\nFurthermore CommentJson is also used by draft comments which don\u0027t invoke this linking.",
+      "parentUuid": "86452796_1077ce6f",
+      "range": {
+        "startLine": 66,
+        "startChar": 17,
+        "endLine": 66,
+        "endChar": 45
+      },
+      "revId": "404e13a83c1502343cc5bc468eb91dc6a0afedc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d698edc1_936966cf",
         "filename": "java/com/google/gerrit/server/restapi/change/ListRobotComments.java",
         "patchSetId": 10
@@ -39,6 +63,24 @@
       "revId": "404e13a83c1502343cc5bc468eb91dc6a0afedc4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16636af2_ba6bc4fc",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListRobotComments.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-04-06T08:30:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d698edc1_936966cf",
+      "revId": "404e13a83c1502343cc5bc468eb91dc6a0afedc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

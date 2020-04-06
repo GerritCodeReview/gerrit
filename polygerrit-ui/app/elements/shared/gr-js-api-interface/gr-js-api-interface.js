@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 import '../../core/gr-reporting/gr-reporting.js';
-import '../../plugins/gr-change-metadata-api/gr-change-metadata-api.js';
 import '../../plugins/gr-event-helper/gr-event-helper.js';
 import '../../plugins/gr-repo-api/gr-repo-api.js';
 import '../../plugins/gr-settings-api/gr-settings-api.js';

@@ -33,6 +33,7 @@ limitations under the License.
   const scriptsPath = '../scripts/';
   const elementsPath = '../elements/';
   const behaviorsPath = '../behaviors/';
+  const servicesPath = '../services';
 
   // Elements tests.
   /* eslint-disable max-len */
@@ -268,6 +269,14 @@ limitations under the License.
   /* eslint-enable max-len */
   for (let file of scripts) {
     file = scriptsPath + file;
+    testFiles.push(file);
+  }
+
+  const services = [
+    'flags_test.html',
+  ];
+  for (let file of services) {
+    file = servicesPath + file;
     testFiles.push(file);
   }
 

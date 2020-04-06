@@ -28,6 +28,8 @@ import {GrChangeMetadataApi} from '../../plugins/gr-change-metadata-api/gr-chang
 import {GrEventHelper} from '../../plugins/gr-event-helper/gr-event-helper.js';
 import {GrPluginRestApi} from './gr-plugin-rest-api.js';
 import {GrRepoApi} from '../../plugins/gr-repo-api/gr-repo-api.js';
+import {GrSettingsApi} from '../../plugins/gr-settings-api/gr-settings-api.js';
+import {GrStylesApi} from '../../plugins/gr-styles-api/gr-styles-api.js';
 
 (function(window) {
   'use strict';

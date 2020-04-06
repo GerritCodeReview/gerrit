@@ -31,6 +31,7 @@ import {GrDiffBuilder} from './diff/gr-diff-builder/gr-diff-builder.js';
 import {GrDiffBuilderSideBySide} from './diff/gr-diff-builder/gr-diff-builder-side-by-side.js';
 import {GrDiffBuilderImage} from './diff/gr-diff-builder/gr-diff-builder-image.js';
 import {GrDiffBuilderUnified} from './diff/gr-diff-builder/gr-diff-builder-unified.js';
+import {GrDiffBuilderBinary} from './diff/gr-diff-builder/gr-diff-builder-binary.js';
 
 export function initGlobalVariables() {
   window.GrDisplayNameUtils = GrDisplayNameUtils;
@@ -42,4 +43,5 @@ export function initGlobalVariables() {
   window.GrDiffBuilderSideBySide = GrDiffBuilderSideBySide;
   window.GrDiffBuilderImage = GrDiffBuilderImage;
   window.GrDiffBuilderUnified = GrDiffBuilderUnified;
+  window.GrDiffBuilderBinary = GrDiffBuilderBinary;
 }

@@ -1296,8 +1296,6 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(changes).hasSize(1);
     assertThat(changes.get(0).changeId).isEqualTo(r2.getChangeId());
     assertThat(changes.get(0).mergeable).isEqualTo(Boolean.TRUE);
-
-    // TODO(dborowitz): Test for other-branches.
   }
 
   @Test

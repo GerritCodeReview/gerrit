@@ -178,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "2237ad82_702ba5c1",
+        "filename": "polygerrit-ui/app/constants/messages.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-06T13:55:37Z",
+      "side": 1,
+      "message": "Yeah, I think eventually splitting into multiple files is the way to go. Let\u0027s start simple with one file and no grouping.",
+      "parentUuid": "f45ef92f_eb952f2a",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 0
+      },
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a5f87c7_1cfb77e3",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 2
@@ -292,6 +316,24 @@
       "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ff6e051_dd0e635a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-06T13:55:37Z",
+      "side": 1,
+      "message": "Can you cannot be convinced that module imports would help with that? :-)\n\nI think it would at least be better to either give this property a name that works for both constants and names (\"exports\"?) or to have two separate props.",
+      "parentUuid": "9c078859_02392dd5",
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

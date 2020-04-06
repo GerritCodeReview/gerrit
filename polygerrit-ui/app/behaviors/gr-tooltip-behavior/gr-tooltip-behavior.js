@@ -17,8 +17,8 @@
 import '../../scripts/bundled-polymer.js';
 
 import '../../elements/shared/gr-tooltip/gr-tooltip.js';
-import '../../scripts/rootElement.js';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {getRootElement} from '../../scripts/rootElement.js';
 
 const BOTTOM_OFFSET = 7.2; // Height of the arrow in tooltip.
 
@@ -100,7 +100,7 @@ export const TooltipBehavior = {
     // Set visibility to hidden before appending to the DOM so that
     // calculations can be made based on the element’s size.
     tooltip.style.visibility = 'hidden';
-    Gerrit.getRootElement().appendChild(tooltip);
+    getRootElement().appendChild(tooltip);
     this._positionTooltip(tooltip);
     tooltip.style.visibility = null;
 

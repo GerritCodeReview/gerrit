@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "243181d1_16e46a2b",
+        "filename": "tools/platforms/Dockerfile",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-06T21:59:49Z",
+      "side": 1,
+      "message": "Should this be $(gcp_project) or similar? Otherwise people may thing that has to be in our project necessarily.",
+      "range": {
+        "startLine": 34,
+        "startChar": 21,
+        "endLine": 34,
+        "endChar": 45
+      },
+      "revId": "0e0d8506334bfe4e8d5ae229e580efda449580bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "82845306_383c25a3",
         "filename": "tools/platforms/Dockerfile",
         "patchSetId": 9
@@ -13,6 +36,30 @@
       "writtenOn": "2020-04-06T21:57:48Z",
       "side": 1,
       "message": "Instead of this textual documentation, we could probably add Makefile, like in gerrit-ci-scripts repository? The next option would be to move the Dockerfile to gerrit-ci-scripts repository. However, we use digest in WORKSPACE file in gerrit core, that why I thought it is a good idea to keep that file in gerrit repository (but i could be convinced otherwise).",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 0
+      },
+      "revId": "0e0d8506334bfe4e8d5ae229e580efda449580bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8a2e9cd_752252e8",
+        "filename": "tools/platforms/Dockerfile",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-06T21:59:49Z",
+      "side": 1,
+      "message": "Yes, I would prefer a Makefile, so that we can run it from the gerrit-ci-scripts as well.",
+      "parentUuid": "82845306_383c25a3",
       "range": {
         "startLine": 23,
         "startChar": 0,

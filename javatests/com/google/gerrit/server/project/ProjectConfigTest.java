@@ -34,6 +34,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.project.testing.TestLabels;
@@ -358,6 +359,31 @@ public class ProjectConfigTest {
                 + "\tvalue = -1 Negative\n"
                 + "\tvalue = 0 No score\n"
                 + "\tvalue = +1 Positive\n");
+  }
+
+  @Test
+  public void readExistingBranchOrder() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add("project.config", "[branchOrder]\n" + "\tbranch = foo\n" + "\tbranch = bar\n")
+            .create();
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    assertThat(cfg.getBranchOrderSection())
+        .isEqualTo(BranchOrderSection.create(ImmutableList.of("foo", "bar")));
+  }
+
+  @Test
+  public void editBranchOrder() throws Exception {
+    RevCommit rev = tr.commit().create();
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    cfg.setBranchOrderSection(BranchOrderSection.create(ImmutableList.of("foo", "bar")));
+    rev = commit(cfg);
+    assertThat(text(rev, "project.config"))
+        .isEqualTo("[branchOrder]\n" + "\tbranch = foo\n" + "\tbranch = bar\n");
   }
 
   @Test

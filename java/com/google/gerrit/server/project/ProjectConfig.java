@@ -358,6 +358,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return branchOrderSection;
   }
 
+  public void setBranchOrderSection(BranchOrderSection branchOrderSection) {
+    this.branchOrderSection = branchOrderSection;
+  }
+
   public Map<Project.NameKey, SubscribeSection> getSubscribeSections() {
     return subscribeSections;
   }
@@ -823,7 +827,14 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private void loadBranchOrderSection(Config rc) {
     if (rc.getSections().contains(BRANCH_ORDER)) {
-      branchOrderSection = new BranchOrderSection(rc.getStringList(BRANCH_ORDER, null, BRANCH));
+      branchOrderSection =
+          BranchOrderSection.create(Arrays.asList(rc.getStringList(BRANCH_ORDER, null, BRANCH)));
+    }
+  }
+
+  private void saveBranchOrderSection(Config rc) {
+    if (branchOrderSection != null) {
+      rc.setStringList(BRANCH_ORDER, null, BRANCH, branchOrderSection.order());
     }
   }
 
@@ -1204,6 +1215,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     saveLabelSections(rc);
     saveCommentLinkSections(rc);
     saveSubscribeSections(rc);
+    saveBranchOrderSection(rc);
 
     saveConfig(PROJECT_CONFIG, rc);
     saveGroupList();

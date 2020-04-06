@@ -41,6 +41,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.Future;
@@ -118,8 +119,9 @@ public class Mergeable implements RestReadView<RevisionResource> {
         BranchOrderSection branchOrder = projectState.getBranchOrderSection();
         if (branchOrder != null) {
           int prefixLen = Constants.R_HEADS.length();
-          String[] names = branchOrder.getMoreStable(ref.getName());
-          Map<String, Ref> refs = git.getRefDatabase().exactRef(names);
+          List<String> names = branchOrder.getMoreStable(ref.getName());
+          Map<String, Ref> refs =
+              git.getRefDatabase().exactRef(names.toArray(new String[names.size()]));
           for (String n : names) {
             Ref other = refs.get(n);
             if (other == null) {

@@ -14,9 +14,12 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
+import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.RefNames;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * An ordering of branches by stability.
@@ -25,33 +28,33 @@ import java.util.List;
  * into stable branches. This is configured by the {@code branchOrder.branch} project setting. This
  * class represents the ordered list of branches, by increasing stability.
  */
-public class BranchOrderSection {
+@AutoValue
+public abstract class BranchOrderSection {
 
   /**
    * Branch names ordered from least to the most stable.
    *
    * <p>Typically the order will be like: master, stable-M.N, stable-M.N-1, ...
+   *
+   * <p>Ref names in this list are exactly as they appear in {@code project.config}
    */
-  private final ImmutableList<String> order;
+  public abstract ImmutableList<String> order();
 
-  public BranchOrderSection(String[] order) {
-    if (order.length == 0) {
-      this.order = ImmutableList.of();
-    } else {
-      ImmutableList.Builder<String> builder = ImmutableList.builder();
-      for (String b : order) {
-        builder.add(RefNames.fullName(b));
-      }
-      this.order = builder.build();
-    }
+  public static BranchOrderSection create(Collection<String> order) {
+    return new AutoValue_BranchOrderSection(ImmutableList.copyOf(order));
   }
 
-  public String[] getMoreStable(String branch) {
-    int i = order.indexOf(RefNames.fullName(branch));
+  /**
+   * Returns the branch that is more stable - so lower in the list ordered by priority. Always
+   * returns a fully qualified ref name (including the refs/heads/ prefix).
+   */
+  public ImmutableList<String> getMoreStable(String branch) {
+    ImmutableList<String> fullyQualifiedOrder =
+        order().stream().map(RefNames::fullName).collect(toImmutableList());
+    int i = fullyQualifiedOrder.indexOf(RefNames.fullName(branch));
     if (0 <= i) {
-      List<String> r = order.subList(i + 1, order.size());
-      return r.toArray(new String[r.size()]);
+      return fullyQualifiedOrder.subList(i + 1, fullyQualifiedOrder.size());
     }
-    return new String[] {};
+    return ImmutableList.of();
   }
 }

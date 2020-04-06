@@ -15,9 +15,4 @@
  * limitations under the License.
  */
 
-(function(window) {
-  window.Gerrit = window.Gerrit || {};
-  if (window.Gerrit.hasOwnProperty('getRootElement')) { return; }
-
-  window.Gerrit.getRootElement = () => document.body;
-})(window);
+export const getRootElement = () => document.body;

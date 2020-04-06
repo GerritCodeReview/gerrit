@@ -35,6 +35,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-error-manager_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {authService} from '../../shared/gr-rest-api-interface/gr-auth.js';
 
 const HIDE_ALERT_TIMEOUT_MS = 5000;
 const CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
@@ -91,8 +92,8 @@ class GrErrorManager extends mixinBehaviors( [
   constructor() {
     super();
 
-    /** @type {!Gerrit.Auth} */
-    this._authService = Gerrit.Auth;
+    /** @type {!Auth} */
+    this._authService = authService;
 
     /** @type {?Function} */
     this._authErrorHandlerDeregistrationHook;

@@ -25,15 +25,15 @@ limitations under the License.
 <script src="/components/wct-browser-legacy/browser.js"></script>
 <script type="module">
 import '../../../test/common-test-setup.js';
-import './gr-auth.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {Auth, authService} from './gr-auth.js';
 suite('gr-auth', () => {
   let auth;
   let sandbox;
 
   setup(() => {
     sandbox = sinon.sandbox.create();
-    auth = Gerrit.Auth;
+    auth = authService;
   });
 
   teardown(() => {

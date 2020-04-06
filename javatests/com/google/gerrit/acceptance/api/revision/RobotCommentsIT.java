@@ -149,7 +149,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   @Test
   public void addedRobotCommentsAreLinkedToChangeMessages() throws Exception {
     TestTimeUtil.resetWithClockStep(0, TimeUnit.SECONDS);
-    PushOneCommit.Result r = createChange();
+    createChange();
     /* Advancing the time after creating the change so that the first robot comment is not in the same timestamp as with the change creation */
     TestTimeUtil.incrementClock(5, TimeUnit.SECONDS);
 

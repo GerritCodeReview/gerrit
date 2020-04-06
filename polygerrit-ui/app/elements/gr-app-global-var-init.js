@@ -65,6 +65,14 @@ import {GrSettingsApi} from './plugins/gr-settings-api/gr-settings-api.js';
 import {GrStylesApi} from './plugins/gr-styles-api/gr-styles-api.js';
 import {PluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader.js';
 import {GrPluginActionContext} from './shared/gr-js-api-interface/gr-plugin-action-context.js';
+import {
+  getBaseUrl,
+  getPluginNameFromUrl,
+  getRestAPI,
+  PLUGIN_LOADING_TIMEOUT_MS,
+  PRELOADED_PROTOCOL,
+  send,
+} from './shared/gr-js-api-interface/gr-api-utils.js';
 
 export function initGlobalVariables() {
   window.GrDisplayNameUtils = GrDisplayNameUtils;
@@ -113,4 +121,13 @@ export function initGlobalVariables() {
   window.GrStylesApi = GrStylesApi;
   window.PluginLoader = PluginLoader;
   window.GrPluginActionContext = GrPluginActionContext;
+
+  window._apiUtils = {
+    getPluginNameFromUrl,
+    send,
+    getRestAPI,
+    getBaseUrl,
+    PRELOADED_PROTOCOL,
+    PLUGIN_LOADING_TIMEOUT_MS,
+  };
 }

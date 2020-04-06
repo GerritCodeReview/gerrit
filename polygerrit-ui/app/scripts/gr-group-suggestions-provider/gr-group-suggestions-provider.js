@@ -14,32 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(window) {
-  'use strict';
 
-  if (window.GrGroupSuggestionsProvider) {
-    return;
+export class GrGroupSuggestionsProvider {
+  constructor(restAPI) {
+    this._restAPI = restAPI;
   }
 
-  class GrGroupSuggestionsProvider {
-    constructor(restAPI) {
-      this._restAPI = restAPI;
-    }
-
-    getSuggestions(input) {
-      return this._restAPI.getSuggestedGroups(`${input}`)
-          .then(groups => {
-            if (!groups) { return []; }
-            const keys = Object.keys(groups);
-            return keys.map(key => Object.assign({}, groups[key], {name: key}));
-          });
-    }
-
-    makeSuggestionItem(suggestion) {
-      return {name: suggestion.name,
-        value: {group: {name: suggestion.name, id: suggestion.id}}};
-    }
+  getSuggestions(input) {
+    return this._restAPI.getSuggestedGroups(`${input}`)
+        .then(groups => {
+          if (!groups) { return []; }
+          const keys = Object.keys(groups);
+          return keys.map(key => Object.assign({}, groups[key], {name: key}));
+        });
   }
 
-  window.GrGroupSuggestionsProvider = GrGroupSuggestionsProvider;
-})(window);
+  makeSuggestionItem(suggestion) {
+    return {name: suggestion.name,
+      value: {group: {name: suggestion.name, id: suggestion.id}}};
+  }
+}

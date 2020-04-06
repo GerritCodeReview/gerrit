@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c59b7032_ff4db7de",
+        "filename": "tools/platforms/Dockerfile",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-06T21:45:28Z",
+      "side": 1,
+      "message": "It even needs authentication to GC registry for pulling. I added this to the documentation already, but I can also add it here.",
+      "parentUuid": "330491ea_af942774",
+      "revId": "74b94455247771273bb6e33ba50278d8a6d55ef1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7a6f382c_c3da1c0b",
         "filename": "tools/platforms/Dockerfile",
         "patchSetId": 8
@@ -30,6 +48,30 @@
       "writtenOn": "2020-04-06T21:39:35Z",
       "side": 1,
       "message": "Is this Ubuntu18 or Ubuntu19?",
+      "range": {
+        "startLine": 29,
+        "startChar": 37,
+        "endLine": 29,
+        "endChar": 49
+      },
+      "revId": "74b94455247771273bb6e33ba50278d8a6d55ef1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe0178b7_dec5da18",
+        "filename": "tools/platforms/Dockerfile",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-06T21:45:28Z",
+      "side": 1,
+      "message": "This is a typo.",
+      "parentUuid": "7a6f382c_c3da1c0b",
       "range": {
         "startLine": 29,
         "startChar": 37,

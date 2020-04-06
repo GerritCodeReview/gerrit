@@ -337,8 +337,8 @@ class GrCursorManager extends GestureEventListeners(
     }
     do {
       newIndex = newIndex + delta;
-    } while (newIndex > 0 &&
-             newIndex < this.stops.length - 1 &&
+    } while ((delta > 0 || newIndex > 0) &&
+             (delta < 0 || newIndex < this.stops.length - 1) &&
              opt_condition && !opt_condition(this.stops[newIndex]));
 
     newIndex = Math.max(0, Math.min(this.stops.length - 1, newIndex));

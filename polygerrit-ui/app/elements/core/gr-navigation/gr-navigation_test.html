@@ -25,10 +25,12 @@ limitations under the License.
 <script src="/components/wct-browser-legacy/browser.js"></script>
 <script type="module">
 import '../../../test/common-test-setup.js';
+import {GerritNav} from './gr-navigation.js';
+
 suite('gr-navigation tests', () => {
   test('invalid patch ranges throw exceptions', () => {
-    assert.throw(() => Gerrit.Nav.getUrlForChange('123', undefined, 12));
-    assert.throw(() => Gerrit.Nav.getUrlForDiff('123', 'x.c', undefined, 12));
+    assert.throw(() => GerritNav.getUrlForChange('123', undefined, 12));
+    assert.throw(() => GerritNav.getUrlForDiff('123', 'x.c', undefined, 12));
   });
 
   suite('_getUserDashboard', () => {
@@ -41,7 +43,7 @@ suite('gr-navigation tests', () => {
 
     test('dashboard for self', () => {
       const dashboard =
-          Gerrit.Nav.getUserDashboard('self', sections, 'title');
+           GerritNav.getUserDashboard('self', sections, 'title');
       assert.deepEqual(
           dashboard,
           {
@@ -64,7 +66,7 @@ suite('gr-navigation tests', () => {
 
     test('dashboard for other user', () => {
       const dashboard =
-          Gerrit.Nav.getUserDashboard('user', sections, 'title');
+           GerritNav.getUserDashboard('user', sections, 'title');
       assert.deepEqual(
           dashboard,
           {

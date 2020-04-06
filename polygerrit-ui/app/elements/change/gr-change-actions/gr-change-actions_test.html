@@ -34,6 +34,7 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import './gr-change-actions.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 // TODO(dhruvsri): remove use of _populateRevertMessage as it's private
 suite('gr-change-actions tests', () => {
   let element;
@@ -1716,7 +1717,7 @@ suite('gr-change-actions tests', () => {
               .returns(Promise.resolve({}));
           getResponseObjectStub = sandbox.stub(element.$.restAPI,
               'getResponseObject');
-          sandbox.stub(Gerrit.Nav,
+          sandbox.stub(GerritNav,
               'navigateToChange').returns(Promise.resolve(true));
         });
 
@@ -1769,7 +1770,7 @@ suite('gr-change-actions tests', () => {
                 .returns(Promise.resolve({revert_changes: [
                   {change_id: 12345},
                 ]}));
-            navigateToSearchQueryStub = sandbox.stub(Gerrit.Nav,
+            navigateToSearchQueryStub = sandbox.stub(GerritNav,
                 'navigateToSearchQuery');
           });
 
@@ -1795,7 +1796,7 @@ suite('gr-change-actions tests', () => {
                   {change_id: 23456, topic: 'T'},
                 ]}));
             showActionDialogStub = sandbox.stub(element, '_showActionDialog');
-            navigateToSearchQueryStub = sandbox.stub(Gerrit.Nav,
+            navigateToSearchQueryStub = sandbox.stub(GerritNav,
                 'navigateToSearchQuery');
           });
 

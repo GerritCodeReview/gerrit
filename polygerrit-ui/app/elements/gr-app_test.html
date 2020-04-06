@@ -33,6 +33,8 @@ limitations under the License.
 <script type="module">
 import '../test/common-test-setup.js';
 import './gr-app.js';
+import {GerritNav} from './core/gr-navigation/gr-navigation.js';
+
 suite('gr-app tests', () => {
   let sandbox;
   let element;
@@ -95,9 +97,9 @@ suite('gr-app tests', () => {
   });
 
   test('_paramsChanged sets search page', () => {
-    appElement()._paramsChanged({base: {view: Gerrit.Nav.View.CHANGE}});
+    appElement()._paramsChanged({base: {view: GerritNav.View.CHANGE}});
     assert.notOk(appElement()._lastSearchPage);
-    appElement()._paramsChanged({base: {view: Gerrit.Nav.View.SEARCH}});
+    appElement()._paramsChanged({base: {view: GerritNav.View.SEARCH}});
     assert.ok(appElement()._lastSearchPage);
   });
 });

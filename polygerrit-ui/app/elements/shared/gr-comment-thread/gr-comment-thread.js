@@ -17,7 +17,6 @@
 import '../../../scripts/bundled-polymer.js';
 
 import '../../../styles/shared-styles.js';
-import '../../core/gr-navigation/gr-navigation.js';
 import '../../core/gr-reporting/gr-reporting.js';
 import '../gr-rest-api-interface/gr-rest-api-interface.js';
 import '../gr-storage/gr-storage.js';
@@ -32,6 +31,7 @@ import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {util} from '../../../scripts/util.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -220,7 +220,7 @@ class GrCommentThread extends mixinBehaviors( [
   }
 
   _getDiffUrlForComment(projectName, changeNum, path, patchNum) {
-    return Gerrit.Nav.getUrlForDiffById(changeNum,
+    return GerritNav.getUrlForDiffById(changeNum,
         projectName, path, patchNum,
         null, this.lineNum);
   }

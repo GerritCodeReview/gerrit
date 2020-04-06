@@ -61,6 +61,9 @@ import {GrGroupSuggestionsProvider} from '../scripts/gr-group-suggestions-provid
 import {GrEventHelper} from './plugins/gr-event-helper/gr-event-helper.js';
 import {GrPluginRestApi} from './shared/gr-js-api-interface/gr-plugin-rest-api.js';
 import {GrRepoApi} from './plugins/gr-repo-api/gr-repo-api.js';
+import {GrSettingsApi} from './plugins/gr-settings-api/gr-settings-api.js';
+import {GrStylesApi} from './plugins/gr-styles-api/gr-styles-api.js';
+import {PluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader.js';
 
 export function initGlobalVariables() {
   window.GrDisplayNameUtils = GrDisplayNameUtils;
@@ -105,4 +108,7 @@ export function initGlobalVariables() {
   window.GrEventHelper = GrEventHelper;
   window.GrPluginRestApi = GrPluginRestApi;
   window.GrRepoApi = GrRepoApi;
+  window.GrSettingsApi = GrSettingsApi;
+  window.GrStylesApi = GrStylesApi;
+  window.PluginLoader = PluginLoader;
 }

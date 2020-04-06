@@ -16,6 +16,24 @@
       "revId": "751051f1afc82250cb44afd56ab5d790876d3fc0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cdaceac_17fca5a0",
+        "filename": "polygerrit-ui/app/utils/flags.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-06T10:19:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a122bb61_17f88483",
+      "revId": "751051f1afc82250cb44afd56ab5d790876d3fc0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -74,6 +74,7 @@ import {
   send,
 } from './shared/gr-js-api-interface/gr-api-utils.js';
 import {GerritNav} from './core/gr-navigation/gr-navigation.js';
+import {getRootElement} from '../scripts/rootElement.js';
 
 export function initGlobalVariables() {
   window.GrDisplayNameUtils = GrDisplayNameUtils;
@@ -134,4 +135,5 @@ export function initGlobalVariables() {
 
   window.Gerrit = window.Gerrit || {};
   window.Gerrit.Nav = GerritNav;
+  window.Gerrit.getRootElement = getRootElement;
 }

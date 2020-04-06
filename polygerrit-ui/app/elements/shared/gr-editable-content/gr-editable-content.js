@@ -65,6 +65,7 @@ class GrEditableContent extends mixinBehaviors( [
       content: {
         notify: true,
         type: String,
+        observer: '_contentChanged',
       },
       disabled: {
         reflectToAttribute: true,
@@ -89,6 +90,14 @@ class GrEditableContent extends mixinBehaviors( [
         observer: '_newContentChanged',
       },
     };
+  }
+
+  _contentChanged(content) {
+    /* A changed content means that either a different change has been loaded
+     * or new content was saved. Either way, let's reset the component.
+     */
+    this.editing = false;
+    this._newContent = '';
   }
 
   focusTextarea() {

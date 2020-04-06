@@ -17,7 +17,6 @@
 import '../../../scripts/bundled-polymer.js';
 
 import '../../../styles/shared-styles.js';
-import '../../core/gr-navigation/gr-navigation.js';
 import '../../diff/gr-diff-mode-selector/gr-diff-mode-selector.js';
 import '../../diff/gr-patch-range-select/gr-patch-range-select.js';
 import '../../edit/gr-edit-controls/gr-edit-controls.js';
@@ -37,6 +36,7 @@ import {htmlTemplate} from './gr-file-list-header_html.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {GrFileListConstants} from '../gr-file-list-constants.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -242,7 +242,7 @@ class GrFileListHeader extends mixinBehaviors( [
     const {basePatchNum, patchNum} = e.detail;
     if (this.patchNumEquals(basePatchNum, this.basePatchNum) &&
         this.patchNumEquals(patchNum, this.patchNum)) { return; }
-    Gerrit.Nav.navigateToChange(this.change, patchNum, basePatchNum);
+    GerritNav.navigateToChange(this.change, patchNum, basePatchNum);
   }
 
   _handlePrefsTap(e) {

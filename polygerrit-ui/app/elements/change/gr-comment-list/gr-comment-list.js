@@ -25,7 +25,6 @@
 */
 
 import '../../../scripts/bundled-polymer.js';
-import '../../core/gr-navigation/gr-navigation.js';
 import '../../shared/gr-formatted-text/gr-formatted-text.js';
 import '../../../styles/shared-styles.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
@@ -36,6 +35,7 @@ import {htmlTemplate} from './gr-comment-list_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 /**
  * @extends Polymer.Element
@@ -78,14 +78,14 @@ class GrCommentList extends mixinBehaviors( [
     const fileComments = this._computeCommentsForFile(allComments, filePath);
     // This can happen for files that don't exist anymore in the current ps.
     if (fileComments.length === 0) return;
-    return Gerrit.Nav.getUrlForDiffById(changeNum, this.projectName,
+    return GerritNav.getUrlForDiffById(changeNum, this.projectName,
         filePath, fileComments[0].patch_set);
   }
 
   _computeDiffLineURL(filePath, changeNum, patchNum, comment) {
     const basePatchNum = comment.hasOwnProperty('parent') ?
       -comment.parent : null;
-    return Gerrit.Nav.getUrlForDiffById(changeNum, this.projectName,
+    return GerritNav.getUrlForDiffById(changeNum, this.projectName,
         filePath, patchNum, basePatchNum, comment.line,
         this._isOnParent(comment));
   }

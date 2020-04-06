@@ -38,6 +38,8 @@ void (0);
 import '../../../test/common-test-setup.js';
 import '../../../test/common-test-setup.js';
 import './gr-apply-fix-dialog.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+
 suite('gr-apply-fix-dialog tests', () => {
   let element;
   let sandbox;
@@ -210,13 +212,13 @@ suite('gr-apply-fix-dialog tests', () => {
   'and navigate to change view', done => {
     sandbox.stub(element.$.restAPI, 'applyFixSuggestion')
         .returns(Promise.resolve({ok: true}));
-    sandbox.stub(Gerrit.Nav, 'navigateToChange');
+    sandbox.stub(GerritNav, 'navigateToChange');
     element._currentFix = {fix_id: '123'};
 
     element._handleApplyFix().then(() => {
       assert.isTrue(element.$.restAPI.applyFixSuggestion
           .calledWithExactly('1', 2, '123'));
-      assert.isTrue(Gerrit.Nav.navigateToChange.calledWithExactly({
+      assert.isTrue(GerritNav.navigateToChange.calledWithExactly({
         _number: '1',
         project: 'project',
         revisions: {
@@ -236,13 +238,13 @@ suite('gr-apply-fix-dialog tests', () => {
   test('should not navigate to change view if incorect reponse', done => {
     sandbox.stub(element.$.restAPI, 'applyFixSuggestion')
         .returns(Promise.resolve({}));
-    sandbox.stub(Gerrit.Nav, 'navigateToChange');
+    sandbox.stub(GerritNav, 'navigateToChange');
     element._currentFix = {fix_id: '123'};
 
     element._handleApplyFix().then(() => {
       assert.isTrue(element.$.restAPI.applyFixSuggestion
           .calledWithExactly('1', 2, '123'));
-      assert.isTrue(Gerrit.Nav.navigateToChange.notCalled);
+      assert.isTrue(GerritNav.navigateToChange.notCalled);
 
       assert.equal(element._isApplyFixLoading, false);
       done();
@@ -308,11 +310,11 @@ suite('gr-apply-fix-dialog tests', () => {
     }));
     const errorStub = sinon.stub();
     document.addEventListener('network-error', errorStub);
-    sandbox.stub(Gerrit.Nav, 'navigateToChange');
+    sandbox.stub(GerritNav, 'navigateToChange');
     element._currentFix = {fix_id: '123'};
     element._handleApplyFix();
     flush(() => {
-      assert.isFalse(Gerrit.Nav.navigateToChange.called);
+      assert.isFalse(GerritNav.navigateToChange.called);
       assert.isTrue(errorStub.called);
       done();
     });

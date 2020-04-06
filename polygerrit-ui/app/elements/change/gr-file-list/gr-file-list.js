@@ -17,7 +17,6 @@
 import '../../../scripts/bundled-polymer.js';
 
 import '../../../styles/shared-styles.js';
-import '../../core/gr-navigation/gr-navigation.js';
 import '../../core/gr-reporting/gr-reporting.js';
 import '../../diff/gr-diff-cursor/gr-diff-cursor.js';
 import '../../diff/gr-diff-host/gr-diff-host.js';
@@ -44,6 +43,7 @@ import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {GrFileListConstants} from '../gr-file-list-constants.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -864,7 +864,7 @@ class GrFileList extends mixinBehaviors( [
 
   _openCursorFile() {
     const diff = this.$.diffCursor.getTargetDiffElement();
-    Gerrit.Nav.navigateToDiff(this.change, diff.path,
+    GerritNav.navigateToDiff(this.change, diff.path,
         diff.patchRange.patchNum, this.patchRange.basePatchNum);
   }
 
@@ -876,7 +876,7 @@ class GrFileList extends mixinBehaviors( [
       this.$.fileCursor.setCursorAtIndex(opt_index);
     }
     if (!this._files[this.$.fileCursor.index]) { return; }
-    Gerrit.Nav.navigateToDiff(this.change,
+    GerritNav.navigateToDiff(this.change,
         this._files[this.$.fileCursor.index].__path, this.patchRange.patchNum,
         this.patchRange.basePatchNum);
   }
@@ -909,10 +909,10 @@ class GrFileList extends mixinBehaviors( [
       return;
     }
     if (editMode && path !== this.MERGE_LIST_PATH) {
-      return Gerrit.Nav.getEditUrlForDiff(change, path, patchRange.patchNum,
+      return GerritNav.getEditUrlForDiff(change, path, patchRange.patchNum,
           patchRange.basePatchNum);
     }
-    return Gerrit.Nav.getUrlForDiff(change, path, patchRange.patchNum,
+    return GerritNav.getUrlForDiff(change, path, patchRange.patchNum,
         patchRange.basePatchNum);
   }
 

@@ -42,6 +42,7 @@ import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patc
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GrReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -857,7 +858,7 @@ class GrReplyDialog extends mixinBehaviors( [
 
   _reload() {
     // Load the current change without any patch range.
-    Gerrit.Nav.navigateToChange(this.change);
+    GerritNav.navigateToChange(this.change);
     this.cancel();
   }
 

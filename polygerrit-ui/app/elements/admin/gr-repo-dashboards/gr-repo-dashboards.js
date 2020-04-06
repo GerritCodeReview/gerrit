@@ -17,13 +17,13 @@
 import '../../../scripts/bundled-polymer.js';
 
 import '../../../styles/shared-styles.js';
-import '../../core/gr-navigation/gr-navigation.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-repo-dashboards_html.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 /**
  * @extends Polymer.Element
@@ -91,7 +91,7 @@ class GrRepoDashboards extends GestureEventListeners(
   _getUrl(project, id) {
     if (!project || !id) { return ''; }
 
-    return Gerrit.Nav.getUrlForRepoDashboard(project, id);
+    return GerritNav.getUrlForRepoDashboard(project, id);
   }
 
   _computeLoadingClass(loading) {

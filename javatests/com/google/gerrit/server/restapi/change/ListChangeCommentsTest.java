@@ -25,7 +25,10 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.server.CommentsUtil;
 import java.sql.Timestamp;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class ListChangeCommentsTest {
 
   @Test
@@ -40,8 +43,6 @@ public class ListChangeCommentsTest {
         getNewChangeMessage("cm2key", "cm2", Timestamp.valueOf("2018-01-01 09:01:15"));
     ChangeMessage cm3 =
         getNewChangeMessage("cm3key", "cm3", Timestamp.valueOf("2018-01-01 09:01:27"));
-    ChangeMessage cm4 =
-        getNewChangeMessage("cm4key", "cm4", Timestamp.valueOf("2018-01-01 09:01:32"));
 
     assertThat(c1.changeMessageId).isNull();
     assertThat(c2.changeMessageId).isNull();

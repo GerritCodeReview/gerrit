@@ -307,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "de1656e7_b2439e61",
+        "filename": "java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-06T14:53:29Z",
+      "side": 1,
+      "message": "I discussed with Edwin on chat this morning and he suggested to wrap the config in its own AutoValue that does the conversion. I think that\u0027s a great idea and adapted the code.",
+      "parentUuid": "52592c72_66085895",
+      "range": {
+        "startLine": 128,
+        "startChar": 36,
+        "endLine": 128,
+        "endChar": 42
+      },
+      "revId": "603f651528549052a787850ed0be6aa3f07c6dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc575a81_abdfd073",
         "filename": "java/com/google/gerrit/server/account/AccountState.java",
         "patchSetId": 1

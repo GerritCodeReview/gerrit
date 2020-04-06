@@ -86,8 +86,10 @@ export const htmlTemplate = html`
         <div id="actions">
           <gr-button id="replyBtn" link="" class="action reply" on-click="_handleCommentReply">Reply</gr-button>
           <gr-button id="quoteBtn" link="" class="action quote" on-click="_handleCommentQuote">Quote</gr-button>
-          <gr-button id="ackBtn" link="" class="action ack" on-click="_handleCommentAck">Ack</gr-button>
-          <gr-button id="doneBtn" link="" class="action done" on-click="_handleCommentDone">Done</gr-button>
+          <template is="dom-if" if="[[unresolved]]">
+            <gr-button id="ackBtn" link="" class="action ack" on-click="_handleCommentAck">Ack</gr-button>
+            <gr-button id="doneBtn" link="" class="action done" on-click="_handleCommentDone">Done</gr-button>
+          </template>
         </div>
       </div>
     </div>

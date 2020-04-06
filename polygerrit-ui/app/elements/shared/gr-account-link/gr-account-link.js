@@ -16,7 +16,6 @@
  */
 
 import '../../../scripts/bundled-polymer.js';
-import '../../core/gr-navigation/gr-navigation.js';
 import '../gr-account-label/gr-account-label.js';
 import '../../../styles/shared-styles.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
@@ -25,6 +24,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-account-link_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 /**
  * @extends Polymer.Element
@@ -59,7 +59,7 @@ class GrAccountLink extends mixinBehaviors( [
 
   _computeOwnerLink(account) {
     if (!account) { return; }
-    return Gerrit.Nav.getUrlForOwner(
+    return GerritNav.getUrlForOwner(
         account.email || account.username || account.name ||
         account._account_id);
   }

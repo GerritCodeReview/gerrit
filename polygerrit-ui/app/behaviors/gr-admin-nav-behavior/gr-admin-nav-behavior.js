@@ -1,3 +1,5 @@
+import {GerritNav} from '../../elements/core/gr-navigation/gr-navigation.js';
+
 /**
  * @license
  * Copyright (C) 2018 The Android Open Source Project
@@ -136,25 +138,25 @@ export const AdminNavBehavior = {
       groupOwner) {
     const subsection = {
       name: groupName,
-      view: Gerrit.Nav.View.GROUP,
-      url: Gerrit.Nav.getUrlForGroup(groupId),
+      view: GerritNav.View.GROUP,
+      url: GerritNav.getUrlForGroup(groupId),
       children: [],
     };
     if (groupIsInternal) {
       subsection.children.push({
         name: 'Members',
-        detailType: Gerrit.Nav.GroupDetailView.MEMBERS,
-        view: Gerrit.Nav.View.GROUP,
-        url: Gerrit.Nav.getUrlForGroupMembers(groupId),
+        detailType: GerritNav.GroupDetailView.MEMBERS,
+        view: GerritNav.View.GROUP,
+        url: GerritNav.getUrlForGroupMembers(groupId),
       });
     }
     if (groupIsInternal && (isAdmin || groupOwner)) {
       subsection.children.push(
           {
             name: 'Audit Log',
-            detailType: Gerrit.Nav.GroupDetailView.LOG,
-            view: Gerrit.Nav.View.GROUP,
-            url: Gerrit.Nav.getUrlForGroupLog(groupId),
+            detailType: GerritNav.GroupDetailView.LOG,
+            view: GerritNav.View.GROUP,
+            url: GerritNav.getUrlForGroupLog(groupId),
           }
       );
     }
@@ -164,37 +166,37 @@ export const AdminNavBehavior = {
   getRepoSubsections(repoName) {
     return {
       name: repoName,
-      view: Gerrit.Nav.View.REPO,
-      url: Gerrit.Nav.getUrlForRepo(repoName),
+      view: GerritNav.View.REPO,
+      url: GerritNav.getUrlForRepo(repoName),
       children: [{
         name: 'Access',
-        view: Gerrit.Nav.View.REPO,
-        detailType: Gerrit.Nav.RepoDetailView.ACCESS,
-        url: Gerrit.Nav.getUrlForRepoAccess(repoName),
+        view: GerritNav.View.REPO,
+        detailType: GerritNav.RepoDetailView.ACCESS,
+        url: GerritNav.getUrlForRepoAccess(repoName),
       },
       {
         name: 'Commands',
-        view: Gerrit.Nav.View.REPO,
-        detailType: Gerrit.Nav.RepoDetailView.COMMANDS,
-        url: Gerrit.Nav.getUrlForRepoCommands(repoName),
+        view: GerritNav.View.REPO,
+        detailType: GerritNav.RepoDetailView.COMMANDS,
+        url: GerritNav.getUrlForRepoCommands(repoName),
       },
       {
         name: 'Branches',
-        view: Gerrit.Nav.View.REPO,
-        detailType: Gerrit.Nav.RepoDetailView.BRANCHES,
-        url: Gerrit.Nav.getUrlForRepoBranches(repoName),
+        view: GerritNav.View.REPO,
+        detailType: GerritNav.RepoDetailView.BRANCHES,
+        url: GerritNav.getUrlForRepoBranches(repoName),
       },
       {
         name: 'Tags',
-        view: Gerrit.Nav.View.REPO,
-        detailType: Gerrit.Nav.RepoDetailView.TAGS,
-        url: Gerrit.Nav.getUrlForRepoTags(repoName),
+        view: GerritNav.View.REPO,
+        detailType: GerritNav.RepoDetailView.TAGS,
+        url: GerritNav.getUrlForRepoTags(repoName),
       },
       {
         name: 'Dashboards',
-        view: Gerrit.Nav.View.REPO,
-        detailType: Gerrit.Nav.RepoDetailView.DASHBOARDS,
-        url: Gerrit.Nav.getUrlForRepoDashboards(repoName),
+        view: GerritNav.View.REPO,
+        detailType: GerritNav.RepoDetailView.DASHBOARDS,
+        url: GerritNav.getUrlForRepoDashboards(repoName),
       }],
     };
   },

@@ -33,6 +33,8 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-repo-header.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+
 suite('gr-repo-header tests', () => {
   let element;
   let sandbox;
@@ -45,7 +47,7 @@ suite('gr-repo-header tests', () => {
   teardown(() => { sandbox.restore(); });
 
   test('repoUrl reset once repo changed', () => {
-    sandbox.stub(Gerrit.Nav, 'getUrlForRepo',
+    sandbox.stub(GerritNav, 'getUrlForRepo',
         repoName => `http://test.com/${repoName}`
     );
     assert.equal(element._repoUrl, undefined);

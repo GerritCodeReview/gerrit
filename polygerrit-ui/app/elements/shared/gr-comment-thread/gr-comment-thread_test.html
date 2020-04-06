@@ -228,7 +228,7 @@ suite('gr-comment-thread tests', () => {
   });
 });
 
-suite('comment action tests', () => {
+suite('comment action tests with unresolved thread', () => {
   let element;
   let sandbox;
 
@@ -265,6 +265,7 @@ suite('comment action tests', () => {
       message: 'is this a crossover episode!?',
       updated: '2015-12-08 19:48:33.843000000',
       path: '/path/to/file.txt',
+      unresolved: true,
     }];
     flushAsynchronousOperations();
   });
@@ -350,7 +351,7 @@ suite('comment action tests', () => {
         .querySelector('gr-comment');
     assert.ok(commentEl);
 
-    const ackBtn = element.$.ackBtn;
+    const ackBtn = element.shadowRoot.querySelector('#ackBtn');
     MockInteractions.tap(ackBtn);
     flush(() => {
       const drafts = element.comments.filter(c => c.__draft == true);
@@ -372,7 +373,7 @@ suite('comment action tests', () => {
         .querySelector('gr-comment');
     assert.ok(commentEl);
 
-    const doneBtn = element.$.doneBtn;
+    const doneBtn = element.shadowRoot.querySelector('#doneBtn');
     MockInteractions.tap(doneBtn);
     flush(() => {
       const drafts = element.comments.filter(c => c.__draft == true);
@@ -765,6 +766,78 @@ suite('comment action tests', () => {
     element.range = undefined;
 
     assert.notOk(element.hasAttribute('range'));
+  });
+});
+
+suite('comment action tests on resolved comments', () => {
+  let element;
+  let sandbox;
+
+  setup(() => {
+    sandbox = sinon.sandbox.create();
+    stub('gr-rest-api-interface', {
+      getLoggedIn() { return Promise.resolve(false); },
+      saveDiffDraft() {
+        return Promise.resolve({
+          ok: true,
+          text() {
+            return Promise.resolve(')]}\'\n' +
+                JSON.stringify({
+                  id: '7afa4931_de3d65bd',
+                  path: '/path/to/file.txt',
+                  line: 5,
+                  in_reply_to: 'baf0414d_60047215',
+                  updated: '2015-12-21 02:01:10.850000000',
+                  message: 'Done',
+                }));
+          },
+        });
+      },
+      deleteDiffDraft() { return Promise.resolve({ok: true}); },
+    });
+    element = fixture('withComment');
+    element.comments = [{
+      author: {
+        name: 'Mr. Peanutbutter',
+        email: 'tenn1sballchaser@aol.com',
+      },
+      id: 'baf0414d_60047215',
+      line: 5,
+      message: 'is this a crossover episode!?',
+      updated: '2015-12-08 19:48:33.843000000',
+      path: '/path/to/file.txt',
+      unresolved: false,
+    }];
+    flushAsynchronousOperations();
+  });
+
+  teardown(() => {
+    sandbox.restore();
+  });
+
+  test('ack and done should be hidden', () => {
+    element.changeNum = '42';
+    element.patchNum = '1';
+
+    const commentEl = element.shadowRoot
+        .querySelector('gr-comment');
+    assert.ok(commentEl);
+
+    const ackBtn = element.shadowRoot.querySelector('#ackBtn');
+    const doneBtn = element.shadowRoot.querySelector('#doneBtn');
+    assert.equal(ackBtn, null);
+    assert.equal(doneBtn, null);
+  });
+
+  test('reply and quote button should be visible', () => {
+    const commentEl = element.shadowRoot
+        .querySelector('gr-comment');
+    assert.ok(commentEl);
+
+    const replyBtn = element.shadowRoot.querySelector('#replyBtn');
+    const quoteBtn = element.shadowRoot.querySelector('#quoteBtn');
+    assert.ok(replyBtn);
+    assert.ok(quoteBtn);
   });
 });
 </script>

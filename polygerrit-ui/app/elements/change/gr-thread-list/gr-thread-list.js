@@ -46,7 +46,7 @@ class GrThreadList extends GestureEventListeners(
 
   static get properties() {
     return {
-    /** @type {?} */
+      /** @type {?} */
       change: Object,
       threads: Array,
       changeNum: String,
@@ -113,6 +113,8 @@ class GrThreadList extends GestureEventListeners(
     this._updateSortedThreads(threads);
   }
 
+  // TODO(taoalpha): should allow only sort once during initialization
+  // to avoid flickering
   _updateSortedThreads(threads) {
     this._sortedThreads =
         threads.map(this._getThreadWithSortInfo).sort((c1, c2) => {
@@ -122,9 +124,6 @@ class GrThreadList extends GestureEventListeners(
           // - file path
           // - line
           // - updated time
-          const c1Date = c1.__date || util.parseDate(c1.updated);
-          const c2Date = c2.__date || util.parseDate(c2.updated);
-          const dateCompare = c2Date - c1Date;
           if (c2.unresolved || c1.unresolved) {
             if (!c1.unresolved) { return 1; }
             if (!c2.unresolved) { return -1; }
@@ -151,6 +150,9 @@ class GrThreadList extends GestureEventListeners(
             return c1.thread.line - c2.thread.line;
           }
 
+          const c1Date = c1.__date || util.parseDate(c1.updated);
+          const c2Date = c2.__date || util.parseDate(c2.updated);
+          const dateCompare = c2Date - c1Date;
           if (dateCompare === 0 && (!c1.id || !c1.id.localeCompare)) {
             return 0;
           }
@@ -209,7 +211,7 @@ class GrThreadList extends GestureEventListeners(
       // anybody other than the current user would see.
       unresolved: !!lastNonDraftComment.unresolved,
       hasDraft: !!lastComment.__draft,
-      updated: lastComment.updated,
+      updated: lastComment.updated || lastComment.__date,
     };
   }
 
@@ -229,10 +231,6 @@ class GrThreadList extends GestureEventListeners(
   }
 
   _handleCommentsChanged(e) {
-    // Reset threads so thread computations occur on deep array changes to
-    // threads comments that are not observed naturally.
-    this._updateSortedThreads(this.threads);
-
     this.dispatchEvent(new CustomEvent('thread-list-modified',
         {detail: {rootId: e.detail.rootId, path: e.detail.path}}));
   }

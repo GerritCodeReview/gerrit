@@ -3123,11 +3123,9 @@ WARNING: Support for Elasticsearch is still experimental and is not recommended
 for production use. For compatibility information, please refer to the
 link:https://www.gerritcodereview.com/elasticsearch.html[project homepage,role=external,window=_blank].
 
-When using Elasticsearch version 5.6, the open and closed changes are
-indexed in a single index, separated into types `open_changes` and `closed_changes`
-respectively. When using version 6.2 or later, the open and closed changes are
-merged into the default `_doc` type. The latter is also used for the accounts and
-groups indices starting with Elasticsearch 6.2.
+In Elasticsearch version 6.2 or later, the open and closed changes are merged
+into the default `_doc` type. The latter is also used for the accounts and groups
+indices starting with Elasticsearch 6.2.
 
 Note that when Gerrit is configured to use Elasticsearch, the Elasticsearch
 server(s) must be reachable during the site initialization.

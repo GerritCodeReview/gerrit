@@ -50,6 +50,7 @@ import {GrReviewerSuggestionsProvider} from '../scripts/gr-reviewer-suggestions-
 import {util} from '../scripts/util.js';
 import moment from 'moment/src/moment.js';
 import page from 'page/page.mjs';
+import {Auth} from './shared/gr-rest-api-interface/gr-auth.js';
 
 export function initGlobalVariables() {
   window.GrDisplayNameUtils = GrDisplayNameUtils;
@@ -83,4 +84,5 @@ export function initGlobalVariables() {
   window.util = util;
   window.moment = moment;
   window.page = page;
+  window.Auth = Auth;
 }

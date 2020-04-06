@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82845306_383c25a3",
+        "filename": "tools/platforms/Dockerfile",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-06T21:57:48Z",
+      "side": 1,
+      "message": "Instead of this textual documentation, we could probably add Makefile, like in gerrit-ci-scripts repository? The next option would be to move the Dockerfile to gerrit-ci-scripts repository. However, we use digest in WORKSPACE file in gerrit core, that why I thought it is a good idea to keep that file in gerrit repository (but i could be convinced otherwise).",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 0
+      },
+      "revId": "0e0d8506334bfe4e8d5ae229e580efda449580bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

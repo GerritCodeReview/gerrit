@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "aa9e5787_c20c031e",
+        "filename": "tools/platforms/Dockerfile",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-06T22:07:20Z",
+      "side": 1,
+      "message": "This should to be any project, the user has ACl for.\nAlso note, that this is the same where the custom docker\nimage is consumed from, see WORKSPACE file:\n\n  rbe_autoconfig(\n    name \u003d \"rbe_ubuntu1804\",\n    digest \u003d \"sha256:03e55fd8822bbe6ccb2b01147ccf7b57cf7a00bfb418fd780df6b8105074da4f\",\n    registry \u003d \"gcr.io\",\n    repository \u003d \"api-project-164060093628/rbe-ubuntu18-04\",\n  )\n\nIf we would use Make variable we could probably substitute it here, in Dockerfile, but we would need to specify repository name in WORKSPACE file anyway.",
+      "parentUuid": "243181d1_16e46a2b",
+      "range": {
+        "startLine": 34,
+        "startChar": 21,
+        "endLine": 34,
+        "endChar": 45
+      },
+      "revId": "0e0d8506334bfe4e8d5ae229e580efda449580bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "82845306_383c25a3",
         "filename": "tools/platforms/Dockerfile",
         "patchSetId": 9
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "Yes, I would prefer a Makefile, so that we can run it from the gerrit-ci-scripts as well.",
       "parentUuid": "82845306_383c25a3",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 0
+      },
+      "revId": "0e0d8506334bfe4e8d5ae229e580efda449580bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "593deb4b_aba83192",
+        "filename": "tools/platforms/Dockerfile",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-06T22:07:20Z",
+      "side": 1,
+      "message": "\u003e so that we can run it from the gerrit-ci-scripts as well.\n\nBut the file is located in gerrit repository you mean link/copy it first?",
+      "parentUuid": "c8a2e9cd_752252e8",
       "range": {
         "startLine": 23,
         "startChar": 0,

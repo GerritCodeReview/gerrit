@@ -166,7 +166,6 @@ module.exports = {
     // Instead export variables from modules
     // TODO(dmfilippov): Remove global variables from polygerrit
     "Gerrit": "readonly",
-    "GrPluginActionContext": "readonly",
     "GrReporting": "readonly",
     // Global variables from 3rd party libraries.
     // You should not add anything in this list, always try to import

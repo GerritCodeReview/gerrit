@@ -64,6 +64,7 @@ import {GrRepoApi} from './plugins/gr-repo-api/gr-repo-api.js';
 import {GrSettingsApi} from './plugins/gr-settings-api/gr-settings-api.js';
 import {GrStylesApi} from './plugins/gr-styles-api/gr-styles-api.js';
 import {PluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader.js';
+import {GrPluginActionContext} from './shared/gr-js-api-interface/gr-plugin-action-context.js';
 
 export function initGlobalVariables() {
   window.GrDisplayNameUtils = GrDisplayNameUtils;
@@ -111,4 +112,5 @@ export function initGlobalVariables() {
   window.GrSettingsApi = GrSettingsApi;
   window.GrStylesApi = GrStylesApi;
   window.PluginLoader = PluginLoader;
+  window.GrPluginActionContext = GrPluginActionContext;
 }

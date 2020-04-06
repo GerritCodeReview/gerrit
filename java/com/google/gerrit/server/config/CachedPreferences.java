@@ -19,7 +19,6 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
-import com.google.gerrit.server.account.StoredPreferences;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
@@ -48,7 +47,7 @@ public abstract class CachedPreferences {
   public static GeneralPreferencesInfo general(
       CachedPreferences defaultPreferences, CachedPreferences userPreferences) {
     try {
-      return StoredPreferences.parseGeneralPreferences(
+      return PreferencesParserUtil.parseGeneralPreferences(
           userPreferences.asConfig(), defaultPreferences.asConfig(), null);
     } catch (ConfigInvalidException e) {
       return GeneralPreferencesInfo.defaults();
@@ -58,7 +57,7 @@ public abstract class CachedPreferences {
   public static EditPreferencesInfo edit(
       CachedPreferences defaultPreferences, CachedPreferences userPreferences) {
     try {
-      return StoredPreferences.parseEditPreferences(
+      return PreferencesParserUtil.parseEditPreferences(
           userPreferences.asConfig(), defaultPreferences.asConfig(), null);
     } catch (ConfigInvalidException e) {
       return EditPreferencesInfo.defaults();
@@ -68,7 +67,7 @@ public abstract class CachedPreferences {
   public static DiffPreferencesInfo diff(
       CachedPreferences defaultPreferences, CachedPreferences userPreferences) {
     try {
-      return StoredPreferences.parseDiffPreferences(
+      return PreferencesParserUtil.parseDiffPreferences(
           userPreferences.asConfig(), defaultPreferences.asConfig(), null);
     } catch (ConfigInvalidException e) {
       return DiffPreferencesInfo.defaults();

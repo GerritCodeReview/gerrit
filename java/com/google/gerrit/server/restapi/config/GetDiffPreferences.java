@@ -19,9 +19,9 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.account.StoredPreferences;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.DefaultPreferenceCache;
+import com.google.gerrit.server.config.PreferencesParserUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -41,7 +41,7 @@ public class GetDiffPreferences implements RestReadView<ConfigResource> {
   public Response<DiffPreferencesInfo> apply(ConfigResource configResource)
       throws BadRequestException, ResourceConflictException, IOException, ConfigInvalidException {
     return Response.ok(
-        StoredPreferences.parseDiffPreferences(
+        PreferencesParserUtil.parseDiffPreferences(
             defaultPreferenceCache.get().asConfig(), null, null));
   }
 }

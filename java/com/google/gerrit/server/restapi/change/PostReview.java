@@ -1011,21 +1011,33 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return !toPublish.isEmpty();
     }
 
+    /**
+     * Validates all comments and the change message in a single call to fulfill the interface
+     * contract of {@link CommentValidator#validateComments(CommentValidationContext,
+     * ImmutableList)}.
+     */
     private void validateComments(CommentValidationContext ctx, Stream<Comment> comments)
         throws CommentsRejectedException {
+      String changeMessage = Strings.nullToEmpty(in.message).trim();
       ImmutableList<CommentForValidation> draftsForValidation =
-          comments
-              .map(
-                  comment ->
+          Stream.concat(
+                  comments.map(
+                      comment ->
+                          CommentForValidation.create(
+                              comment instanceof RobotComment
+                                  ? CommentForValidation.CommentSource.ROBOT
+                                  : CommentForValidation.CommentSource.HUMAN,
+                              comment.lineNbr > 0
+                                  ? CommentForValidation.CommentType.INLINE_COMMENT
+                                  : CommentForValidation.CommentType.FILE_COMMENT,
+                              comment.message,
+                              comment.getApproximateSize())),
+                  Stream.of(
                       CommentForValidation.create(
-                          comment instanceof RobotComment
-                              ? CommentForValidation.CommentSource.ROBOT
-                              : CommentForValidation.CommentSource.HUMAN,
-                          comment.lineNbr > 0
-                              ? CommentForValidation.CommentType.INLINE_COMMENT
-                              : CommentForValidation.CommentType.FILE_COMMENT,
-                          comment.message,
-                          comment.getApproximateSize()))
+                          CommentForValidation.CommentSource.HUMAN,
+                          CommentForValidation.CommentType.CHANGE_MESSAGE,
+                          changeMessage,
+                          changeMessage.length())))
               .collect(toImmutableList());
       ImmutableList<CommentValidationFailure> draftValidationFailures =
           PublishCommentUtil.findInvalidComments(ctx, commentValidators, draftsForValidation);
@@ -1399,7 +1411,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return current;
     }
 
-    private boolean insertMessage(ChangeContext ctx) throws CommentsRejectedException {
+    private boolean insertMessage(ChangeContext ctx) {
       String msg = Strings.nullToEmpty(in.message).trim();
 
       StringBuilder buf = new StringBuilder();
@@ -1412,22 +1424,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         buf.append(String.format("\n\n(%d comments)", comments.size()));
       }
       if (!msg.isEmpty()) {
-        CommentValidationContext commentValidationCtx =
-            CommentValidationContext.create(
-                ctx.getChange().getChangeId(), ctx.getChange().getProject().get());
-        ImmutableList<CommentValidationFailure> messageValidationFailure =
-            PublishCommentUtil.findInvalidComments(
-                commentValidationCtx,
-                commentValidators,
-                ImmutableList.of(
-                    CommentForValidation.create(
-                        CommentForValidation.CommentSource.HUMAN,
-                        CommentForValidation.CommentType.CHANGE_MESSAGE,
-                        msg,
-                        msg.length())));
-        if (!messageValidationFailure.isEmpty()) {
-          throw new CommentsRejectedException(messageValidationFailure);
-        }
+        // Message was already validated when validating comments, since validators need to see
+        // everything in a single call.
         buf.append("\n\n").append(msg);
       } else if (in.ready) {
         buf.append("\n\n" + START_REVIEW_MESSAGE);

@@ -24,7 +24,7 @@ class ReplayRecordsFromFeeder extends GitSimulation {
   private val data: FileBasedFeederBuilder[Any]#F = jsonFile(resource).circular
 
   private val test: ScenarioBuilder = scenario(name)
-      .repeat(10000) {
+      .repeat(10) {
         feed(data)
             .exec(gitRequest)
       }

@@ -17,7 +17,6 @@
 import '../../../scripts/bundled-polymer.js';
 
 import '../../../styles/shared-styles.js';
-import '../../core/gr-navigation/gr-navigation.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
@@ -26,6 +25,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-repo-dashboards_html.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 /**
  * @extends Polymer.Element
@@ -93,7 +93,7 @@ class GrRepoDashboards extends mixinBehaviors( [
   _getUrl(project, id) {
     if (!project || !id) { return ''; }
 
-    return Gerrit.Nav.getUrlForRepoDashboard(project, id);
+    return GerritNav.getUrlForRepoDashboard(project, id);
   }
 
   _computeLoadingClass(loading) {

@@ -25,7 +25,6 @@ import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.util.time.TimeUtil;
-import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestChanges;
 import java.util.Date;
 import java.util.TimeZone;
@@ -34,9 +33,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-@RunWith(ConfigSuite.class)
 public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   @Test
   public void approvalsCommitFormatSimple() throws Exception {

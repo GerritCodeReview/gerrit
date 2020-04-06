@@ -45,7 +45,6 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
-import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -55,11 +54,9 @@ import java.util.Optional;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 @UseClockStep
 @UseTimezone(timezone = "US/Eastern")
-@RunWith(ConfigSuite.class)
 public class ChangeMessagesIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;

@@ -30,6 +30,7 @@ import {GrPluginRestApi} from './gr-plugin-rest-api.js';
 import {GrRepoApi} from '../../plugins/gr-repo-api/gr-repo-api.js';
 import {GrSettingsApi} from '../../plugins/gr-settings-api/gr-settings-api.js';
 import {GrStylesApi} from '../../plugins/gr-styles-api/gr-styles-api.js';
+import {GrPluginActionContext} from './gr-plugin-action-context.js';
 
 (function(window) {
   'use strict';

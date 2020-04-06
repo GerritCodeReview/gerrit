@@ -53,6 +53,8 @@ import page from 'page/page.mjs';
 import {Auth} from './shared/gr-rest-api-interface/gr-auth.js';
 import {EventEmitter} from './shared/gr-event-interface/gr-event-interface.js';
 import {GrAdminApi} from './plugins/gr-admin-api/gr-admin-api.js';
+import {GrAnnotationActionsContext} from './shared/gr-js-api-interface/gr-annotation-actions-context.js';
+import {GrAnnotationActionsInterface} from './shared/gr-js-api-interface/gr-annotation-actions-js-api.js';
 
 export function initGlobalVariables() {
   window.GrDisplayNameUtils = GrDisplayNameUtils;
@@ -89,4 +91,6 @@ export function initGlobalVariables() {
   window.Auth = Auth;
   window.EventEmitter = EventEmitter;
   window.GrAdminApi = GrAdminApi;
+  window.GrAnnotationActionsContext = GrAnnotationActionsContext;
+  window.GrAnnotationActionsInterface = GrAnnotationActionsInterface;
 }

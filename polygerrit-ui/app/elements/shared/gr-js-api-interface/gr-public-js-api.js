@@ -23,6 +23,7 @@ import {GrDomHooksManager} from '../../plugins/gr-dom-hooks/gr-dom-hooks.js';
 import {GrThemeApi} from '../../plugins/gr-theme-api/gr-theme-api.js';
 import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface.js';
 import {GrAdminApi} from '../../plugins/gr-admin-api/gr-admin-api.js';
+import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api.js';
 
 (function(window) {
   'use strict';

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "8eb18291_279a9d7c",
+        "filename": "polygerrit-ui/app/constants/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-06T13:55:37Z",
+      "side": 1,
+      "message": "Maybe just remove 3 and 4 for now. 3 is the same as 2 at the moment.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 11
+      },
+      "revId": "1e3eb4035f53351a2af0ebad66cc905e949c4442",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1d97f60c_e97c2e6b",
         "filename": "polygerrit-ui/app/constants/constants.js",
         "patchSetId": 3

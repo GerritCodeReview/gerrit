@@ -81,6 +81,30 @@
       "revId": "df489f9779fab3ab5e9b6a6ec524e155deb22fd6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cde5dc5b_db7c740d",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/ListChangeCommentsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-06T13:43:51Z",
+      "side": 1,
+      "message": "It seems we use it in a few other places too, so it should be OK.",
+      "parentUuid": "fb7bfc7b_c1b76776",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 22
+      },
+      "revId": "df489f9779fab3ab5e9b6a6ec524e155deb22fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

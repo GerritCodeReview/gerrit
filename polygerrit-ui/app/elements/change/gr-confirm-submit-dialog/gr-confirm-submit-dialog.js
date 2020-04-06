@@ -18,7 +18,6 @@ import '../../../scripts/bundled-polymer.js';
 
 import '@polymer/iron-icon/iron-icon.js';
 import '../../shared/gr-icons/gr-icons.js';
-import '../../core/gr-navigation/gr-navigation.js';
 import '../../shared/gr-dialog/gr-dialog.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';

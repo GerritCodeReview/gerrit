@@ -357,6 +357,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return branchOrderSection;
   }
 
+  public void setBranchOrderSection(BranchOrderSection branchOrderSection) {
+    this.branchOrderSection = branchOrderSection;
+  }
+
   public Map<Project.NameKey, SubscribeSection> getSubscribeSections() {
     return subscribeSections;
   }
@@ -814,6 +818,12 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
   }
 
+  private void saveBranchOrderSection(Config rc) {
+    if (branchOrderSection != null) {
+      rc.setStringList(BRANCH_ORDER, null, BRANCH, branchOrderSection.order());
+    }
+  }
+
   private ImmutableList<String> loadPatterns(
       Config rc, String section, String subsection, String varName) {
     ImmutableList.Builder<String> patterns = ImmutableList.builder();
@@ -1176,6 +1186,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     saveLabelSections(rc);
     saveCommentLinkSections(rc);
     saveSubscribeSections(rc);
+    saveBranchOrderSection(rc);
 
     saveConfig(PROJECT_CONFIG, rc);
     saveGroupList();

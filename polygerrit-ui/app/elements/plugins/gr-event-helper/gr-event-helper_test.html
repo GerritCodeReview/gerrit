@@ -27,7 +27,6 @@ limitations under the License.
 <dom-element id="some-element">
   <script type="module">
 import '../../../test/common-test-setup.js';
-import './gr-event-helper.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
 Polymer({
   is: 'some-element',
@@ -51,8 +50,9 @@ Polymer({
 
 <script type="module">
 import '../../../test/common-test-setup.js';
-import './gr-event-helper.js';
 import {addListener} from '@polymer/polymer/lib/utils/gestures.js';
+import {GrEventHelper} from './gr-event-helper.js';
+
 suite('gr-event-helper tests', () => {
   let element;
   let instance;

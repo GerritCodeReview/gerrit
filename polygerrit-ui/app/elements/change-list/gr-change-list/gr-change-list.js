@@ -17,7 +17,6 @@
 
 import '../../../scripts/bundled-polymer.js';
 import '../../../styles/gr-change-list-styles.js';
-import '../../core/gr-navigation/gr-navigation.js';
 import '../../shared/gr-cursor-manager/gr-cursor-manager.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../gr-change-list-item/gr-change-list-item.js';
@@ -36,6 +35,7 @@ import {ChangeTableBehavior} from '../../../behaviors/gr-change-table-behavior/g
 import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
@@ -271,7 +271,7 @@ class GrChangeList extends mixinBehaviors( [
   }
 
   _sectionHref(query) {
-    return Gerrit.Nav.getUrlForSearchQuery(this._processQuery(query));
+    return GerritNav.getUrlForSearchQuery(this._processQuery(query));
   }
 
   /**
@@ -333,7 +333,7 @@ class GrChangeList extends mixinBehaviors( [
         this.modifierPressed(e)) { return; }
 
     e.preventDefault();
-    Gerrit.Nav.navigateToChange(this._changeForIndex(this.selectedIndex));
+    GerritNav.navigateToChange(this._changeForIndex(this.selectedIndex));
   }
 
   _nextPage(e) {

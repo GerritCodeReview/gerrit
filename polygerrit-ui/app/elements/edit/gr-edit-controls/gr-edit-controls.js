@@ -17,7 +17,6 @@
 import '../../../scripts/bundled-polymer.js';
 
 import '@polymer/iron-input/iron-input.js';
-import '../../core/gr-navigation/gr-navigation.js';
 import '../../shared/gr-autocomplete/gr-autocomplete.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-dialog/gr-dialog.js';
@@ -33,6 +32,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-edit-controls_html.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {GrEditConstants} from '../gr-edit-constants.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 /**
  * @extends Polymer.Element
@@ -208,9 +208,9 @@ class GrEditControls extends mixinBehaviors( [
   }
 
   _handleOpenConfirm(e) {
-    const url = Gerrit.Nav.getEditUrlForDiff(this.change, this._path,
+    const url = GerritNav.getEditUrlForDiff(this.change, this._path,
         this.patchNum);
-    Gerrit.Nav.navigateToRelativeUrl(url);
+    GerritNav.navigateToRelativeUrl(url);
     this._closeDialog(this._getDialogFromEvent(e), true);
   }
 
@@ -224,9 +224,9 @@ class GrEditControls extends mixinBehaviors( [
       if (!res.ok) { return; }
 
       this._closeDialog(this.$.openDialog, true);
-      const url = Gerrit.Nav.getUrlForChange(
+      const url = GerritNav.getUrlForChange(
           this.change, this.patchNum, undefined, true);
-      Gerrit.Nav.navigateToRelativeUrl(url);
+      GerritNav.navigateToRelativeUrl(url);
     });
   }
 
@@ -238,7 +238,7 @@ class GrEditControls extends mixinBehaviors( [
         .then(res => {
           if (!res.ok) { return; }
           this._closeDialog(dialog, true);
-          Gerrit.Nav.navigateToChange(this.change);
+          GerritNav.navigateToChange(this.change);
         });
   }
 
@@ -248,7 +248,7 @@ class GrEditControls extends mixinBehaviors( [
         .then(res => {
           if (!res.ok) { return; }
           this._closeDialog(dialog, true);
-          Gerrit.Nav.navigateToChange(this.change);
+          GerritNav.navigateToChange(this.change);
         });
   }
 
@@ -258,7 +258,7 @@ class GrEditControls extends mixinBehaviors( [
         this._path, this._newPath).then(res => {
       if (!res.ok) { return; }
       this._closeDialog(dialog, true);
-      Gerrit.Nav.navigateToChange(this.change);
+      GerritNav.navigateToChange(this.change);
     });
   }
 

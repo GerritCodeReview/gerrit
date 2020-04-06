@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../gr-navigation/gr-navigation.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../gr-search-bar/gr-search-bar.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
@@ -25,6 +24,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-smart-search_html.js';
 import {DisplayNameBehavior} from '../../../behaviors/gr-display-name-behavior/gr-display-name-behavior.js';
+import {GerritNav} from '../gr-navigation/gr-navigation.js';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 const SELF_EXPRESSION = 'self';
@@ -78,7 +78,7 @@ class GrSmartSearch extends mixinBehaviors( [
   _handleSearch(e) {
     const input = e.detail.inputVal;
     if (input) {
-      Gerrit.Nav.navigateToSearchQuery(input);
+      GerritNav.navigateToSearchQuery(input);
     }
   }
 

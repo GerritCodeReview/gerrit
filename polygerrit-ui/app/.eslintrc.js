@@ -177,7 +177,6 @@ module.exports = {
     "GrChangeReplyInterface": "readonly",
     "GrChangeViewApi": "readonly",
     "GrCountStringFormatter": "readonly",
-    "GrDiffBuilderBinary": "readonly",
     "GrDomHook": "readonly",
     "GrDomHooksManager": "readonly",
     "GrEditConstants": "readonly",

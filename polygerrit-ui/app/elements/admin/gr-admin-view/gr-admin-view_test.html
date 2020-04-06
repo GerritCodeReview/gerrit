@@ -34,6 +34,8 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import './gr-admin-view.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+
 suite('gr-admin-view tests', () => {
   let element;
   let sandbox;
@@ -294,7 +296,7 @@ suite('gr-admin-view tests', () => {
       assert.isTrue(element.reload.called);
       done();
     });
-    element.params = {group: 1, view: Gerrit.Nav.View.GROUP};
+    element.params = {group: 1, view: GerritNav.View.GROUP};
     element._groupName = 'oldName';
     flushAsynchronousOperations();
     element.shadowRoot
@@ -333,8 +335,8 @@ suite('gr-admin-view tests', () => {
     element._repoName = 'my-repo';
     element.params = {
       repo: 'my-repo',
-      view: Gerrit.Nav.View.REPO,
-      detail: Gerrit.Nav.RepoDetailView.ACCESS,
+      view: GerritNav.View.REPO,
+      detail: GerritNav.RepoDetailView.ACCESS,
     };
     sandbox.stub(
         element.$.restAPI,
@@ -460,7 +462,7 @@ suite('gr-admin-view tests', () => {
         parent: 'my-repo',
       },
     ];
-    sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl');
+    sandbox.stub(GerritNav, 'navigateToRelativeUrl');
     sandbox.spy(element, '_selectedIsCurrentPage');
     sandbox.spy(element, '_handleSubsectionChange');
     element.reload().then(() => {
@@ -472,12 +474,12 @@ suite('gr-admin-view tests', () => {
       );
       assert.isTrue(element._selectedIsCurrentPage.calledOnce);
       // Doesn't trigger navigation from the page select menu.
-      assert.isFalse(Gerrit.Nav.navigateToRelativeUrl.called);
+      assert.isFalse(GerritNav.navigateToRelativeUrl.called);
 
       // When explicitly changed, navigation is called
       element.shadowRoot.querySelector('#pageSelect').value = 'repo';
       assert.isTrue(element._selectedIsCurrentPage.calledTwice);
-      assert.isTrue(Gerrit.Nav.navigateToRelativeUrl.calledOnce);
+      assert.isTrue(GerritNav.navigateToRelativeUrl.calledOnce);
       done();
     });
   });
@@ -524,7 +526,7 @@ suite('gr-admin-view tests', () => {
 
       test('repo list', () => {
         element.params = {
-          view: Gerrit.Nav.View.ADMIN,
+          view: GerritNav.View.ADMIN,
           adminView: 'gr-repo-list',
           openCreateModal: false,
         };
@@ -537,7 +539,7 @@ suite('gr-admin-view tests', () => {
 
       test('repo', () => {
         element.params = {
-          view: Gerrit.Nav.View.REPO,
+          view: GerritNav.View.REPO,
           repoName: 'foo',
         };
         element._repoName = 'foo';
@@ -552,8 +554,8 @@ suite('gr-admin-view tests', () => {
 
       test('repo access', () => {
         element.params = {
-          view: Gerrit.Nav.View.REPO,
-          detail: Gerrit.Nav.RepoDetailView.ACCESS,
+          view: GerritNav.View.REPO,
+          detail: GerritNav.RepoDetailView.ACCESS,
           repoName: 'foo',
         };
         element._repoName = 'foo';
@@ -568,8 +570,8 @@ suite('gr-admin-view tests', () => {
 
       test('repo dashboards', () => {
         element.params = {
-          view: Gerrit.Nav.View.REPO,
-          detail: Gerrit.Nav.RepoDetailView.DASHBOARDS,
+          view: GerritNav.View.REPO,
+          detail: GerritNav.RepoDetailView.DASHBOARDS,
           repoName: 'foo',
         };
         element._repoName = 'foo';
@@ -604,7 +606,7 @@ suite('gr-admin-view tests', () => {
 
       test('group list', () => {
         element.params = {
-          view: Gerrit.Nav.View.ADMIN,
+          view: GerritNav.View.ADMIN,
           adminView: 'gr-admin-group-list',
           openCreateModal: false,
         };
@@ -617,7 +619,7 @@ suite('gr-admin-view tests', () => {
 
       test('internal group', () => {
         element.params = {
-          view: Gerrit.Nav.View.GROUP,
+          view: GerritNav.View.GROUP,
           groupId: 1234,
         };
         element._groupName = 'foo';
@@ -642,7 +644,7 @@ suite('gr-admin-view tests', () => {
               id: 'external-id',
             }));
         element.params = {
-          view: Gerrit.Nav.View.GROUP,
+          view: GerritNav.View.GROUP,
           groupId: 1234,
         };
         element._groupName = 'foo';
@@ -661,8 +663,8 @@ suite('gr-admin-view tests', () => {
 
       test('group members', () => {
         element.params = {
-          view: Gerrit.Nav.View.GROUP,
-          detail: Gerrit.Nav.GroupDetailView.MEMBERS,
+          view: GerritNav.View.GROUP,
+          detail: GerritNav.GroupDetailView.MEMBERS,
           groupId: 1234,
         };
         element._groupName = 'foo';

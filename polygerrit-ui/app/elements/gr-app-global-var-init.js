@@ -51,6 +51,8 @@ import {util} from '../scripts/util.js';
 import moment from 'moment/src/moment.js';
 import page from 'page/page.mjs';
 import {Auth} from './shared/gr-rest-api-interface/gr-auth.js';
+import {EventEmitter} from './shared/gr-event-interface/gr-event-interface.js';
+import {GrAdminApi} from './plugins/gr-admin-api/gr-admin-api.js';
 
 export function initGlobalVariables() {
   window.GrDisplayNameUtils = GrDisplayNameUtils;
@@ -85,4 +87,6 @@ export function initGlobalVariables() {
   window.moment = moment;
   window.page = page;
   window.Auth = Auth;
+  window.EventEmitter = EventEmitter;
+  window.GrAdminApi = GrAdminApi;
 }

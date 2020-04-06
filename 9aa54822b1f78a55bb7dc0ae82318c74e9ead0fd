@@ -69,6 +69,30 @@
       "revId": "9aa54822b1f78a55bb7dc0ae82318c74e9ead0fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15ca5fd3_74aa1ed8",
+        "filename": "tools/remote-bazelrc",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-06T11:50:02Z",
+      "side": 1,
+      "message": "This GCP name for Bazel project is also publically visible: [1],[2]. And also for Kythe project, so that if you have a new project name for me, I could put it here, that is valid for everyone? If the project name für Zuul is a different one (Zuul doesn\u0027t use --config\u003dremote yet, though) we could overwrite it only in Zuul invocation, right?\n\n[1] https://github.com/bazelbuild/continuous-integration/blob/master/buildkite/bazelci.py#L53\n[2] https://github.com/bazelbuild/continuous-integration/blob/master/buildkite/bazelci.py#L1407\n[3] https://github.com/kythe/kythe/blob/master/.bazelrc#L30-L31",
+      "parentUuid": "c54bce3b_3333fcfc",
+      "range": {
+        "startLine": 24,
+        "startChar": 44,
+        "endLine": 24,
+        "endChar": 69
+      },
+      "revId": "9aa54822b1f78a55bb7dc0ae82318c74e9ead0fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -28,6 +28,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-confirm-cherrypick-dialog_html.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 const SUGGESTIONS_LIMIT = 15;
 const CHANGE_SUBJECT_LIMIT = 50;
@@ -253,7 +254,7 @@ class GrConfirmCherrypickDialog extends mixinBehaviors( [
         if (!failedOrPending) {
           /* This needs some more work, as the new topic may not always be
           created, instead we may end up creating a new patchset */
-          Gerrit.Nav.navigateToSearchQuery(`topic: "${topic}"`);
+          GerritNav.navigateToSearchQuery(`topic: "${topic}"`);
         }
       });
     });

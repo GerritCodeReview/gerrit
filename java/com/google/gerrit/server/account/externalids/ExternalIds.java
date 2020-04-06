@@ -17,13 +17,12 @@ package com.google.gerrit.server.account.externalids;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.SetMultimap;
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.entities.Account;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Optional;
-import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -65,24 +64,25 @@ public class ExternalIds {
   }
 
   /** Returns the external IDs of the specified account. */
-  public Set<ExternalId> byAccount(Account.Id accountId) throws IOException {
+  public ImmutableSet<ExternalId> byAccount(Account.Id accountId) throws IOException {
     return externalIdCache.byAccount(accountId);
   }
 
   /** Returns the external IDs of the specified account that have the given scheme. */
-  public Set<ExternalId> byAccount(Account.Id accountId, String scheme) throws IOException {
+  public ImmutableSet<ExternalId> byAccount(Account.Id accountId, String scheme)
+      throws IOException {
     return byAccount(accountId).stream()
         .filter(e -> e.key().isScheme(scheme))
         .collect(toImmutableSet());
   }
 
   /** Returns the external IDs of the specified account. */
-  public Set<ExternalId> byAccount(Account.Id accountId, ObjectId rev) throws IOException {
+  public ImmutableSet<ExternalId> byAccount(Account.Id accountId, ObjectId rev) throws IOException {
     return externalIdCache.byAccount(accountId, rev);
   }
 
   /** Returns the external IDs of the specified account that have the given scheme. */
-  public Set<ExternalId> byAccount(Account.Id accountId, String scheme, ObjectId rev)
+  public ImmutableSet<ExternalId> byAccount(Account.Id accountId, String scheme, ObjectId rev)
       throws IOException {
     return byAccount(accountId, rev).stream()
         .filter(e -> e.key().isScheme(scheme))
@@ -90,7 +90,7 @@ public class ExternalIds {
   }
 
   /** Returns all external IDs by account. */
-  public SetMultimap<Account.Id, ExternalId> allByAccount() throws IOException {
+  public ImmutableSetMultimap<Account.Id, ExternalId> allByAccount() throws IOException {
     return externalIdCache.allByAccount();
   }
 
@@ -107,7 +107,7 @@ public class ExternalIds {
    *
    * @see #byEmails(String...)
    */
-  public Set<ExternalId> byEmail(String email) throws IOException {
+  public ImmutableSet<ExternalId> byEmail(String email) throws IOException {
     return externalIdCache.byEmail(email);
   }
 
@@ -125,12 +125,12 @@ public class ExternalIds {
    *
    * @see #byEmail(String)
    */
-  public SetMultimap<String, ExternalId> byEmails(String... emails) throws IOException {
+  public ImmutableSetMultimap<String, ExternalId> byEmails(String... emails) throws IOException {
     return externalIdCache.byEmails(emails);
   }
 
   /** Returns all external IDs by email. */
-  public SetMultimap<String, ExternalId> allByEmail() throws IOException {
+  public ImmutableSetMultimap<String, ExternalId> allByEmail() throws IOException {
     return externalIdCache.allByEmail();
   }
 }

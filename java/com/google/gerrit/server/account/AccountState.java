@@ -92,7 +92,7 @@ public abstract class AccountState {
             : accountConfig.getExternalIdsRev();
     ImmutableSet<ExternalId> extIds =
         extIdsRev.isPresent()
-            ? ImmutableSet.copyOf(externalIds.byAccount(account.id(), extIdsRev.get()))
+            ? externalIds.byAccount(account.id(), extIdsRev.get())
             : ImmutableSet.of();
 
     // Don't leak references to AccountConfig into the AccountState, since it holds a reference to
@@ -130,8 +130,7 @@ public abstract class AccountState {
   public static AccountState forCachedAccount(
       CachedAccountDetails account, CachedPreferences defaultConfig, ExternalIds externalIds)
       throws IOException {
-    ImmutableSet<ExternalId> extIds =
-        ImmutableSet.copyOf(externalIds.byAccount(account.account().id()));
+    ImmutableSet<ExternalId> extIds = externalIds.byAccount(account.account().id());
     return new AutoValue_AccountState(
         account.account(),
         extIds,

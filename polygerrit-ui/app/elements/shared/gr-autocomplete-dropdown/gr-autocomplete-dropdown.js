@@ -18,7 +18,6 @@ import '../../../scripts/bundled-polymer.js';
 import '@polymer/iron-dropdown/iron-dropdown.js';
 import {IronFitBehavior} from '@polymer/iron-fit-behavior/iron-fit-behavior.js';
 import '../gr-cursor-manager/gr-cursor-manager.js';
-import '../../../scripts/rootElement.js';
 import '../../../styles/shared-styles.js';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';

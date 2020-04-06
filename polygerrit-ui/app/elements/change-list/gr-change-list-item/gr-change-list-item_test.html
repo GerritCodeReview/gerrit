@@ -33,6 +33,8 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-change-list-item.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+
 suite('gr-change-list-item tests', () => {
   let element;
   let sandbox;
@@ -242,7 +244,7 @@ suite('gr-change-list-item tests', () => {
   });
 
   test('change params passed to gr-navigation', () => {
-    sandbox.stub(Gerrit.Nav);
+    sandbox.stub(GerritNav);
     const change = {
       internalHost: 'test-host',
       project: 'test-repo',
@@ -252,12 +254,12 @@ suite('gr-change-list-item tests', () => {
     element.change = change;
     flushAsynchronousOperations();
 
-    assert.deepEqual(Gerrit.Nav.getUrlForChange.lastCall.args, [change]);
-    assert.deepEqual(Gerrit.Nav.getUrlForProjectChanges.lastCall.args,
+    assert.deepEqual(GerritNav.getUrlForChange.lastCall.args, [change]);
+    assert.deepEqual(GerritNav.getUrlForProjectChanges.lastCall.args,
         [change.project, true, change.internalHost]);
-    assert.deepEqual(Gerrit.Nav.getUrlForBranch.lastCall.args,
+    assert.deepEqual(GerritNav.getUrlForBranch.lastCall.args,
         [change.branch, change.project, null, change.internalHost]);
-    assert.deepEqual(Gerrit.Nav.getUrlForTopic.lastCall.args,
+    assert.deepEqual(GerritNav.getUrlForTopic.lastCall.args,
         [change.topic, change.internalHost]);
   });
 

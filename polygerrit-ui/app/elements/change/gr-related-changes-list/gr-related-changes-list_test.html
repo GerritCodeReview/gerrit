@@ -33,6 +33,8 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-related-changes-list.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+
 suite('gr-related-changes-list tests', () => {
   let element;
   let sandbox;
@@ -461,8 +463,8 @@ suite('gr-related-changes-list tests', () => {
     });
   });
 
-  test('_computeChangeURL uses Gerrit.Nav', () => {
-    const getUrlStub = sandbox.stub(Gerrit.Nav, 'getUrlForChangeById');
+  test('_computeChangeURL uses GerritNav', () => {
+    const getUrlStub = sandbox.stub(GerritNav, 'getUrlForChangeById');
     element._computeChangeURL(123, 'abc/def', 12);
     assert.isTrue(getUrlStub.called);
   });

@@ -73,6 +73,7 @@ import {
   PRELOADED_PROTOCOL,
   send,
 } from './shared/gr-js-api-interface/gr-api-utils.js';
+import {GerritNav} from './core/gr-navigation/gr-navigation.js';
 
 export function initGlobalVariables() {
   window.GrDisplayNameUtils = GrDisplayNameUtils;
@@ -130,4 +131,7 @@ export function initGlobalVariables() {
     PRELOADED_PROTOCOL,
     PLUGIN_LOADING_TIMEOUT_MS,
   };
+
+  window.Gerrit = window.Gerrit || {};
+  window.Gerrit.Nav = GerritNav;
 }

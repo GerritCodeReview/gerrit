@@ -1311,7 +1311,9 @@ link:access-control.html#non-interactive_users['Non-Interactive users'] group.
 
 Allow group creation.  Groups are used to grant users access to different
 actions in projects.  This capability allows the granted group members to
-either link:cmd-create-group.html[create new groups via ssh] or via the web UI.
+either link:cmd-create-group.html[create new groups via ssh] or via the web UI
+by navigating at the top of the page to BROWSE -> Groups, and then pushing the
+"CREATE NEW" button.
 
 
 [[capability_createProject]]

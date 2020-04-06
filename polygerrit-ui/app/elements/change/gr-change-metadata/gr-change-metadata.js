@@ -20,7 +20,6 @@ import '../../../styles/shared-styles.js';
 import '../../../styles/gr-change-metadata-shared-styles.js';
 import '../../../styles/gr-change-view-integration-shared-styles.js';
 import '../../../styles/gr-voting-styles.js';
-import '../../core/gr-navigation/gr-navigation.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param.js';
 import '../../plugins/gr-external-style/gr-external-style.js';
@@ -45,6 +44,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-metadata_html.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GrReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -215,7 +215,7 @@ class GrChangeMetadata extends mixinBehaviors( [
    */
   _computeWebLinks(commitInfo, serverConfig) {
     if (!commitInfo) { return null; }
-    const weblinks = Gerrit.Nav.getChangeWeblinks(
+    const weblinks = GerritNav.getChangeWeblinks(
         this.change ? this.change.repo : '',
         commitInfo.commit,
         {
@@ -393,26 +393,26 @@ class GrChangeMetadata extends mixinBehaviors( [
   }
 
   _computeProjectUrl(project) {
-    return Gerrit.Nav.getUrlForProjectChanges(project);
+    return GerritNav.getUrlForProjectChanges(project);
   }
 
   _computeBranchUrl(project, branch) {
     if (!this.change || !this.change.status) return '';
-    return Gerrit.Nav.getUrlForBranch(branch, project,
+    return GerritNav.getUrlForBranch(branch, project,
         this.change.status == this.ChangeStatus.NEW ? 'open' :
           this.change.status.toLowerCase());
   }
 
   _computeCherryPickOfUrl(change, patchset, project) {
-    return Gerrit.Nav.getUrlForChangeById(change, project, patchset);
+    return GerritNav.getUrlForChangeById(change, project, patchset);
   }
 
   _computeTopicUrl(topic) {
-    return Gerrit.Nav.getUrlForTopic(topic);
+    return GerritNav.getUrlForTopic(topic);
   }
 
   _computeHashtagUrl(hashtag) {
-    return Gerrit.Nav.getUrlForHashtag(hashtag);
+    return GerritNav.getUrlForHashtag(hashtag);
   }
 
   _handleTopicRemoved(e) {

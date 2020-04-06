@@ -35,6 +35,7 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import './gr-change-list-view.js';
 import page from 'page/page.mjs';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 const CHANGE_ID = 'IcA3dAB3edAB9f60B8dcdA6ef71A75980e4B7127';
 const COMMIT_HASH = '12345678';
@@ -78,7 +79,7 @@ suite('gr-change-list-view tests', () => {
   });
 
   test('_computeNavLink', () => {
-    const getUrlStub = sandbox.stub(Gerrit.Nav, 'getUrlForSearchQuery')
+    const getUrlStub = sandbox.stub(GerritNav, 'getUrlForSearchQuery')
         .returns('');
     const query = 'status:open';
     let offset = 0;
@@ -209,44 +210,44 @@ suite('gr-change-list-view tests', () => {
       const change = {_number: 1};
       sandbox.stub(element, '_getChanges')
           .returns(Promise.resolve([change]));
-      sandbox.stub(Gerrit.Nav, 'navigateToChange', url => {
+      sandbox.stub(GerritNav, 'navigateToChange', url => {
         assert.equal(url, change);
         done();
       });
 
-      element.params = {view: Gerrit.Nav.View.SEARCH, query: CHANGE_ID};
+      element.params = {view: GerritNav.View.SEARCH, query: CHANGE_ID};
     });
 
     test('Searching for a change num redirects to change', done => {
       const change = {_number: 1};
       sandbox.stub(element, '_getChanges')
           .returns(Promise.resolve([change]));
-      sandbox.stub(Gerrit.Nav, 'navigateToChange', url => {
+      sandbox.stub(GerritNav, 'navigateToChange', url => {
         assert.equal(url, change);
         done();
       });
 
-      element.params = {view: Gerrit.Nav.View.SEARCH, query: '1'};
+      element.params = {view: GerritNav.View.SEARCH, query: '1'};
     });
 
     test('Commit hash redirects to change', done => {
       const change = {_number: 1};
       sandbox.stub(element, '_getChanges')
           .returns(Promise.resolve([change]));
-      sandbox.stub(Gerrit.Nav, 'navigateToChange', url => {
+      sandbox.stub(GerritNav, 'navigateToChange', url => {
         assert.equal(url, change);
         done();
       });
 
-      element.params = {view: Gerrit.Nav.View.SEARCH, query: COMMIT_HASH};
+      element.params = {view: GerritNav.View.SEARCH, query: COMMIT_HASH};
     });
 
     test('Searching for an invalid change ID searches', () => {
       sandbox.stub(element, '_getChanges')
           .returns(Promise.resolve([]));
-      const stub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+      const stub = sandbox.stub(GerritNav, 'navigateToChange');
 
-      element.params = {view: Gerrit.Nav.View.SEARCH, query: CHANGE_ID};
+      element.params = {view: GerritNav.View.SEARCH, query: CHANGE_ID};
       flushAsynchronousOperations();
 
       assert.isFalse(stub.called);
@@ -255,9 +256,9 @@ suite('gr-change-list-view tests', () => {
     test('Change ID with multiple search results searches', () => {
       sandbox.stub(element, '_getChanges')
           .returns(Promise.resolve([{}, {}]));
-      const stub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+      const stub = sandbox.stub(GerritNav, 'navigateToChange');
 
-      element.params = {view: Gerrit.Nav.View.SEARCH, query: CHANGE_ID};
+      element.params = {view: GerritNav.View.SEARCH, query: CHANGE_ID};
       flushAsynchronousOperations();
 
       assert.isFalse(stub.called);

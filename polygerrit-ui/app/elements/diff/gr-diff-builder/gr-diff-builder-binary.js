@@ -17,34 +17,25 @@
 
 import {GrDiffBuilder} from './gr-diff-builder.js';
 
-(function(window) {
-  'use strict';
+/** @constructor */
+export function GrDiffBuilderBinary(diff, prefs, outputEl) {
+  GrDiffBuilder.call(this, diff, prefs, outputEl);
+}
 
-  // Prevent redefinition.
-  if (window.GrDiffBuilderBinary) { return; }
+GrDiffBuilderBinary.prototype = Object.create(GrDiffBuilder.prototype);
+GrDiffBuilderBinary.prototype.constructor = GrDiffBuilderBinary;
 
-  /** @constructor */
-  function GrDiffBuilderBinary(diff, prefs, outputEl) {
-    GrDiffBuilder.call(this, diff, prefs, outputEl);
-  }
+// This method definition is a no-op to satisfy the parent type.
+GrDiffBuilderBinary.prototype.addColumns = function(outputEl, fontSize) {};
 
-  GrDiffBuilderBinary.prototype = Object.create(GrDiffBuilder.prototype);
-  GrDiffBuilderBinary.prototype.constructor = GrDiffBuilderBinary;
-
-  // This method definition is a no-op to satisfy the parent type.
-  GrDiffBuilderBinary.prototype.addColumns = function(outputEl, fontSize) {};
-
-  GrDiffBuilderBinary.prototype.buildSectionElement = function() {
-    const section = this._createElement('tbody', 'binary-diff');
-    const row = this._createElement('tr');
-    const cell = this._createElement('td');
-    const label = this._createElement('label');
-    label.textContent = 'Difference in binary files';
-    cell.appendChild(label);
-    row.appendChild(cell);
-    section.appendChild(row);
-    return section;
-  };
-
-  window.GrDiffBuilderBinary = GrDiffBuilderBinary;
-})(window);
+GrDiffBuilderBinary.prototype.buildSectionElement = function() {
+  const section = this._createElement('tbody', 'binary-diff');
+  const row = this._createElement('tr');
+  const cell = this._createElement('td');
+  const label = this._createElement('label');
+  label.textContent = 'Difference in binary files';
+  cell.appendChild(label);
+  row.appendChild(cell);
+  section.appendChild(row);
+  return section;
+};

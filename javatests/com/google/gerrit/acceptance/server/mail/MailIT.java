@@ -30,10 +30,8 @@ import javax.mail.internet.MimeMessage;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 @NoHttpd
-@RunWith(ConfigSuite.class)
 public class MailIT extends AbstractDaemonTest {
   private static final String RECEIVEEMAIL = "receiveemail";
   private static final String HOST = "localhost";

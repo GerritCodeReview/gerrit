@@ -93,6 +93,30 @@
       "revId": "9aa54822b1f78a55bb7dc0ae82318c74e9ead0fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a2d5832_aba0ca10",
+        "filename": "tools/remote-bazelrc",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-06T11:51:48Z",
+      "side": 1,
+      "message": "I believe the project name should be set externally, as a company could have their GCP project and use RBE for building Gerrit. (e.g. Company XYZ that wants to build its own forked version of Gerrit with their custom features)",
+      "parentUuid": "15ca5fd3_74aa1ed8",
+      "range": {
+        "startLine": 24,
+        "startChar": 44,
+        "endLine": 24,
+        "endChar": 69
+      },
+      "revId": "9aa54822b1f78a55bb7dc0ae82318c74e9ead0fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

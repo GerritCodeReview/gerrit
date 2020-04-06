@@ -205,4 +205,26 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(1);
     amendResult.assertMessage("exceeding maximum number of comments");
   }
+
+  @Test
+  @GerritConfig(name = "change.cumulativeCommentSizeLimit", value = "500")
+  public void limitCumulativeCommentSize() throws Exception {
+    when(mockCommentValidator.validateComments(any(), any())).thenReturn(ImmutableList.of());
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    String revId = result.getCommit().getName();
+    String filePath = result.getChange().currentFilePaths().get(0);
+    String commentText400Bytes = new String(new char[400]).replace("\0", "x");
+    DraftInput draftInline =
+        testCommentHelper.newDraft(filePath, Side.REVISION, 1, commentText400Bytes);
+    testCommentHelper.addDraft(changeId, revId, draftInline);
+    amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
+    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(1);
+
+    draftInline = testCommentHelper.newDraft(filePath, Side.REVISION, 1, commentText400Bytes);
+    testCommentHelper.addDraft(changeId, revId, draftInline);
+    Result amendResult = amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
+    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(1);
+    amendResult.assertMessage("exceeding maximum cumulative size of comments");
+  }
 }

@@ -25,6 +25,9 @@ import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interf
 import {GrAdminApi} from '../../plugins/gr-admin-api/gr-admin-api.js';
 import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api.js';
 import {GrChangeMetadataApi} from '../../plugins/gr-change-metadata-api/gr-change-metadata-api.js';
+import {GrEventHelper} from '../../plugins/gr-event-helper/gr-event-helper.js';
+import {GrPluginRestApi} from './gr-plugin-rest-api.js';
+import {GrRepoApi} from '../../plugins/gr-repo-api/gr-repo-api.js';
 
 (function(window) {
   'use strict';

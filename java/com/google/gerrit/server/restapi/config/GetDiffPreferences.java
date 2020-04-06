@@ -20,32 +20,28 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.StoredPreferences;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ConfigResource;
-import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.config.DefaultPreferencesCache;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Repository;
 
 @Singleton
 public class GetDiffPreferences implements RestReadView<ConfigResource> {
 
-  private final AllUsersName allUsersName;
-  private final GitRepositoryManager gitManager;
+  private final DefaultPreferencesCache defaultPreferenceCache;
 
   @Inject
-  GetDiffPreferences(GitRepositoryManager gitManager, AllUsersName allUsersName) {
-    this.allUsersName = allUsersName;
-    this.gitManager = gitManager;
+  GetDiffPreferences(DefaultPreferencesCache defaultPreferenceCache) {
+    this.defaultPreferenceCache = defaultPreferenceCache;
   }
 
   @Override
   public Response<DiffPreferencesInfo> apply(ConfigResource configResource)
       throws BadRequestException, ResourceConflictException, IOException, ConfigInvalidException {
-    try (Repository git = gitManager.openRepository(allUsersName)) {
-      return Response.ok(StoredPreferences.readDefaultDiffPreferences(allUsersName, git));
-    }
+    return Response.ok(
+        StoredPreferences.parseDiffPreferences(
+            defaultPreferenceCache.get().asConfig(), null, null));
   }
 }

@@ -35,6 +35,8 @@ import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes.ExternalIdNotesLoader;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.CachedPreferences;
+import com.google.gerrit.server.config.VersionedDefaultPreferences;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -328,8 +330,12 @@ public class AccountsUpdate {
               accountConfig.setAccountUpdate(update);
               ExternalIdNotes extIdNotes =
                   createExternalIdNotes(r, accountConfig.getExternalIdsRev(), accountId, update);
+              CachedPreferences defaultPreferences =
+                  CachedPreferences.fromConfig(VersionedDefaultPreferences.get(r, allUsersName));
+
               UpdatedAccount updatedAccounts =
-                  new UpdatedAccount(externalIds, message, accountConfig, extIdNotes);
+                  new UpdatedAccount(
+                      externalIds, message, accountConfig, extIdNotes, defaultPreferences);
               updatedAccounts.setCreated(true);
               return updatedAccounts;
             })
@@ -375,8 +381,10 @@ public class AccountsUpdate {
     return updateAccount(
         r -> {
           AccountConfig accountConfig = read(r, accountId);
+          CachedPreferences defaultPreferences =
+              CachedPreferences.fromConfig(VersionedDefaultPreferences.get(r, allUsersName));
           Optional<AccountState> account =
-              AccountState.fromAccountConfig(externalIds, accountConfig);
+              AccountState.fromAccountConfig(externalIds, accountConfig, defaultPreferences);
           if (!account.isPresent()) {
             return null;
           }
@@ -388,8 +396,12 @@ public class AccountsUpdate {
           accountConfig.setAccountUpdate(update);
           ExternalIdNotes extIdNotes =
               createExternalIdNotes(r, accountConfig.getExternalIdsRev(), accountId, update);
+          CachedPreferences cachedDefaultPreferences =
+              CachedPreferences.fromConfig(VersionedDefaultPreferences.get(r, allUsersName));
+
           UpdatedAccount updatedAccounts =
-              new UpdatedAccount(externalIds, message, accountConfig, extIdNotes);
+              new UpdatedAccount(
+                  externalIds, message, accountConfig, extIdNotes, cachedDefaultPreferences);
           return updatedAccounts;
         });
   }
@@ -563,6 +575,7 @@ public class AccountsUpdate {
     private final String message;
     private final AccountConfig accountConfig;
     private final ExternalIdNotes extIdNotes;
+    private final CachedPreferences defaultPreferences;
 
     private boolean created;
 
@@ -570,12 +583,14 @@ public class AccountsUpdate {
         ExternalIds externalIds,
         String message,
         AccountConfig accountConfig,
-        ExternalIdNotes extIdNotes) {
+        ExternalIdNotes extIdNotes,
+        CachedPreferences defaultPreferences) {
       checkState(!Strings.isNullOrEmpty(message), "message for account update must be set");
       this.externalIds = requireNonNull(externalIds);
       this.message = requireNonNull(message);
       this.accountConfig = requireNonNull(accountConfig);
       this.extIdNotes = requireNonNull(extIdNotes);
+      this.defaultPreferences = defaultPreferences;
     }
 
     public String getMessage() {
@@ -587,7 +602,9 @@ public class AccountsUpdate {
     }
 
     public AccountState getAccount() throws IOException {
-      return AccountState.fromAccountConfig(externalIds, accountConfig, extIdNotes).get();
+      return AccountState.fromAccountConfig(
+              externalIds, accountConfig, extIdNotes, defaultPreferences)
+          .get();
     }
 
     public ExternalIdNotes getExternalIdNotes() {

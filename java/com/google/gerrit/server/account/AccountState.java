@@ -48,12 +48,14 @@ public abstract class AccountState {
    *
    * @param externalIds class to access external IDs
    * @param accountConfig the account config, must already be loaded
+   * @param defaultPreferences the default preferences for this Gerrit installation
    * @return the account state, {@link Optional#empty()} if the account doesn't exist
    * @throws IOException if accessing the external IDs fails
    */
   public static Optional<AccountState> fromAccountConfig(
-      ExternalIds externalIds, AccountConfig accountConfig) throws IOException {
-    return fromAccountConfig(externalIds, accountConfig, null);
+      ExternalIds externalIds, AccountConfig accountConfig, CachedPreferences defaultPreferences)
+      throws IOException {
+    return fromAccountConfig(externalIds, accountConfig, null, defaultPreferences);
   }
 
   /**
@@ -69,11 +71,15 @@ public abstract class AccountState {
    * @param externalIds class to access external IDs
    * @param accountConfig the account config, must already be loaded
    * @param extIdNotes external ID notes, must already be loaded, may be {@code null}
+   * @param defaultPreferences the default preferences for this Gerrit installation
    * @return the account state, {@link Optional#empty()} if the account doesn't exist
    * @throws IOException if accessing the external IDs fails
    */
   public static Optional<AccountState> fromAccountConfig(
-      ExternalIds externalIds, AccountConfig accountConfig, @Nullable ExternalIdNotes extIdNotes)
+      ExternalIds externalIds,
+      AccountConfig accountConfig,
+      @Nullable ExternalIdNotes extIdNotes,
+      CachedPreferences defaultPreferences)
       throws IOException {
     if (!accountConfig.getLoadedAccount().isPresent()) {
       return Optional.empty();
@@ -100,8 +106,8 @@ public abstract class AccountState {
             extIds,
             ExternalId.getUserName(extIds),
             projectWatches,
-            Optional.of(CachedPreferences.fromConfig(accountConfig.getRawDefaultPreferences())),
-            Optional.of(CachedPreferences.fromConfig(accountConfig.getRawPreferences()))));
+            Optional.of(defaultPreferences),
+            Optional.of(accountConfig.asCachedPreferences())));
   }
 
   /**

@@ -48,6 +48,7 @@ import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.config.AdministrateServerGroups;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
+import com.google.gerrit.server.config.DefaultPreferenceCacheImpl;
 import com.google.gerrit.server.config.DefaultUrlFormatter;
 import com.google.gerrit.server.config.EnableReverseDnsLookup;
 import com.google.gerrit.server.config.EnableReverseDnsLookupProvider;
@@ -155,6 +156,7 @@ public class BatchProgramModule extends FactoryModule {
     install(new GroupModule());
     install(new NoteDbModule());
     install(AccountCacheImpl.module());
+    install(DefaultPreferenceCacheImpl.module());
     install(GroupCacheImpl.module());
     install(GroupIncludeCacheImpl.module());
     install(ProjectCacheImpl.module());

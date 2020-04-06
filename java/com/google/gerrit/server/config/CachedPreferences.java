@@ -53,7 +53,7 @@ public abstract class CachedPreferences {
       Optional<CachedPreferences> defaultPreferences, CachedPreferences userPreferences) {
     try {
       return StoredPreferences.parseGeneralPreferences(
-          asConfig(userPreferences), configOrNull(defaultPreferences), null);
+          userPreferences.asConfig(), configOrNull(defaultPreferences), null);
     } catch (ConfigInvalidException e) {
       return GeneralPreferencesInfo.defaults();
     }
@@ -63,7 +63,7 @@ public abstract class CachedPreferences {
       Optional<CachedPreferences> defaultPreferences, CachedPreferences userPreferences) {
     try {
       return StoredPreferences.parseEditPreferences(
-          asConfig(userPreferences), configOrNull(defaultPreferences), null);
+          userPreferences.asConfig(), configOrNull(defaultPreferences), null);
     } catch (ConfigInvalidException e) {
       return EditPreferencesInfo.defaults();
     }
@@ -73,25 +73,25 @@ public abstract class CachedPreferences {
       Optional<CachedPreferences> defaultPreferences, CachedPreferences userPreferences) {
     try {
       return StoredPreferences.parseDiffPreferences(
-          asConfig(userPreferences), configOrNull(defaultPreferences), null);
+          userPreferences.asConfig(), configOrNull(defaultPreferences), null);
     } catch (ConfigInvalidException e) {
       return DiffPreferencesInfo.defaults();
     }
   }
 
-  @Nullable
-  private static Config configOrNull(Optional<CachedPreferences> cachedPreferences) {
-    return cachedPreferences.map(CachedPreferences::asConfig).orElse(null);
-  }
-
-  private static Config asConfig(CachedPreferences cachedPreferences) {
+  public Config asConfig() {
     Config cfg = new Config();
     try {
-      cfg.fromText(cachedPreferences.config());
+      cfg.fromText(config());
     } catch (ConfigInvalidException e) {
       // Programmer error: We have parsed this config before and are unable to parse it now.
       throw new StorageException(e);
     }
     return cfg;
+  }
+
+  @Nullable
+  private static Config configOrNull(Optional<CachedPreferences> cachedPreferences) {
+    return cachedPreferences.map(CachedPreferences::asConfig).orElse(null);
   }
 }

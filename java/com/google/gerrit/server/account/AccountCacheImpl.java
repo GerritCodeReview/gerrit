@@ -28,6 +28,7 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CachedPreferences;
+import com.google.gerrit.server.config.DefaultPreferencesCache;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
@@ -44,7 +45,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
@@ -75,6 +75,7 @@ public class AccountCacheImpl implements AccountCache {
   private final LoadingCache<CachedAccountDetails.Key, CachedAccountDetails> accountDetailsCache;
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
+  private final DefaultPreferencesCache defaultPreferenceCache;
 
   @Inject
   AccountCacheImpl(
@@ -82,11 +83,13 @@ public class AccountCacheImpl implements AccountCache {
       @Named(BYID_AND_REV_NAME)
           LoadingCache<CachedAccountDetails.Key, CachedAccountDetails> accountDetailsCache,
       GitRepositoryManager repoManager,
-      AllUsersName allUsersName) {
+      AllUsersName allUsersName,
+      DefaultPreferencesCache defaultPreferenceCache) {
     this.externalIds = externalIds;
     this.accountDetailsCache = accountDetailsCache;
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;
+    this.defaultPreferenceCache = defaultPreferenceCache;
   }
 
   @Override
@@ -103,8 +106,12 @@ public class AccountCacheImpl implements AccountCache {
   public Map<Account.Id, AccountState> get(Set<Account.Id> accountIds) {
     try {
       try (Repository allUsers = repoManager.openRepository(allUsersName)) {
-        // TODO(hiesel): Cache the server's default config
-        Config defaultConfig = StoredPreferences.readDefaultConfig(allUsersName, allUsers);
+        // Get the default preferences for this Gerrit host
+        Ref ref = allUsers.exactRef(RefNames.REFS_USERS_DEFAULT);
+        CachedPreferences defaultPreferences =
+            ref != null
+                ? defaultPreferenceCache.get(ref.getObjectId())
+                : DefaultPreferencesCache.EMPTY;
 
         ImmutableMap.Builder<Account.Id, AccountState> result = ImmutableMap.builder();
         for (Account.Id id : accountIds) {
@@ -118,12 +125,12 @@ public class AccountCacheImpl implements AccountCache {
               AccountState.forCachedAccount(
                   accountDetailsCache.get(
                       CachedAccountDetails.Key.create(id, userRef.getObjectId())),
-                  CachedPreferences.fromConfig(defaultConfig),
+                  defaultPreferences,
                   externalIds));
         }
         return result.build();
       }
-    } catch (IOException | ExecutionException | ConfigInvalidException e) {
+    } catch (IOException | ExecutionException e) {
       throw new StorageException(e);
     }
   }
@@ -169,9 +176,7 @@ public class AccountCacheImpl implements AccountCache {
             cfg.getLoadedAccount()
                 .orElseThrow(() -> new AccountNotFoundException(key.accountId() + " not found"));
         return CachedAccountDetails.create(
-            account,
-            cfg.getProjectWatches(),
-            CachedPreferences.fromConfig(cfg.getRawPreferences()));
+            account, cfg.getProjectWatches(), cfg.asCachedPreferences());
       }
     }
   }

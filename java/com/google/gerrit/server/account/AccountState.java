@@ -100,8 +100,8 @@ public abstract class AccountState {
             extIds,
             ExternalId.getUserName(extIds),
             projectWatches,
-            Optional.of(CachedPreferences.fromConfig(accountConfig.getRawDefaultPreferences())),
-            Optional.of(CachedPreferences.fromConfig(accountConfig.getRawPreferences()))));
+            Optional.of(accountConfig.defaultsAsCachedPreferences()),
+            Optional.of(accountConfig.asCachedPreferences())));
   }
 
   /**

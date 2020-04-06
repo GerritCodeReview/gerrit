@@ -28,6 +28,7 @@ import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.CachedPreferences;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
@@ -200,19 +201,22 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     return this;
   }
 
-  /** Returns the content of the {@code preferences.config} file. */
-  Config getRawPreferences() {
+  /**
+   * Returns the content of the {@code preferences.config} file wrapped as {@link
+   * CachedPreferences}.
+   */
+  CachedPreferences asCachedPreferences() {
     checkLoaded();
-    return preferences.getRaw();
+    return CachedPreferences.fromConfig(preferences.getRaw());
   }
 
   /**
-   * Returns the content of the {@code preferences.config} file on {@code
-   * refs/preferences/defaults}.
+   * Returns the content of the {@code preferences.config} file on {@code refs/preferences/defaults}
+   * {@link CachedPreferences}.
    */
-  Config getRawDefaultPreferences() {
+  CachedPreferences defaultsAsCachedPreferences() {
     checkLoaded();
-    return preferences.getRawDefault();
+    return CachedPreferences.fromConfig(preferences.getRawDefault());
   }
 
   @Override

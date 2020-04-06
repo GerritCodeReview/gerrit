@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "330491ea_af942774",
+        "filename": "tools/platforms/Dockerfile",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-06T21:39:35Z",
+      "side": 1,
+      "message": "Does this need GCloud auth beforehand?",
+      "revId": "74b94455247771273bb6e33ba50278d8a6d55ef1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a6f382c_c3da1c0b",
+        "filename": "tools/platforms/Dockerfile",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-06T21:39:35Z",
+      "side": 1,
+      "message": "Is this Ubuntu18 or Ubuntu19?",
+      "range": {
+        "startLine": 29,
+        "startChar": 37,
+        "endLine": 29,
+        "endChar": 49
+      },
+      "revId": "74b94455247771273bb6e33ba50278d8a6d55ef1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

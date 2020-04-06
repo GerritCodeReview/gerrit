@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ca553bc5_b14b8ba5",
+        "filename": "tools/platforms/Dockerfile",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-06T17:50:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "297d8d71_3bb8c4d2",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "9aa54822b1f78a55bb7dc0ae82318c74e9ead0fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20601d6b_775c0895",
         "filename": "tools/remote-bazelrc",
         "patchSetId": 5
@@ -141,6 +165,30 @@
       "revId": "9aa54822b1f78a55bb7dc0ae82318c74e9ead0fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72955f7c_e943f831",
+        "filename": "tools/remote-bazelrc",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-06T17:50:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df9c1646_734c4972",
+      "range": {
+        "startLine": 24,
+        "startChar": 44,
+        "endLine": 24,
+        "endChar": 69
+      },
+      "revId": "9aa54822b1f78a55bb7dc0ae82318c74e9ead0fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

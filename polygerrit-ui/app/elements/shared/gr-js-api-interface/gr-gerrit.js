@@ -23,15 +23,11 @@
 import {GrPluginEndpoints} from './gr-plugin-endpoints.js';
 import {EventEmitter} from '../gr-event-interface/gr-event-interface.js';
 import {PluginLoader} from './gr-plugin-loader.js';
+import {getRestAPI, send} from './gr-api-utils.js';
+import {testOnly_resetInternalState} from './gr-api-utils.js';
 
 (function(window) {
   'use strict';
-
-  // Import utils methods
-  const {
-    send,
-    getRestAPI,
-  } = window._apiUtils;
 
   /**
    * Trigger the preinstalls for bundled plugins.
@@ -54,9 +50,6 @@ import {PluginLoader} from './gr-plugin-loader.js';
   const app = document.querySelector('#app');
   if (!app) {
     // No gr-app found (running tests)
-    const {
-      testOnly_resetInternalState,
-    } = window._apiUtils;
     Gerrit._testOnly_installPreloadedPlugins = (...args) => Gerrit._pluginLoader
         .installPreloadedPlugins(...args);
     Gerrit._testOnly_flushPreinstalls = flushPreinstalls;

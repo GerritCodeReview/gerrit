@@ -15,13 +15,12 @@
  * limitations under the License.
  */
 
-// Import utils methods
-const {
+import {
   PLUGIN_LOADING_TIMEOUT_MS,
   PRELOADED_PROTOCOL,
   getPluginNameFromUrl,
   getBaseUrl,
-} = window._apiUtils;
+} from './gr-api-utils.js';
 
 /**
  * @enum {string}

@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "46193be5_9acd19af",
+        "filename": "polygerrit-ui/app/constants/constants.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-06T15:24:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7915b833_dd6f4582",
+      "range": {
+        "startLine": 25,
+        "startChar": 13,
+        "endLine": 25,
+        "endChar": 27
+      },
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c745e298_45699171",
         "filename": "polygerrit-ui/app/constants/messages.js",
         "patchSetId": 2
@@ -334,6 +358,24 @@
       "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7786260_769c6d3b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-06T15:24:22Z",
+      "side": 1,
+      "message": "lol I prefer to have what I need and ONLY what I need exported to the template. Ya I can split them into two different props",
+      "parentUuid": "0ff6e051_dd0e635a",
+      "revId": "75503caf3fa25ac59c9176fc3de4cfdce805017f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -45,6 +45,6 @@ public final class FixSuggestion {
   int getApproximateSize() {
     return fixId.length()
         + description.length()
-        + replacements.stream().map(FixReplacement::getApproximateSize).reduce(0, Integer::sum);
+        + replacements.stream().mapToInt(FixReplacement::getApproximateSize).sum();
   }
 }

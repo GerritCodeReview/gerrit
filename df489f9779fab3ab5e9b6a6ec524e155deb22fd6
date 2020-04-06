@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60eb38b8_a2cdf365",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-06T12:47:28Z",
+      "side": 1,
+      "message": "Can you be more specific about what is being fixed?",
+      "revId": "df489f9779fab3ab5e9b6a6ec524e155deb22fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b62d6422_e1841426",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/ListChangeCommentsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-06T12:47:28Z",
+      "side": 1,
+      "message": "What error is this fixing?",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 22
+      },
+      "revId": "df489f9779fab3ab5e9b6a6ec524e155deb22fd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

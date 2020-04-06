@@ -135,10 +135,15 @@ public class TestCommentHelper {
 
   public void addRobotComment(String targetChangeId, RobotCommentInput robotCommentInput)
       throws Exception {
+    addRobotComment(targetChangeId, robotCommentInput, "robot comment test");
+  }
+
+  public void addRobotComment(
+      String targetChangeId, RobotCommentInput robotCommentInput, String message) throws Exception {
     ReviewInput reviewInput = new ReviewInput();
     reviewInput.robotComments =
         Collections.singletonMap(robotCommentInput.path, ImmutableList.of(robotCommentInput));
-    reviewInput.message = "robot comment test";
+    reviewInput.message = message;
     gApi.changes().id(targetChangeId).current().review(reviewInput);
   }
 }

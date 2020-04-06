@@ -14,10 +14,14 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static java.util.stream.Collectors.toList;
+
+import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -31,27 +35,35 @@ public class ListChangeRobotComments implements RestReadView<ChangeResource> {
   private final ChangeData.Factory changeDataFactory;
   private final Provider<CommentJson> commentJson;
   private final CommentsUtil commentsUtil;
+  private final ChangeMessagesUtil changeMessagesUtil;
 
   @Inject
   ListChangeRobotComments(
       ChangeData.Factory changeDataFactory,
       Provider<CommentJson> commentJson,
-      CommentsUtil commentsUtil) {
+      CommentsUtil commentsUtil,
+      ChangeMessagesUtil changeMessagesUtil) {
     this.changeDataFactory = changeDataFactory;
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
+    this.changeMessagesUtil = changeMessagesUtil;
   }
 
   @Override
   public Response<Map<String, List<RobotCommentInfo>>> apply(ChangeResource rsrc)
       throws AuthException, PermissionBackendException {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
-    return Response.ok(
+    Map<String, List<RobotCommentInfo>> robotCommentsMap =
         commentJson
             .get()
             .setFillAccounts(true)
             .setFillPatchSet(true)
             .newRobotCommentFormatter()
-            .format(commentsUtil.robotCommentsByChange(cd.notes())));
+            .format(commentsUtil.robotCommentsByChange(cd.notes()));
+    List<RobotCommentInfo> commentInfos =
+        robotCommentsMap.values().stream().flatMap(List::stream).collect(toList());
+    List<ChangeMessage> changeMessages = changeMessagesUtil.byChange(rsrc.getNotes());
+    CommentsUtil.linkCommentsToChangeMessages(commentInfos, changeMessages);
+    return Response.ok(robotCommentsMap);
   }
 }

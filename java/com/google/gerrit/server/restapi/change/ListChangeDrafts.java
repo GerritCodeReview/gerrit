@@ -32,9 +32,9 @@ import java.util.Map;
 
 @Singleton
 public class ListChangeDrafts implements RestReadView<ChangeResource> {
-  protected final ChangeData.Factory changeDataFactory;
-  protected final Provider<CommentJson> commentJson;
-  protected final CommentsUtil commentsUtil;
+  private final ChangeData.Factory changeDataFactory;
+  private final Provider<CommentJson> commentJson;
+  private final CommentsUtil commentsUtil;
 
   @Inject
   ListChangeDrafts(
@@ -46,23 +46,15 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
     this.commentsUtil = commentsUtil;
   }
 
-  protected Iterable<Comment> listComments(ChangeResource rsrc) {
+  private Iterable<Comment> listComments(ChangeResource rsrc) {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
     return commentsUtil.draftByChangeAuthor(cd.notes(), rsrc.getUser().getAccountId());
-  }
-
-  protected boolean includeAuthorInfo() {
-    return false;
-  }
-
-  public boolean requireAuthentication() {
-    return true;
   }
 
   @Override
   public Response<Map<String, List<CommentInfo>>> apply(ChangeResource rsrc)
       throws AuthException, PermissionBackendException {
-    if (requireAuthentication() && !rsrc.getUser().isIdentifiedUser()) {
+    if (!rsrc.getUser().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
     return Response.ok(getCommentFormatter().format(listComments(rsrc)));
@@ -70,17 +62,13 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
 
   public List<CommentInfo> getComments(ChangeResource rsrc)
       throws AuthException, PermissionBackendException {
-    if (requireAuthentication() && !rsrc.getUser().isIdentifiedUser()) {
+    if (!rsrc.getUser().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
     return getCommentFormatter().formatAsList(listComments(rsrc));
   }
 
   private CommentFormatter getCommentFormatter() {
-    return commentJson
-        .get()
-        .setFillAccounts(includeAuthorInfo())
-        .setFillPatchSet(true)
-        .newCommentFormatter();
+    return commentJson.get().setFillAccounts(false).setFillPatchSet(true).newCommentFormatter();
   }
 }

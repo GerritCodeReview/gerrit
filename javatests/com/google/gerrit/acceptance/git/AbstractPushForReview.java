@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.MoreCollectors.onlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
@@ -103,6 +104,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.FakeEmailSender.Message;
+import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -114,6 +116,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -2019,6 +2022,70 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(info.revisions.keySet()).containsExactly(c1.name(), c2.name());
     // TODO(dborowitz): Fix ReceiveCommits to also auto-close the change.
     assertThat(info.status).isEqualTo(ChangeStatus.NEW);
+  }
+
+  @Test
+  public void publishedCommentsAssignedToChangeMessages() throws Exception {
+    TestTimeUtil.resetWithClockStep(0, TimeUnit.SECONDS);
+    PushOneCommit.Result r = createChange(); // creating the change with patch set 1
+    TestTimeUtil.incrementClock(5, TimeUnit.SECONDS);
+
+    /** Create and publish a comment on PS2. Increment the clock step */
+    String rev1 = r.getCommit().name();
+    addDraft(r.getChangeId(), rev1, newDraft(FILE_NAME, 1, "comment_PS2."));
+    r = amendChange(r.getChangeId(), "refs/for/master%publish-comments");
+    assertThat(getPublishedComments(r.getChangeId())).isNotEmpty();
+    TestTimeUtil.incrementClock(5, TimeUnit.SECONDS);
+
+    /** Create and publish a comment on PS3 */
+    String rev2 = r.getCommit().name();
+    addDraft(r.getChangeId(), rev2, newDraft(FILE_NAME, 1, "comment_PS3."));
+    amendChange(r.getChangeId(), "refs/for/master%publish-comments");
+
+    Collection<CommentInfo> comments = getPublishedComments(r.getChangeId());
+    List<ChangeMessageInfo> allMessages = getMessages(r.getChangeId());
+
+    assertThat(allMessages.stream().map(m -> m.message).collect(toList()))
+        .containsExactly(
+            "Uploaded patch set 1.",
+            "Uploaded patch set 2.",
+            "Patch Set 2:\n\n(1 comment)",
+            "Uploaded patch set 3.",
+            "Patch Set 3:\n\n(1 comment)")
+        .inOrder();
+
+    /**
+     * Note that the following 3 items have the same timestamp: comment "comment_PS2", message
+     * "Uploaded patch set 2.", and message "Patch Set 2:\n\n(1 comment)". The comment will not be
+     * matched with the upload change message because it is auto-generated. Same goes for patch set
+     * 3.
+     */
+    String commentPs2MessageId =
+        comments.stream()
+            .filter(c -> c.message.equals("comment_PS2."))
+            .collect(onlyElement())
+            .changeMessageId;
+
+    String commentPs3MessageId =
+        comments.stream()
+            .filter(c -> c.message.equals("comment_PS3."))
+            .collect(onlyElement())
+            .changeMessageId;
+
+    String message2Id =
+        allMessages.stream()
+            .filter(m -> m.message.equals("Patch Set 2:\n\n(1 comment)"))
+            .collect(onlyElement())
+            .id;
+
+    String message3Id =
+        allMessages.stream()
+            .filter(m -> m.message.equals("Patch Set 3:\n\n(1 comment)"))
+            .collect(onlyElement())
+            .id;
+
+    assertThat(commentPs2MessageId).isEqualTo(message2Id);
+    assertThat(commentPs3MessageId).isEqualTo(message3Id);
   }
 
   @Test

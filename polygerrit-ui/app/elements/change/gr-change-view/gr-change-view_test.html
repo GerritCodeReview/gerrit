@@ -49,6 +49,7 @@ import {GrEditConstants} from '../../edit/gr-edit-constants.js';
 import {_testOnly_resetEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {util} from '../../../scripts/util.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {_pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
 suite('gr-change-view tests', () => {
   const kb = KeyboardShortcutBinder;
@@ -310,8 +311,8 @@ suite('gr-change-view tests', () => {
     });
     element = fixture('basic');
     sandbox.stub(element.$.actions, 'reload').returns(Promise.resolve());
-    Gerrit._loadPlugins([]);
-    Gerrit.install(
+    _pluginLoader._loadPlugins([]);
+    _pluginLoader.install(
         plugin => {
           plugin.registerDynamicCustomComponent(
               'change-view-tab-header',
@@ -1612,7 +1613,7 @@ suite('gr-change-view tests', () => {
         done);
 
     element._maybeShowRevertDialog();
-    assert.isTrue(Gerrit.awaitPluginsLoaded.called);
+    assert.isTrue(_pluginLoader.awaitPluginsLoaded.called);
   });
 
   suite('scroll related tests', () => {
@@ -2219,7 +2220,7 @@ suite('gr-change-view tests', () => {
       element._selectedRevision = {};
       let hookEl;
       let plugin;
-      Gerrit.install(
+      _pluginLoader.install(
           p => {
             plugin = p;
             plugin.hook('change-view-integration').getLastAttached()

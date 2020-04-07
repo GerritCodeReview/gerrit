@@ -24,6 +24,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-endpoint-decorator_html.js';
 import {_endpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
+import {_pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
 const INIT_PROPERTIES_TIMEOUT_MS = 10000;
 
@@ -161,7 +162,7 @@ class GrEndpointDecorator extends GestureEventListeners(
   ready() {
     super.ready();
     _endpoints.onNewEndpoint(this.name, this._initModule.bind(this));
-    Gerrit.awaitPluginsLoaded()
+    _pluginLoader.awaitPluginsLoaded()
         .then(() => Promise.all(
             _endpoints.getPlugins(this.name).map(
                 pluginUrl => this._import(pluginUrl)))

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f1f3ffc_7cf65b3b",
+        "filename": "java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-07T12:48:35Z",
+      "side": 1,
+      "message": "Please also mention this param in the JavaDoc.\n\nSame below.",
+      "range": {
+        "startLine": 55,
+        "startChar": 78,
+        "endLine": 55,
+        "endChar": 96
+      },
+      "revId": "e4db6c7c7ca8421d001a3cb6d5f89cffb9e4b1be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

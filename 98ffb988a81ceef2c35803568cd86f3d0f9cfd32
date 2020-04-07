@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8d2218c4_547ee570",
+        "filename": "java/com/google/gerrit/server/account/AccountConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-07T12:48:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6455cc56_e40d5491",
+      "range": {
+        "startLine": 217,
+        "startChar": 2,
+        "endLine": 220,
+        "endChar": 3
+      },
+      "revId": "98ffb988a81ceef2c35803568cd86f3d0f9cfd32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee0cb4cf_e769c3e6",
         "filename": "java/com/google/gerrit/server/config/DefaultPreferenceCacheImpl.java",
         "patchSetId": 2

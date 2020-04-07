@@ -37,6 +37,10 @@ breaking changes to gr-reply-dialog won’t be noticed.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import '../../change/gr-reply-dialog/gr-reply-dialog.js';
+import {initPlugins} from './gr-gerrit.js';
+
+initPlugins();
+
 suite('gr-change-reply-js-api tests', () => {
   let element;
   let sandbox;

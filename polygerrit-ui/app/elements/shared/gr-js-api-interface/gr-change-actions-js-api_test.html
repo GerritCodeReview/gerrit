@@ -39,6 +39,7 @@ import '../../../test/common-test-setup.js';
 import '../../change/gr-change-actions/gr-change-actions.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {resetPlugins} from '../../../test/test-utils.js';
+import {_pluginLoader} from './gr-plugin-loader.js';
 
 suite('gr-js-api-interface tests', () => {
   let element;
@@ -56,10 +57,10 @@ suite('gr-js-api-interface tests', () => {
   suite('early init', () => {
     setup(() => {
       resetPlugins();
-      Gerrit.install(p => { plugin = p; }, '0.1',
+      _pluginLoader.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
       // Mimic all plugins loaded.
-      Gerrit._loadPlugins([]);
+      _pluginLoader._loadPlugins([]);
       changeActions = plugin.changeActions();
       element = fixture('basic');
     });
@@ -83,11 +84,11 @@ suite('gr-js-api-interface tests', () => {
       sinon.stub(element, '_editStatusChanged');
       element.change = {};
       element._hasKnownChainState = false;
-      Gerrit.install(p => { plugin = p; }, '0.1',
+      _pluginLoader.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
       changeActions = plugin.changeActions();
       // Mimic all plugins loaded.
-      Gerrit._loadPlugins([]);
+      _pluginLoader._loadPlugins([]);
     });
 
     teardown(() => {

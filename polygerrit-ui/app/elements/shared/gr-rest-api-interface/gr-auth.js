@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {gerritEventEmitter} from '../gr-event-emitter/gr-event-emitter.js';
 
 const MAX_AUTH_CHECK_WAIT_TIME_MS = 1000 * 30; // 30s
 const MAX_GET_TOKEN_RETRIES = 2;
@@ -82,7 +83,7 @@ export class Auth {
     if (this._status === status) return;
 
     if (this._status === Auth.STATUS.AUTHED) {
-      Gerrit.emit('auth-error', {
+      gerritEventEmitter.emit('auth-error', {
         message: Auth.CREDS_EXPIRED_MSG, action: 'Refresh credentials',
       });
     }

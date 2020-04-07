@@ -21,7 +21,7 @@
  */
 
 import {pluginLoader} from './gr-plugin-loader.js';
-import {EventEmitter} from '../gr-event-interface/gr-event-interface.js';
+import {gerritEventEmitter} from '../gr-event-emitter/gr-event-emitter.js';
 import {getRestAPI, send} from './gr-api-utils.js';
 
 /**
@@ -143,7 +143,7 @@ function initGerritPluginsMethods(globalGerritObj) {
 
   // TODO(taoalpha): List all internal supported event names.
   // Also convert this to inherited class once we move Gerrit to class.
-  globalGerritObj._eventEmitter = new EventEmitter();
+  globalGerritObj._eventEmitter = gerritEventEmitter;
   ['addListener',
     'dispatch',
     'emit',
@@ -175,7 +175,7 @@ function initGerritPluginsMethods(globalGerritObj) {
      *   });
      * });
      */
-    globalGerritObj[method] = globalGerritObj._eventEmitter[method]
-        .bind(globalGerritObj._eventEmitter);
+    globalGerritObj[method] = gerritEventEmitter[method]
+        .bind(gerritEventEmitter);
   });
 }

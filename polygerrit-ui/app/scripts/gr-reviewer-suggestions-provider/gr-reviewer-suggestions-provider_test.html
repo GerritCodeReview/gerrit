@@ -34,7 +34,7 @@ limitations under the License.
 import '../../test/common-test-setup.js';
 import '../../elements/shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {GrDisplayNameUtils} from '../gr-display-name-utils/gr-display-name-utils.js';
-import {GrReviewerSuggestionsProvider} from './gr-reviewer-suggestions-provider.js';
+import {GrReviewerSuggestionsProvider, SUGGESTIONS_PROVIDERS_USERS_TYPES} from './gr-reviewer-suggestions-provider.js';
 
 suite('GrReviewerSuggestionsProvider tests', () => {
   let sandbox;
@@ -109,7 +109,7 @@ suite('GrReviewerSuggestionsProvider tests', () => {
   suite('allowAnyUser set to false', () => {
     setup(done => {
       provider = GrReviewerSuggestionsProvider.create(restAPI, change._number,
-          Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER);
+          SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER);
       provider.init().then(done);
     });
     suite('stubbed values for _getReviewerSuggestions', () => {
@@ -236,7 +236,7 @@ suite('GrReviewerSuggestionsProvider tests', () => {
   suite('allowAnyUser set to true', () => {
     setup(done => {
       provider = GrReviewerSuggestionsProvider.create(restAPI, change._number,
-          Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY);
+          SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY);
       provider.init().then(done);
     });
 

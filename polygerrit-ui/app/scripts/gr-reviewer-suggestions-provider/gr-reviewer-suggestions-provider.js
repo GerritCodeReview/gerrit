@@ -16,11 +16,10 @@
  */
 import {GrDisplayNameUtils} from '../gr-display-name-utils/gr-display-name-utils.js';
 
-window.Gerrit = window.Gerrit || {};
 /**
  * @enum {string}
  */
-Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES = {
+export const SUGGESTIONS_PROVIDERS_USERS_TYPES = {
   REVIEWER: 'reviewers',
   CC: 'ccs',
   ANY: 'any',
@@ -29,14 +28,14 @@ Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES = {
 export class GrReviewerSuggestionsProvider {
   static create(restApi, changeNumber, usersType) {
     switch (usersType) {
-      case Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER:
+      case SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER:
         return new GrReviewerSuggestionsProvider(restApi, changeNumber,
             input => restApi.getChangeSuggestedReviewers(changeNumber,
                 input));
-      case Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.CC:
+      case SUGGESTIONS_PROVIDERS_USERS_TYPES.CC:
         return new GrReviewerSuggestionsProvider(restApi, changeNumber,
             input => restApi.getChangeSuggestedCCs(changeNumber, input));
-      case Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY:
+      case SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY:
         return new GrReviewerSuggestionsProvider(restApi, changeNumber,
             input => restApi.getSuggestedAccounts(
                 `cansee:${changeNumber} ${input}`));

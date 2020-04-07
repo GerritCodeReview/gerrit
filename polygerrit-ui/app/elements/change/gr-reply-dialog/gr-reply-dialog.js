@@ -42,7 +42,7 @@ import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
-import {GrReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
+import {GrReviewerSuggestionsProvider, SUGGESTIONS_PROVIDERS_USERS_TYPES} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
@@ -899,14 +899,14 @@ class GrReplyDialog extends mixinBehaviors( [
 
   _getReviewerSuggestionsProvider(change) {
     const provider = GrReviewerSuggestionsProvider.create(this.$.restAPI,
-        change._number, Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER);
+        change._number, SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER);
     provider.init();
     return provider;
   }
 
   _getCcSuggestionsProvider(change) {
     const provider = GrReviewerSuggestionsProvider.create(this.$.restAPI,
-        change._number, Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.CC);
+        change._number, SUGGESTIONS_PROVIDERS_USERS_TYPES.CC);
     provider.init();
     return provider;
   }

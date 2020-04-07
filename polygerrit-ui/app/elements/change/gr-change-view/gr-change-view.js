@@ -65,6 +65,7 @@ import {util} from '../../../scripts/util.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {_endpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {_pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {RevisionInfo} from '../../shared/revision-info/revision-info.js';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -2122,7 +2123,7 @@ class GrChangeView extends mixinBehaviors( [
   }
 
   _getRevisionInfo(change) {
-    return new Gerrit.RevisionInfo(change);
+    return new RevisionInfo(change);
   }
 
   _computeCurrentRevision(currentRevision, revisions) {

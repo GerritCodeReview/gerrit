@@ -155,3 +155,9 @@ GrPluginEndpoints.prototype.getPlugins = function(name, opt_options) {
   }
   return Array.from(new Set(modulesData.map(m => m.pluginUrl)));
 };
+
+// TODO(dmfilippov): Convert to service and add to appContext
+export let pluginEndpoints = new GrPluginEndpoints();
+export function _testOnly_resetEndpoints() {
+  pluginEndpoints = new GrPluginEndpoints();
+}

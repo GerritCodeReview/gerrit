@@ -36,9 +36,4 @@ security.polymer_resin.install({
   },
   safeTypesBridge: SafeTypes.safeTypesBridge,
 });
-setup(() => {
-  if (!window.Gerrit) { return; }
-  if (Gerrit._testOnly_resetPlugins) {
-    Gerrit._testOnly_resetPlugins();
-  }
-});
+

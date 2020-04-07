@@ -39,9 +39,9 @@ import {GrSettingsApi} from '../../plugins/gr-settings-api/gr-settings-api.js';
 import {GrPluginActionContext} from './gr-plugin-action-context.js';
 import {PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils.js';
 import {pluginLoader} from './gr-plugin-loader.js';
-import {initGerritPluginApi} from './gr-gerrit.js';
+import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 
-initGerritPluginApi();
+const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-js-api-interface tests', () => {
   let element;
@@ -71,7 +71,7 @@ suite('gr-js-api-interface tests', () => {
     });
     element = fixture('basic');
     errorStub = sandbox.stub(console, 'error');
-    Gerrit.install(p => { plugin = p; }, '0.1',
+    pluginApi.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
     pluginLoader.loadPlugins([]);
   });
@@ -91,7 +91,7 @@ suite('gr-js-api-interface tests', () => {
 
   test('url for preloaded plugin without ASSETS_PATH', () => {
     let plugin;
-    Gerrit.install(p => { plugin = p; }, '0.1',
+    pluginApi.install(p => { plugin = p; }, '0.1',
         'preloaded:testpluginB');
     assert.equal(plugin.url(),
         `${window.location.origin}/plugins/testpluginB/`);
@@ -103,7 +103,7 @@ suite('gr-js-api-interface tests', () => {
     const oldAssetsPath = window.ASSETS_PATH;
     window.ASSETS_PATH = 'http://test.com';
     let plugin;
-    Gerrit.install(p => { plugin = p; }, '0.1',
+    pluginApi.install(p => { plugin = p; }, '0.1',
         'preloaded:testpluginC');
     assert.equal(plugin.url(), `${window.ASSETS_PATH}/plugins/testpluginC/`);
     assert.equal(plugin.url('/static/test.js'),
@@ -388,7 +388,7 @@ suite('gr-js-api-interface tests', () => {
     setup(() => {
       sandbox.stub(BaseUrlBehavior, 'getBaseUrl').returns('/r');
 
-      Gerrit.install(p => { baseUrlPlugin = p; }, '0.1',
+      pluginApi.install(p => { baseUrlPlugin = p; }, '0.1',
           'http://test.com/r/plugins/baseurlplugin/static/test.js');
     });
 

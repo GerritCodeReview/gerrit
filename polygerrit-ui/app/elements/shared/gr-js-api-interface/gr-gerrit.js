@@ -45,6 +45,11 @@ export function initGerritPluginApi() {
   pluginLoader.installPreloadedPlugins();
 }
 
+export function _testOnly_initGerritPluginApi() {
+  initGerritPluginApi();
+  return window.Gerrit;
+}
+
 export function deprecatedDelete(url, opt_callback) {
   console.warn('.delete() is deprecated! Use plugin.restApi().delete()');
   return getRestAPI().send('DELETE', url)

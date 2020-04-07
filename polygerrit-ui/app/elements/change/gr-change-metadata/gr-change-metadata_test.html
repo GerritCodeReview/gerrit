@@ -36,9 +36,9 @@ import '../../core/gr-router/gr-router.js';
 import './gr-change-metadata.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
-import {initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 
-initGerritPluginApi();
+const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-change-metadata tests', () => {
   let element;
@@ -754,7 +754,7 @@ suite('gr-change-metadata tests', () => {
       element.revision = {};
       let hookEl;
       let plugin;
-      Gerrit.install(
+      pluginApi.install(
           p => {
             plugin = p;
             plugin.hook('change-metadata-item').getLastAttached()

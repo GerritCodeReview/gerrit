@@ -47,6 +47,7 @@ import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-beh
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {RevisionInfo} from '../../shared/revision-info/revision-info.js';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -1247,7 +1248,7 @@ class GrDiffView extends mixinBehaviors( [
   }
 
   _getRevisionInfo(change) {
-    return new Gerrit.RevisionInfo(change);
+    return new RevisionInfo(change);
   }
 
   _computeFileNum(file, files) {

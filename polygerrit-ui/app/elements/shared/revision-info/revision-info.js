@@ -22,7 +22,7 @@ import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patc
  * @param {Object} change A change object resulting from a change detail
  *     call that includes revision information.
  */
-function RevisionInfo(change) {
+export function RevisionInfo(change) {
   this._change = change;
 }
 
@@ -79,6 +79,3 @@ RevisionInfo.prototype.getParentId = function(patchNum, parentIndex) {
     PatchSetBehavior.patchNumEquals(rev._number, patchNum));
   return rev.commit.parents[parentIndex].commit;
 };
-
-window.Gerrit = window.Gerrit || {};
-window.Gerrit.RevisionInfo = RevisionInfo;

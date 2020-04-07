@@ -27,6 +27,7 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './revision-info.js';
+import {RevisionInfo} from './revision-info.js';
 suite('revision-info tests', () => {
   let mockChange;
 
@@ -57,29 +58,29 @@ suite('revision-info tests', () => {
   });
 
   test('getMaxParents', () => {
-    const ri = new window.Gerrit.RevisionInfo(mockChange);
+    const ri = new RevisionInfo(mockChange);
     assert.equal(ri.getMaxParents(), 3);
   });
 
   test('getParentCountMap', () => {
-    const ri = new window.Gerrit.RevisionInfo(mockChange);
+    const ri = new RevisionInfo(mockChange);
     assert.deepEqual(ri.getParentCountMap(), {1: 3, 2: 2, 3: 1, 4: 2, 5: 3});
   });
 
   test('getParentCount', () => {
-    const ri = new window.Gerrit.RevisionInfo(mockChange);
+    const ri = new RevisionInfo(mockChange);
     assert.deepEqual(ri.getParentCount(1), 3);
     assert.deepEqual(ri.getParentCount(3), 1);
   });
 
   test('getParentCount', () => {
-    const ri = new window.Gerrit.RevisionInfo(mockChange);
+    const ri = new RevisionInfo(mockChange);
     assert.deepEqual(ri.getParentCount(1), 3);
     assert.deepEqual(ri.getParentCount(3), 1);
   });
 
   test('getParentId', () => {
-    const ri = new window.Gerrit.RevisionInfo(mockChange);
+    const ri = new RevisionInfo(mockChange);
     assert.deepEqual(ri.getParentId(1, 2), 'p3');
     assert.deepEqual(ri.getParentId(2, 1), 'p4');
     assert.deepEqual(ri.getParentId(3, 0), 'p5');

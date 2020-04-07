@@ -63,6 +63,15 @@ export const htmlTemplate = html`
       tr > td {
         padding: var(--spacing-m);
       }
+      th {
+        color: var(--deemphasized-text-color);
+      }
+      table {
+        border-collapse: collapse;
+      }
+      tr {
+        border-bottom: 1px solid var(--border-color);
+      }
       .error {
         color: var(--error-text-color);
       }
@@ -131,7 +140,11 @@ export const htmlTemplate = html`
                   <td> <span> [[_getChangeId(item)]] </span> </td>
                   <td> <span> [[_getTrimmedChangeSubject(item.subject)]] </span> </td>
                   <td> <span> [[item.project]] </span> </td>
-                  <td> <span> [[_computeStatus(item, _statuses)]] </span> </td>
+                  <td>
+                    <span class\$="[[_computeStatusClass(item, _statuses)]]">
+                      [[_computeStatus(item, _statuses)]]
+                    </span>
+                  </td>
                   <td> <span class="error"> [[_computeError(item, _statuses)]] </span>  </td>
                 </tr>
               </template>

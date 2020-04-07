@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61eda084_570b2a83",
+        "filename": "java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-07T14:01:29Z",
+      "side": 0,
+      "message": "Does this mean that the value for p.sizeDeletions was negative with the old code, and is now positive with the new code?",
+      "range": {
+        "startLine": 494,
+        "startChar": 26,
+        "endLine": 494,
+        "endChar": 28
+      },
+      "revId": "7c49c01fc627225596a5835eabdfc92f178b33a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

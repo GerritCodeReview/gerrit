@@ -33,6 +33,8 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-plugin-host.js';
+import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+
 suite('gr-plugin-host tests', () => {
   let element;
   let sandbox;
@@ -48,21 +50,21 @@ suite('gr-plugin-host tests', () => {
   });
 
   test('load plugins should be called', () => {
-    sandbox.stub(Gerrit, '_loadPlugins');
+    sandbox.stub(pluginLoader, 'loadPlugins');
     element.config = {
       plugin: {
         html_resource_paths: ['plugins/foo/bar', 'plugins/baz'],
         js_resource_paths: ['plugins/42'],
       },
     };
-    assert.isTrue(Gerrit._loadPlugins.calledOnce);
-    assert.isTrue(Gerrit._loadPlugins.calledWith([
+    assert.isTrue(pluginLoader.loadPlugins.calledOnce);
+    assert.isTrue(pluginLoader.loadPlugins.calledWith([
       'plugins/42', 'plugins/foo/bar', 'plugins/baz',
     ], {}));
   });
 
   test('theme plugins should be loaded if enabled', () => {
-    sandbox.stub(Gerrit, '_loadPlugins');
+    sandbox.stub(pluginLoader, 'loadPlugins');
     element.config = {
       default_theme: 'gerrit-theme.html',
       plugin: {
@@ -70,23 +72,23 @@ suite('gr-plugin-host tests', () => {
         js_resource_paths: ['plugins/42'],
       },
     };
-    assert.isTrue(Gerrit._loadPlugins.calledOnce);
-    assert.isTrue(Gerrit._loadPlugins.calledWith([
+    assert.isTrue(pluginLoader.loadPlugins.calledOnce);
+    assert.isTrue(pluginLoader.loadPlugins.calledWith([
       'gerrit-theme.html', 'plugins/42', 'plugins/foo/bar', 'plugins/baz',
     ], {'gerrit-theme.html': {sync: true}}));
   });
 
   test('skip theme if preloaded', () => {
-    sandbox.stub(Gerrit, '_isPluginPreloaded')
+    sandbox.stub(pluginLoader, 'isPluginPreloaded')
         .withArgs('preloaded:gerrit-theme')
         .returns(true);
-    sandbox.stub(Gerrit, '_loadPlugins');
+    sandbox.stub(pluginLoader, 'loadPlugins');
     element.config = {
       default_theme: '/oof',
       plugin: {},
     };
-    assert.isTrue(Gerrit._loadPlugins.calledOnce);
-    assert.isTrue(Gerrit._loadPlugins.calledWith([], {}));
+    assert.isTrue(pluginLoader.loadPlugins.calledOnce);
+    assert.isTrue(pluginLoader.loadPlugins.calledWith([], {}));
   });
 });
 </script>

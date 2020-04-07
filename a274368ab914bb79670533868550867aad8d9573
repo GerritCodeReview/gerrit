@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5ce251be_4232c402",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-07T10:16:44Z",
+      "side": 1,
+      "message": "ping",
+      "parentUuid": "b8930899_abee5a73",
+      "range": {
+        "startLine": 22,
+        "startChar": 32,
+        "endLine": 22,
+        "endChar": 40
+      },
+      "revId": "a274368ab914bb79670533868550867aad8d9573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d79c0fa9_42f56147",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "if you mean the maximumWeight(1), that\u0027s just a default that can be overridden by configs.",
       "parentUuid": "d79c0fa9_42f56147",
+      "range": {
+        "startLine": 847,
+        "startChar": 0,
+        "endLine": 847,
+        "endChar": 7
+      },
+      "revId": "a274368ab914bb79670533868550867aad8d9573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8aa150ff_defa2c1f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-07T10:16:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "237d93cc_80dd2a31",
       "range": {
         "startLine": 847,
         "startChar": 0,

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6455cc56_e40d5491",
+        "filename": "java/com/google/gerrit/server/account/AccountConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-07T10:16:44Z",
+      "side": 1,
+      "message": "Should this method be kept?\n\nThere are already 2 ways to retrieve the default preferences:\n\n1. from the cache\n2. from NoteDb via VersionedDefaultPreferences\n\nDo we need this as a third way?",
+      "range": {
+        "startLine": 217,
+        "startChar": 2,
+        "endLine": 220,
+        "endChar": 3
+      },
+      "revId": "98ffb988a81ceef2c35803568cd86f3d0f9cfd32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee0cb4cf_e769c3e6",
+        "filename": "java/com/google/gerrit/server/config/DefaultPreferenceCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-07T10:16:44Z",
+      "side": 1,
+      "message": "nit: DefaultPreferencesCacheImpl",
+      "range": {
+        "startLine": 35,
+        "startChar": 13,
+        "endLine": 35,
+        "endChar": 39
+      },
+      "revId": "98ffb988a81ceef2c35803568cd86f3d0f9cfd32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7d4d68a_283df2eb",
+        "filename": "javatests/com/google/gerrit/acceptance/api/config/DefaultConfigCacheIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-07T10:16:44Z",
+      "side": 1,
+      "message": "nit: defaultPreferencesCache",
+      "range": {
+        "startLine": 30,
+        "startChar": 34,
+        "endLine": 30,
+        "endChar": 56
+      },
+      "revId": "98ffb988a81ceef2c35803568cd86f3d0f9cfd32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

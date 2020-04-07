@@ -70,6 +70,15 @@ export const htmlTemplate = html`
         color: var(--error-text-color);
         margin: var(--spacing-m) 0 var(--spacing-m) 0;
       }
+      th {
+        color: var(--deemphasized-text-color);
+      }
+      table {
+        border-collapse: collapse;
+      }
+      tr {
+        border-bottom: 1px solid var(--border-color);
+      }
     </style>
     <gr-dialog confirm-label="Cherry Pick" cancel-label="[[_computeCancelLabel(_statuses)]]" disabled\$="[[_computeDisableCherryPick(_cherryPickType, _duplicateProjectChanges, _statuses)]]" on-confirm="_handleConfirmTap" on-cancel="_handleCancelTap">
       <div class="header title" slot="header">Cherry Pick Change to Another Branch</div>
@@ -131,7 +140,11 @@ export const htmlTemplate = html`
                   <td> <span> [[_getChangeId(item)]] </span> </td>
                   <td> <span> [[_getTrimmedChangeSubject(item.subject)]] </span> </td>
                   <td> <span> [[item.project]] </span> </td>
-                  <td> <span> [[_computeStatus(item, _statuses)]] </span> </td>
+                  <td>
+                    <span class\$="[[_computeStatusClass(item, _statuses)]]">
+                      [[_computeStatus(item, _statuses)]]
+                    </span>
+                  </td>
                   <td> <span class="error"> [[_computeError(item, _statuses)]] </span>  </td>
                 </tr>
               </template>

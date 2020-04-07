@@ -43,6 +43,7 @@ import {htmlTemplate} from './gr-change-actions_html.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -533,7 +534,7 @@ class GrChangeActions extends mixinBehaviors( [
   }
 
   _handleLoadingComplete() {
-    Gerrit.awaitPluginsLoaded().then(() => this._loading = false);
+    pluginLoader.awaitPluginsLoaded().then(() => this._loading = false);
   }
 
   _sendShowRevisionActions(detail) {

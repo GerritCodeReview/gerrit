@@ -38,6 +38,7 @@ import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interf
 import {GrSettingsApi} from '../../plugins/gr-settings-api/gr-settings-api.js';
 import {GrPluginActionContext} from './gr-plugin-action-context.js';
 import {PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils.js';
+import {pluginLoader} from './gr-plugin-loader.js';
 
 suite('gr-js-api-interface tests', () => {
   let element;
@@ -69,7 +70,7 @@ suite('gr-js-api-interface tests', () => {
     errorStub = sandbox.stub(console, 'error');
     Gerrit.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
-    Gerrit._loadPlugins([]);
+    pluginLoader._loadPlugins([]);
   });
 
   teardown(() => {
@@ -238,7 +239,7 @@ suite('gr-js-api-interface tests', () => {
       revisions: {def: {_number: 2}, abc: {_number: 1}},
     };
     const spy = sandbox.spy();
-    Gerrit._loadPlugins(['plugins/test.html']);
+    pluginLoader._loadPlugins(['plugins/test.html']);
     plugin.on(element.EventType.SHOW_CHANGE, spy);
     element.handleEvent(element.EventType.SHOW_CHANGE,
         {change: testChange, patchNum: 1});

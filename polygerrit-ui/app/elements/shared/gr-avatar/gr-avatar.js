@@ -25,6 +25,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-avatar_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {pluginLoader} from '../gr-js-api-interface/gr-plugin-loader.js';
 
 /**
  * @extends Polymer.Element
@@ -60,7 +61,7 @@ class GrAvatar extends mixinBehaviors( [
     super.attached();
     Promise.all([
       this._getConfig(),
-      Gerrit.awaitPluginsLoaded(),
+      pluginLoader.awaitPluginsLoaded(),
     ]).then(([cfg]) => {
       this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
 

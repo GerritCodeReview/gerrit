@@ -43,6 +43,7 @@ import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-beh
 import {AdminNavBehavior} from '../../../behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.js';
 import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
@@ -118,7 +119,7 @@ class GrAdminView extends mixinBehaviors( [
   reload() {
     const promises = [
       this.$.restAPI.getAccount(),
-      Gerrit.awaitPluginsLoaded(),
+      pluginLoader.awaitPluginsLoaded(),
     ];
     return Promise.all(promises).then(result => {
       this._account = result[0];

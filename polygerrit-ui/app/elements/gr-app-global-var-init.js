@@ -71,6 +71,7 @@ import {getRootElement} from '../scripts/rootElement.js';
 import {rangesEqual} from './diff/gr-diff/gr-diff-utils.js';
 import {RevisionInfo} from './shared/revision-info/revision-info.js';
 import {CoverageType} from '../types/types.js';
+import {_setHiddenScroll, getHiddenScroll} from '../scripts/hiddenscroll.js';
 
 export function initGlobalVariables() {
   window.GrDisplayNameUtils = GrDisplayNameUtils;
@@ -142,4 +143,8 @@ export function initGlobalVariables() {
       SUGGESTIONS_PROVIDERS_USERS_TYPES;
   window.Gerrit.RevisionInfo = RevisionInfo;
   window.Gerrit.CoverageType = CoverageType;
+  Object.defineProperty(window.Gerrit, 'hiddenscroll', {
+    get: getHiddenScroll,
+    set: _setHiddenScroll,
+  });
 }

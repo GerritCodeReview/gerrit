@@ -39,6 +39,7 @@ import './gr-diff.js';
 import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
 import {util} from '../../../scripts/util.js';
+import {_setHiddenScroll} from '../../../scripts/hiddenscroll.js';
 
 suite('gr-diff tests', () => {
   let element;
@@ -635,7 +636,7 @@ suite('gr-diff tests', () => {
     });
 
     test('adds .hiddenscroll', () => {
-      Gerrit.hiddenscroll = true;
+      _setHiddenScroll(true);
       element.displayLine = true;
       assert.include(element.shadowRoot
           .querySelector('.diffContainer').className, 'hiddenscroll');

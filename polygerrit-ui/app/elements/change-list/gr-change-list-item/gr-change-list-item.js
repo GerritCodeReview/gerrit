@@ -38,6 +38,7 @@ import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path
 import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 
 const CHANGE_SIZE = {
   XS: 10,
@@ -99,7 +100,7 @@ class GrChangeListItem extends mixinBehaviors( [
   attached() {
     super.attached();
     Gerrit.awaitPluginsLoaded().then(() => {
-      this._dynamicCellEndpoints = Gerrit._endpoints.getDynamicEndpoints(
+      this._dynamicCellEndpoints = pluginEndpoints.getDynamicEndpoints(
           'change-list-item-cell');
     });
   }

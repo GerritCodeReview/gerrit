@@ -46,9 +46,10 @@ import {PrimaryTabs, SecondaryTabs} from '../../../constants/constants.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {GrEditConstants} from '../../edit/gr-edit-constants.js';
-import {GrPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
+import {_testOnly_resetEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {util} from '../../../scripts/util.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
 suite('gr-change-view tests', () => {
   const kb = KeyboardShortcutBinder;
@@ -297,8 +298,8 @@ suite('gr-change-view tests', () => {
     stub('gr-endpoint-decorator', {
       _import: sandbox.stub().returns(Promise.resolve()),
     });
-    // Since _endpoints are global, must reset state.
-    Gerrit._endpoints = new GrPluginEndpoints();
+    // Since pluginEndpoints are global, must reset state.
+    _testOnly_resetEndpoints();
     navigateToChangeStub = sandbox.stub(GerritNav, 'navigateToChange');
     stub('gr-rest-api-interface', {
       getConfig() { return Promise.resolve({test: 'config'}); },
@@ -1584,7 +1585,7 @@ suite('gr-change-view tests', () => {
 
   test('revert dialog opened with revert param', done => {
     sandbox.stub(element.$.restAPI, 'getLoggedIn', () => Promise.resolve(true));
-    sandbox.stub(Gerrit, 'awaitPluginsLoaded', () => Promise.resolve());
+    sandbox.stub(pluginLoader, 'awaitPluginsLoaded', () => Promise.resolve());
 
     element._patchRange = {
       basePatchNum: 'PARENT',
@@ -1612,7 +1613,7 @@ suite('gr-change-view tests', () => {
         done);
 
     element._maybeShowRevertDialog();
-    assert.isTrue(Gerrit.awaitPluginsLoaded.called);
+    assert.isTrue(pluginLoader.awaitPluginsLoaded.called);
   });
 
   suite('scroll related tests', () => {

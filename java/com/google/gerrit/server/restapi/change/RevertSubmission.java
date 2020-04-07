@@ -22,6 +22,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
@@ -429,6 +430,11 @@ public class RevertSubmission
    */
   private ObjectId getBase(ChangeNotes changeNotes, Set<ObjectId> commitIds)
       throws StorageException, IOException {
+    // If there is only one change in that project and branch, just base the revert on that one
+    // change.
+    if (commitIds.size() == 1) {
+      return Iterables.getOnlyElement(commitIds);
+    }
     try (Repository git = repoManager.openRepository(changeNotes.getProjectName());
         ObjectInserter oi = git.newObjectInserter();
         ObjectReader reader = oi.newReader();

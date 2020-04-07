@@ -35,6 +35,8 @@ import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/g
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {_endpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
+import {_pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
@@ -167,8 +169,8 @@ class GrChangeList extends mixinBehaviors( [
   /** @override */
   attached() {
     super.attached();
-    Gerrit.awaitPluginsLoaded().then(() => {
-      this._dynamicHeaderEndpoints = Gerrit._endpoints.getDynamicEndpoints(
+    _pluginLoader.awaitPluginsLoaded().then(() => {
+      this._dynamicHeaderEndpoints = _endpoints.getDynamicEndpoints(
           'change-list-header');
     });
   }

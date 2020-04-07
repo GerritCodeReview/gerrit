@@ -20,91 +20,78 @@
  * should be defined or linked here.
  */
 
-import {GrPluginEndpoints} from './gr-plugin-endpoints.js';
-import {EventEmitter} from '../gr-event-interface/gr-event-interface.js';
-import {PluginLoader} from './gr-plugin-loader.js';
+import {_pluginLoader} from './gr-plugin-loader.js';
 import {getRestAPI, send} from './gr-api-utils.js';
-import {testOnly_resetInternalState} from './gr-api-utils.js';
+import {EventEmitter} from '../gr-event-interface/gr-event-interface.js';
 
-(function(window) {
-  'use strict';
-
-  /**
-   * Trigger the preinstalls for bundled plugins.
-   * This needs to happen before Gerrit as plugin bundle overrides the Gerrit.
-   */
-  function flushPreinstalls() {
-    if (window.Gerrit.flushPreinstalls) {
-      window.Gerrit.flushPreinstalls();
-    }
+/**
+ * Trigger the preinstalls for bundled plugins.
+ * This needs to happen before Gerrit as plugin bundle overrides the Gerrit.
+ */
+function flushPreinstalls() {
+  if (window.Gerrit.flushPreinstalls) {
+    window.Gerrit.flushPreinstalls();
   }
-  flushPreinstalls();
+}
+export const _testOnly_flushPreinstalls = flushPreinstalls;
 
+export function initPlugins() {
   window.Gerrit = window.Gerrit || {};
-  const Gerrit = window.Gerrit;
-  Gerrit._pluginLoader = new PluginLoader();
+  flushPreinstalls();
+  initGerritPluginsMethods(window.Gerrit);
+  // Preloaded plugins should be installed after Gerrit.install() is set,
+  // since plugin preloader substitutes Gerrit.install() temporarily.
+  // (Gerrit.install() is set in initGerritPluginsMethods)
+  _pluginLoader.installPreloadedPlugins();
+}
 
-  Gerrit._endpoints = new GrPluginEndpoints();
-
-  // Provide reset plugins function to clear installed plugins between tests.
-  const app = document.querySelector('#app');
-  if (!app) {
-    // No gr-app found (running tests)
-    Gerrit._testOnly_installPreloadedPlugins = (...args) => Gerrit._pluginLoader
-        .installPreloadedPlugins(...args);
-    Gerrit._testOnly_flushPreinstalls = flushPreinstalls;
-    Gerrit._testOnly_resetPlugins = () => {
-      testOnly_resetInternalState();
-      Gerrit._endpoints = new GrPluginEndpoints();
-      Gerrit._pluginLoader = new PluginLoader();
-    };
-  }
-
+function initGerritPluginsMethods(globalGerritObj) {
   /**
    * @deprecated Use plugin.styles().css(rulesStr) instead. Please, consult
    * the documentation how to replace it accordingly.
    */
-  Gerrit.css = function(rulesStr) {
+  globalGerritObj.css = function(rulesStr) {
     console.warn('Gerrit.css(rulesStr) is deprecated!',
         'Use plugin.styles().css(rulesStr)');
-    if (!Gerrit._customStyleSheet) {
+    if (!globalGerritObj._customStyleSheet) {
       const styleEl = document.createElement('style');
       document.head.appendChild(styleEl);
-      Gerrit._customStyleSheet = styleEl.sheet;
+      globalGerritObj._customStyleSheet = styleEl.sheet;
     }
 
     const name = '__pg_js_api_class_' +
-        Gerrit._customStyleSheet.cssRules.length;
-    Gerrit._customStyleSheet.insertRule('.' + name + '{' + rulesStr + '}', 0);
+        globalGerritObj._customStyleSheet.cssRules.length;
+    globalGerritObj._customStyleSheet
+        .insertRule('.' + name + '{' + rulesStr + '}', 0);
     return name;
   };
 
-  Gerrit.install = function(callback, opt_version, opt_src) {
-    Gerrit._pluginLoader.install(callback, opt_version, opt_src);
+  globalGerritObj.install = function(callback, opt_version, opt_src) {
+    _pluginLoader.install(callback, opt_version, opt_src);
   };
 
-  Gerrit.getLoggedIn = function() {
+  globalGerritObj.getLoggedIn = function() {
     console.warn('Gerrit.getLoggedIn() is deprecated! ' +
         'Use plugin.restApi().getLoggedIn()');
     return document.createElement('gr-rest-api-interface').getLoggedIn();
   };
 
-  Gerrit.get = function(url, callback) {
+  globalGerritObj.get = function(url, callback) {
     console.warn('.get() is deprecated! Use plugin.restApi().get()');
     send('GET', url, callback);
   };
 
-  Gerrit.post = function(url, payload, callback) {
+  globalGerritObj.post = function(url, payload, callback) {
     console.warn('.post() is deprecated! Use plugin.restApi().post()');
     send('POST', url, callback, payload);
   };
 
-  Gerrit.put = function(url, payload, callback) {
+  globalGerritObj.put = function(url, payload, callback) {
     console.warn('.put() is deprecated! Use plugin.restApi().put()');
     send('PUT', url, callback, payload);
   };
 
-  Gerrit.delete = function(url, opt_callback) {
+  globalGerritObj.delete = function(url, opt_callback) {
     console.warn('.delete() is deprecated! Use plugin.restApi().delete()');
     return getRestAPI().send('DELETE', url)
         .then(response => {
@@ -124,40 +111,35 @@ import {testOnly_resetInternalState} from './gr-api-utils.js';
         });
   };
 
-  Gerrit.awaitPluginsLoaded = function() {
-    return Gerrit._pluginLoader.awaitPluginsLoaded();
+  globalGerritObj.awaitPluginsLoaded = function() {
+    return _pluginLoader.awaitPluginsLoaded();
   };
 
   // TODO(taoalpha): consider removing these proxy methods
   // and using _pluginLoader directly
-
-  Gerrit._loadPlugins = function(plugins, opt_option) {
-    Gerrit._pluginLoader.loadPlugins(plugins, opt_option);
+  globalGerritObj._loadPlugins = function(plugins, opt_option) {
+    _pluginLoader.loadPlugins(plugins, opt_option);
   };
 
-  Gerrit._arePluginsLoaded = function() {
-    return Gerrit._pluginLoader.arePluginsLoaded;
+  globalGerritObj._arePluginsLoaded = function() {
+    return _pluginLoader.arePluginsLoaded;
   };
 
-  Gerrit._isPluginPreloaded = function(url) {
-    return Gerrit._pluginLoader.isPluginPreloaded(url);
+  globalGerritObj._isPluginPreloaded = function(url) {
+    return _pluginLoader.isPluginPreloaded(url);
   };
 
-  Gerrit._isPluginEnabled = function(pathOrUrl) {
-    return Gerrit._pluginLoader.isPluginEnabled(pathOrUrl);
+  globalGerritObj._isPluginEnabled = function(pathOrUrl) {
+    return _pluginLoader.isPluginEnabled(pathOrUrl);
   };
 
-  Gerrit._isPluginLoaded = function(pathOrUrl) {
-    return Gerrit._pluginLoader.isPluginLoaded(pathOrUrl);
+  globalGerritObj._isPluginLoaded = function(pathOrUrl) {
+    return _pluginLoader.isPluginLoaded(pathOrUrl);
   };
-
-  // Preloaded plugins should be installed after Gerrit.install() is set,
-  // since plugin preloader substitutes Gerrit.install() temporarily.
-  Gerrit._pluginLoader.installPreloadedPlugins();
 
   // TODO(taoalpha): List all internal supported event names.
   // Also convert this to inherited class once we move Gerrit to class.
-  Gerrit._eventEmitter = new EventEmitter();
+  globalGerritObj._eventEmitter = new EventEmitter();
   ['addListener',
     'dispatch',
     'emit',
@@ -189,6 +171,7 @@ import {testOnly_resetInternalState} from './gr-api-utils.js';
      *   });
      * });
      */
-    Gerrit[method] = Gerrit._eventEmitter[method].bind(Gerrit._eventEmitter);
+    globalGerritObj[method] = globalGerritObj._eventEmitter[method]
+        .bind(globalGerritObj._eventEmitter);
   });
-})(window);
+}

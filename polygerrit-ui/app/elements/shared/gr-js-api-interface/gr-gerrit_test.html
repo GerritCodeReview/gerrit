@@ -33,6 +33,9 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-js-api-interface.js';
+import {_pluginLoader} from './gr-plugin-loader.js';
+import {resetPlugins} from '../../../test/test-utils.js';
+
 suite('gr-gerrit tests', () => {
   let element;
   let sandbox;
@@ -57,40 +60,40 @@ suite('gr-gerrit tests', () => {
     window.clock.restore();
     sandbox.restore();
     element._removeEventCallbacks();
-    Gerrit._testOnly_resetPlugins();
+    resetPlugins();
   });
 
   suite('proxy methods', () => {
-    test('Gerrit._isPluginEnabled proxy to pluginLoader', () => {
+    test('_pluginLoader._isPluginEnabled proxy to pluginLoader', () => {
       const stubFn = sandbox.stub();
       sandbox.stub(
-          Gerrit._pluginLoader,
+          _pluginLoader,
           'isPluginEnabled',
           (...args) => stubFn(...args)
       );
-      Gerrit._isPluginEnabled('test_plugin');
+      _pluginLoader._isPluginEnabled('test_plugin');
       assert.isTrue(stubFn.calledWith('test_plugin'));
     });
 
-    test('Gerrit._isPluginLoaded proxy to pluginLoader', () => {
+    test('_pluginLoader._isPluginLoaded proxy to pluginLoader', () => {
       const stubFn = sandbox.stub();
       sandbox.stub(
-          Gerrit._pluginLoader,
+          _pluginLoader,
           'isPluginLoaded',
           (...args) => stubFn(...args)
       );
-      Gerrit._isPluginLoaded('test_plugin');
+      _pluginLoader._isPluginLoaded('test_plugin');
       assert.isTrue(stubFn.calledWith('test_plugin'));
     });
 
-    test('Gerrit._isPluginPreloaded proxy to pluginLoader', () => {
+    test('_pluginLoader._isPluginPreloaded proxy to pluginLoader', () => {
       const stubFn = sandbox.stub();
       sandbox.stub(
-          Gerrit._pluginLoader,
+          _pluginLoader,
           'isPluginPreloaded',
           (...args) => stubFn(...args)
       );
-      Gerrit._isPluginPreloaded('test_plugin');
+      _pluginLoader._isPluginPreloaded('test_plugin');
       assert.isTrue(stubFn.calledWith('test_plugin'));
     });
   });

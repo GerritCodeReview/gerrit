@@ -35,6 +35,7 @@ import '../../../test/common-test-setup.js';
 import './gr-js-api-interface.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GrPluginActionContext} from './gr-plugin-action-context.js';
+import {_pluginLoader} from './gr-plugin-loader.js';
 
 suite('gr-plugin-action-context tests', () => {
   let instance;
@@ -43,7 +44,7 @@ suite('gr-plugin-action-context tests', () => {
 
   setup(() => {
     sandbox = sinon.sandbox.create();
-    Gerrit.install(p => { plugin = p; }, '0.1',
+    _pluginLoader.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
     instance = new GrPluginActionContext(plugin);
   });

@@ -46,6 +46,7 @@ import {GrFileListConstants} from '../gr-file-list-constants.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {_endpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
+import {_pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -301,7 +302,7 @@ class GrFileList extends mixinBehaviors( [
   /** @override */
   attached() {
     super.attached();
-    Gerrit.awaitPluginsLoaded().then(() => {
+    _pluginLoader.awaitPluginsLoaded().then(() => {
       this._dynamicHeaderEndpoints = _endpoints.getDynamicEndpoints(
           'change-view-file-list-header');
       this._dynamicContentEndpoints = _endpoints.getDynamicEndpoints(

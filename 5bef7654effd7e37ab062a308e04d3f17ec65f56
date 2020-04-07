@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a79ba146_1f8b46ce",
+        "filename": "java/com/google/gerrit/server/account/StoredPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-07T01:10:56Z",
+      "side": 1,
+      "message": "Import this, and all the other methods, as static to reduce repetition?",
+      "range": {
+        "startLine": 135,
+        "startChar": 10,
+        "endLine": 135,
+        "endChar": 62
+      },
+      "revId": "5bef7654effd7e37ab062a308e04d3f17ec65f56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

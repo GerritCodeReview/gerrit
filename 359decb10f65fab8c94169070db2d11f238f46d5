@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3239c508_133699a1",
+        "filename": "polygerrit-ui/app/test/test-utils.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-07T10:12:25Z",
+      "side": 1,
+      "message": "can you add a jsdoc for exported memebers ? that\u0027s also recommended in style guide",
+      "revId": "359decb10f65fab8c94169070db2d11f238f46d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df267d4c_7f175f1f",
+        "filename": "polygerrit-ui/app/test/test-utils.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-07T10:12:25Z",
+      "side": 1,
+      "message": "ditto\n\nnit: new line between functions",
+      "revId": "359decb10f65fab8c94169070db2d11f238f46d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

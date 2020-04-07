@@ -41,6 +41,8 @@ import '../../../test/common-test-setup.js';
 import '../../plugins/gr-plugin-host/gr-plugin-host.js';
 import './gr-reply-dialog.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {resetPlugins} from '../../../test/test-utils.js';
+
 suite('gr-reply-dialog tests', () => {
   let element;
   let changeNum;
@@ -131,7 +133,7 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('lgtm plugin', done => {
-    Gerrit._testOnly_resetPlugins();
+    resetPlugins();
     const pluginHost = fixture('plugin-host');
     pluginHost.config = {
       plugin: {

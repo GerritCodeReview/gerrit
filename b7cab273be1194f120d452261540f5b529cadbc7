@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f71fc077_3e67bee0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-07T12:41:22Z",
+      "side": 1,
+      "message": "I\u0027m fine with adding an option for this to the CherryPickInput, but the use-case that is described here doesn\u0027t convince me and I\u0027m not sure that it\u0027s actually solving your issue.\n\nI would actually expect that users will have the same amount of confusion if the cherry-picked topic contains empty changes (rather than only the non-empty changes for which the cherry-pick succeeded).\n\nWhat are the users expected to do with these empty changes? \n\n- Should they submit them?\nDoes this actually work?\nI believe depending on the submit strategy submitting an empty change may actually fail (e.g. with the Cherry-Pick strategy which sets ignoreIdenticalTree\u003dfalse [1]).\n\n- Should they remove them from the topic and delete them?\nIn this case why would we even create them?\n\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/submit/CherryPick.java#118",
+      "range": {
+        "startLine": 22,
+        "startChar": 15,
+        "endLine": 23,
+        "endChar": 9
+      },
+      "revId": "b7cab273be1194f120d452261540f5b529cadbc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "094b3523_949ca12e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6188,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-07T12:41:22Z",
+      "side": 1,
+      "message": "Can we find a name that is easier to understand?\nE.g. \"allow_empty\" which would be consistent with the option that is used for this on the git command line [1].\n\n[1] https://git-scm.com/docs/git-cherry-pick#Documentation/git-cherry-pick.txt---allow-empty",
+      "range": {
+        "startLine": 6188,
+        "startChar": 2,
+        "endLine": 6188,
+        "endChar": 23
+      },
+      "revId": "b7cab273be1194f120d452261540f5b529cadbc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fa2200e_eab38c3b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6189,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-07T12:41:22Z",
+      "side": 1,
+      "message": "will",
+      "range": {
+        "startLine": 6189,
+        "startChar": 63,
+        "endLine": 6189,
+        "endChar": 68
+      },
+      "revId": "b7cab273be1194f120d452261540f5b529cadbc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4da8fcc_74f731e3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6190,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-07T12:41:22Z",
+      "side": 1,
+      "message": "a cherry-pick",
+      "range": {
+        "startLine": 6190,
+        "startChar": 12,
+        "endLine": 6190,
+        "endChar": 23
+      },
+      "revId": "b7cab273be1194f120d452261540f5b529cadbc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f68e657_d5f32dca",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6190,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-07T12:41:22Z",
+      "side": 1,
+      "message": "fails",
+      "range": {
+        "startLine": 6190,
+        "startChar": 58,
+        "endLine": 6190,
+        "endChar": 62
+      },
+      "revId": "b7cab273be1194f120d452261540f5b529cadbc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdf3e8da_8a706111",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-07T12:41:22Z",
+      "side": 1,
+      "message": "Maybe add an assertion to check that the created commit is empty.",
+      "revId": "b7cab273be1194f120d452261540f5b529cadbc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

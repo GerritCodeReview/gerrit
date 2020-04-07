@@ -315,7 +315,8 @@ to the author’s own solution).
 Q: `If in doubt, is there a substantial benefit to a long-standing
 community member with many users?`
 * The community shapes the future of Gerrit as a product. In
-  cases of doubt, the ESC can be more generous with long-standing community members compared to `drive-by` contributions.
+  cases of doubt, the ESC can be more generous with long-standing
+  community members compared to `drive-by` contributions.
 
 GERRIT
 ------

@@ -34,13 +34,24 @@ class ReplayRecordsFromFeeder extends GitSimulation {
             .exec(gitRequest)
       }
 
+  private val createProject = new CreateProject(default)
+  private val deleteProject = new DeleteProject(default)
+
   setUp(
+    createProject.test.inject(
+      atOnceUsers(1)
+    ),
     test.inject(
       nothingFor(4 seconds),
       atOnceUsers(10),
       rampUsers(10) during (5 seconds),
       constantUsersPerSec(20) during (15 seconds),
       constantUsersPerSec(20) during (15 seconds) randomized
-    )).protocols(gitProtocol)
-      .maxDuration(60 seconds)
+    ),
+    deleteProject.test.inject(
+      nothingFor(59 second),
+      atOnceUsers(1)
+    ),
+  ).protocols(gitProtocol, httpProtocol)
+      .maxDuration(61 seconds)
 }

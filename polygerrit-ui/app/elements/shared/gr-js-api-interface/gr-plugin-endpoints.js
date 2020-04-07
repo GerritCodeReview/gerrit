@@ -147,3 +147,9 @@ GrPluginEndpoints.prototype.getPlugins = function(name, opt_options) {
   }
   return Array.from(new Set(modulesData.map(m => m.pluginUrl)));
 };
+
+// TODO(dmfilippov) Update to service
+export let _endpoints = new GrPluginEndpoints();
+export function _testOnly_resetEndpoints() {
+  _endpoints = new GrPluginEndpoints();
+}

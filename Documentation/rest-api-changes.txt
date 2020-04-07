@@ -6185,6 +6185,10 @@ Otherwise, if the source change has no topic, or the source is a commit,
 the created change will have no topic.
 If the change already exists, the topic will not change if not set. If set, the
 topic will be overridden.
+|`allow_empty`      |optional, defaults to false|
+If `true`, the cherry-pick succeeds also if the created commit will be empty.
+If `false`, a cherry-pick that would create an empty commit fails without creating
+the commit.
 |===========================
 
 [[comment-info]]

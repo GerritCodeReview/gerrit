@@ -78,7 +78,7 @@ suite('gr-external-style integration tests', () => {
         importHrefStub(url, resolve, reject);
       },
     });
-    sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
+    sandbox.stub(_pluginLoader, 'awaitPluginsLoaded').returns(Promise.resolve());
   });
 
   teardown(() => {

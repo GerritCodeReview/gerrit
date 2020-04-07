@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8099a8a4_221464ca",
+        "filename": "java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-07T07:32:47Z",
+      "side": 1,
+      "message": "This description doesn\u0027t seem to match the implementation.",
+      "range": {
+        "startLine": 119,
+        "startChar": 5,
+        "endLine": 120,
+        "endChar": 24
+      },
+      "revId": "6732f2b6c189a5c0f70158260fca21182ea5bb62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62b64c2e_5743b937",
+        "filename": "java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-07T07:32:47Z",
+      "side": 1,
+      "message": "This looks incorrect. We shouldn\u0027t ignore the userPreferences if there are no defaultPreferences.\n\nSame below.",
+      "range": {
+        "startLine": 175,
+        "startChar": 4,
+        "endLine": 177,
+        "endChar": 5
+      },
+      "revId": "6732f2b6c189a5c0f70158260fca21182ea5bb62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82934e0f_2826a133",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-07T07:32:47Z",
+      "side": 1,
+      "message": "Should this be CachedAccountDetails?",
+      "range": {
+        "startLine": 312,
+        "startChar": 55,
+        "endLine": 312,
+        "endChar": 71
+      },
+      "revId": "6732f2b6c189a5c0f70158260fca21182ea5bb62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "763d50a4_6f7d6b60",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-07T07:32:47Z",
+      "side": 1,
+      "message": "Remove this from the package name.",
+      "range": {
+        "startLine": 319,
+        "startChar": 55,
+        "endLine": 319,
+        "endChar": 71
+      },
+      "revId": "6732f2b6c189a5c0f70158260fca21182ea5bb62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

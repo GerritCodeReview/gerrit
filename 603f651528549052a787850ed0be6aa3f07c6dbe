@@ -648,6 +648,30 @@
     },
     {
       "key": {
+        "uuid": "3f88c589_c0701f9e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIndexerIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-07T07:32:47Z",
+      "side": 1,
+      "message": "ping",
+      "parentUuid": "f1cb27e4_d81f60b0",
+      "range": {
+        "startLine": 88,
+        "startChar": 2,
+        "endLine": 97,
+        "endChar": 3
+      },
+      "revId": "603f651528549052a787850ed0be6aa3f07c6dbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1b4bfbb8_887c6d01",
         "filename": "proto/cache.proto",
         "patchSetId": 1

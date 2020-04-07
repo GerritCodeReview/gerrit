@@ -71,11 +71,6 @@ setup(() => {
   // If the following asserts fails - then window.stub is
   // overwritten by some other code.
   assert.equal(cleanups.length, 0);
-
-  if (!window.Gerrit) { return; }
-  if (Gerrit._testOnly_resetPlugins) {
-    Gerrit._testOnly_resetPlugins();
-  }
 });
 
 if (window.stub) {

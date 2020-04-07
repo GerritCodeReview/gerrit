@@ -41,7 +41,7 @@ import {GrEtagDecorator} from './shared/gr-rest-api-interface/gr-etag-decorator.
 import {GrThemeApi} from './plugins/gr-theme-api/gr-theme-api.js';
 import {SiteBasedCache, FetchPromisesCache, GrRestApiHelper} from './shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.js';
 import {GrLinkTextParser} from './shared/gr-linked-text/link-text-parser.js';
-import {GrPluginEndpoints} from './shared/gr-js-api-interface/gr-plugin-endpoints.js';
+import {pluginEndpoints, GrPluginEndpoints} from './shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {GrReviewerUpdatesParser} from './shared/gr-rest-api-interface/gr-reviewer-updates-parser.js';
 import {GrPopupInterface} from './plugins/gr-popup-interface/gr-popup-interface.js';
 import {GrRangeNormalizer} from './diff/gr-diff-highlight/gr-range-normalizer.js';
@@ -63,16 +63,9 @@ import {GrPluginRestApi} from './shared/gr-js-api-interface/gr-plugin-rest-api.j
 import {GrRepoApi} from './plugins/gr-repo-api/gr-repo-api.js';
 import {GrSettingsApi} from './plugins/gr-settings-api/gr-settings-api.js';
 import {GrStylesApi} from './plugins/gr-styles-api/gr-styles-api.js';
-import {PluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader.js';
+import {pluginLoader, PluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader.js';
 import {GrPluginActionContext} from './shared/gr-js-api-interface/gr-plugin-action-context.js';
-import {
-  getBaseUrl,
-  getPluginNameFromUrl,
-  getRestAPI,
-  PLUGIN_LOADING_TIMEOUT_MS,
-  PRELOADED_PROTOCOL,
-  send,
-} from './shared/gr-js-api-interface/gr-api-utils.js';
+import {getBaseUrl, getPluginNameFromUrl, getRestAPI, PLUGIN_LOADING_TIMEOUT_MS, PRELOADED_PROTOCOL, send} from './shared/gr-js-api-interface/gr-api-utils.js';
 import {GerritNav} from './core/gr-navigation/gr-navigation.js';
 import {getRootElement} from '../scripts/rootElement.js';
 
@@ -136,4 +129,7 @@ export function initGlobalVariables() {
   window.Gerrit = window.Gerrit || {};
   window.Gerrit.Nav = GerritNav;
   window.Gerrit.getRootElement = getRootElement;
+
+  window.Gerrit._pluginLoader = pluginLoader;
+  window.Gerrit._endpoints = pluginEndpoints;
 }

@@ -46,7 +46,7 @@ import {GrReviewerUpdatesParser} from './shared/gr-rest-api-interface/gr-reviewe
 import {GrPopupInterface} from './plugins/gr-popup-interface/gr-popup-interface.js';
 import {GrRangeNormalizer} from './diff/gr-diff-highlight/gr-range-normalizer.js';
 import {GrCountStringFormatter} from './shared/gr-count-string-formatter/gr-count-string-formatter.js';
-import {GrReviewerSuggestionsProvider} from '../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
+import {GrReviewerSuggestionsProvider, SUGGESTIONS_PROVIDERS_USERS_TYPES} from '../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
 import {util} from '../scripts/util.js';
 import moment from 'moment/src/moment.js';
 import page from 'page/page.mjs';
@@ -69,6 +69,8 @@ import {getBaseUrl, getPluginNameFromUrl, getRestAPI, PLUGIN_LOADING_TIMEOUT_MS,
 import {GerritNav} from './core/gr-navigation/gr-navigation.js';
 import {getRootElement} from '../scripts/rootElement.js';
 import {rangesEqual} from './diff/gr-diff/gr-diff-utils.js';
+import {RevisionInfo} from './shared/revision-info/revision-info.js';
+import {CoverageType} from '../types/types.js';
 
 export function initGlobalVariables() {
   window.GrDisplayNameUtils = GrDisplayNameUtils;
@@ -136,4 +138,8 @@ export function initGlobalVariables() {
 
   window.Gerrit.slotToContent = slot => slot;
   window.Gerrit.rangesEqual = rangesEqual;
+  window.Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES =
+      SUGGESTIONS_PROVIDERS_USERS_TYPES;
+  window.Gerrit.RevisionInfo = RevisionInfo;
+  window.Gerrit.CoverageType = CoverageType;
 }

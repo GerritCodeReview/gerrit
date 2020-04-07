@@ -22,6 +22,30 @@
       "revId": "5bef7654effd7e37ab062a308e04d3f17ec65f56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af794ab0_37e7aea9",
+        "filename": "java/com/google/gerrit/server/account/StoredPreferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-07T09:36:08Z",
+      "side": 1,
+      "message": "The method names overlay with methods from this class, so we have to use the FQN",
+      "parentUuid": "a79ba146_1f8b46ce",
+      "range": {
+        "startLine": 135,
+        "startChar": 10,
+        "endLine": 135,
+        "endChar": 62
+      },
+      "revId": "5bef7654effd7e37ab062a308e04d3f17ec65f56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

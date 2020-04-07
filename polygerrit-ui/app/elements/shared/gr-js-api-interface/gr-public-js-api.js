@@ -33,11 +33,8 @@ import {GrStylesApi} from '../../plugins/gr-styles-api/gr-styles-api.js';
 import {GrPluginActionContext} from './gr-plugin-action-context.js';
 import {pluginEndpoints} from './gr-plugin-endpoints.js';
 
-import {
-  PRELOADED_PROTOCOL,
-  getPluginNameFromUrl,
-  send,
-} from './gr-api-utils.js';
+import {PRELOADED_PROTOCOL, getPluginNameFromUrl, send} from './gr-api-utils.js';
+import {deprecatedDelete} from './gr-gerrit.js';
 
 (function(window) {
   'use strict';
@@ -195,7 +192,7 @@ import {
   };
 
   Plugin.prototype.delete = function(url, opt_callback) {
-    return Gerrit.delete(this.url(url), opt_callback);
+    return deprecatedDelete(this.url(url), opt_callback);
   };
 
   Plugin.prototype.annotationApi = function() {

@@ -63,9 +63,12 @@ import {util} from '../../../scripts/util.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {initPlugins} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 
 import {PrimaryTabs, SecondaryTabs} from '../../../constants/constants.js';
 import {NO_ROBOT_COMMENTS_THREADS_MSG} from '../../../constants/messages.js';
+
+initPlugins();
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -483,7 +486,7 @@ class GrChangeView extends mixinBehaviors( [
       this._setDiffViewMode();
     });
 
-    Gerrit.awaitPluginsLoaded()
+    pluginLoader.awaitPluginsLoaded()
         .then(() => {
           this._dynamicTabHeaderEndpoints =
             pluginEndpoints.getDynamicEndpoints('change-view-tab-header');
@@ -1164,7 +1167,7 @@ class GrChangeView extends mixinBehaviors( [
   }
 
   _maybeShowRevertDialog() {
-    Gerrit.awaitPluginsLoaded()
+    pluginLoader.awaitPluginsLoaded()
         .then(this._getLoggedIn.bind(this))
         .then(loggedIn => {
           if (!loggedIn || !this._change ||

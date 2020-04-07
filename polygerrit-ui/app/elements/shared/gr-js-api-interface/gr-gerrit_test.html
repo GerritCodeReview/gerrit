@@ -64,36 +64,36 @@ suite('gr-gerrit tests', () => {
   });
 
   suite('proxy methods', () => {
-    test('Gerrit._isPluginEnabled proxy to pluginLoader', () => {
+    test('pluginLoader._isPluginEnabled proxy to pluginLoader', () => {
       const stubFn = sandbox.stub();
       sandbox.stub(
           pluginLoader,
           'isPluginEnabled',
           (...args) => stubFn(...args)
       );
-      Gerrit._isPluginEnabled('test_plugin');
+      pluginLoader._isPluginEnabled('test_plugin');
       assert.isTrue(stubFn.calledWith('test_plugin'));
     });
 
-    test('Gerrit._isPluginLoaded proxy to pluginLoader', () => {
+    test('pluginLoader._isPluginLoaded proxy to pluginLoader', () => {
       const stubFn = sandbox.stub();
       sandbox.stub(
           pluginLoader,
           'isPluginLoaded',
           (...args) => stubFn(...args)
       );
-      Gerrit._isPluginLoaded('test_plugin');
+      pluginLoader._isPluginLoaded('test_plugin');
       assert.isTrue(stubFn.calledWith('test_plugin'));
     });
 
-    test('Gerrit._isPluginPreloaded proxy to pluginLoader', () => {
+    test('pluginLoader._isPluginPreloaded proxy to pluginLoader', () => {
       const stubFn = sandbox.stub();
       sandbox.stub(
           pluginLoader,
           'isPluginPreloaded',
           (...args) => stubFn(...args)
       );
-      Gerrit._isPluginPreloaded('test_plugin');
+      pluginLoader._isPluginPreloaded('test_plugin');
       assert.isTrue(stubFn.calledWith('test_plugin'));
     });
   });

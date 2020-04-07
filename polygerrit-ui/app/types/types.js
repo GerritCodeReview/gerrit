@@ -17,10 +17,8 @@
 
 // Type definitions used across multiple files in Gerrit
 
-window.Gerrit = window.Gerrit || {};
-
 /** @enum {string} */
-Gerrit.CoverageType = {
+export const CoverageType = {
   /**
    * start_character and end_character of the range will be ignored for this
    * type.

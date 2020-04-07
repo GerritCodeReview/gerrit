@@ -21,7 +21,12 @@ import io.gatling.core.structure.ScenarioBuilder
 import scala.concurrent.duration._
 
 class ReplayRecordsFromFeeder extends GitSimulation {
-  private val data: FileBasedFeederBuilder[Any]#F = jsonFile(resource).circular
+  private val data: FileBasedFeederBuilder[Any]#F#F = jsonFile(resource).convert(url).circular
+  private val default: String = name
+
+  override def replaceOverride(in: String): String = {
+    replaceKeyWith("_project", default, in)
+  }
 
   private val test: ScenarioBuilder = scenario(name)
       .repeat(10) {

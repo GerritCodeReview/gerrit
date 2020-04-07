@@ -23,7 +23,6 @@ import '../gr-diff-highlight/gr-diff-highlight.js';
 import '../gr-diff-selection/gr-diff-selection.js';
 import '../gr-syntax-themes/gr-syntax-theme.js';
 import '../gr-ranged-comment-themes/gr-ranged-comment-theme.js';
-import '../../../scripts/hiddenscroll.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
@@ -33,6 +32,7 @@ import {htmlTemplate} from './gr-diff_html.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {GrDiffLine} from './gr-diff-line.js';
 import {DiffSide, rangesEqual} from './gr-diff-utils.js';
+import {getHiddenScroll} from '../../../scripts/hiddenscroll.js';
 
 const ERR_COMMENT_ON_EDIT = 'You cannot comment on an edit.';
 const ERR_COMMENT_ON_EDIT_BASE = 'You cannot comment on the base patch set ' +
@@ -469,7 +469,7 @@ class GrDiff extends mixinBehaviors( [
       default:
         throw Error('Invalid view mode: ', viewMode);
     }
-    if (Gerrit.hiddenscroll) {
+    if (getHiddenScroll()) {
       classes.push('hiddenscroll');
     }
     if (loggedIn) {

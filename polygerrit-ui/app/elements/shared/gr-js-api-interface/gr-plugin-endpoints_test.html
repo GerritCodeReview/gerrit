@@ -28,6 +28,7 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import './gr-js-api-interface.js';
 import {GrPluginEndpoints} from './gr-plugin-endpoints.js';
+import {pluginLoader} from './gr-plugin-loader.js';
 
 suite('gr-plugin-endpoints tests', () => {
   let sandbox;
@@ -48,7 +49,7 @@ suite('gr-plugin-endpoints tests', () => {
         'http://test.com/plugins/testplugin/static/bar.html');
     instance.registerModule(
         pluginBar, 'a-place', 'style', 'bar-module', domHook);
-    sandbox.stub(Gerrit, '_arePluginsLoaded').returns(true);
+    sandbox.stub(pluginLoader, 'arePluginsLoaded').returns(true);
   });
 
   teardown(() => {

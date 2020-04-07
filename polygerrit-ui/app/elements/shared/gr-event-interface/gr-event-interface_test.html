@@ -32,6 +32,8 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import '../gr-js-api-interface/gr-js-api-interface.js';
 import {EventEmitter} from './gr-event-interface.js';
+import {_pluginLoader} from '../gr-js-api-interface/gr-plugin-loader.js';
+
 suite('gr-event-interface tests', () => {
   let sandbox;
 
@@ -57,7 +59,7 @@ suite('gr-event-interface tests', () => {
         assert.equal(e.plugin, p);
         done();
       });
-      Gerrit.install(plugin => {
+        Gerrit.install(plugin => {
         p = plugin;
         Gerrit.emit(eventName, {value: 'test', plugin});
       }, '0.1',

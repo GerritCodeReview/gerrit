@@ -192,7 +192,8 @@ export class PluginLoader {
     }
   }
 
-  get arePluginsLoaded() {
+  // Used version of sinon can't stub getter, declare it as a function
+  arePluginsLoaded() {
     // As the size of plugins is relatively small,
     // so the performance of this check should be reasonable
     if (!this._pluginListLoaded) return false;
@@ -203,7 +204,7 @@ export class PluginLoader {
   }
 
   _checkIfCompleted() {
-    if (this.arePluginsLoaded && this._loadingResolver) {
+    if (this.arePluginsLoaded() && this._loadingResolver) {
       this._loadingResolver();
       this._loadingResolver = null;
       this._loadingPromise = null;
@@ -398,7 +399,7 @@ export class PluginLoader {
     // Resolve if completed.
     this._checkIfCompleted();
 
-    if (this.arePluginsLoaded) {
+    if (this.arePluginsLoaded()) {
       return Promise.resolve();
     }
     if (!this._loadingPromise) {

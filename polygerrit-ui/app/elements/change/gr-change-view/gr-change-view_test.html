@@ -311,7 +311,7 @@ suite('gr-change-view tests', () => {
     });
     element = fixture('basic');
     sandbox.stub(element.$.actions, 'reload').returns(Promise.resolve());
-    Gerrit._loadPlugins([]);
+    _pluginLoader._loadPlugins([]);
     Gerrit.install(
         plugin => {
           plugin.registerDynamicCustomComponent(
@@ -1613,7 +1613,7 @@ suite('gr-change-view tests', () => {
         done);
 
     element._maybeShowRevertDialog();
-    assert.isTrue(Gerrit.awaitPluginsLoaded.called);
+    assert.isTrue(_pluginLoader.awaitPluginsLoaded.called);
   });
 
   suite('scroll related tests', () => {

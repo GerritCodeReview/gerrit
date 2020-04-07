@@ -31,6 +31,8 @@ import {GrRepoApi} from '../../plugins/gr-repo-api/gr-repo-api.js';
 import {GrSettingsApi} from '../../plugins/gr-settings-api/gr-settings-api.js';
 import {GrStylesApi} from '../../plugins/gr-styles-api/gr-styles-api.js';
 import {GrPluginActionContext} from './gr-plugin-action-context.js';
+import {pluginEndpoints} from './gr-plugin-endpoints.js';
+
 import {
   PRELOADED_PROTOCOL,
   getPluginNameFromUrl,
@@ -96,7 +98,7 @@ import {
   };
 
   Plugin.prototype.registerStyleModule = function(endpointName, moduleName) {
-    Gerrit._endpoints.registerModule(
+    pluginEndpoints.registerModule(
         this, endpointName, EndpointType.STYLE, moduleName);
   };
 
@@ -128,7 +130,7 @@ import {
       EndpointType.REPLACE : EndpointType.DECORATE;
     const hook = this._domHooks.getDomHook(endpointName, opt_moduleName);
     const moduleName = opt_moduleName || hook.getModuleName();
-    Gerrit._endpoints.registerModule(
+    pluginEndpoints.registerModule(
         this, endpointName, type, moduleName, hook, dynamicEndpoint);
     return hook.getPublicAPI();
   };

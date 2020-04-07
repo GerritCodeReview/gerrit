@@ -43,6 +43,9 @@ import './gr-change-metadata.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {initPlugins} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+
+initPlugins();
 
 suite('gr-change-metadata integration tests', () => {
   let sandbox;
@@ -139,7 +142,7 @@ suite('gr-change-metadata integration tests', () => {
     let plugin;
 
     setup(() => {
-      pluginLoader.install(p => plugin = p, '0.1',
+      Gerrit.install(p => plugin = p, '0.1',
           new URL('test/plugin.html?' + Math.random(),
               window.location.href).toString());
       sandbox.stub(pluginLoader, 'arePluginsLoaded').returns(true);

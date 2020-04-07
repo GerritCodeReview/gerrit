@@ -33,6 +33,10 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import './gr-external-style.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {initPlugins} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+
+initPlugins();
+
 suite('gr-external-style integration tests', () => {
   const TEST_URL = 'http://some/plugin/url.html';
 

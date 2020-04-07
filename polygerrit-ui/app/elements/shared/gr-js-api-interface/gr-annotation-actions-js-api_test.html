@@ -37,6 +37,10 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import '../../change/gr-change-actions/gr-change-actions.js';
+import {initPlugins} from './gr-gerrit.js';
+
+initPlugins();
+
 suite('gr-annotation-actions-js-api tests', () => {
   let annotationActions;
   let sandbox;

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "337d7519_f2238b5f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-07T12:30:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ce251be_4232c402",
+      "range": {
+        "startLine": 22,
+        "startChar": 32,
+        "endLine": 22,
+        "endChar": 40
+      },
+      "revId": "a274368ab914bb79670533868550867aad8d9573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d79c0fa9_42f56147",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1

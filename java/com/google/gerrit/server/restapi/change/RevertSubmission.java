@@ -82,14 +82,12 @@ import com.google.inject.Provider;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Queue;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -293,6 +291,7 @@ public class RevertSubmission
     while (sortedChangesInProjectAndBranch.hasNext()) {
       ChangeNotes changeNotes = sortedChangesInProjectAndBranch.next().data().notes();
       if (cherryPickInput.base == null) {
+        // If no base was provided, the first change will be used to find a common base.
         cherryPickInput.base = getBase(changeNotes, commitIdsInProjectAndBranch).name();
       }
 
@@ -462,12 +461,11 @@ public class RevertSubmission
 
       ObjectId startCommit =
           git.getRefDatabase().findRef(changeNotes.getChange().getDest().branch()).getObjectId();
-      Queue<ObjectId> commitsToSearch = new ArrayDeque<>();
-      commitsToSearch.add(startCommit);
-
-      while (!commitsToSearch.isEmpty()) {
-
-        RevCommit revCommit = revWalk.parseCommit(commitsToSearch.poll());
+      revWalk.markStart(revWalk.parseCommit(startCommit));
+      markChangesParentsUninteresting(commitIds, revWalk);
+      Iterator<RevCommit> revWalkIterator = revWalk.iterator();
+      while (revWalkIterator.hasNext()) {
+        RevCommit revCommit = revWalkIterator.next();
         if (commitIds.contains(revCommit.getId())) {
           return changeNotes.getCurrentPatchSet().commitId();
         }
@@ -483,7 +481,6 @@ public class RevertSubmission
           // the first common descendant of all those changes.
           return revCommit.getId();
         }
-        commitsToSearch.addAll(Arrays.asList(revCommit.getParents()));
       }
       // This should never happen since it can only happen if we go through the entire repository
       // without finding a single commit that matches any commit from the submission.
@@ -497,6 +494,18 @@ public class RevertSubmission
   private RevisionResource getRevisionResource(ChangeNotes changeNotes) {
     return new RevisionResource(
         changeResourceFactory.create(changeNotes, user.get()), psUtil.current(changeNotes));
+  }
+
+  // The parents are not interesting since there is no reason to base the reverts on any of the
+  // parents or their ancestors.
+  private void markChangesParentsUninteresting(Set<ObjectId> commitIds, RevWalk revWalk)
+      throws IOException {
+    for (ObjectId id : commitIds) {
+      RevCommit revCommit = revWalk.parseCommit(id);
+      for (int i = 0; i < revCommit.getParentCount(); i++) {
+        revWalk.markUninteresting(revCommit.getParent(i));
+      }
+    }
   }
 
   @Override

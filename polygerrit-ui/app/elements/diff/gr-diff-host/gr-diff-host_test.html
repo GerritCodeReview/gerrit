@@ -36,6 +36,8 @@ import './gr-diff-host.js';
 import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {DiffSide} from '../gr-diff/gr-diff-utils.js';
+
 suite('gr-diff-host tests', () => {
   let element;
   let sandbox;
@@ -1333,9 +1335,9 @@ suite('gr-diff-host tests', () => {
     const threads = [];
     assert.deepEqual(element._filterThreadElsForLocation(threads, line), []);
     assert.deepEqual(element._filterThreadElsForLocation(threads, line,
-        Gerrit.DiffSide.LEFT), []);
+        DiffSide.LEFT), []);
     assert.deepEqual(element._filterThreadElsForLocation(threads, line,
-        Gerrit.DiffSide.RIGHT), []);
+        DiffSide.RIGHT), []);
   });
 
   test('_filterThreadElsForLocation for line comments', () => {
@@ -1361,9 +1363,9 @@ suite('gr-diff-host tests', () => {
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line),
         [l3, r5]);
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-        Gerrit.DiffSide.LEFT), [l3]);
+        DiffSide.LEFT), [l3]);
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-        Gerrit.DiffSide.RIGHT), [r5]);
+        DiffSide.RIGHT), [r5]);
   });
 
   test('_filterThreadElsForLocation for file comments', () => {
@@ -1381,11 +1383,11 @@ suite('gr-diff-host tests', () => {
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line),
         [l, r]);
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-        Gerrit.DiffSide.BOTH), [l, r]);
+        DiffSide.BOTH), [l, r]);
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-        Gerrit.DiffSide.LEFT), [l]);
+        DiffSide.LEFT), [l]);
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-        Gerrit.DiffSide.RIGHT), [r]);
+        DiffSide.RIGHT), [r]);
   });
 
   suite('syntax layer with syntax_highlighting on', () => {

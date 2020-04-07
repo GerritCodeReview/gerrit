@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "7f7b61b2_279cbbc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-07T14:20:53Z",
+      "side": 1,
+      "message": "OK, then I went with option 1 for now. I\u0027ll track it to later maybe change this behavior for both cherry-picks and revertSubmission.",
+      "parentUuid": "ddcebf24_5ccb0e6d",
+      "range": {
+        "startLine": 22,
+        "startChar": 15,
+        "endLine": 23,
+        "endChar": 9
+      },
+      "revId": "b7cab273be1194f120d452261540f5b529cadbc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "094b3523_949ca12e",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "f046dd0d_d7e45a0b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6188,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-07T14:20:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "094b3523_949ca12e",
+      "range": {
+        "startLine": 6188,
+        "startChar": 2,
+        "endLine": 6188,
+        "endChar": 23
+      },
+      "revId": "b7cab273be1194f120d452261540f5b529cadbc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fa2200e_eab38c3b",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2
@@ -116,6 +164,30 @@
       "revId": "b7cab273be1194f120d452261540f5b529cadbc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e567bc19_9e886b63",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6189,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-07T14:20:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fa2200e_eab38c3b",
+      "range": {
+        "startLine": 6189,
+        "startChar": 63,
+        "endLine": 6189,
+        "endChar": 68
+      },
+      "revId": "b7cab273be1194f120d452261540f5b529cadbc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -165,6 +237,54 @@
     },
     {
       "key": {
+        "uuid": "9a35e820_01fe498e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6190,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-07T14:20:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f68e657_d5f32dca",
+      "range": {
+        "startLine": 6190,
+        "startChar": 58,
+        "endLine": 6190,
+        "endChar": 62
+      },
+      "revId": "b7cab273be1194f120d452261540f5b529cadbc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71ccc9f9_74f48eda",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6190,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-07T14:20:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4da8fcc_74f731e3",
+      "range": {
+        "startLine": 6190,
+        "startChar": 12,
+        "endLine": 6190,
+        "endChar": 23
+      },
+      "revId": "b7cab273be1194f120d452261540f5b529cadbc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cdf3e8da_8a706111",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 2
@@ -179,6 +299,24 @@
       "revId": "b7cab273be1194f120d452261540f5b529cadbc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dc02668_174dfdb2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 548,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-07T14:20:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdf3e8da_8a706111",
+      "revId": "b7cab273be1194f120d452261540f5b529cadbc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

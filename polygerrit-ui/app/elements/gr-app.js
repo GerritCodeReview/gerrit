@@ -25,11 +25,6 @@ import './font-roboto-local-loader.js';
 import '../scripts/bundled-polymer.js';
 import 'polymer-resin/standalone/polymer-resin.js';
 import {initGlobalVariables} from './gr-app-global-var-init.js';
-// Initialize global variables before any other imports
-// If a plugin is loaded in one of the subsequent import (with async/await, for
-// example), then all global variables must be initialized at this time
-initGlobalVariables();
-
 import './gr-app-element.js';
 import './change-list/gr-embed-dashboard/gr-embed-dashboard.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
@@ -37,6 +32,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-app_html.js';
 import {SafeTypes} from '../behaviors/safe-types-behavior/safe-types-behavior.js';
+import {initPlugins} from './shared/gr-js-api-interface/gr-gerrit.js';
 
 security.polymer_resin.install({
   allowedIdentifierPrefixes: [''],
@@ -54,3 +50,6 @@ class GrApp extends GestureEventListeners(
 }
 
 customElements.define(GrApp.is, GrApp);
+
+initGlobalVariables();
+initPlugins();

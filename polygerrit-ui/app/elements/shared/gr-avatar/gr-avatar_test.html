@@ -33,6 +33,8 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-avatar.js';
+import {pluginLoader} from '../gr-js-api-interface/gr-plugin-loader.js';
+
 suite('gr-avatar tests', () => {
   let element;
   let sandbox;
@@ -116,11 +118,11 @@ suite('gr-avatar tests', () => {
     assert.strictEqual(element.style.backgroundImage, '');
 
     // Emulate plugins loaded.
-    Gerrit._loadPlugins([]);
+    pluginLoader._loadPlugins([]);
 
     Promise.all([
       element.$.restAPI.getConfig(),
-      Gerrit.awaitPluginsLoaded(),
+      pluginLoader.awaitPluginsLoaded(),
     ]).then(() => {
       assert.isFalse(element.hasAttribute('hidden'));
 
@@ -151,11 +153,11 @@ suite('gr-avatar tests', () => {
       assert.isFalse(element.hasAttribute('hidden'));
 
       // Emulate plugins loaded.
-      Gerrit._loadPlugins([]);
+      pluginLoader._loadPlugins([]);
 
       return Promise.all([
         element.$.restAPI.getConfig(),
-        Gerrit.awaitPluginsLoaded(),
+        pluginLoader.awaitPluginsLoaded(),
       ]).then(() => {
         assert.isTrue(element.hasAttribute('hidden'));
 
@@ -191,11 +193,11 @@ suite('gr-avatar tests', () => {
           _account_id: 123,
         };
         // Emulate plugins loaded.
-        Gerrit._loadPlugins([]);
+        pluginLoader._loadPlugins([]);
 
         return Promise.all([
           element.$.restAPI.getConfig(),
-          Gerrit.awaitPluginsLoaded(),
+          pluginLoader.awaitPluginsLoaded(),
         ]).then(() => {
           assert.isTrue(element.hasAttribute('hidden'));
         });

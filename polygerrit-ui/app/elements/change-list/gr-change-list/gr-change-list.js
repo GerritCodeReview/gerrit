@@ -37,6 +37,7 @@ import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-beh
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
+import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
@@ -172,7 +173,7 @@ class GrChangeList extends mixinBehaviors( [
   /** @override */
   attached() {
     super.attached();
-    Gerrit.awaitPluginsLoaded().then(() => {
+    pluginLoader.awaitPluginsLoaded().then(() => {
       this._dynamicHeaderEndpoints = pluginEndpoints.getDynamicEndpoints(
           'change-list-header');
     });

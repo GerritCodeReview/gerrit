@@ -483,7 +483,7 @@ class GrChangeView extends mixinBehaviors( [
       this._setDiffViewMode();
     });
 
-    Gerrit.awaitPluginsLoaded()
+    pluginLoader.awaitPluginsLoaded()
         .then(() => {
           this._dynamicTabHeaderEndpoints =
             pluginEndpoints.getDynamicEndpoints('change-view-tab-header');
@@ -1164,7 +1164,7 @@ class GrChangeView extends mixinBehaviors( [
   }
 
   _maybeShowRevertDialog() {
-    Gerrit.awaitPluginsLoaded()
+    pluginLoader.awaitPluginsLoaded()
         .then(this._getLoggedIn.bind(this))
         .then(loggedIn => {
           if (!loggedIn || !this._change ||

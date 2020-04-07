@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f9aa2679_a00acb99",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-07T14:41:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "713bf92f_4bdc115b",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 19
+      },
+      "revId": "dc651df8b57d15fa8ea7cb33762f98465ee459fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c89d68c_8128e378",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "dc651df8b57d15fa8ea7cb33762f98465ee459fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5ca5e68_6ccbb80e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-07T14:41:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c89d68c_8128e378",
+      "range": {
+        "startLine": 547,
+        "startChar": 4,
+        "endLine": 552,
+        "endChar": 56
+      },
+      "revId": "dc651df8b57d15fa8ea7cb33762f98465ee459fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

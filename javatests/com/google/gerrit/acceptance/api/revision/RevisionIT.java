@@ -542,6 +542,14 @@ public class RevisionIT extends AbstractDaemonTest {
             ResourceConflictException.class,
             () -> orig.revision(r.getCommit().name()).cherryPick(in));
     assertThat(thrown).hasMessageThat().contains("Cherry pick failed: identical tree");
+
+    in.allowEmpty = true;
+    ChangeInfo cherryPickChange = orig.revision(r.getCommit().name()).cherryPick(in).get();
+    assertThat(cherryPickChange.cherryPickOfChange).isEqualTo(r.getChange().change().getChangeId());
+
+    // An empty commit is created
+    assertThat(cherryPickChange.insertions).isEqualTo(0);
+    assertThat(cherryPickChange.deletions).isEqualTo(0);
   }
 
   @Test

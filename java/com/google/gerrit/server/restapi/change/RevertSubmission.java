@@ -429,6 +429,11 @@ public class RevertSubmission
    */
   private ObjectId getBase(ChangeNotes changeNotes, Set<ObjectId> commitIds)
       throws StorageException, IOException {
+    // If there is only one change in that project and branch, just base the revert on that one
+    // change.
+    if (commitIds.size() == 1) {
+      return changeNotes.getCurrentPatchSet().commitId();
+    }
     try (Repository git = repoManager.openRepository(changeNotes.getProjectName());
         ObjectInserter oi = git.newObjectInserter();
         ObjectReader reader = oi.newReader();

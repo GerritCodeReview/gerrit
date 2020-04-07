@@ -15,18 +15,21 @@
  * limitations under the License.
  */
 
-(function(window) {
-  window.Gerrit = window.Gerrit || {};
-  if (window.Gerrit.hasOwnProperty('hiddenscroll')) { return; }
+let hiddenscroll = undefined;
 
-  window.Gerrit.hiddenscroll = undefined;
+window.addEventListener('WebComponentsReady', () => {
+  const elem = document.createElement('div');
+  elem.setAttribute(
+      'style', 'width:100px;height:100px;overflow:scroll');
+  document.body.appendChild(elem);
+  hiddenscroll = elem.offsetWidth === elem.clientWidth;
+  elem.remove();
+});
 
-  window.addEventListener('WebComponentsReady', () => {
-    const elem = document.createElement('div');
-    elem.setAttribute(
-        'style', 'width:100px;height:100px;overflow:scroll');
-    document.body.appendChild(elem);
-    window.Gerrit.hiddenscroll = elem.offsetWidth === elem.clientWidth;
-    elem.remove();
-  });
-})(window);
+export function _setHiddenScroll(value) {
+  hiddenscroll = value;
+}
+
+export function getHiddenScroll() {
+  return hiddenscroll;
+}

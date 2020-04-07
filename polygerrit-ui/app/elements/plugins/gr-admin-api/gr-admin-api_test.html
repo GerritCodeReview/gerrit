@@ -27,6 +27,8 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
+import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+
 suite('gr-admin-api tests', () => {
   let sandbox;
   let adminApi;
@@ -36,7 +38,7 @@ suite('gr-admin-api tests', () => {
     let plugin;
     Gerrit.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
-    Gerrit._loadPlugins([]);
+    pluginLoader.loadPlugins([]);
     adminApi = plugin.admin();
   });
 

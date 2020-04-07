@@ -139,7 +139,7 @@ suite('gr-change-metadata integration tests', () => {
     let plugin;
 
     setup(() => {
-      pluginLoader.install(p => plugin = p, '0.1',
+      Gerrit.install(p => plugin = p, '0.1',
           new URL('test/plugin.html?' + Math.random(),
               window.location.href).toString());
       sandbox.stub(pluginLoader, 'arePluginsLoaded').returns(true);

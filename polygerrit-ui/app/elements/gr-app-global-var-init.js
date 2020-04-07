@@ -68,6 +68,7 @@ import {GrPluginActionContext} from './shared/gr-js-api-interface/gr-plugin-acti
 import {getBaseUrl, getPluginNameFromUrl, getRestAPI, PLUGIN_LOADING_TIMEOUT_MS, PRELOADED_PROTOCOL, send} from './shared/gr-js-api-interface/gr-api-utils.js';
 import {GerritNav} from './core/gr-navigation/gr-navigation.js';
 import {getRootElement} from '../scripts/rootElement.js';
+import {rangesEqual} from './diff/gr-diff/gr-diff-utils.js';
 
 export function initGlobalVariables() {
   window.GrDisplayNameUtils = GrDisplayNameUtils;
@@ -132,4 +133,7 @@ export function initGlobalVariables() {
 
   window.Gerrit._pluginLoader = pluginLoader;
   window.Gerrit._endpoints = pluginEndpoints;
+
+  window.Gerrit.slotToContent = slot => slot;
+  window.Gerrit.rangesEqual = rangesEqual;
 }

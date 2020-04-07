@@ -63,6 +63,7 @@ import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-
 import {util} from '../../../scripts/util.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {_endpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
+import {_pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
 import {PrimaryTabs, SecondaryTabs} from '../../../constants/constants.js';
 import {NO_ROBOT_COMMENTS_THREADS_MSG} from '../../../constants/messages.js';
@@ -484,7 +485,7 @@ class GrChangeView extends mixinBehaviors( [
       this._setDiffViewMode();
     });
 
-    Gerrit.awaitPluginsLoaded()
+    _pluginLoader.awaitPluginsLoaded()
         .then(() => {
           this._dynamicTabHeaderEndpoints =
           _endpoints.getDynamicEndpoints('change-view-tab-header');
@@ -1165,7 +1166,7 @@ class GrChangeView extends mixinBehaviors( [
   }
 
   _maybeShowRevertDialog() {
-    Gerrit.awaitPluginsLoaded()
+    _pluginLoader.awaitPluginsLoaded()
         .then(this._getLoggedIn.bind(this))
         .then(loggedIn => {
           if (!loggedIn || !this._change ||

@@ -37,6 +37,8 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import '../../change/gr-change-actions/gr-change-actions.js';
+import {_pluginLoader} from './gr-plugin-loader.js';
+
 suite('gr-annotation-actions-js-api tests', () => {
   let annotationActions;
   let sandbox;
@@ -44,7 +46,7 @@ suite('gr-annotation-actions-js-api tests', () => {
 
   setup(() => {
     sandbox = sinon.sandbox.create();
-    Gerrit.install(p => { plugin = p; }, '0.1',
+    _pluginLoader.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
     annotationActions = plugin.annotationApi();
   });

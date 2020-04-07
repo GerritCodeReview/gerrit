@@ -48,7 +48,7 @@ suite('gr-plugin-endpoints tests', () => {
         'http://test.com/plugins/testplugin/static/bar.html');
     instance.registerModule(
         pluginBar, 'a-place', 'style', 'bar-module', domHook);
-    sandbox.stub(Gerrit, '_arePluginsLoaded').returns(true);
+    sandbox.stub(_pluginLoader, 'arePluginsLoaded').returns(true);
   });
 
   teardown(() => {

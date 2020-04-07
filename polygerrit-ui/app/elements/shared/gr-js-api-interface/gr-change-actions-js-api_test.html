@@ -38,6 +38,8 @@ breaking changes to gr-change-actions won’t be noticed.
 import '../../../test/common-test-setup.js';
 import '../../change/gr-change-actions/gr-change-actions.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {resetPlugins} from '../../../test/test-utils.js';
+
 suite('gr-js-api-interface tests', () => {
   let element;
   let changeActions;
@@ -53,7 +55,7 @@ suite('gr-js-api-interface tests', () => {
 
   suite('early init', () => {
     setup(() => {
-      Gerrit._testOnly_resetPlugins();
+      resetPlugins();
       Gerrit.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
       // Mimic all plugins loaded.
@@ -64,7 +66,7 @@ suite('gr-js-api-interface tests', () => {
 
     teardown(() => {
       changeActions = null;
-      Gerrit._testOnly_resetPlugins();
+      resetPlugins();
     });
 
     test('does not throw', ()=> {
@@ -76,7 +78,7 @@ suite('gr-js-api-interface tests', () => {
 
   suite('normal init', () => {
     setup(() => {
-      Gerrit._testOnly_resetPlugins();
+      resetPlugins();
       element = fixture('basic');
       sinon.stub(element, '_editStatusChanged');
       element.change = {};
@@ -90,7 +92,7 @@ suite('gr-js-api-interface tests', () => {
 
     teardown(() => {
       changeActions = null;
-      Gerrit._testOnly_resetPlugins();
+      resetPlugins();
     });
 
     test('property existence', () => {

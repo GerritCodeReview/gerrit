@@ -35,6 +35,7 @@ import '../../../test/common-test-setup.js';
 import './gr-change-actions.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {_pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 // TODO(dhruvsri): remove use of _populateRevertMessage as it's private
 suite('gr-change-actions tests', () => {
   let element;
@@ -94,7 +95,7 @@ suite('gr-change-actions tests', () => {
       });
 
       sandbox = sinon.sandbox.create();
-      sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
+      sandbox.stub(_pluginLoader, 'awaitPluginsLoaded').returns(Promise.resolve());
 
       element = fixture('basic');
       element.change = {};

@@ -63,6 +63,7 @@ import {util} from '../../../scripts/util.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {RevisionInfo} from '../../shared/revision-info/revision-info.js';
 
 import {PrimaryTabs, SecondaryTabs} from '../../../constants/constants.js';
 import {NO_ROBOT_COMMENTS_THREADS_MSG} from '../../../constants/messages.js';
@@ -2181,7 +2182,7 @@ class GrChangeView extends mixinBehaviors( [
   }
 
   _getRevisionInfo(change) {
-    return new Gerrit.RevisionInfo(change);
+    return new RevisionInfo(change);
   }
 
   _computeCurrentRevision(currentRevision, revisions) {

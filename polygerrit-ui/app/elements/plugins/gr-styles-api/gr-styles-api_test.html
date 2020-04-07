@@ -40,6 +40,11 @@ Polymer({is: 'gr-style-test-element'});
 import '../../../test/common-test-setup.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+
+initGerritPluginApi();
+
 suite('gr-styles-api tests', () => {
   let sandbox;
   let stylesApi;
@@ -49,7 +54,7 @@ suite('gr-styles-api tests', () => {
     let plugin;
     Gerrit.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
-    Gerrit._loadPlugins([]);
+    pluginLoader.loadPlugins([]);
     stylesApi = plugin.styles();
   });
 
@@ -78,7 +83,7 @@ suite('gr-styles-api tests', () => {
       let plugin;
       Gerrit.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
-      Gerrit._loadPlugins([]);
+      pluginLoader.loadPlugins([]);
       stylesApi = plugin.styles();
       displayInlineStyle = stylesApi.css('display: inline');
       displayNoneStyle = stylesApi.css('display: none');

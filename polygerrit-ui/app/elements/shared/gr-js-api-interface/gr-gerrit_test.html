@@ -35,6 +35,9 @@ import '../../../test/common-test-setup.js';
 import './gr-js-api-interface.js';
 import {pluginLoader} from './gr-plugin-loader.js';
 import {resetPlugins} from '../../../test/test-utils.js';
+import {initGerritPluginApi} from './gr-gerrit.js';
+
+initGerritPluginApi();
 
 suite('gr-gerrit tests', () => {
   let element;

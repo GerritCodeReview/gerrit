@@ -43,7 +43,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-metadata_html.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
-import {GrReviewerSuggestionsProvider} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
+import {GrReviewerSuggestionsProvider, SUGGESTIONS_PROVIDERS_USERS_TYPES} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
@@ -533,7 +533,7 @@ class GrChangeMetadata extends mixinBehaviors( [
 
   _getReviewerSuggestionsProvider(change) {
     const provider = GrReviewerSuggestionsProvider.create(this.$.restAPI,
-        change._number, Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY);
+        change._number, SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY);
     provider.init();
     return provider;
   }

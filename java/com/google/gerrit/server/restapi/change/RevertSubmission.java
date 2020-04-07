@@ -356,6 +356,7 @@ public class RevertSubmission
     cherryPickInput.parent = 1;
     cherryPickInput.keepReviewers = true;
     cherryPickInput.topic = revertInput.topic;
+    cherryPickInput.allowEmpty = true;
     return cherryPickInput;
   }
 
@@ -599,7 +600,6 @@ public class RevertSubmission
               cherryPickInput,
               BranchNameKey.create(
                   change.getProject(), RefNames.fullName(cherryPickInput.destination)),
-              true,
               timestamp,
               change.getId(),
               computedChangeId,

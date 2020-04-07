@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "713bf92f_4bdc115b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-07T14:32:35Z",
+      "side": 1,
+      "message": "\"this parameter\" or adapt to the new parameter name.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 19
+      },
+      "revId": "dc651df8b57d15fa8ea7cb33762f98465ee459fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c89d68c_8128e378",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-07T14:32:35Z",
+      "side": 1,
+      "message": "Would it be better to write this as:\n\n    ChangeInfo cherryPickChange \u003d orig.revision(r.getCommit().name()).cherryPick(in).get();\n    assertThat(cherryPickChange.cherryPickOfChange).isEqualTo(r.getChange().change().getChangeId());\n\n    // An empty commit is created\n    assertThat(cherryPickChange.insertions).isEqualTo(0);\n    assertThat(cherryPickChange.deletions).isEqualTo(0);\n\nThis way we retrieve the change only once, and not once for each check.",
+      "range": {
+        "startLine": 547,
+        "startChar": 4,
+        "endLine": 552,
+        "endChar": 56
+      },
+      "revId": "dc651df8b57d15fa8ea7cb33762f98465ee459fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

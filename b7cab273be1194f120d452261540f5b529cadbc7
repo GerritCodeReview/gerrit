@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "008c522c_61c1b138",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-07T14:32:35Z",
+      "side": 1,
+      "message": "Sounds good.",
+      "parentUuid": "7f7b61b2_279cbbc4",
+      "range": {
+        "startLine": 22,
+        "startChar": 15,
+        "endLine": 23,
+        "endChar": 9
+      },
+      "revId": "b7cab273be1194f120d452261540f5b529cadbc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "094b3523_949ca12e",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2

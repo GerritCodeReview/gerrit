@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b52a8982_3e528e3c",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-04-07T16:36:39Z",
+      "side": 0,
+      "message": "Removing this and next comment as per Patrick\u0027s suggestion on the previous change.",
+      "range": {
+        "startLine": 60,
+        "startChar": 4,
+        "endLine": 60,
+        "endChar": 63
+      },
+      "revId": "3e4b34b466dd4b45366f1ff5f0398c8743a02ad8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

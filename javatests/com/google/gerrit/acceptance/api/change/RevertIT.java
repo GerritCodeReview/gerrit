@@ -1125,6 +1125,42 @@ public class RevertIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "change.submitWholeTopic", value = "true")
+  public void revertSubmissionUnrelatedWithAnotherDependantChangeWithDifferentTopic()
+      throws Exception {
+    String topic = "topic";
+    PushOneCommit.Result firstResult =
+        createChange(testRepo, "master", "first change", "a.txt", "message", topic);
+    approve(firstResult.getChangeId());
+    testRepo.reset("HEAD~1");
+    PushOneCommit.Result secondResult =
+        createChange(testRepo, "master", "second change", "b.txt", "message", topic);
+    approve(secondResult.getChangeId());
+
+    // A non-merged change without the same topic that is related to the second change.
+    createChange();
+
+    gApi.changes().id(firstResult.getChangeId()).current().submit();
+
+    RevertSubmissionInfo revertSubmissionInfo =
+        gApi.changes().id(secondResult.getChangeId()).revertSubmission();
+
+    List<ChangeApi> revertChanges = getChangeApis(revertSubmissionInfo);
+    Collections.reverse(revertChanges);
+    assertThat(revertChanges.get(0).current().files().get("b.txt").linesDeleted).isEqualTo(1);
+    assertThat(revertChanges.get(1).current().files().get("a.txt").linesDeleted).isEqualTo(1);
+    // The parent of the first revert is the merge change of the submission.
+    assertThat(revertChanges.get(0).current().commit(false).parents.get(0).subject)
+        .contains("Merge \"second change\"");
+    // Next revert would base itself on the previous revert.
+    String sha1FirstRevert = revertChanges.get(0).current().commit(false).commit;
+    assertThat(revertChanges.get(1).current().commit(false).parents.get(0).commit)
+        .isEqualTo(sha1FirstRevert);
+
+    assertThat(revertChanges).hasSize(2);
+  }
+
+  @Test
   public void revertSubmissionSubjects() throws Exception {
     String firstResult = createChange("first change", "a.txt", "message").getChangeId();
     String secondResult = createChange("second change", "b.txt", "other").getChangeId();

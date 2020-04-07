@@ -84,7 +84,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
     return Response.ok(relatedChangesInfo);
   }
 
-  private List<RelatedChangeAndCommitInfo> getRelated(RevisionResource rsrc)
+  public List<RelatedChangeAndCommitInfo> getRelated(RevisionResource rsrc)
       throws IOException, PermissionBackendException {
     Set<String> groups = getAllGroups(rsrc.getNotes(), psUtil);
     logger.atFine().log("groups = %s", groups);

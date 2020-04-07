@@ -51,6 +51,7 @@ import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyResolver;
+import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.WalkSorter;
 import com.google.gerrit.server.change.WalkSorter.PatchSetData;
 import com.google.gerrit.server.extensions.events.ChangeReverted;
@@ -124,6 +125,8 @@ public class RevertSubmission
   private final Sequences seq;
   private final NotifyResolver notifyResolver;
   private final BatchUpdate.Factory updateFactory;
+  private final ChangeResource.Factory changeResourceFactory;
+  private final GetRelated getRelated;
 
   private CherryPickInput cherryPickInput;
   private List<ChangeInfo> results;
@@ -150,7 +153,9 @@ public class RevertSubmission
       RevertedSender.Factory revertedSenderFactory,
       Sequences seq,
       NotifyResolver notifyResolver,
-      BatchUpdate.Factory updateFactory) {
+      BatchUpdate.Factory updateFactory,
+      ChangeResource.Factory changeResourceFactory,
+      GetRelated getRelated) {
     this.queryProvider = queryProvider;
     this.user = user;
     this.permissionBackend = permissionBackend;
@@ -169,6 +174,8 @@ public class RevertSubmission
     this.seq = seq;
     this.notifyResolver = notifyResolver;
     this.updateFactory = updateFactory;
+    this.changeResourceFactory = changeResourceFactory;
+    this.getRelated = getRelated;
     results = new ArrayList<>();
     cherryPickInput = null;
   }
@@ -236,7 +243,7 @@ public class RevertSubmission
   private RevertSubmissionInfo revertSubmission(
       List<ChangeData> changeData, RevertInput revertInput)
       throws RestApiException, IOException, UpdateException, ConfigInvalidException,
-          StorageException {
+          StorageException, PermissionBackendException {
 
     Multimap<BranchNameKey, ChangeData> changesPerProjectAndBranch = ArrayListMultimap.create();
     changeData.stream().forEach(c -> changesPerProjectAndBranch.put(c.change().getDest(), c));
@@ -278,7 +285,8 @@ public class RevertSubmission
       Iterator<PatchSetData> sortedChangesInProjectAndBranch,
       Set<ObjectId> commitIdsInProjectAndBranch,
       Timestamp timestamp)
-      throws IOException, RestApiException, UpdateException, ConfigInvalidException {
+      throws IOException, RestApiException, UpdateException, ConfigInvalidException,
+          PermissionBackendException {
 
     String groupName = null;
     String initialMessage = revertInput.message;
@@ -429,11 +437,19 @@ public class RevertSubmission
    * @return the base of the first revert.
    */
   private ObjectId getBase(ChangeNotes changeNotes, Set<ObjectId> commitIds)
-      throws StorageException, IOException {
+      throws StorageException, IOException, PermissionBackendException {
     // If there is only one change in that project and branch, just base the revert on that one
     // change.
     if (commitIds.size() == 1) {
       return Iterables.getOnlyElement(commitIds);
+    }
+    // If all changes are related, just return the first commit of this submission in the
+    // topological sorting.
+    if (getRelated.getRelated(getRevisionResource(changeNotes)).stream()
+        .map(changes -> ObjectId.fromString(changes.commit.commit))
+        .collect(Collectors.toSet())
+        .containsAll(commitIds)) {
+      return changeNotes.getCurrentPatchSet().commitId();
     }
     try (Repository git = repoManager.openRepository(changeNotes.getProjectName());
         ObjectInserter oi = git.newObjectInserter();
@@ -490,6 +506,11 @@ public class RevertSubmission
               "Couldn't find change %s in the repository %s",
               changeNotes.getChangeId(), changeNotes.getProjectName().get()));
     }
+  }
+
+  private RevisionResource getRevisionResource(ChangeNotes changeNotes) {
+    return new RevisionResource(
+        changeResourceFactory.create(changeNotes, user.get()), psUtil.current(changeNotes));
   }
 
   /**

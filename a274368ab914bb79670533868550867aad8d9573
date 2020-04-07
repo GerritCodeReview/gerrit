@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "d79c0fa9_42f56147",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-07T07:50:12Z",
+      "side": 1,
+      "message": "This sounds like it\u0027s possible to change the value via configuration, but isn\u0027t 1 hard-coded?",
+      "range": {
+        "startLine": 847,
+        "startChar": 0,
+        "endLine": 847,
+        "endChar": 7
+      },
+      "revId": "a274368ab914bb79670533868550867aad8d9573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "df2dc1d5_5c30d1c8",
         "filename": "java/com/google/gerrit/server/config/DefaultPreferenceCache.java",
         "patchSetId": 1

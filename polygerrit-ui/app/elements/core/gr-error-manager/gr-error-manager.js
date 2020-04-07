@@ -37,6 +37,7 @@ import {htmlTemplate} from './gr-error-manager_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 import {authService} from '../../shared/gr-rest-api-interface/gr-auth.js';
+import {_gerritEventEmitter} from '../../shared/gr-event-emitter/gr-event-emitter.js';
 
 const HIDE_ALERT_TIMEOUT_MS = 5000;
 const CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
@@ -111,10 +112,11 @@ class GrErrorManager extends mixinBehaviors( [
     this.listen(document, 'visibilitychange', '_handleVisibilityChange');
     this.listen(document, 'show-auth-required', '_handleAuthRequired');
 
-    this._authErrorHandlerDeregistrationHook = Gerrit.on('auth-error',
-        event => {
-          this._handleAuthError(event.message, event.action);
-        });
+    this._authErrorHandlerDeregistrationHook =
+      _gerritEventEmitter.on('auth-error',
+          event => {
+            this._handleAuthError(event.message, event.action);
+          });
   }
 
   /** @override */

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ddcebf24_5ccb0e6d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-07T13:52:24Z",
+      "side": 1,
+      "message": "\u003e Well, I was essentially replicating the current behavior in RevertSubmission: empty commits are created in RevertSubmission, so why not in Cherry-pick topic? I guess we missed it when implementing I2673888b7?\n\nYes, it seems we missed this issue back then. I actually forget that this was the behaviour that was implemented for RevertSubmission :(\n\n\u003e I do see your point though: empty commits can\u0027t be submitted if the submit strategy is cherry-pick, and then the users in fact would have to abandon the created change.\n\u003e \n\u003e I see 3 logical options:\n\u003e 1. Submit this change and users should ignore/delete/submit if possible empty commits.\n\nFor now this is fine for me to unblock the work on cherry-picking topics (especially since the behaviour seems to be consistent with what RevertSubmission is doing).\n\n\u003e 2. Abandon this change, and have cherry-pick topic fail the changes that create an empty commit with some error message saying that this empty commit is unnecessary. \n\nI wouldn\u0027t call it \"have cherry-pick topic fail the changes that create an empty commit\" but rather \"have cherry-pick topic skip the changes that create an empty commit\". If this happens it\u0027s not an error, but expected behaviour. Of course we should show a message to the user, but it\u0027s not an \"error message\".\n\n\u003e Also, RevertSubmission should also be adjusted in a similar way but letting the user know that one of the reverts was empty and that\u0027s why it \"disappeared\" is more tricky here.\n\nYes, RevertSubmission should then be changed too.\n\nI think this option is the best. If there is no time to implement it now, we should at least file an issue for this, so that we know that this problem exists and what is our idea to solve it.\n\n\u003e 3. Leave RevertSubmission as is and have the frontend notify the user when cherry-picking failed because of empty commit. Abandon this change.\n\nThis means that the behaviour for RevertSubmission and Cherry-picking topics would be inconsistent, which I think we should avoid.\n\n\n\u003e Honestly, this is a really minor edge case - it\u0027s kind of really unlikely for empty commits to be created, and option 2 sounds like a few hours of work.\n\nI don\u0027t care much, if we don\u0027t want to do this work now, we should file an issue for this so that it can be picked up later.\n\n\u003e \n\u003e WDYT about the options?\n\nSee above.",
+      "parentUuid": "529646b4_a540a4e0",
+      "range": {
+        "startLine": 22,
+        "startChar": 15,
+        "endLine": 23,
+        "endChar": 9
+      },
+      "revId": "b7cab273be1194f120d452261540f5b529cadbc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "094b3523_949ca12e",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2

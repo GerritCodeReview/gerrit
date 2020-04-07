@@ -34,6 +34,10 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import '../gr-endpoint-decorator/gr-endpoint-decorator.js';
+import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+
+initGerritPluginApi();
 
 suite('gr-repo-api tests', () => {
   let sandbox;
@@ -44,7 +48,7 @@ suite('gr-repo-api tests', () => {
     let plugin;
     Gerrit.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
-    Gerrit._loadPlugins([]);
+    pluginLoader.loadPlugins([]);
     repoApi = plugin.project();
   });
 

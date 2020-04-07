@@ -32,6 +32,10 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import '../gr-js-api-interface/gr-js-api-interface.js';
 import {EventEmitter} from './gr-event-interface.js';
+import {initGerritPluginApi} from '../gr-js-api-interface/gr-gerrit.js';
+
+initGerritPluginApi();
+
 suite('gr-event-interface tests', () => {
   let sandbox;
 

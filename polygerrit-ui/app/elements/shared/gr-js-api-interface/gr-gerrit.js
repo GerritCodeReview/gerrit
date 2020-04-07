@@ -33,57 +33,19 @@ function flushPreinstalls() {
     window.Gerrit.flushPreinstalls();
   }
 }
-flushPreinstalls();
 export const _testOnly_flushPreinstalls = flushPreinstalls;
 
-window.Gerrit = window.Gerrit || {};
-const Gerrit = window.Gerrit;
+export function initGerritPluginApi() {
+  window.Gerrit = window.Gerrit || {};
+  flushPreinstalls();
+  initGerritPluginsMethods(window.Gerrit);
+  // Preloaded plugins should be installed after Gerrit.install() is set,
+  // since plugin preloader substitutes Gerrit.install() temporarily.
+  // (Gerrit.install() is set in initGerritPluginsMethods)
+  pluginLoader.installPreloadedPlugins();
+}
 
-/**
- * @deprecated Use plugin.styles().css(rulesStr) instead. Please, consult
- * the documentation how to replace it accordingly.
- */
-Gerrit.css = function(rulesStr) {
-  console.warn('Gerrit.css(rulesStr) is deprecated!',
-      'Use plugin.styles().css(rulesStr)');
-  if (!Gerrit._customStyleSheet) {
-    const styleEl = document.createElement('style');
-    document.head.appendChild(styleEl);
-    Gerrit._customStyleSheet = styleEl.sheet;
-  }
-
-  const name = '__pg_js_api_class_' +
-      Gerrit._customStyleSheet.cssRules.length;
-  Gerrit._customStyleSheet.insertRule('.' + name + '{' + rulesStr + '}', 0);
-  return name;
-};
-
-Gerrit.install = function(callback, opt_version, opt_src) {
-  pluginLoader.install(callback, opt_version, opt_src);
-};
-
-Gerrit.getLoggedIn = function() {
-  console.warn('Gerrit.getLoggedIn() is deprecated! ' +
-      'Use plugin.restApi().getLoggedIn()');
-  return document.createElement('gr-rest-api-interface').getLoggedIn();
-};
-
-Gerrit.get = function(url, callback) {
-  console.warn('.get() is deprecated! Use plugin.restApi().get()');
-  send('GET', url, callback);
-};
-
-Gerrit.post = function(url, payload, callback) {
-  console.warn('.post() is deprecated! Use plugin.restApi().post()');
-  send('POST', url, callback, payload);
-};
-
-Gerrit.put = function(url, payload, callback) {
-  console.warn('.put() is deprecated! Use plugin.restApi().put()');
-  send('PUT', url, callback, payload);
-};
-
-Gerrit.delete = function(url, opt_callback) {
+export function deprecatedDelete(url, opt_callback) {
   console.warn('.delete() is deprecated! Use plugin.restApi().delete()');
   return getRestAPI().send('DELETE', url)
       .then(response => {
@@ -101,72 +63,119 @@ Gerrit.delete = function(url, opt_callback) {
         }
         return response;
       });
-};
+}
 
-Gerrit.awaitPluginsLoaded = function() {
-  return pluginLoader.awaitPluginsLoaded();
-};
-
-// TODO(taoalpha): consider removing these proxy methods
-// and using _pluginLoader directly
-
-Gerrit._loadPlugins = function(plugins, opt_option) {
-  pluginLoader.loadPlugins(plugins, opt_option);
-};
-
-Gerrit._arePluginsLoaded = function() {
-  return pluginLoader.arePluginsLoaded();
-};
-
-Gerrit._isPluginPreloaded = function(url) {
-  return pluginLoader.isPluginPreloaded(url);
-};
-
-Gerrit._isPluginEnabled = function(pathOrUrl) {
-  return pluginLoader.isPluginEnabled(pathOrUrl);
-};
-
-Gerrit._isPluginLoaded = function(pathOrUrl) {
-  return pluginLoader.isPluginLoaded(pathOrUrl);
-};
-
-// Preloaded plugins should be installed after Gerrit.install() is set,
-// since plugin preloader substitutes Gerrit.install() temporarily.
-pluginLoader.installPreloadedPlugins();
-
-// TODO(taoalpha): List all internal supported event names.
-// Also convert this to inherited class once we move Gerrit to class.
-Gerrit._eventEmitter = new EventEmitter();
-['addListener',
-  'dispatch',
-  'emit',
-  'off',
-  'on',
-  'once',
-  'removeAllListeners',
-  'removeListener',
-].forEach(method => {
+function initGerritPluginsMethods(globalGerritObj) {
   /**
-   * Enabling EventEmitter interface on Gerrit.
-   *
-   * This will enable to signal across different parts of js code without relying on DOM,
-   * including core to core, plugin to plugin and also core to plugin.
-   *
-   * @example
-   *
-   * // Emit this event from pluginA
-   * Gerrit.install(pluginA => {
-   *   fetch("some-api").then(() => {
-   *     Gerrit.on("your-special-event", {plugin: pluginA});
-   *   });
-   * });
-   *
-   * // Listen on your-special-event from pluignB
-   * Gerrit.install(pluginB => {
-   *   Gerrit.on("your-special-event", ({plugin}) => {
-   *     // do something, plugin is pluginA
-   *   });
-   * });
+   * @deprecated Use plugin.styles().css(rulesStr) instead. Please, consult
+   * the documentation how to replace it accordingly.
    */
-  Gerrit[method] = Gerrit._eventEmitter[method].bind(Gerrit._eventEmitter);
-});
+  globalGerritObj.css = function(rulesStr) {
+    console.warn('Gerrit.css(rulesStr) is deprecated!',
+        'Use plugin.styles().css(rulesStr)');
+    if (!globalGerritObj._customStyleSheet) {
+      const styleEl = document.createElement('style');
+      document.head.appendChild(styleEl);
+      globalGerritObj._customStyleSheet = styleEl.sheet;
+    }
+
+    const name = '__pg_js_api_class_' +
+        globalGerritObj._customStyleSheet.cssRules.length;
+    globalGerritObj._customStyleSheet
+        .insertRule('.' + name + '{' + rulesStr + '}', 0);
+    return name;
+  };
+
+  globalGerritObj.install = function(callback, opt_version, opt_src) {
+    pluginLoader.install(callback, opt_version, opt_src);
+  };
+
+  globalGerritObj.getLoggedIn = function() {
+    console.warn('Gerrit.getLoggedIn() is deprecated! ' +
+        'Use plugin.restApi().getLoggedIn()');
+    return document.createElement('gr-rest-api-interface').getLoggedIn();
+  };
+
+  globalGerritObj.get = function(url, callback) {
+    console.warn('.get() is deprecated! Use plugin.restApi().get()');
+    send('GET', url, callback);
+  };
+
+  globalGerritObj.post = function(url, payload, callback) {
+    console.warn('.post() is deprecated! Use plugin.restApi().post()');
+    send('POST', url, callback, payload);
+  };
+
+  globalGerritObj.put = function(url, payload, callback) {
+    console.warn('.put() is deprecated! Use plugin.restApi().put()');
+    send('PUT', url, callback, payload);
+  };
+
+  globalGerritObj.delete = function(url, opt_callback) {
+    deprecatedDelete(url, opt_callback);
+  };
+
+  globalGerritObj.awaitPluginsLoaded = function() {
+    return pluginLoader.awaitPluginsLoaded();
+  };
+
+  // TODO(taoalpha): consider removing these proxy methods
+  // and using pluginLoader directly
+  globalGerritObj._loadPlugins = function(plugins, opt_option) {
+    pluginLoader.loadPlugins(plugins, opt_option);
+  };
+
+  globalGerritObj._arePluginsLoaded = function() {
+    return pluginLoader.arePluginsLoaded();
+  };
+
+  globalGerritObj._isPluginPreloaded = function(url) {
+    return pluginLoader.isPluginPreloaded(url);
+  };
+
+  globalGerritObj._isPluginEnabled = function(pathOrUrl) {
+    return pluginLoader.isPluginEnabled(pathOrUrl);
+  };
+
+  globalGerritObj._isPluginLoaded = function(pathOrUrl) {
+    return pluginLoader.isPluginLoaded(pathOrUrl);
+  };
+
+  // TODO(taoalpha): List all internal supported event names.
+  // Also convert this to inherited class once we move Gerrit to class.
+  globalGerritObj._eventEmitter = new EventEmitter();
+  ['addListener',
+    'dispatch',
+    'emit',
+    'off',
+    'on',
+    'once',
+    'removeAllListeners',
+    'removeListener',
+  ].forEach(method => {
+    /**
+     * Enabling EventEmitter interface on Gerrit.
+     *
+     * This will enable to signal across different parts of js code without relying on DOM,
+     * including core to core, plugin to plugin and also core to plugin.
+     *
+     * @example
+     *
+     * // Emit this event from pluginA
+     * Gerrit.install(pluginA => {
+     *   fetch("some-api").then(() => {
+     *     Gerrit.on("your-special-event", {plugin: pluginA});
+     *   });
+     * });
+     *
+     * // Listen on your-special-event from pluignB
+     * Gerrit.install(pluginB => {
+     *   Gerrit.on("your-special-event", ({plugin}) => {
+     *     // do something, plugin is pluginA
+     *   });
+     * });
+     */
+    globalGerritObj[method] = globalGerritObj._eventEmitter[method]
+        .bind(globalGerritObj._eventEmitter);
+  });
+}

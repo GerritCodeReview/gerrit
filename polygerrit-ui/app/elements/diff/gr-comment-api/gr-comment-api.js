@@ -46,9 +46,9 @@ class ChangeComments {
     this._getParentIndex =
     Gerrit.PatchSetBehavior.getParentIndex;
 
-    this._comments = comments;
-    this._robotComments = robotComments;
-    this._drafts = drafts;
+    this._comments = comments || {};
+    this._robotComments = robotComments || {};
+    this._drafts = drafts || {};
     this._changeNum = changeNum;
   }
 

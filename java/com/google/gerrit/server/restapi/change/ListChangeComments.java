@@ -57,12 +57,10 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
   @Override
   public Response<Map<String, List<CommentInfo>>> apply(ChangeResource rsrc)
       throws AuthException, PermissionBackendException {
-    /** List change comments does not require authentication */
     return Response.ok(getAsMap(listComments(rsrc), rsrc));
   }
 
   public List<CommentInfo> getComments(ChangeResource rsrc) throws PermissionBackendException {
-    /** List change comments does not require authentication */
     return getAsList(listComments(rsrc), rsrc);
   }
 

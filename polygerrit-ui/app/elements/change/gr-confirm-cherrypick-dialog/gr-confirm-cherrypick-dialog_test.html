@@ -146,6 +146,13 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
       });
     });
 
+    test('_computeStatusClass', () => {
+      assert.equal(element._computeStatusClass({id: 1}, {1: {status: 'RUNNING'},
+      }), '');
+      assert.equal(element._computeStatusClass({id: 1}, {1: {status: 'FAILED'}}
+      ), 'error');
+    });
+
     test('submit button is blocked while cherry picks is running', done => {
       console.log(element);
       const confirmButton = element.shadowRoot.querySelector('gr-dialog').$

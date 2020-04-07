@@ -41,6 +41,8 @@ import '../../../test/common-test-setup.js';
 import '../../plugins/gr-plugin-host/gr-plugin-host.js';
 import './gr-change-metadata.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {resetPlugins} from '../../../test/test-utils.js';
+
 suite('gr-change-metadata integration tests', () => {
   let sandbox;
   let element;
@@ -88,7 +90,7 @@ suite('gr-change-metadata integration tests', () => {
 
   teardown(() => {
     sandbox.restore();
-    Gerrit._testOnly_resetPlugins();
+    resetPlugins();
   });
 
   suite('by default', () => {
@@ -106,7 +108,7 @@ suite('gr-change-metadata integration tests', () => {
 
   suite('with plugin style', () => {
     setup(done => {
-      Gerrit._testOnly_resetPlugins();
+      resetPlugins();
       const pluginHost = fixture('plugin-host');
       pluginHost.config = {
         plugin: {

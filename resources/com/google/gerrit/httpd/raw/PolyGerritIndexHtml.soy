@@ -44,6 +44,11 @@
     To use PolyGerrit, please enable JavaScript in your browser settings, and then refresh this page.
   </noscript>
 
+  <style>
+    body {lb}
+      --initial-background-color: white;
+    {rb}
+  </style>
   <script>
     // Disable extra font load from paper-styles
     window.polymerSkipLoadingFontRoboto = true;
@@ -77,6 +82,11 @@
       // for the given user.
       window.ENABLED_EXPERIMENTS = JSON.parse({$enabledExperiments});
     {/if}
+    if (!!window.localStorage.getItem('dark-theme')) {lb}
+      let st = document.getElementsByTagName("STYLE")[0];
+      // Avoid white flashes in dark theme.
+      st.innerHTML = "body {lb} --initial-background-color: black; {rb}";
+    {rb}
   </script>{\n}
 
   {if $faviconPath}
@@ -156,6 +166,6 @@
   {/if}
   <link rel="stylesheet" href="{$staticResourcePath}/styles/main.css">{\n}
 
-  <body unresolved>{\n}
+  <body style="background-color: var(--initial-background-color);" unresolved>{\n}
   <gr-app id="app"></gr-app>{\n}
 {/template}

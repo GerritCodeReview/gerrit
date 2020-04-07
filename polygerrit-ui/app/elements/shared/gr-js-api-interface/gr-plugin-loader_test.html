@@ -38,9 +38,9 @@ import {PRELOADED_PROTOCOL, PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils.js';
 import {pluginLoader} from './gr-plugin-loader.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import {_testOnly_flushPreinstalls} from './gr-gerrit.js';
-import {initGerritPluginApi} from './gr-gerrit.js';
+import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 
-initGerritPluginApi();
+const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-plugin-loader tests', () => {
   let plugin;
@@ -72,11 +72,11 @@ suite('gr-plugin-loader tests', () => {
   });
 
   test('reuse plugin for install calls', () => {
-    Gerrit.install(p => { plugin = p; }, '0.1',
+    pluginApi.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
 
     let otherPlugin;
-    Gerrit.install(p => { otherPlugin = p; }, '0.1',
+    pluginApi.install(p => { otherPlugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
     assert.strictEqual(plugin, otherPlugin);
   });
@@ -93,7 +93,7 @@ suite('gr-plugin-loader tests', () => {
 
   test('versioning', () => {
     const callback = sandbox.spy();
-    Gerrit.install(callback, '0.0pre-alpha');
+    pluginApi.install(callback, '0.0pre-alpha');
     assert(callback.notCalled);
   });
 
@@ -126,7 +126,7 @@ suite('gr-plugin-loader tests', () => {
 
   test('plugins installed successfully', done => {
     sandbox.stub(pluginLoader, '_loadJsPlugin', url => {
-      Gerrit.install(() => void 0, undefined, url);
+      pluginApi.install(() => void 0, undefined, url);
     });
     const pluginsLoadedStub = sandbox.stub();
     stub('gr-reporting', {
@@ -148,7 +148,7 @@ suite('gr-plugin-loader tests', () => {
 
   test('isPluginEnabled and isPluginLoaded', done => {
     sandbox.stub(pluginLoader, '_loadJsPlugin', url => {
-      Gerrit.install(() => void 0, undefined, url);
+      pluginApi.install(() => void 0, undefined, url);
     });
     const pluginsLoadedStub = sandbox.stub();
     stub('gr-reporting', {
@@ -185,7 +185,7 @@ suite('gr-plugin-loader tests', () => {
     document.addEventListener('show-alert', alertStub);
 
     sandbox.stub(pluginLoader, '_loadJsPlugin', url => {
-      Gerrit.install(() => {
+      pluginApi.install(() => {
         if (url === plugins[0]) {
           throw new Error('failed');
         }
@@ -217,7 +217,7 @@ suite('gr-plugin-loader tests', () => {
     document.addEventListener('show-alert', alertStub);
 
     sandbox.stub(pluginLoader, '_loadJsPlugin', url => {
-      Gerrit.install(() => {
+      pluginApi.install(() => {
         if (url === plugins[0]) {
           throw new Error('failed');
         }
@@ -254,7 +254,7 @@ suite('gr-plugin-loader tests', () => {
     document.addEventListener('show-alert', alertStub);
 
     sandbox.stub(pluginLoader, '_loadJsPlugin', url => {
-      Gerrit.install(() => {
+      pluginApi.install(() => {
         throw new Error('failed');
       }, undefined, url);
     });
@@ -284,7 +284,7 @@ suite('gr-plugin-loader tests', () => {
     document.addEventListener('show-alert', alertStub);
 
     sandbox.stub(pluginLoader, '_loadJsPlugin', url => {
-      Gerrit.install(() => {
+      pluginApi.install(() => {
       }, url === plugins[0] ? '' : 'alpha', url);
     });
 
@@ -305,7 +305,7 @@ suite('gr-plugin-loader tests', () => {
 
   test('multiple assets for same plugin installed successfully', done => {
     sandbox.stub(pluginLoader, '_loadJsPlugin', url => {
-      Gerrit.install(() => void 0, undefined, url);
+      pluginApi.install(() => void 0, undefined, url);
     });
     const pluginsLoadedStub = sandbox.stub();
     stub('gr-reporting', {
@@ -498,7 +498,7 @@ suite('gr-plugin-loader tests', () => {
       }
     }
     sandbox.stub(pluginLoader, '_loadJsPlugin', url => {
-      Gerrit.install(() => pluginCallback(url), undefined, url);
+      pluginApi.install(() => pluginCallback(url), undefined, url);
     });
 
     pluginLoader.loadPlugins(plugins);
@@ -559,7 +559,7 @@ suite('gr-plugin-loader tests', () => {
 
     test('installing preloaded plugin', () => {
       let plugin;
-      Gerrit.install(p => { plugin = p; }, '0.1', 'preloaded:foo');
+      pluginApi.install(p => { plugin = p; }, '0.1', 'preloaded:foo');
       assert.strictEqual(plugin.getPluginName(), 'foo');
       assert.strictEqual(plugin.url('/some/thing.html'),
           `${window.location.origin}/plugins/foo/some/thing.html`);

@@ -29,9 +29,9 @@ import '../../../test/common-test-setup.js';
 import './gr-js-api-interface.js';
 import {GrPluginEndpoints} from './gr-plugin-endpoints.js';
 import {pluginLoader} from './gr-plugin-loader.js';
-import {initGerritPluginApi} from './gr-gerrit.js';
+import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 
-initGerritPluginApi();
+const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-plugin-endpoints tests', () => {
   let sandbox;
@@ -44,11 +44,11 @@ suite('gr-plugin-endpoints tests', () => {
     sandbox = sinon.sandbox.create();
     domHook = {};
     instance = new GrPluginEndpoints();
-    Gerrit.install(p => { pluginFoo = p; }, '0.1',
+    pluginApi.install(p => { pluginFoo = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/foo.html');
     instance.registerModule(
         pluginFoo, 'a-place', 'decorate', 'foo-module', domHook);
-    Gerrit.install(p => { pluginBar = p; }, '0.1',
+    pluginApi.install(p => { pluginBar = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/bar.html');
     instance.registerModule(
         pluginBar, 'a-place', 'style', 'bar-module', domHook);

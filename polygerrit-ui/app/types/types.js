@@ -38,6 +38,8 @@ export const CoverageType = {
   NOT_INSTRUMENTED: 'NOT_INSTRUMENTED',
 };
 
+const Gerrit = window.Gerrit || {};
+
 /**
  * @typedef {{
  *   start_line: number,

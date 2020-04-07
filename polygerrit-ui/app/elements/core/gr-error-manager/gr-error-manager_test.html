@@ -39,9 +39,9 @@ void (0);
 import '../../../test/common-test-setup.js';
 import './gr-error-manager.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 
-initGerritPluginApi();
+_testOnly_initGerritPluginApi();
 
 suite('gr-error-manager tests', () => {
   let element;

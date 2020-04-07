@@ -35,8 +35,8 @@ import '../../../test/common-test-setup.js';
 import './gr-js-api-interface.js';
 import {GrAnnotation} from '../../diff/gr-diff-highlight/gr-annotation.js';
 import {GrAnnotationActionsContext} from './gr-annotation-actions-context.js';
-import {initGerritPluginApi} from './gr-gerrit.js';
-initGerritPluginApi();
+import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
+const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-annotation-actions-context tests', () => {
   let instance;
@@ -47,7 +47,7 @@ suite('gr-annotation-actions-context tests', () => {
 
   setup(() => {
     sandbox = sinon.sandbox.create();
-    Gerrit.install(p => { plugin = p; }, '0.1',
+    pluginApi.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
 
     const str = 'lorem ipsum blah blah';

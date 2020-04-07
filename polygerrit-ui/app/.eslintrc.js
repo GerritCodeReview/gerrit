@@ -165,7 +165,6 @@ module.exports = {
     // You must not add anything new in this list!
     // Instead export variables from modules
     // TODO(dmfilippov): Remove global variables from polygerrit
-    "Gerrit": "readonly",
     "GrReporting": "readonly",
     // Global variables from 3rd party libraries.
     // You should not add anything in this list, always try to import
@@ -210,6 +209,13 @@ module.exports = {
       "files": "import-href.js",
       "globals": {
         "HTMLImports": "readonly",
+      }
+    },
+    {
+      "files": ["samples/**/*.js", "**/test/plugin.html"],
+      "globals": {
+        // Settings for samples. You can add globals here if you want to use it
+        "Gerrit": "readonly",
       }
     },
     {

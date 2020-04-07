@@ -15,6 +15,10 @@
  * limitations under the License.
  */
 
+import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader.js';
+import {testOnly_resetInternalState} from '../elements/shared/gr-js-api-interface/gr-api-utils.js';
+import {_testOnly_resetEndpoints} from '../elements/shared/gr-js-api-interface/gr-plugin-endpoints.js';
+
 export const mockPromise = () => {
   let res;
   const promise = new Promise(resolve => {
@@ -24,3 +28,11 @@ export const mockPromise = () => {
   return promise;
 };
 export const isHidden = el => getComputedStyle(el).display === 'none';
+
+// Provide reset plugins function to clear installed plugins between tests.
+// No gr-app found (running tests)
+export const resetPlugins = () => {
+  testOnly_resetInternalState();
+  _testOnly_resetEndpoints();
+  _testOnly_resetPluginLoader();
+};

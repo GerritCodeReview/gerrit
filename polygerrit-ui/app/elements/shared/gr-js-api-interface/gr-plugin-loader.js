@@ -434,3 +434,9 @@ PluginLoader.PluginObject;
  *          }}
  */
 PluginLoader.PluginOption;
+
+// TODO(dmfilippov) Update to service
+export let _pluginLoader = new PluginLoader();
+export function _testOnly_resetPluginLoader() {
+  _pluginLoader = new PluginLoader();
+}

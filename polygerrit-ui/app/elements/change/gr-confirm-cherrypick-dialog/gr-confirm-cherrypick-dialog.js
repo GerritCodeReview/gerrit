@@ -142,6 +142,11 @@ class GrConfirmCherrypickDialog extends mixinBehaviors( [
     return statuses[change.id].status;
   }
 
+  _computeStatusClass(change, statuses) {
+    if (!statuses || !statuses[change.id]) return '';
+    return statuses[change.id].status === 'FAILED' ? 'error': '';
+  }
+
   _computeError(change, statuses) {
     if (!statuses || !statuses[change.id]) return '';
     if (statuses[change.id].status === 'FAILED') {

@@ -18,15 +18,18 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
@@ -52,10 +55,20 @@ public class Reachable {
   /** @return true if a commit is reachable from a given set of refs. */
   public boolean fromRefs(
       Project.NameKey project, Repository repo, RevCommit commit, Map<String, Ref> refs) {
+    return fromRefs(project, repo, commit, refs, Optional.empty());
+  }
+
+  private boolean fromRefs(
+      Project.NameKey project,
+      Repository repo,
+      RevCommit commit,
+      Map<String, Ref> refs,
+      Optional<Provider<? extends CurrentUser>> userProvider) {
     try (RevWalk rw = new RevWalk(repo)) {
       Map<String, Ref> filtered =
-          permissionBackend
-              .currentUser()
+          userProvider
+              .map(up -> permissionBackend.user(up.get()))
+              .orElse(permissionBackend.currentUser())
               .project(project)
               .filter(refs, repo, RefFilterOptions.builder().setFilterTagsSeparately(true).build());
       return IncludedInResolver.includedInAny(repo, rw, commit, filtered.values());
@@ -67,7 +80,11 @@ public class Reachable {
   }
 
   /** @return true if a commit is reachable from a repo's branches and tags. */
-  boolean fromHeadsOrTags(Project.NameKey project, Repository repo, RevCommit commit) {
+  boolean fromHeadsOrTags(
+      Project.NameKey project,
+      Repository repo,
+      RevCommit commit,
+      Provider<? extends CurrentUser> userProvider) {
     try {
       RefDatabase refdb = repo.getRefDatabase();
       Collection<Ref> heads = refdb.getRefsByPrefix(Constants.R_HEADS);
@@ -76,7 +93,7 @@ public class Reachable {
       for (Ref r : Iterables.concat(heads, tags)) {
         refs.put(r.getName(), r);
       }
-      return fromRefs(project, repo, commit, refs);
+      return fromRefs(project, repo, commit, refs, Optional.of(userProvider));
     } catch (IOException e) {
       logger.atSevere().withCause(e).log(
           "Cannot verify permissions to commit object %s in repository %s", commit.name(), project);

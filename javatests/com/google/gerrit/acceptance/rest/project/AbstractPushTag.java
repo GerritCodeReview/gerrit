@@ -21,14 +21,16 @@ import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.GitUtil.updateAnnotatedTag;
 import static com.google.gerrit.acceptance.rest.project.AbstractPushTag.TagType.ANNOTATED;
 import static com.google.gerrit.acceptance.rest.project.AbstractPushTag.TagType.LIGHTWEIGHT;
+import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
-import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.project.testing.Util;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
@@ -37,7 +39,6 @@ import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.junit.Before;
 import org.junit.Test;
 
-@NoHttpd
 public abstract class AbstractPushTag extends AbstractDaemonTest {
   enum TagType {
     LIGHTWEIGHT(Permission.CREATE),
@@ -55,11 +56,9 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
 
   @Before
   public void setUpTestEnvironment() throws Exception {
-    // clone with user to avoid inherited tag permissions of admin user
-    testRepo = cloneProject(project, user);
-
     initialHead = getRemoteHead();
     tagType = getTagType();
+    removeAnonymousRead();
   }
 
   protected abstract TagType getTagType();
@@ -249,6 +248,17 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
 
   private void removePushFromRefsTags() throws Exception {
     removePermission(project, "refs/tags/*", Permission.PUSH);
+  }
+
+  private void removeAnonymousRead() throws Exception {
+    AccountGroup.UUID anonymous = systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
+    AccountGroup.UUID registered = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+    String allRefs = RefNames.REFS + "*";
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      Util.block(u.getConfig(), Permission.READ, anonymous, allRefs);
+      Util.allow(u.getConfig(), Permission.READ, registered, allRefs);
+      u.save();
+    }
   }
 
   private void commit(PersonIdent ident, String subject) throws Exception {

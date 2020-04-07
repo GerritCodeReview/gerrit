@@ -170,7 +170,6 @@ public class CherryPickChange {
         patch.commitId(),
         input,
         dest,
-        false,
         TimeUtil.nowTs(),
         null,
         null,
@@ -206,17 +205,7 @@ public class CherryPickChange {
       throws IOException, InvalidChangeOperationException, UpdateException, RestApiException,
           ConfigInvalidException, NoSuchProjectException {
     return cherryPick(
-        sourceChange,
-        project,
-        sourceCommit,
-        input,
-        dest,
-        false,
-        TimeUtil.nowTs(),
-        null,
-        null,
-        null,
-        null);
+        sourceChange, project, sourceCommit, input, dest, TimeUtil.nowTs(), null, null, null, null);
   }
 
   /**
@@ -230,8 +219,6 @@ public class CherryPickChange {
    * @param sourceCommit Id of the commit to be cherry picked.
    * @param input Input object for different configurations of cherry pick.
    * @param dest Destination branch for the cherry pick.
-   * @param ignoreIdenticalTree When false, we throw an error when trying to cherry-pick creates an
-   *     empty commit. When true, we allow creation of an empty commit.
    * @param timestamp the current timestamp.
    * @param revertedChange The id of the change that is reverted. This is used for the "revertOf"
    *     field to mark the created cherry pick change as "revertOf" the original change that was
@@ -258,7 +245,6 @@ public class CherryPickChange {
       ObjectId sourceCommit,
       CherryPickInput input,
       BranchNameKey dest,
-      boolean ignoreIdenticalTree,
       Timestamp timestamp,
       @Nullable Change.Id revertedChange,
       @Nullable ObjectId changeIdForNewChange,
@@ -326,7 +312,7 @@ public class CherryPickChange {
                 commitMessage,
                 revWalk,
                 input.parent - 1,
-                ignoreIdenticalTree,
+                input.ignoreIdenticalTree,
                 input.allowConflicts);
 
         Change.Key changeKey;

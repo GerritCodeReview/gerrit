@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "40632007_c55aca7e",
+        "filename": "polygerrit-ui/app/test/test-utils.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-07T10:47:17Z",
+      "side": 1,
+      "message": "This function exists for a long time without documentation (and truly speaking, I don\u0027t know what it does).\n\nMy goal is removing global variables. There is a long chain were multiple functions, classes, consts were marked with export and which doesn\u0027t have any jsdoc (https://gerrit-review.googlesource.com/c/gerrit/+/262313/).\nWriting doc for all these functions requires huge amount of time just to understand what code is doing.\n\nWe can later organize some day\\week to add more comments for them, but I definitely want to focus only on removing global variables.",
+      "parentUuid": "3239c508_133699a1",
+      "revId": "359decb10f65fab8c94169070db2d11f238f46d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df267d4c_7f175f1f",
         "filename": "polygerrit-ui/app/test/test-utils.js",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "359decb10f65fab8c94169070db2d11f238f46d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38eae61b_0c334af6",
+        "filename": "polygerrit-ui/app/test/test-utils.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-07T10:47:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df267d4c_7f175f1f",
+      "revId": "359decb10f65fab8c94169070db2d11f238f46d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

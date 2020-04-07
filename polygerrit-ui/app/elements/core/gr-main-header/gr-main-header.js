@@ -32,6 +32,7 @@ import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-beh
 import {DocsUrlBehavior} from '../../../behaviors/docs-url-behavior/docs-url-behavior.js';
 import {FireBehavior} from '../../../behaviors/fire-behavior/fire-behavior.js';
 import {AdminNavBehavior} from '../../../behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.js';
+import {_pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
 const DEFAULT_LINKS = [{
   title: 'Changes',
@@ -268,7 +269,7 @@ class GrMainHeader extends mixinBehaviors( [
     const promises = [
       this.$.restAPI.getAccount(),
       this.$.restAPI.getTopMenus(),
-      Gerrit.awaitPluginsLoaded(),
+      _pluginLoader.awaitPluginsLoaded(),
     ];
 
     return Promise.all(promises).then(result => {

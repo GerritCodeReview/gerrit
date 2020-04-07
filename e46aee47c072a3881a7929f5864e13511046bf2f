@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5477322d_0fdae803",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-07T11:59:13Z",
+      "side": 1,
+      "message": "maybe add a comment above on why we have this",
+      "revId": "e46aee47c072a3881a7929f5864e13511046bf2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fc06637_1305dfc7",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-07T11:59:13Z",
+      "side": 1,
+      "message": "i would rather create a style and insert it to head instead, will be more reliable (no need to worry about the order of styles if we have more etc).",
+      "revId": "e46aee47c072a3881a7929f5864e13511046bf2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

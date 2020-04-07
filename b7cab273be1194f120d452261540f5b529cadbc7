@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "529646b4_a540a4e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-07T13:31:15Z",
+      "side": 1,
+      "message": "Well, I was essentially replicating the current behavior in RevertSubmission: empty commits are created in RevertSubmission, so why not in Cherry-pick topic? I guess we missed it when implementing I2673888b7?\n\nI do see your point though: empty commits can\u0027t be submitted if the submit strategy is cherry-pick, and then the users in fact would have to abandon the created change.\n\nI see 3 logical options:\n1. Submit this change and users should ignore/delete/submit if possible empty commits.\n2. Abandon this change, and have cherry-pick topic fail the changes that create an empty commit with some error message saying that this empty commit is unnecessary. Also, RevertSubmission should also be adjusted in a similar way but letting the user know that one of the reverts was empty and that\u0027s why it \"disappeared\" is more tricky here..\n3. Leave RevertSubmission as is and have the frontend notify the user when cherry-picking failed because of empty commit. Abandon this change.\n\nHonestly, this is a really minor edge case - it\u0027s kind of really unlikely for empty commits to be created, and option 2 sounds like a few hours of work.\n\nWDYT about the options?",
+      "parentUuid": "f71fc077_3e67bee0",
+      "range": {
+        "startLine": 22,
+        "startChar": 15,
+        "endLine": 23,
+        "endChar": 9
+      },
+      "revId": "b7cab273be1194f120d452261540f5b529cadbc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "094b3523_949ca12e",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2

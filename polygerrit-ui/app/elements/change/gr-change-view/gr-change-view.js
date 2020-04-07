@@ -62,6 +62,7 @@ import {GrEditConstants} from '../../edit/gr-edit-constants.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
 import {util} from '../../../scripts/util.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {_endpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 
 import {PrimaryTabs, SecondaryTabs} from '../../../constants/constants.js';
 import {NO_ROBOT_COMMENTS_THREADS_MSG} from '../../../constants/messages.js';
@@ -486,9 +487,9 @@ class GrChangeView extends mixinBehaviors( [
     Gerrit.awaitPluginsLoaded()
         .then(() => {
           this._dynamicTabHeaderEndpoints =
-          Gerrit._endpoints.getDynamicEndpoints('change-view-tab-header');
+          _endpoints.getDynamicEndpoints('change-view-tab-header');
           this._dynamicTabContentEndpoints =
-          Gerrit._endpoints.getDynamicEndpoints('change-view-tab-content');
+          _endpoints.getDynamicEndpoints('change-view-tab-content');
           if (this._dynamicTabContentEndpoints.length !==
           this._dynamicTabHeaderEndpoints.length) {
             console.warn('Different number of tab headers and tab content.');

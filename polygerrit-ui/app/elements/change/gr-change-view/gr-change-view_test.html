@@ -311,7 +311,7 @@ suite('gr-change-view tests', () => {
     });
     element = fixture('basic');
     sandbox.stub(element.$.actions, 'reload').returns(Promise.resolve());
-    Gerrit._loadPlugins([]);
+    pluginLoader._loadPlugins([]);
     Gerrit.install(
         plugin => {
           plugin.registerDynamicCustomComponent(

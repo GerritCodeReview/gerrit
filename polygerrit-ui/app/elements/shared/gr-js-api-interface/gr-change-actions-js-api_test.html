@@ -39,6 +39,9 @@ import '../../../test/common-test-setup.js';
 import '../../change/gr-change-actions/gr-change-actions.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {resetPlugins} from '../../../test/test-utils.js';
+import {pluginLoader} from './gr-plugin-loader.js';
+import {initPlugins} from './gr-gerrit.js';
+initPlugins();
 
 suite('gr-js-api-interface tests', () => {
   let element;
@@ -59,7 +62,7 @@ suite('gr-js-api-interface tests', () => {
       Gerrit.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
       // Mimic all plugins loaded.
-      Gerrit._loadPlugins([]);
+      pluginLoader.loadPlugins([]);
       changeActions = plugin.changeActions();
       element = fixture('basic');
     });
@@ -87,7 +90,7 @@ suite('gr-js-api-interface tests', () => {
           'http://test.com/plugins/testplugin/static/test.js');
       changeActions = plugin.changeActions();
       // Mimic all plugins loaded.
-      Gerrit._loadPlugins([]);
+      pluginLoader.loadPlugins([]);
     });
 
     teardown(() => {

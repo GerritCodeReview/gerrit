@@ -58,6 +58,7 @@ import org.junit.runners.model.InitializationError;
  *   public static Config firstConfig() {
  *     Config cfg = new Config();
  *     cfg.setString("gerrit", null, "testValue", "a");
+ *     return cfg;
  *   }
  * }
  *
@@ -66,6 +67,7 @@ import org.junit.runners.model.InitializationError;
  *   public static Config secondConfig() {
  *     Config cfg = new Config();
  *     cfg.setString("gerrit", null, "testValue", "b");
+ *     return cfg;
  *   }
  *
  *   {@literal @}Test

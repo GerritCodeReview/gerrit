@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "34e5cdbf_5be0b71f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-04-08T18:59:59Z",
+      "side": 1,
+      "message": "It was on patchset 2, then I rebased master and the screenshot is gone.\nReally weird.\nNot sure what happened.",
+      "parentUuid": "0f4f4f81_074caae5",
+      "revId": "31ea749c5cdefd2d2134a85eabbf0b04101f3ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1432526_5aa0ac4b",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "31ea749c5cdefd2d2134a85eabbf0b04101f3ab8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a6dac3a_4a31c57d",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-04-08T18:59:59Z",
+      "side": 1,
+      "message": "Function looks pretty straightforward, but sure added a test.",
+      "parentUuid": "a1432526_5aa0ac4b",
+      "revId": "31ea749c5cdefd2d2134a85eabbf0b04101f3ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5541119c_2495e205",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-04-08T18:59:59Z",
+      "side": 1,
+      "message": "It\u0027s not observing on anything, the dialog should never be opened without changes(does not make sense, how can you cherry pick a change if change is undefined).",
+      "parentUuid": "7420734a_65192dd3",
+      "revId": "31ea749c5cdefd2d2134a85eabbf0b04101f3ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0384fb78_069baab0",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_html.js",
         "patchSetId": 3
@@ -67,6 +121,24 @@
       "revId": "31ea749c5cdefd2d2134a85eabbf0b04101f3ab8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02a8331b_bd36fe96",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_html.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-04-08T18:59:59Z",
+      "side": 1,
+      "message": "Moved them closer to tr\u003etd styles.",
+      "parentUuid": "0384fb78_069baab0",
+      "revId": "31ea749c5cdefd2d2134a85eabbf0b04101f3ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -30,11 +30,16 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  public interface Factory {
+    ChangeIsVisibleToPredicate forUser(CurrentUser user);
+  }
 
   protected final ChangeNotes.Factory notesFactory;
   protected final CurrentUser user;
@@ -45,10 +50,10 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
   @Inject
   public ChangeIsVisibleToPredicate(
       ChangeNotes.Factory notesFactory,
-      CurrentUser user,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
-      Provider<AnonymousUser> anonymousUserProvider) {
+      Provider<AnonymousUser> anonymousUserProvider,
+      @Assisted CurrentUser user) {
     super(ChangeQueryBuilder.FIELD_VISIBLETO, IndexUtils.describe(user));
     this.notesFactory = notesFactory;
     this.user = user;

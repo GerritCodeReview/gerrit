@@ -22,6 +22,30 @@
       "revId": "7fd045a4b33d6e073ccaa14cfd9a88a0eb82aff3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d7149d2_69b58048",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-04-08T09:31:33Z",
+      "side": 1,
+      "message": "Good point. Thanks! draft comments are also checked in other tests.\nDone.",
+      "parentUuid": "474a9ec6_1b70ea72",
+      "range": {
+        "startLine": 689,
+        "startChar": 4,
+        "endLine": 694,
+        "endChar": 0
+      },
+      "revId": "7fd045a4b33d6e073ccaa14cfd9a88a0eb82aff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

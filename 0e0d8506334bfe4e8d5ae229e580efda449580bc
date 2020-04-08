@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "91e2cf7f_6f53d87c",
+        "filename": "tools/platforms/Dockerfile",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-08T21:27:40Z",
+      "side": 1,
+      "message": "My only concern is that someone clones Gerrit, tries to build and gets an error that has no permissions to see the api-project-164060093628/rbe-ubuntu18-04 image.\n\nCan we at least publish it to Dockerhub instead?",
+      "parentUuid": "aa9e5787_c20c031e",
+      "range": {
+        "startLine": 34,
+        "startChar": 21,
+        "endLine": 34,
+        "endChar": 45
+      },
+      "revId": "0e0d8506334bfe4e8d5ae229e580efda449580bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "82845306_383c25a3",
         "filename": "tools/platforms/Dockerfile",
         "patchSetId": 9
@@ -108,6 +132,30 @@
       "side": 1,
       "message": "\u003e so that we can run it from the gerrit-ci-scripts as well.\n\nBut the file is located in gerrit repository you mean link/copy it first?",
       "parentUuid": "c8a2e9cd_752252e8",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 0
+      },
+      "revId": "0e0d8506334bfe4e8d5ae229e580efda449580bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31dd16a9_01db324d",
+        "filename": "tools/platforms/Dockerfile",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-08T21:27:40Z",
+      "side": 1,
+      "message": "Yep, we could do that.",
+      "parentUuid": "593deb4b_aba83192",
       "range": {
         "startLine": 23,
         "startChar": 0,

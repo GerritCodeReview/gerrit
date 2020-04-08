@@ -52,6 +52,24 @@
       "revId": "ac131c899f66387811b2fd96460f38506e9835e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b034542_05ee8a06",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-08T09:33:43Z",
+      "side": 1,
+      "message": "I guess the checkState is not necessary anymore since now I\u0027m directly taking the one change.",
+      "parentUuid": "62db1aa2_41a1fa71",
+      "revId": "ac131c899f66387811b2fd96460f38506e9835e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -147,7 +147,9 @@ class GrAccountInfo extends mixinBehaviors( [
           this._hasDisplayNameChange = false;
           this._hasStatusChange = false;
           this._saving = false;
-          this.fire('account-detail-update');
+          this.dispatchEvent(new CustomEvent('account-detail-update', {
+            composed: true, bubbles: true,
+          }));
         });
   }
 

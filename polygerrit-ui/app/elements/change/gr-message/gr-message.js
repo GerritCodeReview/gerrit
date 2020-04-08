@@ -376,7 +376,10 @@ class GrMessage extends mixinBehaviors( [
 
   _handleReplyTap(e) {
     e.preventDefault();
-    this.fire('reply', {message: this.message});
+    this.dispatchEvent(new CustomEvent('reply', {
+      detail: {message: this.message},
+      composed: true, bubbles: true,
+    }));
   }
 
   _handleDeleteMessage(e) {
@@ -386,7 +389,10 @@ class GrMessage extends mixinBehaviors( [
     this.$.restAPI.deleteChangeCommitMessage(this.changeNum, this.message.id)
         .then(() => {
           this._isDeletingChangeMsg = false;
-          this.fire('change-message-deleted', {message: this.message});
+          this.dispatchEvent(new CustomEvent('change-message-deleted', {
+            detail: {message: this.message},
+            composed: true, bubbles: true,
+          }));
         });
   }
 

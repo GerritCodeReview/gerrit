@@ -148,7 +148,10 @@ class GrRepo extends mixinBehaviors( [
     super.attached();
     this._loadRepo();
 
-    this.fire('title-change', {title: this.repo});
+    this.dispatchEvent(new CustomEvent('title-change', {
+      detail: {title: this.repo},
+      composed: true, bubbles: true,
+    }));
   }
 
   _computePluginData(configRecord) {
@@ -166,7 +169,10 @@ class GrRepo extends mixinBehaviors( [
     const promises = [];
 
     const errFn = response => {
-      this.fire('page-error', {response});
+      this.dispatchEvent(new CustomEvent('page-error', {
+        detail: {response},
+        composed: true, bubbles: true,
+      }));
     };
 
     promises.push(this._getLoggedIn().then(loggedIn => {

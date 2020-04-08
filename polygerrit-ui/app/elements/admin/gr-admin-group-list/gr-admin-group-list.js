@@ -99,7 +99,10 @@ class GrAdminGroupList extends mixinBehaviors( [
   attached() {
     super.attached();
     this._getCreateGroupCapability();
-    this.fire('title-change', {title: 'Groups'});
+    this.dispatchEvent(new CustomEvent('title-change', {
+      detail: {title: 'Groups'},
+      composed: true, bubbles: true,
+    }));
     this._maybeOpenCreateOverlay(this.params);
   }
 

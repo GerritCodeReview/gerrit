@@ -440,12 +440,18 @@ class GrComment extends mixinBehaviors( [
   }
 
   _fireSave() {
-    this.fire('comment-save', this._getEventPayload());
+    this.dispatchEvent(new CustomEvent('comment-save', {
+      detail: this._getEventPayload(),
+      composed: true, bubbles: true,
+    }));
   }
 
   _fireUpdate() {
     this.debounce('fire-update', () => {
-      this.fire('comment-update', this._getEventPayload());
+      this.dispatchEvent(new CustomEvent('comment-update', {
+        detail: this._getEventPayload(),
+        composed: true, bubbles: true,
+      }));
     });
   }
 
@@ -597,7 +603,10 @@ class GrComment extends mixinBehaviors( [
 
   _fireDiscard() {
     this.cancelDebouncer('fire-update');
-    this.fire('comment-discard', this._getEventPayload());
+    this.dispatchEvent(new CustomEvent('comment-discard', {
+      detail: this._getEventPayload(),
+      composed: true, bubbles: true,
+    }));
   }
 
   _handleFix() {
@@ -784,7 +793,10 @@ class GrComment extends mixinBehaviors( [
     // the parent by ref.
     const payload = this._getEventPayload();
     payload.comment.unresolved = !this.$.resolvedCheckbox.checked;
-    this.fire('comment-update', payload);
+    this.dispatchEvent(new CustomEvent('comment-update', {
+      detail: payload,
+      composed: true, bubbles: true,
+    }));
     if (!this.editing) {
       // Save the resolved state immediately.
       this.save(payload.comment);

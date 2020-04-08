@@ -91,7 +91,10 @@ class GrPluginList extends mixinBehaviors( [
   /** @override */
   attached() {
     super.attached();
-    this.fire('title-change', {title: 'Plugins'});
+    this.dispatchEvent(new CustomEvent('title-change', {
+      detail: {title: 'Plugins'},
+      composed: true, bubbles: true,
+    }));
   }
 
   _paramsChanged(params) {
@@ -105,7 +108,10 @@ class GrPluginList extends mixinBehaviors( [
 
   _getPlugins(filter, pluginsPerPage, offset) {
     const errFn = response => {
-      this.fire('page-error', {response});
+      this.dispatchEvent(new CustomEvent('page-error', {
+        detail: {response},
+        composed: true, bubbles: true,
+      }));
     };
     return this.$.restAPI.getPlugins(filter, pluginsPerPage, offset, errFn)
         .then(plugins => {

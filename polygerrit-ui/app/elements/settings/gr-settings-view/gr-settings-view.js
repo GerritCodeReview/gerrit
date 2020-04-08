@@ -204,7 +204,10 @@ class GrSettingsView extends mixinBehaviors( [
     // Polymer 2: anchor tag won't work on shadow DOM
     // we need to manually calling scrollIntoView when hash changed
     this.listen(window, 'location-change', '_handleLocationChange');
-    this.fire('title-change', {title: 'Settings'});
+    this.dispatchEvent(new CustomEvent('title-change', {
+      detail: {title: 'Settings'},
+      composed: true, bubbles: true,
+    }));
 
     this._isDark = !!window.localStorage.getItem('dark-theme');
 
@@ -250,7 +253,10 @@ class GrSettingsView extends mixinBehaviors( [
       promises.push(this.$.restAPI.confirmEmail(this.params.emailToken).then(
           message => {
             if (message) {
-              this.fire('show-alert', {message});
+              this.dispatchEvent(new CustomEvent('show-alert', {
+                detail: {message},
+                composed: true, bubbles: true,
+              }));
             }
             this.$.emailEditor.loadData();
           }));

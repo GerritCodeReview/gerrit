@@ -486,7 +486,10 @@ class GrDiffHost extends mixinBehaviors( [
         this.path, true)
         .then(blame => {
           if (!blame.length) {
-            this.fire('show-alert', {message: MSG_EMPTY_BLAME});
+            this.dispatchEvent(new CustomEvent('show-alert', {
+              detail: {message: MSG_EMPTY_BLAME},
+              composed: true, bubbles: true,
+            }));
             return Promise.reject(MSG_EMPTY_BLAME);
           }
 
@@ -553,7 +556,10 @@ class GrDiffHost extends mixinBehaviors( [
     // Loading the diff may respond with 409 if the file is too large. In this
     // case, use a toast error..
     if (response.status === 409) {
-      this.fire('server-error', {response});
+      this.dispatchEvent(new CustomEvent('server-error', {
+        detail: {response},
+        composed: true, bubbles: true,
+      }));
       return;
     }
 
@@ -566,7 +572,10 @@ class GrDiffHost extends mixinBehaviors( [
       return;
     }
 
-    this.fire('page-error', {response});
+    this.dispatchEvent(new CustomEvent('page-error', {
+      detail: {response},
+      composed: true, bubbles: true,
+    }));
   }
 
   /**

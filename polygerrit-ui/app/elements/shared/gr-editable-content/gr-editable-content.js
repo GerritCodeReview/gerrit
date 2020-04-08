@@ -169,7 +169,10 @@ class GrEditableContent extends mixinBehaviors( [
 
   _handleSave(e) {
     e.preventDefault();
-    this.fire('editable-content-save', {content: this._newContent});
+    this.dispatchEvent(new CustomEvent('editable-content-save', {
+      detail: {content: this._newContent},
+      composed: true, bubbles: true,
+    }));
     // It would be nice, if we would set this._newContent = undefined here,
     // but we can only do that when we are sure that the save operation has
     // succeeded.
@@ -178,7 +181,9 @@ class GrEditableContent extends mixinBehaviors( [
   _handleCancel(e) {
     e.preventDefault();
     this.editing = false;
-    this.fire('editable-content-cancel');
+    this.dispatchEvent(new CustomEvent('editable-content-cancel', {
+      composed: true, bubbles: true,
+    }));
   }
 }
 

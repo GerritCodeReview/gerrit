@@ -379,14 +379,19 @@ class GrAutocomplete extends mixinBehaviors( [
         // immediately followed by a commit keystroke. @see Issue 8655
         this._suggestions = [];
     }
-    this.fire('input-keydown', {keyCode: e.keyCode, input: this.$.input});
+    this.dispatchEvent(new CustomEvent('input-keydown', {
+      detail: {keyCode: e.keyCode, input: this.$.input},
+      composed: true, bubbles: true,
+    }));
   }
 
   _cancel() {
     if (this._suggestions.length) {
       this.set('_suggestions', []);
     } else {
-      this.fire('cancel');
+      this.dispatchEvent(new CustomEvent('cancel', {
+        composed: true, bubbles: true,
+      }));
     }
   }
 
@@ -462,7 +467,10 @@ class GrAutocomplete extends mixinBehaviors( [
 
     this._suggestions = [];
     if (!opt_silent) {
-      this.fire('commit', {value});
+      this.dispatchEvent(new CustomEvent('commit', {
+        detail: {value},
+        composed: true, bubbles: true,
+      }));
     }
 
     this._textChangedSinceCommit = false;

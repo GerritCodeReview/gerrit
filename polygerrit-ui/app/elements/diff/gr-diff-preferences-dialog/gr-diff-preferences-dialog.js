@@ -79,7 +79,9 @@ class GrDiffPreferencesDialog extends mixinBehaviors( [
 
   _handleSaveDiffPreferences() {
     this.$.diffPreferences.save().then(() => {
-      this.fire('reload-diff-preference', null, {bubbles: false});
+      this.dispatchEvent(new CustomEvent('reload-diff-preference', {
+        composed: true, bubbles: false,
+      }));
 
       this.$.diffPrefsOverlay.close();
     });

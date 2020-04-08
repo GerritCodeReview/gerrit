@@ -532,10 +532,13 @@ import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
           if (e.path[i].tagName === 'GR-OVERLAY') { return true; }
         }
 
-        this.fire('shortcut-triggered', {
-          event: e,
-          goKey: this._inGoKeyMode(),
-        });
+        this.dispatchEvent(new CustomEvent('shortcut-triggered', {
+          detail: {
+            event: e,
+            goKey: this._inGoKeyMode(),
+          },
+          composed: true, bubbles: true,
+        }));
         return false;
       },
 

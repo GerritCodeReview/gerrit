@@ -143,7 +143,9 @@ class GrDiffCursor extends mixinBehaviors([Gerrit.FireBehavior],
       element with an actual lifecycle. This will be triggered only once
       per element.
       */
-      this.fire('ready', null, {bubbles: false});
+      this.dispatchEvent(new CustomEvent('ready', {
+        composed: true, bubbles: false,
+      }));
     });
   }
 

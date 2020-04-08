@@ -365,6 +365,30 @@
     },
     {
       "key": {
+        "uuid": "7d646f11_5f505617",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-08T13:04:32Z",
+      "side": 1,
+      "message": "Do you have a pointer for that style? IMHO this reads funny, e.g. if you rename your below variable \"c\" to \"changes\" line 75 reads:\nchanges(changes.build());\nvs.\nsetChanges(changes.build());\nArguably if c was named changesBuilder it reads better again :-)\n\nI did a quick cs and it seems that both styles are in use in our codebase. Do you have an idea which is dominant, i.e. which should be used in new code?\n\nSorry for the long rant, I don\u0027t really have that strong an opinion, it just seems like a glitch in the matrix to me ;-)",
+      "parentUuid": "a2535128_28d2470d",
+      "range": {
+        "startLine": 70,
+        "startChar": 28,
+        "endLine": 70,
+        "endChar": 37
+      },
+      "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ac42506b_81e00e4d",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsResult.java",
         "patchSetId": 2
@@ -409,6 +433,30 @@
       "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dffd49ef_3ca4626b",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-08T13:04:32Z",
+      "side": 1,
+      "message": "I admit it only gets rid of the set copy, and it also changes the semantics in that it no longer silently accepts duplicates (which may or may not be a good thing, I guess).\n\nImmutableMap.Builder\u003cKey, ImmutableSet.Builder\u003cChange.Id\u003e\u003e builder \u003d ...;\n\nImmutableMap.Builder\u003cKey, ImmutableSet\u003cChange.Id\u003e\u003e b2 \u003d ImmutableMap.builder();\nbuilder.build().forEach((k, v) -\u003e b2.put(k, v.build()));\nchanges(b2.build());\n\nProbably gehupft wie gesprungen :-)",
+      "parentUuid": "beb65e37_ab04acdc",
+      "range": {
+        "startLine": 74,
+        "startChar": 56,
+        "endLine": 74,
+        "endChar": 89
+      },
+      "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

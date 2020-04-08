@@ -683,6 +683,15 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void listChangeDraftsAnonymousThrowsAuthException() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    requestScopeOperations.setApiUserAnonymous();
+    assertThrows(AuthException.class, () -> gApi.changes().id(changeId).draftsAsList());
+  }
+
+  @Test
   public void listChangeComments() throws Exception {
     PushOneCommit.Result r1 = createChange();
 
@@ -713,6 +722,28 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(c2.message).isEqualTo("typo: content");
     assertThat(c2.side).isNull();
     assertThat(c2.line).isEqualTo(1);
+  }
+
+  @Test
+  public void listChangeCommentsAnonymousDoesNotRequireAuth() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+
+    PushOneCommit.Result r2 =
+        pushFactory
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "new cntent", r1.getChangeId())
+            .to("refs/for/master");
+
+    addComment(r1, "nit: trailing whitespace");
+    addComment(r2, "typo: content");
+
+    List<CommentInfo> comments = gApi.changes().id(r1.getChangeId()).commentsAsList();
+    assertThat(comments.stream().map(c -> c.message).collect(toList()))
+        .containsExactly("nit: trailing whitespace", "typo: content");
+
+    requestScopeOperations.setApiUserAnonymous();
+    comments = gApi.changes().id(r1.getChangeId()).commentsAsList();
+    assertThat(comments.stream().map(c -> c.message).collect(toList()))
+        .containsExactly("nit: trailing whitespace", "typo: content");
   }
 
   @Test

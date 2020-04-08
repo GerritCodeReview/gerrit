@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4e51f45f_ec735d32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-08T13:40:31Z",
+      "side": 1,
+      "message": "Testing that depends on the canonicalWebUrl. Redirects are one example.\nIt is not related to any plugins, it is currently functionality not covered by tests.\n\nWill add some example in the commit message.",
+      "parentUuid": "751369d3_276a8b8c",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 54
+      },
+      "revId": "b13ca226996daffa6ae31a5ae97fe984f2635c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b8409698_69868a35",
         "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2020-04-08T12:13:29Z",
       "side": 1,
       "message": "It is set using config annotation on test method inunit test? may be clarify this in the commit message?",
+      "range": {
+        "startLine": 467,
+        "startChar": 4,
+        "endLine": 469,
+        "endChar": 5
+      },
+      "revId": "b13ca226996daffa6ae31a5ae97fe984f2635c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ef3b7e2_15c84b5b",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-08T13:40:31Z",
+      "side": 1,
+      "message": "The way is set is not relevant, it is done exactly as in the other ones.",
+      "parentUuid": "b8409698_69868a35",
       "range": {
         "startLine": 467,
         "startChar": 4,
@@ -68,6 +116,30 @@
       "revId": "b13ca226996daffa6ae31a5ae97fe984f2635c12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "932a44d4_f43af72f",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-08T13:40:31Z",
+      "side": 1,
+      "message": "The L464 is used for both sshd and httpd. It is a simple String.format() and I am not sure it would improve the performance.",
+      "parentUuid": "8a6e358e_fa8e4d32",
+      "range": {
+        "startLine": 473,
+        "startChar": 4,
+        "endLine": 475,
+        "endChar": 5
+      },
+      "revId": "b13ca226996daffa6ae31a5ae97fe984f2635c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

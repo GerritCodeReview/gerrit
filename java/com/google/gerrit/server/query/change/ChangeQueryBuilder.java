@@ -989,10 +989,10 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public Predicate<ChangeData> visibleto(CurrentUser user) {
     return new ChangeIsVisibleToPredicate(
         args.notesFactory,
-        user,
         args.permissionBackend,
         args.projectCache,
-        args.anonymousUserProvider);
+        args.anonymousUserProvider,
+        user);
   }
 
   public Predicate<ChangeData> isVisible() throws QueryParseException {

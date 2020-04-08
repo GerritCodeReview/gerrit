@@ -22,6 +22,7 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
+import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.Util.category;
 import static com.google.gerrit.server.project.testing.Util.value;
@@ -1057,6 +1058,17 @@ public abstract class AbstractDaemonTest {
 
   protected void blockRead(String ref) throws Exception {
     block(ref, Permission.READ, REGISTERED_USERS);
+  }
+
+  protected void blockAnonymousRead() throws Exception {
+    AccountGroup.UUID anonymous = systemGroupBackend.getGroup(ANONYMOUS_USERS).getUUID();
+    AccountGroup.UUID registered = systemGroupBackend.getGroup(REGISTERED_USERS).getUUID();
+    String allRefs = RefNames.REFS + "*";
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      Util.block(u.getConfig(), Permission.READ, anonymous, allRefs);
+      Util.allow(u.getConfig(), Permission.READ, registered, allRefs);
+      u.save();
+    }
   }
 
   protected PushOneCommit.Result pushTo(String ref) throws Exception {

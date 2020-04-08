@@ -90,20 +90,20 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   private final Map<QueryKey, ImmutableList<ChangeData>> queryCache;
   private final Map<Branch.NameKey, Optional<RevCommit>> heads;
   private final ProjectCache projectCache;
-  private final ChangeIsVisibleToPredicate changeIsVisibleToPredicate;
+  private final ChangeIsVisibleToPredicate.Factory changeIsVisibleToPredicateFactory;
 
   @Inject
   LocalMergeSuperSetComputation(
       PermissionBackend permissionBackend,
       Provider<InternalChangeQuery> queryProvider,
       ProjectCache projectCache,
-      ChangeIsVisibleToPredicate changeIsVisibleToPredicate) {
+      ChangeIsVisibleToPredicate.Factory changeIsVisibleToPredicateFactory) {
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
     this.queryProvider = queryProvider;
     this.queryCache = new HashMap<>();
     this.heads = new HashMap<>();
-    this.changeIsVisibleToPredicate = changeIsVisibleToPredicate;
+    this.changeIsVisibleToPredicateFactory = changeIsVisibleToPredicateFactory;
   }
 
   @Override
@@ -152,7 +152,8 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
           walkChangesByHashes(visibleCommits, Collections.emptySet(), or, b);
       Set<String> nonVisibleHashes = walkChangesByHashes(nonVisibleCommits, visibleHashes, or, b);
 
-      ChangeSet partialSet = byCommitsOnBranchNotMerged(or, b, visibleHashes, nonVisibleHashes);
+      ChangeSet partialSet =
+          byCommitsOnBranchNotMerged(or, b, visibleHashes, nonVisibleHashes, user);
       Iterables.addAll(visibleChanges, partialSet.changes());
       Iterables.addAll(nonVisibleChanges, partialSet.nonVisibleChanges());
     }
@@ -211,13 +212,19 @@ public class LocalMergeSuperSetComputation implements MergeSuperSetComputation {
   }
 
   private ChangeSet byCommitsOnBranchNotMerged(
-      OpenRepo or, Branch.NameKey branch, Set<String> visibleHashes, Set<String> nonVisibleHashes)
+      OpenRepo or,
+      Branch.NameKey branch,
+      Set<String> visibleHashes,
+      Set<String> nonVisibleHashes,
+      CurrentUser user)
       throws IOException {
     List<ChangeData> potentiallyVisibleChanges =
         byCommitsOnBranchNotMerged(or, branch, visibleHashes);
     List<ChangeData> invisibleChanges =
         new ArrayList<>(byCommitsOnBranchNotMerged(or, branch, nonVisibleHashes));
     List<ChangeData> visibleChanges = new ArrayList<>(potentiallyVisibleChanges.size());
+    ChangeIsVisibleToPredicate changeIsVisibleToPredicate =
+        changeIsVisibleToPredicateFactory.forUser(user);
     for (ChangeData cd : potentiallyVisibleChanges) {
       if (changeIsVisibleToPredicate.match(cd)) {
         visibleChanges.add(cd);

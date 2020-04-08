@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23b65ad4_474b6c6c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-08T12:47:41Z",
+      "side": 1,
+      "message": "can you also either describe what that is or add the link to the doc with explanation on that param ?",
+      "revId": "d23c8a93d2e550f9f9a46eb094e0a9122fb22397",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2df3a9b4_908ee277",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-08T12:47:41Z",
+      "side": 1,
+      "message": "nit: you can save yourself a lot lines with a \u0027deepEqual\u0027",
+      "range": {
+        "startLine": 140,
+        "startChar": 8,
+        "endLine": 145,
+        "endChar": 43
+      },
+      "revId": "d23c8a93d2e550f9f9a46eb094e0a9122fb22397",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

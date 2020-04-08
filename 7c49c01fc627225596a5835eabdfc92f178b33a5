@@ -142,6 +142,30 @@
       "revId": "7c49c01fc627225596a5835eabdfc92f178b33a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84d10799_d507d497",
+        "filename": "java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-08T11:00:23Z",
+      "side": 0,
+      "message": "FTR it was introduced here:\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/38270",
+      "parentUuid": "33565acc_3de72d1c",
+      "range": {
+        "startLine": 494,
+        "startChar": 26,
+        "endLine": 494,
+        "endChar": 28
+      },
+      "revId": "7c49c01fc627225596a5835eabdfc92f178b33a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -406,6 +406,9 @@ public abstract class AbstractDaemonTest {
       baseConfig.setString("sshd", null, "listenAddress", "off");
     }
 
+    baseConfig.unset("gerrit", null, "canonicalWebUrl");
+    baseConfig.unset("httpd", null, "listenUrl");
+
     baseConfig.setInt("index", null, "batchThreads", -1);
 
     baseConfig.setInt("receive", null, "changeUpdateThreads", 4);

@@ -313,7 +313,9 @@ class GrReplyDialog extends mixinBehaviors( [
     if (this.$.restAPI.hasPendingDiffDrafts()) {
       this._savingComments = true;
       this.$.restAPI.awaitPendingDiffDrafts().then(() => {
-        this.fire('comment-refresh');
+        this.dispatchEvent(new CustomEvent('comment-refresh', {
+          composed: true, bubbles: true,
+        }));
         this._savingComments = false;
       });
     }
@@ -388,7 +390,10 @@ class GrReplyDialog extends mixinBehaviors( [
             const moveTo = isReviewer ? 'reviewer' : 'CC';
             const message = (account.name || account.email || key) +
                 ` moved from ${moveFrom} to ${moveTo}.`;
-            this.fire('show-alert', {message});
+            this.dispatchEvent(new CustomEvent('show-alert', {
+              detail: {message},
+              composed: true, bubbles: true,
+            }));
           }
         }
       }
@@ -516,13 +521,18 @@ class GrReplyDialog extends mixinBehaviors( [
             return {};
           }
           if (!response.ok) {
-            this.fire('server-error', {response});
+            this.dispatchEvent(new CustomEvent('server-error', {
+              detail: {response},
+              composed: true, bubbles: true,
+            }));
             return {};
           }
 
           this.draft = '';
           this._includeComments = true;
-          this.fire('send', null, {bubbles: false});
+          this.dispatchEvent(new CustomEvent('send', {
+            composed: true, bubbles: false,
+          }));
           return accountAdditions;
         })
         .then(result => {
@@ -602,7 +612,10 @@ class GrReplyDialog extends mixinBehaviors( [
           text() { return Promise.resolve(errors.join(', ')); },
         };
       }
-      this.fire('server-error', {response});
+      this.dispatchEvent(new CustomEvent('server-error', {
+        detail: {response},
+        composed: true, bubbles: true,
+      }));
       return null; // Means that the error has been handled.
     });
   }
@@ -712,7 +725,9 @@ class GrReplyDialog extends mixinBehaviors( [
   }
 
   cancel() {
-    this.fire('cancel', null, {bubbles: false});
+    this.dispatchEvent(new CustomEvent('cancel', {
+      composed: true, bubbles: false,
+    }));
     this.$.textarea.closeDropdown();
     this._purgeReviewersPendingRemove(true);
     this._rebuildReviewerArrays(this.change.reviewers, this._owner);
@@ -833,7 +848,9 @@ class GrReplyDialog extends mixinBehaviors( [
   }
 
   _handleHeightChanged(e) {
-    this.fire('autogrow');
+    this.dispatchEvent(new CustomEvent('autogrow', {
+      composed: true, bubbles: true,
+    }));
   }
 
   _handleLabelsChanged() {
@@ -921,7 +938,9 @@ class GrReplyDialog extends mixinBehaviors( [
     // or gerrit level events
 
     // emit the event so change-view can also get updated with latest changes
-    this.fire('comment-refresh');
+    this.dispatchEvent(new CustomEvent('comment-refresh', {
+      composed: true, bubbles: true,
+    }));
   }
 }
 

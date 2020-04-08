@@ -160,8 +160,10 @@
         `(${startAt.toISOString()}, ${endAt.toISOString()})`,
       ].join(' '));
       if (req.anonymizedUrl) {
-        this.fire('rpc-log',
-            {status, method, elapsed, anonymizedUrl: req.anonymizedUrl});
+        this.dispatchEvent(new CustomEvent('rpc-log', {
+          detail: {status, method, elapsed, anonymizedUrl: req.anonymizedUrl},
+          composed: true, bubbles: true,
+        }));
       }
     }
 
@@ -192,7 +194,10 @@
             if (req.errFn) {
               req.errFn.call(undefined, null, err);
             } else {
-              this.fire('network-error', {error: err});
+              this.dispatchEvent(new CustomEvent('network-error', {
+                detail: {error: err},
+                composed: true, bubbles: true,
+              }));
             }
             throw err;
           });
@@ -219,7 +224,10 @@
             req.errFn.call(null, response);
             return;
           }
-          this.fire('server-error', {request: req, response});
+          this.dispatchEvent(new CustomEvent('server-error', {
+            detail: {request: req, response},
+            composed: true, bubbles: true,
+          }));
           return;
         }
         return response && this.getResponseObject(response);
@@ -298,8 +306,8 @@
       return this._restApiInterface.getBaseUrl();
     }
 
-    fire(type, detail, options) {
-      return this._restApiInterface.fire(type, detail, options);
+    dispatchEvent(type, detail) {
+      return this._restApiInterface.dispatchEvent(type, detail);
     }
 
     /**
@@ -365,12 +373,18 @@
               if (req.errFn) {
                 return req.errFn.call(undefined, response);
               }
-              this.fire('server-error', {request: fetchReq, response});
+              this.dispatchEvent(new CustomEvent('server-error', {
+                detail: {request: fetchReq, response},
+                composed: true, bubbles: true,
+              }));
             }
             return response;
           })
           .catch(err => {
-            this.fire('network-error', {error: err});
+            this.dispatchEvent(new CustomEvent('network-error', {
+              detail: {error: err},
+              composed: true, bubbles: true,
+            }));
             if (req.errFn) {
               return req.errFn.call(undefined, null, err);
             } else {

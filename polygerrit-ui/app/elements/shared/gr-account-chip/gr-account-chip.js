@@ -91,7 +91,10 @@ class GrAccountChip extends mixinBehaviors( [
 
   _handleRemoveTap(e) {
     e.preventDefault();
-    this.fire('remove', {account: this.account});
+    this.dispatchEvent(new CustomEvent('remove', {
+      detail: {account: this.account},
+      composed: true, bubbles: true,
+    }));
   }
 
   _getHasAvatars() {

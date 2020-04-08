@@ -102,7 +102,10 @@ class GrGroupMembers extends mixinBehaviors( [
     super.attached();
     this._loadGroupDetails();
 
-    this.fire('title-change', {title: 'Members'});
+    this.dispatchEvent(new CustomEvent('title-change', {
+      detail: {title: 'Members'},
+      composed: true, bubbles: true,
+    }));
   }
 
   _loadGroupDetails() {
@@ -111,7 +114,10 @@ class GrGroupMembers extends mixinBehaviors( [
     const promises = [];
 
     const errFn = response => {
-      this.fire('page-error', {response});
+      this.dispatchEvent(new CustomEvent('page-error', {
+        detail: {response},
+        composed: true, bubbles: true,
+      }));
     };
 
     return this.$.restAPI.getGroupConfig(this.groupId, errFn)

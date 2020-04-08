@@ -292,7 +292,11 @@ suite('gr-thread-list tests', () => {
   });
 
   test('thread removal', () => {
-    threadElements[1].fire('thread-discard', {rootId: 'rc2'});
+    threadElements[1].dispatchEvent(
+        new CustomEvent('thread-discard', {
+          detail: {rootId: 'rc2'},
+          composed: true, bubbles: true,
+        }));
     flushAsynchronousOperations();
     assert.equal(element._sortedThreads.length, 6);
     assert.equal(element._sortedThreads[0].thread.rootId,
@@ -344,8 +348,12 @@ suite('gr-thread-list tests', () => {
     sandbox.spy(element, '_handleCommentsChanged');
     const dispatchSpy = sandbox.stub();
     element.addEventListener('thread-list-modified', dispatchSpy);
-    threadElements[0].fire('thread-changed', {
-      rootId: 'ecf0b9fa_fe1a5f62', path: '/COMMIT_MSG'});
+    threadElements[0].dispatchEvent(
+        new CustomEvent('thread-changed', {
+          detail: {
+            rootId: 'ecf0b9fa_fe1a5f62', path: '/COMMIT_MSG'},
+          composed: true, bubbles: true,
+        }));
     assert.isTrue(element._handleCommentsChanged.called);
     assert.isTrue(dispatchSpy.called);
     assert.equal(dispatchSpy.lastCall.args[0].detail.rootId,

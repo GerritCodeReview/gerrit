@@ -178,7 +178,10 @@ suite('gr-settings-view tests', () => {
 
     const publishOnPush =
         valueOf('Publish comments on push', 'preferences').firstElementChild;
-    diffSelect.fire('change');
+    diffSelect.dispatchEvent(
+        new CustomEvent('change', {
+          composed: true, bubbles: true,
+        }));
 
     MockInteractions.tap(publishOnPush);
 

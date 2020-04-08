@@ -152,7 +152,10 @@ class GrRepoDetailList extends mixinBehaviors( [
     this._items = [];
     flush();
     const errFn = response => {
-      this.fire('page-error', {response});
+      this.dispatchEvent(new CustomEvent('page-error', {
+        detail: {response},
+        composed: true, bubbles: true,
+      }));
     };
     if (detailType === DETAIL_TYPES.BRANCHES) {
       return this.$.restAPI.getRepoBranches(

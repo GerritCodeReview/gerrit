@@ -122,7 +122,11 @@ suite('gr-account-list tests', () => {
     assert.isTrue(chips[2].classList.contains('pendingAdd'));
 
     // Removed accounts are taken out of the list.
-    element.fire('remove', {account: existingAccount1});
+    element.dispatchEvent(
+        new CustomEvent('remove', {
+          detail: {account: existingAccount1},
+          composed: true, bubbles: true,
+        }));
     flushAsynchronousOperations();
     chips = getChips();
     assert.equal(chips.length, 2);
@@ -130,8 +134,16 @@ suite('gr-account-list tests', () => {
     assert.isTrue(chips[1].classList.contains('pendingAdd'));
 
     // Invalid remove is ignored.
-    element.fire('remove', {account: existingAccount1});
-    element.fire('remove', {account: newAccount});
+    element.dispatchEvent(
+        new CustomEvent('remove', {
+          detail: {account: existingAccount1},
+          composed: true, bubbles: true,
+        }));
+    element.dispatchEvent(
+        new CustomEvent('remove', {
+          detail: {account: newAccount},
+          composed: true, bubbles: true,
+        }));
     flushAsynchronousOperations();
     chips = getChips();
     assert.equal(chips.length, 1);
@@ -153,7 +165,11 @@ suite('gr-account-list tests', () => {
     assert.isTrue(chips[1].classList.contains('pendingAdd'));
 
     // Removed groups are taken out of the list.
-    element.fire('remove', {account: newGroup});
+    element.dispatchEvent(
+        new CustomEvent('remove', {
+          detail: {account: newGroup},
+          composed: true, bubbles: true,
+        }));
     flushAsynchronousOperations();
     chips = getChips();
     assert.equal(chips.length, 1);

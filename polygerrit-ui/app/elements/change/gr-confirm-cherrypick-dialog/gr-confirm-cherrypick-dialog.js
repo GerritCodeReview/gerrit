@@ -100,13 +100,17 @@ class GrConfirmCherrypickDialog extends mixinBehaviors( [
   _handleConfirmTap(e) {
     e.preventDefault();
     e.stopPropagation();
-    this.fire('confirm', null, {bubbles: false});
+    this.dispatchEvent(new CustomEvent('confirm', {
+      composed: true, bubbles: false,
+    }));
   }
 
   _handleCancelTap(e) {
     e.preventDefault();
     e.stopPropagation();
-    this.fire('cancel', null, {bubbles: false});
+    this.dispatchEvent(new CustomEvent('cancel', {
+      composed: true, bubbles: false,
+    }));
   }
 
   resetFocus() {

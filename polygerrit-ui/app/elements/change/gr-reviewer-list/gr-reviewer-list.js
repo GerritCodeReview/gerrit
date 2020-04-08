@@ -278,7 +278,10 @@ class GrReviewerList extends mixinBehaviors( [
     if (this.ccsOnly) {
       value.ccsOnly = true;
     }
-    this.fire('show-reply-dialog', {value});
+    this.dispatchEvent(new CustomEvent('show-reply-dialog', {
+      detail: {value},
+      composed: true, bubbles: true,
+    }));
   }
 
   _handleViewAll(e) {

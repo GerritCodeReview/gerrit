@@ -22,7 +22,7 @@ limitations under the License.
 <script src="/components/wct-browser-legacy/browser.js"></script>
 
 <script>
-  window.ENABLED_EXPERIMENTS = ['a'];
+  window.ENABLED_EXPERIMENTS = ['a', 'a'];
 </script>
 
 <script type="module">
@@ -37,6 +37,10 @@ limitations under the License.
     test('isEnabled', () => {
       assert.equal(flags.isEnabled('a'), true);
       assert.equal(flags.isEnabled('random'), false);
+    });
+
+    test('enabledExperiments', () => {
+      assert.deepEqual(flags.enabledExperiments, ["a"]);
     });
   });
 </script>

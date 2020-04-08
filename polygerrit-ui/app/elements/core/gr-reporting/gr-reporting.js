@@ -17,6 +17,7 @@
 import '../../../scripts/bundled-polymer.js';
 
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
+import {flags} from "../../../services/flags";
 
 // Latency reporting constants.
 const TIMING = {
@@ -268,12 +269,19 @@ let GrReporting = Polymer({
       Object.entries(eventDetails).length !== 0) {
       eventInfo.eventDetails = JSON.stringify(eventDetails);
     }
+
     if (reportRepoName) {
       eventInfo.repoName = reportRepoName;
     }
+
     const isInBackgroundTab = document.visibilityState === 'hidden';
     if (isInBackgroundTab !== undefined) {
       eventInfo.inBackgroundTab = isInBackgroundTab;
+    }
+
+    const enabledExperiments = flags.enabledExperiments;
+    if (enabledExperiments.length) {
+      eventInfo.enabledExperiments = JSON.stringify(enabledExperiments);
     }
 
     return eventInfo;

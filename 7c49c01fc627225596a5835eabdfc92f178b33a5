@@ -22,6 +22,30 @@
       "revId": "7c49c01fc627225596a5835eabdfc92f178b33a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8a45da3_cf19bcf8",
+        "filename": "java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-08T08:26:06Z",
+      "side": 0,
+      "message": "I guess so. Good catch. I corrected it.\n\nIt\u0027s really strange that deletions are indicated with a negative number here. We use positive numbers for the number of deleted lines for the rest of our code and APIs. That the events differ and don\u0027t even have tests is a bit concerning.",
+      "parentUuid": "61eda084_570b2a83",
+      "range": {
+        "startLine": 494,
+        "startChar": 26,
+        "endLine": 494,
+        "endChar": 28
+      },
+      "revId": "7c49c01fc627225596a5835eabdfc92f178b33a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

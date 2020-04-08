@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "71e44948_d7f2aa54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-08T09:15:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe96214e_79b3160f",
+      "range": {
+        "startLine": 7,
+        "startChar": 53,
+        "endLine": 7,
+        "endChar": 61
+      },
+      "revId": "6011e968e3c2572f4ed78dd2cfc81792d0b6aa69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee7357d9_6bbf798b",
         "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "6011e968e3c2572f4ed78dd2cfc81792d0b6aa69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a9a65b9_ad5fb011",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-08T09:15:38Z",
+      "side": 1,
+      "message": "Good catch, I suddenly thought about this while falling asleep - the things I think about... :)",
+      "parentUuid": "ee7357d9_6bbf798b",
+      "range": {
+        "startLine": 447,
+        "startChar": 8,
+        "endLine": 447,
+        "endChar": 90
+      },
+      "revId": "6011e968e3c2572f4ed78dd2cfc81792d0b6aa69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,29 @@
       "revId": "6011e968e3c2572f4ed78dd2cfc81792d0b6aa69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee7357d9_6bbf798b",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-08T07:37:45Z",
+      "side": 1,
+      "message": "Is comparing the sizes safe?\n\nWhat if:\n- you upload two related changes: 1 \u003c- 2\n- you submit change 1: 1(merged) \u003c- 2(open)\n- then you upload an unrelated change: 3\n- and you assign the same topic for change 2 and 3, and submit them together\n- when you now revert that submission (via change 2), you have 2 commits to be reverted (for change 2 and 3), but GetRelated for change 2 would return 2 different commits (for change 1 and 2)\n\nEven if I\u0027m wrong, can we please have a test case for this scenario?",
+      "range": {
+        "startLine": 447,
+        "startChar": 8,
+        "endLine": 447,
+        "endChar": 90
+      },
+      "revId": "6011e968e3c2572f4ed78dd2cfc81792d0b6aa69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

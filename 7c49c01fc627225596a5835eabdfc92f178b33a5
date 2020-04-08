@@ -46,6 +46,30 @@
       "revId": "7c49c01fc627225596a5835eabdfc92f178b33a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1129f3b2_595fa05b",
+        "filename": "java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-08T08:34:05Z",
+      "side": 0,
+      "message": "Having this as a negative value seems wrong. The documentation for it (see Documentation/json.txt) doesn\u0027t mention anything about it, just \"Size information of deletions of this patchset\".\n\nAlso it seems there are not many places using it [1]. The only one that seems relevant is in its-base, but I don\u0027t know where (or if) it actually gets used. The corresponding test for it in its-base is using a positive number.\n\n[1] https://cs.bazel.build/search?q\u003dr%3Agerrit+sizeDeletions",
+      "parentUuid": "a8a45da3_cf19bcf8",
+      "range": {
+        "startLine": 494,
+        "startChar": 26,
+        "endLine": 494,
+        "endChar": 28
+      },
+      "revId": "7c49c01fc627225596a5835eabdfc92f178b33a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

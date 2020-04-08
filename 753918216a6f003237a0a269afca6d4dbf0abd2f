@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4614f27_192bee42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-04-08T16:25:18Z",
+      "side": 1,
+      "message": "sorry for the late comment. Why do we want to use int? This message doesn\u0027t explain that and the line below is concerning.",
+      "revId": "753918216a6f003237a0a269afca6d4dbf0abd2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

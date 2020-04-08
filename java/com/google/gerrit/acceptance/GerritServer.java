@@ -463,9 +463,13 @@ public class GerritServer implements AutoCloseable {
   private static void mergeTestConfig(Config cfg) {
     String forceEphemeralPort = String.format("%s:0", getLocalHost().getHostName());
     String url = "http://" + forceEphemeralPort + "/";
-    cfg.setString("gerrit", null, "canonicalWebUrl", url);
-    cfg.setString("httpd", null, "listenUrl", url);
-
+    
+		if (cfg.getString("gerrit", null, "canonicalWebUrl") == null) {
+			cfg.setString("gerrit", null, "canonicalWebUrl", url);
+		}
+		if (cfg.getString("httpd", null, "listenUrl") == null) {
+			cfg.setString("httpd", null, "listenUrl", url);
+		}
     if (cfg.getString("sshd", null, "listenAddress") == null) {
       cfg.setString("sshd", null, "listenAddress", forceEphemeralPort);
     }

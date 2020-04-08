@@ -22,6 +22,30 @@
       "revId": "ba67044fea213ba73de07fcc25658076eb7ad9cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89d56bcc_84e58da9",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AbstractPushTag.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-04-08T10:03:42Z",
+      "side": 1,
+      "message": "I don\u0027t see how that is possible, could you explain.\nIf that was the case the tests shouldn\u0027t work for SSH either, currently they only fail for HTTP.",
+      "parentUuid": "a4f1db5e_ab70406a",
+      "range": {
+        "startLine": 258,
+        "startChar": 6,
+        "endLine": 258,
+        "endChar": 69
+      },
+      "revId": "ba67044fea213ba73de07fcc25658076eb7ad9cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

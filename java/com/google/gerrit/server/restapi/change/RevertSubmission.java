@@ -411,23 +411,25 @@ public class RevertSubmission
   }
 
   /**
-   * This function finds the base that the first revert in a project + branch should be based on. It
-   * searches using BFS for the first commit that is either: 1. Has 2 or more parents, and has as
-   * parents at least one commit that is part of the submission. 2. A commit that is part of the
-   * submission. If neither of those are true, it just continues the search by going to the parents.
+   * This function finds the base that the first revert in a project + branch should be based on.
    *
-   * <p>If 1 is true, if all the parents are part of the submission, it just returns that commit. If
-   * only some of them are in the submission, the function changes and starts checking only the
-   * commits that are not part of the submission. If all of them are part of the submission (or they
-   * are also merge commits that have as parents only other merge commits, or other changes that are
-   * part of the submission), we will return possibleMergeCommitToReturn which is the original
-   * commit we started with when 1 was determined to be true.
+   * <p>If there is only one change, we will base the revert on that change. If all changes are
+   * related, we will base on the first commit of this submission in the topological order.
+   *
+   * <p>If non of those special cases apply, the only case left is the case where we have at least 2
+   * independent changes in the same project + branch (and possibly other dependent changes). In
+   * this case, it searches using BFS for the first commit that is either: 1. Has 2 or more parents,
+   * and has as parents at least one commit that is part of the submission. 2. A commit that is part
+   * of the submission. If neither of those are true, it just continues the search by going to the
+   * parents.
+   *
+   * <p>If 1 is true, it means that this merge commit was created when this submission was
+   * submitted. It also means that this merge commit is a descendant of all of the changes in this
+   * submission and project + branch. Therefore, we return this merge commit.
    *
    * <p>If 2 is true, it will return the commit that WalkSorter has decided that it should be the
    * first commit reverted (e.g changeNotes, which is also the commit that is the first in the
-   * topological sorting). Unless possibleMergeCommitToReturn is not null, which means we already
-   * encountered a merge commit with a part of the submission earlier, which means we should return
-   * that merge commit.
+   * topological sorting).
    *
    * <p>It doesn't run through the entire graph since it will stop once it finds at least one commit
    * that is part of the submission.
@@ -452,6 +454,7 @@ public class RevertSubmission
         .containsAll(commitIds)) {
       return changeNotes.getCurrentPatchSet().commitId();
     }
+    // There are independent changes in this submission and repository + branch.
     try (Repository git = repoManager.openRepository(changeNotes.getProjectName());
         ObjectInserter oi = git.newObjectInserter();
         ObjectReader reader = oi.newReader();
@@ -473,29 +476,16 @@ public class RevertSubmission
               Arrays.stream(revCommit.getParents())
                   .filter(parent -> commitIds.contains(parent.getId()))
                   .collect(Collectors.toList());
-          if (parentsInSubmission.size() > 1) {
-            // Found a merge commit that has multiple parent commits that are part of the
-            // submission.
-            return revCommit.getId();
-          }
           if (!parentsInSubmission.isEmpty()) {
-            // Found a merge commit that has only one parent in this submission, but also other
-            // parents not in the submission. Now we need to check if the others are merge commits
-            // that have as parents only other merge commits, or other changes from the
-            // submission.
-            commitsToSearch.clear();
-            commitsToSearch.addAll(
-                Arrays.stream(revCommit.getParents())
-                    .filter(parent -> !commitIds.contains(parent.getId()))
-                    .collect(Collectors.toList()));
-
-            if (isMergeCommitDescendantOfAllChangesInTheProjectAndBranchOfTheSubmission(
-                commitsToSearch, commitIds, revWalk, revCommit, changeNotes)) {
-              // Found a second commit of that submission that share the same merge commit.
-              return revCommit.getId();
-            }
-            // Couldn't find a second commit of that submission that share the same merge commit.
-            return changeNotes.getCurrentPatchSet().commitId();
+            // Found a merge commit that at least one parent is in this submission. we should only
+            // reach here if both conditions apply:
+            // 1. There is more than one change in that project + branch in this submission.
+            // 2. Not all changes in that project + branch are related in this submission.
+            // Therefore, there are at least 2 unrelated changes in this project + branch that got
+            // submitted together,
+            // and since we found a merge commit with one of those as parents, this merge commit is
+            // the first common descendant of all those changes.
+            return revCommit.getId();
           }
         }
         commitsToSearch.addAll(Arrays.asList(revCommit.getParents()));
@@ -512,53 +502,6 @@ public class RevertSubmission
   private RevisionResource getRevisionResource(ChangeNotes changeNotes) {
     return new RevisionResource(
         changeResourceFactory.create(changeNotes, user.get()), psUtil.current(changeNotes));
-  }
-
-  /**
-   * This helper function calculates whether or not there exists a second commit that is part of the
-   * submission and ancestor of the same merge commit.
-   *
-   * @param commitsToSearch Starts as all the parents of the potential merge commit, except the one
-   *     that is part of the submission.
-   * @param commitIds The commitIds of this project and branch.
-   * @param revWalk Used for walking through the revisions.
-   * @param potentialCommitToReturn The merge commit that is potentially a descendant of all changes
-   *     in the project and branch of the submission.
-   * @param changeNotes changeNotes for the change that is found by WalkSorter to be the first one
-   *     that should be reverted, the first in the topological sorting.
-   * @return True if found another commit of this submission, false if not found.
-   */
-  private boolean isMergeCommitDescendantOfAllChangesInTheProjectAndBranchOfTheSubmission(
-      Queue<ObjectId> commitsToSearch,
-      Set<ObjectId> commitIds,
-      RevWalk revWalk,
-      RevCommit potentialCommitToReturn,
-      ChangeNotes changeNotes)
-      throws StorageException, IOException {
-    while (!commitsToSearch.isEmpty()) {
-      RevCommit revCommit = revWalk.parseCommit(commitsToSearch.poll());
-      if (revCommit.getParentCount() > 1) {
-        List<RevCommit> parents = Arrays.asList(revCommit.getParents());
-        if (parents.stream().anyMatch(p -> commitIds.contains(p.getId()))) {
-          // found another commit with a common descendant.
-          return true;
-        }
-        Arrays.asList(revCommit.getParents()).forEach(parent -> commitsToSearch.add(parent));
-      } else {
-        // We found a merge commit, we found that one of the parents is not a merge commit nor a
-        // change of this submission. Therefore the merge commit is not useful, and we just
-        // rebase on the most recent revert as usual.
-        return false;
-      }
-    }
-    // This should never happen since it can only happen if we go through the entire repository
-    // encountering only merge commits after encountering the change whose submission we are
-    // reverting.
-    throw new StorageException(
-        String.format(
-            "Couldn't find a non-merge commit after encountering commit %s when trying to revert"
-                + " the submission of change %d",
-            potentialCommitToReturn.getName(), changeNotes.getChange().getChangeId()));
   }
 
   @Override

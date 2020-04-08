@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "751369d3_276a8b8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-08T12:13:29Z",
+      "side": 1,
+      "message": "Can you elaborate what is a real use case for that? Multi-Site plugin where two different master nodes are accessible under pre-define addresses?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 54
+      },
+      "revId": "b13ca226996daffa6ae31a5ae97fe984f2635c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8409698_69868a35",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-08T12:13:29Z",
+      "side": 1,
+      "message": "It is set using config annotation on test method inunit test? may be clarify this in the commit message?",
+      "range": {
+        "startLine": 467,
+        "startChar": 4,
+        "endLine": 469,
+        "endChar": 5
+      },
+      "revId": "b13ca226996daffa6ae31a5ae97fe984f2635c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a6e358e_fa8e4d32",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-08T12:13:29Z",
+      "side": 1,
+      "message": "Should SSH protocol also be respected? If yes, then the EphemeralPort generation code path above, line 464 could be entirely skipped.",
+      "range": {
+        "startLine": 473,
+        "startChar": 4,
+        "endLine": 475,
+        "endChar": 5
+      },
+      "revId": "b13ca226996daffa6ae31a5ae97fe984f2635c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

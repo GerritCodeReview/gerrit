@@ -39,6 +39,30 @@
       "revId": "d23c8a93d2e550f9f9a46eb094e0a9122fb22397",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "214295cb_7bbee3d3",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-04-08T18:42:17Z",
+      "side": 1,
+      "message": "As discussed on chat, the option is to delete a key.\nI\u0027ll keep this for now and refactor later if needed.",
+      "parentUuid": "2df3a9b4_908ee277",
+      "range": {
+        "startLine": 140,
+        "startChar": 8,
+        "endLine": 145,
+        "endChar": 43
+      },
+      "revId": "d23c8a93d2e550f9f9a46eb094e0a9122fb22397",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

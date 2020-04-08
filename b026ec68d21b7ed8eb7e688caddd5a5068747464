@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9676990f_ac177e16",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-08T11:44:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3951f983_3c1ebfc0",
+      "range": {
+        "startLine": 164,
+        "startChar": 50,
+        "endLine": 164,
+        "endChar": 66
+      },
+      "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f33f70c_a7308e77",
         "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "cac9f76f_3a0e306f",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-08T11:44:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f33f70c_a7308e77",
+      "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "438014c9_e03436f9",
         "filename": "java/com/google/gerrit/server/git/ProjectRunnable.java",
         "patchSetId": 2
@@ -56,6 +98,24 @@
       "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62a51cf5_fc493b21",
+        "filename": "java/com/google/gerrit/server/git/ProjectRunnable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-08T11:44:21Z",
+      "side": 1,
+      "message": "The main attribute of this interface is the Project.NameKey so that admins know what requests keep their server busy. So I reduced the default set of params to that. But you are right that it seems uncommon. I removed it.",
+      "parentUuid": "438014c9_e03436f9",
+      "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "601ae4ea_f055456a",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-08T11:44:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9c1c5c1_b5684b3a",
+      "range": {
+        "startLine": 424,
+        "startChar": 57,
+        "endLine": 424,
+        "endChar": 61
+      },
+      "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "367ff4d2_1ac2854a",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 2
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "372c2bc7_46dba795",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-08T11:44:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "367ff4d2_1ac2854a",
+      "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df250f5f_b1060db5",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsResult.java",
         "patchSetId": 2
@@ -113,6 +215,24 @@
       "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71c92d4f_c0bf0174",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-08T11:44:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df250f5f_b1060db5",
+      "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -139,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "2aeac330_afad2854",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-08T11:44:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c5de5ad_6b82f479",
+      "range": {
+        "startLine": 27,
+        "startChar": 54,
+        "endLine": 27,
+        "endChar": 67
+      },
+      "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ab4bafe_81d15dc4",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsResult.java",
         "patchSetId": 2
@@ -153,6 +297,24 @@
       "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a73527d_d06802d4",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-08T11:44:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ab4bafe_81d15dc4",
+      "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -179,6 +341,30 @@
     },
     {
       "key": {
+        "uuid": "a2535128_28d2470d",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-08T11:44:21Z",
+      "side": 1,
+      "message": "No, both namings are valid in auto values and builders, but they have to be consistent.\n\nSo it can either be:\n\nsetMagicPush\ngetMagicPush\n\nCarrying through set/get in all names.\n\nor\n\nmagicPush(boolean val)\nboolean magicPush()\n\nErrorprone would complain if it\u0027s inconsistent",
+      "parentUuid": "1e1d89ae_e46e8a7c",
+      "range": {
+        "startLine": 70,
+        "startChar": 28,
+        "endLine": 70,
+        "endChar": 37
+      },
+      "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ac42506b_81e00e4d",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsResult.java",
         "patchSetId": 2
@@ -190,6 +376,30 @@
       "writtenOn": "2020-04-08T10:18:53Z",
       "side": 1,
       "message": "Can you avoid this by having the ImmutableMap.Builder\u003c\u003e directly in the Builder (line 57) instead of the intermediate EnumMap? Or is there an issue with deduplication?",
+      "range": {
+        "startLine": 74,
+        "startChar": 56,
+        "endLine": 74,
+        "endChar": 89
+      },
+      "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "beb65e37_ab04acdc",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-08T11:44:21Z",
+      "side": 1,
+      "message": "I ran into the problem of nesting. When I store the map builder it has to be a ImmutableMap.Builder\u003cChangeStatus, ImmutableSet.Builder\u003e\n\nand the ImmutableSet.Builder doesn\u0027t cleanly convert. Do you have a specific suggestion in mind to make this work?",
+      "parentUuid": "ac42506b_81e00e4d",
       "range": {
         "startLine": 74,
         "startChar": 56,
@@ -222,6 +432,30 @@
       "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb174d2e_e0beffc8",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-08T11:44:21Z",
+      "side": 1,
+      "message": "same as above",
+      "parentUuid": "f3b61fa3_43cf08e9",
+      "range": {
+        "startLine": 79,
+        "startChar": 31,
+        "endLine": 79,
+        "endChar": 39
+      },
+      "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

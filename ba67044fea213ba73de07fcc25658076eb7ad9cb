@@ -46,6 +46,30 @@
       "revId": "ba67044fea213ba73de07fcc25658076eb7ad9cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c05807a_7f7476d6",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AbstractPushTag.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1095383
+      },
+      "writtenOn": "2020-04-08T17:07:00Z",
+      "side": 1,
+      "message": "I was just pointing out that, in this change, this was the line causing the build to fail.\nLocally, I made a simple test by commenting this line, and then modified it as I did to remove the read permission.\nIt looks like (to me) you perfectly figured it out!",
+      "parentUuid": "89d56bcc_84e58da9",
+      "range": {
+        "startLine": 258,
+        "startChar": 6,
+        "endLine": 258,
+        "endChar": 69
+      },
+      "revId": "ba67044fea213ba73de07fcc25658076eb7ad9cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

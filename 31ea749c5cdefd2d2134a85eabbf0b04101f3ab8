@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f4f4f81_074caae5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-08T12:56:21Z",
+      "side": 1,
+      "message": "screenshot plz",
+      "revId": "31ea749c5cdefd2d2134a85eabbf0b04101f3ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1432526_5aa0ac4b",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-08T12:56:21Z",
+      "side": 1,
+      "message": "test plz",
+      "revId": "31ea749c5cdefd2d2134a85eabbf0b04101f3ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7420734a_65192dd3",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-08T12:56:21Z",
+      "side": 1,
+      "message": "when you have more than 1 dependency, do an undefined check plz. \u0027change.id\u0027 can throw error if change is undefined",
+      "revId": "31ea749c5cdefd2d2134a85eabbf0b04101f3ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0384fb78_069baab0",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_html.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-08T12:56:21Z",
+      "side": 1,
+      "message": "when you add styles, maybe try to be a bit organized instead of just adding them always to the bottom, maybe follow the same order (if it has any). like table related style maybe better to put together with \u0027tr \u003e td\u0027 at L63 or move all of them down, so when people really need to read the code, its a bit easier.",
+      "revId": "31ea749c5cdefd2d2134a85eabbf0b04101f3ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

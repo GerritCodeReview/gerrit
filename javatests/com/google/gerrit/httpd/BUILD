@@ -19,6 +19,7 @@ junit_tests(
         "//lib:soy",
         "//lib/guice",
         "//lib/guice:guice-servlet",
+        "//lib/httpcomponents:httpclient",
         "//lib/mockito",
         "//lib/truth",
         "//lib/truth:truth-java8-extension",

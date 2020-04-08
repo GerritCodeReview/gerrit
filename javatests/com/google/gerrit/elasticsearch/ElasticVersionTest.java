@@ -25,15 +25,6 @@ public class ElasticVersionTest {
 
   @Test
   public void supportedVersion() throws Exception {
-    assertThat(ElasticVersion.forVersion("6.2.0")).isEqualTo(ElasticVersion.V6_2);
-    assertThat(ElasticVersion.forVersion("6.2.4")).isEqualTo(ElasticVersion.V6_2);
-
-    assertThat(ElasticVersion.forVersion("6.3.0")).isEqualTo(ElasticVersion.V6_3);
-    assertThat(ElasticVersion.forVersion("6.3.2")).isEqualTo(ElasticVersion.V6_3);
-
-    assertThat(ElasticVersion.forVersion("6.4.0")).isEqualTo(ElasticVersion.V6_4);
-    assertThat(ElasticVersion.forVersion("6.4.1")).isEqualTo(ElasticVersion.V6_4);
-
     assertThat(ElasticVersion.forVersion("6.5.0")).isEqualTo(ElasticVersion.V6_5);
     assertThat(ElasticVersion.forVersion("6.5.1")).isEqualTo(ElasticVersion.V6_5);
 
@@ -78,9 +69,6 @@ public class ElasticVersionTest {
 
   @Test
   public void atLeastMinorVersion() throws Exception {
-    assertThat(ElasticVersion.V6_2.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
-    assertThat(ElasticVersion.V6_3.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
-    assertThat(ElasticVersion.V6_4.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
     assertThat(ElasticVersion.V6_5.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
     assertThat(ElasticVersion.V6_6.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
     assertThat(ElasticVersion.V6_7.isAtLeastMinorVersion(ElasticVersion.V6_7)).isTrue();
@@ -96,9 +84,6 @@ public class ElasticVersionTest {
 
   @Test
   public void version6OrLater() throws Exception {
-    assertThat(ElasticVersion.V6_2.isV6OrLater()).isTrue();
-    assertThat(ElasticVersion.V6_3.isV6OrLater()).isTrue();
-    assertThat(ElasticVersion.V6_4.isV6OrLater()).isTrue();
     assertThat(ElasticVersion.V6_5.isV6OrLater()).isTrue();
     assertThat(ElasticVersion.V6_6.isV6OrLater()).isTrue();
     assertThat(ElasticVersion.V6_7.isV6OrLater()).isTrue();
@@ -114,9 +99,6 @@ public class ElasticVersionTest {
 
   @Test
   public void version7OrLater() throws Exception {
-    assertThat(ElasticVersion.V6_2.isV7OrLater()).isFalse();
-    assertThat(ElasticVersion.V6_3.isV7OrLater()).isFalse();
-    assertThat(ElasticVersion.V6_4.isV7OrLater()).isFalse();
     assertThat(ElasticVersion.V6_5.isV7OrLater()).isFalse();
     assertThat(ElasticVersion.V6_6.isV7OrLater()).isFalse();
     assertThat(ElasticVersion.V6_7.isV7OrLater()).isFalse();

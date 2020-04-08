@@ -240,6 +240,7 @@ class GrConfirmCherrypickDialog extends mixinBehaviors( [
         base: null,
         topic,
         allow_conflicts: true,
+        allow_empty: true,
       };
       const handleError = response => {
         this._handleCherryPickFailed(change, response);

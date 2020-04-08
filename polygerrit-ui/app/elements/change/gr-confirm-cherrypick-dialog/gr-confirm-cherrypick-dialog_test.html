@@ -142,6 +142,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
         assert.equal(args[2], '/cherrypick');
         assert.equal(args[4].destination, 'master');
         assert.isTrue(args[4].allow_conflicts);
+        assert.isTrue(args[4].allow_empty);
         done();
       });
     });

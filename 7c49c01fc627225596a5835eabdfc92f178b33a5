@@ -118,6 +118,30 @@
       "revId": "7c49c01fc627225596a5835eabdfc92f178b33a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33565acc_3de72d1c",
+        "filename": "java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-08T10:36:47Z",
+      "side": 0,
+      "message": "Thanks for your input here. I\u0027m going to submit this change now as it\u0027s just a refactoring/cleanup. Any other improvements we want to make should go into separate changes.",
+      "parentUuid": "3218d2d1_cd661ac2",
+      "range": {
+        "startLine": 494,
+        "startChar": 26,
+        "endLine": 494,
+        "endChar": 28
+      },
+      "revId": "7c49c01fc627225596a5835eabdfc92f178b33a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

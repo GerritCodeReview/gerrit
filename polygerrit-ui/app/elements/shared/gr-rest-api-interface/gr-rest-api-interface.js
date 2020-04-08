@@ -1110,7 +1110,10 @@ class GrRestApiInterface extends mixinBehaviors( [
           if (opt_errFn) {
             opt_errFn.call(null, response);
           } else {
-            this.fire('server-error', {request: req, response});
+            this.dispatchEvent(new CustomEvent('server-error', {
+              detail: {request: req, response},
+              composed: true, bubbles: true,
+            }));
           }
           return;
         }
@@ -1734,7 +1737,12 @@ class GrRestApiInterface extends mixinBehaviors( [
     // 404s indicate the file does not exist yet in the revision, so suppress
     // them.
     const suppress404s = res => {
-      if (res && res.status !== 404) { this.fire('server-error', {res}); }
+      if (res && res.status !== 404) {
+        this.dispatchEvent(new CustomEvent('server-error', {
+          detail: {res},
+          composed: true, bubbles: true,
+        }));
+      }
       return res;
     };
     const promise = this.patchNumEquals(patchNum, this.EDIT_NAME) ?
@@ -2608,7 +2616,10 @@ class GrRestApiInterface extends mixinBehaviors( [
 
     const onError = response => {
       // Fire a page error so that the visual 404 is displayed.
-      this.fire('page-error', {response});
+      this.dispatchEvent(new CustomEvent('page-error', {
+        detail: {response},
+        composed: true, bubbles: true,
+      }));
     };
 
     return this.getChange(changeNum, onError).then(change => {

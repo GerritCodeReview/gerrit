@@ -265,7 +265,9 @@ class GrDiffBuilderElement extends mixinBehaviors( [
     }
     sectionEl.parentNode.removeChild(sectionEl);
 
-    this.async(() => this.fire('render-content'), 1);
+    this.async(() => this.dispatchEvent(new CustomEvent('render-content', {
+      composed: true, bubbles: true,
+    })), 1);
   }
 
   cancel() {

@@ -79,13 +79,18 @@ class GrConfirmAbandonDialog extends mixinBehaviors( [
   }
 
   _confirm() {
-    this.fire('confirm', {reason: this.message}, {bubbles: false});
+    this.dispatchEvent(new CustomEvent('confirm', {
+      detail: {reason: this.message},
+      composed: true, bubbles: false,
+    }));
   }
 
   _handleCancelTap(e) {
     e.preventDefault();
     e.stopPropagation();
-    this.fire('cancel', null, {bubbles: false});
+    this.dispatchEvent(new CustomEvent('cancel', {
+      composed: true, bubbles: false,
+    }));
   }
 }
 

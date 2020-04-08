@@ -139,19 +139,25 @@ class GrAutocompleteDropdown extends mixinBehaviors( [
   _handleTab(e) {
     e.preventDefault();
     e.stopPropagation();
-    this.fire('item-selected', {
-      trigger: 'tab',
-      selected: this.$.cursor.target,
-    });
+    this.dispatchEvent(new CustomEvent('item-selected', {
+      detail: {
+        trigger: 'tab',
+        selected: this.$.cursor.target,
+      },
+      composed: true, bubbles: true,
+    }));
   }
 
   _handleEnter(e) {
     e.preventDefault();
     e.stopPropagation();
-    this.fire('item-selected', {
-      trigger: 'enter',
-      selected: this.$.cursor.target,
-    });
+    this.dispatchEvent(new CustomEvent('item-selected', {
+      detail: {
+        trigger: 'enter',
+        selected: this.$.cursor.target,
+      },
+      composed: true, bubbles: true,
+    }));
   }
 
   _handleEscape() {
@@ -167,14 +173,19 @@ class GrAutocompleteDropdown extends mixinBehaviors( [
       if (!selected || selected === this) { return; }
       selected = selected.parentElement;
     }
-    this.fire('item-selected', {
-      trigger: 'click',
-      selected,
-    });
+    this.dispatchEvent(new CustomEvent('item-selected', {
+      detail: {
+        trigger: 'click',
+        selected,
+      },
+      composed: true, bubbles: true,
+    }));
   }
 
   _fireClose() {
-    this.fire('dropdown-closed');
+    this.dispatchEvent(new CustomEvent('dropdown-closed', {
+      composed: true, bubbles: true,
+    }));
   }
 
   getCursorTarget() {

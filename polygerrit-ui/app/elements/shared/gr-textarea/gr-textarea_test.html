@@ -244,7 +244,10 @@ suite('gr-textarea tests', () => {
 
   test('emoji dropdown is closed when iron-overlay-closed is fired', () => {
     const resetSpy = sandbox.spy(element, '_resetEmojiDropdown');
-    element.$.emojiSuggestions.fire('dropdown-closed');
+    element.$.emojiSuggestions.dispatchEvent(
+        new CustomEvent('dropdown-closed', {
+          composed: true, bubbles: true,
+        }));
     assert.isTrue(resetSpy.called);
   });
 

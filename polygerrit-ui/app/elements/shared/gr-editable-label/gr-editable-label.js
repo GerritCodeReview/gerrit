@@ -169,7 +169,10 @@ class GrEditableLabel extends mixinBehaviors( [
     this.$.dropdown.close();
     this.value = this._inputText;
     this.editing = false;
-    this.fire('changed', this.value);
+    this.dispatchEvent(new CustomEvent('changed', {
+      detail: this.value,
+      composed: true, bubbles: true,
+    }));
   }
 
   _cancel() {

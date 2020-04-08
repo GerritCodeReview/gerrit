@@ -135,7 +135,10 @@ class GrDashboardView extends mixinBehaviors( [
 
   _getProjectDashboard(project, dashboard) {
     const errFn = response => {
-      this.fire('page-error', {response});
+      this.dispatchEvent(new CustomEvent('page-error', {
+        detail: {response},
+        composed: true, bubbles: true,
+      }));
     };
     return this.$.restAPI.getDashboard(
         project, dashboard, errFn).then(response => {
@@ -196,7 +199,10 @@ class GrDashboardView extends mixinBehaviors( [
     return dashboardPromise
         .then(res => {
           if (res && res.title) {
-            this.fire('title-change', {title: res.title});
+            this.dispatchEvent(new CustomEvent('title-change', {
+              detail: {title: res.title},
+              composed: true, bubbles: true,
+            }));
           }
           return this._fetchDashboardChanges(res, checkForNewUser);
         })
@@ -205,9 +211,12 @@ class GrDashboardView extends mixinBehaviors( [
           this.$.reporting.dashboardDisplayed();
         })
         .catch(err => {
-          this.fire('title-change', {
-            title: title || this._computeTitle(user),
-          });
+          this.dispatchEvent(new CustomEvent('title-change', {
+            detail: {
+              title: title || this._computeTitle(user),
+            },
+            composed: true, bubbles: true,
+          }));
           console.warn(err);
         })
         .then(() => { this._loading = false; });

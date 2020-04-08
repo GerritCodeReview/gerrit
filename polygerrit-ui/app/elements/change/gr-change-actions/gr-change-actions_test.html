@@ -418,7 +418,10 @@ suite('gr-change-actions tests', () => {
       assert.isTrue(fetchChangesStub.calledOnce);
 
       flush(() => {
-        element.$.confirmRebase.fire('cancel');
+        element.$.confirmRebase.dispatchEvent(
+            new CustomEvent('cancel', {
+              composed: true, bubbles: true,
+            }));
         MockInteractions.tap(rebaseButton);
         assert.isTrue(fetchChangesStub.calledTwice);
         done();
@@ -445,14 +448,20 @@ suite('gr-change-actions tests', () => {
 
     test('fullscreen-overlay-opened hides content', () => {
       sandbox.spy(element, '_handleHideBackgroundContent');
-      element.$.overlay.fire('fullscreen-overlay-opened');
+      element.$.overlay.dispatchEvent(
+          new CustomEvent('fullscreen-overlay-opened', {
+            composed: true, bubbles: true,
+          }));
       assert.isTrue(element._handleHideBackgroundContent.called);
       assert.isTrue(element.$.mainContent.classList.contains('overlayOpen'));
     });
 
     test('fullscreen-overlay-closed shows content', () => {
       sandbox.spy(element, '_handleShowBackgroundContent');
-      element.$.overlay.fire('fullscreen-overlay-closed');
+      element.$.overlay.dispatchEvent(
+          new CustomEvent('fullscreen-overlay-closed', {
+            composed: true, bubbles: true,
+          }));
       assert.isTrue(element._handleShowBackgroundContent.called);
       assert.isFalse(element.$.mainContent.classList.contains('overlayOpen'));
     });

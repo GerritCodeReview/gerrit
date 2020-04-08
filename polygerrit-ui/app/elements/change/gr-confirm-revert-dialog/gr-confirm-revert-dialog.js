@@ -121,7 +121,10 @@ class GrConfirmRevertDialog extends mixinBehaviors( [
     const originalTitle = (commitMessage || '').split('\n')[0];
     const revertTitle = `Revert "${originalTitle}"`;
     if (!commitHash) {
-      this.fire('show-alert', {message: ERR_COMMIT_NOT_FOUND});
+      this.dispatchEvent(new CustomEvent('show-alert', {
+        detail: {message: ERR_COMMIT_NOT_FOUND},
+        composed: true, bubbles: true,
+      }));
       return;
     }
     const revertCommitText = `This reverts commit ${commitHash}.`;
@@ -152,7 +155,10 @@ class GrConfirmRevertDialog extends mixinBehaviors( [
     // Follow the same convention of the revert
     const commitHash = change.current_revision;
     if (!commitHash) {
-      this.fire('show-alert', {message: ERR_COMMIT_NOT_FOUND});
+      this.dispatchEvent(new CustomEvent('show-alert', {
+        detail: {message: ERR_COMMIT_NOT_FOUND},
+        composed: true, bubbles: true,
+      }));
       return;
     }
     if (!changes || changes.length <= 1) return;
@@ -194,15 +200,20 @@ class GrConfirmRevertDialog extends mixinBehaviors( [
       this._showErrorMessage = true;
       return;
     }
-    this.fire('confirm', {revertType: this._revertType,
-      message: this._message}, {bubbles: false});
+    this.dispatchEvent(new CustomEvent('confirm', {
+      detail: {revertType: this._revertType,
+        message: this._message},
+      composed: true, bubbles: false,
+    }));
   }
 
   _handleCancelTap(e) {
     e.preventDefault();
     e.stopPropagation();
-    this.fire('cancel', {revertType: this._revertType},
-        {bubbles: false});
+    this.dispatchEvent(new CustomEvent('cancel', {
+      detail: {revertType: this._revertType},
+      composed: true, bubbles: false,
+    }));
   }
 }
 

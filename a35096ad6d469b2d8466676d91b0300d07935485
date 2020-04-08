@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "764fb9d3_fcc4afaa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-08T19:14:08Z",
+      "side": 1,
+      "message": "nit: maybe have a new line between them... And if you use format like \"Screenshot:\", then maybe it should be in the same area as \"Change-Id:\"...",
+      "revId": "a35096ad6d469b2d8466676d91b0300d07935485",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

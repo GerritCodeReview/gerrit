@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "3406f7ff_e570f019",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-08T19:14:08Z",
+      "side": 1,
+      "message": "... its observing on change and statuses (the observer pattern will be built from your template usage directly by polymer if you use it in the html).. and i think you forgot that all dialogs are executed and rendered when change page load instead of only AFTER you click the button... so the \u0027_computeStatusClass\u0027 technically can be executed many times, and it may happen even when change is not available yet. We already have \u0027undefined\u0027 errors from js reporting on a lot places, and I see that you copied the code directly from \"_computeStatus\", so I won\u0027t block you for that....",
+      "parentUuid": "5541119c_2495e205",
+      "revId": "31ea749c5cdefd2d2134a85eabbf0b04101f3ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0384fb78_069baab0",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_html.js",
         "patchSetId": 3

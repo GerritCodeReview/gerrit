@@ -341,7 +341,9 @@ class GrChangeList extends mixinBehaviors( [
     }
 
     e.preventDefault();
-    this.fire('next-page');
+    this.dispatchEvent(new CustomEvent('next-page', {
+      composed: true, bubbles: true,
+    }));
   }
 
   _prevPage(e) {
@@ -351,7 +353,9 @@ class GrChangeList extends mixinBehaviors( [
     }
 
     e.preventDefault();
-    this.fire('previous-page');
+    this.dispatchEvent(new CustomEvent('previous-page', {
+      composed: true, bubbles: true,
+    }));
   }
 
   _toggleChangeReviewed(e) {

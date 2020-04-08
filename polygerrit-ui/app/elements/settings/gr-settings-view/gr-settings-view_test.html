@@ -178,7 +178,10 @@ suite('gr-settings-view tests', () => {
 
     const publishOnPush =
         valueOf('Publish comments on push', 'preferences').firstElementChild;
-    diffSelect.fire('change');
+    diffSelect.dispatchEvent(
+        new CustomEvent('change', {
+          composed: true, bubbles: true,
+        }));
 
     MockInteractions.tap(publishOnPush);
 
@@ -512,10 +515,13 @@ suite('gr-settings-view tests', () => {
     });
 
     test('show-alert is fired when email is confirmed', done => {
-      sandbox.spy(element, 'fire');
+      sandbox.spy(element, 'dispatchEvent');
       element._loadingPromise.then(() => {
-        assert.isTrue(
-            element.fire.calledWith('show-alert', {message: 'bar'}));
+        assert.equal(
+            element.dispatchEvent.lastCall.args[0].type, 'show-alert');
+        assert.deepEqual(
+            element.dispatchEvent.lastCall.args[0].detail, {message: 'bar'}
+        );
         done();
       });
       resolveConfirm('bar');

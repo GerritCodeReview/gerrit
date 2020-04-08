@@ -342,7 +342,10 @@ suite('gr-permission tests', () => {
       element.$.groupAutocomplete.text = 'new group name';
       assert.equal(element._rules.length, 2);
       element.shadowRoot
-          .querySelector('gr-rule-editor').fire('added-rule-removed');
+          .querySelector('gr-rule-editor').dispatchEvent(
+              new CustomEvent('added-rule-removed', {
+                composed: true, bubbles: true,
+              }));
       flushAsynchronousOperations();
       assert.equal(element._rules.length, 1);
     });

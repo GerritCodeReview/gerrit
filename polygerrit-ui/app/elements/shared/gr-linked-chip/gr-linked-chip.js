@@ -70,7 +70,9 @@ class GrLinkedChip extends mixinBehaviors( [
 
   _handleRemoveTap(e) {
     e.preventDefault();
-    this.fire('remove');
+    this.dispatchEvent(new CustomEvent('remove', {
+      composed: true, bubbles: true,
+    }));
   }
 }
 

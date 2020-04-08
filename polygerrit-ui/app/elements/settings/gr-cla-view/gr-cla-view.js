@@ -64,7 +64,10 @@ class GrClaView extends mixinBehaviors( [
     super.attached();
     this.loadData();
 
-    this.fire('title-change', {title: 'New Contributor Agreement'});
+    this.dispatchEvent(new CustomEvent('title-change', {
+      detail: {title: 'New Contributor Agreement'},
+      composed: true, bubbles: true,
+    }));
   }
 
   loadData() {

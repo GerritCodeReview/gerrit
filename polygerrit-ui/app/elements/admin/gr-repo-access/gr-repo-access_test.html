@@ -307,7 +307,10 @@ suite('gr-repo-access tests', () => {
           .display, 'none');
 
       // Save button should be enabled after access is modified
-      element.fire('access-modified');
+      element.dispatchEvent(
+          new CustomEvent('access-modified', {
+            composed: true, bubbles: true,
+          }));
       if (shouldShowSaveReview) {
         assert.isFalse(element.$.saveReviewBtn.disabled);
       }
@@ -332,7 +335,10 @@ suite('gr-repo-access tests', () => {
       element.editing = true;
       assert.equal(element._sections.length, 1);
       element.shadowRoot
-          .querySelector('gr-access-section').fire('added-section-removed');
+          .querySelector('gr-access-section').dispatchEvent(
+              new CustomEvent('added-section-removed', {
+                composed: true, bubbles: true,
+              }));
       flushAsynchronousOperations();
       assert.equal(element._sections.length, 0);
     });
@@ -360,7 +366,10 @@ suite('gr-repo-access tests', () => {
 
     test('_handleAccessModified called with event fired', () => {
       sandbox.spy(element, '_handleAccessModified');
-      element.fire('access-modified');
+      element.dispatchEvent(
+          new CustomEvent('access-modified', {
+            composed: true, bubbles: true,
+          }));
       assert.isTrue(element._handleAccessModified.called);
     });
 
@@ -369,9 +378,17 @@ suite('gr-repo-access tests', () => {
         id: 'test-project',
       };
       flushAsynchronousOperations();
-      element.shadowRoot.querySelector('#editInheritFromInput').fire('commit');
+      element.shadowRoot.querySelector('#editInheritFromInput').dispatchEvent(
+          new CustomEvent('commit', {
+            detail: {},
+            composed: true, bubbles: true,
+          }));
       sandbox.spy(element, '_handleAccessModified');
-      element.fire('access-modified');
+      element.dispatchEvent(
+          new CustomEvent('access-modified', {
+            detail: {},
+            composed: true, bubbles: true,
+          }));
       assert.isTrue(element._handleAccessModified.called);
     });
 

@@ -746,10 +746,13 @@ class GrRouter extends mixinBehaviors( [
       // Fire asynchronously so that the URL is changed by the time the event
       // is processed.
       this.async(() => {
-        this.fire('location-change', {
-          hash: window.location.hash,
-          pathname: window.location.pathname,
-        });
+        this.dispatchEvent(new CustomEvent('location-change', {
+          detail: {
+            hash: window.location.hash,
+            pathname: window.location.pathname,
+          },
+          composed: true, bubbles: true,
+        }));
       }, 1);
       next();
     });

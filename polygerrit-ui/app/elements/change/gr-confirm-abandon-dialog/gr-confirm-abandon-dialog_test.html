@@ -52,7 +52,10 @@ suite('gr-confirm-abandon-dialog tests', () => {
     sandbox.spy(element, '_handleConfirmTap');
     sandbox.spy(element, '_confirm');
     element.shadowRoot
-        .querySelector('gr-dialog').fire('confirm');
+        .querySelector('gr-dialog').dispatchEvent(
+            new CustomEvent('confirm', {
+              composed: true, bubbles: true,
+            }));
     assert.isTrue(confirmHandler.called);
     assert.isTrue(confirmHandler.calledOnce);
     assert.isTrue(element._handleConfirmTap.called);
@@ -66,7 +69,10 @@ suite('gr-confirm-abandon-dialog tests', () => {
     element.addEventListener('cancel', cancelHandler);
     sandbox.spy(element, '_handleCancelTap');
     element.shadowRoot
-        .querySelector('gr-dialog').fire('cancel');
+        .querySelector('gr-dialog').dispatchEvent(
+            new CustomEvent('cancel', {
+              composed: true, bubbles: true,
+            }));
     assert.isTrue(cancelHandler.called);
     assert.isTrue(cancelHandler.calledOnce);
     assert.isTrue(element._handleCancelTap.called);

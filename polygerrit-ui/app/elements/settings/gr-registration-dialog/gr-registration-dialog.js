@@ -120,7 +120,9 @@ class GrRegistrationDialog extends mixinBehaviors( [
 
     return Promise.all(promises).then(() => {
       this._saving = false;
-      this.fire('account-detail-update');
+      this.dispatchEvent(new CustomEvent('account-detail-update', {
+        composed: true, bubbles: true,
+      }));
     });
   }
 
@@ -136,7 +138,9 @@ class GrRegistrationDialog extends mixinBehaviors( [
 
   close() {
     this._saving = true; // disable buttons indefinitely
-    this.fire('close');
+    this.dispatchEvent(new CustomEvent('close', {
+      composed: true, bubbles: true,
+    }));
   }
 
   _computeSaveDisabled(name, email, saving) {

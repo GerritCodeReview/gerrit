@@ -87,7 +87,9 @@ class GrListView extends mixinBehaviors( [
   }
 
   _createNewItem() {
-    this.fire('create-clicked');
+    this.dispatchEvent(new CustomEvent('create-clicked', {
+      composed: true, bubbles: true,
+    }));
   }
 
   _computeNavLink(offset, direction, itemsPerPage, filter, path) {

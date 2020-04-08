@@ -45,7 +45,7 @@ suite('gr-selection-action-box', () => {
     container = fixture('basic');
     element = container.querySelector('gr-selection-action-box');
     sandbox = sinon.sandbox.create();
-    sandbox.stub(element, 'fire');
+    sandbox.stub(element, 'dispatchEvent');
   });
 
   teardown(() => {
@@ -54,7 +54,7 @@ suite('gr-selection-action-box', () => {
 
   test('ignores regular keys', () => {
     MockInteractions.pressAndReleaseKeyOn(document.body, 27, null, 'esc');
-    assert.isFalse(element.fire.called);
+    assert.isFalse(element.dispatchEvent.called);
   });
 
   suite('mousedown reacts only to main button', () => {
@@ -71,14 +71,17 @@ suite('gr-selection-action-box', () => {
     test('event handled if main button', () => {
       element._handleMouseDown(e);
       assert.isTrue(e.preventDefault.called);
-      assert(element.fire.calledWithExactly('create-comment-requested'));
+      assert.equal(
+          element.dispatchEvent.lastCall.args[0].type,
+          'create-comment-requested'
+      );
     });
 
     test('event ignored if not main button', () => {
       e.button = 1;
       element._handleMouseDown(e);
       assert.isFalse(e.preventDefault.called);
-      assert.isFalse(element.fire.called);
+      assert.isFalse(element.dispatchEvent.called);
     });
   });
 

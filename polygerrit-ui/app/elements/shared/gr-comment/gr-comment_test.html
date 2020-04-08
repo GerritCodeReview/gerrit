@@ -763,7 +763,7 @@ suite('gr-comment tests', () => {
     });
 
     test('draft saving/editing', done => {
-      const fireStub = sinon.stub(element, 'fire');
+      const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
       const cancelDebounce = sandbox.stub(element, 'cancelDebouncer');
 
       element.draft = true;
@@ -772,15 +772,13 @@ suite('gr-comment tests', () => {
       element._messageText = 'good news, everyone!';
       element.flushDebouncer('fire-update');
       element.flushDebouncer('store');
-      assert(fireStub.calledWith('comment-update'),
-          'comment-update should be sent');
-      assert.isTrue(fireStub.calledOnce);
+      assert.equal(dispatchEventStub.lastCall.args[0].type, 'comment-update'),
+      assert.isTrue(dispatchEventStub.calledOnce);
 
       element._messageText = 'good news, everyone!';
       element.flushDebouncer('fire-update');
       element.flushDebouncer('store');
-      assert.isTrue(fireStub.calledOnce,
-          'No events should fire for text editing');
+      assert.isTrue(dispatchEventStub.calledOnce);
 
       MockInteractions.tap(element.shadowRoot
           .querySelector('.save'));
@@ -789,11 +787,10 @@ suite('gr-comment tests', () => {
           'Element should be disabled when creating draft.');
 
       element._xhrPromise.then(draft => {
-        assert(fireStub.calledWith('comment-save'),
-            'comment-save should be sent');
+        assert.equal(dispatchEventStub.lastCall.args[0].type, 'comment-save');
         assert(cancelDebounce.calledWith('store'));
 
-        assert.deepEqual(fireStub.lastCall.args[1], {
+        assert.deepEqual(dispatchEventStub.lastCall.args[0].detail, {
           comment: {
             __commentSide: 'right',
             __draft: true,
@@ -825,7 +822,7 @@ suite('gr-comment tests', () => {
               'Element should be enabled when done updating draft.');
           assert.equal(draft.message, 'saved!');
           assert.isFalse(element.editing);
-          fireStub.restore();
+          dispatchEventStub.restore();
           done();
         });
       });

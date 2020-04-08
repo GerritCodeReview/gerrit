@@ -22,12 +22,14 @@
  */
 class Flags {
   constructor() {
+    // stores all enabled experiments
     this._experiments = new Set();
     this._loadExperiments();
   }
 
   /**
    * @param {string} experimentId
+   * @returns {boolean}
    */
   isEnabled(experimentId) {
     return this._experiments.has(experimentId);
@@ -35,6 +37,13 @@ class Flags {
 
   _loadExperiments() {
     this._experiments = new Set(window.ENABLED_EXPERIMENTS);
+  }
+
+  /**
+   * @returns {string[]} array of all enabled experiments.
+   */
+  get enabledExperiments() {
+    return [...this._experiments];
   }
 }
 

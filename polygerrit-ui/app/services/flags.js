@@ -36,6 +36,13 @@ class Flags {
   _loadExperiments() {
     this._experiments = new Set(window.ENABLED_EXPERIMENTS);
   }
+
+  /**
+   * Returns array of all enabled experiments.
+   */
+  get enabledExperiments() {
+    return [...this._experiments];
+  }
 }
 
 // Export a single instance of Flags to be used across components.

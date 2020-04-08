@@ -1,0 +1,227 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3951f983_3c1ebfc0",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-08T10:18:53Z",
+      "side": 1,
+      "message": "It now says \"throws TimeoutException\" right below.",
+      "range": {
+        "startLine": 164,
+        "startChar": 50,
+        "endLine": 164,
+        "endChar": 66
+      },
+      "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f33f70c_a7308e77",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-08T10:18:53Z",
+      "side": 1,
+      "message": "opt: inline",
+      "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "438014c9_e03436f9",
+        "filename": "java/com/google/gerrit/server/git/ProjectRunnable.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-08T10:18:53Z",
+      "side": 1,
+      "message": "Why are you adding a default implementation? Wouldn\u0027t that run the risk of implementing classes forgetting to provide a value here?",
+      "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9c1c5c1_b5684b3a",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-08T10:18:53Z",
+      "side": 1,
+      "message": "@link",
+      "range": {
+        "startLine": 424,
+        "startChar": 57,
+        "endLine": 424,
+        "endChar": 61
+      },
+      "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "367ff4d2_1ac2854a",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-08T10:18:53Z",
+      "side": 1,
+      "message": "javadoc",
+      "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df250f5f_b1060db5",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-08T10:18:53Z",
+      "side": 1,
+      "message": "2020",
+      "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c5de5ad_6b82f479",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-08T10:18:53Z",
+      "side": 1,
+      "message": "@link? (also below)",
+      "range": {
+        "startLine": 27,
+        "startChar": 54,
+        "endLine": 27,
+        "endChar": 67
+      },
+      "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ab4bafe_81d15dc4",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-08T10:18:53Z",
+      "side": 1,
+      "message": "This is used as a key, but it\u0027s really a status. How about renaming it? Also, since it\u0027s public it should have javadoc.",
+      "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e1d89ae_e46e8a7c",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-08T10:18:53Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be setMagicPush()?",
+      "range": {
+        "startLine": 70,
+        "startChar": 28,
+        "endLine": 70,
+        "endChar": 37
+      },
+      "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac42506b_81e00e4d",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-08T10:18:53Z",
+      "side": 1,
+      "message": "Can you avoid this by having the ImmutableMap.Builder\u003c\u003e directly in the Builder (line 57) instead of the intermediate EnumMap? Or is there an issue with deduplication?",
+      "range": {
+        "startLine": 74,
+        "startChar": 56,
+        "endLine": 74,
+        "endChar": 89
+      },
+      "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3b61fa3_43cf08e9",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommitsResult.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-08T10:18:53Z",
+      "side": 1,
+      "message": "setChanges()?",
+      "range": {
+        "startLine": 79,
+        "startChar": 31,
+        "endLine": 79,
+        "endChar": 39
+      },
+      "revId": "b026ec68d21b7ed8eb7e688caddd5a5068747464",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -21,7 +21,12 @@ import com.google.common.base.Splitter;
 import com.google.common.primitives.Ints;
 import java.util.List;
 
-/** A single modified file in a {@link PatchSet}. */
+/**
+ * Wrapper class for patch related aspects. Originally, this class represented a single modified
+ * file in a {@link PatchSet}. It's only kept in its current form as {@link ChangeType} and {@link
+ * PatchType} are used in diff cache entries for which we would break the serialization if we moved
+ * the enums somewhere else.
+ */
 public final class Patch {
   /** Magical file name which represents the commit message. */
   public static final String COMMIT_MSG = "/COMMIT_MSG";
@@ -77,10 +82,10 @@ public final class Patch {
     /** Path existed, but is being removed by this patch. */
     DELETED('D'),
 
-    /** Path existed at {@link Patch#getSourceFileName()} but was moved. */
+    /** Path existed at the source but was moved. */
     RENAMED('R'),
 
-    /** Path was copied from {@link Patch#getSourceFileName()}. */
+    /** Path was copied from the source. */
     COPIED('C'),
 
     /** Sufficient amount of content changed to claim the file was rewritten. */
@@ -95,19 +100,6 @@ public final class Patch {
     @Override
     public char getCode() {
       return code;
-    }
-
-    public boolean matches(String s) {
-      return s != null && s.length() == 1 && s.charAt(0) == code;
-    }
-
-    public static ChangeType forCode(char c) {
-      for (ChangeType s : ChangeType.values()) {
-        if (s.code == c) {
-          return s;
-        }
-      }
-      return null;
     }
   }
 
@@ -149,103 +141,7 @@ public final class Patch {
     public char getCode() {
       return code;
     }
-
-    public static PatchType forCode(char c) {
-      for (PatchType s : PatchType.values()) {
-        if (s.code == c) {
-          return s;
-        }
-      }
-      return null;
-    }
   }
 
-  protected Key key;
-
-  /** What sort of change is this to the path; see {@link ChangeType}. */
-  protected char changeType;
-
-  /** What type of patch is this; see {@link PatchType}. */
-  protected char patchType;
-
-  /** Number of lines added to the file. */
-  protected int insertions;
-
-  /** Number of lines deleted from the file. */
-  protected int deletions;
-
-  /** Original if {@link #changeType} is {@link ChangeType#COPIED} or {@link ChangeType#RENAMED}. */
-  protected String sourceFileName;
-
-  /** True if this patch has been reviewed by the current logged in user */
-  private boolean reviewedByCurrentUser;
-
-  protected Patch() {}
-
-  public Patch(Patch.Key newId) {
-    key = newId;
-    setChangeType(ChangeType.MODIFIED);
-    setPatchType(PatchType.UNIFIED);
-  }
-
-  public Patch.Key getKey() {
-    return key;
-  }
-
-  public int getInsertions() {
-    return insertions;
-  }
-
-  public void setInsertions(int n) {
-    insertions = n;
-  }
-
-  public int getDeletions() {
-    return deletions;
-  }
-
-  public void setDeletions(int n) {
-    deletions = n;
-  }
-
-  public ChangeType getChangeType() {
-    return ChangeType.forCode(changeType);
-  }
-
-  public void setChangeType(ChangeType type) {
-    changeType = type.getCode();
-  }
-
-  public PatchType getPatchType() {
-    return PatchType.forCode(patchType);
-  }
-
-  public void setPatchType(PatchType type) {
-    patchType = type.getCode();
-  }
-
-  public String getFileName() {
-    return key.fileName();
-  }
-
-  public String getSourceFileName() {
-    return sourceFileName;
-  }
-
-  public void setSourceFileName(String n) {
-    sourceFileName = n;
-  }
-
-  public boolean isReviewedByCurrentUser() {
-    return reviewedByCurrentUser;
-  }
-
-  public void setReviewedByCurrentUser(boolean r) {
-    reviewedByCurrentUser = r;
-  }
-
-  @Override
-  public String toString() {
-    return "[Patch " + getKey().toString() + "]";
-  }
+  private Patch() {}
 }

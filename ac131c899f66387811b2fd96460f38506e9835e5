@@ -16,6 +16,24 @@
       "revId": "ac131c899f66387811b2fd96460f38506e9835e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b981f59b_6d062765",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-08T07:26:58Z",
+      "side": 1,
+      "message": "I think this would improve readability, since as a reader you can wonder why we do not just return Iterables.getOnlyElement(commitIds) here.",
+      "parentUuid": "d33a2553_cf0e0069",
+      "revId": "ac131c899f66387811b2fd96460f38506e9835e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

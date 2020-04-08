@@ -621,7 +621,7 @@ gcloud alpha remote-build-execution worker-pools create default \
     --project=${PROJECT} \
     --instance=default_instance \
     --worker-count=50 \
-    --machine-type=n1-highcpu-4 \
+    --machine-type=e2-standard-4 \
     --disk-size=200
 ```
 

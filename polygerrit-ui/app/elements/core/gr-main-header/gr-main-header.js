@@ -345,7 +345,9 @@ class GrMainHeader extends mixinBehaviors( [
   _onMobileSearchTap(e) {
     e.preventDefault();
     e.stopPropagation();
-    this.fire('mobile-search', null, {bubbles: false});
+    this.dispatchEvent(new CustomEvent('mobile-search', {
+      composed: true, bubbles: false,
+    }));
   }
 
   _computeLinkGroupClass(linkGroup) {

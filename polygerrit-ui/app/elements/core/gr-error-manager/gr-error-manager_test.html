@@ -62,9 +62,12 @@ suite('gr-error-manager tests', () => {
     test('does not show auth error on 403 by default', done => {
       const showAuthErrorStub = sandbox.stub(element, '_showAuthErrorAlert');
       const responseText = Promise.resolve('server says no.');
-      element.fire('server-error',
-          {response: {status: 403, text() { return responseText; }}}
-      );
+      element.dispatchEvent(
+          new CustomEvent('server-error', {
+            detail:
+          {response: {status: 403, text() { return responseText; }}},
+            composed: true, bubbles: true,
+          }));
       flush(() => {
         assert.isFalse(showAuthErrorStub.calledOnce);
         done();
@@ -79,9 +82,12 @@ suite('gr-error-manager tests', () => {
           const responseText = Promise.resolve('Authentication required\n');
           sinon.stub(element.$.restAPI, 'getLoggedIn')
               .returns(Promise.resolve(true));
-          element.fire('server-error',
-              {response: {status: 403, text() { return responseText; }}}
-          );
+          element.dispatchEvent(
+              new CustomEvent('server-error', {
+                detail:
+              {response: {status: 403, text() { return responseText; }}},
+                composed: true, bubbles: true,
+              }));
           flush(() => {
             assert.isTrue(showAuthErrorStub.calledOnce);
             done();
@@ -94,9 +100,12 @@ suite('gr-error-manager tests', () => {
       const responseText = Promise.resolve('Authentication required\n');
       sinon.stub(element.$.restAPI, 'getLoggedIn')
           .returns(Promise.resolve(true));
-      element.fire('server-error',
-          {response: {status: 403, text() { return responseText; }}}
-      );
+      element.dispatchEvent(
+          new CustomEvent('server-error', {
+            detail:
+          {response: {status: 403, text() { return responseText; }}},
+            composed: true, bubbles: true,
+          }));
       flush(() => {
         assert.isTrue(element.$.restAPI.getLoggedIn.calledOnce);
         done();
@@ -105,7 +114,10 @@ suite('gr-error-manager tests', () => {
 
     test('show logged in error', () => {
       sandbox.stub(element, '_showAuthErrorAlert');
-      element.fire('show-auth-required');
+      element.dispatchEvent(
+          new CustomEvent('show-auth-required', {
+            composed: true, bubbles: true,
+          }));
       assert.isTrue(element._showAuthErrorAlert.calledWithExactly(
           'Log in is required to perform that action.', 'Log in.'));
     });
@@ -113,7 +125,11 @@ suite('gr-error-manager tests', () => {
     test('show normal Error', done => {
       const showErrorStub = sandbox.stub(element, '_showErrorDialog');
       const textSpy = sandbox.spy(() => Promise.resolve('ZOMG'));
-      element.fire('server-error', {response: {status: 500, text: textSpy}});
+      element.dispatchEvent(
+          new CustomEvent('server-error', {
+            detail: {response: {status: 500, text: textSpy}},
+            composed: true, bubbles: true,
+          }));
 
       assert.isTrue(textSpy.called);
       flush(() => {
@@ -160,13 +176,17 @@ suite('gr-error-manager tests', () => {
       );
       const headers = new Headers();
       headers.set('X-Gerrit-Trace', 'xxxx');
-      element.fire('server-error', {
-        response: {
-          headers,
-          status: 500,
-          text: textSpy,
-        },
-      });
+      element.dispatchEvent(
+          new CustomEvent('server-error', {
+            detail: {
+              response: {
+                headers,
+                status: 500,
+                text: textSpy,
+              },
+            },
+            composed: true, bubbles: true,
+          }));
       flush(() => {
         assert.equal(
             element.$.errorDialog.text,
@@ -181,7 +201,11 @@ suite('gr-error-manager tests', () => {
       const textSpy = sandbox.spy(
           () => Promise.resolve('too many files to find conflicts')
       );
-      element.fire('server-error', {response: {status: 500, text: textSpy}});
+      element.dispatchEvent(
+          new CustomEvent('server-error', {
+            detail: {response: {status: 500, text: textSpy}},
+            composed: true, bubbles: true,
+          }));
 
       assert.isTrue(textSpy.called);
       flush(() => {
@@ -193,7 +217,11 @@ suite('gr-error-manager tests', () => {
     test('show network error', done => {
       const consoleErrorStub = sandbox.stub(console, 'error');
       const showAlertStub = sandbox.stub(element, '_showAlert');
-      element.fire('network-error', {error: new Error('ZOMG')});
+      element.dispatchEvent(
+          new CustomEvent('network-error', {
+            detail: {error: new Error('ZOMG')},
+            composed: true, bubbles: true,
+          }));
       flush(() => {
         assert.isTrue(showAlertStub.calledOnce);
         assert.isTrue(showAlertStub.lastCall.calledWithExactly(
@@ -214,9 +242,12 @@ suite('gr-error-manager tests', () => {
       const responseText = Promise.resolve('Authentication required\n');
       // fake failed auth
       window.fetch.returns(Promise.resolve({status: 403}));
-      element.fire('server-error',
-          {response: {status: 403, text() { return responseText; }}}
-      );
+      element.dispatchEvent(
+          new CustomEvent('server-error', {
+            detail:
+          {response: {status: 403, text() { return responseText; }}},
+            composed: true, bubbles: true,
+          }));
       assert.equal(window.fetch.callCount, 1);
       flush(() => {
         // here needs two flush as there are two chanined
@@ -282,7 +313,11 @@ suite('gr-error-manager tests', () => {
       const responseText = Promise.resolve('Authentication required\n');
 
       // fake an alert
-      element.fire('show-alert', {message: 'test reload', action: 'reload'});
+      element.dispatchEvent(
+          new CustomEvent('show-alert', {
+            detail: {message: 'test reload', action: 'reload'},
+            composed: true, bubbles: true,
+          }));
       const toast = toastSpy.lastCall.returnValue;
       assert.isOk(toast);
       assert.include(
@@ -290,9 +325,12 @@ suite('gr-error-manager tests', () => {
 
       // fake auth
       window.fetch.returns(Promise.resolve({status: 403}));
-      element.fire('server-error',
-          {response: {status: 403, text() { return responseText; }}}
-      );
+      element.dispatchEvent(
+          new CustomEvent('server-error', {
+            detail:
+          {response: {status: 403, text() { return responseText; }}},
+            composed: true, bubbles: true,
+          }));
       assert.equal(window.fetch.callCount, 1);
       flush(() => {
         // here needs two flush as there are two chanined
@@ -316,14 +354,22 @@ suite('gr-error-manager tests', () => {
       const toastSpy = sandbox.spy(element, '_createToastAlert');
 
       // fake an alert
-      element.fire('show-alert', {message: 'test reload', action: 'reload'});
+      element.dispatchEvent(
+          new CustomEvent('show-alert', {
+            detail: {message: 'test reload', action: 'reload'},
+            composed: true, bubbles: true,
+          }));
       let toast = toastSpy.lastCall.returnValue;
       assert.isOk(toast);
       assert.include(
           dom(toast.root).textContent, 'test reload');
 
       // new alert
-      element.fire('show-alert', {message: 'second-test', action: 'reload'});
+      element.dispatchEvent(
+          new CustomEvent('show-alert', {
+            detail: {message: 'second-test', action: 'reload'},
+            composed: true, bubbles: true,
+          }));
 
       toast = toastSpy.lastCall.returnValue;
       assert.include(dom(toast.root).textContent, 'second-test');
@@ -337,9 +383,12 @@ suite('gr-error-manager tests', () => {
 
       // fake auth
       window.fetch.returns(Promise.resolve({status: 403}));
-      element.fire('server-error',
-          {response: {status: 403, text() { return responseText; }}}
-      );
+      element.dispatchEvent(
+          new CustomEvent('server-error', {
+            detail:
+          {response: {status: 403, text() { return responseText; }}},
+            composed: true, bubbles: true,
+          }));
       assert.equal(window.fetch.callCount, 1);
       flush(() => {
         // here needs two flush as there are two chanined
@@ -353,9 +402,13 @@ suite('gr-error-manager tests', () => {
               dom(toast.root).textContent, 'Refresh credentials');
 
           // fake an alert
-          element.fire('show-alert', {
-            message: 'test-alert', action: 'reload',
-          });
+          element.dispatchEvent(
+              new CustomEvent('show-alert', {
+                detail: {
+                  message: 'test-alert', action: 'reload',
+                },
+                composed: true, bubbles: true,
+              }));
           flush(() => {
             toast = toastSpy.lastCall.returnValue;
             assert.isOk(toast);
@@ -370,7 +423,11 @@ suite('gr-error-manager tests', () => {
     test('show alert', () => {
       const alertObj = {message: 'foo'};
       sandbox.stub(element, '_showAlert');
-      element.fire('show-alert', alertObj);
+      element.dispatchEvent(
+          new CustomEvent('show-alert', {
+            detail: {alertObj},
+            composed: true, bubbles: true,
+          }));
       assert.isTrue(element._showAlert.calledOnce);
       assert.equal(element._showAlert.lastCall.args[0], 'foo');
       assert.isNotOk(element._showAlert.lastCall.args[1]);
@@ -433,14 +490,21 @@ suite('gr-error-manager tests', () => {
       );
 
       const message = 'test message';
-      element.fire('show-error', {message});
+      element.dispatchEvent(
+          new CustomEvent('show-error', {
+            detail: {message},
+            composed: true, bubbles: true,
+          }));
       flushAsynchronousOperations();
 
       assert.isTrue(openStub.called);
       assert.isTrue(reportStub.called);
       assert.equal(element.$.errorDialog.text, message);
 
-      element.$.errorDialog.fire('dismiss');
+      element.$.errorDialog.dispatchEvent(
+          new CustomEvent('dismiss', {
+            composed: true, bubbles: true,
+          }));
       flushAsynchronousOperations();
 
       assert.isTrue(closeStub.called);

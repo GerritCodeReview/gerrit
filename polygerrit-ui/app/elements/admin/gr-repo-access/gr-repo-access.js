@@ -175,7 +175,10 @@ class GrRepoAccess extends mixinBehaviors( [
     const promises = [];
 
     const errFn = response => {
-      this.fire('page-error', {response});
+      this.dispatchEvent(new CustomEvent('page-error', {
+        detail: {response},
+        composed: true, bubbles: true,
+      }));
     };
 
     this._editing = false;

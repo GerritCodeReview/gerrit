@@ -529,9 +529,12 @@ class GrDiff extends mixinBehaviors( [
     const el = dom(e).localTarget;
 
     if (el.classList.contains('showContext')) {
-      this.fire('diff-context-expanded', {
-        numLines: e.detail.numLines,
-      });
+      this.dispatchEvent(new CustomEvent('diff-context-expanded', {
+        detail: {
+          numLines: e.detail.numLines,
+        },
+        composed: true, bubbles: true,
+      }));
       this.$.diffBuilder.showContext(e.detail.groups, e.detail.section);
     } else if (el.classList.contains('lineNum')) {
       this.addDraftAtLine(el);
@@ -544,11 +547,14 @@ class GrDiff extends mixinBehaviors( [
   }
 
   _selectLine(el) {
-    this.fire('line-selected', {
-      side: el.classList.contains('left') ? DiffSide.LEFT : DiffSide.RIGHT,
-      number: el.getAttribute('data-value'),
-      path: this.path,
-    });
+    this.dispatchEvent(new CustomEvent('line-selected', {
+      detail: {
+        side: el.classList.contains('left') ? DiffSide.LEFT : DiffSide.RIGHT,
+        number: el.getAttribute('data-value'),
+        path: this.path,
+      },
+      composed: true, bubbles: true,
+    }));
   }
 
   addDraftAtLine(el) {
@@ -560,7 +566,10 @@ class GrDiff extends mixinBehaviors( [
     if (value !== GrDiffLine.FILE) {
       lineNum = parseInt(value, 10);
       if (isNaN(lineNum)) {
-        this.fire('show-alert', {message: ERR_INVALID_LINE + value});
+        this.dispatchEvent(new CustomEvent('show-alert', {
+          detail: {message: ERR_INVALID_LINE + value},
+          composed: true, bubbles: true,
+        }));
         return;
       }
     }
@@ -592,7 +601,9 @@ class GrDiff extends mixinBehaviors( [
   /** @return {boolean} */
   _isValidElForComment(el) {
     if (!this.loggedIn) {
-      this.fire('show-auth-required');
+      this.dispatchEvent(new CustomEvent('show-auth-required', {
+        composed: true, bubbles: true,
+      }));
       return false;
     }
     const patchNum = el.classList.contains(DiffSide.LEFT) ?
@@ -604,10 +615,16 @@ class GrDiff extends mixinBehaviors( [
         this.patchNumEquals(this.patchRange.patchNum, this.EDIT_NAME);
 
     if (isEdit) {
-      this.fire('show-alert', {message: ERR_COMMENT_ON_EDIT});
+      this.dispatchEvent(new CustomEvent('show-alert', {
+        detail: {message: ERR_COMMENT_ON_EDIT},
+        composed: true, bubbles: true,
+      }));
       return false;
     } else if (isEditBase) {
-      this.fire('show-alert', {message: ERR_COMMENT_ON_EDIT_BASE});
+      this.dispatchEvent(new CustomEvent('show-alert', {
+        detail: {message: ERR_COMMENT_ON_EDIT_BASE},
+        composed: true, bubbles: true,
+      }));
       return false;
     }
     return true;

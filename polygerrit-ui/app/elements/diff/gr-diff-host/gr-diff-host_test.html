@@ -102,7 +102,11 @@ suite('gr-diff-host tests', () => {
     test('creating a draft', () => {
       const comment = {__draft: true, __draftID: 'tempID', side: 'PARENT',
         __commentSide: 'left'};
-      element.fire('comment-update', {comment});
+      element.dispatchEvent(
+          new CustomEvent('comment-update', {
+            detail: {comment},
+            composed: true, bubbles: true,
+          }));
       assert.include(element.comments.left, comment);
     });
 
@@ -120,7 +124,11 @@ suite('gr-diff-host tests', () => {
           diffCommentsModifiedStub);
       element.comments.left.push(comment);
       comment.id = id;
-      element.fire('comment-discard', {comment});
+      element.dispatchEvent(
+          new CustomEvent('comment-discard', {
+            detail: {comment},
+            composed: true, bubbles: true,
+          }));
       const drafts = element.comments.left
           .filter(item => item.__draftID === draftID);
       assert.equal(drafts.length, 0);
@@ -141,7 +149,11 @@ suite('gr-diff-host tests', () => {
           diffCommentsModifiedStub);
       element.comments.left.push(comment);
       comment.id = id;
-      element.fire('comment-save', {comment});
+      element.dispatchEvent(
+          new CustomEvent('comment-save', {
+            detail: {comment},
+            composed: true, bubbles: true,
+          }));
       const drafts = element.comments.left
           .filter(item => item.__draftID === draftID);
       assert.equal(drafts.length, 1);

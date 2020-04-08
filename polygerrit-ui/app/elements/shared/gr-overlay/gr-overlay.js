@@ -76,7 +76,9 @@ class GrOverlay extends mixinBehaviors( [
     return new Promise((resolve, reject) => {
       IronOverlayBehaviorImpl.open.apply(this, args);
       if (this._isMobile()) {
-        this.fire('fullscreen-overlay-opened');
+        this.dispatchEvent(new CustomEvent('fullscreen-overlay-opened', {
+          composed: true, bubbles: true,
+        }));
         this._fullScreenOpen = true;
       }
       this._awaitOpen(resolve, reject);
@@ -89,7 +91,9 @@ class GrOverlay extends mixinBehaviors( [
 
   _close() {
     if (this._fullScreenOpen) {
-      this.fire('fullscreen-overlay-closed');
+      this.dispatchEvent(new CustomEvent('fullscreen-overlay-closed', {
+        composed: true, bubbles: true,
+      }));
       this._fullScreenOpen = false;
     }
   }

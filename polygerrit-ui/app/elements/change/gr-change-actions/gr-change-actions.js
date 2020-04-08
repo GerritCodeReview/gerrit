@@ -529,7 +529,10 @@ class GrChangeActions extends mixinBehaviors( [
           this._handleLoadingComplete();
         })
         .catch(err => {
-          this.fire('show-alert', {message: ERR_REVISION_ACTIONS});
+          this.dispatchEvent(new CustomEvent('show-alert', {
+            detail: {message: ERR_REVISION_ACTIONS},
+            composed: true, bubbles: true,
+          }));
           this._loading = false;
           throw err;
         });
@@ -990,7 +993,10 @@ class GrChangeActions extends mixinBehaviors( [
     const key = el.getAttribute('data-action-key');
     if (key.startsWith(ADDITIONAL_ACTION_KEY_PREFIX) ||
         key.indexOf('~') !== -1) {
-      this.fire(`${key}-tap`, {node: el});
+      this.dispatchEvent(new CustomEvent(`${key}-tap`, {
+        detail: {node: el},
+        composed: true, bubbles: true,
+      }));
       return;
     }
     const type = el.getAttribute('data-action-type');
@@ -1003,7 +1009,10 @@ class GrChangeActions extends mixinBehaviors( [
     const key = e.detail.action.__key;
     if (key.startsWith(ADDITIONAL_ACTION_KEY_PREFIX) ||
         key.indexOf('~') !== -1) {
-      this.fire(`${key}-tap`, {node: el});
+      this.dispatchEvent(new CustomEvent(`${key}-tap`, {
+        detail: {node: el},
+        composed: true, bubbles: true,
+      }));
       return;
     }
     this._handleAction(e.detail.action.__type, e.detail.action.__key);
@@ -1144,11 +1153,17 @@ class GrChangeActions extends mixinBehaviors( [
   _handleCherryPickRestApi(conflicts) {
     const el = this.$.confirmCherrypick;
     if (!el.branch) {
-      this.fire('show-alert', {message: ERR_BRANCH_EMPTY});
+      this.dispatchEvent(new CustomEvent('show-alert', {
+        detail: {message: ERR_BRANCH_EMPTY},
+        composed: true, bubbles: true,
+      }));
       return;
     }
     if (!el.message) {
-      this.fire('show-alert', {message: ERR_COMMIT_EMPTY});
+      this.dispatchEvent(new CustomEvent('show-alert', {
+        detail: {message: ERR_COMMIT_EMPTY},
+        composed: true, bubbles: true,
+      }));
       return;
     }
     this.$.overlay.close();
@@ -1169,7 +1184,10 @@ class GrChangeActions extends mixinBehaviors( [
   _handleMoveConfirm() {
     const el = this.$.confirmMove;
     if (!el.branch) {
-      this.fire('show-alert', {message: ERR_BRANCH_EMPTY});
+      this.dispatchEvent(new CustomEvent('show-alert', {
+        detail: {message: ERR_BRANCH_EMPTY},
+        composed: true, bubbles: true,
+      }));
       return;
     }
     this.$.overlay.close();
@@ -1371,8 +1389,10 @@ class GrChangeActions extends mixinBehaviors( [
       }
     }
     return response.text().then(errText => {
-      this.fire('show-error',
-          {message: `Could not perform action: ${errText}`});
+      this.dispatchEvent(new CustomEvent('show-error', {
+        detail: {message: `Could not perform action: ${errText}`},
+        composed: true, bubbles: true,
+      }));
       if (!errText.startsWith('Change is already up to date')) {
         throw Error(errText);
       }
@@ -1396,15 +1416,18 @@ class GrChangeActions extends mixinBehaviors( [
     return this.fetchChangeUpdates(this.change, this.$.restAPI)
         .then(result => {
           if (!result.isLatest) {
-            this.fire('show-alert', {
-              message: 'Cannot set label: a newer patch has been ' +
+            this.dispatchEvent(new CustomEvent('show-alert', {
+              detail: {
+                message: 'Cannot set label: a newer patch has been ' +
                   'uploaded to this change.',
-              action: 'Reload',
-              callback: () => {
+                action: 'Reload',
+                callback: () => {
                 // Load the current change without any patch range.
-                Gerrit.Nav.navigateToChange(this.change);
+                  Gerrit.Nav.navigateToChange(this.change);
+                },
               },
-            });
+              composed: true, bubbles: true,
+            }));
 
             // Because this is not a network error, call the cleanup function
             // but not the error handler.
@@ -1438,7 +1461,9 @@ class GrChangeActions extends mixinBehaviors( [
   }
 
   _handleDownloadTap() {
-    this.fire('download-tap', null, {bubbles: false});
+    this.dispatchEvent(new CustomEvent('download-tap', {
+      composed: true, bubbles: false,
+    }));
   }
 
   _handleDeleteTap() {

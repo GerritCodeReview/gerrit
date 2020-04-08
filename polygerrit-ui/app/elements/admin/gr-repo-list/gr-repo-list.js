@@ -98,7 +98,10 @@ class GrRepoList extends mixinBehaviors( [
   attached() {
     super.attached();
     this._getCreateRepoCapability();
-    this.fire('title-change', {title: 'Repos'});
+    this.dispatchEvent(new CustomEvent('title-change', {
+      detail: {title: 'Repos'},
+      composed: true, bubbles: true,
+    }));
     this._maybeOpenCreateOverlay(this.params);
   }
 

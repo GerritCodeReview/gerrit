@@ -133,7 +133,10 @@ suite('gr-event-helper tests', () => {
     instance.on('foo', () => {
       done();
     });
-    element.fire('foo');
+    element.dispatchEvent(
+        new CustomEvent('foo', {
+          composed: true, bubbles: true,
+        }));
   });
 });
 </script>

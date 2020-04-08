@@ -77,7 +77,10 @@ class GrConfirmRevertSubmissionDialog extends mixinBehaviors( [
     // Follow the same convention of the revert
     const commitHash = change.current_revision;
     if (!commitHash) {
-      this.fire('show-alert', {message: ERR_COMMIT_NOT_FOUND});
+      this.dispatchEvent(new CustomEvent('show-alert', {
+        detail: {message: ERR_COMMIT_NOT_FOUND},
+        composed: true, bubbles: true,
+      }));
       return;
     }
     const submissionId = change.submission_id;
@@ -97,13 +100,17 @@ class GrConfirmRevertSubmissionDialog extends mixinBehaviors( [
   _handleConfirmTap(e) {
     e.preventDefault();
     e.stopPropagation();
-    this.fire('confirm', null, {bubbles: false});
+    this.dispatchEvent(new CustomEvent('confirm', {
+      composed: true, bubbles: false,
+    }));
   }
 
   _handleCancelTap(e) {
     e.preventDefault();
     e.stopPropagation();
-    this.fire('cancel', null, {bubbles: false});
+    this.dispatchEvent(new CustomEvent('cancel', {
+      composed: true, bubbles: false,
+    }));
   }
 }
 

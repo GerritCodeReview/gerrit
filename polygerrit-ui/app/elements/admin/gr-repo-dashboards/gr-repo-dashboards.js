@@ -59,7 +59,10 @@ class GrRepoDashboards extends mixinBehaviors( [
     if (!repo) { return Promise.resolve(); }
 
     const errFn = response => {
-      this.fire('page-error', {response});
+      this.dispatchEvent(new CustomEvent('page-error', {
+        detail: {response},
+        composed: true, bubbles: true,
+      }));
     };
 
     this.$.restAPI.getRepoDashboards(this.repo, errFn).then(res => {

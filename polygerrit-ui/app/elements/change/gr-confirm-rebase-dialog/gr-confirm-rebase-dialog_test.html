@@ -92,11 +92,17 @@ suite('gr-confirm-rebase-dialog tests', () => {
 
   test('input cleared on cancel or submit', () => {
     element._text = '123';
-    element.$.confirmDialog.fire('confirm');
+    element.$.confirmDialog.dispatchEvent(
+        new CustomEvent('confirm', {
+          composed: true, bubbles: true,
+        }));
     assert.equal(element._text, '');
 
     element._text = '123';
-    element.$.confirmDialog.fire('cancel');
+    element.$.confirmDialog.dispatchEvent(
+        new CustomEvent('cancel', {
+          composed: true, bubbles: true,
+        }));
     assert.equal(element._text, '');
   });
 

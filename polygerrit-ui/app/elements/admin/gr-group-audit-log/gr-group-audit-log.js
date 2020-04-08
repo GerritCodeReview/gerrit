@@ -61,7 +61,10 @@ class GrGroupAuditLog extends mixinBehaviors( [
   /** @override */
   attached() {
     super.attached();
-    this.fire('title-change', {title: 'Audit Log'});
+    this.dispatchEvent(new CustomEvent('title-change', {
+      detail: {title: 'Audit Log'},
+      composed: true, bubbles: true,
+    }));
   }
 
   /** @override */
@@ -74,7 +77,10 @@ class GrGroupAuditLog extends mixinBehaviors( [
     if (!this.groupId) { return ''; }
 
     const errFn = response => {
-      this.fire('page-error', {response});
+      this.dispatchEvent(new CustomEvent('page-error', {
+        detail: {response},
+        composed: true, bubbles: true,
+      }));
     };
 
     return this.$.restAPI.getGroupAuditLog(this.groupId, errFn)

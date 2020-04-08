@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a3b9f53_a8b64aa7",
+        "filename": "javatests/com/google/gerrit/acceptance/git/HttpSubmitOnPushIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-04-08T14:44:38Z",
+      "side": 1,
+      "message": "Just development debris",
+      "range": {
+        "startLine": 15,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 43
+      },
+      "revId": "83590234fc29c61148d67e18f932d8966599147a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

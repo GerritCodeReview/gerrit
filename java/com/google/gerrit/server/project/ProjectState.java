@@ -37,18 +37,12 @@ import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.index.project.ProjectData;
-import com.google.gerrit.metrics.Description;
-import com.google.gerrit.metrics.Description.Units;
-import com.google.gerrit.metrics.Field;
-import com.google.gerrit.metrics.MetricMaker;
-import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.TransferConfig;
-import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -92,9 +86,6 @@ public class ProjectState {
   private final long globalMaxObjectSizeLimit;
   private final boolean inheritProjectMaxObjectSizeLimit;
 
-  // TODO(hiesel): Remove this once we got production data
-  private final Timer1<String> computationLatency;
-
   /** Last system time the configuration's revision was examined. */
   private volatile long lastCheckGeneration;
 
@@ -113,7 +104,6 @@ public class ProjectState {
       List<CommentLinkInfo> commentLinks,
       CapabilityCollection.Factory limitsFactory,
       TransferConfig transferConfig,
-      MetricMaker metricMaker,
       @Assisted ProjectConfig config) {
     this.projectCache = projectCache;
     this.isAllProjects = config.getProject().getNameKey().equals(allProjectsName);
@@ -129,14 +119,6 @@ public class ProjectState {
             : null;
     this.globalMaxObjectSizeLimit = transferConfig.getMaxObjectSizeLimit();
     this.inheritProjectMaxObjectSizeLimit = transferConfig.inheritProjectMaxObjectSizeLimit();
-
-    this.computationLatency =
-        metricMaker.newTimer(
-            "permissions/project_state/computation_latency",
-            new Description("Latency for access computations in ProjectState")
-                .setCumulative()
-                .setUnit(Units.NANOSECONDS),
-            Field.ofString("method", Metadata.Builder::methodName).build());
 
     if (isAllProjects && !Permission.canBeOnAllProjects(AccessSection.ALL, Permission.OWNER)) {
       localOwners = Collections.emptySet();
@@ -355,21 +337,15 @@ public class ProjectState {
    * cached. Callers should try to cache this result per-request as much as possible.
    */
   public List<SectionMatcher> getAllSections() {
-    try (Timer1.Context<String> ignored = computationLatency.start("getAllSections")) {
-      if (isAllProjects) {
-        return getLocalAccessSections();
-      }
-
-      List<SectionMatcher> all = new ArrayList<>();
-      Iterable<ProjectState> tree = tree();
-      try (Timer1.Context<String> ignored2 =
-          computationLatency.start("getAllSections-parsing-only")) {
-        for (ProjectState s : tree) {
-          all.addAll(s.getLocalAccessSections());
-        }
-      }
-      return all;
+    if (isAllProjects) {
+      return getLocalAccessSections();
     }
+
+    List<SectionMatcher> all = new ArrayList<>();
+    for (ProjectState s : tree()) {
+      all.addAll(s.getLocalAccessSections());
+    }
+    return all;
   }
 
   /**

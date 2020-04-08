@@ -85,6 +85,19 @@ def queryChangedFiles(url) {
     return filesJson.keySet().findAll { it != "/COMMIT_MSG" }
 }
 
+def queryHashtags(url) {
+    def queryUrl = "${url}changes/${env.GERRIT_CHANGE_NUMBER}/hashtags/"
+    def response = httpRequest queryUrl
+    def files = response.getContent().substring(5)
+    def filesJson = new JsonSlurper().parseText(files)
+    return filesJson
+}
+
+def hasCiSkipHashtag() {
+    def hashtags = queryHashtags(Globals.gerritUrl)
+    return hashtags.any { it == "ci-skip" }
+}
+
 def collectBuildModes() {
     Builds.modes = ["notedb"]
     def changedFiles = queryChangedFiles(Globals.gerritUrl)
@@ -221,6 +234,12 @@ def findCodestyleFilesInLog(build) {
 node ('master') {
 
     if (hasChangeNumber()) {
+        if (hasCiSkipHashtag()) {
+          stage('Report to Gerrit') {
+            gerritReview labels: ['Verified': -1, 'Code-Style': -1]
+          }
+          return
+        }
         stage('Preparing'){
             gerritReview labels: ['Verified': 0, 'Code-Style': 0]
             collectBuildModes()

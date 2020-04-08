@@ -533,7 +533,7 @@ public class EventFactory {
       List<Patch> list = patchListCache.get(change, patchSet).toPatchList(pId);
       for (Patch pe : list) {
         if (!Patch.isMagic(pe.getFileName())) {
-          p.sizeDeletions -= pe.getDeletions();
+          p.sizeDeletions += pe.getDeletions();
           p.sizeInsertions += pe.getInsertions();
         }
       }

@@ -147,10 +147,10 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
         pred,
         new ChangeIsVisibleToPredicate(
             notesFactory,
-            userProvider.get(),
             permissionBackend,
             projectCache,
-            anonymousUserProvider),
+            anonymousUserProvider,
+            userProvider.get()),
         start);
   }
 

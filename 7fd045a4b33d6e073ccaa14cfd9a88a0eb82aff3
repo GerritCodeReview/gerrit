@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "474a9ec6_1b70ea72",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-08T07:03:23Z",
+      "side": 1,
+      "message": "I think you can just remove this test setup, since the permission check is done very early in the code path and hence it doesn\u0027t matter for this test whether there are draft comments.",
+      "range": {
+        "startLine": 689,
+        "startChar": 4,
+        "endLine": 694,
+        "endChar": 0
+      },
+      "revId": "7fd045a4b33d6e073ccaa14cfd9a88a0eb82aff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

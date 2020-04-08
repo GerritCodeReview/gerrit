@@ -85,13 +85,24 @@ def queryChangedFiles(url) {
     return filesJson.keySet().findAll { it != "/COMMIT_MSG" }
 }
 
+def queryHashtags(url) {
+    def queryUrl = "${url}changes/${env.GERRIT_CHANGE_NUMBER}/hashtags/"
+    def response = httpRequest queryUrl
+    def files = response.getContent().substring(5)
+    def filesJson = new JsonSlurper().parseText(files)
+    return filesJson
+}
+
 def collectBuildModes() {
     Builds.modes = ["notedb"]
     def changedFiles = queryChangedFiles(Globals.gerritUrl)
     def polygerritFiles = changedFiles.findAll { it.startsWith("polygerrit-ui") ||
         it.startsWith("lib/js") }
 
-    if(polygerritFiles.size() > 0) {
+    def hashtags = queryHashtags(Globals.gerritUrl)
+    def ingorePolygerritCi = hashtags.any { it == "ci-polygerrit-ignore" }
+
+    if(polygerritFiles.size() > 0 && ingorePolygerritCi) {
         if(changedFiles.size() == polygerritFiles.size()) {
             println "Only PolyGerrit UI changes detected, skipping other test modes..."
             Builds.modes = ["polygerrit"]

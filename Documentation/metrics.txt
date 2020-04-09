@@ -198,8 +198,6 @@ external ID from NoteDb.
 
 === Permissions
 
-* `permissions/project_state/computation_latency`: Latency to compute current access
-sections on a project by traversing it's parents.
 * `permissions/permission_collection/filter_latency`: Latency to filter access sections
 by user and ref.
 * `permissions/ref_filter/full_filter_count`: Rate of full ref filter operations

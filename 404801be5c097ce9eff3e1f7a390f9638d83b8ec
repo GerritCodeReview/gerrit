@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "54159da7_7f55cafd",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-09T11:45:26Z",
+      "side": 1,
+      "message": "ya I actually thought about that, but i found it should be very rare that we need to report from flag service as reporting should be used mostly for user oriented behaviors, not code logics. But ya I will keep that in mind.",
+      "parentUuid": "7d15d28d_6024e3d3",
+      "revId": "404801be5c097ce9eff3e1f7a390f9638d83b8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08bc60f5_c27a7c00",
         "filename": "polygerrit-ui/app/services/flags.js",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "404801be5c097ce9eff3e1f7a390f9638d83b8ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a2df333_89fcbbf4",
+        "filename": "polygerrit-ui/app/services/flags.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-09T11:45:26Z",
+      "side": 1,
+      "message": "Was trying to follow the general guideline on js doc for public available methods, and optional for internal variables. But ya I can add inline comment for _experiments, and nice tip for @returns",
+      "parentUuid": "08bc60f5_c27a7c00",
+      "revId": "404801be5c097ce9eff3e1f7a390f9638d83b8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

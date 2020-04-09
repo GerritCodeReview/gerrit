@@ -22,6 +22,30 @@
       "revId": "f4aa5b3da503aee89b2cbbe0c32d5343469db009",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1238680d_a3db4acb",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-09T14:40:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a1c172d_2f72e67e",
+      "range": {
+        "startLine": 353,
+        "startChar": 30,
+        "endLine": 353,
+        "endChar": 67
+      },
+      "revId": "f4aa5b3da503aee89b2cbbe0c32d5343469db009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

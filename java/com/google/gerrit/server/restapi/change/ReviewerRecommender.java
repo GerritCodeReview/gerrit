@@ -43,7 +43,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -188,9 +187,8 @@ public class ReviewerRecommender {
     }
 
     // Sort results
-    Stream<Map.Entry<Account.Id, MutableDouble>> sorted =
-        reviewerScores.entrySet().stream()
-            .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()));
+    Stream<Map.Entry<Account.Id, MutableDouble>> sorted = reviewerScores.entrySet().stream();
+    // .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()));
     List<Account.Id> sortedSuggestions = sorted.map(Map.Entry::getKey).collect(toList());
     logger.atFine().log("Sorted suggestions: %s", sortedSuggestions);
     return sortedSuggestions;

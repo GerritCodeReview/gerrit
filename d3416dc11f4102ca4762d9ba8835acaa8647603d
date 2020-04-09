@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6885503e_09f62a32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-09T11:58:44Z",
+      "side": 1,
+      "message": "The commit message could use a little more explanation what we think the old algorithm did and what this is doing better. The key points are:\n\n- Not walking commits more than once\n- Not walking further back on the branch than the change was branched off",
+      "revId": "d3416dc11f4102ca4762d9ba8835acaa8647603d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "620c2997_b5ab1df5",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-09T11:58:44Z",
+      "side": 1,
+      "message": "We are still calling getBase once per change to revert. I think we don\u0027t need to do that. Once per project/branch should be enough. In the end, we need a single base change per project/branch that we base the revert chain on.\n\nWe can fix this in a separate change, but IMO it\u0027s a necessary optimization.",
+      "range": {
+        "startLine": 294,
+        "startChar": 31,
+        "endLine": 294,
+        "endChar": 38
+      },
+      "revId": "d3416dc11f4102ca4762d9ba8835acaa8647603d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

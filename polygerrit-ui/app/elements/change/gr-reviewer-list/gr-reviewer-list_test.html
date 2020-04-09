@@ -174,24 +174,28 @@ suite('gr-reviewer-list tests', () => {
   });
 
   test('_handleAddTap passes mode with event', () => {
-    const fireStub = sandbox.stub(element, 'fire');
+    const fireStub = sandbox.stub(element, 'dispatchEvent');
     const e = {preventDefault() {}};
 
     element.ccsOnly = false;
     element.reviewersOnly = false;
     element._handleAddTap(e);
-    assert.isTrue(fireStub.calledWith('show-reply-dialog', {value: {}}));
+    assert.equal(fireStub.lastCall.args[0].type, 'show-reply-dialog');
+    assert.deepEqual(fireStub.lastCall.args[0].detail, {value: {}});
 
     element.reviewersOnly = true;
     element._handleAddTap(e);
-    assert.isTrue(fireStub.lastCall.calledWith('show-reply-dialog',
-        {value: {reviewersOnly: true}}));
+    assert.equal(fireStub.lastCall.args[0].type, 'show-reply-dialog');
+    assert.deepEqual(
+        fireStub.lastCall.args[0].detail,
+        {value: {reviewersOnly: true}});
 
     element.ccsOnly = true;
     element.reviewersOnly = false;
     element._handleAddTap(e);
-    assert.isTrue(fireStub.lastCall.calledWith('show-reply-dialog',
-        {value: {ccsOnly: true}}));
+    assert.equal(fireStub.lastCall.args[0].type, 'show-reply-dialog');
+    assert.deepEqual(fireStub.lastCall.args[0].detail,
+        {value: {ccsOnly: true}});
   });
 
   test('no show all reviewers button with 6 reviewers', () => {

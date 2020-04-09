@@ -61,13 +61,19 @@ suite('gr-repo-commands tests', () => {
 
     test('_handleCreateChange called when confirm fired', () => {
       sandbox.stub(element, '_handleCreateChange');
-      element.$.createChangeDialog.fire('confirm');
+      element.$.createChangeDialog.dispatchEvent(
+          new CustomEvent('confirm', {
+            composed: true, bubbles: true,
+          }));
       assert.isTrue(element._handleCreateChange.called);
     });
 
     test('_handleCloseCreateChange called when cancel fired', () => {
       sandbox.stub(element, '_handleCloseCreateChange');
-      element.$.createChangeDialog.fire('cancel');
+      element.$.createChangeDialog.dispatchEvent(
+          new CustomEvent('cancel', {
+            composed: true, bubbles: true,
+          }));
       assert.isTrue(element._handleCloseCreateChange.called);
     });
   });

@@ -110,7 +110,9 @@ class GrSelectionActionBox extends mixinBehaviors( [
     if (e.button !== 0) { return; } // 0 = main button
     e.preventDefault();
     e.stopPropagation();
-    this.fire('create-comment-requested');
+    this.dispatchEvent(new CustomEvent('create-comment-requested', {
+      composed: true, bubbles: true,
+    }));
   }
 }
 

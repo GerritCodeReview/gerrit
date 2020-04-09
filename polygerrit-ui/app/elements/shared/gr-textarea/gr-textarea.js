@@ -260,7 +260,10 @@ class GrTextarea extends mixinBehaviors( [
    */
   _onValueChanged(e) {
     // Relay the event.
-    this.fire('bind-value-changed', e);
+    this.dispatchEvent(new CustomEvent('bind-value-changed', {
+      detail: e,
+      composed: true, bubbles: true,
+    }));
 
     // If cursor is not in textarea (just opened with colon as last char),
     // Don't do anything.

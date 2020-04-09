@@ -113,9 +113,7 @@ suite('gr-group tests', () => {
     element._groupConfig = {
       name: groupName,
     };
-    element._groupConfigOwner = 'testId';
     element._groupName = groupName;
-    element._groupOwner = true;
 
     sandbox.stub(
         element.$.restAPI,
@@ -135,8 +133,6 @@ suite('gr-group tests', () => {
 
       element.$.groupNameInput.text = groupName2;
 
-      element.$.groupOwnerInput.text = 'testId2';
-
       assert.isFalse(button.hasAttribute('disabled'));
       assert.isTrue(element.$.groupName.classList.contains('edited'));
 
@@ -146,11 +142,37 @@ suite('gr-group tests', () => {
         assert.equal(element._groupName, groupName2);
         done();
       });
+    });
+  });
+
+  test('rename group owner', done => {
+    const groupName = 'test-group';
+    element.groupId = 1;
+    element._groupConfig = {
+      name: groupName,
+    };
+    element._groupConfigOwner = 'testId';
+    element._groupOwner = true;
+
+    sandbox.stub(
+        element.$.restAPI,
+        'getIsGroupOwner',
+        () => Promise.resolve({status: 200}));
+
+    const button = element.$.inputUpdateOwnerBtn;
+
+    element._loadGroup().then(() => {
+      assert.isTrue(button.hasAttribute('disabled'));
+      assert.isFalse(element.$.Title.classList.contains('edited'));
+
+      element.$.groupOwnerInput.text = 'testId2';
+
+      assert.isFalse(button.hasAttribute('disabled'));
+      assert.isTrue(element.$.groupOwner.classList.contains('edited'));
 
       element._handleSaveOwner().then(() => {
         assert.isTrue(button.hasAttribute('disabled'));
         assert.isFalse(element.$.Title.classList.contains('edited'));
-        assert.equal(element._groupConfigOwner, 'testId2');
         done();
       });
     });
@@ -189,7 +211,7 @@ suite('gr-group tests', () => {
     sandbox.stub(element.$.restAPI, 'saveGroupName')
         .returns(Promise.resolve({status: 200}));
 
-    const showStub = sandbox.stub(element, 'fire');
+    const showStub = sandbox.stub(element, 'dispatchEvent');
     element._handleSaveName()
         .then(() => {
           assert.isTrue(showStub.called);

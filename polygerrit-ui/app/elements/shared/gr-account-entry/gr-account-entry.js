@@ -103,7 +103,10 @@ class GrAccountEntry extends GestureEventListeners(
   }
 
   _handleInputCommit(e) {
-    this.fire('add', {value: e.detail.value});
+    this.dispatchEvent(new CustomEvent('add', {
+      detail: {value: e.detail.value},
+      composed: true, bubbles: true,
+    }));
     this.$.input.focus();
   }
 

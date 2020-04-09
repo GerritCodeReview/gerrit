@@ -95,7 +95,9 @@ class GrKeyboardShortcutsDialog extends mixinBehaviors( [
   _handleCloseTap(e) {
     e.preventDefault();
     e.stopPropagation();
-    this.fire('close', null, {bubbles: false});
+    this.dispatchEvent(new CustomEvent('close', {
+      composed: true, bubbles: false,
+    }));
   }
 
   _onDirectoryUpdated(directory) {

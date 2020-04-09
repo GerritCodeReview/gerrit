@@ -134,7 +134,10 @@ class GrGroup extends mixinBehaviors( [
     const promises = [];
 
     const errFn = response => {
-      this.fire('page-error', {response});
+      this.dispatchEvent(new CustomEvent('page-error', {
+        detail: {response},
+        composed: true, bubbles: true,
+      }));
     };
 
     return this.$.restAPI.getGroupConfig(this.groupId, errFn)
@@ -162,7 +165,10 @@ class GrGroup extends mixinBehaviors( [
           }
           this._groupConfig = config;
 
-          this.fire('title-change', {title: config.name});
+          this.dispatchEvent(new CustomEvent('title-change', {
+            detail: {title: config.name},
+            composed: true, bubbles: true,
+          }));
 
           return Promise.all(promises).then(() => {
             this._loading = false;
@@ -183,8 +189,11 @@ class GrGroup extends mixinBehaviors( [
         .then(config => {
           if (config.status === 200) {
             this._groupName = this._groupConfig.name;
-            this.fire('name-changed', {name: this._groupConfig.name,
-              external: this._groupIsExtenral});
+            this.dispatchEvent(new CustomEvent('name-changed', {
+              detail: {name: this._groupConfig.name,
+                external: this._groupIsExtenral},
+              composed: true, bubbles: true,
+            }));
             this._rename = false;
           }
         });

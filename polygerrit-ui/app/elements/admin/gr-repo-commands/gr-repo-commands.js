@@ -75,14 +75,20 @@ class GrRepoCommands extends mixinBehaviors( [
     super.attached();
     this._loadRepo();
 
-    this.fire('title-change', {title: 'Repo Commands'});
+    this.dispatchEvent(new CustomEvent('title-change', {
+      detail: {title: 'Repo Commands'},
+      composed: true, bubbles: true,
+    }));
   }
 
   _loadRepo() {
     if (!this.repo) { return Promise.resolve(); }
 
     const errFn = response => {
-      this.fire('page-error', {response});
+      this.dispatchEvent(new CustomEvent('page-error', {
+        detail: {response},
+        composed: true, bubbles: true,
+      }));
     };
 
     return this.$.restAPI.getProjectConfig(this.repo, errFn)

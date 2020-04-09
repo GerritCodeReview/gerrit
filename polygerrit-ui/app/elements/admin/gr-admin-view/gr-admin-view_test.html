@@ -298,7 +298,11 @@ suite('gr-admin-view tests', () => {
     element._groupName = 'oldName';
     flushAsynchronousOperations();
     element.shadowRoot
-        .querySelector('gr-group').fire('name-changed', {name: newName});
+        .querySelector('gr-group').dispatchEvent(
+            new CustomEvent('name-changed', {
+              detail: {name: newName},
+              composed: true, bubbles: true,
+            }));
   });
 
   test('dropdown displays if there is a subsection', () => {

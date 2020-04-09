@@ -427,7 +427,10 @@ class GrDiffHighlight extends mixinBehaviors( [
   }
 
   _fireCreateRangeComment(side, range) {
-    this.fire('create-range-comment', {side, range});
+    this.dispatchEvent(new CustomEvent('create-range-comment', {
+      detail: {side, range},
+      composed: true, bubbles: true,
+    }));
     this._removeActionBox();
   }
 

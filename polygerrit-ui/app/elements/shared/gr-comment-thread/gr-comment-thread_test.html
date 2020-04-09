@@ -424,8 +424,11 @@ suite('comment action tests', () => {
       assert.isTrue(drafts[0].unresolved);
       done();
     });
-    commentEl.fire('create-fix-comment', {comment: commentEl.comment},
-        {bubbles: false});
+    commentEl.dispatchEvent(
+        new CustomEvent('create-fix-comment', {
+          detail: {comment: commentEl.comment},
+          composed: true, bubbles: false,
+        }));
   });
 
   test('discard', done => {
@@ -454,8 +457,11 @@ suite('comment action tests', () => {
           element.path);
       done();
     });
-    draftEl.fire('comment-discard', {comment: draftEl.comment},
-        {bubbles: false});
+    draftEl.dispatchEvent(
+        new CustomEvent('comment-discard', {
+          detail: {comment: draftEl.comment},
+          composed: true, bubbles: false,
+        }));
   });
 
   test('discard with a single comment still fires event with previous rootId',
@@ -483,8 +489,11 @@ suite('comment action tests', () => {
               element.path);
           done();
         });
-        draftEl.fire('comment-discard', {comment: draftEl.comment},
-            {bubbles: false});
+        draftEl.dispatchEvent(
+            new CustomEvent('comment-discard', {
+              detail: {comment: draftEl.comment},
+              composed: true, bubbles: false,
+            }));
       });
 
   test('first editing comment does not add __otherEditing attribute', () => {
@@ -559,8 +568,11 @@ suite('comment action tests', () => {
       storageStub.restore();
       done();
     });
-    draftEl.fire('comment-discard', {comment: draftEl.comment},
-        {bubbles: false});
+    draftEl.dispatchEvent(
+        new CustomEvent('comment-discard', {
+          detail: {comment: draftEl.comment},
+          composed: true, bubbles: false,
+        }));
   });
 
   test('comment-update', () => {
@@ -570,7 +582,11 @@ suite('comment action tests', () => {
       id: element.comments[0].id,
       foo: 'bar',
     };
-    commentEl.fire('comment-update', {comment: updatedComment});
+    commentEl.dispatchEvent(
+        new CustomEvent('comment-update', {
+          detail: {comment: updatedComment},
+          composed: true, bubbles: true,
+        }));
     assert.strictEqual(element.comments[0], updatedComment);
   });
 

@@ -57,7 +57,7 @@ export const htmlTemplate = html`
                   Rename Group</gr-button>
               </span>
             </fieldset>
-            <h3 class\$="[[_computeHeaderClass(_owner)]]">
+            <h3 id="groupOwner" class\$="[[_computeHeaderClass(_owner)]]">
               Owners
             </h3>
             <fieldset>
@@ -66,7 +66,7 @@ export const htmlTemplate = html`
                 </gr-autocomplete>
               </span>
               <span class="value" disabled\$="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]">
-                <gr-button on-click="_handleSaveOwner" disabled="[[!_owner]]">
+                <gr-button id="inputUpdateOwnerBtn" on-click="_handleSaveOwner" disabled="[[!_owner]]">
                   Change Owners</gr-button>
               </span>
             </fieldset>

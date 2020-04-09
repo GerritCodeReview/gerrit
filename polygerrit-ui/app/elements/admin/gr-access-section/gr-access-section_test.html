@@ -533,7 +533,10 @@ suite('gr-access-section tests', () => {
         element.editing = true;
         assert.equal(element._permissions.length, 1);
         element.shadowRoot
-            .querySelector('gr-permission').fire('added-permission-removed');
+            .querySelector('gr-permission').dispatchEvent(
+                new CustomEvent('added-permission-removed', {
+                  composed: true, bubbles: true,
+                }));
         flushAsynchronousOperations();
         assert.equal(element._permissions.length, 0);
       });

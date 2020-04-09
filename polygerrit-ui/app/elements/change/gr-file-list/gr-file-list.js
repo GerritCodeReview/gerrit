@@ -1012,7 +1012,10 @@ class GrFileList extends mixinBehaviors( [
       this._shownFiles.length : 0;
 
     const filesShown = files.slice(0, numFilesShown);
-    this.fire('files-shown-changed', {length: filesShown.length});
+    this.dispatchEvent(new CustomEvent('files-shown-changed', {
+      detail: {length: filesShown.length},
+      composed: true, bubbles: true,
+    }));
 
     // Start the timer for the rendering work hwere because this is where the
     // _shownFiles property is being set, and _shownFiles is used in the
@@ -1179,7 +1182,10 @@ class GrFileList extends mixinBehaviors( [
     let iter = 0;
 
     return (new Promise(resolve => {
-      this.fire('reload-drafts', {resolve});
+      this.dispatchEvent(new CustomEvent('reload-drafts', {
+        detail: {resolve},
+        composed: true, bubbles: true,
+      }));
     })).then(() => this.asyncForeach(files, (file, cancel) => {
       const path = file.path;
       this._cancelForEachDiff = cancel;

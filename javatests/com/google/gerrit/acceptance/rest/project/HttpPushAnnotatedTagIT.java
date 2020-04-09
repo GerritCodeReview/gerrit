@@ -1,4 +1,4 @@
-// Copyright (C) 2017 The Android Open Source Project
+// Copyright (C) 2020 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.project;
 
-public class PushAnnotatedTagIT extends AbstractPushTag {
+public class HttpPushAnnotatedTagIT extends AbstractHttpPushTag {
 
   @Override
   protected TagType getTagType() {

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d15d28d_6024e3d3",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-09T11:38:51Z",
+      "side": 1,
+      "message": "For later:\n\nThis dep can become problematic when you want to call GrReporting from the FlagsService. I think ultimately we will want to break up FlagsService into a Service and a Store. The Store would contain the application state (e.g. the enabled experiments), and then it will be fine for GrReporting to depend on FlagsStore and for FlagsService to depend on GrReporting.",
+      "revId": "404801be5c097ce9eff3e1f7a390f9638d83b8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08bc60f5_c27a7c00",
+        "filename": "polygerrit-ui/app/services/flags.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-09T11:38:51Z",
+      "side": 1,
+      "message": "Nit: Maybe drop this comment and instead add a comment on this._experiments definition in the constructor?\n\nIf you want to keep this comment, then maybe use `@returns`?",
+      "revId": "404801be5c097ce9eff3e1f7a390f9638d83b8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1c172d_2f72e67e",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-09T12:21:01Z",
+      "side": 1,
+      "message": "We are only checking for quotation marks now.",
+      "range": {
+        "startLine": 353,
+        "startChar": 30,
+        "endLine": 353,
+        "endChar": 67
+      },
+      "revId": "f4aa5b3da503aee89b2cbbe0c32d5343469db009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

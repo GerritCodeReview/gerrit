@@ -28,7 +28,6 @@ import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryProcessor;
 import com.google.gerrit.metrics.MetricMaker;
-import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.DynamicOptions.DynamicBean;
@@ -40,9 +39,6 @@ import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
-import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.HashMap;
@@ -58,11 +54,8 @@ import java.util.Set;
 public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
     implements DynamicOptions.BeanReceiver, DynamicOptions.BeanProvider {
   private final Provider<CurrentUser> userProvider;
-  private final ChangeNotes.Factory notesFactory;
   private final ImmutableListMultimap<String, ChangeAttributeFactory> attributeFactoriesByPlugin;
-  private final PermissionBackend permissionBackend;
-  private final ProjectCache projectCache;
-  private final Provider<AnonymousUser> anonymousUserProvider;
+  private final ChangeIsVisibleToPredicate.Factory changeIsVisibleToPredicateFactory;
   private final Map<String, DynamicBean> dynamicBeans = new HashMap<>();
 
   static {
@@ -80,11 +73,8 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
       IndexConfig indexConfig,
       ChangeIndexCollection indexes,
       ChangeIndexRewriter rewriter,
-      ChangeNotes.Factory notesFactory,
       DynamicSet<ChangeAttributeFactory> attributeFactories,
-      PermissionBackend permissionBackend,
-      ProjectCache projectCache,
-      Provider<AnonymousUser> anonymousUserProvider) {
+      ChangeIsVisibleToPredicate.Factory changeIsVisibleToPredicateFactory) {
     super(
         metricMaker,
         ChangeSchemaDefinitions.INSTANCE,
@@ -94,10 +84,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
         FIELD_LIMIT,
         () -> limitsFactory.create(userProvider.get()).getQueryLimit());
     this.userProvider = userProvider;
-    this.notesFactory = notesFactory;
-    this.permissionBackend = permissionBackend;
-    this.projectCache = projectCache;
-    this.anonymousUserProvider = anonymousUserProvider;
+    this.changeIsVisibleToPredicateFactory = changeIsVisibleToPredicateFactory;
 
     ImmutableListMultimap.Builder<String, ChangeAttributeFactory> factoriesBuilder =
         ImmutableListMultimap.builder();
@@ -144,14 +131,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   @Override
   protected Predicate<ChangeData> enforceVisibility(Predicate<ChangeData> pred) {
     return new AndChangeSource(
-        pred,
-        new ChangeIsVisibleToPredicate(
-            notesFactory,
-            permissionBackend,
-            projectCache,
-            anonymousUserProvider,
-            userProvider.get()),
-        start);
+        pred, changeIsVisibleToPredicateFactory.forUser(userProvider.get()), start);
   }
 
   @Override

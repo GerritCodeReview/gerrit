@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "bf8c6218_9ed3e290",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-04-09T08:29:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3406f7ff_e570f019",
+      "revId": "31ea749c5cdefd2d2134a85eabbf0b04101f3ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0384fb78_069baab0",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_html.js",
         "patchSetId": 3

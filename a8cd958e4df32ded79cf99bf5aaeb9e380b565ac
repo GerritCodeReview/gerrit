@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ea1d80d_585a3994",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1023,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-09T12:12:00Z",
+      "side": 1,
+      "message": "optional/nit: easier to read as a classic loop IMO\n\n(I remember typing this comment before but it seems I didn\u0027t post it or it got lost in the void, sorry)",
+      "revId": "a8cd958e4df32ded79cf99bf5aaeb9e380b565ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

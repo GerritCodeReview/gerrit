@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.notedb.rebuild;
 
+import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
+
 import com.google.common.base.Stopwatch;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -35,6 +37,8 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
 
   private static final String TRIAL = "OnlineNoteDbMigrator/trial";
 
+  private static final String ONLINE_MIGRATION_THREADS = "onlineMigrationThreads";
+
   public static class Module extends LifecycleModule {
     private final boolean trial;
 
@@ -54,6 +58,7 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
   private final Provider<NoteDbMigrator.Builder> migratorBuilderProvider;
   private final boolean upgradeIndex;
   private final boolean trial;
+  private final int threads;
 
   @Inject
   OnlineNoteDbMigrator(
@@ -67,6 +72,7 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
     this.migratorBuilderProvider = migratorBuilderProvider;
     this.upgradeIndex = VersionManager.getOnlineUpgrade(cfg);
     this.trial = trial || NoteDbMigrator.getTrialMode(cfg);
+    this.threads = cfg.getInt(SECTION_NOTE_DB, ONLINE_MIGRATION_THREADS, 1);
   }
 
   @Override
@@ -84,9 +90,14 @@ public class OnlineNoteDbMigrator implements LifecycleListener {
           "Online index schema upgrades will be deferred until NoteDb migration is complete");
     }
     Stopwatch sw = Stopwatch.createStarted();
-    // TODO(dborowitz): Tune threads, maybe expose a progress monitor somewhere.
+    // TODO(dborowitz): maybe expose a progress monitor somewhere.
     try (NoteDbMigrator migrator =
-        migratorBuilderProvider.get().setAutoMigrate(true).setTrialMode(trial).build()) {
+        migratorBuilderProvider
+            .get()
+            .setThreads(threads)
+            .setAutoMigrate(true)
+            .setTrialMode(trial)
+            .build()) {
       migrator.migrate();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Error in online NoteDb migration");

@@ -222,6 +222,26 @@ public class StandaloneNoteDbMigrationIT extends StandaloneSiteTest {
   }
 
   @Test
+  public void onlineMigrationMultithreaded() throws Exception {
+    assertNoAutoMigrateConfig(gerritConfig);
+    assertNoAutoMigrateConfig(noteDbConfig);
+
+    testOnlineMigration(
+        u -> {
+          gerritConfig.setBoolean("noteDb", "changes", "autoMigrate", true);
+          gerritConfig.setInt("noteDb", null, "onlineMigrationThreads", 4);
+          gerritConfig.save();
+          return startServer(u.module());
+        });
+
+    // Auto-migration is turned off in notedb.config, which takes precedence, but is still on in
+    // gerrit.config. This means Puppet can continue overwriting gerrit.config without turning
+    // auto-migration back on.
+    assertAutoMigrateConfig(gerritConfig, true);
+    assertAutoMigrateConfig(noteDbConfig, false);
+  }
+
+  @Test
   public void onlineMigrationTrialModeViaFlag() throws Exception {
     assertNoAutoMigrateConfig(gerritConfig);
     assertNoTrialConfig(gerritConfig);

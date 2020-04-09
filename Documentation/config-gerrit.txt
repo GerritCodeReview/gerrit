@@ -3716,6 +3716,13 @@ each process retrieves at once.
 +
 By default, 1.
 
+[[notedb.onlineMigrationThreads]] notedb.onlineMigrationThreads::
++
+The number of threads used to run the online migration from reviewDb to noteDb.
+This allows to speed up online migration from reviewDb to noteDb at the expense
+of imposing a higher load on the running server.
++
+By default, 1.
 
 [[oauth]]
 === Section oauth

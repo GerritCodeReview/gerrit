@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbd047c2_2d8c8e65",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-09T00:02:10Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this now be using the newly introduced factory?",
+      "range": {
+        "startLine": 990,
+        "startChar": 4,
+        "endLine": 995,
+        "endChar": 14
+      },
+      "revId": "1094c710014ef5914f3d457be66ce2f68b55031c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1df9592_422a1577",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-09T00:02:10Z",
+      "side": 1,
+      "message": "Also here, use the factory?",
+      "range": {
+        "startLine": 148,
+        "startChar": 8,
+        "endLine": 153,
+        "endChar": 32
+      },
+      "revId": "1094c710014ef5914f3d457be66ce2f68b55031c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8aafd8f_21958121",
+        "filename": "javatests/com/google/gerrit/acceptance/git/HttpSubmitOnPushIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-09T00:02:10Z",
+      "side": 1,
+      "message": "Missing copyright/license header",
+      "revId": "1094c710014ef5914f3d457be66ce2f68b55031c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22f0111d_c2392ff0",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SshSubmitOnPushIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-09T00:02:10Z",
+      "side": 1,
+      "message": "Missing copyright/license header",
+      "revId": "1094c710014ef5914f3d457be66ce2f68b55031c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

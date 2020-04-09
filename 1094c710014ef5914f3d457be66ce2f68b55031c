@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ea8ce2e9_2d64235c",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-09T00:48:05Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/262493",
+      "parentUuid": "cbd047c2_2d8c8e65",
+      "range": {
+        "startLine": 990,
+        "startChar": 4,
+        "endLine": 995,
+        "endChar": 14
+      },
+      "revId": "1094c710014ef5914f3d457be66ce2f68b55031c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1df9592_422a1577",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "61b36542_24886bfd",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-09T00:48:05Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/262492",
+      "parentUuid": "b1df9592_422a1577",
+      "range": {
+        "startLine": 148,
+        "startChar": 8,
+        "endLine": 153,
+        "endChar": 32
+      },
+      "revId": "1094c710014ef5914f3d457be66ce2f68b55031c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8aafd8f_21958121",
         "filename": "javatests/com/google/gerrit/acceptance/git/HttpSubmitOnPushIT.java",
         "patchSetId": 3
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "8b8d9cd2_fe534a1e",
+        "filename": "javatests/com/google/gerrit/acceptance/git/HttpSubmitOnPushIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-09T00:48:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8aafd8f_21958121",
+      "revId": "1094c710014ef5914f3d457be66ce2f68b55031c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "22f0111d_c2392ff0",
         "filename": "javatests/com/google/gerrit/acceptance/git/SshSubmitOnPushIT.java",
         "patchSetId": 3
@@ -79,6 +145,24 @@
       "revId": "1094c710014ef5914f3d457be66ce2f68b55031c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9d77624_3eb5c9f1",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SshSubmitOnPushIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-09T00:48:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22f0111d_c2392ff0",
+      "revId": "1094c710014ef5914f3d457be66ce2f68b55031c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

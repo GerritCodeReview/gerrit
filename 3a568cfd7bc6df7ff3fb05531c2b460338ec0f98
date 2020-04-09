@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae8c5e18_e62e8fa4",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-09T12:06:08Z",
+      "side": 1,
+      "message": "nit: anyMatch(parent -\u003e ...) that gives a boolean that you can use directly.",
+      "range": {
+        "startLine": 478,
+        "startChar": 18,
+        "endLine": 478,
+        "endChar": 47
+      },
+      "revId": "3a568cfd7bc6df7ff3fb05531c2b460338ec0f98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e0ecbff_e01ffaf9",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCumulativeSizeValidator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-09T12:17:04Z",
+      "side": 1,
+      "message": "Please document this new setting",
+      "revId": "2603e743c011462f4c5014081de13d614f6fde66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -46,12 +46,12 @@ public final class RobotComment extends Comment {
     approximateSize +=
         properties != null
             ? properties.entrySet().stream()
-                .map(entry -> nullableLength(entry.getKey(), entry.getValue()))
-                .reduce(0, Integer::sum)
+                .mapToInt(entry -> nullableLength(entry.getKey(), entry.getValue()))
+                .sum()
             : 0;
     approximateSize +=
         fixSuggestions != null
-            ? fixSuggestions.stream().map(FixSuggestion::getApproximateSize).reduce(0, Integer::sum)
+            ? fixSuggestions.stream().mapToInt(FixSuggestion::getApproximateSize).sum()
             : 0;
     return approximateSize;
   }

@@ -16,6 +16,24 @@
       "revId": "2603e743c011462f4c5014081de13d614f6fde66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ecd7254_20ea9bde",
+        "filename": "java/com/google/gerrit/server/git/validators/CommentCumulativeSizeValidator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-10T08:42:37Z",
+      "side": 1,
+      "message": "Done. Also renamed the parameter to match the existing ones.",
+      "parentUuid": "9e0ecbff_e01ffaf9",
+      "revId": "2603e743c011462f4c5014081de13d614f6fde66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

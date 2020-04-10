@@ -488,7 +488,7 @@ public class EventFactory {
       }
 
       PatchList patchList = patchListCache.get(change, patchSet);
-      p.sizeDeletions = -patchList.getDeletions();
+      p.sizeDeletions = patchList.getDeletions();
       p.sizeInsertions = patchList.getInsertions();
       p.kind = changeKindCache.getChangeKind(change, patchSet);
     } catch (IOException | StorageException e) {

@@ -81,6 +81,30 @@
       "revId": "a8cd958e4df32ded79cf99bf5aaeb9e380b565ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20848917_7dcc8e2d",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1034,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-10T09:21:19Z",
+      "side": 1,
+      "message": "Actually :entities depends on :extensions, so we can\u0027t depend on :entities there. I looked at splitting up build targets, but while I fully agree that complexity should be moved/kept out of PostReview, that would be a separate project in itself, so undone :-(",
+      "parentUuid": "9d631a6f_223ee011",
+      "range": {
+        "startLine": 1027,
+        "startChar": 30,
+        "endLine": 1034,
+        "endChar": 59
+      },
+      "revId": "a8cd958e4df32ded79cf99bf5aaeb9e380b565ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

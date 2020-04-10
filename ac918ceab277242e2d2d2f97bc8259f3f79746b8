@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "344303e6_7dca90ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-10T22:14:05Z",
+      "side": 1,
+      "message": "Should we move this change to stable-2.16, so it applies to the next set of releases? I didn\u0027t check if this code throws exceptions that way in downstream branches, but if it does, calling these methods has been leading nowhere anyway. @Deprecated is used over @RemoveAfter [1] here, but still.\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-processes.html#deprecating-features",
+      "range": {
+        "startLine": 9,
+        "startChar": 40,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "ac918ceab277242e2d2d2f97bc8259f3f79746b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

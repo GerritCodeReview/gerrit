@@ -187,12 +187,6 @@ public interface ChangeApi {
       EnumSet<ListChangesOption> listOptions, EnumSet<SubmittedTogetherOption> submitOptions)
       throws RestApiException;
 
-  /** Publishes a draft change. */
-  @Deprecated
-  default void publish() {
-    throw new UnsupportedOperationException("draft workflow is discontinued");
-  }
-
   /** Rebase the current revision of a change using default options. */
   default void rebase() throws RestApiException {
     rebase(new RebaseInput());

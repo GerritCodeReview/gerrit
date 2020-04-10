@@ -275,16 +275,6 @@ class RevisionApiImpl implements RevisionApi {
   }
 
   @Override
-  public void publish() throws RestApiException {
-    throw new UnsupportedOperationException("draft workflow is discontinued");
-  }
-
-  @Override
-  public void delete() throws RestApiException {
-    throw new UnsupportedOperationException("draft workflow is discontinued");
-  }
-
-  @Override
   public ChangeApi rebase() throws RestApiException {
     RebaseInput in = new RebaseInput();
     return rebase(in);

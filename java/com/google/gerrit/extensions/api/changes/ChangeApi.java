@@ -157,10 +157,6 @@ public interface ChangeApi {
       EnumSet<ListChangesOption> listOptions, EnumSet<SubmittedTogetherOption> submitOptions)
       throws RestApiException;
 
-  /** Publishes a draft change. */
-  @Deprecated
-  void publish() throws RestApiException;
-
   /** Rebase the current revision of a change using default options. */
   void rebase() throws RestApiException;
 
@@ -445,11 +441,6 @@ public interface ChangeApi {
 
     @Override
     public ChangeApi revert(RevertInput in) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public void publish() throws RestApiException {
       throw new NotImplementedException();
     }
 

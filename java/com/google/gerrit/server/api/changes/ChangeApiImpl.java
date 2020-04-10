@@ -416,12 +416,6 @@ class ChangeApiImpl implements ChangeApi {
     }
   }
 
-  @Deprecated
-  @Override
-  public void publish() throws RestApiException {
-    throw new UnsupportedOperationException("draft workflow is discontinued");
-  }
-
   @Override
   public void rebase() throws RestApiException {
     rebase(new RebaseInput());

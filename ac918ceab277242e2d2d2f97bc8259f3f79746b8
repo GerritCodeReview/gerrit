@@ -22,6 +22,30 @@
       "revId": "ac918ceab277242e2d2d2f97bc8259f3f79746b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd764694_49378cf5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-11T09:38:20Z",
+      "side": 1,
+      "message": "I agree with moving this to stable-2.16.",
+      "parentUuid": "344303e6_7dca90ed",
+      "range": {
+        "startLine": 9,
+        "startChar": 40,
+        "endLine": 9,
+        "endChar": 63
+      },
+      "revId": "ac918ceab277242e2d2d2f97bc8259f3f79746b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

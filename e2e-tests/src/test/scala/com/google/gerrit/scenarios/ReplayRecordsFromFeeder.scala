@@ -28,7 +28,7 @@ class ReplayRecordsFromFeeder extends GitSimulation {
     replaceKeyWith("_project", default, in)
   }
 
-  private val test: ScenarioBuilder = scenario(name)
+  private val test: ScenarioBuilder = scenario(unique)
       .repeat(10) {
         feed(data)
             .exec(gitRequest)

@@ -372,7 +372,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
   }
 
-  /** Users who have non-zero approval codes on the change. */
+  /** Users who were added as reviewers to this change. */
   protected void ccExistingReviewers() {
     if (!NotifyHandling.ALL.equals(notify) && !NotifyHandling.OWNER_REVIEWERS.equals(notify)) {
       return;

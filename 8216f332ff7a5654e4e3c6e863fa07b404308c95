@@ -34,6 +34,24 @@
       "revId": "8216f332ff7a5654e4e3c6e863fa07b404308c95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d4edbd1_de8c18db",
+        "filename": "java/com/google/gerrit/reviewdb/client/Project.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-13T11:11:36Z",
+      "side": 1,
+      "message": "Why not returning \"\u003cnull\u003e\"?",
+      "parentUuid": "525629bf_3624ed7e",
+      "revId": "8216f332ff7a5654e4e3c6e863fa07b404308c95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

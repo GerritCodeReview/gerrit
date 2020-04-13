@@ -22,6 +22,30 @@
       "revId": "ffc19e4e72923dccba75e792883588454ad41fc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d2149c9_6ee067d6",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-13T20:03:03Z",
+      "side": 1,
+      "message": "\"attention_set\" here is the name of a rollout/feature-set that comes along with a user study. I think it makes sense to lump this together, because:\n\n1. I am expecting similar problems with horizontal space and configuration in the dashboard for both the \"reviewers\" and the \"comments\" column. So I would like to iterate on them together.\n\n2. Showing the user which changes have unresolved comments is also a way of showing what needs attention and why.",
+      "parentUuid": "b40f7b46_d7ce6450",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 75,
+        "endChar": 77
+      },
+      "revId": "ffc19e4e72923dccba75e792883588454ad41fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

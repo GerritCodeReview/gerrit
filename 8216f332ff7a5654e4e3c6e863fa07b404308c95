@@ -16,6 +16,24 @@
       "revId": "8216f332ff7a5654e4e3c6e863fa07b404308c95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "525629bf_3624ed7e",
+        "filename": "java/com/google/gerrit/reviewdb/client/Project.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-13T07:53:29Z",
+      "side": 1,
+      "message": "I\u0027m not really sure in what circumstances it will be null, but the getName method either returns the name or null.  I didn\u0027t think it was a good idea to have null returned here.",
+      "parentUuid": "674fb25b_310c83b1",
+      "revId": "8216f332ff7a5654e4e3c6e863fa07b404308c95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

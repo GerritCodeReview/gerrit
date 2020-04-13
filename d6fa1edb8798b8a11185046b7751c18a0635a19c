@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ac0bd943_d6ee2557",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_html.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-13T20:03:21Z",
+      "side": 1,
+      "message": "How do you mean? This is not in shared-styles.",
+      "parentUuid": "251111f1_1bba8e01",
+      "revId": "d6fa1edb8798b8a11185046b7751c18a0635a19c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c49c5c6_b143598c",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_html.js",
         "patchSetId": 26
@@ -39,6 +57,30 @@
       "revId": "d6fa1edb8798b8a11185046b7751c18a0635a19c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a002a7d_dc080df0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_html.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-13T20:03:21Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "1c49c5c6_b143598c",
+      "range": {
+        "startLine": 37,
+        "startChar": 8,
+        "endLine": 37,
+        "endChar": 51
+      },
+      "revId": "d6fa1edb8798b8a11185046b7751c18a0635a19c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

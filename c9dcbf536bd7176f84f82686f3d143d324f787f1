@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f9374208_a77adc2a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-13T20:02:57Z",
+      "side": 1,
+      "message": "Because in the next row we don\u0027t want to use maxReviewers+2, but maxReviewers. Of course, it might be more natural to use maxReviewers here and then maxReviewers-2 below. Would you prefer that?\n\nThe idea is that if maxReviewers\u003d\u003d3, then\n\n1 -\u003e 1\n2 -\u003e 2\n3 -\u003e 3\n4 -\u003e 4\n5 -\u003e 5\n6 -\u003e 3\n7 -\u003e 3\n8 -\u003e 3\n\nThe \"show more reviewers\" button consumes space (more than one reviewer would), so we don\u0027t want to reduce 5 reviewers to 3, because that would not really save space, but we want to reduce 6 to 3, that will actually help. Then what is the max, 3 or 5?\n\nPlease reopen, if you want me to change something.",
+      "parentUuid": "0dc50cf8_dbda1b17",
+      "range": {
+        "startLine": 214,
+        "startChar": 46,
+        "endLine": 214,
+        "endChar": 49
+      },
+      "revId": "c9dcbf536bd7176f84f82686f3d143d324f787f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0557e1db_f1dbb3cf",
         "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_html.js",
         "patchSetId": 26
@@ -39,6 +63,24 @@
       "revId": "c9dcbf536bd7176f84f82686f3d143d324f787f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fa744e6_df16bb9a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_html.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-13T20:02:57Z",
+      "side": 1,
+      "message": "When no reviewers are set, then this div will exist, but it will have height 0, so it should do no harm.\n\ngr-account-chip is changed from block to inline-block. Without the surrounding \u003cdiv\u003e the \u003cgr-button\u003e below would be rendered on the same line with the last gr-account-chip.",
+      "parentUuid": "0557e1db_f1dbb3cf",
+      "revId": "c9dcbf536bd7176f84f82686f3d143d324f787f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

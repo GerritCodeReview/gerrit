@@ -46,6 +46,30 @@
       "revId": "ffc19e4e72923dccba75e792883588454ad41fc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "442ee148_c24a2eaf",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-04-13T20:23:55Z",
+      "side": 1,
+      "message": "i don\u0027t buy this \"user study\" stuff for this near-trivial feature. and even if google does that, no-one else will, and yet you\u0027re forcing this semantically meaningless relationship onto them.\nalso, the roll-out argument is rather short-sighted: it will be worth zilch after the roll-out is actually done. will you change the relationship then?",
+      "parentUuid": "5d2149c9_6ee067d6",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 75,
+        "endChar": 77
+      },
+      "revId": "ffc19e4e72923dccba75e792883588454ad41fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

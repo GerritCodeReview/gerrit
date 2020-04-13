@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "674fb25b_310c83b1",
+        "filename": "java/com/google/gerrit/reviewdb/client/Project.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-13T07:46:09Z",
+      "side": 1,
+      "message": "Find a way to differentiate between the project name unnamed and null?",
+      "revId": "8216f332ff7a5654e4e3c6e863fa07b404308c95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -251,4 +251,10 @@ public final class Project {
   public void setConfigRefState(String state) {
     configRefState = state;
   }
+
+  @Override
+  public String toString() {
+    String n = getName();
+    return n != null ? n : "<null>";
+  }
 }

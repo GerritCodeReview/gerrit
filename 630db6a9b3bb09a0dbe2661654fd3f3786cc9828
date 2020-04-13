@@ -2,6 +2,213 @@
   "comments": [
     {
       "key": {
+        "uuid": "607f399c_ad04fbac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-13T11:09:45Z",
+      "side": 1,
+      "message": "processing",
+      "range": {
+        "startLine": 12,
+        "startChar": 49,
+        "endLine": 12,
+        "endChar": 60
+      },
+      "revId": "630db6a9b3bb09a0dbe2661654fd3f3786cc9828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c32c7c6a_0906ff17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-13T11:09:45Z",
+      "side": 1,
+      "message": "times",
+      "range": {
+        "startLine": 14,
+        "startChar": 45,
+        "endLine": 14,
+        "endChar": 49
+      },
+      "revId": "630db6a9b3bb09a0dbe2661654fd3f3786cc9828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2acb79e9_b483e2f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-13T11:09:45Z",
+      "side": 1,
+      "message": "reviewers",
+      "range": {
+        "startLine": 16,
+        "startChar": 41,
+        "endLine": 16,
+        "endChar": 48
+      },
+      "revId": "630db6a9b3bb09a0dbe2661654fd3f3786cc9828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7eddb56_c94e1bed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-13T11:09:45Z",
+      "side": 1,
+      "message": "exactly\n\n(and remove \u0027the\u0027 which is repeated)",
+      "range": {
+        "startLine": 32,
+        "startChar": 38,
+        "endLine": 32,
+        "endChar": 48
+      },
+      "revId": "630db6a9b3bb09a0dbe2661654fd3f3786cc9828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7e6d324_0f25a7b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-13T11:09:45Z",
+      "side": 1,
+      "message": "added",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 3
+      },
+      "revId": "630db6a9b3bb09a0dbe2661654fd3f3786cc9828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c88d3af_9876c932",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-13T11:09:45Z",
+      "side": 1,
+      "message": "comparison",
+      "range": {
+        "startLine": 36,
+        "startChar": 5,
+        "endLine": 36,
+        "endChar": 16
+      },
+      "revId": "630db6a9b3bb09a0dbe2661654fd3f3786cc9828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7013392_cccd2513",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-13T11:09:45Z",
+      "side": 1,
+      "message": "for a",
+      "range": {
+        "startLine": 37,
+        "startChar": 42,
+        "endLine": 37,
+        "endChar": 45
+      },
+      "revId": "630db6a9b3bb09a0dbe2661654fd3f3786cc9828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20d56661_e4776980",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-13T11:09:45Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 46,
+        "startChar": 63,
+        "endLine": 46,
+        "endChar": 72
+      },
+      "revId": "630db6a9b3bb09a0dbe2661654fd3f3786cc9828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "693dc3ed_d5f0c829",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-13T11:09:45Z",
+      "side": 1,
+      "message": "were no new reviewers added",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 30
+      },
+      "revId": "630db6a9b3bb09a0dbe2661654fd3f3786cc9828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "99696505_2dd67065",
         "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
         "patchSetId": 1
@@ -18,6 +225,52 @@
         "startChar": 16,
         "endLine": 369,
         "endChar": 47
+      },
+      "revId": "630db6a9b3bb09a0dbe2661654fd3f3786cc9828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12bce287_7b5a0971",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 946,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-13T11:09:45Z",
+      "side": 1,
+      "message": ".isEmpty()",
+      "range": {
+        "startLine": 946,
+        "startChar": 25,
+        "endLine": 946,
+        "endChar": 37
+      },
+      "revId": "630db6a9b3bb09a0dbe2661654fd3f3786cc9828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21a97c3c_e7d9b52c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 983,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-13T11:09:45Z",
+      "side": 1,
+      "message": "isEmpty()",
+      "range": {
+        "startLine": 983,
+        "startChar": 26,
+        "endLine": 983,
+        "endChar": 36
       },
       "revId": "630db6a9b3bb09a0dbe2661654fd3f3786cc9828",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

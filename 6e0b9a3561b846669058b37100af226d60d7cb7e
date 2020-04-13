@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78d11604_225e2989",
+        "filename": "java/com/google/gerrit/reviewdb/client/Project.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-13T12:58:50Z",
+      "side": 1,
+      "message": "This can be simplified:\n\nUsing Guava:\n\n  return MoreObjects.firstNonNull(getName(), \"\u003cnull\u003e\");\n\nor pure Java 8:\n\n  return Optional.ofNullable(getName()).orElse(\"\u003cnull\u003e\");\n\nI think we cannot depend on Guava on stable-2.16 in this package, because of GWT?",
+      "revId": "6e0b9a3561b846669058b37100af226d60d7cb7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

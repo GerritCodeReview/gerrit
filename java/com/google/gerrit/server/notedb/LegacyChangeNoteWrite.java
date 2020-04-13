@@ -19,7 +19,6 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.CommentsUtil.COMMENT_ORDER;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.reviewdb.client.Account;
@@ -52,12 +51,6 @@ public class LegacyChangeNoteWrite {
   public PersonIdent newIdent(Account.Id authorId, Date when, PersonIdent serverIdent) {
     return new PersonIdent(
         authorId.toString(), authorId.get() + "@" + serverId, when, serverIdent.getTimeZone());
-  }
-
-  @VisibleForTesting
-  public PersonIdent newIdent(Account author, Date when, PersonIdent serverIdent) {
-    return new PersonIdent(
-        author.toString(), author.getId().get() + "@" + serverId, when, serverIdent.getTimeZone());
   }
 
   public String getServerId() {

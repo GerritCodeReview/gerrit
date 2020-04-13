@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99696505_2dd67065",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-13T10:36:42Z",
+      "side": 1,
+      "message": "This non accurate documentation could be probably fixed in own change.",
+      "range": {
+        "startLine": 369,
+        "startChar": 16,
+        "endLine": 369,
+        "endChar": 47
+      },
+      "revId": "630db6a9b3bb09a0dbe2661654fd3f3786cc9828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

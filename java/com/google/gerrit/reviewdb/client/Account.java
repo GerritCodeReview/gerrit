@@ -291,4 +291,9 @@ public final class Account {
   public int hashCode() {
     return getId().get();
   }
+
+  @Override
+  public String toString() {
+    return getName();
+  }
 }

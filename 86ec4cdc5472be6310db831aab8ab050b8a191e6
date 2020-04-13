@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7d683fa6_0cc5f1a5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 25
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-13T20:03:15Z",
+      "side": 1,
+      "message": "I have been thinking about this and could not find a test that adds sufficient value.\n\nTesting that an icon shows up, iff showAttention is set, seems like testing \"dom-if\".",
+      "parentUuid": "7ef273d8_2ec26699",
+      "revId": "86ec4cdc5472be6310db831aab8ab050b8a191e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ca9dc95_76b395d1",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_html.js",
         "patchSetId": 25
@@ -87,6 +105,30 @@
       "revId": "86ec4cdc5472be6310db831aab8ab050b8a191e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "496603b2_5c4d6a7a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_html.js",
+        "patchSetId": 25
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-13T20:03:15Z",
+      "side": 1,
+      "message": "I am a firm believer in display:inline, because display:flex (are there other alternatives?) adds a ton of complexity and typically messes up vertical alignment.\n\nAdding \u003c!-- --\u003e comments in order to avoid spaces being rendered in a common pattern that I have been using for years, and I think that it is a common good practice, not a hack. But I am happy to discuss alternatives if you have any. :-)",
+      "parentUuid": "9c438f3b_06d7d1cb",
+      "range": {
+        "startLine": 55,
+        "startChar": 76,
+        "endLine": 56,
+        "endChar": 6
+      },
+      "revId": "86ec4cdc5472be6310db831aab8ab050b8a191e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

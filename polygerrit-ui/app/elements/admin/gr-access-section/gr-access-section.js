@@ -55,16 +55,10 @@ const LABEL = 'Label';
 
 /**
  * @appliesMixin Gerrit.AccessMixin
- * @appliesMixin Gerrit.FireMixin
  * @extends Polymer.Element
  */
 class GrAccessSection extends mixinBehaviors( [
   Gerrit.AccessBehavior,
-  /**
-   * Unused in this element, but called by other elements in tests
-   * e.g gr-repo-access_test.
-   */
-  Gerrit.FireBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

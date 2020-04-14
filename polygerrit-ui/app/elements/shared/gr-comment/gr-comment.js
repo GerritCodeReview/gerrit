@@ -69,12 +69,10 @@ const RESPECTFUL_REVIEW_TIPS= [
 ];
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @extends Polymer.Element
  */
 class GrComment extends mixinBehaviors( [
-  Gerrit.FireBehavior,
   Gerrit.KeyboardShortcutBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

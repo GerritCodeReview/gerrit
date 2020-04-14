@@ -45,13 +45,11 @@ const REPO_QUERY_PATTERN =
 const LIMIT_OPERATOR_PATTERN = /\blimit:(\d+)/i;
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.URLEncodingMixin
  * @extends Polymer.Element
  */
 class GrChangeListView extends mixinBehaviors( [
   BaseUrlBehavior,
-  Gerrit.FireBehavior,
   Gerrit.URLEncodingBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

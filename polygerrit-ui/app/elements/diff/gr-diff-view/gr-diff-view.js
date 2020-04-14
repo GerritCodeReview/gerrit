@@ -66,7 +66,6 @@ const DiffViewMode = {
 };
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @appliesMixin Gerrit.PatchSetMixin
  * @appliesMixin Gerrit.PathListMixin
@@ -74,7 +73,6 @@ const DiffViewMode = {
  * @extends Polymer.Element
  */
 class GrDiffView extends mixinBehaviors( [
-  Gerrit.FireBehavior,
   Gerrit.KeyboardShortcutBehavior,
   Gerrit.PatchSetBehavior,
   Gerrit.PathListBehavior,

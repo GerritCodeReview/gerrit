@@ -29,12 +29,10 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-plugin-list_html.js';
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.ListViewMixin
  * @extends Polymer.Element
  */
 class GrPluginList extends mixinBehaviors( [
-  Gerrit.FireBehavior,
   Gerrit.ListViewBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

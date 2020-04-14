@@ -232,13 +232,11 @@ Hence, a second button is not needed.
 const SKIP_ACTION_KEYS = [ChangeActions.REVERT_SUBMISSION];
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.PatchSetMixin
  * @appliesMixin Gerrit.RESTClientMixin
  * @extends Polymer.Element
  */
 class GrChangeActions extends mixinBehaviors( [
-  Gerrit.FireBehavior,
   Gerrit.PatchSetBehavior,
   Gerrit.RESTClientBehavior,
 ], GestureEventListeners(

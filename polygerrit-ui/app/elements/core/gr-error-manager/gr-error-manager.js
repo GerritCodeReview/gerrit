@@ -46,12 +46,10 @@ const TOO_MANY_FILES = 'too many files to find conflicts';
 const AUTHENTICATION_REQUIRED = 'Authentication required\n';
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @extends Polymer.Element
  */
 class GrErrorManager extends mixinBehaviors( [
   BaseUrlBehavior,
-  Gerrit.FireBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

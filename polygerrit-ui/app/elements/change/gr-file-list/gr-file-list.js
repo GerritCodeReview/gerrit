@@ -96,7 +96,6 @@ const FileStatus = {
 
 /**
  * @appliesMixin Gerrit.DomUtilMixin
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @appliesMixin Gerrit.PatchSetMixin
  * @appliesMixin Gerrit.PathListMixin
@@ -105,7 +104,6 @@ const FileStatus = {
 class GrFileList extends mixinBehaviors( [
   AsyncForeachBehavior,
   Gerrit.DomUtilBehavior,
-  Gerrit.FireBehavior,
   Gerrit.KeyboardShortcutBehavior,
   Gerrit.PatchSetBehavior,
   Gerrit.PathListBehavior,

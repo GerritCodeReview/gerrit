@@ -22,21 +22,16 @@ import '../gr-button/gr-button.js';
 import '../gr-icons/gr-icons.js';
 import '../gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../../styles/shared-styles.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-account-chip_html.js';
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @extends Polymer.Element
  */
-class GrAccountChip extends mixinBehaviors( [
-  Gerrit.FireBehavior,
-], GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))) {
+class GrAccountChip extends GestureEventListeners(
+    LegacyElementMixin(PolymerElement)) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-account-chip'; }

@@ -30,13 +30,11 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-related-changes-list_html.js';
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.PatchSetMixin
  * @appliesMixin Gerrit.RESTClientMixin
  * @extends Polymer.Element
  */
 class GrRelatedChangesList extends mixinBehaviors( [
-  Gerrit.FireBehavior,
   Gerrit.PatchSetBehavior,
   Gerrit.RESTClientBehavior,
 ], GestureEventListeners(

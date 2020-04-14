@@ -48,13 +48,11 @@ const PGP_START = '-----BEGIN PGP SIGNATURE-----';
 
 /**
  * @appliesMixin Gerrit.ListViewMixin
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.URLEncodingMixin
  * @extends Polymer.Element
  */
 class GrRepoDetailList extends mixinBehaviors( [
   Gerrit.ListViewBehavior,
-  Gerrit.FireBehavior,
   Gerrit.URLEncodingBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

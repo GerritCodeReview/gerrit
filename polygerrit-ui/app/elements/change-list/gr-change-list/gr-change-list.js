@@ -43,7 +43,6 @@ const MAX_SHORTCUT_CHARS = 5;
 
 /**
  * @appliesMixin Gerrit.ChangeTableMixin
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @appliesMixin Gerrit.RESTClientMixin
  * @appliesMixin Gerrit.URLEncodingMixin
@@ -52,7 +51,6 @@ const MAX_SHORTCUT_CHARS = 5;
 class GrChangeList extends mixinBehaviors( [
   BaseUrlBehavior,
   Gerrit.ChangeTableBehavior,
-  Gerrit.FireBehavior,
   Gerrit.KeyboardShortcutBehavior,
   Gerrit.RESTClientBehavior,
   Gerrit.URLEncodingBehavior,

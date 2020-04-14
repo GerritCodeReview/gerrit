@@ -81,18 +81,12 @@ const FORCE_EDIT_OPTIONS = [
 
 /**
  * @appliesMixin Gerrit.AccessMixin
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.URLEncodingMixin
  * @extends Polymer.Element
  */
 class GrRuleEditor extends mixinBehaviors( [
   Gerrit.AccessBehavior,
   BaseUrlBehavior,
-  /**
-   * Unused in this element, but called by other elements in tests
-   * e.g gr-permission_test.
-   */
-  Gerrit.FireBehavior,
   Gerrit.URLEncodingBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

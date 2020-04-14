@@ -83,7 +83,6 @@ Gerrit.DiffSide = {
 };
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.PatchSetMixin
  */
 /**
@@ -95,7 +94,6 @@ Gerrit.DiffSide = {
  * @extends Polymer.Element
  */
 class GrDiffHost extends mixinBehaviors( [
-  Gerrit.FireBehavior,
   Gerrit.PatchSetBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

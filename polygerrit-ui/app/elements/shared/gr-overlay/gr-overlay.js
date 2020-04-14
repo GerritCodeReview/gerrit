@@ -30,11 +30,9 @@ const AWAIT_STEP = 5;
 const BREAKPOINT_FULLSCREEN_OVERLAY = '50em';
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @extends Polymer.Element
  */
 class GrOverlay extends mixinBehaviors( [
-  Gerrit.FireBehavior,
   IronOverlayBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

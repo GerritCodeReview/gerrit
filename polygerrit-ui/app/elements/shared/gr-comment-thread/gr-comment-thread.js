@@ -35,7 +35,6 @@ const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @appliesMixin Gerrit.PathListMixin
  * @extends Polymer.Element
@@ -44,7 +43,6 @@ class GrCommentThread extends mixinBehaviors( [
   /**
    * Not used in this element rather other elements tests
    */
-  Gerrit.FireBehavior,
   Gerrit.KeyboardShortcutBehavior,
   Gerrit.PathListBehavior,
 ], GestureEventListeners(

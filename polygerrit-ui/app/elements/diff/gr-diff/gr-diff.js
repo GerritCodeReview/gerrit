@@ -110,12 +110,10 @@ const COMMIT_MSG_LINE_LENGTH = 72;
 const RENDER_DIFF_TABLE_DEBOUNCE_NAME = 'renderDiffTable';
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.PatchSetMixin
  * @extends Polymer.Element
  */
 class GrDiff extends mixinBehaviors( [
-  Gerrit.FireBehavior,
   Gerrit.PatchSetBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

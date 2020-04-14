@@ -30,12 +30,10 @@ import {htmlTemplate} from './gr-keyboard-shortcuts-dialog_html.js';
 const {ShortcutSection} = window.Gerrit.KeyboardShortcutBinder;
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @extends Polymer.Element
  */
 class GrKeyboardShortcutsDialog extends mixinBehaviors( [
-  Gerrit.FireBehavior,
   Gerrit.KeyboardShortcutBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

@@ -86,14 +86,12 @@ Defs.projectAccessInput;
 
 /**
  * @appliesMixin Gerrit.AccessMixin
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.URLEncodingMixin
  * @extends Polymer.Element
  */
 class GrRepoAccess extends mixinBehaviors( [
   Gerrit.AccessBehavior,
   BaseUrlBehavior,
-  Gerrit.FireBehavior,
   Gerrit.URLEncodingBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

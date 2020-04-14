@@ -38,17 +38,11 @@ const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.URLEncodingMixin
  * @extends Polymer.Element
  */
 class GrCreateChangeDialog extends mixinBehaviors( [
   BaseUrlBehavior,
-  /**
-   * Unused in this element, but called by other elements in tests
-   * e.g gr-repo-commands_test.
-   */
-  Gerrit.FireBehavior,
   Gerrit.URLEncodingBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

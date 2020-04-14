@@ -33,12 +33,10 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-admin-group-list_html.js';
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.ListViewMixin
  * @extends Polymer.Element
  */
 class GrAdminGroupList extends mixinBehaviors( [
-  Gerrit.FireBehavior,
   Gerrit.ListViewBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

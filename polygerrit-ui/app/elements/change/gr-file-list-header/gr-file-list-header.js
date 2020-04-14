@@ -43,13 +43,11 @@ const PATCH_DESC_MAX_LENGTH = 500;
 const MERGED_STATUS = 'MERGED';
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.PatchSetMixin
  * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @extends Polymer.Element
  */
 class GrFileListHeader extends mixinBehaviors( [
-  Gerrit.FireBehavior,
   Gerrit.PatchSetBehavior,
   Gerrit.KeyboardShortcutBehavior,
 ], GestureEventListeners(

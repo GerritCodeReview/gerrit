@@ -44,14 +44,12 @@ const SAVE_FAILED_MSG = 'Failed to save changes';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 100;
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @appliesMixin Gerrit.PatchSetMixin
  * @appliesMixin Gerrit.PathListMixin
  * @extends Polymer.Element
  */
 class GrEditorView extends mixinBehaviors( [
-  Gerrit.FireBehavior,
   Gerrit.KeyboardShortcutBehavior,
   Gerrit.PatchSetBehavior,
   Gerrit.PathListBehavior,

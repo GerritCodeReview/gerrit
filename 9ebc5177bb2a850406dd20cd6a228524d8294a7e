@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b6aad9b_55ee565e",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-14T16:51:35Z",
+      "side": 1,
+      "message": "Maybe also report\ndocument.documentElement.clientWidth\ndocument.documentElement.clientHeight",
+      "revId": "9ebc5177bb2a850406dd20cd6a228524d8294a7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c7c8265_bc7174ff",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 411,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-14T16:51:35Z",
+      "side": 1,
+      "message": "The unit should be part of the name: usedJsHeapSizeMb",
+      "range": {
+        "startLine": 411,
+        "startChar": 14,
+        "endLine": 411,
+        "endChar": 28
+      },
+      "revId": "9ebc5177bb2a850406dd20cd6a228524d8294a7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

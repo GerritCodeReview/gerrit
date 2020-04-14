@@ -61,14 +61,12 @@ const ANONYMIZED_REVISION_BASE_URL = ANONYMIZED_CHANGE_BASE_URL +
     '/revisions/*';
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.PathListMixin
  * @appliesMixin Gerrit.PatchSetMixin
  * @appliesMixin Gerrit.RESTClientMixin
  * @extends Polymer.Element
  */
 class GrRestApiInterface extends mixinBehaviors( [
-  Gerrit.FireBehavior,
   Gerrit.PathListBehavior,
   Gerrit.PatchSetBehavior,
   Gerrit.RESTClientBehavior,

@@ -32,13 +32,11 @@ import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-beh
 const REQUEST_DEBOUNCE_INTERVAL_MS = 200;
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.URLEncodingMixin
  * @extends Polymer.Element
  */
 class GrListView extends mixinBehaviors( [
   BaseUrlBehavior,
-  Gerrit.FireBehavior,
   Gerrit.URLEncodingBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

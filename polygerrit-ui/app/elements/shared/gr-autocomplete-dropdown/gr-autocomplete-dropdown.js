@@ -31,13 +31,11 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-autocomplete-dropdown_html.js';
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @appliesMixin Polymer.IronFitMixin
  * @extends Polymer.Element
  */
 class GrAutocompleteDropdown extends mixinBehaviors( [
-  Gerrit.FireBehavior,
   Gerrit.KeyboardShortcutBehavior,
   IronFitBehavior,
 ], GestureEventListeners(

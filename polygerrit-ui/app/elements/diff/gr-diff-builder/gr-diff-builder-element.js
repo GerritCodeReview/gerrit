@@ -31,7 +31,6 @@ import './gr-diff-builder-unified.js';
 import './gr-diff-builder-image.js';
 import './gr-diff-builder-binary.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
@@ -49,13 +48,10 @@ const COMMIT_MSG_PATH = '/COMMIT_MSG';
 const COMMIT_MSG_LINE_LENGTH = 72;
 
 /**
- * @appliesMixin Gerrit.FireMixin
+ * @extends Polymer.Element
  */
-class GrDiffBuilderElement extends mixinBehaviors( [
-  Gerrit.FireBehavior,
-], GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))) {
+class GrDiffBuilderElement extends GestureEventListeners(
+    LegacyElementMixin(PolymerElement)) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-diff-builder'; }

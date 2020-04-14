@@ -81,7 +81,6 @@ const EMPTY_REPLY_MESSAGE = 'Cannot send an empty reply.';
 const SEND_REPLY_TIMING_LABEL = 'SendReply';
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @appliesMixin Gerrit.PatchSetMixin
  * @appliesMixin Gerrit.RESTClientMixin
@@ -89,7 +88,6 @@ const SEND_REPLY_TIMING_LABEL = 'SendReply';
  */
 class GrReplyDialog extends mixinBehaviors( [
   BaseUrlBehavior,
-  Gerrit.FireBehavior,
   Gerrit.KeyboardShortcutBehavior,
   Gerrit.PatchSetBehavior,
   Gerrit.RESTClientBehavior,

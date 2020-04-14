@@ -87,14 +87,12 @@ const AUTH_TYPES_WITH_REGISTER_URL = new Set([
 
 /**
  * @appliesMixin Gerrit.AdminNavMixin
- * @appliesMixin Gerrit.FireMixin
  * @extends Polymer.Element
  */
 class GrMainHeader extends mixinBehaviors( [
   Gerrit.AdminNavBehavior,
   BaseUrlBehavior,
   DocsUrlBehavior,
-  Gerrit.FireBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

@@ -33,12 +33,10 @@ import {htmlTemplate} from './gr-group-audit-log_html.js';
 const GROUP_EVENTS = ['ADD_GROUP', 'REMOVE_GROUP'];
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.ListViewMixin
  * @extends Polymer.Element
  */
 class GrGroupAuditLog extends mixinBehaviors( [
-  Gerrit.FireBehavior,
   Gerrit.ListViewBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

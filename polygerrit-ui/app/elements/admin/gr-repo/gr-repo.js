@@ -28,7 +28,6 @@ import '../../../styles/gr-form-styles.js';
 import '../../../styles/gr-subpage-styles.js';
 import '../../../styles/shared-styles.js';
 import '../gr-repo-plugin-config/gr-repo-plugin-config.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
@@ -69,14 +68,10 @@ const SUBMIT_TYPES = {
 };
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @extends Polymer.Element
  */
-class GrRepo extends mixinBehaviors( [
-  Gerrit.FireBehavior,
-], GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))) {
+class GrRepo extends GestureEventListeners(
+    LegacyElementMixin(PolymerElement)) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-repo'; }

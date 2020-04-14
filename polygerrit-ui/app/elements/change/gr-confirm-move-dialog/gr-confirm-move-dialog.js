@@ -31,12 +31,10 @@ import {htmlTemplate} from './gr-confirm-move-dialog_html.js';
 const SUGGESTIONS_LIMIT = 15;
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @extends Polymer.Element
  */
 class GrConfirmMoveDialog extends mixinBehaviors( [
-  Gerrit.FireBehavior,
   Gerrit.KeyboardShortcutBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

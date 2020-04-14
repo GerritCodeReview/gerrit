@@ -79,13 +79,11 @@ const HTTP_AUTH = [
 
 /**
  * @appliesMixin Gerrit.ChangeTableMixin
- * @appliesMixin Gerrit.FireMixin
  * @extends Polymer.Element
  */
 class GrSettingsView extends mixinBehaviors( [
   DocsUrlBehavior,
   Gerrit.ChangeTableBehavior,
-  Gerrit.FireBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

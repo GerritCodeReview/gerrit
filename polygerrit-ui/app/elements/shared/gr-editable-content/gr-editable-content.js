@@ -21,7 +21,6 @@ import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../styles/shared-styles.js';
 import '../gr-storage/gr-storage.js';
 import '../gr-button/gr-button.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
@@ -31,14 +30,10 @@ const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @extends Polymer.Element
  */
-class GrEditableContent extends mixinBehaviors( [
-  Gerrit.FireBehavior,
-], GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))) {
+class GrEditableContent extends GestureEventListeners(
+    LegacyElementMixin(PolymerElement)) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-editable-content'; }

@@ -38,12 +38,10 @@ import {htmlTemplate} from './gr-dashboard-view_html.js';
 const PROJECT_PLACEHOLDER_PATTERN = /\$\{project\}/g;
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.RESTClientMixin
  * @extends Polymer.Element
  */
 class GrDashboardView extends mixinBehaviors( [
-  Gerrit.FireBehavior,
   Gerrit.RESTClientBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

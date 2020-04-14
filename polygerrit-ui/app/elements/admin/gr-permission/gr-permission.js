@@ -41,10 +41,6 @@ const RANGE_NAMES = [
 ];
 
 /**
- * @appliesMixin Gerrit.AccessMixin
- * @appliesMixin Gerrit.FireMixin
- */
-/**
  * Fired when the permission has been modified or removed.
  *
  * @event access-modified
@@ -52,16 +48,12 @@ const RANGE_NAMES = [
 /**
  * Fired when a permission that was previously added was removed.
  *
+ * @appliesMixin Gerrit.AccessMixin
  * @event added-permission-removed
  * @extends Polymer.Element
  */
 class GrPermission extends mixinBehaviors( [
   Gerrit.AccessBehavior,
-  /**
-   * Unused in this element, but called by other elements in tests
-   * e.g gr-access-section_test.
-   */
-  Gerrit.FireBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

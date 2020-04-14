@@ -43,13 +43,11 @@ const SAVING_ERROR_TEXT = 'Group may not exist, or you may not have '+
 const URL_REGEX = '^(?:[a-z]+:)?//';
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.URLEncodingMixin
  * @extends Polymer.Element
  */
 class GrGroupMembers extends mixinBehaviors( [
   BaseUrlBehavior,
-  Gerrit.FireBehavior,
   Gerrit.URLEncodingBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

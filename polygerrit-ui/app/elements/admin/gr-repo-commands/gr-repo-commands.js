@@ -28,7 +28,6 @@ import '../../shared/gr-overlay/gr-overlay.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../gr-create-change-dialog/gr-create-change-dialog.js';
 import '../gr-repo-command/gr-repo-command.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
@@ -44,14 +43,10 @@ const CREATE_CHANGE_FAILED_MESSAGE = 'Failed to create change.';
 const CREATE_CHANGE_SUCCEEDED_MESSAGE = 'Navigating to change';
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @extends Polymer.Element
  */
-class GrRepoCommands extends mixinBehaviors( [
-  Gerrit.FireBehavior,
-], GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))) {
+class GrRepoCommands extends GestureEventListeners(
+    LegacyElementMixin(PolymerElement)) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-repo-commands'; }

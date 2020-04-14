@@ -34,12 +34,10 @@ const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 const DEBOUNCE_WAIT_MS = 200;
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @extends Polymer.Element
  */
 class GrAutocomplete extends mixinBehaviors( [
-  Gerrit.FireBehavior,
   Gerrit.KeyboardShortcutBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

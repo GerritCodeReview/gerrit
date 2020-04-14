@@ -27,12 +27,10 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-confirm-abandon-dialog_html.js';
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.KeyboardShortcutMixin
  * @extends Polymer.Element
  */
 class GrConfirmAbandonDialog extends mixinBehaviors( [
-  Gerrit.FireBehavior,
   Gerrit.KeyboardShortcutBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

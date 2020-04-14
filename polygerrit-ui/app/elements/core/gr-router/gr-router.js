@@ -218,14 +218,12 @@ if (!app) {
 })();
 
 /**
- * @appliesMixin Gerrit.FireMixin
  * @appliesMixin Gerrit.PatchSetMixin
  * @appliesMixin Gerrit.URLEncodingMixin
  * @extends Polymer.Element
  */
 class GrRouter extends mixinBehaviors( [
   BaseUrlBehavior,
-  Gerrit.FireBehavior,
   Gerrit.PatchSetBehavior,
   Gerrit.URLEncodingBehavior,
 ], GestureEventListeners(

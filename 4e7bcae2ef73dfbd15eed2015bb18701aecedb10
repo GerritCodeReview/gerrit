@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5200ef8c_1d0b7def",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_html.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-14T13:30:03Z",
+      "side": 1,
+      "message": "maybe hide with if template ? so it won\u0027t even in the dom",
+      "revId": "4e7bcae2ef73dfbd15eed2015bb18701aecedb10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

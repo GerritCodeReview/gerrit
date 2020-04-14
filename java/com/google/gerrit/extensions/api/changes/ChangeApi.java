@@ -444,7 +444,6 @@ public interface ChangeApi {
       throw new NotImplementedException();
     }
 
-    @Deprecated
     @Override
     public void rebase() throws RestApiException {
       throw new NotImplementedException();

@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69103c70_04649bd8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.js",
+        "patchSetId": 30
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-14T13:25:28Z",
+      "side": 1,
+      "message": "nit: this can be done entirely by css with the pseudo-element :after :)",
+      "range": {
+        "startLine": 164,
+        "startChar": 10,
+        "endLine": 164,
+        "endChar": 49
+      },
+      "revId": "cef17be0fef8b6254a9cc3180988b20c39f4ecbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6e901da_09679843",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_html.js",
+        "patchSetId": 30
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-14T13:25:28Z",
+      "side": 1,
+      "message": "this seems can be merged into one if template ?",
+      "range": {
+        "startLine": 54,
+        "startChar": 8,
+        "endLine": 55,
+        "endChar": 56
+      },
+      "revId": "cef17be0fef8b6254a9cc3180988b20c39f4ecbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6af09dd8_16dbe1df",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 30
+      },
+      "lineNbr": 957,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-14T13:25:28Z",
+      "side": 1,
+      "message": "what\u0027s the implication of having this added to list call ? performance wise ? what\u0027s the usage of this ? only for attention set ? maybe we should only include this if attention set is enabled ?",
+      "range": {
+        "startLine": 957,
+        "startChar": 31,
+        "endLine": 957,
+        "endChar": 46
+      },
+      "revId": "cef17be0fef8b6254a9cc3180988b20c39f4ecbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe4a3e6a_c4f75063",
+        "filename": "polygerrit-ui/app/styles/gr-change-list-styles.js",
+        "patchSetId": 30
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-14T13:25:28Z",
+      "side": 1,
+      "message": "might also do a text-overflow ellipsis on the content so it won\u0027t be cut off without any warning :)",
+      "revId": "cef17be0fef8b6254a9cc3180988b20c39f4ecbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

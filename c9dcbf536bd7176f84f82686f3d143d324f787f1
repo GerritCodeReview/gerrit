@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c0a91e75_5b636f32",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-14T13:07:13Z",
+      "side": 1,
+      "message": "i see, I guess the naming is a bit confusing as what you want here is: max number of reviewers to show the max number of displayed reviewers, and the max number of reviewers \u003d max of displayed reviewers + 2 ...\n\nmaxReviewers is too generic TBH, especially + the comment above that line, it only adds more confusion, but i won\u0027t block the submit for that.",
+      "parentUuid": "f9374208_a77adc2a",
+      "range": {
+        "startLine": 214,
+        "startChar": 46,
+        "endLine": 214,
+        "endChar": 49
+      },
+      "revId": "c9dcbf536bd7176f84f82686f3d143d324f787f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0557e1db_f1dbb3cf",
         "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_html.js",
         "patchSetId": 26

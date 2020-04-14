@@ -94,6 +94,30 @@
       "revId": "ffc19e4e72923dccba75e792883588454ad41fc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cca8b7d5_ca89dbfd",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-14T15:06:40Z",
+      "side": 1,
+      "message": "This is not a trivial feature. We have to carefully roll this out. Well, then let\u0027s use the new experiment infra for that. :-)",
+      "parentUuid": "14a55d29_488f20f4",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 75,
+        "endChar": 77
+      },
+      "revId": "ffc19e4e72923dccba75e792883588454ad41fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

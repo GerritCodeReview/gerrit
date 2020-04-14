@@ -161,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "59b24929_e5db3e9f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 29
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-14T15:06:40Z",
+      "side": 1,
+      "message": "How do you see this from the mock? I did not expect drafts to be included in the count.\n\n\"Unresolved Comments\" is too long as a title. The table column would be too wide.",
+      "parentUuid": "591a373f_37915cc0",
+      "revId": "394e005d36e02a582f7a23adc0387c08902df82e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f67fa6a_cef5edc2",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.js",
         "patchSetId": 29

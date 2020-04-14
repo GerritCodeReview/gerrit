@@ -197,6 +197,24 @@
     },
     {
       "key": {
+        "uuid": "af6bd97c_14c500b8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 29
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-14T15:15:31Z",
+      "side": 1,
+      "message": "its not included in the count, but it has the `(drafts)` in red after the unresolved comment",
+      "parentUuid": "6d990b85_df0703e4",
+      "revId": "394e005d36e02a582f7a23adc0387c08902df82e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0f67fa6a_cef5edc2",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.js",
         "patchSetId": 29

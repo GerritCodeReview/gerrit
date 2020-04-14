@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "80ca7c87_d408b0c0",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
+        "patchSetId": 29
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-14T14:18:47Z",
+      "side": 1,
+      "message": "Sorry, I meant new Set(changes.map(change \u003d\u003e change.project)).size.\n\nBut ok, it\u0027s fine as it is.",
+      "parentUuid": "20ff06fd_936d9d31",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 7
+      },
+      "revId": "bab00cffda8620b05f1914e6837b160fce362f8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7b7bb52_c6695680",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_html.js",
         "patchSetId": 29

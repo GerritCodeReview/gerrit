@@ -37,6 +37,7 @@
      * @override
      */
     fire(type, detail, options) {
+      console.warn('\'fire\' is deprecated, please use dispatchEvent instead!');
       options = options || {};
       detail = (detail === null || detail === undefined) ? {} : detail;
       const event = new Event(type, {

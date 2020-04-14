@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95012e6b_a53fe5f1",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
+        "patchSetId": 29
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-14T12:58:16Z",
+      "side": 1,
+      "message": "It can be done as well as \n\nthis._hasDuplicateProjectChanges \u003d changes.length !\u003d\u003d new Set(changes).size;",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 7
+      },
+      "revId": "bab00cffda8620b05f1914e6837b160fce362f8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7b7bb52_c6695680",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_html.js",
+        "patchSetId": 29
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-14T12:58:16Z",
+      "side": 1,
+      "message": "This can be done with text-overflow: ellipsis;",
+      "range": {
+        "startLine": 132,
+        "startChar": 32,
+        "endLine": 132,
+        "endChar": 56
+      },
+      "revId": "bab00cffda8620b05f1914e6837b160fce362f8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

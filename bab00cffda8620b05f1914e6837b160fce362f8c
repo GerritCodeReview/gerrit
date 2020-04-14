@@ -117,6 +117,30 @@
       "revId": "bab00cffda8620b05f1914e6837b160fce362f8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "747f46b8_6063586c",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_html.js",
+        "patchSetId": 29
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-14T13:28:20Z",
+      "side": 1,
+      "message": "I don\u0027t think testing is that important feature. The text-overflow is standard. \n\nYour implementation is weird.\n\nIf you have in your code 50 length string\n\nyou show 50 length string + ... \u003d 53 length string - why 3 dots, when you printed full string?\n\nIf you have in your code 53 length string\n\nyou show 50 substring + ... \u003d 53 length string - if you have space for 53 characters, why changing last 3 characters for ...?",
+      "parentUuid": "5b7d4ede_ff73dc47",
+      "range": {
+        "startLine": 132,
+        "startChar": 32,
+        "endLine": 132,
+        "endChar": 56
+      },
+      "revId": "bab00cffda8620b05f1914e6837b160fce362f8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

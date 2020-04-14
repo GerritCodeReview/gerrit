@@ -339,21 +339,17 @@ let GrReporting = Polymer({
 
   dashboardDisplayed() {
     if (this._baselines.hasOwnProperty(TIMER.STARTUP_DASHBOARD_DISPLAYED)) {
-      this.timeEnd(TIMER.STARTUP_DASHBOARD_DISPLAYED, {rpcList:
-        this.slowRpcSnapshot});
+      this.timeEnd(TIMER.STARTUP_DASHBOARD_DISPLAYED, this._pageLoadDetails());
     } else {
-      this.timeEnd(TIMER.DASHBOARD_DISPLAYED, {rpcList:
-        this.slowRpcSnapshot});
+      this.timeEnd(TIMER.DASHBOARD_DISPLAYED, this._pageLoadDetails());
     }
   },
 
   changeDisplayed() {
     if (this._baselines.hasOwnProperty(TIMER.STARTUP_CHANGE_DISPLAYED)) {
-      this.timeEnd(TIMER.STARTUP_CHANGE_DISPLAYED, {rpcList:
-        this.slowRpcSnapshot});
+      this.timeEnd(TIMER.STARTUP_CHANGE_DISPLAYED, this._pageLoadDetails());
     } else {
-      this.timeEnd(TIMER.CHANGE_DISPLAYED, {rpcList:
-        this.slowRpcSnapshot});
+      this.timeEnd(TIMER.CHANGE_DISPLAYED, this._pageLoadDetails());
     }
   },
 
@@ -367,11 +363,9 @@ let GrReporting = Polymer({
 
   diffViewDisplayed() {
     if (this._baselines.hasOwnProperty(TIMER.STARTUP_DIFF_VIEW_DISPLAYED)) {
-      this.timeEnd(TIMER.STARTUP_DIFF_VIEW_DISPLAYED, {rpcList:
-        this.slowRpcSnapshot});
+      this.timeEnd(TIMER.STARTUP_DIFF_VIEW_DISPLAYED, this._pageLoadDetails());
     } else {
-      this.timeEnd(TIMER.DIFF_VIEW_DISPLAYED, {rpcList:
-        this.slowRpcSnapshot});
+      this.timeEnd(TIMER.DIFF_VIEW_DISPLAYED, this._pageLoadDetails());
     }
   },
 
@@ -398,6 +392,27 @@ let GrReporting = Polymer({
     } else {
       this.timeEnd(TIMER.FILE_LIST_DISPLAYED);
     }
+  },
+
+  _pageLoadDetails() {
+    const details = {
+      rpcList: this.slowRpcSnapshot,
+    };
+
+    if (window.screen) {
+      details.screenSize = {
+        width: window.screen.width,
+        height: window.screen.height,
+      };
+    }
+
+    if (window.performance && window.performance.memory) {
+      const toMB = bytes => Math.round((bytes / (1024 * 1024)) * 100) / 100;
+      details.usedJSHeapSize =
+        toMB(window.performance.memory.usedJSHeapSize);
+    }
+
+    return details;
   },
 
   reportExtension(name) {

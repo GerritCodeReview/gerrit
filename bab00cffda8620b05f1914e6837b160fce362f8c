@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "20ff06fd_936d9d31",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.js",
+        "patchSetId": 29
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-04-14T13:18:21Z",
+      "side": 1,
+      "message": "Actually IIUC Set(changes) will simply check if change1\u003d\u003d\u003dchange2 or not instead of checking if change1.project \u003d\u003d\u003d change2.project.\nThis set will simply check for duplicate change objects instead of projects?",
+      "parentUuid": "f40ac8ce_0e6f937b",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 7
+      },
+      "revId": "bab00cffda8620b05f1914e6837b160fce362f8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7b7bb52_c6695680",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog_html.js",
         "patchSetId": 29

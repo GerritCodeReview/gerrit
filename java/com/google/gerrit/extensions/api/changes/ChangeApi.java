@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
-import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
@@ -207,15 +206,6 @@ public interface ChangeApi {
 
   /** {@link #get(ListChangesOption...)} with no options included. */
   ChangeInfo info() throws RestApiException;
-
-  /**
-   * Retrieve change edit when exists.
-   *
-   * @deprecated Replaced by {@link ChangeApi#edit()} in combination with {@link
-   *     ChangeEditApi#get()}.
-   */
-  @Deprecated
-  EditInfo getEdit() throws RestApiException;
 
   /**
    * Provides access to an API regarding the change edit of this change.
@@ -521,11 +511,6 @@ public interface ChangeApi {
 
     @Override
     public void setMessage(CommitMessageInput in) throws RestApiException {
-      throw new NotImplementedException();
-    }
-
-    @Override
-    public EditInfo getEdit() throws RestApiException {
       throw new NotImplementedException();
     }
 

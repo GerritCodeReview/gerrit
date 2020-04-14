@@ -604,7 +604,7 @@ class GrChangeView extends mixinBehaviors( [
       }
     }
     if (activeIndex === -1) {
-      console.warn('tab not found with given info', activeTab);
+      console.warn('tab not found with given info', activeDetails);
       return;
     }
     const tabName = tabs[activeIndex].dataset.name;

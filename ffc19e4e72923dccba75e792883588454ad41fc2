@@ -70,6 +70,30 @@
       "revId": "ffc19e4e72923dccba75e792883588454ad41fc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14a55d29_488f20f4",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-14T13:18:28Z",
+      "side": 1,
+      "message": "ya I understand this comes out from the attention set design, but Oswald has a good point on the Comments column stands its own, and i think it indeed works fine with what we have now, maybe we should consider having it separated from this whole chain and launch separately ? I am not sure what `horizontal space and configuration` you are referring to in #1, is it non-trial to solve ?",
+      "parentUuid": "442ee148_c24a2eaf",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 75,
+        "endChar": 77
+      },
+      "revId": "ffc19e4e72923dccba75e792883588454ad41fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

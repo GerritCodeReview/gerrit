@@ -960,7 +960,7 @@ class GrRouter extends mixinBehaviors( [
       if (loggedIn) {
         this._redirect('/dashboard/self');
       } else {
-        this._redirect('/q/status:open');
+        this._redirect('/q/status:open+-is:wip');
       }
     });
   }

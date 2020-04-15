@@ -14,14 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {initAppContext} from '../services/app-context-initializer.js';
+import {appContext} from './app-context.js';
+import {Flags} from './flags.js';
 
-if (!window.Polymer) {
-  window.Polymer = {
-    passiveTouchGestures: true,
-    lazyRegister: true,
-  };
+const initializedServices = new Map();
+
+function getService(serviceName, serviceInit) {
+  if (!initializedServices[serviceName]) {
+    initializedServices[serviceName] = serviceInit();
+  }
+  return initializedServices[serviceName];
 }
-window.Gerrit = window.Gerrit || {};
 
-initAppContext();
+export function initAppContext() {
+  Object.defineProperties(appContext, {
+    flags: {
+      get() {
+        return getService('flags', () => new Flags());
+      },
+    },
+  });
+}
+

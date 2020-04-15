@@ -9,10 +9,26 @@ Services should be stateful, if its just pure functions, consider having them in
 Regarding all stateful should be considered as services or not, it's still TBD. Will update as soon
 as it's finalized.
 
-## Future plans
+## How to access service
 
-To make services much easier to use, we may need to adopt a DI (dependency injection) system instead of exporting singleton
-from the services directly. And it will help in mocking services in tests as well.
+We use AppContext to access instance of service. It helps in mocking service in tests as well.
+
+```
+import {appContext} from '../../../services/app-context.js';
+
+class T {
+  constructor() {
+    super();
+    this.flagsService = appContext.flagsService;
+  }
+
+  action1() {
+    if (this.flagsService.isEnabled('test)) {
+       // do something
+    }
+  }
+}
+```
 
 ## What services we have
 
@@ -21,10 +37,10 @@ from the services directly. And it will help in mocking services in tests as wel
 'flags' is a service to provide easy access to all enabled experiments.
 
 ```
-import {flags} from "./flags.js";
+import {appContext} from '../../../services/app-context.js';
 
 // check if an experiment is enabled or not
-if (flags.isEnabled('test')) {
+if (appContext.flagsService.isEnabled('test')) {
   // do something
 }
 ```

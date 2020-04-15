@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -214,7 +215,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
 
     @Override
     public PatchSet updateChangeImpl(ChangeContext ctx)
-        throws NoSuchChangeException, ResourceConflictException, IOException {
+        throws NoSuchChangeException, ResourceConflictException, IOException, BadRequestException {
       if (newCommit == null) {
         checkState(!rebaseAlways, "RebaseAlways must never fast forward");
         // otherwise, took the fast-forward option, nothing to do.

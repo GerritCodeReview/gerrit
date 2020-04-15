@@ -27,6 +27,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetInfo;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -51,6 +52,7 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RepoContext;
+import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -210,7 +212,8 @@ public class PatchSetInserter implements BatchUpdateOp {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx) throws ResourceConflictException, IOException {
+  public boolean updateChange(ChangeContext ctx)
+      throws ResourceConflictException, IOException, BadRequestException {
     change = ctx.getChange();
     ChangeUpdate update = ctx.getUpdate(psId);
     update.setSubjectForCommit("Create patch set " + psId.get());
@@ -266,7 +269,11 @@ public class PatchSetInserter implements BatchUpdateOp {
     }
     if (topic != null) {
       change.setTopic(topic);
-      update.setTopic(topic);
+      try {
+        update.setTopic(topic);
+      } catch (ValidationException ex) {
+        throw new BadRequestException(ex.getMessage());
+      }
     }
     return true;
   }

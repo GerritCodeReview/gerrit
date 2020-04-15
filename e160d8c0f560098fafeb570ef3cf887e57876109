@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88aa8b80_30cec80a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-15T09:29:07Z",
+      "side": 1,
+      "message": "nit: wrap long line.",
+      "range": {
+        "startLine": 9,
+        "startChar": 71,
+        "endLine": 9,
+        "endChar": 79
+      },
+      "revId": "e160d8c0f560098fafeb570ef3cf887e57876109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d101533b_8cdcf5fb",
+        "filename": "contrib/download_gerrit_and_plugins.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-15T09:29:07Z",
+      "side": 1,
+      "message": "nit: wrap long lines.",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 0
+      },
+      "revId": "e160d8c0f560098fafeb570ef3cf887e57876109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae1aa2bb_4810966d",
+        "filename": "contrib/download_gerrit_and_plugins.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-15T09:29:07Z",
+      "side": 1,
+      "message": "This URL structure is going to change very soon, as we migrate to Zuul.",
+      "range": {
+        "startLine": 99,
+        "startChar": 20,
+        "endLine": 99,
+        "endChar": 74
+      },
+      "revId": "e160d8c0f560098fafeb570ef3cf887e57876109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4a250f4_7245e3bb",
+        "filename": "contrib/download_gerrit_and_plugins.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-15T09:29:07Z",
+      "side": 1,
+      "message": "Plugins may have the same branch reused for multiple versions of Gerrit.\nThe logic I believe is a lot more complicated than that and is encoded currently in the plugin manager.\n\nI do believe it would be more sensible to keep the plugin-manager doing this job, also by providing a \"standalone\" version that just downloads plugins outside of Gerrit.",
+      "range": {
+        "startLine": 103,
+        "startChar": 88,
+        "endLine": 103,
+        "endChar": 108
+      },
+      "revId": "e160d8c0f560098fafeb570ef3cf887e57876109",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

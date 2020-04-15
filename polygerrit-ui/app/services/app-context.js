@@ -14,14 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {initAppContext} from '../services/app-context-init.js';
 
-if (!window.Polymer) {
-  window.Polymer = {
-    passiveTouchGestures: true,
-    lazyRegister: true,
-  };
-}
-window.Gerrit = window.Gerrit || {};
-
-initAppContext();
+/**
+ * The AppContext holds immortal singleton instances of services. It's a
+ * convenient way to provide singletons that can be swapped out for testing.
+ *
+ */
+export const appContext = {
+  flagsService: null,
+};

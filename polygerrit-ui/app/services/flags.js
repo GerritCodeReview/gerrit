@@ -20,7 +20,7 @@
  *
  * Provides all related methods / properties regarding on feature flags.
  */
-class Flags {
+export class FlagsService {
   constructor() {
     // stores all enabled experiments
     this._experiments = new Set();
@@ -46,6 +46,3 @@ class Flags {
     return [...this._experiments];
   }
 }
-
-// Export a single instance of Flags to be used across components.
-export const flags = new Flags();

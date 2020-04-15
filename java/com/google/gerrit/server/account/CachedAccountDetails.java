@@ -21,6 +21,7 @@ import com.google.common.base.Enums;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.proto.Protos;
@@ -34,10 +35,11 @@ import java.util.Map;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Details of an account that are cached persistently in {@link AccountCache}. */
+@UsedAt(UsedAt.Project.GOOGLE)
 @AutoValue
-abstract class CachedAccountDetails {
+public abstract class CachedAccountDetails {
   @AutoValue
-  abstract static class Key {
+  public abstract static class Key {
     static Key create(Account.Id accountId, ObjectId id) {
       return new AutoValue_CachedAccountDetails_Key(accountId, id.copy());
     }

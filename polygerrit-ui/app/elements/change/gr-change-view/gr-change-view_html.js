@@ -68,9 +68,11 @@ export const htmlTemplate = html`
         margin-bottom: var(--spacing-l);
       }
       gr-change-star {
-        margin-right: var(--spacing-xs);
         margin-left: var(--spacing-s);
         --gr-change-star-size: var(--line-height-normal);
+      }
+      a.changeNumber {
+        margin-left: var(--spacing-xs);
       }
       gr-reply-dialog {
         width: 60em;
@@ -361,7 +363,7 @@ export const htmlTemplate = html`
             </div>
             <gr-change-star id="changeStar" change="{{_change}}" on-toggle-star="_handleToggleStar" hidden\$="[[!_loggedIn]]"></gr-change-star>
 
-            <a aria-label\$="[[_computeChangePermalinkAriaLabel(_change._number)]]" href\$="[[_computeChangeUrl(_change)]]">[[_change._number]]</a>
+            <a class="changeNumber" aria-label\$="[[_computeChangePermalinkAriaLabel(_change._number)]]" href\$="[[_computeChangeUrl(_change)]]">[[_change._number]]</a>
             <span class="changeNumberColon">:&nbsp;</span>
             <span class="headerSubject">[[_change.subject]]</span>
             <gr-copy-clipboard class="changeCopyClipboard" hide-input="" text="[[_computeCopyTextForTitle(_change)]]">

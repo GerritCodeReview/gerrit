@@ -37,7 +37,7 @@ const DEFAULT_LINKS = [{
   title: 'Changes',
   links: [
     {
-      url: '/q/status:open',
+      url: '/q/status:open+-is:wip',
       name: 'Open',
     },
     {

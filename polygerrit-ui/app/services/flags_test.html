@@ -27,12 +27,9 @@ limitations under the License.
 
 <script type="module">
   import '../test/common-test-setup.js';
-  import {flags} from './flags.js';
-  import {flags as flags2} from './flags.js';
+  import {Flags} from './flags.js';
   suite('flags tests', () => {
-    test('singlton', () => {
-      assert.equal(flags, flags2);
-    });
+    const flags = new Flags();
 
     test('isEnabled', () => {
       assert.equal(flags.isEnabled('a'), true);

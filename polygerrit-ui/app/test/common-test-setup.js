@@ -21,6 +21,7 @@ import '../behaviors/safe-types-behavior/safe-types-behavior.js';
 import '@polymer/iron-test-helpers/iron-test-helpers.js';
 import './test-router.js';
 import moment from 'moment/src/moment.js';
+import {initAppContextMock} from '../services/app-context-initializer_mock.js';
 self.moment = moment;
 security.polymer_resin.install({
   allowedIdentifierPrefixes: [''],
@@ -46,6 +47,7 @@ self.mockPromise = () => {
   return promise;
 };
 self.isHidden = el => getComputedStyle(el).display === 'none';
+initAppContextMock();
 setup(() => {
   if (!window.Gerrit) { return; }
   if (Gerrit._testOnly_resetPlugins) {

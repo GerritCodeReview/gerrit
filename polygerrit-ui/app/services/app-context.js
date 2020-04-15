@@ -14,14 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {initAppContext} from '../services/app-context-initializer.js';
 
-if (!window.Polymer) {
-  window.Polymer = {
-    passiveTouchGestures: true,
-    lazyRegister: true,
-  };
-}
-window.Gerrit = window.Gerrit || {};
-
-initAppContext();
+export const appContext = {
+  flags: null,
+};

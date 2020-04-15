@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.cache.h2;
 
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+
 import com.google.common.base.Throwables;
 import com.google.common.cache.AbstractLoadingCache;
 import com.google.common.cache.Cache;
@@ -23,6 +25,9 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.BloomFilter;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.cache.PersistentCache;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
@@ -40,6 +45,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -122,7 +128,12 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
   @Override
   public V get(K key) throws ExecutionException {
     if (mem instanceof LoadingCache) {
-      return ((LoadingCache<K, ValueHolder<V>>) mem).get(key).value;
+      LoadingCache<K, ValueHolder<V>> asLoadingCache = (LoadingCache<K, ValueHolder<V>>) mem;
+      ValueHolder<V> valueHolder = asLoadingCache.get(key);
+      if (store.needsRefresh(valueHolder.created)) {
+        asLoadingCache.refresh(key);
+      }
+      return valueHolder.value;
     }
     throw new UnsupportedOperationException();
   }
@@ -139,8 +150,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
                 }
               }
 
-              ValueHolder<V> h = new ValueHolder<>(valueLoader.call());
-              h.created = TimeUtil.nowMs();
+              ValueHolder<V> h =
+                  new ValueHolder<>(valueLoader.call(), Instant.ofEpochMilli(TimeUtil.nowMs()));
               executor.execute(() -> store.put(key, h));
               return h;
             })
@@ -149,8 +160,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
   @Override
   public void put(K key, V val) {
-    final ValueHolder<V> h = new ValueHolder<>(val);
-    h.created = TimeUtil.nowMs();
+    final ValueHolder<V> h = new ValueHolder<>(val, Instant.ofEpochMilli(TimeUtil.nowMs()));
     mem.put(key, h);
     executor.execute(() -> store.put(key, h));
   }
@@ -217,11 +227,12 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
 
   static class ValueHolder<V> {
     final V value;
-    long created;
+    final Instant created;
     volatile boolean clean;
 
-    ValueHolder(V value) {
+    ValueHolder(V value, Instant created) {
       this.value = value;
+      this.created = created;
     }
   }
 
@@ -248,11 +259,33 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
           }
         }
 
-        final ValueHolder<V> h = new ValueHolder<>(loader.load(key));
-        h.created = TimeUtil.nowMs();
+        final ValueHolder<V> h =
+            new ValueHolder<>(loader.load(key), Instant.ofEpochMilli(TimeUtil.nowMs()));
         executor.execute(() -> store.put(key, h));
         return h;
       }
+    }
+
+    @Override
+    public ListenableFuture<ValueHolder<V>> reload(K key, ValueHolder<V> oldValue)
+        throws Exception {
+      ListenableFuture<V> reloadedValue = loader.reload(key, oldValue.value);
+      Futures.addCallback(
+          reloadedValue,
+          new FutureCallback<V>() {
+            @Override
+            public void onSuccess(V result) {
+              store.put(key, new ValueHolder<>(result, TimeUtil.now()));
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+              logger.atWarning().withCause(t).log("Unable to refresh cache value");
+            }
+          },
+          executor);
+      return Futures.transform(
+          reloadedValue, v -> new ValueHolder<>(v, TimeUtil.now()), directExecutor());
     }
   }
 
@@ -263,6 +296,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     private final int version;
     private final long maxSize;
     @Nullable private final Duration expireAfterWrite;
+    @Nullable private final Duration refreshAfterWrite;
     private final BlockingQueue<SqlHandle> handles;
     private final AtomicLong hitCount = new AtomicLong();
     private final AtomicLong missCount = new AtomicLong();
@@ -276,13 +310,15 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         CacheSerializer<V> valueSerializer,
         int version,
         long maxSize,
-        @Nullable Duration expireAfterWrite) {
+        @Nullable Duration expireAfterWrite,
+        @Nullable Duration refreshAfterWrite) {
       this.url = jdbcUrl;
       this.keyType = createKeyType(keyType, keySerializer);
       this.valueSerializer = valueSerializer;
       this.version = version;
       this.maxSize = maxSize;
       this.expireAfterWrite = expireAfterWrite;
+      this.refreshAfterWrite = refreshAfterWrite;
 
       int cores = Runtime.getRuntime().availableProcessors();
       int keep = Math.min(cores, 16);
@@ -394,14 +430,14 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
           }
 
           Timestamp created = r.getTimestamp(2);
-          if (expired(created)) {
+          if (expired(created.toInstant())) {
             invalidate(key);
             missCount.incrementAndGet();
             return null;
           }
 
           V val = valueSerializer.deserialize(r.getBytes(1));
-          ValueHolder<V> h = new ValueHolder<>(val);
+          ValueHolder<V> h = new ValueHolder<>(val, created.toInstant());
           h.clean = true;
           hitCount.incrementAndGet();
           touch(c, key);
@@ -429,12 +465,20 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       return false;
     }
 
-    private boolean expired(Timestamp created) {
+    private boolean expired(Instant created) {
       if (expireAfterWrite == null) {
         return false;
       }
-      Duration age = Duration.between(created.toInstant(), TimeUtil.now());
+      Duration age = Duration.between(created, TimeUtil.now());
       return age.compareTo(expireAfterWrite) > 0;
+    }
+
+    private boolean needsRefresh(Instant created) {
+      if (refreshAfterWrite == null) {
+        return false;
+      }
+      Duration age = Duration.between(created, TimeUtil.now());
+      return age.compareTo(refreshAfterWrite) > 0;
     }
 
     private void touch(SqlHandle c, K key) throws IOException, SQLException {
@@ -474,7 +518,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
           keyType.set(c.put, 1, key);
           c.put.setBytes(2, valueSerializer.serialize(holder.value));
           c.put.setInt(3, version);
-          c.put.setTimestamp(4, new Timestamp(holder.created));
+          c.put.setTimestamp(4, Timestamp.from(holder.created));
           c.put.setTimestamp(5, TimeUtil.nowTs());
           c.put.executeUpdate();
           holder.clean = true;
@@ -560,7 +604,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
             while (maxSize < used && r.next()) {
               K key = keyType.get(r, 1);
               Timestamp created = r.getTimestamp(3);
-              if (mem.getIfPresent(key) != null && !expired(created)) {
+              if (mem.getIfPresent(key) != null && !expired(created.toInstant())) {
                 touch(c, key);
               } else {
                 invalidate(c, key);

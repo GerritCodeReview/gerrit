@@ -16,16 +16,27 @@ package com.google.gerrit.server.cache.h2;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.gerrit.server.cache.serialize.StringCacheSerializer;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.TypeLiteral;
+import java.time.Duration;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
+import javax.annotation.Nullable;
 import org.junit.Test;
 
 public class H2CacheTest {
@@ -38,23 +49,31 @@ public class H2CacheTest {
   }
 
   private static H2CacheImpl<String, String> newH2CacheImpl(
-      int id, Cache<String, ValueHolder<String>> mem, int version) {
-    SqlStore<String, String> store =
-        new SqlStore<>(
-            "jdbc:h2:mem:Test_" + id,
-            KEY_TYPE,
-            StringCacheSerializer.INSTANCE,
-            StringCacheSerializer.INSTANCE,
-            version,
-            1 << 20,
-            null);
+      SqlStore<String, String> store, Cache<String, ValueHolder<String>> mem) {
     return new H2CacheImpl<>(MoreExecutors.directExecutor(), store, KEY_TYPE, mem);
+  }
+
+  private static SqlStore<String, String> newStore(
+      int id,
+      int version,
+      @Nullable Duration expireAfterWrite,
+      @Nullable Duration refreshAfterWrite) {
+    return new SqlStore<>(
+        "jdbc:h2:mem:Test_" + id,
+        KEY_TYPE,
+        StringCacheSerializer.INSTANCE,
+        StringCacheSerializer.INSTANCE,
+        version,
+        1 << 20,
+        expireAfterWrite,
+        refreshAfterWrite);
   }
 
   @Test
   public void get() throws ExecutionException {
     Cache<String, ValueHolder<String>> mem = CacheBuilder.newBuilder().build();
-    H2CacheImpl<String, String> impl = newH2CacheImpl(nextDbId(), mem, DEFAULT_VERSION);
+    H2CacheImpl<String, String> impl =
+        newH2CacheImpl(newStore(nextDbId(), DEFAULT_VERSION, null, null), mem);
 
     assertThat(impl.getIfPresent("foo")).isNull();
 
@@ -94,11 +113,12 @@ public class H2CacheTest {
   }
 
   @Test
-  public void version() throws Exception {
+  public void version() {
     int id = nextDbId();
-    H2CacheImpl<String, String> oldImpl = newH2CacheImpl(id, disableMemCache(), DEFAULT_VERSION);
+    H2CacheImpl<String, String> oldImpl =
+        newH2CacheImpl(newStore(id, DEFAULT_VERSION, null, null), disableMemCache());
     H2CacheImpl<String, String> newImpl =
-        newH2CacheImpl(id, disableMemCache(), DEFAULT_VERSION + 1);
+        newH2CacheImpl(newStore(id, DEFAULT_VERSION + 1, null, null), disableMemCache());
 
     assertThat(oldImpl.diskStats().space()).isEqualTo(0);
     assertThat(newImpl.diskStats().space()).isEqualTo(0);
@@ -122,6 +142,57 @@ public class H2CacheTest {
     // Now it's no longer in the old cache.
     assertThat(oldImpl.diskStats().space()).isEqualTo(14);
     assertThat(oldImpl.getIfPresent("key")).isNull();
+  }
+
+  @Test
+  public void refreshAfterWrite_triggeredWhenConfigured() throws Exception {
+    SqlStore<String, String> store =
+        newStore(nextDbId(), DEFAULT_VERSION, null, Duration.ofMillis(10));
+
+    // This is the loader that we configure for the cache when calling .loader(...)
+    @SuppressWarnings("unchecked")
+    CacheLoader<String, String> baseLoader = (CacheLoader<String, String>) mock(CacheLoader.class);
+    resetLoaderAndAnswerLoadAndRefreshCalls(baseLoader);
+
+    // We wrap baseLoader just like H2CacheFactory is wrapping it. The wrapped version will call out
+    // to the store for refreshing values.
+    H2CacheImpl.Loader<String, String> wrappedLoader =
+        new H2CacheImpl.Loader<>(MoreExecutors.directExecutor(), store, baseLoader);
+    // memCache is the in-memory variant of the cache. Its loader is wrappedLoader which will call
+    // out to the store to save or delete cached values.
+    LoadingCache<String, ValueHolder<String>> memCache =
+        CacheBuilder.newBuilder().maximumSize(10).build(wrappedLoader);
+
+    // h2Cache puts it all together
+    H2CacheImpl<String, String> h2Cache = newH2CacheImpl(store, memCache);
+
+    // Initial load and cached retrieval do not trigger refresh
+    // This works because we use a directExecutor() for refreshes
+    TimeUtil.setCurrentMillisSupplier(() -> 0);
+    assertThat(h2Cache.get("foo")).isEqualTo("load:foo");
+    verify(baseLoader).load("foo");
+    assertThat(h2Cache.get("foo")).isEqualTo("load:foo");
+    verifyNoMoreInteractions(baseLoader);
+    resetLoaderAndAnswerLoadAndRefreshCalls(baseLoader);
+
+    // Load after refresh duration returns old value, triggers refresh and returns new value
+    TimeUtil.setCurrentMillisSupplier(() -> 11);
+    assertThat(h2Cache.get("foo")).isEqualTo("load:foo");
+    assertThat(h2Cache.get("foo")).isEqualTo("reload:foo");
+    verify(baseLoader).reload("foo", "load:foo");
+    verifyNoMoreInteractions(baseLoader);
+    resetLoaderAndAnswerLoadAndRefreshCalls(baseLoader);
+
+    // Refreshed value was persisted
+    memCache.invalidateAll(); // Invalidates only the memcache, not the store.
+    assertThat(h2Cache.getIfPresent("foo")).isEqualTo("reload:foo");
+  }
+
+  private static void resetLoaderAndAnswerLoadAndRefreshCalls(CacheLoader<String, String> loader)
+      throws Exception {
+    reset(loader);
+    when(loader.load("foo")).thenReturn("load:foo");
+    when(loader.reload("foo", "load:foo")).thenReturn(Futures.immediateFuture("reload:foo"));
   }
 
   private static <K, V> Cache<K, ValueHolder<V>> disableMemCache() {

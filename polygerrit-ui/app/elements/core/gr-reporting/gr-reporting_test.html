@@ -99,14 +99,10 @@ suite('gr-reporting tests', () => {
   test('changeDisplayed', () => {
     sandbox.spy(element, 'timeEnd');
     element.changeDisplayed();
-    assert.isFalse(
-        element.timeEnd.calledWithExactly('ChangeDisplayed', {rpcList: []}));
-    assert.isTrue(
-        element.timeEnd.calledWithExactly('StartupChangeDisplayed',
-            {rpcList: []}));
+    assert.isFalse(element.timeEnd.calledWith('ChangeDisplayed'));
+    assert.isTrue(element.timeEnd.calledWith('StartupChangeDisplayed'));
     element.changeDisplayed();
-    assert.isTrue(element.timeEnd.calledWithExactly('ChangeDisplayed',
-        {rpcList: []}));
+    assert.isTrue(element.timeEnd.calledWith('ChangeDisplayed'));
   });
 
   test('changeFullyLoaded', () => {
@@ -123,15 +119,10 @@ suite('gr-reporting tests', () => {
   test('diffViewDisplayed', () => {
     sandbox.spy(element, 'timeEnd');
     element.diffViewDisplayed();
-    assert.isFalse(
-        element.timeEnd.calledWithExactly('DiffViewDisplayed',
-            {rpcList: []}));
-    assert.isTrue(
-        element.timeEnd.calledWithExactly('StartupDiffViewDisplayed',
-            {rpcList: []}));
+    assert.isFalse(element.timeEnd.calledWith('DiffViewDisplayed'));
+    assert.isTrue(element.timeEnd.calledWith('StartupDiffViewDisplayed'));
     element.diffViewDisplayed();
-    assert.isTrue(element.timeEnd.calledWithExactly('DiffViewDisplayed',
-        {rpcList: []}));
+    assert.isTrue(element.timeEnd.calledWith('DiffViewDisplayed'));
   });
 
   test('fileListDisplayed', () => {
@@ -148,19 +139,21 @@ suite('gr-reporting tests', () => {
   test('dashboardDisplayed', () => {
     sandbox.spy(element, 'timeEnd');
     element.dashboardDisplayed();
-    assert.isFalse(
-        element.timeEnd.calledWithExactly('DashboardDisplayed',
-            {rpcList: []}));
-    assert.isTrue(
-        element.timeEnd.calledWithExactly('StartupDashboardDisplayed',
-            {rpcList: []}));
+    assert.isFalse(element.timeEnd.calledWith('DashboardDisplayed'));
+    assert.isTrue(element.timeEnd.calledWith('StartupDashboardDisplayed'));
     element.dashboardDisplayed();
-    assert.isTrue(element.timeEnd.calledWithExactly('DashboardDisplayed',
-        {rpcList: []}));
+    assert.isTrue(element.timeEnd.calledWith('DashboardDisplayed'));
   });
 
-  test('dashboardDisplayed', () => {
+  test('dashboardDisplayed details', () => {
     sandbox.spy(element, 'timeEnd');
+    sandbox.stub(window, 'performance', {
+      memory: {
+        usedJSHeapSize: 1024 * 1024,
+      },
+      measure: () => {},
+    });
+    sandbox.stub(element, 'now').returns(42);
     element.reportRpcTiming('/changes/*~*/comments', 500);
     element.dashboardDisplayed();
     assert.isTrue(
@@ -170,7 +163,17 @@ suite('gr-reporting tests', () => {
                 anonymizedUrl: '/changes/*~*/comments',
                 elapsed: 500,
               },
-            ]}
+            ],
+            screenSize: {
+              width: window.screen.width,
+              height: window.screen.height,
+            },
+            viewport: {
+              width: document.documentElement.clientWidth,
+              height: document.documentElement.clientHeight,
+            },
+            usedJSHeapSizeMb: 1,
+            }
         ));
   });
 

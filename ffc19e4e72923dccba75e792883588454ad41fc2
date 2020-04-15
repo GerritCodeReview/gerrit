@@ -118,6 +118,30 @@
       "revId": "ffc19e4e72923dccba75e792883588454ad41fc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0ae5da4_a42174c8",
+        "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-04-15T13:20:53Z",
+      "side": 1,
+      "message": "how is displaying a column with a single easily computed number not a trivial feature?\n\nanyway, i\u0027m fine with your solution; just don\u0027t forget to remove it at some point.",
+      "parentUuid": "cca8b7d5_ca89dbfd",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 75,
+        "endChar": 77
+      },
+      "revId": "ffc19e4e72923dccba75e792883588454ad41fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

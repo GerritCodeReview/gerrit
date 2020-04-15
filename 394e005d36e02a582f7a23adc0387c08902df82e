@@ -233,6 +233,24 @@
     },
     {
       "key": {
+        "uuid": "07e8f64a_bfc08907",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 29
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-04-15T13:20:53Z",
+      "side": 1,
+      "message": "we already established that the column is unnecessarily wide *regardless*.\n\ni would title it \"UC\" with the full title only in a tooltip, just like the review labels. yes, this is somewhat ugly, but it\u0027s the most pragmatic and functional solution.\nplace the column right after \"status\", because it\u0027s semantically related and places it well apart from the other narrow columns.",
+      "parentUuid": "e651c3ac_1f35dcc2",
+      "revId": "394e005d36e02a582f7a23adc0387c08902df82e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0f67fa6a_cef5edc2",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.js",
         "patchSetId": 29

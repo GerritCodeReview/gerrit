@@ -117,6 +117,24 @@
       "revId": "abc200eb04855b3b67748692ed4b78ff62964c30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4192babf_e432de5b",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersion.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-15T15:19:36Z",
+      "side": 1,
+      "message": "\u003e Since I went with the way that keeps GrantRevertPermission class, can we first submit this change?\n\nFine with me if you prefer this.\n\n\u003e 4. [no need to delete the internal migraton]\n\nI think we still want to delete the code that calls GrantRevertPermission and the migration launch configs.",
+      "parentUuid": "9d99f3a5_79b300ff",
+      "revId": "abc200eb04855b3b67748692ed4b78ff62964c30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

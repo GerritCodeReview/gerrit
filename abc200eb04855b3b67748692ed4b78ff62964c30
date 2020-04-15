@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "febff3c9_36a34d37",
+        "filename": "java/com/google/gerrit/server/schema/GrantRevertPermission.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-15T10:26:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb384786_fa62efed",
+      "range": {
+        "startLine": 75,
+        "startChar": 43,
+        "endLine": 75,
+        "endChar": 45
+      },
+      "revId": "abc200eb04855b3b67748692ed4b78ff62964c30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e61179d_e171cb18",
         "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersion.java",
         "patchSetId": 4
@@ -72,6 +96,24 @@
       "side": 1,
       "message": "\u003e Is it really better to inject those 3 parameters instead of just GrantRevertPermission?\n\nYes, it is okay to inject those. Those are generic enough to be useful for other migrations too.\n\n\u003e Either way, when injecting those 3 parameters I can keep the GrantRevertPermission class (no need to inject it).\n\nFine with me, if you prefer that.",
       "parentUuid": "7e77b62f_ff04eaa8",
+      "revId": "abc200eb04855b3b67748692ed4b78ff62964c30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d99f3a5_79b300ff",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersion.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-15T10:26:54Z",
+      "side": 1,
+      "message": "Since I went with the way that keeps GrantRevertPermission class, can we first submit this change?\n1. Submit this change.\n2. Write the internal migration that calls GrantRevertPermission.\n3. Run the migration on all our hosts.\n4. [no need to delete the internal migraton]\n5. Submit https://gerrit-review.googlesource.com/c/gerrit/+/251435",
+      "parentUuid": "171a9cb4_4417ba28",
       "revId": "abc200eb04855b3b67748692ed4b78ff62964c30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -22,6 +22,30 @@
       "revId": "06e05a1b8306a3cd9e1cc4afb4df0c254b027648",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aaa9f560_5db797bd",
+        "filename": "javatests/com/google/gerrit/acceptance/server/httpd/HttpLogoutServletIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-15T10:07:41Z",
+      "side": 1,
+      "message": "True, let me change it.",
+      "parentUuid": "075055cc_37a2b23c",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 27
+      },
+      "revId": "06e05a1b8306a3cd9e1cc4afb4df0c254b027648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

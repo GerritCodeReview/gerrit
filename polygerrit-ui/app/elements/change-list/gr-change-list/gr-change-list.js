@@ -30,7 +30,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-list_html.js';
-import {flags} from '../../../services/flags';
+import {appContext} from '../../../services/app-context.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {ChangeTableBehavior} from '../../../behaviors/gr-change-table-behavior/gr-change-table-behavior.js';
 import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
@@ -152,6 +152,11 @@ class GrChangeList extends mixinBehaviors( [
     };
   }
 
+  constructor() {
+    super();
+    this.flagsService = appContext.flagsService;
+  }
+
   /** @override */
   created() {
     super.created();
@@ -204,7 +209,7 @@ class GrChangeList extends mixinBehaviors( [
     this.changeTableColumns = this.columnNames;
     this.showNumber = false;
     this.visibleChangeTableColumns = this.getEnabledColumns(this.columnNames,
-        config, flags.enabledExperiments);
+        config, this.flagsService.enabledExperiments);
 
     if (account) {
       this.showNumber = !!(preferences &&
@@ -213,7 +218,7 @@ class GrChangeList extends mixinBehaviors( [
           preferences.change_table.length > 0) {
         const prefColumns = this.getVisibleColumns(preferences.change_table);
         this.visibleChangeTableColumns = this.getEnabledColumns(prefColumns,
-            config, flags.enabledExperiments);
+            config, this.flagsService.enabledExperiments);
       }
     }
   }

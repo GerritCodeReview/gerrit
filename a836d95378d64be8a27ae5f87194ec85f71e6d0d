@@ -46,6 +46,30 @@
       "revId": "a836d95378d64be8a27ae5f87194ec85f71e6d0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d153a40c_53d0c476",
+        "filename": "WORKSPACE",
+        "patchSetId": 10
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-15T05:07:15Z",
+      "side": 1,
+      "message": "This is a known Bazel caching issue. If the URL is changed like in this case from 4.2.2 to 4.2.3 the same SHA bsdrf cache key is used and thus there is a cache hit.  We had a similar problem, with ben-manes cache artifact upgrade that is still pending. The solution is to use additional parameter to http_file method that wasn\u0027t available in older Bazel versions. We should fix it here as well.",
+      "parentUuid": "6b01ce5d_20ddf01d",
+      "range": {
+        "startLine": 133,
+        "startChar": 14,
+        "endLine": 133,
+        "endChar": 78
+      },
+      "revId": "a836d95378d64be8a27ae5f87194ec85f71e6d0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

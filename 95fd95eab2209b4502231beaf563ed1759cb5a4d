@@ -22,6 +22,30 @@
       "revId": "95fd95eab2209b4502231beaf563ed1759cb5a4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6457e79_35321078",
+        "filename": "plugins/download-commands",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-15T13:25:45Z",
+      "side": 1,
+      "message": "-insert shame-",
+      "parentUuid": "2a673a8b_ff5aba27",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "95fd95eab2209b4502231beaf563ed1759cb5a4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

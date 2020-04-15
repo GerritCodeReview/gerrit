@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61e8de9e_ebf0382d",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-15T07:21:21Z",
+      "side": 1,
+      "message": "Can you help me understand how this works now if lazyLoad \u003d\u003d false?\n\nIf the change was loaded from the index, the ChangeData (cd) doesn\u0027t contain change notes (cd.notes \u003d\u003d null) and if lazyLoad \u003d\u003d false, then also lazyLoad in the ChangeData is false (cd.lazyLoad \u003d\u003d false).\n\nNow if we call\n\n  permissionBackend.user(userProvider.get()).change(cd)\n\nit executes the code in PermissionBackend.WithUser#change(ChangeData):\n\n  public abstract static class WithUser {\n    ...\n\n    public ForChange change(ChangeData cd) {\n      try {\n        return ref(cd.change().getDest()).change(cd);\n      } catch (StorageException e) {\n        return FailedPermissionBackend.change(\"unavailable\", e);\n      }\n    }\n  ...\n\nThis means RefControl#change(ChangeData) is invoked:\n\n  class RefControl {\n    ...\n    @Override\n    public ForChange change(ChangeData cd) {\n      try {\n        return getProjectControl().controlFor(cd.notes()).asForChange(cd);\n      } catch (StorageException e) {\n        return FailedPermissionBackend.change(\"unavailable\", e);\n      }\n    }\n  ...\n\nThe cd.notes() call would now throw a StorageException (since cd.notes \u003d\u003d null and cd.lazyLoad \u003d false):\n\n  public class ChangeData {\n    ...\n    public ChangeNotes notes() {\n      if (notes \u003d\u003d null) {\n        if (!lazyLoad) {\n          throw new StorageException(\"ChangeNotes not available, lazyLoad \u003d false\");\n        }\n        notes \u003d notesFactory.create(project(), legacyId);\n      }\n      return notes;\n    }\n  ...\n\n\nIf I read the old code correctly, we didn\u0027t get this StorageException in this case, since we created a ChangeNotes instance via notesFactory.createFromIndexedChange(cd.change()) here in this class (cd.notes !\u003d null).\n\nSo I wonder how this is working now.",
+      "range": {
+        "startLine": 710,
+        "startChar": 12,
+        "endLine": 710,
+        "endChar": 23
+      },
+      "revId": "577de492bae7e28baa3a8e467ddbe2d5a7993b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ed8ede0_21d94f29",
+        "filename": "java/com/google/gerrit/server/permissions/ChangeControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-15T07:21:21Z",
+      "side": 1,
+      "message": "Why not change.getProject()?\n\nAnd then why it just changeDataFactory.create(change)?",
+      "range": {
+        "startLine": 225,
+        "startChar": 16,
+        "endLine": 225,
+        "endChar": 71
+      },
+      "revId": "577de492bae7e28baa3a8e467ddbe2d5a7993b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

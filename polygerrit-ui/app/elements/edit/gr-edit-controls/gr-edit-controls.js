@@ -226,7 +226,8 @@ class GrEditControls extends mixinBehaviors( [
       if (!res.ok) { return; }
 
       this._closeDialog(this.$.openDialog, true);
-      const url = Gerrit.Nav.getUrlForChange(this.change, this.patchNum);
+      const url = Gerrit.Nav.getUrlForChange(
+          this.change, this.patchNum, undefined, true);
       Gerrit.Nav.navigateToRelativeUrl(url);
     });
   }

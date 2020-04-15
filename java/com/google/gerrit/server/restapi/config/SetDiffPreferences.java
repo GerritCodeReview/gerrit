@@ -67,7 +67,6 @@ public class SetDiffPreferences implements RestModifyView<ConfigResource, DiffPr
 
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
       DiffPreferencesInfo updatedPrefs = StoredPreferences.updateDefaultDiffPreferences(md, input);
-      accountCache.evictAll();
       return Response.ok(updatedPrefs);
     }
   }

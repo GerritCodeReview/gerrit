@@ -30,24 +30,22 @@ import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.VersionedDefaultPreferences;
 import com.google.gerrit.server.git.UserConfigSections;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
-import com.google.gerrit.server.git.meta.VersionedMetaData;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
@@ -184,6 +182,11 @@ public class StoredPreferences {
     return cfg;
   }
 
+  /** Returns the content of the {@code preferences.config} file as {@link Config}. */
+  Config getRaw() {
+    return cfg;
+  }
+
   private GeneralPreferencesInfo parseGeneralPreferences(@Nullable GeneralPreferencesInfo input) {
     try {
       return parseGeneralPreferences(cfg, defaultCfg, input);
@@ -224,7 +227,12 @@ public class StoredPreferences {
     }
   }
 
-  private static GeneralPreferencesInfo parseGeneralPreferences(
+  /**
+   * Returns a {@link GeneralPreferencesInfo} that is the result of parsing {@code defaultCfg} for
+   * the server's default configs and {@code cfg} for the user's config. These configs are then
+   * overlaid to inherit values (default -> user -> input (if provided).
+   */
+  public static GeneralPreferencesInfo parseGeneralPreferences(
       Config cfg, @Nullable Config defaultCfg, @Nullable GeneralPreferencesInfo input)
       throws ConfigInvalidException {
     GeneralPreferencesInfo r =
@@ -247,7 +255,12 @@ public class StoredPreferences {
     return r;
   }
 
-  private static DiffPreferencesInfo parseDiffPreferences(
+  /**
+   * Returns a {@link DiffPreferencesInfo} that is the result of parsing {@code defaultCfg} for the
+   * server's default configs and {@code cfg} for the user's config. These configs are then overlaid
+   * to inherit values (default -> user -> input (if provided).
+   */
+  public static DiffPreferencesInfo parseDiffPreferences(
       Config cfg, @Nullable Config defaultCfg, @Nullable DiffPreferencesInfo input)
       throws ConfigInvalidException {
     return loadSection(
@@ -261,7 +274,12 @@ public class StoredPreferences {
         input);
   }
 
-  private static EditPreferencesInfo parseEditPreferences(
+  /**
+   * Returns a {@link EditPreferencesInfo} that is the result of parsing {@code defaultCfg} for the
+   * server's default configs and {@code cfg} for the user's config. These configs are then overlaid
+   * to inherit values (default -> user -> input (if provided).
+   */
+  public static EditPreferencesInfo parseEditPreferences(
       Config cfg, @Nullable Config defaultCfg, @Nullable EditPreferencesInfo input)
       throws ConfigInvalidException {
     return loadSection(
@@ -541,34 +559,6 @@ public class StoredPreferences {
     cfg.unsetSection(section, null);
     for (String subsection : cfg.getSubsections(section)) {
       cfg.unsetSection(section, subsection);
-    }
-  }
-
-  private static class VersionedDefaultPreferences extends VersionedMetaData {
-    private Config cfg;
-
-    @Override
-    protected String getRefName() {
-      return RefNames.REFS_USERS_DEFAULT;
-    }
-
-    private Config getConfig() {
-      checkState(cfg != null, "Default preferences not loaded yet.");
-      return cfg;
-    }
-
-    @Override
-    protected void onLoad() throws IOException, ConfigInvalidException {
-      cfg = readConfig(PREFERENCES_CONFIG);
-    }
-
-    @Override
-    protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
-      if (Strings.isNullOrEmpty(commit.getMessage())) {
-        commit.setMessage("Update default preferences\n");
-      }
-      saveConfig(PREFERENCES_CONFIG, cfg);
-      return true;
     }
   }
 }

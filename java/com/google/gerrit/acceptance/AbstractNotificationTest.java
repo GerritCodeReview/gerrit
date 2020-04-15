@@ -339,8 +339,8 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       return description.getClassName();
     }
 
-    private TestAccount evictAndCopy(TestAccount account) {
-      evictAndReindexAccount(account.id());
+    private TestAccount reindexAndCopy(TestAccount account) {
+      reindexAccount(account.id());
       return account;
     }
 
@@ -348,14 +348,14 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       synchronized (stagedUsers) {
         if (stagedUsers.containsKey(usersCacheKey())) {
           StagedUsers existing = stagedUsers.get(usersCacheKey());
-          owner = evictAndCopy(existing.owner);
-          author = evictAndCopy(existing.author);
-          uploader = evictAndCopy(existing.uploader);
-          reviewer = evictAndCopy(existing.reviewer);
-          ccer = evictAndCopy(existing.ccer);
-          starrer = evictAndCopy(existing.starrer);
-          assignee = evictAndCopy(existing.assignee);
-          watchingProjectOwner = evictAndCopy(existing.watchingProjectOwner);
+          owner = reindexAndCopy(existing.owner);
+          author = reindexAndCopy(existing.author);
+          uploader = reindexAndCopy(existing.uploader);
+          reviewer = reindexAndCopy(existing.reviewer);
+          ccer = reindexAndCopy(existing.ccer);
+          starrer = reindexAndCopy(existing.starrer);
+          assignee = reindexAndCopy(existing.assignee);
+          watchingProjectOwner = reindexAndCopy(existing.watchingProjectOwner);
           watchers.putAll(existing.watchers);
           return;
         }

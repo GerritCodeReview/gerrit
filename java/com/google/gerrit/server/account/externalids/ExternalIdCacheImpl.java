@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account.externalids;
 
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
@@ -25,7 +26,6 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -73,22 +73,22 @@ class ExternalIdCacheImpl implements ExternalIdCache {
   }
 
   @Override
-  public Set<ExternalId> byAccount(Account.Id accountId) throws IOException {
+  public ImmutableSet<ExternalId> byAccount(Account.Id accountId) throws IOException {
     return get().byAccount().get(accountId);
   }
 
   @Override
-  public Set<ExternalId> byAccount(Account.Id accountId, ObjectId rev) throws IOException {
+  public ImmutableSet<ExternalId> byAccount(Account.Id accountId, ObjectId rev) throws IOException {
     return get(rev).byAccount().get(accountId);
   }
 
   @Override
-  public SetMultimap<Account.Id, ExternalId> allByAccount() throws IOException {
+  public ImmutableSetMultimap<Account.Id, ExternalId> allByAccount() throws IOException {
     return get().byAccount();
   }
 
   @Override
-  public SetMultimap<String, ExternalId> byEmails(String... emails) throws IOException {
+  public ImmutableSetMultimap<String, ExternalId> byEmails(String... emails) throws IOException {
     AllExternalIds allExternalIds = get();
     ImmutableSetMultimap.Builder<String, ExternalId> byEmails = ImmutableSetMultimap.builder();
     for (String email : emails) {
@@ -98,7 +98,7 @@ class ExternalIdCacheImpl implements ExternalIdCache {
   }
 
   @Override
-  public SetMultimap<String, ExternalId> allByEmail() throws IOException {
+  public ImmutableSetMultimap<String, ExternalId> allByEmail() throws IOException {
     return get().byEmail();
   }
 

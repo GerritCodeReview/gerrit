@@ -28,6 +28,7 @@ import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.config.CachedPreferences;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
@@ -47,12 +48,14 @@ public abstract class AccountState {
    *
    * @param externalIds class to access external IDs
    * @param accountConfig the account config, must already be loaded
+   * @param defaultPreferences the default preferences for this Gerrit installation
    * @return the account state, {@link Optional#empty()} if the account doesn't exist
    * @throws IOException if accessing the external IDs fails
    */
   public static Optional<AccountState> fromAccountConfig(
-      ExternalIds externalIds, AccountConfig accountConfig) throws IOException {
-    return fromAccountConfig(externalIds, accountConfig, null);
+      ExternalIds externalIds, AccountConfig accountConfig, CachedPreferences defaultPreferences)
+      throws IOException {
+    return fromAccountConfig(externalIds, accountConfig, null, defaultPreferences);
   }
 
   /**
@@ -68,11 +71,15 @@ public abstract class AccountState {
    * @param externalIds class to access external IDs
    * @param accountConfig the account config, must already be loaded
    * @param extIdNotes external ID notes, must already be loaded, may be {@code null}
+   * @param defaultPreferences the default preferences for this Gerrit installation
    * @return the account state, {@link Optional#empty()} if the account doesn't exist
    * @throws IOException if accessing the external IDs fails
    */
   public static Optional<AccountState> fromAccountConfig(
-      ExternalIds externalIds, AccountConfig accountConfig, @Nullable ExternalIdNotes extIdNotes)
+      ExternalIds externalIds,
+      AccountConfig accountConfig,
+      @Nullable ExternalIdNotes extIdNotes,
+      CachedPreferences defaultPreferences)
       throws IOException {
     if (!accountConfig.getLoadedAccount().isPresent()) {
       return Optional.empty();
@@ -85,19 +92,13 @@ public abstract class AccountState {
             : accountConfig.getExternalIdsRev();
     ImmutableSet<ExternalId> extIds =
         extIdsRev.isPresent()
-            ? ImmutableSet.copyOf(externalIds.byAccount(account.id(), extIdsRev.get()))
+            ? externalIds.byAccount(account.id(), extIdsRev.get())
             : ImmutableSet.of();
 
     // Don't leak references to AccountConfig into the AccountState, since it holds a reference to
     // an open Repository instance.
     ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches =
         accountConfig.getProjectWatches();
-    Preferences.General generalPreferences =
-        Preferences.General.fromInfo(accountConfig.getGeneralPreferences());
-    Preferences.Diff diffPreferences =
-        Preferences.Diff.fromInfo(accountConfig.getDiffPreferences());
-    Preferences.Edit editPreferences =
-        Preferences.Edit.fromInfo(accountConfig.getEditPreferences());
 
     return Optional.of(
         new AutoValue_AccountState(
@@ -105,9 +106,8 @@ public abstract class AccountState {
             extIds,
             ExternalId.getUserName(extIds),
             projectWatches,
-            generalPreferences,
-            diffPreferences,
-            editPreferences));
+            Optional.of(defaultPreferences),
+            Optional.of(accountConfig.asCachedPreferences())));
   }
 
   /**
@@ -119,6 +119,25 @@ public abstract class AccountState {
    */
   public static AccountState forAccount(Account account) {
     return forAccount(account, ImmutableSet.of());
+  }
+
+  /**
+   * Creates an AccountState for a given account and external IDs.
+   *
+   * @param account the account
+   * @return the account state
+   */
+  public static AccountState forCachedAccount(
+      CachedAccountDetails account, CachedPreferences defaultConfig, ExternalIds externalIds)
+      throws IOException {
+    ImmutableSet<ExternalId> extIds = externalIds.byAccount(account.account().id());
+    return new AutoValue_AccountState(
+        account.account(),
+        extIds,
+        ExternalId.getUserName(extIds),
+        account.projectWatches(),
+        Optional.of(defaultConfig),
+        Optional.of(account.preferences()));
   }
 
   /**
@@ -134,9 +153,8 @@ public abstract class AccountState {
         ImmutableSet.copyOf(extIds),
         ExternalId.getUserName(extIds),
         ImmutableMap.of(),
-        Preferences.General.fromInfo(GeneralPreferencesInfo.defaults()),
-        Preferences.Diff.fromInfo(DiffPreferencesInfo.defaults()),
-        Preferences.Edit.fromInfo(EditPreferencesInfo.defaults()));
+        Optional.empty(),
+        Optional.empty());
   }
 
   /** Get the cached account metadata. */
@@ -158,17 +176,20 @@ public abstract class AccountState {
 
   /** The general preferences of the account. */
   public GeneralPreferencesInfo generalPreferences() {
-    return immutableGeneralPreferences().toInfo();
+    return CachedPreferences.general(
+        defaultPreferences(), userPreferences().orElse(CachedPreferences.EMPTY));
   }
 
   /** The diff preferences of the account. */
   public DiffPreferencesInfo diffPreferences() {
-    return immutableDiffPreferences().toInfo();
+    return CachedPreferences.diff(
+        defaultPreferences(), userPreferences().orElse(CachedPreferences.EMPTY));
   }
 
   /** The edit preferences of the account. */
   public EditPreferencesInfo editPreferences() {
-    return immutableEditPreferences().toInfo();
+    return CachedPreferences.edit(
+        defaultPreferences(), userPreferences().orElse(CachedPreferences.EMPTY));
   }
 
   @Override
@@ -178,9 +199,9 @@ public abstract class AccountState {
     return h.toString();
   }
 
-  protected abstract Preferences.General immutableGeneralPreferences();
+  /** Gerrit's default preferences as stored in {@code preferences.config}. */
+  protected abstract Optional<CachedPreferences> defaultPreferences();
 
-  protected abstract Preferences.Diff immutableDiffPreferences();
-
-  protected abstract Preferences.Edit immutableEditPreferences();
+  /** User preferences as stored in {@code preferences.config}. */
+  protected abstract Optional<CachedPreferences> userPreferences();
 }

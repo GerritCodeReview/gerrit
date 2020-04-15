@@ -83,7 +83,6 @@ public class AccountIndexerImpl implements AccountIndexer {
 
   @Override
   public void index(Account.Id id) {
-    byIdCache.evict(id);
     Optional<AccountState> accountState = byIdCache.get(id);
 
     if (accountState.isPresent()) {

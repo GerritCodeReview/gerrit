@@ -335,18 +335,18 @@ public class ProjectResetter implements AutoCloseable {
         // Make sure all accounts are evicted and reindexed.
         try (Repository repo = repoManager.openRepository(allUsersName)) {
           for (Account.Id id : accountIds(repo)) {
-            evictAndReindexAccount(id);
+            reindexAccount(id);
           }
         }
 
         // Remove deleted accounts from the cache and index.
         for (Account.Id id : deletedAccounts) {
-          evictAndReindexAccount(id);
+          reindexAccount(id);
         }
       } else {
         // Evict and reindex all modified and deleted accounts.
         for (Account.Id id : Sets.union(modifiedAccounts, deletedAccounts)) {
-          evictAndReindexAccount(id);
+          reindexAccount(id);
         }
       }
     }
@@ -367,10 +367,7 @@ public class ProjectResetter implements AutoCloseable {
     }
   }
 
-  private void evictAndReindexAccount(Account.Id accountId) {
-    if (accountCache != null) {
-      accountCache.evict(accountId);
-    }
+  private void reindexAccount(Account.Id accountId) {
     if (groupIncludeCache != null) {
       groupIncludeCache.evictGroupsWithMember(accountId);
     }

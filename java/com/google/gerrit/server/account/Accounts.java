@@ -26,6 +26,8 @@ import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.CachedPreferences;
+import com.google.gerrit.server.config.VersionedDefaultPreferences;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -148,10 +150,15 @@ public class Accounts {
   private Optional<AccountState> read(Repository allUsersRepository, Account.Id accountId)
       throws IOException, ConfigInvalidException {
     AccountConfig cfg;
+    CachedPreferences defaultPreferences;
     try (Timer0.Context ignored = readSingleLatency.start()) {
       cfg = new AccountConfig(accountId, allUsersName, allUsersRepository).load();
+      defaultPreferences =
+          CachedPreferences.fromConfig(
+              VersionedDefaultPreferences.get(allUsersRepository, allUsersName));
     }
-    return AccountState.fromAccountConfig(externalIds, cfg);
+
+    return AccountState.fromAccountConfig(externalIds, cfg, defaultPreferences);
   }
 
   public static Stream<Account.Id> readUserRefs(Repository repo) throws IOException {

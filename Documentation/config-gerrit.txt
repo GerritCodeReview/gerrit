@@ -840,6 +840,12 @@ for the client to use as potential delta bases.  Push over smart HTTP
 requires two HTTP requests, and this cache tries to carry state from
 the first request into the second to ensure it can complete.
 
+cache `"default_preferences"`::
++
+Caches the server's default general, edit and diff preferences.
++
+Default value is 1 to hold only the most current version in-memory.
+
 cache `"changes"`::
 +
 The size of `memoryLimit` determines the number of projects for which

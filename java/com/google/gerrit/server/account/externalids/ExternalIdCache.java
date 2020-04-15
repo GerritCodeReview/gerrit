@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.account.externalids;
 
-import com.google.common.collect.SetMultimap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.gerrit.entities.Account;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -36,17 +36,17 @@ interface ExternalIdCache {
       Collection<ExternalId> toRemove,
       Collection<ExternalId> toAdd);
 
-  Set<ExternalId> byAccount(Account.Id accountId) throws IOException;
+  ImmutableSet<ExternalId> byAccount(Account.Id accountId) throws IOException;
 
-  Set<ExternalId> byAccount(Account.Id accountId, ObjectId rev) throws IOException;
+  ImmutableSet<ExternalId> byAccount(Account.Id accountId, ObjectId rev) throws IOException;
 
-  SetMultimap<Account.Id, ExternalId> allByAccount() throws IOException;
+  ImmutableSetMultimap<Account.Id, ExternalId> allByAccount() throws IOException;
 
-  SetMultimap<String, ExternalId> byEmails(String... emails) throws IOException;
+  ImmutableSetMultimap<String, ExternalId> byEmails(String... emails) throws IOException;
 
-  SetMultimap<String, ExternalId> allByEmail() throws IOException;
+  ImmutableSetMultimap<String, ExternalId> allByEmail() throws IOException;
 
-  default Set<ExternalId> byEmail(String email) throws IOException {
+  default ImmutableSet<ExternalId> byEmail(String email) throws IOException {
     return byEmails(email).get(email);
   }
 }

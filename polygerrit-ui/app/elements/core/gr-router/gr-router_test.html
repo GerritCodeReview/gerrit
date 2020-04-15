@@ -806,7 +806,8 @@ suite('gr-router tests', () => {
         const result = element._handleRootRoute(data);
         assert.isOk(result);
         return result.then(() => {
-          assert.isTrue(redirectStub.calledWithExactly('/q/status:open'));
+          assert.isTrue(
+              redirectStub.calledWithExactly('/q/status:open+-is:wip'));
         });
       });
 

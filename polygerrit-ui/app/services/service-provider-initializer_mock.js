@@ -14,14 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {initServiceProvider} from '../services/service-provider-initializer';
+import {appContext} from './service-provider';
+import {FlagsMock} from './flags_mock';
 
-if (!window.Polymer) {
-  window.Polymer = {
-    passiveTouchGestures: true,
-    lazyRegister: true,
-  };
+const services = new Map();
+function getService(serviceName, serviceInstance) {
+  if (!services[serviceName]) {
+    services[serviceName] = serviceInstance;
+  }
+  return services[serviceName];
 }
-window.Gerrit = window.Gerrit || {};
 
-initServiceProvider();
+export function initServiceProviderMock() {
+  Object.defineProperties(appContext, {
+    flagsService: {
+      get() {
+        return getService('flagsService', FlagsMock);
+      },
+    },
+  });
+}

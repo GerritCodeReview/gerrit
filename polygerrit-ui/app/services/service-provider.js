@@ -14,14 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {initServiceProvider} from '../services/service-provider-initializer';
 
-if (!window.Polymer) {
-  window.Polymer = {
-    passiveTouchGestures: true,
-    lazyRegister: true,
-  };
-}
-window.Gerrit = window.Gerrit || {};
-
-initServiceProvider();
+export const appContext = {
+  flagsService: null,
+};

@@ -21,23 +21,25 @@ limitations under the License.
 <script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/components/wct-browser-legacy/browser.js"></script>
 
-<script>
-  window.ENABLED_EXPERIMENTS = ['a', 'a'];
-</script>
-
 <script type="module">
   import '../test/common-test-setup.js';
-  import {Flags} from './flags.js';
-  suite('flags tests', () => {
-    const flags = new Flags();
-
-    test('isEnabled', () => {
-      assert.equal(flags.isEnabled('a'), true);
-      assert.equal(flags.isEnabled('random'), false);
+  import {appContext} from './app-context.js';
+  import {initAppContext} from './app-context-init.js';
+  suite('app context initializer tests', () => {
+    setup(() => {
+      initAppContext();
     });
 
-    test('enabledExperiments', () => {
-      assert.deepEqual(flags.enabledExperiments, ['a']);
+    test('all services initialized', () => {
+      Object.keys(appContext).forEach(service => {
+        assert.isNotNull(appContext[service]);
+      });
+    });
+
+    test('flags service is singleton', () => {
+      const flags1 = appContext.flags;
+      const flags2 = appContext.flags;
+      assert.equal(flags1, flags2);
     });
   });
 </script>

@@ -29,6 +29,13 @@ public interface CacheBinding<K, V> {
   /** Set the time an element lives after last access before being expired. */
   CacheBinding<K, V> expireFromMemoryAfterAccess(Duration duration);
 
+  /**
+   * Set the time that an element will be refreshed after. Elements older than this but younger than
+   * {@link #expireAfterWrite(Duration)} will still be returned, but a task is queued to refresh
+   * they value asynchronously.
+   */
+  CacheBinding<K, V> refreshAfterWrite(Duration duration);
+
   /** Populate the cache with items from the CacheLoader. */
   CacheBinding<K, V> loader(Class<? extends CacheLoader<K, V>> clazz);
 

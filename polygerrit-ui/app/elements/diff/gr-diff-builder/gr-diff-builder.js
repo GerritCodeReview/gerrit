@@ -295,31 +295,38 @@
   GrDiffBuilder.prototype._createLineEl = function(
       line, number, type, side) {
     const td = this._createElement('td');
-    if (side) {
-      td.classList.add(side);
-    }
-
-    // Add aria-labels for valid line numbers.
-    // For unified diff, this method will be called with number set to 0 for
-    // the empty line number column for added/removed lines. This should not
-    // be announced to the screenreader.
-    if (number > 0) {
-      if (line.type === GrDiffLine.Type.REMOVE) {
-        td.setAttribute('aria-label', `${number} removed`);
-      } else if (line.type === GrDiffLine.Type.ADD) {
-        td.setAttribute('aria-label', `${number} added`);
-      }
-    }
 
     if (line.type === GrDiffLine.Type.BLANK) {
       return td;
-    } else if (line.type === GrDiffLine.Type.CONTEXT_CONTROL) {
-      td.classList.add('contextLineNum');
-    } else if (line.type === GrDiffLine.Type.BOTH || line.type === type) {
-      td.classList.add('lineNum');
-      td.setAttribute('data-value', number);
-      td.textContent = number === 'FILE' ? 'File' : number;
     }
+    if (line.type === GrDiffLine.Type.CONTEXT_CONTROL) {
+      td.classList.add('contextLineNum');
+      return td;
+    }
+
+    if (line.type === GrDiffLine.Type.BOTH || line.type === type) {
+      const button = this._createElement('button');
+      button.classList.add('lineNum');
+      if (side) {
+        button.classList.add(side);
+      }
+      button.setAttribute('data-value', number);
+      button.textContent = number === 'FILE' ? 'File' : number;
+
+      // Add aria-labels for valid line numbers.
+      // For unified diff, this method will be called with number set to 0 for
+      // the empty line number column for added/removed lines. This should not
+      // be announced to the screenreader.
+      if (number > 0) {
+        if (line.type === GrDiffLine.Type.REMOVE) {
+          button.setAttribute('aria-label', `${number} removed`);
+        } else if (line.type === GrDiffLine.Type.ADD) {
+          button.setAttribute('aria-label', `${number} added`);
+        }
+      }
+      td.appendChild(button);
+    }
+
     return td;
   };
 

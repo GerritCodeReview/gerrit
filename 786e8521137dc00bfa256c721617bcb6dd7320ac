@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b6ec3831_6e51a5d3",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-16T13:20:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89314db1_459e50d5",
+      "range": {
+        "startLine": 20,
+        "startChar": 44,
+        "endLine": 20,
+        "endChar": 60
+      },
+      "revId": "786e8521137dc00bfa256c721617bcb6dd7320ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6375f4b_a3ff6e34",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 3
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "In overall, I prefer (2), but also can live with both.\n\nIn the case of GrReporting - at the end, the GrReporting must be a service also (Am I right?).In this case it is expected, that it gets all other services as parameters in constructor.",
       "parentUuid": "b6375f4b_a3ff6e34",
+      "range": {
+        "startLine": 282,
+        "startChar": 31,
+        "endLine": 282,
+        "endChar": 55
+      },
+      "revId": "786e8521137dc00bfa256c721617bcb6dd7320ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aafddf74_cf38b544",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-16T13:20:23Z",
+      "side": 1,
+      "message": "FYI: actually this method is called without initialization of gr-reporting, (GrReporting.Prototype) so I haven\u0027t had chance to do it with (2). I can rewrite it when GrReporting is changed to class.\n\nSo I think we should try 2. everywhere but we allow (1) in some cases.",
+      "parentUuid": "cc882d73_f6737fbd",
       "range": {
         "startLine": 282,
         "startChar": 31,
@@ -135,6 +183,54 @@
     },
     {
       "key": {
+        "uuid": "9a63178a_e662fa8c",
+        "filename": "polygerrit-ui/app/services/service-provider-initializer.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-16T13:20:23Z",
+      "side": 1,
+      "message": "I put it into app/services .. Should I put it to just app?",
+      "parentUuid": "5d841540_f39fc0dd",
+      "range": {
+        "startLine": 18,
+        "startChar": 23,
+        "endLine": 18,
+        "endChar": 28
+      },
+      "revId": "786e8521137dc00bfa256c721617bcb6dd7320ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be1641a3_d7d5c155",
+        "filename": "polygerrit-ui/app/services/service-provider-initializer.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-16T13:20:23Z",
+      "side": 1,
+      "message": "I changed it to class from instance",
+      "parentUuid": "399c0baf_6e9be0ab",
+      "range": {
+        "startLine": 18,
+        "startChar": 8,
+        "endLine": 18,
+        "endChar": 13
+      },
+      "revId": "786e8521137dc00bfa256c721617bcb6dd7320ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f853ddd5_9051919c",
         "filename": "polygerrit-ui/app/services/service-provider-initializer.js",
         "patchSetId": 3
@@ -155,6 +251,30 @@
       "revId": "786e8521137dc00bfa256c721617bcb6dd7320ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8f1fd0d_5b6e597e",
+        "filename": "polygerrit-ui/app/services/service-provider-initializer.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-16T13:20:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f853ddd5_9051919c",
+      "range": {
+        "startLine": 20,
+        "startChar": 6,
+        "endLine": 20,
+        "endChar": 14
+      },
+      "revId": "786e8521137dc00bfa256c721617bcb6dd7320ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -222,6 +342,48 @@
     },
     {
       "key": {
+        "uuid": "51234ca6_9478b394",
+        "filename": "polygerrit-ui/app/services/service-provider-initializer.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-16T13:20:23Z",
+      "side": 1,
+      "message": "Ok, I will do () \u003d\u003e new service",
+      "parentUuid": "c90d32a8_456438fc",
+      "range": {
+        "startLine": 21,
+        "startChar": 33,
+        "endLine": 21,
+        "endChar": 48
+      },
+      "revId": "786e8521137dc00bfa256c721617bcb6dd7320ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4cf39e8_5c319434",
+        "filename": "polygerrit-ui/app/services/service-provider-initializer.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-16T13:20:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17118d44_b152626a",
+      "revId": "786e8521137dc00bfa256c721617bcb6dd7320ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6b1a47a_0ac9336f",
         "filename": "polygerrit-ui/app/services/service-provider-initializer_mock.js",
         "patchSetId": 3
@@ -271,6 +433,24 @@
       "revId": "786e8521137dc00bfa256c721617bcb6dd7320ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e79fce6_be271079",
+        "filename": "polygerrit-ui/app/services/service-provider.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-16T13:20:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fd36c5b_9091847c",
+      "revId": "786e8521137dc00bfa256c721617bcb6dd7320ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

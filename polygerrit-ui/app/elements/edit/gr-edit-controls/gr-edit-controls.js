@@ -224,11 +224,8 @@ class GrEditControls extends mixinBehaviors( [
     this.$.restAPI.saveFileUploadChangeEdit(this.change._number, path,
         fileData).then(res => {
       if (!res.ok) { return; }
-
       this._closeDialog(this.$.openDialog, true);
-      const url = Gerrit.Nav.getUrlForChange(
-          this.change, this.patchNum, undefined, true);
-      Gerrit.Nav.navigateToRelativeUrl(url);
+      Gerrit.Nav.navigateToChange(this.change);
     });
   }
 
@@ -273,6 +270,23 @@ class GrEditControls extends mixinBehaviors( [
 
   _computeIsInvisible(id, hiddenActions) {
     return hiddenActions.includes(id) ? 'invisible' : '';
+  }
+
+  /**
+   * Fixes support for mobiles so they can
+   * open the file browser.
+   */
+  _onTouchOpenFileBrowse(e) {
+    // When we click the "Browse" button
+    // open the file browser.
+    this.$.fileUploadBrowse.click();
+  }
+
+  _handleOnDragover(e) {
+    // Do not allow the dragover event to bubble and also
+    // prevent default dragover event behavior.
+    e.stopPropagation();
+    e.preventDefault();
   }
 
   _handleDragAndDropUpload(event) {

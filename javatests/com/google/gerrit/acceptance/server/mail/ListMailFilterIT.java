@@ -110,8 +110,8 @@ public class ListMailFilterIT extends AbstractMailIT {
             canonicalWebUrl.get() + "#/c/" + changeInfo._number + "/1",
             "Test Message",
             null,
-            null,
-            null);
+            null
+        );
     b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     mailProcessor.process(b.build());

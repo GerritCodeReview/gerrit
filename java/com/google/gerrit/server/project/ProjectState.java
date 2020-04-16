@@ -86,9 +86,6 @@ public class ProjectState {
   private final long globalMaxObjectSizeLimit;
   private final boolean inheritProjectMaxObjectSizeLimit;
 
-  /** Last system time the configuration's revision was examined. */
-  private volatile long lastCheckGeneration;
-
   /** Local access sections, wrapped in SectionMatchers for faster evaluation. */
   private volatile List<SectionMatcher> localAccessSections;
 
@@ -138,21 +135,6 @@ public class ProjectState {
       }
       localOwners = Collections.unmodifiableSet(groups);
     }
-  }
-
-  void initLastCheck(long generation) {
-    lastCheckGeneration = generation;
-  }
-
-  boolean needsRefresh(long generation) {
-    if (generation <= 0) {
-      return isRevisionOutOfDate();
-    }
-    if (lastCheckGeneration != generation) {
-      lastCheckGeneration = generation;
-      return isRevisionOutOfDate();
-    }
-    return false;
   }
 
   private boolean isRevisionOutOfDate() {

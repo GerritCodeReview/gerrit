@@ -24,16 +24,23 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.metrics.Counter2;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
+import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer0;
+import com.google.gerrit.server.CacheRefreshExecutor;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -48,6 +55,7 @@ import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -55,6 +63,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
 /** Cache of project information, including access rights. */
@@ -70,7 +79,10 @@ public class ProjectCacheImpl implements ProjectCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(CACHE_NAME, String.class, ProjectState.class).loader(Loader.class);
+        cache(CACHE_NAME, String.class, ProjectState.class)
+            .loader(Loader.class)
+            .refreshAfterWrite(Duration.ofMinutes(15))
+            .expireAfterWrite(Duration.ofHours(1));
 
         cache(CACHE_LIST, ListKey.class, new TypeLiteral<ImmutableSortedSet<Project.NameKey>>() {})
             .maximumWeight(1)
@@ -84,7 +96,6 @@ public class ProjectCacheImpl implements ProjectCache {
               @Override
               protected void configure() {
                 listener().to(ProjectCacheWarmer.class);
-                listener().to(ProjectCacheClock.class);
               }
             });
       }
@@ -96,7 +107,6 @@ public class ProjectCacheImpl implements ProjectCache {
   private final LoadingCache<String, ProjectState> byName;
   private final LoadingCache<ListKey, ImmutableSortedSet<Project.NameKey>> list;
   private final Lock listLock;
-  private final ProjectCacheClock clock;
   private final Provider<ProjectIndexer> indexer;
   private final Timer0 guessRelevantGroupsLatency;
 
@@ -106,7 +116,6 @@ public class ProjectCacheImpl implements ProjectCache {
       final AllUsersName allUsersName,
       @Named(CACHE_NAME) LoadingCache<String, ProjectState> byName,
       @Named(CACHE_LIST) LoadingCache<ListKey, ImmutableSortedSet<Project.NameKey>> list,
-      ProjectCacheClock clock,
       Provider<ProjectIndexer> indexer,
       MetricMaker metricMaker) {
     this.allProjectsName = allProjectsName;
@@ -114,7 +123,6 @@ public class ProjectCacheImpl implements ProjectCache {
     this.byName = byName;
     this.list = list;
     this.listLock = new ReentrantLock(true /* fair */);
-    this.clock = clock;
     this.indexer = indexer;
 
     this.guessRelevantGroupsLatency =
@@ -142,13 +150,8 @@ public class ProjectCacheImpl implements ProjectCache {
     }
 
     try {
-      ProjectState state = byName.get(projectName.get());
-      if (state != null && state.needsRefresh(clock.read())) {
-        byName.invalidate(projectName.get());
-        state = byName.get(projectName.get());
-      }
-      return Optional.of(state);
-    } catch (Exception e) {
+      return Optional.of(byName.get(projectName.get()));
+    } catch (ExecutionException e) {
       if ((e.getCause() instanceof RepositoryNotFoundException)) {
         logger.atFine().log("Cannot find project %s", projectName.get());
         return Optional.empty();
@@ -245,22 +248,31 @@ public class ProjectCacheImpl implements ProjectCache {
     }
   }
 
+  @Singleton
   static class Loader extends CacheLoader<String, ProjectState> {
     private final ProjectState.Factory projectStateFactory;
     private final GitRepositoryManager mgr;
-    private final ProjectCacheClock clock;
     private final ProjectConfig.Factory projectConfigFactory;
+    private final ListeningExecutorService backgroundExecutor;
+    private final Counter2<String, Boolean> refreshCounter;
 
     @Inject
     Loader(
         ProjectState.Factory psf,
         GitRepositoryManager g,
-        ProjectCacheClock clock,
-        ProjectConfig.Factory projectConfigFactory) {
+        ProjectConfig.Factory projectConfigFactory,
+        @CacheRefreshExecutor ListeningExecutorService backgroundExecutor,
+        MetricMaker metricMaker) {
       projectStateFactory = psf;
       mgr = g;
-      this.clock = clock;
       this.projectConfigFactory = projectConfigFactory;
+      this.backgroundExecutor = backgroundExecutor;
+      refreshCounter =
+          metricMaker.newCounter(
+              "caches/refresh_count",
+              (new Description("count").setRate()),
+              Field.ofString("cache", Metadata.Builder::className).build(),
+              Field.ofBoolean("outdated", Metadata.Builder::outdated).build());
     }
 
     @Override
@@ -268,16 +280,35 @@ public class ProjectCacheImpl implements ProjectCache {
       try (TraceTimer timer =
           TraceContext.newTimer(
               "Loading project", Metadata.builder().projectName(projectName).build())) {
-        long now = clock.read();
         Project.NameKey key = Project.nameKey(projectName);
         try (Repository git = mgr.openRepository(key)) {
           ProjectConfig cfg = projectConfigFactory.create(key);
           cfg.load(key, git);
-
-          ProjectState state = projectStateFactory.create(cfg);
-          state.initLastCheck(now);
-          return state;
+          return projectStateFactory.create(cfg);
         }
+      }
+    }
+
+    @Override
+    public ListenableFuture<ProjectState> reload(String projectName, ProjectState oldState)
+        throws Exception {
+      try (TraceTimer timer =
+          TraceContext.newTimer(
+              "Reload project", Metadata.builder().projectName(projectName).build())) {
+        Project.NameKey key = Project.nameKey(projectName);
+        try (Repository git = mgr.openRepository(key)) {
+          Ref configRef = git.exactRef(RefNames.REFS_CONFIG);
+          if (configRef != null
+              && configRef.getObjectId().equals(oldState.getConfig().getRevision())) {
+            refreshCounter.increment(CACHE_NAME, false);
+            return Futures.immediateFuture(oldState);
+          }
+        }
+
+        // Repository is not thread safe, so we have to open it on the thread that does the loading.
+        // Just invoke the loader on the other thread.
+        refreshCounter.increment(CACHE_NAME, true);
+        return backgroundExecutor.submit(() -> load(projectName));
       }
     }
   }

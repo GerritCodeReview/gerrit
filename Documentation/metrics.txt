@@ -62,6 +62,7 @@ objects needing finalization.
 * `caches/memory_eviction_count`: Memory eviction count.
 * `caches/disk_cached`: Disk entries used by persistent cache.
 * `caches/disk_hit_ratio`: Disk hit ratio for persistent cache.
+* `caches/refresh_count`: The number of refreshes per cache with an indicator if a reload was necessary.
 
 === Change
 

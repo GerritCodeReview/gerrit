@@ -315,6 +315,11 @@ class GrDiffCursor extends GestureEventListeners(
     this._preventAutoScrollOnManualScroll = false;
   };
 
+  _handleDiffLineSelected = (event) => {
+    this.moveToLineNumber(
+        event.detail.number, event.detail.side, event.detail.path);
+  };
+
   createCommentInPlace() {
     const diffWithRangeSelected = this.diffs
         .find(diff => diff.isRangeSelected());
@@ -477,6 +482,8 @@ class GrDiffCursor extends GestureEventListeners(
             'render-start', this._handleDiffRenderStart);
         this.diffs[i].addEventListener(
             'render-content', this._handleDiffRenderContent);
+        this.diffs[i].addEventListener(
+            'line-selected', this._handleDiffLineSelected);
       }
 
       for (i = 0; i < splice.removed && splice.removed.length; i++) {
@@ -484,6 +491,8 @@ class GrDiffCursor extends GestureEventListeners(
               'render-start', this._handleDiffRenderStart);
           splice.removed[i].removeEventListener(
               'render-content', this._handleDiffRenderContent);
+          splice.removed[i].removeEventListener(
+              'line-selected', this._handleDiffLineSelected);
       }
     }
   }

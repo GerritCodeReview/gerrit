@@ -136,6 +136,20 @@ suite('gr-diff-cursor tests', () => {
     assert.equal(cursorElement._scrollBehavior, 'keep-visible');
   });
 
+  test('moves to selected line', () => {
+    const moveToNumStub = sandbox.stub(cursorElement, 'moveToLineNumber');
+    
+    cursorElement._handleDiffLineSelected(
+        new CustomEvent('line-selected', {
+          detail: {number: '123', side: 'right', path: 'some/file'},
+        })); 
+    
+    assert.isTrue(moveToNumStub.called);
+    assert.equal(moveToNumStub.lastCall.args[0], '123');
+    assert.equal(moveToNumStub.lastCall.args[1], 'right');
+    assert.equal(moveToNumStub.lastCall.args[2], 'some/file');
+  });
+
   suite('unified diff', () => {
     setup(done => {
       // We must allow the diff to re-render after setting the viewMode.

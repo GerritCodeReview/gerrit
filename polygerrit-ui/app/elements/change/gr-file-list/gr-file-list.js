@@ -1105,11 +1105,6 @@ class GrFileList extends mixinBehaviors( [
     return expandedFilesRecord.base.some(f => f.path === path);
   }
 
-  _onLineSelected(e, detail) {
-    this.$.diffCursor.moveToLineNumber(detail.number, detail.side,
-        detail.path);
-  }
-
   _computeExpandedFiles(expandedCount, totalCount) {
     if (expandedCount === 0) {
       return GrFileListConstants.FilesExpandedState.NONE;

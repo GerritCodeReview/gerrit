@@ -1033,7 +1033,6 @@ class GrDiffView extends mixinBehaviors( [
   }
 
   _onLineSelected(e, detail) {
-    this.$.cursor.moveToLineNumber(detail.number, detail.side);
     if (!this._change) { return; }
     const cursorAddress = this.$.cursor.getAddress();
     const number = cursorAddress ? cursorAddress.number : undefined;

@@ -385,7 +385,7 @@ export const htmlTemplate = html`
             </div>
           </div>
           <template is="dom-if" if="[[_isFileExpanded(file.__path, _expandedFiles.*)]]">
-            <gr-diff-host no-auto-render="" show-load-failure="" display-line="[[_displayLine]]" hidden="[[!_isFileExpanded(file.__path, _expandedFiles.*)]]" change-num="[[changeNum]]" patch-range="[[patchRange]]" path="[[file.__path]]" prefs="[[diffPrefs]]" project-name="[[change.project]]" on-line-selected="_onLineSelected" no-render-on-prefs-change="" view-mode="[[diffViewMode]]"></gr-diff-host>
+            <gr-diff-host no-auto-render="" show-load-failure="" display-line="[[_displayLine]]" hidden="[[!_isFileExpanded(file.__path, _expandedFiles.*)]]" change-num="[[changeNum]]" patch-range="[[patchRange]]" path="[[file.__path]]" prefs="[[diffPrefs]]" project-name="[[change.project]]" no-render-on-prefs-change="" view-mode="[[diffViewMode]]"></gr-diff-host>
           </template>
         </div>
       </template>

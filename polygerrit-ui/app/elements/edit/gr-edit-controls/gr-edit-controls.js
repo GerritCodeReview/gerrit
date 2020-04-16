@@ -275,6 +275,23 @@ class GrEditControls extends mixinBehaviors( [
     return hiddenActions.includes(id) ? 'invisible' : '';
   }
 
+  /**
+   * Fixes support for mobiles so they can
+   * open the file browser.
+   */
+  _onClickOpenFileBrowse(e) {
+    // If we click the "Browse" button
+    // open the file browser.
+    this.$.fileUploadBrowse.click();
+  }
+
+  _handleOnDragover(e) {
+    // Do not allow the dragover event to bubble and also
+    // prevent default dragover event behavior.
+    e.stopPropagation();
+    e.preventDefault();
+  }
+
   _handleDragAndDropUpload(event) {
     // We prevent the default clicking.
     event.preventDefault();

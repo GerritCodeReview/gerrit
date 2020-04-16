@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.server.mail;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.clearInvocations;
@@ -22,7 +23,9 @@ import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Streams;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.extensions.annotations.Exports;
@@ -33,6 +36,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidator;
@@ -95,8 +99,7 @@ public class MailProcessorIT extends AbstractMailIT {
 
     // Build Message
     MailMessage.Builder b = messageBuilderWithDefaultFields();
-    String txt =
-        newPlaintextBody(getChangeUrl(changeInfo) + "/1", "Test Message", null, null, null);
+    String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", "Test Message", null, null);
     b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     mailProcessor.process(b.build());
@@ -119,7 +122,7 @@ public class MailProcessorIT extends AbstractMailIT {
     // Build Message
     MailMessage.Builder b = messageBuilderWithDefaultFields();
     String txt =
-        newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, "Some Inline Comment", null, null);
+        newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, "Some Inline Comment", null);
     b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     mailProcessor.process(b.build());
@@ -150,8 +153,7 @@ public class MailProcessorIT extends AbstractMailIT {
     // Build Message
     MailMessage.Builder b = messageBuilderWithDefaultFields();
     String txt =
-        newPlaintextBody(
-            getChangeUrl(changeInfo) + "/1", null, null, "Some Comment on File 1", null);
+        newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, null, "Some Comment on File 1");
     b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     mailProcessor.process(b.build());
@@ -183,7 +185,7 @@ public class MailProcessorIT extends AbstractMailIT {
     // Build Message
     MailMessage.Builder b = messageBuilderWithDefaultFields();
     String txt =
-        newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, "Some Inline Comment", null, null);
+        newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, "Some Inline Comment", null);
     b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     mailProcessor.process(b.build());
@@ -209,7 +211,7 @@ public class MailProcessorIT extends AbstractMailIT {
     // Build Message
     MailMessage.Builder b = messageBuilderWithDefaultFields();
     String txt =
-        newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, "Some Inline Comment", null, null);
+        newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, "Some Inline Comment", null);
     b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     // Set account state to inactive
@@ -233,8 +235,7 @@ public class MailProcessorIT extends AbstractMailIT {
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
 
     // Build Message
-    String txt =
-        newPlaintextBody(getChangeUrl(changeInfo) + "/1", "Test Message", null, null, null);
+    String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", "Test Message", null, null);
     MailMessage.Builder b =
         messageBuilderWithDefaultFields()
             .from(user.getNameEmail())
@@ -255,8 +256,7 @@ public class MailProcessorIT extends AbstractMailIT {
     String ts = "null"; // Erroneous timestamp to be used in erroneous metadatas
 
     // Build Message
-    String txt =
-        newPlaintextBody(getChangeUrl(changeInfo) + "/1", "Test Message", null, null, null);
+    String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", "Test Message", null, null);
     MailMessage.Builder b =
         messageBuilderWithDefaultFields()
             .from(user.getNameEmail())
@@ -284,7 +284,7 @@ public class MailProcessorIT extends AbstractMailIT {
         CommentForValidation.CommentType.CHANGE_MESSAGE, changeInfo.project, changeInfo._number);
 
     MailMessage.Builder b = messageBuilderWithDefaultFields();
-    String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", COMMENT_TEXT, null, null, null);
+    String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", COMMENT_TEXT, null, null);
     b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
@@ -309,7 +309,7 @@ public class MailProcessorIT extends AbstractMailIT {
         CommentForValidation.CommentType.INLINE_COMMENT, changeInfo.project, changeInfo._number);
 
     MailMessage.Builder b = messageBuilderWithDefaultFields();
-    String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, COMMENT_TEXT, null, null);
+    String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, COMMENT_TEXT, null);
     b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
@@ -334,7 +334,7 @@ public class MailProcessorIT extends AbstractMailIT {
         CommentForValidation.CommentType.FILE_COMMENT, changeInfo.project, changeInfo._number);
 
     MailMessage.Builder b = messageBuilderWithDefaultFields();
-    String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, null, COMMENT_TEXT, null);
+    String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, null, COMMENT_TEXT);
     b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
@@ -347,10 +347,15 @@ public class MailProcessorIT extends AbstractMailIT {
   }
 
   @Test
-  @GerritConfig(name = "change.maxComments", value = "10")
+  @GerritConfig(name = "change.maxComments", value = "9")
   public void limitNumberOfComments() throws Exception {
     // This change has 2 change messages and 2 comments.
     String changeId = createChangeWithReview();
+    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
+    String ts =
+        MailProcessingUtil.rfcDateformatter.format(
+            ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
+
     CommentInput commentInput = new CommentInput();
     commentInput.line = 1;
     commentInput.message = "foo";
@@ -364,25 +369,23 @@ public class MailProcessorIT extends AbstractMailIT {
     gApi.changes().id(changeId).current().review(reviewInput);
 
     ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    List<CommentInfo> comments = gApi.changes().id(changeId).current().commentsAsList();
-    String ts =
-        MailProcessingUtil.rfcDateformatter.format(
-            ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
-
     MailMessage.Builder mailMessage = messageBuilderWithDefaultFields();
     String txt =
         newPlaintextBody(
             getChangeUrl(changeInfo) + "/1",
-            "1) change message",
-            "2) reply to comment",
-            "3) file comment",
-            "4) reply to file comment");
+            "1) change message\n",
+            "2) reply to comment\n",
+            "3) file comment\n");
     mailMessage.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
-    Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
-    // The email adds 4 new comments (of which 1 is the change message).
+    ImmutableSet<CommentInfo> commentsBefore = getCommentsAndRobotComments(changeId);
+    // Should have 4 comments (and 3 change messages).
+    assertThat(commentsBefore).hasSize(4);
+
+    // The email adds 3 new comments (of which 1 is the change message).
     mailProcessor.process(mailMessage.build());
-    assertThat(testCommentHelper.getPublishedComments(changeId)).isEqualTo(commentsBefore);
+    ImmutableSet<CommentInfo> commentsAfter = getCommentsAndRobotComments(changeId);
+    assertThat(commentsAfter).isEqualTo(commentsBefore);
 
     assertNotifyTo(user);
     Message message = sender.nextMessage();
@@ -417,7 +420,6 @@ public class MailProcessorIT extends AbstractMailIT {
             getChangeUrl(changeInfo) + "/1",
             "change message: " + commentText2000Bytes,
             "reply to comment: " + commentText2000Bytes,
-            null,
             null);
     mailMessage.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
@@ -444,5 +446,14 @@ public class MailProcessorIT extends AbstractMailIT {
             CommentValidationContext.create(failChange, failProject),
             ImmutableList.of(commentForValidation)))
         .thenReturn(ImmutableList.of(commentForValidation.failValidation("Oh no!")));
+  }
+
+  private ImmutableSet<CommentInfo> getCommentsAndRobotComments(String changeId)
+      throws RestApiException {
+    return Streams.concat(
+            gApi.changes().id(changeId).comments().values().stream(),
+            gApi.changes().id(changeId).robotComments().values().stream())
+        .flatMap(Collection::stream)
+        .collect(toImmutableSet());
   }
 }

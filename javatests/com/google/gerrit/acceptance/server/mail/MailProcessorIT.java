@@ -380,9 +380,16 @@ public class MailProcessorIT extends AbstractMailIT {
     mailMessage.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
+    for (CommentInfo c : commentsBefore) {
+      System.out.println("##### b " + c.message);
+    }
     // The email adds 4 new comments (of which 1 is the change message).
     mailProcessor.process(mailMessage.build());
-    assertThat(testCommentHelper.getPublishedComments(changeId)).isEqualTo(commentsBefore);
+    Collection<CommentInfo> commentsAfter = testCommentHelper.getPublishedComments(changeId);
+    for (CommentInfo c : commentsAfter) {
+      System.out.println("##### a " + c.message);
+    }
+    assertThat(commentsAfter).containsExactlyElementsIn(commentsBefore);  // ö This is FLAKY!
 
     assertNotifyTo(user);
     Message message = sender.nextMessage();

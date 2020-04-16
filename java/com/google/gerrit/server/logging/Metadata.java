@@ -107,6 +107,9 @@ public abstract class Metadata {
   // Partial or full computation
   public abstract Optional<Boolean> partial();
 
+  // If a value is still current or not
+  public abstract Optional<Boolean> outdated();
+
   // Path of a metadata file in NoteDb.
   public abstract Optional<String> noteDbFilePath();
 
@@ -304,6 +307,8 @@ public abstract class Metadata {
     public abstract Builder operationName(String operationName);
 
     public abstract Builder partial(boolean partial);
+
+    public abstract Builder outdated(boolean outdated);
 
     public abstract Builder noteDbFilePath(@Nullable String noteDbFilePath);
 

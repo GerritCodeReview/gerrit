@@ -148,16 +148,16 @@ class GrDiffCursor extends GestureEventListeners(
   }
 
   /** @override */
-  attached() {
-    super.attached();
+  connectedCallback() {
+    super.connectedCallback();
     // Catch when users are scrolling as the view loads.
-    this.listen(window, 'scroll', '_handleWindowScroll');
+    window.addEventListener('scroll', this._handleWindowScroll);
   }
 
   /** @override */
-  detached() {
-    super.detached();
-    this.unlisten(window, 'scroll', '_handleWindowScroll');
+  disconnectedCallback() {
+    super.disconnectedCallback();
+    window.removeEventListener('scroll', this._handleWindowScroll);
   }
 
   moveLeft() {
@@ -291,29 +291,29 @@ class GrDiffCursor extends GestureEventListeners(
     this._scrollBehavior = ScrollBehavior.KEEP_VISIBLE;
   }
 
-  _handleWindowScroll() {
+  _handleWindowScroll = () => {
     if (this._preventAutoScrollOnManualScroll) {
       this._scrollBehavior = ScrollBehavior.NEVER;
       this._focusOnMove = false;
       this._preventAutoScrollOnManualScroll = false;
     }
-  }
+  };
 
   handleDiffUpdate() {
     this._updateStops();
     this.reInitCursor();
   }
 
-  _handleDiffRenderStart() {
+  _handleDiffRenderStart = () => {
     this._preventAutoScrollOnManualScroll = true;
-  }
+  };
 
-  _handleDiffRenderContent() {
+  _handleDiffRenderContent = () => {
     this._updateStops();
     // When done rendering, turn focus on move and automatic scrolling back on
     this._focusOnMove = true;
     this._preventAutoScrollOnManualScroll = false;
-  }
+  };
 
   createCommentInPlace() {
     const diffWithRangeSelected = this.diffs
@@ -472,21 +472,18 @@ class GrDiffCursor extends GestureEventListeners(
       spliceIdx++) {
       splice = changeRecord.indexSplices[spliceIdx];
 
-      for (i = splice.index;
-        i < splice.index + splice.addedCount;
-        i++) {
-        this.listen(this.diffs[i], 'render-start', '_handleDiffRenderStart');
-        this.listen(
-            this.diffs[i], 'render-content', '_handleDiffRenderContent');
+      for (i = splice.index; i < splice.index + splice.addedCount; i++) {
+        this.diffs[i].addEventListener(
+            'render-start', this._handleDiffRenderStart);
+        this.diffs[i].addEventListener(
+            'render-content', this._handleDiffRenderContent);
       }
 
-      for (i = 0;
-        i < splice.removed && splice.removed.length;
-        i++) {
-        this.unlisten(splice.removed[i],
-            'render-start', '_handleDiffRenderStart');
-        this.unlisten(splice.removed[i],
-            'render-content', '_handleDiffRenderContent');
+      for (i = 0; i < splice.removed && splice.removed.length; i++) {
+          splice.removed[i].removeEventListener(
+              'render-start', this._handleDiffRenderStart);
+          splice.removed[i].removeEventListener(
+                'render-content', this._handleDiffRenderContent);
       }
     }
   }

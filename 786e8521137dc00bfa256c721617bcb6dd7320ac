@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6375f4b_a3ff6e34",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-16T07:54:04Z",
+      "side": 1,
+      "message": "I think we have two options here:\n\n1. Using appContext.xyz directly everywhere.\n2. Assign the service in the constructor: this.xyz \u003d appContext.xyz.\n\nI agree that maybe just doing (1) is easier. (2) only has the advantages to be closer to a real DI solution and could be easier to change later.\n\nI could live with both, slight pref for (1).\n\nIf we do (1), then I think we should drop the \"Service\" suffix, otherwise these names get too logs. So just \"appContext.flags\" in this casce.\n\nI could even be convinced to use \"appCtx\" instead of \"appContext\".",
+      "range": {
+        "startLine": 282,
+        "startChar": 31,
+        "endLine": 282,
+        "endChar": 55
+      },
+      "revId": "786e8521137dc00bfa256c721617bcb6dd7320ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17118d44_b152626a",
+        "filename": "polygerrit-ui/app/services/service-provider-initializer.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-16T07:54:04Z",
+      "side": 1,
+      "message": "add empty line before this",
+      "revId": "786e8521137dc00bfa256c721617bcb6dd7320ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6b1a47a_0ac9336f",
+        "filename": "polygerrit-ui/app/services/service-provider-initializer_mock.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-16T07:54:04Z",
+      "side": 1,
+      "message": "Do we want to enforce that a mock must exist for every service?\n\nI would prefer some common test helper and then each test file decide what to mock in beforeEach().\n\nSo you would rather offer a setMock() method to override the default behavior for specific mocks.\n\nThat said, yeah, *some* services could be mocked by default, e.g. the rest-api-service?",
+      "revId": "786e8521137dc00bfa256c721617bcb6dd7320ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fd36c5b_9091847c",
+        "filename": "polygerrit-ui/app/services/service-provider.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-16T07:54:04Z",
+      "side": 1,
+      "message": "I would favor using just one name, either \"AppContext\" or \"ServiceProvider\". I think I like \"AppContext\" better, because it is shorter and more generic.",
+      "revId": "786e8521137dc00bfa256c721617bcb6dd7320ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

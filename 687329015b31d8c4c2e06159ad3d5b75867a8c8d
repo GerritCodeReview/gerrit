@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66a50993_cd39218a",
+        "filename": "polygerrit-ui/app/services/service-provider.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-16T07:54:04Z",
+      "side": 1,
+      "message": "If the object is called appContext, then maybe also rename the file to app-context.js.",
+      "revId": "687329015b31d8c4c2e06159ad3d5b75867a8c8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -297,14 +297,25 @@ class GrMessagesList extends mixinBehaviors( [
             fileComments[i].author._account_id !== authorId) {
           continue;
         }
-        const cDate = util.parseDate(fileComments[i].updated).getTime();
-        if (cDate <= mDate) {
+        // Having a change_message_id is a feature introduced in April 2020.
+        // Without such id we have to fall back to the old and fragile "guessing
+        // by timestamp" method.
+        if (fileComments[i].change_message_id) {
+          if (fileComments[i].change_message_id !== message.id) {
+            continue;
+          }
+        } else {
+          const cDate = util.parseDate(fileComments[i].updated).getTime();
+          if (cDate > mDate) {
+            continue;
+          }
           if (nextMDate && cDate <= nextMDate) {
             continue;
           }
-          msgComments[file] = msgComments[file] || [];
-          msgComments[file].push(fileComments[i]);
         }
+        // Author correct and either id or date match: Let's add the comment.
+        msgComments[file] = msgComments[file] || [];
+        msgComments[file].push(fileComments[i]);
       }
     }
     return msgComments;

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "89314db1_459e50d5",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-16T08:49:32Z",
+      "side": 1,
+      "message": "Add .js",
+      "range": {
+        "startLine": 20,
+        "startChar": 44,
+        "endLine": 20,
+        "endChar": 60
+      },
+      "revId": "786e8521137dc00bfa256c721617bcb6dd7320ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b6375f4b_a3ff6e34",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 3
@@ -25,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "cc882d73_f6737fbd",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-16T08:49:32Z",
+      "side": 1,
+      "message": "In overall, I prefer (2), but also can live with both.\n\nIn the case of GrReporting - at the end, the GrReporting must be a service also (Am I right?).In this case it is expected, that it gets all other services as parameters in constructor.",
+      "parentUuid": "b6375f4b_a3ff6e34",
+      "range": {
+        "startLine": 282,
+        "startChar": 31,
+        "endLine": 282,
+        "endChar": 55
+      },
+      "revId": "786e8521137dc00bfa256c721617bcb6dd7320ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3ef41931_ec953aae",
         "filename": "polygerrit-ui/app/services/flags_mock.js",
         "patchSetId": 3
@@ -36,6 +83,52 @@
       "writtenOn": "2020-04-16T07:59:36Z",
       "side": 1,
       "message": "maybe move all mocks to `testing` folder under services folder",
+      "revId": "786e8521137dc00bfa256c721617bcb6dd7320ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "399c0baf_6e9be0ab",
+        "filename": "polygerrit-ui/app/services/service-provider-initializer.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-16T08:49:32Z",
+      "side": 1,
+      "message": "Is it a class or an instance of a class?",
+      "range": {
+        "startLine": 18,
+        "startChar": 8,
+        "endLine": 18,
+        "endChar": 13
+      },
+      "revId": "786e8521137dc00bfa256c721617bcb6dd7320ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d841540_f39fc0dd",
+        "filename": "polygerrit-ui/app/services/service-provider-initializer.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-16T08:49:32Z",
+      "side": 1,
+      "message": "Where is this file?",
+      "range": {
+        "startLine": 18,
+        "startChar": 23,
+        "endLine": 18,
+        "endChar": 28
+      },
       "revId": "786e8521137dc00bfa256c721617bcb6dd7320ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -93,6 +186,30 @@
       "writtenOn": "2020-04-16T07:59:36Z",
       "side": 1,
       "message": "maybe better to have the constructor here, so the flags.js will just export the FlagsService constructor, and the initializer will initialize the instance, otherwise, the initializier is just doing assignments...",
+      "range": {
+        "startLine": 21,
+        "startChar": 33,
+        "endLine": 21,
+        "endChar": 48
+      },
+      "revId": "786e8521137dc00bfa256c721617bcb6dd7320ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c90d32a8_456438fc",
+        "filename": "polygerrit-ui/app/services/service-provider-initializer.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-16T08:49:32Z",
+      "side": 1,
+      "message": "I think, constructor is not enough, if service has other dependencies.\nProbably, it is better to pass some function which returns new instance,\nLike:\n\nfunction createFlagService() {\n    return new service(appContext.dependencyA);\n}\n\nexport function initServiceProvider() {\n    ...\n    flagsService: ... return getService(\u0027flagsService\u0027, createFlagService)\n}\n\n(Or ()\u003d\u003enew service(appContext.dependencyA) )",
+      "parentUuid": "b33b183c_005d7fa6",
       "range": {
         "startLine": 21,
         "startChar": 33,

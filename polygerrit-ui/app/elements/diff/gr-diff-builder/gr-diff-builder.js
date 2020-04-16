@@ -295,32 +295,46 @@
   GrDiffBuilder.prototype._createLineEl = function(
       line, number, type, side) {
     const td = this._createElement('td');
-    if (side) {
-      td.classList.add(side);
+    if (line.type === GrDiffLine.Type.BLANK) {
+      return td;
+    }
+    if (line.type === GrDiffLine.Type.CONTEXT_CONTROL) {
+      td.classList.add('contextLineNum');
+      return td;
     }
 
-    // Add aria-labels for valid line numbers.
-    // For unified diff, this method will be called with number set to 0 for
-    // the empty line number column for added/removed lines. This should not
-    // be announced to the screenreader.
-    if (number > 0) {
-      if (line.type === GrDiffLine.Type.REMOVE) {
-        td.setAttribute('aria-label', `${number} removed`);
-      } else if (line.type === GrDiffLine.Type.ADD) {
-        td.setAttribute('aria-label', `${number} added`);
+    if (line.type === GrDiffLine.Type.BOTH || line.type === type) {
+      const button = this._createElement('button');
+      button.tabIndex = -1;
+      td.appendChild(button);
+
+      // Both td and button need a number of classes/attributes for various
+      // selectors to work.
+      this._decorateLineEl(td, number, side);
+      this._decorateLineEl(button, number, side);
+
+      button.textContent = number === 'FILE' ? 'File' : number;
+
+      // Add aria-labels for valid line numbers.
+      // For unified diff, this method will be called with number set to 0 for
+      // the empty line number column for added/removed lines. This should not
+      // be announced to the screenreader.
+      if (number > 0) {
+        if (line.type === GrDiffLine.Type.REMOVE) {
+          button.setAttribute('aria-label', `${number} removed`);
+        } else if (line.type === GrDiffLine.Type.ADD) {
+          button.setAttribute('aria-label', `${number} added`);
+        }
       }
     }
 
-    if (line.type === GrDiffLine.Type.BLANK) {
-      return td;
-    } else if (line.type === GrDiffLine.Type.CONTEXT_CONTROL) {
-      td.classList.add('contextLineNum');
-    } else if (line.type === GrDiffLine.Type.BOTH || line.type === type) {
-      td.classList.add('lineNum');
-      td.setAttribute('data-value', number);
-      td.textContent = number === 'FILE' ? 'File' : number;
-    }
     return td;
+  };
+
+  GrDiffBuilder.prototype._decorateLineEl = function(el, number, side) {
+    el.classList.add(side);
+    el.classList.add('lineNum');
+    el.setAttribute('data-value', number);
   };
 
   GrDiffBuilder.prototype._createTextEl = function(

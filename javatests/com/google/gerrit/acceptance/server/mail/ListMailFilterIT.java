@@ -107,11 +107,7 @@ public class ListMailFilterIT extends AbstractMailIT {
     MailMessage.Builder b = messageBuilderWithDefaultFields();
     String txt =
         newPlaintextBody(
-            canonicalWebUrl.get() + "#/c/" + changeInfo._number + "/1",
-            "Test Message",
-            null,
-            null,
-            null);
+            canonicalWebUrl.get() + "#/c/" + changeInfo._number + "/1", "Test Message", null, null);
     b.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     mailProcessor.process(b.build());

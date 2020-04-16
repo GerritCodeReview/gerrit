@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -178,6 +179,23 @@ public class WorkQueue {
     }
 
     return executor;
+  }
+
+  /**
+   * Get existing queue or create one.
+   *
+   * <p>Gets existing queue for given name or creates a new one according to parameters if one
+   * doesn't exist yet.
+   *
+   * @param poolsize the size of the pool.
+   * @param queueName the name of the queue.
+   * @param threadPriority thread priority.
+   * @param withMetrics whether to create metrics.
+   */
+  public synchronized ScheduledThreadPoolExecutor getOrCreate(
+      int poolsize, String queueName, int threadPriority, boolean withMetrics) {
+    return Optional.ofNullable(getExecutor(queueName))
+        .orElseGet(() -> createQueue(poolsize, queueName, threadPriority, withMetrics));
   }
 
   /** Executes a periodic command at a fixed schedule on the default queue. */

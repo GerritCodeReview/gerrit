@@ -22,6 +22,7 @@ import '../../../behaviors/fire-behavior/fire-behavior.js';
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-autocomplete/gr-autocomplete.js';
 import '../../shared/gr-dialog/gr-dialog.js';
+import '../../core/gr-reporting/gr-reporting.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
@@ -259,6 +260,7 @@ class GrConfirmCherrypickDialog extends GestureEventListeners(
     e.preventDefault();
     e.stopPropagation();
     if (this._cherryPickType === CHERRY_PICK_TYPES.TOPIC) {
+      this.$.reporting.reportInteraction('cherry-pick-topic-clicked');
       this._handleCherryPickTopic();
       return;
     }

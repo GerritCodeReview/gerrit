@@ -153,5 +153,6 @@ export const htmlTemplate = html`
         </template>
       </div>
     </gr-dialog>
+    <gr-reporting id="reporting" category="confirm-cherry-pick-dialog"></gr-reporting>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

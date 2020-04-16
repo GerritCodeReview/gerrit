@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d88df85_0230ba5f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 33
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-16T12:25:16Z",
+      "side": 1,
+      "message": "interesting, so we don\u0027t need REVIEWED info any more after attention set ? will that break the mark as reviewed feature ? (since i think it will be needed to show the correct reviewed status on the UI)",
+      "revId": "0d80c7db9385e001ffa564b27960b3eb58c5f7d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

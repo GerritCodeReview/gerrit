@@ -89,14 +89,11 @@ public class AbstractMailIT extends AbstractDaemonTest {
   /**
    * Create a plaintext message body with the specified comments.
    *
-   * @param changeMessage
    * @param c1 Comment in reply to first inline comment.
    * @param f1 Comment on file one.
-   * @param fc1 Comment in reply to a comment of file 1.
    * @return A string with all inline comments and the original quoted email.
    */
-  static String newPlaintextBody(
-      String changeURL, String changeMessage, String c1, String f1, String fc1) {
+  static String newPlaintextBody(String changeURL, String changeMessage, String c1, String f1) {
     return (changeMessage == null ? "" : changeMessage + "\n")
         + "> Foo Bar has posted comments on this change. (  \n"
         + "> "
@@ -123,9 +120,8 @@ public class AbstractMailIT extends AbstractDaemonTest {
         + changeURL
         + "/gerrit-server/test.txt\n"
         + "> \n"
-        + "> Some comment"
+        + "> Some comment\n"
         + "> \n"
-        + (fc1 == null ? "" : fc1 + "\n")
         + "> "
         + changeURL
         + "/gerrit-server/test.txt@2\n"

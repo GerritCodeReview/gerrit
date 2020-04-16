@@ -116,6 +116,15 @@ suite('gr-messages-list tests', () => {
         patch_set: 2,
         author,
       },
+      {
+        message: 'message text',
+        change_message_id: 'e7bfdbc842f6b6d8064bc68e0f52b673f40c0ca5',
+        updated: '2016-09-27 00:18:03.000000000',
+        line: 64,
+        id: '34ed05d749_10ed44b2',
+        patch_set: 2,
+        author,
+      },
     ],
     file2: [
       {
@@ -396,8 +405,8 @@ suite('gr-messages-list tests', () => {
           }
       );
       element.messages = messages;
-      const isAuthor = function(author, message) {
-        return message.author._account_id === author._account_id;
+      const isAuthor = function(author, comment) {
+        return comment.author._account_id === author._account_id;
       };
       const isMarvin = isAuthor.bind(null, author);
       flushAsynchronousOperations();
@@ -405,11 +414,21 @@ suite('gr-messages-list tests', () => {
       assert.equal(messageElements.length, messages.length);
       assert.deepEqual(messageElements[1].message, messages[1]);
       assert.deepEqual(messageElements[2].message, messages[2]);
+      // The comments and messages are set up in a way that comments without a
+      // change_message_id are all supposed to be mapped to messages[1]. But
+      // one comment for file1 has the same change_message_id as messages[2],
+      // and it should end up there.
       assert.deepEqual(messageElements[1].comments.file1,
-          comments.file1.filter(isMarvin));
+          comments.file1.filter(isMarvin).filter(
+              c => !c.change_message_id
+                  || c.change_message_id === messages[1].id));
       assert.deepEqual(messageElements[1].comments.file2,
-          comments.file2.filter(isMarvin));
-      assert.deepEqual(messageElements[2].comments, {});
+          comments.file2.filter(isMarvin).filter(
+              c => !c.change_message_id
+                  || c.change_message_id === messages[1].id));
+      assert.deepEqual(messageElements[2].comments.file1,
+          comments.file1.filter(isMarvin).filter(
+              c => c.change_message_id === messages[2].id));
     });
 
     test('messages without author do not throw', () => {

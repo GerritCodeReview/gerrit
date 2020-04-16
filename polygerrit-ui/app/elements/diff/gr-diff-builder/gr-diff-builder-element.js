@@ -217,12 +217,21 @@ class GrDiffBuilderElement extends GestureEventListeners(
     return this._builder.getContentByLine(lineNumber, opt_side, opt_root);
   }
 
+  _getDiffRowByChild(child) {
+    while (!child.classList.contains('diff-row') && child.parentElement) {
+      child = child.parentElement;
+    }
+    return child;
+  }
+
   getContentByLineEl(lineEl) {
     if (!lineEl) return;
-    const root = dom(lineEl.parentElement);
-    const side = this.getSideByLineEl(lineEl);
     const line = lineEl.getAttribute('data-value');
-    return this.getContentByLine(line, side, root);
+    const side = this.getSideByLineEl(lineEl);
+    // Performance optimization because we already have an element in the
+    // correct row
+    const row = dom(this._getDiffRowByChild(lineEl));
+    return this.getContentByLine(line, side, row);
   }
 
   getLineElByNumber(lineNumber, opt_side) {

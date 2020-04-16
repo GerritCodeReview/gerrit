@@ -347,7 +347,7 @@ public class MailProcessorIT extends AbstractMailIT {
   }
 
   @Test
-  @GerritConfig(name = "change.maxComments", value = "10")
+  @GerritConfig(name = "change.maxComments", value = "10") // ö 9
   public void limitNumberOfComments() throws Exception {
     // This change has 2 change messages and 2 comments.
     String changeId = createChangeWithReview();
@@ -369,20 +369,31 @@ public class MailProcessorIT extends AbstractMailIT {
         MailProcessingUtil.rfcDateformatter.format(
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
 
-    MailMessage.Builder mailMessage = messageBuilderWithDefaultFields();
+    // ö Improve other tests too.
     String txt =
         newPlaintextBody(
             getChangeUrl(changeInfo) + "/1",
             "1) change message",
             "2) reply to comment",
             "3) file comment",
-            "4) reply to file comment");
-    mailMessage.textContent(txt + textFooterForChange(changeInfo._number, ts));
+            "4) blah" /* ö remove */); // not supported together with 2) ö duplicate this comment
+    MailMessage mailMessage =
+        messageBuilderWithDefaultFields()
+            .textContent(txt + textFooterForChange(changeInfo._number, ts))
+            .build();
+    System.out.println("##### m " + mailMessage.textContent());
 
     Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
-    // The email adds 4 new comments (of which 1 is the change message).
-    mailProcessor.process(mailMessage.build());
-    assertThat(testCommentHelper.getPublishedComments(changeId)).isEqualTo(commentsBefore);
+    for (CommentInfo c : commentsBefore) {
+      System.out.println("##### b " + c.message);
+    }
+    // The email adds 3 new comments (of which 1 is the change message).
+    mailProcessor.process(mailMessage);
+    Collection<CommentInfo> commentsAfter = testCommentHelper.getPublishedComments(changeId);
+    for (CommentInfo c : commentsAfter) {
+      System.out.println("##### a " + c.message);
+    }
+    assertThat(commentsAfter).containsExactlyElementsIn(commentsBefore); // ö This is FLAKY!
 
     assertNotifyTo(user);
     Message message = sender.nextMessage();

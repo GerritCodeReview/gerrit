@@ -123,7 +123,7 @@ public class AbstractMailIT extends AbstractDaemonTest {
         + changeURL
         + "/gerrit-server/test.txt\n"
         + "> \n"
-        + "> Some comment"
+        + "> Some comment\n"
         + "> \n"
         + (fc1 == null ? "" : fc1 + "\n")
         + "> "

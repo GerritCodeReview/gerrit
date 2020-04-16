@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf5efe96_f2740466",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-04-16T15:19:48Z",
+      "side": 1,
+      "message": "So if this filter finds a change_message_id, it will let the other filter \"idFilter\" decide whether the comment should be matched or not (based on ID matching).\n\nMy only comment is if we really need to keep the old logic (date matching) as a backoff in case the change_message_id does not exist. According to my change the change_message_id should always be returned for robot/human comments, so maybe the dateFilter can be removed.",
+      "range": {
+        "startLine": 303,
+        "startChar": 6,
+        "endLine": 303,
+        "endChar": 49
+      },
+      "revId": "650e797a4b44bea49ca09c69ef0fdaa7a29cab87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74fbca75_ea55de4b",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-04-16T15:19:48Z",
+      "side": 1,
+      "message": "Looks good to me.",
+      "range": {
+        "startLine": 417,
+        "startChar": 6,
+        "endLine": 420,
+        "endChar": 36
+      },
+      "revId": "650e797a4b44bea49ca09c69ef0fdaa7a29cab87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -52,6 +52,9 @@ export const htmlTemplate = html`
       .lineNum {
         background-color: var(--diff-blank-background-color);
       }
+      button.lineNum:focus {
+        outline: none;
+      }
       .image-diff .gr-diff {
         text-align: center;
       }

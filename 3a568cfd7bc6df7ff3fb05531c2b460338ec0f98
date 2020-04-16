@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "00654849_214e1538",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:28:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4922c3b_1227545c",
+      "range": {
+        "startLine": 419,
+        "startChar": 38,
+        "endLine": 419,
+        "endChar": 43
+      },
+      "revId": "3a568cfd7bc6df7ff3fb05531c2b460338ec0f98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bdc18ebd_1ccbd5af",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:28:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f51a999_35c5c009",
+      "range": {
+        "startLine": 419,
+        "startChar": 11,
+        "endLine": 419,
+        "endChar": 14
+      },
+      "revId": "3a568cfd7bc6df7ff3fb05531c2b460338ec0f98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae8c5e18_e62e8fa4",
         "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
         "patchSetId": 2
@@ -92,6 +140,30 @@
       "revId": "3a568cfd7bc6df7ff3fb05531c2b460338ec0f98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f62b647_4c3941c0",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:28:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "460170bc_a2c0a056",
+      "range": {
+        "startLine": 478,
+        "startChar": 18,
+        "endLine": 478,
+        "endChar": 47
+      },
+      "revId": "3a568cfd7bc6df7ff3fb05531c2b460338ec0f98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c14c66f7_af24fd1c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 36
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-16T12:27:53Z",
+      "side": 1,
+      "message": "tbh I think you need add test when its false, but i won\u0027t block the submit as the low coverage and low bar we have in tests",
+      "revId": "8b416b0112a14cc66d6442fc1c55864a0b5a8218",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -255,9 +255,9 @@ class GrMessagesList extends mixinBehaviors( [
   }
 
   /**
-   * Computes message author's file comments for change's message.
-   * Method uses this.messages to find next message and relies on messages
-   * to be sorted by date field descending.
+   * Computes message author's file comments for change's message. The backend
+   * sets comment.change_message_id for matching, so this computation is fairly
+   * straightforward.
    *
    * @param {!Object} changeComments changeComment object, which includes
    *     a method to get all published comments (including robot comments),
@@ -273,39 +273,12 @@ class GrMessagesList extends mixinBehaviors( [
     if (message._index === undefined || !comments || !this.messages) {
       return [];
     }
-    const messages = this.messages || [];
-    const index = message._index;
-    const authorId = message.author && message.author._account_id;
-    const mDate = util.parseDate(message.date).getTime();
-    // NB: Messages array has oldest messages first.
-    let nextMDate;
-    if (index > 0) {
-      for (let i = index - 1; i >= 0; i--) {
-        if (messages[i] && messages[i].author &&
-            messages[i].author._account_id === authorId) {
-          nextMDate = util.parseDate(messages[i].date).getTime();
-          break;
-        }
-      }
-    }
+
+    const idFilter = comment => comment.change_message_id === message.id;
     const msgComments = {};
     for (const file in comments) {
       if (!comments.hasOwnProperty(file)) { continue; }
-      const fileComments = comments[file];
-      for (let i = 0; i < fileComments.length; i++) {
-        if (fileComments[i].author &&
-            fileComments[i].author._account_id !== authorId) {
-          continue;
-        }
-        const cDate = util.parseDate(fileComments[i].updated).getTime();
-        if (cDate <= mDate) {
-          if (nextMDate && cDate <= nextMDate) {
-            continue;
-          }
-          msgComments[file] = msgComments[file] || [];
-          msgComments[file].push(fileComments[i]);
-        }
-      }
+      msgComments[file] = comments[file].filter(idFilter);
     }
     return msgComments;
   }

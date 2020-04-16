@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6267bf5b_47713480",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:14:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "387c3dd5_9ddffaf5",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 36
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43864ec6_823f5ee0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "eee5874117ce46bec906b36f6591de644143458f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f67fc1ed_8b07ffe2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:14:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43864ec6_823f5ee0",
+      "range": {
+        "startLine": 9,
+        "startChar": 21,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ed76949d_fe039c78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:14:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10c65012_76af6b35",
+      "range": {
+        "startLine": 12,
+        "startChar": 61,
+        "endLine": 12,
+        "endChar": 65
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "423532a3_ffec07a2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -91,6 +163,30 @@
       "revId": "eee5874117ce46bec906b36f6591de644143458f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c927313_1bc654eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:14:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "423532a3_ffec07a2",
+      "range": {
+        "startLine": 13,
+        "startChar": 24,
+        "endLine": 13,
+        "endChar": 46
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "0271ba55_feffce70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:14:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d43a21ea_fc32c1ce",
+      "range": {
+        "startLine": 21,
+        "startChar": 47,
+        "endLine": 21,
+        "endChar": 61
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e0ddfc6_dafa74ea",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -137,6 +257,30 @@
       "revId": "eee5874117ce46bec906b36f6591de644143458f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6e0cd6a_0f65d5d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:14:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e0ddfc6_dafa74ea",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 17
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -180,6 +324,48 @@
     },
     {
       "key": {
+        "uuid": "e6131b4b_704c7116",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:14:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d147481_c635b10f",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 49
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8426c6b0_b8add225",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:14:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8953ed69_4b437c2c",
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1e87a3c_9b9c9667",
         "filename": "java/com/google/gerrit/entities/Patch.java",
         "patchSetId": 4
@@ -200,6 +386,30 @@
       "revId": "eee5874117ce46bec906b36f6591de644143458f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06d2a41a_a582045c",
+        "filename": "java/com/google/gerrit/entities/Patch.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:14:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1e87a3c_9b9c9667",
+      "range": {
+        "startLine": 25,
+        "startChar": 19,
+        "endLine": 25,
+        "endChar": 24
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -226,6 +436,30 @@
     },
     {
       "key": {
+        "uuid": "e05a4256_de10d3ba",
+        "filename": "java/com/google/gerrit/entities/Patch.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:14:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21e45cef_8cd650d5",
+      "range": {
+        "startLine": 32,
+        "startChar": 6,
+        "endLine": 32,
+        "endChar": 48
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21047ed8_268e17f7",
         "filename": "java/com/google/gerrit/entities/Patch.java",
         "patchSetId": 4
@@ -237,6 +471,24 @@
       "writtenOn": "2020-03-25T18:40:44Z",
       "side": 1,
       "message": "Did you check whether all code paths which use this method work smoothly with the new magic file path? Is there maybe some other Gerrit functionality now which allows the use of the new magic file path but shouldn\u0027t? For instance, the code in FilesInCommitCollection looks suspicious.",
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f518cbd_eb043f3e",
+        "filename": "java/com/google/gerrit/entities/Patch.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:14:25Z",
+      "side": 1,
+      "message": "FilesInCommitCollection is relevant for example for:\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#list-files\n\nThis is fine, since we\u0027re not supposed to ever add lines to this file, so it will never be shown there.\n\nYou are right though, and I need to make sure the behavior is correct for all endpoints with files (next comment).\n\nAdding, renaming, deleting and restoring files is exactly the same for all magic files. I think it makes sense not to test it separately (I did confirm it manually though). The amount of tests cases here is kind of not great, I think this can be a good follow-up change to add tests for those endpoints for all magic files (or, one generic magic file, since they are all the same for this purpose).",
+      "parentUuid": "21047ed8_268e17f7",
       "revId": "eee5874117ce46bec906b36f6591de644143458f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -260,6 +512,24 @@
     },
     {
       "key": {
+        "uuid": "60f0beb2_ec413483",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:14:25Z",
+      "side": 1,
+      "message": "* Disabled fix suggestions for robot comments.\n* Added test for GetDiff with the new magic file. With the diff, my test checks that it returns an empty diff, since the \"file\" didn\u0027t change (this is the current behavior for non-existent files).\n* For content, setReviewed/unsetReviewed, getBlame, we treat it as a non-existent file. I added a test for those endpoints but skipped the \"reviewed\" endpoints since it seems to allow setting this flag for non-existent changes... Might be a good follow-up fix.\n* I feel like testing some of the other cases you mentioned would be an overkill, since as you said, it\u0027s exactly the same as the other magic files: There is no reason for deletion of comments or replies not to work. I added some tests for deleting a comment, and checked other cases manually: E.g, I didn\u0027t want to just duplicate CommentsIT#postCommentWithReply.",
+      "parentUuid": "5c83ac36_c6c18d38",
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b75c7230_9d2af93d",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 4
@@ -274,6 +544,24 @@
       "revId": "eee5874117ce46bec906b36f6591de644143458f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5029f645_afe97f6c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1221,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:14:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b75c7230_9d2af93d",
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -300,6 +588,30 @@
     },
     {
       "key": {
+        "uuid": "8a327295_37654be7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1222,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:14:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57dc2777_59287a45",
+      "range": {
+        "startLine": 1222,
+        "startChar": 14,
+        "endLine": 1222,
+        "endChar": 39
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91186e0f_0b92bcbe",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 4
@@ -323,6 +635,30 @@
     },
     {
       "key": {
+        "uuid": "4fbbb50e_fe780c6e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1227,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:14:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91186e0f_0b92bcbe",
+      "range": {
+        "startLine": 1227,
+        "startChar": 4,
+        "endLine": 1227,
+        "endChar": 54
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b16b9c5b_5e3dc858",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 4
@@ -340,6 +676,24 @@
     },
     {
       "key": {
+        "uuid": "3cd51aac_1e3ad56b",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1092,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:14:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b16b9c5b_5e3dc858",
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26c1e237_92334f96",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 4
@@ -351,6 +705,30 @@
       "writtenOn": "2020-03-25T18:40:44Z",
       "side": 1,
       "message": "We have CommentInfoSubject for better Truth failure messages.",
+      "range": {
+        "startLine": 1093,
+        "startChar": 4,
+        "endLine": 1093,
+        "endChar": 70
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1c826c6_412f7b56",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1093,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:14:25Z",
+      "side": 1,
+      "message": "Are you sure this exists? Couldn\u0027t find it.",
+      "parentUuid": "26c1e237_92334f96",
       "range": {
         "startLine": 1093,
         "startChar": 4,
@@ -386,6 +764,30 @@
     },
     {
       "key": {
+        "uuid": "8831efc8_d55b5fdb",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1101,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:14:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1191fb7e_cc4a4458",
+      "range": {
+        "startLine": 1101,
+        "startChar": 18,
+        "endLine": 1101,
+        "endChar": 28
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f18f40f_856ff094",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 4
@@ -397,6 +799,30 @@
       "writtenOn": "2020-03-25T18:40:44Z",
       "side": 1,
       "message": "Seeing this, I\u0027m tended to disallow the specification of a \u0027side\u0027 for patch-set-level human/robot comments. What do you think?\n\nDid you also check whether some other input fields wouldn\u0027t be reasonable and whether we could disallow them? For instance, I would imagine that any location indication (e.g. lines, ranges) don\u0027t make sense for patch-set-level comments.",
+      "range": {
+        "startLine": 1102,
+        "startChar": 40,
+        "endLine": 1102,
+        "endChar": 53
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1828c94_ae4c6e1f",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1102,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:14:25Z",
+      "side": 1,
+      "message": "I agree, disallowed side, line and range. Everything else seems okay.\nFor draft comments I didn\u0027t disallow those things, just to stay consistent: Seems like there are some checks that could be done for drafts as well but are only done in PostReview (e.g path validity, range validity)\nMaybe we should fix it in a follow-up change?",
+      "parentUuid": "7f18f40f_856ff094",
       "range": {
         "startLine": 1102,
         "startChar": 40,
@@ -432,6 +858,30 @@
     },
     {
       "key": {
+        "uuid": "f68f956c_f0799e93",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1106,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:14:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23cc0d37_4478f0be",
+      "range": {
+        "startLine": 1106,
+        "startChar": 61,
+        "endLine": 1106,
+        "endChar": 73
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bcfbcc52_1b6efe92",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 4
@@ -455,6 +905,30 @@
     },
     {
       "key": {
+        "uuid": "00efe36c_620f9616",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1107,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:14:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcfbcc52_1b6efe92",
+      "range": {
+        "startLine": 1107,
+        "startChar": 4,
+        "endLine": 1107,
+        "endChar": 67
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f47d004c_aa70fbb8",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 4
@@ -475,6 +949,30 @@
       "revId": "eee5874117ce46bec906b36f6591de644143458f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d5ad707_0836f66d",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1112,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-16T15:14:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f47d004c_aa70fbb8",
+      "range": {
+        "startLine": 1109,
+        "startChar": 4,
+        "endLine": 1112,
+        "endChar": 67
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

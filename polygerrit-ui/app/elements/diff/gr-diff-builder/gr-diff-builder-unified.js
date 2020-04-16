@@ -82,12 +82,10 @@
     row.appendChild(this._createBlameCell(line));
 
     let lineNumberEl = this._createLineEl(line, line.beforeNumber,
-        GrDiffLine.Type.REMOVE);
-    lineNumberEl.classList.add('left');
+        GrDiffLine.Type.REMOVE, 'left');
     row.appendChild(lineNumberEl);
     lineNumberEl = this._createLineEl(line, line.afterNumber,
-        GrDiffLine.Type.ADD);
-    lineNumberEl.classList.add('right');
+        GrDiffLine.Type.ADD, 'right');
     row.appendChild(lineNumberEl);
 
     const action = this._createContextControl(section, line);

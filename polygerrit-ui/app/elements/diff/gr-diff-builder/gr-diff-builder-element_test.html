@@ -912,6 +912,23 @@ suite('gr-diff-builder tests', () => {
       });
     });
 
+    test('aria-labels on added line numbers', () => {
+      const deltaLineNumberButton = element.diffElement.querySelectorAll(
+          'button.lineNum.right')[5];
+
+      assert.isOk(deltaLineNumberButton);
+      assert.equal(deltaLineNumberButton.getAttribute('aria-label'), '5 added');
+    });
+
+    test('aria-labels on removed line numbers', () => {
+      const deltaLineNumberButton = element.diffElement.querySelectorAll(
+          'button.lineNum.left')[10];
+
+      assert.isOk(deltaLineNumberButton);
+      assert.equal(
+          deltaLineNumberButton.getAttribute('aria-label'), '10 removed');
+    });
+
     test('getContentByLine', () => {
       let actual;
 
@@ -926,6 +943,24 @@ suite('gr-diff-builder tests', () => {
 
       actual = builder.getContentByLine(5, 'right');
       assert.equal(actual.textContent, diff.content[1].b[0]);
+    });
+
+    test('getContentByLineEl works both with button and td', () => {
+      const diffRow = element.diffElement.querySelectorAll('tr.diff-row')[2];
+
+      const lineNumTdLeft = diffRow.querySelector('td.lineNum.left');
+      const lineNumButtonLeft = lineNumTdLeft.querySelector('button');
+      const contentLeft = diffRow.querySelectorAll('.contentText')[0];
+
+      const lineNumTdRight = diffRow.querySelector('td.lineNum.right');
+      const lineNumButtonRight = lineNumTdRight.querySelector('button');
+      const contentRight = diffRow.querySelectorAll('.contentText')[1];
+
+      assert.equal(element.getContentByLineEl(lineNumTdLeft), contentLeft);
+      assert.equal(element.getContentByLineEl(lineNumButtonLeft), contentLeft);
+      assert.equal(element.getContentByLineEl(lineNumTdRight), contentRight);
+      assert.equal(
+          element.getContentByLineEl(lineNumButtonRight), contentRight);
     });
 
     test('findLinesByRange', () => {

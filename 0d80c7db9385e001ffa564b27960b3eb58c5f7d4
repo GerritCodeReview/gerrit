@@ -16,6 +16,24 @@
       "revId": "0d80c7db9385e001ffa564b27960b3eb58c5f7d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d36c11ba_48ec0f09",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 33
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-16T12:40:00Z",
+      "side": 1,
+      "message": "Attention set will replace the \"reviewed\" feature, see\n\nhttps://www.gerritcodereview.com/design-docs/attention-set-solution-1-workflow.html\n\n\"We propose to drop the Reviewed feature and its associated bolding of change-list items.\"",
+      "parentUuid": "4d88df85_0230ba5f",
+      "revId": "0d80c7db9385e001ffa564b27960b3eb58c5f7d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

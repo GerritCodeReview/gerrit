@@ -19,7 +19,7 @@ import io.gatling.core.feeder.FileBasedFeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
 
 class DeleteProject extends ProjectSimulation {
-  private val data: FileBasedFeederBuilder[Any]#F#F = jsonFile(resource).convert(url).queue
+  private val data: FileBasedFeederBuilder[Any]#F#F = jsonFile(resource).convert(keys).queue
 
   def this(default: String) {
     this()

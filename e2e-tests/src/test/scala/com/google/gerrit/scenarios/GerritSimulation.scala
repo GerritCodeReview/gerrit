@@ -26,7 +26,9 @@ class GerritSimulation extends Simulation {
   private val pack: String = this.getClass.getPackage.getName
   private val path: String = pack.replaceAllLiterally(".", "/")
   protected val name: String = this.getClass.getSimpleName
-  protected val resource: String = s"data/$path/$name.json"
+  private val pathName: String = s"data/$path/$name"
+  protected val resource: String = s"$pathName.json"
+  protected val body: String = s"$pathName-body.json"
   protected val unique: String = name + "-" + this.hashCode()
 
   protected val httpRequest: HttpRequestBuilder = http(unique).post("${url}")
@@ -34,12 +36,22 @@ class GerritSimulation extends Simulation {
     conf.httpConfiguration.userName,
     conf.httpConfiguration.password)
 
-  protected val url: PartialFunction[(String, Any), Any] = {
+  protected val keys: PartialFunction[(String, Any), Any] = {
     case ("url", url) =>
       var in = replaceOverride(url.toString)
       in = replaceProperty("hostname", "localhost", in)
       in = replaceProperty("http_port", 8080, in)
       replaceProperty("ssh_port", 29418, in)
+    case ("number", number) =>
+      val precedes = replaceKeyWith("_number", 0, number.toString)
+      replaceProperty("number", 1, precedes)
+    case ("project", project) =>
+      val precedes = replaceKeyWith("_project", name, project.toString)
+      replaceProperty("project", precedes)
+  }
+
+  private def replaceProperty(term: String, in: String): String = {
+    replaceProperty(term, term, in)
   }
 
   protected def replaceProperty(term: String, default: Any, in: String): String = {
@@ -66,7 +78,7 @@ class GerritSimulation extends Simulation {
    * Meant to be optionally overridden by plugins or other extensions.
    * Such potential overriding methods, such as the example below,
    * typically return resulting call(s) to [[replaceProperty()]].
-   * This is usually similar to how [[url]] is implemented above.
+   * This is usually similar to how [[keys]] is implemented above.
    *
    * <pre>
    * override def replaceOverride(in: String): String = {

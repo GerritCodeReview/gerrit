@@ -14,26 +14,31 @@
 
 package com.google.gerrit.scenarios
 
-import io.gatling.core.Predef._
+import io.gatling.core.Predef.{atOnceUsers, _}
 import io.gatling.core.feeder.FileBasedFeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
+import io.gatling.http.Predef._
 
 import scala.concurrent.duration._
 
-class CloneUsingBothProtocols extends GitSimulation {
+class CreateChange extends GerritSimulation {
   private val data: FileBasedFeederBuilder[Any]#F#F = jsonFile(resource).convert(keys).queue
   private val default: String = name
+  private val numberKey = "_number"
 
-  override def replaceOverride(in: String): String = {
-    replaceKeyWith("_project", default, in)
-  }
-
-  private val test: ScenarioBuilder = scenario(unique)
+  val test: ScenarioBuilder = scenario(unique)
       .feed(data)
-      .exec(gitRequest)
+      .exec(httpRequest
+          .body(ElFileBody(body)).asJson
+          .check(regex("\"" + numberKey + "\":(\\d+),").saveAs(numberKey)))
+      .exec(session => {
+        deleteChange.number = Some(session(numberKey).as[Int])
+        session
+      })
 
   private val createProject = new CreateProject(default)
   private val deleteProject = new DeleteProject(default)
+  private val deleteChange = new DeleteChange
 
   setUp(
     createProject.test.inject(
@@ -41,11 +46,15 @@ class CloneUsingBothProtocols extends GitSimulation {
     ),
     test.inject(
       nothingFor(2 seconds),
-      constantUsersPerSec(1) during (2 seconds)
+      atOnceUsers(1)
     ),
-    deleteProject.test.inject(
+    deleteChange.test.inject(
       nothingFor(6 seconds),
       atOnceUsers(1)
     ),
-  ).protocols(gitProtocol, httpProtocol)
+    deleteProject.test.inject(
+      nothingFor(8 seconds),
+      atOnceUsers(1)
+    ),
+  ).protocols(httpProtocol)
 }

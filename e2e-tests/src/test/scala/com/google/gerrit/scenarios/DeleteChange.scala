@@ -14,24 +14,29 @@
 
 package com.google.gerrit.scenarios
 
-import io.gatling.core.Predef._
+import io.gatling.core.Predef.{atOnceUsers, _}
 import io.gatling.core.feeder.FileBasedFeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
+import io.gatling.http.Predef.http
 
-class CreateProject extends ProjectSimulation {
+class DeleteChange extends GerritSimulation {
   private val data: FileBasedFeederBuilder[Any]#F#F = jsonFile(resource).convert(keys).queue
-
-  def this(default: String) {
-    this()
-    this.default = default
-  }
+  var number: Option[Int] = None
 
   val test: ScenarioBuilder = scenario(unique)
       .feed(data)
-      .exec(httpRequest.body(RawFileBody(body)).asJson)
+      .exec(session => {
+        if (number.nonEmpty) {
+          session.set("number", number.get)
+        } else {
+          session
+        }
+      })
+      .exec(http(unique).delete("${url}${number}"))
 
   setUp(
     test.inject(
       atOnceUsers(1)
-    )).protocols(httpProtocol)
+    ),
+  ).protocols(httpProtocol)
 }

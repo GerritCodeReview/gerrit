@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.server.mail;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.clearInvocations;
@@ -22,7 +23,9 @@ import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Streams;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.extensions.annotations.Exports;
@@ -33,6 +36,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidator;
@@ -347,10 +351,11 @@ public class MailProcessorIT extends AbstractMailIT {
   }
 
   @Test
-  @GerritConfig(name = "change.maxComments", value = "10")
+  @GerritConfig(name = "change.maxComments", value = "9") // ö 9
   public void limitNumberOfComments() throws Exception {
     // This change has 2 change messages and 2 comments.
     String changeId = createChangeWithReview();
+    assertThat(testCommentHelper.getPublishedComments(changeId)).hasSize(2);
     CommentInput commentInput = new CommentInput();
     commentInput.line = 1;
     commentInput.message = "foo";
@@ -369,24 +374,44 @@ public class MailProcessorIT extends AbstractMailIT {
         MailProcessingUtil.rfcDateformatter.format(
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
 
-    MailMessage.Builder mailMessage = messageBuilderWithDefaultFields();
+    // ö Refactor other tests too.
     String txt =
         newPlaintextBody(
             getChangeUrl(changeInfo) + "/1",
-            "1) change message",
-            "2) reply to comment",
-            "3) file comment",
-            "4) reply to file comment");
-    mailMessage.textContent(txt + textFooterForChange(changeInfo._number, ts));
+            "1) change message\n",
+            "2) reply to comment\n",
+            "3) file comment\n",
+            null); // not supported together with 2) ö duplicate this
+    MailMessage mailMessage =
+        messageBuilderWithDefaultFields()
+            .textContent(txt + textFooterForChange(changeInfo._number, ts))
+            .build();
 
-    Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
-    // The email adds 4 new comments (of which 1 is the change message).
-    mailProcessor.process(mailMessage.build());
-    assertThat(testCommentHelper.getPublishedComments(changeId)).isEqualTo(commentsBefore);
+    ImmutableSet<CommentInfo> commentsBefore = getCommentsAndRobotComments(changeId);
+    // Should have 4 comments (and 3 change messages).
+    assertThat(commentsBefore).hasSize(4);
+
+    // The email adds 3 new comments (of which 1 is the change message).
+    mailProcessor.process(mailMessage);
+    ImmutableSet<CommentInfo> commentsAfter = getCommentsAndRobotComments(changeId);
+    for (CommentInfo c : commentsAfter) {
+      System.out.println("##### a " + c.message);
+    }
+    assertThat(commentsAfter).isEqualTo(commentsBefore); // ö This is FLAKY!
 
     assertNotifyTo(user);
     Message message = sender.nextMessage();
     assertThat(message.body()).contains("rejected one or more comments");
+  }
+
+  // ö location
+  private ImmutableSet<CommentInfo> getCommentsAndRobotComments(String changeId)
+      throws RestApiException {
+    return Streams.concat(
+            gApi.changes().id(changeId).comments().values().stream(),
+            gApi.changes().id(changeId).robotComments().values().stream())
+        .flatMap(Collection::stream)
+        .collect(toImmutableSet());
   }
 
   @Test

@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.mock;
@@ -58,11 +57,11 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.ArgumentMatcher;
 import org.mockito.Captor;
 
 /** Tests for comment validation in {@link PostReview}. */
 public class PostReviewIT extends AbstractDaemonTest {
+
   @Inject private CommentValidator mockCommentValidator;
   @Inject private TestCommentHelper testCommentHelper;
 
@@ -88,22 +87,16 @@ public class PostReviewIT extends AbstractDaemonTest {
 
   @Captor private ArgumentCaptor<ImmutableList<CommentForValidation>> captor;
 
-  private static class SingleCommentMatcher
-      implements ArgumentMatcher<ImmutableList<CommentForValidation>> {
-    final CommentForValidation left;
-
-    SingleCommentMatcher(CommentForValidation left) {
-      this.left = left;
-    }
-
-    @Override
-    public boolean matches(ImmutableList<CommentForValidation> rightList) {
-      CommentForValidation right = Iterables.getOnlyElement(rightList);
-      return left.getSource() == right.getSource()
-          && left.getType() == right.getType()
-          && left.getText().equals(right.getText());
-    }
-  }
+  private static final Correspondence<CommentForValidation, CommentForValidation>
+      COMMENT_CORRESPONDENCE =
+          Correspondence.from(
+              (left, right) ->
+                  left != null
+                      && right != null
+                      && left.getSource() == right.getSource()
+                      && left.getType() == right.getType()
+                      && left.getText().equals(right.getText()),
+              "matches (ignoring size approximation)");
 
   @Override
   public Module createModule() {
@@ -128,11 +121,10 @@ public class PostReviewIT extends AbstractDaemonTest {
   @Test
   public void validateCommentsInInput_commentOK() throws Exception {
     PushOneCommit.Result r = createChange();
-    when(mockCommentValidator.validateComments(
-            eq(contextFor(r)), argThat(new SingleCommentMatcher(FILE_COMMENT_FOR_VALIDATION))))
+    when(mockCommentValidator.validateComments(eq(contextFor(r)), captor.capture()))
         .thenReturn(ImmutableList.of());
 
-    ReviewInput input = new ReviewInput();
+    ReviewInput input = new ReviewInput().message(COMMENT_TEXT);
     CommentInput comment = newComment(r.getChange().currentFilePaths().get(0));
     comment.updated = new Timestamp(0);
     input.comments = ImmutableMap.of(comment.path, ImmutableList.of(comment));
@@ -140,17 +132,17 @@ public class PostReviewIT extends AbstractDaemonTest {
     assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).isEmpty();
     gApi.changes().id(r.getChangeId()).current().review(input);
 
+    assertValidatorCalledWith(CHANGE_MESSAGE_FOR_VALIDATION, FILE_COMMENT_FOR_VALIDATION);
     assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).hasSize(1);
   }
 
   @Test
   public void validateCommentsInInput_commentRejected() throws Exception {
     PushOneCommit.Result r = createChange();
-    when(mockCommentValidator.validateComments(
-            eq(contextFor(r)), argThat(new SingleCommentMatcher(FILE_COMMENT_FOR_VALIDATION))))
+    when(mockCommentValidator.validateComments(eq(contextFor(r)), captor.capture()))
         .thenReturn(ImmutableList.of(FILE_COMMENT_FOR_VALIDATION.failValidation("Oh no!")));
 
-    ReviewInput input = new ReviewInput();
+    ReviewInput input = new ReviewInput().message(COMMENT_TEXT);
     CommentInput comment = newComment(r.getChange().currentFilePaths().get(0));
     comment.updated = new Timestamp(0);
     input.comments = ImmutableMap.of(comment.path, ImmutableList.of(comment));
@@ -160,6 +152,7 @@ public class PostReviewIT extends AbstractDaemonTest {
         assertThrows(
             BadRequestException.class,
             () -> gApi.changes().id(r.getChangeId()).current().review(input));
+    assertValidatorCalledWith(CHANGE_MESSAGE_FOR_VALIDATION, FILE_COMMENT_FOR_VALIDATION);
     assertThat(badRequestException.getCause()).isInstanceOf(CommentsRejectedException.class);
     assertThat(
             Iterables.getOnlyElement(
@@ -193,8 +186,7 @@ public class PostReviewIT extends AbstractDaemonTest {
   @Test
   public void validateDrafts_draftOK() throws Exception {
     PushOneCommit.Result r = createChange();
-    when(mockCommentValidator.validateComments(
-            eq(contextFor(r)), argThat(new SingleCommentMatcher((INLINE_COMMENT_FOR_VALIDATION)))))
+    when(mockCommentValidator.validateComments(eq(contextFor(r)), captor.capture()))
         .thenReturn(ImmutableList.of());
 
     DraftInput draft =
@@ -203,18 +195,18 @@ public class PostReviewIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().getName()).createDraft(draft);
     assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).isEmpty();
 
-    ReviewInput input = new ReviewInput();
+    ReviewInput input = new ReviewInput().message(COMMENT_TEXT);
     input.drafts = DraftHandling.PUBLISH;
 
     gApi.changes().id(r.getChangeId()).current().review(input);
+    assertValidatorCalledWith(CHANGE_MESSAGE_FOR_VALIDATION, INLINE_COMMENT_FOR_VALIDATION);
     assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).hasSize(1);
   }
 
   @Test
   public void validateDrafts_draftRejected() throws Exception {
     PushOneCommit.Result r = createChange();
-    when(mockCommentValidator.validateComments(
-            eq(contextFor(r)), argThat(new SingleCommentMatcher(INLINE_COMMENT_FOR_VALIDATION))))
+    when(mockCommentValidator.validateComments(eq(contextFor(r)), captor.capture()))
         .thenReturn(ImmutableList.of(INLINE_COMMENT_FOR_VALIDATION.failValidation("Oh no!")));
 
     DraftInput draft =
@@ -223,12 +215,13 @@ public class PostReviewIT extends AbstractDaemonTest {
     testCommentHelper.addDraft(r.getChangeId(), r.getCommit().getName(), draft);
     assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).isEmpty();
 
-    ReviewInput input = new ReviewInput();
+    ReviewInput input = new ReviewInput().message(COMMENT_TEXT);
     input.drafts = DraftHandling.PUBLISH;
     BadRequestException badRequestException =
         assertThrows(
             BadRequestException.class,
             () -> gApi.changes().id(r.getChangeId()).current().review(input));
+    assertValidatorCalledWith(CHANGE_MESSAGE_FOR_VALIDATION, INLINE_COMMENT_FOR_VALIDATION);
     assertThat(badRequestException.getCause()).isInstanceOf(CommentsRejectedException.class);
     assertThat(
             Iterables.getOnlyElement(
@@ -255,43 +248,35 @@ public class PostReviewIT extends AbstractDaemonTest {
     when(mockCommentValidator.validateComments(any(), captor.capture()))
         .thenReturn(ImmutableList.of());
 
-    ReviewInput input = new ReviewInput();
+    ReviewInput input = new ReviewInput().message(COMMENT_TEXT);
     input.drafts = DraftHandling.PUBLISH;
     gApi.changes().id(r.getChangeId()).current().review(input);
     assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).hasSize(2);
 
-    assertThat(captor.getAllValues()).hasSize(1);
-    assertThat(captor.getValue())
-        .comparingElementsUsing(
-            Correspondence.<CommentForValidation, CommentForValidation>from(
-                (a, b) ->
-                    a.getSource() == b.getSource()
-                        && a.getType() == b.getType()
-                        && a.getText().equals(b.getText()),
-                "matches (ignoring size approximation)"))
-        .containsExactly(
-            CommentForValidation.create(
-                CommentForValidation.CommentSource.HUMAN,
-                CommentForValidation.CommentType.INLINE_COMMENT,
-                draftInline.message,
-                draftInline.message.length()),
-            CommentForValidation.create(
-                CommentForValidation.CommentSource.HUMAN,
-                CommentForValidation.CommentType.FILE_COMMENT,
-                draftFile.message,
-                draftFile.message.length()));
+    assertValidatorCalledWith(
+        CHANGE_MESSAGE_FOR_VALIDATION,
+        CommentForValidation.create(
+            CommentForValidation.CommentSource.HUMAN,
+            CommentForValidation.CommentType.INLINE_COMMENT,
+            draftInline.message,
+            draftInline.message.length()),
+        CommentForValidation.create(
+            CommentForValidation.CommentSource.HUMAN,
+            CommentForValidation.CommentType.FILE_COMMENT,
+            draftFile.message,
+            draftFile.message.length()));
   }
 
   @Test
   public void validateCommentsInChangeMessage_messageOK() throws Exception {
     PushOneCommit.Result r = createChange();
-    when(mockCommentValidator.validateComments(
-            contextFor(r), ImmutableList.of(CHANGE_MESSAGE_FOR_VALIDATION)))
+    when(mockCommentValidator.validateComments(eq(contextFor(r)), captor.capture()))
         .thenReturn(ImmutableList.of());
 
     ReviewInput input = new ReviewInput().message(COMMENT_TEXT);
     int numMessages = gApi.changes().id(r.getChangeId()).get().messages.size();
     gApi.changes().id(r.getChangeId()).current().review(input);
+    assertValidatorCalledWith(CHANGE_MESSAGE_FOR_VALIDATION);
     assertThat(gApi.changes().id(r.getChangeId()).get().messages).hasSize(numMessages + 1);
     ChangeMessageInfo message =
         Iterables.getLast(gApi.changes().id(r.getChangeId()).get().messages);
@@ -301,8 +286,7 @@ public class PostReviewIT extends AbstractDaemonTest {
   @Test
   public void validateCommentsInChangeMessage_messageRejected() throws Exception {
     PushOneCommit.Result r = createChange();
-    when(mockCommentValidator.validateComments(
-            contextFor(r), ImmutableList.of(CHANGE_MESSAGE_FOR_VALIDATION)))
+    when(mockCommentValidator.validateComments(eq(contextFor(r)), captor.capture()))
         .thenReturn(ImmutableList.of(CHANGE_MESSAGE_FOR_VALIDATION.failValidation("Oh no!")));
 
     ReviewInput input = new ReviewInput().message(COMMENT_TEXT);
@@ -312,6 +296,7 @@ public class PostReviewIT extends AbstractDaemonTest {
         assertThrows(
             BadRequestException.class,
             () -> gApi.changes().id(r.getChangeId()).current().review(input));
+    assertValidatorCalledWith(CHANGE_MESSAGE_FOR_VALIDATION);
     assertThat(badRequestException.getCause()).isInstanceOf(CommentsRejectedException.class);
     assertThat(
             Iterables.getOnlyElement(
@@ -329,7 +314,7 @@ public class PostReviewIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "change.maxComments", value = "4")
+  @GerritConfig(name = "change.maxComments", value = "7")
   public void restrictNumberOfComments() throws Exception {
     when(mockCommentValidator.validateComments(any(), any())).thenReturn(ImmutableList.of());
 
@@ -345,10 +330,11 @@ public class PostReviewIT extends AbstractDaemonTest {
     reviewInput.comments = ImmutableMap.of(filePath, ImmutableList.of(commentInput));
     reviewInput.robotComments = ImmutableMap.of(filePath, ImmutableList.of(robotCommentInput));
     gApi.changes().id(r.getChangeId()).current().review(reviewInput);
+    // Counting change messages plus comments we now have 4.
 
     // reviewInput still has both a user and a robot comment (and deduplication is false). We also
-    // create a draft so that in total there would be 5 comments. The limit is set to 4, so this
-    // verifies that all three channels are considered.
+    // create a draft, and there's the change message, so that in total there would be 8 comments.
+    // The limit is set to 7, so this verifies that all new comments are considered.
     DraftInput draftInline = testCommentHelper.newDraft(filePath, Side.REVISION, 1, "a draft");
     testCommentHelper.addDraft(r.getChangeId(), r.getPatchSetId().getId(), draftInline);
     reviewInput.drafts = DraftHandling.PUBLISH;
@@ -360,7 +346,7 @@ public class PostReviewIT extends AbstractDaemonTest {
             () -> gApi.changes().id(r.getChangeId()).current().review(reviewInput));
     assertThat(exception)
         .hasMessageThat()
-        .contains("Exceeding maximum number of comments: 2 (existing) + 3 (new) > 4");
+        .contains("Exceeding maximum number of comments: 4 (existing) + 4 (new) > 7");
 
     assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).hasSize(1);
     assertThat(getRobotComments(r.getChangeId())).hasSize(1);
@@ -379,5 +365,12 @@ public class PostReviewIT extends AbstractDaemonTest {
   private static CommentValidationContext contextFor(PushOneCommit.Result result) {
     return CommentValidationContext.create(
         result.getChange().getId().get(), result.getChange().project().get());
+  }
+
+  private void assertValidatorCalledWith(CommentForValidation... commentsForValidation) {
+    assertThat(captor.getAllValues()).hasSize(1);
+    assertThat(captor.getValue())
+        .comparingElementsUsing(COMMENT_CORRESPONDENCE)
+        .containsExactly(commentsForValidation);
   }
 }

@@ -44,8 +44,12 @@ public class CommentCountValidator implements CommentValidator {
     ImmutableList.Builder<CommentValidationFailure> failures = ImmutableList.builder();
     ChangeNotes notes =
         notesFactory.createChecked(Project.nameKey(ctx.getProject()), Change.id(ctx.getChangeId()));
-    int numExistingComments = notes.getComments().size() + notes.getRobotComments().size();
-    if (!comments.isEmpty() && numExistingComments + comments.size() > maxComments) {
+    int numExistingCommentsAndChangeMessages =
+        notes.getComments().size()
+            + notes.getRobotComments().size()
+            + notes.getChangeMessages().size();
+    if (!comments.isEmpty()
+        && numExistingCommentsAndChangeMessages + comments.size() > maxComments) {
       // This warning really applies to the set of all comments, but we need to pick one to attach
       // the message to.
       CommentForValidation commentForFailureMessage = Iterables.getLast(comments);
@@ -54,7 +58,7 @@ public class CommentCountValidator implements CommentValidator {
           commentForFailureMessage.failValidation(
               String.format(
                   "Exceeding maximum number of comments: %d (existing) + %d (new) > %d",
-                  numExistingComments, comments.size(), maxComments)));
+                  numExistingCommentsAndChangeMessages, comments.size(), maxComments)));
     }
     return failures.build();
   }

@@ -52,6 +52,10 @@ export const htmlTemplate = html`
         white-space: nowrap;
         width: 100%;
       }
+      .comments,
+      .reviewers {
+        white-space: nowrap;
+      }
       .spacer {
         height: 0;
         overflow: hidden;
@@ -101,6 +105,9 @@ export const htmlTemplate = html`
       .cell.label {
         font-weight: var(--font-weight-normal);
       }
+      .lastChildHidden:last-of-type {
+        display: none;
+      }
       @media only screen and (max-width: 50em) {
         :host {
           display: flex;
@@ -149,6 +156,18 @@ export const htmlTemplate = html`
       <template is="dom-if" if="[[!change.assignee]]">
         <span class="placeholder">--</span>
       </template>
+    </td>
+    <td class="cell reviewers" hidden\$="[[isColumnHidden('Reviewers', visibleChangeTableColumns)]]">
+      <div>
+        <template is="dom-repeat" items="[[change.reviewers.REVIEWER]]" as="reviewer">
+          <gr-account-link hide-avatar="" hide-status="" account="[[reviewer]]"></gr-account-link><!--
+       --><span class="lastChildHidden">, </span>
+        </template>
+      </div>
+    </td>
+    <td class="cell comments" hidden\$="[[isColumnHidden('Comments', visibleChangeTableColumns)]]">
+      <iron-icon hidden\$="[[!change.unresolved_comment_count]]" icon="gr-icons:comment"></iron-icon>
+      <span>[[_computeComments(change.unresolved_comment_count)]]</span>
     </td>
     <td class="cell repo" hidden\$="[[isColumnHidden('Repo', visibleChangeTableColumns)]]">
       <a class="fullRepo" href\$="[[_computeRepoUrl(change)]]">

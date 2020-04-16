@@ -50,7 +50,15 @@ class GrAccountLabel extends mixinBehaviors( [
        */
       account: Object,
       voteableText: String,
+      showAttention: {
+        type: Boolean,
+        value: false,
+      },
       hideAvatar: {
+        type: Boolean,
+        value: false,
+      },
+      hideStatus: {
         type: Boolean,
         value: false,
       },
@@ -69,7 +77,7 @@ class GrAccountLabel extends mixinBehaviors( [
   }
 
   _computeName(account, config) {
-    return this.getUserName(config, account);
+    return this.getDisplayName(config, account);
   }
 }
 

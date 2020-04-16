@@ -97,6 +97,9 @@ export const htmlTemplate = html`
       .topic gr-linked-chip {
         --linked-chip-text-color: var(--link-color);
       }
+      gr-reviewer-list {
+        max-width: 200px;
+      }
     </style>
     <gr-external-style id="externalStyle" name="change-metadata">
       <section>
@@ -135,23 +138,25 @@ export const htmlTemplate = html`
           <gr-account-link account="[[_getNonOwnerRole(change, _CHANGE_ROLE.COMMITTER)]]"></gr-account-link>
         </span>
       </section>
-      <section class="assignee">
-        <span class="title">Assignee</span>
-        <span class="value">
-          <gr-account-list id="assigneeValue" placeholder="Set assignee..." max-count="1" skip-suggest-on-empty="" accounts="{{_assignee}}" readonly="[[_computeAssigneeReadOnly(_mutable, change)]]" suggestions-provider="[[_getReviewerSuggestionsProvider(change)]]">
-          </gr-account-list>
-        </span>
-      </section>
+      <template is="dom-if" if="[[_isAssigneeEnabled(serverConfig)]]">
+        <section class="assignee">
+          <span class="title">Assignee</span>
+          <span class="value">
+            <gr-account-list id="assigneeValue" placeholder="Set assignee..." max-count="1" skip-suggest-on-empty="" accounts="{{_assignee}}" readonly="[[_computeAssigneeReadOnly(_mutable, change)]]" suggestions-provider="[[_getReviewerSuggestionsProvider(change)]]">
+            </gr-account-list>
+          </span>
+        </section>
+      </template>
       <section>
         <span class="title">Reviewers</span>
         <span class="value">
-          <gr-reviewer-list change="{{change}}" mutable="[[_mutable]]" reviewers-only="" max-reviewers-displayed="3"></gr-reviewer-list>
+          <gr-reviewer-list change="{{change}}" mutable="[[_mutable]]" reviewers-only="" server-config="[[serverConfig]]"></gr-reviewer-list>
         </span>
       </section>
       <section>
         <span class="title">CC</span>
         <span class="value">
-          <gr-reviewer-list change="{{change}}" mutable="[[_mutable]]" ccs-only="" max-reviewers-displayed="3"></gr-reviewer-list>
+          <gr-reviewer-list change="{{change}}" mutable="[[_mutable]]" ccs-only="" server-config="[[serverConfig]]"></gr-reviewer-list>
         </span>
       </section>
       <template is="dom-if" if="[[_computeShowRepoBranchTogether(change.project, change.branch)]]">

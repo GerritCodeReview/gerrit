@@ -206,8 +206,7 @@ suite('gr-dashboard-view tests', () => {
       };
       return paramsChangedPromise.then(() => {
         assert.isTrue(
-            getChangesStub.calledWith(
-                null, ['1', '2', 'owner:self limit:1'], null, element.options));
+            getChangesStub.calledWith(null, ['1', '2', 'owner:self limit:1']));
       });
     });
 
@@ -221,9 +220,7 @@ suite('gr-dashboard-view tests', () => {
         user: 'user',
       };
       return paramsChangedPromise.then(() => {
-        assert.isTrue(
-            getChangesStub.calledWith(
-                null, ['1'], null, element.options));
+        assert.isTrue(getChangesStub.calledWith(null, ['1']));
       });
     });
   });
@@ -239,8 +236,7 @@ suite('gr-dashboard-view tests', () => {
     return paramsChangedPromise.then(() => {
       assert.isTrue(getChangesStub.calledOnce);
       assert.deepEqual(
-          getChangesStub.firstCall.args,
-          [null, ['1', '2 suffix'], null, element.options]);
+          getChangesStub.firstCall.args, [null, ['1', '2 suffix']]);
     });
   });
 

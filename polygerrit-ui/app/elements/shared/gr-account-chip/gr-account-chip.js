@@ -61,6 +61,10 @@ class GrAccountChip extends GestureEventListeners(
         type: Boolean,
         value: false,
       },
+      showAttention: {
+        type: Boolean,
+        value: false,
+      },
       showAvatar: {
         type: Boolean,
         reflectToAttribute: true,

@@ -332,10 +332,11 @@ suite('gr-rest-api-interface tests', () => {
     });
   });
 
-  test('legacy n,z key in change url is replaced', () => {
+  test('legacy n,z key in change url is replaced', async () => {
+    sandbox.stub(element, 'getConfig', async () => { return {}; });
     const stub = sandbox.stub(element._restApiHelper, 'fetchJSON')
         .returns(Promise.resolve([]));
-    element.getChanges(1, null, 'n,z');
+    await element.getChanges(1, null, 'n,z');
     assert.equal(stub.lastCall.args[0].params.S, 0);
   });
 

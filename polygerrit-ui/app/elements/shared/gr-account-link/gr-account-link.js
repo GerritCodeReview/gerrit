@@ -42,6 +42,18 @@ class GrAccountLink extends mixinBehaviors( [
     return {
       voteableText: String,
       account: Object,
+      showAttention: {
+        type: Boolean,
+        value: false,
+      },
+      hideAvatar: {
+        type: Boolean,
+        value: false,
+      },
+      hideStatus: {
+        type: Boolean,
+        value: false,
+      },
     };
   }
 

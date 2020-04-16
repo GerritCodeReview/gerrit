@@ -347,7 +347,7 @@ public class MailProcessorIT extends AbstractMailIT {
   }
 
   @Test
-  @GerritConfig(name = "change.maxComments", value = "10")
+  @GerritConfig(name = "change.maxComments", value = "9")
   public void limitNumberOfComments() throws Exception {
     // This change has 2 change messages and 2 comments.
     String changeId = createChangeWithReview();
@@ -376,13 +376,20 @@ public class MailProcessorIT extends AbstractMailIT {
             "1) change message",
             "2) reply to comment",
             "3) file comment",
-            "4) reply to file comment");
+            null);  // not supported together with 2) ö duplicate this comment
     mailMessage.textContent(txt + textFooterForChange(changeInfo._number, ts));
 
     Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
-    // The email adds 4 new comments (of which 1 is the change message).
+    for (CommentInfo c : commentsBefore) {
+      System.out.println("##### b " + c.message);
+    }
+    // The email adds 3 new comments (of which 1 is the change message).
     mailProcessor.process(mailMessage.build());
-    assertThat(testCommentHelper.getPublishedComments(changeId)).isEqualTo(commentsBefore);
+    Collection<CommentInfo> commentsAfter = testCommentHelper.getPublishedComments(changeId);
+    for (CommentInfo c : commentsAfter) {
+      System.out.println("##### a " + c.message);
+    }
+    assertThat(commentsAfter).containsExactlyElementsIn(commentsBefore);  // ö This is FLAKY!
 
     assertNotifyTo(user);
     Message message = sender.nextMessage();

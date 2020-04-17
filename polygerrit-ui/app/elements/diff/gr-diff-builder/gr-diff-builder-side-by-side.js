@@ -94,7 +94,6 @@
   GrDiffBuilderSideBySide.prototype._appendPair = function(section, row, line,
       lineNumber, side) {
     const lineNumberEl = this._createLineEl(line, lineNumber, line.type, side);
-    lineNumberEl.classList.add(side);
     row.appendChild(lineNumberEl);
     const action = this._createContextControl(section, line);
     if (action) {

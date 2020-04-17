@@ -293,10 +293,10 @@
   };
 
   GrDiffBuilder.prototype._createLineEl = function(
-      line, number, type, opt_class) {
+      line, number, type, side) {
     const td = this._createElement('td');
-    if (opt_class) {
-      td.classList.add(opt_class);
+    if (side) {
+      td.classList.add(side);
     }
 
     // Add aria-labels for valid line numbers.

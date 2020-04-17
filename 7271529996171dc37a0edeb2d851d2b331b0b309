@@ -16,6 +16,24 @@
       "revId": "7271529996171dc37a0edeb2d851d2b331b0b309",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fba264b_97da77f1",
+        "filename": "polygerrit-ui/app/elements/gr-app-init.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-17T09:09:01Z",
+      "side": 1,
+      "message": "I like that app-context-init is close to app-context. We can move it later when it will be populated with more services.",
+      "parentUuid": "e755d31b_40aaaef4",
+      "revId": "7271529996171dc37a0edeb2d851d2b331b0b309",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

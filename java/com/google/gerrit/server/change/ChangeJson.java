@@ -140,7 +140,6 @@ public class ChangeJson {
           COMMIT_FOOTERS,
           CURRENT_ACTIONS,
           CURRENT_COMMIT,
-          DETAILED_LABELS, // may need to load ChangeNotes to check remove reviewer permissions
           MESSAGES);
 
   @Singleton

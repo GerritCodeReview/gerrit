@@ -23,6 +23,10 @@ class DeleteChange extends GerritSimulation {
   private val data: FileBasedFeederBuilder[Any]#F#F = jsonFile(resource).convert(keys).queue
   var number: Option[Int] = None
 
+  override def weight: Int = {
+    2
+  }
+
   val test: ScenarioBuilder = scenario(unique)
       .feed(data)
       .exec(session => {

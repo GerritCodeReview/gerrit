@@ -31,6 +31,9 @@ class GerritSimulation extends Simulation {
   protected val body: String = s"$pathName-body.json"
   protected val unique: String = name + "-" + this.hashCode()
 
+  private val secondsPerWeightUnit: Int = 2
+  val max: Int = secondsPerWeightUnit * weight
+
   protected val httpRequest: HttpRequestBuilder = http(unique).post("${url}")
   protected val httpProtocol: HttpProtocolBuilder = http.basicAuth(
     conf.httpConfiguration.userName,
@@ -87,5 +90,12 @@ class GerritSimulation extends Simulation {
    */
   def replaceOverride(in: String): String = {
     in
+  }
+
+  /**
+   * Meant to be optionally overridden by (heavier) scenarios.
+   */
+  def weight: Int = {
+    1
   }
 }

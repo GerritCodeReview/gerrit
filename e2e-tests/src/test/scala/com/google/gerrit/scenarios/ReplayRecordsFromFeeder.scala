@@ -24,6 +24,10 @@ class ReplayRecordsFromFeeder extends GitSimulation {
   private val data: FileBasedFeederBuilder[Any]#F#F = jsonFile(resource).convert(keys).circular
   private val default: String = name
 
+  override def weight: Int = {
+    30
+  }
+
   override def replaceOverride(in: String): String = {
     replaceKeyWith("_project", default, in)
   }
@@ -42,16 +46,16 @@ class ReplayRecordsFromFeeder extends GitSimulation {
       atOnceUsers(1)
     ),
     test.inject(
-      nothingFor(4 seconds),
+      nothingFor(createProject.max seconds),
       atOnceUsers(10),
       rampUsers(10) during (5 seconds),
       constantUsersPerSec(20) during (15 seconds),
       constantUsersPerSec(20) during (15 seconds) randomized
     ),
     deleteProject.test.inject(
-      nothingFor(59 seconds),
+      nothingFor(max - deleteProject.max seconds),
       atOnceUsers(1)
     ),
   ).protocols(gitProtocol, httpProtocol)
-      .maxDuration(61 seconds)
+      .maxDuration(max seconds)
 }

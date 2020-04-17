@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "824adec5_12624927",
+        "filename": "Jenkinsfile",
+        "patchSetId": 13
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-17T08:58:49Z",
+      "side": 1,
+      "message": "Can currentBuild be sometimes null? This issue was reported: [1]. The stacktrace in example breakage is:\n\n  java.lang.NullPointerException: Cannot invoke method getAbsoluteUrl() on null object\n\tat org.codehaus.groovy.runtime.NullObject.invokeMethod(NullObject.java:91)\n\tat org.codehaus.groovy.runtime.callsite.PogoMetaClassSite.call(PogoMetaClassSite.java:48)\n\tat org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:48)\n\tat org.codehaus.groovy.runtime.callsite.NullCallSite.call(NullCallSite.java:35)\n\tat org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:48)\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:113)\n\tat org.kohsuke.groovy.sandbox.impl.Checker$1.call(Checker.java:160)\n\tat org.kohsuke.groovy.sandbox.impl.Checker.checkedCall(Checker.java:162)\n\tat com.cloudbees.groovy.cps.sandbox.SandboxInvoker.methodCall(SandboxInvoker.java:17)\n\tat WorkflowScript.prepareBuildsForMode(WorkflowScript:127)\n\tat ___cps.transform___(Native Method)\n\n* [1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d12598",
+      "range": {
+        "startLine": 116,
+        "startChar": 34,
+        "endLine": 116,
+        "endChar": 63
+      },
+      "revId": "c1b543ee2f0509f7d87a85347966223d35b91754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

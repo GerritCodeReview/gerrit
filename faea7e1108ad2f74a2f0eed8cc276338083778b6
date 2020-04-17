@@ -16,6 +16,24 @@
       "revId": "faea7e1108ad2f74a2f0eed8cc276338083778b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac23f98d_a0c32979",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/MailProcessorIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-17T10:13:10Z",
+      "side": 1,
+      "message": "This is actually flaky, I\u0027m looking into it.",
+      "parentUuid": "55d06d04_9f09cbee",
+      "revId": "faea7e1108ad2f74a2f0eed8cc276338083778b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

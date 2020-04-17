@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99220dcf_930c046d",
+        "filename": "plugins/download-commands",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-17T06:14:34Z",
+      "side": 1,
+      "message": "Unintended submodule update?",
+      "revId": "ccf0a80410adb21f2193e9d46d87e66ba2cec863",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

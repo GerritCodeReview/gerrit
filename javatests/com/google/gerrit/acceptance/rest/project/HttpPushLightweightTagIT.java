@@ -12,26 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.scenarios
+package com.google.gerrit.acceptance.rest.project;
 
-import io.gatling.core.Predef._
-import io.gatling.core.feeder.FileBasedFeederBuilder
-import io.gatling.core.structure.ScenarioBuilder
+public class HttpPushLightweightTagIT extends AbstractHttpPushTag {
 
-class CreateProject extends ProjectSimulation {
-  private val data: FileBasedFeederBuilder[Any]#F#F = jsonFile(resource).convert(url).queue
-
-  def this(default: String) {
-    this()
-    this.default = default
+  @Override
+  protected TagType getTagType() {
+    return TagType.LIGHTWEIGHT;
   }
-
-  val test: ScenarioBuilder = scenario(unique)
-      .feed(data)
-      .exec(httpRequest)
-
-  setUp(
-    test.inject(
-      atOnceUsers(1)
-    )).protocols(httpProtocol)
 }

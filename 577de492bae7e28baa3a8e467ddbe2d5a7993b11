@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e640cb67_d50c569f",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-17T08:40:44Z",
+      "side": 1,
+      "message": "Thanks for taking such a detail look, that is much appreciated!\n\nDid you look at old code in RefControl? The code snippet you mention looks different now. I left a comment at the modification in this change.\n\nI removed another method in PS2 while at it :-)",
+      "parentUuid": "61e8de9e_ebf0382d",
+      "range": {
+        "startLine": 710,
+        "startChar": 12,
+        "endLine": 710,
+        "endChar": 23
+      },
+      "revId": "577de492bae7e28baa3a8e467ddbe2d5a7993b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9ed8ede0_21d94f29",
         "filename": "java/com/google/gerrit/server/permissions/ChangeControl.java",
         "patchSetId": 5
@@ -41,6 +65,53 @@
         "startChar": 16,
         "endLine": 225,
         "endChar": 71
+      },
+      "revId": "577de492bae7e28baa3a8e467ddbe2d5a7993b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb86c0b1_b96c696b",
+        "filename": "java/com/google/gerrit/server/permissions/ChangeControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-17T08:40:44Z",
+      "side": 1,
+      "message": "good idea. done.",
+      "parentUuid": "9ed8ede0_21d94f29",
+      "range": {
+        "startLine": 225,
+        "startChar": 16,
+        "endLine": 225,
+        "endChar": 71
+      },
+      "revId": "577de492bae7e28baa3a8e467ddbe2d5a7993b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe489257_924987b7",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-17T08:40:44Z",
+      "side": 1,
+      "message": "Here. Please see my other comment.",
+      "range": {
+        "startLine": 443,
+        "startChar": 15,
+        "endLine": 443,
+        "endChar": 57
       },
       "revId": "577de492bae7e28baa3a8e467ddbe2d5a7993b11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

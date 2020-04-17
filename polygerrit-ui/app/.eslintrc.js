@@ -280,7 +280,7 @@ module.exports = {
       }
     },
     {
-      "files": "test/index.html",
+      "files": "test/**/index.html",
       "globals": {
         "WCT": "readonly",
       }

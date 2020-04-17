@@ -1,4 +1,4 @@
-load(":rules.bzl", "polygerrit_bundle")
+load(":rules.bzl", "polygerrit_bundle", "wct_suite")
 load("//tools/js:eslint.bzl", "eslint")
 
 package(default_visibility = ["//visibility:public"])
@@ -65,22 +65,10 @@ filegroup(
     ],
 )
 
-sh_test(
-    name = "wct_test",
-    size = "enormous",
-    srcs = ["wct_test.sh"],
-    args = [
-        "$(location @ui_dev_npm//web-component-tester/bin:wct)",
-    ],
-    data = [
-        ":test-srcs-fg",
-        "@ui_dev_npm//web-component-tester/bin:wct",
-    ],
-    # Should not run sandboxed.
-    tags = [
-        "local",
-        "manual",
-    ],
+wct_suite(
+    name = "wct",
+    srcs=[":test-srcs-fg"],
+    test_count = 4,
 )
 
 # Define the eslinter for polygerrit-ui app

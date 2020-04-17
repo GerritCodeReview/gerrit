@@ -94,3 +94,52 @@ def polygerrit_bundle(name, srcs, outs, entry_point):
             "zip -qr $$ROOT/$@ *",
         ]),
     )
+
+def _wct_test(name, srcs, test_index, test_count):
+    """Private macro to define single WCT suite.
+
+        Args:
+            name: name of generated sh_test"
+            srcs: source files
+            test_index: index of test (WCT suite). Must be less than test_count
+            test_count: total number of tests (WCT suites)
+        """
+    str_index = str(test_index)
+    config_json = struct(testIndex=test_index, testCount=test_count).to_json()
+    native.sh_test(
+        name = name,
+        size = "enormous",
+        srcs = ["wct_test.sh"],
+        args = [
+            "$(location @ui_dev_npm//web-component-tester/bin:wct)",
+            config_json
+        ],
+        data = [
+            "@ui_dev_npm//web-component-tester/bin:wct",
+        ] + srcs,
+        # Should not run sandboxed.
+        tags = [
+            "local",
+            "manual",
+        ],
+    )
+
+def wct_suite(name, srcs, test_count):
+    """Define test suites for WCT tests.
+    All tests files are splited to test_count WCT suites
+
+        Args:
+            name: rule name. The macro create a test suite rule with the name name+"_test"
+            srcs: source files
+            test_count: number of sh_test (i.e. WCT suites)
+        """
+    tests = []
+    for i in range(test_count):
+        test_name = "wct_test_" + str(i)
+        _wct_test(test_name, srcs, i, test_count)
+        tests += [test_name]
+
+    native.test_suite(
+        name = name + "_test",
+        tests = tests,
+    )

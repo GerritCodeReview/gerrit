@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "53bf0124_cd8f81e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-17T07:50:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c280333_f1f3d951",
+      "range": {
+        "startLine": 22,
+        "startChar": 33,
+        "endLine": 22,
+        "endChar": 35
+      },
+      "revId": "bf4d6d1924fb2ea9e56caabfc348d23b958251c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef31a719_43524ada",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "bf4d6d1924fb2ea9e56caabfc348d23b958251c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b07eb29_0d9c79e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-17T07:50:10Z",
+      "side": 1,
+      "message": "great catch! Done.",
+      "parentUuid": "ef31a719_43524ada",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 41
+      },
+      "revId": "bf4d6d1924fb2ea9e56caabfc348d23b958251c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

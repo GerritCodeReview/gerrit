@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "59d7f9ae_752dd06c",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-17T09:21:51Z",
+      "side": 1,
+      "message": "Ah, I missed that. Thanks for pointing this out. I indeed look at the old version of this method.\n\nThis means RefControl#change(ChangeData) looks like this:\n\n  class RefControl {\n    ...\n    @Override\n    public ForChange change(ChangeData cd) {\n      try {\n        return getProjectControl().controlFor(cd.change()).asForChange(cd);\n      } catch (StorageException e) {\n        return FailedPermissionBackend.change(\"unavailable\", e);\n      }\n    }\n    ...  \n\nThen we get to ProjectControl#controlFor(Change):\n\n  class ProjectControl {\n    ...\n    ChangeControl controlFor(Change change) {\n      return changeControlFactory.create(controlForRef(change.getDest()), change);\n    }\n  ...\n\nwhich calls ChangeControl.Factory#create(RefControl, Change):\n\n  class ChangeControl {\n    @Singleton\n    static class Factory {\n      private final ChangeData.Factory changeDataFactory;\n\n      @Inject\n      Factory(ChangeData.Factory changeDataFactory) {\n        this.changeDataFactory \u003d changeDataFactory;\n      }\n\n      ChangeControl create(RefControl refControl, Change change) {\n        return new ChangeControl(changeDataFactory, refControl, change);\n      }\n    }\n\nAs you can see we pass in a changeDataFactory here. The changeDataFactory is used to create a ChangeData internally when needed. The problem is that this ChangeData instance will be created with lazyLoad \u003d true, which shouldn\u0027t happen if the change was loaded from the index and lazyLoad in ChangeJson was false. What we do here is basically a conversion from ChangeData(lazyLoad\u003dfalse) -\u003e Change -\u003e ChangeData(lazyLoad\u003dtrue). That seems wrong, we should rather pass the original ChangeData instance through the layers. I would expect that this would still work, as the functionality in ChangeControl should not trigger any loading in ChangeData, when the change was loaded from the index (e.g. because the reviewers field in ChangeData is already populated in this case).",
+      "parentUuid": "e640cb67_d50c569f",
+      "range": {
+        "startLine": 710,
+        "startChar": 12,
+        "endLine": 710,
+        "endChar": 23
+      },
+      "revId": "577de492bae7e28baa3a8e467ddbe2d5a7993b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9ed8ede0_21d94f29",
         "filename": "java/com/google/gerrit/server/permissions/ChangeControl.java",
         "patchSetId": 5
@@ -116,6 +140,30 @@
       "revId": "577de492bae7e28baa3a8e467ddbe2d5a7993b11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4db54337_aa53c8db",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-04-17T09:21:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fe489257_924987b7",
+      "range": {
+        "startLine": 443,
+        "startChar": 15,
+        "endLine": 443,
+        "endChar": 57
+      },
+      "revId": "577de492bae7e28baa3a8e467ddbe2d5a7993b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

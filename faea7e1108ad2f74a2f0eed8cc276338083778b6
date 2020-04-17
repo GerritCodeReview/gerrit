@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55d06d04_9f09cbee",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/MailProcessorIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-17T09:01:01Z",
+      "side": 1,
+      "message": "I am newly getting a test failure here (as of today):\n\nvalue of      : getPublishedComments(...)\nunexpected (2): .... 2 more than expected ...\n\nCould this change be related?",
+      "revId": "faea7e1108ad2f74a2f0eed8cc276338083778b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

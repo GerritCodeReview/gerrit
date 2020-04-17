@@ -248,11 +248,12 @@ class GrReplyDialog extends mixinBehaviors( [
         type: String,
         value: '',
       },
+      _commentEditing: Boolean,
       _sendDisabled: {
         type: Boolean,
         computed: '_computeSendButtonDisabled(_sendButtonLabel, ' +
           'draftCommentThreads, draft, _reviewersMutated, _labelsChanged, ' +
-          '_includeComments, disabled)',
+          '_includeComments, disabled, _commentEditing)',
         observer: '_sendDisabledChanged',
       },
       draftCommentThreads: {
@@ -282,6 +283,13 @@ class GrReplyDialog extends mixinBehaviors( [
     super.attached();
     this._getAccount().then(account => {
       this._account = account || {};
+    });
+
+    this.addEventListener('comment-update', () => {
+      this._commentEditing = true;
+    });
+    this.addEventListener('comment-save', () => {
+      this._commentEditing = false;
     });
   }
 
@@ -880,7 +888,7 @@ class GrReplyDialog extends mixinBehaviors( [
 
   _computeSendButtonDisabled(
       buttonLabel, draftCommentThreads, text, reviewersMutated,
-      labelsChanged, includeComments, disabled) {
+      labelsChanged, includeComments, disabled, commentEditing) {
     // Polymer 2: check for undefined
     if ([
       buttonLabel,
@@ -890,11 +898,12 @@ class GrReplyDialog extends mixinBehaviors( [
       labelsChanged,
       includeComments,
       disabled,
+      commentEditing,
     ].some(arg => arg === undefined)) {
       return undefined;
     }
 
-    if (disabled) { return true; }
+    if (commentEditing || disabled) { return true; }
     if (buttonLabel === ButtonLabels.START_REVIEW) { return false; }
     const hasDrafts = includeComments && draftCommentThreads.length;
     return !hasDrafts && !text.length && !reviewersMutated && !labelsChanged;

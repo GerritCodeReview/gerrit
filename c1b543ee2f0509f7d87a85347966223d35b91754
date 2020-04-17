@@ -22,6 +22,30 @@
       "revId": "c1b543ee2f0509f7d87a85347966223d35b91754",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66e80c77_60b787a8",
+        "filename": "Jenkinsfile",
+        "patchSetId": 13
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-04-17T09:19:33Z",
+      "side": 1,
+      "message": "currentBuild cannot be null, but slaveBuild in line 127 (also see stacktrace: (WorkflowScript:127)). Let me check, why this happens.",
+      "parentUuid": "824adec5_12624927",
+      "range": {
+        "startLine": 116,
+        "startChar": 34,
+        "endLine": 116,
+        "endChar": 63
+      },
+      "revId": "c1b543ee2f0509f7d87a85347966223d35b91754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

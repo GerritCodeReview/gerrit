@@ -81,6 +81,30 @@
       "revId": "d3416dc11f4102ca4762d9ba8835acaa8647603d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25d8de30_9d2bcef9",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-17T07:58:00Z",
+      "side": 1,
+      "message": "Ah, I see.\n\nYou are right about it being more confusing when taken out of the loop. A comment would help in this case.\n\nwhile(...) {\nif (cherryPickInput.base \u003d\u003d null) {\n  // If not base was provided, the first change will be used to find a common base.\n  cherryPickInput.base \u003d getBase(...);\n}\n}",
+      "parentUuid": "366c9035_44b3e9ad",
+      "range": {
+        "startLine": 294,
+        "startChar": 31,
+        "endLine": 294,
+        "endChar": 38
+      },
+      "revId": "d3416dc11f4102ca4762d9ba8835acaa8647603d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

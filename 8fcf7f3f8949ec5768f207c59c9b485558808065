@@ -46,6 +46,30 @@
       "revId": "8fcf7f3f8949ec5768f207c59c9b485558808065",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "601436c9_fc9ef861",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/MailProcessorIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-17T11:37:13Z",
+      "side": 1,
+      "message": "I moved the ts initialization up to match the other tests. I also don\u0027t know what happens if this chances upon a robot comment, so this is simpler. Patrick\u0027s suggestion is even simpler though; done.",
+      "parentUuid": "73c0a048_08f9e277",
+      "range": {
+        "startLine": 354,
+        "startChar": 0,
+        "endLine": 359,
+        "endChar": 0
+      },
+      "revId": "8fcf7f3f8949ec5768f207c59c9b485558808065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

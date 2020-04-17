@@ -46,9 +46,70 @@ self.mockPromise = () => {
   return promise;
 };
 self.isHidden = el => getComputedStyle(el).display === 'none';
+
+// Default implementations of 'fixture' and 'stub' methods in
+// web-component-tester are incorrect. Default methods calls mocha teardown
+// method to register cleanup actions. Each call to the teardown method adds
+// additional 'afterEach' hook to a suite.
+// As a result, if a suite's setup(..) method calls fixture(..) or stub(..)
+// method, then additional afterEach hook is registered before each test.
+// In overall, afterEach hook is called testCount^2 instead of testCount.
+// When tests runs with the wct test runner, the runner adds listener for
+// the 'afterEach' and tries to make some UI and log udpates. These updates
+// are quite heavy, and after about 40-50 tests each test waste 0.5-1seconds.
+//
+// Our implementation uses global teardown to clean up everything. mocha calls
+// global teardown after each test. The cleanups array stores all functions
+// which must be called after a test ends.
+//
+// Note, that fixture(...) and stub(..) methods are registered different by
+// WCT. This is why these methods implemented slightly different here.
+const cleanups = [];
+if (!window.fixture) {
+  window.fixture = function(fixtureId, model) {
+    // This method is inspired by WCT method
+    cleanups.push(() => document.getElementById(fixtureId).restore());
+    return document.getElementById(fixtureId).create(model);
+  };
+} else {
+  throw new Error('window.fixture must be set before wct sets it');
+}
+
+// On the first call to the setup, WCT installs window.fixture
+// and widnow.stub methods
 setup(() => {
+  // If the following asserts fails - then window.stub is
+  // overwritten by some other code.
+  assert.equal(cleanups.length, 0);
+
   if (!window.Gerrit) { return; }
   if (Gerrit._testOnly_resetPlugins) {
     Gerrit._testOnly_resetPlugins();
   }
+});
+
+if (window.stub) {
+  window.stub = function(tagName, implementation) {
+    // This method is inspired by WCT method
+    const proto = document.createElement(tagName).constructor.prototype;
+    const stubs = Object.keys(implementation)
+        .map(key => sinon.stub(proto, key, implementation[key]));
+    cleanups.push(() => {
+      stubs.forEach(stub => {
+        stub.restore();
+      });
+    });
+  };
+} else {
+  throw new Error('window.stub must be set after wct sets it');
+}
+
+teardown(() => {
+  // WCT incorrectly uses teardown method in the 'fixture' and 'stub'
+  // implementations. This leads to slowdown WCT tests after each tests.
+  // I.e. more tests in a file - longer it takes.
+  // For example, gr-file-list_test.html takes approx 40 second without
+  // a fix and 10 seconds with our implementation of fixture and stub.
+  cleanups.forEach(cleanup => cleanup());
+  cleanups.splice(0);
 });

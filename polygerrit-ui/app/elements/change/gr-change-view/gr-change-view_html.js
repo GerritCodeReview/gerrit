@@ -216,7 +216,8 @@ export const htmlTemplate = html`
         --paper-tab-ink: var(--link-color);
       }
       gr-thread-list,
-      gr-messages-list {
+      gr-messages-list,
+      gr-messages-list-experimental {
         display: block;
       }
       gr-thread-list {
@@ -500,7 +501,12 @@ export const htmlTemplate = html`
       </paper-tabs>
       <section class="changeLog">
         <template is="dom-if" if="[[_isTabActive(_constants.SecondaryTabs.CHANGE_LOG, _activeTabs)]]">
-          <gr-messages-list class="hideOnMobileOverlay" change-num="[[_changeNum]]" labels="[[_change.labels]]" messages="[[_change.messages]]" reviewer-updates="[[_change.reviewer_updates]]" change-comments="[[_changeComments]]" project-name="[[_change.project]]" show-reply-buttons="[[_loggedIn]]" on-message-anchor-tap="_handleMessageAnchorTap" on-reply="_handleMessageReply"></gr-messages-list>
+          <template is="dom-if" if="[[!_isChangeLogExperimentEnabled()]]">
+            <gr-messages-list class="hideOnMobileOverlay" change-num="[[_changeNum]]" labels="[[_change.labels]]" messages="[[_change.messages]]" reviewer-updates="[[_change.reviewer_updates]]" change-comments="[[_changeComments]]" project-name="[[_change.project]]" show-reply-buttons="[[_loggedIn]]" on-message-anchor-tap="_handleMessageAnchorTap" on-reply="_handleMessageReply"></gr-messages-list>
+          </template>
+          <template is="dom-if" if="[[_isChangeLogExperimentEnabled()]]">
+            <gr-messages-list-experimental class="hideOnMobileOverlay" change-num="[[_changeNum]]" labels="[[_change.labels]]" messages="[[_change.messages]]" reviewer-updates="[[_change.reviewer_updates]]" change-comments="[[_changeComments]]" project-name="[[_change.project]]" show-reply-buttons="[[_loggedIn]]" on-message-anchor-tap="_handleMessageAnchorTap" on-reply="_handleMessageReply"></gr-messages-list-experimental>
+          </template>
         </template>
         <template is="dom-if" if="[[_isTabActive(_constants.SecondaryTabs.COMMENT_THREADS, _activeTabs)]]">
           <gr-thread-list threads="[[_commentThreads]]" change="[[_change]]" change-num="[[_changeNum]]" logged-in="[[_loggedIn]]" only-show-robot-comments-with-human-reply="" on-thread-list-modified="_handleReloadDiffComments"></gr-thread-list>

@@ -122,17 +122,20 @@ def prepareBuildsForMode(buildName, mode="notedb", retryTimes = 1) {
                         string(name: 'TARGET_BRANCH', value: env.GERRIT_BRANCH)
                     ], propagate: false
                 } finally {
-                    if (buildName == "Gerrit-codestyle"){
-                        Builds.codeStyle = new Build(
-                            slaveBuild.getAbsoluteUrl(), slaveBuild.getResult())
-                        postCheck(new GerritCheck("codestyle", Builds.codeStyle))
-                    } else {
-                        Builds.verification[mode] = new Build(
-                            slaveBuild.getAbsoluteUrl(), slaveBuild.getResult())
-                        postCheck(new GerritCheck(mode, Builds.verification[mode]))
-                    }
-                    if (slaveBuild.getResult() == "SUCCESS") {
-                        break
+                    if (slaveBuild != null) {
+                      // slaveBuild is null if an excpetion is thrown in try {...} block
+                      if (buildName == "Gerrit-codestyle"){
+                          Builds.codeStyle = new Build(
+                              slaveBuild.getAbsoluteUrl(), slaveBuild.getResult())
+                          postCheck(new GerritCheck("codestyle", Builds.codeStyle))
+                      } else {
+                          Builds.verification[mode] = new Build(
+                              slaveBuild.getAbsoluteUrl(), slaveBuild.getResult())
+                          postCheck(new GerritCheck(mode, Builds.verification[mode]))
+                      }
+                      if (slaveBuild.getResult() == "SUCCESS") {
+                          break
+                      }
                     }
                 }
             }

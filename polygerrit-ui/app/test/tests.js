@@ -80,6 +80,7 @@ const elements = [
   'change/gr-label-scores/gr-label-scores_test.html',
   'change/gr-message/gr-message_test.html',
   'change/gr-messages-list/gr-messages-list_test.html',
+  'change/gr-messages-list-experimental/gr-messages-list-experimental_test.html',
   'change/gr-related-changes-list/gr-related-changes-list_test.html',
   'change/gr-reply-dialog/gr-reply-dialog-it_test.html',
   'change/gr-reply-dialog/gr-reply-dialog_test.html',

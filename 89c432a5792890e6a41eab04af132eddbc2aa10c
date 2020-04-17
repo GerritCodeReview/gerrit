@@ -14,9 +14,9 @@
       "updated": "2020-04-17T20:55:55Z"
     },
     "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "NOT_STARTED",
+      "state": "SCHEDULED",
       "created": "2020-04-17T20:55:56Z",
-      "updated": "2020-04-17T21:12:23Z"
+      "updated": "2020-04-17T21:15:50Z"
     }
   }
 }

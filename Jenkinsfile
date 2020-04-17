@@ -110,10 +110,10 @@ def prepareBuildsForMode(buildName, mode="reviewdb", retryTimes = 1) {
         stage("${buildName}/${mode}") {
             def slaveBuild = null
             for (int i = 1; i <= retryTimes; i++) {
+                postCheck(new GerritCheck(
+                    (buildName == "Gerrit-codestyle") ? "codestyle" : mode,
+                    new Build(currentBuild.getAbsoluteUrl(), null)))
                 try {
-                    postCheck(new GerritCheck(
-                        (buildName == "Gerrit-codestyle") ? "codestyle" : mode,
-                        new Build(currentBuild.getAbsoluteUrl(), null)))
                     slaveBuild = build job: "${buildName}", parameters: [
                         string(name: 'REFSPEC', value: "refs/changes/${env.BRANCH_NAME}"),
                         string(name: 'BRANCH', value: env.GERRIT_PATCHSET_REVISION),

@@ -22,6 +22,30 @@
       "revId": "8fcf7f3f8949ec5768f207c59c9b485558808065",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73c0a048_08f9e277",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/MailProcessorIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-17T11:22:01Z",
+      "side": 1,
+      "message": "Would gApi.changes().id(changeId).get().updated suffice here?",
+      "parentUuid": "1557b6af_cbaa764b",
+      "range": {
+        "startLine": 354,
+        "startChar": 0,
+        "endLine": 359,
+        "endChar": 0
+      },
+      "revId": "8fcf7f3f8949ec5768f207c59c9b485558808065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

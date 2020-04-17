@@ -161,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "9ab5769a_89d79fa4",
+        "filename": "polygerrit-ui/app/services/flags_mock.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-17T07:39:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3ef41931_ec953aae",
+      "revId": "786e8521137dc00bfa256c721617bcb6dd7320ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "399c0baf_6e9be0ab",
         "filename": "polygerrit-ui/app/services/service-provider-initializer.js",
         "patchSetId": 3
@@ -440,6 +458,24 @@
       "revId": "786e8521137dc00bfa256c721617bcb6dd7320ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6739f4ff_87752e72",
+        "filename": "polygerrit-ui/app/services/service-provider-initializer_mock.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-17T07:39:56Z",
+      "side": 1,
+      "message": "I tried several approaches and I didn\u0027t like them. I will prepare example for mock for gr-reporting. Flag Service doesn\u0027t need to be mocked.",
+      "parentUuid": "c51b4863_6d1d4dde",
+      "revId": "786e8521137dc00bfa256c721617bcb6dd7320ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

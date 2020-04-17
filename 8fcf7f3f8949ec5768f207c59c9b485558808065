@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1557b6af_cbaa764b",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/MailProcessorIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-17T11:15:02Z",
+      "side": 1,
+      "message": "Should this really move here?",
+      "range": {
+        "startLine": 354,
+        "startChar": 0,
+        "endLine": 359,
+        "endChar": 0
+      },
+      "revId": "8fcf7f3f8949ec5768f207c59c9b485558808065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

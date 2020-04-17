@@ -118,10 +118,20 @@ maven_jar(
 
 GUICE_VERS = "4.2.3"
 
-maven_jar(
-    name = "guice-library",
-    artifact = "com.google.inject:guice:" + GUICE_VERS,
-    sha1 = "2ea992d6d7bdcac7a43111a95d182a4c42eb5ff7",
+GUICE_LIBRARY_SHA256 = "5168f5e7383f978c1b4154ac777b78edd8ac214bb9f9afdb92921c8d156483d3"
+
+http_file(
+    name = "guice-library-no-aop",
+    canonical_id = "guice-library-no-aop-" + GUICE_VERS + ".jar-" + GUICE_LIBRARY_SHA256,
+    downloaded_file_path = "guice-library-no-aop.jar",
+    sha256 = GUICE_LIBRARY_SHA256,
+    urls = [
+        "https://repo1.maven.org/maven2/com/google/inject/guice/" +
+        GUICE_VERS +
+        "/guice-" +
+        GUICE_VERS +
+        "-no_aop.jar",
+    ],
 )
 
 maven_jar(
@@ -134,12 +144,6 @@ maven_jar(
     name = "guice-servlet",
     artifact = "com.google.inject.extensions:guice-servlet:" + GUICE_VERS,
     sha1 = "8d6e7e35eac4fb5e7df19c55b3bc23fa51b10a11",
-)
-
-maven_jar(
-    name = "aopalliance",
-    artifact = "aopalliance:aopalliance:1.0",
-    sha1 = "0235ba8b489512805ac13a8f9ea77a1ca5ebe3e8",
 )
 
 maven_jar(
@@ -207,14 +211,17 @@ maven_jar(
     sha1 = "6000774d7f8412ced005a704188ced78beeed2bb",
 )
 
+CAFFEINE_GUAVA_SHA256 = "3a66ee3ec70971dee0bae6e56bda7b8742bc4bedd7489161bfbbaaf7137d89e1"
+
 # TODO(davido): Rename guava.jar to caffeine-guava.jar on fetch to prevent potential
 # naming collision between caffeine guava adapater and guava library itself.
 # Remove this renaming procedure, once this upstream issue is fixed:
 # https://github.com/ben-manes/caffeine/issues/364.
 http_file(
     name = "caffeine-guava-renamed",
+    canonical_id = "caffeine-guava-" + CAFFEINE_VERS + ".jar-" + CAFFEINE_GUAVA_SHA256,
     downloaded_file_path = "caffeine-guava-" + CAFFEINE_VERS + ".jar",
-    sha256 = "3a66ee3ec70971dee0bae6e56bda7b8742bc4bedd7489161bfbbaaf7137d89e1",
+    sha256 = CAFFEINE_GUAVA_SHA256,
     urls = [
         "https://repo1.maven.org/maven2/com/github/ben-manes/caffeine/guava/" +
         CAFFEINE_VERS +

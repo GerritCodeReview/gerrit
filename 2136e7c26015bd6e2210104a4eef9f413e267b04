@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a33da3b_f5061755",
+        "filename": "Documentation/pg-plugin-endpoints.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-17T20:28:58Z",
+      "side": 1,
+      "message": "I think these lines belonged to change-view-tab-content above. And this commit-container section brought its own set of lines for these.",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 207,
+        "endChar": 0
+      },
+      "revId": "2136e7c26015bd6e2210104a4eef9f413e267b04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

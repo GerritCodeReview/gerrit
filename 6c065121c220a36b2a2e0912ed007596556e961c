@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a757a6fe_687c02cb",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-17T07:51:56Z",
+      "side": 1,
+      "message": "nit: this is unnecessary. When the array is empty, the anyMatch won\u0027t trigger because the stream is empty.",
+      "range": {
+        "startLine": 474,
+        "startChar": 12,
+        "endLine": 474,
+        "endChar": 42
+      },
+      "revId": "6c065121c220a36b2a2e0912ed007596556e961c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

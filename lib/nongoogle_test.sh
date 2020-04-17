@@ -26,9 +26,8 @@ mina-core
 nekohtml
 objenesis
 openid-consumer
-sshd
-sshd-common
 sshd-mina
+sshd-osgi
 testcontainers
 testcontainers-elasticsearch
 tukaani-xz

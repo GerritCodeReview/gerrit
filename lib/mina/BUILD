@@ -6,9 +6,8 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         ":eddsa",
-        "@sshd-common//jar",
         "@sshd-mina//jar",
-        "@sshd//jar",
+        "@sshd-osgi//jar",
     ],
     runtime_deps = [":core"],
 )

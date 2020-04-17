@@ -50,6 +50,7 @@ import '../gr-file-list-header/gr-file-list-header.js';
 import '../gr-file-list/gr-file-list.js';
 import '../gr-included-in-dialog/gr-included-in-dialog.js';
 import '../gr-messages-list/gr-messages-list.js';
+import '../gr-messages-list/gr-messages-list-experimental.js';
 import '../gr-related-changes-list/gr-related-changes-list.js';
 import '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js';
 import '../gr-reply-dialog/gr-reply-dialog.js';
@@ -64,6 +65,7 @@ import {htmlTemplate} from './gr-change-view_html.js';
 
 import {PrimaryTabs, SecondaryTabs} from '../../../constants/constants.js';
 import {NO_ROBOT_COMMENTS_THREADS_MSG} from '../../../constants/messages.js';
+import {flags} from '../../../services/flags';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -529,8 +531,14 @@ class GrChangeView extends mixinBehaviors( [
     }
   }
 
+  _isChangeLogExperimentEnabled() {
+    return flags.isEnabled('UiFeature__cleaner_changelog');
+  }
+
   get messagesList() {
-    return this.shadowRoot.querySelector('gr-messages-list');
+    const tagName = this._isChangeLogExperimentEnabled()
+      ? 'gr-messages-list-experimental' : 'gr-messages-list';
+    return this.shadowRoot.querySelector(tagName);
   }
 
   get threadList() {

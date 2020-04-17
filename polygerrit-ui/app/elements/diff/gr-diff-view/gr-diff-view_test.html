@@ -904,7 +904,6 @@ suite('gr-diff-view tests', () => {
     test('_onLineSelected', () => {
       const getUrlStub = sandbox.stub(Gerrit.Nav, 'getUrlForDiffById');
       const replaceStateStub = sandbox.stub(history, 'replaceState');
-      const moveStub = sandbox.stub(element.$.cursor, 'moveToLineNumber');
       sandbox.stub(element.$.cursor, 'getAddress')
           .returns({number: 123, isLeftSide: false});
 
@@ -918,10 +917,6 @@ suite('gr-diff-view tests', () => {
       const detail = {number: 123, side: 'right'};
 
       element._onLineSelected(e, detail);
-
-      assert.isTrue(moveStub.called);
-      assert.equal(moveStub.lastCall.args[0], detail.number);
-      assert.equal(moveStub.lastCall.args[1], detail.side);
 
       assert.isTrue(replaceStateStub.called);
       assert.isTrue(getUrlStub.called);

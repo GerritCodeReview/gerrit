@@ -1104,7 +1104,10 @@ suite('gr-file-list tests', () => {
         cancel() {},
         getCursorStops() { return []; },
         addEventListener(eventName, callback) {
-          callback(new Event(eventName));
+          if (['render-start', 'render-content', 'scroll']
+              .indexOf(eventName) >= 0) {
+            callback(new Event(eventName));
+          }
         },
       }];
       sinon.stub(element, 'diffs', {

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9acc0a6_a0b4e935",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-17T22:35:40Z",
+      "side": 1,
+      "message": "This section is already here and added below again.",
+      "range": {
+        "startLine": 248,
+        "startChar": 0,
+        "endLine": 252,
+        "endChar": 25
+      },
+      "revId": "996c63732fe94a3bbe1e752be48347843a2a1110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a56721c6_6c3e09ec",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-17T22:35:40Z",
+      "side": 1,
+      "message": "Now, the whole section was re-added again.\n\nI noticed the problem while building :release, and Documentation generation tool chain is complaining:\n\n  $ bazel build :release\n  [...]\n  INFO: From Rendering asciidoctor files for html_htmlonly:\nApr 18, 2020 12:23:26 AM \u003cscript\u003e convertFile\nWARNING: dev-contributing.txt.html_htmlonly_expn: line 333: id assigned to section already in use: esc-dd-evaluation\nTarget //:release up-to-date:\n  bazel-bin/release.war\nINFO: Elapsed time: 91.712s, Critical Path: 81.25s\nINFO: 60 processes: 1 remote cache hit, 31 linux-sandbox, 28 worker.\nINFO: Build completed successfully, 61 total actions",
+      "range": {
+        "startLine": 332,
+        "startChar": 0,
+        "endLine": 414,
+        "endChar": 57
+      },
+      "revId": "996c63732fe94a3bbe1e752be48347843a2a1110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

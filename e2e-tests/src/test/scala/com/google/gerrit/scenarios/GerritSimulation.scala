@@ -31,8 +31,9 @@ class GerritSimulation extends Simulation {
   protected val body: String = s"$pathName-body.json"
   protected val unique: String = name + "-" + this.hashCode()
 
+  private val factor: Double = replaceProperty("factor", 1.0).toDouble
   private val secondsPerWeightUnit: Int = 2
-  val max: Int = secondsPerWeightUnit * weight
+  val max: Int = (secondsPerWeightUnit * weight * factor).toInt
 
   protected val httpRequest: HttpRequestBuilder = http(unique).post("${url}")
   protected val httpProtocol: HttpProtocolBuilder = http.basicAuth(
@@ -57,11 +58,15 @@ class GerritSimulation extends Simulation {
     replaceProperty(term, term, in)
   }
 
+  private def replaceProperty(term: String, default: Any): String = {
+    replaceProperty(term, default, term.toUpperCase)
+  }
+
   protected def replaceProperty(term: String, default: Any, in: String): String = {
     val property = pack + "." + term
     var value = default
     default match {
-      case _: String =>
+      case _: String | _: Double =>
         val propertyValue = Option(System.getProperty(property))
         if (propertyValue.nonEmpty) {
           value = propertyValue.get

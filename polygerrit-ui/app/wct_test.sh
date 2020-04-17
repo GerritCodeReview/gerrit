@@ -3,6 +3,7 @@
 set -ex
 root_dir=$(pwd)
 t=$TEST_TMPDIR
+export JSON_CONFIG=$2
 
 mkdir -p $t/node_modules
 # WCT doesn't implement node module resolution.
@@ -21,6 +22,16 @@ cp -R -L ./polygerrit-ui/app/* $t/
 export PATH="$(dirname $NPM):$PATH"
 
 cd $t
+echo "export const config=$JSON_CONFIG;" > ./test/suite_conf.js
+echo "export const testsPerFileString=\`" >> ./test/suite_conf.js
+# Count number of tests in each file.
+# We don't need accurate data, use simpliest method
+# TODO(dmfilippov): collect data only once
+# In the current implementation, the same data is collected for each split,
+# It takes less than a second which many times less than the overall wct test time
+grep -rnw '.' --include=\*_test.html -e "test(" -c >> ./test/suite_conf.js
+echo "\`;" >>./test/suite_conf.js
+cat $t/test/suite_conf.js
 
 # If wct doesn't receive any paramenters, it fails (can't find files)
 # Pass --config-file as a parameter to have some arguments in command line

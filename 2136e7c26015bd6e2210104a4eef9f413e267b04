@@ -22,6 +22,30 @@
       "revId": "2136e7c26015bd6e2210104a4eef9f413e267b04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e189cef1_599a49c0",
+        "filename": "Documentation/pg-plugin-endpoints.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-17T20:41:39Z",
+      "side": 1,
+      "message": "Fixed the conflict resolution. It also was misplaced as it belongs to another section, above of the \"Dynamic Plugin endpoints\" section. Done.",
+      "parentUuid": "9a33da3b_f5061755",
+      "range": {
+        "startLine": 196,
+        "startChar": 0,
+        "endLine": 207,
+        "endChar": 0
+      },
+      "revId": "2136e7c26015bd6e2210104a4eef9f413e267b04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

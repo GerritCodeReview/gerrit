@@ -22,6 +22,30 @@
       "revId": "451cf002a9af2b0631b9ac11f536ab292370fdf6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a539f33_5911c0e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-17T07:59:09Z",
+      "side": 1,
+      "message": "Actually, I think this is correct?\n\nwith lots of thorny, multi-threaded code\n\nthe code is thorny and multi-threaded?",
+      "parentUuid": "30a3e7aa_b3164b72",
+      "range": {
+        "startLine": 30,
+        "startChar": 44,
+        "endLine": 30,
+        "endChar": 50
+      },
+      "revId": "451cf002a9af2b0631b9ac11f536ab292370fdf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

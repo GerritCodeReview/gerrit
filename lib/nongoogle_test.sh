@@ -28,6 +28,7 @@ objenesis
 openid-consumer
 sshd-mina
 sshd-osgi
+sshd-sftp
 testcontainers
 testcontainers-elasticsearch
 tukaani-xz

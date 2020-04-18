@@ -22,11 +22,14 @@ import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.common.FooterConstants;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.config.SshClientImplementation;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.KeyPair;
 import com.jcraft.jsch.Session;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -53,6 +56,9 @@ import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.SshSessionFactory;
+import org.eclipse.jgit.transport.sshd.DefaultProxyDataFactory;
+import org.eclipse.jgit.transport.sshd.JGitKeyCache;
+import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
 import org.eclipse.jgit.util.FS;
 
 public class GitUtil {
@@ -60,7 +66,21 @@ public class GitUtil {
   private static final int TEST_REPO_WINDOW_DAYS = 2;
 
   public static void initSsh(KeyPair keyPair) {
-    final Properties config = new Properties();
+    SshClientImplementation client = SshClientImplementation.getFromEnvironment();
+    switch (client) {
+      case JSCH:
+        initJschClient(keyPair);
+        break;
+      case MINA:
+        initMinaClient();
+        break;
+      default:
+        throw new IllegalArgumentException("Unknown client type: " + client);
+    }
+  }
+
+  private static void initJschClient(KeyPair keyPair) {
+    Properties config = new Properties();
     config.put("StrictHostKeyChecking", "no");
     JSch.setConfig(config);
 
@@ -72,7 +92,7 @@ public class GitUtil {
           @Override
           protected void configure(Host hc, Session session) {
             try {
-              final JSch jsch = getJSch(hc, FS.DETECTED);
+              JSch jsch = getJSch(hc, FS.DETECTED);
               jsch.addIdentity(
                   "KeyPair", TestSshKeys.privateKey(keyPair), keyPair.getPublicKeyBlob(), null);
             } catch (JSchException e) {
@@ -80,6 +100,12 @@ public class GitUtil {
             }
           }
         });
+  }
+
+  private static void initMinaClient() {
+    JGitKeyCache keyCache = new JGitKeyCache();
+    SshdSessionFactory factory = new SshdSessionFactory(keyCache, new DefaultProxyDataFactory());
+    SshSessionFactory.setInstance(factory);
   }
 
   /**
@@ -106,16 +132,13 @@ public class GitUtil {
     return tr;
   }
 
-  public static TestRepository<InMemoryRepository> cloneProject(Project.NameKey project, String uri)
-      throws Exception {
+  public static TestRepository<InMemoryRepository> cloneProject(
+      Project.NameKey project, String uri, @Nullable File home) throws Exception {
     DfsRepositoryDescription desc = new DfsRepositoryDescription("clone of " + project.get());
 
     InMemoryRepository.Builder b = new InMemoryRepository.Builder().setRepositoryDescription(desc);
     if (uri.startsWith("ssh://")) {
-      // SshTransport depends on a real FS to read ~/.ssh/config, but InMemoryRepository by default
-      // uses a null FS.
-      // Avoid leaking user state into our tests.
-      b.setFS(FS.detect().setUserHome(null));
+      b.setFS(FS.detect().setUserHome(home));
     }
     InMemoryRepository dest = b.build();
     Config cfg = dest.getConfig();

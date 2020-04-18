@@ -148,6 +148,7 @@ java_library(
         "//lib:blame-cache",
         "//lib:guava",
         "//lib:jgit",
+        "//lib:jgit-ssh-apache",
         "//lib:soy",
         "//lib/guice",
     ],

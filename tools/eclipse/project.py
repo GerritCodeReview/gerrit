@@ -183,6 +183,8 @@ def gen_classpath(ext):
         classpathentry('src', 'modules/jgit/org.eclipse.jgit.junit/src')
         classpathentry('src', 'modules/jgit/org.eclipse.jgit.ssh.jsch/src')
         classpathentry('src', 'modules/jgit/org.eclipse.jgit.ssh.jsch/resources')
+        classpathentry('src', 'modules/jgit/org.eclipse.jgit.ssh.apache/src')
+        classpathentry('src', 'modules/jgit/org.eclipse.jgit.ssh.apache/resources')
 
     def classpathentry(kind, path, src=None, out=None, exported=None, excluding=None):
         e = doc.createElement('classpathentry')

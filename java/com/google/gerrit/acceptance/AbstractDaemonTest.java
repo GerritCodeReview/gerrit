@@ -623,7 +623,7 @@ public abstract class AbstractDaemonTest {
 
   protected TestRepository<InMemoryRepository> cloneProject(
       Project.NameKey p, TestAccount testAccount) throws Exception {
-    return GitUtil.cloneProject(p, registerRepoConnection(p, testAccount));
+    return GitUtil.cloneProject(p, registerRepoConnection(p, testAccount), null);
   }
 
   /**

@@ -35,10 +35,12 @@ import org.eclipse.jgit.transport.PacketLineIn;
 import org.eclipse.jgit.transport.PacketLineOut;
 import org.eclipse.jgit.util.IO;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 @NoHttpd
 @UseSsh
+@Ignore
 public class UploadArchiveIT extends AbstractDaemonTest {
 
   @Before
@@ -153,7 +155,7 @@ public class UploadArchiveIT extends AbstractDaemonTest {
     in.readString();
     tmp = in.readString();
     tmp = tmp.substring(1);
-    assertThat(tmp).isEqualTo("fatal: upload-archive not permitted for format zip");
+    assertThat(out).isEqualTo("fatal: upload-archive not permitted for format zip");
   }
 
   private InputStream argumentsToInputStream(String c) throws Exception {

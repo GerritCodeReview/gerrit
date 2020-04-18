@@ -194,6 +194,11 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.PostReceiveHook;
 import org.eclipse.jgit.transport.PostUploadHook;
 import org.eclipse.jgit.transport.PreUploadHook;
+import org.eclipse.jgit.transport.SshSessionFactory;
+import org.eclipse.jgit.transport.sshd.DefaultProxyDataFactory;
+import org.eclipse.jgit.transport.sshd.JGitKeyCache;
+import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
+import org.eclipse.jgit.util.FS;
 
 /** Starts global state with standard dependencies. */
 public class GerritGlobalModule extends FactoryModule {
@@ -263,6 +268,14 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(AuthBackend.class).to(UniversalAuthBackend.class).in(SINGLETON);
     DynamicSet.setOf(binder(), AuthBackend.class);
+
+    if (SshClientImplementation.MINA
+        == cfg.getEnum("ssh", null, "clientImplementation", SshClientImplementation.JSCH)) {
+      SshdSessionFactory factory =
+          new SshdSessionFactory(new JGitKeyCache(), new DefaultProxyDataFactory());
+      factory.setHomeDirectory(FS.DETECTED.userHome());
+      SshSessionFactory.setInstance(factory);
+    }
 
     bind(GroupControl.Factory.class).in(SINGLETON);
     bind(GroupControl.GenericFactory.class).in(SINGLETON);

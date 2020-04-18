@@ -16,6 +16,24 @@
       "revId": "b75813b1a4ee2489460799b89f579c0db62b3825",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96dc1d23_17df00e9",
+        "filename": "lib/mina/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-18T06:31:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d930cae_27686b3b",
+      "revId": "b75813b1a4ee2489460799b89f579c0db62b3825",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

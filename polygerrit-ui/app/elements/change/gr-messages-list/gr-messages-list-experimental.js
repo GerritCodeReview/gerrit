@@ -29,14 +29,6 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-messages-list-experimental_html.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 
-const MAX_INITIAL_SHOWN_MESSAGES = 20;
-const MESSAGES_INCREMENT = 5;
-
-const ReportingEvent = {
-  SHOW_ALL: 'show-all-messages',
-  SHOW_MORE: 'show-more-messages',
-};
-
 /**
  * @extends Polymer.Element
  */
@@ -52,10 +44,18 @@ class GrMessagesListExperimental extends mixinBehaviors( [
   static get properties() {
     return {
       changeNum: Number,
+      /**
+       * These are just the change messages. They are combined with reviewer
+       * updates below. So _processedMessages is the more important property.
+       */
       messages: {
         type: Array,
         value() { return []; },
       },
+      /**
+       * These are just the reviewer updates. They are combined with change
+       * messages above. So _processedMessages is the more important property.
+       */
       reviewerUpdates: {
         type: Array,
         value() { return []; },
@@ -309,89 +309,9 @@ class GrMessagesListExperimental extends mixinBehaviors( [
     return msgComments;
   }
 
-  /**
-   * Returns the number of messages to splice to the beginning of
-   * _visibleMessages. This is the minimum of the total number of messages
-   * remaining in the list and the number of messages needed to display five
-   * more visible messages in the list.
-   */
-  _getDelta(visibleMessages, messages, hideAutomated) {
-    if ([visibleMessages, messages].some(arg => arg === undefined)) {
-      return 0;
-    }
-
-    let delta = MESSAGES_INCREMENT;
-    const msgsRemaining = messages.length - visibleMessages.length;
-
-    if (hideAutomated) {
-      let counter = 0;
-      let i;
-      for (i = msgsRemaining; i > 0 && counter < MESSAGES_INCREMENT; i--) {
-        if (!this._isAutomated(messages[i - 1])) { counter++; }
-      }
-      delta = msgsRemaining - i;
-    }
-    return Math.min(msgsRemaining, delta);
-  }
-
-  /**
-   * Gets the number of messages that would be visible, but do not currently
-   * exist in _visibleMessages.
-   */
-  _numRemaining(visibleMessages, messages, hideAutomated) {
-    if ([visibleMessages, messages].some(arg => arg === undefined)) {
-      return 0;
-    }
-
-    if (hideAutomated) {
-      return this._getHumanMessages(messages).length -
-          this._getHumanMessages(visibleMessages).length;
-    }
-    return messages.length - visibleMessages.length;
-  }
-
-  _computeIncrementText(visibleMessages, messages, hideAutomated) {
-    let delta = this._getDelta(visibleMessages, messages, hideAutomated);
-    delta = Math.min(
-        this._numRemaining(visibleMessages, messages, hideAutomated), delta);
-    return 'Show ' + Math.min(MESSAGES_INCREMENT, delta) + ' more';
-  }
-
-  _getHumanMessages(messages) {
-    return messages.filter(msg => !this._isAutomated(msg));
-  }
-
-  _computeShowHideTextHidden(visibleMessages, messages,
-      hideAutomated) {
-    if ([visibleMessages, messages].some(arg => arg === undefined)) {
-      return 0;
-    }
-
-    if (hideAutomated) {
-      messages = this._getHumanMessages(messages);
-      visibleMessages = this._getHumanMessages(visibleMessages);
-    }
-    return visibleMessages.length >= messages.length;
-  }
-
-  _handleShowAllTap() {
-    this._visibleMessages = this._processedMessages;
-    this.$.reporting.reportInteraction(ReportingEvent.SHOW_ALL);
-  }
-
-  _handleIncrementShownMessages() {
-    const delta = this._getDelta(this._visibleMessages,
-        this._processedMessages, this._hideAutomated);
-    const len = this._visibleMessages.length;
-    const newMessages = this._processedMessages.slice(-(len + delta), -len);
-    // Add newMessages to the beginning of _visibleMessages
-    this.splice(...['_visibleMessages', 0, 0].concat(newMessages));
-    this.$.reporting.reportInteraction(ReportingEvent.SHOW_MORE);
-  }
-
   _processedMessagesChanged(messages) {
     if (messages) {
-      this._visibleMessages = messages.slice(-MAX_INITIAL_SHOWN_MESSAGES);
+      this._visibleMessages = messages;
 
       if (messages.length === 0) return;
       const tags = messages.map(message => message.tag || message.type ||
@@ -402,20 +322,6 @@ class GrMessagesListExperimental extends mixinBehaviors( [
       }, {all: messages.length});
       this.$.reporting.reportInteraction('messages-count', tagsCounted);
     }
-  }
-
-  _computeNumMessagesText(visibleMessages, messages,
-      hideAutomated) {
-    const total =
-        this._numRemaining(visibleMessages, messages, hideAutomated);
-    return total === 1 ? 'Show 1 message' : 'Show all ' + total + ' messages';
-  }
-
-  _computeIncrementHidden(visibleMessages, messages,
-      hideAutomated) {
-    const total =
-        this._numRemaining(visibleMessages, messages, hideAutomated);
-    return total <= this._getDelta(visibleMessages, messages, hideAutomated);
   }
 
   /**

@@ -28,6 +28,7 @@ java_library(
         "//java/com/google/gerrit/sshd",
         "//lib:guava",
         "//lib:jgit",
+        "//lib:jgit-ssh-apache",
         "//lib:servlet-api",
         "//lib/flogger:api",
         "//lib/guice",

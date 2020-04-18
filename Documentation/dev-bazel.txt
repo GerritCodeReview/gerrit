@@ -308,6 +308,18 @@ To run a specific test group, e.g. the rest-account test group:
   bazel test //javatests/com/google/gerrit/acceptance/rest/account:rest_account
 ----
 
+To run SSH tests using JSch ssh client:
+
+----
+  bazel test --test_env=SSH_CLIENT_IMPLEMENTATION=JSCH //...
+----
+
+To run SSH tests using Apache MINA ssh client:
+
+----
+  bazel test --test_env=SSH_CLIENT_IMPLEMENTATION=APACHE //...
+----
+
 To run only tests that do not use SSH:
 
 ----

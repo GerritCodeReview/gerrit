@@ -84,6 +84,7 @@ Apache2.0
 * mime4j:dom
 * mina:core
 * mina:sshd
+* mina:sshd-sftp
 * openid:consumer
 * openid:nekohtml
 * openid:xerces
@@ -2336,6 +2337,7 @@ jgit
 * jgit
 * jgit-archive
 * jgit-servlet
+* jgit-ssh-apache
 
 [[jgit_license]]
 ----

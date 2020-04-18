@@ -114,6 +114,7 @@ import com.google.gerrit.server.update.SuperprojectUpdateSubmissionListener;
 import com.google.gerrit.sshd.SshHostKeyModule;
 import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
+import com.google.gerrit.sshd.SshSessionFactoryInitializer;
 import com.google.gerrit.sshd.commands.DefaultCommandModule;
 import com.google.gerrit.sshd.commands.IndexCommandsModule;
 import com.google.gerrit.sshd.commands.SequenceCommandsModule;
@@ -482,6 +483,7 @@ public class Daemon extends SiteProgram {
           });
     }
     modules.add(new DefaultUrlFormatter.Module());
+    SshSessionFactoryInitializer.init(config);
     if (sshd) {
       modules.add(SshKeyCacheImpl.module());
     } else {

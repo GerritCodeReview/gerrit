@@ -28,6 +28,7 @@ java_library(
         "//lib:guava",
         "//lib:jgit",
         "//lib:jgit-archive",
+        "//lib:jgit-ssh-apache",
         "//lib:jsch",
         "//lib:servlet-api",
         "//lib/auto:auto-value",

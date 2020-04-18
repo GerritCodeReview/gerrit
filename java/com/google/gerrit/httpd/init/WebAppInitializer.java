@@ -103,6 +103,7 @@ import com.google.gerrit.server.update.SuperprojectUpdateSubmissionListener;
 import com.google.gerrit.sshd.SshHostKeyModule;
 import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
+import com.google.gerrit.sshd.SshSessionFactoryInitializer;
 import com.google.gerrit.sshd.commands.DefaultCommandModule;
 import com.google.gerrit.sshd.commands.IndexCommandsModule;
 import com.google.gerrit.sshd.commands.SequenceCommandsModule;
@@ -339,6 +340,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
         });
     modules.add(new DefaultUrlFormatter.Module());
 
+    SshSessionFactoryInitializer.init(config);
     modules.add(SshKeyCacheImpl.module());
     modules.add(
         new AbstractModule() {

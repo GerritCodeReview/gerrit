@@ -32,8 +32,9 @@ public class TestLoggingActivator {
           // Silence non-critical messages from MINA SSHD.
           .put("org.apache.mina", Level.WARN)
           .put("org.apache.sshd.common", Level.WARN)
+          .put("org.apache.sshd.client", Level.WARN)
           .put("org.apache.sshd.server", Level.WARN)
-          .put("org.apache.sshd.common.keyprovider.FileKeyPairProvider", Level.INFO)
+          .put("org.apache.sshd.common.keyprovider.FileKeyPairProvider", Level.WARN)
           .put("com.google.gerrit.sshd.GerritServerSession", Level.WARN)
 
           // Silence non-critical messages from mime-util.
@@ -61,6 +62,8 @@ public class TestLoggingActivator {
           // Silence non-critical messages from JGit.
           .put("org.eclipse.jgit.transport.PacketLineIn", Level.WARN)
           .put("org.eclipse.jgit.transport.PacketLineOut", Level.WARN)
+          .put("org.eclipse.jgit.internal.transport.sshd", Level.WARN)
+          .put("org.eclipse.jgit.util.FileUtils", Level.WARN)
           .put("org.eclipse.jgit.internal.storage.file.FileSnapshot", Level.WARN)
           .put("org.eclipse.jgit.util.FS", Level.WARN)
           .put("org.eclipse.jgit.util.SystemReader", Level.WARN)

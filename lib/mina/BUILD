@@ -8,6 +8,7 @@ java_library(
         ":eddsa",
         "@sshd-mina//jar",
         "@sshd-osgi//jar",
+        "@sshd-sftp//jar",
     ],
     runtime_deps = [":core"],
 )

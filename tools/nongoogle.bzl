@@ -42,6 +42,12 @@ def declare_nongoogle_deps():
     )
 
     maven_jar(
+        name = "sshd-sftp",
+        artifact = "org.apache.sshd:sshd-sftp:" + SSHD_VERS,
+        sha1 = "613e71a85a1abc2daf2e879ffd5e5a0c07ffa2cd",
+    )
+
+    maven_jar(
         name = "eddsa",
         artifact = "net.i2p.crypto:eddsa:0.3.0",
         sha1 = "1901c8d4d8bffb7d79027686cfb91e704217c3e1",

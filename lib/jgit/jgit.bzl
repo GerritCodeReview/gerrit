@@ -64,6 +64,13 @@ def jgit_maven_repos():
         sha1 = "a90513295c1cba0b289430512f0aa9d984d7cba2",
         unsign = True,
     )
+    maven_jar(
+        name = "jgit-ssh-apache",
+        artifact = "org.eclipse.jgit:org.eclipse.jgit.ssh.apache:" + _JGIT_VERS,
+        repository = _JGIT_REPO,
+        sha1 = "4feb4a956bf23cdda47701fd46b86704d9249955",
+        unsign = True,
+    )
 
 def jgit_dep(name):
     mapping = {
@@ -72,6 +79,7 @@ def jgit_dep(name):
         "@jgit-lib//jar": "@jgit//org.eclipse.jgit:jgit",
         "@jgit-lib//jar:src": "@jgit//org.eclipse.jgit:libjgit-src.jar",
         "@jgit-servlet//jar": "@jgit//org.eclipse.jgit.http.server:jgit-servlet",
+        "@jgit-ssh-apache//jar": "@org.eclipse.jgit.ssh.apache:ssh-apache",
     }
 
     if LOCAL_JGIT_REPO:

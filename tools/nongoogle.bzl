@@ -39,6 +39,15 @@ def declare_nongoogle_deps():
         licenses = ["unencumbered"],  # public domain
     )
 
+    java_import_external(
+        name = "sshd-sftp",
+        jar_sha256 = "fdf7aecfa1aa693587516ae2189aed56025ca92263f34b64b57c3840bbdc77c5",
+        jar_urls = [
+            "https://github.com/davido/mina-sshd/releases/download/v2.6.0-alpha/sshd-sftp-2.6.0.jar",
+        ],
+        licenses = ["unencumbered"],  # public domain
+    )
+
     maven_jar(
         name = "eddsa",
         artifact = "net.i2p.crypto:eddsa:0.3.0",

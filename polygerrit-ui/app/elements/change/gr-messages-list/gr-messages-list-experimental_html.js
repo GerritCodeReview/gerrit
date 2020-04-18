@@ -18,8 +18,7 @@ import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
 export const htmlTemplate = html`
     <style include="shared-styles">
-      :host,
-      .messageListControls {
+      :host {
         display: flex;
         justify-content: space-between;
       }
@@ -31,26 +30,12 @@ export const htmlTemplate = html`
         justify-content: space-between;
         padding: var(--spacing-s) var(--spacing-l);
       }
-      #messageControlsContainer {
-        padding: 0 var(--spacing-l);
-      }
       .highlighted {
         animation: 3s fadeOut;
       }
       @keyframes fadeOut {
         0% { background-color: var(--emphasis-color); }
         100% { background-color: var(--view-background-color); }
-      }
-      #messageControlsContainer {
-        align-items: center;
-        background-color: var(--background-color-secondary);
-        border-bottom: 1px solid var(--border-color);
-        display: flex;
-        height: 2.25em;
-        justify-content: center;
-      }
-      #messageControlsContainer gr-button {
-        padding: var(--spacing-s) 0;
       }
       .container {
         align-items: center;
@@ -67,25 +52,14 @@ export const htmlTemplate = html`
       }
     </style>
     <div class="header">
-        <span id="automatedMessageToggleContainer" class="container" hidden\$="[[!_hasAutomatedMessages(messages)]]">
-          <paper-toggle-button id="automatedMessageToggle" checked="{{_hideAutomated}}"></paper-toggle-button>Only comments
-          <span class="transparent separator"></span>
-        </span>
-        <gr-button id="collapse-messages" link="" title="[[_expandCollapseTitle]]" on-click="_handleExpandCollapseTap">
-          [[_computeExpandCollapseMessage(_expanded)]]
-        </gr-button>
-      </div>
-    <span id="messageControlsContainer" hidden\$="[[_computeShowHideTextHidden(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]">
-      <gr-button id="oldMessagesBtn" link="" on-click="_handleShowAllTap">
-          [[_computeNumMessagesText(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]
-      </gr-button>
-      <span class="container" hidden\$="[[_computeIncrementHidden(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]">
+      <span id="automatedMessageToggleContainer" class="container" hidden\$="[[!_hasAutomatedMessages(messages)]]">
+        <paper-toggle-button id="automatedMessageToggle" checked="{{_hideAutomated}}"></paper-toggle-button>Only comments
         <span class="transparent separator"></span>
-        <gr-button id="incrementMessagesBtn" link="" on-click="_handleIncrementShownMessages">
-          [[_computeIncrementText(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]
-        </gr-button>
       </span>
-    </span>
+      <gr-button id="collapse-messages" link="" title="[[_expandCollapseTitle]]" on-click="_handleExpandCollapseTap">
+        [[_computeExpandCollapseMessage(_expanded)]]
+      </gr-button>
+    </div>
     <template is="dom-repeat" items="[[_visibleMessages]]" as="message">
       <gr-message change-num="[[changeNum]]" message="[[message]]" comments="[[_computeCommentsForMessage(changeComments, message)]]" hide-automated="[[_hideAutomated]]" project-name="[[projectName]]" show-reply-button="[[showReplyButtons]]" on-message-anchor-tap="_handleAnchorClick" label-extremes="[[_labelExtremes]]" data-message-id\$="[[message.id]]"></gr-message>
     </template>

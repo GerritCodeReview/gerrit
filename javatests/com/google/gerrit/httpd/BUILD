@@ -20,6 +20,7 @@ junit_tests(
         "//lib/guice:guice-servlet",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",
+        "//lib/mina:sshd",
         "//lib/truth",
     ],
 )

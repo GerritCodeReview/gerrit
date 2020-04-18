@@ -449,7 +449,6 @@ public abstract class AbstractDaemonTest {
     if (testRequiresSsh
         && SshMode.useSsh()
         && (adminSshSession == null || userSshSession == null)) {
-      // Create Ssh sessions
       KeyPair adminKeyPair = sshKeys.getKeyPair(admin);
       GitUtil.initSsh(adminKeyPair);
       Context ctx = newRequestContext(user);
@@ -559,7 +558,7 @@ public abstract class AbstractDaemonTest {
 
   protected TestRepository<InMemoryRepository> cloneProject(
       Project.NameKey p, TestAccount testAccount) throws Exception {
-    return GitUtil.cloneProject(p, registerRepoConnection(p, testAccount));
+    return GitUtil.cloneProject(p, registerRepoConnection(p, testAccount), null);
   }
 
   /**

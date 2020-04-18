@@ -12,20 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.git;
+package com.google.gerrit.server.config;
 
-import com.google.gerrit.acceptance.GitUtil;
-import org.eclipse.jgit.transport.CredentialsProvider;
-import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
-import org.junit.Before;
+/* SSH implementation to use by JGit SSH client transport protocol. */
+public enum SshClientImplementation {
+  /** JCraft JSch implementation. */
+  JSCH,
 
-public class HttpSubmitOnPushIT extends AbstractSubmitOnPush {
-
-  @Before
-  public void cloneProjectOverHttp() throws Exception {
-    CredentialsProvider.setDefault(
-        new UsernamePasswordCredentialsProvider(admin.username(), admin.httpPassword()));
-    testRepo =
-        GitUtil.cloneProject(project, admin.getHttpUrl(server) + "/a/" + project.get(), null);
-  }
+  /** MINA SSHD implementation. */
+  MINA
 }

@@ -68,6 +68,7 @@ import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.config.SshClientImplementation;
 import com.google.gerrit.server.config.SysExecutorModule;
 import com.google.gerrit.server.events.EventBroker;
 import com.google.gerrit.server.events.StreamEventsApiListener;
@@ -132,6 +133,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.transport.SshSessionFactory;
+import org.eclipse.jgit.transport.sshd.DefaultProxyDataFactory;
+import org.eclipse.jgit.transport.sshd.JGitKeyCache;
+import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
+import org.eclipse.jgit.util.FS;
 
 /** Configures the web application environment for Gerrit Code Review. */
 public class WebAppInitializer extends GuiceServletContextListener implements Filter {
@@ -208,6 +214,13 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
       dbInjector = createDbInjector();
       initIndexType();
       config = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
+      if (SshClientImplementation.APACHE
+          == config.getEnum("ssh", null, "clientImplementation", SshClientImplementation.JSCH)) {
+        SshdSessionFactory factory =
+            new SshdSessionFactory(new JGitKeyCache(), new DefaultProxyDataFactory());
+        factory.setHomeDirectory(FS.DETECTED.userHome());
+        SshSessionFactory.setInstance(factory);
+      }
       sysInjector = createSysInjector();
       if (!sshdOff()) {
         sshInjector = createSshInjector();

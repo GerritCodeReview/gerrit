@@ -2345,6 +2345,7 @@ jgit
 * jgit
 * jgit-archive
 * jgit-servlet
+* jgit-ssh-apache
 
 [[jgit_license]]
 ----

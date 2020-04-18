@@ -24,6 +24,6 @@ public class HttpForcePushIT extends AbstractForcePush {
   public void cloneProjectOverHttp() throws Exception {
     CredentialsProvider.setDefault(
         new UsernamePasswordCredentialsProvider(admin.username(), admin.httpPassword()));
-    testRepo = GitUtil.cloneProject(project, admin.getHttpUrl(server) + "/" + project.get());
+    testRepo = GitUtil.cloneProject(project, admin.getHttpUrl(server) + "/" + project.get(), null);
   }
 }

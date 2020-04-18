@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d930cae_27686b3b",
+        "filename": "lib/mina/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-18T06:08:02Z",
+      "side": 1,
+      "message": "nit: move sshd-osgi after sshd-mina to maintain alphabetical order",
+      "revId": "b75813b1a4ee2489460799b89f579c0db62b3825",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

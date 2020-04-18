@@ -40,6 +40,7 @@ openid-consumer
 soy
 sshd-mina
 sshd-osgi
+sshd-sftp
 testcontainers
 truth
 truth-java8-extension

@@ -33,6 +33,7 @@ import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import com.github.rholder.retry.BlockStrategy;
@@ -168,7 +169,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -794,7 +794,7 @@ public abstract class AbstractDaemonTest {
                   admin.newIdent(),
                   testRepo,
                   "parent " + i,
-                  fileNames.stream().collect(Collectors.toMap(f -> f, f -> f + "-" + finalI)))
+                  fileNames.stream().collect(toMap(f -> f, f -> f + "-" + finalI)))
               .to(ref));
 
       // reset HEAD in order to create a sibling of the first change
@@ -810,10 +810,7 @@ public abstract class AbstractDaemonTest {
             "merge",
             IntStream.range(1, n + 1)
                 .boxed()
-                .collect(
-                    Collectors.toMap(
-                        i -> fileNames.get((int) i - 1),
-                        i -> fileNames.get((int) i - 1) + "-" + i)));
+                .collect(toMap(i -> fileNames.get(i - 1), i -> fileNames.get(i - 1) + "-" + i)));
 
     m.setParents(pushResults.stream().map(PushOneCommit.Result::getCommit).collect(toList()));
     PushOneCommit.Result result = m.to(ref);

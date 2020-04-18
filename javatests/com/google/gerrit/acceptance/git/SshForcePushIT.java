@@ -24,6 +24,8 @@ import org.junit.Before;
 public class SshForcePushIT extends AbstractForcePush {
   @Before
   public void cloneProjectOverSsh() throws Exception {
-    testRepo = GitUtil.cloneProject(project, adminSshSession.getUrl() + "/" + project.get());
+    testRepo =
+        GitUtil.cloneProject(
+            project, adminSshSession.getUrl() + "/" + project.get(), adminSshSession.getUserhome());
   }
 }

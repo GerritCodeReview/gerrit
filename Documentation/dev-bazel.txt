@@ -329,6 +329,18 @@ Primary storage NoteDb and ReviewDb disabled:
   bazel test --test_env=GERRIT_NOTEDB=ON //...
 ----
 
+To run SSH tests using JSch ssh client:
+
+----
+  bazel test --test_env=SSH_CLIENT_IMPLEMENTATION=JSCH //...
+----
+
+To run SSH tests using MINA ssh client:
+
+----
+  bazel test --test_env=SSH_CLIENT_IMPLEMENTATION=MINA //...
+----
+
 To run only tests that do not use SSH:
 
 ----

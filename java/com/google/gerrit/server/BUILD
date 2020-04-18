@@ -110,6 +110,7 @@ java_library(
         "//lib/jgit/org.eclipse.jgit.archive:jgit-archive",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.ssh.jsch:jgit-ssh-jsch",
+        "//lib/jgit/org.eclipse.jgit.ssh.apache:jgit-ssh-apache",
         "//lib/jsoup",
         "//lib/log:jsonevent-layout",
         "//lib/log:log4j",
@@ -143,6 +144,7 @@ java_library(
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.ssh.jsch:jgit-ssh-jsch",
+        "//lib/jgit/org.eclipse.jgit.ssh.apache:jgit-ssh-apache",
     ],
 )
 

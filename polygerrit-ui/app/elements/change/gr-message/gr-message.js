@@ -300,8 +300,8 @@ class GrMessage extends GestureEventListeners(
     return hideAutomated && isAutomated;
   }
 
-  _computeIsReviewerUpdate(event) {
-    return event.type === 'REVIEWER_UPDATE';
+  _computeIsReviewerUpdate(message) {
+    return message.type === 'REVIEWER_UPDATE';
   }
 
   _getScores(message, labelExtremes) {

@@ -277,3 +277,5 @@ Gerrit.GrSuggestionItem;
  * }}
  */
 Gerrit.GrSuggestionsProvider;
+
+GrAnnotationActionsInterface;

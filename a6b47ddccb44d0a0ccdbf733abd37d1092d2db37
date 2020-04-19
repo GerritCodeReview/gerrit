@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "46479e5e_ea72e515",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-19T09:11:22Z",
+      "side": 1,
+      "message": "\u003e This the new commit-msg is broken then. Why would we change something like that, that we use for last 10 years across all projects in the Gerrit community?\n\nAgreed, I thought that [1] was fixing the duplication of the Change-Id in the trailer, but actually it changes its position putting on the top of it, correct?\n\nShould we revert [1] and fix the duplication issue?",
+      "parentUuid": "2061e8b9_f2b2a0f2",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "a6b47ddccb44d0a0ccdbf733abd37d1092d2db37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d0f74ddb_2a9c105e",
         "filename": "Documentation/intro-user.txt",
         "patchSetId": 2

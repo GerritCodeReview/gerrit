@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "818a4a46_6c39b0a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-19T08:21:02Z",
+      "side": 1,
+      "message": "Should this be swapped?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "a6b47ddccb44d0a0ccdbf733abd37d1092d2db37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0f74ddb_2a9c105e",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-19T08:21:02Z",
+      "side": 1,
+      "message": "Inconsistent spelling: on line 122 above it is written patch set.",
+      "range": {
+        "startLine": 124,
+        "startChar": 59,
+        "endLine": 124,
+        "endChar": 67
+      },
+      "revId": "a6b47ddccb44d0a0ccdbf733abd37d1092d2db37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

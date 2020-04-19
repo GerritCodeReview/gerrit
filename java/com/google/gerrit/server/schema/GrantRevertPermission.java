@@ -20,15 +20,11 @@ import static com.google.gerrit.server.schema.AclUtil.grant;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -60,9 +56,7 @@ public class GrantRevertPermission {
     this.serverUser = serverUser;
   }
 
-  public void execute(Project.NameKey projectName)
-      throws IOException, ConfigInvalidException, AuthException, BadRequestException,
-          PermissionBackendException, ResourceConflictException {
+  public void execute(Project.NameKey projectName) throws IOException, ConfigInvalidException {
     try (Repository repo = repoManager.openRepository(projectName)) {
       MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, projectName, repo);
       ProjectConfig projectConfig = projectConfigFactory.read(md);

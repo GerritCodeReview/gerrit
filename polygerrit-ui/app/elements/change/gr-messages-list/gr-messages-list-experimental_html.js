@@ -60,8 +60,15 @@ export const htmlTemplate = html`
         [[_computeExpandCollapseMessage(_expanded)]]
       </gr-button>
     </div>
-    <template is="dom-repeat" items="[[_visibleMessages]]" as="message">
-      <gr-message change-num="[[changeNum]]" message="[[message]]" comments="[[_computeCommentsForMessage(changeComments, message)]]" hide-automated="[[_hideAutomated]]" project-name="[[projectName]]" show-reply-button="[[showReplyButtons]]" on-message-anchor-tap="_handleAnchorClick" label-extremes="[[_labelExtremes]]" data-message-id\$="[[message.id]]"></gr-message>
+    <template id="messageRepeat" is="dom-repeat" items="[[_combinedMessages]]" as="message" filter="_isMessageVisible">
+      <gr-message change-num="[[changeNum]]"
+                  message="[[message]]"
+                  comments="[[_computeCommentsForMessage(changeComments, message)]]"
+                  project-name="[[projectName]]"
+                  show-reply-button="[[showReplyButtons]]"
+                  on-message-anchor-tap="_handleAnchorClick"
+                  label-extremes="[[_labelExtremes]]"
+                  data-message-id\$="[[message.id]]"></gr-message>
     </template>
     <gr-reporting id="reporting" category="message-list"></gr-reporting>
 `;

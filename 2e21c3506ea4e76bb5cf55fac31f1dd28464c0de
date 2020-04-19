@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a1db599_42153907",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-19T07:40:50Z",
+      "side": 1,
+      "message": "This should have been removed",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 27
+      },
+      "revId": "2e21c3506ea4e76bb5cf55fac31f1dd28464c0de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

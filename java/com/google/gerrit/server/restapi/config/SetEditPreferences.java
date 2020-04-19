@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.StoredPreferences;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ConfigResource;
@@ -42,16 +41,12 @@ public class SetEditPreferences implements RestModifyView<ConfigResource, EditPr
 
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final AllUsersName allUsersName;
-  private final AccountCache accountCache;
 
   @Inject
   SetEditPreferences(
-      Provider<MetaDataUpdate.User> metaDataUpdateFactory,
-      AllUsersName allUsersName,
-      AccountCache accountCache) {
+      Provider<MetaDataUpdate.User> metaDataUpdateFactory, AllUsersName allUsersName) {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.allUsersName = allUsersName;
-    this.accountCache = accountCache;
   }
 
   @Override

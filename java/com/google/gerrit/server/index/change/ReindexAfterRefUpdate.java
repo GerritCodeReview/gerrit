@@ -27,7 +27,6 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
-import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -62,7 +61,6 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
   private final ChangeIndexer.Factory indexerFactory;
   private final ChangeIndexCollection indexes;
   private final AllUsersName allUsersName;
-  private final AccountCache accountCache;
   private final Provider<AccountIndexer> indexer;
   private final ListeningExecutorService executor;
   private final boolean enabled;
@@ -75,7 +73,6 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
       ChangeIndexer.Factory indexerFactory,
       ChangeIndexCollection indexes,
       AllUsersName allUsersName,
-      AccountCache accountCache,
       Provider<AccountIndexer> indexer,
       @IndexExecutor(QueueType.BATCH) ListeningExecutorService executor) {
     this.requestContext = requestContext;
@@ -83,7 +80,6 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
     this.indexerFactory = indexerFactory;
     this.indexes = indexes;
     this.allUsersName = allUsersName;
-    this.accountCache = accountCache;
     this.indexer = indexer;
     this.executor = executor;
     this.enabled = MergeabilityComputationBehavior.fromConfig(cfg).includeInIndex();

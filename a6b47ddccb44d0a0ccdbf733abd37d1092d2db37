@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "52dd5df2_cdb63288",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-19T09:27:50Z",
+      "side": 1,
+      "message": "I\u0027ve manually inverted the lines. We can take the discussion of the commit-msg hook behavior to issue 12546",
+      "parentUuid": "46479e5e_ea72e515",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "a6b47ddccb44d0a0ccdbf733abd37d1092d2db37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0f74ddb_2a9c105e",
         "filename": "Documentation/intro-user.txt",
         "patchSetId": 2

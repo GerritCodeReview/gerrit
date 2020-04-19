@@ -255,9 +255,10 @@ maven_jar(
 
 maven_jar(
     name = "gwtjsonrpc",
-    artifact = "com.google.gerrit:gwtjsonrpc:1.11",
-    sha1 = "0990e7eec9eec3a15661edcf9232acbac4aeacec",
-    src_sha1 = "a682afc46284fb58197a173cb5818770a1e7834a",
+    artifact = "com.google.gerrit:gwtjsonrpc:1.12-SNAPSHOT",
+    sha1 = "198b8728cc5e9c244c910a0c65b3d667264a669f",
+    #src_sha1 = "a682afc46284fb58197a173cb5818770a1e7834a",
+    repository = MAVEN_LOCAL,
 )
 
 maven_jar(

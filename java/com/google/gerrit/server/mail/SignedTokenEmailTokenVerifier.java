@@ -17,9 +17,11 @@ package com.google.gerrit.server.mail;
 import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.io.BaseEncoding;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
+import com.google.gwtjsonrpc.common.CheckTokenException;
 import com.google.gwtjsonrpc.server.SignedToken;
 import com.google.gwtjsonrpc.server.ValidToken;
 import com.google.gwtjsonrpc.server.XsrfException;
@@ -28,7 +30,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.eclipse.jgit.util.Base64;
 
 /** Verifies the token sent by {@link RegisterNewEmailSender}. */
 @Singleton
@@ -53,7 +54,7 @@ public class SignedTokenEmailTokenVerifier implements EmailTokenVerifier {
     try {
       String payload = String.format("%s:%s", accountId, emailAddress);
       byte[] utf8 = payload.getBytes(UTF_8);
-      String base64 = Base64.encodeBytes(utf8);
+      String base64 = BaseEncoding.base64Url().encode(utf8);
       return emailRegistrationToken.newToken(base64);
     } catch (XsrfException e) {
       throw new IllegalArgumentException(e);
@@ -66,14 +67,14 @@ public class SignedTokenEmailTokenVerifier implements EmailTokenVerifier {
     ValidToken token;
     try {
       token = emailRegistrationToken.checkToken(tokenString, null);
-    } catch (XsrfException err) {
+    } catch (XsrfException | CheckTokenException err) {
       throw new InvalidTokenException(err);
     }
     if (token == null || token.getData() == null || token.getData().isEmpty()) {
       throw new InvalidTokenException();
     }
 
-    String payload = new String(Base64.decode(token.getData()), UTF_8);
+    String payload = new String(BaseEncoding.base64Url().decode(token.getData()), UTF_8);
     Matcher matcher = Pattern.compile("^([0-9]+):(.+@.+)$").matcher(payload);
     if (!matcher.matches()) {
       throw new InvalidTokenException();

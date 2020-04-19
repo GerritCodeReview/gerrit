@@ -277,3 +277,7 @@ Gerrit.GrSuggestionItem;
  * }}
  */
 Gerrit.GrSuggestionsProvider;
+
+window.GrAnnotationActionsInterface = window.GrAnnotationActionsInterface || {};
+
+GrAnnotationActionsInterface;

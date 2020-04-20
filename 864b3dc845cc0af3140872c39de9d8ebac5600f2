@@ -34,6 +34,23 @@
       "revId": "864b3dc845cc0af3140872c39de9d8ebac5600f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19bfc68b_34b52acc",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-20T14:49:35Z",
+      "side": 1,
+      "message": "can you add a comment here on why you turning it off just for future reference :) thanks",
+      "revId": "864b3dc845cc0af3140872c39de9d8ebac5600f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

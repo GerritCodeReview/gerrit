@@ -56,6 +56,29 @@
       "revId": "fc760215d98f145b2ae22b397d86dd2ce63722c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc186df1_1c07fc05",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-link/gr-account-link_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-20T14:47:20Z",
+      "side": 1,
+      "message": "maybe try with css variables:\n\n```\nmax-width: var(--label-max-length, 20ch);\noverflow: var(--label-overflow, none);\n```",
+      "range": {
+        "startLine": 27,
+        "startChar": 8,
+        "endLine": 27,
+        "endChar": 25
+      },
+      "revId": "fc760215d98f145b2ae22b397d86dd2ce63722c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

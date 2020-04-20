@@ -70,8 +70,8 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   private final DynamicMap<ChangeAttributeFactory> attributeFactories;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
-  private final Provider<AnonymousUser> anonymousUserProvider;
   private final Map<String, DynamicBean> dynamicBeans = new HashMap<>();
+  private final Provider<AnonymousUser> anonymousUserProvider;
 
   static {
     // It is assumed that basic rewrites do not touch visibleto predicates.

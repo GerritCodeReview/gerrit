@@ -25,6 +25,7 @@ import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackend.WithUser;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -86,9 +87,7 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
     }
 
     PermissionBackend.WithUser withUser =
-        user.isIdentifiedUser()
-            ? permissionBackend.absentUser(user.getAccountId())
-            : permissionBackend.user(anonymousUserProvider.get());
+        user instanceof SingleGroupUser ? permissionBackend.user(user) : fallbackToAnonymous();
     try {
       withUser.indexedChange(cd, notes).database(db).check(ChangePermission.READ);
     } catch (PermissionBackendException e) {
@@ -112,5 +111,11 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
   @Override
   public int getCost() {
     return 1;
+  }
+
+  private WithUser fallbackToAnonymous() {
+    return user.isIdentifiedUser()
+        ? permissionBackend.absentUser(user.getAccountId())
+        : permissionBackend.user(anonymousUserProvider.get());
   }
 }

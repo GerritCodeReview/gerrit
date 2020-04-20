@@ -23,16 +23,10 @@ export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         display: table;
+        --account-max-length: 20ch;
       }
       gr-change-requirements {
         --requirements-horizontal-padding: var(--metadata-horizontal-padding);
-      }
-      gr-account-link {
-        max-width: 20ch;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        vertical-align: top;
-        white-space: nowrap;
       }
       gr-editable-label {
         max-width: 9em;

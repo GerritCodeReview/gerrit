@@ -366,6 +366,36 @@ suite('gr-edit-controls tests', () => {
     });
   });
 
+  suite('save file upload', () => {
+    let navStub;
+    let fileStub;
+
+    setup(() => {
+      navStub = sandbox.stub(GerritNav, 'navigateToChange');
+      fileStub = sandbox.stub(element.$.restAPI, 'saveFileUploadChangeEdit');
+    });
+
+    test('_handleUploadConfirm', () => {
+      fileStub.returns(Promise.resolve({ok: true}));
+
+      element.change = {
+        _number: '1',
+        project: 'project',
+        revisions: {
+          abcd: {_number: 1},
+          efgh: {_number: 2},
+        },
+        current_revision: 'efgh',
+      };
+
+      element._handleUploadConfirm('test.php', 'base64').then(() => {
+        assert.equal(
+            navStub.lastCall.args,
+            '/c/project/+/1');
+      });
+    });
+  });
+
   test('openOpenDialog', done => {
     element.openOpenDialog('test/path.cpp')
         .then(() => {

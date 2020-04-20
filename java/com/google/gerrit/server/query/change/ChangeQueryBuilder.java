@@ -46,7 +46,6 @@ import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -216,7 +215,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
     final StarredChangesUtil starredChangesUtil;
     final SubmitDryRun submitDryRun;
     final GroupMembers groupMembers;
-    final Provider<AnonymousUser> anonymousUserProvider;
 
     private final Provider<CurrentUser> self;
 
@@ -249,8 +247,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         StarredChangesUtil starredChangesUtil,
         AccountCache accountCache,
         NotesMigration notesMigration,
-        GroupMembers groupMembers,
-        Provider<AnonymousUser> anonymousUserProvider) {
+        GroupMembers groupMembers) {
       this(
           db,
           queryProvider,
@@ -278,8 +275,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           starredChangesUtil,
           accountCache,
           notesMigration,
-          groupMembers,
-          anonymousUserProvider);
+          groupMembers);
     }
 
     private Arguments(
@@ -309,8 +305,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
         StarredChangesUtil starredChangesUtil,
         AccountCache accountCache,
         NotesMigration notesMigration,
-        GroupMembers groupMembers,
-        Provider<AnonymousUser> anonymousUserProvider) {
+        GroupMembers groupMembers) {
       this.db = db;
       this.queryProvider = queryProvider;
       this.rewriter = rewriter;
@@ -338,7 +333,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
       this.hasOperands = hasOperands;
       this.notesMigration = notesMigration;
       this.groupMembers = groupMembers;
-      this.anonymousUserProvider = anonymousUserProvider;
     }
 
     Arguments asUser(CurrentUser otherUser) {
@@ -369,8 +363,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
           starredChangesUtil,
           accountCache,
           notesMigration,
-          groupMembers,
-          anonymousUserProvider);
+          groupMembers);
     }
 
     Arguments asUser(Account.Id otherId) {
@@ -935,12 +928,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData> {
 
   public Predicate<ChangeData> visibleto(CurrentUser user) {
     return new ChangeIsVisibleToPredicate(
-        args.db,
-        args.notesFactory,
-        user,
-        args.permissionBackend,
-        args.projectCache,
-        args.anonymousUserProvider);
+        args.db, args.notesFactory, user, args.permissionBackend, args.projectCache);
   }
 
   public Predicate<ChangeData> isVisible() throws QueryParseException {

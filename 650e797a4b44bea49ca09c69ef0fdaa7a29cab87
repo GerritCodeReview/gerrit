@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "113b0a63_9280855a",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-20T08:35:37Z",
+      "side": 1,
+      "message": "maybe rename to `messageAuthorId` to be clear",
+      "range": {
+        "startLine": 278,
+        "startChar": 10,
+        "endLine": 278,
+        "endChar": 18
+      },
+      "revId": "650e797a4b44bea49ca09c69ef0fdaa7a29cab87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bf5efe96_f2740466",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 3
@@ -22,6 +45,29 @@
       "revId": "650e797a4b44bea49ca09c69ef0fdaa7a29cab87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8454f663_ce849daa",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-20T08:35:37Z",
+      "side": 1,
+      "message": "maybe just combine idFilter and dateFilter, this is a bit confusing and hard to read when you have two filters depends on same property",
+      "range": {
+        "startLine": 303,
+        "startChar": 5,
+        "endLine": 303,
+        "endChar": 49
+      },
+      "revId": "650e797a4b44bea49ca09c69ef0fdaa7a29cab87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

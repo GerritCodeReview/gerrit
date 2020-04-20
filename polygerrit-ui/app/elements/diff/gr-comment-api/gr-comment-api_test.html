@@ -698,7 +698,20 @@ suite('gr-comment-api tests', () => {
           },
         ];
         const threads = element._changeComments.getAllThreadsForChange();
-        assert.deepEqual(threads, expectedThreads);
+        // The Array.sort method is not stable. In the test input there are
+        // threads with the same 'updated' value in their first comments.
+        // sameDeepMember checks that arrays have same items in any order.
+        // Note, that for comparing items it uses deepEqual method, so the
+        // order of items in the nested arrays must be the same.
+        assert.sameDeepMembers(threads, expectedThreads);
+
+        // Check that all threads are sorted. It is enough to compare string
+        // representation in this test.
+        for (let i = 0; i < threads.length - 1; i++) {
+          assert.isAtMost(threads[i].comments[0].updated,
+              threads[i + 1].comments[0].updated,
+              'Threads must be ordered by the first comment updated time');
+        }
       });
 
       test('getCommentsForThreadGroup', () => {

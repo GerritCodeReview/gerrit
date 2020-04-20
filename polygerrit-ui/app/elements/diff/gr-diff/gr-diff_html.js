@@ -52,10 +52,7 @@ export const htmlTemplate = html`
       .lineNum {
         background-color: var(--diff-blank-background-color);
       }
-      /*
-      The only way to focus this (clicking) will apply our own focus styling,
-      so this default styling is not needed and distracting.
-      */
+      /* focus sets the cursor, which has its own styling. */
       button.lineNum:focus {
         outline: none;
       }
@@ -360,7 +357,7 @@ export const htmlTemplate = html`
         <div>[[item]]</div>
       </template>
     </div>
-    <div class\$="[[_computeContainerClass(loggedIn, viewMode, displayLine)]]" on-tap="_handleTap">
+    <div class\$="[[_computeContainerClass(loggedIn, viewMode, displayLine)]]" on-tap="_handleTap" on-line-number-focused="_redispatchLineNumberFocused">
       <gr-diff-selection diff="[[diff]]">
         <gr-diff-highlight id="highlights" logged-in="[[loggedIn]]" comment-ranges="{{_commentRanges}}">
           <gr-diff-builder id="diffBuilder" comment-ranges="[[_commentRanges]]" coverage-ranges="[[coverageRanges]]" project-name="[[projectName]]" diff="[[diff]]" path="[[path]]" change-num="[[changeNum]]" patch-num="[[patchRange.patchNum]]" view-mode="[[viewMode]]" is-image-diff="[[isImageDiff]]" base-image="[[baseImage]]" layers="[[layers]]" revision-image="[[revisionImage]]">

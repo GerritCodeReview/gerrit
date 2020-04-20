@@ -552,6 +552,14 @@ class GrDiff extends mixinBehaviors( [
     }));
   }
 
+  _redispatchLineNumberFocused(e) {
+    this.dispatchEvent(new CustomEvent('line-number-focused', {
+      detail: Object.assign({}, e.detail, {path: this.path}),
+      composed: true, bubbles: true,
+    }));
+    e.stopPropagation();
+  }
+
   addDraftAtLine(el) {
     this._selectLine(el);
     if (!this._isValidElForComment(el)) { return; }

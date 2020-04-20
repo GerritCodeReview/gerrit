@@ -21,6 +21,17 @@
   then delete this comment!
 */
 import './gr-app-init.js';
+
+/**
+ * This is being disabled as this is only meant for legacy
+ * mobile browsers. This behaviour also broke click events
+ * for some mobiles (breaking file uploads).
+ * So by disabling it, fixed that.
+ * See https://github.com/Polymer/polymer/issues/5289
+ */
+import {setCancelSyntheticClickEvents} from '@polymer/polymer/lib/utils/settings.js';
+setCancelSyntheticClickEvents(false);
+
 import './font-roboto-local-loader.js';
 import '../scripts/bundled-polymer.js';
 import 'polymer-resin/standalone/polymer-resin.js';

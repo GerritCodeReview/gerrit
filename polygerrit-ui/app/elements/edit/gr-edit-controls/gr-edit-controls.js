@@ -222,11 +222,8 @@ class GrEditControls extends mixinBehaviors( [
     this.$.restAPI.saveFileUploadChangeEdit(this.change._number, path,
         fileData).then(res => {
       if (!res.ok) { return; }
-
       this._closeDialog(this.$.openDialog, true);
-      const url = Gerrit.Nav.getUrlForChange(
-          this.change, this.patchNum, undefined, true);
-      Gerrit.Nav.navigateToRelativeUrl(url);
+      Gerrit.Nav.navigateToChange(this.change);
     });
   }
 

@@ -22,6 +22,30 @@
       "revId": "9112c2fbc55b1377d79f6c8140cb52b68234f2e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b846c7b8_6924d7e5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-04-20T14:36:22Z",
+      "side": 1,
+      "message": "If we decide to do that, I would even reverse the option to enableDiskStatMetrics.\n\nBut I agree that it would make sense to not compute those metrics by default. And this would probably be a breaking change that is not noticed by many. So I personally would have nothing against your proposal.",
+      "parentUuid": "925811ec_0b11f7b6",
+      "range": {
+        "startLine": 696,
+        "startChar": 12,
+        "endLine": 696,
+        "endChar": 17
+      },
+      "revId": "9112c2fbc55b1377d79f6c8140cb52b68234f2e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

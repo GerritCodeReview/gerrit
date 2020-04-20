@@ -23,16 +23,10 @@ export const htmlTemplate = html`
     <style include="shared-styles">
       :host {
         display: table;
+        --account-max-length: 20ch;
       }
       gr-change-requirements {
         --requirements-horizontal-padding: var(--metadata-horizontal-padding);
-      }
-      gr-account-link {
-        max-width: 20ch;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        vertical-align: top;
-        white-space: nowrap;
       }
       gr-editable-label {
         max-width: 9em;
@@ -111,7 +105,7 @@ export const htmlTemplate = html`
       <section>
         <span class="title">Owner</span>
         <span class="value">
-          <gr-account-link account="[[change.owner]]"></gr-account-link>
+          <gr-account-link max-length="20" account="[[change.owner]]"></gr-account-link>
           <template is="dom-if" if="[[_pushCertificateValidation]]">
             <gr-tooltip-content has-tooltip="" title\$="[[_pushCertificateValidation.message]]">
               <iron-icon class\$="icon [[_pushCertificateValidation.class]]" icon="[[_pushCertificateValidation.icon]]">
@@ -123,19 +117,19 @@ export const htmlTemplate = html`
       <section class\$="[[_computeShowRoleClass(change, _CHANGE_ROLE.UPLOADER)]]">
         <span class="title">Uploader</span>
         <span class="value">
-          <gr-account-link account="[[_getNonOwnerRole(change, _CHANGE_ROLE.UPLOADER)]]"></gr-account-link>
+          <gr-account-link max-length="20" account="[[_getNonOwnerRole(change, _CHANGE_ROLE.UPLOADER)]]"></gr-account-link>
         </span>
       </section>
       <section class\$="[[_computeShowRoleClass(change, _CHANGE_ROLE.AUTHOR)]]">
         <span class="title">Author</span>
         <span class="value">
-          <gr-account-link account="[[_getNonOwnerRole(change, _CHANGE_ROLE.AUTHOR)]]"></gr-account-link>
+          <gr-account-link max-length="20" account="[[_getNonOwnerRole(change, _CHANGE_ROLE.AUTHOR)]]"></gr-account-link>
         </span>
       </section>
       <section class\$="[[_computeShowRoleClass(change, _CHANGE_ROLE.COMMITTER)]]">
         <span class="title">Committer</span>
         <span class="value">
-          <gr-account-link account="[[_getNonOwnerRole(change, _CHANGE_ROLE.COMMITTER)]]"></gr-account-link>
+          <gr-account-link max-length="20" account="[[_getNonOwnerRole(change, _CHANGE_ROLE.COMMITTER)]]"></gr-account-link>
         </span>
       </section>
       <template is="dom-if" if="[[_isAssigneeEnabled(serverConfig)]]">

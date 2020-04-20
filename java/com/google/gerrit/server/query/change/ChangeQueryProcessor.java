@@ -26,7 +26,6 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryProcessor;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.reviewdb.server.ReviewDb;
-import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.DynamicOptions.DynamicBean;
@@ -70,7 +69,6 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   private final DynamicMap<ChangeAttributeFactory> attributeFactories;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
-  private final Provider<AnonymousUser> anonymousUserProvider;
   private final Map<String, DynamicBean> dynamicBeans = new HashMap<>();
 
   static {
@@ -92,8 +90,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
       ChangeNotes.Factory notesFactory,
       DynamicMap<ChangeAttributeFactory> attributeFactories,
       PermissionBackend permissionBackend,
-      ProjectCache projectCache,
-      Provider<AnonymousUser> anonymousUserProvider) {
+      ProjectCache projectCache) {
     super(
         metricMaker,
         ChangeSchemaDefinitions.INSTANCE,
@@ -108,7 +105,6 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
     this.attributeFactories = attributeFactories;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
-    this.anonymousUserProvider = anonymousUserProvider;
   }
 
   @Override
@@ -161,12 +157,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
     return new AndChangeSource(
         pred,
         new ChangeIsVisibleToPredicate(
-            db,
-            notesFactory,
-            userProvider.get(),
-            permissionBackend,
-            projectCache,
-            anonymousUserProvider),
+            db, notesFactory, userProvider.get(), permissionBackend, projectCache),
         start);
   }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "925811ec_0b11f7b6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-20T14:23:06Z",
+      "side": 1,
+      "message": "I know that IS NOT backward compatible my proposal, but having seen the dramatic impact on production (aka It may even cause outages) I would suggest to turn this to true.",
+      "range": {
+        "startLine": 696,
+        "startChar": 12,
+        "endLine": 696,
+        "endChar": 17
+      },
+      "revId": "9112c2fbc55b1377d79f6c8140cb52b68234f2e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -222,11 +222,8 @@ class GrEditControls extends mixinBehaviors( [
     this.$.restAPI.saveFileUploadChangeEdit(this.change._number, path,
         fileData).then(res => {
       if (!res.ok) { return; }
-
       this._closeDialog(this.$.openDialog, true);
-      const url = Gerrit.Nav.getUrlForChange(
-          this.change, this.patchNum, undefined, true);
-      Gerrit.Nav.navigateToRelativeUrl(url);
+      Gerrit.Nav.navigateToChange(this.change);
     });
   }
 
@@ -271,6 +268,19 @@ class GrEditControls extends mixinBehaviors( [
 
   _computeIsInvisible(id, hiddenActions) {
     return hiddenActions.includes(id) ? 'invisible' : '';
+  }
+
+  /**
+   * This is to guide the user so they do not drop a file outside
+   * the drag and drop. This basically disables the file showing
+   * the add symbol behind (which is shown inside and
+   * outside the drag and drop).
+   */
+  _handleOnDragover(e) {
+    // Do not allow the dragover event to bubble and also
+    // prevent default dragover event behavior.
+    e.stopPropagation();
+    e.preventDefault();
   }
 
   _handleDragAndDropUpload(event) {

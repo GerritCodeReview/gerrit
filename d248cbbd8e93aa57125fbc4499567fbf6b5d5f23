@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9551e056_041f97bd",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-20T11:05:57Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "1a6a83cd_d811a240",
+      "range": {
+        "startLine": 163,
+        "startChar": 4,
+        "endLine": 163,
+        "endChar": 21
+      },
+      "revId": "d248cbbd8e93aa57125fbc4499567fbf6b5d5f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ac4840f9_6c8eb255",
         "filename": "polygerrit-ui/app/services/app-context-init.js",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2020-04-20T10:46:34Z",
       "side": 1,
       "message": "Because we will make a lot of copy-paste here, let\u0027s make it \"copy-paste\" safe: \nexport function initAppContext() {\n    const services \u003d {};\n    function addService(serviceName, serviceCreator) {\n        if(services[serviceName]) {\n            throw new Error(`Service ${serviceName} already registered.`);\n        }\n        services[serviceName] \u003d {\n            get() { return getService(serviceName, serviceCreator); }\n        }\n    }\n    addService(\u0027flagsService\u0027, () \u003d\u003e new FlagsService());\n    addService(\u0027restApiService\u0027, () \u003d\u003e new RestApiService());\n    addService(\u0027userService\u0027, () \u003d\u003e new UserService(appContext.restApiService));\n}",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 5
+      },
+      "revId": "d248cbbd8e93aa57125fbc4499567fbf6b5d5f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b156f9ec_90251f0d",
+        "filename": "polygerrit-ui/app/services/app-context-init.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-20T11:05:57Z",
+      "side": 1,
+      "message": "Nice!",
+      "parentUuid": "ac4840f9_6c8eb255",
       "range": {
         "startLine": 33,
         "startChar": 2,

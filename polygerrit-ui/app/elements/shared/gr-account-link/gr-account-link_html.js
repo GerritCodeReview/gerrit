@@ -21,6 +21,14 @@ export const htmlTemplate = html`
       :host {
         display: inline-block;
       }
+      /* .clipped is set when the maxLength property is > 0. */
+      :host(.clipped) {
+        /* max-width is set programmatically */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: top;
+        white-space: nowrap;
+      }
       a {
         color: var(--primary-text-color);
         text-decoration: none;

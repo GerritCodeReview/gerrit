@@ -68,6 +68,10 @@ class GrAccountChip extends GestureEventListeners(
         type: Boolean,
         reflectToAttribute: true,
       },
+      maxLength: {
+        type: Number,
+        value: 0,
+      },
       transparentBackground: {
         type: Boolean,
         value: false,

@@ -47,7 +47,7 @@ export const htmlTemplate = html`
     -->
     <div class="list">
       <template id="chips" is="dom-repeat" items="[[accounts]]" as="account">
-        <gr-account-chip account="[[account]]" class\$="[[_computeChipClass(account)]]" data-account-id\$="[[account._account_id]]" removable="[[_computeRemovable(account, readonly)]]" on-keydown="_handleChipKeydown" tabindex="-1">
+        <gr-account-chip max-length="20" account="[[account]]" class\$="[[_computeChipClass(account)]]" data-account-id\$="[[account._account_id]]" removable="[[_computeRemovable(account, readonly)]]" on-keydown="_handleChipKeydown" tabindex="-1">
         </gr-account-chip>
       </template>
     </div>

@@ -54,7 +54,20 @@ class GrAccountLink extends mixinBehaviors( [
         type: Boolean,
         value: false,
       },
+      maxLength: {
+        type: Number,
+        value: 0,
+        observer: '_onMaxLengthChange',
+      },
     };
+  }
+
+  _onMaxLengthChange(maxLength) {
+    this.style.maxWidth = '';
+    this.classList.remove('clipped');
+    if (!maxLength || maxLength <=0) return;
+    this.style.maxWidth = `${maxLength}ch`;
+    this.classList.add('clipped');
   }
 
   _computeOwnerLink(account) {

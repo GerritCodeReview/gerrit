@@ -43,6 +43,7 @@ export const htmlTemplate = html`
           <gr-account-chip class="reviewer"
                            account="[[reviewer]]"
                            on-remove="_handleRemove"
+                           max-length="20"
                            voteable-text="[[_computeVoteableText(reviewer, change)]]"
                            removable="[[_computeCanRemoveReviewer(reviewer, mutable)]]">
           </gr-account-chip>

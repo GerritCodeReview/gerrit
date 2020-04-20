@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a6a83cd_d811a240",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-20T10:46:34Z",
+      "side": 1,
+      "message": "May be let\u0027s always assign services in the constructor?",
+      "range": {
+        "startLine": 163,
+        "startChar": 4,
+        "endLine": 163,
+        "endChar": 21
+      },
+      "revId": "d248cbbd8e93aa57125fbc4499567fbf6b5d5f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac4840f9_6c8eb255",
+        "filename": "polygerrit-ui/app/services/app-context-init.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-20T10:46:34Z",
+      "side": 1,
+      "message": "Because we will make a lot of copy-paste here, let\u0027s make it \"copy-paste\" safe: \nexport function initAppContext() {\n    const services \u003d {};\n    function addService(serviceName, serviceCreator) {\n        if(services[serviceName]) {\n            throw new Error(`Service ${serviceName} already registered.`);\n        }\n        services[serviceName] \u003d {\n            get() { return getService(serviceName, serviceCreator); }\n        }\n    }\n    addService(\u0027flagsService\u0027, () \u003d\u003e new FlagsService());\n    addService(\u0027restApiService\u0027, () \u003d\u003e new RestApiService());\n    addService(\u0027userService\u0027, () \u003d\u003e new UserService(appContext.restApiService));\n}",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 5
+      },
+      "revId": "d248cbbd8e93aa57125fbc4499567fbf6b5d5f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f19c34c_e77cfe26",
+        "filename": "polygerrit-ui/app/services/app-context-init_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-20T10:46:34Z",
+      "side": 1,
+      "message": "Do we want to have this kind of test for each service or only for one?\nIf we want to test only one service, may be rename test (like \u0027appContext returns singleton\u0027)\n\nOr may be merge it to the previous test (\u0027all services initialized\u0027):\nconst service1 \u003d appContenxt[service];\nassert.isNotNull(service1);\nconst service2 \u003d appContenxt[service];\nassert.equal(service1, service2, \u0027appContext must return singletons\u0027);",
+      "range": {
+        "startLine": 39,
+        "startChar": 10,
+        "endLine": 39,
+        "endChar": 36
+      },
+      "revId": "d248cbbd8e93aa57125fbc4499567fbf6b5d5f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9418e1f9_b593155b",
+        "filename": "polygerrit-ui/app/services/app-context.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-20T10:46:34Z",
+      "side": 1,
+      "message": "Please, add comment where it is initialized.",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 27
+      },
+      "revId": "d248cbbd8e93aa57125fbc4499567fbf6b5d5f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -90,6 +90,9 @@ suite('gr-edit-controls tests', () => {
         assert.isTrue(element._hideAllDialogs.called);
         assert.isTrue(element.$.openDialog.disabled);
         assert.isFalse(queryStub.called);
+        // Setup _focused manually - in headless mode Chrome sometimes don't
+        // setup focus. flush and/or flushAsynchronousOperations don't help
+        openAutoCcmplete._focused = true;
         openAutoCcmplete.noDebounce = true;
         openAutoCcmplete.text = 'src/test.cpp';
         assert.isTrue(queryStub.called);
@@ -137,6 +140,9 @@ suite('gr-edit-controls tests', () => {
       return showDialogSpy.lastCall.returnValue.then(() => {
         assert.isTrue(element.$.deleteDialog.disabled);
         assert.isFalse(queryStub.called);
+        // Setup _focused manually - in headless mode Chrome sometimes don't
+        // setup focus. flush and/or flushAsynchronousOperations don't help
+        deleteAutocomplete._focused = true;
         deleteAutocomplete.noDebounce = true;
         deleteAutocomplete.text = 'src/test.cpp';
         assert.isTrue(queryStub.called);
@@ -161,6 +167,9 @@ suite('gr-edit-controls tests', () => {
       return showDialogSpy.lastCall.returnValue.then(() => {
         assert.isTrue(element.$.deleteDialog.disabled);
         assert.isFalse(queryStub.called);
+        // Setup _focused manually - in headless mode Chrome sometimes don't
+        // setup focus. flush and/or flushAsynchronousOperations don't help
+        deleteAutocomplete._focused = true;
         deleteAutocomplete.noDebounce = true;
         deleteAutocomplete.text = 'src/test.cpp';
         assert.isTrue(queryStub.called);
@@ -215,6 +224,9 @@ suite('gr-edit-controls tests', () => {
       return showDialogSpy.lastCall.returnValue.then(() => {
         assert.isTrue(element.$.renameDialog.disabled);
         assert.isFalse(queryStub.called);
+        // Setup _focused manually - in headless mode Chrome sometimes don't
+        // setup focus. flush and/or flushAsynchronousOperations don't help
+        renameAutocomplete._focused = true;
         renameAutocomplete.noDebounce = true;
         renameAutocomplete.text = 'src/test.cpp';
         assert.isTrue(queryStub.called);
@@ -244,6 +256,9 @@ suite('gr-edit-controls tests', () => {
       return showDialogSpy.lastCall.returnValue.then(() => {
         assert.isTrue(element.$.renameDialog.disabled);
         assert.isFalse(queryStub.called);
+        // Setup _focused manually - in headless mode Chrome sometimes don't
+        // setup focus. flush and/or flushAsynchronousOperations don't help
+        renameAutocomplete._focused = true;
         renameAutocomplete.noDebounce = true;
         renameAutocomplete.text = 'src/test.cpp';
         assert.isTrue(queryStub.called);

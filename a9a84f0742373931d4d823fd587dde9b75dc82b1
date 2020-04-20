@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d599a71_2c8174a2",
+        "filename": "java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-04-20T15:40:11Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be true?",
+      "range": {
+        "startLine": 86,
+        "startChar": 72,
+        "endLine": 86,
+        "endChar": 77
+      },
+      "revId": "a9a84f0742373931d4d823fd587dde9b75dc82b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce3b6b86_77257287",
+        "filename": "java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-04-20T15:40:11Z",
+      "side": 1,
+      "message": "Should this be removed?",
+      "range": {
+        "startLine": 86,
+        "startChar": 19,
+        "endLine": 86,
+        "endChar": 20
+      },
+      "revId": "a9a84f0742373931d4d823fd587dde9b75dc82b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

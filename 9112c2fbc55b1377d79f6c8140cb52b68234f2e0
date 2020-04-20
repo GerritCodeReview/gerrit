@@ -46,6 +46,29 @@
       "revId": "9112c2fbc55b1377d79f6c8140cb52b68234f2e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25e387e9_3942fe52",
+        "filename": "java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-20T14:44:30Z",
+      "side": 1,
+      "message": "IMO renaming the parameter and avoid the negation would make it more readable: \n\nif (c instanceof PersistentCache \u0026\u0026 config.getBoolean(\"cache\", \"enableDiskStatMetrics\", true) {}\n\nAnyway, not a big deal.",
+      "range": {
+        "startLine": 85,
+        "startChar": 12,
+        "endLine": 86,
+        "endChar": 80
+      },
+      "revId": "9112c2fbc55b1377d79f6c8140cb52b68234f2e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

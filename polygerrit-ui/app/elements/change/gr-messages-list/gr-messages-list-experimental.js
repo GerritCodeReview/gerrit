@@ -31,6 +31,16 @@ import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-beh
 import {util} from '../../../scripts/util.js';
 
 /**
+ * The content of the enum is also used in the UI for the button text.
+ *
+ * @enum {string}
+ */
+const ExpandAllState = {
+  EXPAND_ALL: 'Expand All',
+  COLLAPSE_ALL: 'Collapse All',
+};
+
+/**
  * @extends Polymer.Element
  */
 class GrMessagesListExperimental extends mixinBehaviors( [
@@ -69,14 +79,20 @@ class GrMessagesListExperimental extends mixinBehaviors( [
       },
       labels: Object,
 
-      _expanded: {
-        type: Boolean,
-        value: false,
-        observer: '_expandedChanged',
-      },
-
-      _expandCollapseTitle: {
+      /**
+       * Keeps track of the state of the "Expand All" toggle button. Note that
+       * you can individually expand/collapse some messages without affecting
+       * the toggle button's state.
+       *
+       * @type {ExpandAllState}
+       */
+      _expandAllState: {
         type: String,
+        value: ExpandAllState.EXPAND_ALL,
+      },
+      _expandAllTitle: {
+        type: String,
+        computed: '_computeExpandAllTitle(_expandAllState)',
       },
 
       _hideAutomated: {
@@ -185,21 +201,25 @@ class GrMessagesListExperimental extends mixinBehaviors( [
     return combinedMessages;
   }
 
-  _expandedChanged(exp) {
+  _updateExpandedStateOfAllMessages(exp) {
     if (this._combinedMessages) {
       for (let i = 0; i < this._combinedMessages.length; i++) {
         this._combinedMessages[i].expanded = exp;
         this.notifyPath(`_combinedMessages.${i}.expanded`);
       }
     }
+  }
 
-    if (this._expanded) {
-      this._expandCollapseTitle = this.createTitle(
+  _computeExpandAllTitle(_expandAllState) {
+    if (_expandAllState === ExpandAllState.COLLAPSED_ALL) {
+      return this.createTitle(
           this.Shortcut.COLLAPSE_ALL_MESSAGES, this.ShortcutSection.ACTIONS);
-    } else {
-      this._expandCollapseTitle = this.createTitle(
+    }
+    if (_expandAllState === ExpandAllState.EXPAND_ALL) {
+      return this.createTitle(
           this.Shortcut.EXPAND_ALL_MESSAGES, this.ShortcutSection.ACTIONS);
     }
+    return '';
   }
 
   _highlightEl(el) {
@@ -220,12 +240,15 @@ class GrMessagesListExperimental extends mixinBehaviors( [
    * @param {boolean} expand
    */
   handleExpandCollapse(expand) {
-    this._expanded = expand;
+    this._expandAllState = expand ? ExpandAllState.COLLAPSE_ALL
+      : ExpandAllState.EXPAND_ALL;
+    this._updateExpandedStateOfAllMessages(expand);
   }
 
   _handleExpandCollapseTap(e) {
     e.preventDefault();
-    this.handleExpandCollapse(!this._expanded);
+    this.handleExpandCollapse(
+        this._expandAllState === ExpandAllState.EXPAND_ALL);
   }
 
   _handleAnchorClick(e) {
@@ -240,10 +263,6 @@ class GrMessagesListExperimental extends mixinBehaviors( [
       }
     }
     return false;
-  }
-
-  _computeExpandCollapseMessage(expanded) {
-    return expanded ? 'Collapse all' : 'Expand all';
   }
 
   /**

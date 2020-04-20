@@ -56,8 +56,8 @@ export const htmlTemplate = html`
         <paper-toggle-button id="automatedMessageToggle" checked="{{_hideAutomated}}"></paper-toggle-button>Only comments
         <span class="transparent separator"></span>
       </span>
-      <gr-button id="collapse-messages" link="" title="[[_expandCollapseTitle]]" on-click="_handleExpandCollapseTap">
-        [[_computeExpandCollapseMessage(_expanded)]]
+      <gr-button id="collapse-messages" link="" title="[[_expandAllTitle]]" on-click="_handleExpandCollapseTap">
+        [[_expandAllState]]
       </gr-button>
     </div>
     <template id="messageRepeat" is="dom-repeat" items="[[_combinedMessages]]" as="message" filter="_isMessageVisible">

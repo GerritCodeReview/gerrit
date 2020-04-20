@@ -48,6 +48,8 @@ if test ! -s "${dest}" ; then
   exit 1
 fi
 
+# Avoid the --in-place option which only appeared in Git 2.8
+# Avoid the --if-exists option which only appeared in Git 2.15
 if ! git -c trailer.ifexists=doNothing interpret-trailers --where start \
       --trailer "Change-Id: I${random}" < "$1" > "${dest}" ; then
   echo "cannot insert change-id line in $1"

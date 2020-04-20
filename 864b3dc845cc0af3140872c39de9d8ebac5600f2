@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b8cfe96_87ecafbf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-20T14:23:26Z",
+      "side": 1,
+      "message": "awesome found! seems reasonable to turn it off and should not do any harm for us, but just want to confirm that you tested on regular devices as well right ? like desktop etc",
+      "revId": "864b3dc845cc0af3140872c39de9d8ebac5600f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

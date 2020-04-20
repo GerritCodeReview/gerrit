@@ -45,6 +45,53 @@
       "revId": "a9a84f0742373931d4d823fd587dde9b75dc82b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffd43b1d_47a4ef3c",
+        "filename": "java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-04-20T15:46:28Z",
+      "side": 1,
+      "message": "this change of default behavior should be added to the draft of the next release notes to ensure we don\u0027t forget to mention this\n\nsee e.g. https://gerrit-review.googlesource.com/c/homepage/+/263412",
+      "range": {
+        "startLine": 86,
+        "startChar": 72,
+        "endLine": 86,
+        "endChar": 78
+      },
+      "revId": "a9a84f0742373931d4d823fd587dde9b75dc82b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b52ac8a_90fc418d",
+        "filename": "java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-04-20T15:46:28Z",
+      "side": 1,
+      "message": "no, since this has the effect that retrieving metrics is very slow which is caused by some H2 performance issue hit when retrieving cache disk stats",
+      "parentUuid": "4d599a71_2c8174a2",
+      "range": {
+        "startLine": 86,
+        "startChar": 72,
+        "endLine": 86,
+        "endChar": 77
+      },
+      "revId": "a9a84f0742373931d4d823fd587dde9b75dc82b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

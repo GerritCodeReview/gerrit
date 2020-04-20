@@ -46,6 +46,30 @@
       "revId": "67a2f554ccbe4a3f54f9393dba60c036387b1dfd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bf8fbd5_bccc487a",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls_html.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-20T08:37:32Z",
+      "side": 1,
+      "message": "interesting, I am not sure about `touchstart` as it seems pretty easy to mis-trigger on a slide or touch and hold action on the phone",
+      "parentUuid": "bcccadcc_766f7d7f",
+      "range": {
+        "startLine": 85,
+        "startChar": 49,
+        "endLine": 85,
+        "endChar": 62
+      },
+      "revId": "67a2f554ccbe4a3f54f9393dba60c036387b1dfd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6997af5b_74f4adfd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-20T14:18:49Z",
+      "side": 1,
+      "message": "i thought existing css is not applying ? from a few lines above\n\nthe 20 might have an issue for the hovercard",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 31,
+        "endChar": 0
+      },
+      "revId": "fc760215d98f145b2ae22b397d86dd2ce63722c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3779f025_3d2f1f32",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-20T14:18:49Z",
+      "side": 1,
+      "message": "it seems very odd to name it as `max-length` if you just want to pass it to gr-account-link",
+      "revId": "fc760215d98f145b2ae22b397d86dd2ce63722c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa5395e1_77b9495c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-link/gr-account-link_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-20T14:18:49Z",
+      "side": 1,
+      "message": "if max-width only set only at this label while gr-account-label is inline, the hovercard won\u0027t work well when its clipped\n\nhttps://imgur.com/SPqsAHP",
+      "revId": "fc760215d98f145b2ae22b397d86dd2ce63722c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

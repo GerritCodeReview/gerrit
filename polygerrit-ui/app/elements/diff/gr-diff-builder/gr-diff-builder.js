@@ -292,30 +292,6 @@ GrDiffBuilder.prototype._createContextButton = function(type, section, line,
 GrDiffBuilder.prototype._createLineEl = function(
     line, number, type, side) {
   const td = this._createElement('td');
-  if (side) {
-    td.classList.add(side);
-  }
-
-  // Add aria-labels for valid line numbers.
-  // For unified diff, this method will be called with number set to 0 for
-  // the empty line number column for added/removed lines. This should not
-  // be announced to the screenreader.
-  if (number > 0) {
-    if (line.type === GrDiffLine.Type.REMOVE) {
-      td.setAttribute('aria-label', `${number} removed`);
-    } else if (line.type === GrDiffLine.Type.ADD) {
-      td.setAttribute('aria-label', `${number} added`);
-    }
-  }
-
-  if (line.type === GrDiffLine.Type.BLANK) {
-    return td;
-  }
-};
-
-GrDiffBuilder.prototype._createLineEl = function(
-    line, number, type, side) {
-  const td = this._createElement('td');
   if (line.type === GrDiffLine.Type.BLANK) {
     return td;
   }
@@ -326,7 +302,6 @@ GrDiffBuilder.prototype._createLineEl = function(
 
   if (line.type === GrDiffLine.Type.BOTH || line.type === type) {
     const button = this._createElement('button');
-    button.tabIndex = -1;
     td.appendChild(button);
 
     // Both td and button need a number of classes/attributes for various

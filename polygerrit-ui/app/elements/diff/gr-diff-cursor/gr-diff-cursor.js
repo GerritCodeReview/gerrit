@@ -492,6 +492,8 @@ class GrDiffCursor extends GestureEventListeners(
             'render-content', this._boundHandleDiffRenderContent);
         this.diffs[i].addEventListener(
             'line-selected', this._boundHandleDiffLineSelected);
+        this.diffs[i].addEventListener(
+            'line-number-focused', this._boundHandleDiffLineSelected);
       }
 
       for (i = 0; i < splice.removed && splice.removed.length; i++) {
@@ -501,6 +503,8 @@ class GrDiffCursor extends GestureEventListeners(
             'render-content', this._boundHandleDiffRenderContent);
         splice.removed[i].removeEventListener(
             'line-selected', this._boundHandleDiffLineSelected);
+        splice.removed[i].removeEventListener(
+            'line-number-focused', this._boundHandleDiffLineSelected);
       }
     }
   }

@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "644a60c1_4415c119",
+        "filename": "java/com/google/gerrit/server/cache/CacheBinding.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-20T10:33:51Z",
+      "side": 1,
+      "message": "add: \"on access\" (IIUC)",
+      "range": {
+        "startLine": 34,
+        "startChar": 68,
+        "endLine": 34,
+        "endChar": 69
+      },
+      "revId": "10b939462488bc3b20de2530b259d4505a083e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cf70962_8c9a036e",
+        "filename": "java/com/google/gerrit/server/cache/CacheBinding.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-20T10:33:51Z",
+      "side": 1,
+      "message": "typo: their",
+      "revId": "10b939462488bc3b20de2530b259d4505a083e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad290f52_76568605",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-20T10:33:51Z",
+      "side": 1,
+      "message": "Do we know that the loader provides an async implementation for this? The default implementation in CacheLoader.java just delegates to load().",
+      "range": {
+        "startLine": 272,
+        "startChar": 49,
+        "endLine": 272,
+        "endChar": 55
+      },
+      "revId": "10b939462488bc3b20de2530b259d4505a083e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4f823f9_b9d3adf0",
+        "filename": "javatests/com/google/gerrit/server/cache/h2/H2CacheTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-20T10:33:51Z",
+      "side": 1,
+      "message": "nit: Its",
+      "range": {
+        "startLine": 161,
+        "startChar": 55,
+        "endLine": 161,
+        "endChar": 59
+      },
+      "revId": "10b939462488bc3b20de2530b259d4505a083e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5bbe481_9d8c5ffd",
+        "filename": "javatests/com/google/gerrit/server/cache/h2/H2CacheTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-20T10:33:51Z",
+      "side": 1,
+      "message": "Mention that this only works because of the directExecutor()?",
+      "revId": "10b939462488bc3b20de2530b259d4505a083e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d06b61a0_edcdfffd",
+        "filename": "javatests/com/google/gerrit/server/cache/h2/H2CacheTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-20T10:33:51Z",
+      "side": 1,
+      "message": "Isn\u0027t this already asserted implicitly in line 180?",
+      "revId": "10b939462488bc3b20de2530b259d4505a083e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

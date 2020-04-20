@@ -197,6 +197,11 @@ class GrMessagesList extends mixinBehaviors( [
         mDate = null;
       }
     }
+    result.forEach(m => {
+      if (m.expanded === undefined) {
+        m.expanded = false;
+      }
+    });
     return result;
   }
 

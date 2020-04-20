@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "4bf7ff3d_dea55646",
+        "filename": "polygerrit-ui/app/services/app-context-init.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-04-20T12:04:05Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "b156f9ec_90251f0d",
+      "range": {
+        "startLine": 33,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 5
+      },
+      "revId": "d248cbbd8e93aa57125fbc4499567fbf6b5d5f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f19c34c_e77cfe26",
         "filename": "polygerrit-ui/app/services/app-context-init_test.html",
         "patchSetId": 7

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8b10b85_6e469b89",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-20T15:11:58Z",
+      "side": 1,
+      "message": "this sounds like a nice thing to have, why disable it ?",
+      "range": {
+        "startLine": 275,
+        "startChar": 39,
+        "endLine": 276,
+        "endChar": 53
+      },
+      "revId": "bba2b1570bc401221ccc1eb8d2ff0cbecbc932f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

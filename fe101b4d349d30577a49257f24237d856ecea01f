@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "532eb949_b8ef5ed0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2020-04-20T14:30:32Z",
+      "side": 1,
+      "message": "s/predicated/predicate/",
+      "revId": "fe101b4d349d30577a49257f24237d856ecea01f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2d853761_f9722e63",
         "filename": "plugins/replication",
         "patchSetId": 1

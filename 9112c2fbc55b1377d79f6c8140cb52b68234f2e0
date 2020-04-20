@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a049e001_8e2dac3f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 696,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-04-20T15:37:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b846c7b8_6924d7e5",
+      "range": {
+        "startLine": 696,
+        "startChar": 12,
+        "endLine": 696,
+        "endChar": 17
+      },
+      "revId": "9112c2fbc55b1377d79f6c8140cb52b68234f2e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "25e387e9_3942fe52",
         "filename": "java/com/google/gerrit/server/cache/CacheMetrics.java",
         "patchSetId": 1
@@ -93,6 +117,30 @@
       "revId": "9112c2fbc55b1377d79f6c8140cb52b68234f2e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2eb882fb_2c7a9cb4",
+        "filename": "java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-04-20T15:37:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50afcb0c_3461c3f2",
+      "range": {
+        "startLine": 85,
+        "startChar": 12,
+        "endLine": 86,
+        "endChar": 80
+      },
+      "revId": "9112c2fbc55b1377d79f6c8140cb52b68234f2e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

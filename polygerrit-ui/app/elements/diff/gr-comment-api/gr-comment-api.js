@@ -440,7 +440,14 @@ class ChangeComments {
   _sortComments(comments) {
     return comments.slice(0)
         .sort(
-            (c1, c2) => util.parseDate(c1.updated) - util.parseDate(c2.updated)
+            (c1, c2) => {
+              const dateDiff =
+                  util.parseDate(c1.updated) - util.parseDate(c2.updated);
+              if (dateDiff) {
+                return dateDiff;
+              }
+              return c1.id - c2.id;
+            }
         );
   }
 

@@ -85,10 +85,15 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
       throw new OrmException("unable to read project state", e);
     }
 
-    PermissionBackend.WithUser withUser =
-        user.isIdentifiedUser()
-            ? permissionBackend.absentUser(user.getAccountId())
-            : permissionBackend.user(anonymousUserProvider.get());
+    PermissionBackend.WithUser withUser;
+    if (user instanceof SingleGroupUser) {
+      withUser = permissionBackend.user(user);
+    } else if (user.isIdentifiedUser()) {
+      withUser = permissionBackend.absentUser(user.getAccountId());
+    } else {
+      withUser = permissionBackend.user(anonymousUserProvider.get());
+    }
+
     try {
       withUser.indexedChange(cd, notes).database(db).check(ChangePermission.READ);
     } catch (PermissionBackendException e) {

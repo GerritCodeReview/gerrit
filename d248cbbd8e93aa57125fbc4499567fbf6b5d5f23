@@ -71,6 +71,29 @@
     },
     {
       "key": {
+        "uuid": "64f8f4b8_bafcf7d9",
+        "filename": "polygerrit-ui/app/services/app-context-init_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-20T10:52:08Z",
+      "side": 1,
+      "message": "I think, this must be strictEqual (\u003d\u003d\u003d, https://www.chaijs.com/api/assert/#method_strictequal)",
+      "range": {
+        "startLine": 42,
+        "startChar": 13,
+        "endLine": 42,
+        "endChar": 18
+      },
+      "revId": "d248cbbd8e93aa57125fbc4499567fbf6b5d5f23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9418e1f9_b593155b",
         "filename": "polygerrit-ui/app/services/app-context.js",
         "patchSetId": 7

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a29b3020_e7aaa821",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-21T19:53:20Z",
+      "side": 1,
+      "message": "What about using this approach instead:\n\nmax-width: var(--app-max-width, 2000px);\nmargin: auto;\n\nAnd maybe also `overflow:hidden`?",
+      "revId": "82ca425c3a5e23340fdbb04d29df778a5f5223bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -140,6 +140,30 @@
       "revId": "a9a84f0742373931d4d823fd587dde9b75dc82b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ee4c29f_5a23241f",
+        "filename": "java/com/google/gerrit/server/cache/CacheMetrics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-04-21T07:04:17Z",
+      "side": 1,
+      "message": "Done: https://gerrit-review.googlesource.com/c/homepage/+/263693",
+      "parentUuid": "ffd43b1d_47a4ef3c",
+      "range": {
+        "startLine": 86,
+        "startChar": 72,
+        "endLine": 86,
+        "endChar": 78
+      },
+      "revId": "a9a84f0742373931d4d823fd587dde9b75dc82b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

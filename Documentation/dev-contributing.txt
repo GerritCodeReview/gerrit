@@ -216,9 +216,8 @@ link:dev-roles.html#maintainer[maintainer].
 
 Mentors are assigned by the link:dev-processes.html#steering-committee[
 steering committee]. To gain a mentor, ask for a mentor in the
-link:dev-design-doc-template.html#implementation-plan[Implementation
-Plan] section of the design doc or ask the steering committee after the
-design has been approved.
+link:dev-design-docs.html#structure[Implementation Plan] section of the design
+doc or ask the steering committee after the design has been approved.
 
 Mentors may not be available immediately. In this case, the steering
 committee should include the approved feature into the roadmap or

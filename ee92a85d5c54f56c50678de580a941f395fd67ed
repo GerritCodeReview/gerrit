@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd9916ae_4c8cb081",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-21T09:34:11Z",
+      "side": 1,
+      "message": "I think the test name is a bit misleading. What the scenario is doing is:\n- creating a project\n- deleting a change\n- deleting a project\n\nShouldn\u0027t it be reflected in the simulation name?",
+      "range": {
+        "startLine": 24,
+        "startChar": 6,
+        "endLine": 24,
+        "endChar": 18
+      },
+      "revId": "ee92a85d5c54f56c50678de580a941f395fd67ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad5b4686_730fec83",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-21T09:34:11Z",
+      "side": 1,
+      "message": "nit: I believe we could deserialise this instead of using a regexp. Anyway we can leave it for a follow up change if that\u0027s the case.",
+      "range": {
+        "startLine": 33,
+        "startChar": 17,
+        "endLine": 33,
+        "endChar": 55
+      },
+      "revId": "ee92a85d5c54f56c50678de580a941f395fd67ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21be2a82_79103c19",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-21T09:34:11Z",
+      "side": 1,
+      "message": "Since this is not a complete match and the matching is based on strings, you probably want to add a \"catchall\" case ( case _: println(\"Error!\") ) to make sure no unexpected strings are used.\n\nAlternatively you should handle the possible scala.MatchError when using \"keys\"\n\nYou could maybe use an ADT instead but I believe that would be too much for the scope of this change.",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 3
+      },
+      "revId": "ee92a85d5c54f56c50678de580a941f395fd67ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

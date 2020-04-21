@@ -22,6 +22,30 @@
       "revId": "77b077579b205f285f82b6e94dacf990b3dd0de7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87e2011c_61f3f0a2",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-21T18:42:51Z",
+      "side": 1,
+      "message": "Even though the javadoc states that parameters are only for the none-yet case. Maybe rename the method to getExistingOrCreateWith -or similar?",
+      "parentUuid": "04c4ebd5_b39339df",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 1
+      },
+      "revId": "77b077579b205f285f82b6e94dacf990b3dd0de7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

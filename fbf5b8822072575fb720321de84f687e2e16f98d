@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "92368cc8_a2c415f2",
+        "filename": "Jenkinsfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-21T14:51:12Z",
+      "side": 1,
+      "message": "Ah, good catch DavidO.",
+      "parentUuid": "45528bef_af26f8cd",
+      "range": {
+        "startLine": 97,
+        "startChar": 60,
+        "endLine": 97,
+        "endChar": 75
+      },
+      "revId": "fbf5b8822072575fb720321de84f687e2e16f98d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b074952b_b969f49b",
         "filename": "Jenkinsfile",
         "patchSetId": 2
@@ -83,6 +107,30 @@
       "writtenOn": "2020-04-21T14:49:31Z",
       "side": 1,
       "message": "I don\u0027t know, if that would make sense, if e.g. a BUILD file within some java package was changed, but I agree that there are more bazel related files that should also trigger polygerrit verification (e.g. everything in the tools directory).\nI would suggest to do that in a separate change.",
+      "parentUuid": "b074952b_b969f49b",
+      "range": {
+        "startLine": 104,
+        "startChar": 14,
+        "endLine": 104,
+        "endChar": 48
+      },
+      "revId": "fbf5b8822072575fb720321de84f687e2e16f98d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca52d168_530a21aa",
+        "filename": "Jenkinsfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-21T14:51:12Z",
+      "side": 1,
+      "message": "I believe DavidO is right: just in case, it would be best to run the PolyGerrit tests as well.",
       "parentUuid": "b074952b_b969f49b",
       "range": {
         "startLine": 104,

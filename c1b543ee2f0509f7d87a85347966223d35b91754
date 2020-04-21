@@ -46,6 +46,30 @@
       "revId": "c1b543ee2f0509f7d87a85347966223d35b91754",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95c9df51_576dc988",
+        "filename": "Jenkinsfile",
+        "patchSetId": 13
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-21T22:11:39Z",
+      "side": 1,
+      "message": "\u003e currentBuild cannot be null, but slaveBuild in line 127 (also see stacktrace: (WorkflowScript:127)). Let me check, why this happens.\n\nYes, the slaveBuild can be null at L127 if postCheck at L114 failed and we then end up executing the finally block.\n\nPosted already a fix for this and merged:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/263452\n\nThis problem has become more evident with the recent flakiness of gerrit-review :-( but it has been introduced in this change. Happens only if the Checks API fails in finding the change and accepting the \"started\" feedback.",
+      "parentUuid": "66e80c77_60b787a8",
+      "range": {
+        "startLine": 116,
+        "startChar": 34,
+        "endLine": 116,
+        "endChar": 63
+      },
+      "revId": "c1b543ee2f0509f7d87a85347966223d35b91754",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

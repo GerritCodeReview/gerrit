@@ -5,6 +5,8 @@ load(
     "bundle_assets",
 )
 
+# Test
+
 def polygerrit_bundle(name, srcs, outs, app):
     appName = app.split(".html")[0].split("/").pop()  # eg: gr-app
 

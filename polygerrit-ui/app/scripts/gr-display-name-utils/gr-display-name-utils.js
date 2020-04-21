@@ -14,68 +14,58 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(window) {
-  'use strict';
+const ANONYMOUS_NAME = 'Anonymous';
 
-  if (window.GrDisplayNameUtils) {
-    return;
-  }
-
-  const ANONYMOUS_NAME = 'Anonymous';
-
-  class GrDisplayNameUtils {
-    static getUserName(config, account) {
-      if (account && account.name) {
-        return account.name;
-      } else if (account && account.username) {
-        return account.username;
-      } else if (account && account.email) {
-        return account.email;
-      } else if (config && config.user &&
-          config.user.anonymous_coward_name !== 'Anonymous Coward') {
-        return config.user.anonymous_coward_name;
-      }
-
-      return ANONYMOUS_NAME;
-    }
-
-    static getDisplayName(config, account) {
-      if (account && account.display_name) {
-        return account.display_name;
-      }
-      if (!account || !account.name || !config || !config.accounts) {
-        return this.getUserName(config, account);
-      }
-      if (config.accounts.default_display_name === 'USERNAME'
-          && account.username) {
-        return account.username;
-      }
-      if (config.accounts.default_display_name === 'FIRST_NAME') {
-        return account.name.trim().split(' ')[0];
-      }
-      // Treat every other value as FULL_NAME.
+export class GrDisplayNameUtils {
+  static getUserName(config, account) {
+    if (account && account.name) {
       return account.name;
+    } else if (account && account.username) {
+      return account.username;
+    } else if (account && account.email) {
+      return account.email;
+    } else if (config && config.user &&
+        config.user.anonymous_coward_name !== 'Anonymous Coward') {
+      return config.user.anonymous_coward_name;
     }
 
-    static getAccountDisplayName(config, account) {
-      const reviewerName = this.getUserName(config, account);
-      const reviewerEmail = this._accountEmail(account.email);
-      const reviewerStatus = account.status ? '(' + account.status + ')' : '';
-      return [reviewerName, reviewerEmail, reviewerStatus]
-          .filter(p => p.length > 0).join(' ');
-    }
-
-    static _accountEmail(email) {
-      if (typeof email !== 'undefined') {
-        return '<' + email + '>';
-      }
-      return '';
-    }
-
-    static getGroupDisplayName(group) {
-      return group.name + ' (group)';
-    }
+    return ANONYMOUS_NAME;
   }
 
-  window.GrDisplayNameUtils = GrDisplayNameUtils;
-})(window);
+  static getDisplayName(config, account) {
+    if (account && account.display_name) {
+      return account.display_name;
+    }
+    if (!account || !account.name || !config || !config.accounts) {
+      return this.getUserName(config, account);
+    }
+    if (config.accounts.default_display_name === 'USERNAME'
+        && account.username) {
+      return account.username;
+    }
+    if (config.accounts.default_display_name === 'FIRST_NAME') {
+      return account.name.trim().split(' ')[0];
+    }
+    // Treat every other value as FULL_NAME.
+    return account.name;
+  }
+
+  static getAccountDisplayName(config, account) {
+    const reviewerName = this.getUserName(config, account);
+    const reviewerEmail = this._accountEmail(account.email);
+    const reviewerStatus = account.status ? '(' + account.status + ')' : '';
+    return [reviewerName, reviewerEmail, reviewerStatus]
+        .filter(p => p.length > 0).join(' ');
+  }
+
+  static _accountEmail(email) {
+    if (typeof email !== 'undefined') {
+      return '<' + email + '>';
+    }
+    return '';
+  }
+
+  static getGroupDisplayName(group) {
+    return group.name + ' (group)';
+  }
+}

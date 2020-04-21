@@ -22,6 +22,30 @@
       "revId": "61f6b126b1dc23c20cb655d6b9697ef711356a8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d2ca3e3_3aff3090",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-21T21:03:30Z",
+      "side": 1,
+      "message": "This test change is about \u003cgr-message\u003e, not \u003cgr-messages-list\u003e.",
+      "parentUuid": "a91eece0_abbab33e",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "61f6b126b1dc23c20cb655d6b9697ef711356a8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -856,6 +856,7 @@ class GrDiff extends mixinBehaviors( [
   }
 
   _handleRenderContent() {
+    this._unobserveIncrementalNodes();
     this._incrementalNodeObserver = dom(this).observeNodes(info => {
       const addedThreadEls = info.addedNodes.filter(isThreadEl);
       // Removed nodes do not need to be handled because all this code does is

@@ -110,3 +110,65 @@ def polygerrit_bundle(name, srcs, outs, app):
             "zip -qr $$ROOT/$@ *",
         ]),
     )
+<<<<<<< HEAD   (a008f3 Update git submodules)
+=======
+
+def _wct_test(name, srcs, split_index, split_count):
+    """Macro to define single WCT suite
+
+    Defines a private macro for a portion of test files with split_index.
+    The actual split happens in test/tests.js file
+
+    Args:
+        name: name of generated sh_test
+        srcs: source files
+        split_index: index WCT suite. Must be less than split_count
+        split_count: total number of WCT suites
+    """
+    str_index = str(split_index)
+    config_json = struct(splitIndex = split_index, splitCount = split_count).to_json()
+    native.sh_test(
+        name = name,
+        size = "enormous",
+        srcs = ["wct_test.sh"],
+        args = [
+            "$(location @ui_dev_npm//web-component-tester/bin:wct)",
+            config_json,
+        ],
+        data = [
+            "@ui_dev_npm//web-component-tester/bin:wct",
+        ] + srcs,
+        # Should not run sandboxed.
+        tags = [
+            "local",
+            "manual",
+        ],
+    )
+
+def wct_suite(name, srcs, split_count):
+    """Define test suites for WCT tests.
+
+    All tests files are splited to split_count WCT suites
+
+    Args:
+        name: rule name. The macro create a test suite rule with the name name+"_test"
+        srcs: source files
+        split_count: number of sh_test (i.e. WCT suites)
+    """
+    tests = []
+    for i in range(split_count):
+        test_name = "wct_test_" + str(i)
+        _wct_test(test_name, srcs, i, split_count)
+        tests.append(test_name)
+
+    native.test_suite(
+        name = name + "_test",
+        tests = tests,
+        # Setup tags for suite as well.
+        # This excludes tests from the wildcard expansion (//...)
+        tags = [
+            "local",
+            "manual",
+        ],
+    )
+>>>>>>> CHANGE (ae42cd Fix tests for master branch)

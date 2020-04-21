@@ -14,34 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(window, GrDiffBuilder) {
-  'use strict';
 
-  // Prevent redefinition.
-  if (window.GrDiffBuilderBinary) { return; }
+import {GrDiffBuilder} from './gr-diff-builder.js';
 
-  /** @constructor */
-  function GrDiffBuilderBinary(diff, prefs, outputEl) {
-    GrDiffBuilder.call(this, diff, prefs, outputEl);
-  }
+/** @constructor */
+export function GrDiffBuilderBinary(diff, prefs, outputEl) {
+  GrDiffBuilder.call(this, diff, prefs, outputEl);
+}
 
-  GrDiffBuilderBinary.prototype = Object.create(GrDiffBuilder.prototype);
-  GrDiffBuilderBinary.prototype.constructor = GrDiffBuilderBinary;
+GrDiffBuilderBinary.prototype = Object.create(GrDiffBuilder.prototype);
+GrDiffBuilderBinary.prototype.constructor = GrDiffBuilderBinary;
 
-  // This method definition is a no-op to satisfy the parent type.
-  GrDiffBuilderBinary.prototype.addColumns = function(outputEl, fontSize) {};
+// This method definition is a no-op to satisfy the parent type.
+GrDiffBuilderBinary.prototype.addColumns = function(outputEl, fontSize) {};
 
-  GrDiffBuilderBinary.prototype.buildSectionElement = function() {
-    const section = this._createElement('tbody', 'binary-diff');
-    const row = this._createElement('tr');
-    const cell = this._createElement('td');
-    const label = this._createElement('label');
-    label.textContent = 'Difference in binary files';
-    cell.appendChild(label);
-    row.appendChild(cell);
-    section.appendChild(row);
-    return section;
-  };
-
-  window.GrDiffBuilderBinary = GrDiffBuilderBinary;
-})(window, GrDiffBuilder);
+GrDiffBuilderBinary.prototype.buildSectionElement = function() {
+  const section = this._createElement('tbody', 'binary-diff');
+  const row = this._createElement('tr');
+  const cell = this._createElement('td');
+  const label = this._createElement('label');
+  label.textContent = 'Difference in binary files';
+  cell.appendChild(label);
+  row.appendChild(cell);
+  section.appendChild(row);
+  return section;
+};

@@ -16,6 +16,12 @@
  */
 
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {GrAttributeHelper} from '../../plugins/gr-attribute-helper/gr-attribute-helper.js';
+import {GrChangeActionsInterface} from './gr-change-actions-js-api.js';
+import {GrChangeReplyInterface} from './gr-change-reply-js-api.js';
+import {GrDomHooksManager} from '../../plugins/gr-dom-hooks/gr-dom-hooks.js';
+import {GrThemeApi} from '../../plugins/gr-theme-api/gr-theme-api.js';
+import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface.js';
 
 (function(window) {
   'use strict';

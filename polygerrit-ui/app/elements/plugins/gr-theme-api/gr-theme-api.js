@@ -25,27 +25,19 @@ $_documentContainer.innerHTML = `<dom-module id="gr-theme-api">
 
 document.head.appendChild($_documentContainer.content);
 
-(function(window) {
-  'use strict';
+/** @constructor */
+export function GrThemeApi(plugin) {
+  this.plugin = plugin;
+}
 
-  // Prevent redefinition.
-  if (window.GrThemeApi) { return; }
+GrThemeApi.prototype.setHeaderLogoAndTitle = function(logoUrl, title) {
+  this.plugin.hook('header-title', {replace: true}).onAttached(
+      element => {
+        const customHeader =
+              document.createElement('gr-custom-plugin-header');
+        customHeader.logoUrl = logoUrl;
+        customHeader.title = title;
+        element.appendChild(customHeader);
+      });
+};
 
-  /** @constructor */
-  function GrThemeApi(plugin) {
-    this.plugin = plugin;
-  }
-
-  GrThemeApi.prototype.setHeaderLogoAndTitle = function(logoUrl, title) {
-    this.plugin.hook('header-title', {replace: true}).onAttached(
-        element => {
-          const customHeader =
-                document.createElement('gr-custom-plugin-header');
-          customHeader.logoUrl = logoUrl;
-          customHeader.title = title;
-          element.appendChild(customHeader);
-        });
-  };
-
-  window.GrThemeApi = GrThemeApi;
-})(window);

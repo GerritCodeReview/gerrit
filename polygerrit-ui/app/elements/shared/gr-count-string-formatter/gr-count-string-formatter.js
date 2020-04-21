@@ -14,10 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function(window) {
-  'use strict';
-  const GrCountStringFormatter = window.GrCountStringFormatter || {};
-
+export const GrCountStringFormatter = {
   /**
    * Returns a count plus string that is pluralized when necessary.
    *
@@ -25,9 +22,9 @@
    * @param {string} noun
    * @return {string}
    */
-  GrCountStringFormatter.computePluralString = function(count, noun) {
+  computePluralString(count, noun) {
     return this.computeString(count, noun) + (count > 1 ? 's' : '');
-  };
+  },
 
   /**
    * Returns a count plus string that is not pluralized.
@@ -36,10 +33,12 @@
    * @param {string} noun
    * @return {string}
    */
-  GrCountStringFormatter.computeString = function(count, noun) {
-    if (count === 0) { return ''; }
+  computeString(count, noun) {
+    if (count === 0) {
+      return '';
+    }
     return count + ' ' + noun;
-  };
+  },
 
   /**
    * Returns a count plus arbitrary text.
@@ -48,9 +47,10 @@
    * @param {string} text
    * @return {string}
    */
-  GrCountStringFormatter.computeShortString = function(count, text) {
-    if (count === 0) { return ''; }
+  computeShortString(count, text) {
+    if (count === 0) {
+      return '';
+    }
     return count + text;
-  };
-  window.GrCountStringFormatter = GrCountStringFormatter;
-})(window);
+  },
+};

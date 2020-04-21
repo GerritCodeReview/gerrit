@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f20cceed_5025fb39",
+        "filename": "Jenkinsfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-04-21T14:49:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45528bef_af26f8cd",
+      "range": {
+        "startLine": 97,
+        "startChar": 60,
+        "endLine": 97,
+        "endChar": 75
+      },
+      "revId": "fbf5b8822072575fb720321de84f687e2e16f98d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b074952b_b969f49b",
         "filename": "Jenkinsfile",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2020-04-21T14:31:44Z",
       "side": 1,
       "message": "Should we be here even more stricter and extend that condition to any Bazel files:\n\n  !bazelFiles.isEmpty()\n\nThat would mean, that we always run PG tests, if any Bazel files are changed in any directory and not only WORKSPACE file and not only in polygerrit-ui tree.",
+      "range": {
+        "startLine": 104,
+        "startChar": 14,
+        "endLine": 104,
+        "endChar": 48
+      },
+      "revId": "fbf5b8822072575fb720321de84f687e2e16f98d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23b71400_f10802bc",
+        "filename": "Jenkinsfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-04-21T14:49:31Z",
+      "side": 1,
+      "message": "I don\u0027t know, if that would make sense, if e.g. a BUILD file within some java package was changed, but I agree that there are more bazel related files that should also trigger polygerrit verification (e.g. everything in the tools directory).\nI would suggest to do that in a separate change.",
+      "parentUuid": "b074952b_b969f49b",
       "range": {
         "startLine": 104,
         "startChar": 14,

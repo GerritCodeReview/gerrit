@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6045e7ae_99785bf3",
+        "filename": "gerrit-server/src/test/java/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1674,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-21T23:20:28Z",
+      "side": 1,
+      "message": "Isn\u0027t there an implementation of this already available somewhere?",
+      "range": {
+        "startLine": 1656,
+        "startChar": 2,
+        "endLine": 1674,
+        "endChar": 3
+      },
+      "revId": "3383a52df8ecbcc4228f861448ecbc121a2a8d6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

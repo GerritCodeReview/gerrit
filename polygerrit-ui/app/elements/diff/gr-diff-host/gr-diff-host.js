@@ -30,6 +30,9 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-diff-host_html.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {GrDiffBuilder} from '../gr-diff-builder/gr-diff-builder.js';
+import {util} from '../../../scripts/util.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {DiffSide, rangesEqual} from '../gr-diff/gr-diff-utils.js';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -75,12 +78,6 @@ function isImageDiff(diff) {
 
   return !!(diff.binary && (isA || isB));
 }
-
-/** @enum {string} */
-Gerrit.DiffSide = {
-  LEFT: 'left',
-  RIGHT: 'right',
-};
 
 /**
  * Wrapper around gr-diff.
@@ -439,10 +436,10 @@ class GrDiffHost extends mixinBehaviors( [
       return {};
     }
     return {
-      meta_a: Gerrit.Nav.getFileWebLinks(
+      meta_a: GerritNav.getFileWebLinks(
           this.projectName, this.commitRange.baseCommit, this.path,
           {weblinks: diff && diff.meta_a && diff.meta_a.web_links}),
-      meta_b: Gerrit.Nav.getFileWebLinks(
+      meta_b: GerritNav.getFileWebLinks(
           this.projectName, this.commitRange.commit, this.path,
           {weblinks: diff && diff.meta_b && diff.meta_b.web_links}),
     };
@@ -822,7 +819,7 @@ class GrDiffHost extends mixinBehaviors( [
     function matchesRange(threadEl) {
       const threadRange = /** @type {!Gerrit.Range} */(
         JSON.parse(threadEl.getAttribute('range')));
-      return Gerrit.rangesEqual(threadRange, range);
+      return rangesEqual(threadRange, range);
     }
 
     const filteredThreadEls = this._filterThreadElsForLocation(
@@ -835,7 +832,7 @@ class GrDiffHost extends mixinBehaviors( [
    * @param {!{beforeNumber: (number|string|undefined|null),
    *           afterNumber: (number|string|undefined|null)}}
    *     lineInfo
-   * @param {!Gerrit.DiffSide=} side The side (LEFT, RIGHT) for
+   * @param {!DiffSide=} side The side (LEFT, RIGHT) for
    *     which to return the threads.
    * @return {!Array<!HTMLElement>} The thread elements matching the given
    *     location.
@@ -843,12 +840,12 @@ class GrDiffHost extends mixinBehaviors( [
   _filterThreadElsForLocation(threadEls, lineInfo, side) {
     function matchesLeftLine(threadEl) {
       return threadEl.getAttribute('comment-side') ==
-          Gerrit.DiffSide.LEFT &&
+          DiffSide.LEFT &&
           threadEl.getAttribute('line-num') == lineInfo.beforeNumber;
     }
     function matchesRightLine(threadEl) {
       return threadEl.getAttribute('comment-side') ==
-          Gerrit.DiffSide.RIGHT &&
+          DiffSide.RIGHT &&
           threadEl.getAttribute('line-num') == lineInfo.afterNumber;
     }
     function matchesFileComment(threadEl) {
@@ -861,10 +858,10 @@ class GrDiffHost extends mixinBehaviors( [
     // Select the appropriate matchers for the desired side and line
     // If side is BOTH, we want both the left and right matcher.
     const matchers = [];
-    if (side !== Gerrit.DiffSide.RIGHT) {
+    if (side !== DiffSide.RIGHT) {
       matchers.push(matchesLeftLine);
     }
-    if (side !== Gerrit.DiffSide.LEFT) {
+    if (side !== DiffSide.LEFT) {
       matchers.push(matchesRightLine);
     }
     if (lineInfo.afterNumber === 'FILE' ||

@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+import {pluginLoader} from './gr-plugin-loader.js';
+
 /** @constructor */
 export function GrPluginEndpoints() {
   this._endpoints = {};
@@ -79,7 +81,7 @@ GrPluginEndpoints.prototype.registerModule = function(plugin, endpoint, type,
   }
   const moduleInfo = this._getOrCreateModuleInfo(plugin, endpoint, type,
       moduleName, domHook);
-  if (Gerrit._arePluginsLoaded() && this._callbacks[endpoint]) {
+  if (pluginLoader.arePluginsLoaded() && this._callbacks[endpoint]) {
     this._callbacks[endpoint].forEach(callback => callback(moduleInfo));
   }
 };
@@ -155,3 +157,9 @@ GrPluginEndpoints.prototype.getPlugins = function(name, opt_options) {
   }
   return Array.from(new Set(modulesData.map(m => m.pluginUrl)));
 };
+
+// TODO(dmfilippov): Convert to service and add to appContext
+export let pluginEndpoints = new GrPluginEndpoints();
+export function _testOnly_resetEndpoints() {
+  pluginEndpoints = new GrPluginEndpoints();
+}

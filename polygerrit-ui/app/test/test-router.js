@@ -14,6 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../elements/core/gr-navigation/gr-navigation.js';
+import {GerritNav} from '../elements/core/gr-navigation/gr-navigation.js';
 
-Gerrit.Nav.setup(url => { /* noop */ }, params => '', () => []);
+GerritNav.setup(url => { /* noop */ }, params => '', () => []);

@@ -19,10 +19,10 @@ import '../scripts/bundled-polymer.js';
 import 'polymer-resin/standalone/polymer-resin.js';
 import '@polymer/iron-test-helpers/iron-test-helpers.js';
 import './test-router.js';
-import moment from 'moment/src/moment.js';
 import {SafeTypes} from '../behaviors/safe-types-behavior/safe-types-behavior.js';
 import {initAppContext} from '../services/app-context-init.js';
-self.moment = moment;
+import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader.js';
+
 security.polymer_resin.install({
   allowedIdentifierPrefixes: [''],
   reportHandler(isViolation, fmt, ...args) {
@@ -74,10 +74,7 @@ setup(() => {
   // overwritten by some other code.
   assert.equal(cleanups.length, 0);
 
-  if (!window.Gerrit) { return; }
-  if (Gerrit._testOnly_resetPlugins) {
-    Gerrit._testOnly_resetPlugins();
-  }
+  _testOnly_resetPluginLoader();
   initAppContext();
 });
 

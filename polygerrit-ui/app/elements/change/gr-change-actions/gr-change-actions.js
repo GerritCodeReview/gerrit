@@ -17,7 +17,6 @@
 import '../../../scripts/bundled-polymer.js';
 
 import '../../admin/gr-create-change-dialog/gr-create-change-dialog.js';
-import '../../core/gr-navigation/gr-navigation.js';
 import '../../core/gr-reporting/gr-reporting.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-dialog/gr-dialog.js';
@@ -43,6 +42,8 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-actions_html.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -533,7 +534,7 @@ class GrChangeActions extends mixinBehaviors( [
   }
 
   _handleLoadingComplete() {
-    Gerrit.awaitPluginsLoaded().then(() => this._loading = false);
+    pluginLoader.awaitPluginsLoaded().then(() => this._loading = false);
   }
 
   _sendShowRevisionActions(detail) {
@@ -1336,30 +1337,30 @@ class GrChangeActions extends mixinBehaviors( [
           this._waitForChangeReachable(obj._number)
               .then(() => this._setLabelValuesOnRevert(obj._number))
               .then(() => {
-                Gerrit.Nav.navigateToChange(obj);
+                GerritNav.navigateToChange(obj);
               });
           break;
         case RevisionActions.CHERRYPICK:
           this._waitForChangeReachable(obj._number).then(() => {
-            Gerrit.Nav.navigateToChange(obj);
+            GerritNav.navigateToChange(obj);
           });
           break;
         case ChangeActions.DELETE:
           if (action.__type === ActionType.CHANGE) {
-            Gerrit.Nav.navigateToRelativeUrl(Gerrit.Nav.getUrlForRoot());
+            GerritNav.navigateToRelativeUrl(GerritNav.getUrlForRoot());
           }
           break;
         case ChangeActions.WIP:
         case ChangeActions.DELETE_EDIT:
         case ChangeActions.PUBLISH_EDIT:
         case ChangeActions.REBASE_EDIT:
-          Gerrit.Nav.navigateToChange(this.change);
+          GerritNav.navigateToChange(this.change);
           break;
         case ChangeActions.REVERT_SUBMISSION:
           if (!obj.revert_changes || !obj.revert_changes.length) return;
           /* If there is only 1 change then gerrit will automatically
              redirect to that change */
-          Gerrit.Nav.navigateToSearchQuery('topic: ' +
+          GerritNav.navigateToSearchQuery('topic: ' +
               obj.revert_changes[0].topic);
           break;
         default:
@@ -1416,7 +1417,7 @@ class GrChangeActions extends mixinBehaviors( [
                 action: 'Reload',
                 callback: () => {
                 // Load the current change without any patch range.
-                  Gerrit.Nav.navigateToChange(this.change);
+                  GerritNav.navigateToChange(this.change);
                 },
               },
               composed: true, bubbles: true,

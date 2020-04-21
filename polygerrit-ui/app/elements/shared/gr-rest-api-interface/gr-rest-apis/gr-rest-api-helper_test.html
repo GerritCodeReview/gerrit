@@ -26,10 +26,9 @@ limitations under the License.
 
 <script type="module">
 import '../../../../test/common-test-setup.js';
-import '../../../../scripts/util.js';
-import '../gr-auth.js';
 import {SiteBasedCache} from './gr-rest-api-helper.js';
 import {FetchPromisesCache, GrRestApiHelper} from './gr-rest-api-helper.js';
+import {authService} from '../gr-auth.js';
 
 suite('gr-rest-api-helper tests', () => {
   let helper;
@@ -57,7 +56,7 @@ suite('gr-rest-api-helper tests', () => {
       },
     }));
 
-    helper = new GrRestApiHelper(cache, Gerrit.Auth, fetchPromisesCache,
+    helper = new GrRestApiHelper(cache, authService, fetchPromisesCache,
         mockRestApiInterface);
   });
 

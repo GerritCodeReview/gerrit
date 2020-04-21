@@ -33,6 +33,9 @@ limitations under the License.
 <script type="module">
 import '../test/common-test-setup.js';
 import './gr-app.js';
+import {util} from '../scripts/util.js';
+import {pluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader.js';
+
 suite('gr-app custom light theme tests', () => {
   let sandbox;
   let element;
@@ -72,7 +75,7 @@ suite('gr-app custom light theme tests', () => {
     const importForThemeSpy = sandbox.spy(
         element.$['app-element'].$.externalStyleForTheme,
         '_import');
-    Gerrit.awaitPluginsLoaded().then(() => {
+    pluginLoader.awaitPluginsLoaded().then(() => {
       Promise.all(importSpy.returnValues.concat(importForThemeSpy.returnValues))
           .then(() => {
             flush(done);

@@ -32,10 +32,10 @@ limitations under the License.
 
 <script type="module">
 import '../../../test/common-test-setup.js';
-import '../../../scripts/util.js';
 import './gr-rest-api-interface.js';
 import {mockPromise} from '../../../test/test-utils.js';
 import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser.js';
+import {authService} from './gr-auth.js';
 
 suite('gr-rest-api-interface tests', () => {
   let element;
@@ -56,7 +56,7 @@ suite('gr-rest-api-interface tests', () => {
       },
     }));
     // fake auth
-    sandbox.stub(Gerrit.Auth, 'authCheck').returns(Promise.resolve(true));
+    sandbox.stub(authService, 'authCheck').returns(Promise.resolve(true));
     element = fixture('basic');
     element._projectLookup = {};
   });
@@ -933,9 +933,9 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('gerrit auth is used', () => {
-    sandbox.stub(Gerrit.Auth, 'fetch').returns(Promise.resolve());
+    sandbox.stub(authService, 'fetch').returns(Promise.resolve());
     element._restApiHelper.fetchJSON({url: 'foo'});
-    assert(Gerrit.Auth.fetch.called);
+    assert(authService.fetch.called);
   });
 
   test('getSuggestedAccounts does not return _fetchJSON', () => {
@@ -1365,7 +1365,7 @@ suite('gr-rest-api-interface tests', () => {
       done();
     };
     element.addEventListener('server-error', handler);
-    sandbox.stub(Gerrit.Auth, 'fetch').returns(Promise.resolve(res));
+    sandbox.stub(authService, 'fetch').returns(Promise.resolve(res));
     sandbox.stub(element, '_changeBaseURL').returns(Promise.resolve(''));
     element.getFileContent('1', 'tst/path', '1').then(() => {
       flushAsynchronousOperations();

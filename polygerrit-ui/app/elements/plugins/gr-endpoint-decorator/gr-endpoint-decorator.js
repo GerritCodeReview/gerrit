@@ -23,6 +23,8 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-endpoint-decorator_html.js';
+import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
+import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
 const INIT_PROPERTIES_TIMEOUT_MS = 10000;
 
@@ -62,7 +64,7 @@ class GrEndpointDecorator extends GestureEventListeners(
     for (const [el, domHook] of this._domHooks) {
       domHook.handleInstanceDetached(el);
     }
-    Gerrit._endpoints.onDetachedEndpoint(this.name, this._endpointCallBack);
+    pluginEndpoints.onDetachedEndpoint(this.name, this._endpointCallBack);
   }
 
   /**
@@ -161,14 +163,14 @@ class GrEndpointDecorator extends GestureEventListeners(
   ready() {
     super.ready();
     this._endpointCallBack = this._initModule.bind(this);
-    Gerrit._endpoints.onNewEndpoint(this.name, this._endpointCallBack);
-    Gerrit.awaitPluginsLoaded()
+    pluginEndpoints.onNewEndpoint(this.name, this._endpointCallBack);
+    pluginLoader.awaitPluginsLoaded()
         .then(() => Promise.all(
-            Gerrit._endpoints.getPlugins(this.name).map(
+            pluginEndpoints.getPlugins(this.name).map(
                 pluginUrl => this._import(pluginUrl)))
         )
         .then(() =>
-          Gerrit._endpoints
+          pluginEndpoints
               .getDetails(this.name)
               .forEach(this._initModule, this)
         );

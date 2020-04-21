@@ -17,7 +17,6 @@
 
 import '../../../scripts/bundled-polymer.js';
 import '../../../styles/gr-change-list-styles.js';
-import '../../core/gr-navigation/gr-navigation.js';
 import '../../shared/gr-account-link/gr-account-link.js';
 import '../../shared/gr-change-star/gr-change-star.js';
 import '../../shared/gr-change-status/gr-change-status.js';
@@ -38,6 +37,9 @@ import {ChangeTableBehavior} from '../../../behaviors/gr-change-table-behavior/g
 import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
+import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
 const CHANGE_SIZE = {
   XS: 10,
@@ -98,14 +100,14 @@ class GrChangeListItem extends mixinBehaviors( [
   /** @override */
   attached() {
     super.attached();
-    Gerrit.awaitPluginsLoaded().then(() => {
-      this._dynamicCellEndpoints = Gerrit._endpoints.getDynamicEndpoints(
+    pluginLoader.awaitPluginsLoaded().then(() => {
+      this._dynamicCellEndpoints = pluginEndpoints.getDynamicEndpoints(
           'change-list-item-cell');
     });
   }
 
   _computeChangeURL(change) {
-    return Gerrit.Nav.getUrlForChange(change);
+    return GerritNav.getUrlForChange(change);
   }
 
   _computeLabelTitle(change, labelName) {
@@ -166,18 +168,18 @@ class GrChangeListItem extends mixinBehaviors( [
   }
 
   _computeRepoUrl(change) {
-    return Gerrit.Nav.getUrlForProjectChanges(change.project, true,
+    return GerritNav.getUrlForProjectChanges(change.project, true,
         change.internalHost);
   }
 
   _computeRepoBranchURL(change) {
-    return Gerrit.Nav.getUrlForBranch(change.branch, change.project, null,
+    return GerritNav.getUrlForBranch(change.branch, change.project, null,
         change.internalHost);
   }
 
   _computeTopicURL(change) {
     if (!change.topic) { return ''; }
-    return Gerrit.Nav.getUrlForTopic(change.topic, change.internalHost);
+    return GerritNav.getUrlForTopic(change.topic, change.internalHost);
   }
 
   /**

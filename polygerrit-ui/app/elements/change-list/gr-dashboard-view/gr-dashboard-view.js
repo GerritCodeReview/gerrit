@@ -33,6 +33,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-dashboard-view_html.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\$\{project\}/g;
 
@@ -155,7 +156,7 @@ class GrDashboardView extends mixinBehaviors( [
   }
 
   _isViewActive(params) {
-    return params.view === Gerrit.Nav.View.DASHBOARD;
+    return params.view === GerritNav.View.DASHBOARD;
   }
 
   _paramsChanged(paramsChangeRecord) {
@@ -178,7 +179,7 @@ class GrDashboardView extends mixinBehaviors( [
     const {project, dashboard, title, user, sections} = this.params;
     const dashboardPromise = project ?
       this._getProjectDashboard(project, dashboard) :
-      Promise.resolve(Gerrit.Nav.getUserDashboard(
+      Promise.resolve(GerritNav.getUserDashboard(
           user,
           sections,
           title || this._computeTitle(user)));
@@ -319,7 +320,7 @@ class GrDashboardView extends mixinBehaviors( [
   }
 
   _computeDraftsLink() {
-    return Gerrit.Nav.getUrlForSearchQuery('has:draft -is:open');
+    return GerritNav.getUrlForSearchQuery('has:draft -is:open');
   }
 
   _createChangeTap(e) {

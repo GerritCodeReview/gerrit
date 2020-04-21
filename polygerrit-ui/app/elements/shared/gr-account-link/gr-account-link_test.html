@@ -33,6 +33,8 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-account-link.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+
 suite('gr-account-link tests', () => {
   let element;
   let sandbox;
@@ -51,7 +53,7 @@ suite('gr-account-link tests', () => {
 
   test('computed fields', () => {
     const url = 'test/url';
-    const urlStub = sandbox.stub(Gerrit.Nav, 'getUrlForOwner').returns(url);
+    const urlStub = sandbox.stub(GerritNav, 'getUrlForOwner').returns(url);
     const account = {
       email: 'email',
       username: 'username',

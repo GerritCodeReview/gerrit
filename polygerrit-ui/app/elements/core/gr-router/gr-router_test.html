@@ -33,6 +33,9 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-router.js';
+import page from 'page/page.mjs';
+import {GerritNav} from '../gr-navigation/gr-navigation.js';
+
 suite('gr-router tests', () => {
   let element;
   let sandbox;
@@ -148,10 +151,9 @@ suite('gr-router tests', () => {
 
     const requiresAuth = {};
     const doesNotRequireAuth = {};
-    sandbox.stub(Gerrit.Nav, 'setup');
-    sandbox.stub(window.page, 'start');
-    sandbox.stub(window.page, 'base');
-    sandbox.stub(window, 'page');
+    sandbox.stub(GerritNav, 'setup');
+    sandbox.stub(page, 'start');
+    sandbox.stub(page, 'base');
     sandbox.stub(element, '_mapRoute', (pattern, methodName, usesAuth) => {
       if (usesAuth) {
         requiresAuth[methodName] = true;
@@ -268,7 +270,7 @@ suite('gr-router tests', () => {
   suite('generateUrl', () => {
     test('search', () => {
       let params = {
-        view: Gerrit.Nav.View.SEARCH,
+        view: GerritNav.View.SEARCH,
         owner: 'a%b',
         project: 'c%d',
         branch: 'e%f',
@@ -293,7 +295,7 @@ suite('gr-router tests', () => {
       assert.equal(element._generateUrl(params), '/q/foo%2524bar,100');
 
       params = {
-        view: Gerrit.Nav.View.SEARCH,
+        view: GerritNav.View.SEARCH,
         statuses: ['a', 'b', 'c'],
       };
       assert.equal(element._generateUrl(params),
@@ -302,12 +304,12 @@ suite('gr-router tests', () => {
 
     test('change', () => {
       const params = {
-        view: Gerrit.Nav.View.CHANGE,
+        view: GerritNav.View.CHANGE,
         changeNum: '1234',
         project: 'test',
       };
       const paramsWithQuery = {
-        view: Gerrit.Nav.View.CHANGE,
+        view: GerritNav.View.CHANGE,
         changeNum: '1234',
         project: 'test',
         querystring: 'revert&foo=bar',
@@ -335,7 +337,7 @@ suite('gr-router tests', () => {
 
     test('change with repo name encoding', () => {
       const params = {
-        view: Gerrit.Nav.View.CHANGE,
+        view: GerritNav.View.CHANGE,
         changeNum: '1234',
         project: 'x+/y+/z+/w',
       };
@@ -345,7 +347,7 @@ suite('gr-router tests', () => {
 
     test('diff', () => {
       const params = {
-        view: Gerrit.Nav.View.DIFF,
+        view: GerritNav.View.DIFF,
         changeNum: '42',
         path: 'x+y/path.cpp',
         patchNum: 12,
@@ -379,7 +381,7 @@ suite('gr-router tests', () => {
 
     test('diff with repo name encoding', () => {
       const params = {
-        view: Gerrit.Nav.View.DIFF,
+        view: GerritNav.View.DIFF,
         changeNum: '42',
         path: 'x+y/path.cpp',
         patchNum: 12,
@@ -391,7 +393,7 @@ suite('gr-router tests', () => {
 
     test('edit', () => {
       const params = {
-        view: Gerrit.Nav.View.EDIT,
+        view: GerritNav.View.EDIT,
         changeNum: '42',
         project: 'test',
         path: 'x+y/path.cpp',
@@ -421,14 +423,14 @@ suite('gr-router tests', () => {
     suite('dashboard', () => {
       test('self dashboard', () => {
         const params = {
-          view: Gerrit.Nav.View.DASHBOARD,
+          view: GerritNav.View.DASHBOARD,
         };
         assert.equal(element._generateUrl(params), '/dashboard/self');
       });
 
       test('user dashboard', () => {
         const params = {
-          view: Gerrit.Nav.View.DASHBOARD,
+          view: GerritNav.View.DASHBOARD,
           user: 'user',
         };
         assert.equal(element._generateUrl(params), '/dashboard/user');
@@ -436,7 +438,7 @@ suite('gr-router tests', () => {
 
       test('custom self dashboard, no title', () => {
         const params = {
-          view: Gerrit.Nav.View.DASHBOARD,
+          view: GerritNav.View.DASHBOARD,
           sections: [
             {name: 'section 1', query: 'query 1'},
             {name: 'section 2', query: 'query 2'},
@@ -449,7 +451,7 @@ suite('gr-router tests', () => {
 
       test('custom repo dashboard', () => {
         const params = {
-          view: Gerrit.Nav.View.DASHBOARD,
+          view: GerritNav.View.DASHBOARD,
           sections: [
             {name: 'section 1', query: 'query 1 ${project}'},
             {name: 'section 2', query: 'query 2 ${repo}'},
@@ -464,7 +466,7 @@ suite('gr-router tests', () => {
 
       test('custom user dashboard, with title', () => {
         const params = {
-          view: Gerrit.Nav.View.DASHBOARD,
+          view: GerritNav.View.DASHBOARD,
           user: 'user',
           sections: [{name: 'name', query: 'query'}],
           title: 'custom dashboard',
@@ -476,7 +478,7 @@ suite('gr-router tests', () => {
 
       test('repo dashboard', () => {
         const params = {
-          view: Gerrit.Nav.View.DASHBOARD,
+          view: GerritNav.View.DASHBOARD,
           repo: 'gerrit/repo',
           dashboard: 'default:main',
         };
@@ -487,7 +489,7 @@ suite('gr-router tests', () => {
 
       test('project dashboard (legacy)', () => {
         const params = {
-          view: Gerrit.Nav.View.DASHBOARD,
+          view: GerritNav.View.DASHBOARD,
           project: 'gerrit/project',
           dashboard: 'default:main',
         };
@@ -500,7 +502,7 @@ suite('gr-router tests', () => {
     suite('groups', () => {
       test('group info', () => {
         const params = {
-          view: Gerrit.Nav.View.GROUP,
+          view: GerritNav.View.GROUP,
           groupId: 1234,
         };
         assert.equal(element._generateUrl(params), '/admin/groups/1234');
@@ -508,7 +510,7 @@ suite('gr-router tests', () => {
 
       test('group members', () => {
         const params = {
-          view: Gerrit.Nav.View.GROUP,
+          view: GerritNav.View.GROUP,
           groupId: 1234,
           detail: 'members',
         };
@@ -518,7 +520,7 @@ suite('gr-router tests', () => {
 
       test('group audit log', () => {
         const params = {
-          view: Gerrit.Nav.View.GROUP,
+          view: GerritNav.View.GROUP,
           groupId: 1234,
           detail: 'log',
         };
@@ -635,13 +637,13 @@ suite('gr-router tests', () => {
       element._handleNewAgreementsRoute({params: {}});
       assert.isTrue(setParamsStub.calledOnce);
       assert.equal(setParamsStub.lastCall.args[0].view,
-          Gerrit.Nav.View.AGREEMENTS);
+          GerritNav.View.AGREEMENTS);
     });
 
     test('_handleSettingsLegacyRoute', () => {
       const data = {params: {0: 'my-token'}};
       assertDataToParams(data, '_handleSettingsLegacyRoute', {
-        view: Gerrit.Nav.View.SETTINGS,
+        view: GerritNav.View.SETTINGS,
         emailToken: 'my-token',
       });
     });
@@ -649,7 +651,7 @@ suite('gr-router tests', () => {
     test('_handleSettingsLegacyRoute with +', () => {
       const data = {params: {0: 'my-token test'}};
       assertDataToParams(data, '_handleSettingsLegacyRoute', {
-        view: Gerrit.Nav.View.SETTINGS,
+        view: GerritNav.View.SETTINGS,
         emailToken: 'my-token+test',
       });
     });
@@ -657,7 +659,7 @@ suite('gr-router tests', () => {
     test('_handleSettingsRoute', () => {
       const data = {};
       assertDataToParams(data, '_handleSettingsRoute', {
-        view: Gerrit.Nav.View.SETTINGS,
+        view: GerritNav.View.SETTINGS,
       });
     });
 
@@ -676,11 +678,10 @@ suite('gr-router tests', () => {
       const onRegisteringExit = (match, _onExit) => {
         onExit = _onExit;
       };
-      sandbox.stub(window.page, 'exit', onRegisteringExit);
-      sandbox.stub(Gerrit.Nav, 'setup');
-      sandbox.stub(window.page, 'start');
-      sandbox.stub(window.page, 'base');
-      sandbox.stub(window, 'page');
+      sandbox.stub(page, 'exit', onRegisteringExit);
+      sandbox.stub(GerritNav, 'setup');
+      sandbox.stub(page, 'start');
+      sandbox.stub(page, 'base');
       element._startRouter();
 
       const appElementStub = {dispatchEvent: sinon.stub()};
@@ -713,14 +714,14 @@ suite('gr-router tests', () => {
     test('_handleQueryRoute', () => {
       const data = {params: ['project:foo/bar/baz']};
       assertDataToParams(data, '_handleQueryRoute', {
-        view: Gerrit.Nav.View.SEARCH,
+        view: GerritNav.View.SEARCH,
         query: 'project:foo/bar/baz',
         offset: undefined,
       });
 
       data.params.push(',123', '123');
       assertDataToParams(data, '_handleQueryRoute', {
-        view: Gerrit.Nav.View.SEARCH,
+        view: GerritNav.View.SEARCH,
         query: 'project:foo/bar/baz',
         offset: '123',
       });
@@ -735,14 +736,14 @@ suite('gr-router tests', () => {
     test('_handleQueryRoute', () => {
       const data = {params: ['project:foo/bar/baz']};
       assertDataToParams(data, '_handleQueryRoute', {
-        view: Gerrit.Nav.View.SEARCH,
+        view: GerritNav.View.SEARCH,
         query: 'project:foo/bar/baz',
         offset: undefined,
       });
 
       data.params.push(',123', '123');
       assertDataToParams(data, '_handleQueryRoute', {
-        view: Gerrit.Nav.View.SEARCH,
+        view: GerritNav.View.SEARCH,
         query: 'project:foo/bar/baz',
         offset: '123',
       });
@@ -927,7 +928,7 @@ suite('gr-router tests', () => {
           assert.isFalse(redirectStub.called);
           assert.isTrue(setParamsStub.calledOnce);
           assert.deepEqual(setParamsStub.lastCall.args[0], {
-            view: Gerrit.Nav.View.DASHBOARD,
+            view: GerritNav.View.DASHBOARD,
             user: 'foo',
           });
         });
@@ -957,7 +958,7 @@ suite('gr-router tests', () => {
               assert.isFalse(redirectStub.called);
               assert.isTrue(setParamsStub.calledOnce);
               assert.deepEqual(setParamsStub.lastCall.args[0], {
-                view: Gerrit.Nav.View.DASHBOARD,
+                view: GerritNav.View.DASHBOARD,
                 user: 'self',
                 sections: [
                   {name: 'a', query: 'b'},
@@ -977,7 +978,7 @@ suite('gr-router tests', () => {
               assert.isFalse(redirectStub.called);
               assert.isTrue(setParamsStub.calledOnce);
               assert.deepEqual(setParamsStub.lastCall.args[0], {
-                view: Gerrit.Nav.View.DASHBOARD,
+                view: GerritNav.View.DASHBOARD,
                 user: 'self',
                 sections: [
                   {name: 'a', query: 'b'},
@@ -996,7 +997,7 @@ suite('gr-router tests', () => {
               assert.isFalse(redirectStub.called);
               assert.isTrue(setParamsStub.calledOnce);
               assert.deepEqual(setParamsStub.lastCall.args[0], {
-                view: Gerrit.Nav.View.DASHBOARD,
+                view: GerritNav.View.DASHBOARD,
                 user: 'self',
                 sections: [
                   {name: 'a', query: 'is:open b'},
@@ -1018,7 +1019,7 @@ suite('gr-router tests', () => {
       test('_handleGroupAuditLogRoute', () => {
         const data = {params: {0: 1234}};
         assertDataToParams(data, '_handleGroupAuditLogRoute', {
-          view: Gerrit.Nav.View.GROUP,
+          view: GerritNav.View.GROUP,
           detail: 'log',
           groupId: 1234,
         });
@@ -1027,7 +1028,7 @@ suite('gr-router tests', () => {
       test('_handleGroupMembersRoute', () => {
         const data = {params: {0: 1234}};
         assertDataToParams(data, '_handleGroupMembersRoute', {
-          view: Gerrit.Nav.View.GROUP,
+          view: GerritNav.View.GROUP,
           detail: 'members',
           groupId: 1234,
         });
@@ -1036,7 +1037,7 @@ suite('gr-router tests', () => {
       test('_handleGroupListOffsetRoute', () => {
         const data = {params: {}};
         assertDataToParams(data, '_handleGroupListOffsetRoute', {
-          view: Gerrit.Nav.View.ADMIN,
+          view: GerritNav.View.ADMIN,
           adminView: 'gr-admin-group-list',
           offset: 0,
           filter: null,
@@ -1045,7 +1046,7 @@ suite('gr-router tests', () => {
 
         data.params[1] = 42;
         assertDataToParams(data, '_handleGroupListOffsetRoute', {
-          view: Gerrit.Nav.View.ADMIN,
+          view: GerritNav.View.ADMIN,
           adminView: 'gr-admin-group-list',
           offset: 42,
           filter: null,
@@ -1054,7 +1055,7 @@ suite('gr-router tests', () => {
 
         data.hash = 'create';
         assertDataToParams(data, '_handleGroupListOffsetRoute', {
-          view: Gerrit.Nav.View.ADMIN,
+          view: GerritNav.View.ADMIN,
           adminView: 'gr-admin-group-list',
           offset: 42,
           filter: null,
@@ -1065,7 +1066,7 @@ suite('gr-router tests', () => {
       test('_handleGroupListFilterOffsetRoute', () => {
         const data = {params: {filter: 'foo', offset: 42}};
         assertDataToParams(data, '_handleGroupListFilterOffsetRoute', {
-          view: Gerrit.Nav.View.ADMIN,
+          view: GerritNav.View.ADMIN,
           adminView: 'gr-admin-group-list',
           offset: 42,
           filter: 'foo',
@@ -1075,7 +1076,7 @@ suite('gr-router tests', () => {
       test('_handleGroupListFilterRoute', () => {
         const data = {params: {filter: 'foo'}};
         assertDataToParams(data, '_handleGroupListFilterRoute', {
-          view: Gerrit.Nav.View.ADMIN,
+          view: GerritNav.View.ADMIN,
           adminView: 'gr-admin-group-list',
           filter: 'foo',
         });
@@ -1084,7 +1085,7 @@ suite('gr-router tests', () => {
       test('_handleGroupRoute', () => {
         const data = {params: {0: 4321}};
         assertDataToParams(data, '_handleGroupRoute', {
-          view: Gerrit.Nav.View.GROUP,
+          view: GerritNav.View.GROUP,
           groupId: 4321,
         });
       });
@@ -1116,7 +1117,7 @@ suite('gr-router tests', () => {
       test('_handleRepoRoute', () => {
         const data = {params: {0: 4321}};
         assertDataToParams(data, '_handleRepoRoute', {
-          view: Gerrit.Nav.View.REPO,
+          view: GerritNav.View.REPO,
           repo: 4321,
         });
       });
@@ -1124,8 +1125,8 @@ suite('gr-router tests', () => {
       test('_handleRepoCommandsRoute', () => {
         const data = {params: {0: 4321}};
         assertDataToParams(data, '_handleRepoCommandsRoute', {
-          view: Gerrit.Nav.View.REPO,
-          detail: Gerrit.Nav.RepoDetailView.COMMANDS,
+          view: GerritNav.View.REPO,
+          detail: GerritNav.RepoDetailView.COMMANDS,
           repo: 4321,
         });
       });
@@ -1133,8 +1134,8 @@ suite('gr-router tests', () => {
       test('_handleRepoAccessRoute', () => {
         const data = {params: {0: 4321}};
         assertDataToParams(data, '_handleRepoAccessRoute', {
-          view: Gerrit.Nav.View.REPO,
-          detail: Gerrit.Nav.RepoDetailView.ACCESS,
+          view: GerritNav.View.REPO,
+          detail: GerritNav.RepoDetailView.ACCESS,
           repo: 4321,
         });
       });
@@ -1143,8 +1144,8 @@ suite('gr-router tests', () => {
         test('_handleBranchListOffsetRoute', () => {
           const data = {params: {0: 4321}};
           assertDataToParams(data, '_handleBranchListOffsetRoute', {
-            view: Gerrit.Nav.View.REPO,
-            detail: Gerrit.Nav.RepoDetailView.BRANCHES,
+            view: GerritNav.View.REPO,
+            detail: GerritNav.RepoDetailView.BRANCHES,
             repo: 4321,
             offset: 0,
             filter: null,
@@ -1152,8 +1153,8 @@ suite('gr-router tests', () => {
 
           data.params[2] = 42;
           assertDataToParams(data, '_handleBranchListOffsetRoute', {
-            view: Gerrit.Nav.View.REPO,
-            detail: Gerrit.Nav.RepoDetailView.BRANCHES,
+            view: GerritNav.View.REPO,
+            detail: GerritNav.RepoDetailView.BRANCHES,
             repo: 4321,
             offset: 42,
             filter: null,
@@ -1163,8 +1164,8 @@ suite('gr-router tests', () => {
         test('_handleBranchListFilterOffsetRoute', () => {
           const data = {params: {repo: 4321, filter: 'foo', offset: 42}};
           assertDataToParams(data, '_handleBranchListFilterOffsetRoute', {
-            view: Gerrit.Nav.View.REPO,
-            detail: Gerrit.Nav.RepoDetailView.BRANCHES,
+            view: GerritNav.View.REPO,
+            detail: GerritNav.RepoDetailView.BRANCHES,
             repo: 4321,
             offset: 42,
             filter: 'foo',
@@ -1174,8 +1175,8 @@ suite('gr-router tests', () => {
         test('_handleBranchListFilterRoute', () => {
           const data = {params: {repo: 4321, filter: 'foo'}};
           assertDataToParams(data, '_handleBranchListFilterRoute', {
-            view: Gerrit.Nav.View.REPO,
-            detail: Gerrit.Nav.RepoDetailView.BRANCHES,
+            view: GerritNav.View.REPO,
+            detail: GerritNav.RepoDetailView.BRANCHES,
             repo: 4321,
             filter: 'foo',
           });
@@ -1186,8 +1187,8 @@ suite('gr-router tests', () => {
         test('_handleTagListOffsetRoute', () => {
           const data = {params: {0: 4321}};
           assertDataToParams(data, '_handleTagListOffsetRoute', {
-            view: Gerrit.Nav.View.REPO,
-            detail: Gerrit.Nav.RepoDetailView.TAGS,
+            view: GerritNav.View.REPO,
+            detail: GerritNav.RepoDetailView.TAGS,
             repo: 4321,
             offset: 0,
             filter: null,
@@ -1197,8 +1198,8 @@ suite('gr-router tests', () => {
         test('_handleTagListFilterOffsetRoute', () => {
           const data = {params: {repo: 4321, filter: 'foo', offset: 42}};
           assertDataToParams(data, '_handleTagListFilterOffsetRoute', {
-            view: Gerrit.Nav.View.REPO,
-            detail: Gerrit.Nav.RepoDetailView.TAGS,
+            view: GerritNav.View.REPO,
+            detail: GerritNav.RepoDetailView.TAGS,
             repo: 4321,
             offset: 42,
             filter: 'foo',
@@ -1208,16 +1209,16 @@ suite('gr-router tests', () => {
         test('_handleTagListFilterRoute', () => {
           const data = {params: {repo: 4321}};
           assertDataToParams(data, '_handleTagListFilterRoute', {
-            view: Gerrit.Nav.View.REPO,
-            detail: Gerrit.Nav.RepoDetailView.TAGS,
+            view: GerritNav.View.REPO,
+            detail: GerritNav.RepoDetailView.TAGS,
             repo: 4321,
             filter: null,
           });
 
           data.params.filter = 'foo';
           assertDataToParams(data, '_handleTagListFilterRoute', {
-            view: Gerrit.Nav.View.REPO,
-            detail: Gerrit.Nav.RepoDetailView.TAGS,
+            view: GerritNav.View.REPO,
+            detail: GerritNav.RepoDetailView.TAGS,
             repo: 4321,
             filter: 'foo',
           });
@@ -1228,7 +1229,7 @@ suite('gr-router tests', () => {
         test('_handleRepoListOffsetRoute', () => {
           const data = {params: {}};
           assertDataToParams(data, '_handleRepoListOffsetRoute', {
-            view: Gerrit.Nav.View.ADMIN,
+            view: GerritNav.View.ADMIN,
             adminView: 'gr-repo-list',
             offset: 0,
             filter: null,
@@ -1237,7 +1238,7 @@ suite('gr-router tests', () => {
 
           data.params[1] = 42;
           assertDataToParams(data, '_handleRepoListOffsetRoute', {
-            view: Gerrit.Nav.View.ADMIN,
+            view: GerritNav.View.ADMIN,
             adminView: 'gr-repo-list',
             offset: 42,
             filter: null,
@@ -1246,7 +1247,7 @@ suite('gr-router tests', () => {
 
           data.hash = 'create';
           assertDataToParams(data, '_handleRepoListOffsetRoute', {
-            view: Gerrit.Nav.View.ADMIN,
+            view: GerritNav.View.ADMIN,
             adminView: 'gr-repo-list',
             offset: 42,
             filter: null,
@@ -1257,7 +1258,7 @@ suite('gr-router tests', () => {
         test('_handleRepoListFilterOffsetRoute', () => {
           const data = {params: {filter: 'foo', offset: 42}};
           assertDataToParams(data, '_handleRepoListFilterOffsetRoute', {
-            view: Gerrit.Nav.View.ADMIN,
+            view: GerritNav.View.ADMIN,
             adminView: 'gr-repo-list',
             offset: 42,
             filter: 'foo',
@@ -1267,14 +1268,14 @@ suite('gr-router tests', () => {
         test('_handleRepoListFilterRoute', () => {
           const data = {params: {}};
           assertDataToParams(data, '_handleRepoListFilterRoute', {
-            view: Gerrit.Nav.View.ADMIN,
+            view: GerritNav.View.ADMIN,
             adminView: 'gr-repo-list',
             filter: null,
           });
 
           data.params.filter = 'foo';
           assertDataToParams(data, '_handleRepoListFilterRoute', {
-            view: Gerrit.Nav.View.ADMIN,
+            view: GerritNav.View.ADMIN,
             adminView: 'gr-repo-list',
             filter: 'foo',
           });
@@ -1286,7 +1287,7 @@ suite('gr-router tests', () => {
       test('_handlePluginListOffsetRoute', () => {
         const data = {params: {}};
         assertDataToParams(data, '_handlePluginListOffsetRoute', {
-          view: Gerrit.Nav.View.ADMIN,
+          view: GerritNav.View.ADMIN,
           adminView: 'gr-plugin-list',
           offset: 0,
           filter: null,
@@ -1294,7 +1295,7 @@ suite('gr-router tests', () => {
 
         data.params[1] = 42;
         assertDataToParams(data, '_handlePluginListOffsetRoute', {
-          view: Gerrit.Nav.View.ADMIN,
+          view: GerritNav.View.ADMIN,
           adminView: 'gr-plugin-list',
           offset: 42,
           filter: null,
@@ -1304,7 +1305,7 @@ suite('gr-router tests', () => {
       test('_handlePluginListFilterOffsetRoute', () => {
         const data = {params: {filter: 'foo', offset: 42}};
         assertDataToParams(data, '_handlePluginListFilterOffsetRoute', {
-          view: Gerrit.Nav.View.ADMIN,
+          view: GerritNav.View.ADMIN,
           adminView: 'gr-plugin-list',
           offset: 42,
           filter: 'foo',
@@ -1314,14 +1315,14 @@ suite('gr-router tests', () => {
       test('_handlePluginListFilterRoute', () => {
         const data = {params: {}};
         assertDataToParams(data, '_handlePluginListFilterRoute', {
-          view: Gerrit.Nav.View.ADMIN,
+          view: GerritNav.View.ADMIN,
           adminView: 'gr-plugin-list',
           filter: null,
         });
 
         data.params.filter = 'foo';
         assertDataToParams(data, '_handlePluginListFilterRoute', {
-          view: Gerrit.Nav.View.ADMIN,
+          view: GerritNav.View.ADMIN,
           adminView: 'gr-plugin-list',
           filter: 'foo',
         });
@@ -1330,7 +1331,7 @@ suite('gr-router tests', () => {
       test('_handlePluginListRoute', () => {
         const data = {params: {}};
         assertDataToParams(data, '_handlePluginListRoute', {
-          view: Gerrit.Nav.View.ADMIN,
+          view: GerritNav.View.ADMIN,
           adminView: 'gr-plugin-list',
         });
       });
@@ -1364,7 +1365,7 @@ suite('gr-router tests', () => {
           changeNum: 1234,
           basePatchNum: 6,
           patchNum: 9,
-          view: Gerrit.Nav.View.CHANGE,
+          view: GerritNav.View.CHANGE,
           querystring: '',
         });
       });
@@ -1391,7 +1392,7 @@ suite('gr-router tests', () => {
           changeNum: 1234,
           basePatchNum: 3,
           patchNum: 8,
-          view: Gerrit.Nav.View.DIFF,
+          view: GerritNav.View.DIFF,
           path: 'foo/bar',
           lineNum: 123,
           leftSide: true,
@@ -1454,7 +1455,7 @@ suite('gr-router tests', () => {
           sandbox.stub(element, '_generateUrl').returns('foo');
           const ctx = makeParams(null, '');
           assertDataToParams(ctx, '_handleChangeRoute', {
-            view: Gerrit.Nav.View.CHANGE,
+            view: GerritNav.View.CHANGE,
             project: 'foo/bar',
             changeNum: 1234,
             basePatchNum: 4,
@@ -1508,7 +1509,7 @@ suite('gr-router tests', () => {
           sandbox.stub(element, '_generateUrl').returns('foo');
           const ctx = makeParams('foo/bar/baz', 'b44');
           assertDataToParams(ctx, '_handleDiffRoute', {
-            view: Gerrit.Nav.View.DIFF,
+            view: GerritNav.View.DIFF,
             project: 'foo/bar',
             changeNum: 1234,
             basePatchNum: 4,
@@ -1537,7 +1538,7 @@ suite('gr-router tests', () => {
         const appParams = {
           project: 'foo/bar',
           changeNum: 1234,
-          view: Gerrit.Nav.View.EDIT,
+          view: GerritNav.View.EDIT,
           path: 'foo/bar/baz',
           patchNum: 3,
           lineNum: undefined,
@@ -1567,7 +1568,7 @@ suite('gr-router tests', () => {
         const appParams = {
           project: 'foo/bar',
           changeNum: 1234,
-          view: Gerrit.Nav.View.EDIT,
+          view: GerritNav.View.EDIT,
           path: 'foo/bar/baz',
           patchNum: 3,
           lineNum: 4,
@@ -1596,7 +1597,7 @@ suite('gr-router tests', () => {
         const appParams = {
           project: 'foo/bar',
           changeNum: 1234,
-          view: Gerrit.Nav.View.CHANGE,
+          view: GerritNav.View.CHANGE,
           patchNum: 3,
           edit: true,
         };
@@ -1613,7 +1614,7 @@ suite('gr-router tests', () => {
     test('_handlePluginScreen', () => {
       const ctx = {params: ['foo', 'bar']};
       assertDataToParams(ctx, '_handlePluginScreen', {
-        view: Gerrit.Nav.View.PLUGIN_SCREEN,
+        view: GerritNav.View.PLUGIN_SCREEN,
         plugin: 'foo',
         screen: 'bar',
       });

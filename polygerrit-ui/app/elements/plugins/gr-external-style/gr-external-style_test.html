@@ -32,6 +32,11 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-external-style.js';
+import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+
+const pluginApi = _testOnly_initGerritPluginApi();
+
 suite('gr-external-style integration tests', () => {
   const TEST_URL = 'http://some/plugin/url.html';
 
@@ -42,7 +47,7 @@ suite('gr-external-style integration tests', () => {
 
   const installPlugin = () => {
     if (plugin) { return; }
-    Gerrit.install(p => {
+    pluginApi.install(p => {
       plugin = p;
     }, '0.1', TEST_URL);
   };
@@ -78,7 +83,8 @@ suite('gr-external-style integration tests', () => {
         importHrefStub(url, resolve, reject);
       },
     });
-    sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
+    sandbox.stub(pluginLoader, 'awaitPluginsLoaded')
+        .returns(Promise.resolve());
   });
 
   teardown(() => {

@@ -22,6 +22,19 @@ import {GrChangeReplyInterface} from './gr-change-reply-js-api.js';
 import {GrDomHooksManager} from '../../plugins/gr-dom-hooks/gr-dom-hooks.js';
 import {GrThemeApi} from '../../plugins/gr-theme-api/gr-theme-api.js';
 import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface.js';
+import {GrAdminApi} from '../../plugins/gr-admin-api/gr-admin-api.js';
+import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api.js';
+import {GrChangeMetadataApi} from '../../plugins/gr-change-metadata-api/gr-change-metadata-api.js';
+import {GrEventHelper} from '../../plugins/gr-event-helper/gr-event-helper.js';
+import {GrPluginRestApi} from './gr-plugin-rest-api.js';
+import {GrRepoApi} from '../../plugins/gr-repo-api/gr-repo-api.js';
+import {GrSettingsApi} from '../../plugins/gr-settings-api/gr-settings-api.js';
+import {GrStylesApi} from '../../plugins/gr-styles-api/gr-styles-api.js';
+import {GrPluginActionContext} from './gr-plugin-action-context.js';
+import {pluginEndpoints} from './gr-plugin-endpoints.js';
+
+import {PRELOADED_PROTOCOL, getPluginNameFromUrl, send} from './gr-api-utils.js';
+import {deprecatedDelete} from './gr-gerrit.js';
 
 (function(window) {
   'use strict';
@@ -30,13 +43,6 @@ import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interf
     CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK: 'change-view-integration',
     CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK: 'change-metadata-item',
   };
-
-  // Import utils methods
-  const {
-    PRELOADED_PROTOCOL,
-    getPluginNameFromUrl,
-    send,
-  } = window._apiUtils;
 
   /**
    * Plugin-provided custom components can affect content in extension
@@ -89,7 +95,7 @@ import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interf
   };
 
   Plugin.prototype.registerStyleModule = function(endpointName, moduleName) {
-    Gerrit._endpoints.registerModule(
+    pluginEndpoints.registerModule(
         this, endpointName, EndpointType.STYLE, moduleName);
   };
 
@@ -121,7 +127,7 @@ import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interf
       EndpointType.REPLACE : EndpointType.DECORATE;
     const hook = this._domHooks.getDomHook(endpointName, opt_moduleName);
     const moduleName = opt_moduleName || hook.getModuleName();
-    Gerrit._endpoints.registerModule(
+    pluginEndpoints.registerModule(
         this, endpointName, type, moduleName, hook, dynamicEndpoint);
     return hook.getPublicAPI();
   };
@@ -186,7 +192,7 @@ import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interf
   };
 
   Plugin.prototype.delete = function(url, opt_callback) {
-    return Gerrit.delete(this.url(url), opt_callback);
+    return deprecatedDelete(this.url(url), opt_callback);
   };
 
   Plugin.prototype.annotationApi = function() {
@@ -201,10 +207,6 @@ import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interf
 
   Plugin.prototype.changeReply = function() {
     return new GrChangeReplyInterface(this);
-  };
-
-  Plugin.prototype.changeView = function() {
-    return new GrChangeViewApi(this);
   };
 
   Plugin.prototype.theme = function() {

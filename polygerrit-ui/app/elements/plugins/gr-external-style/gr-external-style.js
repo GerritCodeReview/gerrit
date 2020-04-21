@@ -23,6 +23,8 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-external-style_html.js';
+import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
+import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
 /** @extends Polymer.Element */
 class GrExternalStyle extends GestureEventListeners(
@@ -79,10 +81,10 @@ class GrExternalStyle extends GestureEventListeners(
   }
 
   _importAndApply() {
-    Promise.all(Gerrit._endpoints.getPlugins(this.name).map(
+    Promise.all(pluginEndpoints.getPlugins(this.name).map(
         pluginUrl => this._import(pluginUrl))
     ).then(() => {
-      const moduleNames = Gerrit._endpoints.getModules(this.name);
+      const moduleNames = pluginEndpoints.getModules(this.name);
       for (const name of moduleNames) {
         this._applyStyle(name);
       }
@@ -98,7 +100,7 @@ class GrExternalStyle extends GestureEventListeners(
   /** @override */
   ready() {
     super.ready();
-    Gerrit.awaitPluginsLoaded().then(() => this._importAndApply());
+    pluginLoader.awaitPluginsLoaded().then(() => this._importAndApply());
   }
 }
 

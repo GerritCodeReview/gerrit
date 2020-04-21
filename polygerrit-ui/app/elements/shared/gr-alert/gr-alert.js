@@ -18,11 +18,11 @@ import '../../../scripts/bundled-polymer.js';
 
 import '../gr-button/gr-button.js';
 import '../../../styles/shared-styles.js';
-import '../../../scripts/rootElement.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-alert_html.js';
+import {getRootElement} from '../../../scripts/rootElement.js';
 
 /** @extends Polymer.Element */
 class GrAlert extends GestureEventListeners(
@@ -82,14 +82,14 @@ class GrAlert extends GestureEventListeners(
     this.actionText = opt_actionText;
     this._hideActionButton = !opt_actionText;
     this._actionCallback = opt_actionCallback;
-    Gerrit.getRootElement().appendChild(this);
+    getRootElement().appendChild(this);
     this._setShown(true);
   }
 
   hide() {
     this._setShown(false);
     if (this._hasZeroTransitionDuration()) {
-      Gerrit.getRootElement().removeChild(this);
+      getRootElement().removeChild(this);
     }
   }
 
@@ -103,7 +103,7 @@ class GrAlert extends GestureEventListeners(
   _handleTransitionEnd(e) {
     if (this.shown) { return; }
 
-    Gerrit.getRootElement().removeChild(this);
+    getRootElement().removeChild(this);
   }
 
   _handleActionTap(e) {

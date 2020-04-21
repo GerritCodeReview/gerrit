@@ -31,6 +31,11 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import '../gr-js-api-interface/gr-js-api-interface.js';
+import {EventEmitter} from './gr-event-interface.js';
+import {_testOnly_initGerritPluginApi} from '../gr-js-api-interface/gr-gerrit.js';
+
+const pluginApi = _testOnly_initGerritPluginApi();
+
 suite('gr-event-interface tests', () => {
   let sandbox;
 
@@ -45,46 +50,46 @@ suite('gr-event-interface tests', () => {
   suite('test on Gerrit', () => {
     setup(() => {
       fixture('basic');
-      Gerrit.removeAllListeners();
+      pluginApi.removeAllListeners();
     });
 
     test('communicate between plugin and Gerrit', done => {
       const eventName = 'test-plugin-event';
       let p;
-      Gerrit.on(eventName, e => {
+      pluginApi.on(eventName, e => {
         assert.equal(e.value, 'test');
         assert.equal(e.plugin, p);
         done();
       });
-      Gerrit.install(plugin => {
+      pluginApi.install(plugin => {
         p = plugin;
-        Gerrit.emit(eventName, {value: 'test', plugin});
+        pluginApi.emit(eventName, {value: 'test', plugin});
       }, '0.1',
       'http://test.com/plugins/testplugin/static/test.js');
     });
 
     test('listen on events from core', done => {
       const eventName = 'test-plugin-event';
-      Gerrit.on(eventName, e => {
+      pluginApi.on(eventName, e => {
         assert.equal(e.value, 'test');
         done();
       });
 
-      Gerrit.emit(eventName, {value: 'test'});
+      pluginApi.emit(eventName, {value: 'test'});
     });
 
     test('communicate across plugins', done => {
       const eventName = 'test-plugin-event';
-      Gerrit.install(plugin => {
-        Gerrit.on(eventName, e => {
+      pluginApi.install(plugin => {
+        pluginApi.on(eventName, e => {
           assert.equal(e.plugin.getPluginName(), 'testB');
           done();
         });
       }, '0.1',
       'http://test.com/plugins/testA/static/testA.js');
 
-      Gerrit.install(plugin => {
-        Gerrit.emit(eventName, {plugin});
+      pluginApi.install(plugin => {
+        pluginApi.emit(eventName, {plugin});
       }, '0.1',
       'http://test.com/plugins/testB/static/testB.js');
     });

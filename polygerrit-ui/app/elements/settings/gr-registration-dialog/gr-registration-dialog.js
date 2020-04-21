@@ -18,7 +18,6 @@ import '../../../scripts/bundled-polymer.js';
 
 import '@polymer/iron-input/iron-input.js';
 import '../../../styles/gr-form-styles.js';
-import '../../core/gr-navigation/gr-navigation.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../../styles/shared-styles.js';

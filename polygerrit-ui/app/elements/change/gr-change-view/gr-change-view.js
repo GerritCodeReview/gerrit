@@ -18,7 +18,6 @@ import '../../../scripts/bundled-polymer.js';
 
 import '@polymer/paper-tabs/paper-tabs.js';
 import '../../../styles/shared-styles.js';
-import '../../core/gr-navigation/gr-navigation.js';
 import '../../core/gr-reporting/gr-reporting.js';
 import '../../diff/gr-comment-api/gr-comment-api.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
@@ -60,6 +59,11 @@ import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-beh
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GrEditConstants} from '../../edit/gr-edit-constants.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
+import {util} from '../../../scripts/util.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
+import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {RevisionInfo} from '../../shared/revision-info/revision-info.js';
 
 import {PrimaryTabs, SecondaryTabs} from '../../../constants/constants.js';
 import {NO_ROBOT_COMMENTS_THREADS_MSG} from '../../../constants/messages.js';
@@ -480,12 +484,12 @@ class GrChangeView extends mixinBehaviors( [
       this._setDiffViewMode();
     });
 
-    Gerrit.awaitPluginsLoaded()
+    pluginLoader.awaitPluginsLoaded()
         .then(() => {
           this._dynamicTabHeaderEndpoints =
-          Gerrit._endpoints.getDynamicEndpoints('change-view-tab-header');
+            pluginEndpoints.getDynamicEndpoints('change-view-tab-header');
           this._dynamicTabContentEndpoints =
-          Gerrit._endpoints.getDynamicEndpoints('change-view-tab-content');
+            pluginEndpoints.getDynamicEndpoints('change-view-tab-content');
           if (this._dynamicTabContentEndpoints.length !==
           this._dynamicTabHeaderEndpoints.length) {
             console.warn('Different number of tab headers and tab content.');
@@ -1005,7 +1009,7 @@ class GrChangeView extends mixinBehaviors( [
   }
 
   _paramsChanged(value) {
-    if (value.view !== Gerrit.Nav.View.CHANGE) {
+    if (value.view !== GerritNav.View.CHANGE) {
       this._initialLoadComplete = false;
       return;
     }
@@ -1050,7 +1054,7 @@ class GrChangeView extends mixinBehaviors( [
       this._performPostLoadTasks();
     });
 
-    Gerrit.awaitPluginsLoaded().then(() => {
+    pluginLoader.awaitPluginsLoaded().then(() => {
       this._initActiveTabs(value);
     });
   }
@@ -1131,7 +1135,7 @@ class GrChangeView extends mixinBehaviors( [
 
   _handleMessageAnchorTap(e) {
     const hash = MSG_PREFIX + e.detail.id;
-    const url = Gerrit.Nav.getUrlForChange(this._change,
+    const url = GerritNav.getUrlForChange(this._change,
         this._patchRange.patchNum, this._patchRange.basePatchNum,
         this._editMode, hash);
     history.replaceState(null, '', url);
@@ -1161,7 +1165,7 @@ class GrChangeView extends mixinBehaviors( [
   }
 
   _maybeShowRevertDialog() {
-    Gerrit.awaitPluginsLoaded()
+    pluginLoader.awaitPluginsLoaded()
         .then(this._getLoggedIn.bind(this))
         .then(loggedIn => {
           if (!loggedIn || !this._change ||
@@ -1257,7 +1261,7 @@ class GrChangeView extends mixinBehaviors( [
   }
 
   _computeChangeUrl(change) {
-    return Gerrit.Nav.getUrlForChange(change);
+    return GerritNav.getUrlForChange(change);
   }
 
   _computeShowCommitInfo(changeStatus, current_revision) {
@@ -1402,7 +1406,7 @@ class GrChangeView extends mixinBehaviors( [
   _handleRefreshChange(e) {
     if (this.shouldSuppressKeyboardShortcut(e)) { return; }
     e.preventDefault();
-    Gerrit.Nav.navigateToChange(this._change);
+    GerritNav.navigateToChange(this._change);
   }
 
   _handleToggleChangeStar(e) {
@@ -1450,8 +1454,8 @@ class GrChangeView extends mixinBehaviors( [
   _determinePageBack() {
     // Default backPage to root if user came to change view page
     // via an email link, etc.
-    Gerrit.Nav.navigateToRelativeUrl(this.backPage ||
-        Gerrit.Nav.getUrlForRoot());
+    GerritNav.navigateToRelativeUrl(this.backPage ||
+         GerritNav.getUrlForRoot());
   }
 
   _handleLabelRemoved(splices, path) {
@@ -1499,7 +1503,7 @@ class GrChangeView extends mixinBehaviors( [
       // with the latest patch.
       const action = e.detail.action;
       if (action === 'rebase' || action === 'submit') {
-        Gerrit.Nav.navigateToChange(this._change);
+        GerritNav.navigateToChange(this._change);
       }
     });
   }
@@ -2053,7 +2057,7 @@ class GrChangeView extends mixinBehaviors( [
             action: 'Reload',
             callback: function() {
             // Load the current change without any patch range.
-              Gerrit.Nav.navigateToChange(this._change);
+              GerritNav.navigateToChange(this._change);
             }.bind(this),
           },
           composed: true, bubbles: true,
@@ -2107,8 +2111,8 @@ class GrChangeView extends mixinBehaviors( [
         controls.openDeleteDialog(path);
         break;
       case GrEditConstants.Actions.OPEN.id:
-        Gerrit.Nav.navigateToRelativeUrl(
-            Gerrit.Nav.getEditUrlForDiff(this._change, path,
+        GerritNav.navigateToRelativeUrl(
+            GerritNav.getEditUrlForDiff(this._change, path,
                 this._patchRange.patchNum));
         break;
       case GrEditConstants.Actions.RENAME.id:
@@ -2150,7 +2154,7 @@ class GrChangeView extends mixinBehaviors( [
       info._number === this.EDIT_NAME);
 
     if (editInfo) {
-      Gerrit.Nav.navigateToChange(this._change, this.EDIT_NAME);
+      GerritNav.navigateToChange(this._change, this.EDIT_NAME);
       return;
     }
 
@@ -2161,11 +2165,11 @@ class GrChangeView extends mixinBehaviors( [
         this.computeLatestPatchNum(this._allPatchSets))) {
       patchNum = this._patchRange.patchNum;
     }
-    Gerrit.Nav.navigateToChange(this._change, patchNum, null, true);
+    GerritNav.navigateToChange(this._change, patchNum, null, true);
   }
 
   _handleStopEditTap() {
-    Gerrit.Nav.navigateToChange(this._change, this._patchRange.patchNum);
+    GerritNav.navigateToChange(this._change, this._patchRange.patchNum);
   }
 
   _resetReplyOverlayFocusStops() {
@@ -2178,7 +2182,7 @@ class GrChangeView extends mixinBehaviors( [
   }
 
   _getRevisionInfo(change) {
-    return new Gerrit.RevisionInfo(change);
+    return new RevisionInfo(change);
   }
 
   _computeCurrentRevision(currentRevision, revisions) {

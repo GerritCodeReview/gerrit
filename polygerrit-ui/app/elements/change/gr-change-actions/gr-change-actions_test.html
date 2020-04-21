@@ -32,9 +32,10 @@ limitations under the License.
 
 <script type="module">
 import '../../../test/common-test-setup.js';
-import '../../../scripts/util.js';
 import './gr-change-actions.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 const CHERRY_PICK_TYPES = {
   SINGLE_CHANGE: 1,
   TOPIC: 2,
@@ -98,7 +99,8 @@ suite('gr-change-actions tests', () => {
       });
 
       sandbox = sinon.sandbox.create();
-      sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
+      sandbox.stub(pluginLoader, 'awaitPluginsLoaded')
+          .returns(Promise.resolve());
 
       element = fixture('basic');
       element.change = {};
@@ -1811,7 +1813,7 @@ suite('gr-change-actions tests', () => {
               .returns(Promise.resolve({}));
           getResponseObjectStub = sandbox.stub(element.$.restAPI,
               'getResponseObject');
-          sandbox.stub(Gerrit.Nav,
+          sandbox.stub(GerritNav,
               'navigateToChange').returns(Promise.resolve(true));
           sandbox.stub(element, 'computeLatestPatchNum')
               .returns(element.latestPatchNum);
@@ -1866,7 +1868,7 @@ suite('gr-change-actions tests', () => {
                 .returns(Promise.resolve({revert_changes: [
                   {change_id: 12345},
                 ]}));
-            navigateToSearchQueryStub = sandbox.stub(Gerrit.Nav,
+            navigateToSearchQueryStub = sandbox.stub(GerritNav,
                 'navigateToSearchQuery');
           });
 
@@ -1892,7 +1894,7 @@ suite('gr-change-actions tests', () => {
                   {change_id: 23456, topic: 'T'},
                 ]}));
             showActionDialogStub = sandbox.stub(element, '_showActionDialog');
-            navigateToSearchQueryStub = sandbox.stub(Gerrit.Nav,
+            navigateToSearchQueryStub = sandbox.stub(GerritNav,
                 'navigateToSearchQuery');
           });
 
@@ -1987,7 +1989,8 @@ suite('gr-change-actions tests', () => {
       });
 
       sandbox = sinon.sandbox.create();
-      sandbox.stub(Gerrit, 'awaitPluginsLoaded').returns(Promise.resolve());
+      sandbox.stub(pluginLoader, 'awaitPluginsLoaded')
+          .returns(Promise.resolve());
 
       element = fixture('basic');
       // getChangeRevisionActions is not called without

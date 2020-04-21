@@ -34,6 +34,9 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
 import {GrDomHook, GrDomHooksManager} from './gr-dom-hooks.js';
+import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+
+const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-dom-hooks tests', () => {
   const PUBLIC_METHODS =[
@@ -52,7 +55,7 @@ suite('gr-dom-hooks tests', () => {
   setup(() => {
     sandbox = sinon.sandbox.create();
     let plugin;
-    Gerrit.install(p => { plugin = p; }, '0.1',
+    pluginApi.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
     instance = new GrDomHooksManager(plugin);
   });

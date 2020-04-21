@@ -25,15 +25,17 @@ limitations under the License.
 <script src="/components/wct-browser-legacy/browser.js"></script>
 <script type="module">
 import '../../../test/common-test-setup.js';
-import './gr-auth.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {Auth, authService} from './gr-auth.js';
+import {gerritEventEmitter} from '../gr-event-emitter/gr-event-emitter.js';
+
 suite('gr-auth', () => {
   let auth;
   let sandbox;
 
   setup(() => {
     sandbox = sinon.sandbox.create();
-    auth = Gerrit.Auth;
+    auth = authService;
   });
 
   teardown(() => {
@@ -158,7 +160,7 @@ suite('gr-auth', () => {
         clock.tick(1000 * 10000);
         fakeFetch.returns(Promise.resolve({status: 403}));
         const emitStub = sinon.stub();
-        Gerrit.emit = emitStub;
+        gerritEventEmitter.emit = emitStub;
         auth.authCheck().then(authed2 => {
           assert.isFalse(authed2);
           assert.equal(auth.status, Auth.STATUS.NOT_AUTHED);
@@ -176,7 +178,7 @@ suite('gr-auth', () => {
         clock.tick(1000 * 10000);
         fakeFetch.returns(Promise.reject(new Error('random error')));
         const emitStub = sinon.stub();
-        Gerrit.emit = emitStub;
+        gerritEventEmitter.emit = emitStub;
         auth.authCheck().then(authed2 => {
           assert.isFalse(authed2);
           assert.isTrue(emitStub.called);
@@ -194,7 +196,7 @@ suite('gr-auth', () => {
         clock.tick(1000 * 10000);
         fakeFetch.returns(Promise.resolve({status: 204}));
         const emitStub = sinon.stub();
-        Gerrit.emit = emitStub;
+        gerritEventEmitter.emit = emitStub;
         auth.authCheck().then(authed2 => {
           assert.isTrue(authed2);
           assert.isFalse(emitStub.called);
@@ -212,7 +214,7 @@ suite('gr-auth', () => {
         clock.tick(1000 * 10000);
         fakeFetch.returns(Promise.reject(new Error('random error')));
         const emitStub = sinon.stub();
-        Gerrit.emit = emitStub;
+        gerritEventEmitter.emit = emitStub;
         auth.authCheck().then(authed2 => {
           assert.isFalse(authed2);
           assert.isFalse(emitStub.called);

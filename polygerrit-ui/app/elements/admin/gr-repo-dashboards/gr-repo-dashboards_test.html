@@ -33,6 +33,8 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-repo-dashboards.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+
 suite('gr-repo-dashboards tests', () => {
   let element;
   let sandbox;
@@ -129,7 +131,7 @@ suite('gr-repo-dashboards tests', () => {
 
   suite('test url', () => {
     test('_getUrl', () => {
-      sandbox.stub(Gerrit.Nav, 'getUrlForRepoDashboard',
+      sandbox.stub(GerritNav, 'getUrlForRepoDashboard',
           () => '/r/dashboard/test');
 
       assert.equal(element._getUrl('/dashboard/test', {}), '/r/dashboard/test');

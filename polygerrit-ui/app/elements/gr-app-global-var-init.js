@@ -41,12 +41,37 @@ import {GrEtagDecorator} from './shared/gr-rest-api-interface/gr-etag-decorator.
 import {GrThemeApi} from './plugins/gr-theme-api/gr-theme-api.js';
 import {SiteBasedCache, FetchPromisesCache, GrRestApiHelper} from './shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.js';
 import {GrLinkTextParser} from './shared/gr-linked-text/link-text-parser.js';
-import {GrPluginEndpoints} from './shared/gr-js-api-interface/gr-plugin-endpoints.js';
+import {pluginEndpoints, GrPluginEndpoints} from './shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {GrReviewerUpdatesParser} from './shared/gr-rest-api-interface/gr-reviewer-updates-parser.js';
 import {GrPopupInterface} from './plugins/gr-popup-interface/gr-popup-interface.js';
 import {GrRangeNormalizer} from './diff/gr-diff-highlight/gr-range-normalizer.js';
 import {GrCountStringFormatter} from './shared/gr-count-string-formatter/gr-count-string-formatter.js';
-import {GrReviewerSuggestionsProvider} from '../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
+import {GrReviewerSuggestionsProvider, SUGGESTIONS_PROVIDERS_USERS_TYPES} from '../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
+import {util} from '../scripts/util.js';
+import moment from 'moment/src/moment.js';
+import page from 'page/page.mjs';
+import {Auth} from './shared/gr-rest-api-interface/gr-auth.js';
+import {EventEmitter} from './shared/gr-event-interface/gr-event-interface.js';
+import {GrAdminApi} from './plugins/gr-admin-api/gr-admin-api.js';
+import {GrAnnotationActionsContext} from './shared/gr-js-api-interface/gr-annotation-actions-context.js';
+import {GrAnnotationActionsInterface} from './shared/gr-js-api-interface/gr-annotation-actions-js-api.js';
+import {GrChangeMetadataApi} from './plugins/gr-change-metadata-api/gr-change-metadata-api.js';
+import {GrEmailSuggestionsProvider} from '../scripts/gr-email-suggestions-provider/gr-email-suggestions-provider.js';
+import {GrGroupSuggestionsProvider} from '../scripts/gr-group-suggestions-provider/gr-group-suggestions-provider.js';
+import {GrEventHelper} from './plugins/gr-event-helper/gr-event-helper.js';
+import {GrPluginRestApi} from './shared/gr-js-api-interface/gr-plugin-rest-api.js';
+import {GrRepoApi} from './plugins/gr-repo-api/gr-repo-api.js';
+import {GrSettingsApi} from './plugins/gr-settings-api/gr-settings-api.js';
+import {GrStylesApi} from './plugins/gr-styles-api/gr-styles-api.js';
+import {pluginLoader, PluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader.js';
+import {GrPluginActionContext} from './shared/gr-js-api-interface/gr-plugin-action-context.js';
+import {getBaseUrl, getPluginNameFromUrl, getRestAPI, PLUGIN_LOADING_TIMEOUT_MS, PRELOADED_PROTOCOL, send} from './shared/gr-js-api-interface/gr-api-utils.js';
+import {GerritNav} from './core/gr-navigation/gr-navigation.js';
+import {getRootElement} from '../scripts/rootElement.js';
+import {rangesEqual} from './diff/gr-diff/gr-diff-utils.js';
+import {RevisionInfo} from './shared/revision-info/revision-info.js';
+import {CoverageType} from '../types/types.js';
+import {_setHiddenScroll, getHiddenScroll} from '../scripts/hiddenscroll.js';
 
 export function initGlobalVariables() {
   window.GrDisplayNameUtils = GrDisplayNameUtils;
@@ -77,4 +102,49 @@ export function initGlobalVariables() {
   window.GrRangeNormalizer = GrRangeNormalizer;
   window.GrCountStringFormatter = GrCountStringFormatter;
   window.GrReviewerSuggestionsProvider = GrReviewerSuggestionsProvider;
+  window.util = util;
+  window.moment = moment;
+  window.page = page;
+  window.Auth = Auth;
+  window.EventEmitter = EventEmitter;
+  window.GrAdminApi = GrAdminApi;
+  window.GrAnnotationActionsContext = GrAnnotationActionsContext;
+  window.GrAnnotationActionsInterface = GrAnnotationActionsInterface;
+  window.GrChangeMetadataApi = GrChangeMetadataApi;
+  window.GrEmailSuggestionsProvider = GrEmailSuggestionsProvider;
+  window.GrGroupSuggestionsProvider = GrGroupSuggestionsProvider;
+  window.GrEventHelper = GrEventHelper;
+  window.GrPluginRestApi = GrPluginRestApi;
+  window.GrRepoApi = GrRepoApi;
+  window.GrSettingsApi = GrSettingsApi;
+  window.GrStylesApi = GrStylesApi;
+  window.PluginLoader = PluginLoader;
+  window.GrPluginActionContext = GrPluginActionContext;
+
+  window._apiUtils = {
+    getPluginNameFromUrl,
+    send,
+    getRestAPI,
+    getBaseUrl,
+    PRELOADED_PROTOCOL,
+    PLUGIN_LOADING_TIMEOUT_MS,
+  };
+
+  window.Gerrit = window.Gerrit || {};
+  window.Gerrit.Nav = GerritNav;
+  window.Gerrit.getRootElement = getRootElement;
+
+  window.Gerrit._pluginLoader = pluginLoader;
+  window.Gerrit._endpoints = pluginEndpoints;
+
+  window.Gerrit.slotToContent = slot => slot;
+  window.Gerrit.rangesEqual = rangesEqual;
+  window.Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES =
+      SUGGESTIONS_PROVIDERS_USERS_TYPES;
+  window.Gerrit.RevisionInfo = RevisionInfo;
+  window.Gerrit.CoverageType = CoverageType;
+  Object.defineProperty(window.Gerrit, 'hiddenscroll', {
+    get: getHiddenScroll,
+    set: _setHiddenScroll,
+  });
 }

@@ -46,7 +46,13 @@ import {PrimaryTabs, SecondaryTabs} from '../../../constants/constants.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {GrEditConstants} from '../../edit/gr-edit-constants.js';
-import {GrPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
+import {_testOnly_resetEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
+import {util} from '../../../scripts/util.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+
+const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-change-view tests', () => {
   const kb = KeyboardShortcutBinder;
@@ -295,9 +301,9 @@ suite('gr-change-view tests', () => {
     stub('gr-endpoint-decorator', {
       _import: sandbox.stub().returns(Promise.resolve()),
     });
-    // Since _endpoints are global, must reset state.
-    Gerrit._endpoints = new GrPluginEndpoints();
-    navigateToChangeStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+    // Since pluginEndpoints are global, must reset state.
+    _testOnly_resetEndpoints();
+    navigateToChangeStub = sandbox.stub(GerritNav, 'navigateToChange');
     stub('gr-rest-api-interface', {
       getConfig() { return Promise.resolve({test: 'config'}); },
       getAccount() { return Promise.resolve(null); },
@@ -308,8 +314,8 @@ suite('gr-change-view tests', () => {
     });
     element = fixture('basic');
     sandbox.stub(element.$.actions, 'reload').returns(Promise.resolve());
-    Gerrit._loadPlugins([]);
-    Gerrit.install(
+    pluginLoader.loadPlugins([]);
+    pluginApi.install(
         plugin => {
           plugin.registerDynamicCustomComponent(
               'change-view-tab-header',
@@ -341,7 +347,7 @@ suite('gr-change-view tests', () => {
       basePatchNum: 'PARENT',
       patchNum: 1,
     };
-    const getUrlStub = sandbox.stub(Gerrit.Nav, 'getUrlForChange');
+    const getUrlStub = sandbox.stub(GerritNav, 'getUrlForChange');
     const replaceStateStub = sandbox.stub(history, 'replaceState');
     element._handleMessageAnchorTap({detail: {id: 'a12345'}});
 
@@ -390,7 +396,7 @@ suite('gr-change-view tests', () => {
       // view is required
       element.params = Object.assign(
           {
-            view: Gerrit.Nav.View.CHANGE,
+            view: GerritNav.View.CHANGE,
           },
           element.params, {queryMap});
       flush(() => {
@@ -406,7 +412,7 @@ suite('gr-change-view tests', () => {
       // view is required
       element.params = Object.assign(
           {
-            view: Gerrit.Nav.View.CHANGE,
+            view: GerritNav.View.CHANGE,
           },
           element.params, {queryMap});
       flush(() => {
@@ -440,16 +446,16 @@ suite('gr-change-view tests', () => {
     });
 
     test('U should navigate to root if no backPage set', () => {
-      const relativeNavStub = sandbox.stub(Gerrit.Nav,
+      const relativeNavStub = sandbox.stub(GerritNav,
           'navigateToRelativeUrl');
       MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
       assert.isTrue(relativeNavStub.called);
       assert.isTrue(relativeNavStub.lastCall.calledWithExactly(
-          Gerrit.Nav.getUrlForRoot()));
+          GerritNav.getUrlForRoot()));
     });
 
     test('U should navigate to backPage if set', () => {
-      const relativeNavStub = sandbox.stub(Gerrit.Nav,
+      const relativeNavStub = sandbox.stub(GerritNav,
           'navigateToRelativeUrl');
       element.backPage = '/dashboard/self';
       MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
@@ -608,7 +614,7 @@ suite('gr-change-view tests', () => {
           };
 
           navigateToChangeStub.restore();
-          navigateToChangeStub = sandbox.stub(Gerrit.Nav, 'navigateToChange',
+          navigateToChangeStub = sandbox.stub(GerritNav, 'navigateToChange',
               (change, patchNum, basePatchNum) => {
                 assert.equal(change, element._change);
                 assert.isUndefined(patchNum);
@@ -816,7 +822,7 @@ suite('gr-change-view tests', () => {
       queryMap.set('secondaryTab', SecondaryTabs.COMMENT_THREADS);
       // view is required
       element.params = Object.assign(
-          {view: Gerrit.Nav.View.CHANGE},
+          {view: GerritNav.View.CHANGE},
           element.params, {queryMap}
       );
       flush(() => {
@@ -831,7 +837,7 @@ suite('gr-change-view tests', () => {
       queryMap.set('secondaryTab', 'random');
       // view is required
       element.params = Object.assign({
-        view: Gerrit.Nav.View.CHANGE,
+        view: GerritNav.View.CHANGE,
       }, element.params, {queryMap});
       flush(() => {
         assert.equal(element._activeTabs[1], SecondaryTabs.CHANGE_LOG);
@@ -1205,7 +1211,7 @@ suite('gr-change-view tests', () => {
     const collapseStub = sandbox.stub(element.$.fileList, 'collapseAllDiffs');
 
     const value = {
-      view: Gerrit.Nav.View.CHANGE,
+      view: GerritNav.View.CHANGE,
       patchNum: '1',
     };
     element._paramsChanged(value);
@@ -1228,7 +1234,7 @@ suite('gr-change-view tests', () => {
         () => Promise.resolve());
     const collapseStub = sandbox.stub(element.$.fileList, 'collapseAllDiffs');
     const value = {
-      view: Gerrit.Nav.View.CHANGE,
+      view: GerritNav.View.CHANGE,
     };
     element._paramsChanged(value);
     assert.isTrue(reloadStub.calledOnce);
@@ -1287,7 +1293,7 @@ suite('gr-change-view tests', () => {
       },
       current_revision: 'rev3',
     };
-    sandbox.stub(Gerrit.Nav, 'getUrlForChange')
+    sandbox.stub(GerritNav, 'getUrlForChange')
         .returns('/change/123');
     assert.equal(
         element._computeCopyTextForTitle(change),
@@ -1582,7 +1588,7 @@ suite('gr-change-view tests', () => {
 
   test('revert dialog opened with revert param', done => {
     sandbox.stub(element.$.restAPI, 'getLoggedIn', () => Promise.resolve(true));
-    sandbox.stub(Gerrit, 'awaitPluginsLoaded', () => Promise.resolve());
+    sandbox.stub(pluginLoader, 'awaitPluginsLoaded', () => Promise.resolve());
 
     element._patchRange = {
       basePatchNum: 'PARENT',
@@ -1610,7 +1616,7 @@ suite('gr-change-view tests', () => {
         done);
 
     element._maybeShowRevertDialog();
-    assert.isTrue(Gerrit.awaitPluginsLoaded.called);
+    assert.isTrue(pluginLoader.awaitPluginsLoaded.called);
   });
 
   suite('scroll related tests', () => {
@@ -1640,7 +1646,7 @@ suite('gr-change-view tests', () => {
 
       // simulate reloading component, which is done when route
       // changes to match a regex of change view type.
-      element._paramsChanged({view: Gerrit.Nav.View.CHANGE});
+      element._paramsChanged({view: GerritNav.View.CHANGE});
     });
 
     test('scrollTop is reset when new change is loaded', () => {
@@ -2024,8 +2030,8 @@ suite('gr-change-view tests', () => {
     sandbox.stub(controls, 'openDeleteDialog');
     sandbox.stub(controls, 'openRenameDialog');
     sandbox.stub(controls, 'openRestoreDialog');
-    sandbox.stub(Gerrit.Nav, 'getEditUrlForDiff');
-    sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl');
+    sandbox.stub(GerritNav, 'getEditUrlForDiff');
+    sandbox.stub(GerritNav, 'navigateToRelativeUrl');
 
     // Delete
     fileList.dispatchEvent(new CustomEvent('file-action-tap', {
@@ -2068,10 +2074,10 @@ suite('gr-change-view tests', () => {
     }));
     flushAsynchronousOperations();
 
-    assert.isTrue(Gerrit.Nav.getEditUrlForDiff.called);
-    assert.equal(Gerrit.Nav.getEditUrlForDiff.lastCall.args[1], 'foo');
-    assert.equal(Gerrit.Nav.getEditUrlForDiff.lastCall.args[2], '1');
-    assert.isTrue(Gerrit.Nav.navigateToRelativeUrl.called);
+    assert.isTrue(GerritNav.getEditUrlForDiff.called);
+    assert.equal(GerritNav.getEditUrlForDiff.lastCall.args[1], 'foo');
+    assert.equal(GerritNav.getEditUrlForDiff.lastCall.args[2], '1');
+    assert.isTrue(GerritNav.navigateToRelativeUrl.called);
   });
 
   test('_selectedRevision updates when patchNum is changed', () => {
@@ -2152,7 +2158,7 @@ suite('gr-change-view tests', () => {
     });
 
     test('edit exists in revisions', done => {
-      sandbox.stub(Gerrit.Nav, 'navigateToChange', (...args) => {
+      sandbox.stub(GerritNav, 'navigateToChange', (...args) => {
         assert.equal(args.length, 2);
         assert.equal(args[1], element.EDIT_NAME); // patchNum
         done();
@@ -2165,7 +2171,7 @@ suite('gr-change-view tests', () => {
     });
 
     test('no edit exists in revisions, non-latest patchset', done => {
-      sandbox.stub(Gerrit.Nav, 'navigateToChange', (...args) => {
+      sandbox.stub(GerritNav, 'navigateToChange', (...args) => {
         assert.equal(args.length, 4);
         assert.equal(args[1], 1); // patchNum
         assert.equal(args[3], true); // opt_isEdit
@@ -2180,7 +2186,7 @@ suite('gr-change-view tests', () => {
     });
 
     test('no edit exists in revisions, latest patchset', done => {
-      sandbox.stub(Gerrit.Nav, 'navigateToChange', (...args) => {
+      sandbox.stub(GerritNav, 'navigateToChange', (...args) => {
         assert.equal(args.length, 4);
         // No patch should be specified when patchNum == latest.
         assert.isNotOk(args[1]); // patchNum
@@ -2200,7 +2206,7 @@ suite('gr-change-view tests', () => {
     sandbox.stub(element.$.metadata, '_computeLabelNames');
     navigateToChangeStub.restore();
     sandbox.stub(element, 'computeLatestPatchNum').returns(1);
-    sandbox.stub(Gerrit.Nav, 'navigateToChange', (...args) => {
+    sandbox.stub(GerritNav, 'navigateToChange', (...args) => {
       assert.equal(args.length, 2);
       assert.equal(args[1], 1); // patchNum
       done();
@@ -2217,7 +2223,7 @@ suite('gr-change-view tests', () => {
       element._selectedRevision = {};
       let hookEl;
       let plugin;
-      Gerrit.install(
+      pluginApi.install(
           p => {
             plugin = p;
             plugin.hook('change-view-integration').getLastAttached()
@@ -2276,7 +2282,7 @@ suite('gr-change-view tests', () => {
     sandbox.stub(element, '_reload').returns(Promise.resolve());
     const setStub = sandbox.stub(element.$.restAPI, 'setInProjectLookup');
     element._paramsChanged({
-      view: Gerrit.Nav.View.CHANGE,
+      view: GerritNav.View.CHANGE,
       changeNum: 101,
       project: 'test-project',
     });
@@ -2331,7 +2337,7 @@ suite('gr-change-view tests', () => {
       const changeFullyLoadedStub =
         sandbox.stub(element.$.reporting, 'changeFullyLoaded');
       element._paramsChanged({
-        view: Gerrit.Nav.View.CHANGE,
+        view: GerritNav.View.CHANGE,
         changeNum: 101,
         project: 'test-project',
       });

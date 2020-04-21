@@ -23,7 +23,6 @@ import '../gr-diff-highlight/gr-diff-highlight.js';
 import '../gr-diff-selection/gr-diff-selection.js';
 import '../gr-syntax-themes/gr-syntax-theme.js';
 import '../gr-ranged-comment-themes/gr-ranged-comment-theme.js';
-import '../../../scripts/hiddenscroll.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
@@ -32,6 +31,8 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {htmlTemplate} from './gr-diff_html.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {GrDiffLine} from './gr-diff-line.js';
+import {DiffSide, rangesEqual} from './gr-diff-utils.js';
+import {getHiddenScroll} from '../../../scripts/hiddenscroll.js';
 
 const ERR_COMMENT_ON_EDIT = 'You cannot comment on an edit.';
 const ERR_COMMENT_ON_EDIT_BASE = 'You cannot comment on the base patch set ' +
@@ -46,54 +47,14 @@ const DiffViewMode = {
   UNIFIED: 'UNIFIED_DIFF',
 };
 
-const DiffSide = {
-  LEFT: 'left',
-  RIGHT: 'right',
-};
-
 const LARGE_DIFF_THRESHOLD_LINES = 10000;
 const FULL_CONTEXT = -1;
 const LIMITED_CONTEXT = 10;
-
-/**
- * Compare two ranges. Either argument may be falsy, but will only return
- * true if both are falsy or if neither are falsy and have the same position
- * values.
- *
- * @param {Gerrit.Range=} a range 1
- * @param {Gerrit.Range=} b range 2
- * @return {boolean}
- */
-Gerrit.rangesEqual = function(a, b) {
-  if (!a && !b) { return true; }
-  if (!a || !b) { return false; }
-  return a.start_line === b.start_line &&
-      a.start_character === b.start_character &&
-      a.end_line === b.end_line &&
-      a.end_character === b.end_character;
-};
 
 function isThreadEl(node) {
   return node.nodeType === Node.ELEMENT_NODE &&
       node.classList.contains('comment-thread');
 }
-
-/**
- * Turn a slot element into the corresponding content element.
- * Slots are only fully supported in Polymer 2 - in Polymer 1, they are
- * replaced with content elements during template parsing. This conversion is
- * not applied for imperatively created slot elements, so this method
- * implements the same behavior as the template parsing for imperative slots.
- */
-Gerrit.slotToContent = function(slot) {
-  if (PolymerElement) {
-    return slot;
-  }
-  const content = document.createElement('content');
-  content.name = slot.name;
-  content.setAttribute('select', `[slot='${slot.name}']`);
-  return content;
-};
 
 const COMMIT_MSG_PATH = '/COMMIT_MSG';
 /**
@@ -406,7 +367,7 @@ class GrDiff extends mixinBehaviors( [
       const i = this._commentRanges
           .findIndex(
               cr => cr.side === removedCommentRange.side &&
-            Gerrit.rangesEqual(cr.range, removedCommentRange.range)
+            rangesEqual(cr.range, removedCommentRange.range)
           );
       this.splice('_commentRanges', i, 1);
     }
@@ -508,7 +469,7 @@ class GrDiff extends mixinBehaviors( [
       default:
         throw Error('Invalid view mode: ', viewMode);
     }
-    if (Gerrit.hiddenscroll) {
+    if (getHiddenScroll()) {
       classes.push('hiddenscroll');
     }
     if (loggedIn) {
@@ -665,7 +626,7 @@ class GrDiff extends mixinBehaviors( [
    * diff.
    *
    * @param {!Object} contentEl
-   * @param {!Gerrit.DiffSide} commentSide
+   * @param {!DiffSide} commentSide
    * @return {!Node}
    */
   _getOrCreateThreadGroup(contentEl, commentSide) {
@@ -884,7 +845,7 @@ class GrDiff extends mixinBehaviors( [
         // are ignored.
         const slot = document.createElement('slot');
         slot.name = threadEl.getAttribute('slot');
-        dom(threadGroupEl).appendChild(Gerrit.slotToContent(slot));
+        dom(threadGroupEl).appendChild(slot);
         lastEl = threadEl;
       }
 

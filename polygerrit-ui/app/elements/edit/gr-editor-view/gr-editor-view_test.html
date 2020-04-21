@@ -32,6 +32,8 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-editor-view.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+
 suite('gr-editor-view tests', () => {
   let element;
   let sandbox;
@@ -63,7 +65,7 @@ suite('gr-editor-view tests', () => {
   suite('_paramsChanged', () => {
     test('incorrect view returns immediately', () => {
       element._paramsChanged(
-          Object.assign({}, mockParams, {view: Gerrit.Nav.View.DIFF}));
+          Object.assign({}, mockParams, {view: GerritNav.View.DIFF}));
       assert.notOk(element._changeNum);
     });
 
@@ -76,7 +78,7 @@ suite('gr-editor-view tests', () => {
       });
 
       const promises = element._paramsChanged(
-          Object.assign({}, mockParams, {view: Gerrit.Nav.View.EDIT}));
+          Object.assign({}, mockParams, {view: GerritNav.View.EDIT}));
 
       flushAsynchronousOperations();
       assert.equal(element._changeNum, mockParams.changeNum);
@@ -296,7 +298,7 @@ suite('gr-editor-view tests', () => {
 
   test('_viewEditInChangeView respects _patchNum', () => {
     navigateStub.restore();
-    const navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+    const navStub = sandbox.stub(GerritNav, 'navigateToChange');
     element._patchNum = element.EDIT_NAME;
     element._viewEditInChangeView();
     assert.equal(navStub.lastCall.args[1], element.EDIT_NAME);

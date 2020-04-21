@@ -18,7 +18,6 @@ import '../../../scripts/bundled-polymer.js';
 import '../../../styles/gr-menu-page-styles.js';
 import '../../../styles/gr-page-nav-styles.js';
 import '../../../styles/shared-styles.js';
-import '../../core/gr-navigation/gr-navigation.js';
 import '../../shared/gr-dropdown-list/gr-dropdown-list.js';
 import '../../shared/gr-icons/gr-icons.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
@@ -43,6 +42,8 @@ import {htmlTemplate} from './gr-admin-view_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {AdminNavBehavior} from '../../../behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.js';
 import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
@@ -118,7 +119,7 @@ class GrAdminView extends mixinBehaviors( [
   reload() {
     const promises = [
       this.$.restAPI.getAccount(),
-      Gerrit.awaitPluginsLoaded(),
+      pluginLoader.awaitPluginsLoaded(),
     ];
     return Promise.all(promises).then(result => {
       this._account = result[0];
@@ -182,32 +183,32 @@ class GrAdminView extends mixinBehaviors( [
     if (this._selectedIsCurrentPage(selected)) {
       return;
     }
-    Gerrit.Nav.navigateToRelativeUrl(selected.url);
+    GerritNav.navigateToRelativeUrl(selected.url);
   }
 
   _paramsChanged(params) {
-    const isGroupView = params.view === Gerrit.Nav.View.GROUP;
-    const isRepoView = params.view === Gerrit.Nav.View.REPO;
-    const isAdminView = params.view === Gerrit.Nav.View.ADMIN;
+    const isGroupView = params.view === GerritNav.View.GROUP;
+    const isRepoView = params.view === GerritNav.View.REPO;
+    const isAdminView = params.view === GerritNav.View.ADMIN;
 
     this.set('_showGroup', isGroupView && !params.detail);
     this.set('_showGroupAuditLog', isGroupView &&
-        params.detail === Gerrit.Nav.GroupDetailView.LOG);
+        params.detail === GerritNav.GroupDetailView.LOG);
     this.set('_showGroupMembers', isGroupView &&
-        params.detail === Gerrit.Nav.GroupDetailView.MEMBERS);
+        params.detail === GerritNav.GroupDetailView.MEMBERS);
 
     this.set('_showGroupList', isAdminView &&
         params.adminView === 'gr-admin-group-list');
 
     this.set('_showRepoAccess', isRepoView &&
-        params.detail === Gerrit.Nav.RepoDetailView.ACCESS);
+        params.detail === GerritNav.RepoDetailView.ACCESS);
     this.set('_showRepoCommands', isRepoView &&
-        params.detail === Gerrit.Nav.RepoDetailView.COMMANDS);
+        params.detail === GerritNav.RepoDetailView.COMMANDS);
     this.set('_showRepoDetailList', isRepoView &&
-        (params.detail === Gerrit.Nav.RepoDetailView.BRANCHES ||
-         params.detail === Gerrit.Nav.RepoDetailView.TAGS));
+        (params.detail === GerritNav.RepoDetailView.BRANCHES ||
+         params.detail === GerritNav.RepoDetailView.TAGS));
     this.set('_showRepoDashboards', isRepoView &&
-        params.detail === Gerrit.Nav.RepoDetailView.DASHBOARDS);
+        params.detail === GerritNav.RepoDetailView.DASHBOARDS);
     this.set('_showRepoMain', isRepoView && !params.detail);
 
     this.set('_showRepoList', isAdminView &&
@@ -264,15 +265,15 @@ class GrAdminView extends mixinBehaviors( [
     // Group params are structured differently from admin params. Compute
     // selected differently for groups.
     // TODO(wyatta): Simplify this when all routes work like group params.
-    if (params.view === Gerrit.Nav.View.GROUP &&
-        itemView === Gerrit.Nav.View.GROUP) {
+    if (params.view === GerritNav.View.GROUP &&
+        itemView === GerritNav.View.GROUP) {
       if (!params.detail && !opt_detailType) { return 'selected'; }
       if (params.detail === opt_detailType) { return 'selected'; }
       return '';
     }
 
-    if (params.view === Gerrit.Nav.View.REPO &&
-        itemView === Gerrit.Nav.View.REPO) {
+    if (params.view === GerritNav.View.REPO &&
+        itemView === GerritNav.View.REPO) {
       if (!params.detail && !opt_detailType) { return 'selected'; }
       if (params.detail === opt_detailType) { return 'selected'; }
       return '';

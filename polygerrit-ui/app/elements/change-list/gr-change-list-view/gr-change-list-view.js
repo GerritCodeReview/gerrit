@@ -16,7 +16,6 @@
  */
 
 import '../../../scripts/bundled-polymer.js';
-import '../../core/gr-navigation/gr-navigation.js';
 import '../../shared/gr-icons/gr-icons.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../gr-change-list/gr-change-list.js';
@@ -30,6 +29,8 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-list-view_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
+import page from 'page/page.mjs';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 const LookupQueryPatterns = {
   CHANGE_ID: /^\s*i?[0-9a-f]{7,40}\s*$/i,
@@ -162,7 +163,7 @@ class GrChangeListView extends mixinBehaviors( [
   }
 
   _paramsChanged(value) {
-    if (value.view !== Gerrit.Nav.View.SEARCH) { return; }
+    if (value.view !== GerritNav.View.SEARCH) { return; }
 
     this._loading = true;
     this._query = value.query;
@@ -192,7 +193,7 @@ class GrChangeListView extends mixinBehaviors( [
             for (const query in LookupQueryPatterns) {
               if (LookupQueryPatterns.hasOwnProperty(query) &&
               this._query.match(LookupQueryPatterns[query])) {
-                Gerrit.Nav.navigateToChange(changes[0]);
+                GerritNav.navigateToChange(changes[0]);
                 return;
               }
             }
@@ -236,7 +237,7 @@ class GrChangeListView extends mixinBehaviors( [
     offset = +(offset || 0);
     const limit = this._limitFor(query, changesPerPage);
     const newOffset = Math.max(0, offset + (limit * direction));
-    return Gerrit.Nav.getUrlForSearchQuery(query, newOffset);
+    return GerritNav.getUrlForSearchQuery(query, newOffset);
   }
 
   _computePrevArrowClass(offset) {

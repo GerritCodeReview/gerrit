@@ -16,7 +16,6 @@
  */
 import '../../../scripts/bundled-polymer.js';
 
-import '../../core/gr-navigation/gr-navigation.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../../styles/shared-styles.js';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
@@ -27,6 +26,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-related-changes-list_html.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 /**
  * @extends Polymer.Element
@@ -221,7 +221,7 @@ class GrRelatedChangesList extends mixinBehaviors( [
    * @return {string}
    */
   _computeChangeURL(changeNum, project, opt_patchNum) {
-    return Gerrit.Nav.getUrlForChangeById(changeNum, project, opt_patchNum);
+    return GerritNav.getUrlForChangeById(changeNum, project, opt_patchNum);
   }
 
   _computeChangeContainerClass(currentChange, relatedChange) {

@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../scripts/util.js';
-
 import '../scripts/bundled-polymer.js';
 import '../styles/shared-styles.js';
 import '../styles/themes/app-theme.js';
@@ -27,7 +25,6 @@ import './change/gr-change-view/gr-change-view.js';
 import './core/gr-error-manager/gr-error-manager.js';
 import './core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.js';
 import './core/gr-main-header/gr-main-header.js';
-import './core/gr-navigation/gr-navigation.js';
 import './core/gr-reporting/gr-reporting.js';
 import './core/gr-router/gr-router.js';
 import './core/gr-smart-search/gr-smart-search.js';
@@ -47,11 +44,10 @@ import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import moment from 'moment/src/moment.js';
-self.moment = moment;
 import {htmlTemplate} from './gr-app-element_html.js';
 import {BaseUrlBehavior} from '../behaviors/base-url-behavior/base-url-behavior.js';
 import {KeyboardShortcutBehavior} from '../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {GerritNav} from './core/gr-navigation/gr-navigation.js';
 
 /**
  * @extends Polymer.Element
@@ -206,7 +202,7 @@ class GrAppElement extends mixinBehaviors( [
 
     // Note: this is evaluated here to ensure that it only happens after the
     // router has been initialized. @see Issue 7837
-    this._settingsUrl = Gerrit.Nav.getUrlForSettings();
+    this._settingsUrl = GerritNav.getUrlForSettings();
 
     this._viewState = {
       changeView: {
@@ -378,16 +374,16 @@ class GrAppElement extends mixinBehaviors( [
 
   _viewChanged(view) {
     this.$.errorView.classList.remove('show');
-    this.set('_showChangeListView', view === Gerrit.Nav.View.SEARCH);
-    this.set('_showDashboardView', view === Gerrit.Nav.View.DASHBOARD);
-    this.set('_showChangeView', view === Gerrit.Nav.View.CHANGE);
-    this.set('_showDiffView', view === Gerrit.Nav.View.DIFF);
-    this.set('_showSettingsView', view === Gerrit.Nav.View.SETTINGS);
-    this.set('_showAdminView', view === Gerrit.Nav.View.ADMIN ||
-        view === Gerrit.Nav.View.GROUP || view === Gerrit.Nav.View.REPO);
-    this.set('_showCLAView', view === Gerrit.Nav.View.AGREEMENTS);
-    this.set('_showEditorView', view === Gerrit.Nav.View.EDIT);
-    const isPluginScreen = view === Gerrit.Nav.View.PLUGIN_SCREEN;
+    this.set('_showChangeListView', view === GerritNav.View.SEARCH);
+    this.set('_showDashboardView', view === GerritNav.View.DASHBOARD);
+    this.set('_showChangeView', view === GerritNav.View.CHANGE);
+    this.set('_showDiffView', view === GerritNav.View.DIFF);
+    this.set('_showSettingsView', view === GerritNav.View.SETTINGS);
+    this.set('_showAdminView', view === GerritNav.View.ADMIN ||
+        view === GerritNav.View.GROUP || view === GerritNav.View.REPO);
+    this.set('_showCLAView', view === GerritNav.View.AGREEMENTS);
+    this.set('_showEditorView', view === GerritNav.View.EDIT);
+    const isPluginScreen = view === GerritNav.View.PLUGIN_SCREEN;
     this.set('_showPluginScreen', false);
     // Navigation within plugin screens does not restamp gr-endpoint-decorator
     // because _showPluginScreen value does not change. To force restamp,
@@ -396,7 +392,7 @@ class GrAppElement extends mixinBehaviors( [
       this.async(() => this.set('_showPluginScreen', true), 1);
     }
     this.set('_showDocumentationSearch',
-        view === Gerrit.Nav.View.DOCUMENTATION_SEARCH);
+        view === GerritNav.View.DOCUMENTATION_SEARCH);
     if (this.params.justRegistered) {
       this.$.registrationOverlay.open();
       this.$.registrationDialog.loadData().then(() => {
@@ -480,7 +476,7 @@ class GrAppElement extends mixinBehaviors( [
 
   _paramsChanged(paramsRecord) {
     const params = paramsRecord.base;
-    const viewsToCheck = [Gerrit.Nav.View.SEARCH, Gerrit.Nav.View.DASHBOARD];
+    const viewsToCheck = [GerritNav.View.SEARCH, GerritNav.View.DASHBOARD];
     if (viewsToCheck.includes(params.view)) {
       this.set('_lastSearchPage', location.pathname);
     }
@@ -511,7 +507,7 @@ class GrAppElement extends mixinBehaviors( [
 
   _handleAccountDetailUpdate(e) {
     this.$.mainHeader.reload();
-    if (this.params.view === Gerrit.Nav.View.SETTINGS) {
+    if (this.params.view === GerritNav.View.SETTINGS) {
       this.shadowRoot.querySelector('gr-settings-view').reloadAccountDetail();
     }
   }
@@ -522,24 +518,24 @@ class GrAppElement extends mixinBehaviors( [
   }
 
   _goToOpenedChanges() {
-    Gerrit.Nav.navigateToStatusSearch('open');
+    GerritNav.navigateToStatusSearch('open');
   }
 
   _goToUserDashboard() {
-    Gerrit.Nav.navigateToUserDashboard();
+    GerritNav.navigateToUserDashboard();
   }
 
   _goToMergedChanges() {
-    Gerrit.Nav.navigateToStatusSearch('merged');
+    GerritNav.navigateToStatusSearch('merged');
   }
 
   _goToAbandonedChanges() {
-    Gerrit.Nav.navigateToStatusSearch('abandoned');
+    GerritNav.navigateToStatusSearch('abandoned');
   }
 
   _goToWatchedChanges() {
     // The query is hardcoded, and doesn't respect custom menu entries
-    Gerrit.Nav.navigateToSearchQuery('is:watched is:open');
+    GerritNav.navigateToSearchQuery('is:watched is:open');
   }
 
   _computePluginScreenName({plugin, screen}) {

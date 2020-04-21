@@ -45,6 +45,12 @@ import '../../../test/common-test-setup.js';
 import './gr-endpoint-decorator.js';
 import '../gr-endpoint-param/gr-endpoint-param.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {resetPlugins} from '../../../test/test-utils.js';
+import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+
+const pluginApi = _testOnly_initGerritPluginApi();
+
 suite('gr-endpoint-decorator', () => {
   let container;
   let sandbox;
@@ -57,16 +63,17 @@ suite('gr-endpoint-decorator', () => {
     stub('gr-endpoint-decorator', {
       _import: sandbox.stub().returns(Promise.resolve()),
     });
-    Gerrit._testOnly_resetPlugins();
+    resetPlugins();
     container = fixture('basic');
-    Gerrit.install(p => plugin = p, '0.1', 'http://some/plugin/url.html');
+    pluginApi.install(p => plugin = p, '0.1',
+        'http://some/plugin/url.html');
     // Decoration
     decorationHook = plugin.registerCustomComponent('first', 'some-module');
     // Replacement
     replacementHook = plugin.registerCustomComponent(
         'second', 'other-module', {replace: true});
     // Mimic all plugins loaded.
-    Gerrit._loadPlugins([]);
+    pluginLoader.loadPlugins([]);
     flush(done);
   });
 

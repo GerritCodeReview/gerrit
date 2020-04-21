@@ -47,7 +47,9 @@ import '../../../test/common-test-setup.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GrPopupInterface} from './gr-popup-interface.js';
+import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 
+const pluginApi = _testOnly_initGerritPluginApi();
 suite('gr-popup-interface tests', () => {
   let container;
   let instance;
@@ -56,7 +58,7 @@ suite('gr-popup-interface tests', () => {
 
   setup(() => {
     sandbox = sinon.sandbox.create();
-    Gerrit.install(p => { plugin = p; }, '0.1',
+    pluginApi.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
     container = fixture('container');
     sandbox.stub(plugin, 'hook').returns({

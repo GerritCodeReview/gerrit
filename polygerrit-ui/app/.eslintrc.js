@@ -165,33 +165,13 @@ module.exports = {
     // You must not add anything new in this list!
     // Instead export variables from modules
     // TODO(dmfilippov): Remove global variables from polygerrit
-    "Auth": "readonly",
-    "EventEmitter": "readonly",
-    "Gerrit": "readonly",
-    "GrAdminApi": "readonly",
-    "GrAnnotationActionsContext": "readonly",
-    "GrAnnotationActionsInterface": "readonly",
-    "GrChangeMetadataApi": "readonly",
-    "GrChangeViewApi": "readonly",
-    "GrEmailSuggestionsProvider": "readonly",
-    "GrEventHelper": "readonly",
-    "GrGroupSuggestionsProvider": "readonly",
-    "GrPluginActionContext": "readonly",
-    "GrPluginRestApi": "readonly",
-    "GrRepoApi": "readonly",
     "GrReporting": "readonly",
-    "GrSettingsApi": "readonly",
-    "GrStylesApi": "readonly",
-    "PluginLoader": "readonly",
-    "util": "readonly",
     // Global variables from 3rd party libraries.
     // You should not add anything in this list, always try to import
     // If import is not possible - you can extend this list
     "Polymer": "readonly",
     "ShadyCSS": "readonly",
     "linkify": "readonly",
-    "moment": "readonly",
-    "page": "readonly",
     "security": "readonly",
   },
   "overrides": [
@@ -229,6 +209,13 @@ module.exports = {
       "files": "import-href.js",
       "globals": {
         "HTMLImports": "readonly",
+      }
+    },
+    {
+      "files": ["samples/**/*.js", "**/test/plugin.html"],
+      "globals": {
+        // Settings for samples. You can add globals here if you want to use it
+        "Gerrit": "readonly",
       }
     },
     {

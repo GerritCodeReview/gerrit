@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "248f6307_403ee7fb",
+        "filename": "polygerrit-ui/app/services/app-context-init_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-21T07:33:39Z",
+      "side": 1,
+      "message": "The is common pattern in our tests.",
+      "parentUuid": "a70f6655_a3a3018b",
+      "revId": "771c08427a2f24812d266020df207b65dc50002a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e6c7989_017113de",
         "filename": "polygerrit-ui/app/services/app-context.js",
         "patchSetId": 9
@@ -33,6 +51,24 @@
       "revId": "771c08427a2f24812d266020df207b65dc50002a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ead6b035_41584e3c",
+        "filename": "polygerrit-ui/app/services/app-context.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-21T07:33:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e6c7989_017113de",
+      "revId": "771c08427a2f24812d266020df207b65dc50002a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

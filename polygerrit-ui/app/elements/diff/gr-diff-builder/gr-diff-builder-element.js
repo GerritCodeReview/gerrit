@@ -219,6 +219,7 @@ class GrDiffBuilderElement extends GestureEventListeners(
   }
 
   getContentByLineEl(lineEl) {
+    if (!lineEl) return;
     const root = dom(lineEl.parentElement);
     const side = this.getSideByLineEl(lineEl);
     const line = lineEl.getAttribute('data-value');

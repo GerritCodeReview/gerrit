@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "28561a2a_72c71e64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-21T21:02:32Z",
+      "side": 1,
+      "message": "It is (2).\n\nTest was not ported, because we are only adding an experimental version of \u003cgr-messages-list\u003e, not for \u003cgr-message\u003e.\n\nWith regards to naming I am torn and I think it does not matter much, because this is fairly shortlived, so I would like to avoid the extra hassel of renaming. :-)",
+      "parentUuid": "8515fe03_eacae80e",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "a62e127dd1ad2e9cf15b48a1eb7c63142af33c22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e7d94f8_25913b03",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental_html.js",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "a62e127dd1ad2e9cf15b48a1eb7c63142af33c22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bff77734_29c702b0",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental_html.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-21T21:02:32Z",
+      "side": 1,
+      "message": "See follow-up changes. I will turn this element upside down. This is just the first change in a chain and more will come while experimenting.",
+      "parentUuid": "0e7d94f8_25913b03",
+      "revId": "a62e127dd1ad2e9cf15b48a1eb7c63142af33c22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "a62e127dd1ad2e9cf15b48a1eb7c63142af33c22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ca7993b_9fbd1e0b",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-21T21:02:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a8c33a3_30c4b54c",
+      "range": {
+        "startLine": 4,
+        "startChar": 14,
+        "endLine": 4,
+        "endChar": 18
+      },
+      "revId": "a62e127dd1ad2e9cf15b48a1eb7c63142af33c22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -46,6 +46,30 @@
       "revId": "77b077579b205f285f82b6e94dacf990b3dd0de7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07b40ef8_313160a0",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-04-21T19:09:28Z",
+      "side": 1,
+      "message": "But when would you use this where you are ok with the queue you get not meeting the parameters you gave? It seems the utility of this would be to have a helper to confirm those details.",
+      "parentUuid": "87e2011c_61f3f0a2",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 1
+      },
+      "revId": "77b077579b205f285f82b6e94dacf990b3dd0de7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

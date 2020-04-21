@@ -2,6 +2,8 @@
 
 set -ex
 
+# test
+
 t=$(mktemp -d || mktemp -d -t wct-XXXXXXXXXX)
 components=$TEST_SRCDIR/gerrit/polygerrit-ui/app/test_components.zip
 code=$TEST_SRCDIR/gerrit/polygerrit-ui/app/polygerrit_embed_ui.zip

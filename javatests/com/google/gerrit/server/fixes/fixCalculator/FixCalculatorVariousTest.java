@@ -67,7 +67,7 @@ public class FixCalculatorVariousTest {
         FixCalculator.calculateFix(multilineContent, ImmutableList.of(replace, delete, insert));
     assertThat(result)
         .text()
-        .isEqualTo("First line\nSABConDEFGd ne\nThird line\nFourth line\nFifth line\n");
+        .isEqualTo("First line\nSABConDEFGd ne\nThird line\nFourth line\nFifth lines\n");
     assertThat(result).edits().hasSize(1);
     Edit edit = result.edits.get(0);
     assertThat(edit).isReplace(1, 1, 1, 1);

@@ -22,6 +22,46 @@
       "revId": "a62e127dd1ad2e9cf15b48a1eb7c63142af33c22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e7d94f8_25913b03",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental_html.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-21T08:49:31Z",
+      "side": 1,
+      "message": "I don\u0027t really see huge difference between this and the original one, why not just have `if-template` for those are different instead of having a completely new copy ...",
+      "revId": "a62e127dd1ad2e9cf15b48a1eb7c63142af33c22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a8c33a3_30c4b54c",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-21T08:49:31Z",
+      "side": 1,
+      "message": "2020",
+      "range": {
+        "startLine": 4,
+        "startChar": 14,
+        "endLine": 4,
+        "endChar": 18
+      },
+      "revId": "a62e127dd1ad2e9cf15b48a1eb7c63142af33c22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

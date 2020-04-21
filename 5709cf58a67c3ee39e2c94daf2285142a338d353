@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e088d09_c592bb37",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-04-21T14:42:21Z",
+      "side": 1,
+      "message": "MINA",
+      "range": {
+        "startLine": 134,
+        "startChar": 19,
+        "endLine": 134,
+        "endChar": 24
+      },
+      "revId": "5709cf58a67c3ee39e2c94daf2285142a338d353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

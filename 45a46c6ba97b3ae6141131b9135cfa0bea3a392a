@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dce5a7fa_0eaeeaed",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-21T12:31:14Z",
+      "side": 1,
+      "message": "What about using `:not(:last-of-type)` here?",
+      "revId": "45a46c6ba97b3ae6141131b9135cfa0bea3a392a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2c81efd_1d65b380",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-21T12:31:14Z",
+      "side": 1,
+      "message": "Isn\u0027t border-color just fine?\n\nhttps://imgur.com/a/rzpglfJ",
+      "revId": "45a46c6ba97b3ae6141131b9135cfa0bea3a392a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

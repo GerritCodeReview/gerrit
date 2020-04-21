@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04c4ebd5_b39339df",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-04-21T18:12:53Z",
+      "side": 1,
+      "message": "It looks like this does not verify that the existing queue meets the criteria requested. This could be problematic if say 10 threads were requested, but the existing queue only has 2?",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 1
+      },
+      "revId": "77b077579b205f285f82b6e94dacf990b3dd0de7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

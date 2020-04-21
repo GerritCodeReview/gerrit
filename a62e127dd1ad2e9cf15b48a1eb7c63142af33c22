@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8515fe03_eacae80e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-21T08:37:07Z",
+      "side": 1,
+      "message": "What does it mean exactly?\n1. You want to make some experiments and drop it\nOR\n2. You want to replace existing gr-message-list with this experimental version in the future?\n\nIf (1) - I am Ok with this change\nIf (2) - I am afraid that people will forget to update it and port important fixes here.\nFor example, in https://gerrit-review.googlesource.com/c/gerrit/+/263694/1 tests are not ported and\nI don\u0027t know was it intended or you just forgot to port.\n\nIn the case (2) may be it is better to rename old version (i.e. gr-messages-list -\u003e gr-messages-list-deprecated) and keep original name for the experimental version",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "a62e127dd1ad2e9cf15b48a1eb7c63142af33c22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

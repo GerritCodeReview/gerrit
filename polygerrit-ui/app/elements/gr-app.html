@@ -83,6 +83,18 @@ limitations under the License.
         flex-direction: column;
         min-height: 100%;
       }
+
+      @media screen and (min-width: 100em) {
+        :host {
+          margin: auto;
+          overflow: hidden;
+          max-width: var(--app-max-width);
+          box-shadow: var(--app-max-width-box-shadow);
+          border: var(--app-max-width-border);
+          background-color: var(--app-max-width-background-color);
+        }
+      }
+
       gr-fixed-panel {
         /**
          * This one should be greater that the z-index in gr-diff-view

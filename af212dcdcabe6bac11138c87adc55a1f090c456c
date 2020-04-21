@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8751e22d_24c35426",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-21T07:14:37Z",
+      "side": 1,
+      "message": "meant ?",
+      "range": {
+        "startLine": 26,
+        "startChar": 42,
+        "endLine": 26,
+        "endChar": 46
+      },
+      "revId": "af212dcdcabe6bac11138c87adc55a1f090c456c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd34920c_3601844a",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-21T07:14:37Z",
+      "side": 1,
+      "message": "I think you mean this will prevent click events for some mobile devices",
+      "range": {
+        "startLine": 27,
+        "startChar": 20,
+        "endLine": 28,
+        "endChar": 30
+      },
+      "revId": "af212dcdcabe6bac11138c87adc55a1f090c456c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

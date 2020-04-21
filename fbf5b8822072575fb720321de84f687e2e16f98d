@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45528bef_af26f8cd",
+        "filename": "Jenkinsfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-21T14:31:44Z",
+      "side": 1,
+      "message": "Nit: bazelFiles.isEmpty()?",
+      "range": {
+        "startLine": 97,
+        "startChar": 60,
+        "endLine": 97,
+        "endChar": 75
+      },
+      "revId": "fbf5b8822072575fb720321de84f687e2e16f98d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b074952b_b969f49b",
+        "filename": "Jenkinsfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-21T14:31:44Z",
+      "side": 1,
+      "message": "Should we be here even more stricter and extend that condition to any Bazel files:\n\n  !bazelFiles.isEmpty()\n\nThat would mean, that we always run PG tests, if any Bazel files are changed in any directory and not only WORKSPACE file and not only in polygerrit-ui tree.",
+      "range": {
+        "startLine": 104,
+        "startChar": 14,
+        "endLine": 104,
+        "endChar": 48
+      },
+      "revId": "fbf5b8822072575fb720321de84f687e2e16f98d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

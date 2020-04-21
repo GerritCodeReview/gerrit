@@ -22,6 +22,53 @@
       "revId": "5709cf58a67c3ee39e2c94daf2285142a338d353",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fddd1d0_513d15da",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2020-04-21T15:22:18Z",
+      "side": 1,
+      "message": "What exactly is missing here? Did you see org.eclipse.jgit.transport.sshd.NoFilesSshTest in bundle org.eclipse.jgit.ssh.apache.test?\n\nBy subclassing SshdSessionFactory, it should be possible to ignore any ~/.ssh/config file completely, and to hook in a memory-only hostkey database with your own checking rules. It\u0027s also possible to override the loading of private user keys; the test uses an in-memory user key.\n\nThese mechanisms exist since JGit 5.5.",
+      "parentUuid": "8e088d09_c592bb37",
+      "range": {
+        "startLine": 134,
+        "startChar": 19,
+        "endLine": 134,
+        "endChar": 24
+      },
+      "revId": "5709cf58a67c3ee39e2c94daf2285142a338d353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "623f6922_bc2ebdd2",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2020-04-21T15:22:18Z",
+      "side": 1,
+      "message": "This returns an SshdSession, so why assign to a RemoteSession an then downcast again?",
+      "range": {
+        "startLine": 155,
+        "startChar": 46,
+        "endLine": 155,
+        "endChar": 56
+      },
+      "revId": "5709cf58a67c3ee39e2c94daf2285142a338d353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

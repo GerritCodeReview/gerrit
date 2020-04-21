@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1362c7f_2e440f0d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 809,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-21T10:02:20Z",
+      "side": 0,
+      "message": "I think this may cause some problems as we have the observers leaked around  without proper clean up: https://gerrit-review.googlesource.com/c/gerrit/+/263696",
+      "revId": "e26ab2364600da1969265267adf99a4fac49b1c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

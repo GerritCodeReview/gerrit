@@ -14,10 +14,10 @@
     },
     "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "FAILED",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/82703/console",
-      "finished": "2020-03-25T15:06:49Z",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/84135/console",
+      "finished": "2020-04-21T16:56:03Z",
       "created": "2020-03-25T14:33:58Z",
-      "updated": "2020-03-25T14:55:27Z"
+      "updated": "2020-04-21T16:56:03Z"
     }
   }
 }

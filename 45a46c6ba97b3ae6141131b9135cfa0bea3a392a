@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7723badc_9c21c4a0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-21T13:04:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dce5a7fa_0eaeeaed",
+      "revId": "45a46c6ba97b3ae6141131b9135cfa0bea3a392a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2c81efd_1d65b380",
         "filename": "polygerrit-ui/app/styles/themes/app-theme.js",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "45a46c6ba97b3ae6141131b9135cfa0bea3a392a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dce6322_2a289572",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-21T13:04:12Z",
+      "side": 1,
+      "message": "its the same color as background for resolved comments",
+      "parentUuid": "b2c81efd_1d65b380",
+      "revId": "45a46c6ba97b3ae6141131b9135cfa0bea3a392a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

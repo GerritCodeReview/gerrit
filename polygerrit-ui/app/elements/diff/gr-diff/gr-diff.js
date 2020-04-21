@@ -634,6 +634,9 @@ class GrDiff extends mixinBehaviors( [
    */
   _createComment(lineEl, lineNum, side, range) {
     const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
+    if (!contentText) {
+      return;
+    }
     const contentEl = contentText.parentElement;
     side = side ||
         this._getCommentSideByLineAndContent(lineEl, contentEl);
@@ -867,6 +870,9 @@ class GrDiff extends mixinBehaviors( [
         const lineEl = this.$.diffBuilder.getLineElByNumber(
             lineNumString, commentSide);
         const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
+        if (!contentText) {
+          continue;
+        }
         const contentEl = contentText.parentElement;
         const threadGroupEl = this._getOrCreateThreadGroup(
             contentEl, commentSide);

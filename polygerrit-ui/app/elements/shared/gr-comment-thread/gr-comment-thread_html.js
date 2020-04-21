@@ -27,6 +27,9 @@ export const htmlTemplate = html`
       gr-button {
         margin-left: var(--spacing-m);
       }
+      gr-comment:not(:last-of-type) {
+        border-bottom: 1px solid var(--comment-separator-color);
+      }
       #actions {
         margin-left: auto;
         padding: var(--spacing-m);

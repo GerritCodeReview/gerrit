@@ -16,6 +16,24 @@
       "revId": "82ca425c3a5e23340fdbb04d29df778a5f5223bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02bd0e96_1e437ff3",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-04-21T22:27:30Z",
+      "side": 1,
+      "message": "The reason I wanted to model this with left and right margins separately was to allow the app to sit in the up-right corner (this is where GWT used to be, on larger screens).\n\nBut I guess this is not really a common use-case: let me amend this change.",
+      "parentUuid": "a29b3020_e7aaa821",
+      "revId": "82ca425c3a5e23340fdbb04d29df778a5f5223bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

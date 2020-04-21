@@ -141,6 +141,30 @@
       "revId": "fbf5b8822072575fb720321de84f687e2e16f98d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b73371f4_2fb196ca",
+        "filename": "Jenkinsfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-21T19:41:17Z",
+      "side": 1,
+      "message": "\u003e [...] but I agree that there are more bazel related files that should also trigger polygerrit verification (e.g. everything in the tools directory).\n\nExactly, we have:\n\n  tools/bzl/js.bzl\n\nwhich itself loading:\n\n  load(\"//lib/js:npm.bzl\", \"NPM_SHA1S\", \"NPM_VERSIONS\")\n\nAnd we have also:\n\n  lib/js/BUILD\n\nwith subtree. But I would suggest to avoid to try to bee too smart, and just always build PG, not matter what part of the build was changed.",
+      "parentUuid": "ca52d168_530a21aa",
+      "range": {
+        "startLine": 104,
+        "startChar": 14,
+        "endLine": 104,
+        "endChar": 48
+      },
+      "revId": "fbf5b8822072575fb720321de84f687e2e16f98d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

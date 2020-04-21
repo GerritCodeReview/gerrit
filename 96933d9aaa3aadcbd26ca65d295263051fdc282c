@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c02ea1d1_bf511495",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls_html.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-21T13:48:57Z",
+      "side": 0,
+      "message": "why remove this ? or why we have this in the first place ? is it needed by some component ? maybe iron-input do have a `input` slot to be specified ?",
+      "range": {
+        "startLine": 90,
+        "startChar": 23,
+        "endLine": 90,
+        "endChar": 35
+      },
+      "revId": "96933d9aaa3aadcbd26ca65d295263051fdc282c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

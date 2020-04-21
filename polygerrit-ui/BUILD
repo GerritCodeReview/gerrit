@@ -4,6 +4,8 @@ load("//tools/bzl:js.bzl", "bower_component_bundle")
 
 package(default_visibility = ["//visibility:public"])
 
+# Test
+
 bower_component_bundle(
     name = "polygerrit_components.bower_components",
     deps = [

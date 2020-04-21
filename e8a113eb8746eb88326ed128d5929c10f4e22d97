@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa27e9e6_a7bd5905",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-21T11:34:55Z",
+      "side": 1,
+      "message": "i think you don\u0027t need mention this :) just mention that setCancelSyntheticClickEvents is set to true by default which will cancel synthetic click events on older touch devices.",
+      "range": {
+        "startLine": 28,
+        "startChar": 20,
+        "endLine": 29,
+        "endChar": 34
+      },
+      "revId": "e8a113eb8746eb88326ed128d5929c10f4e22d97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2e5357c_b05d3cb4",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-21T11:34:55Z",
+      "side": 1,
+      "message": "just realize that maybe have your setting after this ? since we rely on bundled-polymer to load all polymer bridges, it may make sense to do any setting change after that.",
+      "revId": "e8a113eb8746eb88326ed128d5929c10f4e22d97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

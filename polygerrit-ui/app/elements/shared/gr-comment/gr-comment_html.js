@@ -41,6 +41,9 @@ export const htmlTemplate = html`
         margin: calc(0px - var(--spacing-m)) calc(0px - var(--spacing-m)) 0 calc(0px - var(--spacing-m));
         padding: var(--spacing-m);
       }
+      .headerLeft > span {
+        font-weight: bold;
+      }
       .container.collapsed .header {
         margin-bottom: calc(0 - var(--spacing-m));
       }

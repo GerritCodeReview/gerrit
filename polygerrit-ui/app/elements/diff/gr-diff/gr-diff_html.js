@@ -52,6 +52,13 @@ export const htmlTemplate = html`
       .lineNum {
         background-color: var(--diff-blank-background-color);
       }
+      /*
+      The only way to focus this (clicking) will apply our own focus styling,
+      so this default styling is not needed and distracting.
+      */
+      button.lineNum:focus {
+        outline: none;
+      }
       .image-diff .gr-diff {
         text-align: center;
       }

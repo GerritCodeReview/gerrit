@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "aa454236_e590fa5a",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-21T08:31:36Z",
+      "side": 1,
+      "message": "Obsolete.",
+      "parentUuid": "113b0a63_9280855a",
+      "range": {
+        "startLine": 278,
+        "startChar": 10,
+        "endLine": 278,
+        "endChar": 18
+      },
+      "revId": "650e797a4b44bea49ca09c69ef0fdaa7a29cab87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf5efe96_f2740466",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 3
@@ -68,6 +92,54 @@
       "revId": "650e797a4b44bea49ca09c69ef0fdaa7a29cab87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38425bfe_a2502db4",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-21T08:31:36Z",
+      "side": 1,
+      "message": "Oops, I did not realize that. I guess we can remove the date matching then. :-) Thanks for the comment!",
+      "parentUuid": "bf5efe96_f2740466",
+      "range": {
+        "startLine": 303,
+        "startChar": 6,
+        "endLine": 303,
+        "endChar": 49
+      },
+      "revId": "650e797a4b44bea49ca09c69ef0fdaa7a29cab87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0749819_76741563",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-21T08:31:36Z",
+      "side": 1,
+      "message": "Obsolete.",
+      "parentUuid": "8454f663_ce849daa",
+      "range": {
+        "startLine": 303,
+        "startChar": 5,
+        "endLine": 303,
+        "endChar": 49
+      },
+      "revId": "650e797a4b44bea49ca09c69ef0fdaa7a29cab87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

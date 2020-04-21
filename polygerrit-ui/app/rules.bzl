@@ -146,4 +146,10 @@ def wct_suite(name, srcs, split_count):
     native.test_suite(
         name = name + "_test",
         tests = tests,
+        # Setup tags for suite as well.
+        # This excludes tests from the wildcard expansion (//...)
+        tags = [
+            "local",
+            "manual",
+        ],
     )

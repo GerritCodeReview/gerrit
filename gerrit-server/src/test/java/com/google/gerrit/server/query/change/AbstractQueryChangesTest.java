@@ -39,8 +39,10 @@ import com.google.common.collect.Streams;
 import com.google.common.truth.ThrowableSubject;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.TimeUtil;
+import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
@@ -71,6 +73,7 @@ import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -125,6 +128,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.util.Providers;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -137,6 +141,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -1625,10 +1630,47 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
     assertQuery(q + " visibleto:" + user2.get(), change1);
 
+    // Check group visibility
+    String g1 = createGroup("group1", "Administrators");
+    gApi.groups().id(g1).addMembers("anotheruser");
+
+    // by default when group is created without any permission granted nothing is visible to it and
+    // having members or not has nothing to do with it
+    assertQuery(q + " visibleto:" + g1);
+
+    // change is visible to group ONLY when access is granted
+    grant(
+        new Project.NameKey("repo"),
+        "refs/*",
+        Permission.READ,
+        false,
+        new AccountGroup.UUID(gApi.groups().id(g1).get().id));
+    assertQuery(q + " visibleto:" + g1, change1);
+
     requestContext.setContext(
         newRequestContext(
             accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId()));
     assertQuery("is:visible", change1);
+  }
+
+  private void grant(
+      Project.NameKey project,
+      String ref,
+      String permission,
+      boolean force,
+      AccountGroup.UUID groupUUID)
+      throws IOException, ConfigInvalidException {
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
+      md.setMessage(String.format("Grant %s on %s", permission, ref));
+      ProjectConfig config = ProjectConfig.read(md);
+      AccessSection s = config.getAccessSection(ref, true);
+      Permission p = s.getPermission(permission, true);
+      PermissionRule rule = Util.newRule(config, groupUUID);
+      rule.setForce(force);
+      p.add(rule);
+      config.commit(md);
+      projectCache.evict(config.getProject());
+    }
   }
 
   @Test

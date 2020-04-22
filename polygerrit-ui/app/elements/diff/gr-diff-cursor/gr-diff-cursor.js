@@ -282,6 +282,15 @@ class GrDiffCursor extends GestureEventListeners(
     this.moveToPreviousChunk();
   }
 
+  /**
+   * Move the cursor either to initialLineNumber or the first chunk and
+   * reset scroll behavior.
+   *
+   * This may grab the focus from the app.
+   *
+   * If you do not want to move the cursor or grab focus, and just want to
+   * reset the scroll behavior, use reInit() instead.
+   */
   reInitCursor() {
     if (!this.diffRow) {
       // does not scroll during init unless requested
@@ -296,6 +305,10 @@ class GrDiffCursor extends GestureEventListeners(
         this.moveToFirstChunk();
       }
     }
+    this.reInit();
+  }
+
+  reInit() {
     this._scrollBehavior = ScrollBehavior.KEEP_VISIBLE;
   }
 

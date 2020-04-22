@@ -49,18 +49,28 @@ java_library(
     exports = ["@gson//jar"],
 )
 
+java_import(
+    name = "gwtorm-client-imported",
+    jars = ["@gwtorm-client//file"],
+)
+
+java_import(
+    name = "gwtorm-client-src-imported",
+    jars = ["@gwtorm-client-src//file"],
+)
+
 java_library(
     name = "gwtorm-client",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@gwtorm-client//jar"],
+    exports = [":gwtorm-client-imported"],
 )
 
 java_library(
     name = "gwtorm-client_src",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@gwtorm-client//jar:src"],
+    exports = [":gwtorm-client-src-imported"],
 )
 
 java_library(

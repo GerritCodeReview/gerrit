@@ -15,16 +15,24 @@
  * limitations under the License.
  */
 
-window.Gerrit = window.Gerrit || {};
-import '../elements/diff/gr-diff/gr-diff.js';
-import '../elements/diff/gr-diff-cursor/gr-diff-cursor.js';
-import {initDiffAppContext} from './app-context-init.js';
-import {GrDiffLine} from '../elements/diff/gr-diff/gr-diff-line.js';
-import {GrAnnotation} from '../elements/diff/gr-diff-highlight/gr-annotation.js';
+import {appContext} from '../services/app-context.js';
 
-// Setup appContext for diff.
-// TODO (dmfilippov): find a better solution
-initDiffAppContext();
-// Setup global variables for existing usages of this component
-window.GrDiffLine = GrDiffLine;
-window.GrAnnotation = GrAnnotation;
+class MockFlagsService {
+  isEnabled(experimentId) {
+    return false;
+  }
+
+  /**
+   * @returns {string[]} array of all enabled experiments.
+   */
+  get enabledExperiments() {
+    return [];
+  }
+}
+
+// Setup mocks for appContext.
+// This is a temporary solution
+// TODO(dmfilippov): find a better solution for gr-diff
+export function initDiffAppContext() {
+  appContext.flagsService = new MockFlagsService();
+}

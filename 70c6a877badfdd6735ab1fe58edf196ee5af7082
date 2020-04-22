@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f6997fe_6ad39c00",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-22T11:36:19Z",
+      "side": 1,
+      "message": "might be a good opportunity to add an enum to constants as a start for all events we will emit",
+      "range": {
+        "startLine": 291,
+        "startChar": 29,
+        "endLine": 291,
+        "endChar": 44
+      },
+      "revId": "70c6a877badfdd6735ab1fe58edf196ee5af7082",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a853660_27e74403",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-22T11:36:19Z",
+      "side": 1,
+      "message": "maybe use `this.async` instead, i think that works better with polymer lifecycles",
+      "range": {
+        "startLine": 113,
+        "startChar": 6,
+        "endLine": 113,
+        "endChar": 16
+      },
+      "revId": "70c6a877badfdd6735ab1fe58edf196ee5af7082",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9238c2d0_e3751a65",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-22T11:36:19Z",
+      "side": 1,
+      "message": "is this a jsDoc ? or just regular code comment ?",
+      "revId": "70c6a877badfdd6735ab1fe58edf196ee5af7082",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d72b94c_5a79d1e3",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental_html.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-22T11:36:19Z",
+      "side": 1,
+      "message": "nit: Personally I tend to format the super-long html templates into multiple lines that I touched to make it more readable for others. Maybe we should find a way to automate that",
+      "revId": "70c6a877badfdd6735ab1fe58edf196ee5af7082",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

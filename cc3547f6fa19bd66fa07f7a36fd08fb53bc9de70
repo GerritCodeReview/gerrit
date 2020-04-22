@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "b2900a3f_d1077a5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-22T13:38:47Z",
+      "side": 1,
+      "message": "I updated change message, because we already use gr-app.js for a long time.",
+      "parentUuid": "ccfdae21_f32dc644",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "cc3547f6fa19bd66fa07f7a36fd08fb53bc9de70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8685b8cb_b8cf96ce",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

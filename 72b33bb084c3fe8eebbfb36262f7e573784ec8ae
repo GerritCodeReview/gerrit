@@ -46,6 +46,30 @@
       "revId": "72b33bb084c3fe8eebbfb36262f7e573784ec8ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77dc86eb_c9f1f649",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 6
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-22T13:38:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11809bfc_b9f18e0b",
+      "range": {
+        "startLine": 154,
+        "startChar": 0,
+        "endLine": 156,
+        "endChar": 70
+      },
+      "revId": "72b33bb084c3fe8eebbfb36262f7e573784ec8ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

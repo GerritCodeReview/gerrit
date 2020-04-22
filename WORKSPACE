@@ -273,6 +273,20 @@ maven_jar(
     src_sha1 = "e0b973d5cafef3d145fa80cdf032fcead1186d29",
 )
 
+http_file(
+    name = "gwtorm-client",
+    downloaded_file_path = "gwtorm-client.jar",
+    sha256 = "0f4a2056e3448e8526ef485d477e75eab094abb1dbd5d78fa960b0d58daa017b",
+    urls = ["https://github.com/davido/gwtorm/releases/download/v1.21/gwtorm-1.21.jar"],
+)
+
+http_file(
+    name = "gwtorm-client-src",
+    downloaded_file_path = "gwtorm-client-src.jar",
+    sha256 = "36904a52f008e8c6a087de98f67d4ce42e2f6e41c98f0a394e51e6c7d24133d1",
+    urls = ["https://github.com/davido/gwtorm/releases/download/v1.21/gwtorm-1.21-sources.jar"],
+)
+
 load("//lib:guava.bzl", "GUAVA_BIN_SHA1", "GUAVA_VERSION")
 
 maven_jar(

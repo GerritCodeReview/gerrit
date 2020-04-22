@@ -16,7 +16,7 @@ package com.google.gerrit.testing;
 
 import com.google.common.base.CharMatcher;
 import com.google.gwtorm.client.KeyUtil;
-import com.google.gwtorm.server.StandardKeyEncoder;
+import com.google.gwtorm.client.StandardKeyEncoder;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Rule;

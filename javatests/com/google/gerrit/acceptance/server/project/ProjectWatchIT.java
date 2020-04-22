@@ -49,7 +49,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
   @Test
   public void newPatchSetsNotifyConfig() throws Exception {
-    Address addr = new Address("Watcher", "watcher@example.com");
+    Address addr = Address.create("Watcher", "watcher@example.com");
     NotifyConfig nc = new NotifyConfig();
     nc.addEmail(addr);
     nc.setName("new-patch-set");
@@ -90,7 +90,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
   @Test
   public void noNotificationForPrivateChangesForWatchersInNotifyConfig() throws Exception {
-    Address addr = new Address("Watcher", "watcher@example.com");
+    Address addr = Address.create("Watcher", "watcher@example.com");
     NotifyConfig nc = new NotifyConfig();
     nc.addEmail(addr);
     nc.setName("team");
@@ -122,7 +122,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   @Test
   public void noNotificationForChangeThatIsTurnedPrivateForWatchersInNotifyConfig()
       throws Exception {
-    Address addr = new Address("Watcher", "watcher@example.com");
+    Address addr = Address.create("Watcher", "watcher@example.com");
     NotifyConfig nc = new NotifyConfig();
     nc.addEmail(addr);
     nc.setName("team");
@@ -151,7 +151,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
   @Test
   public void noNotificationForWipChangesForWatchersInNotifyConfig() throws Exception {
-    Address addr = new Address("Watcher", "watcher@example.com");
+    Address addr = Address.create("Watcher", "watcher@example.com");
     NotifyConfig nc = new NotifyConfig();
     nc.addEmail(addr);
     nc.setName("team");
@@ -182,7 +182,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
 
   @Test
   public void noNotificationForChangeThatIsTurnedWipForWatchersInNotifyConfig() throws Exception {
-    Address addr = new Address("Watcher", "watcher@example.com");
+    Address addr = Address.create("Watcher", "watcher@example.com");
     NotifyConfig nc = new NotifyConfig();
     nc.addEmail(addr);
     nc.setName("team");

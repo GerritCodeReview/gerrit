@@ -1851,7 +1851,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushWithEmailInFooterNotFound() throws Exception {
-    pushWithReviewerInFooter(new Address("No Body", "notarealuser@example.com").toString(), null);
+    pushWithReviewerInFooter(
+        Address.create("No Body", "notarealuser@example.com").toString(), null);
   }
 
   @Test

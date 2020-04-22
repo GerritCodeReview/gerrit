@@ -379,7 +379,7 @@ public class ReviewerAdder {
     }
 
     Address adr = Address.tryParse(input.reviewer);
-    if (adr == null || !validator.isValid(adr.getEmail())) {
+    if (adr == null || !validator.isValid(adr.email())) {
       return fail(
           input,
           FailureType.NOT_FOUND,
@@ -481,7 +481,7 @@ public class ReviewerAdder {
         }
         accountLoaderFactory.create(true).fill(result.ccs);
         for (Address a : opResult.addedCCsByEmail()) {
-          result.ccs.add(new AccountInfo(a.getName(), a.getEmail()));
+          result.ccs.add(new AccountInfo(a.name(), a.email()));
         }
       } else {
         result.reviewers = Lists.newArrayListWithCapacity(opResult.addedReviewers().size());
@@ -496,7 +496,7 @@ public class ReviewerAdder {
         }
         accountLoaderFactory.create(true).fill(result.reviewers);
         for (Address a : opResult.addedReviewersByEmail()) {
-          result.reviewers.add(ReviewerInfo.byEmail(a.getName(), a.getEmail()));
+          result.reviewers.add(ReviewerInfo.byEmail(a.name(), a.email()));
         }
       }
     }

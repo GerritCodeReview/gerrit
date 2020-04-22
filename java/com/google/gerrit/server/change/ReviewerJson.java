@@ -75,7 +75,7 @@ public class ReviewerJson {
       ReviewerInfo info;
       if (rsrc.isByEmail()) {
         Address address = rsrc.getReviewerByEmail();
-        info = ReviewerInfo.byEmail(address.getName(), address.getEmail());
+        info = ReviewerInfo.byEmail(address.name(), address.email());
       } else {
         Account.Id reviewerAccountId = rsrc.getReviewerUser().getAccountId();
         info = format(new ReviewerInfo(reviewerAccountId.get()), reviewerAccountId, cd);

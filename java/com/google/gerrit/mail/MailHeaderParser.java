@@ -29,7 +29,7 @@ public class MailHeaderParser {
   public static MailMetadata parse(MailMessage m) {
     MailMetadata metadata = new MailMetadata();
     // Find author
-    metadata.author = m.from().getEmail();
+    metadata.author = m.from().email();
 
     // Check email headers for X-Gerrit-<Name>
     for (String header : m.additionalHeaders()) {

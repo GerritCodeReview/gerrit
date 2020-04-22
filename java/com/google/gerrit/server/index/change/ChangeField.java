@@ -384,9 +384,9 @@ public class ChangeField {
         reviewersByEmail.asTable().cellSet()) {
       String v = getReviewerByEmailFieldValue(c.getRowKey(), c.getColumnKey());
       r.add(v);
-      if (c.getColumnKey().getName() != null) {
+      if (c.getColumnKey().name() != null) {
         // Add another entry without the name to provide search functionality on the email
-        Address emailOnly = new Address(c.getColumnKey().getEmail());
+        Address emailOnly = Address.create(c.getColumnKey().email());
         r.add(getReviewerByEmailFieldValue(c.getRowKey(), emailOnly));
       }
       r.add(v + ',' + c.getValue().getTime());

@@ -52,8 +52,7 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
 
     if (from == null || "MIXED".equalsIgnoreCase(from)) {
       ParameterizedString name = new ParameterizedString("${user} (Code Review)");
-      generator =
-          new PatternGen(srvAddr, accountCache, anonymousCowardName, name, srvAddr.getEmail());
+      generator = new PatternGen(srvAddr, accountCache, anonymousCowardName, name, srvAddr.email());
     } else if ("USER".equalsIgnoreCase(from)) {
       String[] domains = cfg.getStringList("sendemail", null, "allowedDomain");
       Pattern domainPattern = MailUtil.glob(domains);
@@ -64,18 +63,17 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
       generator = new ServerGen(srvAddr);
     } else {
       final Address a = Address.parse(from);
-      final ParameterizedString name =
-          a.getName() != null ? new ParameterizedString(a.getName()) : null;
+      final ParameterizedString name = a.name() != null ? new ParameterizedString(a.name()) : null;
       if (name == null || name.getParameterNames().isEmpty()) {
         generator = new ServerGen(a);
       } else {
-        generator = new PatternGen(srvAddr, accountCache, anonymousCowardName, name, a.getEmail());
+        generator = new PatternGen(srvAddr, accountCache, anonymousCowardName, name, a.email());
       }
     }
   }
 
   private static Address toAddress(PersonIdent myIdent) {
-    return new Address(myIdent.getName(), myIdent.getEmailAddress());
+    return Address.create(myIdent.getName(), myIdent.getEmailAddress());
   }
 
   @Override
@@ -127,7 +125,7 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
         String fullName = a.map(Account::fullName).orElse(null);
         String userEmail = a.map(Account::preferredEmail).orElse(null);
         if (canRelay(userEmail)) {
-          return new Address(fullName, userEmail);
+          return Address.create(fullName, userEmail);
         }
 
         if (fullName == null || "".equals(fullName.trim())) {
@@ -135,17 +133,17 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
         }
         senderName = nameRewriteTmpl.replace("user", fullName).toString();
       } else {
-        senderName = serverAddress.getName();
+        senderName = serverAddress.name();
       }
 
       String senderEmail;
-      ParameterizedString senderEmailPattern = new ParameterizedString(serverAddress.getEmail());
+      ParameterizedString senderEmailPattern = new ParameterizedString(serverAddress.email());
       if (senderEmailPattern.getParameterNames().isEmpty()) {
         senderEmail = senderEmailPattern.getRawPattern();
       } else {
         senderEmail = senderEmailPattern.replace("userHash", hashOf(senderName)).toString();
       }
-      return new Address(senderName, senderEmail);
+      return Address.create(senderName, senderEmail);
     }
 
     /** check if Gerrit is allowed to send from {@code userEmail}. */
@@ -215,7 +213,7 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
         senderName = namePattern.replace("user", fullName).toString();
 
       } else {
-        senderName = serverAddress.getName();
+        senderName = serverAddress.name();
       }
 
       String senderEmail;
@@ -224,7 +222,7 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
       } else {
         senderEmail = senderEmailPattern.replace("userHash", hashOf(senderName)).toString();
       }
-      return new Address(senderName, senderEmail);
+      return Address.create(senderName, senderEmail);
     }
   }
 

@@ -116,13 +116,13 @@ public class SimpleTextMessage extends RawMailMessage {
     expect
         .id("<001a114da7ae26e2eb053fe0c29c@google.com>")
         .from(
-            new Address(
+            Address.create(
                 "Jonathan Nieder (Gerrit)",
                 "noreply-gerritcodereview-CtTy0igsBrnvL7dKoWEIEg@google.com"))
-        .addTo(new Address("ekempin", "ekempin@google.com"))
-        .addCc(new Address("Dave Borowitz", "dborowitz@google.com"))
-        .addCc(new Address("Jonathan Nieder", "jrn@google.com"))
-        .addCc(new Address("Patrick Hiesel", "hiesel@google.com"))
+        .addTo(Address.create("ekempin", "ekempin@google.com"))
+        .addCc(Address.create("Dave Borowitz", "dborowitz@google.com"))
+        .addCc(Address.create("Jonathan Nieder", "jrn@google.com"))
+        .addCc(Address.create("Patrick Hiesel", "hiesel@google.com"))
         .textContent(textContent)
         .subject("Change in gerrit[master]: (Re)enable voting buttons for merged changes")
         .dateReceived(

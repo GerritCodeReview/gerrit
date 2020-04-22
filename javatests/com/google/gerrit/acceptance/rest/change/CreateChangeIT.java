@@ -303,7 +303,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(author).email().isEqualTo(input.author.email);
     assertThat(author).name().isEqualTo(input.author.name);
     GitPerson committer = rApi.commit(false).committer;
-    assertThat(committer).email().isEqualTo(admin.getNameEmail().getEmail());
+    assertThat(committer).email().isEqualTo(admin.getNameEmail().email());
   }
 
   @Test
@@ -463,7 +463,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     GitPerson author = rApi.commit(false).author;
     assertThat(author).email().isEqualTo(in.author.email);
     GitPerson committer = rApi.commit(false).committer;
-    assertThat(committer).email().isEqualTo(admin.getNameEmail().getEmail());
+    assertThat(committer).email().isEqualTo(admin.getNameEmail().email());
   }
 
   @Test

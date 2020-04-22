@@ -1077,7 +1077,7 @@ public class AccountIT extends AbstractDaemonTest {
 
     assertThat(sender.getMessages()).hasSize(1);
     Message m = sender.getMessages().get(0);
-    assertThat(m.rcpt()).containsExactly(new Address(email));
+    assertThat(m.rcpt()).containsExactly(Address.create(email));
   }
 
   @Test

@@ -126,7 +126,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       recipients.put(
           BCC,
           message.rcpt().stream()
-              .map(Address::getEmail)
+              .map(Address::email)
               .filter(e -> !recipients.get(TO).contains(e) && !recipients.get(CC).contains(e))
               .collect(toList()));
       this.users = users;
@@ -174,7 +174,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
       }
       Truth.assertThat(header).isInstanceOf(AddressList.class);
       AddressList addrList = (AddressList) header;
-      return addrList.getAddressList().stream().map(Address::getEmail).collect(toList());
+      return addrList.getAddressList().stream().map(Address::email).collect(toList());
     }
 
     public FakeEmailSenderSubject to(String... emails) {

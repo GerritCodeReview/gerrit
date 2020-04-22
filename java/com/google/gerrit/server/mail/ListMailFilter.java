@@ -52,7 +52,7 @@ public class ListMailFilter implements MailFilter {
       return true;
     }
 
-    boolean match = mailPattern.matcher(message.from().getEmail()).find();
+    boolean match = mailPattern.matcher(message.from().email()).find();
     if ((mode == ListFilterMode.WHITELIST && !match)
         || (mode == ListFilterMode.BLACKLIST && match)) {
       logger.atInfo().log("Mail message from %s rejected by list filter", message.from());

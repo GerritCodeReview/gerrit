@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "eab357bc_a9092ea2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-22T11:36:50Z",
+      "side": 1,
+      "message": "maybe add `- ` to make a list for it",
+      "revId": "70c6a877badfdd6735ab1fe58edf196ee5af7082",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3f6997fe_6ad39c00",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 6

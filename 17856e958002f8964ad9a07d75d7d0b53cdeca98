@@ -52,6 +52,24 @@
       "revId": "17856e958002f8964ad9a07d75d7d0b53cdeca98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f49860c_177693e5",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-22T10:56:51Z",
+      "side": 1,
+      "message": "Awesome, thats really good to know, probably should mention that in the commit message",
+      "parentUuid": "2f47905c_4c0aafc1",
+      "revId": "17856e958002f8964ad9a07d75d7d0b53cdeca98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

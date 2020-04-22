@@ -1,6 +1,8 @@
 load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_binary", "closure_js_library")
 load("//lib/js:npm.bzl", "NPM_SHA1S", "NPM_VERSIONS")
 
+# test
+
 NPMJS = "NPMJS"
 
 GERRIT = "GERRIT:"

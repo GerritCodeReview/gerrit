@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "e8b2ed8e_a4bb117e",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-22T22:06:53Z",
+      "side": 1,
+      "message": "Thanks for the pointer, I missed that unit test in JGit tree. I removed the comments (here and in the commit message) and will look into optimizing the test code later.",
+      "parentUuid": "6fddd1d0_513d15da",
+      "range": {
+        "startLine": 134,
+        "startChar": 19,
+        "endLine": 134,
+        "endChar": 24
+      },
+      "revId": "5709cf58a67c3ee39e2c94daf2285142a338d353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "623f6922_bc2ebdd2",
         "filename": "java/com/google/gerrit/acceptance/SshSession.java",
         "patchSetId": 2
@@ -69,6 +93,30 @@
       "revId": "5709cf58a67c3ee39e2c94daf2285142a338d353",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f5b13f5_6fa56f60",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-22T22:06:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "623f6922_bc2ebdd2",
+      "range": {
+        "startLine": 155,
+        "startChar": 46,
+        "endLine": 155,
+        "endChar": 56
+      },
+      "revId": "5709cf58a67c3ee39e2c94daf2285142a338d353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

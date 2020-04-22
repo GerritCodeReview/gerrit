@@ -84,7 +84,7 @@ public class AbstractParserTest {
   protected static MailMessage.Builder newMailMessageBuilder() {
     MailMessage.Builder b = MailMessage.builder();
     b.id("id");
-    b.from(new Address("Foo Bar", "foo@bar.com"));
+    b.from(Address.create("Foo Bar", "foo@bar.com"));
     b.dateReceived(Instant.now());
     b.subject("");
     return b;

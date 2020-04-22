@@ -61,8 +61,8 @@ public class AutoReplyMailFilterTest {
     // Build Message
     MailMessage.Builder b = MailMessage.builder();
     b.id("some id");
-    b.from(new Address("admim@example.com"));
-    b.addTo(new Address("gerrit@my-company.com")); // Not evaluated
+    b.from(Address.create("admim@example.com"));
+    b.addTo(Address.create("gerrit@my-company.com")); // Not evaluated
     b.subject("");
     b.dateReceived(Instant.now());
     b.textContent("I am currently out of office, please leave a code review after the beep.");

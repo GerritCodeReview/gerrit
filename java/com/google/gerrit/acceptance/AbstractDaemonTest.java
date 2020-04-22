@@ -1277,7 +1277,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void assertNotifyTo(String expectedEmail, String expectedFullname) {
-    Address expectedAddress = new Address(expectedFullname, expectedEmail);
+    Address expectedAddress = Address.create(expectedFullname, expectedEmail);
     assertThat(sender.getMessages()).hasSize(1);
     Message m = sender.getMessages().get(0);
     assertThat(m.rcpt()).containsExactly(expectedAddress);
@@ -1291,7 +1291,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void assertNotifyCc(String expectedEmail, String expectedFullname) {
-    Address expectedAddress = new Address(expectedFullname, expectedEmail);
+    Address expectedAddress = Address.create(expectedFullname, expectedEmail);
     assertNotifyCc(expectedAddress);
   }
 
@@ -1315,7 +1315,7 @@ public abstract class AbstractDaemonTest {
   protected void assertNotifyBcc(String expectedEmail, String expectedFullName) {
     assertThat(sender.getMessages()).hasSize(1);
     Message m = sender.getMessages().get(0);
-    assertThat(m.rcpt()).containsExactly(new Address(expectedFullName, expectedEmail));
+    assertThat(m.rcpt()).containsExactly(Address.create(expectedFullName, expectedEmail));
     assertThat(m.headers().get("To").isEmpty()).isTrue();
     assertThat(m.headers().get("Cc").isEmpty()).isTrue();
   }

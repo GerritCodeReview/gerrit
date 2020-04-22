@@ -91,10 +91,10 @@ public class HtmlMimeMessage extends RawMailMessage {
     expect
         .id("<001a114cd8be55b4ab053face5cd@google.com>")
         .from(
-            new Address(
+            Address.create(
                 "ekempin (Gerrit)", "noreply-gerritcodereview-qUgXfQecoDLHwp0MldAzig@google.com"))
-        .addCc(new Address("ekempin", "ekempin@google.com"))
-        .addTo(new Address("Patrick Hiesel", "hiesel@google.com"))
+        .addCc(Address.create("ekempin", "ekempin@google.com"))
+        .addTo(Address.create("Patrick Hiesel", "hiesel@google.com"))
         .textContent(textContent)
         .htmlContent(unencodedHtmlContent)
         .subject("Change in gerrit[master]: Implement receiver class structure and bindings")

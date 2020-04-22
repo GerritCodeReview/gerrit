@@ -183,7 +183,7 @@ public abstract class EmailHeader {
     }
 
     public void remove(java.lang.String email) {
-      list.removeIf(address -> address.getEmail().equals(email));
+      list.removeIf(address -> address.email().equals(email));
     }
 
     @Override

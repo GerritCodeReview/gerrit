@@ -388,7 +388,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.putReviewerByEmail(
-        new Address("John Doe", "j.doe@gerritcodereview.com"), ReviewerStateInternal.REVIEWER);
+        Address.create("John Doe", "j.doe@gerritcodereview.com"), ReviewerStateInternal.REVIEWER);
     update.commit();
 
     assertBodyEquals(
@@ -401,7 +401,8 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   public void ccByEmail() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.putReviewerByEmail(new Address("j.doe@gerritcodereview.com"), ReviewerStateInternal.CC);
+    update.putReviewerByEmail(
+        Address.create("j.doe@gerritcodereview.com"), ReviewerStateInternal.CC);
     update.commit();
 
     assertBodyEquals(

@@ -786,7 +786,7 @@ public class ChangeJson {
 
   private Collection<AccountInfo> toAccountInfoByEmail(Collection<Address> addresses) {
     return addresses.stream()
-        .map(a -> new AccountInfo(a.getName(), a.getEmail()))
+        .map(a -> new AccountInfo(a.name(), a.email()))
         .sorted(AccountInfoComparator.ORDER_NULLS_FIRST)
         .collect(toList());
   }

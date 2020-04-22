@@ -71,16 +71,16 @@ public class RawMailParser {
     // Add From, To and Cc
     if (mimeMessage.getFrom() != null && !mimeMessage.getFrom().isEmpty()) {
       Mailbox from = mimeMessage.getFrom().get(0);
-      messageBuilder.from(new Address(from.getName(), from.getAddress()));
+      messageBuilder.from(Address.create(from.getName(), from.getAddress()));
     }
     if (mimeMessage.getTo() != null) {
       for (Mailbox m : mimeMessage.getTo().flatten()) {
-        messageBuilder.addTo(new Address(m.getName(), m.getAddress()));
+        messageBuilder.addTo(Address.create(m.getName(), m.getAddress()));
       }
     }
     if (mimeMessage.getCc() != null) {
       for (Mailbox m : mimeMessage.getCc().flatten()) {
-        messageBuilder.addCc(new Address(m.getName(), m.getAddress()));
+        messageBuilder.addCc(Address.create(m.getName(), m.getAddress()));
       }
     }
 

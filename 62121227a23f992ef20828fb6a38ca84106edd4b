@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dcd2141_5a0f3400",
+        "filename": "resources/log4j.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-04-22T22:05:32Z",
+      "side": 1,
+      "message": "why are all these loggers configured to DEBUG ?",
+      "revId": "62121227a23f992ef20828fb6a38ca84106edd4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

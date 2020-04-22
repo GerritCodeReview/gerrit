@@ -22,6 +22,30 @@
       "revId": "96933d9aaa3aadcbd26ca65d295263051fdc282c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec14a89d_c997e4de",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls_html.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-04-22T19:46:47Z",
+      "side": 0,
+      "message": "I just used a plugin as an example when i implemented this and it had that. Which is not needed and could have used hidden.",
+      "parentUuid": "c02ea1d1_bf511495",
+      "range": {
+        "startLine": 90,
+        "startChar": 23,
+        "endLine": 90,
+        "endChar": 35
+      },
+      "revId": "96933d9aaa3aadcbd26ca65d295263051fdc282c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

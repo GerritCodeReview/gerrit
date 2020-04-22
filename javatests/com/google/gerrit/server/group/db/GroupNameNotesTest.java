@@ -42,7 +42,7 @@ import com.google.gerrit.truth.ListSubject;
 import com.google.gerrit.truth.OptionalSubject;
 import com.google.gwtorm.client.KeyUtil;
 import com.google.gwtorm.server.OrmDuplicateKeyException;
-import com.google.gwtorm.server.StandardKeyEncoder;
+import com.google.gwtorm.client.StandardKeyEncoder;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;

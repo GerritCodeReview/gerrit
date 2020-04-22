@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "02c1364c_f3e2695f",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-22T21:11:52Z",
+      "side": 1,
+      "message": "Not necessarily. The goal or scope of this scenario is really to create a change, successfully.\n\nFor this scenario to be atomic, it needs to first create a project. Once the scenario is done creating its change, it has to clean-up after itself, to leave the test environment as it was prior. If executed again, the scenario repeats these same setup/test/teardown steps. Without such setup and teardown steps, scenarios would not be repeatable and isolated from each other. In a functional e2e context, scenario suites would 1. fail upon themselves and 2. corrupt the test environment.\n\nThis scenario, like some of its siblings, happens to reuse such delegate scenarios, as steps. But each reused scenario (or any for that matter) can be executed stand-alone from sbt command line.",
+      "parentUuid": "bd9916ae_4c8cb081",
+      "range": {
+        "startLine": 24,
+        "startChar": 6,
+        "endLine": 24,
+        "endChar": 18
+      },
+      "revId": "ee92a85d5c54f56c50678de580a941f395fd67ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ad5b4686_730fec83",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-04-21T09:34:11Z",
       "side": 1,
       "message": "nit: I believe we could deserialise this instead of using a regexp. Anyway we can leave it for a follow up change if that\u0027s the case.",
+      "range": {
+        "startLine": 33,
+        "startChar": 17,
+        "endLine": 33,
+        "endChar": 55
+      },
+      "revId": "ee92a85d5c54f56c50678de580a941f395fd67ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c0c4990_78a9c516",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-22T21:11:52Z",
+      "side": 1,
+      "message": "I tried, without success. Gatling\u0027s way of parsing json broke for me, on the prefix that Gerrit adds to every json payload. That prefix is there for cross-site security purposes.",
+      "parentUuid": "ad5b4686_730fec83",
       "range": {
         "startLine": 33,
         "startChar": 17,
@@ -68,6 +116,30 @@
       "revId": "ee92a85d5c54f56c50678de580a941f395fd67ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dfda440_2fb18dcd",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-22T21:11:52Z",
+      "side": 1,
+      "message": "I tried adding a default case, but this crashes every run. That is because the code should not aim at finding these valid keys across the whole of the json files content. Rather, and this is what the code does now, do the valid replacements as above and leave whatever other json there is untouched.",
+      "parentUuid": "21be2a82_79103c19",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 3
+      },
+      "revId": "ee92a85d5c54f56c50678de580a941f395fd67ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

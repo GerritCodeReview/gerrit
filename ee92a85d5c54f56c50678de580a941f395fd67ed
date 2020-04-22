@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "30aacc18_20196ffa",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-22T21:27:17Z",
+      "side": 1,
+      "message": "(Forgot to mark as Resolved.)",
+      "parentUuid": "02c1364c_f3e2695f",
+      "range": {
+        "startLine": 24,
+        "startChar": 6,
+        "endLine": 24,
+        "endChar": 18
+      },
+      "revId": "ee92a85d5c54f56c50678de580a941f395fd67ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad5b4686_730fec83",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
         "patchSetId": 1
@@ -93,6 +117,30 @@
       "revId": "ee92a85d5c54f56c50678de580a941f395fd67ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dac8c23_036f6269",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-22T21:27:17Z",
+      "side": 1,
+      "message": "(Same; resolved.)",
+      "parentUuid": "5c0c4990_78a9c516",
+      "range": {
+        "startLine": 33,
+        "startChar": 17,
+        "endLine": 33,
+        "endChar": 55
+      },
+      "revId": "ee92a85d5c54f56c50678de580a941f395fd67ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

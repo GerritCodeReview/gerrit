@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b107f664_b599b5f5",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-22T00:10:55Z",
+      "side": 1,
+      "message": "nit: `...${messageID}...`",
+      "range": {
+        "startLine": 104,
+        "startChar": 21,
+        "endLine": 104,
+        "endChar": 61
+      },
+      "revId": "89f5e6a94e2ac33a5e20f8f467e107802d788fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e5df0bb_6750e55f",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-22T00:10:55Z",
+      "side": 1,
+      "message": "messageID can be in an URL and can point to a non-existing\\deleted message.\nIt seems, that in this case calls to scrollToMessage never end.\nProbably original approach with flush() is better, because setTimout doesn\u0027t guarantee that everything is udpated.",
+      "range": {
+        "startLine": 110,
+        "startChar": 6,
+        "endLine": 110,
+        "endChar": 56
+      },
+      "revId": "89f5e6a94e2ac33a5e20f8f467e107802d788fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35312b70_e3afae05",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-22T00:10:55Z",
+      "side": 1,
+      "message": "nit: From the name I expect that method receives arrays of messages, filter it and returns filtered array.\nMay be rename to something like _isMessageVisible(message) ?",
+      "range": {
+        "startLine": 141,
+        "startChar": 2,
+        "endLine": 141,
+        "endChar": 17
+      },
+      "revId": "89f5e6a94e2ac33a5e20f8f467e107802d788fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4b39d0f_7e5abb2b",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-22T00:10:55Z",
+      "side": 1,
+      "message": "nit: for me it took some time to understand what is the logic here.\nmay be simplify it:\nif(this._hideAutomated \u0026\u0026 this._isAutomatedMessage(message)) {\n     return false;\n}\nreturn true;",
+      "range": {
+        "startLine": 142,
+        "startChar": 4,
+        "endLine": 145,
+        "endChar": 16
+      },
+      "revId": "89f5e6a94e2ac33a5e20f8f467e107802d788fbe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

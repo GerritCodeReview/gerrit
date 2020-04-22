@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b4a3c510_4fd69468",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-22T12:08:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eab357bc_a9092ea2",
+      "revId": "70c6a877badfdd6735ab1fe58edf196ee5af7082",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f6997fe_6ad39c00",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 6
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "55dc2610_deb5f564",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-22T12:08:04Z",
+      "side": 1,
+      "message": "This is not an event, that is why I renamed it. :-)\n\nI think we are not decided yet where to put domain logic about change messages. If we are, then I am happy to move it. Sent a chat message about it.",
+      "parentUuid": "3f6997fe_6ad39c00",
+      "range": {
+        "startLine": 291,
+        "startChar": 29,
+        "endLine": 291,
+        "endChar": 44
+      },
+      "revId": "70c6a877badfdd6735ab1fe58edf196ee5af7082",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8c5a2d97_e3909946",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
         "patchSetId": 6
@@ -56,6 +98,24 @@
       "revId": "70c6a877badfdd6735ab1fe58edf196ee5af7082",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d58a159_dcdff7a2",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-22T12:08:04Z",
+      "side": 1,
+      "message": "line 207",
+      "parentUuid": "8c5a2d97_e3909946",
+      "revId": "70c6a877badfdd6735ab1fe58edf196ee5af7082",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "fa7f0c1f_81482f1b",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-22T12:08:04Z",
+      "side": 1,
+      "message": "this.async is \"legacy\" API and the only feature it adds is that it is using a microtask for delay\u003d\u003d0, which is not what we want here.",
+      "parentUuid": "5a853660_27e74403",
+      "range": {
+        "startLine": 113,
+        "startChar": 6,
+        "endLine": 113,
+        "endChar": 16
+      },
+      "revId": "70c6a877badfdd6735ab1fe58edf196ee5af7082",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9238c2d0_e3751a65",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
         "patchSetId": 6
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "1939b4b8_4138687f",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-22T12:08:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9238c2d0_e3751a65",
+      "revId": "70c6a877badfdd6735ab1fe58edf196ee5af7082",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d72b94c_5a79d1e3",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental_html.js",
         "patchSetId": 6
@@ -110,6 +212,24 @@
       "writtenOn": "2020-04-22T11:36:19Z",
       "side": 1,
       "message": "nit: Personally I tend to format the super-long html templates into multiple lines that I touched to make it more readable for others. Maybe we should find a way to automate that",
+      "revId": "70c6a877badfdd6735ab1fe58edf196ee5af7082",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "320a5942_7ecf3e31",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental_html.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-22T12:08:04Z",
+      "side": 1,
+      "message": "Yeah, I agree. I think the html-import migration messed this up in a couple of places. Done.",
+      "parentUuid": "7d72b94c_5a79d1e3",
       "revId": "70c6a877badfdd6735ab1fe58edf196ee5af7082",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

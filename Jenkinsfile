@@ -101,7 +101,7 @@ def collectBuildModes() {
             println "PolyGerrit UI changes detected, adding 'polygerrit' validation..."
             Builds.modes += "polygerrit"
         }
-    } else if(changedFiles.contains("WORKSPACE")) {
+    } else if(!bazelFiles.isEmpty()) {
         println "WORKSPACE file changes detected, adding 'polygerrit' validation..."
         Builds.modes += "polygerrit"
     }

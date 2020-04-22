@@ -38,11 +38,11 @@ public class MailHeaderParserTest {
     b.addAdditionalHeader(
         MailHeader.COMMENT_DATE.fieldWithDelimiter() + "Tue, 25 Oct 2016 02:11:35 -0700");
 
-    Address author = new Address("Diffy", "test@gerritcodereview.com");
+    Address author = Address.create("Diffy", "test@gerritcodereview.com");
     b.from(author);
 
     MailMetadata meta = MailHeaderParser.parse(b.build());
-    assertThat(meta.author).isEqualTo(author.getEmail());
+    assertThat(meta.author).isEqualTo(author.email());
     assertThat(meta.changeNumber).isEqualTo(123);
     assertThat(meta.patchSet).isEqualTo(1);
     assertThat(meta.messageType).isEqualTo("comment");
@@ -71,11 +71,11 @@ public class MailHeaderParserTest {
         .append("Tue, 25 Oct 2016 02:11:35 -0700\r\n");
     b.textContent(stringBuilder.toString());
 
-    Address author = new Address("Diffy", "test@gerritcodereview.com");
+    Address author = Address.create("Diffy", "test@gerritcodereview.com");
     b.from(author);
 
     MailMetadata meta = MailHeaderParser.parse(b.build());
-    assertThat(meta.author).isEqualTo(author.getEmail());
+    assertThat(meta.author).isEqualTo(author.email());
     assertThat(meta.changeNumber).isEqualTo(123);
     assertThat(meta.patchSet).isEqualTo(1);
     assertThat(meta.messageType).isEqualTo("comment");
@@ -112,11 +112,11 @@ public class MailHeaderParserTest {
         .append("</div>");
     b.htmlContent(stringBuilder.toString());
 
-    Address author = new Address("Diffy", "test@gerritcodereview.com");
+    Address author = Address.create("Diffy", "test@gerritcodereview.com");
     b.from(author);
 
     MailMetadata meta = MailHeaderParser.parse(b.build());
-    assertThat(meta.author).isEqualTo(author.getEmail());
+    assertThat(meta.author).isEqualTo(author.email());
     assertThat(meta.changeNumber).isEqualTo(123);
     assertThat(meta.patchSet).isEqualTo(1);
     assertThat(meta.messageType).isEqualTo("comment");

@@ -830,7 +830,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
   }
 
   private void assertThatUserIsOnlyReviewer(String changeId) throws Exception {
-    AccountInfo userInfo = new AccountInfo(user.fullName(), user.getNameEmail().getEmail());
+    AccountInfo userInfo = new AccountInfo(user.fullName(), user.getNameEmail().email());
     userInfo._accountId = user.id().get();
     userInfo.username = user.username();
     assertThat(gApi.changes().id(changeId).get().reviewers)

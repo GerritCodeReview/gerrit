@@ -85,8 +85,8 @@ public class FromAddressGeneratorProviderTest {
 
     final Address r = create().from(user);
     assertThat(r).isNotNull();
-    assertThat(r.getName()).isEqualTo(name);
-    assertThat(r.getEmail()).isEqualTo(email);
+    assertThat(r.name()).isEqualTo(name);
+    assertThat(r.email()).isEqualTo(email);
     verifyAccountCacheGet(user);
   }
 
@@ -99,8 +99,8 @@ public class FromAddressGeneratorProviderTest {
 
     final Address r = create().from(user);
     assertThat(r).isNotNull();
-    assertThat(r.getName()).isNull();
-    assertThat(r.getEmail()).isEqualTo(email);
+    assertThat(r.name()).isNull();
+    assertThat(r.email()).isEqualTo(email);
     verifyAccountCacheGet(user);
   }
 
@@ -113,8 +113,8 @@ public class FromAddressGeneratorProviderTest {
 
     final Address r = create().from(user);
     assertThat(r).isNotNull();
-    assertThat(r.getName()).isEqualTo(name + " (Code Review)");
-    assertThat(r.getEmail()).isEqualTo(ident.getEmailAddress());
+    assertThat(r.name()).isEqualTo(name + " (Code Review)");
+    assertThat(r.email()).isEqualTo(ident.getEmailAddress());
     verifyAccountCacheGet(user);
   }
 
@@ -123,8 +123,8 @@ public class FromAddressGeneratorProviderTest {
     setFrom("USER");
     final Address r = create().from(null);
     assertThat(r).isNotNull();
-    assertThat(r.getName()).isEqualTo(ident.getName());
-    assertThat(r.getEmail()).isEqualTo(ident.getEmailAddress());
+    assertThat(r.name()).isEqualTo(ident.getName());
+    assertThat(r.email()).isEqualTo(ident.getEmailAddress());
     verifyZeroInteractions(accountCache);
   }
 
@@ -138,8 +138,8 @@ public class FromAddressGeneratorProviderTest {
 
     final Address r = create().from(user);
     assertThat(r).isNotNull();
-    assertThat(r.getName()).isEqualTo(name);
-    assertThat(r.getEmail()).isEqualTo(email);
+    assertThat(r.name()).isEqualTo(name);
+    assertThat(r.email()).isEqualTo(email);
     verifyAccountCacheGet(user);
   }
 
@@ -153,8 +153,8 @@ public class FromAddressGeneratorProviderTest {
 
     final Address r = create().from(user);
     assertThat(r).isNotNull();
-    assertThat(r.getName()).isEqualTo(name + " (Code Review)");
-    assertThat(r.getEmail()).isEqualTo(ident.getEmailAddress());
+    assertThat(r.name()).isEqualTo(name + " (Code Review)");
+    assertThat(r.email()).isEqualTo(ident.getEmailAddress());
     verifyAccountCacheGet(user);
   }
 
@@ -169,8 +169,8 @@ public class FromAddressGeneratorProviderTest {
 
     final Address r = create().from(user);
     assertThat(r).isNotNull();
-    assertThat(r.getName()).isEqualTo(name);
-    assertThat(r.getEmail()).isEqualTo(email);
+    assertThat(r.name()).isEqualTo(name);
+    assertThat(r.email()).isEqualTo(email);
     verifyAccountCacheGet(user);
   }
 
@@ -185,8 +185,8 @@ public class FromAddressGeneratorProviderTest {
 
     final Address r = create().from(user);
     assertThat(r).isNotNull();
-    assertThat(r.getName()).isEqualTo(name + " (Code Review)");
-    assertThat(r.getEmail()).isEqualTo(ident.getEmailAddress());
+    assertThat(r.name()).isEqualTo(name + " (Code Review)");
+    assertThat(r.email()).isEqualTo(ident.getEmailAddress());
     verifyAccountCacheGet(user);
   }
 
@@ -200,8 +200,8 @@ public class FromAddressGeneratorProviderTest {
 
     final Address r = create().from(user);
     assertThat(r).isNotNull();
-    assertThat(r.getName()).isEqualTo(name);
-    assertThat(r.getEmail()).isEqualTo(email);
+    assertThat(r.name()).isEqualTo(name);
+    assertThat(r.email()).isEqualTo(email);
     verifyAccountCacheGet(user);
   }
 
@@ -227,8 +227,8 @@ public class FromAddressGeneratorProviderTest {
 
     final Address r = create().from(user);
     assertThat(r).isNotNull();
-    assertThat(r.getName()).isEqualTo(ident.getName());
-    assertThat(r.getEmail()).isEqualTo(ident.getEmailAddress());
+    assertThat(r.name()).isEqualTo(ident.getName());
+    assertThat(r.email()).isEqualTo(ident.getEmailAddress());
     verifyZeroInteractions(accountCache);
   }
 
@@ -237,8 +237,8 @@ public class FromAddressGeneratorProviderTest {
     setFrom("SERVER");
     final Address r = create().from(null);
     assertThat(r).isNotNull();
-    assertThat(r.getName()).isEqualTo(ident.getName());
-    assertThat(r.getEmail()).isEqualTo(ident.getEmailAddress());
+    assertThat(r.name()).isEqualTo(ident.getName());
+    assertThat(r.email()).isEqualTo(ident.getEmailAddress());
     verifyZeroInteractions(accountCache);
   }
 
@@ -264,8 +264,8 @@ public class FromAddressGeneratorProviderTest {
 
     final Address r = create().from(user);
     assertThat(r).isNotNull();
-    assertThat(r.getName()).isEqualTo(name + " (Code Review)");
-    assertThat(r.getEmail()).isEqualTo(ident.getEmailAddress());
+    assertThat(r.name()).isEqualTo(name + " (Code Review)");
+    assertThat(r.email()).isEqualTo(ident.getEmailAddress());
     verifyAccountCacheGet(user);
   }
 
@@ -278,8 +278,8 @@ public class FromAddressGeneratorProviderTest {
 
     final Address r = create().from(user);
     assertThat(r).isNotNull();
-    assertThat(r.getName()).isEqualTo("Anonymous Coward (Code Review)");
-    assertThat(r.getEmail()).isEqualTo(ident.getEmailAddress());
+    assertThat(r.name()).isEqualTo("Anonymous Coward (Code Review)");
+    assertThat(r.email()).isEqualTo(ident.getEmailAddress());
     verifyAccountCacheGet(user);
   }
 
@@ -292,8 +292,8 @@ public class FromAddressGeneratorProviderTest {
 
     final Address r = create().from(user);
     assertThat(r).isNotNull();
-    assertThat(r.getName()).isEqualTo(name + " (Code Review)");
-    assertThat(r.getEmail()).isEqualTo(ident.getEmailAddress());
+    assertThat(r.name()).isEqualTo(name + " (Code Review)");
+    assertThat(r.email()).isEqualTo(ident.getEmailAddress());
     verifyAccountCacheGet(user);
   }
 
@@ -302,8 +302,8 @@ public class FromAddressGeneratorProviderTest {
     setFrom("MIXED");
     final Address r = create().from(null);
     assertThat(r).isNotNull();
-    assertThat(r.getName()).isEqualTo(ident.getName());
-    assertThat(r.getEmail()).isEqualTo(ident.getEmailAddress());
+    assertThat(r.name()).isEqualTo(ident.getName());
+    assertThat(r.email()).isEqualTo(ident.getEmailAddress());
     verifyZeroInteractions(accountCache);
   }
 
@@ -317,8 +317,8 @@ public class FromAddressGeneratorProviderTest {
 
     final Address r = create().from(user);
     assertThat(r).isNotNull();
-    assertThat(r.getName()).isEqualTo("A " + name + " B");
-    assertThat(r.getEmail()).isEqualTo("my.server@email.address");
+    assertThat(r.name()).isEqualTo("A " + name + " B");
+    assertThat(r.email()).isEqualTo("my.server@email.address");
     verifyAccountCacheGet(user);
   }
 
@@ -331,8 +331,8 @@ public class FromAddressGeneratorProviderTest {
 
     final Address r = create().from(user);
     assertThat(r).isNotNull();
-    assertThat(r.getName()).isEqualTo("A Anonymous Coward B");
-    assertThat(r.getEmail()).isEqualTo("my.server@email.address");
+    assertThat(r.name()).isEqualTo("A Anonymous Coward B");
+    assertThat(r.email()).isEqualTo("my.server@email.address");
   }
 
   @Test
@@ -341,8 +341,8 @@ public class FromAddressGeneratorProviderTest {
 
     final Address r = create().from(null);
     assertThat(r).isNotNull();
-    assertThat(r.getName()).isEqualTo(ident.getName());
-    assertThat(r.getEmail()).isEqualTo("my.server@email.address");
+    assertThat(r.name()).isEqualTo(ident.getName());
+    assertThat(r.email()).isEqualTo("my.server@email.address");
   }
 
   private Account.Id user(String name, String email) {

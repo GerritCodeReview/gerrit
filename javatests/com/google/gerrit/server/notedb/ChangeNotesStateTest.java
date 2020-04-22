@@ -431,11 +431,11 @@ public class ChangeNotesStateTest {
                     ImmutableTable.<ReviewerStateInternal, Address, Timestamp>builder()
                         .put(
                             ReviewerStateInternal.CC,
-                            new Address("Name1", "email1@example.com"),
+                            Address.create("Name1", "email1@example.com"),
                             new Timestamp(1212L))
                         .put(
                             ReviewerStateInternal.REVIEWER,
-                            new Address("Name2", "email2@example.com"),
+                            Address.create("Name2", "email2@example.com"),
                             new Timestamp(3434L))
                         .build()))
             .build(),
@@ -465,7 +465,7 @@ public class ChangeNotesStateTest {
                     ReviewerByEmailSet.fromTable(
                         ImmutableTable.of(
                             ReviewerStateInternal.CC,
-                            new Address("emailonly@example.com"),
+                            Address.create("emailonly@example.com"),
                             new Timestamp(1212L))))
                 .build(),
             ChangeNotesStateProto.newBuilder()
@@ -484,8 +484,8 @@ public class ChangeNotesStateTest {
     ImmutableSet<Address> ccs = actual.reviewersByEmail().byState(ReviewerStateInternal.CC);
     assertThat(ccs).hasSize(1);
     Address address = Iterables.getOnlyElement(ccs);
-    assertThat(address.getName()).isNull();
-    assertThat(address.getEmail()).isEqualTo("emailonly@example.com");
+    assertThat(address.name()).isNull();
+    assertThat(address.email()).isEqualTo("emailonly@example.com");
   }
 
   @Test
@@ -525,11 +525,11 @@ public class ChangeNotesStateTest {
                     ImmutableTable.<ReviewerStateInternal, Address, Timestamp>builder()
                         .put(
                             ReviewerStateInternal.CC,
-                            new Address("Name1", "email1@example.com"),
+                            Address.create("Name1", "email1@example.com"),
                             new Timestamp(1212L))
                         .put(
                             ReviewerStateInternal.REVIEWER,
-                            new Address("Name2", "email2@example.com"),
+                            Address.create("Name2", "email2@example.com"),
                             new Timestamp(3434L))
                         .build()))
             .build(),

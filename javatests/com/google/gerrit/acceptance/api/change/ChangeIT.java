@@ -1517,7 +1517,7 @@ public class ChangeIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.from().getName()).isEqualTo("Administrator (Code Review)");
+    assertThat(m.from().name()).isEqualTo("Administrator (Code Review)");
     assertThat(m.rcpt()).containsExactly(user.getNameEmail());
     assertThat(m.body()).contains("I'd like you to do a code review");
     assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
@@ -1899,7 +1899,7 @@ public class ChangeIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(new Address(fullname, email));
+    assertThat(m.rcpt()).containsExactly(Address.create(fullname, email));
     assertThat(m.body()).contains("Hello " + fullname + ",\n");
     assertThat(m.body()).contains("I'd like you to do a code review.");
     assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
@@ -1960,7 +1960,7 @@ public class ChangeIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
-    assertThat(m.rcpt()).containsExactly(new Address(myGroupUserFullname, myGroupUserEmail));
+    assertThat(m.rcpt()).containsExactly(Address.create(myGroupUserFullname, myGroupUserEmail));
     assertThat(m.body()).contains("Hello " + myGroupUserFullname + ",\n");
     assertThat(m.body()).contains("I'd like you to do a code review.");
     assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
@@ -4461,7 +4461,7 @@ public class ChangeIT extends AbstractDaemonTest {
     amendChange(r.getChangeId());
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
-    Address address = new Address(fullname, email);
+    Address address = Address.create(fullname, email);
     assertThat(messages.get(0).rcpt()).containsExactly(address);
 
     // Review notification is not sent to users ignoring the change

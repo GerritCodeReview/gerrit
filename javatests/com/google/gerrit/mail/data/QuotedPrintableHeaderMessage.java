@@ -54,10 +54,10 @@ public class QuotedPrintableHeaderMessage extends RawMailMessage {
     expect
         .id("<001a114da7ae26e2eb053fe0c29c@google.com>")
         .from(
-            new Address(
+            Address.create(
                 "Jonathan Nieder (Gerrit)",
                 "noreply-gerritcodereview-CtTy0igsBrnvL7dKoWEIEg@google.com"))
-        .addTo(new Address("ekempin", "ekempin@google.com"))
+        .addTo(Address.create("ekempin", "ekempin@google.com"))
         .textContent(textContent)
         .subject("âme vulgaire")
         .dateReceived(

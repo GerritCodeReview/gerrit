@@ -514,7 +514,7 @@ public class SubmitOnPushIT extends AbstractDaemonTest {
       TestAccount expected, @Nullable RecipientType expectedRecipientType) {
     String expectedEmail = expected.email();
     String expectedFullName = expected.fullName();
-    Address expectedAddress = new Address(expectedFullName, expectedEmail);
+    Address expectedAddress = Address.create(expectedFullName, expectedEmail);
     assertThat(sender.getMessages()).hasSize(2);
     Message message = sender.getMessages().get(0);
     assertThat(message.body().contains("review")).isTrue();

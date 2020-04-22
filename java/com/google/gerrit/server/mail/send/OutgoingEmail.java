@@ -162,7 +162,7 @@ public abstract class OutgoingEmail {
                 "Removing account %s from HTML email because user prefers plain text emails", id);
             removeUser(thisUserAccount);
             smtpRcptToPlaintextOnly.add(
-                new Address(thisUserAccount.fullName(), thisUserAccount.preferredEmail()));
+                Address.create(thisUserAccount.fullName(), thisUserAccount.preferredEmail()));
           }
         }
         if (smtpRcptTo.isEmpty() && smtpRcptToPlaintextOnly.isEmpty()) {
@@ -179,11 +179,11 @@ public abstract class OutgoingEmail {
         if (fromId != null) {
           Address address = toAddress(fromId);
           if (address != null) {
-            j.add(address.getEmail());
+            j.add(address.email());
           }
         }
-        smtpRcptTo.stream().forEach(a -> j.add(a.getEmail()));
-        smtpRcptToPlaintextOnly.stream().forEach(a -> j.add(a.getEmail()));
+        smtpRcptTo.stream().forEach(a -> j.add(a.email()));
+        smtpRcptToPlaintextOnly.stream().forEach(a -> j.add(a.email()));
         setHeader(FieldName.REPLY_TO, j.toString());
       }
 
@@ -518,16 +518,16 @@ public abstract class OutgoingEmail {
   }
 
   protected void add(RecipientType rt, Address addr, boolean override) {
-    if (addr != null && addr.getEmail() != null && addr.getEmail().length() > 0) {
-      if (!args.validator.isValid(addr.getEmail())) {
-        logger.atWarning().log("Not emailing %s (invalid email address)", addr.getEmail());
-      } else if (args.emailSender.canEmail(addr.getEmail())) {
+    if (addr != null && addr.email() != null && addr.email().length() > 0) {
+      if (!args.validator.isValid(addr.email())) {
+        logger.atWarning().log("Not emailing %s (invalid email address)", addr.email());
+      } else if (args.emailSender.canEmail(addr.email())) {
         if (!smtpRcptTo.add(addr)) {
           if (!override) {
             return;
           }
-          ((EmailHeader.AddressList) headers.get(FieldName.TO)).remove(addr.getEmail());
-          ((EmailHeader.AddressList) headers.get(FieldName.CC)).remove(addr.getEmail());
+          ((EmailHeader.AddressList) headers.get(FieldName.TO)).remove(addr.email());
+          ((EmailHeader.AddressList) headers.get(FieldName.CC)).remove(addr.email());
         }
         switch (rt) {
           case TO:
@@ -554,7 +554,7 @@ public abstract class OutgoingEmail {
     if (!account.isActive() || e == null) {
       return null;
     }
-    return new Address(account.fullName(), e);
+    return Address.create(account.fullName(), e);
   }
 
   protected void setupSoyContext() {
@@ -597,7 +597,7 @@ public abstract class OutgoingEmail {
   protected void removeUser(Account user) {
     String fromEmail = user.preferredEmail();
     for (Iterator<Address> j = smtpRcptTo.iterator(); j.hasNext(); ) {
-      if (j.next().getEmail().equals(fromEmail)) {
+      if (j.next().email().equals(fromEmail)) {
         j.remove();
       }
     }

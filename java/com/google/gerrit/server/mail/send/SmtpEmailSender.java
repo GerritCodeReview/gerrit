@@ -206,9 +206,8 @@ public class SmtpEmailSender implements EmailSender {
     try {
       final SMTPClient client = open();
       try {
-        if (!client.setSender(from.getEmail())) {
-          throw new EmailException(
-              "Server " + smtpHost + " rejected from address " + from.getEmail());
+        if (!client.setSender(from.email())) {
+          throw new EmailException("Server " + smtpHost + " rejected from address " + from.email());
         }
 
         /* Do not prevent the email from being sent to "good" users simply
@@ -219,7 +218,7 @@ public class SmtpEmailSender implements EmailSender {
          * error(s) logged.
          */
         for (Address addr : rcpt) {
-          if (!client.addRecipient(addr.getEmail())) {
+          if (!client.addRecipient(addr.email())) {
             String error = client.getReplyString();
             rejected
                 .append("Server ")

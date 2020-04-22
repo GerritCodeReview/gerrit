@@ -185,7 +185,7 @@ public class ProjectWatch {
       }
       if (!Strings.isNullOrEmpty(group.getEmailAddress())) {
         // If the group has an email address, do not expand membership.
-        matching.emails.add(new Address(group.getEmailAddress()));
+        matching.emails.add(Address.create(group.getEmailAddress()));
         logger.atFine().log(
             "notify group email address %s; skip expanding to members", group.getEmailAddress());
         continue;

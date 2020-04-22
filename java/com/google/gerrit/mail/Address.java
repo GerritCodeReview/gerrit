@@ -14,10 +14,12 @@
 
 package com.google.gerrit.mail;
 
+import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
 
 /** Represents an address (name + email) in an email message. */
-public class Address {
+@AutoValue
+public abstract class Address {
   public static Address parse(String in) {
     final int lt = in.indexOf('<');
     final int gt = in.indexOf('>');
@@ -33,11 +35,11 @@ public class Address {
       if (name.endsWith("\"")) {
         nameEnd--;
       }
-      return new Address(name.length() > 0 ? name.substring(nameStart, nameEnd) : null, email);
+      return Address.create(name.length() > 0 ? name.substring(nameStart, nameEnd) : null, email);
     }
 
     if (lt < 0 && gt < 0 && 0 < at && at < in.length() - 1) {
-      return new Address(in);
+      return Address.create(in);
     }
 
     throw new IllegalArgumentException("Invalid email address: " + in);
@@ -51,60 +53,52 @@ public class Address {
     }
   }
 
-  @Nullable private final String name;
-  private final String email;
-
-  public Address(String email) {
-    this(null, email);
+  public static Address create(String email) {
+    return create(null, email);
   }
 
-  public Address(String name, String email) {
-    this.name = name;
-    this.email = email;
+  public static Address create(String name, String email) {
+    return new AutoValue_Address(name, email);
   }
 
   @Nullable
-  public String getName() {
-    return name;
-  }
+  public abstract String name();
 
-  public String getEmail() {
-    return email;
+  public abstract String email();
+
+  @Override
+  public final int hashCode() {
+    return email().hashCode();
   }
 
   @Override
-  public int hashCode() {
-    return email.hashCode();
-  }
-
-  @Override
-  public boolean equals(Object other) {
+  public final boolean equals(Object other) {
     if (other instanceof Address) {
-      return email.equals(((Address) other).email);
+      return email().equals(((Address) other).email());
     }
     return false;
   }
 
   @Override
-  public String toString() {
+  public final String toString() {
     return toHeaderString();
   }
 
   public String toHeaderString() {
-    if (name != null) {
-      return quotedPhrase(name) + " <" + email + ">";
+    if (name() != null) {
+      return quotedPhrase(name()) + " <" + email() + ">";
     } else if (isSimple()) {
-      return email;
+      return email();
     }
-    return "<" + email + ">";
+    return "<" + email() + ">";
   }
 
   private static final String MUST_QUOTE_EMAIL = "()<>,;:\\\"[]";
   private static final String MUST_QUOTE_NAME = MUST_QUOTE_EMAIL + "@.";
 
   private boolean isSimple() {
-    for (int i = 0; i < email.length(); i++) {
-      final char c = email.charAt(i);
+    for (int i = 0; i < email().length(); i++) {
+      final char c = email().charAt(i);
       if (c <= ' ' || 0x7F <= c || MUST_QUOTE_EMAIL.indexOf(c) != -1) {
         return false;
       }

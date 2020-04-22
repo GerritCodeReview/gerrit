@@ -92,6 +92,6 @@ public abstract class TestAccount {
     //    emailAddress().
     //  * Address#equals only considers email, not name, whereas TestAccount#equals should include
     //    name.
-    return new Address(fullName(), email());
+    return Address.create(fullName(), email());
   }
 }

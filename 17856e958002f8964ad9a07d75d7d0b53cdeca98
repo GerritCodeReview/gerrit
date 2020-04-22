@@ -16,6 +16,24 @@
       "revId": "17856e958002f8964ad9a07d75d7d0b53cdeca98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b28703d_cdf2360e",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-22T10:41:35Z",
+      "side": 1,
+      "message": "That was what I was thinking first, as well. But the Youssef pointed out that the backend actually fills the change_message_id for every comment, also for older comments. So I think we are good. :-)",
+      "parentUuid": "21b03e56_686ad1f3",
+      "revId": "17856e958002f8964ad9a07d75d7d0b53cdeca98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

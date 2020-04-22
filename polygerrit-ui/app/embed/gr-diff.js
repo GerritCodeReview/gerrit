@@ -18,3 +18,9 @@
 window.Gerrit = window.Gerrit || {};
 import '../elements/diff/gr-diff/gr-diff.js';
 import '../elements/diff/gr-diff-cursor/gr-diff-cursor.js';
+import {GrDiffLine} from '../elements/diff/gr-diff/gr-diff-line.js';
+import {GrAnnotation} from '../elements/diff/gr-diff-highlight/gr-annotation.js';
+
+// Setup global variables for existing usages of this component
+window.GrDiffLine = GrDiffLine;
+window.GrAnnotation = GrAnnotation;

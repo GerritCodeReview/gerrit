@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "4e29a386_d1584fea",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1737,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-22T23:36:53Z",
+      "side": 1,
+      "message": "The reason it\u0027s done like this is that if we include it in the merge, CI will fail on the merge commit, because the functionality is broken in stable-2.16 (and fixed by this change).\n\nIf this were added as a completely separate test, we could just annotate it @Ignore in the merge commit and then remove the annotation here. I don\u0027t think it makes sense for this to be a separate test though.",
+      "parentUuid": "6bd1b224_4968a7c6",
+      "range": {
+        "startLine": 1726,
+        "startChar": 0,
+        "endLine": 1737,
+        "endChar": 0
+      },
+      "revId": "fcccd674003d49e080ffc36b4b045814d044bb31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0ae4d669_615877a2",
         "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 7

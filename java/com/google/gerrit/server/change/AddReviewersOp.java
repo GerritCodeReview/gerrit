@@ -247,7 +247,7 @@ public class AddReviewersOp implements BatchUpdateOp {
             .setAddedCCsByEmail(addedCCsByEmail)
             .build();
     if (sendEmail) {
-      addReviewersEmail.emailReviewers(
+      addReviewersEmail.emailReviewersAsync(
           ctx.getUser().asIdentifiedUser(),
           change,
           Lists.transform(addedReviewers, PatchSetApproval::accountId),

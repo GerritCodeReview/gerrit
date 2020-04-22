@@ -34,6 +34,24 @@
       "revId": "17856e958002f8964ad9a07d75d7d0b53cdeca98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f47905c_4c0aafc1",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-04-22T10:55:41Z",
+      "side": 1,
+      "message": "Yes, the fix applies to all comments returned by the API (not just the ones after the fix).\n\nI checked the comments in https://gerrit-review.googlesource.com/c/gerrit/+/238633 (change in 2019) and the change_message_id is there.",
+      "parentUuid": "8b28703d_cdf2360e",
+      "revId": "17856e958002f8964ad9a07d75d7d0b53cdeca98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

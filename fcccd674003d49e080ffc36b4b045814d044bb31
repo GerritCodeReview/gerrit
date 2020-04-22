@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d748b50_b9bd18d0",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeIsVisibleToPredicate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-22T17:30:01Z",
+      "side": 1,
+      "message": "If \u0027user\u0027 then fails to be granted access, should anonymousUser be tried (as before) -as last resort?",
+      "range": {
+        "startLine": 87,
+        "startChar": 37,
+        "endLine": 87,
+        "endChar": 41
+      },
+      "revId": "fcccd674003d49e080ffc36b4b045814d044bb31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bd1b224_4968a7c6",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1737,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-22T17:30:01Z",
+      "side": 1,
+      "message": "Should come from downstream /merged-up I7e172ef9a [1] instead.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/263709\n\nOriginal blank line missing between lines 1725 and 1726 above.",
+      "range": {
+        "startLine": 1726,
+        "startChar": 0,
+        "endLine": 1737,
+        "endChar": 0
+      },
+      "revId": "fcccd674003d49e080ffc36b4b045814d044bb31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ae4d669_615877a2",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1770,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-22T17:30:01Z",
+      "side": 1,
+      "message": "Same comment as above. (Likely known already.)",
+      "range": {
+        "startLine": 1770,
+        "startChar": 17,
+        "endLine": 1770,
+        "endChar": 22
+      },
+      "revId": "fcccd674003d49e080ffc36b4b045814d044bb31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

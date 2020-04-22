@@ -34,7 +34,7 @@ import com.google.gerrit.server.group.testing.InternalGroupSubject;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.truth.OptionalSubject;
 import com.google.gwtorm.client.KeyUtil;
-import com.google.gwtorm.server.StandardKeyEncoder;
+import com.google.gwtorm.client.StandardKeyEncoder;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDate;

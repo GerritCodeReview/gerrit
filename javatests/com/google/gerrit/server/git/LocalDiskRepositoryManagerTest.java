@@ -22,7 +22,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.ioutil.HostPlatform;
 import com.google.gerrit.testing.TempFileUtil;
 import com.google.gwtorm.client.KeyUtil;
-import com.google.gwtorm.server.StandardKeyEncoder;
+import com.google.gwtorm.client.StandardKeyEncoder;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;

@@ -39,7 +39,7 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-download-dialog.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+
 function getChangeObject() {
   return {
     current_revision: '34685798fe548b6d17d1e8e5edc43a26d055cc72',
@@ -146,7 +146,7 @@ suite('gr-download-dialog', () => {
 
   test('anchors use download attribute', () => {
     const anchors = Array.from(
-        dom(element.root).querySelectorAll('a'));
+        element.root.querySelectorAll('a'));
     assert.isTrue(!anchors.some(a => !a.hasAttribute('download')));
   });
 

@@ -47,7 +47,6 @@ import '../../diff/gr-comment-api/gr-comment-api.js';
 import {getMockDiffResponse} from '../../../test/mock-diff-response.js';
 import './gr-file-list.js';
 import '../../diff/gr-comment-api/gr-comment-api-mock_test.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {GrFileListConstants} from '../gr-file-list-constants.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
@@ -135,7 +134,7 @@ suite('gr-file-list tests', () => {
 
       flushAsynchronousOperations();
       assert.equal(
-          dom(element.root).querySelectorAll('.file-row').length,
+          element.root.querySelectorAll('.file-row').length,
           element.numFilesShown);
       const controlRow = element.shadowRoot
           .querySelector('.controlRow');
@@ -162,7 +161,7 @@ suite('gr-file-list tests', () => {
           }, {});
       flushAsynchronousOperations();
       assert.equal(
-          dom(element.root).querySelectorAll('.file-row').length, 10);
+          element.root.querySelectorAll('.file-row').length, 10);
       assert.equal(renderedStub.callCount, 10);
     });
 
@@ -620,7 +619,7 @@ suite('gr-file-list tests', () => {
       test('keyboard shortcuts', () => {
         flushAsynchronousOperations();
 
-        const items = dom(element.root).querySelectorAll('.file-row');
+        const items = element.root.querySelectorAll('.file-row');
         element.$.fileCursor.stops = items;
         element.$.fileCursor.setCursorAtIndex(0);
         assert.equal(items.length, 3);
@@ -676,7 +675,7 @@ suite('gr-file-list tests', () => {
         const paths = Object.keys(element._filesByPath);
         sandbox.stub(element, '_expandedFilesChanged');
         flushAsynchronousOperations();
-        const files = dom(element.root).querySelectorAll('.file-row');
+        const files = element.root.querySelectorAll('.file-row');
         element.$.fileCursor.stops = files;
         element.$.fileCursor.setCursorAtIndex(0);
         assert.equal(element.diffs.length, 0);
@@ -838,7 +837,7 @@ suite('gr-file-list tests', () => {
 
       flushAsynchronousOperations();
       const fileRows =
-          dom(element.root).querySelectorAll('.row:not(.header-row)');
+          element.root.querySelectorAll('.row:not(.header-row)');
       const checkSelector = 'input.reviewed[type="checkbox"]';
       const commitMsg = fileRows[0].querySelector(checkSelector);
       const fileAdded = fileRows[1].querySelector(checkSelector);
@@ -888,7 +887,7 @@ suite('gr-file-list tests', () => {
       const reviewStub = sandbox.stub(element, '_reviewFile');
       const toggleExpandSpy = sandbox.spy(element, '_toggleFileExpanded');
 
-      const row = dom(element.root)
+      const row = element.root
           .querySelector(`.row[data-file='{"path":"f1.txt"}']`);
 
       // Click on the expand button, resulting in _toggleFileExpanded being
@@ -900,7 +899,7 @@ suite('gr-file-list tests', () => {
 
       // Click inside the diff. This should result in no additional calls to
       // _toggleFileExpanded or _reviewFile.
-      dom(element.root).querySelector('gr-diff-host')
+      element.root.querySelector('gr-diff-host')
           .click();
       assert.isTrue(clickSpy.calledTwice);
       assert.isTrue(toggleExpandSpy.calledOnce);
@@ -971,7 +970,7 @@ suite('gr-file-list tests', () => {
       sandbox.stub(element, '_expandedFilesChanged');
       flushAsynchronousOperations();
       const fileRows =
-          dom(element.root).querySelectorAll('.row:not(.header-row)');
+          element.root.querySelectorAll('.row:not(.header-row)');
       // Because the label surrounds the input, the tap event is triggered
       // there first.
       const showHideLabel = fileRows[0].querySelector('label.show-hide');
@@ -999,7 +998,7 @@ suite('gr-file-list tests', () => {
       flushAsynchronousOperations();
 
       // Tap on a file to generate the diff.
-      const row = dom(element.root)
+      const row = element.root
           .querySelectorAll('.row:not(.header-row) label.show-hide')[0];
 
       MockInteractions.tap(row);
@@ -1030,7 +1029,7 @@ suite('gr-file-list tests', () => {
       };
       sandbox.stub(element, '_expandedFilesChanged');
       flushAsynchronousOperations();
-      const commitMsgFile = dom(element.root)
+      const commitMsgFile = element.root
           .querySelectorAll('.row:not(.header-row) a.pathLink')[0];
 
       // Remove href attribute so the app doesn't route to a diff view
@@ -1539,7 +1538,7 @@ suite('gr-file-list tests', () => {
 
     const renderAndGetNewDiffs = function(index) {
       const diffs =
-          dom(element.root).querySelectorAll('gr-diff-host');
+          element.root.querySelectorAll('gr-diff-host');
 
       for (let i = index; i < diffs.length; i++) {
         setupDiff(diffs[i]);
@@ -1628,8 +1627,7 @@ suite('gr-file-list tests', () => {
       assert.isFalse(diffStops[10].classList.contains('target-row'));
 
       // Tapping content on a line selects the line number.
-      MockInteractions.tap(dom(
-          diffStops[10]).querySelectorAll('.contentText')[0]);
+      MockInteractions.tap(diffStops[10].querySelectorAll('.contentText')[0]);
       flushAsynchronousOperations();
       assert.isTrue(diffStops[10].classList.contains('target-row'));
 
@@ -1670,8 +1668,7 @@ suite('gr-file-list tests', () => {
       assert.isFalse(diffStops[10].classList.contains('target-row'));
 
       // Tapping content on a line selects the line number.
-      MockInteractions.tap(dom(
-          diffStops[10]).querySelectorAll('.contentText')[0]);
+      MockInteractions.tap(diffStops[10].querySelectorAll('.contentText')[0]);
       flushAsynchronousOperations();
       assert.isTrue(diffStops[10].classList.contains('target-row'));
 
@@ -1700,7 +1697,7 @@ suite('gr-file-list tests', () => {
         nextChunkStub = sandbox.stub(element.$.diffCursor,
             'moveToNextChunk');
         fileRows =
-            dom(element.root).querySelectorAll('.row:not(.header-row)');
+            element.root.querySelectorAll('.row:not(.header-row)');
       });
 
       test('n key with some files expanded and no shift key', () => {
@@ -1821,7 +1818,7 @@ suite('gr-file-list tests', () => {
 
     test('editing actions', () => {
       // Edit controls are guarded behind a dom-if initially and not rendered.
-      assert.isNotOk(dom(element.root)
+      assert.isNotOk(element.root
           .querySelector('gr-edit-file-controls'));
 
       element.editMode = true;
@@ -1830,7 +1827,7 @@ suite('gr-file-list tests', () => {
       // Commit message should not have edit controls.
       const editControls =
           Array.from(
-              dom(element.root)
+              element.root
                   .querySelectorAll('.row:not(.header-row)'))
               .map(row => row.querySelector('gr-edit-file-controls'));
       assert.isTrue(editControls[0].classList.contains('invisible'));

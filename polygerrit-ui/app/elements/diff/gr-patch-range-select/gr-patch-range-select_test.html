@@ -45,8 +45,8 @@ import '../gr-comment-api/gr-comment-api.js';
 import '../../shared/revision-info/revision-info.js';
 import './gr-patch-range-select.js';
 import '../gr-comment-api/gr-comment-api-mock_test.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {RevisionInfo} from '../../shared/revision-info/revision-info.js';
+
 suite('gr-patch-range-select tests', () => {
   let element;
   let sandbox;
@@ -362,7 +362,7 @@ suite('gr-patch-range-select tests', () => {
       ],
     };
     flushAsynchronousOperations();
-    const domApi = dom(element.root);
+    const domApi = element.root;
     assert.equal(
         domApi.querySelector('a[href="f.oo"]').textContent, 'foo');
     assert.equal(

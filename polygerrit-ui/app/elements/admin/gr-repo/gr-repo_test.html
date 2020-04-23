@@ -33,8 +33,8 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-repo.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+
 suite('gr-repo tests', () => {
   let element;
   let sandbox;
@@ -103,11 +103,11 @@ suite('gr-repo tests', () => {
 
   function getFormFields() {
     const selects = Array.from(
-        dom(element.root).querySelectorAll('select'));
+        element.root.querySelectorAll('select'));
     const textareas = Array.from(
-        dom(element.root).querySelectorAll('iron-autogrow-textarea'));
+        element.root.querySelectorAll('iron-autogrow-textarea'));
     const inputs = Array.from(
-        dom(element.root).querySelectorAll('input'));
+        element.root.querySelectorAll('input'));
     return inputs.concat(textareas).concat(selects);
   }
 
@@ -343,7 +343,7 @@ suite('gr-repo tests', () => {
       const saveStub = sandbox.stub(element.$.restAPI, 'saveRepoConfig'
           , () => Promise.resolve({}));
 
-      const button = dom(element.root).querySelector('gr-button');
+      const button = element.root.querySelector('gr-button');
 
       return element._loadRepo().then(() => {
         assert.isTrue(button.hasAttribute('disabled'));

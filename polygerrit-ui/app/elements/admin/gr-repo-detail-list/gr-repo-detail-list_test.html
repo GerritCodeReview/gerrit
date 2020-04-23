@@ -35,7 +35,7 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import './gr-repo-detail-list.js';
 import page from 'page/page.mjs';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+
 let counter;
 const branchGenerator = () => {
   return {
@@ -143,21 +143,21 @@ suite('gr-repo-detail-list', () => {
             }));
         element._determineIfOwner('test').then(() => {
           assert.equal(element._isOwner, false);
-          assert.equal(getComputedStyle(dom(element.root)
+          assert.equal(getComputedStyle(element.root
               .querySelector('.revisionNoEditing')).display, 'inline');
-          assert.equal(getComputedStyle(dom(element.root)
+          assert.equal(getComputedStyle(element.root
               .querySelector('.revisionEdit')).display, 'none');
           done();
         });
       });
 
       test('Edit HEAD button admin', done => {
-        const saveBtn = dom(element.root).querySelector('.saveBtn');
-        const cancelBtn = dom(element.root).querySelector('.cancelBtn');
-        const editBtn = dom(element.root).querySelector('.editBtn');
-        const revisionNoEditing = dom(element.root)
+        const saveBtn = element.root.querySelector('.saveBtn');
+        const cancelBtn = element.root.querySelector('.cancelBtn');
+        const editBtn = element.root.querySelector('.editBtn');
+        const revisionNoEditing = element.root
             .querySelector('.revisionNoEditing');
-        const revisionWithEditing = dom(element.root)
+        const revisionWithEditing = element.root
             .querySelector('.revisionWithEditing');
 
         sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
@@ -172,7 +172,7 @@ suite('gr-repo-detail-list', () => {
           assert.equal(getComputedStyle(revisionNoEditing).display, 'none');
 
           // The revision container for editing enabled row is visible.
-          assert.notEqual(getComputedStyle(dom(element.root)
+          assert.notEqual(getComputedStyle(element.root
               .querySelector('.revisionEdit')).display, 'none');
 
           // The revision and edit button are visible.
@@ -181,7 +181,7 @@ suite('gr-repo-detail-list', () => {
           assert.notEqual(getComputedStyle(editBtn).display, 'none');
 
           // The input, cancel, and save buttons are not visible.
-          const hiddenElements = dom(element.root)
+          const hiddenElements = element.root
               .querySelectorAll('.canEdit .editItem');
 
           for (const item of hiddenElements) {

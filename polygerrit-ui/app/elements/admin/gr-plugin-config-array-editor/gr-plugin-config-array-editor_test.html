@@ -33,13 +33,13 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-plugin-config-array-editor.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+
 suite('gr-plugin-config-array-editor tests', () => {
   let element;
   let sandbox;
   let dispatchStub;
 
-  const getAll = str => dom(element.root).querySelectorAll(str);
+  const getAll = str => element.root.querySelectorAll(str);
 
   setup(() => {
     sandbox = sinon.sandbox.create();

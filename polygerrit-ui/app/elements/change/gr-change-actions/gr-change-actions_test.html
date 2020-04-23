@@ -33,9 +33,9 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-change-actions.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+
 const CHERRY_PICK_TYPES = {
   SINGLE_CHANGE: 1,
   TOPIC: 2,
@@ -234,7 +234,7 @@ suite('gr-change-actions tests', () => {
     test('buttons exist', done => {
       element._loading = false;
       flush(() => {
-        const buttonEls = dom(element.root)
+        const buttonEls = element.root
             .querySelectorAll('gr-button');
         const menuItems = element.$.moreActions.items;
 

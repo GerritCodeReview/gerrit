@@ -32,8 +32,8 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-label-info.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {isHidden} from '../../../test/test-utils.js';
+
 suite('gr-account-link tests', () => {
   let element;
   let sandbox;
@@ -111,14 +111,14 @@ suite('gr-account-link tests', () => {
     test('valueless label rejected', () => {
       element.labelInfo = {rejected: {name: 'someone'}};
       flushAsynchronousOperations();
-      const labels = dom(element.root).querySelectorAll('gr-label');
+      const labels = element.root.querySelectorAll('gr-label');
       assert.isTrue(labels[0].classList.contains('negative'));
     });
 
     test('valueless label approved', () => {
       element.labelInfo = {approved: {name: 'someone'}};
       flushAsynchronousOperations();
-      const labels = dom(element.root).querySelectorAll('gr-label');
+      const labels = element.root.querySelectorAll('gr-label');
       assert.isTrue(labels[0].classList.contains('positive'));
     });
 
@@ -139,7 +139,7 @@ suite('gr-account-link tests', () => {
         },
       };
       flushAsynchronousOperations();
-      const labels = dom(element.root).querySelectorAll('gr-label');
+      const labels = element.root.querySelectorAll('gr-label');
       assert.isTrue(labels[0].classList.contains('max'));
       assert.isTrue(labels[1].classList.contains('positive'));
       assert.isTrue(labels[2].classList.contains('negative'));
@@ -159,7 +159,7 @@ suite('gr-account-link tests', () => {
         },
       };
       flushAsynchronousOperations();
-      const labels = dom(element.root).querySelectorAll('gr-label');
+      const labels = element.root.querySelectorAll('gr-label');
       assert.isTrue(labels[0].classList.contains('max'));
       assert.isTrue(labels[1].classList.contains('min'));
     });
@@ -177,7 +177,7 @@ suite('gr-account-link tests', () => {
         },
       };
       flushAsynchronousOperations();
-      const labels = dom(element.root).querySelectorAll('gr-label');
+      const labels = element.root.querySelectorAll('gr-label');
       assert.isTrue(labels[0].classList.contains('max'));
       assert.isTrue(labels[1].classList.contains('positive'));
     });
@@ -200,7 +200,7 @@ suite('gr-account-link tests', () => {
       };
       flushAsynchronousOperations();
       const chips =
-          dom(element.root).querySelectorAll('gr-account-chip');
+          element.root.querySelectorAll('gr-account-chip');
       assert.equal(chips[0].account._account_id, element.account._account_id);
     });
   });

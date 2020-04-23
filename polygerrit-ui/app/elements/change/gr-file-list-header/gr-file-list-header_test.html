@@ -40,7 +40,6 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-file-list-header.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GrFileListConstants} from '../gr-file-list-constants.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
@@ -126,8 +125,8 @@ suite('gr-file-list-header tests', () => {
 
     // The element has a description, so the account chip should be visible
     // and the description label should not exist.
-    const chip = dom(element.root).querySelector('#descriptionChip');
-    let label = dom(element.root).querySelector('#descriptionLabel');
+    const chip = element.root.querySelector('#descriptionChip');
+    let label = element.root.querySelector('#descriptionLabel');
 
     assert.equal(chip.text, 'test');
     assert.isNotOk(label);
@@ -143,7 +142,7 @@ suite('gr-file-list-header tests', () => {
 
           flushAsynchronousOperations();
           // The editable label should now be visible and the chip hidden.
-          label = dom(element.root).querySelector('#descriptionLabel');
+          label = element.root.querySelector('#descriptionLabel');
           assert.isOk(label);
           assert.equal(getComputedStyle(chip).display, 'none');
           assert.notEqual(getComputedStyle(label).display, 'none');
@@ -171,7 +170,7 @@ suite('gr-file-list-header tests', () => {
     element.shownFileCount = 1;
     flushAsynchronousOperations();
     sandbox.stub(element, '_expandAllDiffs');
-    MockInteractions.tap(dom(element.root).querySelector(
+    MockInteractions.tap(element.root.querySelector(
         '#expandBtn'));
     assert.isTrue(element._expandAllDiffs.called);
   });
@@ -180,7 +179,7 @@ suite('gr-file-list-header tests', () => {
     element.shownFileCount = 1;
     flushAsynchronousOperations();
     sandbox.stub(element, '_collapseAllDiffs');
-    MockInteractions.tap(dom(element.root).querySelector(
+    MockInteractions.tap(element.root.querySelector(
         '#collapseBtn'));
     assert.isTrue(element._collapseAllDiffs.called);
   });

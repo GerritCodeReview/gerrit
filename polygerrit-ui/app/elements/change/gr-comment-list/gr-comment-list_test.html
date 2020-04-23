@@ -33,7 +33,6 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-comment-list.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 suite('gr-comment-list tests', () => {
@@ -97,7 +96,7 @@ suite('gr-comment-list tests', () => {
       commentlinks: {foo: {link: '#/q/$1', match: '(I[0-9a-f]{8,40})'}},
     };
     flushAsynchronousOperations();
-    const formattedText = dom(element.root).querySelector(
+    const formattedText = element.root.querySelector(
         'gr-formatted-text.message');
     assert.isOk(formattedText.config);
     assert.deepEqual(formattedText.config,

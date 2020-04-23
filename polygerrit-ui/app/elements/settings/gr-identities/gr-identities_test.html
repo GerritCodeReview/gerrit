@@ -33,7 +33,7 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-identities.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+
 suite('gr-identities tests', () => {
   let element;
   let sandbox;
@@ -71,7 +71,7 @@ suite('gr-identities tests', () => {
 
   test('renders', () => {
     const rows = Array.from(
-        dom(element.root).querySelectorAll('tbody tr'));
+        element.root.querySelectorAll('tbody tr'));
 
     assert.equal(rows.length, 2);
 
@@ -85,7 +85,7 @@ suite('gr-identities tests', () => {
 
   test('renders email', () => {
     const rows = Array.from(
-        dom(element.root).querySelectorAll('tbody tr'));
+        element.root.querySelectorAll('tbody tr'));
 
     assert.equal(rows.length, 2);
 
@@ -120,7 +120,7 @@ suite('gr-identities tests', () => {
 
   test('_handleDeleteItem opens modal', () => {
     const deleteBtn =
-        dom(element.root).querySelector('.deleteButton');
+        element.root.querySelector('.deleteButton');
     const deleteItem = sandbox.stub(element, '_handleDeleteItem');
     MockInteractions.tap(deleteBtn);
     assert.isTrue(deleteItem.called);

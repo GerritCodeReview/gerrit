@@ -33,7 +33,7 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-dropdown.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+
 suite('gr-dropdown tests', () => {
   let element;
   let sandbox;
@@ -112,7 +112,7 @@ suite('gr-dropdown tests', () => {
   test('Top text exists and is bolded correctly', () => {
     element.topContent = [{text: 'User', bold: true}, {text: 'email'}];
     flushAsynchronousOperations();
-    const topItems = dom(element.root).querySelectorAll('.top-item');
+    const topItems = element.root.querySelectorAll('.top-item');
     assert.equal(topItems.length, 2);
     assert.isTrue(topItems[0].classList.contains('bold-text'));
     assert.isFalse(topItems[1].classList.contains('bold-text'));
@@ -155,7 +155,7 @@ suite('gr-dropdown tests', () => {
     ];
     element.disabledIds = [];
     flushAsynchronousOperations();
-    const tooltipContents = dom(element.root)
+    const tooltipContents = element.root
         .querySelectorAll('iron-dropdown li gr-tooltip-content');
     assert.equal(tooltipContents.length, 2);
     assert.isTrue(tooltipContents[0].hasTooltip);

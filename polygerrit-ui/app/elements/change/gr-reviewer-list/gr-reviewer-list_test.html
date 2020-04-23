@@ -33,7 +33,7 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-reviewer-list.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+
 suite('gr-reviewer-list tests', () => {
   let element;
   let sandbox;
@@ -117,7 +117,7 @@ suite('gr-reviewer-list tests', () => {
     };
     flushAsynchronousOperations();
     const chips =
-        dom(element.root).querySelectorAll('gr-account-chip');
+        element.root.querySelectorAll('gr-account-chip');
     assert.equal(chips.length, 4);
 
     for (const el of Array.from(chips)) {

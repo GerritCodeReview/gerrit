@@ -33,7 +33,7 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-copy-clipboard.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+
 suite('gr-copy-clipboard tests', () => {
   let element;
   let sandbox;
@@ -61,7 +61,7 @@ suite('gr-copy-clipboard tests', () => {
 
   test('focusOnCopy', () => {
     element.focusOnCopy();
-    assert.deepEqual(dom(element.root).activeElement,
+    assert.deepEqual(element.root.activeElement,
         element.shadowRoot
             .querySelector('.copyToClipboard'));
   });

@@ -33,7 +33,7 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-tooltip-content.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+
 suite('gr-tooltip-content tests', () => {
   let element;
   setup(() => {
@@ -41,7 +41,7 @@ suite('gr-tooltip-content tests', () => {
   });
 
   test('icon is not visible by default', () => {
-    assert.equal(dom(element.root)
+    assert.equal(element.root
         .querySelector('iron-icon').hidden, true);
   });
 
@@ -53,7 +53,7 @@ suite('gr-tooltip-content tests', () => {
 
   test('icon is visible with showIcon property', () => {
     element.showIcon = true;
-    assert.equal(dom(element.root)
+    assert.equal(element.root
         .querySelector('iron-icon').hidden, false);
   });
 });

@@ -33,7 +33,6 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-account-list.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
 class MockSuggestionsProvider {
   getSuggestions(input) {
@@ -68,7 +67,7 @@ suite('gr-account-list tests', () => {
   let suggestionsProvider;
 
   function getChips() {
-    return dom(element.root).querySelectorAll('gr-account-chip');
+    return element.root.querySelectorAll('gr-account-chip');
   }
 
   setup(() => {

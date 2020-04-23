@@ -33,7 +33,7 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-cla-view.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+
 suite('gr-cla-view tests', () => {
   let element;
   const signedAgreements = [{
@@ -128,9 +128,9 @@ suite('gr-cla-view tests', () => {
   });
 
   test('renders as expected with signed agreement', () => {
-    const agreementSections = dom(element.root)
+    const agreementSections = element.root
         .querySelectorAll('.contributorAgreementButton');
-    const agreementSubmittedTexts = dom(element.root)
+    const agreementSubmittedTexts = element.root
         .querySelectorAll('.alreadySubmittedText');
     assert.equal(agreementSections.length, 2);
     assert.isFalse(agreementSections[0].querySelector('input').disabled);

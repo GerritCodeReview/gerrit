@@ -33,7 +33,7 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-repo-command.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+
 suite('gr-repo-command tests', () => {
   let element;
 
@@ -46,7 +46,7 @@ suite('gr-repo-command tests', () => {
       done();
     });
     MockInteractions.tap(
-        dom(element.root).querySelector('gr-button'));
+        element.root.querySelector('gr-button'));
   });
 });
 </script>

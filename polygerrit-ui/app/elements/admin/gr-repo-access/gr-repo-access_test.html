@@ -34,7 +34,6 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-repo-access.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 suite('gr-repo-access tests', () => {
@@ -700,9 +699,9 @@ suite('gr-repo-access tests', () => {
         remove: {},
       };
       const newPermission =
-          dom(element.shadowRoot
-              .querySelector('gr-access-section').root).querySelectorAll(
-              'gr-permission')[2];
+          element.shadowRoot
+              .querySelector('gr-access-section').root.querySelectorAll(
+                  'gr-permission')[2];
       newPermission._handleAddRuleItem(
           {detail: {value: {id: 'Maintainers'}}});
       assert.deepEqual(element._computeAddAndRemove(), expectedInput);
@@ -792,7 +791,7 @@ suite('gr-repo-access tests', () => {
         },
         remove: {},
       };
-      const newSection = dom(element.root)
+      const newSection = element.root
           .querySelectorAll('gr-access-section')[1];
       newSection._handleAddPermission();
       flushAsynchronousOperations();
@@ -935,9 +934,9 @@ suite('gr-repo-access tests', () => {
 
       // Add a rule to the existing permission;
       const readPermission =
-          dom(element.shadowRoot
-              .querySelector('gr-access-section').root).querySelectorAll(
-              'gr-permission')[1];
+          element.shadowRoot
+              .querySelector('gr-access-section').root.querySelectorAll(
+                  'gr-permission')[1];
       readPermission._handleAddRuleItem(
           {detail: {value: {id: 'Maintainers'}}});
 
@@ -1009,7 +1008,7 @@ suite('gr-repo-access tests', () => {
 
       // Add a new section.
       MockInteractions.tap(element.$.addReferenceBtn);
-      let newSection = dom(element.root)
+      let newSection = element.root
           .querySelectorAll('gr-access-section')[1];
       newSection._handleAddPermission();
       flushAsynchronousOperations();
@@ -1083,7 +1082,7 @@ suite('gr-repo-access tests', () => {
 
       // Add a second new section.
       MockInteractions.tap(element.$.addReferenceBtn);
-      newSection = dom(element.root)
+      newSection = element.root
           .querySelectorAll('gr-access-section')[2];
       newSection._handleAddPermission();
       flushAsynchronousOperations();

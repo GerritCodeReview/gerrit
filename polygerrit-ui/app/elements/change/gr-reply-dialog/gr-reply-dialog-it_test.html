@@ -40,7 +40,6 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import '../../plugins/gr-plugin-host/gr-plugin-host.js';
 import './gr-reply-dialog.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
@@ -160,9 +159,9 @@ suite('gr-reply-dialog tests', () => {
           textarea.value = 'LGTM';
           textarea.dispatchEvent(new CustomEvent(
               'input', {bubbles: true, composed: true}));
-          const labelScoreRows = dom(element.$.labelScores.root)
+          const labelScoreRows = element.$.labelScores.root
               .querySelector('gr-label-score-row[name="Code-Review"]');
-          const selectedBtn = dom(labelScoreRows.root)
+          const selectedBtn = labelScoreRows.root
               .querySelector('gr-button[data-value="+1"].iron-selected');
           assert.isOk(selectedBtn);
           done();

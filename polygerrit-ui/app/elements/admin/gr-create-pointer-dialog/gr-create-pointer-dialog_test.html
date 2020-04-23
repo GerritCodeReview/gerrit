@@ -33,13 +33,13 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-create-pointer-dialog.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+
 suite('gr-create-pointer-dialog tests', () => {
   let element;
   let sandbox;
 
   const ironInput = function(element) {
-    return dom(element).querySelector('iron-input');
+    return element.querySelector('iron-input');
   };
 
   setup(() => {

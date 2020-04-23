@@ -33,7 +33,6 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-admin-view.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
@@ -93,7 +92,7 @@ suite('gr-admin-view tests', () => {
     };
 
     flushAsynchronousOperations();
-    assert.equal(dom(element.root).querySelectorAll(
+    assert.equal(element.root.querySelectorAll(
         '.selected').length, 1);
     assert.ok(element.shadowRoot
         .querySelector('gr-repo-list'));
@@ -203,7 +202,7 @@ suite('gr-admin-view tests', () => {
         }));
     element.reload().then(() => {
       flushAsynchronousOperations();
-      assert.equal(dom(element.root)
+      assert.equal(element.root
           .querySelectorAll('.sectionTitle').length, 3);
       assert.equal(element.shadowRoot
           .querySelector('.breadcrumbText').innerText, 'Test Repo');
@@ -626,7 +625,7 @@ suite('gr-admin-view tests', () => {
         element._groupName = 'foo';
         return element.reload().then(() => {
           flushAsynchronousOperations();
-          const subsectionItems = dom(element.root)
+          const subsectionItems = element.root
               .querySelectorAll('.subsectionItem');
           assert.equal(subsectionItems.length, 2);
           assert.isTrue(element._groupIsInternal);
@@ -651,7 +650,7 @@ suite('gr-admin-view tests', () => {
         element._groupName = 'foo';
         return element.reload().then(() => {
           flushAsynchronousOperations();
-          const subsectionItems = dom(element.root)
+          const subsectionItems = element.root
               .querySelectorAll('.subsectionItem');
           assert.equal(subsectionItems.length, 0);
           assert.isFalse(element._groupIsInternal);

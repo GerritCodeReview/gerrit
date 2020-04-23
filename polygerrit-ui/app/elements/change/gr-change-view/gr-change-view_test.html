@@ -42,8 +42,6 @@ import '../../../test/common-test-setup.js';
 import '../../edit/gr-edit-constants.js';
 import './gr-change-view.js';
 import {PrimaryTabs, SecondaryTabs} from '../../../constants/constants.js';
-
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {GrEditConstants} from '../../edit/gr-edit-constants.js';
 import {_testOnly_resetEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
@@ -981,7 +979,7 @@ suite('gr-change-view tests', () => {
     assert.deepEqual(element._changeStatuses, expectedStatuses);
     assert.equal(element._changeStatus, expectedStatuses.join(', '));
     flushAsynchronousOperations();
-    const statusChips = dom(element.root)
+    const statusChips = element.root
         .querySelectorAll('gr-change-status');
     assert.equal(statusChips.length, 2);
   });

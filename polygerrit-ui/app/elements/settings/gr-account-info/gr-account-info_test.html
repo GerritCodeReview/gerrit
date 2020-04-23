@@ -33,7 +33,7 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-account-info.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+
 suite('gr-account-info tests', () => {
   let element;
   let account;
@@ -41,7 +41,7 @@ suite('gr-account-info tests', () => {
   let sandbox;
 
   function valueOf(title) {
-    const sections = dom(element.root).querySelectorAll('section');
+    const sections = element.root.querySelectorAll('section');
     let titleEl;
     for (let i = 0; i < sections.length; i++) {
       titleEl = sections[i].querySelector('.title');

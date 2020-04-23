@@ -35,7 +35,6 @@ import '../../../test/common-test-setup.js';
 import './gr-diff-host.js';
 import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {DiffSide} from '../gr-diff/gr-diff-utils.js';
 
 suite('gr-diff-host tests', () => {
@@ -291,7 +290,7 @@ suite('gr-diff-host tests', () => {
     assert.equal(threadEls[0].rootId, 4711);
     assert.equal(threadEls[1].rootId, 42);
     for (const threadEl of threadEls) {
-      dom(element).appendChild(threadEl);
+      element.appendChild(threadEl);
     }
 
     threadEls[0].dispatchEvent(
@@ -908,7 +907,7 @@ suite('gr-diff-host tests', () => {
   test('getThreadEls() returns .comment-threads', () => {
     const threadEl = document.createElement('div');
     threadEl.className = 'comment-thread';
-    dom(element.$.diff).appendChild(threadEl);
+    element.$.diff.appendChild(threadEl);
     assert.deepEqual(element.getThreadEls(), [threadEl]);
   });
 
@@ -1299,7 +1298,7 @@ suite('gr-diff-host tests', () => {
     assert.isOk(element._getOrCreateThread('2', 3,
         commentSide, undefined, false));
 
-    let threads = dom(element.$.diff)
+    let threads = element.$.diff
         .queryDistributedElements('gr-comment-thread');
 
     assert.equal(threads.length, 1);
@@ -1319,7 +1318,7 @@ suite('gr-diff-host tests', () => {
     assert.isOk(element._getOrCreateThread(
         '3', 1, commentSide, range, true));
 
-    threads = dom(element.$.diff)
+    threads = element.$.diff
         .queryDistributedElements('gr-comment-thread');
 
     assert.equal(threads.length, 2);

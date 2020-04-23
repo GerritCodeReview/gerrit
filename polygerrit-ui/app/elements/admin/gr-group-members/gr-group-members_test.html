@@ -33,7 +33,7 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-group-members.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+
 suite('gr-group-members tests', () => {
   let element;
   let sandbox;
@@ -165,12 +165,12 @@ suite('gr-group-members tests', () => {
 
   test('_includedGroups', () => {
     assert.equal(element._includedGroups.length, 3);
-    assert.equal(dom(element.root)
+    assert.equal(element.root
         .querySelectorAll('.nameColumn a')[0].href, includedGroups[0].url);
-    assert.equal(dom(element.root)
+    assert.equal(element.root
         .querySelectorAll('.nameColumn a')[1].href,
     'https://test/site/group/url');
-    assert.equal(dom(element.root)
+    assert.equal(element.root
         .querySelectorAll('.nameColumn a')[2].href,
     'https://test/site/group/url');
   });
@@ -301,7 +301,7 @@ suite('gr-group-members tests', () => {
   });
 
   test('delete member', () => {
-    const deletelBtns = dom(element.root)
+    const deletelBtns = element.root
         .querySelectorAll('.deleteMembersButton');
     MockInteractions.tap(deletelBtns[0]);
     assert.equal(element._itemId, '1000097');
@@ -318,7 +318,7 @@ suite('gr-group-members tests', () => {
   });
 
   test('delete included groups', () => {
-    const deletelBtns = dom(element.root)
+    const deletelBtns = element.root
         .querySelectorAll('.deleteIncludedGroupButton');
     MockInteractions.tap(deletelBtns[0]);
     assert.equal(element._itemId, 'testId');

@@ -79,7 +79,7 @@ export const htmlTemplate = html`
         </span>
       </section>
       <section>
-        <span class="title">Display name (defaults to "Full name")</span>
+        <span class="title">Display name</span>
         <span class="value">
           <iron-input on-keydown="_handleKeydown" bind-value="{{_account.display_name}}">
             <input is="iron-input" id="displayNameInput" disabled="[[_saving]]" on-keydown="_handleKeydown" bind-value="{{_account.display_name}}">

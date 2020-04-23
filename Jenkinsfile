@@ -90,16 +90,18 @@ def collectBuildModes() {
     def changedFiles = queryChangedFiles(Globals.gerritUrl)
     def polygerritFiles = changedFiles.findAll { it.startsWith("polygerrit-ui") ||
         it.startsWith("lib/js") }
+    def bazelFiles = changedFiles.findAll { it == "WORKSPACE" || it.endsWith("BUILD") ||
+        it.endsWith(".bzl") }
 
     if(polygerritFiles.size() > 0) {
-        if(changedFiles.size() == polygerritFiles.size()) {
+        if(changedFiles.size() == polygerritFiles.size() && bazelFiles.isEmpty()) {
             println "Only PolyGerrit UI changes detected, skipping other test modes..."
             Builds.modes = ["polygerrit"]
         } else {
             println "PolyGerrit UI changes detected, adding 'polygerrit' validation..."
             Builds.modes += "polygerrit"
         }
-    } else if(changedFiles.contains("WORKSPACE")) {
+    } else if(!bazelFiles.isEmpty()) {
         println "WORKSPACE file changes detected, adding 'polygerrit' validation..."
         Builds.modes += "polygerrit"
     }

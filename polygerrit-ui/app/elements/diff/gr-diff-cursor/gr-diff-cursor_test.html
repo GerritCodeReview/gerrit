@@ -26,7 +26,6 @@ limitations under the License.
 
 <test-fixture id="basic">
   <template>
-    <mock-diff-response></mock-diff-response>
     <gr-diff></gr-diff>
     <gr-diff-cursor></gr-diff-cursor>
     <gr-rest-api-interface></gr-rest-api-interface>
@@ -44,7 +43,7 @@ import '../../../test/common-test-setup.js';
 import '../gr-diff/gr-diff.js';
 import './gr-diff-cursor.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../shared/gr-rest-api-interface/mock-diff-response_test.js';
+import {getMockDiffResponse} from '../../../test/mock-diff-response.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 suite('gr-diff-cursor tests', () => {
   let sandbox;
@@ -81,7 +80,7 @@ suite('gr-diff-cursor tests', () => {
 
     restAPI.getDiffPreferences().then(prefs => {
       diffElement.prefs = prefs;
-      diffElement.diff = mockDiffResponse.diffResponse;
+      diffElement.diff = getMockDiffResponse();
     });
   });
 

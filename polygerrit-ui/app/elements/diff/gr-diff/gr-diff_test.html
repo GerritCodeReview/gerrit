@@ -34,7 +34,7 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../shared/gr-rest-api-interface/mock-diff-response_test.js';
+import {getMockDiffResponse} from '../../../test/mock-diff-response.js';
 import './gr-diff.js';
 import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
@@ -235,9 +235,8 @@ suite('gr-diff tests', () => {
       element.patchRange = {basePatchNum: 1, patchNum: 2};
       element.path = 'file.txt';
 
-      const mock = document.createElement('mock-diff-response');
       element.$.diffBuilder._builder = element.$.diffBuilder._getDiffBuilder(
-          mock.diffResponse, Object.assign({}, MINIMAL_PREFS));
+          getMockDiffResponse(), Object.assign({}, MINIMAL_PREFS));
 
       // No thread groups.
       assert.isNotOk(element._getThreadGroupForLine(contentEl));
@@ -597,8 +596,7 @@ suite('gr-diff tests', () => {
 
     suite('getCursorStops', () => {
       const setupDiff = function() {
-        const mock = document.createElement('mock-diff-response');
-        element.diff = mock.diffResponse;
+        element.diff = getMockDiffResponse();
         element.prefs = {
           context: 10,
           tab_size: 8,
@@ -777,9 +775,8 @@ suite('gr-diff tests', () => {
                 new CustomEvent('render', {bubbles: true, composed: true}));
             return Promise.resolve({});
           });
-      const mock = document.createElement('mock-diff-response');
       sandbox.stub(element, 'getDiffLength').returns(10000);
-      element.diff = mock.diffResponse;
+      element.diff = getMockDiffResponse();
       element.noRenderOnPrefsChange = true;
     });
 
@@ -1074,7 +1071,7 @@ suite('gr-diff tests', () => {
   });
 
   test('getDiffLength', () => {
-    const diff = document.createElement('mock-diff-response').diffResponse;
+    const diff = getMockDiffResponse();
     assert.equal(element.getDiffLength(diff), 52);
   });
 

@@ -22,6 +22,30 @@
       "revId": "2e0d93ae9647b16ac77b3bcf35bafba649814aed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "430c302d_cddb44c3",
+        "filename": "plugins/replication",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-23T20:01:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02c81d16_75d26835",
+      "range": {
+        "startLine": 1,
+        "startChar": 18,
+        "endLine": 1,
+        "endChar": 58
+      },
+      "revId": "2e0d93ae9647b16ac77b3bcf35bafba649814aed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

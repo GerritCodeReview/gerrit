@@ -85,6 +85,30 @@
       "revId": "c740221903444b168581391d4f07bfff0d5e7e9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dd4ce5f_64c723c0",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-04-23T09:02:29Z",
+      "side": 1,
+      "message": "Extract the version into a variable?\n\n    SSHD_VERS \u003d \"2.4.0\"",
+      "parentUuid": "337aca14_a9b14cc3",
+      "range": {
+        "startLine": 32,
+        "startChar": 46,
+        "endLine": 32,
+        "endChar": 51
+      },
+      "revId": "c740221903444b168581391d4f07bfff0d5e7e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

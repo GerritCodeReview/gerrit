@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7148c9ec_73714dcd",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeIsVisibleToPredicate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-23T01:46:35Z",
+      "side": 1,
+      "message": "Looking at this again (the whole block of L85-87), I\u0027m not sure if I understand what it\u0027s supposed to be doing.  When it\u0027s an identified user, why is it calling absentUser?  For an identified user should it not be calling the user(user) method?\n\nShould we instead rewrite this to have an explicit check for the user being the SingleGroupUser?",
+      "parentUuid": "3d748b50_b9bd18d0",
+      "range": {
+        "startLine": 87,
+        "startChar": 37,
+        "endLine": 87,
+        "endChar": 41
+      },
+      "revId": "fcccd674003d49e080ffc36b4b045814d044bb31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6bd1b224_4968a7c6",
         "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 7

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baae836f_3dd0f04b",
+        "filename": "WORKSPACE",
+        "patchSetId": 5
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-23T20:23:09Z",
+      "side": 1,
+      "message": "Can we upload this to a GCloud bucket? I would avoid any further spreading of GitHub dependencies :-(",
+      "range": {
+        "startLine": 273,
+        "startChar": 13,
+        "endLine": 273,
+        "endChar": 85
+      },
+      "revId": "46ed74161b0fe6e8fdea7cbb2993127facb32125",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad084dea_45521acf",
+        "filename": "plugins/replication",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-23T20:23:09Z",
+      "side": 1,
+      "message": "Why has the replication plugin is updated in this change? Do you need rebase?",
+      "revId": "46ed74161b0fe6e8fdea7cbb2993127facb32125",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

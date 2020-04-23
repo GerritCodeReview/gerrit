@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d19af77_318899d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-23T01:07:13Z",
+      "side": 1,
+      "message": "handling",
+      "range": {
+        "startLine": 17,
+        "startChar": 22,
+        "endLine": 17,
+        "endChar": 29
+      },
+      "revId": "d931082c04a7436c770776c5f6dd9aea642e5796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32b2a9fb_13d4be8d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-23T01:07:13Z",
+      "side": 1,
+      "message": "in various",
+      "range": {
+        "startLine": 18,
+        "startChar": 43,
+        "endLine": 18,
+        "endChar": 52
+      },
+      "revId": "d931082c04a7436c770776c5f6dd9aea642e5796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a789c40_6f850bee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-23T01:07:13Z",
+      "side": 1,
+      "message": "Maybe make it clearer that this commit is *not* doing this, and it\u0027s something that needs to be cleaned up in a future change.",
+      "range": {
+        "startLine": 16,
+        "startChar": 34,
+        "endLine": 19,
+        "endChar": 13
+      },
+      "revId": "d931082c04a7436c770776c5f6dd9aea642e5796",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

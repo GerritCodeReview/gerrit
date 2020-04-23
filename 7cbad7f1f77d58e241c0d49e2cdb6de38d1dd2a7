@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "046bb062_e2debd21",
+        "filename": "java/com/google/gerrit/testing/TestLoggingActivator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-23T04:45:42Z",
+      "side": 1,
+      "message": "Unrelated change.",
+      "range": {
+        "startLine": 37,
+        "startChar": 73,
+        "endLine": 37,
+        "endChar": 83
+      },
+      "revId": "7cbad7f1f77d58e241c0d49e2cdb6de38d1dd2a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

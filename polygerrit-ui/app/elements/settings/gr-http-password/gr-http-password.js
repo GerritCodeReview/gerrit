@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../../styles/gr-form-styles.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard.js';
@@ -27,7 +25,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-http-password_html.js';
 
-/** @extends Polymer.Element */
+/** @extends PolymerElement */
 class GrHttpPassword extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {

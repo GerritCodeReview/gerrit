@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../../styles/shared-styles.js';
 import {addListener} from '@polymer/polymer/lib/utils/gestures.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
@@ -42,7 +40,7 @@ const SelectionClass = {
 const getNewCache = () => { return {left: null, right: null}; };
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrDiffSelection extends mixinBehaviors( [
   DomUtilBehavior,

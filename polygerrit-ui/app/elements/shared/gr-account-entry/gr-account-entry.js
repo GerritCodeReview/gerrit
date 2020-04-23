@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../../styles/shared-styles.js';
 import '../gr-autocomplete/gr-autocomplete.js';
 import '../gr-rest-api-interface/gr-rest-api-interface.js';
@@ -28,7 +26,7 @@ import {htmlTemplate} from './gr-account-entry_html.js';
  * gr-account-entry is an element for entering account
  * and/or group with autocomplete support.
  *
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrAccountEntry extends GestureEventListeners(
     LegacyElementMixin(

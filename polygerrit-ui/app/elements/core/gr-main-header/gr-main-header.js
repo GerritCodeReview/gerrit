@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
 import '../../shared/gr-dropdown/gr-dropdown.js';
 import '../../shared/gr-icons/gr-icons.js';
@@ -86,7 +84,7 @@ const AUTH_TYPES_WITH_REGISTER_URL = new Set([
 ]);
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrMainHeader extends mixinBehaviors( [
   AdminNavBehavior,

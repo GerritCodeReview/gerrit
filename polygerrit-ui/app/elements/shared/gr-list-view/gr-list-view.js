@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/iron-input/iron-input.js';
 import '@polymer/iron-icon/iron-icon.js';
 import '../../../styles/shared-styles.js';
@@ -32,7 +30,7 @@ import page from 'page/page.mjs';
 const REQUEST_DEBOUNCE_INTERVAL_MS = 200;
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrListView extends mixinBehaviors( [
   BaseUrlBehavior,

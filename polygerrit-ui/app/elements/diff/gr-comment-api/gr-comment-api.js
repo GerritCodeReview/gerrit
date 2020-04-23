@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
@@ -543,7 +541,7 @@ class ChangeComments {
 }
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrCommentApi extends mixinBehaviors( [
   PatchSetBehavior,

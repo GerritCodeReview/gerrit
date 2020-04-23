@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
 import '@polymer/iron-input/iron-input.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
@@ -68,7 +66,7 @@ const SUBMIT_TYPES = {
 };
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrRepo extends GestureEventListeners(
     LegacyElementMixin(PolymerElement)) {

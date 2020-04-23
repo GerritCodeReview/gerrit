@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
 import '../../core/gr-reporting/gr-reporting.js';
 import '../gr-rest-api-interface/gr-rest-api-interface.js';
 import './gr-js-api-interface-element.js';

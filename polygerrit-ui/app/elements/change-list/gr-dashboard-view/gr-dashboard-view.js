@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../../styles/shared-styles.js';
 import '../gr-change-list/gr-change-list.js';
 import '../../core/gr-reporting/gr-reporting.js';
@@ -38,7 +36,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 const PROJECT_PLACEHOLDER_PATTERN = /\$\{project\}/g;
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrDashboardView extends mixinBehaviors( [
   RESTClientBehavior,

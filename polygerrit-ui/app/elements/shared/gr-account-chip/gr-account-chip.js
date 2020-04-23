@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../gr-account-link/gr-account-link.js';
 import '../gr-button/gr-button.js';
 import '../gr-icons/gr-icons.js';
@@ -27,7 +25,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-account-chip_html.js';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrAccountChip extends GestureEventListeners(
     LegacyElementMixin(PolymerElement)) {

@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/iron-dropdown/iron-dropdown.js';
 import '@polymer/iron-input/iron-input.js';
 import '../../../styles/shared-styles.js';
@@ -67,7 +65,7 @@ const DiffViewMode = {
 
 /**
  * @appliesMixin PatchSetMixin
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrDiffView extends mixinBehaviors( [
   KeyboardShortcutBehavior,

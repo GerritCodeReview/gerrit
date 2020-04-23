@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/iron-input/iron-input.js';
 import '../../../styles/shared-styles.js';
 import '../gr-button/gr-button.js';
@@ -28,7 +26,7 @@ import {htmlTemplate} from './gr-copy-clipboard_html.js';
 
 const COPY_TIMEOUT_MS = 1000;
 
-/** @extends Polymer.Element */
+/** @extends PolymerElement */
 class GrCopyClipboard extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {

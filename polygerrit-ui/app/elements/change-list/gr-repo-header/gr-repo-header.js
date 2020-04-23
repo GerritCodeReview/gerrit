@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
 
 import '../../../styles/dashboard-header-styles.js';
 import '../../../styles/shared-styles.js';
@@ -26,7 +25,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-repo-header_html.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
-/** @extends Polymer.Element */
+/** @extends PolymerElement */
 class GrRepoHeader extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {

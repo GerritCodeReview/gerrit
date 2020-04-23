@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/paper-tabs/paper-tabs.js';
 import '../../../styles/shared-styles.js';
 import '../../core/gr-reporting/gr-reporting.js';
@@ -131,7 +129,7 @@ const ROBOT_COMMENTS_LIMIT = 10;
 /**
  * @appliesMixin RESTClientMixin
  * @appliesMixin PatchSetMixin
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrChangeView extends mixinBehaviors( [
   KeyboardShortcutBehavior,

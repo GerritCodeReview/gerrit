@@ -16,7 +16,6 @@
  */
 
 import '@polymer/iron-input/iron-input.js';
-import '../../../scripts/bundled-polymer.js';
 import '../../../styles/gr-form-styles.js';
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-button/gr-button.js';
@@ -29,7 +28,7 @@ import {htmlTemplate} from './gr-cla-view_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrClaView extends mixinBehaviors( [
   BaseUrlBehavior,

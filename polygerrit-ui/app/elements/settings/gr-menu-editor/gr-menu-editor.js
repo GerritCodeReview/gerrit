@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/iron-input/iron-input.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-date-formatter/gr-date-formatter.js';
@@ -28,7 +26,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-menu-editor_html.js';
 
-/** @extends Polymer.Element */
+/** @extends PolymerElement */
 class GrMenuEditor extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {

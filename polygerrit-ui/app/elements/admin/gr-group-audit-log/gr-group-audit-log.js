@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import '../../../scripts/bundled-polymer.js';
 import '../../../styles/gr-table-styles.js';
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-date-formatter/gr-date-formatter.js';

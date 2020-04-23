@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
 
 import '../../shared/gr-dialog/gr-dialog.js';
 import '../../shared/gr-overlay/gr-overlay.js';

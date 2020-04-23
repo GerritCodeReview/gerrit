@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../../styles/shared-styles.js';
 import '../../../styles/gr-change-metadata-shared-styles.js';
 import '../../../styles/gr-change-view-integration-shared-styles.js';

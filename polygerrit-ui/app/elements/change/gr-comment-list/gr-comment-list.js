@@ -23,8 +23,6 @@
   from HTML and may be out of place here. Review them and
   then delete this comment!
 */
-
-import '../../../scripts/bundled-polymer.js';
 import '../../shared/gr-formatted-text/gr-formatted-text.js';
 import '../../../styles/shared-styles.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';

@@ -16,13 +16,6 @@
  */
 /* Import to get Gerrit interface */
 /* TODO(taoalpha): decouple gr-gerrit from gr-js-api-interface */
-/*
-  FIXME(polymer-modulizer): the above comments were extracted
-  from HTML and may be out of place here. Review them and
-  then delete this comment!
-*/
-
-import '../../../scripts/bundled-polymer.js';
 import '../gr-error-dialog/gr-error-dialog.js';
 import '../gr-reporting/gr-reporting.js';
 import '../../shared/gr-alert/gr-alert.js';

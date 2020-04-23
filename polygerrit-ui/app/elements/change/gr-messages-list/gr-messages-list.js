@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/paper-toggle-button/paper-toggle-button.js';
 import '../../core/gr-reporting/gr-reporting.js';
 import '../../shared/gr-button/gr-button.js';

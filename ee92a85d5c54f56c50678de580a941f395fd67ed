@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "07143974_e3e849b0",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-23T16:18:02Z",
+      "side": 1,
+      "message": "They could, yes, but in a non-DSL and (mostly) non-reuse context. Meaning, our goal here is to reuse the whole of sibling scenarios as aggregated or composed \"before/after\" steps. Also, some steps -from such reused scenarios- happen in the middle and may repeat (albeit using distinct instances, as Gatling prescribes).\n\nWe require reusable scenarios to be usable as setUp steps belonging to the aggregating scenario at hand (lines 43+ below). We also minimize code or test logic duplication that whole way.",
+      "parentUuid": "8b44d85d_8b037ddc",
+      "range": {
+        "startLine": 24,
+        "startChar": 6,
+        "endLine": 24,
+        "endChar": 18
+      },
+      "revId": "ee92a85d5c54f56c50678de580a941f395fd67ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad5b4686_730fec83",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
         "patchSetId": 1
@@ -180,6 +204,30 @@
       "side": 1,
       "message": "I see thanks...I will try to have a look at it since it is something intriguing for me 😊",
       "parentUuid": "6dac8c23_036f6269",
+      "range": {
+        "startLine": 33,
+        "startChar": 17,
+        "endLine": 33,
+        "endChar": 55
+      },
+      "revId": "ee92a85d5c54f56c50678de580a941f395fd67ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "abbdcf20_1fc65c2a",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-23T16:18:02Z",
+      "side": 1,
+      "message": "Sure, please do and let me know if anything new.",
+      "parentUuid": "7d3697b6_151573dc",
       "range": {
         "startLine": 33,
         "startChar": 17,

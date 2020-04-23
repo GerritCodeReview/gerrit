@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
 import '../../../styles/shared-styles.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
@@ -69,7 +67,7 @@ const RESPECTFUL_REVIEW_TIPS= [
 ];
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrComment extends mixinBehaviors( [
   KeyboardShortcutBehavior,

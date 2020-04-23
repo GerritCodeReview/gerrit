@@ -16,12 +16,6 @@
  */
 /* NB: es6-promise Needed for IE11 and fetch polyfill support, see Issue 4308 */
 /* NB: Order is important, because of namespaced classes. */
-/*
-  FIXME(polymer-modulizer): the above comments were extracted
-  from HTML and may be out of place here. Review them and
-  then delete this comment!
-*/
-import '../../../scripts/bundled-polymer.js';
 
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
@@ -61,7 +55,7 @@ const ANONYMIZED_REVISION_BASE_URL = ANONYMIZED_CHANGE_BASE_URL +
     '/revisions/*';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrRestApiInterface extends mixinBehaviors( [
   PathListBehavior,

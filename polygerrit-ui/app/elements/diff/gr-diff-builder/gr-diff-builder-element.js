@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../gr-coverage-layer/gr-coverage-layer.js';
 import '../gr-diff-processor/gr-diff-processor.js';
 import '../../shared/gr-hovercard/gr-hovercard.js';
@@ -46,7 +44,7 @@ const COMMIT_MSG_PATH = '/COMMIT_MSG';
 const COMMIT_MSG_LINE_LENGTH = 72;
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrDiffBuilderElement extends GestureEventListeners(
     LegacyElementMixin(PolymerElement)) {

@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/paper-button/paper-button.js';
 import '../../../styles/shared-styles.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
@@ -29,7 +27,7 @@ import {util} from '../../../scripts/util.js';
 import {appContext} from '../../../services/app-context.js';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrButton extends mixinBehaviors( [
   KeyboardShortcutBehavior,

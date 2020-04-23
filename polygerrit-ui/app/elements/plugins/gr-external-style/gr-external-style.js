@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
 import {importHref} from '../../../scripts/import-href.js';
 import {updateStyles} from '@polymer/polymer/lib/mixins/element-mixin.js';
@@ -26,7 +24,7 @@ import {htmlTemplate} from './gr-external-style_html.js';
 import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
-/** @extends Polymer.Element */
+/** @extends PolymerElement */
 class GrExternalStyle extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {

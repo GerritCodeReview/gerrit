@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
 import '../../../styles/gr-form-styles.js';
 import '../../../styles/gr-subpage-styles.js';
@@ -43,7 +41,7 @@ const CREATE_CHANGE_FAILED_MESSAGE = 'Failed to create change.';
 const CREATE_CHANGE_SUCCEEDED_MESSAGE = 'Navigating to change';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrRepoCommands extends GestureEventListeners(
     LegacyElementMixin(PolymerElement)) {

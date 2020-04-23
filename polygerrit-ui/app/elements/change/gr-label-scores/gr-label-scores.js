@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../gr-label-score-row/gr-label-score-row.js';
 import '../../../styles/shared-styles.js';
@@ -24,7 +22,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-label-scores_html.js';
 
-/** @extends Polymer.Element */
+/** @extends PolymerElement */
 class GrLabelScores extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {

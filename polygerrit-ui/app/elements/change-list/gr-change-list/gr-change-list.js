@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import '../../../scripts/bundled-polymer.js';
 import '../../../styles/gr-change-list-styles.js';
 import '../../shared/gr-cursor-manager/gr-cursor-manager.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
@@ -45,7 +44,7 @@ const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
 const MAX_SHORTCUT_CHARS = 5;
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrChangeList extends mixinBehaviors( [
   BaseUrlBehavior,

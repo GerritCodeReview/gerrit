@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../../styles/gr-voting-styles.js';
 import '../../../styles/shared-styles.js';
 import '../gr-account-label/gr-account-label.js';
@@ -31,7 +29,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-label-info_html.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
-/** @extends Polymer.Element */
+/** @extends PolymerElement */
 class GrLabelInfo extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {

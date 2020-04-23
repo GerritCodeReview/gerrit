@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/iron-icon/iron-icon.js';
 import '../../../styles/shared-styles.js';
 import '../gr-avatar/gr-avatar.js';
@@ -29,7 +27,7 @@ import {htmlTemplate} from './gr-account-label_html.js';
 import {DisplayNameBehavior} from '../../../behaviors/gr-display-name-behavior/gr-display-name-behavior.js';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrAccountLabel extends mixinBehaviors( [
   DisplayNameBehavior,

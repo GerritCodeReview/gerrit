@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-button/gr-button.js';
 import '../gr-diff-builder/gr-diff-builder-element.js';
@@ -69,7 +67,7 @@ const COMMIT_MSG_LINE_LENGTH = 72;
 const RENDER_DIFF_TABLE_DEBOUNCE_NAME = 'renderDiffTable';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrDiff extends mixinBehaviors( [
   PatchSetBehavior,

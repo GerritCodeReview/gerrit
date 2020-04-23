@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../shared/gr-lib-loader/gr-lib-loader.js';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
@@ -140,7 +138,7 @@ const JAVA_PARAM_ANNOT_PATTERN = /(@[^\s]+)\(([^)]+)\)/g;
 const GO_BACKSLASH_LITERAL = '\'\\\\\'';
 const GLOBAL_LT_PATTERN = /</g;
 
-/** @extends Polymer.Element */
+/** @extends PolymerElement */
 class GrSyntaxLayer extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {

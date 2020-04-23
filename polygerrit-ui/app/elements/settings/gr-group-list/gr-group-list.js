@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../../styles/shared-styles.js';
 import '../../../styles/gr-form-styles.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
@@ -25,7 +23,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-group-list_html.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
-/** @extends Polymer.Element */
+/** @extends PolymerElement */
 class GrGroupList extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {

@@ -14,10 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
-
 import '@polymer/iron-input/iron-input.js';
-import '../../../scripts/bundled-polymer.js';
 import '../../../styles/gr-form-styles.js';
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-autocomplete/gr-autocomplete.js';
@@ -37,7 +34,7 @@ const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrCreateChangeDialog extends mixinBehaviors( [
   BaseUrlBehavior,

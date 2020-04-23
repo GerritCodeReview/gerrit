@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../../styles/gr-table-styles.js';
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-list-view/gr-list-view.js';
@@ -28,7 +26,7 @@ import {htmlTemplate} from './gr-documentation-search_html.js';
 import {ListViewBehavior} from '../../../behaviors/gr-list-view-behavior/gr-list-view-behavior.js';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrDocumentationSearch extends mixinBehaviors( [
   ListViewBehavior,

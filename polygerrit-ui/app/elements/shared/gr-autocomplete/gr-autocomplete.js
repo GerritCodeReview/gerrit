@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/paper-input/paper-input.js';
 import '../gr-autocomplete-dropdown/gr-autocomplete-dropdown.js';
 import '../gr-cursor-manager/gr-cursor-manager.js';
@@ -33,7 +31,7 @@ const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 const DEBOUNCE_WAIT_MS = 200;
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrAutocomplete extends mixinBehaviors( [
   KeyboardShortcutBehavior,

@@ -16,6 +16,7 @@
  */
 
 import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side.js';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
 // MIME types for images we allow showing. Do not include SVG, it can contain
 // arbitrary JavaScript.
@@ -52,7 +53,7 @@ GrDiffBuilderImage.prototype._createEndpoint = function() {
   // column limit.
   td.setAttribute('colspan', '4');
   const endpoint = this._createElement('gr-endpoint-decorator');
-  const endpointDomApi = Polymer.dom(endpoint);
+  const endpointDomApi = dom(endpoint);
   endpointDomApi.setAttribute('name', 'image-diff');
   endpointDomApi.appendChild(
       this._createEndpointParam('baseImage', this._baseImage));
@@ -106,7 +107,7 @@ GrDiffBuilderImage.prototype._createImageCell = function(image, className,
 
 GrDiffBuilderImage.prototype._updateImageLabel = function(section, className,
     image) {
-  const label = Polymer.dom(section)
+  const label = dom(section)
       .querySelector('.' + className + ' span.label');
   this._setLabelText(label, image);
 };

@@ -17,9 +17,9 @@
 
 // This file is a replacement for the
 // polymer-bridges/polymer/polymer.html file. The polymer.html file loads
-// other scripts to setup different global variables. Because polygerrit
-// code still uses global variables (like Polymer.importHref and other),
-// we must setup this global variables after conversion to es6 modules.
+// other scripts to setup different global variables. Because plugins
+// expects that Polymer is available we must setup all Polymer global
+// variables
 //
 // The bundled-polymer.js imports all scripts in the same order as the
 // polymer.html does and must be imported in all es6-modules instead
@@ -68,4 +68,4 @@ import 'polymer-bridges/polymer/lib/legacy/mutable-data-behavior_bridge.js';
 import 'polymer-bridges/polymer/polymer-legacy_bridge.js';
 import {importHref} from './import-href.js';
 
-Polymer.importHref = importHref;
+window.Polymer.importHref = importHref;

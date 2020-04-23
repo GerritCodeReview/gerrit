@@ -26,7 +26,6 @@ limitations under the License.
 
 <test-fixture id="basic">
   <template>
-    <mock-diff-response></mock-diff-response>
     <gr-diff></gr-diff>
     <gr-diff-cursor></gr-diff-cursor>
     <gr-rest-api-interface></gr-rest-api-interface>
@@ -44,22 +43,20 @@ import '../../../test/common-test-setup.js';
 import '../gr-diff/gr-diff.js';
 import './gr-diff-cursor.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../shared/gr-rest-api-interface/mock-diff-response_test.js';
+import {getMockDiffResponse} from '../../../test/mock-diff-response.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 suite('gr-diff-cursor tests', () => {
   let sandbox;
   let cursorElement;
   let diffElement;
-  let mockDiffResponse;
 
   setup(done => {
     sandbox = sinon.sandbox.create();
 
     const fixtureElems = fixture('basic');
-    mockDiffResponse = fixtureElems[0];
-    diffElement = fixtureElems[1];
-    cursorElement = fixtureElems[2];
-    const restAPI = fixtureElems[3];
+    diffElement = fixtureElems[0];
+    cursorElement = fixtureElems[1];
+    const restAPI = fixtureElems[2];
 
     // Register the diff with the cursor.
     cursorElement.push('diffs', diffElement);
@@ -81,7 +78,7 @@ suite('gr-diff-cursor tests', () => {
 
     restAPI.getDiffPreferences().then(prefs => {
       diffElement.prefs = prefs;
-      diffElement.diff = mockDiffResponse.diffResponse;
+      diffElement.diff = getMockDiffResponse();
     });
   });
 
@@ -262,7 +259,7 @@ suite('gr-diff-cursor tests', () => {
       done();
     }
     diffElement.addEventListener('render', renderHandler);
-    diffElement._diffChanged(mockDiffResponse.diffResponse);
+    diffElement._diffChanged(getMockDiffResponse());
   });
 
   test('initialLineNumber provided', done => {
@@ -285,7 +282,7 @@ suite('gr-diff-cursor tests', () => {
     cursorElement.initialLineNumber = 10;
     cursorElement.side = 'right';
 
-    diffElement._diffChanged(mockDiffResponse.diffResponse);
+    diffElement._diffChanged(getMockDiffResponse());
   });
 
   test('getTargetDiffElement', () => {

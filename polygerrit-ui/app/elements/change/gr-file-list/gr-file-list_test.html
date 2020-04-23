@@ -44,7 +44,7 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import '../../diff/gr-comment-api/gr-comment-api.js';
-import '../../shared/gr-rest-api-interface/mock-diff-response_test.js';
+import {getMockDiffResponse} from '../../../test/mock-diff-response.js';
 import './gr-file-list.js';
 import '../../diff/gr-comment-api/gr-comment-api-mock_test.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
@@ -1506,7 +1506,6 @@ suite('gr-file-list tests', () => {
     ];
 
     const setupDiff = function(diff) {
-      const mock = document.createElement('mock-diff-response');
       diff.comments = {
         left: diff.path === '/COMMIT_MSG' ? commitMsgComments : [],
         right: [],
@@ -1534,7 +1533,7 @@ suite('gr-file-list tests', () => {
         theme: 'DEFAULT',
         ignore_whitespace: 'IGNORE_NONE',
       };
-      diff.diff = mock.diffResponse;
+      diff.diff = getMockDiffResponse();
       diff.$.diff.flushDebouncer('renderDiffTable');
     };
 

@@ -51,7 +51,7 @@ import '../../../test/common-test-setup.js';
 import '../gr-diff/gr-diff-group.js';
 import './gr-diff-builder.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../shared/gr-rest-api-interface/mock-diff-response_test.js';
+import {getMockDiffResponse} from '../../../test/mock-diff-response.js';
 import './gr-diff-builder-element.js';
 import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
@@ -898,7 +898,7 @@ suite('gr-diff-builder tests', () => {
 
     setup(done => {
       element = fixture('mock-diff');
-      diff = document.createElement('mock-diff-response').diffResponse;
+      diff = getMockDiffResponse();
       element.diff = diff;
 
       prefs = {

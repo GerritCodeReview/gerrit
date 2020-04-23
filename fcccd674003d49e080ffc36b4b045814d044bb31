@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "e8d67b06_34d27ec0",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeIsVisibleToPredicate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-04-23T14:09:56Z",
+      "side": 1,
+      "message": "Original code in 2.15 looked like this:\n\n  permissionBackend.user(user)\n\nand it delivered the functionality in question (\u0027visibleto\u0027 predicated was working for groups)\nhaving said that I can try to support the anonymous user (as suggested by David ;))",
+      "parentUuid": "7148c9ec_73714dcd",
+      "range": {
+        "startLine": 87,
+        "startChar": 37,
+        "endLine": 87,
+        "endChar": 41
+      },
+      "revId": "fcccd674003d49e080ffc36b4b045814d044bb31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6bd1b224_4968a7c6",
         "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 7

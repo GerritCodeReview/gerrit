@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "8b44d85d_8b037ddc",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-23T08:38:04Z",
+      "side": 1,
+      "message": "Gotcha...would hooks be of any help? https://gatling.io/docs/current/general/simulation_structure/#hooks",
+      "parentUuid": "30aacc18_20196ffa",
+      "range": {
+        "startLine": 24,
+        "startChar": 6,
+        "endLine": 24,
+        "endChar": 18
+      },
+      "revId": "ee92a85d5c54f56c50678de580a941f395fd67ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad5b4686_730fec83",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
         "patchSetId": 1
@@ -144,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "7d3697b6_151573dc",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-23T08:38:04Z",
+      "side": 1,
+      "message": "I see thanks...I will try to have a look at it since it is something intriguing for me 😊",
+      "parentUuid": "6dac8c23_036f6269",
+      "range": {
+        "startLine": 33,
+        "startChar": 17,
+        "endLine": 33,
+        "endChar": 55
+      },
+      "revId": "ee92a85d5c54f56c50678de580a941f395fd67ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21be2a82_79103c19",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
         "patchSetId": 1
@@ -179,6 +227,30 @@
       "side": 1,
       "message": "I tried adding a default case, but this crashes every run. That is because the code should not aim at finding these valid keys across the whole of the json files content. Rather, and this is what the code does now, do the valid replacements as above and leave whatever other json there is untouched.",
       "parentUuid": "21be2a82_79103c19",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 3
+      },
+      "revId": "ee92a85d5c54f56c50678de580a941f395fd67ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7986825_18b916a3",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-23T08:38:04Z",
+      "side": 1,
+      "message": "Oh ok...makes sense",
+      "parentUuid": "2dfda440_2fb18dcd",
       "range": {
         "startLine": 39,
         "startChar": 0,

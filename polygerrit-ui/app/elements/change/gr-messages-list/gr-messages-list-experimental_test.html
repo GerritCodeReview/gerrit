@@ -78,6 +78,10 @@ suite('gr-messages-list-experimental tests', () => {
     return dom(element.root).querySelectorAll('gr-message');
   };
 
+  const MESSAGE_ID_0 = '1234ccc949c6d482b061be6a28e10782abf0e7af';
+  const MESSAGE_ID_1 = '8c19ccc949c6d482b061be6a28e10782abf0e7af';
+  const MESSAGE_ID_2 = 'e7bfdbc842f6b6d8064bc68e0f52b673f40c0ca5';
+
   const author = {
     _account_id: 42,
     name: 'Marvin the Paranoid Android',
@@ -88,6 +92,7 @@ suite('gr-messages-list-experimental tests', () => {
     file1: [
       {
         message: 'message text',
+        change_message_id: MESSAGE_ID_0,
         updated: '2016-09-27 00:18:03.000000000',
         in_reply_to: '6505d749_f0bec0aa',
         line: 62,
@@ -100,6 +105,7 @@ suite('gr-messages-list-experimental tests', () => {
       },
       {
         message: 'message text',
+        change_message_id: MESSAGE_ID_1,
         updated: '2016-09-27 00:18:03.000000000',
         in_reply_to: 'c5912363_6b820105',
         line: 42,
@@ -109,6 +115,7 @@ suite('gr-messages-list-experimental tests', () => {
       },
       {
         message: 'message text',
+        change_message_id: MESSAGE_ID_1,
         updated: '2016-09-27 00:18:03.000000000',
         in_reply_to: '6505d749_f0bec0aa',
         line: 62,
@@ -116,10 +123,20 @@ suite('gr-messages-list-experimental tests', () => {
         patch_set: 2,
         author,
       },
+      {
+        message: 'message text',
+        change_message_id: MESSAGE_ID_2,
+        updated: '2016-09-27 00:18:03.000000000',
+        line: 64,
+        id: '34ed05d749_10ed44b2',
+        patch_set: 2,
+        author,
+      },
     ],
     file2: [
       {
         message: 'message text',
+        change_message_id: MESSAGE_ID_1,
         updated: '2016-09-27 00:18:03.000000000',
         in_reply_to: 'c5912363_4b7d450a',
         line: 132,
@@ -268,8 +285,8 @@ suite('gr-messages-list-experimental tests', () => {
           }
       );
       element.messages = messages;
-      const isAuthor = function(author, message) {
-        return message.author._account_id === author._account_id;
+      const isAuthor = function(author, comment) {
+        return comment.author._account_id === author._account_id;
       };
       const isMarvin = isAuthor.bind(null, author);
       flushAsynchronousOperations();
@@ -278,10 +295,14 @@ suite('gr-messages-list-experimental tests', () => {
       assert.deepEqual(messageElements[1].message, messages[1]);
       assert.deepEqual(messageElements[2].message, messages[2]);
       assert.deepEqual(messageElements[1].comments.file1,
-          comments.file1.filter(isMarvin));
+          comments.file1.filter(isMarvin).filter(
+              c => c.change_message_id === messages[1].id));
       assert.deepEqual(messageElements[1].comments.file2,
-          comments.file2.filter(isMarvin));
-      assert.deepEqual(messageElements[2].comments, {});
+          comments.file2.filter(isMarvin).filter(
+              c => c.change_message_id === messages[1].id));
+      assert.deepEqual(messageElements[2].comments.file1,
+          comments.file1.filter(isMarvin).filter(
+              c => c.change_message_id === messages[2].id));
     });
 
     test('messages without author do not throw', () => {

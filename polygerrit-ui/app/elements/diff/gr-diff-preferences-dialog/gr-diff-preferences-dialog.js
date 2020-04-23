@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-diff-preferences/gr-diff-preferences.js';

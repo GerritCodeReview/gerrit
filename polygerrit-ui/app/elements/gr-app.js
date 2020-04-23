@@ -15,11 +15,6 @@
  * limitations under the License.
  */
 
-/*
-  FIXME(polymer-modulizer): the above comments were extracted
-  from HTML and may be out of place here. Review them and
-  then delete this comment!
-*/
 import './gr-app-init.js';
 import './font-roboto-local-loader.js';
 import '../scripts/bundled-polymer.js';

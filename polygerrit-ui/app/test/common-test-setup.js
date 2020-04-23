@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../scripts/bundled-polymer.js';
-
 import 'polymer-resin/standalone/polymer-resin.js';
 import '@polymer/iron-test-helpers/iron-test-helpers.js';
 import './test-router.js';

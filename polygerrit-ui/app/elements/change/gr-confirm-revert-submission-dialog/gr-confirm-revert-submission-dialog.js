@@ -14,9 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
-
-import '../../../scripts/bundled-polymer.js';
 import '../../shared/gr-dialog/gr-dialog.js';
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';

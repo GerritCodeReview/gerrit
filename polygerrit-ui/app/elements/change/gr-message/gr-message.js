@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
 
 import '@polymer/iron-icon/iron-icon.js';
 import '../../shared/gr-account-label/gr-account-label.js';

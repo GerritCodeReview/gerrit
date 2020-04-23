@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
 
 import '../../../styles/shared-styles.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';

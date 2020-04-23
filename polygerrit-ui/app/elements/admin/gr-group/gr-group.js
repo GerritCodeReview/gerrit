@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import '../../../scripts/bundled-polymer.js';
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
 import '../../../styles/gr-form-styles.js';
 import '../../../styles/gr-subpage-styles.js';

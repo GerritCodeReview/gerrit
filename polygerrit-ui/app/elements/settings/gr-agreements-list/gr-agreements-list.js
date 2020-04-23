@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import '../../../scripts/bundled-polymer.js';
 import '../../../styles/gr-form-styles.js';
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';

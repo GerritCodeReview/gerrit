@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../../styles/gr-table-styles.js';
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-list-view/gr-list-view.js';

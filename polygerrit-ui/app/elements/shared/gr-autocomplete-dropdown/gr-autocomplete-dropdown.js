@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
 import '@polymer/iron-dropdown/iron-dropdown.js';
 import {IronFitBehavior} from '@polymer/iron-fit-behavior/iron-fit-behavior.js';
 import '../gr-cursor-manager/gr-cursor-manager.js';

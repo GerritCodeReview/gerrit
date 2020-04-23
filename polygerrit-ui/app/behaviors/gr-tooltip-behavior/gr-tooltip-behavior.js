@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../scripts/bundled-polymer.js';
-
 import '../../elements/shared/gr-tooltip/gr-tooltip.js';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {getRootElement} from '../../scripts/rootElement.js';

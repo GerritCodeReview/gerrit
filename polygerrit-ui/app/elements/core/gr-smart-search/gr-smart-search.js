@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../gr-search-bar/gr-search-bar.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';

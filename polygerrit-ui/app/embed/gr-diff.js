@@ -15,6 +15,10 @@
  * limitations under the License.
  */
 
+// Note: we do not install global Polymer variables here.
+// The usage of gr-diff suggests, that we shouldn't pollute global
+// namespace. If an application uses Polymer, the app have to import it
+// and must not expect that gr-diff setup global Polymer methods.
 window.Gerrit = window.Gerrit || {};
 import '../elements/diff/gr-diff/gr-diff.js';
 import '../elements/diff/gr-diff-cursor/gr-diff-cursor.js';

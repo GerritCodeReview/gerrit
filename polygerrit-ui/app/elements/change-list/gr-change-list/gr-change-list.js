@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import '../../../scripts/bundled-polymer.js';
 import '../../../styles/gr-change-list-styles.js';
 import '../../shared/gr-cursor-manager/gr-cursor-manager.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';

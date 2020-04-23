@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../../styles/shared-styles.js';
 import '../../../styles/gr-form-styles.js';
 import '../../admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog.js';

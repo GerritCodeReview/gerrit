@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-date-formatter/gr-date-formatter.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';

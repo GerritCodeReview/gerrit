@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import '../../../scripts/bundled-polymer.js';
 import '../../../styles/gr-change-list-styles.js';
 import '../../shared/gr-account-link/gr-account-link.js';
 import '../../shared/gr-change-star/gr-change-star.js';

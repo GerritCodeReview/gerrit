@@ -15,13 +15,9 @@
  * limitations under the License.
  */
 
-/*
-  FIXME(polymer-modulizer): the above comments were extracted
-  from HTML and may be out of place here. Review them and
-  then delete this comment!
-*/
 import './gr-app-init.js';
 import './font-roboto-local-loader.js';
+// Sets up global Polymer variable, because plugins requires it.
 import '../scripts/bundled-polymer.js';
 
 /**
@@ -50,7 +46,7 @@ security.polymer_resin.install({
   safeTypesBridge: SafeTypes.safeTypesBridge,
 });
 
-/** @extends Polymer.Element */
+/** @extends PolymerElement */
 class GrApp extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {

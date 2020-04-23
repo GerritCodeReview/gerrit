@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
 import '../../../styles/gr-form-styles.js';
 import '../../../styles/gr-subpage-styles.js';
@@ -41,7 +40,7 @@ const SAVING_ERROR_TEXT = 'Group may not exist, or you may not have '+
 const URL_REGEX = '^(?:[a-z]+:)?//';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrGroupMembers extends mixinBehaviors( [
   BaseUrlBehavior,

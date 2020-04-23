@@ -23,8 +23,6 @@
   from HTML and may be out of place here. Review them and
   then delete this comment!
 */
-
-import '../../../scripts/bundled-polymer.js';
 import '../../shared/gr-formatted-text/gr-formatted-text.js';
 import '../../../styles/shared-styles.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
@@ -38,7 +36,7 @@ import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/g
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrCommentList extends mixinBehaviors( [
   BaseUrlBehavior,

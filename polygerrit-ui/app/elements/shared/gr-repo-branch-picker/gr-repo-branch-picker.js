@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/iron-icon/iron-icon.js';
 import '../../../styles/shared-styles.js';
 import '../gr-icons/gr-icons.js';
@@ -32,7 +30,7 @@ const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrRepoBranchPicker extends mixinBehaviors( [
   URLEncodingBehavior,

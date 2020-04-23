@@ -95,12 +95,6 @@ by gr-app, and actually implemented by gr-comment-thread.
 NOTE: doc-only shortcuts will not be customizable in the same way that other
 shortcuts are.
 */
-/*
-  FIXME(polymer-modulizer): the above comments were extracted
-  from HTML and may be out of place here. Review them and
-  then delete this comment!
-*/
-import '../../scripts/bundled-polymer.js';
 
 import {IronA11yKeysBehavior} from '@polymer/iron-a11y-keys-behavior/iron-a11y-keys-behavior.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';

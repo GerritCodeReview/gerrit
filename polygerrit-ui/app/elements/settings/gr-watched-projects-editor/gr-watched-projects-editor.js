@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/iron-input/iron-input.js';
 import '../../shared/gr-autocomplete/gr-autocomplete.js';
 import '../../shared/gr-button/gr-button.js';
@@ -36,7 +34,7 @@ const NOTIFICATION_TYPES = [
   {name: 'Abandons', key: 'notify_abandoned_changes'},
 ];
 
-/** @extends Polymer.Element */
+/** @extends PolymerElement */
 class GrWatchedProjectsEditor extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {

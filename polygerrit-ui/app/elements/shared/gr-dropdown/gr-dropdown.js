@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import '../../../scripts/bundled-polymer.js';
 import '@polymer/iron-dropdown/iron-dropdown.js';
 import '../gr-button/gr-button.js';
 import '../gr-cursor-manager/gr-cursor-manager.js';
@@ -35,7 +33,7 @@ const REL_NOOPENER = 'noopener';
 const REL_EXTERNAL = 'external';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrDropdown extends mixinBehaviors( [
   BaseUrlBehavior,

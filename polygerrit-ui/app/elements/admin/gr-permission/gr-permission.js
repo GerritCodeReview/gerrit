@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
 
 import '@polymer/paper-toggle-button/paper-toggle-button.js';
 import '../../../styles/gr-form-styles.js';
@@ -48,7 +47,7 @@ const RANGE_NAMES = [
  * Fired when a permission that was previously added was removed.
  *
  * @event added-permission-removed
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrPermission extends mixinBehaviors( [
   AccessBehavior,

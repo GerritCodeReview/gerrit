@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/paper-toggle-button/paper-toggle-button.js';
 import '../../shared/gr-button/gr-button.js';
 import '../gr-message/gr-message.js';
@@ -49,7 +47,7 @@ const ExpandAllState = {
 };
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrMessagesList extends mixinBehaviors( [
   KeyboardShortcutBehavior,

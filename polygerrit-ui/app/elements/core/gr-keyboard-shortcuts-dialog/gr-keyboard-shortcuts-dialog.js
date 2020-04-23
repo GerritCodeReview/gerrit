@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../shared/gr-button/gr-button.js';
 import '../gr-key-binding-display/gr-key-binding-display.js';
 import '../../../styles/shared-styles.js';
@@ -29,7 +27,7 @@ import {KeyboardShortcutBehavior, KeyboardShortcutBinder} from '../../../behavio
 const {ShortcutSection} = KeyboardShortcutBinder;
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrKeyboardShortcutsDialog extends mixinBehaviors( [
   KeyboardShortcutBehavior,

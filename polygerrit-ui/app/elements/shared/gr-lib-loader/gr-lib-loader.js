@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../gr-js-api-interface/gr-js-api-interface.js';
 import {importHref} from '../../../scripts/import-href.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
@@ -27,7 +25,7 @@ import {htmlTemplate} from './gr-lib-loader_html.js';
 const HLJS_PATH = 'bower_components/highlightjs/highlight.min.js';
 const DARK_THEME_PATH = 'styles/themes/dark-theme.html';
 
-/** @extends Polymer.Element */
+/** @extends PolymerElement */
 class GrLibLoader extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {

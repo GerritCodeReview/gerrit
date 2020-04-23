@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {useShadow} from '@polymer/polymer/lib/utils/settings.js';
 
 let styleObjectCount = 0;
 
@@ -34,7 +35,7 @@ function GrStyleObject(rulesStr) {
  * @return {string} Appropriate class name for the element is returned
  */
 GrStyleObject.prototype.getClassName = function(element) {
-  let rootNode = Polymer.Settings.useShadow
+  let rootNode = useShadow
     ? element.getRootNode() : document.body;
   if (rootNode === document) {
     rootNode = document.head;

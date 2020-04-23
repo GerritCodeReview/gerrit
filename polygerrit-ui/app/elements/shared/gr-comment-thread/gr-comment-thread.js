@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../../styles/shared-styles.js';
 import '../gr-rest-api-interface/gr-rest-api-interface.js';
 import '../gr-storage/gr-storage.js';
@@ -36,7 +34,7 @@ const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrCommentThread extends mixinBehaviors( [
   /**

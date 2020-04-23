@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {sanitizeDOMValue} from '@polymer/polymer/lib/utils/settings.js';
 
 // TODO(wyatta): refactor this to be <MARK> rather than <HL>.
 const ANNOTATION_TAG = 'HL';
@@ -84,7 +86,7 @@ export const GrAnnotation = {
     }
 
     const wrapper = document.createElement(tagName);
-    const sanitizer = window.Polymer.sanitizeDOMValue;
+    const sanitizer = sanitizeDOMValue;
     for (const [name, value] of Object.entries(attributes)) {
       wrapper.setAttribute(
           name, sanitizer ?
@@ -149,8 +151,8 @@ export const GrAnnotation = {
     } else {
       hl = document.createElement(ANNOTATION_TAG);
       hl.className = cssClass;
-      Polymer.dom(node.parentElement).replaceChild(hl, node);
-      Polymer.dom(hl).appendChild(node);
+      dom(node.parentElement).replaceChild(hl, node);
+      dom(hl).appendChild(node);
     }
     return hl;
   },

@@ -16,7 +16,6 @@
  */
 
 import '@polymer/iron-input/iron-input.js';
-import '../../../scripts/bundled-polymer.js';
 import '../../../styles/gr-form-styles.js';
 import '../../../styles/gr-table-styles.js';
 import '../../../styles/shared-styles.js';
@@ -47,7 +46,7 @@ const PGP_START = '-----BEGIN PGP SIGNATURE-----';
 
 /**
  * @appliesMixin ListViewMixin
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrRepoDetailList extends mixinBehaviors( [
   ListViewBehavior,

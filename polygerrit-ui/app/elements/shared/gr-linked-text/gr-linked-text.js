@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../../styles/shared-styles.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
@@ -26,7 +24,7 @@ import {htmlTemplate} from './gr-linked-text_html.js';
 import {GrLinkTextParser} from './link-text-parser.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
-/** @extends Polymer.Element */
+/** @extends PolymerElement */
 class GrLinkedText extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {

@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../../styles/shared-styles.js';
 import '../gr-selection-action-box/gr-selection-action-box.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
@@ -27,7 +25,7 @@ import {GrAnnotation} from './gr-annotation.js';
 import {GrRangeNormalizer} from './gr-range-normalizer.js';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrDiffHighlight extends GestureEventListeners(
     LegacyElementMixin(PolymerElement)) {

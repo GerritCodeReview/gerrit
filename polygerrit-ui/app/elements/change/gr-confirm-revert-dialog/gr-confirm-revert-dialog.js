@@ -14,9 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
-
-import '../../../scripts/bundled-polymer.js';
 import '../../shared/gr-dialog/gr-dialog.js';
 import '../../../styles/shared-styles.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
@@ -37,7 +34,7 @@ const REVERT_TYPES = {
 };
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrConfirmRevertDialog extends GestureEventListeners(
     LegacyElementMixin(PolymerElement)) {

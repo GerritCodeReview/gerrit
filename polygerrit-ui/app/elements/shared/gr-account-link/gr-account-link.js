@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import '../../../scripts/bundled-polymer.js';
 import '../gr-account-label/gr-account-label.js';
 import '../../../styles/shared-styles.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
@@ -27,7 +26,7 @@ import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-beh
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrAccountLink extends mixinBehaviors( [
   BaseUrlBehavior,

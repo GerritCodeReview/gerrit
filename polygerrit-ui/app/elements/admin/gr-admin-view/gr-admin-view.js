@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
 import '../../../styles/gr-menu-page-styles.js';
 import '../../../styles/gr-page-nav-styles.js';
 import '../../../styles/shared-styles.js';
@@ -48,7 +47,7 @@ import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrAdminView extends mixinBehaviors( [
   AdminNavBehavior,

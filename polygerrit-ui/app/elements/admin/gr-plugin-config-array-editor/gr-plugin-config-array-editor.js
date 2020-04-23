@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/iron-input/iron-input.js';
 import '@polymer/paper-toggle-button/paper-toggle-button.js';
 import '../../../styles/gr-form-styles.js';
@@ -27,7 +25,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-plugin-config-array-editor_html.js';
 
-/** @extends Polymer.Element */
+/** @extends PolymerElement */
 class GrPluginConfigArrayEditor extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {

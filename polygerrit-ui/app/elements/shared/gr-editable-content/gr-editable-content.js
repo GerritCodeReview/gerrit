@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
 import '../../../styles/shared-styles.js';
 import '../gr-storage/gr-storage.js';
@@ -29,7 +27,7 @@ const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrEditableContent extends GestureEventListeners(
     LegacyElementMixin(PolymerElement)) {

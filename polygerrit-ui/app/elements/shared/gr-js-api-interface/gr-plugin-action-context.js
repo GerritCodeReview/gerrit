@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+
 export function GrPluginActionContext(plugin, action, change, revision) {
   this.action = action;
   this.plugin = plugin;
@@ -47,14 +49,14 @@ GrPluginActionContext.prototype.br = function() {
 
 GrPluginActionContext.prototype.msg = function(text) {
   const label = document.createElement('gr-label');
-  Polymer.dom(label).appendChild(document.createTextNode(text));
+  dom(label).appendChild(document.createTextNode(text));
   return label;
 };
 
 GrPluginActionContext.prototype.div = function(...els) {
   const div = document.createElement('div');
   for (const el of els) {
-    Polymer.dom(div).appendChild(el);
+    dom(div).appendChild(el);
   }
   return div;
 };
@@ -62,7 +64,7 @@ GrPluginActionContext.prototype.div = function(...els) {
 GrPluginActionContext.prototype.button = function(label, callbacks) {
   const onClick = callbacks && callbacks.onclick;
   const button = document.createElement('gr-button');
-  Polymer.dom(button).appendChild(document.createTextNode(label));
+  dom(button).appendChild(document.createTextNode(label));
   if (onClick) {
     this.plugin.eventHelper(button).onTap(onClick);
   }

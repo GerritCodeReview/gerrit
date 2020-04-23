@@ -17,6 +17,7 @@ import {appContext} from '../../../services/app-context.js';
  * limitations under the License.
  */
 import './gr-api-utils.js';
+import {importHref} from '../../../scripts/import-href.js';
 
 import {
   PLUGIN_LOADING_TIMEOUT_MS,
@@ -335,7 +336,7 @@ export class PluginLoader {
       };
     }
 
-    (Polymer.importHref || Polymer.Base.importHref)(
+    importHref(
         url, () => {},
         onerror,
         !sync);

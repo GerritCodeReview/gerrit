@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../gr-autocomplete-dropdown/gr-autocomplete-dropdown.js';
 import '../gr-cursor-manager/gr-cursor-manager.js';
 import '../gr-overlay/gr-overlay.js';
@@ -67,7 +65,7 @@ const ALL_SUGGESTIONS = [
 ];
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrTextarea extends mixinBehaviors( [
   KeyboardShortcutBehavior,

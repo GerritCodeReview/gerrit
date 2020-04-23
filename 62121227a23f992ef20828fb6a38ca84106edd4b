@@ -34,6 +34,24 @@
       "revId": "62121227a23f992ef20828fb6a38ca84106edd4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9830e453_308343ec",
+        "filename": "resources/log4j.properties",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-23T04:50:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e5ae7ed_7815ceeb",
+      "revId": "62121227a23f992ef20828fb6a38ca84106edd4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

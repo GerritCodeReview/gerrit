@@ -658,7 +658,7 @@ class ReceiveCommits {
       bu.execute();
     } catch (UpdateException | RestApiException e) {
       rejectRemaining(cmds, INTERNAL_SERVER_ERROR);
-      logger.atFine().withCause(e).log("update failed:");
+      logger.atSevere().withCause(e).log("update failed:");
     }
 
     Set<Branch.NameKey> branches = new HashSet<>();

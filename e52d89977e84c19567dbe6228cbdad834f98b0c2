@@ -93,6 +93,30 @@
       "revId": "e52d89977e84c19567dbe6228cbdad834f98b0c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8c341ff_aa202dca",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-23T05:01:58Z",
+      "side": 1,
+      "message": "Yes, I\u0027m doing the release now.",
+      "parentUuid": "81532297_c0d8a2e3",
+      "range": {
+        "startLine": 258,
+        "startChar": 45,
+        "endLine": 258,
+        "endChar": 58
+      },
+      "revId": "e52d89977e84c19567dbe6228cbdad834f98b0c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

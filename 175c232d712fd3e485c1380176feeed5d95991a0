@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8f28e52_5ed7579f",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeIsVisibleToPredicate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-23T15:59:46Z",
+      "side": 1,
+      "message": "Or \"absent\" user, below. Rename this method as it may not fallback to anonymous necessarily?",
+      "range": {
+        "startLine": 116,
+        "startChar": 19,
+        "endLine": 116,
+        "endChar": 38
+      },
+      "revId": "175c232d712fd3e485c1380176feeed5d95991a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8eca1f9_1fb459d1",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeIsVisibleToPredicate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-23T15:59:46Z",
+      "side": 1,
+      "message": "I don\u0027t understand why \u0027user\u0027 is/was deemed as \"absent\" if identified (and not single-group). In the single-group case (line 90), it is not. How do the single-group and otherwise-identified cases differ?",
+      "range": {
+        "startLine": 118,
+        "startChar": 28,
+        "endLine": 118,
+        "endChar": 38
+      },
+      "revId": "175c232d712fd3e485c1380176feeed5d95991a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

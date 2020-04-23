@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../shared/gr-dialog/gr-dialog.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../shared/gr-shell-command/gr-shell-command.js';
@@ -36,7 +34,7 @@ const PREFERRED_FETCH_COMMAND_ORDER = [
 ];
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrUploadHelpDialog extends GestureEventListeners(
     LegacyElementMixin(PolymerElement)) {

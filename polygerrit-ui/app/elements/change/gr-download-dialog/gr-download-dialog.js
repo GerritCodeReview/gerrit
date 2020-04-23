@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-download-commands/gr-download-commands.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
@@ -27,7 +25,7 @@ import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patc
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrDownloadDialog extends mixinBehaviors( [
   PatchSetBehavior,

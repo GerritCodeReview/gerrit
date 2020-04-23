@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
 import '../../core/gr-reporting/gr-reporting.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
@@ -80,7 +78,7 @@ const EMPTY_REPLY_MESSAGE = 'Cannot send an empty reply.';
 const SEND_REPLY_TIMING_LABEL = 'SendReply';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrReplyDialog extends mixinBehaviors( [
   BaseUrlBehavior,

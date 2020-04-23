@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
 import '../../../styles/gr-form-styles.js';
 import '../../shared/gr-button/gr-button.js';
@@ -29,7 +27,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-ssh-editor_html.js';
 
-/** @extends Polymer.Element */
+/** @extends PolymerElement */
 class GrSshEditor extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {

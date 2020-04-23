@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/paper-tabs/paper-tabs.js';
 import '../gr-shell-command/gr-shell-command.js';
 import '../gr-rest-api-interface/gr-rest-api-interface.js';
@@ -28,7 +26,7 @@ import {htmlTemplate} from './gr-download-commands_html.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrDownloadCommands extends mixinBehaviors( [
   RESTClientBehavior,

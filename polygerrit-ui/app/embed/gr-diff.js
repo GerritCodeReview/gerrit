@@ -16,6 +16,13 @@
  */
 
 window.Gerrit = window.Gerrit || {};
+// TODO(dmfilippov): remove bundled-polymer.js imports when the following issue
+// https://github.com/Polymer/polymer-resin/issues/9 is resolved.
+// Because gr-diff.js is a shared component, it shouldn' pollute global
+// variables. If an application wants to use Polymer global variable -
+// the app must assign/import it and do not rely on the Polymer variable
+// exposed by shared gr-diff component.
+import '../scripts/bundled-polymer.js';
 import '../elements/diff/gr-diff/gr-diff.js';
 import '../elements/diff/gr-diff-cursor/gr-diff-cursor.js';
 import {initDiffAppContext} from './app-context-init.js';

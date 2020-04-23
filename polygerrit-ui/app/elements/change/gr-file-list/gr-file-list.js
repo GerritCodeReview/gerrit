@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../../styles/shared-styles.js';
 import '../../core/gr-reporting/gr-reporting.js';
 import '../../diff/gr-diff-cursor/gr-diff-cursor.js';
@@ -97,7 +95,7 @@ const FileStatus = {
  */
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrFileList extends mixinBehaviors( [
   AsyncForeachBehavior,

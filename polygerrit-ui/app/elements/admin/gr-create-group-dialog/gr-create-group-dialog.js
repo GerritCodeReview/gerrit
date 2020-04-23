@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/iron-input/iron-input.js';
 import '../../../styles/gr-form-styles.js';
 import '../../../styles/shared-styles.js';
@@ -30,7 +28,7 @@ import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/g
 import page from 'page/page.mjs';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrCreateGroupDialog extends mixinBehaviors( [
   BaseUrlBehavior,

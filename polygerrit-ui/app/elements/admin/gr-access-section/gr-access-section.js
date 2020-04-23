@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
 import '@polymer/iron-input/iron-input.js';
 import '../../../styles/gr-form-styles.js';
 import '../../../styles/shared-styles.js';
@@ -51,7 +50,7 @@ const ON_BEHALF_OF = '(On Behalf Of)';
 const LABEL = 'Label';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrAccessSection extends mixinBehaviors( [
   AccessBehavior,

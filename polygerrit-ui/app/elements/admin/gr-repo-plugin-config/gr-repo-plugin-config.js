@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/iron-input/iron-input.js';
 import '@polymer/paper-toggle-button/paper-toggle-button.js';
 import '../../../styles/gr-form-styles.js';
@@ -34,7 +32,7 @@ import {htmlTemplate} from './gr-repo-plugin-config_html.js';
 import {RepoPluginConfig} from '../../../behaviors/gr-repo-plugin-config-behavior/gr-repo-plugin-config-behavior.js';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrRepoPluginConfig extends mixinBehaviors( [
   RepoPluginConfig,

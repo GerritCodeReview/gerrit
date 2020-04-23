@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/iron-input/iron-input.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
@@ -26,7 +24,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-email-editor_html.js';
 
-/** @extends Polymer.Element */
+/** @extends PolymerElement */
 class GrEmailEditor extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {

@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../gr-linked-text/gr-linked-text.js';
 import '../../../styles/shared-styles.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
@@ -28,7 +26,7 @@ import {htmlTemplate} from './gr-formatted-text_html.js';
 const QUOTE_MARKER_PATTERN = /\n\s?>\s/g;
 const CODE_MARKER_PATTERN = /^(`{1,3})([^`]+?)\1$/;
 
-/** @extends Polymer.Element */
+/** @extends PolymerElement */
 class GrFormattedText extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {

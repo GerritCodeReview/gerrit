@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-tooltip/gr-tooltip.js';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
@@ -25,7 +23,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-selection-action-box_html.js';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrSelectionActionBox extends GestureEventListeners(
     LegacyElementMixin(PolymerElement)) {

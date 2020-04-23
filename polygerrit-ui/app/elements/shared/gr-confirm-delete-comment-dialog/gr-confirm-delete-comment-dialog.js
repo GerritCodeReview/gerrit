@@ -14,9 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
-
-import '../../../scripts/bundled-polymer.js';
 import '../gr-dialog/gr-dialog.js';
 import '../../../styles/shared-styles.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
@@ -25,7 +22,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-confirm-delete-comment-dialog_html.js';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrConfirmDeleteCommentDialog extends GestureEventListeners(
     LegacyElementMixin(PolymerElement)) {

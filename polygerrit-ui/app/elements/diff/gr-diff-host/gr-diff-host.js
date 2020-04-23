@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../core/gr-reporting/gr-reporting.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../shared/gr-comment-thread/gr-comment-thread.js';
@@ -85,7 +83,7 @@ function isImageDiff(diff) {
  * Webcomponent fetching diffs and related data from restAPI and passing them
  * to the presentational gr-diff for rendering.
  *
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrDiffHost extends mixinBehaviors( [
   PatchSetBehavior,

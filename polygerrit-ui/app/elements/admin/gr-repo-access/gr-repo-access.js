@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../../styles/gr-menu-page-styles.js';
 import '../../../styles/gr-subpage-styles.js';
 import '../../../styles/shared-styles.js';
@@ -83,7 +81,7 @@ Defs.sections;
 Defs.projectAccessInput;
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrRepoAccess extends mixinBehaviors( [
   AccessBehavior,

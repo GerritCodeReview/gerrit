@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
 
 import '@polymer/iron-icon/iron-icon.js';
 import '../../shared/gr-account-label/gr-account-label.js';
@@ -35,7 +34,7 @@ const PATCH_SET_PREFIX_PATTERN = /^Patch Set \d+:\s*(.*)/;
 const LABEL_TITLE_SCORE_PATTERN = /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?$/;
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrMessage extends GestureEventListeners(
     LegacyElementMixin(PolymerElement)) {

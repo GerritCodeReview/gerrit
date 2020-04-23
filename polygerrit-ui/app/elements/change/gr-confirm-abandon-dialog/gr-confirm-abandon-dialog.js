@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
-
-import '../../../scripts/bundled-polymer.js';
 import '../../shared/gr-dialog/gr-dialog.js';
 import '../../../styles/shared-styles.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
@@ -27,7 +25,7 @@ import {htmlTemplate} from './gr-confirm-abandon-dialog_html.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrConfirmAbandonDialog extends mixinBehaviors( [
   KeyboardShortcutBehavior,

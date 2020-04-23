@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../gr-account-chip/gr-account-chip.js';
 import '../gr-account-entry/gr-account-entry.js';
 import '../../../styles/shared-styles.js';
@@ -28,7 +26,7 @@ import {htmlTemplate} from './gr-account-list_html.js';
 const VALID_EMAIL_ALERT = 'Please input a valid email.';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrAccountList extends GestureEventListeners(
     LegacyElementMixin(PolymerElement)) {

@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/iron-input/iron-input.js';
 import '../../shared/gr-autocomplete/gr-autocomplete.js';
 import '../../shared/gr-button/gr-button.js';
@@ -35,7 +33,7 @@ import {GrEditConstants} from '../gr-edit-constants.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrEditControls extends mixinBehaviors( [
   PatchSetBehavior,

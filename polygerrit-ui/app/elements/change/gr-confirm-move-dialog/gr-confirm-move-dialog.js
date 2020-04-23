@@ -14,9 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
-
-import '../../../scripts/bundled-polymer.js';
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-autocomplete/gr-autocomplete.js';
 import '../../shared/gr-dialog/gr-dialog.js';
@@ -31,7 +28,7 @@ import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-beh
 const SUGGESTIONS_LIMIT = 15;
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrConfirmMoveDialog extends mixinBehaviors( [
   KeyboardShortcutBehavior,

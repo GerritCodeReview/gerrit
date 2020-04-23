@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/iron-icon/iron-icon.js';
 import '../../shared/gr-icons/gr-icons.js';
 import '../../shared/gr-dialog/gr-dialog.js';
@@ -28,7 +26,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-confirm-submit-dialog_html.js';
 
-/** @extends Polymer.Element */
+/** @extends PolymerElement */
 class GrConfirmSubmitDialog extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {

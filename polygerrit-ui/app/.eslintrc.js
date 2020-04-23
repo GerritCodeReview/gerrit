@@ -169,7 +169,6 @@ module.exports = {
     // Global variables from 3rd party libraries.
     // You should not add anything in this list, always try to import
     // If import is not possible - you can extend this list
-    "Polymer": "readonly",
     "ShadyCSS": "readonly",
     "linkify": "readonly",
     "security": "readonly",
@@ -216,6 +215,7 @@ module.exports = {
       "globals": {
         // Settings for samples. You can add globals here if you want to use it
         "Gerrit": "readonly",
+        "Polymer": "readonly",
       }
     },
     {

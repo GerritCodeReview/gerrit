@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../shared/gr-autocomplete/gr-autocomplete.js';
 import '../../shared/gr-dialog/gr-dialog.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
@@ -25,7 +23,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-confirm-rebase-dialog_html.js';
 
-/** @extends Polymer.Element */
+/** @extends PolymerElement */
 class GrConfirmRebaseDialog extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {

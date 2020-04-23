@@ -16,6 +16,7 @@
  */
 import {GrDiffLine} from '../gr-diff/gr-diff-line.js';
 import {GrDiffGroup} from '../gr-diff/gr-diff-group.js';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
 /**
  * In JS, unicode code points above 0xFFFF occupy two elements of a string.
@@ -142,7 +143,7 @@ GrDiffBuilder.prototype.getGroupsByLineRange = function(
 
 GrDiffBuilder.prototype.getContentByLine = function(lineNumber, opt_side,
     opt_root) {
-  const root = Polymer.dom(opt_root || this._outputEl);
+  const root = dom(opt_root || this._outputEl);
   const sideSelector = opt_side ? ('.' + opt_side) : '';
   return root.querySelector('td.lineNum[data-value="' + lineNumber +
       '"]' + sideSelector + ' ~ td.content .contentText');
@@ -259,7 +260,7 @@ GrDiffBuilder.prototype._createContextButton = function(type, section, line,
   if (type === GrDiffBuilder.ContextButtonType.ALL) {
     const icon = this._createElement('iron-icon', 'showContext');
     icon.setAttribute('icon', 'gr-icons:unfold-more');
-    Polymer.dom(button).appendChild(icon);
+    dom(button).appendChild(icon);
 
     text = 'Show ' + numLines + ' common line';
     if (numLines > 1) { text += 's'; }
@@ -274,8 +275,8 @@ GrDiffBuilder.prototype._createContextButton = function(type, section, line,
         0, numLines - context);
   }
   const textSpan = this._createElement('span', 'showContext');
-  Polymer.dom(textSpan).textContent = text;
-  Polymer.dom(button).appendChild(textSpan);
+  dom(textSpan).textContent = text;
+  dom(button).appendChild(textSpan);
 
   button.addEventListener('tap', e => {
     e.detail = {
@@ -532,7 +533,7 @@ GrDiffBuilder.prototype.setBlame = function(blame) {
  * @return {HTMLTableDataCellElement}
  */
 GrDiffBuilder.prototype._getBlameByLineNum = function(lineNum) {
-  const root = Polymer.dom(this._outputEl);
+  const root = dom(this._outputEl);
   return root.querySelector(`td.blame[data-line-number="${lineNum}"]`);
 };
 

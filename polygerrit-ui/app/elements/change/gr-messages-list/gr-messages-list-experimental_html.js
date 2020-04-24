@@ -40,6 +40,7 @@ export const htmlTemplate = html`
       100% {
         background-color: var(--view-background-color);
       }
+<<<<<<< HEAD
     }
     .container {
       align-items: center;

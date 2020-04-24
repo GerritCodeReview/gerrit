@@ -916,7 +916,7 @@ suite('gr-diff-builder tests', () => {
 
     test('aria-labels on added line numbers', () => {
       const deltaLineNumberButton = element.diffElement.querySelectorAll(
-          'button.lineNum.right')[5];
+          '.lineNumButton.right')[5];
 
       assert.isOk(deltaLineNumberButton);
       assert.equal(deltaLineNumberButton.getAttribute('aria-label'), '5 added');
@@ -924,7 +924,7 @@ suite('gr-diff-builder tests', () => {
 
     test('aria-labels on removed line numbers', () => {
       const deltaLineNumberButton = element.diffElement.querySelectorAll(
-          'button.lineNum.left')[10];
+          '.lineNumButton.left')[10];
 
       assert.isOk(deltaLineNumberButton);
       assert.equal(

@@ -52,7 +52,7 @@ export const htmlTemplate = html`
       }
     </style>
     <div class="header">
-      <span id="showAllActivityToggleContainer" class="container" hidden\$="[[!_isVisibleShowAllActivityToggle(messages)]]">
+      <span id="showAllActivityToggleContainer" class="container" hidden\$="[[!_isVisibleShowAllActivityToggle(_combinedMessages)]]">
         <paper-toggle-button id="showAllActivityToggle" checked="{{_showAllActivity}}"></paper-toggle-button>Show All Activity
         <span class="transparent separator"></span>
       </span>

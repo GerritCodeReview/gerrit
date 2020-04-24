@@ -156,6 +156,22 @@ link:rest-api-changes.html#change-info[ChangeInfo]
 The submit action, including the title and label, an instance of
 link:rest-api-changes.html#action-info[ActionInfo]
 
+=== commit-container
+The `commit-container` extension point adds content at the end of the commit
+message to the change view.
+
+In addition to default parameters, the following are available:
+
+* `change`
++
+current change displayed, an instance of
+link:rest-api-changes.html#change-info[ChangeInfo]
+
+* `revision`
++
+current revision displayed, an instance of
+link:rest-api-changes.html#revision-info[RevisionInfo]
+
 == Dynamic Plugin endpoints
 
 The following endpoints are available to plugins.

@@ -90,16 +90,18 @@ def collectBuildModes() {
     def changedFiles = queryChangedFiles(Globals.gerritUrl)
     def polygerritFiles = changedFiles.findAll { it.startsWith("polygerrit-ui") ||
         it.startsWith("lib/js") }
+    def bazelFiles = changedFiles.findAll { it == "WORKSPACE" || it.endsWith("BUILD") ||
+        it.endsWith(".bzl") }
 
     if(polygerritFiles.size() > 0) {
-        if(changedFiles.size() == polygerritFiles.size()) {
+        if(changedFiles.size() == polygerritFiles.size() && bazelFiles.isEmpty()) {
             println "Only PolyGerrit UI changes detected, skipping other test modes..."
             Builds.modes = ["polygerrit"]
         } else {
             println "PolyGerrit UI changes detected, adding 'polygerrit' validation..."
             Builds.modes += "polygerrit"
         }
-    } else if(changedFiles.contains("WORKSPACE")) {
+    } else if(!bazelFiles.isEmpty()) {
         println "WORKSPACE file changes detected, adding 'polygerrit' validation..."
         Builds.modes += "polygerrit"
     }
@@ -110,10 +112,10 @@ def prepareBuildsForMode(buildName, mode="notedb", retryTimes = 1) {
         stage("${buildName}/${mode}") {
             def slaveBuild = null
             for (int i = 1; i <= retryTimes; i++) {
+                postCheck(new GerritCheck(
+                    (buildName == "Gerrit-codestyle") ? "codestyle" : mode,
+                    new Build(currentBuild.getAbsoluteUrl(), null)))
                 try {
-                    postCheck(new GerritCheck(
-                        (buildName == "Gerrit-codestyle") ? "codestyle" : mode,
-                        new Build(currentBuild.getAbsoluteUrl(), null)))
                     slaveBuild = build job: "${buildName}", parameters: [
                         string(name: 'REFSPEC', value: "refs/changes/${env.BRANCH_NAME}"),
                         string(name: 'BRANCH', value: env.GERRIT_PATCHSET_REVISION),

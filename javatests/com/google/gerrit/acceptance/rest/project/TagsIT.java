@@ -38,10 +38,13 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.List;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
@@ -65,6 +68,16 @@ public class TagsIT extends AbstractDaemonTest {
 
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+
+  @Before
+  public void setupPermissions() throws Exception {
+    try (ProjectConfigUpdate u = updateProject(allProjects)) {
+      ProjectConfig cfg = u.getConfig();
+      removeAllBranchPermissions(
+          cfg, Permission.CREATE, Permission.CREATE_TAG, Permission.CREATE_SIGNED_TAG);
+      u.save();
+    }
+  }
 
   @Test
   public void listTagsOfNonExistingProject() throws Exception {
@@ -454,5 +467,11 @@ public class TagsIT extends AbstractDaemonTest {
         .add(allow(Permission.CREATE_TAG).ref(R_TAGS + "*").group(adminGroupUuid()))
         .add(allow(Permission.CREATE_SIGNED_TAG).ref(R_TAGS + "*").group(adminGroupUuid()))
         .update();
+  }
+
+  private static void removeAllBranchPermissions(ProjectConfig cfg, String... permissions) {
+    cfg.getAccessSections().stream()
+        .filter(s -> s.getName().startsWith("refs/tags/"))
+        .forEach(s -> Arrays.stream(permissions).forEach(s::removePermission));
   }
 }

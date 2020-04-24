@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
-import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
@@ -180,12 +179,6 @@ public interface ChangeApi {
       EnumSet<ListChangesOption> listOptions, EnumSet<SubmittedTogetherOption> submitOptions)
       throws RestApiException;
 
-  /** Publishes a draft change. */
-  @Deprecated
-  default void publish() {
-    throw new UnsupportedOperationException("draft workflow is discontinued");
-  }
-
   /** Rebase the current revision of a change using default options. */
   default void rebase() throws RestApiException {
     rebase(new RebaseInput());
@@ -268,17 +261,6 @@ public interface ChangeApi {
   /** {@link #get(ListChangesOption...)} with no options included. */
   default ChangeInfo info() throws RestApiException {
     return get(EnumSet.noneOf(ListChangesOption.class));
-  }
-
-  /**
-   * Retrieve change edit when exists.
-   *
-   * @deprecated Replaced by {@link ChangeApi#edit()} in combination with {@link
-   *     ChangeEditApi#get()}.
-   */
-  @Deprecated
-  default EditInfo getEdit() throws RestApiException {
-    return edit().get().orElse(null);
   }
 
   /**

@@ -260,4 +260,9 @@ public abstract class Account {
 
     public abstract Account build();
   }
+
+  @Override
+  public final String toString() {
+    return getName();
+  }
 }

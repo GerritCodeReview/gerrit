@@ -22,6 +22,29 @@
       "revId": "122978b3b772fecb1def4b87e1d901bd6f5bab86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b979c43e_2d0f8960",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-24T18:41:27Z",
+      "side": 1,
+      "message": "May be make it a const?",
+      "range": {
+        "startLine": 71,
+        "startChar": 10,
+        "endLine": 71,
+        "endChar": 45
+      },
+      "revId": "122978b3b772fecb1def4b87e1d901bd6f5bab86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

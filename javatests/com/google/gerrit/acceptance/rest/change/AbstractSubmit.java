@@ -299,6 +299,89 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertTrees(project, actual);
   }
 
+  /**
+   * Tests the following situation:
+   *
+   * <ul>
+   *   <li>1. create a change series, consisting out of a merge commit and a normal commit
+   *   <li>2. before submitting the change series, another non-conflicting change gets submitted
+   *   <li>3. when the change series gets submitted, Gerrit must perform a merge/rebase/cherry-pick
+   * </ul>
+   */
+  @Test
+  public void submitChangeSeriesWithMergeCommitThatIsBasedOnOldTip() throws Throwable {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+
+    // create a commit which will become the first parent of a merge commit
+    PushOneCommit.Result parent1 =
+        pushFactory
+            .create(
+                admin.newIdent(),
+                testRepo,
+                "parent 2",
+                ImmutableMap.of("foo", "foo-2", "bar", "bar-2"))
+            .to("refs/heads/master");
+
+    // reset the testRepo in order to create a sibling of parent1
+    testRepo.reset(initialHead);
+
+    // create a stable branch that we can merge back into master later
+    BranchInput in = new BranchInput();
+    in.revision = initialHead.getName();
+    gApi.projects().name(project.get()).branch("refs/heads/stable").create(in);
+
+    // create one commit in the stable branch, which will become the second parent of the merge
+    // commit
+    PushOneCommit.Result parent2 =
+        pushFactory
+            .create(
+                admin.newIdent(),
+                testRepo,
+                "parent 1",
+                ImmutableMap.of("foo", "foo-1", "bar", "bar-1"))
+            .to("refs/heads/stable");
+
+    // create a merge change that merges the stable branch back into master
+    testRepo.reset(parent1.getCommit());
+    PushOneCommit m =
+        pushFactory.create(
+            admin.newIdent(), testRepo, "merge", ImmutableMap.of("foo", "foo-1", "bar", "bar-2"));
+    m.setParents(ImmutableList.of(parent1.getCommit(), parent2.getCommit()));
+    PushOneCommit.Result mergeChange = m.to("refs/for/master");
+    mergeChange.assertOkStatus();
+
+    // approve the merge change so that it becomes submittable
+    approve(mergeChange.getChangeId());
+
+    // create a successor change that depends on the merge change
+    PushOneCommit.Result successorChange = createChange("refs/for/master");
+
+    // simulate another developer submitting a change in the meantime (non-conflicting sibling
+    // commit of the merge commit), this means when the change series gets submitted Gerrit must
+    // perform a merge/rebase/cherry-pick now
+    testRepo.reset(parent1.getCommit());
+    submit(createChange("Other Change", "x.txt", "x content").getChangeId());
+
+    // submit the change series
+    if (getSubmitType() != SubmitType.FAST_FORWARD_ONLY) {
+      submit(successorChange.getChangeId());
+    } else {
+      submitWithConflict(
+          successorChange.getChangeId(),
+          "Failed to submit 2 changes due to the following problems:\n"
+              + "Change "
+              + mergeChange.getChange().getId()
+              + ": Project policy "
+              + "requires all submissions to be a fast-forward. Please "
+              + "rebase the change locally and upload again for review.\n"
+              + "Change "
+              + successorChange.getChange().getId()
+              + ": Project policy "
+              + "requires all submissions to be a fast-forward. Please "
+              + "rebase the change locally and upload again for review.");
+    }
+  }
+
   @Test
   public void submitNoPermission() throws Throwable {
     // create project where submit is blocked

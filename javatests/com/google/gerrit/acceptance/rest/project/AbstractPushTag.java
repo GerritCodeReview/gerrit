@@ -28,7 +28,6 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
-import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.entities.RefNames;
@@ -41,7 +40,6 @@ import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.junit.Before;
 import org.junit.Test;
 
-@NoHttpd
 public abstract class AbstractPushTag extends AbstractDaemonTest {
   enum TagType {
     LIGHTWEIGHT(Permission.CREATE),
@@ -61,11 +59,9 @@ public abstract class AbstractPushTag extends AbstractDaemonTest {
 
   @Before
   public void setUpTestEnvironment() throws Exception {
-    // clone with user to avoid inherited tag permissions of admin user
-    testRepo = cloneProject(project, user);
-
     initialHead = projectOperations.project(project).getHead("master");
     tagType = getTagType();
+    blockAnonymousRead();
   }
 
   protected abstract TagType getTagType();

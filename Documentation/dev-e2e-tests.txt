@@ -185,7 +185,9 @@ sbt "gatling:lastReport"
 ----
 
 The `src/test/resources/logback.xml` file
-link:http://logback.qos.ch/manual/configuration.html[configures] Gatling's logging level.
+link:http://logback.qos.ch/manual/configuration.html[configures] Gatling's logging level. To quickly
+enable link:https://gatling.io/docs/current/general/debugging#logback[detailed logging] of `http`
+requests and responses, the `root level` can be set to `trace` in that file.
 
 === How to run using Docker
 

@@ -27,6 +27,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -76,7 +77,7 @@ public class CreateRefControl {
     PermissionBackend.ForRef perm = permissionBackend.user(user.get()).ref(branch);
     if (object instanceof RevCommit) {
       perm.check(RefPermission.CREATE);
-      checkCreateCommit(repo, (RevCommit) object, ps.getNameKey(), perm);
+      checkCreateCommit(user, repo, (RevCommit) object, ps.getNameKey(), perm);
     } else if (object instanceof RevTag) {
       RevTag tag = (RevTag) object;
       try (RevWalk rw = new RevWalk(repo)) {
@@ -96,7 +97,7 @@ public class CreateRefControl {
 
       RevObject target = tag.getObject();
       if (target instanceof RevCommit) {
-        checkCreateCommit(repo, (RevCommit) target, ps.getNameKey(), perm);
+        checkCreateCommit(user, repo, (RevCommit) target, ps.getNameKey(), perm);
       } else {
         checkCreateRef(user, repo, branch, target);
       }
@@ -117,7 +118,11 @@ public class CreateRefControl {
    * new commit to the repository.
    */
   private void checkCreateCommit(
-      Repository repo, RevCommit commit, Project.NameKey project, PermissionBackend.ForRef forRef)
+      Provider<? extends CurrentUser> user,
+      Repository repo,
+      RevCommit commit,
+      Project.NameKey project,
+      PermissionBackend.ForRef forRef)
       throws AuthException, PermissionBackendException, IOException {
     try {
       // If the user has update (push) permission, they can create the ref regardless
@@ -131,7 +136,8 @@ public class CreateRefControl {
         project,
         repo,
         commit,
-        repo.getRefDatabase().getRefsByPrefix(Constants.R_HEADS, Constants.R_TAGS))) {
+        repo.getRefDatabase().getRefsByPrefix(Constants.R_HEADS, Constants.R_TAGS),
+        Optional.of(user))) {
       // If the user has no push permissions, check whether the object is
       // merged into a branch or tag readable by this user. If so, they are
       // not effectively "pushing" more objects, so they can create the ref

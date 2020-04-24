@@ -46,6 +46,7 @@
       for (const [el, domHook] of this._domHooks) {
         domHook.handleInstanceDetached(el);
       }
+      Gerrit._endpoints.onDetachedEndpoint(this.name, this._endpointCallBack);
     },
 
     /**
@@ -141,7 +142,8 @@
     },
 
     ready() {
-      Gerrit._endpoints.onNewEndpoint(this.name, this._initModule.bind(this));
+      this._endpointCallBack = this._initModule.bind(this);
+      Gerrit._endpoints.onNewEndpoint(this.name, this._endpointCallBack);
       Gerrit.awaitPluginsLoaded().then(() => Promise.all(
           Gerrit._endpoints.getPlugins(this.name).map(
               pluginUrl => this._import(pluginUrl)))

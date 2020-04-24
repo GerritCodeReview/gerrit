@@ -69,6 +69,7 @@ java_package_configuration(
         "-Xep:NullableConstructor:ERROR",
         "-Xep:NullablePrimitive:ERROR",
         "-Xep:NullableVoid:ERROR",
+        "-Xep:ObjectToString:ERROR",
         "-Xep:OperatorPrecedence:ERROR",
         "-Xep:OverridesGuiceInjectableMethod:ERROR",
         "-Xep:PreconditionsInvalidPlaceholder:ERROR",

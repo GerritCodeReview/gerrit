@@ -684,6 +684,13 @@ If not absolute, the path is resolved relative to `$site_path`.
 +
 Default is unset, no disk cache.
 
+[[cache.enableDiskStatMetrics]]cache.enableDiskStatMetrics::
++
+Whether to enable the computation of disk statistics of persistent caches.
+This computation is expensive and requires a long time on larger installations.
++
+By default, false.
+
 [[cache.h2CacheSize]]cache.h2CacheSize::
 +
 The size of the in-memory cache for each opened H2 cache database, in bytes.

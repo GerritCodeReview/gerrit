@@ -16,15 +16,18 @@ package com.google.gerrit.server.project;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -52,10 +55,20 @@ public class Reachable {
    */
   public boolean fromRefs(
       Project.NameKey project, Repository repo, RevCommit commit, List<Ref> refs) {
+    return fromRefs(project, repo, commit, refs, Optional.empty());
+  }
+
+  public boolean fromRefs(
+      Project.NameKey project,
+      Repository repo,
+      RevCommit commit,
+      List<Ref> refs,
+      Optional<Provider<? extends CurrentUser>> userProvider) {
     try (RevWalk rw = new RevWalk(repo)) {
       Map<String, Ref> filtered =
-          permissionBackend
-              .currentUser()
+          userProvider
+              .map(up -> permissionBackend.user(up.get()))
+              .orElse(permissionBackend.currentUser())
               .project(project)
               .filter(refs, repo, RefFilterOptions.defaults());
       return IncludedInResolver.includedInAny(repo, rw, commit, filtered.values());

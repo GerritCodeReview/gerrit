@@ -113,12 +113,15 @@ explains the link:error-messages.html[error messages].
 
 [[change-ref]]
 When a commit is pushed for review, Gerrit stores it in a staging area
-which is a branch in the special `refs/changes/` namespace. A change
-ref has the format `refs/changes/XX/YYYY/ZZ` where `YYYY` is the
-numeric change number, `ZZ` is the patch set number and `XX` is the
-last two digits of the numeric change number, e.g.
-`refs/changes/20/884120/1`. Understanding the format of this ref is not
-required for working with Gerrit.
+which is a branch in the special `refs/changes/` namespace. Understanding
+the format of this ref is not required for working with Gerrit, but it
+is explained below.
+
+A change ref has the format `refs/changes/X/Y/Z` where `X` is the last
+two digits of the change number, `Y` is the entire change number, and `Z`
+is the patch set. For example, if the change number is
+link:https://gerrit-review.googlesource.com/c/gerrit/+/263270[263270],
+the ref would be `refs/changes/70/263270/2` for the second patch set.
 
 [[fetch-change]]
 Using the change ref git clients can fetch the corresponding commit,

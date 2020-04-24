@@ -91,6 +91,7 @@ import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.AddReviewersEmail;
+import com.google.gerrit.server.change.AddReviewersOp.Result;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.change.NotifyResolver;
@@ -440,10 +441,15 @@ public class PostReview
     List<Address> toByEmail = new ArrayList<>();
     List<Address> ccByEmail = new ArrayList<>();
     for (ReviewerAddition addition : reviewerAdditions) {
-      if (addition.state() == ReviewerState.REVIEWER) {
+      Result reviewAdditionResult = addition.op.getResult();
+      if (addition.state() == ReviewerState.REVIEWER
+          && (!reviewAdditionResult.addedReviewers().isEmpty()
+              || !reviewAdditionResult.addedReviewersByEmail().isEmpty())) {
         to.addAll(addition.reviewers);
         toByEmail.addAll(addition.reviewersByEmail);
-      } else if (addition.state() == ReviewerState.CC) {
+      } else if (addition.state() == ReviewerState.CC
+          && (!reviewAdditionResult.addedCCs().isEmpty()
+              || !reviewAdditionResult.addedCCsByEmail().isEmpty())) {
         cc.addAll(addition.reviewers);
         ccByEmail.addAll(addition.reviewersByEmail);
       }

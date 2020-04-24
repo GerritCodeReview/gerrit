@@ -36,11 +36,6 @@ import java.util.Map;
 import java.util.Set;
 
 public interface RevisionApi {
-  @Deprecated
-  default void delete() {
-    throw new UnsupportedOperationException("draft workflow is discontinued");
-  }
-
   String description() throws RestApiException;
 
   void description(String description) throws RestApiException;
@@ -59,11 +54,6 @@ public interface RevisionApi {
   }
 
   BinaryResult submitPreview(String format) throws RestApiException;
-
-  @Deprecated
-  default void publish() {
-    throw new UnsupportedOperationException("draft workflow is discontinued");
-  }
 
   ChangeApi cherryPick(CherryPickInput in) throws RestApiException;
 

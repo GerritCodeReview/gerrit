@@ -26,9 +26,11 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class CacheMetrics {
@@ -36,7 +38,8 @@ public class CacheMetrics {
       Field.ofString("cache_name", Metadata.Builder::cacheName).build();
 
   @Inject
-  public CacheMetrics(MetricMaker metrics, DynamicMap<Cache<?, ?>> cacheMap) {
+  public CacheMetrics(
+      MetricMaker metrics, DynamicMap<Cache<?, ?>> cacheMap, @GerritServerConfig Config config) {
     CallbackMetric1<String, Long> memEnt =
         metrics.newCallbackMetric(
             "caches/memory_cached",
@@ -81,7 +84,8 @@ public class CacheMetrics {
             memEnt.set(name, c.size());
             memHit.set(name, cstats.hitRate() * 100);
             memEvict.set(name, cstats.evictionCount());
-            if (c instanceof PersistentCache) {
+            if (c instanceof PersistentCache
+                && config.getBoolean("cache", "enableDiskStatMetrics", false)) {
               PersistentCache.DiskStats d = ((PersistentCache) c).diskStats();
               perDiskEnt.set(name, d.size());
               perDiskHit.set(name, hitRatio(d));

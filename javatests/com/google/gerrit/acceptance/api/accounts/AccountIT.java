@@ -90,6 +90,7 @@ import com.google.gerrit.extensions.api.accounts.DeletedDraftCommentInfo;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.DraftInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
@@ -887,6 +888,99 @@ public class AccountIT extends AbstractDaemonTest {
       assertMailReplyTo(message, admin.email());
       accountIndexedCounter.assertNoReindex();
     }
+  }
+
+  @Test
+  public void addExistingReviewersUsingPostReview() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    // First reviewer added to the change
+    ReviewInput input = new ReviewInput();
+    input.reviewers = new ArrayList<>(1);
+    AddReviewerInput addReviewerInput = new AddReviewerInput();
+    addReviewerInput.reviewer = user.email();
+    input.reviewers.add(addReviewerInput);
+    gApi.changes().id(r.getChangeId()).current().review(input);
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    Message message = messages.get(0);
+    assertThat(message.rcpt()).containsExactly(user.getEmailAddress());
+    assertMailReplyTo(message, admin.email());
+
+    sender.clear();
+
+    // Second reviewer and existing reviewer added to the change
+    ReviewInput input2 = new ReviewInput();
+    input2.reviewers = new ArrayList<>(2);
+    AddReviewerInput addReviewerInput2 = new AddReviewerInput();
+    addReviewerInput2.reviewer = user.email();
+    input2.reviewers.add(addReviewerInput2);
+    AddReviewerInput addReviewerInput3 = new AddReviewerInput();
+
+    TestAccount user2 = accountCreator.user2();
+    addReviewerInput3.reviewer = user2.email();
+    input2.reviewers.add(addReviewerInput3);
+
+    gApi.changes().id(r.getChangeId()).current().review(input2);
+    List<Message> messages2 = sender.getMessages();
+    assertThat(messages2).hasSize(1);
+    Message message2 = messages2.get(0);
+    assertThat(message2.rcpt()).containsExactly(user.getEmailAddress(), user2.getEmailAddress());
+    assertMailReplyTo(message, admin.email());
+
+    sender.clear();
+
+    // Existing reviewers re-added to the change: no notifications
+    ReviewInput input3 = new ReviewInput();
+    input3.reviewers = new ArrayList<>(2);
+    AddReviewerInput addReviewerInput4 = new AddReviewerInput();
+    addReviewerInput4.reviewer = user.email();
+    input3.reviewers.add(addReviewerInput4);
+    AddReviewerInput addReviewerInput5 = new AddReviewerInput();
+
+    addReviewerInput5.reviewer = user2.email();
+    input3.reviewers.add(addReviewerInput5);
+
+    gApi.changes().id(r.getChangeId()).current().review(input3);
+    List<Message> messages3 = sender.getMessages();
+    assertThat(messages3).isEmpty();
+  }
+
+  @Test
+  public void addExistingReviewersUsingAddReviewer() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    // First reviewer added to the change
+    AddReviewerInput addReviewerInput = new AddReviewerInput();
+    addReviewerInput.reviewer = user.email();
+    gApi.changes().id(r.getChangeId()).addReviewer(addReviewerInput);
+    List<Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(1);
+    Message message = messages.get(0);
+    assertThat(message.rcpt()).containsExactly(user.getEmailAddress());
+    assertMailReplyTo(message, admin.email());
+
+    sender.clear();
+
+    // Second reviewer added to the change
+    TestAccount user2 = accountCreator.user2();
+    AddReviewerInput addReviewerInput2 = new AddReviewerInput();
+    addReviewerInput2.reviewer = user2.email();
+    gApi.changes().id(r.getChangeId()).addReviewer(addReviewerInput2);
+    List<Message> messages2 = sender.getMessages();
+    assertThat(messages2).hasSize(1);
+    Message message2 = messages2.get(0);
+    assertThat(message2.rcpt()).containsExactly(user.getEmailAddress(), user2.getEmailAddress());
+    assertMailReplyTo(message2, admin.email());
+
+    sender.clear();
+
+    // Exiting reviewer re-added to the change: no notifications
+    AddReviewerInput addReviewerInput3 = new AddReviewerInput();
+    addReviewerInput3.reviewer = user2.email();
+    gApi.changes().id(r.getChangeId()).addReviewer(addReviewerInput3);
+    List<Message> messages3 = sender.getMessages();
+    assertThat(messages3).isEmpty();
   }
 
   @Test

@@ -46,6 +46,30 @@
       "revId": "084943da8eee9c2a7efbb7b8373cd6a845b2e66e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e03e6b90_47afda14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-24T13:13:44Z",
+      "side": 1,
+      "message": "Is that correct? MINA SSHD upgrade change is only JGit\u0027s master. And Gerrit was already upgraded to MINA SSHD 2.4 release.\n\nSee also my recent comment on this change: [1]\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/263692",
+      "parentUuid": "a4348984_ad1bd105",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 41
+      },
+      "revId": "084943da8eee9c2a7efbb7b8373cd6a845b2e66e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -28,7 +28,6 @@ import {htmlTemplate} from './gr-autocomplete-dropdown_html.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 
 /**
- * @appliesMixin Polymer.IronFitMixin
  * @extends Polymer.Element
  */
 class GrAutocompleteDropdown extends mixinBehaviors( [

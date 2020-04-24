@@ -103,7 +103,6 @@ shortcuts are.
 import '../../scripts/bundled-polymer.js';
 
 import {IronA11yKeysBehavior} from '@polymer/iron-a11y-keys-behavior/iron-a11y-keys-behavior.js';
-import '../../types/polymer-behaviors.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
 const DOC_ONLY = 'DOC_ONLY';

@@ -70,6 +70,30 @@
       "revId": "084943da8eee9c2a7efbb7b8373cd6a845b2e66e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f0575cb_f0f65fb3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-24T14:04:35Z",
+      "side": 1,
+      "message": "The current version of JGit used on Gerrit master is v5.7.0.202003090808-r",
+      "parentUuid": "e03e6b90_47afda14",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 41
+      },
+      "revId": "084943da8eee9c2a7efbb7b8373cd6a845b2e66e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -281,18 +281,19 @@ class GrMessagesListExperimental extends mixinBehaviors( [
    */
   _computeCommentsForMessage(changeComments, message) {
     if ([changeComments, message].some(arg => arg === undefined)) {
-      return [];
+      return {};
     }
     const comments = changeComments.getAllPublishedComments();
     if (message._index === undefined || !comments || !this.messages) {
-      return [];
+      return {};
     }
     const idFilter = comment => comment.change_message_id === message.id;
 
     const msgComments = {};
     for (const file in comments) {
       if (!comments.hasOwnProperty(file)) { continue; }
-      msgComments[file] = comments[file].filter(idFilter);
+      const filtered = comments[file].filter(idFilter);
+      if (filtered.length) msgComments[file] = filtered;
     }
     return msgComments;
   }

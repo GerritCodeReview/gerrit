@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51dff168_98ef3118",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-24T15:13:50Z",
+      "side": 1,
+      "message": "just curious, why make it TEST_ONLY, above one looks totally fine the be an exported member since it\u0027s just a pure function.",
+      "revId": "bcb55657a8acc4f4662c6a1b913bbb78ccea2d34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

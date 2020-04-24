@@ -731,6 +731,7 @@ class ReceiveCommits {
         logger.atFine().log("Added %d additional ref updates", added);
         bu.execute();
       } catch (UpdateException | RestApiException e) {
+        logger.atSevere().withCause(e).log("update failed:");
         throw new StorageException(e);
       }
 

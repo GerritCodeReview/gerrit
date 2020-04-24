@@ -22,7 +22,6 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -53,12 +52,17 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
+import org.junit.Before;
 import org.junit.Test;
 
-@NoHttpd
-public class SubmitOnPushIT extends AbstractDaemonTest {
+public abstract class AbstractSubmitOnPush extends AbstractDaemonTest {
   @Inject private ApprovalsUtil approvalsUtil;
   @Inject private ProjectOperations projectOperations;
+
+  @Before
+  public void blockAnonymous() throws Exception {
+    blockAnonymousRead();
+  }
 
   @Test
   public void submitOnPush() throws Exception {

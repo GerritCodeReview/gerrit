@@ -16,7 +16,6 @@ package com.google.gerrit.metrics.proc;
 
 import com.sun.management.UnixOperatingSystemMXBean;
 
-@SuppressWarnings("restriction")
 class OperatingSystemMXBeanUnixNative implements OperatingSystemMXBeanInterface {
   private final UnixOperatingSystemMXBean sys;
 

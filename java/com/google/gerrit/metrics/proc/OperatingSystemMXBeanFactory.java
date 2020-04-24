@@ -20,7 +20,6 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.util.Arrays;
 
-@SuppressWarnings("restriction")
 class OperatingSystemMXBeanFactory {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

@@ -45,6 +45,30 @@
       "revId": "2f2e727ed63276a192c95c2801c56cb498f2a4f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3896bb78_73e51a81",
+        "filename": "javatests/com/google/gerrit/server/mail/SignedTokenTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-24T23:20:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4fa81d0_5ba82414",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 53
+      },
+      "revId": "2f2e727ed63276a192c95c2801c56cb498f2a4f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

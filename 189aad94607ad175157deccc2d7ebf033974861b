@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4912d33e_89fe934b",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-24T10:26:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8528f732_b389f7de",
+      "range": {
+        "startLine": 416,
+        "startChar": 6,
+        "endLine": 416,
+        "endChar": 24
+      },
+      "revId": "189aad94607ad175157deccc2d7ebf033974861b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b03a383_3d069f23",
         "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "189aad94607ad175157deccc2d7ebf033974861b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7dce0da_79481886",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-24T10:26:12Z",
+      "side": 1,
+      "message": "Done. I also got rid of the Set to simplify; we only need distinct().count().",
+      "parentUuid": "6b03a383_3d069f23",
+      "range": {
+        "startLine": 417,
+        "startChar": 6,
+        "endLine": 427,
+        "endChar": 92
+      },
+      "revId": "189aad94607ad175157deccc2d7ebf033974861b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "578e75b8_554d31fc",
+        "filename": "javatests/com/google/gerrit/acceptance/server/git/receive/ReceiveCommitsLimitsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-24T10:26:12Z",
+      "side": 1,
+      "message": "Good point, done.",
+      "parentUuid": "151fea82_d249dd29",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 35
+      },
+      "revId": "189aad94607ad175157deccc2d7ebf033974861b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7561ff06_f4e6bdf6",
         "filename": "javatests/com/google/gerrit/acceptance/server/git/receive/ReceiveCommitsLimitsIT.java",
         "patchSetId": 1
@@ -91,6 +163,30 @@
       "revId": "189aad94607ad175157deccc2d7ebf033974861b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd21cac2_b8375790",
+        "filename": "javatests/com/google/gerrit/acceptance/server/git/receive/ReceiveCommitsLimitsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-04-24T10:26:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7561ff06_f4e6bdf6",
+      "range": {
+        "startLine": 32,
+        "startChar": 39,
+        "endLine": 32,
+        "endChar": 44
+      },
+      "revId": "189aad94607ad175157deccc2d7ebf033974861b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -141,6 +141,30 @@
       "revId": "daff26d107a6986b12b15591337993511c24a77a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bf70561_916321a5",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-24T23:32:24Z",
+      "side": 0,
+      "message": "Without it meaning without the library at all, or without the version matching?  In the latter case it could be just good luck that between the versions there is no change in the API that testcontainers is actually using.\n\nMarking this as resolved since it\u0027s updated in the following change.",
+      "parentUuid": "351b2b98_b7f16289",
+      "range": {
+        "startLine": 193,
+        "startChar": 19,
+        "endLine": 193,
+        "endChar": 48
+      },
+      "revId": "daff26d107a6986b12b15591337993511c24a77a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

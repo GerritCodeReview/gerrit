@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d14b35d_970ef4fd",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-24T19:47:40Z",
+      "side": 0,
+      "message": "This should be updated as well to 1.0.8. Not sure when it was changed, though, but see: [1].\n\n* [1] https://github.com/testcontainers/testcontainers-java/blob/2c20417ac07b11e3255d7ce13dd5d83f3908df10/core/build.gradle#L121",
+      "range": {
+        "startLine": 181,
+        "startChar": 51,
+        "endLine": 181,
+        "endChar": 56
+      },
+      "revId": "daff26d107a6986b12b15591337993511c24a77a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d12add96_26b47cee",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-24T19:47:40Z",
+      "side": 0,
+      "message": "This should be 5.5.0, and even another dependency is needed: \"net.java.dev.jna:jna-platform:5.2.0\", see: [2].\n\n* [2] https://github.com/testcontainers/testcontainers-java/blob/2c20417ac07b11e3255d7ce13dd5d83f3908df10/core/build.gradle#L134",
+      "range": {
+        "startLine": 193,
+        "startChar": 19,
+        "endLine": 193,
+        "endChar": 48
+      },
+      "revId": "daff26d107a6986b12b15591337993511c24a77a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

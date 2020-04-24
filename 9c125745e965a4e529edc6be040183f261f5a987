@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bde9fc06_75a4ada5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-24T22:55:18Z",
+      "side": 1,
+      "message": "This is breaking the build: it would possibly need some reworking for master?",
+      "range": {
+        "startLine": 434,
+        "startChar": 0,
+        "endLine": 475,
+        "endChar": 31
+      },
+      "revId": "9c125745e965a4e529edc6be040183f261f5a987",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

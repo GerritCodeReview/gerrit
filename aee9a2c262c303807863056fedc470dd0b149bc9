@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "57988cb8_fe1b95c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-24T20:48:14Z",
+      "side": 1,
+      "message": "This should really just be a defaulted, simple \u0027weight\u0027 attribute. As such, it matches the \"default idle|sleep time\" idea I think. I\u0027m adding an explanatory paragraph to this commit message, to help clarify the purpose.",
+      "parentUuid": "5fc72603_b8402379",
+      "revId": "aee9a2c262c303807863056fedc470dd0b149bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "043cce60_bdb83a36",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "aee9a2c262c303807863056fedc470dd0b149bc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aebe7885_d676248b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-24T20:48:14Z",
+      "side": 1,
+      "message": "Yes, so this very first one here is the base runtime weight per scenario class type.",
+      "parentUuid": "043cce60_bdb83a36",
+      "range": {
+        "startLine": 9,
+        "startChar": 53,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "aee9a2c262c303807863056fedc470dd0b149bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "dcbe8d18_5f1b37ac",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-24T20:48:14Z",
+      "side": 1,
+      "message": "Done; thanks. It seems like this depends on the Scala reference used. The \"Impatient\" book for example sticks to lower camel case AFAIK. But some web pages do mention upper camel case. For one-word constant value names, I propose to stick to lower case, for readability.",
+      "parentUuid": "4c2de7a0_910816c9",
+      "range": {
+        "startLine": 34,
+        "startChar": 14,
+        "endLine": 34,
+        "endChar": 34
+      },
+      "revId": "aee9a2c262c303807863056fedc470dd0b149bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6adda2e_0b44cfaa",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
         "patchSetId": 1
@@ -85,6 +151,30 @@
       "revId": "aee9a2c262c303807863056fedc470dd0b149bc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e352629_89c47514",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-24T20:48:14Z",
+      "side": 1,
+      "message": "This \u0027max\u0027 is already used alongside the explicit \u0027second(s)\u0027 unit qualifier in scenarios. I\u0027d prefer not to add a (then redundant) \u0027Seconds\u0027 suffix to its name.\n\nAlso, because of that explicit unit qualifier, \u0027max\u0027 is always followed by the term \u0027second(s)\u0027 in the code, which makes it unambiguous that way. E.g., nothingFor(createProject.max seconds). Replacing it with \u0027idle\u0027 or \u0027sleep\u0027 makes that line of code odd when read. I\u0027d prefer to keep the readable max/maximum-seconds form; relates to Gatling\u0027s maxDuration term, too.",
+      "parentUuid": "b6adda2e_0b44cfaa",
+      "range": {
+        "startLine": 35,
+        "startChar": 6,
+        "endLine": 35,
+        "endChar": 9
+      },
+      "revId": "aee9a2c262c303807863056fedc470dd0b149bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "584167db_62d5f562",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-24T20:48:14Z",
+      "side": 1,
+      "message": "I tried with a var (val is constant), but the extending class\u0027 own value (where applicable) was not the one used at line 35 above. Rather, the default one from this class prevailed. So I fell back to this form, for which the optional overriding works.",
+      "parentUuid": "c9aaf5a7_206a059a",
+      "range": {
+        "startLine": 98,
+        "startChar": 2,
+        "endLine": 98,
+        "endChar": 5
+      },
+      "revId": "aee9a2c262c303807863056fedc470dd0b149bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "625b55eb_432f7323",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/ReplayRecordsFromFeeder.scala",
         "patchSetId": 1
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "266b3180_c3cddb86",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/ReplayRecordsFromFeeder.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-24T20:48:14Z",
+      "side": 1,
+      "message": "As per other related comment thread.",
+      "parentUuid": "625b55eb_432f7323",
+      "range": {
+        "startLine": 27,
+        "startChar": 11,
+        "endLine": 27,
+        "endChar": 14
+      },
+      "revId": "aee9a2c262c303807863056fedc470dd0b149bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0208dac_b95fba7b",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/ReplayRecordsFromFeeder.scala",
         "patchSetId": 1
@@ -154,6 +292,30 @@
       "revId": "aee9a2c262c303807863056fedc470dd0b149bc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31adb417_b2f27bd9",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/ReplayRecordsFromFeeder.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-24T20:48:14Z",
+      "side": 1,
+      "message": "I think this is simpler than it looks. Here, the idea is to wait for as long as possible before deleting the project as teardown. So, this step waits for [the test maximum time] minus [the deleteProject max step time]. This means giving just enough time to the deleteProject step, close to the end of the test\u0027s own (or overall) max time. Also relates to the below line 60. I refactored this into a variable with a more meaningful name.",
+      "parentUuid": "d0208dac_b95fba7b",
+      "range": {
+        "startLine": 56,
+        "startChar": 17,
+        "endLine": 56,
+        "endChar": 40
+      },
+      "revId": "aee9a2c262c303807863056fedc470dd0b149bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

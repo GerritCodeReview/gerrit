@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0411109_d911ac64",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-24T18:40:04Z",
+      "side": 1,
+      "message": "In which cases allMessages can be null/undefined?\nI found only 2 calls:\nfrom _isMessageVisible and _isVisibleShowAllActivityToggle\nIn the first case the allMessages parameter is a _combinedMessages. This is a calculated property and function never returns null\nIn the second case there is explicit messages||[]\n\nDid I miss something?",
+      "range": {
+        "startLine": 61,
+        "startChar": 22,
+        "endLine": 61,
+        "endChar": 34
+      },
+      "revId": "122978b3b772fecb1def4b87e1d901bd6f5bab86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

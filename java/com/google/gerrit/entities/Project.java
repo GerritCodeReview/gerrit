@@ -23,6 +23,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /** Projects match a source code repository managed by Gerrit */
 public final class Project {
@@ -246,5 +247,10 @@ public final class Project {
   /** Sets the {@code ObjectId} as 40 digit hex of {@code refs/meta/config}'s HEAD. */
   public void setConfigRefState(String state) {
     configRefState = state;
+  }
+
+  @Override
+  public String toString() {
+    return Optional.of(getName()).orElse("<null>");
   }
 }

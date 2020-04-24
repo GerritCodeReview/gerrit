@@ -506,6 +506,16 @@ def polygerrit_plugin(name, app, srcs = [], deps = [], externs = [], assets = No
             cmd = "sed 's/<script src=\"" + name + "_combined.js\"/<script src=\"" + plugin_name + ".js\"/g' $(SRCS) > $(OUTS)",
             output_to_bindir = True,
         )
+    else:
+        # For polymer 3 migration, we will only have js plugins, in case server side
+        # is still asking for *.html, we still want to create a html placeholder just to load the js
+        # TODO(taoalpha): this should be cleaned up once polymer 3 plugins are the only ones gerrit supports
+        native.genrule(
+            name = name + "_rename_html",
+            outs = [plugin_name + ".html"],
+            cmd = "echo \"<script src='" + plugin_name + ".js'></script>\" > $(OUTS)",
+            output_to_bindir = True,
+        )
 
     native.genrule(
         name = name + "_rename_js",
@@ -515,10 +525,7 @@ def polygerrit_plugin(name, app, srcs = [], deps = [], externs = [], assets = No
         output_to_bindir = True,
     )
 
-    if html_plugin:
-        static_files = [plugin_name + ".js", plugin_name + ".html"]
-    else:
-        static_files = [plugin_name + ".js"]
+    static_files = [plugin_name + ".js", plugin_name + ".html"]
 
     if assets:
         nested, direct = [], []

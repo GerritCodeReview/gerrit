@@ -57,15 +57,15 @@ export const htmlTemplate = html`
   </style>
   <div class="header">
     <span
-      id="automatedMessageToggleContainer"
+      id="showAllActivityToggleContainer"
       class="container"
-      hidden$="[[!_hasAutomatedMessages(messages)]]"
+      hidden$="[[!_isVisibleShowAllActivityToggle(messages)]]"
     >
       <paper-toggle-button
-        id="automatedMessageToggle"
-        checked="{{_hideAutomated}}"
+        id="showAllActivityToggle"
+        checked="{{_showAllActivity}}"
       ></paper-toggle-button
-      >Only comments
+      >Show All Activity
       <span class="transparent separator"></span>
     </span>
     <gr-button

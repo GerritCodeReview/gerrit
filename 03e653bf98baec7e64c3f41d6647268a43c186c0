@@ -22,6 +22,30 @@
       "revId": "03e653bf98baec7e64c3f41d6647268a43c186c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecb7fa0b_c246166e",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AbstractPushTag.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-24T12:33:21Z",
+      "side": 0,
+      "message": "I\u0027m not sure. This was automatically resolved by git mergetool.",
+      "parentUuid": "d31a662b_b4de5146",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 43
+      },
+      "revId": "03e653bf98baec7e64c3f41d6647268a43c186c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

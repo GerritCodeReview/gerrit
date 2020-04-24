@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b89b458_a109cf4d",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-24T23:49:50Z",
+      "side": 1,
+      "message": "Why is this file deleted?",
+      "revId": "a07676e5ab7f6051b954e792c5fee8798a0c0c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88e3bf4e_c8d6a0cd",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-24T23:49:50Z",
+      "side": 1,
+      "message": "this needs to be marked as an external link\n\n [263270,role\u003dexternal,window\u003d_blank]",
+      "range": {
+        "startLine": 124,
+        "startChar": 62,
+        "endLine": 124,
+        "endChar": 69
+      },
+      "revId": "a07676e5ab7f6051b954e792c5fee8798a0c0c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

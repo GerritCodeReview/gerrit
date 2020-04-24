@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "34090790_41bbdc79",
+        "filename": "plugins/delete-project",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-24T15:12:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "304efdad_f85c88e3",
+      "revId": "09a135775d097acafdd5f2d8d5a0da53cb12f0fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ca0be16_af5c54e4",
         "filename": "polygerrit-ui/app/.eslintrc.js",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "09a135775d097acafdd5f2d8d5a0da53cb12f0fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa18721f_9ae5faa0",
+        "filename": "polygerrit-ui/app/.eslintrc.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-24T15:12:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ca0be16_af5c54e4",
+      "revId": "09a135775d097acafdd5f2d8d5a0da53cb12f0fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -56,6 +92,30 @@
       "revId": "09a135775d097acafdd5f2d8d5a0da53cb12f0fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd673e0e_9d7eb937",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-24T15:12:06Z",
+      "side": 1,
+      "message": "No. :-)",
+      "parentUuid": "58319477_8e260bde",
+      "range": {
+        "startLine": 66,
+        "startChar": 23,
+        "endLine": 66,
+        "endChar": 32
+      },
+      "revId": "09a135775d097acafdd5f2d8d5a0da53cb12f0fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

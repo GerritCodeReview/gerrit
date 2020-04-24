@@ -45,6 +45,30 @@
       "revId": "175c232d712fd3e485c1380176feeed5d95991a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f529daa_c841550a",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeIsVisibleToPredicate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-24T05:28:27Z",
+      "side": 1,
+      "message": "It seems we\u0027re misunderstanding what \"absent\" means.  See [1].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/173970",
+      "parentUuid": "a8eca1f9_1fb459d1",
+      "range": {
+        "startLine": 118,
+        "startChar": 28,
+        "endLine": 118,
+        "endChar": 38
+      },
+      "revId": "175c232d712fd3e485c1380176feeed5d95991a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

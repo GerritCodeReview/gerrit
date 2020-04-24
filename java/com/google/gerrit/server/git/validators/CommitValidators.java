@@ -141,23 +141,25 @@ public class CommitValidators {
       PermissionBackend.ForRef perm = forProject.ref(branch.branch());
       ProjectState projectState =
           projectCache.get(branch.project()).orElseThrow(illegalState(branch.project()));
-      return new CommitValidators(
-          ImmutableList.of(
-              new UploadMergesPermissionValidator(perm),
-              new ProjectStateValidationListener(projectState),
-              new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
-              new AuthorUploaderValidator(user, perm, urlFormatter.get()),
-              new FileCountValidator(repoManager, config),
-              new CommitterUploaderValidator(user, perm, urlFormatter.get()),
-              new SignedOffByValidator(user, perm, projectState),
+      ImmutableList.Builder<CommitValidationListener> validators = ImmutableList.builder();
+      validators
+          .add(new UploadMergesPermissionValidator(perm))
+          .add(new ProjectStateValidationListener(projectState))
+          .add(new AmendedGerritMergeCommitValidationListener(perm, gerritIdent))
+          .add(new AuthorUploaderValidator(user, perm, urlFormatter.get()))
+          .add(new FileCountValidator(repoManager, config))
+          .add(new CommitterUploaderValidator(user, perm, urlFormatter.get()))
+          .add(new SignedOffByValidator(user, perm, projectState))
+          .add(
               new ChangeIdValidator(
-                  projectState, user, urlFormatter.get(), config, sshInfo, change),
-              new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects),
-              new BannedCommitsValidator(rejectCommits),
-              new PluginCommitValidationListener(pluginValidators, skipValidation),
-              new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
-              new AccountCommitValidator(repoManager, allUsers, accountValidator),
-              new GroupCommitValidator(allUsers)));
+                  projectState, user, urlFormatter.get(), config, sshInfo, change))
+          .add(new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects))
+          .add(new BannedCommitsValidator(rejectCommits))
+          .add(new PluginCommitValidationListener(pluginValidators, skipValidation))
+          .add(new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker))
+          .add(new AccountCommitValidator(repoManager, allUsers, accountValidator))
+          .add(new GroupCommitValidator(allUsers));
+      return new CommitValidators(validators.build());
     }
 
     public CommitValidators forGerritCommits(
@@ -170,21 +172,23 @@ public class CommitValidators {
       PermissionBackend.ForRef perm = forProject.ref(branch.branch());
       ProjectState projectState =
           projectCache.get(branch.project()).orElseThrow(illegalState(branch.project()));
-      return new CommitValidators(
-          ImmutableList.of(
-              new UploadMergesPermissionValidator(perm),
-              new ProjectStateValidationListener(projectState),
-              new AmendedGerritMergeCommitValidationListener(perm, gerritIdent),
-              new AuthorUploaderValidator(user, perm, urlFormatter.get()),
-              new FileCountValidator(repoManager, config),
-              new SignedOffByValidator(user, perm, projectState),
+      ImmutableList.Builder<CommitValidationListener> validators = ImmutableList.builder();
+      validators
+          .add(new UploadMergesPermissionValidator(perm))
+          .add(new ProjectStateValidationListener(projectState))
+          .add(new AmendedGerritMergeCommitValidationListener(perm, gerritIdent))
+          .add(new AuthorUploaderValidator(user, perm, urlFormatter.get()))
+          .add(new FileCountValidator(repoManager, config))
+          .add(new SignedOffByValidator(user, perm, projectState))
+          .add(
               new ChangeIdValidator(
-                  projectState, user, urlFormatter.get(), config, sshInfo, change),
-              new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects),
-              new PluginCommitValidationListener(pluginValidators),
-              new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker),
-              new AccountCommitValidator(repoManager, allUsers, accountValidator),
-              new GroupCommitValidator(allUsers)));
+                  projectState, user, urlFormatter.get(), config, sshInfo, change))
+          .add(new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects))
+          .add(new PluginCommitValidationListener(pluginValidators))
+          .add(new ExternalIdUpdateListener(allUsers, externalIdsConsistencyChecker))
+          .add(new AccountCommitValidator(repoManager, allUsers, accountValidator))
+          .add(new GroupCommitValidator(allUsers));
+      return new CommitValidators(validators.build());
     }
 
     public CommitValidators forMergedCommits(
@@ -205,12 +209,13 @@ public class CommitValidators {
       PermissionBackend.ForRef perm = forProject.ref(branch.branch());
       ProjectState projectState =
           projectCache.get(branch.project()).orElseThrow(illegalState(branch.project()));
-      return new CommitValidators(
-          ImmutableList.of(
-              new UploadMergesPermissionValidator(perm),
-              new ProjectStateValidationListener(projectState),
-              new AuthorUploaderValidator(user, perm, urlFormatter.get()),
-              new CommitterUploaderValidator(user, perm, urlFormatter.get())));
+      ImmutableList.Builder<CommitValidationListener> validators = ImmutableList.builder();
+      validators
+          .add(new UploadMergesPermissionValidator(perm))
+          .add(new ProjectStateValidationListener(projectState))
+          .add(new AuthorUploaderValidator(user, perm, urlFormatter.get()))
+          .add(new CommitterUploaderValidator(user, perm, urlFormatter.get()));
+      return new CommitValidators(validators.build());
     }
   }
 

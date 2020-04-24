@@ -20,10 +20,14 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.MERGE_LIST;
 import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
+import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -42,6 +46,7 @@ import com.google.common.primitives.Chars;
 import com.google.gerrit.acceptance.AcceptanceTestRequestScope.Context;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.AccessSection;
@@ -299,6 +304,7 @@ public abstract class AbstractDaemonTest {
   @Inject private ProjectIndexCollection projectIndexes;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private SitePaths sitePaths;
+  @Inject private ProjectOperations projectOperations;
 
   private ProjectResetter resetter;
   private List<Repository> toClose;
@@ -413,6 +419,9 @@ public abstract class AbstractDaemonTest {
     if (!testRequiresSsh) {
       baseConfig.setString("sshd", null, "listenAddress", "off");
     }
+
+    baseConfig.unset("gerrit", null, "canonicalWebUrl");
+    baseConfig.unset("httpd", null, "listenUrl");
 
     baseConfig.setInt("index", null, "batchThreads", -1);
 
@@ -985,6 +994,16 @@ public abstract class AbstractDaemonTest {
       config.commit(md);
       projectCache.evict(config.getProject());
     }
+  }
+
+  protected void blockAnonymousRead() throws Exception {
+    String allRefs = RefNames.REFS + "*";
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref(allRefs).group(ANONYMOUS_USERS))
+        .add(allow(Permission.READ).ref(allRefs).group(REGISTERED_USERS))
+        .update();
   }
 
   protected PushOneCommit.Result pushTo(String ref) throws Exception {

@@ -22,6 +22,30 @@
       "revId": "9c125745e965a4e529edc6be040183f261f5a987",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e099148d_5bd311db",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-24T23:43:34Z",
+      "side": 1,
+      "message": "Looks like you\u0027ve done this already, but just for the record:  the polygerrit-ui conflicts should be resolved by taking the version from master. The changes on stable-3.1 are cherry-picks of changes that were already on master and modified to work on stable-3.1",
+      "parentUuid": "bde9fc06_75a4ada5",
+      "range": {
+        "startLine": 434,
+        "startChar": 0,
+        "endLine": 475,
+        "endChar": 31
+      },
+      "revId": "9c125745e965a4e529edc6be040183f261f5a987",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

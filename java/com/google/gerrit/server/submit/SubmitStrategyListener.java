@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.submit;
 
+import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
@@ -79,10 +82,7 @@ public class SubmitStrategyListener implements BatchUpdateListener {
               args.mergeTip.getInitialTip(),
               args.mergeTip.getCurrentTip(),
               alreadyMerged);
-      for (Change.Id id : unmerged) {
-        logger.atSevere().log("change %d: change not reachable from new branch tip", id.get());
-        commitStatus.problem(id, "internal error: change not reachable from new branch tip");
-      }
+      checkState(unmerged.isEmpty(), "changes not reachable from new branch tip: %s", unmerged);
     }
     commitStatus.maybeFailVerbose();
   }
@@ -104,11 +104,9 @@ public class SubmitStrategyListener implements BatchUpdateListener {
     for (Change.Id id : commitStatus.getChangeIds()) {
       CodeReviewCommit commit = commitStatus.get(id);
       CommitMergeStatus s = commit != null ? commit.getStatusCode() : null;
-      if (s == null) {
-        logger.atSevere().log("change %d: change not processed by merge strategy", id.get());
-        commitStatus.problem(id, "internal error: change not processed by merge strategy");
-        continue;
-      }
+      requireNonNull(
+          s, String.format("change %d: change not processed by merge strategy", id.get()));
+
       if (commit.getStatusMessage().isPresent()) {
         logger.atFine().log(
             "change %d: Status for commit %s is %s. %s",

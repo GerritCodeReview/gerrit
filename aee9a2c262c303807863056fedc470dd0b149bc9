@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fc72603_b8402379",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-24T14:25:49Z",
+      "side": 1,
+      "message": "Why not just having a \"defaultIdelTime\" instead of exposing a constant which will translate in a \"sleep time\" at the end? Not sure this if this level of abstraction helps in making the framework easier to use.",
+      "revId": "aee9a2c262c303807863056fedc470dd0b149bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "043cce60_bdb83a36",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-24T14:25:49Z",
+      "side": 1,
+      "message": "If we want to define a weight I think it should be specific to the characteristic we are weighting, i.e.: the weight of a scenarios might also be intended in term of number of users injected.",
+      "range": {
+        "startLine": 9,
+        "startChar": 53,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "aee9a2c262c303807863056fedc470dd0b149bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c2de7a0_910816c9",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-24T14:25:49Z",
+      "side": 1,
+      "message": "Constant usually follow the upper camel case style",
+      "range": {
+        "startLine": 34,
+        "startChar": 14,
+        "endLine": 34,
+        "endChar": 34
+      },
+      "revId": "aee9a2c262c303807863056fedc470dd0b149bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6adda2e_0b44cfaa",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-24T14:25:49Z",
+      "side": 1,
+      "message": "I believe \"max\" is a bit ambiguous as a variable name. What about something more specific to this case? idleSeconds or sleepSeconds or something like that ?",
+      "range": {
+        "startLine": 35,
+        "startChar": 6,
+        "endLine": 35,
+        "endChar": 9
+      },
+      "revId": "aee9a2c262c303807863056fedc470dd0b149bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9aaf5a7_206a059a",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-24T14:25:49Z",
+      "side": 1,
+      "message": "this could probably be a val.",
+      "range": {
+        "startLine": 98,
+        "startChar": 2,
+        "endLine": 98,
+        "endChar": 5
+      },
+      "revId": "aee9a2c262c303807863056fedc470dd0b149bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "625b55eb_432f7323",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/ReplayRecordsFromFeeder.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-24T14:25:49Z",
+      "side": 1,
+      "message": "nit: this could be val",
+      "range": {
+        "startLine": 27,
+        "startChar": 11,
+        "endLine": 27,
+        "endChar": 14
+      },
+      "revId": "aee9a2c262c303807863056fedc470dd0b149bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0208dac_b95fba7b",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/ReplayRecordsFromFeeder.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-24T14:25:49Z",
+      "side": 1,
+      "message": "As I said in a previous comment I am not sure if this abstraction works in making the framework easier to use. For example in this case it is not straight forward to figure out how long I am sleeping for or, if the abstraction is about hiding the concept of time, what is the entity of this idle time.",
+      "range": {
+        "startLine": 56,
+        "startChar": 17,
+        "endLine": 56,
+        "endChar": 40
+      },
+      "revId": "aee9a2c262c303807863056fedc470dd0b149bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -80,6 +80,7 @@ public class SubmitStrategyListener implements BatchUpdateListener {
               args.mergeTip.getCurrentTip(),
               alreadyMerged);
       for (Change.Id id : unmerged) {
+        logger.atSevere().log("change %d: change not reachable from new branch tip", id.get());
         commitStatus.problem(id, "internal error: change not reachable from new branch tip");
       }
     }

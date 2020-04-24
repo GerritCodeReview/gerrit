@@ -33,9 +33,10 @@ public class FastForwardOnly extends SubmitStrategy {
         args.mergeUtil.getFirstFastForward(args.mergeTip.getInitialTip(), args.rw, sorted);
     if (!newTipCommit.equals(args.mergeTip.getInitialTip())) {
       ops.add(new FastForwardOp(args, newTipCommit));
-    }
-    while (!sorted.isEmpty()) {
-      ops.add(new NotFastForwardOp(sorted.remove(0)));
+    } else {
+      for (CodeReviewCommit c : toMerge) {
+        ops.add(new NotFastForwardOp(c));
+      }
     }
     return ops;
   }

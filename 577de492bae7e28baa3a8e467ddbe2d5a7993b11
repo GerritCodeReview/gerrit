@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "272c0b50_2d8d6aad",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-24T14:06:10Z",
+      "side": 1,
+      "message": "Thank you again for the detailed review, I appreciate it.\n\nSigh, you are right. This machinery - lazyload and two different data containers - is thorny :-/\n\nI removed the factory from ChangeControl and have ChangeControl only deal with a ChangeData. We now only generate ChangeData from ChangeNotes which seems OK because in that case DB access is allowed and the creation is low overhead. Otherwise we just use ChangeData as provided.\n\nThere are still two things that I think need fixing:\n1) We need to assert inside of ChangeControl that REVIEWERS was originally requested OR make it so that it\u0027s always requested. Otherwise there is a change of false negatives (we hide a change from a reviewer even though they can see it).\nSince this information is required for visibility filtering, it seems the best option to be to just always request it instead of safeguarding on the presence of the fields. The info is cheap to obtain IMO.\n\n2) Tests. The fact that the issue you brought up wasn\u0027t caught by tests is alarming.\nWe could add tests on PermissionBackend directly. We pass in ChangeData and ChangeNotes and assert behavior.\n\nIf you have ideas to increase coverage, I am all ears :-)",
+      "parentUuid": "59d7f9ae_752dd06c",
+      "range": {
+        "startLine": 710,
+        "startChar": 12,
+        "endLine": 710,
+        "endChar": 23
+      },
+      "revId": "577de492bae7e28baa3a8e467ddbe2d5a7993b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9ed8ede0_21d94f29",
         "filename": "java/com/google/gerrit/server/permissions/ChangeControl.java",
         "patchSetId": 5

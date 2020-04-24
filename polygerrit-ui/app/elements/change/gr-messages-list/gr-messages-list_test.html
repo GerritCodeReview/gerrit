@@ -424,6 +424,7 @@ suite('gr-messages-list tests', () => {
       assert.deepEqual(messageElements[2].comments.file1,
           comments.file1.filter(isMarvin).filter(
               c => c.change_message_id === messages[2].id));
+      assert.isUndefined(messageElements[2].comments.file2);
     });
 
     test('messages without author do not throw', () => {

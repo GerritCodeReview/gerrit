@@ -52,8 +52,8 @@ export const htmlTemplate = html`
       }
     </style>
     <div class="header">
-      <span id="automatedMessageToggleContainer" class="container" hidden\$="[[!_hasAutomatedMessages(messages)]]">
-        <paper-toggle-button id="automatedMessageToggle" checked="{{_hideAutomated}}"></paper-toggle-button>Only comments
+      <span id="showAllActivityToggleContainer" class="container" hidden\$="[[!_isVisibleShowAllActivityToggle(messages)]]">
+        <paper-toggle-button id="showAllActivityToggle" checked="{{_showAllActivity}}"></paper-toggle-button>Show All Activity
         <span class="transparent separator"></span>
       </span>
       <gr-button id="collapse-messages" link="" title="[[_expandAllTitle]]" on-click="_handleExpandCollapseTap">

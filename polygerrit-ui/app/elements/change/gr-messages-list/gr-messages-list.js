@@ -302,7 +302,8 @@ class GrMessagesList extends mixinBehaviors( [
     const msgComments = {};
     for (const file in comments) {
       if (!comments.hasOwnProperty(file)) { continue; }
-      msgComments[file] = comments[file].filter(idFilter);
+      const filtered = comments[file].filter(idFilter);
+      if (filtered.length) msgComments[file] = filtered;
     }
     return msgComments;
   }

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "69c3f668_463b9365",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-24T21:46:49Z",
+      "side": 0,
+      "message": "(Resolving.)",
+      "parentUuid": "a8dd7cfe_3fb7e930",
+      "range": {
+        "startLine": 181,
+        "startChar": 51,
+        "endLine": 181,
+        "endChar": 56
+      },
+      "revId": "daff26d107a6986b12b15591337993511c24a77a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d12add96_26b47cee",
         "filename": "tools/nongoogle.bzl",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "side": 0,
       "message": "Done in I58e1787cb too, but I forgot to consider that other new jna dependency; WIP.",
       "parentUuid": "d12add96_26b47cee",
+      "range": {
+        "startLine": 193,
+        "startChar": 19,
+        "endLine": 193,
+        "endChar": 48
+      },
+      "revId": "daff26d107a6986b12b15591337993511c24a77a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "351b2b98_b7f16289",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-24T21:46:49Z",
+      "side": 0,
+      "message": "I don\u0027t see evidence of jna-platform being needed locally. I can build and run elastic tests without it so far. Let\u0027s confirm this based on upcoming I58e1787cb\u0027s CI verification. Could that dependency be transitively (automatically) resolved or fetched?",
+      "parentUuid": "8833b818_af40aa26",
       "range": {
         "startLine": 193,
         "startChar": 19,

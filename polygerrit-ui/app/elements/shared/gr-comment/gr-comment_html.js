@@ -42,7 +42,7 @@ export const htmlTemplate = html`
         padding: var(--spacing-m);
       }
       .headerLeft > span {
-        font-weight: bold;
+        font-weight: var(--font-weight-bold);
       }
       .container.collapsed .header {
         margin-bottom: calc(0 - var(--spacing-m));

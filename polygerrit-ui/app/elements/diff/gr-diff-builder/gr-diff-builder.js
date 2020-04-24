@@ -308,7 +308,9 @@ GrDiffBuilder.prototype._createLineEl = function(
     // Both td and button need a number of classes/attributes for various
     // selectors to work.
     this._decorateLineEl(td, number, side);
+    td.classList.add('lineNum');
     this._decorateLineEl(button, number, side);
+    button.classList.add('lineNumButton');
 
     button.textContent = number === 'FILE' ? 'File' : number;
 
@@ -330,7 +332,6 @@ GrDiffBuilder.prototype._createLineEl = function(
 
 GrDiffBuilder.prototype._decorateLineEl = function(el, number, side) {
   el.classList.add(side);
-  el.classList.add('lineNum');
   el.dataset.value = number;
 };
 

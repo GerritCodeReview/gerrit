@@ -46,6 +46,30 @@
       "revId": "03e653bf98baec7e64c3f41d6647268a43c186c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22f2822c_6566f363",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AbstractPushTag.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-24T12:42:57Z",
+      "side": 0,
+      "message": "I checked, and actually it is correct, as it was removed when the `blockAnonymousRead()` was inserted.\n\nWe\u0027re good then 👍",
+      "parentUuid": "ecb7fa0b_c246166e",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 43
+      },
+      "revId": "03e653bf98baec7e64c3f41d6647268a43c186c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

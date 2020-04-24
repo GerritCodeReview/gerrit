@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "304efdad_f85c88e3",
+        "filename": "plugins/delete-project",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-24T15:05:52Z",
+      "side": 1,
+      "message": "are these intended or added accidentally ?",
+      "revId": "09a135775d097acafdd5f2d8d5a0da53cb12f0fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ca0be16_af5c54e4",
+        "filename": "polygerrit-ui/app/.eslintrc.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-24T15:05:52Z",
+      "side": 1,
+      "message": "hmm won\u0027t this included in a separate change ?",
+      "revId": "09a135775d097acafdd5f2d8d5a0da53cb12f0fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7eae7f2f_d195cd11",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-24T13:30:15Z",
+      "side": 1,
+      "message": "\u003cbutton\u003e has display:inline-block. Setting a width or height for inline elements is either not working or weird. Maybe the browser fixes that by adding a block element between the table-cell parent and its inline child, but I would like to have this be explicit. Either make the button a block or add a div wrapper around it.",
+      "range": {
+        "startLine": 53,
+        "startChar": 7,
+        "endLine": 54,
+        "endChar": 21
+      },
+      "revId": "fcb97d9185dc0009c543fb51169e8895c2f48377",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "2acf5609_31613887",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1737,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-24T08:21:16Z",
+      "side": 1,
+      "message": "\u003e Original blank line missing\n\ndone",
+      "parentUuid": "9c1ccba6_60da2063",
+      "range": {
+        "startLine": 1726,
+        "startChar": 0,
+        "endLine": 1737,
+        "endChar": 0
+      },
+      "revId": "fcccd674003d49e080ffc36b4b045814d044bb31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ae4d669_615877a2",
         "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 7

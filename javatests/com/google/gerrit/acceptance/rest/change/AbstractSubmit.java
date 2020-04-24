@@ -202,12 +202,14 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
                   "Failed to submit 3 changes due to the following problems:\n"
                       + "Change "
                       + change2.getChange().getId()
-                      + ": internal error: "
-                      + "change not processed by merge strategy\n"
+                      + ": Project policy "
+                      + "requires all submissions to be a fast-forward. Please "
+                      + "rebase the change locally and upload again for review.\n"
                       + "Change "
                       + change3.getChange().getId()
-                      + ": internal error: "
-                      + "change not processed by merge strategy\n"
+                      + ": Project policy "
+                      + "requires all submissions to be a fast-forward. Please "
+                      + "rebase the change locally and upload again for review.\n"
                       + "Change "
                       + change4.getChange().getId()
                       + ": Project policy "

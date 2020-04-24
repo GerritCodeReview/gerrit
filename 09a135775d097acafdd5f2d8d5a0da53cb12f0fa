@@ -33,6 +33,29 @@
       "revId": "09a135775d097acafdd5f2d8d5a0da53cb12f0fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58319477_8e260bde",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-24T15:09:03Z",
+      "side": 1,
+      "message": "nit: is this fallback necessary ?",
+      "range": {
+        "startLine": 66,
+        "startChar": 23,
+        "endLine": 66,
+        "endChar": 32
+      },
+      "revId": "09a135775d097acafdd5f2d8d5a0da53cb12f0fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

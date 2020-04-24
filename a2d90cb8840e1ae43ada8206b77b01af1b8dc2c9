@@ -1,0 +1,578 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7328dbb_bd38e102",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "Typo: comment",
+      "range": {
+        "startLine": 17,
+        "startChar": 26,
+        "endLine": 17,
+        "endChar": 34
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b70e2abe_ae0d3e5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "How will email notifications behave for patch-set-level comments?\n\nI would be fine if we polished the email notifications in a follow-up change but we shouldn\u0027t forget them and we also should mention them here.",
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b8ccb91_39954e22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "I had sincere doubts that this was true and hence checked it on a local instance. The comments are definitely visible on the UI. Please try it out yourself and come up with a better description which also mentions why it\u0027s acceptable to live with this backend change until we get the frontend improvements.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 63
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7387ff87_c69971d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "Typo: adjustments",
+      "range": {
+        "startLine": 30,
+        "startChar": 57,
+        "endLine": 30,
+        "endChar": 67
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8f715a3_6f3ad093",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "They are already visible. They\u0027re just not shown in the way we want them to be.",
+      "range": {
+        "startLine": 33,
+        "startChar": 3,
+        "endLine": 34,
+        "endChar": 8
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf46d859_8a889c99",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 5728,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "With \"Always empty\", are you referring to the current behavior of the diff endpoint to return no content for non-existent files instead of throwing an exception? If so, I wouldn\u0027t want to hard-code that behavior in this documentation. In addition, I think we should make it clearer that this specific file path is exclusively used for posting and indicating patch-set-level human/robot comments but that other REST endpoints using file paths won\u0027t have any reasonable behavior for it.",
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c29ae4f_b482df58",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 5728,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "Nit: patchset-level\n\nIt\u0027s better to use a hyphen here as it\u0027s a clarification of the following noun.",
+      "range": {
+        "startLine": 5728,
+        "startChar": 33,
+        "endLine": 5728,
+        "endChar": 47
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a5ced8d_1ef16d30",
+        "filename": "java/com/google/gerrit/entities/Patch.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "How this is currently written is confusing to read and understand as the \"specifically\" refers to the \"file\" or the complete part behind \"which ...\". I\u0027d suggest to split this into two sentences.",
+      "range": {
+        "startLine": 38,
+        "startChar": 23,
+        "endLine": 38,
+        "endChar": 78
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "258d2aca_29fa91e0",
+        "filename": "java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "Why is this necessary?",
+      "range": {
+        "startLine": 137,
+        "startChar": 22,
+        "endLine": 137,
+        "endChar": 57
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33b9d981_35db5b3f",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "Patchset-level",
+      "range": {
+        "startLine": 647,
+        "startChar": 37,
+        "endLine": 647,
+        "endChar": 51
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1858538_2c0b2fde",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "Patch-set-level robot comments should also support fix suggestion. Just the replacements should not use /PATCHSET_LEVEL as path.",
+      "range": {
+        "startLine": 690,
+        "startChar": 6,
+        "endLine": 692,
+        "endChar": 7
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "822e55d0_a7cd03ad",
+        "filename": "java/com/google/gerrit/truth/ListSubject.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "Unused method whose purpose is unclear.",
+      "range": {
+        "startLine": 74,
+        "startChar": 2,
+        "endLine": 77,
+        "endChar": 3
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c57e405_e4d6423e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1458,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "This should be a separate test.",
+      "range": {
+        "startLine": 1451,
+        "startChar": 4,
+        "endLine": 1458,
+        "endChar": 28
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35140ffc_95709811",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "Here and below: See my other comment about asserting exception messages.",
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c7202bb_93e1d5b5",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "Unnecessary line as overwritten by the next line.",
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "945a8720_106a5412",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "Methods should start with a lower case letter.",
+      "range": {
+        "startLine": 183,
+        "startChar": 14,
+        "endLine": 183,
+        "endChar": 56
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47b0d02b_a44df9ed",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "Omit. Reason: Those two assertions are already covered by line 194, which produces a nicer error message in case of failure.",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 193,
+        "endChar": 61
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3ad568a_244729fb",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "Omit. Reason: If there is only one key in the map, there can\u0027t be more/less values in it.",
+      "range": {
+        "startLine": 195,
+        "startChar": 4,
+        "endLine": 195,
+        "endChar": 47
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b2fa9d5_8a28791c",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "This method sets the \u0027side\u0027 of the comment. Because of this, the test also succeeds even if I remove line 205, which should actually be the input making the test succeed.",
+      "range": {
+        "startLine": 204,
+        "startChar": 25,
+        "endLine": 204,
+        "endChar": 63
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b8ce9f5_66543d0d",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "Asserting on the exact error message is not recommended as it makes tests brittle (e.g. you always need to change all tests just because you fixed a typo or some wording). If something about the error message is important, it\u0027s better to assert on the crucial text in it.",
+      "range": {
+        "startLine": 208,
+        "startChar": 4,
+        "endLine": 209,
+        "endChar": 78
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8656916a_a9297aef",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "Same comments as for patchsetLevelCommentCantHaveLine().",
+      "range": {
+        "startLine": 213,
+        "startChar": 14,
+        "endLine": 213,
+        "endChar": 49
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d18ad199_a32c60eb",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "Same comments as for patchsetLevelCommentCantHaveLine().",
+      "range": {
+        "startLine": 227,
+        "startChar": 14,
+        "endLine": 227,
+        "endChar": 48
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddedacc2_666f3a67",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "Methods should start with a lower case letter.",
+      "range": {
+        "startLine": 241,
+        "startChar": 14,
+        "endLine": 241,
+        "endChar": 61
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "573fdddc_285c9c86",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "As written above, both hasSize() assertions are superfluous.",
+      "range": {
+        "startLine": 248,
+        "startChar": 4,
+        "endLine": 250,
+        "endChar": 47
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04ed0c2c_e1159172",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me why this existing test was adjusted. Is there a specific test case you have in mind which should be covered with those adjustments? If so, could we have a separate test for it and use a descriptive test name so that the intention is clear?",
+      "range": {
+        "startLine": 1156,
+        "startChar": 0,
+        "endLine": 1161,
+        "endChar": 75
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53cf1239_6032b49f",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1417,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "It\u0027s confusing that this method\u0027s name contains \"PatchSetLevel\" but it still allows to specify a file name. What if a test used a different file name with this method? On the other hand, I like that tests explicitly call out that a comment is added on PATCHSET_LEVEL when the comment is also retrieved for PATCHSET_LEVEL. Would maybe another method name make more sense?",
+      "range": {
+        "startLine": 1417,
+        "startChar": 30,
+        "endLine": 1417,
+        "endChar": 65
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

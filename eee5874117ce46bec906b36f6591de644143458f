@@ -495,6 +495,24 @@
     },
     {
       "key": {
+        "uuid": "48e98c38_c6243758",
+        "filename": "java/com/google/gerrit/entities/Patch.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "Okay.\n\n\u003e Adding, renaming, deleting and restoring files is exactly the same for all magic files. I think it makes sense not to test it separately (I did confirm it manually though). The amount of tests cases here is kind of not great, I think this can be a good follow-up change to add tests for those endpoints for all magic files (or, one generic magic file, since they are all the same for this purpose).\n\nSounds good.",
+      "parentUuid": "5f518cbd_eb043f3e",
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c83ac36_c6c18d38",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 4
@@ -524,6 +542,24 @@
       "side": 1,
       "message": "* Disabled fix suggestions for robot comments.\n* Added test for GetDiff with the new magic file. With the diff, my test checks that it returns an empty diff, since the \"file\" didn\u0027t change (this is the current behavior for non-existent files).\n* For content, setReviewed/unsetReviewed, getBlame, we treat it as a non-existent file. I added a test for those endpoints but skipped the \"reviewed\" endpoints since it seems to allow setting this flag for non-existent changes... Might be a good follow-up fix.\n* I feel like testing some of the other cases you mentioned would be an overkill, since as you said, it\u0027s exactly the same as the other magic files: There is no reason for deletion of comments or replies not to work. I added some tests for deleting a comment, and checked other cases manually: E.g, I didn\u0027t want to just duplicate CommentsIT#postCommentWithReply.",
       "parentUuid": "5c83ac36_c6c18d38",
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dddb3040_efba99e7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "\u003e * Added test for GetDiff with the new magic file. With the diff, my test checks that it returns an empty diff, since the \"file\" didn\u0027t change (this is the current behavior for non-existent files).\nSounds good. To ensure that we know the actual intention of the test, can you add a comment to the test saying that the test is just mimicking the behavior for non-existent files? That would be helpful if we choose to change that behavior in the future and wonder whether it\u0027s necessary for the frontend to return empty diffs for /PATCHSET_LEVEL files.",
+      "parentUuid": "60f0beb2_ec413483",
       "revId": "eee5874117ce46bec906b36f6591de644143458f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -659,6 +695,23 @@
     },
     {
       "key": {
+        "uuid": "d5edb469_c52d639f",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "I found that deleted line visually helpful.",
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b16b9c5b_5e3dc858",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 4
@@ -738,6 +791,30 @@
       "revId": "eee5874117ce46bec906b36f6591de644143458f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d84f399c_b558c6b3",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1093,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "Strange. I\u0027m sure that I had looked it up when I wrote the comment. Well, we could create it. As the updated tests don\u0027t assert the content anymore, it\u0027s maybe also not necessary.",
+      "parentUuid": "a1c826c6_412f7b56",
+      "range": {
+        "startLine": 1093,
+        "startChar": 4,
+        "endLine": 1093,
+        "endChar": 70
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -823,6 +900,30 @@
       "side": 1,
       "message": "I agree, disallowed side, line and range. Everything else seems okay.\nFor draft comments I didn\u0027t disallow those things, just to stay consistent: Seems like there are some checks that could be done for drafts as well but are only done in PostReview (e.g path validity, range validity)\nMaybe we should fix it in a follow-up change?",
       "parentUuid": "7f18f40f_856ff094",
+      "range": {
+        "startLine": 1102,
+        "startChar": 40,
+        "endLine": 1102,
+        "endChar": 53
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "770b1509_4b8fa2d2",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1102,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T16:23:57Z",
+      "side": 1,
+      "message": "It\u0027s definitely an oversight if draft comments allow input parameters which directly posted comments don\u0027t allow. Fixing this in a follow-up change for existing input limitations sounds like a good idea.\n\nFor newly introduced limitations, I would like to directly implement them properly. There\u0027s no reason to stay consistent with other bugs/oversights. Hence, please add the input restrictions for patch-set-level draft comments directly within this change and test them.",
+      "parentUuid": "b1828c94_ae4c6e1f",
       "range": {
         "startLine": 1102,
         "startChar": 40,

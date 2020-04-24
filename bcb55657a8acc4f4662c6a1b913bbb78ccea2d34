@@ -16,6 +16,24 @@
       "revId": "bcb55657a8acc4f4662c6a1b913bbb78ccea2d34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bec3165e_d415e4b8",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-24T15:17:40Z",
+      "side": 1,
+      "message": "*If* some other component wanted to depend on that, then we should really move it to services/ or model/ directory. I think component files should generally not export anything. Anyone depending on this other than test files would be a code smell IMO.",
+      "parentUuid": "51dff168_98ef3118",
+      "revId": "bcb55657a8acc4f4662c6a1b913bbb78ccea2d34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

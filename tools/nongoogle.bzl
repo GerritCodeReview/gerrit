@@ -178,8 +178,8 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "duct-tape",
-        artifact = "org.rnorth.duct-tape:duct-tape:1.0.7",
-        sha1 = "a26b5d90d88c91321dc7a3734ea72d2fc019ebb6",
+        artifact = "org.rnorth.duct-tape:duct-tape:1.0.8",
+        sha1 = "92edc22a9ab2f3e17c9bf700aaee377d50e8b530",
     )
 
     maven_jar(
@@ -190,6 +190,6 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "jna",
-        artifact = "net.java.dev.jna:jna:5.2.0",
-        sha1 = "ed8b772eb077a9cb50e44e90899c66a9a6c00e67",
+        artifact = "net.java.dev.jna:jna:5.5.0",
+        sha1 = "0e0845217c4907822403912ad6828d8e0b256208",
     )

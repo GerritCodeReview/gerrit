@@ -434,7 +434,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           ccByEmail.addAll(addition.reviewersByEmail);
         }
       }
-      addReviewersEmail.emailReviewers(
+      addReviewersEmail.emailReviewersAsync(
           user.asIdentifiedUser(), change, to, cc, toByEmail, ccByEmail, notify);
     }
   }

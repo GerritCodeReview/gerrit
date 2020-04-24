@@ -20,25 +20,33 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.send.AddReviewerSender;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collection;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 @Singleton
 public class AddReviewersEmail {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final AddReviewerSender.Factory addReviewerSenderFactory;
+  private final ExecutorService sendEmailsExecutor;
 
   @Inject
-  AddReviewersEmail(AddReviewerSender.Factory addReviewerSenderFactory) {
+  AddReviewersEmail(
+      AddReviewerSender.Factory addReviewerSenderFactory,
+      @SendEmailExecutor ExecutorService sendEmailsExecutor) {
     this.addReviewerSenderFactory = addReviewerSenderFactory;
+    this.sendEmailsExecutor = sendEmailsExecutor;
   }
 
-  public void emailReviewers(
+  public void emailReviewersAsync(
       IdentifiedUser user,
       Change change,
       Collection<Account.Id> added,
@@ -48,26 +56,41 @@ public class AddReviewersEmail {
       NotifyResolver.Result notify) {
     // The user knows they added themselves, don't bother emailing them.
     Account.Id userId = user.getAccountId();
-    ImmutableList<Account.Id> toMail =
+    ImmutableList<Account.Id> immutableToMail =
         added.stream().filter(id -> !id.equals(userId)).collect(toImmutableList());
-    ImmutableList<Account.Id> toCopy =
+    ImmutableList<Account.Id> immutableToCopy =
         copied.stream().filter(id -> !id.equals(userId)).collect(toImmutableList());
-    if (toMail.isEmpty() && toCopy.isEmpty() && addedByEmail.isEmpty() && copiedByEmail.isEmpty()) {
+    if (immutableToMail.isEmpty()
+        && immutableToCopy.isEmpty()
+        && addedByEmail.isEmpty()
+        && copiedByEmail.isEmpty()) {
       return;
     }
 
-    try {
-      AddReviewerSender cm = addReviewerSenderFactory.create(change.getProject(), change.getId());
-      cm.setNotify(notify);
-      cm.setFrom(userId);
-      cm.addReviewers(toMail);
-      cm.addReviewersByEmail(addedByEmail);
-      cm.addExtraCC(toCopy);
-      cm.addExtraCCByEmail(copiedByEmail);
-      cm.send();
-    } catch (Exception err) {
-      logger.atSevere().withCause(err).log(
-          "Cannot send email to new reviewers of change %s", change.getId());
-    }
+    // Make immutable copies of collections and hand over only immutable data types to the other
+    // thread.
+    Change.Id cId = change.getId();
+    Project.NameKey projectNameKey = change.getProject();
+    ImmutableList<Address> immutableAddedByEmail = ImmutableList.copyOf(addedByEmail);
+    ImmutableList<Address> immutableCopiedByEmail = ImmutableList.copyOf(copiedByEmail);
+
+    @SuppressWarnings("unused")
+    Future<?> possiblyIgnoredError =
+        sendEmailsExecutor.submit(
+            () -> {
+              try {
+                AddReviewerSender cm = addReviewerSenderFactory.create(projectNameKey, cId);
+                cm.setNotify(notify);
+                cm.setFrom(userId);
+                cm.addReviewers(immutableToMail);
+                cm.addReviewersByEmail(immutableAddedByEmail);
+                cm.addExtraCC(immutableToCopy);
+                cm.addExtraCCByEmail(immutableCopiedByEmail);
+                cm.send();
+              } catch (Exception err) {
+                logger.atSevere().withCause(err).log(
+                    "Cannot send email to new reviewers of change %s", change.getId());
+              }
+            });
   }
 }

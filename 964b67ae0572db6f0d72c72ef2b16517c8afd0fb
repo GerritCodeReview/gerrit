@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "8e77ee25_191ddcec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-24T10:58:45Z",
+      "side": 1,
+      "message": "Can we rather do this as a separate commit, and then do the \"allow mutating\" on top of it?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "964b67ae0572db6f0d72c72ef2b16517c8afd0fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7fca387e_ca017a84",
         "filename": "java/com/google/gerrit/server/git/BranchOrderSection.java",
         "patchSetId": 1

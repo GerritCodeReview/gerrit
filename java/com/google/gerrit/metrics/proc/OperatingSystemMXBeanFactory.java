@@ -23,6 +23,8 @@ import java.util.Arrays;
 class OperatingSystemMXBeanFactory {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private OperatingSystemMXBeanFactory() {}
+
   static OperatingSystemMXBeanInterface create() {
     OperatingSystemMXBean sys = ManagementFactory.getOperatingSystemMXBean();
     if (sys instanceof UnixOperatingSystemMXBean) {

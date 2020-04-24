@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.IncludedInResolver;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
@@ -28,6 +29,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -55,10 +57,20 @@ public class Reachable {
    */
   public boolean fromRefs(
       Project.NameKey project, Repository repo, RevCommit commit, List<Ref> refs) {
+    return fromRefs(project, repo, commit, refs, Optional.empty());
+  }
+
+  boolean fromRefs(
+      Project.NameKey project,
+      Repository repo,
+      RevCommit commit,
+      List<Ref> refs,
+      Optional<CurrentUser> optionalUserProvider) {
     try (RevWalk rw = new RevWalk(repo)) {
       Collection<Ref> filtered =
-          permissionBackend
-              .currentUser()
+          optionalUserProvider
+              .map(permissionBackend::user)
+              .orElse(permissionBackend.currentUser())
               .project(project)
               .filter(refs, repo, RefFilterOptions.defaults());
 

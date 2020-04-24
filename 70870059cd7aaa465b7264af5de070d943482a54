@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c16108d2_ac9719ed",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeIsVisibleToPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-24T08:27:53Z",
+      "side": 1,
+      "message": "This prevents visibleto from working with a group, because SingleGroupUser is not an IdentifiedUser.  See issue 12606 and the fix in [1]\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/263498",
+      "range": {
+        "startLine": 88,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 66
+      },
+      "revId": "70870059cd7aaa465b7264af5de070d943482a54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

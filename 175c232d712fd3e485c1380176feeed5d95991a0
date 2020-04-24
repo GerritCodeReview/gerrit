@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f56ae02f_b88aa958",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeIsVisibleToPredicate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-04-24T06:33:07Z",
+      "side": 1,
+      "message": "I have introduced that method cuz sonar lint complained about multiple ternary operations ;) here we go with different approach",
+      "parentUuid": "e8f28e52_5ed7579f",
+      "range": {
+        "startLine": 116,
+        "startChar": 19,
+        "endLine": 116,
+        "endChar": 38
+      },
+      "revId": "175c232d712fd3e485c1380176feeed5d95991a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a8eca1f9_1fb459d1",
         "filename": "java/com/google/gerrit/server/query/change/ChangeIsVisibleToPredicate.java",
         "patchSetId": 9
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "It seems we\u0027re misunderstanding what \"absent\" means.  See [1].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/173970",
       "parentUuid": "a8eca1f9_1fb459d1",
+      "range": {
+        "startLine": 118,
+        "startChar": 28,
+        "endLine": 118,
+        "endChar": 38
+      },
+      "revId": "175c232d712fd3e485c1380176feeed5d95991a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7675a06_88311055",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeIsVisibleToPredicate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-04-24T06:33:07Z",
+      "side": 1,
+      "message": "Can\u0027t answer to that question but SingleGroupUser is neither identified nor has an Account.Id and if we would like to have AnonymousUser fallback it should have been written completely different IMHO. It should have been checked against the user it has and in case it was NOT Anonymous already it should be retried with one. I wonder what Patrick says ;)",
+      "parentUuid": "7f529daa_c841550a",
       "range": {
         "startLine": 118,
         "startChar": 28,

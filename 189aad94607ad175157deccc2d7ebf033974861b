@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8528f732_b389f7de",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T09:07:26Z",
+      "side": 1,
+      "message": "Nit: This could be merged with line 427 as this variable isn\u0027t used outside of the try-with-resources statement.",
+      "range": {
+        "startLine": 416,
+        "startChar": 6,
+        "endLine": 416,
+        "endChar": 24
+      },
+      "revId": "189aad94607ad175157deccc2d7ebf033974861b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b03a383_3d069f23",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidators.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T09:07:26Z",
+      "side": 1,
+      "message": "Nit: This part could be extracted to an own method to increase readability and to make it clear which code needs to be adjusted in the future when we have a cached approach for computing just the modified files.",
+      "range": {
+        "startLine": 417,
+        "startChar": 6,
+        "endLine": 427,
+        "endChar": 92
+      },
+      "revId": "189aad94607ad175157deccc2d7ebf033974861b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "151fea82_d249dd29",
+        "filename": "javatests/com/google/gerrit/acceptance/server/git/receive/ReceiveCommitsLimitsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T09:07:26Z",
+      "side": 1,
+      "message": "It\u0027s great that you adjusted/improved the tests. Thanks also for adding the note about the \"no parent\" test to the commit message. Now that we manually compute the tree diff (and hence can\u0027t rely on the diff tests anymore), do you think we should also add a test case for a merge commit?",
+      "range": {
+        "startLine": 24,
+        "startChar": 13,
+        "endLine": 24,
+        "endChar": 35
+      },
+      "revId": "189aad94607ad175157deccc2d7ebf033974861b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7561ff06_f4e6bdf6",
+        "filename": "javatests/com/google/gerrit/acceptance/server/git/receive/ReceiveCommitsLimitsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-04-24T09:07:26Z",
+      "side": 1,
+      "message": "Nit: Deliberate typo?",
+      "range": {
+        "startLine": 32,
+        "startChar": 39,
+        "endLine": 32,
+        "endChar": 44
+      },
+      "revId": "189aad94607ad175157deccc2d7ebf033974861b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

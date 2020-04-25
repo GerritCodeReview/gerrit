@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "302a282a_183fb0c7",
+        "filename": "prologtests/examples/t3.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1079096
+      },
+      "writtenOn": "2020-04-25T13:23:09Z",
+      "side": 1,
+      "message": "The ones below don\u0027t require API review",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 15
+      },
+      "revId": "a69959adcee6a578ff64a9b978f392d0e7ff20ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33c9a14b_1015ecdd",
+        "filename": "prologtests/examples/t3.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1079096
+      },
+      "writtenOn": "2020-04-25T13:23:09Z",
+      "side": 1,
+      "message": "The ones below don\u0027t require API review",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 15
+      },
+      "revId": "a69959adcee6a578ff64a9b978f392d0e7ff20ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1afed0fd_f5a572d7",
+        "filename": "prologtests/examples/t3.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1079096
+      },
+      "writtenOn": "2020-04-25T13:23:09Z",
+      "side": 1,
+      "message": "The ones below *do* require API review",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 21
+      },
+      "revId": "a69959adcee6a578ff64a9b978f392d0e7ff20ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

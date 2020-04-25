@@ -1120,7 +1120,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(
       name = "auth.registerEmailPrivateKey",
-      value = "HsOc6l+2lhS9G7sE/RsnS7Z6GJjdRDX14co=")
+      value = "HsOc6l_2lhS9G7sE_RsnS7Z6GJjdRDX14co=")
   public void addEmailSendsConfirmationEmail() throws Exception {
     String email = "new.email@example.com";
     EmailInput input = newEmailInput(email, false);
@@ -1134,7 +1134,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(
       name = "auth.registerEmailPrivateKey",
-      value = "HsOc6l+2lhS9G7sE/RsnS7Z6GJjdRDX14co=")
+      value = "HsOc6l_2lhS9G7sE-RsnS7Z6GJjdRDX14co=")
   public void addEmailToBeConfirmedToOwnAccount() throws Exception {
     TestAccount user = accountCreator.create();
     requestScopeOperations.setApiUser(user.id());
@@ -1158,7 +1158,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(
       name = "auth.registerEmailPrivateKey",
-      value = "HsOc6l+2lhS9G7sE/RsnS7Z6GJjdRDX14co=")
+      value = "HsOc6l_2lhS9G7sE-RsnS7Z6GJjdRDX14co=")
   public void addEmailToBeConfirmedToOtherAccount() throws Exception {
     TestAccount user = accountCreator.create();
     String email = "me@example.com";

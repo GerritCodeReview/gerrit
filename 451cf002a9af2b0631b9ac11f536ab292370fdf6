@@ -93,6 +93,29 @@
       "revId": "451cf002a9af2b0631b9ac11f536ab292370fdf6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce51f139_f74312a8",
+        "filename": "java/com/google/gerrit/server/git/MultiProgressMonitor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-25T01:19:41Z",
+      "side": 1,
+      "message": "This should also have been updated.",
+      "range": {
+        "startLine": 187,
+        "startChar": 13,
+        "endLine": 187,
+        "endChar": 31
+      },
+      "revId": "451cf002a9af2b0631b9ac11f536ab292370fdf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

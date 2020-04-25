@@ -184,7 +184,7 @@ public class MultiProgressMonitor {
    * @param timeoutTime overall timeout for the task; the future is forcefully cancelled if the task
    *     exceeds the timeout. Non-positive values indicate no timeout.
    * @param timeoutUnit unit for overall task timeout.
-   * @throws ExecutionException if this thread or a worker thread was interrupted, the worker was
+   * @throws TimeoutException if this thread or a worker thread was interrupted, the worker was
    *     cancelled, or timed out waiting for a worker to call {@link #end()}.
    */
   public <T> T waitFor(Future<T> workerFuture, long timeoutTime, TimeUnit timeoutUnit)

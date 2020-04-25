@@ -22,6 +22,30 @@
       "revId": "3c212d3f1eec672c4c9b673b0682b98e6cb063f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6228dab_ffef6a5b",
+        "filename": "java/com/google/gerrit/server/mail/SignedToken.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-25T06:40:56Z",
+      "side": 1,
+      "message": "I think this was intentionally left when the gwtorm code was imported in to gerrit.",
+      "parentUuid": "d7696e0e_be05db73",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 29
+      },
+      "revId": "3c212d3f1eec672c4c9b673b0682b98e6cb063f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

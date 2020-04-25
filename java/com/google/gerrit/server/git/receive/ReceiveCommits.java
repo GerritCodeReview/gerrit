@@ -3418,10 +3418,6 @@ class ReceiveCommits {
     commands.filter(cmd -> cmd.getResult() == NOT_ATTEMPTED).forEach(cmd -> reject(cmd, why));
   }
 
-  private static void rejectRemainingRequests(Collection<ReplaceRequest> requests, String why) {
-    rejectRemaining(requests.stream().map(req -> req.cmd), why);
-  }
-
   private static boolean isHead(ReceiveCommand cmd) {
     return cmd.getRefName().startsWith(Constants.R_HEADS);
   }

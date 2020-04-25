@@ -19,10 +19,12 @@ import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.google.gerrit.reviewdb.client.CurrentSchemaVersion;
 import com.google.gerrit.reviewdb.server.ReviewDb;
+import com.google.gerrit.reviewdb.server.ReviewDbUtil;
 import com.google.gerrit.server.UsedAt;
 import com.google.gwtorm.jdbc.JdbcExecutor;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
+import com.google.gwtorm.server.SchemaFactory;
 import com.google.gwtorm.server.StatementExecutor;
 import com.google.inject.Provider;
 import java.sql.PreparedStatement;
@@ -70,7 +72,7 @@ public abstract class SchemaVersion {
     return prior.get();
   }
 
-  public final void check(UpdateUI ui, CurrentSchemaVersion curr, ReviewDb db)
+  public final void check(UpdateUI ui, CurrentSchemaVersion curr, SchemaFactory<ReviewDb> schema)
       throws OrmException, SQLException {
     if (curr.versionNbr == versionNbr) {
       // Nothing to do, we are at the correct schema.
@@ -82,35 +84,41 @@ public abstract class SchemaVersion {
               + versionNbr
               + ".");
     } else {
-      upgradeFrom(ui, curr, db);
+      upgradeFrom(ui, curr, schema);
     }
   }
 
   /** Runs check on the prior schema version, and then upgrades. */
-  private void upgradeFrom(UpdateUI ui, CurrentSchemaVersion curr, ReviewDb db)
+  private void upgradeFrom(UpdateUI ui, CurrentSchemaVersion curr, SchemaFactory<ReviewDb> schema)
       throws OrmException, SQLException {
     List<SchemaVersion> pending = pending(curr.versionNbr);
-    updateSchema(pending, ui, db);
-    migrateData(pending, ui, curr, db);
 
-    JdbcSchema s = (JdbcSchema) db;
-    final List<String> pruneList = new ArrayList<>();
-    s.pruneSchema(
-        new StatementExecutor() {
-          @Override
-          public void execute(String sql) {
-            pruneList.add(sql);
-          }
+    try (ReviewDb db = ReviewDbUtil.unwrapDb(schema.open())) {
+      updateSchema(pending, ui, db);
+    }
 
-          @Override
-          public void close() {
-            // Do nothing.
-          }
-        });
+    migrateData(pending, ui, curr, schema);
 
-    try (JdbcExecutor e = new JdbcExecutor(s)) {
-      if (!pruneList.isEmpty()) {
-        ui.pruneSchema(e, pruneList);
+    try (ReviewDb db = ReviewDbUtil.unwrapDb(schema.open())) {
+      JdbcSchema s = (JdbcSchema) db;
+      List<String> pruneList = new ArrayList<>();
+      s.pruneSchema(
+          new StatementExecutor() {
+            @Override
+            public void execute(String sql) {
+              pruneList.add(sql);
+            }
+
+            @Override
+            public void close() {
+              // Do nothing.
+            }
+          });
+
+      try (JdbcExecutor e = new JdbcExecutor(s)) {
+        if (!pruneList.isEmpty()) {
+          ui.pruneSchema(e, pruneList);
+        }
       }
     }
   }
@@ -147,13 +155,20 @@ public abstract class SchemaVersion {
   protected void preUpdateSchema(ReviewDb db) throws OrmException, SQLException {}
 
   private void migrateData(
-      List<SchemaVersion> pending, UpdateUI ui, CurrentSchemaVersion curr, ReviewDb db)
+      List<SchemaVersion> pending,
+      UpdateUI ui,
+      CurrentSchemaVersion curr,
+      SchemaFactory<ReviewDb> schema)
       throws OrmException, SQLException {
     for (SchemaVersion v : pending) {
       Stopwatch sw = Stopwatch.createStarted();
       ui.message(String.format("Migrating data to schema %d ...", v.getVersionNbr()));
-      v.migrateData(db, ui);
-      v.finish(curr, db);
+      try (ReviewDb db = ReviewDbUtil.unwrapDb(schema.open())) {
+        v.migrateData(db, ui);
+      }
+      try (ReviewDb db = ReviewDbUtil.unwrapDb(schema.open())) {
+        v.finish(curr, db);
+      }
       ui.message(String.format("\t> Done (%.3f s)", sw.elapsed(TimeUnit.MILLISECONDS) / 1000d));
     }
   }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cad140f6_4f39c2c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-25T12:35:02Z",
+      "side": 1,
+      "message": "Let\u0027s face it: the reason this change is needed and in light of failed accounts ReviewDb to NoteDb migration for Eclipse Foundation with ca. 270,000 active accounts even with this fix in place: [1],[2]: the approach to hoist Account-ReviewDb-To-NoteDb-Migration process into schema version migration machinery is seriously flawed.\n\nWhat should have happened instead is to provide two site programs:\n\n* ChangesMigrateToNoteDb\n* AccountsMigrateToNoteDb\n\nto do the job.\n\nA different question is: Gerrit could probably benefit from alternative account backend for such huge gerrit installation sites in addition to single All-Users Git repository backend.\n\n[1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d12637\n[2] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d541221#c60",
+      "revId": "141a4b6c9859eec203a0ecd3cadb732acd1cd583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

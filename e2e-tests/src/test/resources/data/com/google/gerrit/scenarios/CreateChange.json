@@ -1,0 +1,6 @@
+[
+  {
+    "url": "http://HOSTNAME:HTTP_PORT/a/changes/",
+    "project": "_PROJECT"
+  }
+]

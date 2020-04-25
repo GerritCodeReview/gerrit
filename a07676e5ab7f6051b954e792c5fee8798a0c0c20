@@ -81,6 +81,30 @@
       "revId": "a07676e5ab7f6051b954e792c5fee8798a0c0c20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5b40864_f319ac1e",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-25T00:09:31Z",
+      "side": 1,
+      "message": "We could do it as a follow up, although in the past I have also done this in the merge.  I\u0027ll leave it up to you to decide.",
+      "parentUuid": "93a2e8eb_4697bcc3",
+      "range": {
+        "startLine": 124,
+        "startChar": 62,
+        "endLine": 124,
+        "endChar": 69
+      },
+      "revId": "a07676e5ab7f6051b954e792c5fee8798a0c0c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

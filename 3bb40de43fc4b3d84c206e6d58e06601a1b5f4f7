@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "16cb0b6e_1358708d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-25T15:37:26Z",
+      "side": 1,
+      "message": "Yes, I believe we should document that in the 2.16 release notes.",
+      "range": {
+        "startLine": 28,
+        "startChar": 39,
+        "endLine": 29,
+        "endChar": 12
+      },
+      "revId": "3bb40de43fc4b3d84c206e6d58e06601a1b5f4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef2e463b_f2bd5ef2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-25T15:37:26Z",
+      "side": 1,
+      "message": "v2.16 is EOL in 4 weeks time, is it worth it? If yes, I am fine in reviewing it.\nOtherwise, documenting the DBMS timeout config would be good enough.",
+      "range": {
+        "startLine": 32,
+        "startChar": 28,
+        "endLine": 34,
+        "endChar": 20
+      },
+      "revId": "3bb40de43fc4b3d84c206e6d58e06601a1b5f4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "673842de_44d862e3",
         "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
         "patchSetId": 1

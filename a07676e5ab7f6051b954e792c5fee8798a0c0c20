@@ -57,6 +57,30 @@
       "revId": "a07676e5ab7f6051b954e792c5fee8798a0c0c20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93a2e8eb_4697bcc3",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-25T00:05:38Z",
+      "side": 1,
+      "message": "True, but is not part of the merge. Follow-up change?",
+      "parentUuid": "88e3bf4e_c8d6a0cd",
+      "range": {
+        "startLine": 124,
+        "startChar": 62,
+        "endLine": 124,
+        "endChar": 69
+      },
+      "revId": "a07676e5ab7f6051b954e792c5fee8798a0c0c20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

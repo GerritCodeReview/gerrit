@@ -16,6 +16,24 @@
       "revId": "141a4b6c9859eec203a0ecd3cadb732acd1cd583",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "363a93c8_5c141acf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-04-25T13:27:48Z",
+      "side": 1,
+      "message": "This change fixes the problem that an ever growing number of loose objects and loose refs slows down the migration to a crawl (O(n^2) for such large number of accounts. Running full gc before the migration and periodic re-packing of refs during the migration helps to mitigate these effects. By running migration with multiple (many) threads we make better use of today\u0027s multi-core systems.\n\nReftable does similar storage house-keeping in a more efficient and transparent way.\n\nI don\u0027t understand why splitting this into two site programs should improve the situation.",
+      "parentUuid": "cad140f6_4f39c2c7",
+      "revId": "141a4b6c9859eec203a0ecd3cadb732acd1cd583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

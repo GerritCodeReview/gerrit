@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "673842de_44d862e3",
+        "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-25T13:19:48Z",
+      "side": 1,
+      "message": "This could be probably benefit from explanation, why we separate these two invocations with dedicated connections: migrateData() can takes hours or days, depending on gerrit installation site size.",
+      "range": {
+        "startLine": 166,
+        "startChar": 6,
+        "endLine": 171,
+        "endChar": 7
+      },
+      "revId": "3bb40de43fc4b3d84c206e6d58e06601a1b5f4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

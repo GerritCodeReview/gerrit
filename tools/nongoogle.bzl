@@ -126,24 +126,24 @@ def declare_nongoogle_deps():
         sha1 = "dc13ae4faca6df981fc7aeb5a522d9db446d5d50",
     )
 
-    TESTCONTAINERS_VERSION = "1.14.0"
+    TESTCONTAINERS_VERSION = "1.14.1"
 
     maven_jar(
         name = "testcontainers",
         artifact = "org.testcontainers:testcontainers:" + TESTCONTAINERS_VERSION,
-        sha1 = "c0d6aea93f4f7ff4b0d559e31308340eaa398798",
+        sha1 = "defd04ff6ffc93e1ff988024048e8ba5bd298df3",
     )
 
     maven_jar(
         name = "testcontainers-elasticsearch",
         artifact = "org.testcontainers:elasticsearch:" + TESTCONTAINERS_VERSION,
-        sha1 = "6df7bc7cb5e99c6d9528ea28dd16dbb042b1beec",
+        sha1 = "d682965bbf1334ef40720b4ad2eda2c12bf0b440",
     )
 
     maven_jar(
         name = "duct-tape",
-        artifact = "org.rnorth.duct-tape:duct-tape:1.0.7",
-        sha1 = "a26b5d90d88c91321dc7a3734ea72d2fc019ebb6",
+        artifact = "org.rnorth.duct-tape:duct-tape:1.0.8",
+        sha1 = "92edc22a9ab2f3e17c9bf700aaee377d50e8b530",
     )
 
     maven_jar(
@@ -154,6 +154,6 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "jna",
-        artifact = "net.java.dev.jna:jna:5.2.0",
-        sha1 = "ed8b772eb077a9cb50e44e90899c66a9a6c00e67",
+        artifact = "net.java.dev.jna:jna:5.5.0",
+        sha1 = "0e0845217c4907822403912ad6828d8e0b256208",
     )

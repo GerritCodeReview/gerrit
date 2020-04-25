@@ -6,6 +6,7 @@ change_branch(X) :- gerrit:change_branch(X).
 change_project(X) :- gerrit:change_project(X).
 commit_author(U,N,M) :- gerrit:commit_author(U,N,M).
 commit_delta(X) :- gerrit:commit_delta(X).
+commit_delta(X,T,P) :- gerrit:commit_delta(X, T, P).
 commit_label(L,U) :- gerrit:commit_label(L,U).
 uploader(X) :- gerrit:uploader(X).
 
@@ -23,17 +24,23 @@ has_build_cop_override :-
 is_exempt_from_reviews :-
   or(is_exempt_uploader, has_build_cop_override).
 
-% Some files in selected projects need API review.
+% api_review_not_required(ProjectName, AllowedRegex)
+% These are exceptions to the api review rule
+api_review_not_required(_, '(^|/)(xsd|xml)/'). % xsd/xml dirs in any project
+api_review_not_required(_, 'CMakeLists\\.txt'). % CMakeLists and jarjar-rules in any project
+api_review_not_required('device/generic/vulkan-cereal', ''). % No java APIs here
+api_review_not_required('platform/external/qemu', ''). % No java APIs here
+api_review_not_required('platform/hardware/interfaces', ''). % No java APIs here
+api_review_not_required('platform/frameworks/av', '/xmlparser/'). % xsd here
+api_review_not_required('platform/prebuilts/go/linux-x86', ''). % No java APIs here
+api_review_not_required('platform/system/tools/xsdc', ''). % xsdc tool + its tests
+api_review_not_required('platform/tools/base', 'build-system/').
+
+% Changes needing api review
 needs_api_review :-
-  commit_delta('^(.*/)?api/|^(system-api/)'),
+  commit_delta('^(.*/)?api/.*\\.txt$', _, Path),
   change_project(Project),
-  memberchk(Project, [
-    'platform/external/apache-http',
-    'platform/frameworks/base',
-    'platform/frameworks/support',
-    'platform/packages/services/Car',
-    'platform/prebuilts/sdk'
-  ]).
+  \+ (api_review_not_required(Project, R), regex_matches(R, Path)).
 
 % Some branches need DrNo review.
 needs_drno_review :-

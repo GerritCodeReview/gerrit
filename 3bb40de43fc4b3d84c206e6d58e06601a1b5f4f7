@@ -22,6 +22,30 @@
       "revId": "3bb40de43fc4b3d84c206e6d58e06601a1b5f4f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e745121_e50020d6",
+        "filename": "java/com/google/gerrit/server/schema/SchemaVersion.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-04-25T13:35:36Z",
+      "side": 1,
+      "message": "yes, we hit wait_timeout this means apparently we have phases where we keep the database connection open for a long time without activity on that connection. This change addresses this.",
+      "parentUuid": "673842de_44d862e3",
+      "range": {
+        "startLine": 166,
+        "startChar": 6,
+        "endLine": 171,
+        "endChar": 7
+      },
+      "revId": "3bb40de43fc4b3d84c206e6d58e06601a1b5f4f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

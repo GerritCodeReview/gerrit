@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "947ce374_898353d6",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-25T00:18:22Z",
+      "side": 1,
+      "message": "should have the role\u003dexternal here, but let\u0027s do that in a follow up like the other file I mentioned in a previous comment.",
+      "range": {
+        "startLine": 193,
+        "startChar": 70,
+        "endLine": 193,
+        "endChar": 86
+      },
+      "revId": "dfcd4f6b012c8d2012e1249d5dec53ec7c9a52cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

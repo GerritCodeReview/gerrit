@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a14bad0_d23ebcb4",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-25T00:07:36Z",
+      "side": 1,
+      "message": "Changes from master seem to have been lost, i.e. the `linkattrs` and all the `role\u003dexternal` settings.",
+      "revId": "31b809b4b042aed81c344a500c6792c29b62fd7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2ebe116_d8b3445c",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-25T00:07:36Z",
+      "side": 1,
+      "message": "role attribute is still missing here",
+      "range": {
+        "startLine": 124,
+        "startChar": 62,
+        "endLine": 124,
+        "endChar": 68
+      },
+      "revId": "31b809b4b042aed81c344a500c6792c29b62fd7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

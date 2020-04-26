@@ -50,7 +50,7 @@ public class SignedTokenEmailTokenVerifier implements EmailTokenVerifier {
     try {
       String payload = String.format("%s:%s", accountId, emailAddress);
       byte[] utf8 = payload.getBytes(UTF_8);
-      String base64 = BaseEncoding.base64().encode(utf8);
+      String base64 = BaseEncoding.base64Url().encode(utf8);
       return emailRegistrationToken.newToken(base64);
     } catch (XsrfException e) {
       throw new IllegalArgumentException(e);
@@ -63,14 +63,14 @@ public class SignedTokenEmailTokenVerifier implements EmailTokenVerifier {
     ValidToken token;
     try {
       token = emailRegistrationToken.checkToken(tokenString, null);
-    } catch (XsrfException err) {
+    } catch (XsrfException | CheckTokenException err) {
       throw new InvalidTokenException(err);
     }
     if (token == null || token.getData() == null || token.getData().isEmpty()) {
       throw new InvalidTokenException();
     }
 
-    String payload = new String(BaseEncoding.base64().decode(token.getData()), UTF_8);
+    String payload = new String(BaseEncoding.base64Url().decode(token.getData()), UTF_8);
     Matcher matcher = Pattern.compile("^([0-9]+):(.+@.+)$").matcher(payload);
     if (!matcher.matches()) {
       throw new InvalidTokenException();

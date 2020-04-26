@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b872470b_e740ae74",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-26T09:52:18Z",
+      "side": 1,
+      "message": "optional: \u0027SELECT * from schema_version\u0027 ?\nShorter and \"dummier\" than selecting a non-existent account?\n\nI would also create a local private method called \u0027dummySelectStatement()\u0027 so that is clear what the intention of that statement is.",
+      "range": {
+        "startLine": 161,
+        "startChar": 42,
+        "endLine": 161,
+        "endChar": 94
+      },
+      "revId": "81f42c25f95fed8b3b84aeca3db7bb9e965efe8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

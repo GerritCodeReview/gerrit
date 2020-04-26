@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fca3303_73ee2c16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-26T08:31:36Z",
+      "side": 1,
+      "message": "instead of documenting",
+      "range": {
+        "startLine": 20,
+        "startChar": 49,
+        "endLine": 20,
+        "endChar": 65
+      },
+      "revId": "3b156b16087ac02d0a0fc2d174e80d7651e609c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dc9a44d_f9109b0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-26T08:31:36Z",
+      "side": 1,
+      "message": "enforcing",
+      "range": {
+        "startLine": 21,
+        "startChar": 12,
+        "endLine": 21,
+        "endChar": 19
+      },
+      "revId": "3b156b16087ac02d0a0fc2d174e80d7651e609c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b7378f6_5615e5e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-26T08:31:36Z",
+      "side": 1,
+      "message": "increase",
+      "range": {
+        "startLine": 21,
+        "startChar": 45,
+        "endLine": 21,
+        "endChar": 52
+      },
+      "revId": "3b156b16087ac02d0a0fc2d174e80d7651e609c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d6b638e_ae12c160",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-26T08:31:36Z",
+      "side": 1,
+      "message": "per",
+      "range": {
+        "startLine": 22,
+        "startChar": 27,
+        "endLine": 22,
+        "endChar": 30
+      },
+      "revId": "3b156b16087ac02d0a0fc2d174e80d7651e609c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8646a939_90911f02",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-26T08:31:36Z",
+      "side": 1,
+      "message": "being",
+      "range": {
+        "startLine": 163,
+        "startChar": 77,
+        "endLine": 163,
+        "endChar": 79
+      },
+      "revId": "3b156b16087ac02d0a0fc2d174e80d7651e609c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cfadd43_5df16e9a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-26T08:31:36Z",
+      "side": 1,
+      "message": "from becoming stale\n\nor\n\nfrom timing out",
+      "range": {
+        "startLine": 163,
+        "startChar": 59,
+        "endLine": 163,
+        "endChar": 72
+      },
+      "revId": "3b156b16087ac02d0a0fc2d174e80d7651e609c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

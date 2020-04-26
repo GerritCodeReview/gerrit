@@ -94,6 +94,29 @@
     },
     {
       "key": {
+        "uuid": "eefa20d7_f3910e3a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-26T08:41:56Z",
+      "side": 1,
+      "message": "Why is this statement broken down in different strings?\nAlso, a dummy statement like \"SELECT \u0027dummy\u0027\" would work as well, no need to involve actual tables.",
+      "range": {
+        "startLine": 161,
+        "startChar": 16,
+        "endLine": 161,
+        "endChar": 85
+      },
+      "revId": "3b156b16087ac02d0a0fc2d174e80d7651e609c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8646a939_90911f02",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
         "patchSetId": 1

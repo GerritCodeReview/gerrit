@@ -304,7 +304,10 @@ class GrSyntaxLayer extends GestureEventListeners(
               return;
             }
 
-            if (state.lineIndex % 100 === 0) {
+            // In background tab UI will not get stuck and async is penalized by
+            // browser, so we do less async.
+            const isBackTab = document.visibilityState !== 'hidden';
+            if (state.lineIndex % (isBackTab ? 300 : 100) === 0) {
               this._notify(state);
               this._processHandle = this.async(nextStep, ASYNC_DELAY);
             } else {
@@ -312,7 +315,7 @@ class GrSyntaxLayer extends GestureEventListeners(
             }
           };
 
-          this._processHandle = this.async(nextStep, 1);
+          nextStep.call(this);
         })));
     return this._processPromise
         .finally(() => { this._processPromise = null; });

@@ -203,7 +203,10 @@ class GrDiffProcessor extends GestureEventListeners(
 
             // Increment the index and recurse.
             state.chunkIndex = stateUpdate.newChunkIndex;
-            if (currentBatch >= this._asyncThreshold) {
+            // In background tab UI will not get stuck and async is penalized by
+            // browser, so we avoid async.
+            const isBackTab = document.visibilityState !== 'hidden';
+            if (currentBatch >= this._asyncThreshold && !isBackTab) {
               currentBatch = 0;
               this._nextStepHandle = this.async(nextStep, 1);
             } else {

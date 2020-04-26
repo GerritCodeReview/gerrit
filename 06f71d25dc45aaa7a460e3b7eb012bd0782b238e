@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a1ae140c_bf2bea9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-26T12:03:21Z",
+      "side": 1,
+      "message": "comments",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "06f71d25dc45aaa7a460e3b7eb012bd0782b238e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c438d7d9_d994c462",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 1

@@ -42,6 +42,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
@@ -105,7 +106,10 @@ public class Schema_146 extends SchemaVersion {
         Sets.newHashSet(Iterables.partition(accounts, 500));
     ExecutorService pool = createExecutor(ui);
     try {
-      batches.stream().forEach(batch -> pool.submit(() -> processBatch(db, batch, ui)));
+      int i = 0;
+      batches.stream().forEach(batch -> {
+        pool.submit(() -> processBatch(db, batch, ui));
+      });
       pool.shutdown();
       pool.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
     } catch (InterruptedException e) {

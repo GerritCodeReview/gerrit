@@ -4,16 +4,23 @@ load("//tools/bzl:pkg_war.bzl", "pkg_war")
 package(default_visibility = ["//visibility:public"])
 
 config_setting(
+    name = "java8",
+    values = {
+        "java_toolchain": "//tools:error_prone_warnings_toolchain_java8",
+    },
+)
+
+config_setting(
     name = "java11",
     values = {
-        "java_toolchain": "@bazel_tools//tools/jdk:toolchain_java11",
+        "java_toolchain": "//tools:error_prone_warnings_toolchain_java11",
     },
 )
 
 config_setting(
     name = "java_next",
     values = {
-        "java_toolchain": "//tools:toolchain_vanilla",
+        "java_toolchain": "@bazel_tools//tools/jdk:toolchain_vanilla",
     },
 )
 

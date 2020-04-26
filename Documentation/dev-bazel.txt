@@ -54,17 +54,42 @@ To check the installed version of Java, open a terminal window and run:
 
 `java -version`
 
-[[java-13]]
-==== Java 13 support
+[[java-8]]
+==== Java 8 support (deprecated)
 
-Java 13 (and newer) is supported through vanilla java toolchain
+Java 8 is a legacy Java release and support for Java 8 will be discontinued
+in future gerrit releases. Right now Java 8 is still the default. That means,
+that running:
+
+```
+  $ bazel build :release
+```
+
+will still produce Java 8 byte code. This will be changed in near future.
+
+[[java-11]]
+==== Java 11 support
+
+Java 11 is supported through alternative java toolchain
+link:https://docs.bazel.build/versions/master/toolchains.html[Bazel option].
+To build Gerrit with Java 11, specify JDK 11 java toolchain:
+
+```
+  $ bazel build --java_toolchain //tools:error_prone_warnings_toolchain_java11 \
+      :release
+```
+
+[[java-14]]
+==== Java 14 support
+
+Java 14 is supported through vanilla java toolchain
 link:https://docs.bazel.build/versions/master/toolchains.html[Bazel option,role=external,window=_blank].
-To build Gerrit with Java 13 and newer, specify vanilla java toolchain and
+To build Gerrit with Java 14, specify vanilla java toolchain and
 provide the path to JDK home:
 
 ```
   $ bazel build \
-    --define=ABSOLUTE_JAVABASE=<path-to-java-13> \
+    --define=ABSOLUTE_JAVABASE=<path-to-java-14> \
     --javabase=@bazel_tools//tools/jdk:absolute_javabase \
     --host_javabase=@bazel_tools//tools/jdk:absolute_javabase \
     --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla \
@@ -77,7 +102,7 @@ bazel test runs the test using the target javabase:
 
 ```
   $ bazel test \
-    --define=ABSOLUTE_JAVABASE=<path-to-java-13> \
+    --define=ABSOLUTE_JAVABASE=<path-to-java-14> \
     --javabase=@bazel_tools//tools/jdk:absolute_javabase \
     --host_javabase=@bazel_tools//tools/jdk:absolute_javabase \
     --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla \
@@ -90,7 +115,7 @@ they could be added to ~/.bazelrc resource file:
 
 ```
 $ cat << EOF > ~/.bazelrc
-> build --define=ABSOLUTE_JAVABASE=<path-to-java-13>
+> build --define=ABSOLUTE_JAVABASE=<path-to-java-14>
 > build --javabase=@bazel_tools//tools/jdk:absolute_javabase
 > build --host_javabase=@bazel_tools//tools/jdk:absolute_javabase
 > build --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla
@@ -98,24 +123,8 @@ $ cat << EOF > ~/.bazelrc
 > EOF
 ```
 
-Now, invoking Bazel with just `bazel build :release` would include
+Now, invoking Bazel with `bazel build :release` would include
 all those options.
-
-[[java-11]]
-==== Java 11 support
-
-Java 11 is supported through alternative java toolchain
-link:https://docs.bazel.build/versions/master/toolchains.html[Bazel option].
-To build Gerrit with Java 11, specify JDK 11 java toolchain:
-
-```
-  $ bazel build \
-      --host_javabase=@bazel_tools//tools/jdk:remote_jdk11 \
-      --javabase=@bazel_tools//tools/jdk:remote_jdk11 \
-      --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_java11 \
-      --java_toolchain=@bazel_tools//tools/jdk:toolchain_java11 \
-      :release
-```
 
 === Node.js and npm packages
 See link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/README.md#installing-node_js-and-npm-packages[Installing Node.js and npm packages,role=external,window=_blank].

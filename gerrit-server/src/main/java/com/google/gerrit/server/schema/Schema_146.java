@@ -23,6 +23,7 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -104,7 +105,7 @@ public class Schema_146 extends SchemaVersion {
         Sets.newHashSet(Iterables.partition(accounts, 500));
     ExecutorService pool = createExecutor(ui);
     try {
-      batches.stream().forEach(batch -> pool.submit(() -> processBatch(batch, ui)));
+      batches.stream().forEach(batch -> pool.submit(() -> processBatch(db, batch, ui)));
       pool.shutdown();
       pool.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
     } catch (InterruptedException e) {
@@ -125,7 +126,7 @@ public class Schema_146 extends SchemaVersion {
     return Executors.newFixedThreadPool(threads);
   }
 
-  private void processBatch(List<Entry<Account.Id, Timestamp>> batch, UpdateUI ui) {
+  private void processBatch(ReviewDb db, List<Entry<Account.Id, Timestamp>> batch, UpdateUI ui) {
     try (Repository repo = repoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(repo);
         ObjectInserter oi = repo.newObjectInserter()) {
@@ -143,10 +144,24 @@ public class Schema_146 extends SchemaVersion {
         showProgress(ui, count);
         if (count % 1000 == 0) {
           gc(repo, true, ui);
+          keepAliveDatabaseConnection(db);
         }
       }
     } catch (IOException e) {
       throw new UncheckedIOException(e);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private static void keepAliveDatabaseConnection(ReviewDb db) throws SQLException {
+    try (Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
+        ResultSet rs =
+            stmt.executeQuery(
+                "SELECT " + "account_id " + "FROM accounts " + "WHERE account_id = 1")) {
+      // No Op.
+      // The select is fired to prevent the SQL connection to get staled and be closed
+      // on the server side during long running batch operation.
     }
   }
 
@@ -278,7 +293,7 @@ public class Schema_146 extends SchemaVersion {
     return oi.insert(cb);
   }
 
-  private boolean isInitialEmptyCommit(ObjectId emptyTree, RevCommit c) {
+  private static boolean isInitialEmptyCommit(ObjectId emptyTree, RevCommit c) {
     return c.getParentCount() == 0
         && c.getTree().equals(emptyTree)
         && c.getShortMessage().equals(CREATE_ACCOUNT_MSG);

@@ -285,6 +285,30 @@
     },
     {
       "key": {
+        "uuid": "81315235_f342ae52",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-26T09:17:29Z",
+      "side": 1,
+      "message": "I added a TODO comment to improve that part and use dummy SQL statement when and if gwtorm supports that.",
+      "parentUuid": "6f49066d_94bc0a79",
+      "range": {
+        "startLine": 161,
+        "startChar": 16,
+        "endLine": 161,
+        "endChar": 85
+      },
+      "revId": "3b156b16087ac02d0a0fc2d174e80d7651e609c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8646a939_90911f02",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
         "patchSetId": 1

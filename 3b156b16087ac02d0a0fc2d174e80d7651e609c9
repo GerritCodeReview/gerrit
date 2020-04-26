@@ -117,6 +117,30 @@
     },
     {
       "key": {
+        "uuid": "14739fea_52996de2",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-26T08:43:30Z",
+      "side": 1,
+      "message": "I agree with making this a single string, but wouldn\u0027t using such a dummy statement cause SQL errors because the \u0027dummy\u0027 table doesn\u0027t exist?",
+      "parentUuid": "eefa20d7_f3910e3a",
+      "range": {
+        "startLine": 161,
+        "startChar": 16,
+        "endLine": 161,
+        "endChar": 85
+      },
+      "revId": "3b156b16087ac02d0a0fc2d174e80d7651e609c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8646a939_90911f02",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
         "patchSetId": 1

@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-public final class Main {
+// TODO(davido): Remove inheritance when switched to using post Java 8 versions.
+public abstract class Main {
   private static final String FLOGGER_BACKEND_PROPERTY = "flogger.backend_factory";
   private static final String FLOGGER_LOGGING_CONTEXT = "flogger.logging_context";
 
@@ -31,6 +32,8 @@ public final class Main {
       System.exit(1);
     }
   }
+
+  protected abstract double getMinimumSupportedVersion();
 
   private static boolean onSupportedJavaVersion() {
     final String version = System.getProperty("java.specification.version");
@@ -73,6 +76,4 @@ public final class Main {
       return 0.0;
     }
   }
-
-  private Main() {}
 }

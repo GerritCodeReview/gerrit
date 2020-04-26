@@ -8,12 +8,24 @@ load("@rules_java//java:defs.bzl", "java_package_configuration")
 exports_files(["nongoogle.bzl"])
 
 default_java_toolchain(
-    name = "error_prone_warnings_toolchain",
+    name = "error_prone_warnings_toolchain_java8",
     bootclasspath = ["@bazel_tools//tools/jdk:platformclasspath.jar"],
     jvm_opts = JDK9_JVM_OPTS,
     package_configuration = [
         ":error_prone",
     ],
+    visibility = ["//visibility:public"],
+)
+
+default_java_toolchain(
+    name = "error_prone_warnings_toolchain_java11",
+    bootclasspath = ["@bazel_tools//tools/jdk:platformclasspath.jar"],
+    jvm_opts = JDK9_JVM_OPTS,
+    package_configuration = [
+        ":error_prone",
+    ],
+    source_version = "11",
+    target_version = "11",
     visibility = ["//visibility:public"],
 )
 

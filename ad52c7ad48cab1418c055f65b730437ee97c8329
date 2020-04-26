@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb3043c0_375bb9bf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-26T10:44:12Z",
+      "side": 1,
+      "message": "I\u0027m not sure it\u0027s worth implementing this in gwtorm and making a new release of it, just to do this in gerrit.\n\nAlso note that gwtorm is probably not recent on stable-2.15 so updating to the latest version (plus version to implement this) will also result in other changes being needed to adapt to it.",
+      "range": {
+        "startLine": 158,
+        "startChar": 4,
+        "endLine": 159,
+        "endChar": 16
+      },
+      "revId": "ad52c7ad48cab1418c055f65b730437ee97c8329",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

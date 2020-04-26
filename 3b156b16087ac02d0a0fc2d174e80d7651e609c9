@@ -141,6 +141,30 @@
     },
     {
       "key": {
+        "uuid": "68ce2749_553748ce",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-26T09:01:51Z",
+      "side": 1,
+      "message": "\u003e Also, a dummy statement like \"SELECT \u0027dummy\u0027\" would work as well, no need to involve actual tables.\n\nNope. It would not work on all supported SQL dialects in gwtorm:\n\n* DB2\n* Derby\n* H2\n* Hana (SAP)\n* Maria DB\n* Max DB (SAP)\n* MySQL\n* Oracle\n* PostrgeSQL\n\n\nOf course all those database dialects have their own dummy SQL statements, like \"select 1 from dual\" in Oracle. So that we could add a new method to gwtorm, say dummySelectStatement() pro supported SQL dialect and conduct new gwtorm release and use it here. I don\u0027t have time to do that (and then test all dummy statements on all dialects from the above list), though. Feel free to jump in and implement that.",
+      "parentUuid": "14739fea_52996de2",
+      "range": {
+        "startLine": 161,
+        "startChar": 16,
+        "endLine": 161,
+        "endChar": 85
+      },
+      "revId": "3b156b16087ac02d0a0fc2d174e80d7651e609c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8646a939_90911f02",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
         "patchSetId": 1

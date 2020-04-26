@@ -158,10 +158,8 @@ public class CommentJsonMigrator {
         return true;
       }
     } catch (IOException e) {
-      logger.atInfo().log(
-          String.format(
-              "Error reading change %s in %s; attempting migration anyway", changeId, project),
-          e);
+      logger.atInfo().withCause(e).log(
+          "Error reading change %s in %s; attempting migration anyway", changeId, project);
     }
 
     try {
@@ -201,7 +199,7 @@ public class CommentJsonMigrator {
       bru.addCommand(new ReceiveCommand(oldId, newId, ref.getName()));
       return true;
     } catch (ConfigInvalidException | IOException e) {
-      logger.atInfo().log(String.format("Error migrating change %s in %s", changeId, project), e);
+      logger.atInfo().withCause(e).log("Error migrating change %s in %s", changeId, project);
       return false;
     }
   }

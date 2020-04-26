@@ -157,11 +157,11 @@ public class Text extends RawText {
       return Charset.forName(encoding);
 
     } catch (IllegalCharsetNameException err) {
-      logger.atSevere().log("Invalid detected charset name '%s': %s", encoding, err);
+      logger.atSevere().log("Invalid detected charset name '%s': %s", encoding, err.getMessage());
       return ISO_8859_1;
 
     } catch (UnsupportedCharsetException err) {
-      logger.atSevere().log("Detected charset '%s' not supported: %s", encoding, err);
+      logger.atSevere().log("Detected charset '%s' not supported: %s", encoding, err.getMessage());
       return ISO_8859_1;
     }
   }

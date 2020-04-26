@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a07ad3a_23c97467",
+        "filename": "java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-26T23:27:31Z",
+      "side": 1,
+      "message": "name it \u0027unused\u0027",
+      "range": {
+        "startLine": 113,
+        "startChar": 26,
+        "endLine": 113,
+        "endChar": 32
+      },
+      "revId": "a95a2b7f536f9ff248016db31e8b6592eeb7f15d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

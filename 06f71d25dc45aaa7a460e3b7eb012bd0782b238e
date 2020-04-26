@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c438d7d9_d994c462",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-26T11:24:27Z",
+      "side": 1,
+      "message": "nit: for consistency, it is better to return {}\n(The same bellow and in the -experimental file)",
+      "range": {
+        "startLine": 294,
+        "startChar": 13,
+        "endLine": 294,
+        "endChar": 15
+      },
+      "revId": "06f71d25dc45aaa7a460e3b7eb012bd0782b238e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

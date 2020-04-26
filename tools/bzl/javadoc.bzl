@@ -86,6 +86,7 @@ def java_doc(**kwargs):
         # auto-value generates @javax.annotation.Generated annotation on generated
         # classes when Java 8 source compatibility level is used, but Java 11 and
         # later don't have this class any more.
+        "//:java8": ["//lib:javax-annotation"],
         "//conditions:default": ["//lib:javax-annotation"],
     })
     _java_doc(**dict(kwargs, libs = libs))

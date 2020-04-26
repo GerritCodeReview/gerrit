@@ -230,7 +230,8 @@ public class PluginConfigFactory implements ReloadPluginListener {
       cfg.load();
     } catch (ConfigInvalidException e) {
       // This is an error in user input, don't spam logs with a stack trace.
-      logger.atWarning().log("Failed to load %s: %s", pluginConfigFile.toAbsolutePath(), e);
+      logger.atWarning().log(
+          "Failed to load %s: %s", pluginConfigFile.toAbsolutePath(), e.getMessage());
     } catch (IOException e) {
       logger.atWarning().withCause(e).log("Failed to load %s", pluginConfigFile.toAbsolutePath());
     }

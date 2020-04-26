@@ -75,8 +75,8 @@ public class Schema_169 extends SchemaVersion {
         ProjectMigrationResult progress = migrator.migrateProject(project, repo, false);
         skipped += progress.skipped;
       } catch (IOException e) {
-        ok = false;
-        logger.atWarning().log("Error migrating project " + project, e);
+        // ok = false;
+        logger.atSevere().log("Error migrating project (ignoring) " + project, e);
       }
       pm.update(1);
     }

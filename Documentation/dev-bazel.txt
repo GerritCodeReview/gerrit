@@ -24,6 +24,7 @@ To build Gerrit from source, you need:
 * Bower (`sudo npm install -g bower`)
 * link:https://docs.bazel.build/versions/master/install.html[Bazel,role=external,window=_blank] -launched with
 link:https://github.com/bazelbuild/bazelisk[Bazelisk,role=external,window=_blank]
+(`sudo npm install -g bazelisk`)
 * Maven
 * zip, unzip
 * gcc
@@ -31,12 +32,14 @@ link:https://github.com/bazelbuild/bazelisk[Bazelisk,role=external,window=_blank
 [[bazel]]
 === Bazel
 
-link:https://github.com/bazelbuild/bazelisk[Bazelisk,role=external,window=_blank] includes a
-link:https://bazel.build/[Bazel,role=external,window=_blank] version check and downloads the correct
-`bazel` version for the git project/repository. Bazelisk is the recommended
-`bazel` launcher for Gerrit. Once Bazelisk is installed locally, a `bazel`
-symlink can be created towards it. This is so that every `bazel` command
-seamlessly uses Bazelisk, which then runs the proper `bazel` binary version.
+link:https://github.com/bazelbuild/bazelisk[Bazelisk,role=external,window=_blank] is a version
+manager for link:https://bazel.build/[Bazel,role=external,window=_blank], similar to how `nvm`
+manages `npm` versions. It takes care of downloading and installing Bazel itself, so you don't have
+to worry about using the correct version of Bazel.
+
+One easy way to install Bazelisk is to run `npm install -g bazelisk`. That will also create the
+required `bazel` symlink to itself. This is so that every `bazel` command seamlessly uses Bazelisk,
+which then (installs and) runs the proper `bazel` binary version.
 
 [[java]]
 === Java

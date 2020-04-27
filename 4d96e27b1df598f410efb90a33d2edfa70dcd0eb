@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "151783a6_908fc067",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-27T14:02:48Z",
+      "side": 1,
+      "message": "All gerrit releases depend on curl. Should we move that change to latest supported branch: 2.16?",
+      "revId": "4d96e27b1df598f410efb90a33d2edfa70dcd0eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2754f271_41334cfb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-27T14:02:48Z",
+      "side": 1,
+      "message": "It is listed in our official build Docker image for GerriForge CI: [1].\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit-ci-scripts/+/237181/10/jenkins-docker/slave-debian/Dockerfile#b13",
+      "revId": "4d96e27b1df598f410efb90a33d2edfa70dcd0eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

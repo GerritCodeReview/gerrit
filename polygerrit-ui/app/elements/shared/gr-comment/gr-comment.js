@@ -40,6 +40,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-comment_html.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {getRootElement} from '../../../scripts/rootElement.js';
+import {GrDisplayNameUtils} from '../../../scripts/gr-display-name-utils/gr-display-name-utils.js';
 
 const STORAGE_DEBOUNCE_INTERVAL = 400;
 const TOAST_DEBOUNCE_INTERVAL = 200;
@@ -218,6 +219,7 @@ class GrComment extends mixinBehaviors( [
         type: Boolean,
         value: false,
       },
+      _serverConfig: Object,
     };
   }
 
@@ -249,6 +251,9 @@ class GrComment extends mixinBehaviors( [
     }
     this._getIsAdmin().then(isAdmin => {
       this._isAdmin = isAdmin;
+    });
+    this.$.restAPI.getConfig().then(cfg => {
+      this._serverConfig = cfg;
     });
   }
 
@@ -823,12 +828,16 @@ class GrComment extends mixinBehaviors( [
     return overlay.open();
   }
 
-  _computeAuthorName(comment) {
-    if (!comment) return '';
+  _computeAuthorName(comment, serverConfig) {
+    if ([comment, serverConfig].includes(undefined)) return '';
     if (comment.robot_id) {
       return comment.robot_id;
     }
-    return comment.author && comment.author.name;
+    if (comment.author) {
+      return GrDisplayNameUtils.getDisplayName(serverConfig, comment.author);
+    }
+    // This should not happen
+    return 'Unknown';
   }
 
   _computeHideRunDetails(comment, collapsed) {

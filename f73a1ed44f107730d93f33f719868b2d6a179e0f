@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de64aa88_51fb8537",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-04-27T14:15:14Z",
+      "side": 1,
+      "message": "nit typo: losing\nalso the spacing of this commit message is a bit off",
+      "range": {
+        "startLine": 10,
+        "startChar": 59,
+        "endLine": 10,
+        "endChar": 66
+      },
+      "revId": "f73a1ed44f107730d93f33f719868b2d6a179e0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

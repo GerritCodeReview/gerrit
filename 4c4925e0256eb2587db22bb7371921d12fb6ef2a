@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "00a0339d_240a0f25",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-27T18:10:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf30f071_1ec8abca",
+      "revId": "4c4925e0256eb2587db22bb7371921d12fb6ef2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3bd76718_26e8735c",
         "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
         "patchSetId": 17
@@ -33,6 +51,24 @@
       "revId": "4c4925e0256eb2587db22bb7371921d12fb6ef2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46a289da_3eb62cd1",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-27T18:10:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3bd76718_26e8735c",
+      "revId": "4c4925e0256eb2587db22bb7371921d12fb6ef2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -179,6 +215,24 @@
     },
     {
       "key": {
+        "uuid": "7ca8bbff_66893588",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-27T18:10:01Z",
+      "side": 1,
+      "message": "Thank you all for great suggestion. We already picked appContext that is integrated. I am now using appContext.",
+      "parentUuid": "3920e978_d8887ae5",
+      "revId": "4c4925e0256eb2587db22bb7371921d12fb6ef2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0be9904_c59c404d",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 17
@@ -193,6 +247,24 @@
       "revId": "4c4925e0256eb2587db22bb7371921d12fb6ef2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1b3d674_1486b660",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-27T18:10:01Z",
+      "side": 1,
+      "message": "Yes, there is a lot of code that will not be necessary once we have typescript",
+      "parentUuid": "f0be9904_c59c404d",
+      "revId": "4c4925e0256eb2587db22bb7371921d12fb6ef2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -228,6 +300,24 @@
       "revId": "4c4925e0256eb2587db22bb7371921d12fb6ef2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2e0b379_96986863",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-27T18:10:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e1730c9_fb7924a2",
+      "revId": "4c4925e0256eb2587db22bb7371921d12fb6ef2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

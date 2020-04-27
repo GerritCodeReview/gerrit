@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9c204494_9e3e1166",
+        "filename": "polygerrit-ui/app/.eslintrc.json",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-27T18:10:01Z",
+      "side": 1,
+      "message": "Mistake in rebasing. Removed in next patchset.",
+      "parentUuid": "bd190429_249b17d0",
+      "revId": "8d31864605f8d58876d67fba7a26876d4e3e94fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c5f691b_848bb7cb",
         "filename": "polygerrit-ui/app/test/common-test-setup.js",
         "patchSetId": 18
@@ -33,6 +51,24 @@
       "revId": "8d31864605f8d58876d67fba7a26876d4e3e94fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "558dc521_327fd3b5",
+        "filename": "polygerrit-ui/app/test/common-test-setup.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-27T18:10:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c5f691b_848bb7cb",
+      "revId": "8d31864605f8d58876d67fba7a26876d4e3e94fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "7924c2e3_c32e195b",
+        "filename": "polygerrit-ui/app/test/services/gr-reporting_mock.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-27T18:10:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89e5a243_1f05261d",
+      "range": {
+        "startLine": 17,
+        "startChar": 6,
+        "endLine": 17,
+        "endChar": 21
+      },
+      "revId": "8d31864605f8d58876d67fba7a26876d4e3e94fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d7b52a67_6d7f6588",
         "filename": "polygerrit-ui/app/test/services/gr-reporting_mock.js",
         "patchSetId": 18
@@ -79,6 +139,30 @@
       "revId": "8d31864605f8d58876d67fba7a26876d4e3e94fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bd66989_2c0c3a28",
+        "filename": "polygerrit-ui/app/test/services/gr-reporting_mock.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-27T18:10:01Z",
+      "side": 1,
+      "message": "I want to have stubs for class so they don\u0027t need to be defined in tests.",
+      "parentUuid": "d7b52a67_6d7f6588",
+      "range": {
+        "startLine": 89,
+        "startChar": 16,
+        "endLine": 89,
+        "endChar": 34
+      },
+      "revId": "8d31864605f8d58876d67fba7a26876d4e3e94fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

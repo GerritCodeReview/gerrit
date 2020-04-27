@@ -448,12 +448,11 @@ class DefaultRefFilter {
     try {
       Map<Change.Id, BranchNameKey> visibleChanges = new HashMap<>();
       for (ChangeData cd : changeCache.getChangeData(project)) {
-        ChangeNotes notes = changeNotesFactory.createFromIndexedChange(cd.change());
         if (!projectState.statePermitsRead()) {
           continue;
         }
         try {
-          permissionBackendForProject.indexedChange(cd, notes).check(ChangePermission.READ);
+          permissionBackendForProject.change(cd).check(ChangePermission.READ);
           visibleChanges.put(cd.getId(), cd.change().getDest());
         } catch (AuthException e) {
           // Do nothing.

@@ -19,21 +19,16 @@ import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BE
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Map;
@@ -41,39 +36,16 @@ import java.util.Set;
 
 /** Access control management for a user accessing a single change. */
 class ChangeControl {
-  @Singleton
-  static class Factory {
-    private final ChangeData.Factory changeDataFactory;
-    private final ChangeNotes.Factory notesFactory;
-
-    @Inject
-    Factory(ChangeData.Factory changeDataFactory, ChangeNotes.Factory notesFactory) {
-      this.changeDataFactory = changeDataFactory;
-      this.notesFactory = notesFactory;
-    }
-
-    ChangeControl create(RefControl refControl, Project.NameKey project, Change.Id changeId) {
-      return create(refControl, notesFactory.create(project, changeId));
-    }
-
-    ChangeControl create(RefControl refControl, ChangeNotes notes) {
-      return new ChangeControl(changeDataFactory, refControl, notes);
-    }
-  }
-
-  private final ChangeData.Factory changeDataFactory;
   private final RefControl refControl;
-  private final ChangeNotes notes;
+  private final ChangeData changeData;
 
-  private ChangeControl(
-      ChangeData.Factory changeDataFactory, RefControl refControl, ChangeNotes notes) {
-    this.changeDataFactory = changeDataFactory;
+  ChangeControl(RefControl refControl, ChangeData changeData) {
     this.refControl = refControl;
-    this.notes = notes;
+    this.changeData = changeData;
   }
 
-  ForChange asForChange(@Nullable ChangeData cd) {
-    return new ForChangeImpl(cd);
+  ForChange asForChange() {
+    return new ForChangeImpl();
   }
 
   private CurrentUser getUser() {
@@ -85,7 +57,7 @@ class ChangeControl {
   }
 
   private Change getChange() {
-    return notes.getChange();
+    return changeData.change();
   }
 
   /** Can this user see this change? */
@@ -218,19 +190,13 @@ class ChangeControl {
   }
 
   private class ForChangeImpl extends ForChange {
-    private ChangeData cd;
     private Map<String, PermissionRange> labels;
     private String resourcePath;
 
-    ForChangeImpl(@Nullable ChangeData cd) {
-      this.cd = cd;
-    }
+    private ForChangeImpl() {}
 
     private ChangeData changeData() {
-      if (cd == null) {
-        cd = changeDataFactory.create(notes);
-      }
-      return cd;
+      return changeData;
     }
 
     @Override

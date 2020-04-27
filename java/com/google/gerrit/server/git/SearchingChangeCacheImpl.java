@@ -165,7 +165,7 @@ public class SearchingChangeCacheImpl implements GitReferenceUpdatedListener {
         List<CachedChange> result = new ArrayList<>(cds.size());
         for (ChangeData cd : cds) {
           result.add(
-              new AutoValue_SearchingChangeCacheImpl_CachedChange(cd.change(), cd.getReviewers()));
+              new AutoValue_SearchingChangeCacheImpl_CachedChange(cd.change(), cd.reviewers()));
         }
         return Collections.unmodifiableList(result);
       }

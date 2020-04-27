@@ -674,7 +674,9 @@ public class ChangeData {
   public ReviewerSet reviewers() {
     if (reviewers == null) {
       if (!lazyLoad) {
-        return ReviewerSet.empty();
+        // We are not allowed to load values from NoteDb. Reviewers were not populated with values
+        // from the index. However, we need these values for permission checks.
+        throw new IllegalStateException("reviewers not populated");
       }
       reviewers = approvalsUtil.getReviewers(notes(), approvals().values());
     }
@@ -683,10 +685,6 @@ public class ChangeData {
 
   public void setReviewers(ReviewerSet reviewers) {
     this.reviewers = reviewers;
-  }
-
-  public ReviewerSet getReviewers() {
-    return reviewers;
   }
 
   public ReviewerByEmailSet reviewersByEmail() {

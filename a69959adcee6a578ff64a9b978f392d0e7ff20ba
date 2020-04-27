@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "b47395fe_997bfb77",
+        "filename": "prologtests/examples/aosp_rules.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1078324
+      },
+      "writtenOn": "2020-04-27T19:21:25Z",
+      "side": 1,
+      "message": "Personally, I find white/black lists like this a code/design smell.",
+      "parentUuid": "5f95a7f0_3ac6727a",
+      "revId": "a69959adcee6a578ff64a9b978f392d0e7ff20ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f466f4f0_ee4b08b2",
         "filename": "prologtests/examples/aosp_rules.pl",
         "patchSetId": 1
@@ -104,6 +122,24 @@
       "revId": "a69959adcee6a578ff64a9b978f392d0e7ff20ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13e9c471_fb94ba5d",
+        "filename": "prologtests/examples/aosp_rules.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1078324
+      },
+      "writtenOn": "2020-04-27T19:21:25Z",
+      "side": 1,
+      "message": "Good point about the file not being in the delta. Ignore that idea.",
+      "parentUuid": "7da856f3_85df11e7",
+      "revId": "a69959adcee6a578ff64a9b978f392d0e7ff20ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

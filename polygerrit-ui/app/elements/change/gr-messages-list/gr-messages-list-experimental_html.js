@@ -59,7 +59,7 @@ export const htmlTemplate = html`
     <span
       id="showAllActivityToggleContainer"
       class="container"
-      hidden$="[[!_isVisibleShowAllActivityToggle(messages)]]"
+      hidden\$="[[!_isVisibleShowAllActivityToggle(_combinedMessages)]]"
     >
       <paper-toggle-button
         id="showAllActivityToggle"

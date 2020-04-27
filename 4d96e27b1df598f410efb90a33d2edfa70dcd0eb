@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6780cc10_3e7b351b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-04-27T14:22:37Z",
+      "side": 1,
+      "message": "Done. See https://gerrit-review.googlesource.com/c/gerrit/+/264543",
+      "parentUuid": "151783a6_908fc067",
+      "revId": "4d96e27b1df598f410efb90a33d2edfa70dcd0eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2754f271_41334cfb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "4d96e27b1df598f410efb90a33d2edfa70dcd0eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9395f69e_461988a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-04-27T14:22:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2754f271_41334cfb",
+      "revId": "4d96e27b1df598f410efb90a33d2edfa70dcd0eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

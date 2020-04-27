@@ -417,6 +417,16 @@ public class AsyncReceiveCommits {
     metrics.latencyPerPush.record(pushType, deltaNanos, NANOSECONDS);
   }
 
+  /**
+   * Sends all messages which have been collected while processing the push to the client.
+   *
+   * @see ReceiveCommits#sendMessages()
+   */
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public void sendMessages() {
+    receiveCommits.sendMessages();
+  }
+
   public ReceivePack getReceivePack() {
     return receivePack;
   }

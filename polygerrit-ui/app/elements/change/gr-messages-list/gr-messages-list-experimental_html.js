@@ -59,7 +59,7 @@ export const htmlTemplate = html`
     <span
       id="showAllActivityToggleContainer"
       class="container"
-      hidden\\$="[[!_isVisibleShowAllActivityToggle(messages)]]"
+      hidden$="[[!_isVisibleShowAllActivityToggle(_combinedMessages)]]"
     >
       <paper-toggle-button
         id="showAllActivityToggle"
@@ -92,7 +92,7 @@ export const htmlTemplate = html`
       show-reply-button="[[showReplyButtons]]"
       on-message-anchor-tap="_handleAnchorClick"
       label-extremes="[[_labelExtremes]]"
-      data-message-id\\$="[[message.id]]"
+      data-message-id$="[[message.id]]"
     ></gr-message>
   </template>
   <gr-reporting id="reporting" category="message-list"></gr-reporting>

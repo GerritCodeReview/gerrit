@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const {Element, html} = Polymer;
+// Error: error TS2451: Cannot redeclare block-scoped variable 'Element'.
+const {html} = Polymer;
 
-class RepoCommandLow extends Element {
+class RepoCommandLow extends Polymer.Element {
   static get is() { return 'repo-command-low'; }
 
   static get properties() {

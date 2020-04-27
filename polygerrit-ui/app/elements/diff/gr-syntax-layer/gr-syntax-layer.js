@@ -306,13 +306,16 @@ class GrSyntaxLayer extends GestureEventListeners(
 
             if (state.lineIndex % 100 === 0) {
               this._notify(state);
-              this._processHandle = this.async(nextStep, ASYNC_DELAY);
+              this._processHandle = new Promise(resolve => {
+                nextStep.call(this);
+                resolve();
+              });
             } else {
               nextStep.call(this);
             }
           };
 
-          this._processHandle = this.async(nextStep, 1);
+          nextStep.call(this);
         })));
     return this._processPromise
         .finally(() => { this._processPromise = null; });

@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "ccf4f76c_2af2f9d0",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-27T12:36:09Z",
+      "side": 1,
+      "message": "I\u0027ve added code to throw an ISE in case we want reviewers from ChangeData, but the field has not been populated. We populate it except when explicitly overwritten (with noFields() or by narrowing fields down to a specific list). These callers seemed sane.\n\nWe could make REVIEWERS a non-overridable default, but the worst that can happen is an HTTP 500, so IMO it\u0027s OK for now.\n\nAdded a test as discussed.",
+      "parentUuid": "c6610db0_5409d380",
+      "range": {
+        "startLine": 710,
+        "startChar": 12,
+        "endLine": 710,
+        "endChar": 23
+      },
+      "revId": "577de492bae7e28baa3a8e467ddbe2d5a7993b11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ed8ede0_21d94f29",
         "filename": "java/com/google/gerrit/server/permissions/ChangeControl.java",
         "patchSetId": 5

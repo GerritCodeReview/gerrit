@@ -102,7 +102,6 @@ const LANGUAGE_MAP = {
   'text/x-yaml': 'yaml',
   'text/vbscript': 'vbscript',
 };
-const ASYNC_DELAY = 10;
 
 const CLASS_WHITELIST = {
   'gr-diff gr-syntax gr-syntax-attr': true,
@@ -306,13 +305,21 @@ class GrSyntaxLayer extends GestureEventListeners(
 
             if (state.lineIndex % 100 === 0) {
               this._notify(state);
-              this._processHandle = this.async(nextStep, ASYNC_DELAY);
+              if (document.visibilityState === 'hidden') {
+                this._processPromise = Promise.resolve().then(() => {
+                  nextStep.call(this);
+                });
+              } else {
+                this._processPromise = requestAnimationFrame(() => {
+                  nextStep.call(this);
+                });
+              }
             } else {
               nextStep.call(this);
             }
           };
 
-          this._processHandle = this.async(nextStep, 1);
+          nextStep.call(this);
         })));
     return this._processPromise
         .finally(() => { this._processPromise = null; });

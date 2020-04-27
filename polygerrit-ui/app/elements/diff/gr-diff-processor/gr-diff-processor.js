@@ -22,6 +22,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {GrDiffLine} from '../gr-diff/gr-diff-line.js';
 import {GrDiffGroup} from '../gr-diff/gr-diff-group.js';
 import {util} from '../../../scripts/util.js';
+import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
 const WHOLE_FILE = -1;
 
@@ -205,7 +206,15 @@ class GrDiffProcessor extends GestureEventListeners(
             state.chunkIndex = stateUpdate.newChunkIndex;
             if (currentBatch >= this._asyncThreshold) {
               currentBatch = 0;
-              this._nextStepHandle = this.async(nextStep, 1);
+              if (document.visibilityState === 'hidden') {
+                this._nextStepHandle = Promise.resolve().then(() => {
+                  nextStep.call(this);
+                });
+              } else {
+                this._nextStepHandle = requestAnimationFrame(() => {
+                  nextStep.call(this);
+                });
+              }
             } else {
               nextStep.call(this);
             }

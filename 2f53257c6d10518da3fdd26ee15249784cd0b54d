@@ -22,6 +22,30 @@
       "revId": "2f53257c6d10518da3fdd26ee15249784cd0b54d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa608a2e_d3777ab0",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-27T11:29:32Z",
+      "side": 1,
+      "message": "Sure, you *can* use Homebrew, but it is not really recommended. Just for Gerrit you don\u0027t need it. But you need npm anyway. So we can as well recommend using npm. Sounds good?",
+      "parentUuid": "74ffd8d3_dfe4d5eb",
+      "range": {
+        "startLine": 27,
+        "startChar": 1,
+        "endLine": 27,
+        "endChar": 32
+      },
+      "revId": "2f53257c6d10518da3fdd26ee15249784cd0b54d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

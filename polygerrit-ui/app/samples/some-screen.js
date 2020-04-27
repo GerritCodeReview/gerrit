@@ -14,9 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const {Element, html} = Polymer;
 
-class SomeScreenMain extends Element {
+// Element class exists in all browsers:
+// https://developer.mozilla.org/en-US/docs/Web/API/Element
+// Rename it to PolymerElement to avoid conflicts. Also,
+// typescript reports the following error:
+// error TS2451: Cannot redeclare block-scoped variable 'Element'.
+const {html, Element: PolymerElement} = Polymer;
+
+class SomeScreenMain extends PolymerElement {
   static get is() { return 'some-screen-main'; }
 
   static get properties() {

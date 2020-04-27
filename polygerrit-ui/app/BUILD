@@ -89,6 +89,7 @@ eslint(
         "@npm//eslint-plugin-html",
         "@npm//eslint-plugin-import",
         "@npm//eslint-plugin-jsdoc",
+        "@npm//eslint-plugin-prettier",
     ],
 )
 

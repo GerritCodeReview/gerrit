@@ -18,79 +18,79 @@ import '../gr-hovercard/gr-hovercard-shared-style.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
 export const htmlTemplate = html`
-    <style include="gr-hovercard-shared-style">
-      .top,
-      .attention,
-      .status,
-      .voteable {
-        padding: var(--spacing-s) var(--spacing-l);
+  <style include="gr-hovercard-shared-style">
+    .top,
+    .attention,
+    .status,
+    .voteable {
+      padding: var(--spacing-s) var(--spacing-l);
+    }
+    .top {
+      display: flex;
+      padding-top: var(--spacing-xl);
+      min-width: 300px;
+    }
+    gr-avatar {
+      height: 48px;
+      width: 48px;
+      margin-right: var(--spacing-l);
+    }
+    .title,
+    .email {
+      color: var(--deemphasized-text-color);
+    }
+    .status iron-icon {
+      width: 14px;
+      height: 14px;
+      vertical-align: top;
+      position: relative;
+      top: 2px;
+    }
+    .action {
+      border-top: 1px solid var(--border-color);
+      padding: var(--spacing-s) var(--spacing-l);
+      --gr-button: {
+        padding: var(--spacing-s) 0;
       }
-      .top {
-        display: flex;
-        padding-top: var(--spacing-xl);
-        min-width: 300px;
-      }
-      gr-avatar {
-        height: 48px;
-        width: 48px;
-        margin-right: var(--spacing-l);
-      }
-      .title,
-      .email {
-        color: var(--deemphasized-text-color);
-      }
-      .status iron-icon {
-        width: 14px;
-        height: 14px;
-        vertical-align: top;
-        position: relative;
-        top: 2px;
-      }
-      .action {
-        border-top: 1px solid var(--border-color);
-        padding: var(--spacing-s) var(--spacing-l);
-        --gr-button: {
-          padding: var(--spacing-s) 0;
-        };
-      }
-      :host(:not([attention])) .attention {
-        display: none;
-      }
-      .attention {
-        background-color: var(--emphasis-color);
-      }
-      .attention iron-icon {
-        vertical-align: top;
-      }
-    </style>
-    <div id="container" role="tooltip" tabindex="-1">
-      <div class="top">
-        <div class="avatar">
-          <gr-avatar account="[[account]]" image-size="56"></gr-avatar>
-        </div>
-        <div class="account">
-          <h3 class="name">[[account.name]]</h3>
-          <div class="email">[[account.email]]</div>
-        </div>
+    }
+    :host(:not([attention])) .attention {
+      display: none;
+    }
+    .attention {
+      background-color: var(--emphasis-color);
+    }
+    .attention iron-icon {
+      vertical-align: top;
+    }
+  </style>
+  <div id="container" role="tooltip" tabindex="-1">
+    <div class="top">
+      <div class="avatar">
+        <gr-avatar account="[[account]]" image-size="56"></gr-avatar>
       </div>
-      <template is="dom-if" if="[[account.status]]">
-        <div class="status">
-          <span class="title">
-            <iron-icon icon="gr-icons:calendar"></iron-icon>
-            Status:
-          </span>
-          <span class="value">[[account.status]]</span>
-        </div>
-      </template>
-      <template is="dom-if" if="[[voteableText]]">
-        <div class="voteable">
-          <span class="title">Voteable:</span>
-          <span class="value">[[voteableText]]</span>
-        </div>
-      </template>
-      <div class="attention">
-        <iron-icon icon="gr-icons:attention"></iron-icon>
-        <span>It is this user's turn to take action.</span>
+      <div class="account">
+        <h3 class="name">[[account.name]]</h3>
+        <div class="email">[[account.email]]</div>
       </div>
     </div>
+    <template is="dom-if" if="[[account.status]]">
+      <div class="status">
+        <span class="title">
+          <iron-icon icon="gr-icons:calendar"></iron-icon>
+          Status:
+        </span>
+        <span class="value">[[account.status]]</span>
+      </div>
+    </template>
+    <template is="dom-if" if="[[voteableText]]">
+      <div class="voteable">
+        <span class="title">Voteable:</span>
+        <span class="value">[[voteableText]]</span>
+      </div>
+    </template>
+    <div class="attention">
+      <iron-icon icon="gr-icons:attention"></iron-icon>
+      <span>It is this user's turn to take action.</span>
+    </div>
+  </div>
 `;

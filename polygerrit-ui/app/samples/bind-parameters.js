@@ -14,9 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const {Element, html} = Polymer;
 
-class MyBindSample extends Element {
+// Do not add the Element here ({html, Element} = Polymer),
+// otherwise typescript reports the following error:
+// error TS2451: Cannot redeclare block-scoped variable 'Element'.
+const {html} = Polymer;
+
+class MyBindSample extends Polymer.Element {
   static get is() { return 'my-bind-sample'; }
 
   static get properties() {

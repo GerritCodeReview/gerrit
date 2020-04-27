@@ -205,7 +205,15 @@ class GrDiffProcessor extends GestureEventListeners(
             state.chunkIndex = stateUpdate.newChunkIndex;
             if (currentBatch >= this._asyncThreshold) {
               currentBatch = 0;
-              this._nextStepHandle = this.async(nextStep, 1);
+              if (document.visibilityState === 'hidden') {
+                this._nextStepHandle = Promise.resolve().then(() => {
+                  nextStep.call(this);
+                });
+              } else {
+                this._nextStepHandle = requestAnimationFrame(() => {
+                  nextStep.call(this);
+                });
+              }
             } else {
               nextStep.call(this);
             }

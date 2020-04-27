@@ -17,36 +17,38 @@
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
 export const htmlTemplate = html`
-    <style include="shared-styles">
-      :host {
-        display: inline-block;
-        /* Setting this really high, so all the following rules don't change
+  <style include="shared-styles">
+    :host {
+      display: inline-block;
+      /* Setting this really high, so all the following rules don't change
            anything, only if --account-max-length is actually set to something
            smaller like 20ch. */
-        max-width: var(--account-max-length, 500px);
-        overflow: hidden;
-        text-overflow: ellipsis;
-        vertical-align: top;
-        white-space: nowrap;
+      max-width: var(--account-max-length, 500px);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      vertical-align: top;
+      white-space: nowrap;
+    }
+    a {
+      color: var(--primary-text-color);
+      text-decoration: none;
+    }
+    gr-account-label {
+      --gr-account-label-text-hover-style: {
+        text-decoration: underline;
       }
-      a {
-        color: var(--primary-text-color);
-        text-decoration: none;
-      }
-      gr-account-label {
-        --gr-account-label-text-hover-style: {
-          text-decoration: underline;
-        };
-      }
-    </style>
-    <span>
-      <a href\$="[[_computeOwnerLink(account)]]" tabindex="-1">
-        <gr-account-label show-attention="[[showAttention]]" 
-                          hide-avatar="[[hideAvatar]]"
-                          hide-status="[[hideStatus]]"
-                          account="[[account]]"
-                          voteable-text="[[voteableText]]">
-        </gr-account-label>
-      </a>
-    </span>
+    }
+  </style>
+  <span>
+    <a href$="[[_computeOwnerLink(account)]]" tabindex="-1">
+      <gr-account-label
+        show-attention="[[showAttention]]"
+        hide-avatar="[[hideAvatar]]"
+        hide-status="[[hideStatus]]"
+        account="[[account]]"
+        voteable-text="[[voteableText]]"
+      >
+      </gr-account-label>
+    </a>
+  </span>
 `;

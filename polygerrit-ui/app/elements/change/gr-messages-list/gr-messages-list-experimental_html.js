@@ -17,58 +17,83 @@
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
 export const htmlTemplate = html`
-    <style include="shared-styles">
-      :host {
-        display: flex;
-        justify-content: space-between;
+  <style include="shared-styles">
+    :host {
+      display: flex;
+      justify-content: space-between;
+    }
+    .header {
+      align-items: center;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      padding: var(--spacing-s) var(--spacing-l);
+    }
+    .highlighted {
+      animation: 3s fadeOut;
+    }
+    @keyframes fadeOut {
+      0% {
+        background-color: var(--emphasis-color);
       }
-      .header {
-        align-items: center;
-        border-top: 1px solid var(--border-color);
-        border-bottom: 1px solid var(--border-color);
-        display: flex;
-        justify-content: space-between;
-        padding: var(--spacing-s) var(--spacing-l);
+      100% {
+        background-color: var(--view-background-color);
       }
-      .highlighted {
-        animation: 3s fadeOut;
-      }
-      @keyframes fadeOut {
-        0% { background-color: var(--emphasis-color); }
-        100% { background-color: var(--view-background-color); }
-      }
-      .container {
-        align-items: center;
-        display: flex;
-      }
-      gr-message:not(:last-of-type) {
-        border-bottom: 1px solid var(--border-color);
-      }
-      gr-message:nth-child(2n) {
-        background-color: var(--background-color-secondary);
-      }
-      gr-message:nth-child(2n+1) {
-        background-color: var(--background-color-tertiary);
-      }
-    </style>
-    <div class="header">
-      <span id="automatedMessageToggleContainer" class="container" hidden\$="[[!_hasAutomatedMessages(messages)]]">
-        <paper-toggle-button id="automatedMessageToggle" checked="{{_hideAutomated}}"></paper-toggle-button>Only comments
-        <span class="transparent separator"></span>
-      </span>
-      <gr-button id="collapse-messages" link="" title="[[_expandAllTitle]]" on-click="_handleExpandCollapseTap">
-        [[_expandAllState]]
-      </gr-button>
-    </div>
-    <template id="messageRepeat" is="dom-repeat" items="[[_combinedMessages]]" as="message" filter="_isMessageVisible">
-      <gr-message change-num="[[changeNum]]"
-                  message="[[message]]"
-                  comments="[[_computeCommentsForMessage(changeComments, message)]]"
-                  project-name="[[projectName]]"
-                  show-reply-button="[[showReplyButtons]]"
-                  on-message-anchor-tap="_handleAnchorClick"
-                  label-extremes="[[_labelExtremes]]"
-                  data-message-id\$="[[message.id]]"></gr-message>
-    </template>
-    <gr-reporting id="reporting" category="message-list"></gr-reporting>
+    }
+    .container {
+      align-items: center;
+      display: flex;
+    }
+    gr-message:not(:last-of-type) {
+      border-bottom: 1px solid var(--border-color);
+    }
+    gr-message:nth-child(2n) {
+      background-color: var(--background-color-secondary);
+    }
+    gr-message:nth-child(2n + 1) {
+      background-color: var(--background-color-tertiary);
+    }
+  </style>
+  <div class="header">
+    <span
+      id="automatedMessageToggleContainer"
+      class="container"
+      hidden$="[[!_hasAutomatedMessages(messages)]]"
+    >
+      <paper-toggle-button
+        id="automatedMessageToggle"
+        checked="{{_hideAutomated}}"
+      ></paper-toggle-button
+      >Only comments
+      <span class="transparent separator"></span>
+    </span>
+    <gr-button
+      id="collapse-messages"
+      link=""
+      title="[[_expandAllTitle]]"
+      on-click="_handleExpandCollapseTap"
+    >
+      [[_expandAllState]]
+    </gr-button>
+  </div>
+  <template
+    id="messageRepeat"
+    is="dom-repeat"
+    items="[[_combinedMessages]]"
+    as="message"
+    filter="_isMessageVisible"
+  >
+    <gr-message
+      change-num="[[changeNum]]"
+      message="[[message]]"
+      comments="[[_computeCommentsForMessage(changeComments, message)]]"
+      project-name="[[projectName]]"
+      show-reply-button="[[showReplyButtons]]"
+      on-message-anchor-tap="_handleAnchorClick"
+      label-extremes="[[_labelExtremes]]"
+      data-message-id$="[[message.id]]"
+    ></gr-message>
+  </template>
+  <gr-reporting id="reporting" category="message-list"></gr-reporting>
 `;

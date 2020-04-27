@@ -17,24 +17,25 @@
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
 export const htmlTemplate = html`
-    <style include="shared-styles">
-      :host {
-        display: block;
-        margin-bottom: var(--spacing-xxl);
-      }
-      .loading #dashboards,
-      #loadingContainer {
-        display: none;
-      }
-      .loading #loadingContainer {
-        display: block;
-      }
-    </style>
-    <style include="gr-table-styles">
-      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
-    </style>
-    <table id="list" class\$="genericList [[_computeLoadingClass(_loading)]]">
-      <tbody><tr class="headerRow">
+  <style include="shared-styles">
+    :host {
+      display: block;
+      margin-bottom: var(--spacing-xxl);
+    }
+    .loading #dashboards,
+    #loadingContainer {
+      display: none;
+    }
+    .loading #loadingContainer {
+      display: block;
+    }
+  </style>
+  <style include="gr-table-styles">
+    /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+  </style>
+  <table id="list" class$="genericList [[_computeLoadingClass(_loading)]]">
+    <tbody>
+      <tr class="headerRow">
         <th class="topHeader">Dashboard name</th>
         <th class="topHeader">Dashboard title</th>
         <th class="topHeader">Dashboard description</th>
@@ -44,22 +45,27 @@ export const htmlTemplate = html`
       <tr id="loadingContainer">
         <td>Loading...</td>
       </tr>
-      </tbody><tbody id="dashboards">
-        <template is="dom-repeat" items="[[_dashboards]]">
-          <tr class="groupHeader">
-            <td colspan="5">[[item.section]]</td>
+    </tbody>
+    <tbody id="dashboards">
+      <template is="dom-repeat" items="[[_dashboards]]">
+        <tr class="groupHeader">
+          <td colspan="5">[[item.section]]</td>
+        </tr>
+        <template is="dom-repeat" items="[[item.dashboards]]">
+          <tr class="table">
+            <td class="name">
+              <a href$="[[_getUrl(item.project, item.id)]]">[[item.path]]</a>
+            </td>
+            <td class="title">[[item.title]]</td>
+            <td class="desc">[[item.description]]</td>
+            <td class="inherited">
+              [[_computeInheritedFrom(item.project, item.defining_project)]]
+            </td>
+            <td class="default">[[_computeIsDefault(item.is_default)]]</td>
           </tr>
-          <template is="dom-repeat" items="[[item.dashboards]]">
-            <tr class="table">
-              <td class="name"><a href\$="[[_getUrl(item.project, item.id)]]">[[item.path]]</a></td>
-              <td class="title">[[item.title]]</td>
-              <td class="desc">[[item.description]]</td>
-              <td class="inherited">[[_computeInheritedFrom(item.project, item.defining_project)]]</td>
-              <td class="default">[[_computeIsDefault(item.is_default)]]</td>
-            </tr>
-          </template>
         </template>
-      </tbody>
-    </table>
-    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+      </template>
+    </tbody>
+  </table>
+  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

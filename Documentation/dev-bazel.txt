@@ -18,7 +18,7 @@ should generate a .war file under `bazel-bin/gerrit.war`.
 To build Gerrit from source, you need:
 
 * A Linux or macOS system (Windows is not supported at this time)
-* A JDK for Java 8|9|10|11|...
+* A JDK for Java 8|11|14|...
 * Python 2 or 3
 * link:https://github.com/nodesource/distributions/blob/master/README.md[Node.js (including npm),role=external,window=_blank]
 * Bower (`sudo npm install -g bower`)
@@ -58,25 +58,21 @@ To check the installed version of Java, open a terminal window and run:
 ==== Java 8 support (deprecated)
 
 Java 8 is a legacy Java release and support for Java 8 will be discontinued
-in future gerrit releases. Right now Java 8 is still the default. That means,
-that running:
+in future gerrit releases. To build Gerrit with Java 8 language level, run:
 
 ```
-  $ bazel build :release
+  $ bazel build --java_toolchain //tools:error_prone_warnings_toolchain_java8
+        :release
 ```
-
-will still produce Java 8 byte code. This will be changed in near future.
 
 [[java-11]]
 ==== Java 11 support
 
-Java 11 is supported through alternative java toolchain
-link:https://docs.bazel.build/versions/master/toolchains.html[Bazel option].
-To build Gerrit with Java 11, specify JDK 11 java toolchain:
+Java language level 11 is the default. To build gerrit with Java 11 language
+level, run:
 
 ```
-  $ bazel build --java_toolchain //tools:error_prone_warnings_toolchain_java11 \
-      :release
+  $ bazel build :release
 ```
 
 [[java-14]]

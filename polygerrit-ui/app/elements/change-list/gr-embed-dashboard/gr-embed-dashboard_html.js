@@ -17,14 +17,19 @@
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
 export const htmlTemplate = html`
-    <gr-change-list show-star="" account="[[account]]" preferences="[[preferences]]" sections="[[sections]]">
-      <div id="emptyOutgoing" slot="empty-outgoing">
-        <template is="dom-if" if="[[showNewUserHelp]]">
-          <gr-create-change-help></gr-create-change-help>
-        </template>
-        <template is="dom-if" if="[[!showNewUserHelp]]">
-          No changes
-        </template>
-      </div>
-    </gr-change-list>
+  <gr-change-list
+    show-star=""
+    account="[[account]]"
+    preferences="[[preferences]]"
+    sections="[[sections]]"
+  >
+    <div id="emptyOutgoing" slot="empty-outgoing">
+      <template is="dom-if" if="[[showNewUserHelp]]">
+        <gr-create-change-help></gr-create-change-help>
+      </template>
+      <template is="dom-if" if="[[!showNewUserHelp]]">
+        No changes
+      </template>
+    </div>
+  </gr-change-list>
 `;

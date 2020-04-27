@@ -17,61 +17,83 @@
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
 export const htmlTemplate = html`
-    <style include="shared-styles">
-      gr-diff {
-        --content-width: 90vw;
-      }
-      .diffContainer {
-        padding: var(--spacing-l) 0;
-        border-bottom: 1px solid var(--border-color);
-      }
-      .file-name {
-        display: block;
-        padding: var(--spacing-s) var(--spacing-l);
-        background-color: var(--background-color-secondary);
-        border-bottom: 1px solid var(--border-color);
-      }
-      .fixActions {
-        display: flex;
-        justify-content: flex-end;
-      }
-      gr-button {
-        margin-left: var(--spacing-m);
-      }
-      .fix-picker {
-        display: flex;
-        align-items: center;
-        margin-right: var(--spacing-l);
-      }
-    </style>
-    <gr-overlay id="applyFixOverlay" with-backdrop="">
-      <gr-dialog id="applyFixDialog"
-        on-confirm="_handleApplyFix"
-        confirm-label="[[_getApplyFixButtonLabel(_isApplyFixLoading)]]"
-        disabled="[[_disableApplyFixButton]]"
-        confirm-tooltip="[[_computeTooltip(change, _patchNum)]]"
-        on-cancel="onCancel">
-        <div slot="header">[[_robotId]] - [[getFixDescription(_currentFix)]]</div>
-        <div slot="main">
-          <template is="dom-repeat" items="[[_currentPreviews]]">
-            <div class="file-name">
-              <span>[[item.filepath]]</span>
-            </div>
-            <div class="diffContainer">
-              <gr-diff prefs="[[overridePartialPrefs(prefs)]]" change-num="[[changeNum]]" path="[[item.filepath]]" diff="[[item.preview]]"></gr-diff>
-            </div>
-          </template>
-        </div>
-        <div slot="footer" class="fix-picker" hidden\$="[[hasSingleFix(_fixSuggestions)]]">
-          <span>Suggested fix [[addOneTo(_selectedFixIdx)]] of [[_fixSuggestions.length]]</span>
-          <gr-button id="prevFix" on-click="_onPrevFixClick" disabled\$="[[_noPrevFix(_selectedFixIdx)]]">
-            <iron-icon icon="gr-icons:chevron-left"></iron-icon>
-          </gr-button>
-          <gr-button id="nextFix" on-click="_onNextFixClick" disabled\$="[[_noNextFix(_selectedFixIdx, _fixSuggestions)]]">
-            <iron-icon icon="gr-icons:chevron-right"></iron-icon>
-          </gr-button>
-        </div>
-      </gr-dialog>
-    </gr-overlay>
-    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
+  <style include="shared-styles">
+    gr-diff {
+      --content-width: 90vw;
+    }
+    .diffContainer {
+      padding: var(--spacing-l) 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .file-name {
+      display: block;
+      padding: var(--spacing-s) var(--spacing-l);
+      background-color: var(--background-color-secondary);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .fixActions {
+      display: flex;
+      justify-content: flex-end;
+    }
+    gr-button {
+      margin-left: var(--spacing-m);
+    }
+    .fix-picker {
+      display: flex;
+      align-items: center;
+      margin-right: var(--spacing-l);
+    }
+  </style>
+  <gr-overlay id="applyFixOverlay" with-backdrop="">
+    <gr-dialog
+      id="applyFixDialog"
+      on-confirm="_handleApplyFix"
+      confirm-label="[[_getApplyFixButtonLabel(_isApplyFixLoading)]]"
+      disabled="[[_disableApplyFixButton]]"
+      confirm-tooltip="[[_computeTooltip(change, _patchNum)]]"
+      on-cancel="onCancel"
+    >
+      <div slot="header">[[_robotId]] - [[getFixDescription(_currentFix)]]</div>
+      <div slot="main">
+        <template is="dom-repeat" items="[[_currentPreviews]]">
+          <div class="file-name">
+            <span>[[item.filepath]]</span>
+          </div>
+          <div class="diffContainer">
+            <gr-diff
+              prefs="[[overridePartialPrefs(prefs)]]"
+              change-num="[[changeNum]]"
+              path="[[item.filepath]]"
+              diff="[[item.preview]]"
+            ></gr-diff>
+          </div>
+        </template>
+      </div>
+      <div
+        slot="footer"
+        class="fix-picker"
+        hidden$="[[hasSingleFix(_fixSuggestions)]]"
+      >
+        <span
+          >Suggested fix [[addOneTo(_selectedFixIdx)]] of
+          [[_fixSuggestions.length]]</span
+        >
+        <gr-button
+          id="prevFix"
+          on-click="_onPrevFixClick"
+          disabled$="[[_noPrevFix(_selectedFixIdx)]]"
+        >
+          <iron-icon icon="gr-icons:chevron-left"></iron-icon>
+        </gr-button>
+        <gr-button
+          id="nextFix"
+          on-click="_onNextFixClick"
+          disabled$="[[_noNextFix(_selectedFixIdx, _fixSuggestions)]]"
+        >
+          <iron-icon icon="gr-icons:chevron-right"></iron-icon>
+        </gr-button>
+      </div>
+    </gr-dialog>
+  </gr-overlay>
+  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

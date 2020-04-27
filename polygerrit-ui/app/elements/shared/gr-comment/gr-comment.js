@@ -109,6 +109,12 @@ class GrComment extends mixinBehaviors( [
    */
 
   /**
+   * Fired when editing status changed.
+   *
+   * @event comment-editing-changed
+   */
+
+  /**
    * Fired when the comment's timestamp is tapped.
    *
    * @event comment-anchor-tap
@@ -256,6 +262,11 @@ class GrComment extends mixinBehaviors( [
   }
 
   _onEditingChange(editing) {
+    this.dispatchEvent(new CustomEvent('comment-editing-changed', {
+      detail: !!editing,
+      bubbles: true,
+      composed: true,
+    }));
     if (!editing) return;
     // visibility based on cache this will make sure we only and always show
     // a tip once every Math.max(a day, period between creating comments)

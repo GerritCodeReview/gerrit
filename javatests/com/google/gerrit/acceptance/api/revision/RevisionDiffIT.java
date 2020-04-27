@@ -353,6 +353,31 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void copiedFileDetectedIfOriginalFileIsRenamedInDiff() throws Exception {
+    /*
+     * Copies are detected when a file is deleted and more than 1 file with the same content are
+     * added. In this case, the added file with the closest name to the original file is tagged as a
+     * rename and the remaining files are considered copies. This implementation is done by JGit in
+     * the RenameDetector component.
+     */
+    String renamedFileName = "renamed_some_file.txt";
+    String copyFileName1 = "copy1_with_different_name.txt";
+    String copyFileName2 = "copy2_with_different_name.txt";
+    gApi.changes().id(changeId).edit().modifyFile(copyFileName1, RawInputUtil.create(FILE_CONTENT));
+    gApi.changes().id(changeId).edit().modifyFile(copyFileName2, RawInputUtil.create(FILE_CONTENT));
+    gApi.changes().id(changeId).edit().renameFile(FILE_NAME, renamedFileName);
+    gApi.changes().id(changeId).edit().publish();
+
+    Map<String, FileInfo> changedFiles = gApi.changes().id(changeId).current().files();
+
+    assertThat(changedFiles.keySet())
+        .containsExactly("/COMMIT_MSG", renamedFileName, copyFileName1, copyFileName2);
+    assertThat(changedFiles.get(renamedFileName).status).isEqualTo('R');
+    assertThat(changedFiles.get(copyFileName1).status).isEqualTo('C');
+    assertThat(changedFiles.get(copyFileName2).status).isEqualTo('C');
+  }
+
+  @Test
   public void addedBinaryFileIsIncludedInDiff() throws Exception {
     String imageFileName = "an_image.png";
     byte[] imageBytes = createRgbImage(255, 0, 0);

@@ -14,9 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const {Element, html} = Polymer;
+// Error: error TS2451: Cannot redeclare block-scoped variable 'Element'.
+const {html} = Polymer;
 
-class MyBindSample extends Element {
+class MyBindSample extends Polymer.Element {
   static get is() { return 'my-bind-sample'; }
 
   static get properties() {

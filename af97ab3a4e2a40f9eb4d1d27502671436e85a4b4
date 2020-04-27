@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "860356a2_9f22915b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-27T04:23:58Z",
+      "side": 1,
+      "message": "I see that we have activated AutoValueFinalMethods error prone bug pattern with severity error in our build tool chain:\n\n  tools/BUILD:        \"-Xep:AutoValueFinalMethods:ERROR\",",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 66
+      },
+      "revId": "af97ab3a4e2a40f9eb4d1d27502671436e85a4b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

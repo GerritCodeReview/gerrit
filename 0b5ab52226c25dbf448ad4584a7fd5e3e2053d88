@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "953dc522_2505d99f",
+        "filename": "java/com/google/gerrit/server/schema/JdbcUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-27T18:01:09Z",
+      "side": 0,
+      "message": "This code was used by verify-status plugin. Moving it there.",
+      "revId": "0b5ab52226c25dbf448ad4584a7fd5e3e2053d88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

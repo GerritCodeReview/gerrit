@@ -24,6 +24,7 @@ To build Gerrit from source, you need:
 * Bower (`sudo npm install -g bower`)
 * link:https://docs.bazel.build/versions/master/install.html[Bazel,role=external,window=_blank] -launched with
 link:https://github.com/bazelbuild/bazelisk[Bazelisk,role=external,window=_blank]
+(`sudo npm install -g bazelisk`)
 * Maven
 * zip, unzip
 * gcc
@@ -35,8 +36,9 @@ link:https://github.com/bazelbuild/bazelisk[Bazelisk,role=external,window=_blank
 link:https://bazel.build/[Bazel,role=external,window=_blank] version check and downloads the correct
 `bazel` version for the git project/repository. Bazelisk is the recommended
 `bazel` launcher for Gerrit. Once Bazelisk is installed locally, a `bazel`
-symlink can be created towards it. This is so that every `bazel` command
-seamlessly uses Bazelisk, which then runs the proper `bazel` binary version.
+symlink can be created towards it (`npm install -g bazelisk` does that automatically). This is so
+that every `bazel` command seamlessly uses Bazelisk, which then runs the proper `bazel` binary
+version.
 
 [[java]]
 === Java

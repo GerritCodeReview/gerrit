@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff30b7dc_5a0151a8",
+        "filename": "polygerrit-ui/app/.eslintrc.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-27T09:57:25Z",
+      "side": 1,
+      "message": "both are needed to keep existing js part in html.js unchanged",
+      "revId": "a337dcd7a653bd1144520c24312c976ce9e2b5f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

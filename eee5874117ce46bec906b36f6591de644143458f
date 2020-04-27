@@ -566,6 +566,24 @@
     },
     {
       "key": {
+        "uuid": "d2bafbe5_068be187",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-27T15:57:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dddb3040_efba99e7",
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b75c7230_9d2af93d",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 4
@@ -709,6 +727,24 @@
       "revId": "eee5874117ce46bec906b36f6591de644143458f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e310bb83_7f3e8bc4",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-27T15:57:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5edb469_c52d639f",
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -933,6 +969,30 @@
       "revId": "eee5874117ce46bec906b36f6591de644143458f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7af4cf66_cb8e3dc3",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1102,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-04-27T15:57:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "770b1509_4b8fa2d2",
+      "range": {
+        "startLine": 1102,
+        "startChar": 40,
+        "endLine": 1102,
+        "endChar": 53
+      },
+      "revId": "eee5874117ce46bec906b36f6591de644143458f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -632,6 +632,22 @@ suite('gr-comment tests', () => {
       assert.isTrue(runIdMessage.hidden);
     });
 
+    test('author name fallback to email', () => {
+      const comment = Object.assign({
+        url: '/robot/comment',
+        author: {
+          email: 'test@test.com',
+        },
+      }, element.comment);
+      element.comment = comment;
+      element.collapsed = false;
+      flushAsynchronousOperations();
+
+      const authorName = element.shadowRoot
+          .querySelector('.authorName');
+      assert.isTrue(authorName.innerText === 'test@test.com');
+    });
+
     test('draft creation/cancellation', done => {
       assert.isFalse(element.editing);
       MockInteractions.tap(element.shadowRoot

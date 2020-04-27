@@ -284,7 +284,7 @@ class OpenIdServiceImpl {
         // right now. Instead of blocking all of them log the error and
         // let the authentication complete anyway.
         //
-        logger.atSevere().log("Invalid PAPE response %s: %s", openidIdentifier, err);
+        logger.atSevere().withCause(err).log("Invalid PAPE response from %s", openidIdentifier);
         unsupported = true;
         ext = null;
       }

@@ -17,12 +17,12 @@
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
 export const htmlTemplate = html`
-    <style include="gr-hovercard-shared-style">
-      #container {
-        padding: var(--spacing-l);
-      }
-    </style>
-    <div id="container" role="tooltip" tabindex="-1">
-      <slot></slot>
-    </div>
+  <style include="gr-hovercard-shared-style">
+    #container {
+      padding: var(--spacing-l);
+    }
+  </style>
+  <div id="container" role="tooltip" tabindex="-1">
+    <slot></slot>
+  </div>
 `;

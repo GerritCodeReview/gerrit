@@ -156,7 +156,7 @@ module.exports = {
     "import/no-cycle": 0,
     "import/no-useless-path-segments": 2,
     "import/no-unused-modules": 2,
-    "import/no-default-export": 2
+    "import/no-default-export": 2,
   },
 
   // List of allowed globals in all files
@@ -242,12 +242,22 @@ module.exports = {
       "rules": {
         "max-len": "off"
       }
+    },
+    {
+      "files": ["*_html.js"],
+      "rules": {
+        "prettier/prettier": ["error", {
+          "bracketSpacing": false,
+          "singleQuote": true,
+        }]
+      }
     }
   ],
   "plugins": [
     "html",
     "jsdoc",
-    "import"
+    "import",
+    "prettier"
   ],
   "settings": {
     "html/report-bad-indent": "error"

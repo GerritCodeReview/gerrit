@@ -79,8 +79,8 @@ suite('gr-identities tests', () => {
       row.querySelectorAll('td')[2].textContent
     );
 
-    assert.equal(nameCells[0], 'gerrit:gerrit');
-    assert.equal(nameCells[1], '');
+    assert.equal(nameCells[0].trim(), 'gerrit:gerrit');
+    assert.equal(nameCells[1].trim(), '');
   });
 
   test('renders email', () => {

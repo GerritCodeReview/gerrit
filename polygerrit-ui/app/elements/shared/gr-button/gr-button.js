@@ -105,7 +105,10 @@ class GrButton extends mixinBehaviors( [
     }
 
     this.$.reporting.reportInteraction('button-click',
-        {path: util.getEventPath(e)});
+        {
+          path: util.getEventPath(e),
+          a11y: util.getA11YLabel(e.target),
+        });
   }
 
   _disabledChanged(disabled) {

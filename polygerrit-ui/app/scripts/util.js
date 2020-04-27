@@ -213,4 +213,25 @@ export const util = {
       return domPath ? `${pathForEl}>${domPath}` : pathForEl;
     }, '');
   },
+
+  getA11YLabel: button => {
+    if (!button) {
+      return '';
+    }
+    if (button.hasAttribute('aria-label')
+      && button.getAttribute('aria-label') != '') {
+      return button.getAttribute('aria-label');
+    }
+    if (button.hasAttribute('aria-labelledby')) {
+      return `aria-labelledby: ${button.getAttribute('aria-labelledby')}`;
+    }
+    if (button.textContent && button.textContent.trim() != '') {
+      return button.textContent.trim();
+    }
+    if (button.title && button.title != '') {
+      return button.title;
+    }
+
+    return '';
+  },
 };

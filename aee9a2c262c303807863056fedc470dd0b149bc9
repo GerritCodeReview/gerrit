@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b574faef_1afccb00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-27T08:32:59Z",
+      "side": 1,
+      "message": "I still not convinced this level of abstraction is needed. However if we are going to keep it I believe we need to be explicit with the variable names and config parameters what is the wait for.\n\nSee one of my previous comments.",
+      "parentUuid": "57988cb8_fe1b95c2",
+      "revId": "aee9a2c262c303807863056fedc470dd0b149bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "043cce60_bdb83a36",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -175,6 +193,30 @@
       "revId": "aee9a2c262c303807863056fedc470dd0b149bc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a5afcca_070a10cf",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-27T08:32:59Z",
+      "side": 1,
+      "message": "What if you are going to add another variable which express the max of another unit of use it without the unit qualifier?\n\nI believe a variable needs to be self explanatory, IMO you shouldn\u0027t rely on the exact place it will be used like in this case.",
+      "parentUuid": "2e352629_89c47514",
+      "range": {
+        "startLine": 35,
+        "startChar": 6,
+        "endLine": 35,
+        "endChar": 9
+      },
+      "revId": "aee9a2c262c303807863056fedc470dd0b149bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

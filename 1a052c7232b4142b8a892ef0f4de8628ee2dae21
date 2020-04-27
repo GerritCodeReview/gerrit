@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78510d2d_dfb0b8c1",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateChange.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-27T08:32:59Z",
+      "side": 1,
+      "message": "nit: parenthesis are not needed. Sorry I missed it in the previous review",
+      "range": {
+        "startLine": 29,
+        "startChar": 29,
+        "endLine": 29,
+        "endChar": 30
+      },
+      "revId": "1a052c7232b4142b8a892ef0f4de8628ee2dae21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "901b498c_d9f30fe2",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/DeleteChange.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-27T08:32:59Z",
+      "side": 1,
+      "message": "nit: parenthesis are not needed. Sorry I missed it in the previous review",
+      "range": {
+        "startLine": 26,
+        "startChar": 29,
+        "endLine": 26,
+        "endChar": 30
+      },
+      "revId": "1a052c7232b4142b8a892ef0f4de8628ee2dae21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c103acad_b9843e87",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-27T08:32:59Z",
+      "side": 1,
+      "message": "nit: parenthesis are not needed. Sorry I missed it in the previous review",
+      "range": {
+        "startLine": 98,
+        "startChar": 20,
+        "endLine": 98,
+        "endChar": 21
+      },
+      "revId": "1a052c7232b4142b8a892ef0f4de8628ee2dae21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "736d7f7a_00fed456",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/ReplayRecordsFromFeeder.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-27T08:32:59Z",
+      "side": 1,
+      "message": "nit: parenthesis are not needed. Sorry I missed it in the previous review",
+      "range": {
+        "startLine": 27,
+        "startChar": 29,
+        "endLine": 27,
+        "endChar": 30
+      },
+      "revId": "1a052c7232b4142b8a892ef0f4de8628ee2dae21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

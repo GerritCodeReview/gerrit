@@ -46,6 +46,30 @@
       "revId": "2f53257c6d10518da3fdd26ee15249784cd0b54d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93fadc4f_e35b2b25",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-27T11:48:30Z",
+      "side": 1,
+      "message": "I build bazel and bazelisk from source on my Laptop. For development purpose I am not symlinking Bazel to Bazelisk. Probably I\u0027m an exception here. But I am confused what npm has to do with bazelisk? Is it a specific NPM module that provides some kind of integration? May be explain it here or even mention that it is optional? Is it optional? Or PG toolchain is changing in some way, that I have to do it now?",
+      "parentUuid": "aa608a2e_d3777ab0",
+      "range": {
+        "startLine": 27,
+        "startChar": 1,
+        "endLine": 27,
+        "endChar": 32
+      },
+      "revId": "2f53257c6d10518da3fdd26ee15249784cd0b54d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

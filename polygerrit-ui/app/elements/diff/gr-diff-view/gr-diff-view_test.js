@@ -24,6 +24,7 @@ import {generateChange, TestKeyboardShortcutBinder} from '../../../test/test-uti
 import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {_testOnly_findCommentById} from '../gr-comment-api/gr-comment-api.js';
+import {appContext} from '../../../services/app-context.js';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
 
@@ -81,6 +82,7 @@ suite('gr-diff-view tests', () => {
     }
 
     setup(() => {
+      sinon.stub(appContext.flagsService, 'isEnabled').returns(true);
       stub('gr-rest-api-interface', {
         getConfig() {
           return Promise.resolve({change: {}});
@@ -193,6 +195,29 @@ suite('gr-diff-view tests', () => {
       return element._paramsChanged.returnValues[0].then(() => {
         assert.isTrue(element._isBlameLoaded);
         assert.isTrue(element._loadBlame.calledOnce);
+      });
+    });
+
+    test('diff toast to go to base is shown', () => {
+      sinon.stub(element.reporting, 'diffViewDisplayed');
+      sinon.stub(element, '_loadBlame');
+      sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
+      sinon.spy(element, '_paramsChanged');
+      element._change = generateChange({revisionsCount: 11});
+      sinon.stub(element, '_getChangeDetail').returns(Promise.resolve(
+          generateChange({revisionsCount: 11})));
+      element._isChangeCommentsLinkExperimentEnabled = true;
+      element.params = {
+        view: GerritNav.View.DIFF,
+        changeNum: '42',
+        patchNum: '2',
+        path: '/COMMIT_MSG',
+        commentLink: true,
+      };
+      const toastStub =
+        sinon.stub(element, '_displayDiffBaseAgainstLeftToast');
+      return element._paramsChanged.returnValues[0].then(() => {
+        assert.isTrue(toastStub.called);
       });
     });
 

@@ -494,13 +494,13 @@ export class ShortcutManager {
       case 'enter':
         return 'Enter';
       case 'up':
-        return '↑';
+        return '\u2191'; // ↑
       case 'down':
-        return '↓';
+        return '\u2193'; // ↓
       case 'left':
-        return '←';
+        return '\u2190'; // ←
       case 'right':
-        return '→';
+        return '\u2192'; // →
       default:
         return key;
     }

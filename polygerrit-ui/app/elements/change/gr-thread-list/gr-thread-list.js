@@ -26,6 +26,10 @@ import {parseDate} from '../../../utils/date-util.js';
 
 import {NO_THREADS_MSG} from '../../../constants/messages.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
+import {
+  computeLatestPatchNum,
+  computeAllPatchSets,
+} from '../../../utils/patch-set-util.js';
 
 /**
  * Fired when a comment is saved or deleted
@@ -77,6 +81,11 @@ class GrThreadList extends GestureEventListeners(
 
   static get observers() {
     return ['_updateSortedThreads(threads, threads.splices)'];
+  }
+
+  _computeLatestPatchNum(change) {
+    if (!change || !change.revisions) return 0;
+    return computeLatestPatchNum(computeAllPatchSets(change));
   }
 
   _computeShowDraftToggle(loggedIn) {

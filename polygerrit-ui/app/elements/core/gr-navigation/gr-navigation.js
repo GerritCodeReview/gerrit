@@ -441,6 +441,19 @@ export const GerritNav = {
    * @param {number} changeNum
    * @param {string} project The name of the project.
    * @param {string} path The file path.
+   * @param {number} patchNum
+   * @param {number} commentId
+   * @return {string}
+   */
+  getUrlForComment(changeNum, project, path, patchNum, commentId) {
+    return `/c/${project}/+/${changeNum}/${patchNum}/comment/` +
+      `${commentId}/${path}`;
+  },
+
+  /**
+   * @param {number} changeNum
+   * @param {string} project The name of the project.
+   * @param {string} path The file path.
    * @param {number=} opt_patchNum
    * @param {number|string=} opt_basePatchNum The string 'PARENT' can be
    *     used for none.

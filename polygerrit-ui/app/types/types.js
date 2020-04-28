@@ -309,3 +309,13 @@ Gerrit.GrSuggestionsProvider;
  *  }}
  */
 Gerrit.Comment;
+
+/**
+ * This contains minimal path info about a file.
+ *
+ * @typedef {{
+ *  oldPath: ?string,
+ *  path: string,
+ *  }}
+ */
+Gerrit.PartialFileInfo;

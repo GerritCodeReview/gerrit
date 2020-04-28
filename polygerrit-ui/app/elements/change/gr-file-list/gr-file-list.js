@@ -87,16 +87,6 @@ const FileStatus = {
  */
 
 /**
- * Type for FileData
- *
- * This contains minimal info required about the file to get comments for
- *
- * @typedef {Object} FileData
- * @property {string} path
- * @property {?string} oldPath
- */
-
-/**
  * @extends Polymer.Element
  */
 class GrFileList extends mixinBehaviors( [
@@ -206,7 +196,7 @@ class GrFileList extends mixinBehaviors( [
        */
       _reportinShownFilesIncrement: Number,
 
-      /** @type {!Array<FileData>} */
+      /** @type {!Array<Gerrit.PartialFileInfo>} */
       _expandedFiles: {
         type: Array,
         value() { return []; },
@@ -687,7 +677,7 @@ class GrFileList extends mixinBehaviors( [
    * Generates file data from file info object.
    *
    * @param {FileInfo} file
-   * @returns {FileData}
+   * @returns {Gerrit.PartialFileInfo}
    */
   _computeFileData(file) {
     const fileData = {
@@ -1163,7 +1153,7 @@ class GrFileList extends mixinBehaviors( [
    * for each path in order, awaiting the previous render to complete before
    * continung.
    *
-   * @param  {!Array<FileData>} files
+   * @param  {!Array<Gerrit.PartialFileInfo>} files
    * @param  {!NodeList<!Object>} diffElements (GrDiffHostElement)
    * @param  {number} initialCount The total number of paths in the pass. This
    *   is used to generate log messages.

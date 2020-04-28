@@ -122,7 +122,10 @@ class GrDiffHost extends mixinBehaviors( [
       },
       /** @type {?} */
       patchRange: Object,
+      // TODO: deprecate path since that info is included in file
       path: String,
+      /** @type {!Gerrit.PartialFileInfo} */
+      file: Object,
       prefs: {
         type: Object,
       },
@@ -778,6 +781,7 @@ class GrDiffHost extends mixinBehaviors( [
     threadEl.changeNum = this.changeNum;
     threadEl.patchNum = thread.patchNum;
     threadEl.lineNum = thread.lineNum;
+    threadEl.file = this.file;
     const rootIdChangedListener = changeEvent => {
       thread.rootId = changeEvent.detail.value;
     };

@@ -417,13 +417,25 @@ suite('gr-messages-list tests', () => {
       assert.deepEqual(messageElements[2].message, messages[2]);
       assert.deepEqual(messageElements[1].comments.file1,
           comments.file1.filter(isMarvin).filter(
-              c => c.change_message_id === messages[1].id));
+              c => c.change_message_id === messages[1].id)
+              .map(c => {
+                c.path = 'file1';
+                return c;
+              }));
       assert.deepEqual(messageElements[1].comments.file2,
           comments.file2.filter(isMarvin).filter(
-              c => c.change_message_id === messages[1].id));
+              c => c.change_message_id === messages[1].id)
+              .map(c => {
+                c.path = 'file2';
+                return c;
+              }));
       assert.deepEqual(messageElements[2].comments.file1,
           comments.file1.filter(isMarvin).filter(
-              c => c.change_message_id === messages[2].id));
+              c => c.change_message_id === messages[2].id)
+              .map(c => {
+                c.path = 'file1';
+                return c;
+              }));
       assert.isUndefined(messageElements[2].comments.file2);
     });
 

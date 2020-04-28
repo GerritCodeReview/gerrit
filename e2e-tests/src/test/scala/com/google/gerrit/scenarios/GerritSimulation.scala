@@ -103,6 +103,9 @@ class GerritSimulation extends Simulation {
    * override def replaceOverride(in: String): String = {
    * // Simple e.g., replaceProperty("EXTENSION_JSON_KEY", "default", in)
    * </pre>
+   *
+   * @param in which string to perform the replacements.
+   * @return the resulting String.
    */
   def replaceOverride(in: String): String = {
     in

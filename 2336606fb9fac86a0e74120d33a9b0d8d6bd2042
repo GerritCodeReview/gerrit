@@ -22,6 +22,30 @@
       "revId": "2336606fb9fac86a0e74120d33a9b0d8d6bd2042",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afe1d075_cad50794",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-28T02:24:07Z",
+      "side": 1,
+      "message": "This is a known issue, and this change was reverted.",
+      "parentUuid": "a1ea11e9_7a82a119",
+      "range": {
+        "startLine": 53,
+        "startChar": 60,
+        "endLine": 53,
+        "endChar": 65
+      },
+      "revId": "2336606fb9fac86a0e74120d33a9b0d8d6bd2042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

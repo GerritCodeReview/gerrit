@@ -31,7 +31,7 @@ public class DiffExecutorModule extends AbstractModule {
   @Provides
   @Singleton
   @DiffExecutor
-  public ExecutorService createDiffExecutor() {
+  public ExecutorService provideDiffExecutor() {
     return new LoggingContextAwareExecutorService(
         Executors.newCachedThreadPool(
             new ThreadFactoryBuilder().setNameFormat("Diff-%d").setDaemon(true).build()));

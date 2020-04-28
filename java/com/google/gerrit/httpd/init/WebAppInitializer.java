@@ -246,7 +246,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
   }
 
   private boolean sshdOff() {
-    return new SshAddressesModule().getListenAddresses(config).isEmpty();
+    return new SshAddressesModule().provideListenAddresses(config).isEmpty();
   }
 
   private Injector createCfgInjector() {

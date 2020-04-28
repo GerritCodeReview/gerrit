@@ -81,8 +81,13 @@ class GrCommentList extends mixinBehaviors( [
   }
 
   _computeDiffLineURL(filePath, changeNum, patchNum, comment) {
-    const basePatchNum = comment.hasOwnProperty('parent') ?
+    let basePatchNum = comment.hasOwnProperty('parent') ?
       -comment.parent : null;
+    // DELETE
+    if (!basePatchNum) {
+      basePatchNum = patchNum;
+      patchNum = 10;
+    }
     return GerritNav.getUrlForDiffById(changeNum, this.projectName,
         filePath, patchNum, basePatchNum, comment.line,
         this._isOnParent(comment));

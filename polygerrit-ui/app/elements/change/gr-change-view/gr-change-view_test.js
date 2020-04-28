@@ -294,6 +294,9 @@ suite('gr-change-view tests', () => {
       _fetchSharedCacheURL() { return Promise.resolve({}); },
     });
     element = fixture.instantiate();
+    element._change = {
+      revisions: {a: {_number: 10}},
+    };
     sandbox.stub(element.$.actions, 'reload').returns(Promise.resolve());
     pluginLoader.loadPlugins([]);
     pluginApi.install(

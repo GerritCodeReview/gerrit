@@ -368,6 +368,7 @@ suite('gr-comment tests', () => {
     setup(() => {
       stub('gr-rest-api-interface', {
         getAccount() { return Promise.resolve(null); },
+        getConfig() { return Promise.resolve({}); },
         saveDiffDraft() {
           return Promise.resolve({
             ok: true,
@@ -596,7 +597,7 @@ suite('gr-comment tests', () => {
       'header middle content is not visible');
     });
 
-    test('robot comment layout', () => {
+    test('robot comment layout', done => {
       const comment = Object.assign({
         robot_id: 'happy_robot_id',
         url: '/robot/comment',
@@ -606,30 +607,48 @@ suite('gr-comment tests', () => {
       }, element.comment);
       element.comment = comment;
       element.collapsed = false;
-      flushAsynchronousOperations();
+      flush(() => {
+        let runIdMessage;
+        runIdMessage = element.shadowRoot
+            .querySelector('.runIdMessage');
+        assert.isFalse(runIdMessage.hidden);
 
-      let runIdMessage;
-      runIdMessage = element.shadowRoot
-          .querySelector('.runIdMessage');
-      assert.isFalse(runIdMessage.hidden);
+        const runDetailsLink = element.shadowRoot
+            .querySelector('.robotRunLink');
+        assert.isTrue(runDetailsLink.href.indexOf(element.comment.url) !== -1);
 
-      const runDetailsLink = element.shadowRoot
-          .querySelector('.robotRunLink');
-      assert.isTrue(runDetailsLink.href.indexOf(element.comment.url) !== -1);
+        const robotServiceName = element.shadowRoot
+            .querySelector('.authorName');
+        assert.equal(robotServiceName.textContent.trim(), 'happy_robot_id');
 
-      const robotServiceName = element.shadowRoot
-          .querySelector('.authorName');
-      assert.isTrue(robotServiceName.textContent === 'happy_robot_id');
+        const authorName = element.shadowRoot
+            .querySelector('.robotId');
+        assert.isTrue(authorName.innerText === 'Happy Robot');
 
-      const authorName = element.shadowRoot
-          .querySelector('.robotId');
-      assert.isTrue(authorName.innerText === 'Happy Robot');
+        element.collapsed = true;
+        flushAsynchronousOperations();
+        runIdMessage = element.shadowRoot
+            .querySelector('.runIdMessage');
+        assert.isTrue(runIdMessage.hidden);
+        done();
+      });
+    });
 
-      element.collapsed = true;
-      flushAsynchronousOperations();
-      runIdMessage = element.shadowRoot
-          .querySelector('.runIdMessage');
-      assert.isTrue(runIdMessage.hidden);
+    test('author name fallback to email', done => {
+      const comment = Object.assign({
+        url: '/robot/comment',
+        author: {
+          email: 'test@test.com',
+        },
+      }, element.comment);
+      element.comment = comment;
+      element.collapsed = false;
+      flush(() => {
+        const authorName = element.shadowRoot
+            .querySelector('.authorName');
+        assert.equal(authorName.innerText.trim(), 'test@test.com');
+        done();
+      });
     });
 
     test('draft creation/cancellation', done => {

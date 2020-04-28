@@ -105,6 +105,7 @@ class GrCommentThread extends mixinBehaviors( [
         reflectToAttribute: true,
       },
       patchNum: String,
+      latestPatchNum: String,
       path: String,
       projectName: {
         type: String,
@@ -227,13 +228,19 @@ class GrCommentThread extends mixinBehaviors( [
 
   _getDiffUrlForPath(path) {
     return GerritNav.getUrlForDiffById(this.changeNum, this.projectName, path,
-        this.patchNum);
+        this.latestPatchNum, this.patchNum);
   }
 
-  _getDiffUrlForComment(projectName, changeNum, path, patchNum) {
+  _getDiffUrlForComment(projectName, changeNum, path, patchNum,
+      latestPatchNum) {
+    if (this.comments.length && this.comments[0].side === 'PARENT') {
+      // comment left on base
+      return GerritNav.getUrlForDiffById(changeNum,
+          projectName, path, patchNum, null, this.lineNum);
+    }
     return GerritNav.getUrlForDiffById(changeNum,
-        projectName, path, patchNum,
-        null, this.lineNum);
+        projectName, path, latestPatchNum,
+        patchNum, this.lineNum);
   }
 
   _isPatchsetLevelComment(path) {

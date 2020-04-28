@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1afbe1f4_253b2ca3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-28T09:52:21Z",
+      "side": 1,
+      "message": "we are adding files with comments into `files` even when its not in the patch set, should honor the source `changeFiles` instead",
+      "revId": "474ad88c679843e6874e2c52dd34844e1a619001",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

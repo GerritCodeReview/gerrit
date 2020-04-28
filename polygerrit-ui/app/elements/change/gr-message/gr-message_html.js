@@ -205,7 +205,7 @@ export const htmlTemplate = html`
           <div class="content messageContent">
             <div class="message hideOnOpen">[[_messageContentCollapsed]]</div>
             <gr-formatted-text no-trailing-margin="" class="message hideOnCollapsed" content="[[_messageContentExpanded]]" config="[[_projectConfig.commentlinks]]"></gr-formatted-text>
-            <template is="dom-if" if="[[!_isMessageContentEmpty()]]">
+            <template is="dom-if" if="[[_messageContentExpanded]]">
               <div class="replyActionContainer" hidden\$="[[!showReplyButton]]" hidden="">
                   <gr-button class="replyBtn" link="" small="" on-click="_handleReplyTap">
                     Reply

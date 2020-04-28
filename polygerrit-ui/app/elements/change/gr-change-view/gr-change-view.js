@@ -66,7 +66,7 @@ import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoi
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {RevisionInfo} from '../../shared/revision-info/revision-info.js';
 
-import {PrimaryTabs, SecondaryTabs} from '../../../constants/constants.js';
+import {ExperimentIds, PrimaryTabs, SecondaryTabs} from '../../../constants/constants.js';
 import {NO_ROBOT_COMMENTS_THREADS_MSG} from '../../../constants/messages.js';
 import {appContext} from '../../../services/app-context.js';
 
@@ -539,7 +539,7 @@ class GrChangeView extends mixinBehaviors( [
   }
 
   _isChangeLogExperimentEnabled() {
-    return this.flagsService.isEnabled('UiFeature__cleaner_changelog');
+    return this.flagsService.isEnabled(ExperimentIds.CLEANER_CHANGELOG);
   }
 
   get messagesList() {

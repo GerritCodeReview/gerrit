@@ -88,6 +88,8 @@ class GrMessagesListExperimental extends mixinBehaviors( [
 
   static get properties() {
     return {
+      /** @type {?} */
+      change: Object,
       changeNum: Number,
       /**
        * These are just the change messages. They are combined with reviewer
@@ -354,6 +356,66 @@ class GrMessagesListExperimental extends mixinBehaviors( [
       extremes[key] = {min: values[0], max: values[values.length - 1]};
     }
     return extremes;
+  }
+
+  /**
+   * Computes message author's file comments for change's message.
+   * Method uses this.messages to find next message and relies on messages
+   * to be sorted by date field descending.
+   *
+   * @param {!Object} changeComments changeComment object, which includes
+   *     a method to get all published comments (including robot comments),
+   *     which returns a Hash of arrays of comments, filename as key.
+   * @param {!Object} message
+   * @return {!Array} Array of comment threads.
+   */
+  _computeThreadsForMessage(changeComments, message) {
+    if ([changeComments, message].some(arg => arg === undefined)) {
+      return [];
+    }
+
+    if (message._index === undefined || !this.messages) {
+      return [];
+    }
+
+    const index = message._index;
+    const authorId = message.author && message.author._account_id;
+    const mDate = util.parseDate(message.date).getTime();
+
+    // time of next message
+    let nextMDate;
+    if (index > 0) {
+      for (let i = index - 1; i >= 0; i--) {
+        if (this.messages[i] && this.messages[i].author &&
+            this.messages[i].author._account_id === authorId) {
+          nextMDate = util.parseDate(this.messages[i].date).getTime();
+          break;
+        }
+      }
+    }
+    const commentThreads = changeComments.getAllThreadsForChange()
+        .map(c => Object.assign({}, c));
+    return commentThreads.filter(thread =>
+      // show thread if:
+      // 1. has comment from that author
+      // 2. and comment left in the same time period
+      thread.comments.map(comment => {
+        comment.collapsed = true;
+        return comment;
+      }).some(comment => {
+        const updatedDate = util.parseDate(comment.updated).getTime();
+        const condition = updatedDate <= mDate
+         && (!nextMDate || updatedDate > nextMDate)
+         && comment.author && comment.author._account_id === authorId;
+        // since getAllThreadsForChange always return a new copy of all comments
+        // we can modify here without worrying it may pollute with other threads
+        comment.collapsed = !condition;
+        if (condition) {
+          comment.label = 'From this change log';
+        }
+        return condition;
+      })
+    );
   }
 }
 

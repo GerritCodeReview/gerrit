@@ -16,6 +16,24 @@
       "revId": "229395ac0361e4aedbc94729a091fb0d7c17594b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3008bf35_66adb8ca",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-28T15:50:24Z",
+      "side": 0,
+      "message": "Thanks for catch! That would be a bug",
+      "parentUuid": "c439a011_f512484e",
+      "revId": "229395ac0361e4aedbc94729a091fb0d7c17594b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

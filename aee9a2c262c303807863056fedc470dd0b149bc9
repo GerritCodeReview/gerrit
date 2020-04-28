@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "603761f5_8a892426",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-28T19:33:17Z",
+      "side": 1,
+      "message": "\u003e I still not convinced this level of abstraction is needed.\n\u003e However if we are going to keep it I believe we need to be explicit with the variable names and config parameters what is the wait for.\n\nI think it is (needed). Let\u0027s keep it, or so I propose and would like to continue insisting on. Now, I think I found a way to rename the new abstractions properly. I also improved them by means of more comprehensive documentation. (Done; resolved.)",
+      "parentUuid": "b574faef_1afccb00",
+      "revId": "aee9a2c262c303807863056fedc470dd0b149bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "043cce60_bdb83a36",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -217,6 +235,30 @@
       "revId": "aee9a2c262c303807863056fedc470dd0b149bc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a85ac12_88abd3cb",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-28T19:33:17Z",
+      "side": 1,
+      "message": "\u003e What if you are going to add another variable which express the max of another unit of use it without the unit qualifier?\n\u003e \n\u003e I believe a variable needs to be self explanatory, IMO you shouldn\u0027t rely on the exact place it will be used like in this case.\n\nI still disagree with adding a \"Seconds\" suffix, which would show as duplicated code in scenario steps. However, as previously replied about, I think I managed (now) to make these abstractions clearer and more usable. I was also able to make these -now renamed- \u0027max\u0027 attributes more scalable, as they no longer pile up across scenario steps (in the nothingFor calls).",
+      "parentUuid": "1a5afcca_070a10cf",
+      "range": {
+        "startLine": 35,
+        "startChar": 6,
+        "endLine": 35,
+        "endChar": 9
+      },
+      "revId": "aee9a2c262c303807863056fedc470dd0b149bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

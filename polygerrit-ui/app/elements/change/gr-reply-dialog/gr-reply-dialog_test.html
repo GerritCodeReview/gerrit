@@ -1146,7 +1146,8 @@ suite('gr-reply-dialog tests', () => {
         /* reviewersMutated= */ false,
         /* labelsChanged= */ false,
         /* includeComments= */ false,
-        /* disabled= */ false
+        /* disabled= */ false,
+        /* commentEditing= */ false
     ));
     assert.isTrue(fn(
         /* buttonLabel= */ 'Send',
@@ -1155,7 +1156,8 @@ suite('gr-reply-dialog tests', () => {
         /* reviewersMutated= */ false,
         /* labelsChanged= */ false,
         /* includeComments= */ false,
-        /* disabled= */ false
+        /* disabled= */ false,
+        /* commentEditing= */ false
     ));
     // Mock nonempty comment draft array, with seding comments.
     assert.isFalse(fn(
@@ -1165,7 +1167,8 @@ suite('gr-reply-dialog tests', () => {
         /* reviewersMutated= */ false,
         /* labelsChanged= */ false,
         /* includeComments= */ true,
-        /* disabled= */ false
+        /* disabled= */ false,
+        /* commentEditing= */ false
     ));
     // Mock nonempty comment draft array, without seding comments.
     assert.isTrue(fn(
@@ -1175,7 +1178,8 @@ suite('gr-reply-dialog tests', () => {
         /* reviewersMutated= */ false,
         /* labelsChanged= */ false,
         /* includeComments= */ false,
-        /* disabled= */ false
+        /* disabled= */ false,
+        /* commentEditing= */ false
     ));
     // Mock nonempty change message.
     assert.isFalse(fn(
@@ -1185,7 +1189,8 @@ suite('gr-reply-dialog tests', () => {
         /* reviewersMutated= */ false,
         /* labelsChanged= */ false,
         /* includeComments= */ false,
-        /* disabled= */ false
+        /* disabled= */ false,
+        /* commentEditing= */ false
     ));
     // Mock reviewers mutated.
     assert.isFalse(fn(
@@ -1195,7 +1200,8 @@ suite('gr-reply-dialog tests', () => {
         /* reviewersMutated= */ true,
         /* labelsChanged= */ false,
         /* includeComments= */ false,
-        /* disabled= */ false
+        /* disabled= */ false,
+        /* commentEditing= */ false
     ));
     // Mock labels changed.
     assert.isFalse(fn(
@@ -1205,7 +1211,8 @@ suite('gr-reply-dialog tests', () => {
         /* reviewersMutated= */ false,
         /* labelsChanged= */ true,
         /* includeComments= */ false,
-        /* disabled= */ false
+        /* disabled= */ false,
+        /* commentEditing= */ false
     ));
     // Whole dialog is disabled.
     assert.isTrue(fn(
@@ -1215,7 +1222,18 @@ suite('gr-reply-dialog tests', () => {
         /* reviewersMutated= */ false,
         /* labelsChanged= */ true,
         /* includeComments= */ false,
-        /* disabled= */ true
+        /* disabled= */ true,
+        /* commentEditing= */ false
+    ));
+    assert.isTrue(fn(
+        /* buttonLabel= */ 'Send',
+        /* draftCommentThreads= */ {},
+        /* text= */ '',
+        /* reviewersMutated= */ false,
+        /* labelsChanged= */ true,
+        /* includeComments= */ false,
+        /* disabled= */ false,
+        /* commentEditing= */ true
     ));
   });
 

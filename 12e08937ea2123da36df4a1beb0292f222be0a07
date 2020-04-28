@@ -157,6 +157,29 @@
     },
     {
       "key": {
+        "uuid": "deb94f26_f6778a25",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-04-28T17:47:16Z",
+      "side": 1,
+      "message": "could you please provide some background docs/link/ more context for why we need to provide special mocks for gr-diff?",
+      "range": {
+        "startLine": 127,
+        "startChar": 92,
+        "endLine": 127,
+        "endChar": 106
+      },
+      "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b8d02dd0_1f411965",
         "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
         "patchSetId": 11

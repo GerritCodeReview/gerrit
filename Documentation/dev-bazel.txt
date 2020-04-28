@@ -26,6 +26,7 @@ To build Gerrit from source, you need:
 link:https://github.com/bazelbuild/bazelisk[Bazelisk,role=external,window=_blank]
 * Maven
 * zip, unzip
+* curl
 * gcc
 
 [[bazel]]

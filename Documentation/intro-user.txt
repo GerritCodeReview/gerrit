@@ -121,7 +121,7 @@ is explained below.
 A change ref has the format `refs/changes/X/Y/Z` where `X` is the last
 two digits of the change number, `Y` is the entire change number, and `Z`
 is the patch set. For example, if the change number is
-link:https://gerrit-review.googlesource.com/c/gerrit/+/263270[263270],
+link:https://gerrit-review.googlesource.com/c/gerrit/+/263270[263270,role=external,window=_blank],
 the ref would be `refs/changes/70/263270/2` for the second patch set.
 
 [[fetch-change]]

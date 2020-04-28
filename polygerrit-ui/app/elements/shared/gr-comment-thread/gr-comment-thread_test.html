@@ -256,6 +256,7 @@ suite('comment action tests with unresolved thread', () => {
       deleteDiffDraft() { return Promise.resolve({ok: true}); },
     });
     element = fixture('withComment');
+    element.path = '/path/to/file_renamed.txt';
     element.comments = [{
       author: {
         name: 'Mr. Peanutbutter',
@@ -293,6 +294,20 @@ suite('comment action tests with unresolved thread', () => {
     assert.isTrue(reportStub.calledOnce);
   });
 
+  test('reply should use same path as first comment in thread', () => {
+    const commentEl = element.shadowRoot
+        .querySelector('gr-comment');
+    assert.ok(commentEl);
+
+    const replyBtn = element.$.replyBtn;
+    MockInteractions.tap(replyBtn);
+    flushAsynchronousOperations();
+
+    const drafts = element._orderedComments.filter(c => c.__draft == true);
+    assert.equal(drafts.length, 1);
+    assert.equal(drafts[0].path, '/path/to/file.txt');
+  });
+
   test('quote reply', () => {
     const commentEl = element.shadowRoot
         .querySelector('gr-comment');
@@ -323,6 +338,7 @@ suite('comment action tests with unresolved thread', () => {
       line: 5,
       message: 'is this a crossover episode!?\nIt might be!',
       updated: '2015-12-08 19:48:33.843000000',
+      path: '/path/to/file.txt',
     }];
     flushAsynchronousOperations();
 
@@ -339,6 +355,7 @@ suite('comment action tests with unresolved thread', () => {
     assert.equal(drafts[0].message,
         '> is this a crossover episode!?\n> It might be!\n\n');
     assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
+    assert.equal(drafts[0].path, '/path/to/file.txt');
     assert.isTrue(reportStub.calledOnce);
   });
 
@@ -358,6 +375,7 @@ suite('comment action tests with unresolved thread', () => {
       const drafts = element.comments.filter(c => c.__draft == true);
       assert.equal(drafts.length, 1);
       assert.equal(drafts[0].message, 'Ack');
+      assert.equal(drafts[0].path, '/path/to/file.txt');
       assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
       assert.equal(drafts[0].unresolved, false);
       assert.isTrue(reportStub.calledOnce);
@@ -380,6 +398,7 @@ suite('comment action tests with unresolved thread', () => {
       const drafts = element.comments.filter(c => c.__draft == true);
       assert.equal(drafts.length, 1);
       assert.equal(drafts[0].message, 'Done');
+      assert.equal(drafts[0].path, '/path/to/file.txt');
       assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
       assert.isFalse(drafts[0].unresolved);
       assert.isTrue(reportStub.calledOnce);
@@ -420,6 +439,7 @@ suite('comment action tests with unresolved thread', () => {
     commentEl.addEventListener('create-fix-comment', () => {
       const drafts = element._orderedComments.filter(c => c.__draft == true);
       assert.equal(drafts.length, 1);
+      assert.equal(drafts[0].path, '/path/to/file.txt');
       assert.equal(
           drafts[0].message, '> is this a crossover episode!?\n\nPlease fix.');
       assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
@@ -721,6 +741,27 @@ suite('comment action tests with unresolved thread', () => {
     element.comments[0].__draft = false;
     element.addOrEditDraft(1);
     assert.equal(element.comments.length, 2);
+  });
+
+  test('new comment on parent for renamed file', () => {
+    element.file = {oldPath: '/a.txt', __path: '/path/to/file_renamed.txt'};
+    element.isOnParent = true;
+    element.commentSide = 'left';
+    element.comments = [];
+    element.addOrEditDraft(1);
+    assert.equal(element.comments.length, 1);
+    // use new path
+    assert.equal(element.comments[0].path, '/path/to/file_renamed.txt');
+  });
+
+  test('new comment on revision for renamed file', () => {
+    element.file = {oldPath: '/a.txt', __path: '/path/to/file_renamed.txt'};
+    element.isOnParent = false;
+    element.commentSide = 'left';
+    element.comments = [];
+    element.addOrEditDraft(1);
+    assert.equal(element.comments.length, 1);
+    assert.equal(element.comments[0].path, '/a.txt');
   });
 
   test('unresolved label', () => {

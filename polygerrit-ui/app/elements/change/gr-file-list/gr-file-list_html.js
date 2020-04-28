@@ -491,6 +491,7 @@ export const htmlTemplate = html`
             change-num="[[changeNum]]"
             patch-range="[[patchRange]]"
             path="[[file.__path]]"
+            file="[[_computeFileData(file)]]"
             prefs="[[diffPrefs]]"
             project-name="[[change.project]]"
             no-render-on-prefs-change=""

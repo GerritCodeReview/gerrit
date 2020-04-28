@@ -436,6 +436,30 @@
     },
     {
       "key": {
+        "uuid": "e2ac9a36_7431e704",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-28T21:57:25Z",
+      "side": 1,
+      "message": "I just found out an issue with this is the `created` lifecycle happens within the `super()` from constructor, so with this, we basically can not use `this.flagsService` in `created` as `this._userService` as in your example won\u0027t be there when `created` executed",
+      "parentUuid": "8de01462_e4c30519",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 66
+      },
+      "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dced01b4_e138c571",
         "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
         "patchSetId": 11

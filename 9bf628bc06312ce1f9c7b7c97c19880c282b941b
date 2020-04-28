@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a49b39df_b5fc0c1e",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-28T21:21:50Z",
+      "side": 1,
+      "message": "I fixed these missing link attributes in I89b37647b, which includes another local case fixed. However I did not fix the other files from this change; running out of time now. Those other files with missing link attributes have been missing many for a while already (their master version). So that goes beyond this sole change.",
+      "range": {
+        "startLine": 193,
+        "startChar": 79,
+        "endLine": 193,
+        "endChar": 87
+      },
+      "revId": "9bf628bc06312ce1f9c7b7c97c19880c282b941b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

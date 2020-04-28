@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c439a011_f512484e",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-28T14:42:19Z",
+      "side": 0,
+      "message": "You don\u0027t call catchErrors() anywhere anymore. Is that intended? Or did I overlook a caller?",
+      "revId": "229395ac0361e4aedbc94729a091fb0d7c17594b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

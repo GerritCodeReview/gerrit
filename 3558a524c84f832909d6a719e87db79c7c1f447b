@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1ccac30_bc00c5d4",
+        "filename": "polygerrit-ui/app/embed/gr-diff-app-context-init.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-28T14:42:19Z",
+      "side": 1,
+      "message": "I think I would just pass experiments as a property into \u003cgr-diff\u003e and let \u003cgr-diff\u003e emit events for all usages of the reporting service. And thus try to keep app context and services completely out of \u003cgr-diff\u003e. At least that would be my first approach to try out.\n\nWe are already keeping the dependency on rest-api-service out of \u003cgr-diff\u003e and have done a lot of work in other regards for keeping \u003cgr-diff\u003e dumb. So we should not easily sacrifice this without deeper thought.",
+      "revId": "3558a524c84f832909d6a719e87db79c7c1f447b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af5eb62a_05b263da",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-28T14:42:19Z",
+      "side": 1,
+      "message": "I have a slight preference for this function being moved to polygerrit-ui/app/elements/gr-app-init.js, but I don\u0027t feel strong about it. But a comment on this function could help a lot. The return value is also not clear to me.\n\nThe function could also be broken down into 3(?) functions, because they do semantically different things, e.g. initErrorReporter, initVisibilityReporter, initPerformanceReporter or something like that.",
+      "revId": "3558a524c84f832909d6a719e87db79c7c1f447b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e32f173c_ae773c2a",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_mock_test.html",
+        "patchSetId": 31
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-28T14:42:19Z",
+      "side": 1,
+      "message": "Can you add a comment why this is required? Should the flag service maybe also have a default mock for all tests? Add TODO?",
+      "revId": "3558a524c84f832909d6a719e87db79c7c1f447b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c841ee92_461d6253",
+        "filename": "polygerrit-ui/app/test/services/gr-reporting_stub.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-28T14:42:19Z",
+      "side": 1,
+      "message": "I can understand that you want to have a default mock for the reporting service, but why do we need to stub everything by default. Wouldn\u0027t it be better, if each individual test sets up the stubs it is interested in?",
+      "revId": "3558a524c84f832909d6a719e87db79c7c1f447b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

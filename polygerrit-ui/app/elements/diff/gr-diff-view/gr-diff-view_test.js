@@ -21,6 +21,7 @@ import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {ChangeStatus} from '../../../constants/constants.js';
 import {TestKeyboardShortcutBinder} from '../../../test/test-utils';
+import {appContext} from '../../../services/app-context.js';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
 
@@ -78,6 +79,7 @@ suite('gr-diff-view tests', () => {
     }
 
     setup(() => {
+      sinon.stub(appContext.flagsService, 'isEnabled').returns(true);
       stub('gr-rest-api-interface', {
         getConfig() {
           return Promise.resolve({change: {}});
@@ -175,6 +177,53 @@ suite('gr-diff-view tests', () => {
       return element._paramsChanged.returnValues[0].then(() => {
         assert.isTrue(element._isBlameLoaded);
         assert.isTrue(element._loadBlame.calledOnce);
+      });
+    });
+
+    test('diff toast to go to base is shown', () => {
+      sinon.stub(element.reporting, 'diffViewDisplayed');
+      sinon.stub(element, '_loadBlame');
+      sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
+      sinon.spy(element, '_paramsChanged');
+      element._isChangeCommentsLinkExperimentEnabled = true;
+      element.params = {
+        view: GerritNav.View.DIFF,
+        changeNum: '42',
+        patchNum: '2',
+        basePatchNum: '1',
+        path: '/COMMIT_MSG',
+        commentLink: true,
+      };
+      const toastStub =
+        sinon.stub(element, '_displayDiffBaseAgainstLeftToast');
+      return element._paramsChanged.returnValues[0].then(() => {
+        assert.isTrue(toastStub.called);
+      });
+    });
+
+    test('diff toast to go to latest is shown and not base', () => {
+      sinon.stub(element.reporting, 'diffViewDisplayed');
+      sinon.stub(element, '_loadBlame');
+      sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
+      sinon.spy(element, '_paramsChanged');
+      sinon.stub(element, 'computeLatestPatchNum').returns(10);
+      element.params = {
+        view: GerritNav.View.DIFF,
+        changeNum: '42',
+        patchNum: '1',
+        basePatchNum: 'PARENT',
+        path: '/COMMIT_MSG',
+        commentLink: true,
+      };
+      const baseToastStub =
+        sinon.stub(element, '_displayDiffBaseAgainstLeftToast');
+      const latestToastStub =
+        sinon.stub(element, '_displayDiffAgainstLatestToast');
+      element._isChangeCommentsLinkExperimentEnabled = true;
+      return element._paramsChanged.returnValues[0].then(() => {
+        assert.isFalse(baseToastStub.called);
+        assert.isTrue(latestToastStub.called);
+        assert.equal(latestToastStub.getCall(0).args[0], 10);
       });
     });
 

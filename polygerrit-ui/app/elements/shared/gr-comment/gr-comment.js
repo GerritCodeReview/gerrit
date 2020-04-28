@@ -836,8 +836,7 @@ class GrComment extends mixinBehaviors( [
     if (comment.author) {
       return GrDisplayNameUtils.getDisplayName(serverConfig, comment.author);
     }
-    // This should not happen
-    return 'Unknown';
+    return '';
   }
 
   _computeHideRunDetails(comment, collapsed) {

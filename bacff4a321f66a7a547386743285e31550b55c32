@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33431aeb_e1cd240f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-28T15:05:45Z",
+      "side": 1,
+      "message": "Maybe replace by:\n\nDisable the \u0027Send\u0027 button when a comment is being edited\n\nSince we have threaded comments in the reply dialog, it\u0027s pretty\neasy to update your comment reply from within that dialog. To avoid\nlosing edits, we should disable the \u0027Send\u0027 button when the user is currently editing a comment.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 15
+      },
+      "revId": "bacff4a321f66a7a547386743285e31550b55c32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce05c72b_23b53caf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-28T15:05:45Z",
+      "side": 1,
+      "message": "Should we keep using these jsdocs for events?",
+      "revId": "bacff4a321f66a7a547386743285e31550b55c32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -337,6 +337,10 @@ suite('gr-change-view tests', () => {
   });
 
   test('_handleDiffAgainstBase', () => {
+    element._change = {
+      revisions: {a: {_number: 10}},
+      owner: '',
+    };
     element._changeNum = '1';
     element._patchRange = {
       patchNum: 3,
@@ -348,10 +352,14 @@ suite('gr-change-view tests', () => {
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
     assert.equal(args[1], 3);
-    assert.isNotOk(args[0]);
+    assert.isNotOk(args[2]);
   });
 
   test('_handleDiffAgainstLatest', () => {
+    element._change = {
+      revisions: {a: {_number: 10}},
+      owner: '',
+    };
     element._changeNum = '1';
     element._patchRange = {
       basePatchNum: 1,
@@ -367,6 +375,10 @@ suite('gr-change-view tests', () => {
   });
 
   test('_handleDiffBaseAgainstLeft', () => {
+    element._change = {
+      revisions: {a: {_number: 10}},
+      owner: '',
+    };
     element._changeNum = '1';
     element._patchRange = {
       patchNum: 3,
@@ -378,10 +390,14 @@ suite('gr-change-view tests', () => {
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
     assert.equal(args[1], 1);
-    assert.isNotOk(args[0]);
+    assert.isNotOk(args[2]);
   });
 
   test('_handleDiffRightAgainstLatest', () => {
+    element._change = {
+      revisions: {a: {_number: 10}},
+      owner: '',
+    };
     element._changeNum = '1';
     element._patchRange = {
       basePatchNum: 1,
@@ -767,6 +783,7 @@ suite('gr-change-view tests', () => {
     });
 
     test('draft threads should be a new copy with correct states', done => {
+      sandbox.stub(GerritNav, '_checkPatchRange').returns(true);
       element.$.fileList.dispatchEvent(
           new CustomEvent('reload-drafts', {
             detail: {

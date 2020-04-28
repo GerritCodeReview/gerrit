@@ -85,6 +85,7 @@ suite('gr-diff-view tests', () => {
       }, {});
       return {
         sortedFileList: fileList,
+        sortedFileListInCurrentPatchSet: fileList,
         changeFilesByPath,
       };
     }
@@ -1400,6 +1401,8 @@ suite('gr-diff-view tests', () => {
       return element._getFiles(23, patchChangeRecord, changeComments)
           .then(() => {
             assert.deepEqual(element._files, {
+              // `file2.txt` is not in current patchset
+              sortedFileListInCurrentPatchSet: ['a/b/test.c', 'file1.txt'],
               sortedFileList: ['a/b/test.c', 'file1.txt', 'file2.txt'],
               changeFilesByPath: {
                 'file1.txt': {},

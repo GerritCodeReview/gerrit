@@ -157,11 +157,21 @@ class GrDiffView extends mixinBehaviors( [
       /**
        * Contains information about files as returned by the rest API.
        *
-       * @type {{ sortedFileList: Array<string>, changeFilesByPath: Object }}
+       * @type {{
+       *  sortedFileList: Array<string>,
+       *  sortedFileListInCurrentPatchSet: Array<string>,
+       *  changeFilesByPath: Object
+       * }}
        */
       _files: {
         type: Object,
-        value() { return {sortedFileList: [], changeFilesByPath: {}}; },
+        value() {
+          return {
+            sortedFileList: [],
+            sortedFileListInCurrentPatchSet: [],
+            changeFilesByPath: {},
+          };
+        },
       },
 
       _path: {
@@ -363,6 +373,8 @@ class GrDiffView extends mixinBehaviors( [
         files[commentedPath] = {status: 'U'};
       });
       this._files = {
+        sortedFileListInCurrentPatchSet: Object.keys(changeFiles)
+            .sort(this.specialFilePathCompare),
         sortedFileList: Object.keys(files).sort(this.specialFilePathCompare),
         changeFilesByPath: files,
       };
@@ -934,7 +946,7 @@ class GrDiffView extends mixinBehaviors( [
 
     if (!files) { return; }
     const dropdownContent = [];
-    for (const path of files.sortedFileList) {
+    for (const path of files.sortedFileListInCurrentPatchSet) {
       dropdownContent.push({
         text: this.computeDisplayPath(path),
         mobileText: this.computeTruncatedPath(path),

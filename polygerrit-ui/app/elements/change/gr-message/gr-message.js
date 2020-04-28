@@ -26,6 +26,8 @@ import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../../styles/shared-styles.js';
 import '../../../styles/gr-voting-styles.js';
 import '../gr-comment-list/gr-comment-list.js';
+import {appContext} from '../../../services/app-context.js';
+import {ExperimentIds} from '../../../services/flags.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
@@ -62,6 +64,8 @@ class GrMessage extends GestureEventListeners(
 
   static get properties() {
     return {
+      /** @type {?} */
+      change: Object,
       changeNum: Number,
       /** @type {?} */
       message: Object,
@@ -69,6 +73,19 @@ class GrMessage extends GestureEventListeners(
         type: Object,
         computed: '_computeAuthor(message)',
       },
+      /**
+       * Used in cleaner_changelog experiment
+       *
+       * @type {Array} - array of threads attached to the message
+       */
+      commentThreads: {
+        type: Array,
+      },
+      /**
+       * TODO(taoalpha): remove once the change log experiment is launched
+       *
+       * @type {Object} - a map on file and comments on it
+       */
       comments: {
         type: Object,
       },
@@ -126,7 +143,7 @@ class GrMessage extends GestureEventListeners(
       },
       _commentCountText: {
         type: Number,
-        computed: '_computeCommentCountText(comments)',
+        computed: '_computeCommentCountText(comments, commentThreads)',
       },
       _loggedIn: {
         type: Boolean,
@@ -140,6 +157,7 @@ class GrMessage extends GestureEventListeners(
         type: Boolean,
         value: false,
       },
+      _isCleanerLogExperimentEnabled: Boolean,
     };
   }
 
@@ -147,6 +165,11 @@ class GrMessage extends GestureEventListeners(
     return [
       '_updateExpandedClass(message.expanded)',
     ];
+  }
+
+  constructor() {
+    super();
+    this.flagsService = appContext.flagsService;
   }
 
   /** @override */
@@ -159,6 +182,8 @@ class GrMessage extends GestureEventListeners(
   /** @override */
   ready() {
     super.ready();
+    this._isCleanerLogExperimentEnabled = this.flagsService
+        .isEnabled(ExperimentIds.CLEANER_CHANGELOG);
     this.$.restAPI.getConfig().then(config => {
       this.config = config;
     });
@@ -178,22 +203,44 @@ class GrMessage extends GestureEventListeners(
     }
   }
 
-  _computeCommentCountText(comments) {
-    if (!comments) return undefined;
-    let count = 0;
-    for (const file in comments) {
-      if (comments.hasOwnProperty(file)) {
-        const commentArray = comments[file] || [];
-        count += commentArray.length;
+  _computeCommentCountText(comments, threads) {
+    // TODO(taoalpha): clean up after cleaner-changelog experiment launched
+    if (this._isCleanerLogExperimentEnabled) {
+      if (!threads) return undefined;
+      const count = threads.length;
+      if (count === 0) {
+        return undefined;
+      } else if (count === 1) {
+        return '1 comment';
+      } else {
+        return `${count} comments`;
+      }
+    } else {
+      if (!comments) return undefined;
+      let count = 0;
+      for (const file in comments) {
+        if (comments.hasOwnProperty(file)) {
+          const commentArray = comments[file] || [];
+          count += commentArray.length;
+        }
+      }
+      if (count === 0) {
+        return undefined;
+      } else if (count === 1) {
+        return '1 comment';
+      } else {
+        return `${count} comments`;
       }
     }
-    if (count === 0) {
-      return undefined;
-    } else if (count === 1) {
-      return '1 comment';
-    } else {
-      return `${count} comments`;
-    }
+  }
+
+  _onThreadListModified() {
+    // TODO(taoalpha): this won't propogate the changes to the files
+    // should consider replacing this with either top level events
+    // or gerrit level events
+
+    // emit the event so change-view can also get updated with latest changes
+    this.fire('comment-refresh');
   }
 
   _computeMessageContentExpanded(content, tag) {

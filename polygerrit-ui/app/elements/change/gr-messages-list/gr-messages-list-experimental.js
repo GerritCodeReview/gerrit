@@ -88,6 +88,8 @@ class GrMessagesListExperimental extends mixinBehaviors( [
 
   static get properties() {
     return {
+      /** @type {?} */
+      change: Object,
       changeNum: Number,
       /**
        * These are just the change messages. They are combined with reviewer
@@ -291,36 +293,6 @@ class GrMessagesListExperimental extends mixinBehaviors( [
   }
 
   /**
-   * Computes message author's file comments for change's message. The backend
-   * sets comment.change_message_id for matching, so this computation is fairly
-   * straightforward.
-   *
-   * @param {!Object} changeComments changeComment object, which includes
-   *     a method to get all published comments (including robot comments),
-   *     which returns a Hash of arrays of comments, filename as key.
-   * @param {!Object} message
-   * @return {!Object} Hash of arrays of comments, filename as key.
-   */
-  _computeCommentsForMessage(changeComments, message) {
-    if ([changeComments, message].some(arg => arg === undefined)) {
-      return {};
-    }
-    const comments = changeComments.getAllPublishedComments();
-    if (message._index === undefined || !comments || !this.messages) {
-      return {};
-    }
-    const idFilter = comment => comment.change_message_id === message.id;
-
-    const msgComments = {};
-    for (const file in comments) {
-      if (!comments.hasOwnProperty(file)) { continue; }
-      const filtered = comments[file].filter(idFilter);
-      if (filtered.length) msgComments[file] = filtered;
-    }
-    return msgComments;
-  }
-
-  /**
    * This method is for reporting stats only.
    */
   _combinedMessagesChanged(combinedMessages) {
@@ -354,6 +326,48 @@ class GrMessagesListExperimental extends mixinBehaviors( [
       extremes[key] = {min: values[0], max: values[values.length - 1]};
     }
     return extremes;
+  }
+
+  /**
+   * Computes message author's file comments for change's message. The backend
+   * sets comment.change_message_id for matching, so this computation is fairly
+   * straightforward.
+   *
+   * @param {!Object} changeComments changeComment object, which includes
+   *     a method to get all published comments (including robot comments),
+   *     which returns a Hash of arrays of comments, filename as key.
+   * @param {!Object} message
+   * @return {!Array} Array of comment threads.
+   */
+  _computeThreadsForMessage(changeComments, message) {
+    if ([changeComments, message].some(arg => arg === undefined)) {
+      return [];
+    }
+
+    if (message._index === undefined || !this.messages) {
+      return [];
+    }
+
+    const commentThreads = changeComments.getAllThreadsForChange()
+        .map(c => { return {...c}; });
+
+    return commentThreads.filter(thread => thread.comments
+        .map(comment => {
+          // collapse all by default
+          comment.collapsed = true;
+          return comment;
+        }).some(comment => {
+          const condition = comment.change_message_id === message.id;
+          // Since getAllThreadsForChange() always returns a new copy of
+          // all comments we can modify them here without worrying about
+          // polluting other threads.
+          comment.collapsed = !condition;
+          if (condition) {
+            comment.extraNote = 'From this change log';
+          }
+          return condition;
+        })
+    );
   }
 }
 

@@ -291,8 +291,12 @@ class GrAppElement extends KeyboardShortcutMixin(
         Shortcut.TOGGLE_DIFF_MODE, 'm:keyup');
     this.bindShortcut(
         Shortcut.DIFF_AGAINST_BASE, SPECIAL_SHORTCUT.V_KEY, 'down', 's');
+    // this keyboard shortcut is used in toast _displayDiffAgainstLatestToast
+    // in gr-diff-view. Any updates here should be reflected there
     this.bindShortcut(
         Shortcut.DIFF_AGAINST_LATEST, SPECIAL_SHORTCUT.V_KEY, 'up', 'w');
+    // this keyboard shortcut is used in toast _displayDiffBaseAgainstLeftToast
+    // in gr-diff-view. Any updates here should be reflected there
     this.bindShortcut(
         Shortcut.DIFF_BASE_AGAINST_LEFT,
         SPECIAL_SHORTCUT.V_KEY, 'left', 'a');

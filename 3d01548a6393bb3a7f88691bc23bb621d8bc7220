@@ -263,6 +263,30 @@
       "revId": "3d01548a6393bb3a7f88691bc23bb621d8bc7220",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98ffc377_b72c456b",
+        "filename": "polygerrit-ui/app/test/services/gr-reporting_stub.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-28T14:04:22Z",
+      "side": 1,
+      "message": "Yes, I actually plan to look to it again sometimes later. I created feature request - https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d12657",
+      "parentUuid": "f80cdd52_dd12bfc4",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 11
+      },
+      "revId": "3d01548a6393bb3a7f88691bc23bb621d8bc7220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

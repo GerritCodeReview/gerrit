@@ -151,7 +151,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     TestTimeUtil.resetWithClockStep(0, TimeUnit.SECONDS);
     createChange();
     /* Advancing the time after creating the change so that the first robot comment is not in the same timestamp as with the change creation */
-    TestTimeUtil.incrementClock(5, TimeUnit.SECONDS);
+    TestTimeUtil.incrementClock(10, TimeUnit.SECONDS);
 
     RobotCommentInput c1 = TestCommentHelper.createRobotCommentInput(FILE_NAME);
     RobotCommentInput c2 = TestCommentHelper.createRobotCommentInput(FILE_NAME);
@@ -220,9 +220,9 @@ public class RobotCommentsIT extends AbstractDaemonTest {
             .changeMessageId;
 
     /**
-     * Upload PS message, robot message 1 & robot comment 1 all have the same timestamp. The robot
-     * comment is matched to robot message 1 because the PS upload message is auto-generated and is
-     * ignored in matching
+     * All change messages have the auto-generated tag. Robot comments can be linked to
+     * auto-generated messages where each comment is linked to the next nearest change message in
+     * timestamp
      */
     assertThat(message1ChangeId).isEqualTo(comment1MessageId);
     assertThat(message2ChangeId).isEqualTo(comment2MessageId);

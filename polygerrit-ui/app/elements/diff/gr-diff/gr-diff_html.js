@@ -49,17 +49,14 @@ export const htmlTemplate = html`
         border-right: 1px solid var(--border-color);
         table-layout: fixed;
       }
-      .lineNumButton {
-        display: block;
-        width: 100%;
-        height: 100%;
+      .lineNum {
         background-color: var(--diff-blank-background-color);
       }
       /*
       The only way to focus this (clicking) will apply our own focus styling,
       so this default styling is not needed and distracting.
       */
-      .lineNumButton:focus {
+      button.lineNum:focus {
         outline: none;
       }
       .image-diff .gr-diff {
@@ -69,7 +66,7 @@ export const htmlTemplate = html`
         box-shadow: var(--elevation-level-1);
         max-width: 50em;
       }
-      .image-diff .right.lineNumButton {
+      .image-diff .right.lineNum {
         border-left: 1px solid var(--border-color);
       }
       .image-diff label,
@@ -81,9 +78,9 @@ export const htmlTemplate = html`
         outline: none;
         user-select: none;
       }
-      .diff-row.target-row.target-side-left .lineNumButton.left,
-      .diff-row.target-row.target-side-right .lineNumButton.right,
-      .diff-row.target-row.unified .lineNumButton {
+      .diff-row.target-row.target-side-left .lineNum.left,
+      .diff-row.target-row.target-side-right .lineNum.right,
+      .diff-row.target-row.unified .lineNum {
         background-color: var(--diff-selection-background-color);
         color: var(--primary-text-color);
       }
@@ -106,13 +103,13 @@ export const htmlTemplate = html`
         white-space: pre-wrap;
         word-wrap: break-word;
       }
-      .lineNumButton,
+      .lineNum,
       .content {
         vertical-align: top;
         white-space: pre;
       }
       .contextLineNum,
-      .lineNumButton {
+      .lineNum {
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
@@ -122,7 +119,7 @@ export const htmlTemplate = html`
         padding: 0 var(--spacing-m);
         text-align: right;
       }
-      .canComment .lineNumButton {
+      .canComment .lineNum {
         cursor: pointer;
       }
       .content {
@@ -201,7 +198,7 @@ export const htmlTemplate = html`
         width: var(--line-height-mono, 18px);
         height: var(--line-height-mono, 18px);
       }
-      .contextControl td:not(.lineNumButton) {
+      .contextControl td:not(.lineNum) {
         text-align: center;
       }
       .displayLine .diff-row.target-row td {
@@ -298,13 +295,13 @@ export const htmlTemplate = html`
       .newlineWarning.hidden {
         display: none;
       }
-      .lineNumButton.COVERED {
+      .lineNum.COVERED {
          background-color: var(--coverage-covered, #e0f2f1);
       }
-      .lineNumButton.NOT_COVERED {
+      .lineNum.NOT_COVERED {
         background-color: var(--coverage-not-covered, #ffd1a4);
       }
-      .lineNumButton.PARTIALLY_COVERED {
+      .lineNum.PARTIALLY_COVERED {
         background: linear-gradient(to right bottom, var(--coverage-not-covered, #ffd1a4) 0%,
                                                      var(--coverage-not-covered, #ffd1a4) 50%,
                                                      var(--coverage-covered, #e0f2f1) 50%,
@@ -324,8 +321,8 @@ export const htmlTemplate = html`
 
       .selected-left:not(.selected-comment) .side-by-side .left + .content .contentText,
       .selected-right:not(.selected-comment) .side-by-side .right + .content .contentText,
-      .selected-left:not(.selected-comment) .unified .left.lineNumButton ~ .content:not(.both) .contentText,
-      .selected-right:not(.selected-comment) .unified .right.lineNumButton ~ .content .contentText,
+      .selected-left:not(.selected-comment) .unified .left.lineNum ~ .content:not(.both) .contentText,
+      .selected-right:not(.selected-comment) .unified .right.lineNum ~ .content .contentText,
       .selected-left.selected-comment .side-by-side .left + .content .message,
       .selected-right.selected-comment .side-by-side .right + .content .message :not(.collapsedContent),
       .selected-comment .unified .message :not(.collapsedContent),

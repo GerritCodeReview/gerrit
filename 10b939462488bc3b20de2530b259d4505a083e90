@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9916ef46_0ddd9e7f",
+        "filename": "java/com/google/gerrit/server/cache/CacheBinding.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-28T08:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "644a60c1_4415c119",
+      "range": {
+        "startLine": 34,
+        "startChar": 68,
+        "endLine": 34,
+        "endChar": 69
+      },
+      "revId": "10b939462488bc3b20de2530b259d4505a083e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cf70962_8c9a036e",
         "filename": "java/com/google/gerrit/server/cache/CacheBinding.java",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "10b939462488bc3b20de2530b259d4505a083e90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53403fb1_9dc57dc0",
+        "filename": "java/com/google/gerrit/server/cache/CacheBinding.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-28T08:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cf70962_8c9a036e",
+      "revId": "10b939462488bc3b20de2530b259d4505a083e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "0d9092ab_61976c3b",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-28T08:31:22Z",
+      "side": 1,
+      "message": "Yes, that is completely up to the loader. I wanted to follow the principles from Guava here in leaving this up to the loader.\n\nThe follow up change that implements \u0027refresh\u0027 for the ProjectCache does it asynchronously.",
+      "parentUuid": "ad290f52_76568605",
+      "range": {
+        "startLine": 272,
+        "startChar": 49,
+        "endLine": 272,
+        "endChar": 55
+      },
+      "revId": "10b939462488bc3b20de2530b259d4505a083e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4f823f9_b9d3adf0",
         "filename": "javatests/com/google/gerrit/server/cache/h2/H2CacheTest.java",
         "patchSetId": 1
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "264479ed_99c24d4e",
+        "filename": "javatests/com/google/gerrit/server/cache/h2/H2CacheTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-28T08:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4f823f9_b9d3adf0",
+      "range": {
+        "startLine": 161,
+        "startChar": 55,
+        "endLine": 161,
+        "endChar": 59
+      },
+      "revId": "10b939462488bc3b20de2530b259d4505a083e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5bbe481_9d8c5ffd",
         "filename": "javatests/com/google/gerrit/server/cache/h2/H2CacheTest.java",
         "patchSetId": 1
@@ -105,6 +195,24 @@
     },
     {
       "key": {
+        "uuid": "b197549a_5e23c0a3",
+        "filename": "javatests/com/google/gerrit/server/cache/h2/H2CacheTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-28T08:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5bbe481_9d8c5ffd",
+      "revId": "10b939462488bc3b20de2530b259d4505a083e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d06b61a0_edcdfffd",
         "filename": "javatests/com/google/gerrit/server/cache/h2/H2CacheTest.java",
         "patchSetId": 1
@@ -119,6 +227,24 @@
       "revId": "10b939462488bc3b20de2530b259d4505a083e90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68ed23ce_0d2365a6",
+        "filename": "javatests/com/google/gerrit/server/cache/h2/H2CacheTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-28T08:31:22Z",
+      "side": 1,
+      "message": "You mean l.179?\n\nIt is, but I wanted to be really explicit with under the hood behavior. Dealing with Futures can get thorny, so my goal was to test as detailed as possible.",
+      "parentUuid": "d06b61a0_edcdfffd",
+      "revId": "10b939462488bc3b20de2530b259d4505a083e90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

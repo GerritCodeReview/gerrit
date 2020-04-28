@@ -63,11 +63,8 @@ export const htmlTemplate = html`
     gr-message:not(:last-of-type) {
       border-bottom: 1px solid var(--border-color);
     }
-    gr-message:nth-child(2n) {
+    gr-message {
       background-color: var(--background-color-secondary);
-    }
-    gr-message:nth-child(2n + 1) {
-      background-color: var(--background-color-tertiary);
     }
   </style>
   <div class="header">

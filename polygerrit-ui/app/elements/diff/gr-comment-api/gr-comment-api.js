@@ -47,10 +47,23 @@ class ChangeComments {
     this._getParentIndex =
       PatchSetBehavior.getParentIndex;
 
-    this._comments = comments || {};
-    this._robotComments = robotComments || {};
-    this._drafts = drafts || {};
+    this._comments = this._processComments(comments);
+    this._robotComments = this._processComments(robotComments);
+    this._drafts = this._processComments(drafts);
     this._changeNum = changeNum;
+  }
+
+  // Process comments and add extra fields.
+  _processComments(comments = {}) {
+    const updatedComments = {};
+    [...Object.keys(comments)].forEach(filePath => {
+      const allCommentsForPath = comments[filePath] || [];
+      if (allCommentsForPath.length) {
+        updatedComments[filePath] = allCommentsForPath
+            .map(comment => Object.assign({}, comment, {path: filePath}));
+      }
+    });
+    return updatedComments;
   }
 
   get comments() {

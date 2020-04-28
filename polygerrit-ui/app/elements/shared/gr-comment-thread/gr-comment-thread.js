@@ -106,6 +106,16 @@ class GrCommentThread extends mixinBehaviors( [
         reflectToAttribute: true,
       },
       patchNum: String,
+      /**
+       * Current file info, required when used in diff as new comment's path
+       * maybe affected by oldPath for renamed files
+       *
+       * TODO(taoalpha): remove path in favor of using file instead
+       *
+       * @type {!Gerrit.PartialFileInfo}
+       * @optional
+       */
+      file: Object,
       path: String,
       projectName: {
         type: String,
@@ -417,16 +427,32 @@ class GrCommentThread extends mixinBehaviors( [
     return d;
   }
 
+  _commentOnLeftRevisionWithRenamedFile() {
+    return this.file && this.file.oldPath && this.commentSide === 'left'
+    && this._getSide(this.isOnParent) === 'REVISION';
+  }
+
   /**
    * @param {number=} opt_lineNum
    * @param {!Object=} opt_range
    */
   _newDraft(opt_lineNum, opt_range) {
+    let path = this.path;
+
+    // 1. for replies, comments should be aded to the same file as first comment
+    // 2. for renamed files, if compare with previous patch set and comment
+    //    is on left side, then use oldPath
+    // 3. else, use new path
+    if (this.comments && this.comments.length >= 1) {
+      path = this.comments[0].path;
+    } else if (this._commentOnLeftRevisionWithRenamedFile()) {
+      path = this.file.oldPath;
+    }
     const d = {
       __draft: true,
       __draftID: Math.random().toString(36),
       __date: new Date(),
-      path: this.path,
+      path,
       patchNum: this.patchNum,
       side: this._getSide(this.isOnParent),
       __commentSide: this.commentSide,

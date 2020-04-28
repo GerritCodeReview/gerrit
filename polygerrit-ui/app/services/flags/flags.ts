@@ -25,4 +25,5 @@ export interface FlagsService {
  */
 export enum KnownExperimentId {
   PATCHSET_COMMENTS = 'UiFeature__patchset_comments',
+  PATCHSET_CHOICE_FOR_COMMENT_LINKS = 'UiFeature__patchset_choice_for_comment_links',
 }

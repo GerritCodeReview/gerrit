@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "22323efb_949ccf51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-28T15:42:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33431aeb_e1cd240f",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 15
+      },
+      "revId": "bacff4a321f66a7a547386743285e31550b55c32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce05c72b_23b53caf",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
         "patchSetId": 5
@@ -39,6 +63,24 @@
       "revId": "bacff4a321f66a7a547386743285e31550b55c32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00d56918_928df546",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-28T15:42:58Z",
+      "side": 1,
+      "message": "I don\u0027t find them useful, but I can update them just to be consistent.",
+      "parentUuid": "ce05c72b_23b53caf",
+      "revId": "bacff4a321f66a7a547386743285e31550b55c32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

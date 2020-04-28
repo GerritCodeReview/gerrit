@@ -30,6 +30,7 @@ import {parseDate} from '../../../utils/date-util.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {appContext} from '../../../services/app-context.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
+import {ExperimentIds} from '../../../services/flags.js';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -105,6 +106,7 @@ class GrCommentThread extends mixinBehaviors( [
         reflectToAttribute: true,
       },
       patchNum: String,
+      latestPatchNum: String,
       path: String,
       projectName: {
         type: String,
@@ -181,6 +183,7 @@ class GrCommentThread extends mixinBehaviors( [
   constructor() {
     super();
     this.reporting = appContext.reportingService;
+    this.flagsService = appContext.flagsService;
   }
 
   /** @override */
@@ -196,6 +199,8 @@ class GrCommentThread extends mixinBehaviors( [
     this._getLoggedIn().then(loggedIn => {
       this._showActions = loggedIn;
     });
+    this._isChangeCommentsLinkExperimentEnabled = this.flagsService
+        .isEnabled(ExperimentIds.PATCHSET_CHOICE_FOR_COMMENT_LINKS);
     this._setInitialExpandedState();
   }
 
@@ -230,14 +235,23 @@ class GrCommentThread extends mixinBehaviors( [
   }
 
   _getDiffUrlForPath(path) {
-    return GerritNav.getUrlForDiffById(this.changeNum, this.projectName, path,
+    if (!this._isChangeCommentsLinkExperimentEnabled) {
+      return GerritNav.getUrlForDiffById(this.changeNum,
+          this.projectName, path, this.patchNum);
+    }
+    return GerritNav.getUrlForFile(this.changeNum, this.projectName, path,
         this.patchNum);
   }
 
-  _getDiffUrlForComment(projectName, changeNum, path, patchNum) {
-    return GerritNav.getUrlForDiffById(changeNum,
-        projectName, path, patchNum,
-        null, this.lineNum);
+  _getDiffUrlForComment(projectName, changeNum, path, patchNum,
+      latestPatchNum) {
+    if (!this._isChangeCommentsLinkExperimentEnabled ||
+      (this.comments.length && this.comments[0].side === 'PARENT')) {
+      return GerritNav.getUrlForDiffById(changeNum,
+          projectName, path, patchNum, null, this.lineNum);
+    }
+    return GerritNav.getUrlForComment(this.changeNum, this.projectName,
+        path, this.comments[0].patch_set, this.comments[0].id);
   }
 
   _isPatchsetLevelComment(path) {

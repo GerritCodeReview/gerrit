@@ -1395,6 +1395,7 @@ class GrRouter extends mixinBehaviors( [
       commentId: ctx.params[3],
       path: ctx.params[4],
       view: GerritNav.View.DIFF,
+      commentLink: true,
     };
     this.reporting.setRepoName(params.project);
     this._redirectOrNavigate(params);
@@ -1410,7 +1411,6 @@ class GrRouter extends mixinBehaviors( [
       path: ctx.params[8],
       view: GerritNav.View.DIFF,
     };
-
     const address = this._parseLineAddress(ctx.hash);
     if (address) {
       params.leftSide = address.leftSide;

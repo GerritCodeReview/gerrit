@@ -422,11 +422,16 @@ class GrCommentThread extends mixinBehaviors( [
    * @param {!Object=} opt_range
    */
   _newDraft(opt_lineNum, opt_range) {
+    // Find the path from first comment
+    const path = this.comments
+       && this.comments[0]
+        && this.comments[0].path
+         || this.path;
     const d = {
       __draft: true,
       __draftID: Math.random().toString(36),
       __date: new Date(),
-      path: this.path,
+      path,
       patchNum: this.patchNum,
       side: this._getSide(this.isOnParent),
       __commentSide: this.commentSide,

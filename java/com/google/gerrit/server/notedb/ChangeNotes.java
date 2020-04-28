@@ -64,6 +64,7 @@ import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gson.JsonSyntaxException;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -386,6 +387,14 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         n.load();
       } catch (OrmException e) {
         return ChangeNotesResult.error(n.getChangeId(), e);
+      } catch (Exception genericException) {
+        Throwable maybeJsonSyntaxException = genericException.getCause();
+        if (maybeJsonSyntaxException instanceof JsonSyntaxException) {
+          logger.atSevere().withCause(genericException).log(
+              "Non fatal error while indexing change: %s", n.getChangeId());
+        } else {
+          throw genericException;
+        }
       }
       return ChangeNotesResult.notes(n);
     }

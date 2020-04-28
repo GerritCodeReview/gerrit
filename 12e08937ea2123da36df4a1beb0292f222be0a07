@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ef33f35e_f7928c29",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-28T18:23:48Z",
+      "side": 1,
+      "message": "do you mean the filename?\nFor the filename i use all CAP because README.md has the same format. If this is not necessary - I also prefer small-caps",
+      "parentUuid": "8499e66e_f5ae55d3",
+      "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e866a325_a1bf1322",
         "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
         "patchSetId": 11
@@ -39,6 +57,30 @@
       "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e364a39_b6b91839",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-28T18:23:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e866a325_a1bf1322",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "652c2808_4dc7c1b1",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-28T18:23:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "782e8663_2c5c66ad",
+      "range": {
+        "startLine": 26,
+        "startChar": 14,
+        "endLine": 26,
+        "endChar": 21
+      },
+      "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1871fe1a_c058f693",
         "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
         "patchSetId": 11
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "f304b46b_ad7583de",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-28T18:23:48Z",
+      "side": 1,
+      "message": "Good/bad - done. (i followed our internal Javascript style guide - it uses Example and Disallowed).\n\nEmoji - not sure how good different viewers support it, I would avoid it.",
+      "parentUuid": "1871fe1a_c058f693",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 9
+      },
+      "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23920740_5a657539",
         "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
         "patchSetId": 11
@@ -108,6 +198,30 @@
       "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "837213d3_257582e7",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-28T18:23:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23920740_5a657539",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 5
+      },
+      "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -145,6 +259,54 @@
       "writtenOn": "2020-04-28T16:40:32Z",
       "side": 1,
       "message": "i think we may need a clear definition for `global state` so its clear what will and should be put there",
+      "range": {
+        "startLine": 111,
+        "startChar": 43,
+        "endLine": 111,
+        "endChar": 55
+      },
+      "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a398b8b_6f937340",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-28T18:23:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f9024ac_68f0996d",
+      "range": {
+        "startLine": 111,
+        "startChar": 67,
+        "endLine": 111,
+        "endChar": 68
+      },
+      "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3429a6d_9b9eb347",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-28T18:23:48Z",
+      "side": 1,
+      "message": "Do you know how to define it? For me \u0027global state\u0027 is something that most software engineers can understand without an explanation. I can\u0027t give a short definition for it, because it is too wide. I think, example gives enough information to understand this rule.",
+      "parentUuid": "845e6626_49aa9942",
       "range": {
         "startLine": 111,
         "startChar": 43,
@@ -203,6 +365,30 @@
     },
     {
       "key": {
+        "uuid": "02795403_751b2c78",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-28T18:23:48Z",
+      "side": 1,
+      "message": "I would like to keep it as is. Respectful guideline has a different structure (list of DO then list of DON\u0027T). In our case, each rule will have DO and DON\u0027T and they can create some visual noise (my subjective opinion).",
+      "parentUuid": "b8d02dd0_1f411965",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 42
+      },
+      "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5dc0263e_63171781",
         "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
         "patchSetId": 11
@@ -214,6 +400,30 @@
       "writtenOn": "2020-04-28T16:40:32Z",
       "side": 1,
       "message": "hmm is this a convention we have to follow ? I think this is recommended, but not necessary a have-to. But I do see it should be helpful to have it if we someday want to convert to DI",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 66
+      },
+      "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8de01462_e4c30519",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-28T18:23:48Z",
+      "side": 1,
+      "message": "We had some comments here about this situation:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/263037/7/polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js#163\nI thought we agreed on it.\n\nIf you (or someone else) have objections - let\u0027s discuss it, with pros/cons. Then I will update doc accordingly",
+      "parentUuid": "5dc0263e_63171781",
       "range": {
         "startLine": 233,
         "startChar": 0,
@@ -247,6 +457,30 @@
       "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03d4b128_0efb6575",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-28T18:23:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dced01b4_e138c571",
+      "range": {
+        "startLine": 257,
+        "startChar": 64,
+        "endLine": 257,
+        "endChar": 64
+      },
+      "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

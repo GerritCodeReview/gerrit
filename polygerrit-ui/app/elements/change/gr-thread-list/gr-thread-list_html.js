@@ -105,6 +105,7 @@ export const htmlTemplate = html`
           is-on-parent="[[_isOnParent(thread.commentSide)]]"
           line-num="[[thread.line]]"
           patch-num="[[thread.patchNum]]"
+          latest-patch-num="[[_computeLatestPatchNum(change)]]"
           path="[[thread.path]]"
           root-id="{{thread.rootId}}"
           on-thread-changed="_handleCommentsChanged"

@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "033af741_92e4ba32",
+        "filename": "polygerrit-ui/app/.eslintrc.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-28T07:05:02Z",
+      "side": 1,
+      "message": "It seems, we don\u0027t use global GrReporting anymore. You can remove this line.",
+      "range": {
+        "startLine": 168,
+        "startChar": 4,
+        "endLine": 168,
+        "endChar": 30
+      },
+      "revId": "3d01548a6393bb3a7f88691bc23bb621d8bc7220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25e716f5_96eb56d7",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-28T07:05:02Z",
+      "side": 1,
+      "message": "Please, mark it as a private (_flagsService)",
+      "range": {
+        "startLine": 173,
+        "startChar": 9,
+        "endLine": 173,
+        "endChar": 21
+      },
+      "revId": "3d01548a6393bb3a7f88691bc23bb621d8bc7220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03da2f04_b3c6f4b1",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-28T07:05:02Z",
+      "side": 1,
+      "message": "Why can\u0027t we remove category completely?",
+      "range": {
+        "startLine": 174,
+        "startChar": 4,
+        "endLine": 174,
+        "endChar": 8
+      },
+      "revId": "3d01548a6393bb3a7f88691bc23bb621d8bc7220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecc1372b_ed81abdf",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-28T07:05:02Z",
+      "side": 1,
+      "message": "Could you please add comment when flagsService can be null?\nI would like to avoid this type of checks and assume that all services exist.To catch errors earlier - I would like to have check in the constructor of GrReporting",
+      "range": {
+        "startLine": 273,
+        "startChar": 8,
+        "endLine": 273,
+        "endChar": 25
+      },
+      "revId": "3d01548a6393bb3a7f88691bc23bb621d8bc7220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f80cdd52_dd12bfc4",
+        "filename": "polygerrit-ui/app/test/services/gr-reporting_stub.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-28T07:05:02Z",
+      "side": 1,
+      "message": "I noticed, that tests resets some mock explicitly:\nE.g.:\nconst reportStub \u003d element.reporting.recordDraftInteraction;\nreportStub.reset();\n\nYou can reset all stubs automatically.\nIt is possible to add setup to this file and reset all stubs here:\n\nsetup(() \u003d\u003e {\n  grReporintgMock.recordDraftInteraction.reset();\n  grReporintgMock.time.reset();\n})\n\n(probably, you can iterate through all items of grReporting and if an item has a reset method - call it)\n\nBut I am not sure, can I reset all mocks here or it is better to keep some mock untouched (due to a specific of GrReporting).\nIf it is not possible to reset all mocks before each test - the current approach looks better for me.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 11
+      },
+      "revId": "3d01548a6393bb3a7f88691bc23bb621d8bc7220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

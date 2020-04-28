@@ -800,6 +800,7 @@ suite('gr-change-view tests', () => {
     });
 
     test('draft threads should be a new copy with correct states', done => {
+      sinon.stub(GerritNav, '_checkPatchRange').returns(true);
       element.$.fileList.dispatchEvent(
           new CustomEvent('reload-drafts', {
             detail: {

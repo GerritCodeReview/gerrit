@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "06b5ea13_ba6e4453",
+        "filename": "polygerrit-ui/app/.eslintrc.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-28T09:16:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "033af741_92e4ba32",
+      "range": {
+        "startLine": 168,
+        "startChar": 4,
+        "endLine": 168,
+        "endChar": 30
+      },
+      "revId": "3d01548a6393bb3a7f88691bc23bb621d8bc7220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0dc32cdd_3646d967",
         "filename": "polygerrit-ui/app/embed/gr-diff-app-context-init.js",
         "patchSetId": 27
@@ -83,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "2bd627f2_b4858d4c",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-28T09:16:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25e716f5_96eb56d7",
+      "range": {
+        "startLine": 173,
+        "startChar": 9,
+        "endLine": 173,
+        "endChar": 21
+      },
+      "revId": "3d01548a6393bb3a7f88691bc23bb621d8bc7220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "03da2f04_b3c6f4b1",
         "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
         "patchSetId": 27
@@ -106,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "961b0b8a_3f1a554c",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-28T09:16:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03da2f04_b3c6f4b1",
+      "range": {
+        "startLine": 174,
+        "startChar": 4,
+        "endLine": 174,
+        "endChar": 8
+      },
+      "revId": "3d01548a6393bb3a7f88691bc23bb621d8bc7220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ecc1372b_ed81abdf",
         "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
         "patchSetId": 27
@@ -126,6 +198,30 @@
       "revId": "3d01548a6393bb3a7f88691bc23bb621d8bc7220",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57a3de84_b6667645",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-28T09:16:11Z",
+      "side": 1,
+      "message": "I changed it so it cannot be null. I stopped calling grReporting.prototype",
+      "parentUuid": "ecc1372b_ed81abdf",
+      "range": {
+        "startLine": 273,
+        "startChar": 8,
+        "endLine": 273,
+        "endChar": 25
+      },
+      "revId": "3d01548a6393bb3a7f88691bc23bb621d8bc7220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -772,12 +772,12 @@ suite('gr-comment tests', () => {
       element.flushDebouncer('fire-update');
       element.flushDebouncer('store');
       assert.equal(dispatchEventStub.lastCall.args[0].type, 'comment-update'),
-      assert.isTrue(dispatchEventStub.calledOnce);
+      assert.isTrue(dispatchEventStub.calledTwice);
 
       element._messageText = 'good news, everyone!';
       element.flushDebouncer('fire-update');
       element.flushDebouncer('store');
-      assert.isTrue(dispatchEventStub.calledOnce);
+      assert.isTrue(dispatchEventStub.calledTwice);
 
       MockInteractions.tap(element.shadowRoot
           .querySelector('.save'));

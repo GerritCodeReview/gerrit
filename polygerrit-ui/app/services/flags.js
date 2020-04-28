@@ -15,6 +15,14 @@
  * limitations under the License.
  */
 
+ /**
+ * @enum
+ * @desc Experiment ids used in Gerrit.
+ */
+export const ExperimentIds = {
+  CLEANER_CHANGELOG: 'UiFeature__cleaner_changelog',
+};
+
 /**
  * Flags service.
  *

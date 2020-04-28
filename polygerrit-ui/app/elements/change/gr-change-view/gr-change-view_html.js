@@ -709,6 +709,7 @@ export const htmlTemplate = html`
         <template is="dom-if" if="[[_isChangeLogExperimentEnabled()]]">
           <gr-messages-list-experimental
             class="hideOnMobileOverlay"
+            change="[[_change]]"
             change-num="[[_changeNum]]"
             labels="[[_change.labels]]"
             messages="[[_change.messages]]"

@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-
 export const htmlTemplate = html`
   <style include="shared-styles">
     :host(.no-left) .sideBySide .left,
@@ -29,7 +28,6 @@ export const htmlTemplate = html`
       font-size: var(--font-size, var(--font-size-code, 12px));
       line-height: var(--line-height-code, 1.334);
     }
-
     .thread-group {
       display: block;
       max-width: var(--content-width, 80ch);
@@ -49,17 +47,14 @@ export const htmlTemplate = html`
       border-right: 1px solid var(--border-color);
       table-layout: fixed;
     }
-    .lineNumButton {
-      display: block;
-      width: 100%;
-      height: 100%;
+    .lineNum {
       background-color: var(--diff-blank-background-color);
     }
     /*
       The only way to focus this (clicking) will apply our own focus styling,
       so this default styling is not needed and distracting.
       */
-    .lineNumButton:focus {
+    button.lineNum:focus {
       outline: none;
     }
     .image-diff .gr-diff {
@@ -69,7 +64,7 @@ export const htmlTemplate = html`
       box-shadow: var(--elevation-level-1);
       max-width: 50em;
     }
-    .image-diff .right.lineNumButton {
+    .image-diff .right.lineNum {
       border-left: 1px solid var(--border-color);
     }
     .image-diff label,
@@ -81,10 +76,10 @@ export const htmlTemplate = html`
       outline: none;
       user-select: none;
     }
-    .diff-row.target-row.target-side-left .lineNumButton.left,
-    .diff-row.target-row.target-side-right .lineNumButton.right,
-    .diff-row.target-row.unified .lineNumButton {
-      background-color: var(--diff-selection-background-color);
+    .diff-row.target-row.target-side-left .lineNum.left,
+    .diff-row.target-row.target-side-right .lineNum.right,
+    .diff-row.target-row.unified .lineNum {
+      background-color: var(--diff-selection-backgrouButtonnd-color);
       color: var(--primary-text-color);
     }
     .content {
@@ -106,23 +101,22 @@ export const htmlTemplate = html`
       white-space: pre-wrap;
       word-wrap: break-word;
     }
-    .lineNumButton,
+    .lineNum,
     .content {
       vertical-align: top;
       white-space: pre;
     }
     .contextLineNum,
-    .lineNumButton {
+    .lineNum {
       -webkit-user-select: none;
       -moz-user-select: none;
       -ms-user-select: none;
       user-select: none;
-
       color: var(--deemphasized-text-color);
       padding: 0 var(--spacing-m);
       text-align: right;
     }
-    .canComment .lineNumButton {
+    .canComment .lineNum {
       cursor: pointer;
     }
     .content {
@@ -150,7 +144,6 @@ export const htmlTemplate = html`
     .content.remove .contentText {
       background-color: var(--light-remove-highlight-color);
     }
-
     /* dueToRebase */
     .dueToRebase .content.add .contentText .intraline,
     .delta.total.dueToRebase .content.add .contentText {
@@ -166,7 +159,6 @@ export const htmlTemplate = html`
     .dueToRebase .content.remove .contentText {
       background-color: var(--light-remove-add-highlight-color);
     }
-
     /* ignoredWhitespaceOnly */
     .ignoredWhitespaceOnly .content.add .contentText .intraline,
     .delta.total.ignoredWhitespaceOnly .content.add .contentText,
@@ -176,7 +168,6 @@ export const htmlTemplate = html`
     .ignoredWhitespaceOnly .content.remove .contentText {
       background-color: var(--view-background-color);
     }
-
     .content .contentText:empty:after {
       /* Newline, to ensure empty lines are one line-height tall. */
       content: '\\A';
@@ -201,7 +192,7 @@ export const htmlTemplate = html`
       width: var(--line-height-mono, 18px);
       height: var(--line-height-mono, 18px);
     }
-    .contextControl td:not(.lineNumButton) {
+    .contextControl td:not(.lineNum) {
       text-align: center;
     }
     .displayLine .diff-row.target-row td {
@@ -298,13 +289,13 @@ export const htmlTemplate = html`
     .newlineWarning.hidden {
       display: none;
     }
-    .lineNumButton.COVERED {
+    .lineNum.COVERED {
       background-color: var(--coverage-covered, #e0f2f1);
     }
-    .lineNumButton.NOT_COVERED {
+    .lineNum.NOT_COVERED {
       background-color: var(--coverage-not-covered, #ffd1a4);
     }
-    .lineNumButton.PARTIALLY_COVERED {
+    .lineNum.PARTIALLY_COVERED {
       background: linear-gradient(
         to right bottom,
         var(--coverage-not-covered, #ffd1a4) 0%,
@@ -313,7 +304,6 @@ export const htmlTemplate = html`
         var(--coverage-covered, #e0f2f1) 100%
       );
     }
-
     /** BEGIN: Select and copy for Polymer 2 */
     /** Below was copied and modified from the original css in gr-diff-selection.html */
     .content,
@@ -324,7 +314,6 @@ export const htmlTemplate = html`
       -ms-user-select: none;
       user-select: none;
     }
-
     .selected-left:not(.selected-comment)
       .side-by-side
       .left
@@ -337,12 +326,12 @@ export const htmlTemplate = html`
       .contentText,
     .selected-left:not(.selected-comment)
       .unified
-      .left.lineNumButton
+      .left.lineNum
       ~ .content:not(.both)
       .contentText,
     .selected-right:not(.selected-comment)
       .unified
-      .right.lineNumButton
+      .right.lineNum
       ~ .content
       .contentText,
     .selected-left.selected-comment .side-by-side .left + .content .message,
@@ -359,7 +348,6 @@ export const htmlTemplate = html`
       -ms-user-select: text;
       user-select: text;
     }
-
     /** Make comments selectable when selected */
     .selected-left.selected-comment
       ::slotted(gr-comment-thread[comment-side='left']),
@@ -371,7 +359,6 @@ export const htmlTemplate = html`
       user-select: text;
     }
     /** END: Select and copy for Polymer 2 */
-
     .whitespace-change-only-message {
       background-color: var(--diff-context-control-background-color);
       border: 1px solid var(--diff-context-control-border-color);
@@ -419,7 +406,6 @@ export const htmlTemplate = html`
             class$="[[_diffTableClass]]"
             role="presentation"
           ></table>
-
           <template
             is="dom-if"
             if="[[showNoChangeMessage(loading, prefs, _diffLength)]]"

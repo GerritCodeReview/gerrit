@@ -492,8 +492,7 @@ class GrDiff extends mixinBehaviors( [
         composed: true, bubbles: true,
       }));
       this.$.diffBuilder.showContext(e.detail.groups, e.detail.section);
-    } else if (el.classList.contains('lineNum') ||
-               el.classList.contains('lineNumButton')) {
+    } else if (el.classList.contains('lineNum')) {
       this.addDraftAtLine(el);
     } else if (el.tagName === 'HL' ||
         el.classList.contains('content') ||

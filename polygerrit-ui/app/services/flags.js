@@ -16,6 +16,14 @@
  */
 
 /**
+ * @enum
+ * @desc Experiment ids used in Gerrit.
+ */
+export const ExperimentIds = {
+  CLEANER_CHANGELOG: 'UiFeature__cleaner_changelog',
+};
+
+/**
  * Flags service.
  *
  * Provides all related methods / properties regarding on feature flags.

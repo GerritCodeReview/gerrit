@@ -192,6 +192,12 @@ export const htmlTemplate = html`
       flex-direction: column;
       width: 100%;
     }
+    .comment-extra-note {
+      color: var(--deemphasized-text-color);
+      border: 1px solid var(--deemphasized-text-color);
+      border-radius: var(--border-radius);
+      padding: 0px var(--spacing-s);
+    }
     #deleteBtn {
       display: none;
       --gr-button: {
@@ -262,6 +268,9 @@ export const htmlTemplate = html`
           </a>
         </div>
       </div>
+      <template is="dom-if" if="[[comment.extraNote]]">
+        <span class="comment-extra-note">[[comment.extraNote]]</span>
+      </template>
       <gr-button
         id="deleteBtn"
         link=""

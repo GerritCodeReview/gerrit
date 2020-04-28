@@ -22,6 +22,29 @@
       "revId": "4fffa563b862cb4127588948d421df0e5897ddb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d701c9fc_1a0bf436",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-28T14:31:40Z",
+      "side": 1,
+      "message": "In this case I should probably re-throw the exception",
+      "range": {
+        "startLine": 399,
+        "startChar": 8,
+        "endLine": 399,
+        "endChar": 9
+      },
+      "revId": "4fffa563b862cb4127588948d421df0e5897ddb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

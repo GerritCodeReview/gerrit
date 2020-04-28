@@ -1374,6 +1374,16 @@ class GrRouter extends mixinBehaviors( [
       path: ctx.params[8],
       view: GerritNav.View.DIFF,
     };
+    const showToastText = '&showToast=true';
+    if (ctx.canonicalPath.includes(showToastText)) {
+      Object.keys(params).forEach(key =>
+        params[key] = params[key].replace(showToastText, ''));
+      params.showToast = true;
+      ctx.canonicalPath.replace(showToastText, '');
+      ctx.hash.replace(showToastText, '');
+      const url = window.location.href.replace(showToastText, '');
+      history.replaceState(null, '', url);
+    }
 
     const address = this._parseLineAddress(ctx.hash);
     if (address) {

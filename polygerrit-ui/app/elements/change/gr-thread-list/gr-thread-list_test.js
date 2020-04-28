@@ -36,6 +36,10 @@ suite('gr-thread-list tests', () => {
 
   setup(done => {
     element = basicFixture.instantiate();
+    // 10 is nothing special, stubbing because we cannot have basePatchNum
+    // without having a rightPatchNum >= basePatchNum
+    sinon.stub(element, '_computeLatestPatchNum').returns(10);
+    element.change = {};
     element.threads = [
       {
         comments: [

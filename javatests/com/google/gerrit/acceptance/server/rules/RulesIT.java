@@ -29,7 +29,6 @@ import com.google.inject.Inject;
 import java.util.Collection;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -43,14 +42,6 @@ public class RulesIT extends AbstractDaemonTest {
 
   @Inject private ProjectOperations projectOperations;
   @Inject private SubmitRuleEvaluator.Factory evaluatorFactory;
-
-  @Before
-  public void setUp() {
-    // We don't want caches to interfere with our tests. If we didn't, the cache would take
-    // precedence over the index, which would never be called.
-    baseConfig.setString("cache", "changes", "memoryLimit", "0");
-    baseConfig.setString("cache", "projects", "memoryLimit", "0");
-  }
 
   @Test
   public void testUnresolvedCommentsCountPredicate() throws Exception {
@@ -119,5 +110,6 @@ public class RulesIT extends AbstractDaemonTest {
           .message("Modify rules.pl")
           .create();
     }
+    projectCache.evict(project);
   }
 }

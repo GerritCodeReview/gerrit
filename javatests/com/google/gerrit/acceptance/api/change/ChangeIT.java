@@ -4382,6 +4382,7 @@ public class ChangeIT extends AbstractDaemonTest {
           .message("Modify rules.pl")
           .create();
     }
+    projectCache.evict(project);
   }
 
   @Test

@@ -493,7 +493,7 @@ class GrRouter extends GestureEventListeners(
     let range = this._getPatchRangeExpression(params);
     if (range.length) { range = '/' + range; }
 
-    let suffix = `${range}/${encodeURL(params.path, true)}`;
+    let suffix = `${range}/${encodeURL(params.path || '', true)}`;
 
     if (params.view === GerritNav.View.EDIT) { suffix += ',edit'; }
 
@@ -501,6 +501,13 @@ class GrRouter extends GestureEventListeners(
       suffix += '#';
       if (params.leftSide) { suffix += 'b'; }
       suffix += params.lineNum;
+    }
+
+    if (params.fileLink) {
+      suffix = '/file' + suffix;
+    }
+    if (params.commentId) {
+      suffix = `/comment/${params.commentId}` + suffix;
     }
 
     if (params.project) {
@@ -1395,7 +1402,6 @@ class GrRouter extends GestureEventListeners(
       path: ctx.params[8],
       view: GerritNav.View.DIFF,
     };
-
     const address = this._parseLineAddress(ctx.hash);
     if (address) {
       params.leftSide = address.leftSide;

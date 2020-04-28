@@ -53,6 +53,7 @@ import {
   isMagicPath, specialFilePathCompare,
 } from '../../../utils/path-list-util.js';
 import {changeBaseURL, changeIsOpen} from '../../../utils/change-util.js';
+import {ExperimentIds} from '../../../services/flags.js';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -248,6 +249,22 @@ class GrDiffView extends KeyboardShortcutMixin(
         type: Number,
         value: 0,
       },
+      // Boolean to show the toast for diffing base against left only once
+      _hasShownDiffBaseAgainstLeftToast: {
+        type: Boolean,
+        value: false,
+      },
+      // Boolean to show the toast for diffing left against latest only once
+      _hasShownDiffAgainstLatestToast: {
+        type: Boolean,
+        value: false,
+      },
+      // Boolean to determine if the toasts should be shown based on where the
+      // user is coming from
+      _showToast: {
+        type: Boolean,
+        value: false,
+      },
     };
   }
 
@@ -316,11 +333,15 @@ class GrDiffView extends KeyboardShortcutMixin(
   constructor() {
     super();
     this.reporting = appContext.reportingService;
+    this.flagsService = appContext.flagsService;
   }
 
   /** @override */
   attached() {
     super.attached();
+    this._isChangeCommentsLinkExperimentEnabled = this.flagsService
+        .isEnabled(ExperimentIds.PATCHSET_CHOICE_FOR_COMMENT_LINKS);
+    this._isChangeCommentsLinkExperimentEnabled = true; // remove
     this._getLoggedIn().then(loggedIn => {
       this._loggedIn = loggedIn;
     });
@@ -759,6 +780,50 @@ class GrDiffView extends KeyboardShortcutMixin(
     });
   }
 
+  _displayDiffBaseAgainstLeftToast() {
+    this._hasShownDiffBaseAgainstLeftToast = true;
+    this.dispatchEvent(new CustomEvent('show-alert', {
+      detail: {
+        // \u2190 = ←
+        message: `Patchset ${this._patchRange.basePatchNum} vs ` +
+          `${this._patchRange.patchNum} selected. Press v + \u2190 to view `
+          + `Base vs ${this._patchRange.basePatchNum}`,
+      },
+      composed: true, bubbles: true,
+    }));
+  }
+
+  _displayDiffAgainstLatestToast(latestPatchNum) {
+    const leftPatchset = patchNumEquals(
+        this._patchRange.basePatchNum, 'PARENT')
+      ? 'Base' : `Patchset ${this._patchRange.basePatchNum}`;
+    this._hasShownDiffAgainstLatestToast = true;
+    this.dispatchEvent(new CustomEvent('show-alert', {
+      detail: {
+        // \u2191 = ↑
+        message: `${leftPatchset} vs
+            ${this._patchRange.patchNum} selected\n. Press v + \u2191 to view
+            ${leftPatchset} vs Patchset ${latestPatchNum}`,
+      },
+      composed: true, bubbles: true,
+    }));
+  }
+
+  _displayToasts() {
+    if (!this._showToast) return;
+    if (!this._hasShownDiffBaseAgainstLeftToast &&
+        !patchNumEquals(this._patchRange.basePatchNum, 'PARENT')) {
+      this._displayDiffBaseAgainstLeftToast();
+      return;
+    }
+    const latestPatchNum = this.computeLatestPatchNum(this._allPatchSets);
+    if (!this._hasShownDiffAgainstLatestToast &&
+      !patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
+      this._displayDiffAgainstLatestToast(latestPatchNum);
+      return;
+    }
+  }
+
   _initCommitRange() {
     let commit;
     let baseCommit;
@@ -900,6 +965,9 @@ class GrDiffView extends KeyboardShortcutMixin(
           // If the blame was loaded for a previous file and user navigates to
           // another file, then we load the blame for this file too
           if (this._isBlameLoaded) this._loadBlame();
+          if (this._isChangeCommentsLinkExperimentEnabled) {
+            this._displayToasts();
+          }
         });
   }
 

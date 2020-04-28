@@ -78,6 +78,13 @@ class GrThreadList extends GestureEventListeners(
     return ['_updateSortedThreads(threads, threads.splices)'];
   }
 
+  _computeLatestPatchNum(change) {
+    if (!change) return 0;
+    return Object.values(change.revisions).reduce(
+        (maxPatchNum, revision) => maxPatchNum =
+          Math.max(maxPatchNum, revision._number), 0);
+  }
+
   _computeShowDraftToggle(loggedIn) {
     return loggedIn ? 'show' : '';
   }

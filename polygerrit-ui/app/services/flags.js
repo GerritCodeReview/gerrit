@@ -22,6 +22,7 @@
 export const ExperimentIds = {
   CLEANER_CHANGELOG: 'UiFeature__cleaner_changelog',
   PATCHSET_COMMENTS: 'UiFeature__patchset_comments',
+  CHANGE_COMMENTS_LINK: 'UiFeature__change_comments_link',
 };
 
 /**

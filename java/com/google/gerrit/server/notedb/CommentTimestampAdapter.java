@@ -16,6 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
@@ -46,6 +47,7 @@ import java.time.temporal.TemporalAccessor;
  * happens to fit NoteDb timestamps into git commit formatting.
  */
 class CommentTimestampAdapter extends TypeAdapter<Timestamp> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final DateTimeFormatter FALLBACK =
       DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
 
@@ -62,7 +64,12 @@ class CommentTimestampAdapter extends TypeAdapter<Timestamp> {
     try {
       ta = ISO_INSTANT.parse(str);
     } catch (DateTimeParseException e) {
-      ta = LocalDateTime.from(FALLBACK.parse(str)).atZone(ZoneId.systemDefault());
+      try {
+        ta = LocalDateTime.from(FALLBACK.parse(str)).atZone(ZoneId.systemDefault());
+      } catch (DateTimeParseException dtpe) {
+        logger.atWarning().withCause(dtpe).log("Cannot read timestamp");
+        throw new IOException(dtpe);
+      }
     }
     return Timestamp.from(Instant.from(ta));
   }

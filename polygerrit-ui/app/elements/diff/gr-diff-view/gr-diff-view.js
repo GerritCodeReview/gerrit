@@ -249,6 +249,16 @@ class GrDiffView extends mixinBehaviors( [
         type: Number,
         value: 0,
       },
+      // Boolean to show the toast for diffing base against left only once
+      _hasShownDiffBaseAgainstLeftToast: {
+        type: Boolean,
+        value: false,
+      },
+      // Boolean to show the toast for diffing left against latest only once
+      _hasShownDiffAgainstLatestToast: {
+        type: Boolean,
+        value: false,
+      },
     };
   }
 
@@ -832,6 +842,36 @@ class GrDiffView extends mixinBehaviors( [
           // If the blame was loaded for a previous file and user navigates to
           // another file, then we load the blame for this file too
           if (this._isBlameLoaded) this._loadBlame();
+          if (!this._hasShownDiffBaseAgainstLeftToast &&
+              !this.patchNumEquals(this._patchRange.basePatchNum, 'PARENT')) {
+            this._hasShownDiffBaseAgainstLeftToast = true;
+            this.dispatchEvent(new CustomEvent('show-alert', {
+              detail: {
+                message: `Patchset ${this._patchRange.basePatchNum} vs
+                  ${this._patchRange.patchNum} selected\n. Press v + ← to view
+                  Base vs ${this._patchRange.basePatchNum}`,
+              },
+              composed: true, bubbles: true,
+            }));
+            return;
+          }
+          const latestPatchNum = this.computeLatestPatchNum(this._allPatchSets);
+          if (!this._hasShownDiffAgainstLatestToast &&
+            !this.patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
+            const leftPatchset = this.patchNumEquals(
+                this._patchRange.basePatchNum, 'PARENT')
+              ? 'Base' : `Patchset ${this._patchRange.basePatchNum}`;
+            this._hasShownDiffAgainstLatestToast = true;
+            this.dispatchEvent(new CustomEvent('show-alert', {
+              detail: {
+                message: `${leftPatchset} vs
+                    ${this._patchRange.patchNum} selected\n. Press v + ↑ to view
+                    ${leftPatchset} vs Patchset ${latestPatchNum}`,
+              },
+              composed: true, bubbles: true,
+            }));
+            return;
+          }
         });
   }
 

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "07b6c463_f5a649fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-28T16:07:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48c38ce6_54716cd9",
+      "range": {
+        "startLine": 7,
+        "startChar": 12,
+        "endLine": 7,
+        "endChar": 14
+      },
+      "revId": "fb66a8fae9dc71d46c0352ee596e0ed6e8d51c84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a37cd8f5_857dd306",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "09985296_9418d330",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-28T16:07:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a37cd8f5_857dd306",
+      "range": {
+        "startLine": 9,
+        "startChar": 51,
+        "endLine": 9,
+        "endChar": 70
+      },
+      "revId": "fb66a8fae9dc71d46c0352ee596e0ed6e8d51c84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ca569c1_b86f2c0a",
         "filename": "polygerrit-ui/app/constants/constants.js",
         "patchSetId": 2
@@ -62,6 +110,24 @@
       "revId": "fb66a8fae9dc71d46c0352ee596e0ed6e8d51c84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a6aadd2_65e5d88c",
+        "filename": "polygerrit-ui/app/constants/constants.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-28T16:07:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ca569c1_b86f2c0a",
+      "revId": "fb66a8fae9dc71d46c0352ee596e0ed6e8d51c84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "5e8d7051_81e024ea",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-28T16:07:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "688f7f9e_bdfc5350",
+      "range": {
+        "startLine": 76,
+        "startChar": 6,
+        "endLine": 81,
+        "endChar": 8
+      },
+      "revId": "fb66a8fae9dc71d46c0352ee596e0ed6e8d51c84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08ee19df_d477f36d",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 2
@@ -99,6 +189,30 @@
       "writtenOn": "2020-04-28T15:24:05Z",
       "side": 1,
       "message": "opt and nit: I would prefer is...Enabled",
+      "range": {
+        "startLine": 150,
+        "startChar": 6,
+        "endLine": 150,
+        "endChar": 29
+      },
+      "revId": "fb66a8fae9dc71d46c0352ee596e0ed6e8d51c84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22f26b13_8202ba67",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-28T16:07:57Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "08ee19df_d477f36d",
       "range": {
         "startLine": 150,
         "startChar": 6,
@@ -128,6 +242,24 @@
     },
     {
       "key": {
+        "uuid": "fc616d22_8d1563a4",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-28T16:07:57Z",
+      "side": 1,
+      "message": "oh they are two different methods, I read it in this way:\n1. removed the _computeCommentsForMessage\n2. added the _computeThreadsForMessage",
+      "parentUuid": "d73f8d29_22a27020",
+      "revId": "fb66a8fae9dc71d46c0352ee596e0ed6e8d51c84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f311527_261adc99",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
         "patchSetId": 2
@@ -151,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "4e22634e_845aaf23",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-28T16:07:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f311527_261adc99",
+      "range": {
+        "startLine": 352,
+        "startChar": 18,
+        "endLine": 352,
+        "endChar": 39
+      },
+      "revId": "fb66a8fae9dc71d46c0352ee596e0ed6e8d51c84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8cc1be26_4a3f077d",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
         "patchSetId": 2
@@ -162,6 +318,24 @@
       "writtenOn": "2020-04-28T15:24:05Z",
       "side": 1,
       "message": "I am really looking forward to our own domain objects and proper typing. Modifying these CommentInfo objects does not feel good. :-/",
+      "revId": "fb66a8fae9dc71d46c0352ee596e0ed6e8d51c84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "008bf0fa_674e228e",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-28T16:07:57Z",
+      "side": 1,
+      "message": "\u003e I am really looking forward to our own domain objects and proper typing. Modifying these CommentInfo objects does not feel good. :-/\n\nya I agree, but its actually not the CommentInfo, they just have quite a few common fields, its generated from gr-comment-api which should be converted to comment model (but its performing as a model as of now)",
+      "parentUuid": "8cc1be26_4a3f077d",
       "revId": "fb66a8fae9dc71d46c0352ee596e0ed6e8d51c84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -182,6 +356,24 @@
       "revId": "fb66a8fae9dc71d46c0352ee596e0ed6e8d51c84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd518475_65d64d82",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-28T16:07:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "deef5af9_012f5223",
+      "revId": "fb66a8fae9dc71d46c0352ee596e0ed6e8d51c84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -208,6 +400,30 @@
     },
     {
       "key": {
+        "uuid": "7540c866_9b3a866a",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-28T16:07:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e81b40c0_87531b6d",
+      "range": {
+        "startLine": 361,
+        "startChar": 10,
+        "endLine": 362,
+        "endChar": 82
+      },
+      "revId": "fb66a8fae9dc71d46c0352ee596e0ed6e8d51c84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "556a7bcd_bffcd321",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
         "patchSetId": 2
@@ -222,6 +438,24 @@
       "revId": "fb66a8fae9dc71d46c0352ee596e0ed6e8d51c84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe9cafbe_b2b6c1e9",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-28T16:07:57Z",
+      "side": 1,
+      "message": "I will rename to extraNote then, the the `camelCase` it should be another indication that its not from the API",
+      "parentUuid": "556a7bcd_bffcd321",
+      "revId": "fb66a8fae9dc71d46c0352ee596e0ed6e8d51c84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

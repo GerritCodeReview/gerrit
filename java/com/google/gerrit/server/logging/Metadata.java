@@ -31,119 +31,123 @@ import java.util.Optional;
 /** Metadata that is provided to {@link PerformanceLogger}s as context for performance records. */
 @AutoValue
 public abstract class Metadata {
-  // The numeric ID of an account.
+  /** The numeric ID of an account. */
   public abstract Optional<Integer> accountId();
 
-  // The type of an action (ACCOUNT_UPDATE, CHANGE_UPDATE, GROUP_UPDATE, INDEX_QUERY,
-  // PLUGIN_UPDATE).
+  /**
+   * The type of an action (ACCOUNT_UPDATE, CHANGE_UPDATE, GROUP_UPDATE, INDEX_QUERY,
+   * PLUGIN_UPDATE).
+   */
   public abstract Optional<String> actionType();
 
-  // An authentication domain name.
+  /** An authentication domain name. */
   public abstract Optional<String> authDomainName();
 
-  // The name of a branch.
+  /** The name of a branch. */
   public abstract Optional<String> branchName();
 
-  // Key of an entity in a cache.
+  /** Key of an entity in a cache. */
   public abstract Optional<String> cacheKey();
 
-  // The name of a cache.
+  /** The name of a cache. */
   public abstract Optional<String> cacheName();
 
-  // The name of the implementation class.
+  /** The name of the implementation class. */
   public abstract Optional<String> className();
 
-  // The numeric ID of a change.
+  /** The numeric ID of a change. */
   public abstract Optional<Integer> changeId();
 
-  // The type of change ID which the user used to identify a change (e.g. numeric ID, triplet etc.).
+  /**
+   * The type of change ID which the user used to identify a change (e.g. numeric ID, triplet etc.).
+   */
   public abstract Optional<String> changeIdType();
 
-  // The cause of an error.
+  /** The cause of an error. */
   public abstract Optional<String> cause();
 
-  // The type of an event.
+  /** The type of an event. */
   public abstract Optional<String> eventType();
 
-  // The value of the @Export annotation which was used to register a plugin extension.
+  /** The value of the @Export annotation which was used to register a plugin extension. */
   public abstract Optional<String> exportValue();
 
-  // Path of a file in a repository.
+  /** Path of a file in a repository. */
   public abstract Optional<String> filePath();
 
-  // Garbage collector name.
+  /** Garbage collector name. */
   public abstract Optional<String> garbageCollectorName();
 
-  // Git operation (CLONE, FETCH).
+  /** Git operation (CLONE, FETCH). */
   public abstract Optional<String> gitOperation();
 
-  // The numeric ID of an internal group.
+  /** The numeric ID of an internal group. */
   public abstract Optional<Integer> groupId();
 
-  // The name of a group.
+  /** The name of a group. */
   public abstract Optional<String> groupName();
 
-  // The UUID of a group.
+  /** The UUID of a group. */
   public abstract Optional<String> groupUuid();
 
-  // HTTP status response code.
+  /** HTTP status response code. */
   public abstract Optional<Integer> httpStatus();
 
-  // The name of a secondary index.
+  /** The name of a secondary index. */
   public abstract Optional<String> indexName();
 
-  // The version of a secondary index.
+  /** The version of a secondary index. */
   public abstract Optional<Integer> indexVersion();
 
-  // The name of the implementation method.
+  /** The name of the implementation method. */
   public abstract Optional<String> methodName();
 
-  // One or more resources
+  /** One or more resources */
   public abstract Optional<Boolean> multiple();
 
-  // The name of an operation that is performed.
+  /** The name of an operation that is performed. */
   public abstract Optional<String> operationName();
 
-  // Partial or full computation
+  /** Partial or full computation */
   public abstract Optional<Boolean> partial();
 
-  // If a value is still current or not
+  /** If a value is still current or not */
   public abstract Optional<Boolean> outdated();
 
-  // Path of a metadata file in NoteDb.
+  /** Path of a metadata file in NoteDb. */
   public abstract Optional<String> noteDbFilePath();
 
-  // Name of a metadata ref in NoteDb.
+  /** Name of a metadata ref in NoteDb. */
   public abstract Optional<String> noteDbRefName();
 
-  // Type of a sequence in NoteDb (ACCOUNTS, CHANGES, GROUPS).
+  /** Type of a sequence in NoteDb (ACCOUNTS, CHANGES, GROUPS). */
   public abstract Optional<String> noteDbSequenceType();
 
-  // The ID of a patch set.
+  /** The ID of a patch set. */
   public abstract Optional<Integer> patchSetId();
 
-  // Plugin metadata that doesn't fit into any other category.
+  /** Plugin metadata that doesn't fit into any other category. */
   public abstract ImmutableList<PluginMetadata> pluginMetadata();
 
-  // The name of a plugin.
+  /** The name of a plugin. */
   public abstract Optional<String> pluginName();
 
-  // The name of a Gerrit project (aka Git repository).
+  /** The name of a Gerrit project (aka Git repository). */
   public abstract Optional<String> projectName();
 
-  // The type of a Git push to Gerrit (CREATE_REPLACE, NORMAL, AUTOCLOSE).
+  /** The type of a Git push to Gerrit (CREATE_REPLACE, NORMAL, AUTOCLOSE). */
   public abstract Optional<String> pushType();
 
-  // The number of resources that is processed.
+  /** The number of resources that is processed. */
   public abstract Optional<Integer> resourceCount();
 
-  // The name of a REST view.
+  /** The name of a REST view. */
   public abstract Optional<String> restViewName();
 
-  // The SHA1 of Git commit.
+  /** The SHA1 of Git commit. */
   public abstract Optional<String> revision();
 
-  // The username of an account.
+  /** The username of an account. */
   public abstract Optional<String> username();
 
   /**

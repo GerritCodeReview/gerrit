@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54c5d325_7064a089",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental_html.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-28T16:21:39Z",
+      "side": 0,
+      "message": "this color won\u0027t work with comment background when unresolved under dark theme. Just remove it and use secondary for all",
+      "revId": "92045e00baeada51774adb95b9c8f71aa8d1f1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

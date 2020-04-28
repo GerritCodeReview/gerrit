@@ -185,6 +185,7 @@ suite('gr-comment-thread tests', () => {
       element.patchNum = 3;
       element.lineNum = 5;
       element.showFilePath = true;
+      element._isChangeCommentsLinkExperimentEnabled = true;
       flushAsynchronousOperations();
       assert.isOk(element.shadowRoot
           .querySelector('.pathInfo'));
@@ -193,9 +194,9 @@ suite('gr-comment-thread tests', () => {
       'none');
       assert.isTrue(GerritNav.getUrlForDiffById.getCall(0).calledWithExactly(
           element.changeNum, element.projectName, element.path,
-          element.patchNum, null, element.lineNum));
+          '10', element.patchNum, element.lineNum));
       assert.isTrue(GerritNav.getUrlForDiffById.getCall(1).calledWithExactly(
-          element.changeNum, element.projectName, element.path,
+          element.changeNum, element.projectName, element.path, '10',
           element.patchNum));
     });
 

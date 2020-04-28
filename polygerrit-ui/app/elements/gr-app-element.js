@@ -289,6 +289,8 @@ class GrAppElement extends mixinBehaviors( [
         this.Shortcut.DIFF_AGAINST_BASE, this.V_KEY, 'down', 's');
     this.bindShortcut(
         this.Shortcut.DIFF_AGAINST_LATEST, this.V_KEY, 'up', 'w');
+    // this keyboard shortcut is used in _displayDiffBaseAgainstLeftToast
+    // in gr-diff-view
     this.bindShortcut(
         this.Shortcut.DIFF_BASE_AGAINST_LEFT, this.V_KEY, 'left', 'a');
     this.bindShortcut(

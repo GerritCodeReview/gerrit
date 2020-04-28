@@ -30,6 +30,7 @@ import {parseDate} from '../../../utils/date-util.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {appContext} from '../../../services/app-context.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
+import {ExperimentIds} from '../../../services/flags.js';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -105,6 +106,7 @@ class GrCommentThread extends mixinBehaviors( [
         reflectToAttribute: true,
       },
       patchNum: String,
+      latestPatchNum: String,
       path: String,
       projectName: {
         type: String,
@@ -181,6 +183,7 @@ class GrCommentThread extends mixinBehaviors( [
   constructor() {
     super();
     this.reporting = appContext.reportingService;
+    this.flagsService = appContext.flagsService;
   }
 
   /** @override */
@@ -196,6 +199,10 @@ class GrCommentThread extends mixinBehaviors( [
     this._getLoggedIn().then(loggedIn => {
       this._showActions = loggedIn;
     });
+    this._isChangeCommentsLinkExperimentEnabled = this.flagsService
+        .isEnabled(ExperimentIds.PATCHSET_CHOICE_FOR_COMMENT_LINKS);
+    // REMOVE
+    this._isChangeCommentsLinkExperimentEnabled = true;
     this._setInitialExpandedState();
   }
 
@@ -230,14 +237,27 @@ class GrCommentThread extends mixinBehaviors( [
   }
 
   _getDiffUrlForPath(path) {
+    if (!this._isChangeCommentsLinkExperimentEnabled) {
+      return GerritNav.getUrlForDiffById(this.changeNum,
+          this.projectName, path, this.patchNum);
+    }
     return GerritNav.getUrlForDiffById(this.changeNum, this.projectName, path,
-        this.patchNum);
+        this.latestPatchNum, this.patchNum) + '&commentLink=true';
   }
 
-  _getDiffUrlForComment(projectName, changeNum, path, patchNum) {
+  _getDiffUrlForComment(projectName, changeNum, path, patchNum,
+      latestPatchNum) {
+    if (!this._isChangeCommentsLinkExperimentEnabled) {
+      return GerritNav.getUrlForDiffById(changeNum,
+          projectName, path, patchNum, null, this.lineNum);
+    }
+    if (this.comments.length && this.comments[0].side === 'PARENT') {
+      return GerritNav.getUrlForDiffById(changeNum,
+          projectName, path, patchNum, null, this.lineNum);
+    }
     return GerritNav.getUrlForDiffById(changeNum,
-        projectName, path, patchNum,
-        null, this.lineNum);
+        projectName, path, latestPatchNum,
+        patchNum, this.lineNum) + '&commentLink=true';
   }
 
   _isPatchsetLevelComment(path) {

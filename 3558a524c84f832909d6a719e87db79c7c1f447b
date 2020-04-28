@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2cad8376_237e0a03",
+        "filename": "polygerrit-ui/app/embed/gr-diff-app-context-init.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-28T15:50:24Z",
+      "side": 1,
+      "message": "We know that gr-button is using gr-reporting and it is used in gr-diff. Should we move gr-button from gr-diff?\n\nI think this is out of scope for this change. We can discuss how to separate gr-diff more in another change. Then we can remove all these mocks.",
+      "parentUuid": "c1ccac30_bc00c5d4",
+      "revId": "3558a524c84f832909d6a719e87db79c7c1f447b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "af5eb62a_05b263da",
         "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
         "patchSetId": 31
@@ -33,6 +51,24 @@
       "revId": "3558a524c84f832909d6a719e87db79c7c1f447b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "412f6951_caddda8d",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-28T15:50:24Z",
+      "side": 1,
+      "message": "That\u0027s good idea. I split it into 3 functions. \n\nreturn value {catcherror} is for test - I added comment",
+      "parentUuid": "af5eb62a_05b263da",
+      "revId": "3558a524c84f832909d6a719e87db79c7c1f447b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "e7418dfe_6ca31caf",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_mock_test.html",
+        "patchSetId": 31
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-28T15:50:24Z",
+      "side": 1,
+      "message": "Thanks. I forgot this when I copied test file. Flag service doesn\u0027t need mock for all tests - it has no side effects.",
+      "parentUuid": "e32f173c_ae773c2a",
+      "revId": "3558a524c84f832909d6a719e87db79c7c1f447b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c841ee92_461d6253",
         "filename": "polygerrit-ui/app/test/services/gr-reporting_stub.js",
         "patchSetId": 31
@@ -64,6 +118,24 @@
       "writtenOn": "2020-04-28T14:42:19Z",
       "side": 1,
       "message": "I can understand that you want to have a default mock for the reporting service, but why do we need to stub everything by default. Wouldn\u0027t it be better, if each individual test sets up the stubs it is interested in?",
+      "revId": "3558a524c84f832909d6a719e87db79c7c1f447b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f933266a_13f0dcd9",
+        "filename": "polygerrit-ui/app/test/services/gr-reporting_stub.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-28T15:50:24Z",
+      "side": 1,
+      "message": "If I had latest sinon I would stub whole class. Currently I have to stub all methods one by one. \n\nI think that some services should be stubbed up by default (reporting, rest-api) so they are never really called. If unit test wants their own stub or something more they always can do that. \n\nBut I want to make sure that in test we don\u0027t call method of service that has side-effect. Even when it is minor one like in gr-reporting and that is to send document.dispatchEvent and change internal properties.",
+      "parentUuid": "c841ee92_461d6253",
       "revId": "3558a524c84f832909d6a719e87db79c7c1f447b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

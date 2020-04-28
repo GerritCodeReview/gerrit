@@ -62,7 +62,11 @@ class CommentTimestampAdapter extends TypeAdapter<Timestamp> {
     try {
       ta = ISO_INSTANT.parse(str);
     } catch (DateTimeParseException e) {
-      ta = LocalDateTime.from(FALLBACK.parse(str)).atZone(ZoneId.systemDefault());
+      try {
+        ta = LocalDateTime.from(FALLBACK.parse(str)).atZone(ZoneId.systemDefault());
+      } catch (DateTimeParseException e2) {
+        throw new ChangeNotes.NonFatalChangeNotesException(e2);
+      }
     }
     return Timestamp.from(Instant.from(ta));
   }

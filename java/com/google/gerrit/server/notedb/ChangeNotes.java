@@ -100,6 +100,13 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return new ConfigInvalidException("Change " + changeId + ": " + String.format(fmt, args));
   }
 
+  public static class NonFatalChangeNotesException extends RuntimeException {
+    public NonFatalChangeNotesException(Exception e) {
+      super(e);
+    }
+
+  }
+
   @Nullable
   public static Change readOneReviewDbChange(ReviewDb db, Change.Id id) throws OrmException {
     return ReviewDbUtil.unwrapDb(db).changes().get(id);
@@ -386,6 +393,10 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
         n.load();
       } catch (OrmException e) {
         return ChangeNotesResult.error(n.getChangeId(), e);
+      } catch (Exception genericException) {
+        if (genericException.getCause() instanceof NonFatalChangeNotesException) {
+          return ChangeNotesResult.error(n.getChangeId(), new OrmException(genericException.getMessage()));
+        }
       }
       return ChangeNotesResult.notes(n);
     }

@@ -41,6 +41,11 @@ const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
 export function GrDiffBuilder(diff, prefs, outputEl, layers) {
   this._diff = diff;
+  this._numLinesLeft = this._diff.content ? this._diff.content.reduce(
+      (sum, chunk) => {
+        const left = chunk.a || chunk.ab;
+        return sum + (left ? left.length : 0);
+      }, 0) : 0;
   this._prefs = prefs;
   this._outputEl = outputEl;
   this.groups = [];
@@ -221,16 +226,18 @@ GrDiffBuilder.prototype.getSectionsByLineRange = function(
 GrDiffBuilder.prototype._createContextControl = function(section, line) {
   if (!line.contextGroups) return null;
 
-  const numLines =
-      line.contextGroups[line.contextGroups.length - 1].lineRange.left.end -
-      line.contextGroups[0].lineRange.left.start + 1;
+  const leftStart = line.contextGroups[0].lineRange.left.start;
+  const leftEnd =
+      line.contextGroups[line.contextGroups.length - 1].lineRange.left.end;
+
+  const numLines = leftEnd - leftStart + 1;
 
   if (numLines === 0) return null;
 
   const td = this._createElement('td');
   const showPartialLinks = numLines > PARTIAL_CONTEXT_AMOUNT;
 
-  if (showPartialLinks) {
+  if (showPartialLinks && leftStart > 1) {
     td.appendChild(this._createContextButton(
         GrDiffBuilder.ContextButtonType.ABOVE, section, line, numLines));
   }
@@ -238,7 +245,7 @@ GrDiffBuilder.prototype._createContextControl = function(section, line) {
   td.appendChild(this._createContextButton(
       GrDiffBuilder.ContextButtonType.ALL, section, line, numLines));
 
-  if (showPartialLinks) {
+  if (showPartialLinks && leftEnd < this._numLinesLeft) {
     td.appendChild(this._createContextButton(
         GrDiffBuilder.ContextButtonType.BELOW, section, line, numLines));
   }

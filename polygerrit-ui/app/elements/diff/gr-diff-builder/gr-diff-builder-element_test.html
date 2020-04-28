@@ -95,44 +95,70 @@ suite('gr-diff-builder tests', () => {
     assert.isTrue(node.classList.contains('classes'));
   });
 
-  test('context control buttons', () => {
-    // Create 10 lines.
-    const lines = [];
-    for (let i = 0; i < 10; i++) {
-      const line = new GrDiffLine(GrDiffLine.Type.BOTH);
-      line.beforeNumber = i + 1;
-      line.afterNumber = i + 1;
-      line.text = 'lorem upsum';
-      lines.push(line);
+  suite('context control', () => {
+    function createContextLine(options) {
+      const offset = options.offset || 0;
+      const numLines = options.count || 10;
+      const lines = [];
+      for (let i = 0; i < numLines; i++) {
+        const line = new GrDiffLine(GrDiffLine.Type.BOTH);
+        line.beforeNumber = offset + i + 1;
+        line.afterNumber = offset + i + 1;
+        line.text = 'lorem upsum';
+        lines.push(line);
+      }
+
+      return {
+        contextGroups: [new GrDiffGroup(GrDiffGroup.Type.BOTH, lines)],
+      };
     }
 
-    const contextLine = {
-      contextGroups: [new GrDiffGroup(GrDiffGroup.Type.BOTH, lines)],
-    };
+    test('no +10 buttons for 10 or less lines', () => {
+      const contextLine = createContextLine({count: 10});
 
-    const section = {};
-    // Does not include +10 buttons when there are fewer than 11 lines.
-    let td = builder._createContextControl(section, contextLine);
-    let buttons = td.querySelectorAll('gr-button.showContext');
+      const td = builder._createContextControl({}, contextLine);
+      const buttons = td.querySelectorAll('gr-button.showContext');
 
-    assert.equal(buttons.length, 1);
-    assert.equal(dom(buttons[0]).textContent, 'Show 10 common lines');
+      assert.equal(buttons.length, 1);
+      assert.equal(dom(buttons[0]).textContent, 'Show 10 common lines');
+    });
 
-    // Add another line.
-    const line = new GrDiffLine(GrDiffLine.Type.BOTH);
-    line.text = 'lorem upsum';
-    line.beforeNumber = 11;
-    line.afterNumber = 11;
-    contextLine.contextGroups[0].addLine(line);
+    test('context control at the top', () => {
+      const contextLine = createContextLine({offset: 0, count: 20});
 
-    // Includes +10 buttons when there are at least 11 lines.
-    td = builder._createContextControl(section, contextLine);
-    buttons = td.querySelectorAll('gr-button.showContext');
+      builder._numLinesLeft = 50;
+      const td = builder._createContextControl({}, contextLine);
+      const buttons = td.querySelectorAll('gr-button.showContext');
 
-    assert.equal(buttons.length, 3);
-    assert.equal(dom(buttons[0]).textContent, '+10 above');
-    assert.equal(dom(buttons[1]).textContent, 'Show 11 common lines');
-    assert.equal(dom(buttons[2]).textContent, '+10 below');
+      assert.equal(buttons.length, 2);
+      assert.equal(dom(buttons[0]).textContent, 'Show 20 common lines');
+      assert.equal(dom(buttons[1]).textContent, '+10 below');
+    });
+
+    test('context control in the middle', () => {
+      const contextLine = createContextLine({offset: 10, count: 20});
+
+      builder._numLinesLeft = 50;
+      const td = builder._createContextControl({}, contextLine);
+      const buttons = td.querySelectorAll('gr-button.showContext');
+
+      assert.equal(buttons.length, 3);
+      assert.equal(dom(buttons[0]).textContent, '+10 above');
+      assert.equal(dom(buttons[1]).textContent, 'Show 20 common lines');
+      assert.equal(dom(buttons[2]).textContent, '+10 below');
+    });
+
+    test('context control at the top', () => {
+      const contextLine = createContextLine({offset: 30, count: 20});
+
+      builder._numLinesLeft = 50;
+      const td = builder._createContextControl({}, contextLine);
+      const buttons = td.querySelectorAll('gr-button.showContext');
+
+      assert.equal(buttons.length, 2);
+      assert.equal(dom(buttons[0]).textContent, '+10 above');
+      assert.equal(dom(buttons[1]).textContent, 'Show 20 common lines');
+    });
   });
 
   test('newlines 1', () => {

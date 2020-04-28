@@ -249,6 +249,11 @@ class GrDiffView extends mixinBehaviors( [
         type: Number,
         value: 0,
       },
+      // Boolean to show the patchset toast only once
+      _hasShownPatchsetChoiceToast: {
+        type: Boolean,
+        value: false,
+      },
     };
   }
 
@@ -832,6 +837,18 @@ class GrDiffView extends mixinBehaviors( [
           // If the blame was loaded for a previous file and user navigates to
           // another file, then we load the blame for this file too
           if (this._isBlameLoaded) this._loadBlame();
+          if (!this._hasShownPatchsetChoiceToast &&
+              !this.patchNumEquals(this._patchRange.basePatchNum, 'PARENT')) {
+            this._hasShownPatchsetChoiceToast = true;
+            this.dispatchEvent(new CustomEvent('show-alert', {
+              detail: {
+                message: `Patchset ${this._patchRange.basePatchNum} vs
+                  ${this._patchRange.patchNum} selected\n. Press v + f to view
+                  Base vs ${this._patchRange.basePatchNum}`,
+              },
+              composed: true, bubbles: true,
+            }));
+          }
         });
   }
 

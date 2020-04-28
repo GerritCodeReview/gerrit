@@ -41,7 +41,7 @@ public class SysExecutorModule extends AbstractModule {
   @Provides
   @Singleton
   @ReceiveCommitsExecutor
-  public ExecutorService createReceiveCommitsExecutor(
+  public ExecutorService provideReceiveCommitsExecutor(
       @GerritServerConfig Config config, WorkQueue queues) {
     int poolSize =
         config.getInt(
@@ -52,7 +52,7 @@ public class SysExecutorModule extends AbstractModule {
   @Provides
   @Singleton
   @SendEmailExecutor
-  public ExecutorService createSendEmailExecutor(
+  public ExecutorService provideSendEmailExecutor(
       @GerritServerConfig Config config, WorkQueue queues) {
     int poolSize = config.getInt("sendemail", null, "threadPoolSize", 1);
     if (poolSize == 0) {
@@ -64,7 +64,8 @@ public class SysExecutorModule extends AbstractModule {
   @Provides
   @Singleton
   @FanOutExecutor
-  public ExecutorService createFanOutExecutor(@GerritServerConfig Config config, WorkQueue queues) {
+  public ExecutorService provideFanOutExecutor(
+      @GerritServerConfig Config config, WorkQueue queues) {
     int poolSize = config.getInt("execution", null, "fanOutThreadPoolSize", 25);
     if (poolSize == 0) {
       return newDirectExecutorService();
@@ -75,7 +76,7 @@ public class SysExecutorModule extends AbstractModule {
   @Provides
   @Singleton
   @CacheRefreshExecutor
-  public ListeningExecutorService createCacheRefreshExecutor(
+  public ListeningExecutorService provideCacheRefreshExecutor(
       @GerritServerConfig Config config, WorkQueue queues) {
     int poolSize = config.getInt("cache", null, "refreshThreadPoolSize", 2);
     if (poolSize == 0) {

@@ -380,7 +380,7 @@ public class Daemon extends SiteProgram {
   }
 
   private boolean sshdOff() {
-    return new SshAddressesModule().getListenAddresses(config).isEmpty();
+    return new SshAddressesModule().provideListenAddresses(config).isEmpty();
   }
 
   private String myVersion() {

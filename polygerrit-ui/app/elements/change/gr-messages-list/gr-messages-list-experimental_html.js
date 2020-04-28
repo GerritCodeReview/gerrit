@@ -87,7 +87,7 @@ export const htmlTemplate = html`
     <gr-message
       change-num="[[changeNum]]"
       message="[[message]]"
-      comments="[[_computeCommentsForMessage(changeComments, message)]]"
+      comment-threads="[[_computeThreadsForMessage(changeComments, message)]]"
       project-name="[[projectName]]"
       show-reply-button="[[showReplyButtons]]"
       on-message-anchor-tap="_handleAnchorClick"

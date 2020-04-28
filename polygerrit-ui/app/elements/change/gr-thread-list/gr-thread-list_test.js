@@ -36,6 +36,7 @@ suite('gr-thread-list tests', () => {
 
   setup(done => {
     element = basicFixture.instantiate();
+    element.change = {};
     element.threads = [
       {
         comments: [

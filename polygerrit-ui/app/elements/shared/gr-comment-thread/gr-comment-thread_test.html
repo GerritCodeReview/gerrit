@@ -27,13 +27,17 @@ limitations under the License.
 
 <test-fixture id="basic">
   <template>
-    <gr-comment-thread></gr-comment-thread>
+    <gr-comment-thread
+    latest-patch-num="10"
+    ></gr-comment-thread>
   </template>
 </test-fixture>
 
 <test-fixture id="withComment">
   <template>
-    <gr-comment-thread></gr-comment-thread>
+    <gr-comment-thread
+    latest-patch-num="10"
+    ></gr-comment-thread>
   </template>
 </test-fixture>
 
@@ -218,9 +222,9 @@ suite('gr-comment-thread tests', () => {
       'none');
       assert.isTrue(GerritNav.getUrlForDiffById.getCall(0).calledWithExactly(
           element.changeNum, element.projectName, element.path,
-          element.patchNum, null, element.lineNum));
+          '10', element.patchNum, element.lineNum));
       assert.isTrue(GerritNav.getUrlForDiffById.getCall(1).calledWithExactly(
-          element.changeNum, element.projectName, element.path,
+          element.changeNum, element.projectName, element.path, '10',
           element.patchNum));
     });
 

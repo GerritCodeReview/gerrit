@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "7e1c88f0_2f07c3ad",
+        "filename": "polygerrit-ui/app/embed/gr-diff-app-context-init.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-28T08:50:59Z",
+      "side": 1,
+      "message": "+1, but we should use some checks to ensure that we don\u0027t accidentally use something which is not in whitelist.\nAt present, I think we can live with with the current solution for some time.",
+      "parentUuid": "0dc32cdd_3646d967",
+      "revId": "3d01548a6393bb3a7f88691bc23bb621d8bc7220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "25e716f5_96eb56d7",
         "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
         "patchSetId": 27

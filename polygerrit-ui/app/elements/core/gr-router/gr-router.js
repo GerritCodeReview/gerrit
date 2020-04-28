@@ -1419,7 +1419,6 @@ class GrRouter extends GestureEventListeners(
       path: ctx.params[8],
       view: GerritNav.View.DIFF,
     };
-
     const address = this._parseLineAddress(ctx.hash);
     if (address) {
       params.leftSide = address.leftSide;

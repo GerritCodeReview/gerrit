@@ -178,25 +178,24 @@ suite('gr-comment-thread tests', () => {
       assert.isNotOk(element.shadowRoot
           .querySelector('.pathInfo'));
 
-      sinon.stub(GerritNav, 'getUrlForDiffById');
+      const commentStub = sinon.stub(GerritNav, 'getUrlForComment');
       element.changeNum = 123;
       element.projectName = 'test project';
       element.path = 'path/to/file';
+      element.latestPatchNum = 10;
       element.patchNum = 3;
       element.lineNum = 5;
+      element.comments = [{id: 'comment_id'}];
       element.showFilePath = true;
+      element._isChangeCommentsLinkExperimentEnabled = true;
       flushAsynchronousOperations();
       assert.isOk(element.shadowRoot
           .querySelector('.pathInfo'));
       assert.notEqual(getComputedStyle(element.shadowRoot
           .querySelector('.pathInfo')).display,
       'none');
-      assert.isTrue(GerritNav.getUrlForDiffById.getCall(0).calledWithExactly(
-          element.changeNum, element.projectName, element.path,
-          element.patchNum, null, element.lineNum));
-      assert.isTrue(GerritNav.getUrlForDiffById.getCall(1).calledWithExactly(
-          element.changeNum, element.projectName, element.path,
-          element.patchNum));
+      assert.isTrue(commentStub.calledWithExactly(
+          element.changeNum, element.projectName, 'comment_id'));
     });
 
     test('_computeDisplayPath', () => {

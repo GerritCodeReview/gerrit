@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "399bf2ae_9e181913",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-04-28T18:27:11Z",
+      "side": 1,
+      "message": "Is this change really addressed to *one* single change?\nHow do you know how many changes the reindex failed for?\nPerhaps the same parsing exception would fail _hundreds_ of changes, but this change would still consider the reindex successful?",
+      "range": {
+        "startLine": 7,
+        "startChar": 38,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "4fffa563b862cb4127588948d421df0e5897ddb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60ce7d18_2d9287c0",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-04-28T18:27:11Z",
+      "side": 1,
+      "message": "So any Runtime exception is considered non-fatal?",
+      "range": {
+        "startLine": 103,
+        "startChar": 2,
+        "endLine": 103,
+        "endChar": 77
+      },
+      "revId": "4fffa563b862cb4127588948d421df0e5897ddb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c66a29cd_56d46e73",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 1
@@ -41,6 +87,29 @@
         "startChar": 8,
         "endLine": 399,
         "endChar": 9
+      },
+      "revId": "4fffa563b862cb4127588948d421df0e5897ddb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5970548_99bea9d6",
+        "filename": "java/com/google/gerrit/server/notedb/CommentTimestampAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-04-28T18:27:11Z",
+      "side": 1,
+      "message": "Why do we need to wrap this at all?\ncouldn\u0027t we just catch DateTimeParseException in c.g.g.s.n.ChangeNotes#L397",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 7
       },
       "revId": "4fffa563b862cb4127588948d421df0e5897ddb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

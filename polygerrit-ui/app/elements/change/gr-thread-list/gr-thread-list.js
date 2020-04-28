@@ -17,12 +17,14 @@
 import '@polymer/paper-toggle-button/paper-toggle-button.js';
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-comment-thread/gr-comment-thread.js';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-thread-list_html.js';
 import {parseDate} from '../../../utils/date-util.js';
+import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 
 import {NO_THREADS_MSG} from '../../../constants/messages.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
@@ -33,9 +35,12 @@ import {SpecialFilePath} from '../../../constants/constants.js';
  * @event thread-list-modified
  * @extends PolymerElement
  */
-class GrThreadList extends GestureEventListeners(
+class GrThreadList extends mixinBehaviors( [
+  PatchSetBehavior,
+],
+GestureEventListeners(
     LegacyElementMixin(
-        PolymerElement)) {
+        PolymerElement))) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-thread-list'; }
@@ -77,6 +82,11 @@ class GrThreadList extends GestureEventListeners(
 
   static get observers() {
     return ['_updateSortedThreads(threads, threads.splices)'];
+  }
+
+  _computeLatestPatchNum(change) {
+    if (!change || !change.revisions) return 0;
+    return this.computeLatestPatchNum(this.computeAllPatchSets(change));
   }
 
   _computeShowDraftToggle(loggedIn) {

@@ -92,7 +92,7 @@ export const htmlTemplate = html`
     <div class="pathInfo">
       <template is="dom-if" if="[[!_isPatchsetLevelComment(path)]]">
         <a
-          href$="[[_getDiffUrlForComment(projectName, changeNum, path, patchNum)]]"
+          href$="[[_getDiffUrlForComment(projectName, changeNum, path, patchNum, latestPatchNum)]]"
           >[[_computeDisplayLine()]]</a
         >
       </template>

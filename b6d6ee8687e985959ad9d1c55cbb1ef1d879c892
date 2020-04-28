@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b9befb98_6b12e0b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-28T08:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06effab1_5985075d",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 16
+      },
+      "revId": "b6d6ee8687e985959ad9d1c55cbb1ef1d879c892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cc9e3626_61a4cf9a",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "b6d6ee8687e985959ad9d1c55cbb1ef1d879c892",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a5f3ba5_9de68e27",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 839,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-28T08:31:22Z",
+      "side": 1,
+      "message": "Done. Sounds better!",
+      "parentUuid": "cc9e3626_61a4cf9a",
+      "revId": "b6d6ee8687e985959ad9d1c55cbb1ef1d879c892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "4e614e96_b47debeb",
+        "filename": "java/com/google/gerrit/server/CacheRefreshExecutor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-28T08:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d3d4d07_c5be25bd",
+      "range": {
+        "startLine": 22,
+        "startChar": 26,
+        "endLine": 22,
+        "endChar": 32
+      },
+      "revId": "b6d6ee8687e985959ad9d1c55cbb1ef1d879c892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06f9ad7d_d1b2eee1",
         "filename": "java/com/google/gerrit/server/config/SysExecutorModule.java",
         "patchSetId": 1
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "a7516018_e5b990ea",
+        "filename": "java/com/google/gerrit/server/config/SysExecutorModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-28T08:31:22Z",
+      "side": 1,
+      "message": "+1, I\u0027ll do this in a follow-up change.",
+      "parentUuid": "06f9ad7d_d1b2eee1",
+      "revId": "b6d6ee8687e985959ad9d1c55cbb1ef1d879c892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d53dbd0d_6a86a767",
         "filename": "java/com/google/gerrit/server/logging/Metadata.java",
         "patchSetId": 1
@@ -96,6 +180,24 @@
       "revId": "b6d6ee8687e985959ad9d1c55cbb1ef1d879c892",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6c76d08_4bed29d9",
+        "filename": "java/com/google/gerrit/server/logging/Metadata.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-28T08:31:22Z",
+      "side": 1,
+      "message": "+1. Changing all of the docs can go in a follow-up.",
+      "parentUuid": "d53dbd0d_6a86a767",
+      "revId": "b6d6ee8687e985959ad9d1c55cbb1ef1d879c892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -122,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "bb3ac815_157b8199",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-28T08:31:22Z",
+      "side": 1,
+      "message": "It does. It\u0027s just a configured default. The Cache builder implementations use the config value, if provided and this value if not.",
+      "parentUuid": "9bb33ff5_21493203",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 54
+      },
+      "revId": "b6d6ee8687e985959ad9d1c55cbb1ef1d879c892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "00fa9087_da7d2295",
         "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
         "patchSetId": 1
@@ -145,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "8511accf_7e21f283",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-28T08:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00fa9087_da7d2295",
+      "range": {
+        "startLine": 264,
+        "startChar": 55,
+        "endLine": 264,
+        "endChar": 73
+      },
+      "revId": "b6d6ee8687e985959ad9d1c55cbb1ef1d879c892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a69b84b_fb2e3859",
         "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
         "patchSetId": 1
@@ -165,6 +315,30 @@
       "revId": "b6d6ee8687e985959ad9d1c55cbb1ef1d879c892",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31424ca2_8c5e2e12",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-04-28T08:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a69b84b_fb2e3859",
+      "range": {
+        "startLine": 273,
+        "startChar": 14,
+        "endLine": 273,
+        "endChar": 15
+      },
+      "revId": "b6d6ee8687e985959ad9d1c55cbb1ef1d879c892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "c62b95c620f413bc2c2f25b174a8f7c5e9ab1e25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d57034c5_9ae21ba9",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-29T10:26:29Z",
+      "side": 1,
+      "message": "I think you cannot access the previous link...I pasted it here: https://gist.github.com/barbasa/92bbad92526acc3cd8fcd28f08578899",
+      "parentUuid": "47165d95_6d31f202",
+      "revId": "c62b95c620f413bc2c2f25b174a8f7c5e9ab1e25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

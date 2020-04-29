@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b2b5f12c_b5606a47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-29T10:02:58Z",
+      "side": 1,
+      "message": "yes you are right. It is not a single change. The indexing already has a mechanism to warn/error if too many changes are failing.\n\nWe will have to decide if this non-fatal errors are mean to be counted as errors or not.",
+      "parentUuid": "399bf2ae_9e181913",
+      "range": {
+        "startLine": 7,
+        "startChar": 38,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "4fffa563b862cb4127588948d421df0e5897ddb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "60ce7d18_2d9287c0",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-04-28T18:27:11Z",
       "side": 1,
       "message": "So any Runtime exception is considered non-fatal?",
+      "range": {
+        "startLine": 103,
+        "startChar": 2,
+        "endLine": 103,
+        "endChar": 77
+      },
+      "revId": "4fffa563b862cb4127588948d421df0e5897ddb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3300fac0_6ca02ecf",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-29T10:02:58Z",
+      "side": 1,
+      "message": "Nope...the NonFatalChaneNotesExceoption is jsut extending the RuntimeException. It doesn\u0027t mean all the RuntimeException are non-fatal.",
+      "parentUuid": "60ce7d18_2d9287c0",
       "range": {
         "startLine": 103,
         "startChar": 2,
@@ -105,6 +153,30 @@
       "writtenOn": "2020-04-28T18:27:11Z",
       "side": 1,
       "message": "Why do we need to wrap this at all?\ncouldn\u0027t we just catch DateTimeParseException in c.g.g.s.n.ChangeNotes#L397",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 7
+      },
+      "revId": "4fffa563b862cb4127588948d421df0e5897ddb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "024688c6_98127b98",
+        "filename": "java/com/google/gerrit/server/notedb/CommentTimestampAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-29T10:02:58Z",
+      "side": 1,
+      "message": "I wanted to categorise somehow exceptions which are not considered fatal since I believe this might not be the only case.\n\nI believe that in the \"toResult\" method we only want to know if an exception is fatal of not, we don\u0027 want to know where it has been raised or its real type.",
+      "parentUuid": "b5970548_99bea9d6",
       "range": {
         "startLine": 65,
         "startChar": 0,

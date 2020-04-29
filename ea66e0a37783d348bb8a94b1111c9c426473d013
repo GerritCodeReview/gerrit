@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e1dbfa09_41385ab9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-29T14:50:16Z",
+      "side": 1,
+      "message": "what are the issues ? and is it flaky ? it seems constantly failing locally for me while passed on CI",
+      "revId": "ea66e0a37783d348bb8a94b1111c9c426473d013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

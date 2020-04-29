@@ -298,13 +298,13 @@ export const htmlTemplate = html`
     .newlineWarning.hidden {
       display: none;
     }
-    .lineNumButton.COVERED {
+    .lineNum.COVERED .lineNumButton {
       background-color: var(--coverage-covered, #e0f2f1);
     }
-    .lineNumButton.NOT_COVERED {
+    .lineNum.NOT_COVERED .lineNumButton {
       background-color: var(--coverage-not-covered, #ffd1a4);
     }
-    .lineNumButton.PARTIALLY_COVERED {
+    .lineNum.PARTIALLY_COVERED .lineNumButton {
       background: linear-gradient(
         to right bottom,
         var(--coverage-not-covered, #ffd1a4) 0%,
@@ -337,12 +337,12 @@ export const htmlTemplate = html`
       .contentText,
     .selected-left:not(.selected-comment)
       .unified
-      .left.lineNumButton
+      .left.lineNum
       ~ .content:not(.both)
       .contentText,
     .selected-right:not(.selected-comment)
       .unified
-      .right.lineNumButton
+      .right.lineNum
       ~ .content
       .contentText,
     .selected-left.selected-comment .side-by-side .left + .content .message,

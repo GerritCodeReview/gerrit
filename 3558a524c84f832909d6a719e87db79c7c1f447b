@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f5c007eb_c7bbb292",
+        "filename": "polygerrit-ui/app/embed/gr-diff-app-context-init.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-29T15:11:42Z",
+      "side": 1,
+      "message": "Yes, I am fine with doing this in another change. I just wanted to document my concerns about how we handle gr-diff. :-)",
+      "parentUuid": "2cad8376_237e0a03",
+      "revId": "3558a524c84f832909d6a719e87db79c7c1f447b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af5eb62a_05b263da",
         "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
         "patchSetId": 31
@@ -136,6 +154,24 @@
       "side": 1,
       "message": "If I had latest sinon I would stub whole class. Currently I have to stub all methods one by one. \n\nI think that some services should be stubbed up by default (reporting, rest-api) so they are never really called. If unit test wants their own stub or something more they always can do that. \n\nBut I want to make sure that in test we don\u0027t call method of service that has side-effect. Even when it is minor one like in gr-reporting and that is to send document.dispatchEvent and change internal properties.",
       "parentUuid": "c841ee92_461d6253",
+      "revId": "3558a524c84f832909d6a719e87db79c7c1f447b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "045c1015_7261ed9f",
+        "filename": "polygerrit-ui/app/test/services/gr-reporting_stub.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-29T15:11:42Z",
+      "side": 1,
+      "message": "Oh, I am 100% with you that we should *mock* reporting and rest-api by default in all tests. But I think creating stubs to verify that something was called is different.\n\nIsn\u0027t creating and resetting all these stubs costly?\nCan it be a pitfall to forget about resetting a stub?",
+      "parentUuid": "f933266a_13f0dcd9",
       "revId": "3558a524c84f832909d6a719e87db79c7c1f447b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

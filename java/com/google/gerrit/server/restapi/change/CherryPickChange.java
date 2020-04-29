@@ -19,7 +19,6 @@ import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
@@ -47,6 +46,7 @@ import com.google.gerrit.server.change.SetCherryPickOp;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
@@ -173,7 +173,6 @@ public class CherryPickChange {
         TimeUtil.nowTs(),
         null,
         null,
-        null,
         null);
   }
 
@@ -205,7 +204,7 @@ public class CherryPickChange {
       throws IOException, InvalidChangeOperationException, UpdateException, RestApiException,
           ConfigInvalidException, NoSuchProjectException {
     return cherryPick(
-        sourceChange, project, sourceCommit, input, dest, TimeUtil.nowTs(), null, null, null, null);
+        sourceChange, project, sourceCommit, input, dest, TimeUtil.nowTs(), null, null, null);
   }
 
   /**
@@ -227,8 +226,6 @@ public class CherryPickChange {
    * @param idForNewChange The ID that the new change of the cherry pick will have. If provided and
    *     the cherry-pick doesn't result in creating a new change, then
    *     InvalidChangeOperationException is thrown.
-   * @param groupName The name of the group for grouping related changes (used by GetRelated
-   *     endpoint).
    * @return Result object that describes the cherry pick.
    * @throws IOException Unable to open repository or read from the database.
    * @throws InvalidChangeOperationException Parent or branch don't exist, or two changes with same
@@ -248,8 +245,7 @@ public class CherryPickChange {
       Timestamp timestamp,
       @Nullable Change.Id revertedChange,
       @Nullable ObjectId changeIdForNewChange,
-      @Nullable Change.Id idForNewChange,
-      @Nullable String groupName)
+      @Nullable Change.Id idForNewChange)
       throws IOException, InvalidChangeOperationException, UpdateException, RestApiException,
           ConfigInvalidException, NoSuchProjectException {
 
@@ -379,12 +375,12 @@ public class CherryPickChange {
                     cherryPickCommit,
                     dest.branch(),
                     newTopic,
+                    project,
                     sourceChange,
                     sourceCommit,
                     input,
                     revertedChange,
-                    idForNewChange,
-                    groupName);
+                    idForNewChange);
           }
           bu.execute();
           return Result.create(changeId, cherryPickCommit.getFilesWithGitConflicts());
@@ -473,13 +469,13 @@ public class CherryPickChange {
       CodeReviewCommit cherryPickCommit,
       String refName,
       String topic,
+      Project.NameKey project,
       @Nullable Change sourceChange,
       @Nullable ObjectId sourceCommit,
       CherryPickInput input,
       @Nullable Change.Id revertOf,
-      @Nullable Change.Id idForNewChange,
-      @Nullable String groupName)
-      throws IOException {
+      @Nullable Change.Id idForNewChange)
+      throws IOException, InvalidChangeOperationException {
     Change.Id changeId = idForNewChange != null ? idForNewChange : Change.id(seq.nextChangeId());
     ChangeInserter ins = changeInserterFactory.create(changeId, cherryPickCommit, refName);
     ins.setRevertOf(revertOf);
@@ -506,8 +502,23 @@ public class CherryPickChange {
       Set<Account.Id> ccs = new HashSet<>(reviewerSet.byState(ReviewerStateInternal.CC));
       ccs.remove(user.get().getAccountId());
       ins.setReviewersAndCcs(reviewers, ccs);
-      if (groupName != null) {
-        ins.setGroups(ImmutableList.of(groupName));
+    }
+    // If there is a base, and the base is not merged, the groups will be overridden by the base's
+    // groups.
+    ins.setGroups(GroupCollector.getDefaultGroups(cherryPickCommit.getId()));
+    if (input.base != null) {
+      List<ChangeData> changes =
+          queryProvider.get().setLimit(2).byBranchCommitOpen(project.get(), refName, input.base);
+      if (changes.size() > 1) {
+        throw new InvalidChangeOperationException(
+            "Several changes with key "
+                + input.base
+                + " reside on the same branch. "
+                + "Cannot cherry-pick on target branch.");
+      }
+      if (changes.size() == 1) {
+        Change change = changes.get(0).change();
+        ins.setGroups(changeNotesFactory.createChecked(change).getCurrentPatchSet().groups());
       }
     }
     bu.insertChange(ins);

@@ -146,9 +146,9 @@ That is because of the aforementioned create/delete project (http) scenarios com
 === Environment properties
 
 The `JAVA_OPTS` environment variable
-link:https://gatling.io/docs/current/cookbook/passing_parameters[can optionally be used] to define
-non-default values for keys found in scenario `json` data files. That variable can currently be set
-with either one or many of these supported properties, from the core framework:
+link:https://gatling.io/docs/current/cookbook/passing_parameters[can optionally be used,role=external,window=_blank]
+to define non-default values for keys found in scenario `json` data files. That variable can
+currently be set with either one or many of these supported properties, from the core framework:
 
 * `-Dcom.google.gerrit.scenarios.hostname=localhost`
 * `-Dcom.google.gerrit.scenarios.ssh_port=29418`
@@ -189,9 +189,9 @@ sbt "gatling:lastReport"
 
 The `src/test/resources/logback.xml` file
 link:http://logback.qos.ch/manual/configuration.html[configures,role=external,window=_blank]
-Gatling's logging level. To quickly
-enable link:https://gatling.io/docs/current/general/debugging#logback[detailed logging] of `http`
-requests and responses, the `root level` can be set to `trace` in that file.
+Gatling's logging level. To quickly enable
+link:https://gatling.io/docs/current/general/debugging#logback[detailed logging,role=external,window=_blank]
+of `http` requests and responses, the `root level` can be set to `trace` in that file.
 
 === How to run using Docker
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf86069b_56f9c0e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-29T08:14:19Z",
+      "side": 1,
+      "message": "Could you please add a test? This looks as an important scenario and we must have a test to catch such bug in the future.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "adaa10b22b008ee36362385fa8fee00269fbb9f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

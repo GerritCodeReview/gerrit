@@ -175,6 +175,24 @@
       "revId": "3558a524c84f832909d6a719e87db79c7c1f447b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9567266_a59ca559",
+        "filename": "polygerrit-ui/app/test/services/gr-reporting_stub.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-29T15:40:05Z",
+      "side": 1,
+      "message": "I added this mock with type asserts, because I was fixing bug where API was wrongly called https://gerrit-review.googlesource.com/c/gerrit/+/253118\nand I wanted to prevent this.\n\nI haven\u0027t seen any cost - tests are as fast as before. I don\u0027t know if there is a pitfall with creating and resetting. \n\nI understand that it looks like magic when some methods are automatically stubs and you need to reset it. \n\nSo I will revert this, I will stub only what\u0027s needed in unit tests. We don\u0027t need this type checking - once we will have typescript. And probably this will not catch that many errors in meanwhile, so it\u0027s not needed.",
+      "parentUuid": "045c1015_7261ed9f",
+      "revId": "3558a524c84f832909d6a719e87db79c7c1f447b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

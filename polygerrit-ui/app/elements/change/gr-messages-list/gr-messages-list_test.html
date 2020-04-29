@@ -549,7 +549,7 @@ suite('gr-messages-list tests', () => {
     });
 
     test('initially show only 20 messages', () => {
-      sandbox.stub(element.$.reporting, 'reportInteraction',
+      sandbox.stub(element.reporting, 'reportInteraction',
           (eventName, details) => {
             assert.equal(typeof(eventName), 'string');
             if (details) {

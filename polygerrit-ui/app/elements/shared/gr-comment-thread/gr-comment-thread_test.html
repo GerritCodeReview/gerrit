@@ -278,7 +278,7 @@ suite('comment action tests with unresolved thread', () => {
   test('reply', () => {
     const commentEl = element.shadowRoot
         .querySelector('gr-comment');
-    const reportStub = sandbox.stub(element.$.reporting,
+    const reportStub = sandbox.stub(element.reporting,
         'recordDraftInteraction');
     assert.ok(commentEl);
 
@@ -296,7 +296,7 @@ suite('comment action tests with unresolved thread', () => {
   test('quote reply', () => {
     const commentEl = element.shadowRoot
         .querySelector('gr-comment');
-    const reportStub = sandbox.stub(element.$.reporting,
+    const reportStub = sandbox.stub(element.reporting,
         'recordDraftInteraction');
     assert.ok(commentEl);
 
@@ -312,7 +312,7 @@ suite('comment action tests with unresolved thread', () => {
   });
 
   test('quote reply multiline', () => {
-    const reportStub = sandbox.stub(element.$.reporting,
+    const reportStub = sandbox.stub(element.reporting,
         'recordDraftInteraction');
     element.comments = [{
       author: {
@@ -343,7 +343,7 @@ suite('comment action tests with unresolved thread', () => {
   });
 
   test('ack', done => {
-    const reportStub = sandbox.stub(element.$.reporting,
+    const reportStub = sandbox.stub(element.reporting,
         'recordDraftInteraction');
     element.changeNum = '42';
     element.patchNum = '1';
@@ -366,7 +366,7 @@ suite('comment action tests with unresolved thread', () => {
   });
 
   test('done', done => {
-    const reportStub = sandbox.stub(element.$.reporting,
+    const reportStub = sandbox.stub(element.reporting,
         'recordDraftInteraction');
     element.changeNum = '42';
     element.patchNum = '1';

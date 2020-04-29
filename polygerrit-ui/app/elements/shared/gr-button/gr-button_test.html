@@ -48,6 +48,8 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import './gr-button.js';
 import {addListener} from '@polymer/polymer/lib/utils/gestures.js';
+import {appContext} from '../../../services/app-context.js';
+
 suite('gr-button tests', () => {
   let element;
   let sandbox;
@@ -189,13 +191,10 @@ suite('gr-button tests', () => {
   });
 
   suite('reporting', () => {
-    const reportStub = sinon.stub();
+    let reportStub;
     setup(() => {
-      stub('gr-reporting', {
-        reportInteraction: (...args) => {
-          reportStub(...args);
-        },
-      });
+      reportStub = sandbox.stub(appContext.reportingService,
+          'reportInteraction');
       reportStub.reset();
     });
 

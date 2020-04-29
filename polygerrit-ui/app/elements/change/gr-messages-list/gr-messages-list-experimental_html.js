@@ -92,5 +92,4 @@ export const htmlTemplate = html`
       data-message-id$="[[message.id]]"
     ></gr-message>
   </template>
-  <gr-reporting id="reporting" category="message-list"></gr-reporting>
 `;

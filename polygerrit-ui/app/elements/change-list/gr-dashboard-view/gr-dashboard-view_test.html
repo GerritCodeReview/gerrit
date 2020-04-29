@@ -356,7 +356,7 @@ suite('gr-dashboard-view tests', () => {
         });
     element.addEventListener('page-error', e => {
       assert.strictEqual(e.detail.response, response);
-      done();
+      paramsChangedPromise.then(done);
     });
     element.params = {
       view: GerritNav.View.DASHBOARD,
@@ -366,14 +366,14 @@ suite('gr-dashboard-view tests', () => {
   });
 
   test('params change triggers dashboardDisplayed()', () => {
-    sandbox.stub(element.$.reporting, 'dashboardDisplayed');
+    sandbox.stub(element.reporting, 'dashboardDisplayed');
     element.params = {
       view: GerritNav.View.DASHBOARD,
       project: 'project',
       dashboard: 'dashboard',
     };
     return paramsChangedPromise.then(() => {
-      assert.isTrue(element.$.reporting.dashboardDisplayed.calledOnce);
+      assert.isTrue(element.reporting.dashboardDisplayed.calledOnce);
     });
   });
 });

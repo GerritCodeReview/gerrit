@@ -337,12 +337,12 @@ export const htmlTemplate = html`
       .contentText,
     .selected-left:not(.selected-comment)
       .unified
-      .left.lineNumButton
+      .left.lineNum
       ~ .content:not(.both)
       .contentText,
     .selected-right:not(.selected-comment)
       .unified
-      .right.lineNumButton
+      .right.lineNum
       ~ .content
       .contentText,
     .selected-left.selected-comment .side-by-side .left + .content .message,

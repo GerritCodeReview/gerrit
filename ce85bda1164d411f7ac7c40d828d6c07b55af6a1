@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8ee7328_e144e6fd",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1856,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-29T18:11:27Z",
+      "side": 1,
+      "message": "This was [1] downstream, but required adaptations here. I\u0027m proposing this but thanks for reviewing it. This current way preserves the below lines as is, and passes these tests in Eclipse. (CI to confirm.)\n\n[1] Util.newRule(config, groupUUID);",
+      "range": {
+        "startLine": 1856,
+        "startChar": 28,
+        "endLine": 1856,
+        "endChar": 95
+      },
+      "revId": "ce85bda1164d411f7ac7c40d828d6c07b55af6a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

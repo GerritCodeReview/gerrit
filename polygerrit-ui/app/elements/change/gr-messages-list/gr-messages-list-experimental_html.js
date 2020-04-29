@@ -48,11 +48,8 @@ export const htmlTemplate = html`
     gr-message:not(:last-of-type) {
       border-bottom: 1px solid var(--border-color);
     }
-    gr-message:nth-child(2n) {
+    gr-message {
       background-color: var(--background-color-secondary);
-    }
-    gr-message:nth-child(2n + 1) {
-      background-color: var(--background-color-tertiary);
     }
   </style>
   <div class="header">
@@ -87,7 +84,7 @@ export const htmlTemplate = html`
     <gr-message
       change-num="[[changeNum]]"
       message="[[message]]"
-      comments="[[_computeCommentsForMessage(changeComments, message)]]"
+      comment-threads="[[_computeThreadsForMessage(changeComments, message)]]"
       project-name="[[projectName]]"
       show-reply-button="[[showReplyButtons]]"
       on-message-anchor-tap="_handleAnchorClick"

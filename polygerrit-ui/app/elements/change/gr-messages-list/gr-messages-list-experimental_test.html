@@ -276,25 +276,38 @@ suite('gr-messages-list-experimental tests', () => {
           }
       );
       element.messages = messages;
-      const isAuthor = function(author, comment) {
-        return comment.author._account_id === author._account_id;
-      };
-      const isMarvin = isAuthor.bind(null, author);
       flushAsynchronousOperations();
       const messageElements = getMessages();
       assert.equal(messageElements.length, messages.length);
       assert.deepEqual(messageElements[1].message, messages[1]);
       assert.deepEqual(messageElements[2].message, messages[2]);
-      assert.deepEqual(messageElements[1].comments.file1,
-          comments.file1.filter(isMarvin).filter(
-              c => c.change_message_id === messages[1].id));
-      assert.deepEqual(messageElements[1].comments.file2,
-          comments.file2.filter(isMarvin).filter(
-              c => c.change_message_id === messages[1].id));
-      assert.deepEqual(messageElements[2].comments.file1,
-          comments.file1.filter(isMarvin).filter(
-              c => c.change_message_id === messages[2].id));
-      assert.isUndefined(messageElements[2].comments.file2);
+    });
+
+    test('threads', () => {
+      const messages = [
+        {
+          _index: 5,
+          _revision_number: 4,
+          message: 'Uploaded patch set 4.',
+          date: '2016-09-28 13:36:33.000000000',
+          author,
+          id: '8c19ccc949c6d482b061be6a28e10782abf0e7af',
+        },
+      ];
+      element.messages = messages;
+      flushAsynchronousOperations();
+      const messageElements = getMessages();
+      // threads
+      assert.equal(
+          messageElements[0].commentThreads.length,
+          3);
+      // first thread contains 1 comment
+      assert.equal(
+          messageElements[0].commentThreads[0].comments.length,
+          1);
+      assert.equal(
+          messageElements[0].commentThreads[0].comments[0].extraNote,
+          'From this change log');
     });
 
     test('isImportant human message', () => {

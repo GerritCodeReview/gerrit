@@ -318,7 +318,7 @@ suite('gr-diff tests', () => {
             assert.isOk(leftImage);
             assert.equal(leftImage.getAttribute('src'),
                 'data:image/bmp;base64, ' + mockFile1.body);
-            assert.equal(leftLabelContent.textContent, '1×1 image/bmp');
+            assert.equal(leftLabelContent.textContent, '1\u00d71 image/bmp');// \u00d7 - '×'
             leftLoaded = true;
             if (rightLoaded) {
               element.removeEventListener('render', rendered);
@@ -330,7 +330,7 @@ suite('gr-diff tests', () => {
             assert.isOk(rightImage);
             assert.equal(rightImage.getAttribute('src'),
                 'data:image/bmp;base64, ' + mockFile2.body);
-            assert.equal(rightLabelContent.textContent, '1×1 image/bmp');
+            assert.equal(rightLabelContent.textContent, '1\u00d71 image/bmp');// \u00d7 - '×'
 
             rightLoaded = true;
             if (leftLoaded) {
@@ -412,7 +412,7 @@ suite('gr-diff tests', () => {
             assert.isOk(leftImage);
             assert.equal(leftImage.getAttribute('src'),
                 'data:image/bmp;base64, ' + mockFile1.body);
-            assert.equal(leftLabelContent.textContent, '1×1 image/bmp');
+            assert.equal(leftLabelContent.textContent, '1\u00d71 image/bmp');// \u00d7 - '×'
             leftLoaded = true;
             if (rightLoaded) {
               element.removeEventListener('render', rendered);
@@ -424,7 +424,7 @@ suite('gr-diff tests', () => {
             assert.isOk(rightImage);
             assert.equal(rightImage.getAttribute('src'),
                 'data:image/bmp;base64, ' + mockFile2.body);
-            assert.equal(rightLabelContent.textContent, '1×1 image/bmp');
+            assert.equal(rightLabelContent.textContent, '1\u00d71 image/bmp');// \u00d7 - '×'
 
             rightLoaded = true;
             if (leftLoaded) {
@@ -857,7 +857,7 @@ suite('gr-diff tests', () => {
       element.showNewlineWarningLeft = true;
       element.showNewlineWarningRight = true;
       assert.include(getWarning(element),
-          NO_NEWLINE_BASE + ' — ' + NO_NEWLINE_REVISION);
+          NO_NEWLINE_BASE + ' \u2014 ' + NO_NEWLINE_REVISION);// \u2014 - '—'
     });
 
     suite('showNewlineWarningLeft', () => {

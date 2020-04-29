@@ -944,7 +944,7 @@ class GrDiff extends mixinBehaviors( [
       messages.push(NO_NEWLINE_REVISION);
     }
     if (!messages.length) { return null; }
-    return messages.join(' — ');
+    return messages.join(' \u2014 ');// \u2014 - '—'
   }
 
   /**

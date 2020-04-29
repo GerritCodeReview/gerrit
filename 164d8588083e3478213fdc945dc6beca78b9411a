@@ -16,6 +16,24 @@
       "revId": "164d8588083e3478213fdc945dc6beca78b9411a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03aaa6d8_4ac81a9a",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-29T07:32:45Z",
+      "side": 1,
+      "message": "ya for arrow function, you will need `({...c})`, but our linter will auto change that with return",
+      "parentUuid": "297d7bb5_77408c3c",
+      "revId": "164d8588083e3478213fdc945dc6beca78b9411a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

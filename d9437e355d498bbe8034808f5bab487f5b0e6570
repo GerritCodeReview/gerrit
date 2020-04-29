@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb3f8655_4a157c10",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-29T18:02:41Z",
+      "side": -1,
+      "message": "Downstream, this was 2.2.1 and in dev-contributing.txt instead. That likely explains why it was still 2.0.0 upstream from this branch (here); automatic merges did not catch this cross-file change. Hence not repeating that omission here again, thus applying the merged change manually in the target file.",
+      "range": {
+        "startLine": 118,
+        "startChar": 14,
+        "endLine": 118,
+        "endChar": 19
+      },
+      "revId": "d9437e355d498bbe8034808f5bab487f5b0e6570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "600dcb5b_73e4823c",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-29T18:02:41Z",
+      "side": -1,
+      "message": "Should have been preserved.",
+      "range": {
+        "startLine": 178,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 61
+      },
+      "revId": "d9437e355d498bbe8034808f5bab487f5b0e6570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

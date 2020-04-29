@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c47029ac_d24d5964",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_html.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-29T07:23:25Z",
+      "side": 1,
+      "message": "I will probably not like the UI of this, but we can iterate on that later. :-)",
+      "revId": "92045e00baeada51774adb95b9c8f71aa8d1f1f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

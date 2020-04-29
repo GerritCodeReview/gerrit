@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c03310e1_f2275631",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-29T14:09:00Z",
+      "side": 1,
+      "message": "You are referencing Google\u0027s style guide above, which already includes this rule:\nhttps://google.github.io/styleguide/jsguide.html#named-vs-default-exports\n\nMaybe obsolete then?",
+      "revId": "0fac75accef9c513023489f8f3a09a37038bb88a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "123c1cfe_a4e7af24",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 15
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-29T14:09:00Z",
+      "side": 1,
+      "message": "Is that a mere repetition of https://google.github.io/styleguide/jsguide.html#exporting-static-containers?",
+      "revId": "0fac75accef9c513023489f8f3a09a37038bb88a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c0d52b6_887f80f5",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 15
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-29T14:09:00Z",
+      "side": 1,
+      "message": "Yeah, I think I would prefer to not depend on services at all from gr-diff.",
+      "range": {
+        "startLine": 133,
+        "startChar": 29,
+        "endLine": 133,
+        "endChar": 107
+      },
+      "revId": "0fac75accef9c513023489f8f3a09a37038bb88a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

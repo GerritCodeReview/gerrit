@@ -192,6 +192,12 @@ export const htmlTemplate = html`
       flex-direction: column;
       width: 100%;
     }
+    .comment-extra-note {
+      color: var(--deemphasized-text-color);
+      border: 1px solid var(--deemphasized-text-color);
+      border-radius: var(--border-radius);
+      padding: 0px var(--spacing-s);
+    }
     #deleteBtn {
       display: none;
       --gr-button: {
@@ -239,7 +245,9 @@ export const htmlTemplate = html`
   <div id="container" class="container">
     <div class="header" id="header" on-click="_handleToggleCollapsed">
       <div class="headerLeft">
-        <span class="authorName">[[_computeAuthorName(comment)]]</span>
+        <span class="authorName">
+          [[_computeAuthorName(comment, _serverConfig)]]
+        </span>
         <span class="draftLabel">DRAFT</span>
         <gr-tooltip-content
           class="draftTooltip"
@@ -262,6 +270,9 @@ export const htmlTemplate = html`
           </a>
         </div>
       </div>
+      <template is="dom-if" if="[[comment.extraNote]]">
+        <span class="comment-extra-note">[[comment.extraNote]]</span>
+      </template>
       <gr-button
         id="deleteBtn"
         link=""

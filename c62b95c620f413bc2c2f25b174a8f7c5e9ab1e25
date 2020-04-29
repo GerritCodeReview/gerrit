@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47165d95_6d31f202",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-29T10:23:11Z",
+      "side": 1,
+      "message": "Seems like we are trying to execute in order steps which are meant to be execute in parallel.\n\nAre we maybe going in the wrong direction? Is it maybe something like this we are after: https://review.gerrithub.io/c/GerritForge/gerrithub-e2e-tests/+/473769/2/src/test/scala/gerrithub/functional/WIPWorkflow.scala\n\nI.e.: a single scenario with multiple steps.",
+      "revId": "c62b95c620f413bc2c2f25b174a8f7c5e9ab1e25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

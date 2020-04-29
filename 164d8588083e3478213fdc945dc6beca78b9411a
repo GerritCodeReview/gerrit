@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "297d7bb5_77408c3c",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-29T07:21:53Z",
+      "side": 1,
+      "message": "Oh, so just this does not work? What a pity.\n\n  c \u003d\u003e {...c}",
+      "revId": "164d8588083e3478213fdc945dc6beca78b9411a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

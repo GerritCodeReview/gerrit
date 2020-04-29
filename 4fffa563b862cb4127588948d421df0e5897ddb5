@@ -142,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "bafc8fad_d644a49f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-04-29T11:19:58Z",
+      "side": 1,
+      "message": "yes you lost the exception if it\u0027s not NonFatalChangeNotesException",
+      "parentUuid": "d701c9fc_1a0bf436",
+      "range": {
+        "startLine": 399,
+        "startChar": 8,
+        "endLine": 399,
+        "endChar": 9
+      },
+      "revId": "4fffa563b862cb4127588948d421df0e5897ddb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b5970548_99bea9d6",
         "filename": "java/com/google/gerrit/server/notedb/CommentTimestampAdapter.java",
         "patchSetId": 1
@@ -177,6 +201,30 @@
       "side": 1,
       "message": "I wanted to categorise somehow exceptions which are not considered fatal since I believe this might not be the only case.\n\nI believe that in the \"toResult\" method we only want to know if an exception is fatal of not, we don\u0027 want to know where it has been raised or its real type.",
       "parentUuid": "b5970548_99bea9d6",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 7
+      },
+      "revId": "4fffa563b862cb4127588948d421df0e5897ddb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2cbce38_5af29254",
+        "filename": "java/com/google/gerrit/server/notedb/CommentTimestampAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-04-29T11:19:58Z",
+      "side": 1,
+      "message": "But I\u0027m not sure if this class should decide what is fatal or non fatal exception. I believe client of this class should decide what to do with DataTimeParseException",
+      "parentUuid": "024688c6_98127b98",
       "range": {
         "startLine": 65,
         "startChar": 0,

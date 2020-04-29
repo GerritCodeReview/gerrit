@@ -34,6 +34,24 @@
       "revId": "c62b95c620f413bc2c2f25b174a8f7c5e9ab1e25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9061582f_8040ffe5",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-04-29T18:54:19Z",
+      "side": 1,
+      "message": "The first link worked; thanks. I considered that approach (say [1]) when I started contributing to this core framework for Gerrit (say, [2]). The two approaches differ in their goals. Above, \"[1]\" is for a single scenario executing sequential protocol requests; clean enough. Whereas [2] (the base of this framework) is for scenarios being able to reuse each other, optionally:\n\nTo be able to reuse delegate scenarios in so-aggregating scenarios, I had to compose the whole delegate or reused scenario. Meaning, including that (reused) scenario\u0027s own 1. test data input replacement and feeding, and 2. protocol(s) request(s). So in theory, this approach [2] is meta around [1] above; [2] is capable of composing [1].\n\nNow with [2], even if some scenarios can be composed within other scenarios, they remain as first-class scenarios that can be run alone. So [2] is about every scenario being a potential super-scenario step. Many are composed like so already, for core and HA plus MS plugins. Some other scenarios didn\u0027t have to become composable that way yet.\n\nWould we be ready to approve this change then, and finish reviewing the other related ones? I depend on this whole series to progress internally. Thanks again @Fabio and everyone. It is still important that we touch-base and align on our joint understanding of this emerging framework.",
+      "parentUuid": "d57034c5_9ae21ba9",
+      "revId": "c62b95c620f413bc2c2f25b174a8f7c5e9ab1e25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

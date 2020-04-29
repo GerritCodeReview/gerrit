@@ -193,6 +193,24 @@
       "revId": "3558a524c84f832909d6a719e87db79c7c1f447b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53b5151f_1413f9af",
+        "filename": "polygerrit-ui/app/test/services/gr-reporting_stub.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-29T18:27:16Z",
+      "side": 1,
+      "message": "Stubbing removed",
+      "parentUuid": "f9567266_a59ca559",
+      "revId": "3558a524c84f832909d6a719e87db79c7c1f447b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

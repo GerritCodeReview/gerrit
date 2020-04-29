@@ -43,8 +43,13 @@ import com.google.common.collect.Streams;
 import com.google.common.truth.ThrowableSubject;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
@@ -120,6 +125,7 @@ import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -130,6 +136,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -175,8 +183,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected ProjectCache projectCache;
   @Inject protected MetaDataUpdate.Server metaDataUpdateFactory;
   @Inject protected IdentifiedUser.GenericFactory identifiedUserFactory;
+  @Inject protected ProjectConfig.Factory projectConfigFactory;
 
-  @Inject private ProjectConfig.Factory projectConfigFactory;
   @Inject private ProjectOperations projectOperations;
 
   protected Injector injector;
@@ -1788,6 +1796,18 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     String g1 = createGroup("group1", "Administrators");
     gApi.groups().id(g1).addMembers("user2");
+
+    // By default when a group is created without any permission granted,
+    // nothing is visible to it; having members or not has nothing to do with it
+    assertQuery(q + " visibleto:" + g1);
+
+    // change is visible to group ONLY when access is granted
+    grant(
+        Project.nameKey("repo"),
+        "refs/*",
+        Permission.READ,
+        false,
+        AccountGroup.uuid(gApi.groups().id(g1).get().id));
     assertQuery(q + " visibleto:" + g1, change1);
 
     requestContext.setContext(newRequestContext(user2));
@@ -1819,6 +1839,26 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     // Query as user3 by display name matching user2 and user3; bad request
     assertFailingQuery(
         q + " visibleto:\"Another User\"", "\"Another User\" resolves to multiple accounts");
+  }
+
+  protected void grant(
+      Project.NameKey project,
+      String ref,
+      String permission,
+      boolean force,
+      AccountGroup.UUID groupUUID)
+      throws RepositoryNotFoundException, IOException, ConfigInvalidException {
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
+      md.setMessage(String.format("Grant %s on %s", permission, ref));
+      ProjectConfig config = projectConfigFactory.read(md);
+      AccessSection s = config.getAccessSection(ref, true);
+      Permission p = s.getPermission(permission, true);
+      PermissionRule rule = new PermissionRule(new GroupReference(groupUUID, groupUUID.get()));
+      rule.setForce(force);
+      p.add(rule);
+      config.commit(md);
+      projectCache.evict(config.getProject());
+    }
   }
 
   @Test

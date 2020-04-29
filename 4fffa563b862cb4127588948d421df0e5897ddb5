@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "0fce20cf_ab0e529a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-29T11:40:40Z",
+      "side": 1,
+      "message": "I am not even sure it is correct to wrap it:\n* ideally I would have thrown an OrmException from CommentTimestampAdapter, but we can\u0027t change the \"read\" signature\n* probably this shouldn\u0027t even add up as an error, hence we should just probably catch the exception but not increase the number of errors (I think there is a mechanism in place to make indexing fails if the number of errors passes a certain threshold) \n* if we want to increase the error, maybe we should change the  ChangeNoteReult.error method signature\n\nSo probably the first question is: shall we account it as an error or not? I don\u0027t think we should.\n\nWDYT?",
+      "parentUuid": "8bd8bd38_56ced1a7",
+      "range": {
+        "startLine": 398,
+        "startChar": 62,
+        "endLine": 398,
+        "endChar": 105
+      },
+      "revId": "4fffa563b862cb4127588948d421df0e5897ddb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d701c9fc_1a0bf436",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 1
@@ -273,6 +297,30 @@
       "side": 1,
       "message": "IMHO we would in theory returned an Either[Exception,Timestamp] but Java doesn\u0027t have this data-type :-(\n\nAlso, we can\u0027t control this method signature because we are just parsing a JSON object type.\n\nWe we want to wrap, not using the IOException then?",
       "parentUuid": "024688c6_98127b98",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 7
+      },
+      "revId": "4fffa563b862cb4127588948d421df0e5897ddb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a1a9a1e_d7706a74",
+        "filename": "java/com/google/gerrit/server/notedb/CommentTimestampAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-29T11:40:40Z",
+      "side": 1,
+      "message": "\u003e IMHO we would in theory returned an Either[Exception,Timestamp] but Java doesn\u0027t have this data-type :-(\n\nYep, unfortunately not :(\n\n\u003e \n\u003e Also, we can\u0027t control this method signature because we are just parsing a JSON object type.\n\u003e \n\nYep, otherwise I would have probably thrown a generic OrmException \n\n\u003e We we want to wrap, not using the IOException then?\n\nWe need a way to distinguish this exception from another IOExcpetion, right?\n\nThe way I thought of doing that is by wrapping it in a client defined exception. Where you thinking something different?",
+      "parentUuid": "c4305f6d_c73e37c7",
       "range": {
         "startLine": 65,
         "startChar": 0,

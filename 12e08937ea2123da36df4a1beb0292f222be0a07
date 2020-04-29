@@ -460,6 +460,30 @@
     },
     {
       "key": {
+        "uuid": "b09eba2d_dfd07f2d",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-29T07:46:15Z",
+      "side": 1,
+      "message": "You are right, thanks for catch it.\nI updated the doc with a special note about legacy elements.",
+      "parentUuid": "e2ac9a36_7431e704",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 66
+      },
+      "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dced01b4_e138c571",
         "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
         "patchSetId": 11

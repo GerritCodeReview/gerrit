@@ -22,6 +22,30 @@
       "revId": "0f335372aec395f5d47460f5b95d83041aa24722",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a6c878c_6bc5256a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 33
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-29T12:30:17Z",
+      "side": 1,
+      "message": "Sorry, I compared patchsets 31 and 33.\nIt shows different rebased changes.\nIgnore it",
+      "parentUuid": "a952f627_f6690b35",
+      "range": {
+        "startLine": 836,
+        "startChar": 30,
+        "endLine": 836,
+        "endChar": 42
+      },
+      "revId": "0f335372aec395f5d47460f5b95d83041aa24722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

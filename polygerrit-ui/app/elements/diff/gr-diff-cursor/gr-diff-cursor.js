@@ -322,7 +322,7 @@ class GrDiffCursor extends GestureEventListeners(
 
   handleDiffUpdate() {
     this._updateStops();
-    this.reInitCursor();
+    this.reInit();
   }
 
   _handleDiffRenderStart() {

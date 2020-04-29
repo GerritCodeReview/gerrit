@@ -342,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "2ab1b4a7_2afb30a0",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-04-29T12:53:57Z",
+      "side": 1,
+      "message": "The embedded gr-diff is a shared component, i.e. it can be used separately in other applications. The purpose of services is to work with shared\\global state of the application. But embed/gr-diff is a component, not an application, so it is very desirable to avoid use any services in it.\nBut we still don\u0027t have good vision how to deal with it.",
+      "parentUuid": "deb94f26_f6778a25",
+      "range": {
+        "startLine": 127,
+        "startChar": 92,
+        "endLine": 127,
+        "endChar": 106
+      },
+      "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b8d02dd0_1f411965",
         "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
         "patchSetId": 11

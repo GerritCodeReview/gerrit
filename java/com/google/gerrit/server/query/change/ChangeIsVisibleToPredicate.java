@@ -32,6 +32,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.util.Optional;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData> {
@@ -91,7 +92,10 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
     PermissionBackend.WithUser withUser =
         user.isIdentifiedUser()
             ? permissionBackend.absentUser(user.getAccountId())
-            : permissionBackend.user(anonymousUserProvider.get());
+            : permissionBackend.user(
+                Optional.of(user)
+                    .filter(u -> u instanceof SingleGroupUser)
+                    .orElseGet(anonymousUserProvider::get));
     try {
       withUser.indexedChange(cd, notes).check(ChangePermission.READ);
     } catch (PermissionBackendException e) {

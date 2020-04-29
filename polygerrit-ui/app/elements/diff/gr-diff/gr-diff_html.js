@@ -298,13 +298,13 @@ export const htmlTemplate = html`
     .newlineWarning.hidden {
       display: none;
     }
-    .lineNumButton.COVERED {
+    .lineNum.COVERED .lineNumButton {
       background-color: var(--coverage-covered, #e0f2f1);
     }
-    .lineNumButton.NOT_COVERED {
+    .lineNum.NOT_COVERED .lineNumButton {
       background-color: var(--coverage-not-covered, #ffd1a4);
     }
-    .lineNumButton.PARTIALLY_COVERED {
+    .lineNum.PARTIALLY_COVERED .lineNumButton {
       background: linear-gradient(
         to right bottom,
         var(--coverage-not-covered, #ffd1a4) 0%,

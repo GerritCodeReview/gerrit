@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8d19f4b7_83a8bfe4",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-30T12:14:16Z",
+      "side": 1,
+      "message": "I actually want to use same format. There is a lot of categories with TYPE, so I am leaving this format. I also cleaned up exceptions in this format.",
+      "parentUuid": "7a83d92e_31acfa00",
+      "revId": "561345b1d67d6596b28f6f6606884f9d8b40a882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "caae5177_1481cfca",
         "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "2e4a6b51_2a4db7a2",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-30T12:14:16Z",
+      "side": 1,
+      "message": "The problem is that this has specific category and this has specific category.",
+      "parentUuid": "caae5177_1481cfca",
+      "revId": "561345b1d67d6596b28f6f6606884f9d8b40a882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1fc93162_e53b5a27",
         "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
         "patchSetId": 2
@@ -50,6 +86,24 @@
       "revId": "561345b1d67d6596b28f6f6606884f9d8b40a882",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2937efca_ac688053",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-30T12:14:16Z",
+      "side": 1,
+      "message": "This has specific category and reportLifeCycle has generic category.",
+      "parentUuid": "1fc93162_e53b5a27",
+      "revId": "561345b1d67d6596b28f6f6606884f9d8b40a882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -73,6 +127,30 @@
       "revId": "561345b1d67d6596b28f6f6606884f9d8b40a882",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66e97d33_49ce92ae",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-04-30T12:14:16Z",
+      "side": 1,
+      "message": "Sorry, I pushed wrong patchset, I am cleaning up categories.",
+      "parentUuid": "db95246c_f30c4d4e",
+      "range": {
+        "startLine": 555,
+        "startChar": 34,
+        "endLine": 555,
+        "endChar": 47
+      },
+      "revId": "561345b1d67d6596b28f6f6606884f9d8b40a882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

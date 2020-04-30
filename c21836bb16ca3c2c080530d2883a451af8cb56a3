@@ -289,6 +289,24 @@
     },
     {
       "key": {
+        "uuid": "c18fd184_53d78c50",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-30T13:14:33Z",
+      "side": 1,
+      "message": "ya BE is not returning the info we need :(",
+      "parentUuid": "64705315_6efb8931",
+      "revId": "c21836bb16ca3c2c080530d2883a451af8cb56a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c65bb160_859e4796",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
         "patchSetId": 6
@@ -312,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "fc482baf_64be6d63",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-30T13:14:33Z",
+      "side": 1,
+      "message": "was thinking we may want to add more info to it so I name it more generic, but we probably won\u0027t",
+      "parentUuid": "c65bb160_859e4796",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 18
+      },
+      "revId": "c21836bb16ca3c2c080530d2883a451af8cb56a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7404761f_626f1abe",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 6
@@ -329,6 +371,24 @@
     },
     {
       "key": {
+        "uuid": "b1f10cd9_924a96fa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-30T13:14:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7404761f_626f1abe",
+      "revId": "c21836bb16ca3c2c080530d2883a451af8cb56a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94b21073_6e153856",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 6
@@ -343,6 +403,24 @@
       "revId": "c21836bb16ca3c2c080530d2883a451af8cb56a3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88f7fa41_1b3f1d8b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-04-30T13:14:33Z",
+      "side": 1,
+      "message": "discussed offline, the issue is only for comments on left side when comparing patch sets before and after renaming (not with base)\n\nAnd I will split the change into two parts and move this part into a follow up change",
+      "parentUuid": "94b21073_6e153856",
+      "revId": "c21836bb16ca3c2c080530d2883a451af8cb56a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

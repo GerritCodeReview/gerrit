@@ -63,7 +63,7 @@ public class ListChangeRobotComments implements RestReadView<ChangeResource> {
     List<RobotCommentInfo> commentInfos =
         robotCommentsMap.values().stream().flatMap(List::stream).collect(toList());
     List<ChangeMessage> changeMessages = changeMessagesUtil.byChange(rsrc.getNotes());
-    CommentsUtil.linkCommentsToChangeMessages(commentInfos, changeMessages);
+    CommentsUtil.linkCommentsToChangeMessages(commentInfos, changeMessages, false);
     return Response.ok(robotCommentsMap);
   }
 }

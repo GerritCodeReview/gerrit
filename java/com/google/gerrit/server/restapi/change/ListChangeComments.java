@@ -73,7 +73,7 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
       throws PermissionBackendException {
     ImmutableList<CommentInfo> commentInfos = getCommentFormatter().formatAsList(comments);
     List<ChangeMessage> changeMessages = changeMessagesUtil.byChange(rsrc.getNotes());
-    CommentsUtil.linkCommentsToChangeMessages(commentInfos, changeMessages);
+    CommentsUtil.linkCommentsToChangeMessages(commentInfos, changeMessages, true);
     return commentInfos;
   }
 
@@ -83,7 +83,7 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
     List<CommentInfo> commentInfos =
         commentInfosMap.values().stream().flatMap(List::stream).collect(toList());
     List<ChangeMessage> changeMessages = changeMessagesUtil.byChange(rsrc.getNotes());
-    CommentsUtil.linkCommentsToChangeMessages(commentInfos, changeMessages);
+    CommentsUtil.linkCommentsToChangeMessages(commentInfos, changeMessages, true);
     return commentInfosMap;
   }
 

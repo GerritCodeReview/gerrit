@@ -58,7 +58,7 @@ suite('gr-reporting tests', () => {
     fakePerformance.toJSON = () => fakePerformance;
     sinon.stub(service, 'performanceTiming',
         {get() { return fakePerformance; }});
-    sandbox.stub(service, 'now').returns(42);
+    sandbox.stub(window.performance, 'now').returns(42);
     service.appStarted();
     assert.isTrue(
         service.reporter.calledWithMatch(
@@ -73,7 +73,7 @@ suite('gr-reporting tests', () => {
   });
 
   test('WebComponentsReady', () => {
-    sandbox.stub(service, 'now').returns(42);
+    sandbox.stub(window.performance, 'now').returns(42);
     service.timeEnd('WebComponentsReady');
     assert.isTrue(service.reporter.calledWithMatch(
         'timing-report', 'UI Latency', 'WebComponentsReady', 42
@@ -148,8 +148,8 @@ suite('gr-reporting tests', () => {
         usedJSHeapSize: 1024 * 1024,
       },
       measure: () => {},
+      now: () => { 42; },
     });
-    sandbox.stub(service, 'now').returns(42);
     service.reportRpcTiming('/changes/*~*/comments', 500);
     service.dashboardDisplayed();
     assert.isTrue(
@@ -169,12 +169,13 @@ suite('gr-reporting tests', () => {
               height: document.documentElement.clientHeight,
             },
             usedJSHeapSizeMb: 1,
+            hiddenDurationMs: 0,
             }
         ));
   });
 
   test('time and timeEnd', () => {
-    const nowStub = sandbox.stub(service, 'now').returns(0);
+    const nowStub = sandbox.stub(window.performance, 'now').returns(0);
     service.time('foo');
     nowStub.returns(1);
     service.time('bar');
@@ -191,7 +192,7 @@ suite('gr-reporting tests', () => {
   });
 
   test('timer object', () => {
-    const nowStub = sandbox.stub(service, 'now').returns(100);
+    const nowStub = sandbox.stub(window.performance, 'now').returns(100);
     const timer = service.getTimer('foo-bar');
     nowStub.returns(150);
     timer.end();
@@ -209,7 +210,7 @@ suite('gr-reporting tests', () => {
   });
 
   test('timer object maximum', () => {
-    const nowStub = sandbox.stub(service, 'now').returns(100);
+    const nowStub = sandbox.stub(window.performance, 'now').returns(100);
     const timer = service.getTimer('foo-bar').withMaximum(100);
     nowStub.returns(150);
     timer.end();
@@ -223,7 +224,7 @@ suite('gr-reporting tests', () => {
 
   test('recordDraftInteraction', () => {
     const key = 'TimeBetweenDraftActions';
-    const nowStub = sandbox.stub(service, 'now').returns(100);
+    const nowStub = sandbox.stub(window.performance, 'now').returns(100);
     const timingStub = sandbox.stub(service, '_reportTiming');
     service.recordDraftInteraction();
     assert.isFalse(timingStub.called);
@@ -246,7 +247,7 @@ suite('gr-reporting tests', () => {
   });
 
   test('timeEndWithAverage', () => {
-    const nowStub = sandbox.stub(service, 'now').returns(0);
+    const nowStub = sandbox.stub(window.performance, 'now').returns(0);
     nowStub.returns(1000);
     service.time('foo');
     nowStub.returns(1100);
@@ -281,7 +282,7 @@ suite('gr-reporting tests', () => {
 
   test('report start time', () => {
     service.reporter.restore();
-    sandbox.stub(service, 'now').returns(42);
+    sandbox.stub(window.performance, 'now').returns(42);
     sandbox.spy(service, '_reportEvent');
     const dispatchStub = sandbox.spy(document, 'dispatchEvent');
     service.pluginsLoaded();
@@ -306,7 +307,7 @@ suite('gr-reporting tests', () => {
     });
 
     test('pluginsLoaded reports time', () => {
-      sandbox.stub(service, 'now').returns(42);
+      sandbox.stub(window.performance, 'now').returns(42);
       service.pluginsLoaded();
       assert.isTrue(service._reportEvent.calledWithMatch(
           {

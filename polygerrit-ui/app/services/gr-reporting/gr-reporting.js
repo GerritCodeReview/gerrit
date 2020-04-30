@@ -173,10 +173,12 @@ export function initPerformanceReporter(appContext) {
 export function initVisibilityReporter(appContext) {
   const reportingService = appContext.reportingService;
   document.addEventListener('visibilitychange', () => {
-    const eventName = `Visibility changed to ${document.visibilityState}`;
-    reportingService.reporter(LIFECYCLE.TYPE, LIFECYCLE.CATEGORY.VISIBILITY,
-        eventName, undefined, {}, true);
+    reportingService.onVisibilityChange();
   });
+}
+
+export function now() {
+  return Math.round(window.performance.now());
 }
 
 export class GrReporting {
@@ -189,6 +191,7 @@ export class GrReporting {
     this._reportRepoName = undefined;
     this._pending = [];
     this._slowRpcList = [];
+    this.hiddenDurationTimer = new HiddenDurationTimer();
   }
 
   get performanceTiming() {
@@ -197,10 +200,6 @@ export class GrReporting {
 
   get slowRpcSnapshot() {
     return (this._slowRpcList || []).slice();
-  }
-
-  now() {
-    return Math.round(window.performance.now());
   }
 
   _arePluginsLoaded() {
@@ -266,7 +265,7 @@ export class GrReporting {
       category,
       name,
       value,
-      eventStart: this.now(),
+      eventStart: now(),
     };
 
     if (typeof(eventDetails) === 'object' &&
@@ -297,6 +296,15 @@ export class GrReporting {
   appStarted() {
     this.timeEnd(TIMING.EVENT.APP_STARTED);
     this._reportNavResTimes();
+  }
+
+  onVisibilityChange() {
+    this.hiddenDurationTimer.onVisibilityChange();
+    const eventName = `Visibility changed to ${document.visibilityState}`;
+    this.reporter(LIFECYCLE.TYPE, LIFECYCLE.CATEGORY.VISIBILITY,
+        eventName, undefined, {
+          hiddenDurationMs: this.hiddenDurationTimer.hiddenDurationMs,
+        }, true);
   }
 
   /**
@@ -334,6 +342,7 @@ export class GrReporting {
     this._reportRepoName = undefined;
     // reset slow rpc list since here start page loads which report these rpcs
     this._slowRpcList = [];
+    this.hiddenDurationTimer.reset();
   }
 
   locationChanged(page) {
@@ -423,6 +432,8 @@ export class GrReporting {
         toMb(window.performance.memory.usedJSHeapSize);
     }
 
+    details.hiddenDurationMs = this.hiddenDurationTimer.hiddenDurationMs;
+
     return details;
   }
 
@@ -448,7 +459,7 @@ export class GrReporting {
    * Reset named timer.
    */
   time(name) {
-    this._baselines[name] = this.now();
+    this._baselines[name] = now();
     window.performance.mark(`${name}-start`);
   }
 
@@ -459,7 +470,7 @@ export class GrReporting {
     if (!this._baselines.hasOwnProperty(name)) { return; }
     const baseTime = this._baselines[name];
     delete this._baselines[name];
-    this._reportTiming(name, this.now() - baseTime, eventDetails);
+    this._reportTiming(name, now() - baseTime, eventDetails);
 
     // Finalize the interval. Either from a registered start mark or
     // the navigation start time (if baseTime is 0).
@@ -488,7 +499,7 @@ export class GrReporting {
 
     // Guard against division by zero.
     if (!denominator) { return; }
-    const time = this.now() - baseTime;
+    const time = now() - baseTime;
     this._reportTiming(averageName, time / denominator);
   }
 
@@ -522,7 +533,7 @@ export class GrReporting {
       // Clear the timer and reset the start time.
       reset: () => {
         called = false;
-        start = this.now();
+        start = now();
         return timer;
       },
 
@@ -532,7 +543,7 @@ export class GrReporting {
           throw new Error(`Timer for "${name}" already ended.`);
         }
         called = true;
-        const time = this.now() - start;
+        const time = now() - start;
 
         // If a maximum is specified and the time exceeds it, do not report.
         if (max && time > max) { return timer; }
@@ -604,6 +615,39 @@ export class GrReporting {
 
   setRepoName(repoName) {
     this._reportRepoName = repoName;
+  }
+}
+
+// Calculates time in background tab. It's attached when reporting page loads.
+// It resets on locationChange.
+class HiddenDurationTimer {
+  constructor() {
+    this.reset();
+  }
+
+  reset() {
+    this.accHiddenDuration = 0;
+    this.lastLeftVisibleAt = 0;
+  }
+
+  onVisibilityChange() {
+    if (document.visibilityState === 'hidden') {
+      this.lastLeftVisibleAt = now();
+    } else if (document.visibilityState === 'visible') {
+      if (this.lastLeftVisibleAt !== null) {
+        this.accHiddenDuration += now() - this.lastLeftVisibleAt;
+        // set to null as check when two 'visible' in row
+        this.lastLeftVisibleAt = null;
+      }
+    }
+  }
+
+  get hiddenDurationMs() {
+    if (document.visibilityState === 'hidden'
+      && this.lastLeftVisibleAt !== null) {
+      return this.accHiddenDuration + now() - this.lastLeftVisibleAt;
+    }
+    return this.accHiddenDuration;
   }
 }
 

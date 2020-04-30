@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db727dca_2452b816",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T14:39:14Z",
+      "side": 1,
+      "message": "opt and nit: could also use spread operator here",
+      "revId": "76d661a479f6ef52f9362c50932d81eb201edfe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ca1d55e_46839690",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T14:39:14Z",
+      "side": 1,
+      "message": "opt and nit: I prefer this notation:\n\n  for (const filePath of Object.keys(comments)) {\n\nThat is also slightly more common in our code base. Also I am not sure whether you need to make a copy of the keys here. Would that be enough, if you want to stick to the forEach notation?\n\n  Object.keys(comments).forEach(filePath \u003d\u003e {",
+      "revId": "76d661a479f6ef52f9362c50932d81eb201edfe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4e856a8_90761693",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T14:39:14Z",
+      "side": 1,
+      "message": "What about using a spread here?\n\n  .map(comment \u003d\u003e ({...comment, path: filePath}));",
+      "range": {
+        "startLine": 71,
+        "startChar": 12,
+        "endLine": 71,
+        "endChar": 74
+      },
+      "revId": "76d661a479f6ef52f9362c50932d81eb201edfe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3757881d_2a5541e8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T14:39:14Z",
+      "side": 1,
+      "message": "This param can also be dropped, just like opt_range.",
+      "range": {
+        "startLine": 412,
+        "startChar": 23,
+        "endLine": 412,
+        "endChar": 34
+      },
+      "revId": "76d661a479f6ef52f9362c50932d81eb201edfe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

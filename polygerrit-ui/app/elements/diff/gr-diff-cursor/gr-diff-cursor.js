@@ -23,6 +23,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-diff-cursor_html.js';
+import {ScrollBehavior} from '../../../constants/constants.js';
 
 const DiffSides = {
   LEFT: 'left',
@@ -32,11 +33,6 @@ const DiffSides = {
 const DiffViewMode = {
   SIDE_BY_SIDE: 'SIDE_BY_SIDE',
   UNIFIED: 'UNIFIED_DIFF',
-};
-
-const ScrollBehavior = {
-  KEEP_VISIBLE: 'keep-visible',
-  NEVER: 'never',
 };
 
 const LEFT_SIDE_CLASS = 'target-side-left';
@@ -117,6 +113,11 @@ class GrDiffCursor extends GestureEventListeners(
         type: Number,
         value: 0,
       },
+      // Stop component from auto scrolling or moving on focus
+      _blockAutoScrolling: {
+        type: Boolean,
+        value: false,
+      },
     };
   }
 
@@ -131,7 +132,7 @@ class GrDiffCursor extends GestureEventListeners(
     super();
     this._boundHandleWindowScroll = () => this._handleWindowScroll();
     this._boundHandleDiffRenderStart = () => this._handleDiffRenderStart();
-    this._boundHandleDiffRenderContent = () => this._handleDiffRenderContent();
+    this._boundHandleDiffRenderContent = e => this._handleDiffRenderContent(e);
     this._boundHandleDiffLineSelected = e => this._handleDiffLineSelected(e);
   }
 
@@ -329,9 +330,27 @@ class GrDiffCursor extends GestureEventListeners(
     this._preventAutoScrollOnManualScroll = true;
   }
 
+  // Explicitly block cursor to reset it's behaviour to stop auto scroll
+  blockAutoScrolling() {
+    this._blockAutoScrolling = true;
+  }
+
+  // Allow cursor to reset after rendering
+  resumeAutoScrolling() {
+    this._focusOnMove = true;
+    this._preventAutoScrollOnManualScroll = false;
+  }
+
   _handleDiffRenderContent() {
     this._updateStops();
-    // When done rendering, turn focus on move and automatic scrolling back on
+    /**
+     * When done rendering, turn focus on move and automatic scrolling back on
+     * If any component has explicity called blockAutoScrolling to block the
+     * component from auto scrolling or focusing then wait
+     * before turning scrolling back on which will be triggered explicitly
+     * by that component
+     */
+    if (this._blockAutoScrolling) return;
     this._focusOnMove = true;
     this._preventAutoScrollOnManualScroll = false;
   }

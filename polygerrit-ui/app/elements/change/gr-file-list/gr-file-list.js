@@ -1176,7 +1176,7 @@ class GrFileList extends mixinBehaviors( [
    */
   _renderInOrder(files, diffElements, initialCount) {
     let iter = 0;
-
+    this.$.diffCursor.blockAutoScrolling();
     return (new Promise(resolve => {
       this.dispatchEvent(new CustomEvent('reload-drafts', {
         detail: {resolve},
@@ -1208,6 +1208,7 @@ class GrFileList extends mixinBehaviors( [
       this.reporting.timeEndWithAverage(EXPAND_ALL_TIMING_LABEL,
           EXPAND_ALL_AVG_TIMING_LABEL, initialCount);
       this.$.diffCursor.handleDiffUpdate();
+      this.$.diffCursor.resumeAutoScrolling();
     }));
   }
 

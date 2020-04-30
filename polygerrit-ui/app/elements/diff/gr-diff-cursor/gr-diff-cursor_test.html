@@ -126,6 +126,11 @@ suite('gr-diff-cursor tests', () => {
     assert.equal(cursorElement._scrollBehavior, 'never');
     assert.isFalse(cursorElement._focusOnMove);
 
+    cursorElement.blockAutoScrolling();
+    cursorElement._handleDiffRenderContent();
+    assert.isFalse(cursorElement._focusOnMove);
+
+    cursorElement.resumeAutoScrolling();
     cursorElement._handleDiffRenderContent();
     assert.isTrue(cursorElement._focusOnMove);
 

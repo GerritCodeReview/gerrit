@@ -1,0 +1,348 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ff73ac4_0e19a8b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T11:43:01Z",
+      "side": 1,
+      "message": "I don\u0027t fully understand the problem that you are trying to solve.",
+      "revId": "c21836bb16ca3c2c080530d2883a451af8cb56a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9aecbc52_43ce1476",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T11:43:01Z",
+      "side": 1,
+      "message": "creating a reply",
+      "range": {
+        "startLine": 7,
+        "startChar": 50,
+        "endLine": 7,
+        "endChar": 56
+      },
+      "revId": "c21836bb16ca3c2c080530d2883a451af8cb56a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b18d86e_6ca4b543",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T11:43:01Z",
+      "side": 1,
+      "message": "Renamed between repo and ps or between ps and ps?",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 11
+      },
+      "revId": "c21836bb16ca3c2c080530d2883a451af8cb56a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "455eb89e_8d609c1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T11:43:01Z",
+      "side": 1,
+      "message": "creating",
+      "range": {
+        "startLine": 10,
+        "startChar": 28,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "c21836bb16ca3c2c080530d2883a451af8cb56a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ea98c09_aa83fd44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T11:43:01Z",
+      "side": 1,
+      "message": "the current",
+      "range": {
+        "startLine": 10,
+        "startChar": 9,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "c21836bb16ca3c2c080530d2883a451af8cb56a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebf8150d_cda2dcb1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T11:43:01Z",
+      "side": 1,
+      "message": "replying to",
+      "range": {
+        "startLine": 11,
+        "startChar": 32,
+        "endLine": 11,
+        "endChar": 37
+      },
+      "revId": "c21836bb16ca3c2c080530d2883a451af8cb56a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89ba79e5_7b755d2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T11:43:01Z",
+      "side": 1,
+      "message": "it\u0027s",
+      "range": {
+        "startLine": 12,
+        "startChar": 36,
+        "endLine": 12,
+        "endChar": 39
+      },
+      "revId": "c21836bb16ca3c2c080530d2883a451af8cb56a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ac5d781_6532b9e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T11:43:01Z",
+      "side": 1,
+      "message": "the first",
+      "range": {
+        "startLine": 15,
+        "startChar": 27,
+        "endLine": 15,
+        "endChar": 32
+      },
+      "revId": "c21836bb16ca3c2c080530d2883a451af8cb56a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "791d2d2f_bf6f63cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T11:43:01Z",
+      "side": 1,
+      "message": "the first",
+      "range": {
+        "startLine": 15,
+        "startChar": 27,
+        "endLine": 15,
+        "endChar": 32
+      },
+      "revId": "c21836bb16ca3c2c080530d2883a451af8cb56a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d26c453b_9ff1f9c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T11:43:01Z",
+      "side": 1,
+      "message": "is to",
+      "range": {
+        "startLine": 15,
+        "startChar": 13,
+        "endLine": 15,
+        "endChar": 15
+      },
+      "revId": "c21836bb16ca3c2c080530d2883a451af8cb56a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b80fd6c4_d10d72a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T11:43:01Z",
+      "side": 1,
+      "message": "it exists",
+      "range": {
+        "startLine": 15,
+        "startChar": 51,
+        "endLine": 15,
+        "endChar": 57
+      },
+      "revId": "c21836bb16ca3c2c080530d2883a451af8cb56a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b518465_83de0553",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T11:43:01Z",
+      "side": 1,
+      "message": "to the",
+      "range": {
+        "startLine": 16,
+        "startChar": 22,
+        "endLine": 16,
+        "endChar": 24
+      },
+      "revId": "c21836bb16ca3c2c080530d2883a451af8cb56a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64705315_6efb8931",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T11:43:01Z",
+      "side": 1,
+      "message": "Maybe mention here that comments is a map from file path to an array of CommentInfo objects. And \u0027path\u0027 is an optional field of CommentInfo that the backend does not set when it returns a map keyed by path (btw: why, oh why???). https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-info",
+      "revId": "c21836bb16ca3c2c080530d2883a451af8cb56a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c65bb160_859e4796",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T11:43:01Z",
+      "side": 1,
+      "message": "Maybe rename to addPath.",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 18
+      },
+      "revId": "c21836bb16ca3c2c080530d2883a451af8cb56a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7404761f_626f1abe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T11:43:01Z",
+      "side": 1,
+      "message": "I would hope that this is a no-op. For replies it should be possible to ignore all of:\n\ncommentSide\nisOnParent\nparentIndex\nchangeNum\npatchNum\nlineNum\npath\nrange\nprojectName\n\nAll of these *must* be identical to what the root comment has.",
+      "revId": "c21836bb16ca3c2c080530d2883a451af8cb56a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94b21073_6e153856",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T11:43:01Z",
+      "side": 1,
+      "message": "This seems like a fundamental change to the data model of comments. I would like to see a design doc or some such discussing this. This has the potential to become a can of worms, i.e. fixing one problem may cause others etc.\n\nI think it is actually good to attach the comment on the base file to the revision file (and its path). Again, I need to understand the problem better.\n\nOne concrete situation that you have to consider: A file in the repository can be the base for multiple files in each patchset, e.g. if you derive two new files from the same template. Then when you leave a comment on the left side, then you are still just commenting on the diff of one file, and it is important which file the user was looking at on the right.",
+      "revId": "c21836bb16ca3c2c080530d2883a451af8cb56a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

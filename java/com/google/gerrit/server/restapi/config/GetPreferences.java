@@ -17,9 +17,9 @@ package com.google.gerrit.server.restapi.config;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.account.StoredPreferences;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.config.DefaultPreferencesCache;
+import com.google.gerrit.server.config.PreferencesParserUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -38,7 +38,7 @@ public class GetPreferences implements RestReadView<ConfigResource> {
   public Response<GeneralPreferencesInfo> apply(ConfigResource rsrc)
       throws IOException, ConfigInvalidException {
     return Response.ok(
-        StoredPreferences.parseGeneralPreferences(
+        PreferencesParserUtil.parseGeneralPreferences(
             defaultPreferenceCache.get().asConfig(), null, null));
   }
 }

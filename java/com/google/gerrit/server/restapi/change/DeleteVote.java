@@ -229,6 +229,7 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
           cm.setFrom(user.getAccountId());
           cm.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
           cm.setNotify(notify);
+          cm.setMessageIdAsChangeMetaRef(ctx.getRepoView(), change.getId().toRefPrefix());
           cm.send();
         }
       } catch (Exception e) {

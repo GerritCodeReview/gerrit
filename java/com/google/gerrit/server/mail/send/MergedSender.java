@@ -28,6 +28,7 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
 
 /** Send notice about a change successfully merged. */
 public class MergedSender extends ReplyToChangeSender {
@@ -45,7 +46,7 @@ public class MergedSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void init() throws EmailException {
+  protected void init() throws EmailException, IOException {
     super.init();
 
     ccAllApprovals();

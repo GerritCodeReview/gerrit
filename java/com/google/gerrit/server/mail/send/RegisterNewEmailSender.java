@@ -23,6 +23,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.mail.EmailTokenVerifier;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
 
 /**
  * Sender that informs a user by email about the registration of a new email address for their
@@ -51,7 +52,7 @@ public class RegisterNewEmailSender extends OutgoingEmail {
   }
 
   @Override
-  protected void init() throws EmailException {
+  protected void init() throws EmailException, IOException {
     super.init();
     setHeader("Subject", "[Gerrit Code Review] Email Verification");
     add(RecipientType.TO, Address.create(addr));

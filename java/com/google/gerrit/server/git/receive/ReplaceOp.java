@@ -533,6 +533,7 @@ public class ReplaceOp implements BatchUpdateOp {
                     oldRecipients.getCcOnly().stream(),
                     reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCs).stream())
                 .collect(toImmutableSet()));
+        cm.setMessageIdAsChangeMetaRef(ctx.getRepoView(), patchSetId.changeId().toRefPrefix());
         // TODO(dborowitz): Support byEmail
         cm.send();
       } catch (Exception e) {

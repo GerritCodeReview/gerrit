@@ -24,6 +24,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.send.MergedSender;
+import com.google.gerrit.server.update.RepoView;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
@@ -40,7 +41,8 @@ class EmailMerge implements Runnable, RequestContext {
         Project.NameKey project,
         Change.Id changeId,
         Account.Id submitter,
-        NotifyResolver.Result notify);
+        NotifyResolver.Result notify,
+        RepoView repoView);
   }
 
   private final ExecutorService sendEmailsExecutor;
@@ -52,6 +54,7 @@ class EmailMerge implements Runnable, RequestContext {
   private final Change.Id changeId;
   private final Account.Id submitter;
   private final NotifyResolver.Result notify;
+  private final RepoView repoView;
 
   @Inject
   EmailMerge(
@@ -62,7 +65,8 @@ class EmailMerge implements Runnable, RequestContext {
       @Assisted Project.NameKey project,
       @Assisted Change.Id changeId,
       @Assisted @Nullable Account.Id submitter,
-      @Assisted NotifyResolver.Result notify) {
+      @Assisted NotifyResolver.Result notify,
+      @Assisted RepoView repoView) {
     this.sendEmailsExecutor = executor;
     this.mergedSenderFactory = mergedSenderFactory;
     this.requestContext = requestContext;
@@ -71,6 +75,7 @@ class EmailMerge implements Runnable, RequestContext {
     this.changeId = changeId;
     this.submitter = submitter;
     this.notify = notify;
+    this.repoView = repoView;
   }
 
   void sendAsync() {
@@ -87,6 +92,7 @@ class EmailMerge implements Runnable, RequestContext {
         cm.setFrom(submitter);
       }
       cm.setNotify(notify);
+      cm.setMessageIdAsChangeMetaRef(repoView, changeId.toRefPrefix());
       cm.send();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email merged notification for %s", changeId);

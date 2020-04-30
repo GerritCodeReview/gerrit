@@ -140,7 +140,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   /** Setup the message headers and envelope (TO, CC, BCC). */
   @Override
-  protected void init() throws EmailException {
+  protected void init() throws EmailException, IOException {
     if (args.projectCache != null) {
       projectState = args.projectCache.get(change.getProject()).orElse(null);
     } else {

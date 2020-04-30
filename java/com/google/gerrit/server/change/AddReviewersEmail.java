@@ -86,6 +86,7 @@ public class AddReviewersEmail {
                 cm.addReviewersByEmail(immutableAddedByEmail);
                 cm.addExtraCC(immutableToCopy);
                 cm.addExtraCCByEmail(immutableCopiedByEmail);
+                cm.setMessageIdAsChangeMetaRef(change.getProject(), change.getId().toRefPrefix());
                 cm.send();
               } catch (Exception err) {
                 logger.atSevere().withCause(err).log(

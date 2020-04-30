@@ -23,6 +23,7 @@ import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -54,7 +55,7 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void init() throws EmailException {
+  protected void init() throws EmailException, IOException {
     super.init();
 
     ccAllApprovals();

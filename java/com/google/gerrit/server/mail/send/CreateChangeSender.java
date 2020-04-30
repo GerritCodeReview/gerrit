@@ -27,6 +27,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
 import java.util.stream.StreamSupport;
 
 /** Notify interested parties of a brand new change. */
@@ -50,7 +51,7 @@ public class CreateChangeSender extends NewChangeSender {
   }
 
   @Override
-  protected void init() throws EmailException {
+  protected void init() throws EmailException, IOException {
     super.init();
 
     try {

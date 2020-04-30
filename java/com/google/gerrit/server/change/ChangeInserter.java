@@ -475,6 +475,7 @@ public class ChangeInserter implements InsertChangeOp {
                 cm.addExtraCC(reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCs));
                 cm.addExtraCCByEmail(
                     reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCsByEmail));
+                cm.setMessageIdAsChangeMetaRef(ctx.getRepoView(), changeId.toRefPrefix());
                 cm.send();
               } catch (Exception e) {
                 logger.atSevere().withCause(e).log(

@@ -106,7 +106,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public void postUpdate(Context ctx) throws IOException {
     if (message == null || comments.isEmpty()) {
       return;
     }
@@ -114,7 +114,10 @@ public class PublishCommentsOp implements BatchUpdateOp {
     PatchSet ps = psUtil.get(changeNotes, psId);
     NotifyResolver.Result notify = ctx.getNotify(changeNotes.getChangeId());
     if (notify.shouldNotify()) {
-      email.create(notify, changeNotes, ps, user, message, comments, null, labelDelta).sendAsync();
+      email
+          .create(
+              notify, changeNotes, ps, user, message, comments, null, labelDelta, ctx.getRepoView())
+          .sendAsync();
     }
     commentAdded.fire(
         changeNotes.getChange(),

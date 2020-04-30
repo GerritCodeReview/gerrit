@@ -608,6 +608,7 @@ public class RevertSubmission
         RevertedSender cm = revertedSenderFactory.create(ctx.getProject(), change.getId());
         cm.setFrom(ctx.getAccountId());
         cm.setNotify(ctx.getNotify(change.getId()));
+        cm.setMessageIdAsChangeMetaRef(ctx.getRepoView(), change.getId().toRefPrefix());
         cm.send();
       } catch (Exception err) {
         logger.atSevere().withCause(err).log(

@@ -32,6 +32,7 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
 
 /* Set work in progress or ready for review state on a change */
 public class WorkInProgressOp implements BatchUpdateOp {
@@ -123,7 +124,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public void postUpdate(Context ctx) throws IOException {
     stateChanged.fire(change, ps, ctx.getAccount(), ctx.getWhen());
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
     if (workInProgress
@@ -140,7 +141,8 @@ public class WorkInProgressOp implements BatchUpdateOp {
             cmsg,
             ImmutableList.of(),
             cmsg.getMessage(),
-            ImmutableList.of())
+            ImmutableList.of(),
+            ctx.getRepoView())
         .sendAsync();
   }
 }

@@ -313,7 +313,7 @@ class GrDiffHost extends mixinBehaviors( [
    * signal to report metrics event that started on location change.
    * @return {!Promise}
    **/
-  reload(shouldReportMetric) {
+  reload(shouldReportMetric, renderingInOrder) {
     this._loading = true;
     this._errorMessage = null;
     const whitespaceLevel = this._getIgnoreWhitespace();
@@ -376,6 +376,7 @@ class GrDiffHost extends mixinBehaviors( [
                 resolve();
               }
               this.removeEventListener('render', callback);
+              this._renderingInOrder = false;
               if (shouldReportMetric) {
                 // We report diffViewContentDisplayed only on reload caused
                 // by params changed - expected only on Diff Page.
@@ -383,6 +384,7 @@ class GrDiffHost extends mixinBehaviors( [
               }
             };
             this.addEventListener('render', callback);
+            this._renderingInOrder = renderingInOrder;
             this.diff = diff;
           });
         })

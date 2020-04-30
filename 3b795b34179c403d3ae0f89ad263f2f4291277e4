@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8b93199_14404b04",
+        "filename": ".gitignore",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-30T21:48:56Z",
+      "side": 1,
+      "message": "Per the comment on L1 this file should be sorted, so please move this between L3 and L4.",
+      "revId": "3b795b34179c403d3ae0f89ad263f2f4291277e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

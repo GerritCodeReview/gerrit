@@ -85,7 +85,10 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
     PermissionBackend.WithUser withUser =
         user.isIdentifiedUser()
             ? permissionBackend.absentUser(user.getAccountId())
-            : permissionBackend.user(anonymousUserProvider.get());
+            : permissionBackend.user(
+                Optional.of(user)
+                    .filter(u -> u instanceof SingleGroupUser)
+                    .orElseGet(anonymousUserProvider::get));
     try {
       withUser.change(cd).check(ChangePermission.READ);
     } catch (PermissionBackendException e) {

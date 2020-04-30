@@ -44,6 +44,7 @@ export const htmlTemplate = html`
     diff="[[diff]]"
     show-newline-warning-left="[[_showNewlineWarningLeft(diff)]]"
     show-newline-warning-right="[[_showNewlineWarningRight(diff)]]"
+    rendering-in-order="[[_renderingInOrder]]"
   >
   </gr-diff>
   <gr-syntax-layer

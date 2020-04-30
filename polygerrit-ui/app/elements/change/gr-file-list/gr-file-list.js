@@ -1196,7 +1196,7 @@ class GrFileList extends mixinBehaviors( [
       }
       diffElem.comments = this.changeComments.getCommentsBySideForFile(
           file, this.patchRange, this.projectConfig);
-      const promises = [diffElem.reload()];
+      const promises = [diffElem.reload(false, true)];
       if (this._loggedIn && !this.diffPrefs.manual_review) {
         promises.push(this._reviewFile(path, true));
       }

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fca87d6a_a499acf6",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-30T12:57:59Z",
+      "side": 1,
+      "message": "It should be genericException IMHO, so that it traces the complete stack.",
+      "range": {
+        "startLine": 393,
+        "startChar": 38,
+        "endLine": 393,
+        "endChar": 62
+      },
+      "revId": "b0059ca62563ff95427b9c12de3492fc3f0765ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf9882c2_03b6bd36",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-30T12:57:59Z",
+      "side": 1,
+      "message": "Actually, we don\u0027t know if that is fatal or not, isn\u0027t it?",
+      "range": {
+        "startLine": 394,
+        "startChar": 15,
+        "endLine": 394,
+        "endChar": 24
+      },
+      "revId": "b0059ca62563ff95427b9c12de3492fc3f0765ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd2b23ea_6347d890",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-04-30T12:57:59Z",
+      "side": 1,
+      "message": "Not sure how you can recover from the error: how can the caller understand that the toResult() actually failed?",
+      "range": {
+        "startLine": 399,
+        "startChar": 6,
+        "endLine": 399,
+        "endChar": 40
+      },
+      "revId": "b0059ca62563ff95427b9c12de3492fc3f0765ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

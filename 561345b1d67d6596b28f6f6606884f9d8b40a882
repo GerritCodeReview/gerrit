@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a83d92e_31acfa00",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T07:36:33Z",
+      "side": 1,
+      "message": "Optional: I would prefer a separate const for this outside of LIFECYCLE, e.g.\n\n  const LIFECYCLE_TYPE \u003d \u0027lifecycle\u0027;",
+      "revId": "561345b1d67d6596b28f6f6606884f9d8b40a882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "caae5177_1481cfca",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T07:36:33Z",
+      "side": 1,
+      "message": "Could you just call reportLifeCycle() method here?",
+      "revId": "561345b1d67d6596b28f6f6606884f9d8b40a882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fc93162_e53b5a27",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T07:36:33Z",
+      "side": 1,
+      "message": "Could you just call reportLifeCycle() method here?",
+      "revId": "561345b1d67d6596b28f6f6606884f9d8b40a882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db95246c_f30c4d4e",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T07:36:33Z",
+      "side": 1,
+      "message": "Where does this come from?",
+      "range": {
+        "startLine": 555,
+        "startChar": 34,
+        "endLine": 555,
+        "endChar": 47
+      },
+      "revId": "561345b1d67d6596b28f6f6606884f9d8b40a882",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

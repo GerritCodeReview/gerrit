@@ -127,6 +127,34 @@ local_repository(
     path = "modules/jgit",
 )
 
+# TODO(davido): Remove this forked java tool upgrade, when new Bazel version is released
+# that includes error prone 2.3.5 SNAPSHOT.
+http_archive(
+    name = "remote_java_tools_linux",
+    sha256 = "92ec8b60d9d0a24b4b8ba1d1f6887edde2660690537253566c38280cd62db8de",
+    urls = [
+        "https://github.com/davido/java_tools/releases/download/javac11-v12.0/java_tools_javac11_linux-v12.0.zip",
+    ],
+)
+
+# TODO(davido): Build and upload java_tools v12 for Max Os X.
+http_archive(
+    name = "remote_java_tools_darwin",
+    sha256 = "252520f0cd5dd7e9b18062dc731f8ae248993650f12a9b613fcd9ebda591d242",
+    urls = [
+        "https://github.com/davido/java_tools/releases/download/javac11-v11.0/java_tools_javac11_darwin-v11.0.zip",
+    ],
+)
+
+http_archive(
+    name = "remote_java_tools_windows",
+    sha256 = "444c391977e50af4e10549a28d021069d2ca7745a0e7b9b968a7b153fe3ea430",
+    urls = [
+        "https://mirror.bazel.build/bazel_java_tools/releases/javac11/v8.0/java_tools_javac11_windows-v8.0.zip",
+        "https://github.com/bazelbuild/java_tools/releases/download/javac11_v8.0/java_tools_javac11_windows-v8.0.zip",
+    ],
+)
+
 ANTLR_VERS = "3.5.2"
 
 maven_jar(

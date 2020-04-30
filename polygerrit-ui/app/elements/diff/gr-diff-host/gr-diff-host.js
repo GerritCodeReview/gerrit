@@ -122,6 +122,9 @@ class GrDiffHost extends mixinBehaviors( [
       },
       /** @type {?} */
       patchRange: Object,
+      /** @type {!Gerrit.PartialFileInfo} */
+      file: Object,
+      // TODO: deprecate path since that info is included in file
       path: String,
       prefs: {
         type: Object,
@@ -780,6 +783,15 @@ class GrDiffHost extends mixinBehaviors( [
     threadEl.commentSide = thread.commentSide;
     threadEl.isOnParent = !!thread.isOnParent;
     threadEl.parentIndex = this._parentIndex;
+    // Use path before renmaing when comment added on the left when comparing
+    // two patch sets (not against base)
+    if (this.file && this.file.oldPath
+        && thread.commentSide === GrDiffBuilder.Side.LEFT
+        && !thread.isOnParent) {
+      threadEl.path = this.file.oldPath;
+    } else {
+      threadEl.path = this.path;
+    }
     threadEl.changeNum = this.changeNum;
     threadEl.patchNum = thread.patchNum;
     threadEl.lineNum = thread.lineNum;
@@ -787,7 +799,6 @@ class GrDiffHost extends mixinBehaviors( [
       thread.rootId = changeEvent.detail.value;
     };
     threadEl.addEventListener('root-id-changed', rootIdChangedListener);
-    threadEl.path = this.path;
     threadEl.projectName = this.projectName;
     threadEl.range = thread.range;
     const threadDiscardListener = e => {

@@ -1024,6 +1024,7 @@ suite('gr-diff-host tests', () => {
 
     setup(() => {
       element = fixture('basic');
+      element.path = 'file.txt';
       element.patchRange = {basePatchNum: 1};
       reportStub = sandbox.stub(element.reporting, 'reportInteraction');
     });
@@ -1326,6 +1327,54 @@ suite('gr-diff-host tests', () => {
     assert.equal(threads[1].range, range);
     assert.equal(threads[1].isOnParent, true);
     assert.equal(threads[1].patchNum, 3);
+  });
+
+  test('thread should use old file path if first created' +
+   'on patch set (left) before renaming', () => {
+    const commentSide = 'left';
+    element.file = {oldPath: 'file_renamed.txt', path: element.path};
+
+    assert.isOk(element._getOrCreateThread('2', 3,
+        commentSide, undefined, /* isOnParent= */ false));
+
+    const threads = dom(element.$.diff)
+        .queryDistributedElements('gr-comment-thread');
+
+    assert.equal(threads.length, 1);
+    assert.equal(threads[0].commentSide, commentSide);
+    assert.equal(threads[0].path, element.file.oldPath);
+  });
+
+  test('thread should use new file path if first created' +
+   'on patch set (right) after renaming', () => {
+    const commentSide = 'right';
+    element.file = {oldPath: 'file_renamed.txt', path: element.path};
+
+    assert.isOk(element._getOrCreateThread('2', 3,
+        commentSide, undefined, /* isOnParent= */ false));
+
+    const threads = dom(element.$.diff)
+        .queryDistributedElements('gr-comment-thread');
+
+    assert.equal(threads.length, 1);
+    assert.equal(threads[0].commentSide, commentSide);
+    assert.equal(threads[0].path, element.file.path);
+  });
+
+  test('thread should use new file path if first created' +
+   'on patch set (left) but is base', () => {
+    const commentSide = 'left';
+    element.file = {oldPath: 'file_renamed.txt', path: element.path};
+
+    assert.isOk(element._getOrCreateThread('2', 3,
+        commentSide, undefined, /* isOnParent= */ true));
+
+    const threads = dom(element.$.diff)
+        .queryDistributedElements('gr-comment-thread');
+
+    assert.equal(threads.length, 1);
+    assert.equal(threads[0].commentSide, commentSide);
+    assert.equal(threads[0].path, element.file.path);
   });
 
   test('_filterThreadElsForLocation with no threads', () => {

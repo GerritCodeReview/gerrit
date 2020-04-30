@@ -391,6 +391,7 @@ export const htmlTemplate = html`
     change-num="[[_changeNum]]"
     commit-range="[[_commitRange]]"
     patch-range="[[_patchRange]]"
+    file="[[_file]]"
     path="[[_path]]"
     prefs="[[_prefs]]"
     project-name="[[_change.project]]"

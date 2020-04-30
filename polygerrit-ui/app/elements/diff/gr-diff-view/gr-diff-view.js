@@ -164,6 +164,12 @@ class GrDiffView extends mixinBehaviors( [
         value() { return {sortedFileList: [], changeFilesByPath: {}}; },
       },
 
+      /** @type {Gerrit.PartialFileInfo} */
+      _file: {
+        type: Object,
+        computed: '_getCurrentFile(_files, _path)',
+      },
+
       _path: {
         type: String,
         observer: '_pathChanged',
@@ -348,6 +354,16 @@ class GrDiffView extends mixinBehaviors( [
 
   _getSortedFileList(files) {
     return files.sortedFileList;
+  }
+
+  _getCurrentFile(files, path) {
+    if ([files, path].includes(undefined)) return;
+    const fileInfo = files.changeFilesByPath[path];
+    const partialFileInfo = {path};
+    if (fileInfo && fileInfo.old_path) {
+      partialFileInfo.oldPath = fileInfo.old_path;
+    }
+    return partialFileInfo;
   }
 
   _getFiles(changeNum, patchRangeRecord, changeComments) {

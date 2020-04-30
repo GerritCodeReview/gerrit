@@ -24,6 +24,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-account-list_html.js';
+import {appContext} from '../../../services/app-context.js';
 
 const VALID_EMAIL_ALERT = 'Please input a valid email.';
 
@@ -119,6 +120,11 @@ class GrAccountList extends GestureEventListeners(
     };
   }
 
+  constructor() {
+    super();
+    this.reporting = appContext.reportingService;
+  }
+
   /** @override */
   created() {
     super.created();
@@ -161,10 +167,12 @@ class GrAccountList extends GestureEventListeners(
     // Append new account or group to the accounts property. We add our own
     // internal properties to the account/group here, so we clone the object
     // to avoid cluttering up the shared change object.
+    let itemTypeAdded = 'unknown';
     if (item.account) {
       const account =
           Object.assign({}, item.account, {_pendingAdd: true});
       this.push('accounts', account);
+      itemTypeAdded = 'account';
     } else if (item.group) {
       if (item.confirm) {
         this.pendingConfirmation = item;
@@ -173,6 +181,7 @@ class GrAccountList extends GestureEventListeners(
       const group = Object.assign({}, item.group,
           {_pendingAdd: true, _group: true});
       this.push('accounts', group);
+      itemTypeAdded = 'group';
     } else if (this.allowAnyInput) {
       if (!item.includes('@')) {
         // Repopulate the input with what the user tried to enter and have
@@ -187,8 +196,11 @@ class GrAccountList extends GestureEventListeners(
       } else {
         const account = {email: item, _pendingAdd: true};
         this.push('accounts', account);
+        itemTypeAdded = 'email';
       }
     }
+
+    this.reporting.reportInteraction(`Add to ${this.id}`, {itemTypeAdded});
     this.pendingConfirmation = null;
     return true;
   }
@@ -256,6 +268,7 @@ class GrAccountList extends GestureEventListeners(
       }
       if (matches) {
         this.splice('accounts', i, 1);
+        this.reporting.reportInteraction(`Remove from ${this.id}`);
         return;
       }
     }

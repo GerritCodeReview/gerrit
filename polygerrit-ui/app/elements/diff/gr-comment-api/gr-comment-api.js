@@ -47,10 +47,31 @@ class ChangeComments {
     this._getParentIndex =
       PatchSetBehavior.getParentIndex;
 
-    this._comments = comments || {};
-    this._robotComments = robotComments || {};
-    this._drafts = drafts || {};
+    this._comments = this._addPath(comments);
+    this._robotComments = this._addPath(robotComments);
+    this._drafts = this._addPath(drafts);
     this._changeNum = changeNum;
+  }
+
+  /**
+   * Add path info to every comment as CommentInfo returned
+   * from server does not have that.
+   *
+   * TODO(taoalpha): should consider changing BE to send path
+   * back within CommentInfo
+   *
+   * @param {Object} - map between file path and comments
+   */
+  _addPath(comments = {}) {
+    const updatedComments = {};
+    [...Object.keys(comments)].forEach(filePath => {
+      const allCommentsForPath = comments[filePath] || [];
+      if (allCommentsForPath.length) {
+        updatedComments[filePath] = allCommentsForPath
+            .map(comment => Object.assign({}, comment, {path: filePath}));
+      }
+    });
+    return updatedComments;
   }
 
   get comments() {

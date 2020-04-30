@@ -400,9 +400,15 @@ suite('gr-messages-list tests', () => {
       assert.deepEqual(messageElements[1].message, messages[1]);
       assert.deepEqual(messageElements[2].message, messages[2]);
       assert.deepEqual(messageElements[1].comments.file1,
-          comments.file1.filter(isMarvin));
+          comments.file1.filter(isMarvin).map(c => {
+            c.path = 'file1';
+            return c;
+          }));
       assert.deepEqual(messageElements[1].comments.file2,
-          comments.file2.filter(isMarvin));
+          comments.file2.filter(isMarvin).map(c => {
+            c.path = 'file2';
+            return c;
+          }));
       assert.deepEqual(messageElements[2].comments, {});
     });
 

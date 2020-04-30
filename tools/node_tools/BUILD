@@ -36,3 +36,22 @@ nodejs_binary(
     # ts service in background). It works without any workaround.
     entry_point = "@tools_npm//:node_modules/@bazel/typescript/internal/tsc_wrapped/tsc_wrapped.js",
 )
+
+
+# Create a tsc_wrapped compiler rule to use in the ts_project
+# compiler attribute when using self-managed dependencies
+nodejs_binary(
+    name = "tsc-bin",
+    # Point bazel to your node_modules to find the entry point
+    #data = ["@npm//:node_modules"],
+    # It seems, bazel uses different approaches to compile ts files (it runs some
+    # ts service in background). It works without any workaround.
+    entry_point = "@npm//:node_modules/typescript/lib/tsc.js",
+)
+
+sh_binary(
+    name = "tsc-bin-sh",
+    srcs = ["tsc.sh"],
+    data = ["@npm//typescript/bin:tsc"],
+    deps = ["@bazel_tools//tools/bash/runfiles"],
+)

@@ -4,8 +4,8 @@
   "description": "Gerrit Code Review",
   "dependencies": {},
   "devDependencies": {
-    "@bazel/rollup": "^1.1.0",
-    "@bazel/typescript": "^1.0.1",
+    "@bazel/rollup": "^1.6.0",
+    "@bazel/typescript": "^1.6.0",
     "eslint": "^6.6.0",
     "eslint-config-google": "^0.13.0",
     "eslint-plugin-html": "^6.0.0",

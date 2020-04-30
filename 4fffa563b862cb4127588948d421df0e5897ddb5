@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f99d5de3_8ccabb09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-30T11:44:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2b5f12c_b5606a47",
+      "range": {
+        "startLine": 7,
+        "startChar": 38,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "4fffa563b862cb4127588948d421df0e5897ddb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60ce7d18_2d9287c0",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 1
@@ -93,6 +117,30 @@
       "revId": "4fffa563b862cb4127588948d421df0e5897ddb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eddb6f3e_f31e923f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-30T11:44:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3300fac0_6ca02ecf",
+      "range": {
+        "startLine": 103,
+        "startChar": 2,
+        "endLine": 103,
+        "endChar": 77
+      },
+      "revId": "4fffa563b862cb4127588948d421df0e5897ddb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -167,6 +215,30 @@
     },
     {
       "key": {
+        "uuid": "d97c29bc_51ac6a2d",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-30T11:44:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fce20cf_ab0e529a",
+      "range": {
+        "startLine": 398,
+        "startChar": 62,
+        "endLine": 398,
+        "endChar": 105
+      },
+      "revId": "4fffa563b862cb4127588948d421df0e5897ddb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d701c9fc_1a0bf436",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 1
@@ -211,6 +283,30 @@
       "revId": "4fffa563b862cb4127588948d421df0e5897ddb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27ffeb8b_fc4fb248",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-30T11:44:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bafc8fad_d644a49f",
+      "range": {
+        "startLine": 399,
+        "startChar": 8,
+        "endLine": 399,
+        "endChar": 9
+      },
+      "revId": "4fffa563b862cb4127588948d421df0e5897ddb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -378,6 +474,30 @@
       "revId": "4fffa563b862cb4127588948d421df0e5897ddb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c9f01ba_ecfdfdc5",
+        "filename": "java/com/google/gerrit/server/notedb/CommentTimestampAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-30T11:44:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81703e8c_69bd04cd",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 7
+      },
+      "revId": "4fffa563b862cb4127588948d421df0e5897ddb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,6 +1,7 @@
 # Keep following lines sorted according to `LC_COLLATE=C sort`
 *.eml
 *.iml
+*.log
 *.pyc
 *.sublime-*
 *.swp

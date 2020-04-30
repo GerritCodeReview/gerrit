@@ -428,19 +428,40 @@ class GrCommentThread extends mixinBehaviors( [
       __draft: true,
       __draftID: Math.random().toString(36),
       __date: new Date(),
-      path: this.path,
-      patchNum: this.patchNum,
-      side: this._getSide(this.isOnParent),
-      __commentSide: this.commentSide,
     };
-    if (opt_lineNum) {
-      d.line = opt_lineNum;
-    }
-    if (opt_range) {
-      d.range = opt_range;
-    }
-    if (this.parentIndex) {
-      d.parent = this.parentIndex;
+
+    // For replies, always use same meta info as root.
+    if (this.comments && this.comments.length >= 1) {
+      const rootComment = this.comments[0];
+      [
+        'path',
+        'patchNum',
+        'side',
+        '__commentSide',
+        'line',
+        'range',
+        'parent',
+      ].forEach(key => {
+        if (rootComment.hasOwnProperty(key)) {
+          d[key] = rootComment[key];
+        }
+      });
+    } else {
+      // Set meta info for root comment.
+      d.path = this.path;
+      d.patchNum = this.patchNum;
+      d.side = this._getSide(this.isOnParent);
+      d.__commentSide = this.commentSide;
+
+      if (opt_lineNum) {
+        d.line = opt_lineNum;
+      }
+      if (opt_range) {
+        d.range = opt_range;
+      }
+      if (this.parentIndex) {
+        d.parent = this.parentIndex;
+      }
     }
     return d;
   }

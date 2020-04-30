@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8f46c29e_bec3d396",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-30T15:06:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fca87d6a_a499acf6",
+      "range": {
+        "startLine": 393,
+        "startChar": 38,
+        "endLine": 393,
+        "endChar": 62
+      },
+      "revId": "b0059ca62563ff95427b9c12de3492fc3f0765ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf9882c2_03b6bd36",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 2

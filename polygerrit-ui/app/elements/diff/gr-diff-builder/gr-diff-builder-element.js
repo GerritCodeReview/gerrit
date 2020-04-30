@@ -133,7 +133,7 @@ class GrDiffBuilderElement extends GestureEventListeners(
     return coverageRanges.filter(range => range && range.side === 'right');
   }
 
-  render(keyLocations, prefs) {
+  render(keyLocations, prefs, renderingInOrder) {
     // Setting up annotation layers must happen after plugins are
     // installed, and |render| satisfies the requirement, however,
     // |attached| doesn't because in the diff view page, the element is
@@ -165,7 +165,8 @@ class GrDiffBuilderElement extends GestureEventListeners(
                 this._builder.renderDiff();
               }
               this.dispatchEvent(new CustomEvent('render-content',
-                  {bubbles: true, composed: true}));
+                  {bubbles: true, composed: true, detail:
+                    {renderingInOrder}}));
             }));
     return this._cancelableRenderPromise
         .finally(() => { this._cancelableRenderPromise = null; })

@@ -40,6 +40,8 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-cursor-manager.js';
+import {ScrollBehavior} from '../../../constants/constants.js';
+
 suite('gr-cursor-manager tests', () => {
   let sandbox;
   let element;
@@ -228,6 +230,10 @@ suite('gr-cursor-manager tests', () => {
     assert.isFalse(element.target.focus.called);
 
     element.focusOnMove = true;
+    element.next();
+    assert.isFalse(element.target.focus.called);
+
+    element.scrollBehavior = ScrollBehavior.KEEP_VISIBLE;
     element.next();
     assert.isTrue(element.target.focus.called);
   });

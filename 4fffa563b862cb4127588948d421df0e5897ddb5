@@ -330,6 +330,30 @@
       "revId": "4fffa563b862cb4127588948d421df0e5897ddb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84e70670_bd853bfc",
+        "filename": "java/com/google/gerrit/server/notedb/CommentTimestampAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-04-30T10:08:15Z",
+      "side": 1,
+      "message": "We could throw an IOException, but when we will have to do loads of unfolding of exceptions client side. Client side this is the stack we will get:\n\ncom.google.gson.JsonSyntaxException \u003d\u003e java.io.IOException \u003d\u003e java.time.format.DateTimeParseException\n\nIf we use a custom (i.e.: NonFatalChangeNotesException) exception we will just have a level of nesting.\n\nWDYT?",
+      "parentUuid": "6a1a9a1e_d7706a74",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 7
+      },
+      "revId": "4fffa563b862cb4127588948d421df0e5897ddb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

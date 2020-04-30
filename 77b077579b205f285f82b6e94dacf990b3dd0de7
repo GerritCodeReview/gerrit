@@ -142,6 +142,30 @@
       "revId": "77b077579b205f285f82b6e94dacf990b3dd0de7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22d0014f_3f40ecee",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-04-30T15:58:33Z",
+      "side": 1,
+      "message": "What if you request a smaller queue though? Or no metrics (and the existing one has metrics)?\n\nTo be clear, I really like the idea of helping plugins share a queue. It\u0027s just the semantics of figuring out how they request the same queue that seems tricky right now.",
+      "parentUuid": "1030a8c3_0cc437e2",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 1
+      },
+      "revId": "77b077579b205f285f82b6e94dacf990b3dd0de7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

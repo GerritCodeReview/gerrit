@@ -173,9 +173,7 @@ export function initPerformanceReporter(appContext) {
 export function initVisibilityReporter(appContext) {
   const reportingService = appContext.reportingService;
   document.addEventListener('visibilitychange', () => {
-    const eventName = `Visibility changed to ${document.visibilityState}`;
-    reportingService.reporter(LIFECYCLE.TYPE, LIFECYCLE.CATEGORY.VISIBILITY,
-        eventName, undefined, {}, true);
+    reportingService.visibilityChange();
   });
 }
 
@@ -189,6 +187,7 @@ export class GrReporting {
     this._reportRepoName = undefined;
     this._pending = [];
     this._slowRpcList = [];
+    this.hiddenDurationTimer = new HiddenDurationTimer(this.now);
   }
 
   get performanceTiming() {
@@ -297,6 +296,13 @@ export class GrReporting {
   appStarted() {
     this.timeEnd(TIMING.EVENT.APP_STARTED);
     this._reportNavResTimes();
+  }
+
+  visibilityChange() {
+    this.hiddenDurationTimer.visibilityChange();
+    const eventName = `Visibility changed to ${document.visibilityState}`;
+    this.reporter(LIFECYCLE.TYPE, LIFECYCLE.CATEGORY.VISIBILITY,
+        eventName, undefined, {}, true);
   }
 
   /**
@@ -422,6 +428,8 @@ export class GrReporting {
       details.usedJSHeapSizeMb =
         toMb(window.performance.memory.usedJSHeapSize);
     }
+
+    details.hiddenDurationMs = this.hiddenDurationTimer.hiddenDurationMs;
 
     return details;
   }
@@ -604,6 +612,34 @@ export class GrReporting {
 
   setRepoName(repoName) {
     this._reportRepoName = repoName;
+  }
+}
+
+class HiddenDurationTimer {
+  constructor(now) {
+    this.accHiddenDuration = 0;
+    this.lastLeftVisibleAt = 0;
+    this.now = now;
+  }
+
+  visibilityChange() {
+    if (document.visibilityState === 'hidden') {
+      this.lastLeftVisibleAt = this.now();
+    } else if (document.visibilityState === 'visible') {
+      if (this.lastLeftVisibleAt !== null) {
+        this.accHiddenDuration += this.now() - this.lastLeftVisibleAt;
+        // set to null as check when two 'visible' in row
+        this.lastLeftVisibleAt = null;
+      }
+    }
+  }
+
+  get hiddenDurationMs() {
+    if (document.visibilityState === 'hidden'
+      && this.lastLeftVisibleAt !== null) {
+      return this.accHiddenDuration + this.now() - this.lastLeftVisibleAt;
+    }
+    return this.accHiddenDuration;
   }
 }
 

@@ -94,6 +94,30 @@
       "revId": "77b077579b205f285f82b6e94dacf990b3dd0de7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec59008d_8ac45f1a",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-04-30T00:37:54Z",
+      "side": 1,
+      "message": "What is the expected behavior when a queue exists but doesn\u0027t match the requested criteria?  The intention here is to allow sharing of queues between plugins, so it won\u0027t work as expected if we just create a different queue.\n\nShould we make it throw an exception?",
+      "parentUuid": "2d1cb551_7ce7d184",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 1
+      },
+      "revId": "77b077579b205f285f82b6e94dacf990b3dd0de7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

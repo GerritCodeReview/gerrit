@@ -25,8 +25,10 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.send.CommentSender;
+import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.update.RepoView;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -65,13 +67,15 @@ public class EmailReviewComments implements Runnable, RequestContext {
         ChangeMessage message,
         List<Comment> comments,
         String patchSetComment,
-        List<LabelVote> labels);
+        List<LabelVote> labels,
+        RepoView repoView);
   }
 
   private final ExecutorService sendEmailsExecutor;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final CommentSender.Factory commentSenderFactory;
   private final ThreadLocalRequestContext requestContext;
+  private final MessageIdGenerator messageIdGenerator;
 
   private final NotifyResolver.Result notify;
   private final ChangeNotes notes;
@@ -81,6 +85,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
   private final List<Comment> comments;
   private final String patchSetComment;
   private final List<LabelVote> labels;
+  private final RepoView repoView;
 
   @Inject
   EmailReviewComments(
@@ -88,6 +93,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
       PatchSetInfoFactory patchSetInfoFactory,
       CommentSender.Factory commentSenderFactory,
       ThreadLocalRequestContext requestContext,
+      MessageIdGenerator messageIdGenerator,
       @Assisted NotifyResolver.Result notify,
       @Assisted ChangeNotes notes,
       @Assisted PatchSet patchSet,
@@ -95,11 +101,13 @@ public class EmailReviewComments implements Runnable, RequestContext {
       @Assisted ChangeMessage message,
       @Assisted List<Comment> comments,
       @Nullable @Assisted String patchSetComment,
-      @Assisted List<LabelVote> labels) {
+      @Assisted List<LabelVote> labels,
+      @Assisted RepoView repoView) {
     this.sendEmailsExecutor = executor;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.commentSenderFactory = commentSenderFactory;
     this.requestContext = requestContext;
+    this.messageIdGenerator = messageIdGenerator;
     this.notify = notify;
     this.notes = notes;
     this.patchSet = patchSet;
@@ -108,6 +116,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
     this.comments = COMMENT_ORDER.sortedCopy(comments);
     this.patchSetComment = patchSetComment;
     this.labels = labels;
+    this.repoView = repoView;
   }
 
   public void sendAsync() {
@@ -127,6 +136,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
       cm.setPatchSetComment(patchSetComment);
       cm.setLabels(labels);
       cm.setNotify(notify);
+      cm.setMessageId(messageIdGenerator.fromChangeUpdate(repoView, patchSet.id()));
       cm.send();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email comments for %s", patchSet.id());

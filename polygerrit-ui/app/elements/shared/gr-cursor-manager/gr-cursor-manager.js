@@ -298,7 +298,9 @@ class GrCursorManager extends GestureEventListeners(
       this._targetHeight = newTarget.scrollHeight;
     }
 
-    if (this.focusOnMove) { this.target.focus(); }
+    if (this.focusOnMove && this.scrollBehavior != ScrollBehavior.NEVER) {
+      this.target.focus();
+    }
 
     this._decorateTarget();
   }

@@ -1,7 +1,26 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("@npm_bazel_rollup//:index.bzl", "rollup_bundle")
 
-def polygerrit_bundle(name, srcs, outs, entry_point):
+def _generate_rollup_config_impl(ctx):
+    files_mapping = []
+    for src in ctx.files.srcs:
+        files_mapping.append(struct(file=src.short_path, location=src.path))
+    ctx.actions.expand_template(template = ctx.files.rollup_config[0], output = ctx.outputs.config, substitutions = { "__source__files = null": "__source__files = " + struct(map=files_mapping).to_json()})
+
+    return [DefaultInfo(
+        files = depset([ctx.outputs.config], transitive = [depset(ctx.files.srcs + ctx.files.rollup_config)]),
+    )]
+
+_generate_rollup_config = rule(
+    attrs={
+        "rollup_config": attr.label(allow_files=True, mandatory = True),
+        "srcs": attr.label_list(allow_files = True),
+    },
+    implementation = _generate_rollup_config_impl,
+    outputs = {"config": "%{name}_rollup.config.js"},
+)
+
+def polygerrit_bundle(name, srcs, outs, entry_point, ts_deps):
     """Build .zip bundle from source code
 
     Args:
@@ -13,17 +32,18 @@ def polygerrit_bundle(name, srcs, outs, entry_point):
 
     app_name = entry_point.split(".html")[0].split("/").pop()  # eg: gr-app
 
-    native.filegroup(
-        name = app_name + "-full-src",
-        srcs = srcs + [
-            "@ui_npm//:node_modules",
-        ],
+    _generate_rollup_config(
+        name="ts_and_js",
+        srcs = srcs + ts_deps,
+        rollup_config = ":rollup.config.js",
     )
 
     rollup_bundle(
         name = app_name + "-bundle-js",
-        srcs = [app_name + "-full-src"],
-        config_file = ":rollup.config.js",
+        srcs = [
+          ":ts_and_js"
+        ],
+        config_file = ":ts_and_js_rollup.config.js",
         entry_point = "elements/" + app_name + ".js",
         rollup_bin = "//tools/node_tools:rollup-bin",
         sourcemap = "hidden",

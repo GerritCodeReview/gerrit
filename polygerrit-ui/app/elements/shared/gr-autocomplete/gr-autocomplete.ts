@@ -21,16 +21,22 @@ import '../gr-autocomplete-dropdown/gr-autocomplete-dropdown.js';
 import '../gr-cursor-manager/gr-cursor-manager.js';
 import '../gr-icons/gr-icons.js';
 import '../../../styles/shared-styles.js';
-import {flush, dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-autocomplete_html.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
-const DEBOUNCE_WAIT_MS = 200;
+const DEBOUNCE_WAIT_MS = 210;
+
+interface Suggestion {
+  name: string;
+  text: string;
+  value: any;
+}
 
 /**
  * @extends Polymer.Element
@@ -40,9 +46,13 @@ class GrAutocomplete extends mixinBehaviors( [
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {
-  static get template() { return htmlTemplate; }
 
-  static get is() { return 'gr-autocomplete'; }
+  // (dmfilippov): mixinBehaviors somehow allows access to non-defined properties.
+  // I.e. this.someRandomName doesn't raise a compiler error.
+
+  public static get template() { return htmlTemplate; }
+
+  public static get is() { return 'gr-autocomplete'; }
   /**
    * Fired when a value is chosen.
    *
@@ -62,7 +72,7 @@ class GrAutocomplete extends mixinBehaviors( [
    * @event input-keydown
    */
 
-  static get properties() {
+  public static get properties() {
     return {
 
       /**
@@ -188,36 +198,39 @@ class GrAutocomplete extends mixinBehaviors( [
       },
 
       /** The DOM element of the selected suggestion. */
-      _selected: Object,
+      //_selected: Object,
     };
   }
 
-  static get observers() {
+  public static get observers() {
     return [
       '_maybeOpenDropdown(_suggestions, _focused)',
       '_updateSuggestions(text, threshold, noDebounce)',
     ];
   }
 
-  get _nativeInput() {
+  // @ts-ignore
+  private query: (input: string) => Promise<Suggestion[]>;
+
+  private get _nativeInput() {
     // In Polymer 2 inputElement isn't nativeInput anymore
     return this.$.input.$.nativeInput || this.$.input.inputElement;
   }
 
   /** @override */
-  attached() {
+  public attached() {
     super.attached();
     this.listen(document.body, 'click', '_handleBodyClick');
   }
 
   /** @override */
-  detached() {
+  public detached() {
     super.detached();
     this.unlisten(document.body, 'click', '_handleBodyClick');
     this.cancelDebouncer('update-suggestions');
   }
 
-  get focusStart() {
+  public get focusStart() {
     return this.$.input;
   }
 
@@ -235,11 +248,11 @@ class GrAutocomplete extends mixinBehaviors( [
     this.text = '';
   }
 
-  _handleItemSelect(e) {
+  protected _handleItemSelect(e: CustomEvent) {
     // Let _handleKeydown deal with keyboard interaction.
     if (e.detail.trigger !== 'click') { return; }
     this._selected = e.detail.selected;
-    this._commit();
+    this._commit(false);
   }
 
   get _inputElement() {
@@ -252,7 +265,7 @@ class GrAutocomplete extends mixinBehaviors( [
    *
    * @param {string} text The new text for the input.
    */
-  setText(text) {
+  setText(text: string) {
     this._disableSuggestions = true;
     this.text = text;
     this._disableSuggestions = false;
@@ -273,9 +286,9 @@ class GrAutocomplete extends mixinBehaviors( [
     this.updateStyles();
   }
 
-  _updateSuggestions(text, threshold, noDebounce) {
+  _updateSuggestions(text: string | undefined, threshold: number | undefined, noDebounce: boolean | undefined) {
     // Polymer 2: check for undefined
-    if ([text, threshold, noDebounce].some(arg => arg === undefined)) {
+    if (text === undefined || threshold === undefined || noDebounce === undefined) {
       return;
     }
 
@@ -320,14 +333,14 @@ class GrAutocomplete extends mixinBehaviors( [
     }
   }
 
-  _maybeOpenDropdown(suggestions, focused) {
+  _maybeOpenDropdown(suggestions: Suggestion[], focused: boolean) {
     if (suggestions.length > 0 && focused) {
       return this.$.suggestions.open();
     }
     return this.$.suggestions.close();
   }
 
-  _computeClass(borderless) {
+  _computeClass(borderless: boolean) {
     return borderless ? 'borderless' : '';
   }
 
@@ -335,7 +348,7 @@ class GrAutocomplete extends mixinBehaviors( [
    * _handleKeydown used for key handling in the this.$.input AND all child
    * autocomplete options.
    */
-  _handleKeydown(e) {
+  _handleKeydown(e: KeyboardEvent) {
     this._focused = true;
     switch (e.keyCode) {
       case 38: // Up
@@ -362,7 +375,7 @@ class GrAutocomplete extends mixinBehaviors( [
       case 13: // Enter
         if (this.modifierPressed(e)) { break; }
         e.preventDefault();
-        this._handleInputCommit();
+        this._handleInputCommit(false);
         break;
       default:
         // For any normal keypress, return focus to the input to allow for
@@ -394,7 +407,7 @@ class GrAutocomplete extends mixinBehaviors( [
   /**
    * @param {boolean=} opt_tabComplete
    */
-  _handleInputCommit(opt_tabComplete) {
+  _handleInputCommit(opt_tabComplete: boolean) {
     // Nothing to do if the dropdown is not open.
     if (!this.allowNonSuggestedValues &&
         this.$.suggestions.isHidden) { return; }
@@ -403,9 +416,9 @@ class GrAutocomplete extends mixinBehaviors( [
     this._commit(opt_tabComplete);
   }
 
-  _updateValue(suggestion, suggestions) {
+  _updateValue(suggestion: HTMLElement, suggestions: Suggestion[]) {
     if (!suggestion) { return; }
-    const completed = suggestions[suggestion.dataset.index].value;
+    const completed = suggestions[parseInt(suggestion.dataset.index!)].value;
     if (this.multi) {
       // Append the completed text to the end of the string.
       // Allow spaces within quoted terms.
@@ -417,9 +430,11 @@ class GrAutocomplete extends mixinBehaviors( [
     }
   }
 
-  _handleBodyClick(e) {
-    const eventPath = dom(e).path;
+  _handleBodyClick(e: Event) {
+    const eventPath = e.composedPath();
     for (let i = 0; i < eventPath.length; i++) {
+      // @ts-ignore
+      // (dmfilippov): Unclear how to fix. Error in the code?
       if (eventPath[i] === this) {
         return;
       }
@@ -427,10 +442,10 @@ class GrAutocomplete extends mixinBehaviors( [
     this._focused = false;
   }
 
-  _handleSuggestionTap(e) {
+  _handleSuggestionTap(e: Event) {
     e.stopPropagation();
     this.$.cursor.setCursor(e.target);
-    this._commit();
+    this._commit(false);
   }
 
   /**
@@ -440,7 +455,7 @@ class GrAutocomplete extends mixinBehaviors( [
    *     autocomplete suggestion in order to handle cases like tab-to-complete
    *     without firing the commit event.
    */
-  _commit(opt_silent) {
+  _commit(opt_silent: boolean) {
     // Allow values that are not in suggestion list iff suggestions are empty.
     if (this._suggestions.length > 0) {
       this._updateValue(this._selected, this._suggestions);
@@ -472,7 +487,7 @@ class GrAutocomplete extends mixinBehaviors( [
     this._textChangedSinceCommit = false;
   }
 
-  _computeShowSearchIconClass(showSearchIcon) {
+  _computeShowSearchIconClass(showSearchIcon: boolean) {
     return showSearchIcon ? 'showSearchIcon' : '';
   }
 }

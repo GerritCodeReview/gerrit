@@ -1,5 +1,6 @@
 load(":rules.bzl", "polygerrit_bundle", "wct_suite")
 load("//tools/js:eslint.bzl", "eslint")
+load("@npm_bazel_typescript//:index.bzl", "ts_project")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -19,6 +20,29 @@ polygerrit_bundle(
     ),
     outs = ["polygerrit_ui.zip"],
     entry_point = "elements/gr-app.html",
+    ts_deps = [":pg-ts-srcs"]
+)
+
+ts_project(
+    name="pg-ts-srcs",
+    srcs = glob(
+                   [
+                       "**/*.ts",
+                   ],
+                   exclude = [
+                       "node_modules/**",
+                       "node_modules_licenses/**",
+                       "test/**",
+                       "**/*_test.html",
+                       "**/*_test.js",
+                   ],
+               ),
+    tsconfig = "tsconfig.json",
+    deps = [
+        "@ui_npm//:node_modules",
+
+    ],
+    tsc = "//tools/node_tools:tsc-bin-sh",
 )
 
 filegroup(

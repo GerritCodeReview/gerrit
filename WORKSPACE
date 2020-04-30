@@ -127,6 +127,32 @@ local_repository(
     path = "modules/jgit",
 )
 
+# TODO(davido): Remove this forked java tool upgrade, when new Bazel version is released
+# that includes error prone 2.3.4.
+http_archive(
+    name = "remote_java_tools_linux",
+    sha256 = "74d30ccf161c58bb69db9b2171c954a0563b2d1ff6f5831debbe71ced105c388",
+    urls = [
+        "https://github.com/davido/java_tools/releases/download/javac11-v11.0/java_tools_javac11_linux-v11.0.zip",
+    ],
+)
+
+http_archive(
+    name = "remote_java_tools_windows",
+    sha256 = "384e138ca58842ea563fb7efbe0cb9c5c381bd4de1f6a31f0256823325f81ccc",
+    urls = [
+        "https://github.com/davido/java_tools/releases/download/javac11-v11.0/java_tools_javac11_windows-v11.0.zip",
+    ],
+)
+
+http_archive(
+    name = "remote_java_tools_darwin",
+    sha256 = "5a9f320c33424262e505151dd5c6903e36678a0f0bbdaae67bcf07f41d8c7cf3",
+    urls = [
+        "https://github.com/davido/java_tools/releases/download/javac11-v11.0/java_tools_javac11_darwin-v11.0.zip",
+    ],
+)
+
 ANTLR_VERS = "3.5.2"
 
 maven_jar(

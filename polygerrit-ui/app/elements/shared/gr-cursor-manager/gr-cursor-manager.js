@@ -19,11 +19,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-cursor-manager_html.js';
-
-const ScrollBehavior = {
-  NEVER: 'never',
-  KEEP_VISIBLE: 'keep-visible',
-};
+import {ScrollBehavior} from '../../../constants/constants.js';
 
 /** @extends Polymer.Element */
 class GrCursorManager extends GestureEventListeners(
@@ -298,7 +294,9 @@ class GrCursorManager extends GestureEventListeners(
       this._targetHeight = newTarget.scrollHeight;
     }
 
-    if (this.focusOnMove) { this.target.focus(); }
+    if (this.focusOnMove && this.scrollBehavior != ScrollBehavior.NEVER) {
+      this.target.focus();
+    }
 
     this._decorateTarget();
   }

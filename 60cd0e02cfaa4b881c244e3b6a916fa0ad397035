@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "004299e9_147b60f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-04-30T21:54:18Z",
+      "side": 1,
+      "message": "So, I did both on Linux: bazel build :release and bazel build javatests/... with the --java_toolchain and --host_java_toolchain options as explained above, but I have not seen any new warning or error caused by new error prone version, even though this change is based on another change, where many new error prone bug pattern were added with severity error.\n\nAm I missing something?\n\nI would expect, that at least one breakage should be reported by this series? OK, we can simulate one of the problems related to the new bug patterns in the code, and see, if this series would report them.",
+      "revId": "60cd0e02cfaa4b881c244e3b6a916fa0ad397035",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

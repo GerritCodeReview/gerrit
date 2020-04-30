@@ -118,6 +118,30 @@
       "revId": "77b077579b205f285f82b6e94dacf990b3dd0de7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1030a8c3_0cc437e2",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-04-30T15:30:07Z",
+      "side": 1,
+      "message": "I would expect it to bump up the thread count on the existing queue to meet the requirements.",
+      "parentUuid": "ec59008d_8ac45f1a",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 1
+      },
+      "revId": "77b077579b205f285f82b6e94dacf990b3dd0de7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

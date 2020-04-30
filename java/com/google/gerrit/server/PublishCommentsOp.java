@@ -19,6 +19,7 @@ import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.change.EmailReviewComments;
@@ -114,7 +115,23 @@ public class PublishCommentsOp implements BatchUpdateOp {
     PatchSet ps = psUtil.get(changeNotes, psId);
     NotifyResolver.Result notify = ctx.getNotify(changeNotes.getChangeId());
     if (notify.shouldNotify()) {
-      email.create(notify, changeNotes, ps, user, message, comments, null, labelDelta).sendAsync();
+      try {
+        email
+            .create(
+                notify,
+                changeNotes,
+                ps,
+                user,
+                message,
+                comments,
+                null,
+                labelDelta,
+                ctx.getRepoView())
+            .sendAsync();
+      } catch (IOException ex) {
+        throw new StorageException(
+            String.format("Repository %s not found", ctx.getProject().get()), ex);
+      }
     }
     commentAdded.fire(
         changeNotes.getChange(),

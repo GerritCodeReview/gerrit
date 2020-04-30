@@ -1521,6 +1521,13 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(m.rcpt()).containsExactly(user.getNameEmail());
     assertThat(m.body()).contains("I'd like you to do a code review");
     assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
+    assertThat(m.headers().get("Message-ID").toString())
+        .contains(
+            repoManager
+                .openRepository(project)
+                .exactRef(result.getChange().getId().toRefPrefix() + "meta")
+                .getObjectId()
+                .getName());
     assertMailReplyTo(m, admin.email());
   }
 

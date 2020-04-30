@@ -21,6 +21,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.mail.send.DeleteReviewerSender;
+import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
@@ -36,6 +37,8 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
   }
 
   private final DeleteReviewerSender.Factory deleteReviewerSenderFactory;
+  private final MessageIdGenerator messageIdGenerator;
+
   private final Address reviewer;
 
   private ChangeMessage changeMessage;
@@ -43,8 +46,11 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
 
   @Inject
   DeleteReviewerByEmailOp(
-      DeleteReviewerSender.Factory deleteReviewerSenderFactory, @Assisted Address reviewer) {
+      DeleteReviewerSender.Factory deleteReviewerSenderFactory,
+      MessageIdGenerator messageIdGenerator,
+      @Assisted Address reviewer) {
     this.deleteReviewerSenderFactory = deleteReviewerSenderFactory;
+    this.messageIdGenerator = messageIdGenerator;
     this.reviewer = reviewer;
   }
 
@@ -79,6 +85,8 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
       cm.addReviewersByEmail(Collections.singleton(reviewer));
       cm.setChangeMessage(changeMessage.getMessage(), changeMessage.getWrittenOn());
       cm.setNotify(notify);
+      cm.setMessageId(
+          messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
       cm.send();
     } catch (Exception err) {
       logger.atSevere().withCause(err).log("Cannot email update for change %s", change.getId());

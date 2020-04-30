@@ -35,11 +35,16 @@ public class AddKeySender extends OutgoingEmail {
   private final IdentifiedUser user;
   private final AccountSshKey sshKey;
   private final List<String> gpgKeys;
+  private final MessageIdGenerator messageIdGenerator;
 
   @AssistedInject
   public AddKeySender(
-      EmailArguments args, @Assisted IdentifiedUser user, @Assisted AccountSshKey sshKey) {
+      EmailArguments args,
+      MessageIdGenerator messageIdGenerator,
+      @Assisted IdentifiedUser user,
+      @Assisted AccountSshKey sshKey) {
     super(args, "addkey");
+    this.messageIdGenerator = messageIdGenerator;
     this.user = user;
     this.sshKey = sshKey;
     this.gpgKeys = null;
@@ -47,8 +52,12 @@ public class AddKeySender extends OutgoingEmail {
 
   @AssistedInject
   public AddKeySender(
-      EmailArguments args, @Assisted IdentifiedUser user, @Assisted List<String> gpgKeys) {
+      EmailArguments args,
+      MessageIdGenerator messageIdGenerator,
+      @Assisted IdentifiedUser user,
+      @Assisted List<String> gpgKeys) {
     super(args, "addkey");
+    this.messageIdGenerator = messageIdGenerator;
     this.user = user;
     this.sshKey = null;
     this.gpgKeys = gpgKeys;
@@ -58,6 +67,7 @@ public class AddKeySender extends OutgoingEmail {
   protected void init() throws EmailException {
     super.init();
     setHeader("Subject", String.format("[Gerrit Code Review] New %s Keys Added", getKeyType()));
+    setMessageId(messageIdGenerator.fromAccountUpdate(user.getAccountId()));
     add(RecipientType.TO, Address.create(getEmail()));
   }
 

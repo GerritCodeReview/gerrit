@@ -37,6 +37,7 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.gerrit.server.mail.send.RegisterNewEmailSender;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -80,6 +81,7 @@ public class CreateEmail
   private final RegisterNewEmailSender.Factory registerNewEmailFactory;
   private final PutPreferred putPreferred;
   private final OutgoingEmailValidator validator;
+  private final MessageIdGenerator messageIdGenerator;
   private final boolean isDevMode;
 
   @Inject
@@ -91,7 +93,8 @@ public class CreateEmail
       AccountManager accountManager,
       RegisterNewEmailSender.Factory registerNewEmailFactory,
       PutPreferred putPreferred,
-      OutgoingEmailValidator validator) {
+      OutgoingEmailValidator validator,
+      MessageIdGenerator messageIdGenerator) {
     this.self = self;
     this.realm = realm;
     this.permissionBackend = permissionBackend;
@@ -100,6 +103,7 @@ public class CreateEmail
     this.putPreferred = putPreferred;
     this.validator = validator;
     this.isDevMode = authConfig.getAuthType() == DEVELOPMENT_BECOME_ANY_ACCOUNT;
+    this.messageIdGenerator = messageIdGenerator;
   }
 
   @Override
@@ -161,6 +165,7 @@ public class CreateEmail
         if (!sender.isAllowed()) {
           throw new MethodNotAllowedException("Not allowed to add email address " + email);
         }
+        sender.setMessageId(messageIdGenerator.fromAccountUpdate(user.getAccountId()));
         sender.send();
         info.pendingConfirmation = true;
       } catch (EmailException | RuntimeException e) {

@@ -18,6 +18,7 @@ import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
@@ -29,11 +30,16 @@ public class HttpPasswordUpdateSender extends OutgoingEmail {
 
   private final IdentifiedUser user;
   private final String operation;
+  private final MessageIdGenerator messageIdGenerator;
 
   @AssistedInject
   public HttpPasswordUpdateSender(
-      EmailArguments args, @Assisted IdentifiedUser user, @Assisted String operation) {
+      EmailArguments args,
+      MessageIdGenerator messageIdGenerator,
+      @Assisted IdentifiedUser user,
+      @Assisted String operation) {
     super(args, "HttpPasswordUpdate");
+    this.messageIdGenerator = messageIdGenerator;
     this.user = user;
     this.operation = operation;
   }
@@ -42,6 +48,9 @@ public class HttpPasswordUpdateSender extends OutgoingEmail {
   protected void init() throws EmailException {
     super.init();
     setHeader("Subject", "[Gerrit Code Review] HTTP password was " + operation);
+    setMessageId(
+        messageIdGenerator.fromReasonAccountIdAndTimestamp(
+            "HTTP password change", user.getAccountId(), TimeUtil.nowTs()));
     add(RecipientType.TO, Address.create(getEmail()));
   }
 

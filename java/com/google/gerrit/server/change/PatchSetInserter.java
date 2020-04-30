@@ -39,6 +39,7 @@ import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.extensions.events.WorkInProgressStateChanged;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -79,6 +80,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
   private final WorkInProgressStateChanged wipStateChanged;
+  private final MessageIdGenerator messageIdGenerator;
 
   // Assisted-injected fields.
   private final PatchSet.Id psId;
@@ -120,6 +122,7 @@ public class PatchSetInserter implements BatchUpdateOp {
       RevisionCreated revisionCreated,
       ProjectCache projectCache,
       WorkInProgressStateChanged wipStateChanged,
+      MessageIdGenerator messageIdGenerator,
       @Assisted ChangeNotes notes,
       @Assisted PatchSet.Id psId,
       @Assisted ObjectId commitId) {
@@ -133,6 +136,7 @@ public class PatchSetInserter implements BatchUpdateOp {
     this.revisionCreated = revisionCreated;
     this.projectCache = projectCache;
     this.wipStateChanged = wipStateChanged;
+    this.messageIdGenerator = messageIdGenerator;
 
     this.origNotes = notes;
     this.psId = psId;
@@ -291,6 +295,7 @@ public class PatchSetInserter implements BatchUpdateOp {
         cm.addReviewers(oldReviewers.byState(REVIEWER));
         cm.addExtraCC(oldReviewers.byState(CC));
         cm.setNotify(notify);
+        cm.setMessageId(messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
         cm.send();
       } catch (Exception err) {
         logger.atSevere().withCause(err).log(

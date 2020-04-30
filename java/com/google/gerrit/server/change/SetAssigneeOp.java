@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.AssigneeChanged;
+import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.SetAssigneeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -50,6 +51,7 @@ public class SetAssigneeOp implements BatchUpdateOp {
   private final SetAssigneeSender.Factory setAssigneeSenderFactory;
   private final Provider<IdentifiedUser> user;
   private final IdentifiedUser.GenericFactory userFactory;
+  private final MessageIdGenerator messageIdGenerator;
 
   private Change change;
   private IdentifiedUser oldAssignee;
@@ -62,6 +64,7 @@ public class SetAssigneeOp implements BatchUpdateOp {
       SetAssigneeSender.Factory setAssigneeSenderFactory,
       Provider<IdentifiedUser> user,
       IdentifiedUser.GenericFactory userFactory,
+      MessageIdGenerator messageIdGenerator,
       @Assisted IdentifiedUser newAssignee) {
     this.cmUtil = cmUtil;
     this.validationListeners = validationListeners;
@@ -69,6 +72,7 @@ public class SetAssigneeOp implements BatchUpdateOp {
     this.setAssigneeSenderFactory = setAssigneeSenderFactory;
     this.user = user;
     this.userFactory = userFactory;
+    this.messageIdGenerator = messageIdGenerator;
     this.newAssignee = requireNonNull(newAssignee, "assignee");
   }
 
@@ -122,6 +126,8 @@ public class SetAssigneeOp implements BatchUpdateOp {
           setAssigneeSenderFactory.create(
               change.getProject(), change.getId(), newAssignee.getAccountId());
       cm.setFrom(user.get().getAccountId());
+      cm.setMessageId(
+          messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
       cm.send();
     } catch (Exception err) {
       logger.atSevere().withCause(err).log(

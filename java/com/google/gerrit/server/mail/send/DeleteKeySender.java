@@ -38,11 +38,16 @@ public class DeleteKeySender extends OutgoingEmail {
   private final IdentifiedUser user;
   private final AccountSshKey sshKey;
   private final List<String> gpgKeyFingerprints;
+  private final MessageIdGenerator messageIdGenerator;
 
   @AssistedInject
   public DeleteKeySender(
-      EmailArguments args, @Assisted IdentifiedUser user, @Assisted AccountSshKey sshKey) {
+      EmailArguments args,
+      MessageIdGenerator messageIdGenerator,
+      @Assisted IdentifiedUser user,
+      @Assisted AccountSshKey sshKey) {
     super(args, "deletekey");
+    this.messageIdGenerator = messageIdGenerator;
     this.user = user;
     this.gpgKeyFingerprints = Collections.emptyList();
     this.sshKey = sshKey;
@@ -51,9 +56,11 @@ public class DeleteKeySender extends OutgoingEmail {
   @AssistedInject
   public DeleteKeySender(
       EmailArguments args,
+      MessageIdGenerator messageIdGenerator,
       @Assisted IdentifiedUser user,
       @Assisted List<String> gpgKeyFingerprints) {
     super(args, "deletekey");
+    this.messageIdGenerator = messageIdGenerator;
     this.user = user;
     this.gpgKeyFingerprints = gpgKeyFingerprints;
     this.sshKey = null;
@@ -63,6 +70,7 @@ public class DeleteKeySender extends OutgoingEmail {
   protected void init() throws EmailException {
     super.init();
     setHeader("Subject", String.format("[Gerrit Code Review] %s Keys Deleted", getKeyType()));
+    setMessageId(messageIdGenerator.fromAccountUpdate(user.getAccountId()));
     add(RecipientType.TO, Address.create(getEmail()));
   }
 

@@ -20,6 +20,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.InputWithMessage;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -32,6 +33,7 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
 
 /* Set work in progress or ready for review state on a change */
 public class WorkInProgressOp implements BatchUpdateOp {
@@ -131,16 +133,22 @@ public class WorkInProgressOp implements BatchUpdateOp {
         || !sendEmail) {
       return;
     }
-    email
-        .create(
-            notify,
-            notes,
-            ps,
-            ctx.getIdentifiedUser(),
-            cmsg,
-            ImmutableList.of(),
-            cmsg.getMessage(),
-            ImmutableList.of())
-        .sendAsync();
+    try {
+      email
+          .create(
+              notify,
+              notes,
+              ps,
+              ctx.getIdentifiedUser(),
+              cmsg,
+              ImmutableList.of(),
+              cmsg.getMessage(),
+              ImmutableList.of(),
+              ctx.getRepoView())
+          .sendAsync();
+    } catch (IOException ex) {
+      throw new StorageException(
+          String.format("Repository %s not found", ctx.getProject().get()), ex);
+    }
   }
 }

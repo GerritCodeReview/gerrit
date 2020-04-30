@@ -61,6 +61,7 @@ import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.MergedByPushOp;
 import com.google.gerrit.server.git.receive.ReceiveCommits.MagicBranchInput;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
+import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -128,6 +129,8 @@ public class ReplaceOp implements BatchUpdateOp {
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
   private final ProjectCache projectCache;
   private final ReviewerAdder reviewerAdder;
+  private final Change change;
+  private final MessageIdGenerator messageIdGenerator;
 
   private final ProjectState projectState;
   private final BranchNameKey dest;
@@ -140,7 +143,6 @@ public class ReplaceOp implements BatchUpdateOp {
   private final PatchSetInfo info;
   private final MagicBranchInput magicBranch;
   private final PushCertificate pushCertificate;
-  private final Change change;
   private List<String> groups;
 
   private final Map<String, Short> approvals = new HashMap<>();
@@ -172,6 +174,7 @@ public class ReplaceOp implements BatchUpdateOp {
       @SendEmailExecutor ExecutorService sendEmailExecutor,
       ReviewerAdder reviewerAdder,
       Change change,
+      MessageIdGenerator messageIdGenerator,
       @Assisted ProjectState projectState,
       @Assisted BranchNameKey dest,
       @Assisted boolean checkMergedInto,
@@ -197,6 +200,8 @@ public class ReplaceOp implements BatchUpdateOp {
     this.projectCache = projectCache;
     this.sendEmailExecutor = sendEmailExecutor;
     this.reviewerAdder = reviewerAdder;
+    this.change = change;
+    this.messageIdGenerator = messageIdGenerator;
 
     this.projectState = projectState;
     this.dest = dest;
@@ -210,7 +215,6 @@ public class ReplaceOp implements BatchUpdateOp {
     this.groups = groups;
     this.magicBranch = magicBranch;
     this.pushCertificate = pushCertificate;
-    this.change = change;
   }
 
   @Override
@@ -533,6 +537,7 @@ public class ReplaceOp implements BatchUpdateOp {
                     oldRecipients.getCcOnly().stream(),
                     reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCs).stream())
                 .collect(toImmutableSet()));
+        cm.setMessageId(messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSetId));
         // TODO(dborowitz): Support byEmail
         cm.send();
       } catch (Exception e) {

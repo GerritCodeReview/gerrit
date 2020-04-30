@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "390c479b_16d25a74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T15:04:02Z",
+      "side": 1,
+      "message": "commenting",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "89db507ff9b693e158acd97792f9e8ae1e8e7f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f198a43f_1b009741",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T15:04:02Z",
+      "side": 1,
+      "message": "a comment is",
+      "range": {
+        "startLine": 9,
+        "startChar": 52,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "89db507ff9b693e158acd97792f9e8ae1e8e7f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee7a9571_e0ea7ee3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T15:04:02Z",
+      "side": 1,
+      "message": "patchsets",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "89db507ff9b693e158acd97792f9e8ae1e8e7f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b403127c_45bb6a28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T15:04:02Z",
+      "side": 1,
+      "message": "then the comment",
+      "range": {
+        "startLine": 10,
+        "startChar": 33,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "89db507ff9b693e158acd97792f9e8ae1e8e7f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47a54311_cb282c53",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T15:04:02Z",
+      "side": 1,
+      "message": "Nit: In an ideal world this would be moved to a filesService or -Model such that the file list and the diff view don\u0027t have to duplicate such code.",
+      "revId": "89db507ff9b693e158acd97792f9e8ae1e8e7f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1c0a8fe_5929bbc3",
+        "filename": "polygerrit-ui/app/types/types.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-04-30T15:04:02Z",
+      "side": 1,
+      "message": "I am not happy with the name.\n\nThis is not really about old and new. This an object to be used for the diff view. So this is more left and right.\n\nWe already have patchRange and commitRange that are serving a similar purpose. They carry the information of a file detail for the left side and the right side. If you don\u0027t want to go deeper, then I would recommend adopting the naming and making this a fileRange with basePath and path.\n\nIf you want to go deeper, then I would recommend creating a DiffChoice object that contains leftFileInfo and rightFileInfo. And each fileInfo contains path, patchNum and commit.",
+      "range": {
+        "startLine": 321,
+        "startChar": 7,
+        "endLine": 321,
+        "endChar": 22
+      },
+      "revId": "89db507ff9b693e158acd97792f9e8ae1e8e7f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

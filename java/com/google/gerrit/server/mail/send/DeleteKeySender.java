@@ -22,6 +22,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -60,9 +61,10 @@ public class DeleteKeySender extends OutgoingEmail {
   }
 
   @Override
-  protected void init() throws EmailException {
+  protected void init() throws EmailException, IOException {
     super.init();
     setHeader("Subject", String.format("[Gerrit Code Review] %s Keys Deleted", getKeyType()));
+    setMessageIdAsUserRef(user.getAccountId().get());
     add(RecipientType.TO, Address.create(getEmail()));
   }
 

@@ -122,6 +122,7 @@ public class SetAssigneeOp implements BatchUpdateOp {
           setAssigneeSenderFactory.create(
               change.getProject(), change.getId(), newAssignee.getAccountId());
       cm.setFrom(user.get().getAccountId());
+      cm.setMessageIdAsChangeMetaRef(ctx.getRepoView(), change.getId().toRefPrefix());
       cm.send();
     } catch (Exception err) {
       logger.atSevere().withCause(err).log(

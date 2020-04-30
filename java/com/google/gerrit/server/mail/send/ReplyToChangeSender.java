@@ -19,6 +19,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.server.query.change.ChangeData;
+import java.io.IOException;
 
 /** Alert a user to a reply to a change, usually commentary made during review. */
 public abstract class ReplyToChangeSender extends ChangeEmail {
@@ -31,7 +32,7 @@ public abstract class ReplyToChangeSender extends ChangeEmail {
   }
 
   @Override
-  protected void init() throws EmailException {
+  protected void init() throws EmailException, IOException {
     super.init();
 
     final String threadId = getChangeMessageThreadId();

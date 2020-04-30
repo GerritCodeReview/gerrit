@@ -22,6 +22,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+import java.io.IOException;
 import java.util.List;
 
 /** Sender that informs a user by email about the addition of an SSH or GPG key to their account. */
@@ -55,9 +56,10 @@ public class AddKeySender extends OutgoingEmail {
   }
 
   @Override
-  protected void init() throws EmailException {
+  protected void init() throws EmailException, IOException {
     super.init();
     setHeader("Subject", String.format("[Gerrit Code Review] New %s Keys Added", getKeyType()));
+    setMessageIdAsUserRef(user.getAccountId().get());
     add(RecipientType.TO, Address.create(getEmail()));
   }
 

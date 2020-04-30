@@ -366,7 +366,8 @@ public class MailProcessor {
               changeMessage,
               comments,
               patchSetComment,
-              ImmutableList.of())
+              ImmutableList.of(),
+              ctx.getRepoView())
           .sendAsync();
       // Get previous approvals from this user
       Map<String, Short> approvals = new HashMap<>();

@@ -20,6 +20,7 @@ import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
 
 /** Send notice about a change being restored by its owner. */
 public class RestoredSender extends ReplyToChangeSender {
@@ -35,7 +36,7 @@ public class RestoredSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void init() throws EmailException {
+  protected void init() throws EmailException, IOException {
     super.init();
 
     ccAllApprovals();

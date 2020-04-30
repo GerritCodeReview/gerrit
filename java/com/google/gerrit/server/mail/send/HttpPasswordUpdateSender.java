@@ -20,6 +20,7 @@ import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+import java.io.IOException;
 
 /** Sender that informs a user by email that the HTTP password of their account was updated. */
 public class HttpPasswordUpdateSender extends OutgoingEmail {
@@ -39,9 +40,10 @@ public class HttpPasswordUpdateSender extends OutgoingEmail {
   }
 
   @Override
-  protected void init() throws EmailException {
+  protected void init() throws EmailException, IOException {
     super.init();
     setHeader("Subject", "[Gerrit Code Review] HTTP password was " + operation);
+    setMessageIdAsUserRef(user.getAccountId().get());
     add(RecipientType.TO, Address.create(getEmail()));
   }
 

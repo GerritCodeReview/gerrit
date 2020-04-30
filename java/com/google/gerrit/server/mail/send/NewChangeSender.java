@@ -19,6 +19,7 @@ import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.query.change.ChangeData;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -53,11 +54,10 @@ public abstract class NewChangeSender extends ChangeEmail {
   }
 
   @Override
-  protected void init() throws EmailException {
+  protected void init() throws EmailException, IOException {
     super.init();
 
     String threadId = getChangeMessageThreadId();
-    setHeader("Message-ID", threadId);
     setHeader("References", threadId);
 
     switch (notify.handling()) {

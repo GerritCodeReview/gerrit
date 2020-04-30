@@ -20,6 +20,7 @@ import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
 
 /** Send notice about a change being abandoned by its owner. */
 public class AbandonedSender extends ReplyToChangeSender {
@@ -35,7 +36,7 @@ public class AbandonedSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void init() throws EmailException {
+  protected void init() throws EmailException, IOException {
     super.init();
 
     ccAllApprovals();

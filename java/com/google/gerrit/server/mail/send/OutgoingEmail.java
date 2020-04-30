@@ -22,6 +22,7 @@ import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.UserIdentity;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
@@ -33,10 +34,15 @@ import com.google.gerrit.mail.EmailHeader.AddressList;
 import com.google.gerrit.mail.MailHeader;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.NotifyResolver;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.update.RepoView;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
+import com.google.inject.Inject;
 import com.google.template.soy.jbcsrc.api.SoySauce;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -52,7 +58,10 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.StringJoiner;
 import org.apache.james.mime4j.dom.field.FieldName;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.util.SystemReader;
 
 /** Sends an email to one or more interested parties. */
@@ -74,6 +83,9 @@ public abstract class OutgoingEmail {
   protected Account.Id fromId;
   protected NotifyResolver.Result notify = NotifyResolver.Result.all();
 
+  @Inject private GitRepositoryManager repositoryManager;
+  @Inject private AllUsersName allUsersName;
+
   protected OutgoingEmail(EmailArguments args, String messageClass) {
     this.args = args;
     this.messageClass = messageClass;
@@ -88,12 +100,55 @@ public abstract class OutgoingEmail {
     this.notify = requireNonNull(notify);
   }
 
+  protected void setMessageId(String messageId) {
+    setHeader(FieldName.MESSAGE_ID, messageId);
+  }
+
+  public void setMessageIdAsChangeMetaRef(RepoView repoView, String changeRef) throws IOException {
+    String metaRef = changeRef.concat("meta");
+    Optional<ObjectId> metaSha1 = repoView.getRef(metaRef);
+    if (metaSha1.isPresent()) {
+      setMessageId(metaSha1.get().getName());
+    } else {
+      throw new IllegalStateException(metaRef + " doesn't exist");
+    }
+  }
+
+  public void setMessageIdAsChangeMetaRef(Project.NameKey project, String changeRef)
+      throws IOException {
+    try (Repository repository = repositoryManager.openRepository(project)) {
+      String metaRef = changeRef.concat("meta");
+      Ref ref = repository.getRefDatabase().getRef(metaRef);
+      if (ref != null) {
+        setMessageId(ref.getObjectId().getName());
+      } else {
+        throw new IllegalStateException(metaRef + " doesn't exist");
+      }
+    }
+  }
+
+  public void setMessageIdAsUserRef(int accountId) throws IOException {
+    try (Repository repository = repositoryManager.openRepository(allUsersName)) {
+      String prefixAccountId =
+          (accountId % 100 > 9)
+              ? String.valueOf(accountId % 100)
+              : String.valueOf('0').concat(String.valueOf(accountId % 100));
+      String userRef =
+          String.format("refs/users/%s/%s", prefixAccountId, String.valueOf(accountId));
+      Ref ref = repository.getRefDatabase().findRef(userRef);
+      if (ref != null) {
+        setMessageId(ref.getObjectId().getName());
+      } else {
+        throw new IllegalStateException(userRef + " doesn't exist");
+      }
+    }
+  }
   /**
    * Format and enqueue the message for delivery.
    *
    * @throws EmailException
    */
-  public void send() throws EmailException {
+  public void send() throws EmailException, IOException {
     if (!args.emailSender.isEnabled()) {
       // Server has explicitly disabled email sending.
       //
@@ -254,7 +309,7 @@ public abstract class OutgoingEmail {
    *
    * @throws EmailException if an error occurred.
    */
-  protected void init() throws EmailException {
+  protected void init() throws EmailException, IOException {
     setupSoyContext();
 
     smtpFromAddress = args.fromAddressGenerator.get().from(fromId);
@@ -262,7 +317,6 @@ public abstract class OutgoingEmail {
     headers.put(FieldName.FROM, new EmailHeader.AddressList(smtpFromAddress));
     headers.put(FieldName.TO, new EmailHeader.AddressList());
     headers.put(FieldName.CC, new EmailHeader.AddressList());
-    setHeader(FieldName.MESSAGE_ID, "");
     setHeader(MailHeader.AUTO_SUBMITTED.fieldName(), "auto-generated");
 
     for (RecipientType recipientType : notify.accounts().keySet()) {

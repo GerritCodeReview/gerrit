@@ -26,6 +26,7 @@ import com.google.gerrit.mail.Address;
 import com.google.gerrit.mail.MailHeader;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +42,7 @@ public abstract class NotificationEmail extends OutgoingEmail {
   }
 
   @Override
-  protected void init() throws EmailException {
+  protected void init() throws EmailException, IOException {
     super.init();
     setListIdHeader();
   }

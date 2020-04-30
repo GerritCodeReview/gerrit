@@ -189,6 +189,8 @@ public class MergedByPushOp implements BatchUpdateOp {
                           mergedSenderFactory.create(ctx.getProject(), psId.changeId());
                       cm.setFrom(ctx.getAccountId());
                       cm.setPatchSet(patchSet, info);
+                      cm.setMessageIdAsChangeMetaRef(
+                          ctx.getRepoView(), change.getId().toRefPrefix());
                       cm.send();
                     } catch (Exception e) {
                       logger.atSevere().withCause(e).log(

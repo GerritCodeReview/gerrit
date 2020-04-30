@@ -882,14 +882,23 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     @Override
-    public void postUpdate(Context ctx) {
+    public void postUpdate(Context ctx) throws IOException {
       if (message == null) {
         return;
       }
       NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
       if (notify.shouldNotify()) {
         email
-            .create(notify, notes, ps, user, message, comments, in.message, labelDelta)
+            .create(
+                notify,
+                notes,
+                ps,
+                user,
+                message,
+                comments,
+                in.message,
+                labelDelta,
+                ctx.getRepoView())
             .sendAsync();
       }
       commentAdded.fire(

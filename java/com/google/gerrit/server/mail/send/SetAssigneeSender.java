@@ -21,6 +21,7 @@ import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
 
 /**
  * Sender that informs a user by email that they were set as assignee on a change.
@@ -47,7 +48,7 @@ public class SetAssigneeSender extends ChangeEmail {
   }
 
   @Override
-  protected void init() throws EmailException {
+  protected void init() throws EmailException, IOException {
     super.init();
 
     add(RecipientType.TO, assignee);

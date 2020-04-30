@@ -161,6 +161,7 @@ public class CreateEmail
         if (!sender.isAllowed()) {
           throw new MethodNotAllowedException("Not allowed to add email address " + email);
         }
+        sender.setMessageIdAsUserRef(user.getAccountId().get());
         sender.send();
         info.pendingConfirmation = true;
       } catch (EmailException | RuntimeException e) {

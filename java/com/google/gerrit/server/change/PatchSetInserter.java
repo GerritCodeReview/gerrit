@@ -291,6 +291,7 @@ public class PatchSetInserter implements BatchUpdateOp {
         cm.addReviewers(oldReviewers.byState(REVIEWER));
         cm.addExtraCC(oldReviewers.byState(CC));
         cm.setNotify(notify);
+        cm.setMessageIdAsChangeMetaRef(ctx.getRepoView(), change.getId().toRefPrefix());
         cm.send();
       } catch (Exception err) {
         logger.atSevere().withCause(err).log(

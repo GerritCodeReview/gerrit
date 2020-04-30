@@ -137,7 +137,7 @@ public class CommentSender extends ReplyToChangeSender {
   }
 
   @Override
-  protected void init() throws EmailException {
+  protected void init() throws EmailException, IOException {
     super.init();
 
     if (notify.handling().compareTo(NotifyHandling.OWNER_REVIEWERS) >= 0) {

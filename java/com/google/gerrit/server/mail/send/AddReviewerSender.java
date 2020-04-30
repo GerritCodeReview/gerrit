@@ -19,6 +19,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
 
 /** Asks a user to review a change. */
 public class AddReviewerSender extends NewChangeSender {
@@ -33,7 +34,7 @@ public class AddReviewerSender extends NewChangeSender {
   }
 
   @Override
-  protected void init() throws EmailException {
+  protected void init() throws EmailException, IOException {
     super.init();
 
     ccExistingReviewers();

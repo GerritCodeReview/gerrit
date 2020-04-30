@@ -149,6 +149,7 @@ public class Restore
         ReplyToChangeSender cm = restoredSenderFactory.create(ctx.getProject(), change.getId());
         cm.setFrom(ctx.getAccountId());
         cm.setChangeMessage(message.getMessage(), ctx.getWhen());
+        cm.setMessageIdAsChangeMetaRef(ctx.getRepoView(), change.getId().toRefPrefix());
         cm.send();
       } catch (Exception e) {
         logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());

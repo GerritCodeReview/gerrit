@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+const __source__files = null;
 
 const path = require('path');
 
@@ -57,6 +58,39 @@ const importLocalFontMetaUrlResolver = function() {
   }
 };
 
+function tsFileLoader() {
+  const workDir = process.cwd();
+  if(!__source__files) {
+    console.error(`__source__files is not set. It can be a problem with a bazel rules`);
+    process.exit(1);
+  }
+  return {
+    resolveId: function(source, importer) {
+      return this.resolve(source, importer, {skipSelf: true}).then(resolveResult => {
+        if(!resolveResult) {
+          if(source.startsWith('./') || source.startsWith('../')) {
+            if(!importer) {
+              console.log(`Importer is null!!!`);
+              process.exit(1);
+            }
+            const target = path.join(path.dirname(importer), source);
+            const relativePath = path.relative(workDir, target);
+            const files = __source__files.map.filter(f => relativePath.endsWith(f.file));
+            if(!files.length) {
+              return null;
+            }
+            if(files.length > 1) {
+              console.log(`Error!`);
+              process.exit(1);
+            }
+            return path.join(workDir, files[0].location);
+          }
+        }
+      });
+    }
+  };
+}
+
 export default {
   treeshake: false,
   onwarn: warning => {
@@ -79,7 +113,7 @@ export default {
   },
   //Context must be set to window to correctly processing global variables
   context: 'window',
-  plugins: [resolve({
+  plugins: [tsFileLoader(), resolve({
     customResolveOptions: {
       moduleDirectory: 'external/ui_npm/node_modules'
     }

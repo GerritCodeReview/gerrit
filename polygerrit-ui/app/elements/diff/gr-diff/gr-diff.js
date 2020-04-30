@@ -262,6 +262,10 @@ class GrDiff extends mixinBehaviors( [
       /** Set by Polymer. */
       isAttached: Boolean,
       layers: Array,
+      renderingInOrder: {
+        type: Boolean,
+        value: false,
+      },
     };
   }
 
@@ -805,7 +809,8 @@ class GrDiff extends mixinBehaviors( [
     this._showWarning = false;
 
     const keyLocations = this._computeKeyLocations();
-    this.$.diffBuilder.render(keyLocations, this._getBypassPrefs())
+    this.$.diffBuilder.render(keyLocations, this._getBypassPrefs(),
+        this.renderingInOrder)
         .then(() => {
           this.dispatchEvent(
               new CustomEvent('render', {

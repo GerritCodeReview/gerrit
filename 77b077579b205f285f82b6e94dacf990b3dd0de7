@@ -166,6 +166,30 @@
       "revId": "77b077579b205f285f82b6e94dacf990b3dd0de7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e236317b_1ed3a48e",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-04-30T21:38:31Z",
+      "side": 1,
+      "message": "I suspect that when developers ask for a queue of a certain size, knowing that they are willing to share that queue, that they mean\"at least\" a certain size. Same for metrics, if they didn\u0027t request metrics I don\u0027t think they will be upset if they get them anyway. In light of the willingness to share a queue, I would view the requirement requests as requests for minimums, not exact requests, perhaps hinting at that in the method name would help, getSharedQueueAtLeast()?",
+      "parentUuid": "22d0014f_3f40ecee",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 1
+      },
+      "revId": "77b077579b205f285f82b6e94dacf990b3dd0de7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

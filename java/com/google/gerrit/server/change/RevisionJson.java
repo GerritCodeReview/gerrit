@@ -31,7 +31,6 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
@@ -362,10 +361,5 @@ public class RevisionJson {
   @Nullable
   private RevWalk newRevWalk(@Nullable Repository repo) {
     return repo != null ? new RevWalk(repo) : null;
-  }
-
-  private static boolean containsAnyOf(
-      ImmutableSet<ListChangesOption> set, ImmutableSet<ListChangesOption> toFind) {
-    return !Sets.intersection(toFind, set).isEmpty();
   }
 }

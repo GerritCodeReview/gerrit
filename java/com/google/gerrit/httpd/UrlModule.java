@@ -49,6 +49,8 @@ class UrlModule extends ServletModule {
 
   @Override
   protected void configureServlets() {
+    filter("/*").through(InactiveAccountsLogoutFilter.class);
+
     serve("/cat/*").with(CatServlet.class);
 
     if (authConfig.getAuthType() != AuthType.OAUTH && authConfig.getAuthType() != AuthType.OPENID) {

@@ -22,6 +22,7 @@ import java.util.Arrays;
 import javax.crypto.Mac;
 import javax.crypto.ShortBufferException;
 import javax.crypto.spec.SecretKeySpec;
+import org.apache.commons.codec.binary.Base64;
 
 /**
  * Utility function to compute and verify XSRF tokens.
@@ -46,7 +47,7 @@ public class SignedToken {
   public static String generateRandomKey() {
     final byte[] r = new byte[26];
     new SecureRandom().nextBytes(r);
-    return encodeBase64(r);
+    return encodeBase64PrivateKey(r);
   }
 
   private final int maxAge;
@@ -63,7 +64,7 @@ public class SignedToken {
    */
   public SignedToken(final int age, final String keyBase64) throws XsrfException {
     maxAge = age > 5 ? age / 5 : age;
-    key = new SecretKeySpec(decodeBase64(keyBase64), MAC_ALG);
+    key = new SecretKeySpec(decodeBase64PrivateKey(keyBase64), MAC_ALG);
     rng = new SecureRandom();
     tokenLength = 2 * INT_SZ + newMac().getMacLength();
   }
@@ -169,6 +170,14 @@ public class SignedToken {
     return (int) (System.currentTimeMillis() / 5000L);
   }
 
+  private static byte[] decodeBase64PrivateKey(final String privateKeyBase64String) {
+    return Base64.decodeBase64(toBytes(privateKeyBase64String));
+  }
+
+  private static String encodeBase64PrivateKey(final byte[] buf) {
+    return toString(Base64.encodeBase64(buf));
+  }
+
   private static byte[] decodeBase64(final String s) {
     return BaseEncoding.base64Url().decode(s);
   }
@@ -207,5 +216,13 @@ public class SignedToken {
       r[k] = (byte) s.charAt(k);
     }
     return r;
+  }
+
+  private static String toString(final byte[] b) {
+    final StringBuilder r = new StringBuilder(b.length);
+    for (int i = 0; i < b.length; i++) {
+      r.append((char) b[i]);
+    }
+    return r.toString();
   }
 }

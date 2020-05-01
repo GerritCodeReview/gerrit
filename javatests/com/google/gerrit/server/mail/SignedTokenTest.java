@@ -18,20 +18,14 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import java.util.Random;
+import java.util.regex.Pattern;
 import org.junit.Before;
 import org.junit.Test;
 
 public class SignedTokenTest {
 
-  private static final String REGISTER_EMAIL_PRIVATE_KEY =
-      "R2Vycml0JTIwcmVnaXN0ZXJFbWFpbFByaXZhdGVLZXk=";
-  private static final String URL_SAFE_REGISTER_EMAIL_PRIVATE_KEY =
-      REGISTER_EMAIL_PRIVATE_KEY.replaceFirst("R2", "_-");
-  private static final String URL_UNSAFE_REGISTER_EMAIL_PRIVATE_KEY_WITH_PLUS =
-      REGISTER_EMAIL_PRIVATE_KEY.replaceFirst("R", "+");
-  private static final String URL_UNSAFE_REGISTER_EMAIL_PRIVATE_KEY_WITH_SLASH =
-      REGISTER_EMAIL_PRIVATE_KEY.replaceFirst("R", "/");
-
+  private static final Pattern URL_UNSAFE_CHARS = Pattern.compile("(\\+|/)");
+  private static final String REGISTER_EMAIL_PRIVATE_KEY = "TGMv3/bTC42jUKQndTQrXyHhHYMP0t69i/4=";
   private static final int maxAge = 5;
   private static final String TEXT = "This is a text";
   private static final String FORGED_TEXT = "This is a forged text";
@@ -44,29 +38,23 @@ public class SignedTokenTest {
     signedToken = new SignedToken(maxAge, REGISTER_EMAIL_PRIVATE_KEY);
   }
 
-  /**
-   * Test new token: the key is a normal BASE64 string without index of '62'(+ or _) or '63'(/ or -)
-   */
+  /** Test new token: the key is a normal BASE64 string that can be used for URL safely */
   @Test
   public void newTokenKeyDoesNotContainUnsafeChar() throws Exception {
-    new SignedToken(maxAge, REGISTER_EMAIL_PRIVATE_KEY);
-  }
-
-  /** Test new token: the key is an URL safe BASE64 string with indexes of '62'(_) and '63'(-) */
-  @Test
-  public void newTokenWithUrlSafeBase64() throws Exception {
-    new SignedToken(maxAge, URL_SAFE_REGISTER_EMAIL_PRIVATE_KEY);
+    assertThat(signedToken.newToken(TEXT)).doesNotContainMatch(URL_UNSAFE_CHARS);
   }
 
   /** Test new token: the key is an URL unsafe BASE64 string with index of '62'(+) */
   @Test
   public void newTokenWithUrlUnsafeBase64Plus() throws Exception {
-    IllegalArgumentException thrown =
-        assertThrows(
-            IllegalArgumentException.class,
-            () -> new SignedToken(maxAge, URL_UNSAFE_REGISTER_EMAIL_PRIVATE_KEY_WITH_PLUS));
+    String token = "+" + signedToken.newToken(TEXT);
+    CheckTokenException thrown =
+        assertThrows(CheckTokenException.class, () -> signedToken.checkToken(token, TEXT));
+
+    assertThat(thrown).hasMessageThat().contains("decoding failed");
 
     assertThat(thrown)
+        .hasCauseThat()
         .hasMessageThat()
         .isEqualTo(
             "com.google.common.io.BaseEncoding$DecodingException: Unrecognized character: +");
@@ -75,12 +63,14 @@ public class SignedTokenTest {
   /** Test new token: the key is an URL unsafe BASE64 string with '63'(/) */
   @Test
   public void newTokenWithUrlUnsafeBase64Slash() throws Exception {
-    IllegalArgumentException thrown =
-        assertThrows(
-            IllegalArgumentException.class,
-            () -> new SignedToken(maxAge, URL_UNSAFE_REGISTER_EMAIL_PRIVATE_KEY_WITH_SLASH));
+    String token = "/" + signedToken.newToken(TEXT);
+    CheckTokenException thrown =
+        assertThrows(CheckTokenException.class, () -> signedToken.checkToken(token, TEXT));
+
+    assertThat(thrown).hasMessageThat().contains("decoding failed");
 
     assertThat(thrown)
+        .hasCauseThat()
         .hasMessageThat()
         .isEqualTo(
             "com.google.common.io.BaseEncoding$DecodingException: Unrecognized character: /");

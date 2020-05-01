@@ -14,19 +14,13 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.logging.LoggingContextAwareExecutorService;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -72,29 +66,5 @@ public class SysExecutorModule extends AbstractModule {
       return MoreExecutors.newDirectExecutorService();
     }
     return queues.createQueue(poolSize, "FanOut");
-  }
-
-  @Provides
-  @Singleton
-  @ChangeUpdateExecutor
-  public ListeningExecutorService createChangeUpdateExecutor(@GerritServerConfig Config config) {
-    int poolSize = config.getInt("receive", null, "changeUpdateThreads", 1);
-    if (poolSize <= 1) {
-      return MoreExecutors.newDirectExecutorService();
-    }
-    return MoreExecutors.listeningDecorator(
-        new LoggingContextAwareExecutorService(
-            MoreExecutors.getExitingExecutorService(
-                new ThreadPoolExecutor(
-                    1,
-                    poolSize,
-                    10,
-                    TimeUnit.MINUTES,
-                    new ArrayBlockingQueue<>(poolSize),
-                    new ThreadFactoryBuilder()
-                        .setNameFormat("ChangeUpdate-%d")
-                        .setDaemon(true)
-                        .build(),
-                    new ThreadPoolExecutor.CallerRunsPolicy()))));
   }
 }

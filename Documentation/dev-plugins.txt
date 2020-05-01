@@ -390,6 +390,10 @@ Allows to listen to events visible to the specified user. These are the
 same link:cmd-stream-events.html#events[events] that are also streamed
 by the link:cmd-stream-events.html[gerrit stream-events] command.
 
+* `com.google.gerrit.extensions.events.AccountActivationListener`:
++
+User account got activated or deactivated
+
 * `com.google.gerrit.extensions.events.LifecycleListener`:
 +
 Plugin start and stop

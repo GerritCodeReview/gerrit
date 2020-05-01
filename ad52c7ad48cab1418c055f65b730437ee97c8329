@@ -70,6 +70,30 @@
       "revId": "ad52c7ad48cab1418c055f65b730437ee97c8329",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ffdbd88_7485920e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaUpdater.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-01T21:48:09Z",
+      "side": 0,
+      "message": "Restored. Done.",
+      "parentUuid": "40a270d8_4cd8ff87",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 152,
+        "endChar": 3
+      },
+      "revId": "ad52c7ad48cab1418c055f65b730437ee97c8329",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

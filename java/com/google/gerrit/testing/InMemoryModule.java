@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.base.Strings;
-import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperationsImpl;
@@ -48,7 +47,6 @@ import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
-import com.google.gerrit.server.config.ChangeUpdateExecutor;
 import com.google.gerrit.server.config.DefaultUrlFormatter;
 import com.google.gerrit.server.config.GerritGlobalModule;
 import com.google.gerrit.server.config.GerritInstanceNameModule;
@@ -186,9 +184,6 @@ public class InMemoryModule extends FactoryModule {
     bind(GitRepositoryManager.class).to(InMemoryRepositoryManager.class);
     bind(InMemoryRepositoryManager.class).in(SINGLETON);
     bind(TrackingFooters.class).toProvider(TrackingFootersProvider.class).in(SINGLETON);
-    bind(ListeningExecutorService.class)
-        .annotatedWith(ChangeUpdateExecutor.class)
-        .toInstance(MoreExecutors.newDirectExecutorService());
     bind(SecureStore.class).to(DefaultSecureStore.class);
 
     install(new InMemorySchemaModule());

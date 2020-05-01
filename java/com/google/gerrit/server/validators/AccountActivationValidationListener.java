@@ -26,6 +26,9 @@ public interface AccountActivationValidationListener {
   /**
    * Called when an account should be activated to allow validation of the account activation.
    *
+   * <p>See {@link com.google.gerrit.extensions.events.AccountActivationListener} for a listener
+   * that's run after the account got activated.
+   *
    * @param account the account that should be activated
    * @throws ValidationException if validation fails
    */
@@ -33,6 +36,9 @@ public interface AccountActivationValidationListener {
 
   /**
    * Called when an account should be deactivated to allow validation of the account deactivation.
+   *
+   * <p>See {@link com.google.gerrit.extensions.events.AccountActivationListener} for a listener
+   * that's run after the account got deactivated.
    *
    * @param account the account that should be deactivated
    * @throws ValidationException if validation fails

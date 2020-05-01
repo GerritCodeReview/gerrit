@@ -26,6 +26,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.extensions.events.AccountDeactivatedListener;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.server.account.AccountsUpdate.AccountUpdater;
@@ -52,10 +53,27 @@ public class SetInactiveFlagTest {
   Provider<AccountsUpdate> accountsUpdateProvider;
   PluginSetContext<AccountActivationValidationListener> validatorsPSC;
   ValidationListenerStub validator;
+  PluginSetContext<AccountDeactivatedListener> listenersPSC;
+  DeactivatedListenerStub listener;
   Builder update;
 
   @SuppressWarnings("unchecked")
   public SetInactiveFlag createSetInactiveFlag(boolean active) throws Exception {
+    listener = new DeactivatedListenerStub();
+    listenersPSC = mock(PluginSetContext.class);
+    doAnswer(
+            new Answer<Void>() {
+              @Override
+              public Void answer(InvocationOnMock invocation) throws Exception {
+                ExtensionImplConsumer<AccountDeactivatedListener> extensionImplConsumer =
+                    invocation.getArgument(0);
+                extensionImplConsumer.run(listener);
+                return null;
+              }
+            })
+        .when(listenersPSC)
+        .runEach(any());
+
     validator = new ValidationListenerStub();
     validatorsPSC = mock(PluginSetContext.class);
     doAnswer(
@@ -97,7 +115,7 @@ public class SetInactiveFlagTest {
               }
             });
 
-    return new SetInactiveFlag(validatorsPSC, accountsUpdateProvider);
+    return new SetInactiveFlag(validatorsPSC, accountsUpdateProvider, listenersPSC);
   }
 
   @Test
@@ -123,6 +141,8 @@ public class SetInactiveFlagTest {
     verifyNoMoreInteractions(update); // No other updates than setting active.
 
     validator.verify(ValidationType.VALIDATE_ACTIVATION, accountState);
+    listener.verifyNoDeactivationSeen();
+
     assertThat(res.statusCode()).isEqualTo(201);
   }
 
@@ -158,6 +178,7 @@ public class SetInactiveFlagTest {
     verifyNoMoreInteractions(update); // No updates happened.
 
     validator.verify(ValidationType.VALIDATE_ACTIVATION, accountState);
+    listener.verifyNoDeactivationSeen();
   }
 
   @Test
@@ -180,6 +201,8 @@ public class SetInactiveFlagTest {
     verifyNoMoreInteractions(update); // No update is made
 
     validator.verify(ValidationType.NONE);
+    listener.verifyNoDeactivationSeen();
+
     assertThat(res.statusCode()).isEqualTo(200);
   }
 
@@ -205,6 +228,8 @@ public class SetInactiveFlagTest {
     verifyNoMoreInteractions(update); // No other updates than setting active.
 
     validator.verify(ValidationType.VALIDATE_DEACTIVATION, accountState);
+    listener.verifyDeactivated(4711);
+
     assertThat(res.statusCode()).isEqualTo(204);
   }
 
@@ -239,6 +264,7 @@ public class SetInactiveFlagTest {
     verifyNoMoreInteractions(update); // No updates happened.
 
     validator.verify(ValidationType.VALIDATE_DEACTIVATION, accountState);
+    listener.verifyNoDeactivationSeen();
   }
 
   @Test
@@ -267,6 +293,7 @@ public class SetInactiveFlagTest {
     verifyNoMoreInteractions(update); // No update is made
 
     validator.verify(ValidationType.NONE);
+    listener.verifyNoDeactivationSeen();
   }
 
   private static enum ValidationType {
@@ -319,6 +346,27 @@ public class SetInactiveFlagTest {
     public void verify(ValidationType expectedType, AccountState expectedAccountState) {
       assertThat(lastType).isEqualTo(expectedType);
       assertThat(lastAccountState).isEqualTo(expectedAccountState);
+    }
+  }
+
+  private static class DeactivatedListenerStub implements AccountDeactivatedListener {
+    private Integer lastId = null;
+
+    @Override
+    public void onAccountDeactivated(int id) {
+      if (lastId != null) {
+        throw new AssertionError(
+            "DeactivatedListenerStub has already been called before for id " + lastId);
+      }
+      lastId = id;
+    }
+
+    public void verifyNoDeactivationSeen() {
+      assertThat(lastId).isNull();
+    }
+
+    public void verifyDeactivated(int id) {
+      assertThat(lastId).isEqualTo(id);
     }
   }
 }

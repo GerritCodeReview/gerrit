@@ -16,7 +16,9 @@ package com.google.gerrit.httpd;
 
 import com.google.common.cache.Cache;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.events.AccountActivationListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.httpd.WebSessionManager.Val;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser.RequestFactory;
@@ -48,6 +50,8 @@ public class H2CacheBasedWebSession extends CacheBasedWebSession {
         DynamicItem.bind(binder(), WebSession.class)
             .to(H2CacheBasedWebSession.class)
             .in(RequestScoped.class);
+        DynamicSet.bind(binder(), AccountActivationListener.class)
+            .to(WebSessionManager.Cleaner.class);
       }
     };
   }

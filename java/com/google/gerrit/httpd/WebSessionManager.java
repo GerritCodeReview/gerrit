@@ -31,18 +31,22 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.common.cache.Cache;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.extensions.events.AccountActivationListener;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.name.Named;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.security.SecureRandom;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Config;
 
 public class WebSessionManager {
@@ -313,6 +317,26 @@ public class WebSessionManager {
       if (expiresAt == 0) {
         expiresAt = refreshCookieAt + TimeUnit.HOURS.toMillis(2);
       }
+    }
+  }
+
+  public static class Cleaner implements AccountActivationListener {
+    private final Cache<String, Val> cache;
+
+    @Inject
+    public Cleaner(@Named(WebSessionManager.CACHE_NAME) Cache<String, Val> cache) {
+      this.cache = cache;
+    }
+
+    @Override
+    public void onAccountDeactivated(int id) {
+      Set<String> sessionKeys =
+          cache.asMap().entrySet().stream()
+              .filter(es -> es.getValue().getAccountId().get() == id)
+              .map(es -> es.getKey())
+              .collect(Collectors.toSet());
+
+      cache.invalidateAll(sessionKeys);
     }
   }
 }

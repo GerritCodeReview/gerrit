@@ -400,7 +400,7 @@ In IDE, set `-Dgerrit.logLevel=debug` as a VM argument. With `bazel`, pass
 `GERRIT_LOG_LEVEL=debug` environment variable:
 
 ----
-  bazel test --test_filter=com.gerrit.server.notedb.ChangeNotesTest \
+  bazel test --test_filter=com.google.gerrit.server.notedb.ChangeNotesTest \
   --test_env=GERRIT_LOG_LEVEL=debug \
   javatests/com/google/gerrit/server:server_tests
 ----

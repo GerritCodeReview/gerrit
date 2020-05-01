@@ -46,6 +46,30 @@
       "revId": "ad52c7ad48cab1418c055f65b730437ee97c8329",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40a270d8_4cd8ff87",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/SchemaUpdater.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-01T21:37:43Z",
+      "side": 0,
+      "message": "Confirmed! It was only removed on stable-2.16 branch, in this CL: [1]. I created this change there first, and then decided to move it to stable-2.15 branch, with bad conflict resolution.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/75801/6/java/com/google/gerrit/server/schema/SchemaUpdater.java#b19",
+      "parentUuid": "2e937ddb_86c79075",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 152,
+        "endChar": 3
+      },
+      "revId": "ad52c7ad48cab1418c055f65b730437ee97c8329",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -19,6 +19,7 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Splitter;
+import com.google.gerrit.extensions.events.AccountActivationListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -102,6 +103,9 @@ public class SshModule extends LifecycleModule {
 
     DynamicItem.itemOf(binder(), SshCreateCommandInterceptor.class);
     DynamicSet.setOf(binder(), SshExecuteCommandInterceptor.class);
+
+    DynamicSet.bind(binder(), AccountActivationListener.class)
+        .to(InactiveAccountDisconnector.class);
 
     listener().toInstance(registerInParentInjectors());
     listener().to(SshLog.class);

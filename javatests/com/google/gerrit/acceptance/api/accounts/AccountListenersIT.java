@@ -20,6 +20,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import com.google.gerrit.acceptance.LightweightPluginDaemonTest;
 import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.extensions.events.AccountActivationListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -48,14 +49,19 @@ public class AccountListenersIT extends LightweightPluginDaemonTest {
     @Override
     protected void configure() {
       DynamicSet.bind(binder(), AccountActivationValidationListener.class).to(Validator.class);
+      DynamicSet.bind(binder(), AccountActivationListener.class).to(Listener.class);
     }
   }
 
   Validator validator;
+  Listener listener;
 
   @Before
   public void setUp() {
     validator = plugin.getSysInjector().getInstance(Validator.class);
+
+    listener = plugin.getSysInjector().getInstance(Listener.class);
+    listener.reset();
   }
 
   @Test
@@ -65,7 +71,8 @@ public class AccountListenersIT extends LightweightPluginDaemonTest {
     gApi.accounts().id(id).setActive(true);
 
     validator.assertActivationValidation(id);
-    validator.assertNoMoreEvents();
+    listener.assertActivated(id);
+    assertNoMoreEvents();
     assertThat(gApi.accounts().id(id).getActive()).isTrue();
   }
 
@@ -82,7 +89,8 @@ public class AccountListenersIT extends LightweightPluginDaemonTest {
         });
 
     validator.assertActivationValidation(id);
-    validator.assertNoMoreEvents();
+    // No call to activation listener as validation failed
+    assertNoMoreEvents();
     assertThat(gApi.accounts().id(id).getActive()).isFalse();
   }
 
@@ -93,7 +101,8 @@ public class AccountListenersIT extends LightweightPluginDaemonTest {
     gApi.accounts().id(id).setActive(false);
 
     validator.assertDeactivationValidation(id);
-    validator.assertNoMoreEvents();
+    listener.assertDeactivated(id);
+    assertNoMoreEvents();
     assertThat(gApi.accounts().id(id).getActive()).isFalse();
   }
 
@@ -110,8 +119,14 @@ public class AccountListenersIT extends LightweightPluginDaemonTest {
         });
 
     validator.assertDeactivationValidation(id);
-    validator.assertNoMoreEvents();
+    // No call to activation listener as validation failed
+    assertNoMoreEvents();
     assertThat(gApi.accounts().id(id).getActive()).isTrue();
+  }
+
+  private void assertNoMoreEvents() {
+    validator.assertNoMoreEvents();
+    listener.assertNoMoreEvents();
   }
 
   @Singleton
@@ -160,6 +175,44 @@ public class AccountListenersIT extends LightweightPluginDaemonTest {
     private void assertDeactivationValidation(int id) {
       assertThat(lastIdDeactivationValidation).isEqualTo(id);
       lastIdDeactivationValidation = null;
+    }
+  }
+
+  @Singleton
+  public static class Listener implements AccountActivationListener {
+    private Integer lastIdActivated;
+    private Integer lastIdDeactivated;
+
+    @Override
+    public void onAccountActivated(int id) {
+      assertThat(lastIdActivated).isNull();
+      lastIdActivated = id;
+    }
+
+    @Override
+    public void onAccountDeactivated(int id) {
+      assertThat(lastIdDeactivated).isNull();
+      lastIdDeactivated = id;
+    }
+
+    public void reset() {
+      lastIdActivated = null;
+      lastIdDeactivated = null;
+    }
+
+    private void assertNoMoreEvents() {
+      assertThat(lastIdActivated).isNull();
+      assertThat(lastIdDeactivated).isNull();
+    }
+
+    private void assertDeactivated(int id) {
+      assertThat(lastIdDeactivated).isEqualTo(id);
+      lastIdDeactivated = null;
+    }
+
+    private void assertActivated(int id) {
+      assertThat(lastIdActivated).isEqualTo(id);
+      lastIdActivated = null;
     }
   }
 }

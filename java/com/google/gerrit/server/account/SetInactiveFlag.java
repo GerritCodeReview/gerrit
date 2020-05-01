@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.extensions.events.AccountActivationListener;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -37,13 +38,16 @@ public class SetInactiveFlag {
   private final PluginSetContext<AccountActivationValidationListener>
       accountActivationValidationListeners;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
+  private final PluginSetContext<AccountActivationListener> accountActivationListeners;
 
   @Inject
   SetInactiveFlag(
       PluginSetContext<AccountActivationValidationListener> accountActivationValidationListeners,
-      @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
+      @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider,
+      PluginSetContext<AccountActivationListener> accountActivationListeners) {
     this.accountActivationValidationListeners = accountActivationValidationListeners;
     this.accountsUpdateProvider = accountsUpdateProvider;
+    this.accountActivationListeners = accountActivationListeners;
   }
 
   public Response<?> deactivate(Account.Id accountId)
@@ -76,6 +80,12 @@ public class SetInactiveFlag {
     if (alreadyInactive.get()) {
       throw new ResourceConflictException("account not active");
     }
+
+    // At this point the account got set inactive and no errors occurred
+
+    int id = accountId.get();
+    accountActivationListeners.runEach(l -> l.onAccountDeactivated(id));
+
     return Response.none();
   }
 
@@ -106,6 +116,16 @@ public class SetInactiveFlag {
     if (exception.get().isPresent()) {
       throw exception.get().get();
     }
-    return alreadyActive.get() ? Response.ok("") : Response.created("");
+
+    Response<String> res;
+    if (alreadyActive.get()) {
+      res = Response.ok("");
+    } else {
+      res = Response.created("");
+
+      int id = accountId.get();
+      accountActivationListeners.runEach(l -> l.onAccountActivated(id));
+    }
+    return res;
   }
 }

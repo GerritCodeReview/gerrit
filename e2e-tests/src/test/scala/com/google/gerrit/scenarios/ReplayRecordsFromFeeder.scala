@@ -24,6 +24,8 @@ class ReplayRecordsFromFeeder extends GitSimulation {
   private val data: FileBasedFeederBuilder[Any]#F#F = jsonFile(resource).convert(keys).circular
   private val default: String = name
 
+  override def relativeRuntimeWeight = 30
+
   override def replaceOverride(in: String): String = {
     replaceKeyWith("_project", default, in)
   }
@@ -36,22 +38,24 @@ class ReplayRecordsFromFeeder extends GitSimulation {
 
   private val createProject = new CreateProject(default)
   private val deleteProject = new DeleteProject(default)
+  private val maxBeforeDelete: Int = maxExecutionTime - deleteProject.maxExecutionTime
 
   setUp(
     createProject.test.inject(
+      nothingFor(stepWaitTime(createProject) seconds),
       atOnceUsers(1)
     ),
     test.inject(
-      nothingFor(4 seconds),
+      nothingFor(stepWaitTime(this) seconds),
       atOnceUsers(10),
       rampUsers(10) during (5 seconds),
       constantUsersPerSec(20) during (15 seconds),
       constantUsersPerSec(20) during (15 seconds) randomized
     ),
     deleteProject.test.inject(
-      nothingFor(59 seconds),
+      nothingFor(maxBeforeDelete seconds),
       atOnceUsers(1)
     ),
   ).protocols(gitProtocol, httpProtocol)
-      .maxDuration(61 seconds)
+      .maxDuration(maxExecutionTime seconds)
 }

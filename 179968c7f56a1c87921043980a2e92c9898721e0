@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb839565_683d858e",
+        "filename": "java/com/google/gerrit/extensions/events/AccountDeactivatedListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-05-01T14:39:33Z",
+      "side": 1,
+      "message": "At first I thought it\u0027d be a problem to add a proper extension point to\nwork around the circular sshd dependencies mentioned in the commit message.\n\nEspecially, since we cannot re-use this extension point for web_sessions,\nas they are harder to iterate.\n\nBut at the end of the day, this extension point might be useful for some\nplugins, so they can properly purge their caches upon user deactivation too.",
+      "revId": "179968c7f56a1c87921043980a2e92c9898721e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

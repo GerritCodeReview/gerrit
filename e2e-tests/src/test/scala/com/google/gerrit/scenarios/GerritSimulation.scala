@@ -31,6 +31,26 @@ class GerritSimulation extends Simulation {
   protected val body: String = s"$pathName-body.json"
   protected val unique: String = name + "-" + this.hashCode()
 
+  private val powerFactor: Double = replaceProperty("power_factor", 1.0).toDouble
+  private val SecondsPerWeightUnit: Int = 2
+  val maxExecutionTime: Int = (SecondsPerWeightUnit * relativeRuntimeWeight * powerFactor).toInt
+  private var cumulativeWaitTime: Int = 0
+
+  /**
+   * How long a scenario step should wait before starting to execute.
+   * This is also registering that step's resulting wait time, so that time
+   * can be reused cumulatively by a potentially following scenario step.
+   * (Otherwise, the Gatling set-up scenario steps execute all at once.)
+   *
+   * @param scenario for which to return a wait time.
+   * @return that step's wait time as an Int.
+   */
+  protected def stepWaitTime(scenario: GerritSimulation): Int = {
+    val currentWaitTime = cumulativeWaitTime
+    cumulativeWaitTime += scenario.maxExecutionTime
+    currentWaitTime
+  }
+
   protected val httpRequest: HttpRequestBuilder = http(unique).post("${url}")
   protected val httpProtocol: HttpProtocolBuilder = http.basicAuth(
     conf.httpConfiguration.userName,
@@ -54,11 +74,15 @@ class GerritSimulation extends Simulation {
     replaceProperty(term, term, in)
   }
 
+  private def replaceProperty(term: String, default: Any): String = {
+    replaceProperty(term, default, term.toUpperCase)
+  }
+
   protected def replaceProperty(term: String, default: Any, in: String): String = {
     val property = pack + "." + term
     var value = default
     default match {
-      case _: String =>
+      case _: String | _: Double =>
         val propertyValue = Option(System.getProperty(property))
         if (propertyValue.nonEmpty) {
           value = propertyValue.get
@@ -84,8 +108,26 @@ class GerritSimulation extends Simulation {
    * override def replaceOverride(in: String): String = {
    * // Simple e.g., replaceProperty("EXTENSION_JSON_KEY", "default", in)
    * </pre>
+   *
+   * @param in which string to perform the replacements.
+   * @return the resulting String.
    */
   def replaceOverride(in: String): String = {
     in
   }
+
+  /**
+   * Meant to be optionally overridden by (heavier) scenarios.
+   * This is the relative runtime weight of the scenario class or type,
+   * compared to other scenarios' own runtime weights.
+   *
+   * The default weight or unit of weight is the pre-assigned value below.
+   * This default applies to any scenario class that is not overriding it
+   * with a greater, relative runtime weight value. Overriding scenarios
+   * happen to relatively require more run time than siblings, prior to
+   * being expected as completed.
+   *
+   * @return the relative runtime weight of this scenario as an Int.
+   */
+  def relativeRuntimeWeight = 1
 }

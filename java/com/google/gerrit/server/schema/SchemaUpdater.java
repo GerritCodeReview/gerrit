@@ -95,23 +95,25 @@ public class SchemaUpdater {
   }
 
   public void update(UpdateUI ui) throws OrmException {
+    CurrentSchemaVersion version;
+    SchemaVersion u;
     try (ReviewDb db = ReviewDbUtil.unwrapDb(schema.open())) {
-
-      final SchemaVersion u = updater.get();
-      final CurrentSchemaVersion version = getSchemaVersion(db);
+      version = getSchemaVersion(db);
+      u = updater.get();
       if (version == null) {
         try {
           creator.create(db);
         } catch (IOException | ConfigInvalidException e) {
           throw new OrmException("Cannot initialize schema", e);
         }
+      }
+    }
 
-      } else {
-        try {
-          u.check(ui, version, db);
-        } catch (SQLException e) {
-          throw new OrmException("Cannot upgrade schema", e);
-        }
+    if (version != null) {
+      try {
+        u.check(ui, version, schema);
+      } catch (SQLException e) {
+        throw new OrmException("Cannot upgrade schema", e);
       }
     }
   }

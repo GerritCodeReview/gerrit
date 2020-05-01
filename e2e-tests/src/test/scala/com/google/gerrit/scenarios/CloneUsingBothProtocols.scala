@@ -23,6 +23,7 @@ import scala.concurrent.duration._
 class CloneUsingBothProtocols extends GitSimulation {
   private val data: FileBasedFeederBuilder[Any]#F#F = jsonFile(resource).convert(keys).queue
   private val default: String = name
+  private val duration: Int = 2
 
   override def replaceOverride(in: String): String = {
     replaceKeyWith("_project", default, in)
@@ -37,14 +38,15 @@ class CloneUsingBothProtocols extends GitSimulation {
 
   setUp(
     createProject.test.inject(
+      nothingFor(stepWaitTime(createProject) seconds),
       atOnceUsers(1)
     ),
     test.inject(
-      nothingFor(2 seconds),
-      constantUsersPerSec(1) during (2 seconds)
+      nothingFor(stepWaitTime(this) seconds),
+      constantUsersPerSec(1) during (duration seconds)
     ),
     deleteProject.test.inject(
-      nothingFor(6 seconds),
+      nothingFor(stepWaitTime(deleteProject) + duration seconds),
       atOnceUsers(1)
     ),
   ).protocols(gitProtocol, httpProtocol)

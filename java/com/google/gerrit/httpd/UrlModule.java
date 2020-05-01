@@ -55,6 +55,8 @@ class UrlModule extends ServletModule {
 
   @Override
   protected void configureServlets() {
+    filter("/*").through(InactiveAccountsLogoutFilter.class);
+
     filter("/*").through(GwtCacheControlFilter.class);
 
     if (options.enableGwtUi()) {

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fd4d2325_53054132",
+        "filename": "javatests/com/google/gerrit/server/mail/SignedTokenTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-01T13:00:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f2ed248_9065860b",
+      "range": {
+        "startLine": 65,
+        "startChar": 15,
+        "endLine": 65,
+        "endChar": 33
+      },
+      "revId": "77ace13b3120e7c410c77f80b2d202656fefcc66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2c363d1_fa445a79",
         "filename": "javatests/com/google/gerrit/server/mail/SignedTokenTest.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "77ace13b3120e7c410c77f80b2d202656fefcc66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08921a96_5df57beb",
+        "filename": "javatests/com/google/gerrit/server/mail/SignedTokenTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-01T13:00:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2c363d1_fa445a79",
+      "range": {
+        "startLine": 80,
+        "startChar": 15,
+        "endLine": 80,
+        "endChar": 33
+      },
+      "revId": "77ace13b3120e7c410c77f80b2d202656fefcc66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

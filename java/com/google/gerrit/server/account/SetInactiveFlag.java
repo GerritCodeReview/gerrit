@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.extensions.events.AccountDeactivatedListener;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -38,13 +39,16 @@ public class SetInactiveFlag {
   private final PluginSetContext<AccountActivationValidationListener>
       accountActivationValidationListeners;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
+  private final PluginSetContext<AccountDeactivatedListener> accountDeactivatedListeners;
 
   @Inject
   SetInactiveFlag(
       PluginSetContext<AccountActivationValidationListener> accountActivationValidationListeners,
-      @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
+      @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider,
+      PluginSetContext<AccountDeactivatedListener> accountDeactivatedListeners) {
     this.accountActivationValidationListeners = accountActivationValidationListeners;
     this.accountsUpdateProvider = accountsUpdateProvider;
+    this.accountDeactivatedListeners = accountDeactivatedListeners;
   }
 
   public Response<?> deactivate(Account.Id accountId)
@@ -77,6 +81,12 @@ public class SetInactiveFlag {
     if (alreadyInactive.get()) {
       throw new ResourceConflictException("account not active");
     }
+
+    // At this point the account got set inactive and no errors occurred
+
+    int id = accountId.get();
+    accountDeactivatedListeners.runEach(l -> l.onAccountDeactivated(id));
+
     return Response.none();
   }
 

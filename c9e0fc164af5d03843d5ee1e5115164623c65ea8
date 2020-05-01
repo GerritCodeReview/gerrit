@@ -70,6 +70,30 @@
       "revId": "c9e0fc164af5d03843d5ee1e5115164623c65ea8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9cd127b_8c92b73f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-01T15:15:24Z",
+      "side": 1,
+      "message": "I believe that\u0027s because on master that annotation doesn\u0027t exist anymore. It was a clean merge though, so possibly Git resolved it automatically.",
+      "parentUuid": "80f0f66e_81307228",
+      "range": {
+        "startLine": 12,
+        "startChar": 2,
+        "endLine": 12,
+        "endChar": 48
+      },
+      "revId": "c9e0fc164af5d03843d5ee1e5115164623c65ea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

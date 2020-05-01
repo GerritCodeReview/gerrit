@@ -78,6 +78,7 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Account.Id;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
@@ -104,6 +105,7 @@ import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
+import com.google.gerrit.extensions.events.AccountActivationListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -589,7 +591,7 @@ public class AccountIT extends AbstractDaemonTest {
     Account.Id deactivatableAccountId =
         accountOperations.newAccount().preferredEmail("foo@deactivatable.com").create();
 
-    AccountActivationValidationListener listener =
+    AccountActivationValidationListener validationListener =
         new AccountActivationValidationListener() {
           @Override
           public void validateActivation(AccountState account) throws ValidationException {
@@ -607,7 +609,11 @@ public class AccountIT extends AbstractDaemonTest {
             }
           }
         };
-    try (Registration registration = extensionRegistry.newRegistration().add(listener)) {
+
+    AccountActivationListenerStub listener = new AccountActivationListenerStub();
+
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(validationListener).add(listener)) {
       /* Test account that can be activated, but not deactivated */
       // Deactivate account that is already inactive
       ResourceConflictException thrown =
@@ -616,14 +622,16 @@ public class AccountIT extends AbstractDaemonTest {
               () -> gApi.accounts().id(activatableAccountId.get()).setActive(false));
       assertThat(thrown).hasMessageThat().isEqualTo("account not active");
       assertThat(accountOperations.account(activatableAccountId).get().active()).isFalse();
-
+      listener.assertNoEventsSeen();
       // Activate account that can be activated
       gApi.accounts().id(activatableAccountId.get()).setActive(true);
       assertThat(accountOperations.account(activatableAccountId).get().active()).isTrue();
+      listener.assertSeenOnlyOneEventAndReset(EventType.ACTIVATION, activatableAccountId);
 
       // Activate account that is already active
       gApi.accounts().id(activatableAccountId.get()).setActive(true);
       assertThat(accountOperations.account(activatableAccountId).get().active()).isTrue();
+      listener.assertNoEventsSeen();
 
       // Try deactivating account that cannot be deactivated
       thrown =
@@ -632,15 +640,18 @@ public class AccountIT extends AbstractDaemonTest {
               () -> gApi.accounts().id(activatableAccountId.get()).setActive(false));
       assertThat(thrown).hasMessageThat().isEqualTo("not allowed to deactive account");
       assertThat(accountOperations.account(activatableAccountId).get().active()).isTrue();
+      listener.assertNoEventsSeen();
 
       /* Test account that can be deactivated, but not activated */
       // Activate account that is already inactive
       gApi.accounts().id(deactivatableAccountId.get()).setActive(true);
       assertThat(accountOperations.account(deactivatableAccountId).get().active()).isTrue();
+      listener.assertNoEventsSeen();
 
       // Deactivate account that can be deactivated
       gApi.accounts().id(deactivatableAccountId.get()).setActive(false);
       assertThat(accountOperations.account(deactivatableAccountId).get().active()).isFalse();
+      listener.assertSeenOnlyOneEventAndReset(EventType.DEACTIVATION, deactivatableAccountId);
 
       // Deactivate account that is already inactive
       thrown =
@@ -649,6 +660,7 @@ public class AccountIT extends AbstractDaemonTest {
               () -> gApi.accounts().id(deactivatableAccountId.get()).setActive(false));
       assertThat(thrown).hasMessageThat().isEqualTo("account not active");
       assertThat(accountOperations.account(deactivatableAccountId).get().active()).isFalse();
+      listener.assertNoEventsSeen();
 
       // Try activating account that cannot be activated
       thrown =
@@ -657,6 +669,7 @@ public class AccountIT extends AbstractDaemonTest {
               () -> gApi.accounts().id(deactivatableAccountId.get()).setActive(true));
       assertThat(thrown).hasMessageThat().isEqualTo("not allowed to active account");
       assertThat(accountOperations.account(deactivatableAccountId).get().active()).isFalse();
+      listener.assertNoEventsSeen();
     }
   }
 
@@ -2947,6 +2960,43 @@ public class AccountIT extends AbstractDaemonTest {
       assertThat(countsByProjectRefs.asMap())
           .containsExactlyEntriesIn(expectedProjectRefUpdateCounts);
       clear();
+    }
+  }
+
+  private static enum EventType {
+    ACTIVATION,
+    DEACTIVATION
+  }
+
+  private static class AccountActivationListenerStub implements AccountActivationListener {
+
+    EventType lastEventType = null;
+    Integer lastId = null;
+
+    public void assertSeenOnlyOneEventAndReset(EventType type, Id id) {
+      assertThat(lastEventType).isNotNull();
+      assertThat(lastEventType).isEqualTo(type);
+      assertThat(lastId).isEqualTo(id.get());
+
+      lastEventType = null;
+    }
+
+    public void assertNoEventsSeen() {
+      assertThat(lastEventType).isNull();
+    }
+
+    @Override
+    public void onAccountActivated(int id) {
+      assertNoEventsSeen();
+      lastEventType = EventType.ACTIVATION;
+      lastId = id;
+    }
+
+    @Override
+    public void onAccountDeactivated(int id) {
+      assertNoEventsSeen();
+      lastEventType = EventType.DEACTIVATION;
+      lastId = id;
     }
   }
 }

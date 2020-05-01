@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance;
 
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.config.DownloadScheme;
+import com.google.gerrit.extensions.events.AccountDeactivatedListener;
 import com.google.gerrit.extensions.events.AccountIndexedListener;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.events.CommentAddedListener;
@@ -68,6 +69,7 @@ public class ExtensionRegistry {
   private final DynamicSet<GroupBackend> groupBackends;
   private final DynamicSet<AccountActivationValidationListener>
       accountActivationValidationListeners;
+  private final DynamicSet<AccountDeactivatedListener> accountDeactivatedListeners;
   private final DynamicSet<OnSubmitValidationListener> onSubmitValidationListeners;
 
   @Inject
@@ -93,6 +95,7 @@ public class ExtensionRegistry {
       DynamicSet<RevisionCreatedListener> revisionCreatedListeners,
       DynamicSet<GroupBackend> groupBackends,
       DynamicSet<AccountActivationValidationListener> accountActivationValidationListeners,
+      DynamicSet<AccountDeactivatedListener> accountDeactivatedListeners,
       DynamicSet<OnSubmitValidationListener> onSubmitValidationListeners) {
     this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
@@ -115,6 +118,7 @@ public class ExtensionRegistry {
     this.revisionCreatedListeners = revisionCreatedListeners;
     this.groupBackends = groupBackends;
     this.accountActivationValidationListeners = accountActivationValidationListeners;
+    this.accountDeactivatedListeners = accountDeactivatedListeners;
     this.onSubmitValidationListeners = onSubmitValidationListeners;
   }
 
@@ -213,6 +217,10 @@ public class ExtensionRegistry {
     public Registration add(
         AccountActivationValidationListener accountActivationValidationListener) {
       return add(accountActivationValidationListeners, accountActivationValidationListener);
+    }
+
+    public Registration add(AccountDeactivatedListener accountDeactivatedListener) {
+      return add(accountDeactivatedListeners, accountDeactivatedListener);
     }
 
     public Registration add(OnSubmitValidationListener onSubmitValidationListener) {

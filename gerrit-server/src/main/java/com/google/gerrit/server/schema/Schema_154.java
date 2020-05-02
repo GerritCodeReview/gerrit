@@ -95,9 +95,14 @@ public class Schema_154 extends SchemaVersion {
         Set<Account> accounts = scanAccounts(db, pm);
         pm.endTask();
         pm.beginTask("Migrating accounts to NoteDb", accounts.size());
+        int i = 0;
         for (Account account : accounts) {
           updateAccountInNoteDb(repo, account);
           pm.update(1);
+          int count = i++;
+          if (count % 10000 == 0) {
+            gc(repo, ui);
+          }
         }
         pm.endTask();
 

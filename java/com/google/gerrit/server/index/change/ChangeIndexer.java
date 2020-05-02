@@ -449,7 +449,7 @@ public class ChangeIndexer {
       for (ChangeIndex i : getWriteIndexes()) {
         try (TraceTimer traceTimer =
             TraceContext.newTimer(
-                "Deleteing change %d in index version %d", id.get(), i.getSchema().getVersion())) {
+                "Deleting change %d in index version %d", id.get(), i.getSchema().getVersion())) {
           i.delete(id);
         }
       }

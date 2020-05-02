@@ -97,7 +97,7 @@ public class Schema_146 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
-    ui.message("Run full gc as preparatioon for the migration");
+    ui.message("Run full gc as preparation for the migration");
     gc(ui);
     ui.message(String.format("... (%.3f s) full gc completed", elapsed()));
     ui.message("Migrating accounts");
@@ -147,7 +147,11 @@ public class Schema_146 extends SchemaVersion {
         int count = i.incrementAndGet();
         showProgress(ui, count);
         if (count % 1000 == 0) {
-          gc(repo, !(count % 10000 == 0), ui);
+          boolean runFullGc = count % 10000 == 0;
+          if (runFullGc) {
+            ui.message("Run full gc");
+          }
+          gc(repo, !runFullGc, ui);
         }
       }
     } catch (IOException e) {

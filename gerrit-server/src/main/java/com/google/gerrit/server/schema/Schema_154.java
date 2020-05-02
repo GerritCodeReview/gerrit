@@ -16,6 +16,7 @@ package com.google.gerrit.server.schema;
 
 import static java.util.stream.Collectors.toMap;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
@@ -34,12 +35,17 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
@@ -62,6 +68,7 @@ public class Schema_154 extends SchemaVersion {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
   private final Provider<PersonIdent> serverIdent;
+  private final Stopwatch sw = Stopwatch.createStarted();
 
   @Inject
   Schema_154(
@@ -79,6 +86,10 @@ public class Schema_154 extends SchemaVersion {
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     try {
       try (Repository repo = repoManager.openRepository(allUsersName)) {
+        ui.message("Run full gc as preparatioon for the migration");
+        gc(repo, ui);
+        ui.message(String.format("... (%.3f s) full gc completed", elapsed()));
+
         ProgressMonitor pm = new TextProgressMonitor();
         pm.beginTask("Collecting accounts", ProgressMonitor.UNKNOWN);
         Set<Account> accounts = scanAccounts(db, pm);
@@ -89,6 +100,10 @@ public class Schema_154 extends SchemaVersion {
           pm.update(1);
         }
         pm.endTask();
+
+        ui.message("Run full gc at the end of the migration");
+        gc(repo, ui);
+        ui.message(String.format("... (%.3f s) full gc completed", elapsed()));
       }
     } catch (IOException | ConfigInvalidException e) {
       throw new OrmException("Migrating accounts to NoteDb failed", e);
@@ -146,5 +161,31 @@ public class Schema_154 extends SchemaVersion {
   @FunctionalInterface
   private interface AccountSetter {
     void set(Account a, ResultSet rs, String field) throws SQLException;
+  }
+
+  private double elapsed() {
+    return sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
+  }
+
+  private void gc(Repository repo, UpdateUI ui) {
+    if (repo instanceof FileRepository) {
+      ProgressMonitor pm = null;
+      try {
+        pm = new TextProgressMonitor();
+        FileRepository r = (FileRepository) repo;
+        GC gc = new GC(r);
+        gc.setProgressMonitor(pm);
+        pm.beginTask("gc", ProgressMonitor.UNKNOWN);
+        ui.message(String.format("... (%.3f s) gc --prune=now", elapsed()));
+        gc.setExpire(new Date());
+        gc.gc();
+      } catch (IOException | ParseException e) {
+        throw new RuntimeException(e);
+      } finally {
+        if (pm != null) {
+          pm.endTask();
+        }
+      }
+    }
   }
 }

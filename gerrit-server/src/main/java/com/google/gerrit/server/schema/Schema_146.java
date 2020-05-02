@@ -98,9 +98,11 @@ public class Schema_146 extends SchemaVersion {
 
   @Override
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
+    ui.message("Run full gc as preparatioon for the migration");
+    gc(ui);
+    ui.message(String.format("... (%.3f s) full gc completed", elapsed()));
     ui.message("Migrating accounts");
     Set<Entry<Account.Id, Timestamp>> accounts = scanAccounts(db, ui).entrySet();
-    gc(ui);
     Set<List<Entry<Account.Id, Timestamp>>> batches =
         Sets.newHashSet(Iterables.partition(accounts, 500));
     ExecutorService pool = createExecutor(ui);
@@ -113,6 +115,9 @@ public class Schema_146 extends SchemaVersion {
     }
     ui.message(
         String.format("... (%.3f s) Migrated all %d accounts to schema 146", elapsed(), i.get()));
+    ui.message("Run full gc at the end of the migration");
+    gc(ui);
+    ui.message(String.format("... (%.3f s) full gc completed", elapsed()));
   }
 
   private ExecutorService createExecutor(UpdateUI ui) {
@@ -143,7 +148,7 @@ public class Schema_146 extends SchemaVersion {
         int count = i.incrementAndGet();
         showProgress(ui, count);
         if (count % 1000 == 0) {
-          gc(repo, true, ui);
+          gc(repo, !(count % 10000 == 0), ui);
           keepAliveDatabaseConnection(db);
         }
       }

@@ -46,6 +46,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.internal.storage.file.GC;
+import org.eclipse.jgit.internal.storage.file.PackInserter;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -130,10 +131,19 @@ public class Schema_146 extends SchemaVersion {
     return Executors.newFixedThreadPool(threads);
   }
 
+  private static ObjectInserter newPackInserter(Repository repo) {
+    if (!(repo instanceof FileRepository)) {
+      return repo.newObjectInserter();
+    }
+    PackInserter ins = ((FileRepository) repo).getObjectDatabase().newPackInserter();
+    ins.checkExisting(false);
+    return ins;
+  }
+
   private void processBatch(List<Entry<Account.Id, Timestamp>> batch, UpdateUI ui) {
     try (Repository repo = repoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(repo);
-        ObjectInserter oi = repo.newObjectInserter()) {
+        ObjectInserter oi = newPackInserter(repo)) {
       ObjectId emptyTree = emptyTree(oi);
 
       for (Map.Entry<Account.Id, Timestamp> e : batch) {

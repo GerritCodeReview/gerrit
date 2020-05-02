@@ -147,7 +147,7 @@ public class Schema_146 extends SchemaVersion {
         int count = i.incrementAndGet();
         showProgress(ui, count);
         if (count % 1000 == 0) {
-          boolean runFullGc = (count % 100000 == 0);
+          boolean runFullGc = count % 100000 == 0;
           if (runFullGc) {
             ui.message("Run full gc");
           }

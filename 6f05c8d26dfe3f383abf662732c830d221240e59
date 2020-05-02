@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b5986fa8_ddc95f0b",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-02T01:52:48Z",
+      "side": 1,
+      "message": "use the logger\u0027s formatting instead of concatenation.\n\ndo you have an example of the JSON syntax errors that are happening here?",
+      "range": {
+        "startLine": 394,
+        "startChar": 54,
+        "endLine": 394,
+        "endChar": 73
+      },
+      "revId": "6f05c8d26dfe3f383abf662732c830d221240e59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60e156d6_fb7d2634",
+        "filename": "java/com/google/gerrit/server/notedb/CommentTimestampAdapter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-02T01:52:48Z",
+      "side": 1,
+      "message": "Log this exception?",
+      "revId": "6f05c8d26dfe3f383abf662732c830d221240e59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

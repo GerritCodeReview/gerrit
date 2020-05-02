@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24f21c4b_e19723d5",
+        "filename": "java/com/google/gerrit/testing/TestLoggingActivator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-02T05:24:15Z",
+      "side": 1,
+      "message": "Is it always sufficient to call this init method here or should it be called in static context, like it is done in ConfigSuite?\n\nAlmost all core tests are derived from AbstractDaemonTest, and TestLoggingActivator.configureLogging() is called already from GerritServer, so that this method is called twice. Once in static context from ConfigSuite and second time through GerritServer. Can the invocation be removed in ConfigSuite?\n\nIIRC, To make logging correctly work in high-availability plugin, I had to add this line statically in ConfigurationTest class to have effect.\n\nOtherwise, the Flogger backend was already initialized and this line didn\u0027t have any effect. That would mean, that all plugins, that don\u0027t use ConfigSuite and AbstractDaemonTest would have to add FloggerInitializer.initBackend(); statically in their Test-Class (ConfigurationTest in high-availbility-plugin).",
+      "revId": "3795ad517c9a76316addce35a3a0ef16116e688b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -86,7 +86,7 @@ public class Schema_154 extends SchemaVersion {
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     try {
       try (Repository repo = repoManager.openRepository(allUsersName)) {
-        ui.message("Run full gc as preparatioon for the migration");
+        ui.message("Run full gc as preparation for the migration");
         gc(repo, ui);
         ui.message(String.format("... (%.3f s) full gc completed", elapsed()));
 
@@ -95,9 +95,13 @@ public class Schema_154 extends SchemaVersion {
         Set<Account> accounts = scanAccounts(db, pm);
         pm.endTask();
         pm.beginTask("Migrating accounts to NoteDb", accounts.size());
+        int i = 0;
         for (Account account : accounts) {
           updateAccountInNoteDb(repo, account);
           pm.update(1);
+          if (++i % 10000 == 0) {
+            gc(repo, ui);
+          }
         }
         pm.endTask();
 

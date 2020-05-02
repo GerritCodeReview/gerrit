@@ -104,10 +104,6 @@ import org.junit.runners.model.InitializationError;
  * field annotated with {@code @ConfigSuite.Name}.
  */
 public class ConfigSuite extends Suite {
-  static {
-    FloggerInitializer.initBackend();
-  }
-
   public static final String DEFAULT = "default";
 
   @Target({METHOD})

@@ -39,6 +39,23 @@
       "revId": "5345b98521c9e90efde1378651abee2e3101aaf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f34edfe_a8e51060",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-05-02T11:00:15Z",
+      "side": 1,
+      "message": "There is a tradeoff between running gc frequently and the time gc itself takes.\nDenis reported that the migration became slow above 100k accounts.\nHence I\u0027d try to run gc maybe every 50k or 100k accounts.\nCould you just try this with your test setup to test which configuration\nhas the shortest overall runtime ?\n\nAnother idea would be to run this as auto gc (this is available in JGit 4.11.9\nwhich is used in stable-2.15) then jgit itself decides when it\u0027s time\nto run gc. This can also run in a background thread which may further reduce\noverall runtime on multi-core machine. By default auto gc runs when\nthere are more than 6700 loose objects or 50 packs. The parameters can be tweaked to\ne.g. 50k loose objects and 200 packs in order to prevent the overall time to finish\nthe migration is dominated by the effort to run gc frequently. As said above\ndoing a few test runs with generated accounts and different settings for these\nthresholds could guide us to choose good parameters to minimize overall migration time.\n\nSee class GC methods setAuto(), setBackground(), setExecutor() and git config options\ngc.auto (threshold for loose objects) and gc.autoPackLimit (threshold for number\nof packs). If you want to use auto gc during the migration you have to call it explicitly\nmaybe every 10k accounts migrated and let jgit decide based on actual count of loose\nobjects and number of packs if it\u0027s time to actually do anything. By default\nauto gc is triggered only by merge, rebase and receive-pack (same like in native git)\nhence it needs to be called explicitly by the migration code.",
+      "revId": "5345b98521c9e90efde1378651abee2e3101aaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -24,6 +24,12 @@ import {appContext} from '../services/app-context.js';
 import {initAppContext} from '../services/app-context-init.js';
 import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader.js';
 import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock.js';
+
+// Returns true if tests run under the Karma
+function isKarmaTest() {
+  return typeof window.__karma__ !== 'undefined';
+}
+
 security.polymer_resin.install({
   allowedIdentifierPrefixes: [''],
   reportHandler(isViolation, fmt, ...args) {
@@ -58,7 +64,9 @@ security.polymer_resin.install({
 // Note, that fixture(...) and stub(..) methods are registered different by
 // WCT. This is why these methods implemented slightly different here.
 const cleanups = [];
-if (!window.fixture) {
+if (isKarmaTest || !window.fixture) {
+  // For karma always set our implementation
+  // (karma doesn't provide the fixture method)
   window.fixture = function(fixtureId, model) {
     // This method is inspired by WCT method
     cleanups.push(() => document.getElementById(fixtureId).restore());
@@ -66,6 +74,33 @@ if (!window.fixture) {
   };
 } else {
   throw new Error('window.fixture must be set before wct sets it');
+}
+
+console.log(`IsKarmaTest = ${isKarmaTest()}`);
+console.log(document.documentElement.outerHTML);
+console.log(document.location.href);
+fetch(document.location.href).then(x => {
+  x.text().then(y => {
+    console.log('index!!!!!');
+    console.log(y);
+  });
+});
+fetch('/base/external/ui_dev_npm/node_modules/mocha/mocha.js').then(x => {
+  x.text().then(y => {
+    console.log('mocha.js!!!!!');
+    console.log(y);
+  });
+});
+fetch('/base/external/ui_dev_npm/node_modules/karma-mocha/lib/adapter.js').then(x => {
+  x.text().then(y => {
+    console.log('adapter.js!!!!!');
+    console.log(y);
+  });
+});
+
+if(!window.setup) {
+  window.setup = () => {};
+  window.teardown = () => {};
 }
 
 // On the first call to the setup, WCT installs window.fixture
@@ -88,7 +123,9 @@ setup(() => {
   setMock('reportingService', grReportingMock);
 });
 
-if (window.stub) {
+if (isKarmaTest || window.stub) {
+  // For karma always set our implementation
+  // (karma doesn't provide the stub method)
   window.stub = function(tagName, implementation) {
     // This method is inspired by WCT method
     const proto = document.createElement(tagName).constructor.prototype;

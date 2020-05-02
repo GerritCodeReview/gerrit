@@ -99,4 +99,6 @@ public class TestLoggingActivator {
 
     LOG_LEVELS.entrySet().stream().forEach(e -> getLogger(e.getKey()).setLevel(e.getValue()));
   }
+
+  private TestLoggingActivator() {}
 }

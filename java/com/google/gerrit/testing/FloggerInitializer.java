@@ -20,6 +20,8 @@ public class FloggerInitializer {
   private static final String FLOGGER_BACKEND_PROPERTY = "flogger.backend_factory";
   private static final String FLOGGER_LOGGING_CONTEXT = "flogger.logging_context";
 
+  private FloggerInitializer() {}
+
   public static void initBackend() {
     System.setProperty(
         FLOGGER_BACKEND_PROPERTY,

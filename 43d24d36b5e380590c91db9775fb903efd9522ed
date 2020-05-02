@@ -34,6 +34,23 @@
       "revId": "43d24d36b5e380590c91db9775fb903efd9522ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2aebde15_77156f32",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-05-02T11:01:30Z",
+      "side": 1,
+      "message": "see my comment on the previous commit, using auto gc could be beneficial to let jgit decide based on auto gc thresholds when it\u0027s necessary to actually run gc",
+      "revId": "43d24d36b5e380590c91db9775fb903efd9522ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

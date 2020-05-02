@@ -16,6 +16,24 @@
       "revId": "3795ad517c9a76316addce35a3a0ef16116e688b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab61f195_ccc740c3",
+        "filename": "java/com/google/gerrit/testing/TestLoggingActivator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-02T08:09:50Z",
+      "side": 1,
+      "message": "I thought I\u0027d tested this but it seems I put the breakpoint in the wrong place. You are right; this causes it to be called twice.\n\nRemoving the call from ConfigSuite fixes it.  For tests derived from GerritBaseTests it\u0027s enough to have it here; it gets invoked by the @BeforeClass method.",
+      "parentUuid": "24f21c4b_e19723d5",
+      "revId": "3795ad517c9a76316addce35a3a0ef16116e688b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

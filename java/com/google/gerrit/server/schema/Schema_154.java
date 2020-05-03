@@ -16,8 +16,8 @@ package com.google.gerrit.server.schema;
 
 import static java.util.stream.Collectors.toMap;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -25,7 +25,7 @@ import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
@@ -35,21 +35,28 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
+import org.eclipse.jgit.storage.pack.PackConfig;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /** Migrate accounts to NoteDb. */
 public class Schema_154 extends SchemaVersion {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
+  private static final Logger log = LoggerFactory.getLogger(Schema_154.class);
   private static final String TABLE = "accounts";
   private static final ImmutableMap<String, AccountSetter> ACCOUNT_FIELDS_MAP =
       ImmutableMap.<String, AccountSetter>builder()
@@ -62,6 +69,7 @@ public class Schema_154 extends SchemaVersion {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
   private final Provider<PersonIdent> serverIdent;
+  private final Stopwatch sw = Stopwatch.createStarted();
 
   @Inject
   Schema_154(
@@ -84,9 +92,13 @@ public class Schema_154 extends SchemaVersion {
         Set<Account> accounts = scanAccounts(db, pm);
         pm.endTask();
         pm.beginTask("Migrating accounts to NoteDb", accounts.size());
+        int i = 0;
         for (Account account : accounts) {
           updateAccountInNoteDb(repo, account);
           pm.update(1);
+          if (++i % 100000 == 0) {
+            gc(repo, ui);
+          }
         }
         pm.endTask();
       }
@@ -98,7 +110,7 @@ public class Schema_154 extends SchemaVersion {
   private Set<Account> scanAccounts(ReviewDb db, ProgressMonitor pm) throws SQLException {
     Map<String, AccountSetter> fields = getFields(db);
     if (fields.isEmpty()) {
-      logger.atWarning().log("Only account_id and registered_on fields are migrated for accounts");
+      log.warn("Only account_id and registered_on fields are migrated for accounts");
     }
 
     List<String> queryFields = new ArrayList<>();
@@ -137,14 +149,46 @@ public class Schema_154 extends SchemaVersion {
     PersonIdent ident = serverIdent.get();
     md.getCommitBuilder().setAuthor(ident);
     md.getCommitBuilder().setCommitter(ident);
-    new AccountConfig(account.getId(), allUsersName, allUsersRepo)
-        .load()
-        .setAccount(account)
-        .commit(md);
+    AccountConfig accountConfig = new AccountConfig(null, account.getId());
+    accountConfig.load(allUsersRepo);
+    accountConfig.setAccount(account);
+    accountConfig.commit(md);
   }
 
   @FunctionalInterface
   private interface AccountSetter {
     void set(Account a, ResultSet rs, String field) throws SQLException;
+  }
+
+  private double elapsed() {
+    return sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
+  }
+
+  private void gc(Repository repo, UpdateUI ui) {
+    if (repo instanceof FileRepository) {
+      ProgressMonitor pm = null;
+      try {
+        pm = new TextProgressMonitor();
+        FileRepository r = (FileRepository) repo;
+        GC gc = new GC(r);
+        // TODO(davido): Enable bitmap index when this JGit performance issue is fixed:
+        // https://bugs.eclipse.org/bugs/show_bug.cgi?id=562740
+        PackConfig pconfig = new PackConfig(repo);
+        pconfig.setBuildBitmaps(false);
+        gc.setPackConfig(pconfig);
+        gc.setProgressMonitor(pm);
+        pm.beginTask("gc", ProgressMonitor.UNKNOWN);
+        ui.message(String.format("... (%.3f s) gc --prune=now", elapsed()));
+        gc.setExpire(new Date());
+        gc.gc();
+        ui.message(String.format("... (%.3f s) full gc completed", elapsed()));
+      } catch (IOException | ParseException e) {
+        throw new RuntimeException(e);
+      } finally {
+        if (pm != null) {
+          pm.endTask();
+        }
+      }
+    }
   }
 }

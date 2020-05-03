@@ -50,6 +50,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -170,6 +171,11 @@ public class Schema_154 extends SchemaVersion {
         pm = new TextProgressMonitor();
         FileRepository r = (FileRepository) repo;
         GC gc = new GC(r);
+        // TODO(davido): Enable bitmap index when this JGit performance issue is fixed:
+        // https://bugs.eclipse.org/bugs/show_bug.cgi?id=562740
+        PackConfig pconfig = new PackConfig(repo);
+        pconfig.setBuildBitmaps(false);
+        gc.setPackConfig(pconfig);
         gc.setProgressMonitor(pm);
         pm.beginTask("gc", ProgressMonitor.UNKNOWN);
         ui.message(String.format("... (%.3f s) gc --prune=now", elapsed()));

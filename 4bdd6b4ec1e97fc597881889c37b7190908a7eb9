@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00121bb9_39b93c0c",
+        "filename": "tools/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-03T21:34:49Z",
+      "side": 1,
+      "message": "I figured out why this series does not work and now I\u0027m getting errors for new added bug pattern checks!",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 77,
+        "endChar": 36
+      },
+      "revId": "4bdd6b4ec1e97fc597881889c37b7190908a7eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -130,7 +130,7 @@ def _wct_test(name, srcs, split_index, split_count):
 def wct_suite(name, srcs, split_count):
     """Define test suites for WCT tests.
 
-    All tests files are splited to split_count WCT suites
+    All tests files are split to split_count WCT suites
 
     Args:
         name: rule name. The macro create a test suite rule with the name name+"_test"

@@ -491,7 +491,7 @@ suite('gr-account-list tests', () => {
       sandbox.stub(input, '_updateSuggestions');
       sandbox.stub(element, '_computeRemovable').returns(true);
       flush(() => {
-        // Next line is a workaround for Firefix not moving cursor
+        // Next line is a workaround for Firefox not moving cursor
         // on input field update
         assert.equal(
             element._getNativeInput(input.$.input).selectionStart, 0);

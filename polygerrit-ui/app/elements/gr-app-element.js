@@ -468,7 +468,7 @@ class GrAppElement extends mixinBehaviors( [
     const baseUrl = this.getBaseUrl();
     if (baseUrl) {
       // Strip the canonical path from the path since needing canonical in
-      // the path is uneeded and breaks the url.
+      // the path is unneeded and breaks the url.
       this._loginUrl = baseUrl + '/login/' + encodeURIComponent(
           '/' + window.location.pathname.substring(baseUrl.length) +
           window.location.search +

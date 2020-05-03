@@ -123,7 +123,7 @@ export const htmlTemplate = html`
           <h3 id="options" class$="[[_computeHeaderClass(_options)]]">
             Group Options
           </h3>
-          <fieldset id="visableToAll">
+          <fieldset id="visibleToAll">
             <section>
               <span class="title">
                 Make group visible to all registered users

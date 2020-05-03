@@ -338,7 +338,7 @@ suite('gr-error-manager tests', () => {
           }));
       assert.equal(window.fetch.callCount, 1);
       flush(() => {
-        // here needs two flush as there are two chanined
+        // here needs two flush as there are two chained
         // promises on server-error handler and flush only flushes one
         assert.equal(window.fetch.callCount, 2);
         flush(() => {
@@ -396,7 +396,7 @@ suite('gr-error-manager tests', () => {
           }));
       assert.equal(window.fetch.callCount, 1);
       flush(() => {
-        // here needs two flush as there are two chanined
+        // here needs two flush as there are two chained
         // promises on server-error handler and flush only flushes one
         assert.equal(window.fetch.callCount, 2);
         flush(() => {

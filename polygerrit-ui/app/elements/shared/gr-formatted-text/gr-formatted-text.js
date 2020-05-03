@@ -91,7 +91,7 @@ class GrFormattedText extends GestureEventListeners(
 
   /**
    * Given a source string, parse into an array of block objects. Each block
-   * has a `type` property which takes any of the follwoing values.
+   * has a `type` property which takes any of the following values.
    * * 'paragraph'
    * * 'quote' (Block quote.)
    * * 'pre' (Pre-formatted text.)

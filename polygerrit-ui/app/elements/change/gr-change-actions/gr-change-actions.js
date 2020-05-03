@@ -999,7 +999,7 @@ class GrChangeActions extends mixinBehaviors( [
     this._handleAction(type, key);
   }
 
-  _handleOveflowItemTap(e) {
+  _handleOverflowItemTap(e) {
     e.preventDefault();
     const el = dom(e).localTarget;
     const key = e.detail.action.__key;

@@ -89,7 +89,7 @@ export const util = {
    * Get computed style value.
    *
    * If ShadyCSS is provided, use ShadyCSS api.
-   * If `getComputedStyleValue` is provided on the elment, use it.
+   * If `getComputedStyleValue` is provided on the element, use it.
    * Otherwise fallback to native method (in polymer 2).
    *
    */

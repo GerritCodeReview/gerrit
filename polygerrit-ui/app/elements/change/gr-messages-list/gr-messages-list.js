@@ -243,8 +243,8 @@ class GrMessagesList extends mixinBehaviors( [
   _highlightEl(el) {
     const highlightedEls =
         dom(this.root).querySelectorAll('.highlighted');
-    for (const highlighedEl of highlightedEls) {
-      highlighedEl.classList.remove('highlighted');
+    for (const highlightedEl of highlightedEls) {
+      highlightedEl.classList.remove('highlighted');
     }
     function handleAnimationEnd() {
       el.removeEventListener('animationend', handleAnimationEnd);

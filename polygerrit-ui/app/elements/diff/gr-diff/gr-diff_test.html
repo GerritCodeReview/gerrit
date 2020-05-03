@@ -1006,7 +1006,7 @@ suite('gr-diff tests', () => {
     assertDiffTableWithContent();
     const diffCopy = Object.assign({}, element.diff);
     element.diff = diffCopy;
-    // immediatelly cleaned up
+    // immediately cleaned up
     assert.equal(element.$.diffTable.innerHTML, '');
     element._renderDiffTable();
     flushAsynchronousOperations();

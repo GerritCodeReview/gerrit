@@ -23,7 +23,7 @@ export const htmlTemplate = html`
     }
     gr-selection-action-box {
       /**
-         * Needs z-index to apear above wrapped content, since it's inseted
+         * Needs z-index to appear above wrapped content, since it's inserted
          * into DOM before it.
          */
       z-index: 10;

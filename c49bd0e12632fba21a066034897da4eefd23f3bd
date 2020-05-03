@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a57816f9_1e7a4a17",
+        "filename": ".bazelrc",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-03T21:44:31Z",
+      "side": 1,
+      "message": "I have not found a way to activate all this bug patterns with custom toolchain option that contains custom built java_tools with this PR: [1] included (bumped EP to version 2.3.4).\n\nNow we have two toolchains: error_prone_warning tollchain, that is based on the default toolchain with outdated EP release. And new one with new EP release: [2], but without activated custom bug pattern.\n\n[1] https://github.com/bazelbuild/bazel/pull/11271\n[2] https://github.com/davido/java_tools/releases/tag/javac11-v11.0",
+      "revId": "c49bd0e12632fba21a066034897da4eefd23f3bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

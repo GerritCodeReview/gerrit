@@ -112,7 +112,7 @@ class GrClaView extends mixinBehaviors( [
     return this.$.restAPI.saveAccountAgreement({name}).then(res => {
       let message = 'Agreement failed to be submitted, please try again';
       if (res.status === 200) {
-        message = 'Agreement has been successfully submited.';
+        message = 'Agreement has been successfully submitted.';
       }
       this._createToast(message);
       this.loadData();

@@ -237,7 +237,7 @@ suite('gr-diff-cursor tests', () => {
     cursorElement.moveToNextChunk();
 
     // Since this chunk only has content on the left side. we should have been
-    // automatically mvoed over.
+    // automatically moved over.
     const previousIndex = currentIndex;
     currentIndex = indexOfChunk(cursorElement.diffRow.parentElement);
     assert.equal(currentIndex, previousIndex + 1);

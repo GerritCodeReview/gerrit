@@ -87,7 +87,7 @@ export const AdminNavBehavior = {
     let links = ADMIN_LINKS.slice(0);
     let expandedSection;
 
-    const isExernalLink = link => link.url[0] !== '/';
+    const isExternalLink = link => link.url[0] !== '/';
 
     // Append top-level links that are defined by plugins.
     links.push(...getAdminMenuLinks().map(link => {
@@ -95,10 +95,10 @@ export const AdminNavBehavior = {
         url: link.url,
         name: link.text,
         capability: link.capability || null,
-        noBaseUrl: !isExernalLink(link),
+        noBaseUrl: !isExternalLink(link),
         view: null,
         viewableToAll: !link.capability,
-        target: isExernalLink(link) ? '_blank' : null,
+        target: isExternalLink(link) ? '_blank' : null,
       };
     }));
 

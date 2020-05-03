@@ -302,32 +302,32 @@ suite('gr-group-members tests', () => {
   });
 
   test('delete member', () => {
-    const deletelBtns = dom(element.root)
+    const deleteBtns = dom(element.root)
         .querySelectorAll('.deleteMembersButton');
-    MockInteractions.tap(deletelBtns[0]);
+    MockInteractions.tap(deleteBtns[0]);
     assert.equal(element._itemId, '1000097');
     assert.equal(element._itemName, 'jane');
-    MockInteractions.tap(deletelBtns[1]);
+    MockInteractions.tap(deleteBtns[1]);
     assert.equal(element._itemId, '1000096');
     assert.equal(element._itemName, 'Test User');
-    MockInteractions.tap(deletelBtns[2]);
+    MockInteractions.tap(deleteBtns[2]);
     assert.equal(element._itemId, '1000095');
     assert.equal(element._itemName, 'Gerrit');
-    MockInteractions.tap(deletelBtns[3]);
+    MockInteractions.tap(deleteBtns[3]);
     assert.equal(element._itemId, '1000098');
     assert.equal(element._itemName, '1000098');
   });
 
   test('delete included groups', () => {
-    const deletelBtns = dom(element.root)
+    const deleteBtns = dom(element.root)
         .querySelectorAll('.deleteIncludedGroupButton');
-    MockInteractions.tap(deletelBtns[0]);
+    MockInteractions.tap(deleteBtns[0]);
     assert.equal(element._itemId, 'testId');
     assert.equal(element._itemName, 'testName');
-    MockInteractions.tap(deletelBtns[1]);
+    MockInteractions.tap(deleteBtns[1]);
     assert.equal(element._itemId, 'testId2');
     assert.equal(element._itemName, 'testName2');
-    MockInteractions.tap(deletelBtns[2]);
+    MockInteractions.tap(deleteBtns[2]);
     assert.equal(element._itemId, 'testId3');
     assert.equal(element._itemName, 'testName3');
   });

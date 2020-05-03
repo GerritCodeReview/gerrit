@@ -229,7 +229,7 @@ class GrEditControls extends mixinBehaviors( [
 
   _handleDeleteConfirm(e) {
     // Get the dialog before the api call as the event will change during bubbling
-    // which will make Polymer.dom(e).path an emtpy array in polymer 2
+    // which will make Polymer.dom(e).path an empty array in polymer 2
     const dialog = this._getDialogFromEvent(e);
     this.$.restAPI.deleteFileInChangeEdit(this.change._number, this._path)
         .then(res => {

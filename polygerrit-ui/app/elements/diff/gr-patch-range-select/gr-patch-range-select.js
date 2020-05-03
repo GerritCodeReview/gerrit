@@ -215,7 +215,7 @@ class GrPatchRangeSelect extends mixinBehaviors( [
    * In addition, if the current basePatchNum is 'PARENT', all patchNums are
    * valid.
    *
-   * If the curent basePatchNum is a parent index, then only patches that have
+   * If the current basePatchNum is a parent index, then only patches that have
    * at least that many parents are valid.
    *
    * @param {number|string} basePatchNum The current selected base patch num.

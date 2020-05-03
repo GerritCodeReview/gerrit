@@ -1009,7 +1009,7 @@ suite('gr-change-view tests', () => {
     commitMessage = 'CC=test@google.com';
     result = element._prepareCommitMsgForLinkify(commitMessage);
     assert.equal(result, 'CC=\u200Btest@google.com');
-  }),
+  });
 
   test('_isSubmitEnabled', () => {
     assert.isFalse(element._isSubmitEnabled({}));

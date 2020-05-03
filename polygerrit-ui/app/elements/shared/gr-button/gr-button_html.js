@@ -39,7 +39,7 @@ export const htmlTemplate = html`
           Without a copy, the @apply works incorrectly with Polymer 2.
           @apply is deprecated and is not recommended to use. It is expected
           that @apply will be replaced with the ::part CSS pseudo-element.
-          After replacecment copied lines can be removed.
+          After replacement copied lines can be removed.
         */
       @apply --layout-inline;
       @apply --layout-center-center;

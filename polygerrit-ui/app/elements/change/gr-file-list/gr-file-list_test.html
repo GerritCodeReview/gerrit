@@ -1641,7 +1641,7 @@ suite('gr-file-list tests', () => {
       assert.isTrue(diffStops[10].classList.contains('target-row'));
       assert.isFalse(diffStops[11].classList.contains('target-row'));
 
-      // The file cusor is now at 1.
+      // The file cursor is now at 1.
       assert.equal(element.$.fileCursor.index, 1);
       MockInteractions.keyUpOn(element, 73, null, 'i');
       flushAsynchronousOperations();
@@ -1652,7 +1652,7 @@ suite('gr-file-list tests', () => {
       const diffStopsFirst = diffs[0].getCursorStops();
       const diffStopsSecond = diffs[1].getCursorStops();
 
-      // The line on the first diff is stil selected
+      // The line on the first diff is still selected
       assert.isTrue(diffStopsFirst[10].classList.contains('target-row'));
       assert.isFalse(diffStopsSecond[10].classList.contains('target-row'));
     });
@@ -1683,7 +1683,7 @@ suite('gr-file-list tests', () => {
       assert.isFalse(diffStops[10].classList.contains('target-row'));
       assert.isTrue(diffStops[11].classList.contains('target-row'));
 
-      // The file cusor is still at 0.
+      // The file cursor is still at 0.
       assert.equal(element.$.fileCursor.index, 0);
     });
 

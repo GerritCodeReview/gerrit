@@ -234,7 +234,7 @@ class GrMessage extends GestureEventListeners(
   }
 
   _onThreadListModified() {
-    // TODO(taoalpha): this won't propogate the changes to the files
+    // TODO(taoalpha): this won't propagate the changes to the files
     // should consider replacing this with either top level events
     // or gerrit level events
 

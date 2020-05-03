@@ -182,7 +182,7 @@ class GrDropdown extends mixinBehaviors( [
   }
 
   /**
-   * Hanlde a click on the button to open the dropdown.
+   * Handle a click on the button to open the dropdown.
    *
    * @param {!Event} e
    */

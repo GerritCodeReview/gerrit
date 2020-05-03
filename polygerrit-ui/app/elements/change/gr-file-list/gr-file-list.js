@@ -1154,7 +1154,7 @@ class GrFileList extends mixinBehaviors( [
   /**
    * Given an array of paths and a NodeList of diff elements, render the diff
    * for each path in order, awaiting the previous render to complete before
-   * continung.
+   * continuing.
    *
    * @param  {!Array<Gerrit.FileRange>} files
    * @param  {!NodeList<!Object>} diffElements (GrDiffHostElement)
@@ -1422,7 +1422,7 @@ class GrFileList extends mixinBehaviors( [
 
   /**
    * Shows registered dynamic columns iff the 'header', 'content' and
-   * 'summary' endpoints are regiestered the exact same number of times.
+   * 'summary' endpoints are registered the exact same number of times.
    * Ideally, there should be a better way to enforce the expectation of the
    * dependencies between dynamic endpoints.
    */

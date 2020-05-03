@@ -129,7 +129,7 @@ class GrLabelInfo extends GestureEventListeners(
 
   /**
    * Closure annotation for Polymer.prototype.splice is off.
-   * For now, supressing annotations.
+   * For now, suppressing annotations.
    *
    * @suppress {checkTypes} */
   _onDeleteVote(e) {

@@ -65,7 +65,7 @@ class GrLimitedText extends mixinBehaviors( [
       },
 
       /**
-       * The maximum number of characters to display in the tooltop.
+       * The maximum number of characters to display in the tooltip.
        */
       tooltipLimit: {
         type: Number,

@@ -461,7 +461,7 @@ class GrChangeMetadata extends mixinBehaviors( [
    *
    * @param {!Object} change
    * @param {string} role One of the values from _CHANGE_ROLE
-   * @return {Object|null} either an accound or null.
+   * @return {Object|null} either an account or null.
    */
   _getNonOwnerRole(change, role) {
     if (!change || !change.current_revision ||

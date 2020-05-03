@@ -298,7 +298,7 @@ class GrPermission extends mixinBehaviors( [
     }
 
     // Wait for new rule to get value populated via gr-rule-editor, and then
-    // add to permission values as well, so that the change gets propogated
+    // add to permission values as well, so that the change gets propagated
     // back to the section. Since the rule is inside a dom-repeat, a flush
     // is needed.
     flush();

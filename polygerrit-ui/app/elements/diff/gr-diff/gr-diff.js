@@ -56,7 +56,7 @@ function isThreadEl(node) {
 
 const COMMIT_MSG_PATH = '/COMMIT_MSG';
 /**
- * 72 is the inofficial length standard for git commit messages.
+ * 72 is the unofficial length standard for git commit messages.
  * Derived from the fact that git log/show appends 4 ws in the beginning of
  * each line when displaying commit messages. To center the commit message
  * in an 80 char terminal a 4 ws border is added to the rightmost side:

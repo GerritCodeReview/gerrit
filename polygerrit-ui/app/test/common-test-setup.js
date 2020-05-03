@@ -84,7 +84,7 @@ if (isKarmaTest() || !window.fixture) {
 }
 
 // On the first call to the setup, WCT installs window.fixture
-// and widnow.stub methods
+// and window.stub methods
 setup(() => {
   // If the following asserts fails - then window.stub is
   // overwritten by some other code.

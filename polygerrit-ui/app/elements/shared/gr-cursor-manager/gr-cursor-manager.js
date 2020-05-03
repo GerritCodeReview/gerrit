@@ -410,8 +410,8 @@ class GrCursorManager extends GestureEventListeners(
 
     if (this._targetIsVisible(top)) {
       // Don't scroll if either the bottom is visible or if the position that
-      // would get scrolled to is higher up than the current position. this
-      // woulld cause less of the target content to be displayed than is
+      // would get scrolled to is higher up than the current position. This
+      // would cause less of the target content to be displayed than is
       // already.
       if (bottomIsVisible || scrollToValue < dims.scrollY) {
         return;

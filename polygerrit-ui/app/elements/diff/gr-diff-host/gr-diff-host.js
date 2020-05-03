@@ -955,7 +955,7 @@ class GrDiffHost extends mixinBehaviors( [
   /**
    * Closure annotation for Polymer.prototype.push is off. Submitted PR:
    * https://github.com/Polymer/polymer/pull/4776
-   * but for not supressing annotations.
+   * but for not suppressing annotations.
    *
    * @suppress {checkTypes}
    */

@@ -24,7 +24,7 @@ const servicesPath = '../services/';
 // Elements tests.
 /* eslint-disable max-len */
 const elements = [
-  // This seemed to be flakey when it was farther down the list. Keep at the
+  // This seemed to be flaky when it was farther down the list. Keep at the
   // beginning.
   'gr-app_test.html',
   'admin/gr-admin-group-list/gr-admin-group-list_test.html',

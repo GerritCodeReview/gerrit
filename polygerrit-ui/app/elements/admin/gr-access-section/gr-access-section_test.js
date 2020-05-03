@@ -230,7 +230,7 @@ suite('gr-access-section tests', () => {
     test('_computeSectionName', () => {
       let name;
       // When computing the section name for an undefined name, it means a
-      // new section is being added. In this case, it should defualt to
+      // new section is being added. In this case, it should default to
       // 'refs/heads/*'.
       element._editingRef = false;
       assert.equal(element._computeSectionName(name),
@@ -462,7 +462,7 @@ suite('gr-access-section tests', () => {
       });
 
       test('_handleValueChange', () => {
-        // For an exising section.
+        // For an existing section.
         const modifiedHandler = sandbox.stub();
         element.section = {id: 'refs/for/bar', value: {permissions: {}}};
         assert.notOk(element.section.value.updatedId);

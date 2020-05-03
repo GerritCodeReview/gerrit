@@ -116,6 +116,24 @@
       "revId": "5345b98521c9e90efde1378651abee2e3101aaf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a3a2523_72e97ccd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-03T11:24:55Z",
+      "side": 1,
+      "message": "I\u0027m testing the new approach with running full gc only every 100k accounts. While git gc in schema 146 is very fast, it is very slow in schema 154. After 100,000 accounts migrated, full gc takes more than 1 hours. The most time the code is creating bitmap index. I wrote this issue upstream: [1] and uploaded many stack traces, that I took during this hour. Should we just disable creation of bitmap index altogether in Schema 154 during full git gc cycles? Also not, that I tested the migration after moving the site to RAM, so that IO should be even faster as on SSD disk.\n\n* [1] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d562740",
+      "parentUuid": "6fa6163d_2afc25a3",
+      "revId": "5345b98521c9e90efde1378651abee2e3101aaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

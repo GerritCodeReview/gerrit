@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ea48a38d_de6f4928",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-03T11:21:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1073bc3c_b18d12ef",
+      "range": {
+        "startLine": 100,
+        "startChar": 31,
+        "endLine": 100,
+        "endChar": 43
+      },
+      "revId": "5345b98521c9e90efde1378651abee2e3101aaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffea98bf_f57e852c",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
         "patchSetId": 4
@@ -56,6 +80,42 @@
       "revId": "5345b98521c9e90efde1378651abee2e3101aaf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df3916cb_bcc08e0e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-03T11:21:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffea98bf_f57e852c",
+      "revId": "5345b98521c9e90efde1378651abee2e3101aaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6fa6163d_2afc25a3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-03T11:21:11Z",
+      "side": 1,
+      "message": "It did multiple tests on 300k accounts site and can confirm the significant tradeoff between running gc frequently and the time gc itself takes. Especially schema migration 154 takes quite some time for full gc to run, most notably counts commits part. Is this a know issue with JGit gc? Can it be that git core much faster compared to JGit?\n\nAnyway, number of tests that I did justify to run the full gc every 100k accounts. I think it was also your suggestion.",
+      "parentUuid": "0f34edfe_a8e51060",
+      "revId": "5345b98521c9e90efde1378651abee2e3101aaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

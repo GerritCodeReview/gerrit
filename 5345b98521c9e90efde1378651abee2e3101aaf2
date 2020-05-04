@@ -134,6 +134,24 @@
       "revId": "5345b98521c9e90efde1378651abee2e3101aaf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a3eb24c_a3db94c3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-04T22:59:11Z",
+      "side": 1,
+      "message": "I believe the slowdown was happening ONLY when performing a migration on a slow NFS shared disk. @DavidO you mentioned in the Eclispe Fdn bug that it was taking 30\u0027 or so, isn\u0027t it?",
+      "parentUuid": "4a3a2523_72e97ccd",
+      "revId": "5345b98521c9e90efde1378651abee2e3101aaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

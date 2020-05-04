@@ -234,7 +234,7 @@ class ChangeComments {
    *
    * // TODO(taoalpha): maybe merge in *ForPath
    *
-   * @param {!{path: string, oldPath?: string, patchNum?: number}} file
+   * @param {!{path: string, basePath?: string, patchNum?: number}} file
    * @param {boolean=} opt_includeDrafts
    * @return {!Array}
    */
@@ -243,10 +243,10 @@ class ChangeComments {
         file.path, file.patchNum, opt_includeDrafts
     );
 
-    if (file.oldPath) {
+    if (file.basePath) {
       allComments = allComments.concat(
           this.getAllCommentsForPath(
-              file.oldPath, file.patchNum, opt_includeDrafts
+              file.basePath, file.patchNum, opt_includeDrafts
           )
       );
     }
@@ -275,14 +275,14 @@ class ChangeComments {
    *
    * // TODO(taoalpha): maybe merge in *ForPath
    *
-   * @param {!{path: string, oldPath?: string, patchNum?: number}} file
+   * @param {!{path: string, basePath?: string, patchNum?: number}} file
    * @return {!Array}
    */
   getAllDraftsForFile(file) {
     let allDrafts = this.getAllDraftsForPath(file.path, file.patchNum);
-    if (file.oldPath) {
+    if (file.basePath) {
       allDrafts = allDrafts.concat(
-          this.getAllDraftsForPath(file.oldPath, file.patchNum)
+          this.getAllDraftsForPath(file.basePath, file.patchNum)
       );
     }
     return allDrafts;
@@ -343,7 +343,7 @@ class ChangeComments {
    *
    * // TODO(taoalpha): maybe merge *ForPath so find all comments in one pass
    *
-   * @param {!{path: string, oldPath?: string, patchNum?: number}} file
+   * @param {!{path: string, basePath?: string, patchNum?: number}} file
    * @param {!Gerrit.PatchRange} patchRange The patch-range object containing patchNum
    *     and basePatchNum properties to represent the range.
    * @param {Object=} opt_projectConfig Optional project config object to
@@ -354,13 +354,13 @@ class ChangeComments {
     const comments = this.getCommentsBySideForPath(
         file.path, patchRange, opt_projectConfig
     );
-    if (file.oldPath) {
-      const commentsForOldPath = this.getCommentsBySideForPath(
-          file.oldPath, patchRange, opt_projectConfig
+    if (file.basePath) {
+      const commentsForBasePath = this.getCommentsBySideForPath(
+          file.basePath, patchRange, opt_projectConfig
       );
       // merge in the left and right
-      comments.left = comments.left.concat(commentsForOldPath.left);
-      comments.right = comments.right.concat(commentsForOldPath.right);
+      comments.left = comments.left.concat(commentsForBasePath.left);
+      comments.right = comments.right.concat(commentsForBasePath.right);
     }
     return comments;
   }
@@ -395,7 +395,7 @@ class ChangeComments {
   /**
    * Computes a string counting the number of commens in a given file.
    *
-   * @param {{path: string, oldPath?: string, patchNum?: number}} file
+   * @param {{path: string, basePath?: string, patchNum?: number}} file
    * @return {number}
    */
   computeCommentCount(file) {
@@ -410,7 +410,7 @@ class ChangeComments {
    * Computes a string counting the number of draft comments in the entire
    * change, optionally filtered by path and/or patchNum.
    *
-   * @param {?{path: string, oldPath?: string, patchNum?: number}} file
+   * @param {?{path: string, basePath?: string, patchNum?: number}} file
    * @return {number}
    */
   computeDraftCount(file) {
@@ -424,7 +424,7 @@ class ChangeComments {
   /**
    * Computes a number of unresolved comment threads in a given file and path.
    *
-   * @param {{path: string, oldPath?: string, patchNum?: number}} file
+   * @param {{path: string, basePath?: string, patchNum?: number}} file
    * @return {number}
    */
   computeUnresolvedNum(file) {

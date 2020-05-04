@@ -490,6 +490,7 @@ export const htmlTemplate = html`
             hidden="[[!_isFileExpanded(file.__path, _expandedFiles.*)]]"
             change-num="[[changeNum]]"
             patch-range="[[patchRange]]"
+            file="[[_computeFileData(file)]]"
             path="[[file.__path]]"
             prefs="[[diffPrefs]]"
             project-name="[[change.project]]"

@@ -162,6 +162,12 @@ class GrDiffView extends mixinBehaviors( [
         value() { return {sortedFileList: [], changeFilesByPath: {}}; },
       },
 
+      /** @type {Gerrit.FileRange} */
+      _file: {
+        type: Object,
+        computed: '_getCurrentFile(_files, _path)',
+      },
+
       _path: {
         type: String,
         observer: '_pathChanged',
@@ -346,6 +352,21 @@ class GrDiffView extends mixinBehaviors( [
 
   _getSortedFileList(files) {
     return files.sortedFileList;
+  }
+
+  /**
+   * @param {!Object} files
+   * @param {string} path
+   * @returns {!Gerrit.FileRange}
+   */
+  _getCurrentFile(files, path) {
+    if ([files, path].includes(undefined)) return;
+    const fileInfo = files.changeFilesByPath[path];
+    const fileRange = {path};
+    if (fileInfo && fileInfo.old_path) {
+      fileRange.basePath = fileInfo.old_path;
+    }
+    return fileRange;
   }
 
   _getFiles(changeNum, patchRangeRecord, changeComments) {
@@ -1132,7 +1153,7 @@ class GrDiffView extends mixinBehaviors( [
     const file = files[path];
     if (file && file.old_path) {
       this._commentsForDiff = this._changeComments.getCommentsBySideForFile(
-          {path, oldPath: file.old_path},
+          {path, basePath: file.old_path},
           patchRange,
           projectConfig);
 

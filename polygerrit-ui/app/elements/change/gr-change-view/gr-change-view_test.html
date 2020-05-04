@@ -76,6 +76,7 @@ suite('gr-change-view tests', () => {
 
   const ROBOT_COMMENTS_LIMIT = 10;
 
+  // TODO: should have a mock service to generate VALID fake data
   const THREADS = [
     {
       comments: [
@@ -88,7 +89,7 @@ suite('gr-change-view tests', () => {
           },
           patch_set: 2,
           robot_id: 'rb1',
-          id: 'ecf9fa_fe1a5f62',
+          id: 'ecf0b9fa_fe1a5f62',
           line: 5,
           updated: '2018-02-08 18:49:18.000000000',
           message: 'test',
@@ -102,7 +103,7 @@ suite('gr-change-view tests', () => {
             username: 'user',
           },
           patch_set: 4,
-          id: 'ecf0b9fa_fe1a5f62',
+          id: 'ecf0b9fa_fe1a5f62_1',
           line: 5,
           updated: '2018-02-08 18:49:18.000000000',
           message: 'test',
@@ -711,6 +712,52 @@ suite('gr-change-view tests', () => {
             composed: true, bubbles: true,
           }));
       assert.isTrue(reloadStub.called);
+    });
+  });
+
+  suite('_recomputeComments', () => {
+    setup(() => {
+      // Fake computeDraftCount as its required for ChangeComments,
+      // see gr-comment-api#reloadDrafts.
+      sandbox.stub(element.$.commentAPI, 'reloadDrafts')
+          .returns(Promise.resolve({
+            drafts: {},
+            getAllThreadsForChange: () => THREADS,
+            computeDraftCount: () => 0,
+          }));
+    });
+
+    test('draft threads should be a new copy with correct states', done => {
+      element.$.fileList.dispatchEvent(
+          new CustomEvent('reload-drafts', {
+            detail: {
+              resolve: () => {
+                assert.equal(element._draftCommentThreads.length, 2);
+                assert.equal(
+                    element._draftCommentThreads[0].rootId,
+                    THREADS[0].rootId
+                );
+                assert.notEqual(
+                    element._draftCommentThreads[0].comments,
+                    THREADS[0].comments
+                );
+                assert.isTrue(
+                    element._draftCommentThreads[0]
+                        .comments
+                        .slice(0, 2)
+                        .every(c => c.collapsed === true)
+                );
+
+                assert.isTrue(
+                    element._draftCommentThreads[0]
+                        .comments[2]
+                        .collapsed === false
+                );
+                done();
+              },
+            },
+            composed: true, bubbles: true,
+          }));
     });
   });
 

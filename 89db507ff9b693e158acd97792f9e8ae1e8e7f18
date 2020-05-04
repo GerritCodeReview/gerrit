@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "88cff436_a9578345",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-04T09:45:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "390c479b_16d25a74",
+      "range": {
+        "startLine": 7,
+        "startChar": 15,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "89db507ff9b693e158acd97792f9e8ae1e8e7f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f198a43f_1b009741",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "df2b6bd2_46500cc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-04T09:45:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f198a43f_1b009741",
+      "range": {
+        "startLine": 9,
+        "startChar": 52,
+        "endLine": 9,
+        "endChar": 59
+      },
+      "revId": "89db507ff9b693e158acd97792f9e8ae1e8e7f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b1c61f8_c29bb427",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-04T09:45:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee7a9571_e0ea7ee3",
+      "range": {
+        "startLine": 9,
+        "startChar": 19,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "89db507ff9b693e158acd97792f9e8ae1e8e7f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b403127c_45bb6a28",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -91,6 +163,30 @@
       "revId": "89db507ff9b693e158acd97792f9e8ae1e8e7f18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3034e2b6_04921f7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-04T09:45:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b403127c_45bb6a28",
+      "range": {
+        "startLine": 10,
+        "startChar": 33,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "89db507ff9b693e158acd97792f9e8ae1e8e7f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -131,6 +227,30 @@
       "revId": "89db507ff9b693e158acd97792f9e8ae1e8e7f18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "539d544a_71246fbb",
+        "filename": "polygerrit-ui/app/types/types.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-04T09:45:06Z",
+      "side": 1,
+      "message": "I will just go with fileRange for now, will have a todo to combine all these ranges into one",
+      "parentUuid": "a1c0a8fe_5929bbc3",
+      "range": {
+        "startLine": 321,
+        "startChar": 7,
+        "endLine": 321,
+        "endChar": 22
+      },
+      "revId": "89db507ff9b693e158acd97792f9e8ae1e8e7f18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

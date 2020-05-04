@@ -83,6 +83,7 @@ public class TestLoggingActivator {
 
   public static void configureLogging() {
     LogManager.resetConfiguration();
+    FloggerInitializer.initBackend();
 
     PatternLayout layout = new PatternLayout();
     layout.setConversionPattern("%-5p %c %x: %m%n");
@@ -99,4 +100,6 @@ public class TestLoggingActivator {
 
     LOG_LEVELS.entrySet().stream().forEach(e -> getLogger(e.getKey()).setLevel(e.getValue()));
   }
+
+  private TestLoggingActivator() {}
 }

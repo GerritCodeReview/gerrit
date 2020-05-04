@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62342e3e_52f181bd",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group_html.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-04T00:10:35Z",
+      "side": 0,
+      "message": "Why is this removed?",
+      "range": {
+        "startLine": 126,
+        "startChar": 19,
+        "endLine": 126,
+        "endChar": 37
+      },
+      "revId": "82c692b2e1224d629289138eb357300e12d29856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

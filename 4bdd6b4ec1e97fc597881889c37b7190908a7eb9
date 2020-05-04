@@ -22,6 +22,30 @@
       "revId": "4bdd6b4ec1e97fc597881889c37b7190908a7eb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3760d838_eb3ce5b8",
+        "filename": "tools/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-04T03:34:33Z",
+      "side": 1,
+      "message": "There have been several recent changes from Edwin and co to add Javadocs; I wonder if those were a result of Google running error prone internally with this warning?\n\nWe can probably lower the severity of this, and any other that cause build failure, to WARN. Then we can fix them individually later.",
+      "parentUuid": "00121bb9_39b93c0c",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 77,
+        "endChar": 36
+      },
+      "revId": "4bdd6b4ec1e97fc597881889c37b7190908a7eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

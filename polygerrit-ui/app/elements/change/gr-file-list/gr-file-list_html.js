@@ -310,7 +310,7 @@ export const htmlTemplate = html`
       <div class="stickyArea">
         <div
           class$="file-row row [[_computePathClass(file.__path, _expandedFiles.*)]]"
-          data-file$="[[_computeFileData(file)]]"
+          data-file$="[[_computeFileRange(file)]]"
           tabindex="-1"
         >
           <div
@@ -490,7 +490,7 @@ export const htmlTemplate = html`
             hidden="[[!_isFileExpanded(file.__path, _expandedFiles.*)]]"
             change-num="[[changeNum]]"
             patch-range="[[patchRange]]"
-            file="[[_computeFileData(file)]]"
+            file="[[_computeFileRange(file)]]"
             path="[[file.__path]]"
             prefs="[[diffPrefs]]"
             project-name="[[change.project]]"

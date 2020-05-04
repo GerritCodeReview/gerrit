@@ -437,7 +437,7 @@ class GrFileList extends mixinBehaviors( [
   }
 
   _toggleFileExpandedByIndex(index) {
-    this._toggleFileExpanded(this._computeFileData(this._files[index]));
+    this._toggleFileExpanded(this._computeFileRange(this._files[index]));
   }
 
   _updateDiffPreferences() {
@@ -465,7 +465,7 @@ class GrFileList extends mixinBehaviors( [
     for (let i = 0; i < this._shownFiles.length; i++) {
       path = this._shownFiles[i].__path;
       if (!this._expandedFiles.some(f => f.path === path)) {
-        newFiles.push(this._computeFileData(this._shownFiles[i]));
+        newFiles.push(this._computeFileRange(this._shownFiles[i]));
       }
     }
 
@@ -682,7 +682,7 @@ class GrFileList extends mixinBehaviors( [
    * @param {FileInfo} file
    * @returns {Gerrit.FileRange}
    */
-  _computeFileData(file) {
+  _computeFileRange(file) {
     const fileData = {
       path: file.__path,
     };

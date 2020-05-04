@@ -39,6 +39,8 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.util.Providers;
 import java.io.IOException;
+import java.nio.file.FileVisitOption;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,9 +61,6 @@ public class Init extends BaseInit {
 
   @Option(name = "--no-auto-start", usage = "Don't automatically start daemon after init")
   private boolean noAutoStart;
-
-  @Option(name = "--no-reindex", usage = "Don't automatically reindex any entities")
-  private boolean noReindex;
 
   @Option(name = "--skip-plugins", usage = "Don't install plugins")
   private boolean skipPlugins;
@@ -145,10 +144,20 @@ public class Init extends BaseInit {
         });
     modules.add(new GerritServerConfigModule());
     Guice.createInjector(modules).injectMembers(this);
-    if (!ReplicaUtil.isReplica(run.flags.cfg)) {
+    if (!ReplicaUtil.isReplica(run.flags.cfg) && !hasProjectsIndex(run)) {
       reindexProjects();
     }
     start(run);
+  }
+
+  private boolean hasProjectsIndex(SiteRun run) throws IOException {
+    return run.site.index_dir.toFile().exists()
+        && Files.walk(run.site.index_dir, 1, FileVisitOption.FOLLOW_LINKS)
+            .filter(Files::isDirectory)
+            .map(Path::getFileName)
+            .filter(p -> p.toString().startsWith("projects"))
+            .findFirst()
+            .isPresent();
   }
 
   @Override
@@ -260,9 +269,6 @@ public class Init extends BaseInit {
   }
 
   private void reindexProjects() throws Exception {
-    if (noReindex) {
-      return;
-    }
     // Reindex all projects, so that we bootstrap the project index for new installations
     List<String> reindexArgs =
         ImmutableList.of(

@@ -2127,6 +2127,17 @@ A good name should be short but precise enough so that users can identify the in
 +
 Defaults to the full hostname of the Gerrit server.
 
+[[gerrit.rollingUpgrade]]gerrit.rollingUpgrade::
++
+Enable Gerrit rolling upgrade to the next version.
+Allow Gerrit to start even if the underlying schema version has been bumped to
+the next Gerrit version.
++
+Set to true if Gerrit is installed in
+[high-availability configuration](https://gerrit.googlesource.com/plugins/high-availability/+/refs/heads/master/README.md)
+during the rolling upgrade to the next version.
++
+By default false.
 
 [[gerrit.serverId]]gerrit.serverId::
 +

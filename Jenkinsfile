@@ -147,7 +147,7 @@ def collectBuilds() {
     if (hasChangeNumber()) {
        builds["Gerrit-codestyle"] = prepareBuildsForMode("Gerrit-codestyle")
        Builds.modes.each {
-          builds["Gerrit-verification(${it})"] = prepareBuildsForMode("Gerrit-verifier-bazel", it)
+          builds["Gerrit-verification(${it})"] = prepareBuildsForMode("Gerrit-verifier-chrome80", it)
        }
     } else {
        builds["java8"] = { -> build "Gerrit-bazel-${env.BRANCH_NAME}" }

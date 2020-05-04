@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a38d41b2_8620169c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-04T18:31:37Z",
+      "side": 1,
+      "message": "The option is already there, just pass it to init pgm:\n\n  $ java -jar bazel-bin/release.war init --help\n  [...]\n   --no-reindex           : Don\u0027t automatically reindex any entities (default: false)",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "10393b5afdae4f670fd06d201760b0c876a7c78f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

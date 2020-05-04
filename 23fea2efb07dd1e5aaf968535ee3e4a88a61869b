@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89257162_a4fb4f6e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1199,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-05-04T07:11:00Z",
+      "side": 1,
+      "message": "Not sure what the Gerrit style is for this, but I love to use an object with labels here to make this more readable. As it is right now, I have to open the definition to understand what `false, true` means here, which in JS is often more painful than in more static languages.",
+      "range": {
+        "startLine": 1199,
+        "startChar": 40,
+        "endLine": 1199,
+        "endChar": 51
+      },
+      "revId": "23fea2efb07dd1e5aaf968535ee3e4a88a61869b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55daf961_edca68e8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-element.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-05-04T07:11:00Z",
+      "side": 1,
+      "message": "Could you please add JSDoc comments? It\u0027s not very clear to me from the name what exactly this does, and when I might want to set this or not.",
+      "revId": "23fea2efb07dd1e5aaf968535ee3e4a88a61869b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc21d997_af411e2d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-05-04T07:11:00Z",
+      "side": 1,
+      "message": "Even after reading this code, it\u0027s not completely clear to me what this has to do with \"order\". Where is the \"check if it\u0027s the last diff\"? Does this just happen for every diff, only after it is completely rendered including syntax highlighting and all. Is this really guaranteed to be after all diffs have finished rendering, or is it just a little later so makes the situation usually better?\n\nI guess I have to admit I still have not fully understood the behavior we want: When all diffs are done rendering, we turn the auto scrolling back on - but does that mean we do auto-scroll in the very end, or we don\u0027t because setting it back to auto-scroll happens after we are completely done rendering and after the render-content event was handled in gr-diff-cursor?",
+      "revId": "23fea2efb07dd1e5aaf968535ee3e4a88a61869b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

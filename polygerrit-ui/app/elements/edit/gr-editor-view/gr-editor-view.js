@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param.js';
 import '../../shared/gr-button/gr-button.js';
@@ -43,7 +41,7 @@ const SAVE_FAILED_MSG = 'Failed to save changes';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 100;
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrEditorView extends mixinBehaviors( [
   KeyboardShortcutBehavior,

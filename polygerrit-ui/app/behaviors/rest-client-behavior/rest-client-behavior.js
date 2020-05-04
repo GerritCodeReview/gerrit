@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../scripts/bundled-polymer.js';
 import {BaseUrlBehavior} from '../base-url-behavior/base-url-behavior.js';
 
 /** @polymerBehavior Gerrit.RESTClientBehavior */

@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../gr-rest-api-interface/gr-rest-api-interface.js';
 import '../gr-tooltip-content/gr-tooltip-content.js';
 import '../../../styles/shared-styles.js';
@@ -43,7 +41,7 @@ const MERGE_CONFLICT_TOOLTIP = 'This change has merge conflicts. ' +
 const PRIVATE_TOOLTIP = 'This change is only visible to its owner and ' +
     'current reviewers (or anyone with "View Private Changes" permission).';
 
-/** @extends Polymer.Element */
+/** @extends PolymerElement */
 class GrChangeStatus extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {

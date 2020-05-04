@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import {IronOverlayBehaviorImpl} from '@polymer/iron-overlay-behavior/iron-overlay-behavior.js';
 import '@polymer/iron-dropdown/iron-dropdown.js';
 import '@polymer/paper-input/paper-input.js';
@@ -33,7 +31,7 @@ const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrEditableLabel extends mixinBehaviors( [
   KeyboardShortcutBehavior,

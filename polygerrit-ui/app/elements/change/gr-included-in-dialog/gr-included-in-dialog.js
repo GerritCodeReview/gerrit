@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/iron-input/iron-input.js';
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-button/gr-button.js';
@@ -26,7 +24,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-included-in-dialog_html.js';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrIncludedInDialog extends GestureEventListeners(
     LegacyElementMixin(PolymerElement)) {

@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import {IronOverlayBehaviorImpl, IronOverlayBehavior} from '@polymer/iron-overlay-behavior/iron-overlay-behavior.js';
 import '../../../styles/shared-styles.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
@@ -29,7 +27,7 @@ const AWAIT_STEP = 5;
 const BREAKPOINT_FULLSCREEN_OVERLAY = '50em';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrOverlay extends mixinBehaviors( [
   IronOverlayBehavior,

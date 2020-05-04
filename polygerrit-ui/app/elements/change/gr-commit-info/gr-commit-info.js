@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
@@ -24,7 +22,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-commit-info_html.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
-/** @extends Polymer.Element */
+/** @extends PolymerElement */
 class GrCommitInfo extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {

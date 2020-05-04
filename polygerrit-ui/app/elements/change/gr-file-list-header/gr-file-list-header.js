@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../../styles/shared-styles.js';
 import '../../diff/gr-diff-mode-selector/gr-diff-mode-selector.js';
 import '../../diff/gr-patch-range-select/gr-patch-range-select.js';
@@ -43,7 +41,7 @@ const PATCH_DESC_MAX_LENGTH = 500;
 const MERGED_STATUS = 'MERGED';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrFileListHeader extends mixinBehaviors( [
   PatchSetBehavior,

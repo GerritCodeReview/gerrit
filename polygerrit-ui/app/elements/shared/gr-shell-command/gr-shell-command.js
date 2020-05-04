@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../../styles/shared-styles.js';
 import '../gr-copy-clipboard/gr-copy-clipboard.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
@@ -23,7 +21,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-shell-command_html.js';
 
-/** @extends Polymer.Element */
+/** @extends PolymerElement */
 class GrShellCommand extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {

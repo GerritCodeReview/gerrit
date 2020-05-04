@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import '../../../scripts/bundled-polymer.js';
 import '../../../styles/gr-table-styles.js';
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-date-formatter/gr-date-formatter.js';
@@ -32,7 +31,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 const GROUP_EVENTS = ['ADD_GROUP', 'REMOVE_GROUP'];
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrGroupAuditLog extends mixinBehaviors( [
   ListViewBehavior,

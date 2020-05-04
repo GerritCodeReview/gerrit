@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-dropdown-list/gr-dropdown-list.js';
 import '../../shared/gr-select/gr-select.js';
@@ -38,7 +36,7 @@ const PATCH_DESC_MAX_LENGTH = 500;
  *
  * @property {string} patchNum
  * @property {string} basePatchNum
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrPatchRangeSelect extends mixinBehaviors( [
   PatchSetBehavior,

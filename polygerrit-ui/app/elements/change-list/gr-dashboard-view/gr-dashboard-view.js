@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../../styles/shared-styles.js';
 import '../gr-change-list/gr-change-list.js';
 import '../../shared/gr-button/gr-button.js';
@@ -38,7 +36,7 @@ import {appContext} from '../../../services/app-context.js';
 const PROJECT_PLACEHOLDER_PATTERN = /\$\{project\}/g;
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrDashboardView extends mixinBehaviors( [
   RESTClientBehavior,

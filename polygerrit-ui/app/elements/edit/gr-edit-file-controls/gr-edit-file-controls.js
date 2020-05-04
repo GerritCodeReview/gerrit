@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-dropdown/gr-dropdown.js';
 import '../../../styles/shared-styles.js';
@@ -25,7 +23,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-edit-file-controls_html.js';
 import {GrEditConstants} from '../gr-edit-constants.js';
 
-/** @extends Polymer.Element */
+/** @extends PolymerElement */
 class GrEditFileControls extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {

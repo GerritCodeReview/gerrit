@@ -14,8 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
-
 import '@polymer/iron-icon/iron-icon.js';
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-dialog/gr-dialog.js';
@@ -29,7 +27,7 @@ import {htmlTemplate} from './gr-apply-fix-dialog_html.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 /**
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrApplyFixDialog extends GestureEventListeners(
     LegacyElementMixin(PolymerElement)) {

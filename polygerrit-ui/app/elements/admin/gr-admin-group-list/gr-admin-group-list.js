@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
 
 import '../../../styles/gr-table-styles.js';
 import '../../../styles/shared-styles.js';
@@ -33,7 +32,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 /**
  * @appliesMixin ListViewMixin
- * @extends Polymer.Element
+ * @extends PolymerElement
  */
 class GrAdminGroupList extends mixinBehaviors( [
   ListViewBehavior,

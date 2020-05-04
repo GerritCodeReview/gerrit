@@ -14,7 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../scripts/bundled-polymer.js';
 
 import '@polymer/iron-icon/iron-icon.js';
 import '../../../styles/shared-styles.js';
@@ -26,7 +25,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-hovercard-account_html.js';
 
-/** @extends Polymer.Element */
+/** @extends PolymerElement */
 class GrHovercardAccount extends GestureEventListeners(
     hovercardBehaviorMixin(LegacyElementMixin(
         PolymerElement))) {

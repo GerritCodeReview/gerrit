@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b6b01449_cd9ad590",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-05-04T13:50:23Z",
+      "side": 1,
+      "message": "It is a strange case about Date parsing on MacOS. I have reported it here: https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d12656",
+      "parentUuid": "b5986fa8_ddc95f0b",
+      "range": {
+        "startLine": 394,
+        "startChar": 54,
+        "endLine": 394,
+        "endChar": 73
+      },
+      "revId": "6f05c8d26dfe3f383abf662732c830d221240e59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "60e156d6_fb7d2634",
         "filename": "java/com/google/gerrit/server/notedb/CommentTimestampAdapter.java",
         "patchSetId": 3

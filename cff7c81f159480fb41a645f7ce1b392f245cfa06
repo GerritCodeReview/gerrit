@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc78877f_0e014552",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-04T21:15:32Z",
+      "side": 1,
+      "message": "No, we need to get the list of files in this directory, not the iteration of the path components.",
+      "range": {
+        "startLine": 153,
+        "startChar": 33,
+        "endLine": 153,
+        "endChar": 62
+      },
+      "revId": "cff7c81f159480fb41a645f7ce1b392f245cfa06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

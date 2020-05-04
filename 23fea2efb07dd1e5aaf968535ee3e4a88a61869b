@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c0ae9c6c_1bf4f601",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1199,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-04T14:16:10Z",
+      "side": 1,
+      "message": "Removed this part of the code.",
+      "parentUuid": "89257162_a4fb4f6e",
+      "range": {
+        "startLine": 1199,
+        "startChar": 40,
+        "endLine": 1199,
+        "endChar": 51
+      },
+      "revId": "23fea2efb07dd1e5aaf968535ee3e4a88a61869b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55daf961_edca68e8",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-element.js",
         "patchSetId": 7
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "e813319c_f3c46714",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-element.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-04T14:16:10Z",
+      "side": 1,
+      "message": "Removed this part of the code.",
+      "parentUuid": "55daf961_edca68e8",
+      "revId": "23fea2efb07dd1e5aaf968535ee3e4a88a61869b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc21d997_af411e2d",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
         "patchSetId": 7
@@ -56,6 +98,24 @@
       "revId": "23fea2efb07dd1e5aaf968535ee3e4a88a61869b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6108635e_d3747f78",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-04T14:16:10Z",
+      "side": 1,
+      "message": "I think the behaviour we want is that the scroll behaviour is blocked from reseting if multiple files are being rendered.\nThe behaviour is now reset by gr-file-list explicitly after all files are done being rendered.",
+      "parentUuid": "fc21d997_af411e2d",
+      "revId": "23fea2efb07dd1e5aaf968535ee3e4a88a61869b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

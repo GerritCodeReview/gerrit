@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfa7c215_c2e63bf8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-04T10:25:24Z",
+      "side": 1,
+      "message": "From Dmitrii\u0027s style guide: \"Incorrect: assign all dependencies in the constructor\"",
+      "revId": "c5f3fb93883c53aa9787b151eb9d387a802079e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0575a850_9359b90a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-04T11:29:06Z",
+      "side": 1,
+      "message": "from the GUI.\n\nI believe they may be still allowed to revert changes if they have permissions to push a new change to the repo, correct?",
+      "range": {
+        "startLine": 11,
+        "startChar": 38,
+        "endLine": 11,
+        "endChar": 63
+      },
+      "revId": "8d8609036c6140826082f9fe963c7b516842e8f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dc7a755_fae7775c",
+        "filename": "java/com/google/gerrit/server/permissions/ChangeControl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-04T11:29:06Z",
+      "side": 1,
+      "message": "nit: missing empty line",
+      "revId": "8d8609036c6140826082f9fe963c7b516842e8f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "764bb0cd_b14cb969",
+        "filename": "java/com/google/gerrit/server/permissions/ChangePermission.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-04T11:29:06Z",
+      "side": 1,
+      "message": "Missing JavaDoc",
+      "revId": "8d8609036c6140826082f9fe963c7b516842e8f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e99ab439_6620c381",
+        "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-04T11:29:06Z",
+      "side": 1,
+      "message": "nit: should do this be imported statically, for consistency with the CREATE_CHANGE permission?",
+      "range": {
+        "startLine": 98,
+        "startChar": 29,
+        "endLine": 98,
+        "endChar": 52
+      },
+      "revId": "8d8609036c6140826082f9fe963c7b516842e8f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbd459ba_a90e936b",
+        "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-04T11:29:06Z",
+      "side": 1,
+      "message": "nit: static import",
+      "range": {
+        "startLine": 139,
+        "startChar": 30,
+        "endLine": 139,
+        "endChar": 53
+      },
+      "revId": "8d8609036c6140826082f9fe963c7b516842e8f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41dccf20_e8f1ab3f",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-04T11:29:06Z",
+      "side": 1,
+      "message": "nit: static import",
+      "range": {
+        "startLine": 227,
+        "startChar": 63,
+        "endLine": 227,
+        "endChar": 80
+      },
+      "revId": "8d8609036c6140826082f9fe963c7b516842e8f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

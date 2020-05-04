@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3e4e6f44_9e8ae013",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-04T09:06:13Z",
+      "side": 1,
+      "message": "Removed. Thanks for pointing to it. Didn\u0027t notice that we already have it in Google\u0027s style guide.",
+      "parentUuid": "c03310e1_f2275631",
+      "revId": "0fac75accef9c513023489f8f3a09a37038bb88a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "123c1cfe_a4e7af24",
         "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
         "patchSetId": 15
@@ -33,6 +51,24 @@
       "revId": "0fac75accef9c513023489f8f3a09a37038bb88a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a6b8d26_60e80eb8",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 15
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-04T09:06:13Z",
+      "side": 1,
+      "message": "Removed, thanks.",
+      "parentUuid": "123c1cfe_a4e7af24",
+      "revId": "0fac75accef9c513023489f8f3a09a37038bb88a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

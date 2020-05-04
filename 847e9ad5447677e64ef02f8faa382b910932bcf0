@@ -1,0 +1,268 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d9a5ea6_9167d78c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-04T15:44:42Z",
+      "side": 1,
+      "message": "nit: Message-Id (stick to the RFC naming) (here and below)",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 14
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e551e0d7_66b40715",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-04T15:44:42Z",
+      "side": 1,
+      "message": "This could use a little more background. E.g. That the RFC spec defines Message-Id to uniquely identify an email and In-Reply-To/References to do client-side threading. (I think in Gerrit we use the latter)",
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecdc71fd_ee44afa8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-04T15:44:42Z",
+      "side": 1,
+      "message": "nit: explain that is because we use NoteDb to store everything",
+      "range": {
+        "startLine": 15,
+        "startChar": 29,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fe20e62_abc37f72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-04T15:44:42Z",
+      "side": 1,
+      "message": "Naaaaahh :-) - tests always go in the same change as the modification. If there are reasons to separate them (e.g. change is already very large) then they at least get reviewed, approved, submitted at the same time.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 50
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94aada4c_87a2f20b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-04T15:44:42Z",
+      "side": 1,
+      "message": "Can you get creative in solving this?\n\nPer RFC spec, Message-Ids should be unique. What are cases where this can happen? Is it just the plaintext/html distinction that Oswald mentioned or are there more cases.\n\nIf there are cases for which we can\u0027t solve the problem, which are these and what shall we do?",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 12
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2a87980_3f670d58",
+        "filename": "java/com/google/gerrit/server/change/AddReviewersEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-04T15:44:42Z",
+      "side": 1,
+      "message": "We spoke about code smell the other day and how we could make the emails component nicer code-health-wise. This could be a fluent API to be more up to date with how new Java code is written.\n\nFor that, the class would return its own instance on set/add methods:\n\npublic AddReviewSender setFrom(..) {\n  // code as is\n  return this;\n}\n\nThis allows callers to do:\n\naddRFactory.create(...)\n  .setNotify(...)\n  .setFrom(...)\n  ...\n  .send();\n\nI think this would a nice (optional) follow up to this change when you look at the code quality of the component.",
+      "range": {
+        "startLine": 83,
+        "startChar": 19,
+        "endLine": 83,
+        "endChar": 28
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0eb20913_efd40c2e",
+        "filename": "java/com/google/gerrit/server/mail/send/CreateChangeSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-04T15:44:42Z",
+      "side": 1,
+      "message": "Please don\u0027t add IOException to any method signatures. We are trying to get rid of checked exceptions for unrecoverable failures and use unchecked exceptions instead.\n\nWhere the IOE is throw, catch it and do:\n\nthrow new StorageException(\"unable to extract info for Message-Id\", e);",
+      "range": {
+        "startLine": 54,
+        "startChar": 47,
+        "endLine": 54,
+        "endChar": 58
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28d3d85b_30c833ad",
+        "filename": "java/com/google/gerrit/server/mail/send/HttpPasswordUpdateSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-04T15:44:42Z",
+      "side": 1,
+      "message": "Is this truly unique?",
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "248b9461_054e95ae",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-04T15:44:42Z",
+      "side": 1,
+      "message": "Strings are very generic, so in a lot of cases they don\u0027t make good arguments.\n\nIn this case, using a String here opens the door for callers to not really think about this field further. In the future, a contributor might just set \"create-change\" as message ID and when this doesn\u0027t stick out during review we\u0027ll send plenty of emails with the same Message ID.\n\nIf we use an AutoValue as argument that can be constructed from different sources and offers a single method to get the ID, the API becomes harder to use wrongly.\n\nFor example:\n\n\n@AutoValue\nabstract class MessageId {\n\nMessageId fromChangeUpdate()\nMessageId fromAccountUpdate()\n\npublic String asRfcMessageId() {\n  ... stitch together the ID you want to send. this is also good for unit-testing, because this class is independent from the rest.\n}\n}",
+      "range": {
+        "startLine": 103,
+        "startChar": 30,
+        "endLine": 103,
+        "endChar": 36
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c220d5d3_5c53f668",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-04T15:44:42Z",
+      "side": 1,
+      "message": "this isn\u0027t a good argument to use (for the same reason as above). We can pass in a PatchSet.Id instead. It contains the Change.Id as well.",
+      "range": {
+        "startLine": 107,
+        "startChar": 61,
+        "endLine": 107,
+        "endChar": 67
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa7deabb_3ca3dde8",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-04T15:44:42Z",
+      "side": 1,
+      "message": "nit: using a simple + is not slower and more readable\n\n(this will go away when the signature of the method changes)",
+      "range": {
+        "startLine": 108,
+        "startChar": 31,
+        "endLine": 108,
+        "endChar": 37
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a157cd0_c8813b73",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-04T15:44:42Z",
+      "side": 1,
+      "message": "Having these setFoo (with the exception of setMessageId) methods here mixes two concerns:\n1) Computing the message ID based on various inputs\n2) Setting the message ID in the context of the email we are about to send.\n\nI would separate (1) out by moving these methods into their own service object (\"MesssageIdGenerator\" ... or whatever better name might exist).",
+      "range": {
+        "startLine": 130,
+        "startChar": 14,
+        "endLine": 130,
+        "endChar": 35
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

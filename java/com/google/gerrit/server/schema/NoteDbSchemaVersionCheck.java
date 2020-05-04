@@ -14,15 +14,20 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.ProvisionException;
+import org.eclipse.jgit.lib.Config;
 
 public class NoteDbSchemaVersionCheck implements LifecycleListener {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public static Module module() {
     return new LifecycleModule() {
       @Override
@@ -34,11 +39,16 @@ public class NoteDbSchemaVersionCheck implements LifecycleListener {
 
   private final NoteDbSchemaVersionManager versionManager;
   private final SitePaths sitePaths;
+  private Config gerritConfig;
 
   @Inject
-  NoteDbSchemaVersionCheck(NoteDbSchemaVersionManager versionManager, SitePaths sitePaths) {
+  NoteDbSchemaVersionCheck(
+      NoteDbSchemaVersionManager versionManager,
+      SitePaths sitePaths,
+      @GerritServerConfig Config gerritConfig) {
     this.versionManager = versionManager;
     this.sitePaths = sitePaths;
+    this.gerritConfig = gerritConfig;
   }
 
   @Override
@@ -53,7 +63,13 @@ public class NoteDbSchemaVersionCheck implements LifecycleListener {
                 sitePaths.site_path.toAbsolutePath()));
       }
       int expected = NoteDbSchemaVersions.LATEST;
-      if (current != expected) {
+      int next = NoteDbSchemaVersions.NEXT;
+
+      if (current == next && gerritConfig.getBoolean("gerrit", "rollingUpgrade", false)) {
+        logger.atWarning().log(
+            "Detected schema version %d of the next release; expected schema version %d. Rolling upgrade may be in progress, continuing.",
+            current, next);
+      } else if (current != expected) {
         String advice =
             current > expected
                 ? "Downgrade is not supported"

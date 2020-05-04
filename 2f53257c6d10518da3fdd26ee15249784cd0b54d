@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "949d6556_2f3885a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-04T10:55:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfeed39b_3cb3a99e",
+      "range": {
+        "startLine": 10,
+        "startChar": 11,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "2f53257c6d10518da3fdd26ee15249784cd0b54d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74ffd8d3_dfe4d5eb",
         "filename": "Documentation/dev-bazel.txt",
         "patchSetId": 1
@@ -156,6 +180,30 @@
       "side": 1,
       "message": "Thanks for clarifying. It helps to know that it\u0027s yet another way to install Bazelisk. So, may be you can re-phrase that statement to make it more obvious, that it\u0027s just another opiniated way for installing Bazelisk?\n\nUsually, we avoid to replicate the installation instructions required for third party tools. Wen don\u0027t tell how to install Java, Bazel and npm to name a few. In the past we have just pointed to the tool specific installation intstructions, like this one for Bazel:\n\n  https://docs.bazel.build/versions/master/install.html\n\nI don\u0027t find corresponding instructions to install Bazelisk. So may be we should help create one (file issue upstream?) and reference here this new page? There one could mention:\n\n1. Install it from source\n2. Install it with homebrew\n3. Install it with npm\n4. Install it with yet another fancy tool \u003cput the name here\u003e",
       "parentUuid": "8504019e_58bb26e2",
+      "range": {
+        "startLine": 27,
+        "startChar": 1,
+        "endLine": 27,
+        "endChar": 32
+      },
+      "revId": "2f53257c6d10518da3fdd26ee15249784cd0b54d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29b3be58_461a3e99",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-04T10:55:42Z",
+      "side": 1,
+      "message": "PTAL",
+      "parentUuid": "4e459309_885e8d47",
       "range": {
         "startLine": 27,
         "startChar": 1,

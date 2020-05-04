@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "aa777e87_ce8ece1c",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-04T10:13:15Z",
+      "side": 1,
+      "message": "ya maybe use `FE_Style_Guide.md` instead ? its not a blocking issue, but we do have Polymer2.md, so we don\u0027t really have a good convention here. Whatever the team agrees on",
+      "parentUuid": "ef33f35e_f7928c29",
+      "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e866a325_a1bf1322",
         "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
         "patchSetId": 11
@@ -319,6 +337,30 @@
     },
     {
       "key": {
+        "uuid": "289cf319_3e777f8d",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-04T10:13:15Z",
+      "side": 1,
+      "message": "oh I think this is just too generic here. And I doubt everyone has the same understanding of what global state is tho, so it might be better to be more specific if this is targeting a broader audience, a few examples of what we treated as global state other than just use the word will help a lot already.",
+      "parentUuid": "e3429a6d_9b9eb347",
+      "range": {
+        "startLine": 111,
+        "startChar": 43,
+        "endLine": 111,
+        "endChar": 55
+      },
+      "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "deb94f26_f6778a25",
         "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
         "patchSetId": 11
@@ -505,6 +547,30 @@
       "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6afd5c91_49c0d85e",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-04T10:13:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b09eba2d_dfd07f2d",
+      "range": {
+        "startLine": 233,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 66
+      },
+      "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

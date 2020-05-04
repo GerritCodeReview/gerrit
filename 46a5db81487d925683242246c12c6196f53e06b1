@@ -22,6 +22,30 @@
       "revId": "46a5db81487d925683242246c12c6196f53e06b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1ec4d52_093dd4bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-04T20:55:04Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "ffa7d8e2_7c317542",
+      "range": {
+        "startLine": 11,
+        "startChar": 32,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "46a5db81487d925683242246c12c6196f53e06b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

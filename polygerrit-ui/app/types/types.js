@@ -309,3 +309,16 @@ Gerrit.GrSuggestionsProvider;
  *  }}
  */
 Gerrit.Comment;
+
+/**
+ * This contains path info used in diff, basePath
+ * is used on the left while path is used on the right.
+ *
+ * TODO(taoalpha): unify all *Range into one.
+ *
+ * @typedef {{
+ *  basePath: ?string,
+ *  path: string,
+ *  }}
+ */
+Gerrit.FileRange;

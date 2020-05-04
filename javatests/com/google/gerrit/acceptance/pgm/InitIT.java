@@ -26,7 +26,16 @@ import com.google.gerrit.index.project.ProjectIndexCollection;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
+import java.io.IOException;
+import java.nio.file.FileVisitOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.Instant;
+import java.util.Comparator;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 
 @NoHttpd
@@ -34,7 +43,7 @@ public class InitIT extends StandaloneSiteTest {
 
   @Test
   public void indexesAllProjectsAndAllUsers() throws Exception {
-    runGerrit("init", "-d", sitePaths.site_path.toString(), "--show-stack-trace");
+    initSite();
     try (ServerContext ctx = startServer()) {
       ProjectIndexCollection projectIndex =
           ctx.getInjector().getInstance(ProjectIndexCollection.class);
@@ -47,5 +56,53 @@ public class InitIT extends StandaloneSiteTest {
       Optional<ProjectData> allUsersData = projectIndex.getSearchIndex().get(allUsers, opts);
       assertThat(allUsersData.isPresent()).isTrue();
     }
+  }
+
+  @Test
+  public void initDoesNotReindexProjectsOnExistingSites() throws Exception {
+    initSite();
+
+    // Simulate a projects indexes files modified in the past by 3 seconds
+    Optional<Instant> projectsLastModified =
+        getProjectsIndexLastModified(sitePaths.index_dir).map(t -> t.minusSeconds(3));
+    assertThat((projectsLastModified).isPresent()).isTrue();
+    setProjectsIndexLastModifiedInThePast(sitePaths.index_dir, projectsLastModified.get());
+
+    initSite();
+    Optional<Instant> projectsLastModifiedAfterInit =
+        getProjectsIndexLastModified(sitePaths.index_dir);
+
+    // Verify that projects index files haven't been updated
+    assertThat(projectsLastModified).isEqualTo(projectsLastModifiedAfterInit);
+  }
+
+  private void initSite() throws Exception {
+    runGerrit("init", "-d", sitePaths.site_path.toString(), "--show-stack-trace");
+  }
+
+  private void setProjectsIndexLastModifiedInThePast(Path indexDir, Instant time)
+      throws IOException {
+    for (Path path : getAllProjectsIndexFiles(indexDir).collect(Collectors.toList())) {
+      FS.DETECTED.setLastModified(path, time);
+    }
+  }
+
+  private Optional<Instant> getProjectsIndexLastModified(Path indexDir) throws IOException {
+    return getAllProjectsIndexFiles(indexDir)
+        .map(FS.DETECTED::lastModifiedInstant)
+        .max(Comparator.comparingLong(Instant::toEpochMilli));
+  }
+
+  private Stream<Path> getAllProjectsIndexFiles(Path indexDir) throws IOException {
+    Optional<Path> projectsPath =
+        Files.walk(indexDir, 1)
+            .filter(Files::isDirectory)
+            .filter(p -> p.getFileName().toString().startsWith("projects_"))
+            .findFirst();
+    if (!projectsPath.isPresent()) {
+      return Stream.empty();
+    }
+
+    return Files.walk(projectsPath.get(), 1, FileVisitOption.FOLLOW_LINKS);
   }
 }

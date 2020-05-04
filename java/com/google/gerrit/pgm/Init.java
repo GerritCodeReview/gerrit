@@ -30,6 +30,7 @@ import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.index.GerritIndexStatus;
 import com.google.gerrit.server.ioutil.HostPlatform;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.inject.AbstractModule;
@@ -59,9 +60,6 @@ public class Init extends BaseInit {
   @Option(name = "--no-auto-start", usage = "Don't automatically start daemon after init")
   private boolean noAutoStart;
 
-  @Option(name = "--no-reindex", usage = "Don't automatically reindex any entities")
-  private boolean noReindex;
-
   @Option(name = "--skip-plugins", usage = "Don't install plugins")
   private boolean skipPlugins;
 
@@ -90,6 +88,8 @@ public class Init extends BaseInit {
 
   @Inject Browser browser;
 
+  private boolean projectsIndexExists;
+
   public Init() {
     super(new WarDistribution(), null);
   }
@@ -102,6 +102,7 @@ public class Init extends BaseInit {
 
   @Override
   protected boolean beforeInit(SiteInit init) throws Exception {
+    projectsIndexExists = new GerritIndexStatus(init.site).exists(ProjectSchemaDefinitions.NAME);
     ErrorLogFile.errorOnlyConsole();
 
     if (!skipPlugins) {
@@ -144,7 +145,7 @@ public class Init extends BaseInit {
         });
     modules.add(new GerritServerConfigModule());
     Guice.createInjector(modules).injectMembers(this);
-    if (!run.flags.cfg.getBoolean("container", "slave", false)) {
+    if (!run.flags.cfg.getBoolean("container", "slave", false) && !projectsIndexExists) {
       reindexProjects();
     }
     start(run);
@@ -259,9 +260,6 @@ public class Init extends BaseInit {
   }
 
   private void reindexProjects() throws Exception {
-    if (noReindex) {
-      return;
-    }
     // Reindex all projects, so that we bootstrap the project index for new installations
     List<String> reindexArgs =
         ImmutableList.of(

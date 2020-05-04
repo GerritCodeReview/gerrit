@@ -107,8 +107,7 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
   }
 
   boolean isLoggingForced() {
-    Boolean force = forceLogging.get();
-    return force != null ? force : false;
+    return Boolean.TRUE.equals(forceLogging.get());
   }
 
   boolean forceLogging(boolean force) {
@@ -118,6 +117,6 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
     } else {
       forceLogging.remove();
     }
-    return oldValue != null ? oldValue : false;
+    return Boolean.TRUE.equals(oldValue);
   }
 }

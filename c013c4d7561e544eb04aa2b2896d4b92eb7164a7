@@ -9,11 +9,12 @@
       "updated": "2020-05-04T13:04:18Z"
     },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "RUNNING",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-pipeline/job/15%252F265815%252F3/1/console",
+      "state": "SUCCESSFUL",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-debian-chrome80/2/console",
       "started": "2020-05-04T12:56:21Z",
+      "finished": "2020-05-04T13:21:48Z",
       "created": "2020-05-04T12:55:48Z",
-      "updated": "2020-05-04T12:56:22Z"
+      "updated": "2020-05-04T13:21:48Z"
     },
     "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "FAILED",

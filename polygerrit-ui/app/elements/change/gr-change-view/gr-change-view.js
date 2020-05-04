@@ -820,7 +820,7 @@ class GrChangeView extends mixinBehaviors( [
     // in the comment thread view.
     this._reloadDrafts().then(() => {
       this._commentThreads = this._changeComments.getAllThreadsForChange()
-          .map(c => Object.assign({}, c));
+          .map(thread => { return {...thread}; });
       flush();
     });
   }
@@ -1725,11 +1725,19 @@ class GrChangeView extends mixinBehaviors( [
 
   _recomputeComments(comments) {
     this._changeComments = comments;
-    this._diffDrafts = Object.assign({}, this._changeComments.drafts);
+    this._diffDrafts = {...this._changeComments.drafts};
     this._commentThreads = this._changeComments.getAllThreadsForChange()
-        .map(c => Object.assign({}, c));
+        .map(thread => { return {...thread}; });
     this._draftCommentThreads = this._commentThreads
-        .filter(c => c.comments[c.comments.length - 1].__draft);
+        .filter(thread => thread.comments[thread.comments.length - 1].__draft)
+        .map(thread => {
+          const copiedThread = {...thread};
+          // Make a hardcopy of all comments and collapse all but last one
+          const commentsInThread = copiedThread.comments = thread.comments
+              .map(comment => { return {...comment, collapsed: true}; });
+          commentsInThread[commentsInThread.length - 1].collapsed = false;
+          return copiedThread;
+        });
   }
 
   /**

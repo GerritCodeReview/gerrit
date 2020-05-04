@@ -70,6 +70,30 @@
       "revId": "2f53257c6d10518da3fdd26ee15249784cd0b54d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "40b7eea2_2421fe1e",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-04T08:51:05Z",
+      "side": 1,
+      "message": "I am targeting a new team member that does not want to worry about anything, but just check out the code and get started. For them I want a super simple command that just works.\n\nOf course, you can also install bazelisk using homebrew or just build it from source. From my point of view the npm command is just the simplest and quickest option with the least chances of anything going wrong and best aligned with the overall developer setup for Gerrit and with typical developer setups of open source projects.",
+      "parentUuid": "93fadc4f_e35b2b25",
+      "range": {
+        "startLine": 27,
+        "startChar": 1,
+        "endLine": 27,
+        "endChar": 32
+      },
+      "revId": "2f53257c6d10518da3fdd26ee15249784cd0b54d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

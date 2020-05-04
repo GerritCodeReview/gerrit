@@ -1,0 +1,6 @@
+[
+  {
+    "url": "http://HOSTNAME:HTTP_PORT/a/config/server/caches/projects",
+    "entries": "PROJECTS_ENTRIES"
+  }
+]

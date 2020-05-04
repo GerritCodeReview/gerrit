@@ -268,6 +268,8 @@ suite('comment action tests with unresolved thread', () => {
       updated: '2015-12-08 19:48:33.843000000',
       path: '/path/to/file.txt',
       unresolved: true,
+      patchNum: 3,
+      __commentSide: 'left',
     }];
     flushAsynchronousOperations();
   });
@@ -440,7 +442,6 @@ suite('comment action tests with unresolved thread', () => {
     element.path = '/path/to/file.txt';
     element.push('comments', element._newReply(
         element.comments[0].id,
-        element.comments[0].line,
         element.comments[0].path,
         'it’s pronouced jiff, not giff'));
     flushAsynchronousOperations();
@@ -634,7 +635,7 @@ suite('comment action tests with unresolved thread', () => {
     });
 
     test('comment in_reply_to is either null or most recent comment', () => {
-      element._createReplyComment(element.comments[3], 'dummy', true);
+      element._createReplyComment('dummy', true);
       flushAsynchronousOperations();
       assert.equal(element._orderedComments.length, 5);
       assert.equal(element._orderedComments[4].in_reply_to, 'jacks_reply');
@@ -642,7 +643,7 @@ suite('comment action tests with unresolved thread', () => {
 
     test('resolvable comments', () => {
       assert.isFalse(element.unresolved);
-      element._createReplyComment(element.comments[3], 'dummy', true, true);
+      element._createReplyComment('dummy', true, true);
       flushAsynchronousOperations();
       assert.isTrue(element.unresolved);
     });
@@ -705,12 +706,19 @@ suite('comment action tests with unresolved thread', () => {
     assert.equal(element.comments[0].unresolved, true);
   });
 
-  test('_newDraft', () => {
-    element.commentSide = 'left';
-    element.patchNum = 3;
+  test('_newDraft with root', () => {
     const draft = element._newDraft();
     assert.equal(draft.__commentSide, 'left');
     assert.equal(draft.patchNum, 3);
+  });
+
+  test('_newDraft with no root', () => {
+    element.comments = [];
+    element.commentSide = 'right';
+    element.patchNum = 2;
+    const draft = element._newDraft();
+    assert.equal(draft.__commentSide, 'right');
+    assert.equal(draft.patchNum, 2);
   });
 
   test('new comment gets created', () => {

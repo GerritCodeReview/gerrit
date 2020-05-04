@@ -321,15 +321,13 @@ class GrCommentThread extends mixinBehaviors( [
     });
   }
 
-  _createReplyComment(parent, content, opt_isEditing,
+  _createReplyComment(content, opt_isEditing,
       opt_unresolved) {
     this.reporting.recordDraftInteraction();
     const reply = this._newReply(
         this._orderedComments[this._orderedComments.length - 1].id,
-        parent.line,
         content,
-        opt_unresolved,
-        parent.range);
+        opt_unresolved);
 
     // If there is currently a comment in an editing state, add an attribute
     // so that the gr-comment knows not to populate the draft text.
@@ -369,25 +367,23 @@ class GrCommentThread extends mixinBehaviors( [
       const msg = comment.message;
       quoteStr = '> ' + msg.replace(NEWLINE_PATTERN, '\n> ') + '\n\n';
     }
-    this._createReplyComment(comment, quoteStr, true, comment.unresolved);
+    this._createReplyComment(quoteStr, true, comment.unresolved);
   }
 
-  _handleCommentReply(e) {
+  _handleCommentReply() {
     this._processCommentReply();
   }
 
-  _handleCommentQuote(e) {
+  _handleCommentQuote() {
     this._processCommentReply(true);
   }
 
-  _handleCommentAck(e) {
-    const comment = this._lastComment;
-    this._createReplyComment(comment, 'Ack', false, false);
+  _handleCommentAck() {
+    this._createReplyComment('Ack', false, false);
   }
 
-  _handleCommentDone(e) {
-    const comment = this._lastComment;
-    this._createReplyComment(comment, 'Done', false, false);
+  _handleCommentDone() {
+    this._createReplyComment('Done', false, false);
   }
 
   _handleCommentFix(e) {
@@ -395,7 +391,7 @@ class GrCommentThread extends mixinBehaviors( [
     const msg = comment.message;
     const quoteStr = '> ' + msg.replace(NEWLINE_PATTERN, '\n> ') + '\n\n';
     const response = quoteStr + 'Please fix.';
-    this._createReplyComment(comment, response, false, true);
+    this._createReplyComment(response, false, true);
   }
 
   _commentElWithDraftID(id) {
@@ -408,11 +404,9 @@ class GrCommentThread extends mixinBehaviors( [
     return null;
   }
 
-  _newReply(inReplyTo, opt_lineNum, opt_message, opt_unresolved,
-      opt_range) {
-    const d = this._newDraft(opt_lineNum);
+  _newReply(inReplyTo, opt_message, opt_unresolved) {
+    const d = this._newDraft();
     d.in_reply_to = inReplyTo;
-    d.range = opt_range;
     if (opt_message != null) {
       d.message = opt_message;
     }
@@ -431,19 +425,40 @@ class GrCommentThread extends mixinBehaviors( [
       __draft: true,
       __draftID: Math.random().toString(36),
       __date: new Date(),
-      path: this.path,
-      patchNum: this.patchNum,
-      side: this._getSide(this.isOnParent),
-      __commentSide: this.commentSide,
     };
-    if (opt_lineNum) {
-      d.line = opt_lineNum;
-    }
-    if (opt_range) {
-      d.range = opt_range;
-    }
-    if (this.parentIndex) {
-      d.parent = this.parentIndex;
+
+    // For replies, always use same meta info as root.
+    if (this.comments && this.comments.length >= 1) {
+      const rootComment = this.comments[0];
+      [
+        'path',
+        'patchNum',
+        'side',
+        '__commentSide',
+        'line',
+        'range',
+        'parent',
+      ].forEach(key => {
+        if (rootComment.hasOwnProperty(key)) {
+          d[key] = rootComment[key];
+        }
+      });
+    } else {
+      // Set meta info for root comment.
+      d.path = this.path;
+      d.patchNum = this.patchNum;
+      d.side = this._getSide(this.isOnParent);
+      d.__commentSide = this.commentSide;
+
+      if (opt_lineNum) {
+        d.line = opt_lineNum;
+      }
+      if (opt_range) {
+        d.range = opt_range;
+      }
+      if (this.parentIndex) {
+        d.parent = this.parentIndex;
+      }
     }
     return d;
   }

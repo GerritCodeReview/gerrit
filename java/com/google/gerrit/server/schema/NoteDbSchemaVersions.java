@@ -33,6 +33,7 @@ public class NoteDbSchemaVersions {
 
   public static final int FIRST = ALL.firstKey();
   public static final int LATEST = ALL.lastKey();
+  public static final int NEXT = 183; // Gerrit v3.2.x
 
   // TODO(dborowitz): Migrate delete-project plugin to use this implementation.
   @UsedAt(UsedAt.Project.PLUGIN_DELETE_PROJECT)

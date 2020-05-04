@@ -148,12 +148,18 @@ class GrRestApiInterface extends mixinBehaviors( [
       return this._fetchSharedCacheURL({
         url: '/config/server/info',
         reportUrlAsIs: true,
+      }).then(config => {
+        config.change.enable_attention_set = true;
+        return config;
       });
     }
 
     return this._restApiHelper.fetchJSON({
       url: '/config/server/info',
       reportUrlAsIs: true,
+    }).then(config => {
+      config.change.enable_attention_set = true;
+      return config;
     });
   }
 

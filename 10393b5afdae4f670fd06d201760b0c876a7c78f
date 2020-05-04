@@ -22,6 +22,30 @@
       "revId": "10393b5afdae4f670fd06d201760b0c876a7c78f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17ffd66d_c32cf85c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-04T19:59:11Z",
+      "side": 1,
+      "message": "That flag is actually a lie: the init doesn\u0027t reindex changes, users or groups, but only the projects.\n\nIt was introduced in v2.15 when the projects index was first introduced. However, the projects index should be created only for new sites.\n\nFor existing sites, it\u0027s already there. If you want to reindex, there is the reindex command.\n\nWe are aiming to make upgrade smoother and faster: we should have safe and fast defaults. People shouldn\u0027t forced to do a \u0027git blame\u0027 to understand how features work and what they are for.\n\nWould you agree that a reindex shouldn\u0027t be executed when isn\u0027t needed? Especially when it may take hours and require lots of CPU and memory?\n\nWhy would you want to run a projects reindex for existing sites?",
+      "parentUuid": "a38d41b2_8620169c",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "10393b5afdae4f670fd06d201760b0c876a7c78f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

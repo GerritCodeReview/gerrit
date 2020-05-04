@@ -289,7 +289,6 @@ suite('gr-diff-builder tests', () => {
     expectTextLength('abc\t', 8, 8);
     expectTextLength('abc\t\t', 10, 20);
     expectTextLength('', 10, 0);
-    expectTextLength('', 10, 0);
     // 17 Thai combining chars.
     expectTextLength('ก้้้้้้้้้้้้้้้้', 4, 17);
     expectTextLength('abc\tde', 10, 12);

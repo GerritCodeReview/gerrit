@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2de93952_8595bddb",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-04T17:09:49Z",
+      "side": 0,
+      "message": "Have you checked git blame? You can do it direct from gerrit. I can see, that this line was added by Patrick in: [1], to fix this issue: [2].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/203811\n[2] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d9661",
+      "range": {
+        "startLine": 149,
+        "startChar": 6,
+        "endLine": 149,
+        "endChar": 24
+      },
+      "revId": "266b9705523b654f1b6e77ad00d32fb8889adea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

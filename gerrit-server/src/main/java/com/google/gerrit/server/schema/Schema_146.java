@@ -60,6 +60,7 @@ import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.pack.PackConfig;
 
 /**
  * Make sure that for every account a user branch exists that has an initial empty commit with the
@@ -196,6 +197,11 @@ public class Schema_146 extends SchemaVersion {
           ui.message(String.format("... (%.3f s) pack refs", elapsed()));
           gc.packRefs();
         } else {
+          // TODO(ms): Enable bitmap index when this JGit performance issue is fixed:
+          // https://bugs.eclipse.org/bugs/show_bug.cgi?id=562740
+          PackConfig pconfig = new PackConfig(repo);
+          pconfig.setBuildBitmaps(false);
+          gc.setPackConfig(pconfig);
           ui.message(String.format("... (%.3f s) gc --prune=now", elapsed()));
           gc.setExpire(new Date());
           gc.gc();

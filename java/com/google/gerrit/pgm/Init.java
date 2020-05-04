@@ -30,6 +30,8 @@ import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.GerritIndexStatus;
 import com.google.gerrit.server.ioutil.HostPlatform;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.gerrit.server.util.ReplicaUtil;
@@ -44,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.kohsuke.args4j.Option;
 
 /** Initialize a new Gerrit installation. */
@@ -91,6 +94,8 @@ public class Init extends BaseInit {
 
   @Inject Browser browser;
 
+  private boolean needReindexProjects;
+
   public Init() {
     super(new WarDistribution(), null);
   }
@@ -103,6 +108,7 @@ public class Init extends BaseInit {
 
   @Override
   protected boolean beforeInit(SiteInit init) throws Exception {
+    needReindexProjects = !isProjectsIndexReady(init.site);
     ErrorLogFile.errorOnlyConsole();
 
     if (!skipPlugins) {
@@ -145,7 +151,7 @@ public class Init extends BaseInit {
         });
     modules.add(new GerritServerConfigModule());
     Guice.createInjector(modules).injectMembers(this);
-    if (!ReplicaUtil.isReplica(run.flags.cfg)) {
+    if (!noReindex && !ReplicaUtil.isReplica(run.flags.cfg) && needReindexProjects) {
       reindexProjects();
     }
     start(run);
@@ -259,10 +265,13 @@ public class Init extends BaseInit {
     }
   }
 
+  private boolean isProjectsIndexReady(SitePaths sitePaths)
+      throws IOException, ConfigInvalidException {
+    return new GerritIndexStatus(sitePaths)
+        .getReady("projects", ProjectSchemaDefinitions.INSTANCE.getLatest().getVersion());
+  }
+
   private void reindexProjects() throws Exception {
-    if (noReindex) {
-      return;
-    }
     // Reindex all projects, so that we bootstrap the project index for new installations
     List<String> reindexArgs =
         ImmutableList.of(

@@ -42,6 +42,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import org.kohsuke.args4j.Option;
@@ -145,10 +146,21 @@ public class Init extends BaseInit {
         });
     modules.add(new GerritServerConfigModule());
     Guice.createInjector(modules).injectMembers(this);
-    if (!ReplicaUtil.isReplica(run.flags.cfg)) {
+    if (!ReplicaUtil.isReplica(run.flags.cfg) && projectsIndexMissing(run)) {
       reindexProjects();
     }
     start(run);
+  }
+
+  private boolean projectsIndexMissing(SiteRun run) {
+    Iterator<Path> indexesPath = run.site.index_dir.iterator();
+    while (indexesPath.hasNext()) {
+      if (indexesPath.next().getFileName().toString().startsWith("projects_")) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   @Override

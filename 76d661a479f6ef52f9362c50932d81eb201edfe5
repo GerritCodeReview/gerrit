@@ -149,6 +149,30 @@
     },
     {
       "key": {
+        "uuid": "2364b815_4f3242a2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-04T08:35:49Z",
+      "side": 1,
+      "message": "to be more specific, we have \"requireReturnForObjectLiteral\": true in eslint",
+      "parentUuid": "6c7036c4_46c5e2d0",
+      "range": {
+        "startLine": 71,
+        "startChar": 12,
+        "endLine": 71,
+        "endChar": 74
+      },
+      "revId": "76d661a479f6ef52f9362c50932d81eb201edfe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3757881d_2a5541e8",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 10

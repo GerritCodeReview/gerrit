@@ -22,6 +22,30 @@
       "revId": "82c692b2e1224d629289138eb357300e12d29856",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aeb2090d_5f9d2215",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group_html.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-04T06:23:53Z",
+      "side": 0,
+      "message": "In previous patch set it was renamed, but it broke the tests because this id is already used below on line 133 and we have collision. Given that it is not used, it can be removed. See for example fieldset on line 102 aboce, that is also used without id",
+      "parentUuid": "62342e3e_52f181bd",
+      "range": {
+        "startLine": 126,
+        "startChar": 19,
+        "endLine": 126,
+        "endChar": 37
+      },
+      "revId": "82c692b2e1224d629289138eb357300e12d29856",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

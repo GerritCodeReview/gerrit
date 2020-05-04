@@ -22,6 +22,30 @@
       "revId": "7ba7f4edbb1f08f796a405130abf1d17080e6aa1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1186a2b0_bf1fe384",
+        "filename": "polygerrit-ui/app/elements/settings/gr-change-table-editor/gr-change-table-editor_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-04T06:23:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d46bf8f2_1f2c9245",
+      "range": {
+        "startLine": 128,
+        "startChar": 38,
+        "endLine": 128,
+        "endChar": 45
+      },
+      "revId": "7ba7f4edbb1f08f796a405130abf1d17080e6aa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

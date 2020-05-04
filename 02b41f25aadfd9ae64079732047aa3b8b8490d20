@@ -22,6 +22,30 @@
       "revId": "02b41f25aadfd9ae64079732047aa3b8b8490d20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "279c51ae_d3d01a6b",
+        "filename": "Jenkinsfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-04T14:57:10Z",
+      "side": 1,
+      "message": "True, let me remove \u0027debian\u0027 from the labels.",
+      "parentUuid": "daa3c0b8_51e76ab1",
+      "range": {
+        "startLine": 150,
+        "startChar": 87,
+        "endLine": 150,
+        "endChar": 93
+      },
+      "revId": "02b41f25aadfd9ae64079732047aa3b8b8490d20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6fbcf69_ded3c3b3",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-04T00:16:30Z",
+      "side": 1,
+      "message": "Should this be squashed into the previous change?",
+      "revId": "4eef8a2bf4d2ad9888e9ee71e46fccc5725eef28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

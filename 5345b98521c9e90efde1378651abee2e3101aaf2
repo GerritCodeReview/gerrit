@@ -152,6 +152,24 @@
       "revId": "5345b98521c9e90efde1378651abee2e3101aaf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4382be0f_0239769b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-05T05:39:31Z",
+      "side": 1,
+      "message": "I performed extensive tests using gerrit site with 300,000 accounts on RAM and have seen performance improvements when doing full gc. That way I have also found this performance issue during bitmap index rebuild phase in JGit full gc: [1]. It took 45 minutes after 100k accounts were migrated and even crashed with OOME after 200k accounts were migrated. Without bitmap index rebuilt, JGit full gc after every 100k accounts migration was reasonable fast, and migration from 2.14.20 to 2.15.x was done within 1 hour.\n\n[1] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d562740",
+      "parentUuid": "1a3eb24c_a3db94c3",
+      "revId": "5345b98521c9e90efde1378651abee2e3101aaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -105,6 +105,30 @@
     },
     {
       "key": {
+        "uuid": "67543038_5eaf0b22",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-05T10:40:37Z",
+      "side": 1,
+      "message": "discussed offline. Maybe we should just disable the ability to move to first chunk when expand all in gr-file-list even when no manual scroll happened to temporary fix the issue. The feature itself only useful for small screens and I personally don\u0027t see that useful it is. We can revisit if we still need that feature in the future.",
+      "parentUuid": "ec0012eb_990ee989",
+      "range": {
+        "startLine": 355,
+        "startChar": 9,
+        "endLine": 355,
+        "endChar": 41
+      },
+      "revId": "13eb055a0a80e96baf5990b18d7c0afa0851e12d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "808cfbff_ac5c2a44",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
         "patchSetId": 8

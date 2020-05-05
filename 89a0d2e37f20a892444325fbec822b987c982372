@@ -1,0 +1,187 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5d6c9b3_d9faebef",
+        "filename": "package.json",
+        "patchSetId": 42
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-05T14:24:55Z",
+      "side": 1,
+      "message": "nit: not sure about shortcuts like this, it will occupy the whole namespace of `txxx:kxxx`, i think its fine to type a few more characters :) and with IDE help, it may even just a one-off config",
+      "range": {
+        "startLine": 33,
+        "startChar": 5,
+        "endLine": 33,
+        "endChar": 7
+      },
+      "revId": "89a0d2e37f20a892444325fbec822b987c982372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6d9962a_3e12f9ae",
+        "filename": "polygerrit-ui/app/behaviors/async-foreach-behavior/async-foreach-behavior_test.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-05T14:24:55Z",
+      "side": 1,
+      "message": "can we also move this to R similar to other tests ?",
+      "revId": "89a0d2e37f20a892444325fbec822b987c982372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4695e9e3_63009d3a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section_test.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-05T14:24:55Z",
+      "side": 1,
+      "message": "maybe be consistent, either move all to 2020, or keep the original date ?",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "89a0d2e37f20a892444325fbec822b987c982372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86280364_4ea8d1af",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 42
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-05T14:24:55Z",
+      "side": 1,
+      "message": "do you need the same tag for the wct_suite below ?",
+      "revId": "89a0d2e37f20a892444325fbec822b987c982372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3b58429_7cb24aeb",
+        "filename": "polygerrit-ui/app/test/common-test-setup-karma.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-05T14:24:55Z",
+      "side": 1,
+      "message": "2020",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "89a0d2e37f20a892444325fbec822b987c982372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c35e28a_ee7bc416",
+        "filename": "polygerrit-ui/app/test/common-test-setup-karma.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-05T14:24:55Z",
+      "side": 1,
+      "message": "is `lodash` a required dependency for using karma ?",
+      "revId": "89a0d2e37f20a892444325fbec822b987c982372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62ddcec7_d6963abf",
+        "filename": "polygerrit-ui/app/test/common-test-setup-karma.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-05T14:24:55Z",
+      "side": 1,
+      "message": "so `setTimeout(callback)` will invoke the callback with arguments ?",
+      "range": {
+        "startLine": 35,
+        "startChar": 5,
+        "endLine": 36,
+        "endChar": 37
+      },
+      "revId": "89a0d2e37f20a892444325fbec822b987c982372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba50165f_62ffe9aa",
+        "filename": "polygerrit-ui/app/test/common-test-setup.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-05T14:24:55Z",
+      "side": 1,
+      "message": "any particular reason to not just compare with undefined directly ?",
+      "range": {
+        "startLine": 33,
+        "startChar": 9,
+        "endLine": 33,
+        "endChar": 48
+      },
+      "revId": "89a0d2e37f20a892444325fbec822b987c982372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3856973f_053cb36b",
+        "filename": "polygerrit-ui/app/test/common-test-setup.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-05T14:24:55Z",
+      "side": 1,
+      "message": "this feels like we want to always set `fixture` no matter what, maybe just remove the if else ? or we still want to keep this error (this error seems not really helpful) ? same as `stub`",
+      "revId": "89a0d2e37f20a892444325fbec822b987c982372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

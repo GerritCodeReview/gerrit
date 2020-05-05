@@ -23,7 +23,6 @@ import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gwtorm.jdbc.JdbcSchema;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -62,6 +61,7 @@ import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.storage.pack.PackConfig;
 
 /**
  * Make sure that for every account a user branch exists that has an initial empty commit with the
@@ -101,7 +101,9 @@ public class Schema_146 extends SchemaVersion {
   protected void migrateData(ReviewDb db, UpdateUI ui) throws OrmException, SQLException {
     ui.message("Migrating accounts");
     Set<Entry<Account.Id, Timestamp>> accounts = scanAccounts(db, ui).entrySet();
+    ui.message("Run full gc as preparation for the migration");
     gc(ui);
+    ui.message(String.format("... (%.3f s) full gc completed", elapsed()));
     Set<List<Entry<Account.Id, Timestamp>>> batches =
         Sets.newHashSet(Iterables.partition(accounts, 500));
     ExecutorService pool = createExecutor(ui);
@@ -110,7 +112,7 @@ public class Schema_146 extends SchemaVersion {
           .forEach(
               batch -> {
                 @SuppressWarnings("unused")
-                Future<?> unused = pool.submit(() -> processBatch(db, batch, ui));
+                Future<?> unused = pool.submit(() -> processBatch(batch, ui));
               });
       pool.shutdown();
       pool.awaitTermination(Long.MAX_VALUE, TimeUnit.DAYS);
@@ -119,6 +121,9 @@ public class Schema_146 extends SchemaVersion {
     }
     ui.message(
         String.format("... (%.3f s) Migrated all %d accounts to schema 146", elapsed(), i.get()));
+    ui.message("Run full gc");
+    gc(ui);
+    ui.message(String.format("... (%.3f s) full gc completed", elapsed()));
   }
 
   private ExecutorService createExecutor(UpdateUI ui) {
@@ -132,7 +137,7 @@ public class Schema_146 extends SchemaVersion {
     return Executors.newFixedThreadPool(threads);
   }
 
-  private void processBatch(ReviewDb db, List<Entry<Account.Id, Timestamp>> batch, UpdateUI ui) {
+  private void processBatch(List<Entry<Account.Id, Timestamp>> batch, UpdateUI ui) {
     try (Repository repo = repoManager.openRepository(allUsersName);
         RevWalk rw = new RevWalk(repo);
         ObjectInserter oi = repo.newObjectInserter()) {
@@ -149,29 +154,18 @@ public class Schema_146 extends SchemaVersion {
         int count = i.incrementAndGet();
         showProgress(ui, count);
         if (count % 1000 == 0) {
-          gc(repo, true, ui);
-          keepAliveDatabaseConnection(db);
+          boolean runFullGc = count % 100000 == 0;
+          if (runFullGc) {
+            ui.message("Run full gc");
+          }
+          gc(repo, !runFullGc, ui);
+          if (runFullGc) {
+            ui.message(String.format("... (%.3f s) full gc completed", elapsed()));
+          }
         }
       }
     } catch (IOException e) {
       throw new UncheckedIOException(e);
-    } catch (SQLException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  private static String dummySelectStatement() {
-    // TODO(davido): Gwtorm doesn't expose dummySelectStatement() method for all supported SQL
-    // dialects.
-    return "SELECT version_nbr FROM schema_version";
-  }
-
-  private static void keepAliveDatabaseConnection(ReviewDb db) throws SQLException {
-    try (Statement stmt = ((JdbcSchema) db).getConnection().createStatement();
-        ResultSet rs = stmt.executeQuery(dummySelectStatement())) {
-      // No Op.
-      // The select is fired to prevent the SQL connection from becoming stale
-      // and being closed on the server side during long running batch operation.
     }
   }
 
@@ -209,6 +203,11 @@ public class Schema_146 extends SchemaVersion {
           ui.message(String.format("... (%.3f s) pack refs", elapsed()));
           gc.packRefs();
         } else {
+          // TODO(ms): Enable bitmap index when this JGit performance issue is fixed:
+          // https://bugs.eclipse.org/bugs/show_bug.cgi?id=562740
+          PackConfig pconfig = new PackConfig(repo);
+          pconfig.setBuildBitmaps(false);
+          gc.setPackConfig(pconfig);
           ui.message(String.format("... (%.3f s) gc --prune=now", elapsed()));
           gc.setExpire(new Date());
           gc.gc();
@@ -303,7 +302,7 @@ public class Schema_146 extends SchemaVersion {
     return oi.insert(cb);
   }
 
-  private static boolean isInitialEmptyCommit(ObjectId emptyTree, RevCommit c) {
+  private boolean isInitialEmptyCommit(ObjectId emptyTree, RevCommit c) {
     return c.getParentCount() == 0
         && c.getTree().equals(emptyTree)
         && c.getShortMessage().equals(CREATE_ACCOUNT_MSG);

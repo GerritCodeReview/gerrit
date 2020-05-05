@@ -427,6 +427,30 @@
     },
     {
       "key": {
+        "uuid": "976ff53d_2366e7e9",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-05T13:57:05Z",
+      "side": 1,
+      "message": "Examples are added.",
+      "parentUuid": "956b38e0_9357cb8e",
+      "range": {
+        "startLine": 111,
+        "startChar": 43,
+        "endLine": 111,
+        "endChar": 55
+      },
+      "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "deb94f26_f6778a25",
         "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
         "patchSetId": 11

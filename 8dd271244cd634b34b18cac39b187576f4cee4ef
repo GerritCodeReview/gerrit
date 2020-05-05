@@ -113,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "bc71fca2_efd766ac",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/InitIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-05T10:16:37Z",
+      "side": 1,
+      "message": "If they were mocked tests, I would have happily used the TestTimeUtil.\nI reorganised the code so that I do not need to rely on any sleep() and the test runs faster.\n\nThanks for the useful review, it allowed me to make to code better :-)",
+      "parentUuid": "3c487ccb_4b50ce12",
+      "revId": "8dd271244cd634b34b18cac39b187576f4cee4ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "751c53e2_ec0cff35",
         "filename": "javatests/com/google/gerrit/acceptance/pgm/InitIT.java",
         "patchSetId": 17

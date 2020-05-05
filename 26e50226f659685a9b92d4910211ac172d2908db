@@ -16,6 +16,47 @@
       "revId": "26e50226f659685a9b92d4910211ac172d2908db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4963ac58_731427b8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-05T10:34:00Z",
+      "side": 1,
+      "message": "File an issue and assign it to Han-wen?",
+      "parentUuid": "d4030654_8bcf4306",
+      "revId": "26e50226f659685a9b92d4910211ac172d2908db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b972540_32b4af58",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-05T10:34:00Z",
+      "side": 1,
+      "message": "This is the one we need for MINA SSHD client change.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 43
+      },
+      "revId": "26e50226f659685a9b92d4910211ac172d2908db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

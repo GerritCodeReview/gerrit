@@ -34,7 +34,7 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-date-formatter.js';
-import {util} from '../../../scripts/util.js';
+import {parseDate} from '../../../utils/date-util.js';
 suite('gr-date-formatter tests', () => {
   let element;
   let sandbox;
@@ -51,7 +51,7 @@ suite('gr-date-formatter tests', () => {
    * Parse server-formatter date and normalize into current timezone.
    */
   function normalizedDate(dateStr) {
-    const d = util.parseDate(dateStr);
+    const d = parseDate(dateStr);
     d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
     return d;
   }

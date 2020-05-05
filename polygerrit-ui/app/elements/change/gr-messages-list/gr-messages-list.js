@@ -25,7 +25,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-messages-list_html.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
-import {util} from '../../../scripts/util.js';
+import {parseDate} from '../../../utils/date-util.js';
 import {appContext} from '../../../services/app-context.js';
 
 const MAX_INITIAL_SHOWN_MESSAGES = 20;
@@ -191,8 +191,8 @@ class GrMessagesList extends mixinBehaviors( [
         result = result.concat(messages.slice(mi));
         break;
       }
-      mDate = mDate || util.parseDate(messages[mi].date);
-      rDate = rDate || util.parseDate(reviewerUpdates[ri].date);
+      mDate = mDate || parseDate(messages[mi].date);
+      rDate = rDate || parseDate(reviewerUpdates[ri].date);
       if (rDate < mDate) {
         result.push(reviewerUpdates[ri++]);
         rDate = null;
@@ -303,14 +303,14 @@ class GrMessagesList extends mixinBehaviors( [
     const messages = this.messages || [];
     const index = message._index;
     const authorId = message.author && message.author._account_id;
-    const mDate = util.parseDate(message.date).getTime();
+    const mDate = parseDate(message.date).getTime();
     // NB: Messages array has oldest messages first.
     let nextMDate;
     if (index > 0) {
       for (let i = index - 1; i >= 0; i--) {
         if (messages[i] && messages[i].author &&
             messages[i].author._account_id === authorId) {
-          nextMDate = util.parseDate(messages[i].date).getTime();
+          nextMDate = parseDate(messages[i].date).getTime();
           break;
         }
       }
@@ -324,7 +324,7 @@ class GrMessagesList extends mixinBehaviors( [
             fileComments[i].author._account_id !== authorId) {
           continue;
         }
-        const cDate = util.parseDate(fileComments[i].updated).getTime();
+        const cDate = parseDate(fileComments[i].updated).getTime();
         if (cDate <= mDate) {
           if (nextMDate && cDate <= nextMDate) {
             continue;

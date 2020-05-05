@@ -27,7 +27,7 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser.js';
-import {util} from '../../../scripts/util.js';
+import {parseDate} from '../../../utils/date-util.js';
 
 suite('gr-reviewer-updates-parser tests', () => {
   let sandbox;
@@ -253,7 +253,7 @@ suite('gr-reviewer-updates-parser tests', () => {
   });
 
   test('_advanceUpdates', () => {
-    const T0 = util.parseDate('2017-02-17 19:04:18.000000000').getTime();
+    const T0 = parseDate('2017-02-17 19:04:18.000000000').getTime();
     const tplus = delta => new Date(T0 + delta)
         .toISOString()
         .replace('T', ' ')
@@ -297,8 +297,8 @@ suite('gr-reviewer-updates-parser tests', () => {
     instance = new GrReviewerUpdatesParser(change);
     instance._advanceUpdates();
     const updates = instance.result.reviewer_updates;
-    assert.isBelow(util.parseDate(updates[0].date).getTime(), T0);
-    assert.isBelow(util.parseDate(updates[1].date).getTime(), T0);
+    assert.isBelow(parseDate(updates[0].date).getTime(), T0);
+    assert.isBelow(parseDate(updates[1].date).getTime(), T0);
     assert.equal(updates[2].date, tplus(100));
     assert.equal(updates[3].date, tplus(500));
   });

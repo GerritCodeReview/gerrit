@@ -136,6 +136,30 @@
     },
     {
       "key": {
+        "uuid": "660d60b2_d6544122",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/InitIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-05T10:15:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "751c53e2_ec0cff35",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 9
+      },
+      "revId": "8dd271244cd634b34b18cac39b187576f4cee4ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "671a35c4_f75bcda4",
         "filename": "javatests/com/google/gerrit/acceptance/pgm/InitIT.java",
         "patchSetId": 17

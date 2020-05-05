@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fd840c0e_dda521ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-05T09:32:13Z",
+      "side": 1,
+      "message": "I would prefer not to add breaking changes on released versions of Gerrit: this change is removing a parameter of the init.",
+      "parentUuid": "56bd0f27_41066708",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 16
+      },
+      "revId": "8dd271244cd634b34b18cac39b187576f4cee4ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8594fcbd_6fdd87b6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 17
@@ -45,6 +69,30 @@
       "revId": "8dd271244cd634b34b18cac39b187576f4cee4ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ccbbed1_91df334d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-05T09:32:13Z",
+      "side": 1,
+      "message": "This is a different issue, it is not about a missing index but rather an improvement of the migration process.",
+      "parentUuid": "8594fcbd_6fdd87b6",
+      "range": {
+        "startLine": 31,
+        "startChar": 5,
+        "endLine": 31,
+        "endChar": 16
+      },
+      "revId": "8dd271244cd634b34b18cac39b187576f4cee4ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -102,6 +150,24 @@
       "revId": "8dd271244cd634b34b18cac39b187576f4cee4ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9b7fa44_ddf95faf",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/InitIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-05T09:32:13Z",
+      "side": 1,
+      "message": "Because this is an integration test, I do not see any easy way of not checking on the filesystem changes. Bear in mind that this is test code that isn\u0027t supposed to be run in production in different runtime environments.",
+      "parentUuid": "671a35c4_f75bcda4",
+      "revId": "8dd271244cd634b34b18cac39b187576f4cee4ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

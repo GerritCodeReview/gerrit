@@ -343,7 +343,7 @@ export const htmlTemplate = html`
           blurred="[[!_computeHasNewAttention(_owner, _newAttention)]]"
           hide-hovercard=""
           on-click="_handleAttentionClick"
-          data-account-id\\$="[[_owner._account_id]]"
+          data-account-id$="[[_owner._account_id]]"
           tabindex="-1"
         >
         </gr-account-label>
@@ -357,7 +357,7 @@ export const htmlTemplate = html`
             blurred="[[!_computeHasNewAttention(account, _newAttention)]]"
             hide-hovercard=""
             on-click="_handleAttentionClick"
-            data-account-id\\$="[[account._account_id]]"
+            data-account-id$="[[account._account_id]]"
             tabindex="-1"
           >
           </gr-account-label>
@@ -372,7 +372,7 @@ export const htmlTemplate = html`
             blurred="[[!_computeHasNewAttention(account, _newAttention)]]"
             hide-hovercard=""
             on-click="_handleAttentionClick"
-            data-account-id\\$="[[account._account_id]]"
+            data-account-id$="[[account._account_id]]"
             tabindex="-1"
           >
           </gr-account-label>

@@ -108,7 +108,11 @@ export const htmlTemplate = html`
     <section>
       <span class="title">Owner</span>
       <span class="value">
-        <gr-account-link account="[[change.owner]]"></gr-account-link>
+        <gr-account-link
+          account="[[change.owner]]"
+          change="[[change]]"
+          show-attention
+        ></gr-account-link>
         <template is="dom-if" if="[[_pushCertificateValidation]]">
           <gr-tooltip-content
             has-tooltip=""
@@ -128,6 +132,8 @@ export const htmlTemplate = html`
       <span class="value">
         <gr-account-link
           account="[[_getNonOwnerRole(change, _CHANGE_ROLE.UPLOADER)]]"
+          change="[[change]]"
+          show-attention
         ></gr-account-link>
       </span>
     </section>
@@ -136,6 +142,8 @@ export const htmlTemplate = html`
       <span class="value">
         <gr-account-link
           account="[[_getNonOwnerRole(change, _CHANGE_ROLE.AUTHOR)]]"
+          change="[[change]]"
+          show-attention
         ></gr-account-link>
       </span>
     </section>
@@ -144,6 +152,8 @@ export const htmlTemplate = html`
       <span class="value">
         <gr-account-link
           account="[[_getNonOwnerRole(change, _CHANGE_ROLE.COMMITTER)]]"
+          change="[[change]]"
+          show-attention
         ></gr-account-link>
       </span>
     </section>

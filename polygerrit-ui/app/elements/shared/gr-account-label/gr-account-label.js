@@ -26,6 +26,15 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-account-label_html.js';
 import {DisplayNameBehavior} from '../../../behaviors/gr-display-name-behavior/gr-display-name-behavior.js';
 
+const isAttentionSetEnabled = function(config, showAttention, account, change) {
+  return config && config.change && config.change.enable_attention_set
+      && showAttention && change && account && change.attention_set;
+};
+
+const hasAttention = function(account, change) {
+  return change.attention_set.hasOwnProperty(account._account_id);
+};
+
 /**
  * @extends PolymerElement
  */
@@ -44,12 +53,23 @@ class GrAccountLabel extends mixinBehaviors( [
        * @type {{ name: string, status: string }}
        */
       account: Object,
+      /**
+       * Optional ChangeInfo object, typically comes from the change page or
+       * from a row in a list of search results. This is needed for some change
+       * related features like adding the user as a reviewer.
+       */
+      change: Object,
       voteableText: String,
       blurred: {
         type: Boolean,
         value: false,
         reflectToAttribute: true,
       },
+      /**
+       * Should attention set related features be shown in the component? Note
+       * that the information whether the user is in the attention set or not is
+       * part of the ChangeInfo object in the change property.
+       */
       showAttention: {
         type: Boolean,
         value: false,
@@ -66,7 +86,10 @@ class GrAccountLabel extends mixinBehaviors( [
         type: Boolean,
         value: false,
       },
-      _serverConfig: {
+      /**
+       * This is a ServerInfo response object.
+       */
+      _config: {
         type: Object,
         value: null,
       },
@@ -76,8 +99,13 @@ class GrAccountLabel extends mixinBehaviors( [
   /** @override */
   ready() {
     super.ready();
-    this.$.restAPI.getConfig()
-        .then(config => { this._serverConfig = config; });
+    this.$.restAPI.getConfig().then(config => { this._config = config; });
+  }
+
+  _computeShowAttentionIcon(config, showAttention, account, change) {
+    const enabled = isAttentionSetEnabled(config, showAttention, account,
+        change);
+    return enabled && hasAttention(account, change);
   }
 
   _computeName(account, config) {

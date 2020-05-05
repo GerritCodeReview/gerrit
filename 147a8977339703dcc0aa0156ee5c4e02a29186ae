@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4fcb8edd_72c39657",
+        "filename": "WORKSPACE",
+        "patchSetId": 6
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-05T15:28:40Z",
+      "side": 1,
+      "message": "I have built custom java_tools release now on Mac Os X as well and published it in my java_tool Github fork. Can someone replicate that new ErrorPron checks are failing on Mac Os X? Thanks.",
+      "range": {
+        "startLine": 125,
+        "startChar": 9,
+        "endLine": 125,
+        "endChar": 113
+      },
+      "revId": "147a8977339703dcc0aa0156ee5c4e02a29186ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

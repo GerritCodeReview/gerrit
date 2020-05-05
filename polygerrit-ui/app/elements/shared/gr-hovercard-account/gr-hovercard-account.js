@@ -19,7 +19,9 @@ import '@polymer/iron-icon/iron-icon.js';
 import '../../../styles/shared-styles.js';
 import '../gr-avatar/gr-avatar.js';
 import '../gr-button/gr-button.js';
+import '../gr-rest-api-interface/gr-rest-api-interface.js';
 import {hovercardBehaviorMixin} from '../gr-hovercard/gr-hovercard-behavior.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
@@ -35,14 +37,100 @@ class GrHovercardAccount extends GestureEventListeners(
 
   static get properties() {
     return {
+      /**
+       * This is an AccountInfo response object.
+       */
       account: Object,
+      /**
+       * Optional ChangeInfo object, typically comes from the change page or
+       * from a row in a list of search results. This is needed for some change
+       * related features like adding the user as a reviewer.
+       */
+      change: Object,
+      /**
+       * Explains which labels the user can vote on and which score they can
+       * give.
+       */
       voteableText: String,
-      attention: {
+      /**
+       * Should attention set related features be shown in the component? Note
+       * that the information whether the user is in the attention set or not is
+       * part of the ChangeInfo object in the change property.
+       */
+      highlightAttention: {
         type: Boolean,
         value: false,
-        reflectToAttribute: true,
+      },
+      /**
+       * This is a ServerInfo response object.
+       */
+      _config: {
+        type: Object,
+        value: null,
       },
     };
+  }
+
+  /** @override */
+  ready() {
+    super.ready();
+    this.$.restAPI.getConfig().then(config => { this._config = config; });
+  }
+
+  get isAttentionSetEnabled() {
+    return !!this._config && !!this._config.change
+        && !!this._config.change.enable_attention_set
+        && !!this.highlightAttention && !!this.change && !!this.account;
+  }
+
+  get hasAttention() {
+    if (!this.isAttentionSetEnabled || !this.change.attention_set) return false;
+    return this.change.attention_set.hasOwnProperty(this.account._account_id);
+  }
+
+  _computeShowLabelNeedsAttention(config, highlightAttention, account, change) {
+    return this.isAttentionSetEnabled && this.hasAttention;
+  }
+
+  _computeShowActionAddToAttentionSet(config, highlightAttn, account, change) {
+    return this.isAttentionSetEnabled && !this.hasAttention;
+  }
+
+  _computeShowActionRemoveFromAttentionSet(config, highlightAttention, account,
+      change) {
+    return this.isAttentionSetEnabled && this.hasAttention;
+  }
+
+  _handleClickAddToAttentionSet(e) {
+    this.dispatchEvent(new CustomEvent('show-alert', {
+      detail: {
+        message: 'Adding user to attention set. Will be reloading ...',
+        dismissOnNavigation: true,
+      },
+      composed: true,
+      bubbles: true,
+    }));
+    this.$.restAPI.addToAttentionSet(this.change._number,
+        this.account._account_id, 'manually added').then(obj => {
+      GerritNav.navigateToChange(this.change);
+    });
+    this.hide();
+  }
+
+  _handleClickRemoveFromAttentionSet(e) {
+    this.dispatchEvent(new CustomEvent('show-alert', {
+      detail: {
+        message: 'Removing user from attention set. Will be reloading ...',
+        dismissOnNavigation: true,
+      },
+      composed: true,
+      bubbles: true,
+    }));
+    this.$.restAPI.removeFromAttentionSet(this.change._number,
+        this.account._account_id, 'manually removed').then(obj => {
+      GerritNav.navigateToChange(this.change);
+    });
+    this.hide();
   }
 }
 

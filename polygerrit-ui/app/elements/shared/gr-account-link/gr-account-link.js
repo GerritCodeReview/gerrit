@@ -41,7 +41,18 @@ class GrAccountLink extends mixinBehaviors( [
     return {
       voteableText: String,
       account: Object,
-      showAttention: {
+      /**
+       * Optional ChangeInfo object, typically comes from the change page or
+       * from a row in a list of search results. This is needed for some change
+       * related features like adding the user as a reviewer.
+       */
+      change: Object,
+      /**
+       * Should attention set related features be shown in the component? Note
+       * that the information whether the user is in the attention set or not is
+       * part of the ChangeInfo object in the change property.
+       */
+      highlightAttention: {
         type: Boolean,
         value: false,
       },

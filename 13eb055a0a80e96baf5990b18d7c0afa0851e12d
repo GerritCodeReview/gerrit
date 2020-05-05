@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "8e7544e0_3395e80a",
+        "filename": "polygerrit-ui/app/constants/constants.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-05T08:24:03Z",
+      "side": 1,
+      "message": "can we rename this ? *Behavior in our codebase indicates something else (mixin).",
+      "range": {
+        "startLine": 54,
+        "startChar": 13,
+        "endLine": 54,
+        "endChar": 27
+      },
+      "revId": "13eb055a0a80e96baf5990b18d7c0afa0851e12d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b4542dd8_e3181391",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 8
@@ -13,6 +36,86 @@
       "writtenOn": "2020-05-05T06:11:40Z",
       "side": 1,
       "message": "Add a comment explaining that \n1) We do this because we have multiple files, and don\u0027t want to scroll in between.\n2) We plan to fix this in a more general way (I think it would be better if we could turn on behavior only sometimes needed instead of having to turn it off whenever there are more than one diff - I hope we agree on that...).",
+      "revId": "13eb055a0a80e96baf5990b18d7c0afa0851e12d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "faf01fed_dec0a0f8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-05T08:24:03Z",
+      "side": 1,
+      "message": "blocking ?",
+      "range": {
+        "startLine": 333,
+        "startChar": 16,
+        "endLine": 333,
+        "endChar": 21
+      },
+      "revId": "13eb055a0a80e96baf5990b18d7c0afa0851e12d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b46578d9_7788f5fc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-05T08:24:03Z",
+      "side": 1,
+      "message": "don\u0027t you need to reset _blockAutoScrolling to false as well ?",
+      "revId": "13eb055a0a80e96baf5990b18d7c0afa0851e12d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec0012eb_990ee989",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-05T08:24:03Z",
+      "side": 1,
+      "message": "I am a bit confused by this change when we have this, or maybe I am not sure what this `_preventAutoScrollOnManualScroll` actually does and why we need to set this to false when calling `_handleDiffRenderContent` ?\n\ncompared to introducing the `_blockAutoScroll`, why not just have this variable controllable from outside ? when set to true, then no auto scroll when manual scroll happened ?",
+      "range": {
+        "startLine": 355,
+        "startChar": 9,
+        "endLine": 355,
+        "endChar": 41
+      },
+      "revId": "13eb055a0a80e96baf5990b18d7c0afa0851e12d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "808cfbff_ac5c2a44",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-05T08:24:03Z",
+      "side": 1,
+      "message": "from your code, _focusOnMove is not set by `_handleDiffRenderContent` at all... which seems wrong",
       "revId": "13eb055a0a80e96baf5990b18d7c0afa0851e12d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -23,7 +23,6 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-date-formatter_html.js';
 import {TooltipBehavior} from '../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js';
 import {util} from '../../../scripts/util.js';
-import moment from 'moment/src/moment.js';
 
 const Duration = {
   HOUR: 1000 * 60 * 60,
@@ -112,10 +111,6 @@ class GrDateFormatter extends mixinBehaviors( [
     this._loadPreferences();
   }
 
-  _getUtcOffsetString() {
-    return ' UTC' + moment().format('Z');
-  }
-
   _loadPreferences() {
     return this._getLoggedIn().then(loggedIn => {
       if (!loggedIn) {
@@ -190,36 +185,140 @@ class GrDateFormatter extends mixinBehaviors( [
     return this.$.restAPI.getPreferences();
   }
 
+  _fromNow(date) {
+    const now = new Date();
+    const secondsAgo = Math.round((now - date) / 1000);
+    if (secondsAgo <= 44) return 'just now';
+    if (secondsAgo <= 89) return 'a minute ago';
+    const minutesAgo = Math.round(secondsAgo / 60);
+    if (minutesAgo <= 44) return `${minutesAgo} minutes ago`;
+    if (minutesAgo <= 89) return 'a hour ago';
+    const hoursAgo = Math.round(minutesAgo / 60);
+    if (hoursAgo <= 21) return `${hoursAgo} hours ago`;
+    if (hoursAgo <= 35) return 'a day ago';
+    const daysAgo = Math.round(hoursAgo / 24);
+    if (daysAgo <= 25) return `${daysAgo} days ago`;
+    if (daysAgo <= 45) return `a month ago`;
+    const monthsAgo = Math.round(daysAgo / 30);
+    if (daysAgo <= 319) return `${monthsAgo} months ago`;
+    if (daysAgo <= 547) return `a year ago`;
+    const yearsAgo = Math.round(daysAgo / 365);
+    return `${yearsAgo} years ago`;
+  }
+
+  _format(date, format) {
+    const options = {};
+    if (format.includes('MM')) {
+      if (format.includes('MMM')) {
+        options.month = 'short';
+      } else {
+        options.month = '2-digit';
+      }
+    }
+    if (format.includes('YY')) {
+      if (format.includes('YYYY')) {
+        options.year = 'numeric';
+      } else {
+        options.year = '2-digit';
+      }
+    }
+
+    if (format.includes('DD')) {
+      options.day = '2-digit';
+    }
+
+    if (format.includes('HH')) {
+      options.hour = '2-digit';
+      options.hour12 = false;
+    }
+
+    if (format.includes('h')) {
+      options.hour = 'numeric';
+      options.hour12 = true;
+    }
+
+    if (format.includes('mm')) {
+      options.minute = '2-digit';
+    }
+
+    if (format.includes('ss')) {
+      options.second = '2-digit';
+    }
+    const dtf = new Intl.DateTimeFormat('en-US', options);
+    const parts = dtf.formatToParts(date).filter(o => o.type != 'literal')
+        .reduce((acc, o) => {
+          acc[o.type] = o.value;
+          return acc;
+        }, {});
+    if (format.includes('YY')) {
+      if (format.includes('YYYY')) {
+        format = format.replace('YYYY', parts.year);
+      } else {
+        format = format.replace('YY', parts.year);
+      }
+    }
+
+    if (format.includes('DD')) {
+      format = format.replace('DD', parts.day);
+    }
+
+    if (format.includes('HH')) {
+      format = format.replace('HH', parts.hour);
+    }
+
+    if (format.includes('h')) {
+      format = format.replace('h', parts.hour);
+    }
+
+    if (format.includes('mm')) {
+      format = format.replace('mm', parts.minute);
+    }
+
+    if (format.includes('ss')) {
+      format = format.replace('ss', parts.second);
+    }
+
+    if (format.includes('A')) {
+      format = format.replace('A', parts['dayPeriod']);
+    }
+    if (format.includes('MM')) {
+      if (format.includes('MMM')) {
+        format = format.replace('MMM', parts.month);
+      } else {
+        format = format.replace('MM', parts.month);
+      }
+    }
+    return format;
+  }
+
   /**
    * Return true if date is within 24 hours and on the same day.
    */
   _isWithinDay(now, date) {
-    const diff = -date.diff(now);
-    return diff < Duration.DAY && date.day() === now.getDay();
+    const diff = now - date;
+    return diff < Duration.DAY && date.getDay() == now.getDay();
   }
 
   /**
    * Returns true if date is from one to six months.
    */
   _isWithinHalfYear(now, date) {
-    const diff = -date.diff(now);
-    return (date.day() !== now.getDay() || diff >= Duration.DAY) &&
-      diff < 180 * Duration.DAY;
+    const diff = now - date;
+    return (!this._isWithinDay(now, date) && diff < 180 * Duration.DAY);
+  }
+
+  _isValidDate(date) {
+    return date instanceof Date && !isNaN(date);
   }
 
   _computeDateStr(
       dateStr, timeFormat, dateFormat, relative, showDateAndTime
   ) {
     if (!dateStr || !timeFormat || !dateFormat) { return ''; }
-    const date = moment(util.parseDate(dateStr));
-    if (!date.isValid()) { return ''; }
+    const date = util.parseDate(dateStr);
+    if (!this._isValidDate(date)) { return ''; }
     if (relative) {
-      const dateFromNow = date.fromNow();
-      if (dateFromNow === 'a few seconds ago') {
-        return 'just now';
-      } else {
-        return dateFromNow;
-      }
+      return this._fromNow(date);
     }
     const now = new Date();
     let format = dateFormat.full;
@@ -233,7 +332,8 @@ class GrDateFormatter extends mixinBehaviors( [
         format = `${format} ${timeFormat}`;
       }
     }
-    return date.format(format);
+    // new Intl.DateTimeFormat('en-US').format(date);
+    return this._format(date, format);
   }
 
   _timeToSecondsFormat(timeFormat) {
@@ -253,11 +353,21 @@ class GrDateFormatter extends mixinBehaviors( [
     }
 
     if (!dateStr) { return ''; }
-    const date = moment(util.parseDate(dateStr));
-    if (!date.isValid()) { return ''; }
+    const date = util.parseDate(dateStr);
+    if (!this._isValidDate(date)) { return ''; }
     let format = dateFormat.full + ', ';
     format += this._timeToSecondsFormat(timeFormat);
-    return date.format(format) + this._getUtcOffsetString();
+    return this._format(date, format) + this._getUtcOffsetString();
+  }
+
+  _getUtcOffsetString() {
+    const now = new Date();
+    const tzo = -now.getTimezoneOffset();
+    const pad = num => {
+      const norm = Math.floor(Math.abs(num));
+      return (norm < 10 ? '0' : '') + norm;
+    };
+    return ` UTC${tzo >= 0 ? '+' : '-'}${pad(tzo / 60)}:${pad(tzo%60)}`;
   }
 }
 

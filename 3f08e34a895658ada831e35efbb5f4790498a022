@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f8cb15d_c9dcae3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-05T20:16:13Z",
+      "side": 1,
+      "message": "a",
+      "range": {
+        "startLine": 9,
+        "startChar": 26,
+        "endLine": 9,
+        "endChar": 28
+      },
+      "revId": "3f08e34a895658ada831e35efbb5f4790498a022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1f6f82f_dd7c1631",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-05T20:16:13Z",
+      "side": 1,
+      "message": "v3.1.5 or snapshot after this commit, rather?",
+      "range": {
+        "startLine": 19,
+        "startChar": 18,
+        "endLine": 19,
+        "endChar": 24
+      },
+      "revId": "3f08e34a895658ada831e35efbb5f4790498a022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7773928_5b6b22a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-05T20:16:13Z",
+      "side": 1,
+      "message": "serve",
+      "range": {
+        "startLine": 24,
+        "startChar": 32,
+        "endLine": 24,
+        "endChar": 38
+      },
+      "revId": "3f08e34a895658ada831e35efbb5f4790498a022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c68f1d2f_85c22651",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-05T20:16:13Z",
+      "side": 1,
+      "message": "Add? 6. Upgrade the other node then confirm as above.",
+      "revId": "3f08e34a895658ada831e35efbb5f4790498a022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "402e20e0_1bd22516",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2130,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-05T20:16:13Z",
+      "side": 1,
+      "message": "gerrit.rollingUpgrade",
+      "range": {
+        "startLine": 2130,
+        "startChar": 25,
+        "endLine": 2130,
+        "endChar": 39
+      },
+      "revId": "3f08e34a895658ada831e35efbb5f4790498a022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbd1f4be_e6b57272",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2132,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-05T20:16:13Z",
+      "side": 1,
+      "message": "version to the next [one]",
+      "range": {
+        "startLine": 2132,
+        "startChar": 48,
+        "endLine": 2132,
+        "endChar": 55
+      },
+      "revId": "3f08e34a895658ada831e35efbb5f4790498a022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

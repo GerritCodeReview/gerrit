@@ -50,7 +50,7 @@ export const htmlTemplate = html`
       border-top: 1px solid var(--border-color);
       padding: var(--spacing-s) var(--spacing-l);
       --gr-button: {
-        padding: var(--spacing-s) 0;
+        padding: var(--spacing-s) var(--spacing-m);
       }
     }
     :host(:not([attention])) .attention {
@@ -89,10 +89,44 @@ export const htmlTemplate = html`
           <span class="value">[[voteableText]]</span>
         </div>
       </template>
-      <div class="attention">
-        <iron-icon icon="gr-icons:attention"></iron-icon>
-        <span>It is this user's turn to take action.</span>
-      </div>
+      <template
+        is="dom-if"
+        if="[[_computeShowLabelNeedsAttention(_config, showAttention, account, change)]]"
+      >
+        <div class="attention">
+          <iron-icon icon="gr-icons:attention"></iron-icon>
+          <span>It is this user's turn to take action.</span>
+        </div>
+      </template>
+      <template
+        is="dom-if"
+        if="[[_computeShowActionAddToAttentionSet(_config, showAttention, account, change)]]"
+      >
+        <div class="action">
+          <gr-button
+            link=""
+            no-uppercase=""
+            on-click="_handleClickAddToAttentionSet"
+          >
+            Add to attention set
+          </gr-button>
+        </div>
+      </template>
+      <template
+        is="dom-if"
+        if="[[_computeShowActionRemoveFromAttentionSet(_config, showAttention, account, change)]]"
+      >
+        <div class="action">
+          <gr-button
+            link=""
+            no-uppercase=""
+            on-click="_handleClickRemoveFromAttentionSet"
+          >
+            Remove from attention set
+          </gr-button>
+        </div>
+      </template>
     </template>
   </div>
+  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

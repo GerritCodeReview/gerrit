@@ -39,13 +39,13 @@ function getSinonPath() {
     return "external/ui_dev_npm/node_modules/sinon/pkg/sinon.js";
   }
   else {
-    return "polygerrit-ui/node_modules/sinon/pkg/sinon.js"
+    return path.join(__dirname, "node_modules/sinon/pkg/sinon.js");
   }
 }
 
 module.exports = function(config) {
   const testFilesLocationPattern =
-      'polygerrit-ui/app/**/!(template_test_srcs)/';
+      __dirname + '/app/**/!(template_test_srcs)/';
   // Use --test-files to specify pattern for a test files.
   // It can be just a file name, without a path:
   // --test-files async-foreach-behavior_test.js
@@ -57,7 +57,7 @@ module.exports = function(config) {
       testFilesLocationPattern + '*_test.js';
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '../',
+    basePath: path.join(__dirname, '../'),
     plugins: [
       // Do not use karma-* to load all installed plugin
       // This can lead to unexpected behavior under bazel

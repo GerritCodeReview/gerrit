@@ -22,13 +22,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-date-formatter_html.js';
 import {TooltipBehavior} from '../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js';
-import {util} from '../../../scripts/util.js';
-import moment from 'moment/src/moment.js';
-
-const Duration = {
-  HOUR: 1000 * 60 * 60,
-  DAY: 1000 * 60 * 60 * 24,
-};
+import {parseDate, fromNow, isValidDate, isWithinDay, isWithinHalfYear, formatDate, utcOffsetString} from '../../../utils/date-util.js';
 
 const TimeFormats = {
   TIME_12: 'h:mm A', // 2:14 PM
@@ -106,6 +100,10 @@ class GrDateFormatter extends mixinBehaviors( [
     };
   }
 
+  constructor() {
+    super();
+  }
+
   /** @override */
   attached() {
     super.attached();
@@ -113,7 +111,7 @@ class GrDateFormatter extends mixinBehaviors( [
   }
 
   _getUtcOffsetString() {
-    return ' UTC' + moment().format('Z');
+    return utcOffsetString();
   }
 
   _loadPreferences() {
@@ -190,50 +188,28 @@ class GrDateFormatter extends mixinBehaviors( [
     return this.$.restAPI.getPreferences();
   }
 
-  /**
-   * Return true if date is within 24 hours and on the same day.
-   */
-  _isWithinDay(now, date) {
-    const diff = -date.diff(now);
-    return diff < Duration.DAY && date.day() === now.getDay();
-  }
-
-  /**
-   * Returns true if date is from one to six months.
-   */
-  _isWithinHalfYear(now, date) {
-    const diff = -date.diff(now);
-    return (date.day() !== now.getDay() || diff >= Duration.DAY) &&
-      diff < 180 * Duration.DAY;
-  }
-
   _computeDateStr(
       dateStr, timeFormat, dateFormat, relative, showDateAndTime
   ) {
     if (!dateStr || !timeFormat || !dateFormat) { return ''; }
-    const date = moment(util.parseDate(dateStr));
-    if (!date.isValid()) { return ''; }
+    const date = parseDate(dateStr);
+    if (!isValidDate(date)) { return ''; }
     if (relative) {
-      const dateFromNow = date.fromNow();
-      if (dateFromNow === 'a few seconds ago') {
-        return 'just now';
-      } else {
-        return dateFromNow;
-      }
+      return fromNow(date);
     }
     const now = new Date();
     let format = dateFormat.full;
-    if (this._isWithinDay(now, date)) {
+    if (isWithinDay(now, date)) {
       format = timeFormat;
     } else {
-      if (this._isWithinHalfYear(now, date)) {
+      if (isWithinHalfYear(now, date)) {
         format = dateFormat.short;
       }
       if (this.showDateAndTime) {
         format = `${format} ${timeFormat}`;
       }
     }
-    return date.format(format);
+    return formatDate(date, format);
   }
 
   _timeToSecondsFormat(timeFormat) {
@@ -253,11 +229,11 @@ class GrDateFormatter extends mixinBehaviors( [
     }
 
     if (!dateStr) { return ''; }
-    const date = moment(util.parseDate(dateStr));
-    if (!date.isValid()) { return ''; }
+    const date = parseDate(dateStr);
+    if (!isValidDate(date)) { return ''; }
     let format = dateFormat.full + ', ';
     format += this._timeToSecondsFormat(timeFormat);
-    return date.format(format) + this._getUtcOffsetString();
+    return formatDate(date, format) + this._getUtcOffsetString();
   }
 }
 

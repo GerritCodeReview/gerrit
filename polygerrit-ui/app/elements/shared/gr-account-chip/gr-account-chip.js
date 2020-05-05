@@ -48,6 +48,12 @@ class GrAccountChip extends GestureEventListeners(
   static get properties() {
     return {
       account: Object,
+      /**
+       * Optional ChangeInfo object, typically comes from the change page or
+       * from a row in a list of search results. This is needed for some change
+       * related features like adding the user as a reviewer.
+       */
+      change: Object,
       voteableText: String,
       disabled: {
         type: Boolean,
@@ -58,6 +64,11 @@ class GrAccountChip extends GestureEventListeners(
         type: Boolean,
         value: false,
       },
+      /**
+       * Should attention set related features be shown in the component? Note
+       * that the information whether the user is in the attention set or not is
+       * part of the ChangeInfo object in the change property.
+       */
       showAttention: {
         type: Boolean,
         value: false,

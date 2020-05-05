@@ -50,17 +50,18 @@ export const htmlTemplate = html`
       border-top: 1px solid var(--border-color);
       padding: var(--spacing-s) var(--spacing-l);
       --gr-button: {
-        padding: var(--spacing-s) 0;
+        padding: var(--spacing-s) var(--spacing-m);
       }
-    }
-    :host(:not([attention])) .attention {
-      display: none;
     }
     .attention {
       background-color: var(--emphasis-color);
     }
     .attention iron-icon {
+      width: 14px;
+      height: 14px;
       vertical-align: top;
+      position: relative;
+      top: 3px;
     }
   </style>
   <div id="container" role="tooltip" tabindex="-1">
@@ -89,12 +90,45 @@ export const htmlTemplate = html`
           <span class="value">[[voteableText]]</span>
         </div>
       </template>
-      <div class="attention">
-        <iron-icon icon="gr-icons:attention"></iron-icon>
-        <span
-          >[[_computeText(account, _selfAccount)]] turn to take action.</span
-        >
-      </div>
+      <template
+        is="dom-if"
+        if="[[_computeShowLabelNeedsAttention(_config, highlightAttention, account, change)]]"
+      >
+        <div class="attention">
+          <iron-icon icon="gr-icons:attention"></iron-icon>
+          <span>
+            [[_computeText(account, _selfAccount)]] turn to take action.
+          </span>
+        </div>
+      </template>
+      <template
+        is="dom-if"
+        if="[[_computeShowActionAddToAttentionSet(_config, highlightAttention, account, change)]]"
+      >
+        <div class="action">
+          <gr-button
+            link=""
+            no-uppercase=""
+            on-click="_handleClickAddToAttentionSet"
+          >
+            Add to attention set
+          </gr-button>
+        </div>
+      </template>
+      <template
+        is="dom-if"
+        if="[[_computeShowActionRemoveFromAttentionSet(_config, highlightAttention, account, change)]]"
+      >
+        <div class="action">
+          <gr-button
+            link=""
+            no-uppercase=""
+            on-click="_handleClickRemoveFromAttentionSet"
+          >
+            Remove from attention set
+          </gr-button>
+        </div>
+      </template>
     </template>
   </div>
   <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

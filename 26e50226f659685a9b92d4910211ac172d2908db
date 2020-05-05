@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4030654_8bcf4306",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-05T09:59:40Z",
+      "side": 1,
+      "message": "It looks like the mirror of jgit on gerrit-review is outdated. The following are not included:\n\n0a2a094fe (HEAD -\u003e master, origin/master, origin/HEAD) Reduce BitmappedObjectReachabilityChecker visibility\n9f07528ff Add missing @since to new API\n3a7e4eaec Add missing test source file to the build\n6fcd95cfe Upgrade Tycho to 1.7.0\n70ec9a83b ObjectReachabilityCheckers: Make walk member final",
+      "revId": "26e50226f659685a9b92d4910211ac172d2908db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

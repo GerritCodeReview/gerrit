@@ -161,7 +161,7 @@ export const htmlTemplate = html`
   <gr-cursor-manager
     id="cursor"
     cursor-target-class="selected"
-    scroll-behavior="never"
+    scroll-mode="never"
     focus-on-move=""
     stops="[[_listElements]]"
   ></gr-cursor-manager>

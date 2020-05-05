@@ -46,6 +46,30 @@
       "revId": "02b41f25aadfd9ae64079732047aa3b8b8490d20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f8cf16b_5a0e6d0f",
+        "filename": "Jenkinsfile",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-05T19:58:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "279c51ae_d3d01a6b",
+      "range": {
+        "startLine": 150,
+        "startChar": 87,
+        "endLine": 150,
+        "endChar": 93
+      },
+      "revId": "02b41f25aadfd9ae64079732047aa3b8b8490d20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

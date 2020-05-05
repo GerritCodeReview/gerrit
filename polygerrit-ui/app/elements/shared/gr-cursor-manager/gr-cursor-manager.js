@@ -19,7 +19,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-cursor-manager_html.js';
 
-const ScrollBehavior = {
+const ScrollModes = {
   NEVER: 'never',
   KEEP_VISIBLE: 'keep-visible',
 };
@@ -83,7 +83,7 @@ class GrCursorManager extends GestureEventListeners(
        */
       scrollBehavior: {
         type: String,
-        value: ScrollBehavior.NEVER,
+        value: ScrollModes.NEVER,
       },
 
       /**
@@ -214,7 +214,7 @@ class GrCursorManager extends GestureEventListeners(
     let behavior;
     if (opt_noScroll) {
       behavior = this.scrollBehavior;
-      this.scrollBehavior = ScrollBehavior.NEVER;
+      this.scrollBehavior = ScrollModes.NEVER;
     }
 
     this.unsetCursor();
@@ -390,7 +390,7 @@ class GrCursorManager extends GestureEventListeners(
    */
   _targetIsVisible(top) {
     const dims = this._getWindowDims();
-    return this.scrollBehavior === ScrollBehavior.KEEP_VISIBLE &&
+    return this.scrollBehavior === ScrollModes.KEEP_VISIBLE &&
         top > (dims.pageYOffset + this.scrollTopMargin) &&
         top < dims.pageYOffset + dims.innerHeight;
   }
@@ -402,7 +402,7 @@ class GrCursorManager extends GestureEventListeners(
   }
 
   _scrollToTarget() {
-    if (!this.target || this.scrollBehavior === ScrollBehavior.NEVER) {
+    if (!this.target || this.scrollBehavior === ScrollModes.NEVER) {
       return;
     }
 

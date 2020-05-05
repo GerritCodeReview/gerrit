@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "56bd0f27_41066708",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-05T07:13:56Z",
+      "side": 1,
+      "message": "Why is this change on stable-3.2 then and not on stable-2.16? And why you have not uploaded a clean revert of the change where --no-reindex was introduced: [1] and applied this new approach on top of it?\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/203811",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 16
+      },
+      "revId": "8dd271244cd634b34b18cac39b187576f4cee4ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8594fcbd_6fdd87b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-05T07:13:56Z",
+      "side": 1,
+      "message": "Now, that we know, that you are trying a different approach to the problem that was addressed in: [2], close the above Issue 12680 with duplicate, and reference the old issue: [2], that you shoud re-open?\n\n[2] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d9661",
+      "range": {
+        "startLine": 31,
+        "startChar": 5,
+        "endLine": 31,
+        "endChar": 16
+      },
+      "revId": "8dd271244cd634b34b18cac39b187576f4cee4ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3c487ccb_4b50ce12",
         "filename": "javatests/com/google/gerrit/acceptance/pgm/InitIT.java",
         "patchSetId": 17

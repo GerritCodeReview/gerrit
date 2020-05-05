@@ -68,6 +68,30 @@
       "revId": "0197700f8fbb9dd9d0b69d778e65aa0c68776ba6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "563860df_f95e6c78",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1732,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-05T15:56:55Z",
+      "side": 1,
+      "message": "do we need that ? `filter` will expect a boolean, and `__draft` is already boolean type",
+      "parentUuid": "662f5dd3_0118076e",
+      "range": {
+        "startLine": 1732,
+        "startChar": 26,
+        "endLine": 1732,
+        "endChar": 77
+      },
+      "revId": "0197700f8fbb9dd9d0b69d778e65aa0c68776ba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

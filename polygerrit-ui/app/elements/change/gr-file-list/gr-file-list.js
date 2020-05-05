@@ -477,7 +477,7 @@ class GrFileList extends mixinBehaviors( [
     this._expandedFiles = [];
     this.filesExpanded = this._computeExpandedFiles(
         this._expandedFiles.length, this._files.length);
-    this.$.diffCursor.handleDiffUpdate();
+    this.$.diffCursor.reinitalizeCursor();
   }
 
   /**
@@ -1141,7 +1141,7 @@ class GrFileList extends mixinBehaviors( [
     }
 
     this._updateDiffCursor();
-    this.$.diffCursor.handleDiffUpdate();
+    this.$.diffCursor.reinitalizeCursor();
   }
 
   _clearCollapsedDiffs(collapsedDiffs) {
@@ -1195,7 +1195,15 @@ class GrFileList extends mixinBehaviors( [
       console.log('Finished expanding', initialCount, 'diff(s)');
       this.reporting.timeEndWithAverage(EXPAND_ALL_TIMING_LABEL,
           EXPAND_ALL_AVG_TIMING_LABEL, initialCount);
-      this.$.diffCursor.handleDiffUpdate();
+      /* Block diff cursor from auto scrolling after files are done rendering.
+       * This prevents the bug where the screen jumps to the first diff chunk
+       * after files are done being rendered after the user has already begun
+       * scrolling.
+       * This also however results in the fact that the cursor does not auto
+       * focus on the first diff chunk on a small screen. This is however, a use
+       * case we are willing to not support for now.
+       */
+      this.$.diffCursor.reinitalizeCursor();
     }));
   }
 

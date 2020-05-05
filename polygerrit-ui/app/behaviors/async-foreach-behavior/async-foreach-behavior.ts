@@ -29,11 +29,11 @@ export const AsyncForeachBehavior = {
    *     loop if called.
    * @return {!Promise<undefined>}
    */
-  asyncForeach(array, fn) {
+  asyncForeach<T>(array: T[], fn: (item: T, stopCb: () => void) => Promise<void>): Promise<void> {
     if (!array.length) { return Promise.resolve(); }
     let stop = false;
     const stopCallback = () => { stop = true; };
-    return fn(array[0], stopCallback).then(exit => {
+    return fn(array[0], stopCallback).then(() => {
       if (stop) { return Promise.resolve(); }
       return this.asyncForeach(array.slice(1), fn);
     });

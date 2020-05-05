@@ -22,6 +22,30 @@
       "revId": "266b9705523b654f1b6e77ad00d32fb8889adea8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c67761f6_945c0bb3",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-05T10:21:29Z",
+      "side": 0,
+      "message": "Thanks, it was very useful indeed. Checked and adapted the change accordingly.",
+      "parentUuid": "2de93952_8595bddb",
+      "range": {
+        "startLine": 149,
+        "startChar": 6,
+        "endLine": 149,
+        "endChar": 24
+      },
+      "revId": "266b9705523b654f1b6e77ad00d32fb8889adea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

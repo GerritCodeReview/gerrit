@@ -70,6 +70,30 @@
       "revId": "10393b5afdae4f670fd06d201760b0c876a7c78f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b06d4069_230b1994",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-05T10:21:29Z",
+      "side": 1,
+      "message": "\u003e \u003e Why would you want to run a projects reindex for existing sites?\n\u003e \n\u003e Just pass the --no-reindex option.\n\nThis change makes the --no-reindex automatic, so that people would have an easier migration in v3.2.",
+      "parentUuid": "f6d965ba_e990c952",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 35
+      },
+      "revId": "10393b5afdae4f670fd06d201760b0c876a7c78f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

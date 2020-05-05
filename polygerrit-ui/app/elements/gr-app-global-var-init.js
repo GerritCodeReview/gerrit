@@ -48,7 +48,6 @@ import {GrRangeNormalizer} from './diff/gr-diff-highlight/gr-range-normalizer.js
 import {GrCountStringFormatter} from './shared/gr-count-string-formatter/gr-count-string-formatter.js';
 import {GrReviewerSuggestionsProvider, SUGGESTIONS_PROVIDERS_USERS_TYPES} from '../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
 import {util} from '../scripts/util.js';
-import moment from 'moment/src/moment.js';
 import page from 'page/page.mjs';
 import {Auth} from './shared/gr-rest-api-interface/gr-auth.js';
 import {EventEmitter} from './shared/gr-event-interface/gr-event-interface.js';
@@ -103,7 +102,6 @@ export function initGlobalVariables() {
   window.GrCountStringFormatter = GrCountStringFormatter;
   window.GrReviewerSuggestionsProvider = GrReviewerSuggestionsProvider;
   window.util = util;
-  window.moment = moment;
   window.page = page;
   window.Auth = Auth;
   window.EventEmitter = EventEmitter;

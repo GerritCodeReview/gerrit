@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09963f2f_6dcabbe4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1740,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-05T12:43:44Z",
+      "side": 1,
+      "message": "This can be done together.\nconst commentsInThread \u003d copiedThread.comments \u003d thread.comments\n              .map(comment \u003d\u003e { return {...comment, collapsed: true}; });",
+      "range": {
+        "startLine": 1736,
+        "startChar": 10,
+        "endLine": 1740,
+        "endChar": 11
+      },
+      "revId": "d2b484d8926595c2a26405caa31701aae12ac31f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

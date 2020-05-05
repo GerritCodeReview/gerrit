@@ -19,7 +19,7 @@ import {BaseUrlBehavior} from '../base-url-behavior/base-url-behavior.js';
 const PROBE_PATH = '/Documentation/index.html';
 const DOCS_BASE_PATH = '/Documentation';
 
-let cachedPromise;
+let cachedPromise: any;
 
 /** @polymerBehavior DocsUrlBehavior */
 export const DocsUrlBehavior = [{
@@ -32,13 +32,13 @@ export const DocsUrlBehavior = [{
    * @return {!Promise<string>} A promise that resolves with the docs base
    *     URL.
    */
-  getDocsBaseUrl(config, restApi) {
+  getDocsBaseUrl(this: any, config: any, restApi: any): any {
     if (!cachedPromise) {
       cachedPromise = new Promise(resolve => {
         if (config && config.gerrit && config.gerrit.doc_url) {
           resolve(config.gerrit.doc_url);
         } else {
-          restApi.probePath(this.getBaseUrl() + PROBE_PATH).then(ok => {
+          restApi.probePath(this.getBaseUrl() + PROBE_PATH).then((ok: any) => {
             resolve(ok ? (this.getBaseUrl() + DOCS_BASE_PATH) : null);
           });
         }

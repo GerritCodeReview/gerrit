@@ -92,6 +92,30 @@
       "revId": "0197700f8fbb9dd9d0b69d778e65aa0c68776ba6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e042c1d3_592e7df6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1732,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-05T16:01:35Z",
+      "side": 1,
+      "message": "__draft is boolean? Oh, then this is fine. (I would have expected the variable name to be __isDraft for a boolean, but oh well.)",
+      "parentUuid": "563860df_f95e6c78",
+      "range": {
+        "startLine": 1732,
+        "startChar": 26,
+        "endLine": 1732,
+        "endChar": 77
+      },
+      "revId": "0197700f8fbb9dd9d0b69d778e65aa0c68776ba6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

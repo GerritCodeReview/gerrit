@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4542dd8_e3181391",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 1179,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-05-05T06:11:40Z",
+      "side": 1,
+      "message": "Add a comment explaining that \n1) We do this because we have multiple files, and don\u0027t want to scroll in between.\n2) We plan to fix this in a more general way (I think it would be better if we could turn on behavior only sometimes needed instead of having to turn it off whenever there are more than one diff - I hope we agree on that...).",
+      "revId": "13eb055a0a80e96baf5990b18d7c0afa0851e12d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

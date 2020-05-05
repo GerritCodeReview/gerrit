@@ -1097,6 +1097,57 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void getRelatedCherryPicks() throws Exception {
+    PushOneCommit.Result r1 = createChange(SUBJECT, "a.txt", "a");
+    PushOneCommit.Result r2 = createChange(SUBJECT, "b.txt", "b");
+
+    String branch = "foo";
+    // Create target branch to cherry-pick to.
+    gApi.projects().name(project.get()).branch(branch).create(new BranchInput());
+
+    CherryPickInput input = new CherryPickInput();
+    input.message = "message";
+    input.destination = branch;
+    ChangeInfo firstCherryPickResult =
+        gApi.changes().id(r1.getChangeId()).current().cherryPickAsInfo(input);
+
+    input.base = gApi.changes().id(firstCherryPickResult.changeId).current().commit(false).commit;
+    ChangeInfo secondCherryPickResult =
+        gApi.changes().id(r2.getChangeId()).current().cherryPickAsInfo(input);
+    assertThat(gApi.changes().id(firstCherryPickResult.changeId).current().related().changes)
+        .hasSize(2);
+    assertThat(gApi.changes().id(secondCherryPickResult.changeId).current().related().changes)
+        .hasSize(2);
+  }
+
+  @Test
+  public void cherryPickOnMergedChangeIsNotRelated() throws Exception {
+    PushOneCommit.Result r1 = createChange(SUBJECT, "a.txt", "a");
+    PushOneCommit.Result r2 = createChange(SUBJECT, "b.txt", "b");
+
+    String branch = "foo";
+    // Create target branch to cherry-pick to.
+    gApi.projects().name(project.get()).branch(branch).create(new BranchInput());
+
+    CherryPickInput input = new CherryPickInput();
+    input.message = "message";
+    input.destination = branch;
+    ChangeInfo firstCherryPickResult =
+        gApi.changes().id(r1.getChangeId()).current().cherryPickAsInfo(input);
+
+    gApi.changes().id(firstCherryPickResult.id).current().review(ReviewInput.approve());
+    gApi.changes().id(firstCherryPickResult.id).current().submit();
+
+    input.base = gApi.changes().id(firstCherryPickResult.changeId).current().commit(false).commit;
+    ChangeInfo secondCherryPickResult =
+        gApi.changes().id(r2.getChangeId()).current().cherryPickAsInfo(input);
+    assertThat(gApi.changes().id(firstCherryPickResult.changeId).current().related().changes)
+        .hasSize(0);
+    assertThat(gApi.changes().id(secondCherryPickResult.changeId).current().related().changes)
+        .hasSize(0);
+  }
+
+  @Test
   public void canRebase() throws Exception {
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result r1 = push.to("refs/for/master");

@@ -218,7 +218,7 @@ export const htmlTemplate = html`
             content="[[_messageContentExpanded]]"
             config="[[_projectConfig.commentlinks]]"
           ></gr-formatted-text>
-          <template is="dom-if" if="[[!_isMessageContentEmpty()]]">
+          <template is="dom-if" if="[[_messageContentExpanded]]">
             <div
               class="replyActionContainer"
               hidden$="[[!showReplyButton]]"

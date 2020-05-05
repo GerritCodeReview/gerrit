@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c487ccb_4b50ce12",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/InitIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-05T06:43:18Z",
+      "side": 1,
+      "message": "Thread sleep in tests are an anti pattern because the add a constant overhead to the tests. Can we use TestTimeUtil instead?",
+      "revId": "8dd271244cd634b34b18cac39b187576f4cee4ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "751c53e2_ec0cff35",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/InitIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-05T06:43:18Z",
+      "side": 1,
+      "message": "nit: import static",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 9
+      },
+      "revId": "8dd271244cd634b34b18cac39b187576f4cee4ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "671a35c4_f75bcda4",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/InitIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-05T06:43:18Z",
+      "side": 1,
+      "message": "Depending on the file system makes the test more prone to failures, but I guess there is no other way to assert the behavior?",
+      "revId": "8dd271244cd634b34b18cac39b187576f4cee4ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

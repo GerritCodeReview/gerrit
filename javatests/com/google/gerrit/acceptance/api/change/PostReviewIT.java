@@ -31,13 +31,16 @@ import com.google.common.truth.Correspondence;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -54,6 +57,7 @@ import com.google.inject.Module;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -64,6 +68,7 @@ public class PostReviewIT extends AbstractDaemonTest {
 
   @Inject private CommentValidator mockCommentValidator;
   @Inject private TestCommentHelper testCommentHelper;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   private static final String COMMENT_TEXT = "The comment text";
   private static final CommentForValidation FILE_COMMENT_FOR_VALIDATION =
@@ -380,6 +385,93 @@ public class PostReviewIT extends AbstractDaemonTest {
     assertThat(exception)
         .hasMessageThat()
         .contains("Exceeding maximum cumulative size of comments");
+  }
+
+  @Test
+  public void ccToReviewer() throws Exception {
+    PushOneCommit.Result r = createChange();
+    // User adds themselves and changes state
+    requestScopeOperations.setApiUser(user.id());
+
+    ReviewInput input = new ReviewInput().reviewer(user.id().toString(), ReviewerState.CC, false);
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    Map<ReviewerState, Collection<AccountInfo>> reviewers =
+        gApi.changes().id(r.getChangeId()).get().reviewers;
+    assertThat(reviewers).hasSize(1);
+    AccountInfo reviewer = Iterables.getOnlyElement(reviewers.get(ReviewerState.CC));
+    assertThat(reviewer._accountId).isEqualTo(user.id().get());
+
+    // CC -> Reviewer
+    ReviewInput input2 = new ReviewInput().reviewer(user.id().toString());
+    gApi.changes().id(r.getChangeId()).current().review(input2);
+
+    Map<ReviewerState, Collection<AccountInfo>> reviewers2 =
+        gApi.changes().id(r.getChangeId()).get().reviewers;
+    assertThat(reviewers2).hasSize(1);
+    AccountInfo reviewer2 = Iterables.getOnlyElement(reviewers2.get(ReviewerState.REVIEWER));
+    assertThat(reviewer2._accountId).isEqualTo(user.id().get());
+  }
+
+  @Test
+  public void reviewerToCc() throws Exception {
+    // Admin owns the change
+    PushOneCommit.Result r = createChange();
+    // User adds themselves and changes state
+    requestScopeOperations.setApiUser(user.id());
+
+    ReviewInput input = new ReviewInput().reviewer(user.id().toString());
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    Map<ReviewerState, Collection<AccountInfo>> reviewers =
+        gApi.changes().id(r.getChangeId()).get().reviewers;
+    assertThat(reviewers).hasSize(1);
+    AccountInfo reviewer = Iterables.getOnlyElement(reviewers.get(ReviewerState.REVIEWER));
+    assertThat(reviewer._accountId).isEqualTo(user.id().get());
+
+    // Reviewer -> CC
+    ReviewInput input2 = new ReviewInput().reviewer(user.id().toString(), ReviewerState.CC, false);
+    gApi.changes().id(r.getChangeId()).current().review(input2);
+
+    Map<ReviewerState, Collection<AccountInfo>> reviewers2 =
+        gApi.changes().id(r.getChangeId()).get().reviewers;
+    assertThat(reviewers2).hasSize(1);
+    AccountInfo reviewer2 = Iterables.getOnlyElement(reviewers2.get(ReviewerState.CC));
+    assertThat(reviewer2._accountId).isEqualTo(user.id().get());
+  }
+
+  @Test
+  public void votingMakesCallerReviewer() throws Exception {
+    // Admin owns the change
+    PushOneCommit.Result r = createChange();
+    // User adds themselves and changes state
+    requestScopeOperations.setApiUser(user.id());
+
+    ReviewInput input = new ReviewInput().label("Code-Review", 1);
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    Map<ReviewerState, Collection<AccountInfo>> reviewers =
+        gApi.changes().id(r.getChangeId()).get().reviewers;
+    assertThat(reviewers).hasSize(1);
+    AccountInfo reviewer = Iterables.getOnlyElement(reviewers.get(ReviewerState.REVIEWER));
+    assertThat(reviewer._accountId).isEqualTo(user.id().get());
+  }
+
+  @Test
+  public void commentingMakesUserCC() throws Exception {
+    // Admin owns the change
+    PushOneCommit.Result r = createChange();
+    // User adds themselves and changes state
+    requestScopeOperations.setApiUser(user.id());
+
+    ReviewInput input = new ReviewInput().message("Foo bar!");
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    Map<ReviewerState, Collection<AccountInfo>> reviewers =
+        gApi.changes().id(r.getChangeId()).get().reviewers;
+    assertThat(reviewers).hasSize(1);
+    AccountInfo reviewer = Iterables.getOnlyElement(reviewers.get(ReviewerState.CC));
+    assertThat(reviewer._accountId).isEqualTo(user.id().get());
   }
 
   private List<RobotCommentInfo> getRobotComments(String changeId) throws RestApiException {

@@ -48,7 +48,6 @@ import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.FixReplacement;
 import com.google.gerrit.entities.FixSuggestion;
-import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
@@ -1255,8 +1254,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         return false;
       }
 
-      forceCallerAsReviewer(projectState, ctx, current, ups, del);
-
       return !del.isEmpty() || !ups.isEmpty();
     }
 
@@ -1325,41 +1322,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
                     .sorted()
                     .collect(joining(", ")));
       }
-    }
-
-    private void forceCallerAsReviewer(
-        ProjectState projectState,
-        ChangeContext ctx,
-        Map<String, PatchSetApproval> current,
-        List<PatchSetApproval> ups,
-        List<PatchSetApproval> del) {
-      if (current.isEmpty() && ups.isEmpty()) {
-        // TODO Find another way to link reviewers to changes.
-        if (del.isEmpty()) {
-          // If no existing label is being set to 0, hack in the caller
-          // as a reviewer by picking the first server-wide LabelType.
-          List<LabelType> labelTypes = projectState.getLabelTypes(ctx.getNotes()).getLabelTypes();
-          if (labelTypes.isEmpty()) {
-            logger.atWarning().log(
-                "no label type found for project %s, change %s",
-                projectState.getName(), ctx.getChange().getChangeId());
-            return;
-          }
-
-          LabelId labelId = labelTypes.get(0).getLabelId();
-          ups.add(
-              ApprovalsUtil.newApproval(psId, user, labelId, 0, ctx.getWhen())
-                  .tag(Optional.ofNullable(in.tag))
-                  .granted(ctx.getWhen())
-                  .build());
-        } else {
-          // Pick a random label that is about to be deleted and keep it.
-          Iterator<PatchSetApproval> i = del.iterator();
-          ups.add(i.next().toBuilder().value(0).granted(ctx.getWhen()).build());
-          i.remove();
-        }
-      }
-      ctx.getUpdate(ctx.getChange().currentPatchSetId()).putReviewer(user.getAccountId(), REVIEWER);
     }
 
     private Map<String, PatchSetApproval> scanLabels(

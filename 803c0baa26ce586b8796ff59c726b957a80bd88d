@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a408e2f0_8fd116f5",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-05-05T06:49:24Z",
+      "side": 1,
+      "message": "nit: duplicate line",
+      "revId": "803c0baa26ce586b8796ff59c726b957a80bd88d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

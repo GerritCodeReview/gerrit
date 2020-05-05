@@ -20,6 +20,7 @@ const scriptsPath = '../scripts/';
 const elementsPath = '../elements/';
 const behaviorsPath = '../behaviors/';
 const servicesPath = '../services/';
+const utilsPath = '../utils/';
 
 // Elements tests.
 /* eslint-disable max-len */
@@ -266,6 +267,14 @@ const services = [
 ];
 for (let file of services) {
   file = servicesPath + file;
+  testFiles.push(file);
+}
+
+const utils = [
+  'time-util_test.html',
+];
+for (let file of utils) {
+  file = utilsPath + file;
   testFiles.push(file);
 }
 

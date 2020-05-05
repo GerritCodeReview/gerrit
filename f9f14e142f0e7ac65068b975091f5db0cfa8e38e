@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94ff88e0_1799dc6d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-05T16:45:29Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be Guava?",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "f9f14e142f0e7ac65068b975091f5db0cfa8e38e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0b8f503_1a88c2ac",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-05T16:45:29Z",
+      "side": 1,
+      "message": "The updated AutoValue version will be merged in via I24e59c62f, which should go in before this change to not make that merge commit more complicated.",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 30
+      },
+      "revId": "f9f14e142f0e7ac65068b975091f5db0cfa8e38e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

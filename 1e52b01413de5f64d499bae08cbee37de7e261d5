@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65fecf2e_c75f5cc6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-05T15:49:36Z",
+      "side": 1,
+      "message": "why give up on moving this to constants :)",
+      "range": {
+        "startLine": 36,
+        "startChar": 6,
+        "endLine": 36,
+        "endChar": 17
+      },
+      "revId": "1e52b01413de5f64d499bae08cbee37de7e261d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1964f1c7_b9a389e2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-05T15:49:36Z",
+      "side": 1,
+      "message": "ideally we should change these as well, but I can live with that or having all these ScrollBehavior naming change in a separate change (it is indeed out of the scope of fixing the jumping)",
+      "range": {
+        "startLine": 217,
+        "startChar": 11,
+        "endLine": 217,
+        "endChar": 25
+      },
+      "revId": "1e52b01413de5f64d499bae08cbee37de7e261d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

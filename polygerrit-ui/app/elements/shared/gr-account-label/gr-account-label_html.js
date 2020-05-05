@@ -70,8 +70,9 @@ export const htmlTemplate = html`
   <span>
     <template is="dom-if" if="[[!hideHovercard]]">
       <gr-hovercard-account
-        attention="[[showAttention]]"
         account="[[account]]"
+        change="[[change]]"
+        show-attention="[[showAttention]]"
         voteable-text="[[voteableText]]"
       >
       </gr-hovercard-account>

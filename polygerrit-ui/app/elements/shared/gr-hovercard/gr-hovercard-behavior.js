@@ -186,9 +186,9 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
    * `mouseleave` event on the hovercard's `target` element (as long as the
    * user is not hovering over the hovercard).
    *
-   * @param {Event} e DOM Event (e.g. `mouseleave` event)
+   * @param {Event} opt_e DOM Event (e.g. `mouseleave` event)
    */
-  hide(e) {
+  hide(opt_e) {
     this._isScheduledToShow = false;
     if (!this._isShowing) {
       return;
@@ -197,9 +197,11 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
     // If the user is now hovering over the hovercard or the user is returning
     // from the hovercard but now hovering over the target (to stop an annoying
     // flicker effect), just return.
-    if (e.toElement === this ||
-        (e.fromElement === this && e.toElement === this._target)) {
-      return;
+    if (opt_e) {
+      if (opt_e.toElement === this ||
+          (opt_e.fromElement === this && opt_e.toElement === this._target)) {
+        return;
+      }
     }
 
     // Mark that the hovercard is not visible and do not allow focusing

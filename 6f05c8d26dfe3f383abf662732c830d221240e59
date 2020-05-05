@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "dd9bcbfd_a7fe9807",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-05T00:51:37Z",
+      "side": 1,
+      "message": "OK.  But please still change the log statement to use the built-in formatting here.",
+      "parentUuid": "b6b01449_cd9ad590",
+      "range": {
+        "startLine": 394,
+        "startChar": 54,
+        "endLine": 394,
+        "endChar": 73
+      },
+      "revId": "6f05c8d26dfe3f383abf662732c830d221240e59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "60e156d6_fb7d2634",
         "filename": "java/com/google/gerrit/server/notedb/CommentTimestampAdapter.java",
         "patchSetId": 3

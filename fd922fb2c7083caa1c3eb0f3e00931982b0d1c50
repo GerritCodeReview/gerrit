@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87c350b8_983f12eb",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1198,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-05-05T12:13:53Z",
+      "side": 1,
+      "message": "Nit: I think using /** is for API comments. Implementation comments should be // or /* (one star).",
+      "range": {
+        "startLine": 1198,
+        "startChar": 8,
+        "endLine": 1198,
+        "endChar": 9
+      },
+      "revId": "fd922fb2c7083caa1c3eb0f3e00931982b0d1c50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afe0cccc_54e9ca1d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-05-05T12:13:53Z",
+      "side": 1,
+      "message": "(Optional) FWIW, I think it\u0027s a bit ugly that this method is exposed at all - the name at least seems to indicate it was originally meant to be an event handler, not a public method. You could use this opportunity to make this private, and create a new, public method with a better name for the use case of manually reinitializing from the outside. Did you check if _updateStops() is actually needed in the scenario where you call this from the outside?",
+      "revId": "fd922fb2c7083caa1c3eb0f3e00931982b0d1c50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

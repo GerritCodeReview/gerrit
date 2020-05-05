@@ -58,6 +58,5 @@ var FetchPromisesCache;
 var GrRestApiHelper;
 var GrDisplayNameUtils;
 var GrReviewerSuggestionsProvider;
-var moment;
 var page;
 var util;

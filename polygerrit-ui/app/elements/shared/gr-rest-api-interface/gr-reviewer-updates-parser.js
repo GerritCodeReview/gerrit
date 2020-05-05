@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import {util} from '../../../scripts/util.js';
+import {parseDate} from '../../../utils/date-util.js';
 import {MessageTag} from '../../../constants/constants.js';
 
 /** @constructor */
@@ -106,8 +106,8 @@ GrReviewerUpdatesParser.prototype._groupUpdates = function() {
     if (!this._batch) {
       this._batch = this._startBatch(update);
     }
-    const updateDate = util.parseDate(update.updated).getTime();
-    const batchUpdateDate = util.parseDate(this._batch.date).getTime();
+    const updateDate = parseDate(update.updated).getTime();
+    const batchUpdateDate = parseDate(this._batch.date).getTime();
     const reviewerId = update.reviewer._account_id.toString();
     if (updateDate - batchUpdateDate >
         GrReviewerUpdatesParser.REVIEWER_UPDATE_THRESHOLD_MILLIS ||
@@ -206,14 +206,14 @@ GrReviewerUpdatesParser.prototype._advanceUpdates = function() {
   const updates = this.result.reviewer_updates;
   const messages = this.result.messages;
   messages.forEach((message, index) => {
-    const messageDate = util.parseDate(message.date).getTime();
+    const messageDate = parseDate(message.date).getTime();
     const nextMessageDate = index === messages.length - 1 ? null :
-      util.parseDate(messages[index + 1].date).getTime();
+      parseDate(messages[index + 1].date).getTime();
     for (const update of updates) {
-      const date = util.parseDate(update.date).getTime();
+      const date = parseDate(update.date).getTime();
       if (date >= messageDate &&
           (!nextMessageDate || date < nextMessageDate)) {
-        const timestamp = util.parseDate(update.date).getTime() -
+        const timestamp = parseDate(update.date).getTime() -
             GrReviewerUpdatesParser.MESSAGE_REVIEWERS_THRESHOLD_MILLIS;
         update.date = new Date(timestamp)
             .toISOString()

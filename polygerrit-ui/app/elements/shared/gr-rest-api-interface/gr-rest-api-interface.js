@@ -2325,6 +2325,26 @@ class GrRestApiInterface extends mixinBehaviors( [
     });
   }
 
+  addToAttentionSet(changeNum, user, reason) {
+    return this._getChangeURLAndSend({
+      changeNum,
+      method: 'POST',
+      endpoint: '/attention',
+      body: {user, reason},
+      reportUrlAsIs: true,
+    });
+  }
+
+  removeFromAttentionSet(changeNum, user, reason) {
+    return this._getChangeURLAndSend({
+      changeNum,
+      method: 'DELETE',
+      endpoint: `/attention/${user}`,
+      anonymizedEndpoint: '/attention/*',
+      body: {reason},
+    });
+  }
+
   /**
    * @suppress {checkTypes}
    * Resulted in error: Promise.prototype.then does not match formal

@@ -42,10 +42,11 @@ export const htmlTemplate = html`
   <span>
     <a href$="[[_computeOwnerLink(account)]]">
       <gr-account-label
-        show-attention="[[showAttention]]"
+        account="[[account]]"
+        change="[[change]]"
+        highlight-attention="[[highlightAttention]]"
         hide-avatar="[[hideAvatar]]"
         hide-status="[[hideStatus]]"
-        account="[[account]]"
         voteable-text="[[voteableText]]"
       >
       </gr-account-label>

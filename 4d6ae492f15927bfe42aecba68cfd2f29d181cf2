@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1af83dfe_adb47db3",
+        "filename": "polygerrit-ui/FE_Style_Guide.md",
+        "patchSetId": 17
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-05T13:22:05Z",
+      "side": 1,
+      "message": "is this the same mock as the test mock ? I would assume no or maybe. Can we add a few words about `test mock` here ? like we recommend to have a test mock for every service created in case we need to use them in our component tests",
+      "range": {
+        "startLine": 62,
+        "startChar": 16,
+        "endLine": 62,
+        "endChar": 20
+      },
+      "revId": "4d6ae492f15927bfe42aecba68cfd2f29d181cf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

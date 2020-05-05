@@ -403,6 +403,30 @@
     },
     {
       "key": {
+        "uuid": "956b38e0_9357cb8e",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-05T13:22:05Z",
+      "side": 1,
+      "message": "maybe I am asking too much. I am not asking for a perfect definition for `global state`, just a few examples of what we treated as global state will do, i found examples very helpful when understand guidelines, just like those `good` and `bad` you have. Like `enabled experiments` if we treat it as a global state, or `current change`, `current user` that we do have the plan to move to services and share across the app. Something like that I think will be better compared to just use the words `global state`, make it more understandable imo",
+      "parentUuid": "00df90a7_256c95da",
+      "range": {
+        "startLine": 111,
+        "startChar": 43,
+        "endLine": 111,
+        "endChar": 55
+      },
+      "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "deb94f26_f6778a25",
         "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
         "patchSetId": 11

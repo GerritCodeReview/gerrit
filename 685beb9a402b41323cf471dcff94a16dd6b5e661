@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "609f591c_3d95bd7b",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 16
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-05T11:41:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ce0296e_e47b35b4",
+      "range": {
+        "startLine": 130,
+        "startChar": 22,
+        "endLine": 130,
+        "endChar": 30
+      },
+      "revId": "685beb9a402b41323cf471dcff94a16dd6b5e661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46802a67_3af5f9f4",
         "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
         "patchSetId": 16
@@ -36,6 +60,24 @@
       "writtenOn": "2020-05-04T10:13:15Z",
       "side": 1,
       "message": "i think this depends on whether you need the access to the `created` or not, if you don\u0027t need, then everything is fine. Tho I agree we recommend to not use `created` lifecycle, and for new components, we probably should recommend use polymer 3 without legacy elements even, just use all the new lifecycles like `connectedCallback`",
+      "revId": "685beb9a402b41323cf471dcff94a16dd6b5e661",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1edbc9f3_95004dc3",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 16
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-05T11:41:25Z",
+      "side": 1,
+      "message": "My opinion - it is better to write here recommended approach.\nIf there is an edge case when we want to keep the `create` method - it must have very good reason and a comment must be added to a code.",
+      "parentUuid": "46802a67_3af5f9f4",
       "revId": "685beb9a402b41323cf471dcff94a16dd6b5e661",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

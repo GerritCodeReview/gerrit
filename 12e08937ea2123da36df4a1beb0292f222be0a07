@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "6dce4a7e_8c35a1f5",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-05T11:41:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa777e87_ce8ece1c",
+      "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e866a325_a1bf1322",
         "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
         "patchSetId": 11
@@ -349,6 +367,30 @@
       "side": 1,
       "message": "oh I think this is just too generic here. And I doubt everyone has the same understanding of what global state is tho, so it might be better to be more specific if this is targeting a broader audience, a few examples of what we treated as global state other than just use the word will help a lot already.",
       "parentUuid": "e3429a6d_9b9eb347",
+      "range": {
+        "startLine": 111,
+        "startChar": 43,
+        "endLine": 111,
+        "endChar": 55
+      },
+      "revId": "12e08937ea2123da36df4a1beb0292f222be0a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00df90a7_256c95da",
+        "filename": "polygerrit-ui/FRONTEND-STYLE-GUIDE.md",
+        "patchSetId": 11
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-05T11:41:25Z",
+      "side": 1,
+      "message": "I appreciate you help, if you can write it.\nI tried several time and everytime I found an example which was against my definition.\nIt might be better to keep it not very-well defined, because very often you have several ways for sharing a state. Very often, sharing can be done as a global state or as a property on some top-level element.",
+      "parentUuid": "289cf319_3e777f8d",
       "range": {
         "startLine": 111,
         "startChar": 43,

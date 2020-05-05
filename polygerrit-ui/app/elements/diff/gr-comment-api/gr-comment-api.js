@@ -179,19 +179,17 @@ class ChangeComments {
     const paths = this.getPaths();
     const publishedComments = {};
     for (const path of Object.keys(paths)) {
-      let commentsToAdd = this.getAllCommentsForPath(path, opt_patchNum);
-      if (opt_includeDrafts) {
-        const drafts = this.getAllDraftsForPath(path, opt_patchNum)
-            .map(d => Object.assign({__draft: true}, d));
-        commentsToAdd = commentsToAdd.concat(drafts);
-      }
-      publishedComments[path] = commentsToAdd;
+      publishedComments[path] = this.getAllCommentsForPath(
+          path,
+          opt_patchNum,
+          opt_includeDrafts
+      );
     }
     return publishedComments;
   }
 
   /**
-   * Gets all the comments and robot comments for the given change.
+   * Gets all the drafts for the given change.
    *
    * @param {number=} opt_patchNum
    * @return {!Object}
@@ -208,6 +206,9 @@ class ChangeComments {
   /**
    * Get the comments (robot comments) for a path and optional patch num.
    *
+   * This method will always return a new hardcopy (top level) of all comments,
+   * so manipulation on one copy won't affect other copies.
+   *
    * @param {!string} path
    * @param {number=} opt_patchNum
    * @param {boolean=} opt_includeDrafts
@@ -219,14 +220,15 @@ class ChangeComments {
     const robotComments = this._robotComments[path] || [];
     let allComments = comments.concat(robotComments);
     if (opt_includeDrafts) {
-      const drafts = this.getAllDraftsForPath(path)
-          .map(d => Object.assign({__draft: true}, d));
+      const drafts = this.getAllDraftsForPath(path);
       allComments = allComments.concat(drafts);
     }
-    if (!opt_patchNum) { return allComments; }
-    return (allComments || []).filter(c =>
-      this._patchNumEquals(c.patch_set, opt_patchNum)
-    );
+    if (opt_patchNum) {
+      allComments = allComments.filter(c =>
+        this._patchNumEquals(c.patch_set, opt_patchNum)
+      );
+    }
+    return allComments.map(c => { return {...c}; });
   }
 
   /**
@@ -257,17 +259,22 @@ class ChangeComments {
   /**
    * Get the drafts for a path and optional patch num.
    *
+   * This will return a hardcopy (top level) of all drafts every time,
+   * so changes on any copy will not affect other copies.
+   *
    * @param {!string} path
    * @param {number=} opt_patchNum
    * @return {!Array}
    */
   getAllDraftsForPath(path,
       opt_patchNum) {
-    const comments = this._drafts[path] || [];
-    if (!opt_patchNum) { return comments; }
-    return (comments || []).filter(c =>
-      this._patchNumEquals(c.patch_set, opt_patchNum)
-    );
+    let comments = this._drafts[path] || [];
+    if (opt_patchNum) {
+      comments = comments.filter(c =>
+        this._patchNumEquals(c.patch_set, opt_patchNum)
+      );
+    }
+    return comments.map(c => { return {...c, __draft: true}; });
   }
 
   /**
@@ -317,7 +324,8 @@ class ChangeComments {
 
     drafts.forEach(d => { d.__draft = true; });
 
-    const all = comments.concat(drafts).concat(robotComments);
+    const all = comments.concat(drafts).concat(robotComments)
+        .map(c => { return {...c}; });
 
     const baseComments = all.filter(c =>
       this._isInBaseOfPatchRange(c, patchRange));

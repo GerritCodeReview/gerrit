@@ -370,16 +370,24 @@ suite('gr-comment-api tests', () => {
       test('getAllCommentsForPath', () => {
         let path = 'file/one';
         let comments = element._changeComments.getAllCommentsForPath(path);
-        assert.deepEqual(comments.length, 4);
+        assert.equal(comments.length, 4);
         path = 'file/two';
         comments = element._changeComments.getAllCommentsForPath(path, 2);
-        assert.deepEqual(comments.length, 1);
+        assert.equal(comments.length, 1);
+        const aCopyOfComments = element._changeComments
+            .getAllCommentsForPath(path, 2);
+        assert.deepEqual(comments, aCopyOfComments);
+        assert.notEqual(comments[0], aCopyOfComments[0]);
       });
 
       test('getAllDraftsForPath', () => {
         const path = 'file/one';
         const drafts = element._changeComments.getAllDraftsForPath(path);
-        assert.deepEqual(drafts.length, 2);
+        assert.equal(drafts.length, 2);
+        const aCopyOfDrafts = element._changeComments
+            .getAllDraftsForPath(path);
+        assert.deepEqual(drafts, aCopyOfDrafts);
+        assert.notEqual(drafts[0], aCopyOfDrafts[0]);
       });
 
       test('computeUnresolvedNum', () => {

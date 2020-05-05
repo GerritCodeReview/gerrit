@@ -106,6 +106,51 @@ def declare_nongoogle_deps():
         sha1 = "f84302e14648f9f63c0c73951054aeb2ff0b810a",
     )
 
+    # Google internal dependencies: these are developed at Google, so there is
+    # no concern about version skew.
+
+    AUTO_VALUE_VERSION = "1.7"
+
+    maven_jar(
+        name = "auto-value",
+        artifact = "com.google.auto.value:auto-value:" + AUTO_VALUE_VERSION,
+        sha1 = "fe8387764ed19460eda4f106849c664f51c07121",
+    )
+
+    maven_jar(
+        name = "auto-value-annotations",
+        artifact = "com.google.auto.value:auto-value-annotations:" + AUTO_VALUE_VERSION,
+        sha1 = "5be124948ebdc7807df68207f35a0f23ce427f29",
+    )
+
+    load("//lib:guava.bzl", "GUAVA_BIN_SHA1", "GUAVA_VERSION")
+
+    maven_jar(
+        name = "guava",
+        artifact = "com.google.guava:guava:" + GUAVA_VERSION,
+        sha1 = GUAVA_BIN_SHA1,
+    )
+
+    FLOGGER_VERS = "0.5.1"
+
+    maven_jar(
+        name = "flogger",
+        artifact = "com.google.flogger:flogger:" + FLOGGER_VERS,
+        sha1 = "71d1e2cef9cc604800825583df56b8ef5c053f14",
+    )
+
+    maven_jar(
+        name = "flogger-log4j-backend",
+        artifact = "com.google.flogger:flogger-log4j-backend:" + FLOGGER_VERS,
+        sha1 = "5e2794b75c88223f263f1c1a9d7ea51e2dc45732",
+    )
+
+    maven_jar(
+        name = "flogger-system-backend",
+        artifact = "com.google.flogger:flogger-system-backend:" + FLOGGER_VERS,
+        sha1 = "b66d3bedb14da604828a8693bb24fd78e36b0e9e",
+    )
+
     # Test-only dependencies below.
 
     maven_jar(

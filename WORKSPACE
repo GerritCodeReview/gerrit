@@ -222,38 +222,10 @@ maven_jar(
     sha1 = "42aa5155a54a87d70af32d4b0d06bf43779de0e2",
 )
 
-FLOGGER_VERS = "0.5.1"
-
-maven_jar(
-    name = "flogger",
-    artifact = "com.google.flogger:flogger:" + FLOGGER_VERS,
-    sha1 = "71d1e2cef9cc604800825583df56b8ef5c053f14",
-)
-
-maven_jar(
-    name = "flogger-log4j-backend",
-    artifact = "com.google.flogger:flogger-log4j-backend:" + FLOGGER_VERS,
-    sha1 = "5e2794b75c88223f263f1c1a9d7ea51e2dc45732",
-)
-
-maven_jar(
-    name = "flogger-system-backend",
-    artifact = "com.google.flogger:flogger-system-backend:" + FLOGGER_VERS,
-    sha1 = "b66d3bedb14da604828a8693bb24fd78e36b0e9e",
-)
-
 maven_jar(
     name = "gson",
     artifact = "com.google.code.gson:gson:2.8.5",
     sha1 = "f645ed69d595b24d4cf8b3fbb64cc505bede8829",
-)
-
-load("//lib:guava.bzl", "GUAVA_BIN_SHA1", "GUAVA_VERSION")
-
-maven_jar(
-    name = "guava",
-    artifact = "com.google.guava:guava:" + GUAVA_VERSION,
-    sha1 = GUAVA_BIN_SHA1,
 )
 
 CAFFEINE_VERS = "2.8.0"
@@ -661,20 +633,6 @@ maven_jar(
     name = "ow2-asm-util",
     artifact = "org.ow2.asm:asm-util:" + OW2_VERS,
     sha1 = "a3ae34e57fa8a4040e28247291d0cc3d6b8c7bcf",
-)
-
-AUTO_VALUE_VERSION = "1.7"
-
-maven_jar(
-    name = "auto-value",
-    artifact = "com.google.auto.value:auto-value:" + AUTO_VALUE_VERSION,
-    sha1 = "fe8387764ed19460eda4f106849c664f51c07121",
-)
-
-maven_jar(
-    name = "auto-value-annotations",
-    artifact = "com.google.auto.value:auto-value-annotations:" + AUTO_VALUE_VERSION,
-    sha1 = "5be124948ebdc7807df68207f35a0f23ce427f29",
 )
 
 declare_nongoogle_deps()

@@ -16,6 +16,24 @@
       "revId": "803c0baa26ce586b8796ff59c726b957a80bd88d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13521431_54d729b4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1139,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-05T07:43:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a408e2f0_8fd116f5",
+      "revId": "803c0baa26ce586b8796ff59c726b957a80bd88d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

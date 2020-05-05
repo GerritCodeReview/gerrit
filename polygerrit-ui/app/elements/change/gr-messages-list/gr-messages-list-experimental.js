@@ -26,7 +26,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-messages-list-experimental_html.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
-import {util} from '../../../scripts/util.js';
+import {parseDate} from '../../../utils/date-util.js';
 import {MessageTag} from '../../../constants/constants.js';
 import {appContext} from '../../../services/app-context.js';
 
@@ -219,8 +219,8 @@ class GrMessagesListExperimental extends mixinBehaviors( [
         combinedMessages = combinedMessages.concat(messages.slice(mi));
         break;
       }
-      mDate = mDate || util.parseDate(messages[mi].date);
-      rDate = rDate || util.parseDate(reviewerUpdates[ri].date);
+      mDate = mDate || parseDate(messages[mi].date);
+      rDate = rDate || parseDate(reviewerUpdates[ri].date);
       if (rDate < mDate) {
         combinedMessages.push(reviewerUpdates[ri++]);
         rDate = null;

@@ -21,7 +21,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-comment-api_html.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
-import {util} from '../../../scripts/util.js';
+import {parseDate} from '../../../utils/date-util.js';
 
 const PARENT = 'PARENT';
 
@@ -470,7 +470,7 @@ class ChangeComments {
         .sort(
             (c1, c2) => {
               const dateDiff =
-                  util.parseDate(c1.updated) - util.parseDate(c2.updated);
+                  parseDate(c1.updated) - parseDate(c2.updated);
               if (dateDiff) {
                 return dateDiff;
               }

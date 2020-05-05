@@ -178,7 +178,7 @@ suite('gr-cursor-manager tests', () => {
     sandbox.stub(element, '_targetIsVisible', () => false);
     const scrollStub = sandbox.stub(window, 'scrollTo');
     element.stops = list.querySelectorAll('li');
-    element.scrollBehavior = 'keep-visible';
+    element.scrollMode = 'keep-visible';
 
     element.setCursorAtIndex(1, true);
     assert.isFalse(scrollStub.called);
@@ -236,7 +236,7 @@ suite('gr-cursor-manager tests', () => {
     let scrollStub;
     setup(() => {
       element.stops = list.querySelectorAll('li');
-      element.scrollBehavior = 'keep-visible';
+      element.scrollMode = 'keep-visible';
 
       // There is a target which has a targetNext
       element.setCursor(list.children[0]);

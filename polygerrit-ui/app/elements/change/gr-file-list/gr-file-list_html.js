@@ -584,7 +584,7 @@ export const htmlTemplate = html`
   <gr-diff-cursor id="diffCursor"></gr-diff-cursor>
   <gr-cursor-manager
     id="fileCursor"
-    scroll-behavior="keep-visible"
+    scroll-mode="keep-visible"
     focus-on-move=""
     cursor-target-class="selected"
   ></gr-cursor-manager>

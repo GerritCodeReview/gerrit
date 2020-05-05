@@ -34,7 +34,7 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-date-formatter.js';
-import {util} from '../../../scripts/util.js';
+import {parseDate} from '../../../scripts/time-util.js';
 suite('gr-date-formatter tests', () => {
   let element;
   let sandbox;
@@ -51,7 +51,7 @@ suite('gr-date-formatter tests', () => {
    * Parse server-formatter date and normalize into current timezone.
    */
   function normalizedDate(dateStr) {
-    const d = util.parseDate(dateStr);
+    const d = parseDate(dateStr);
     d.setMinutes(d.getMinutes() + d.getTimezoneOffset());
     return d;
   }
@@ -94,7 +94,7 @@ suite('gr-date-formatter tests', () => {
       relative_date_in_change_table: false,
     }).then(() => {
       element = fixture('basic');
-      sandbox.stub(element, '_getUtcOffsetString').returns('');
+      sandbox.stub(element.util, 'utcOffsetString').returns('');
       return element._loadPreferences();
     }));
 
@@ -143,7 +143,7 @@ suite('gr-date-formatter tests', () => {
       relative_date_in_change_table: false,
     }).then(() => {
       element = fixture('basic');
-      sandbox.stub(element, '_getUtcOffsetString').returns('');
+      sandbox.stub(element.util, 'utcOffsetString').returns('');
       return element._loadPreferences();
     }));
 
@@ -179,7 +179,7 @@ suite('gr-date-formatter tests', () => {
       relative_date_in_change_table: false,
     }).then(() => {
       element = fixture('basic');
-      sandbox.stub(element, '_getUtcOffsetString').returns('');
+      sandbox.stub(element.util, 'utcOffsetString').returns('');
       return element._loadPreferences();
     }));
 
@@ -215,7 +215,7 @@ suite('gr-date-formatter tests', () => {
       relative_date_in_change_table: false,
     }).then(() => {
       element = fixture('basic');
-      sandbox.stub(element, '_getUtcOffsetString').returns('');
+      sandbox.stub(element.util, 'utcOffsetString').returns('');
       return element._loadPreferences();
     }));
 
@@ -251,7 +251,7 @@ suite('gr-date-formatter tests', () => {
       relative_date_in_change_table: false,
     }).then(() => {
       element = fixture('basic');
-      sandbox.stub(element, '_getUtcOffsetString').returns('');
+      sandbox.stub(element.util, 'utcOffsetString').returns('');
       return element._loadPreferences();
     }));
 
@@ -287,7 +287,7 @@ suite('gr-date-formatter tests', () => {
           {time_format: 'HHMM_12', date_format: 'STD'}
       ).then(() => {
         element = fixture('basic');
-        sandbox.stub(element, '_getUtcOffsetString').returns('');
+        sandbox.stub(element.util, 'utcOffsetString').returns('');
         return element._loadPreferences();
       })
     );
@@ -308,7 +308,7 @@ suite('gr-date-formatter tests', () => {
           {time_format: 'HHMM_12', date_format: 'US'}
       ).then(() => {
         element = fixture('basic');
-        sandbox.stub(element, '_getUtcOffsetString').returns('');
+        sandbox.stub(element.util, 'utcOffsetString').returns('');
         return element._loadPreferences();
       })
     );
@@ -329,7 +329,7 @@ suite('gr-date-formatter tests', () => {
           {time_format: 'HHMM_12', date_format: 'ISO'}
       ).then(() => {
         element = fixture('basic');
-        sandbox.stub(element, '_getUtcOffsetString').returns('');
+        sandbox.stub(element.util, 'utcOffsetString').returns('');
         return element._loadPreferences();
       })
     );
@@ -350,7 +350,7 @@ suite('gr-date-formatter tests', () => {
           {time_format: 'HHMM_12', date_format: 'EURO'}
       ).then(() => {
         element = fixture('basic');
-        sandbox.stub(element, '_getUtcOffsetString').returns('');
+        sandbox.stub(element.util, 'utcOffsetString').returns('');
         return element._loadPreferences();
       })
     );
@@ -371,7 +371,7 @@ suite('gr-date-formatter tests', () => {
           {time_format: 'HHMM_12', date_format: 'UK'}
       ).then(() => {
         element = fixture('basic');
-        sandbox.stub(element, '_getUtcOffsetString').returns('');
+        sandbox.stub(element.util, 'utcOffsetString').returns('');
         return element._loadPreferences();
       })
     );
@@ -392,7 +392,7 @@ suite('gr-date-formatter tests', () => {
       relative_date_in_change_table: true,
     }).then(() => {
       element = fixture('basic');
-      sandbox.stub(element, '_getUtcOffsetString').returns('');
+      sandbox.stub(element.util, 'utcOffsetString').returns('');
       return element._loadPreferences();
     }));
 

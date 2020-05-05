@@ -63,13 +63,17 @@ export const htmlTemplate = html`
   <span>
     <template is="dom-if" if="[[!hideHovercard]]">
       <gr-hovercard-account
-        attention="[[showAttention]]"
         account="[[account]]"
+        change="[[change]]"
+        show-attention="[[showAttention]]"
         voteable-text="[[voteableText]]"
       >
       </gr-hovercard-account>
     </template>
-    <template is="dom-if" if="[[showAttention]]">
+    <template
+      is="dom-if"
+      if="[[_computeShowAttentionIcon(_config, showAttention, account, change)]]"
+    >
       <iron-icon class="attention" icon="gr-icons:attention"></iron-icon
       ><!--
    --></template
@@ -79,7 +83,7 @@ export const htmlTemplate = html`
      --><gr-avatar account="[[account]]" image-size="32"></gr-avatar>
     </template>
     <span class="text">
-      <span class="name"> [[_computeName(account, _serverConfig)]]</span>
+      <span class="name"> [[_computeName(account, _config)]]</span>
       <template is="dom-if" if="[[!hideStatus]]">
         <template is="dom-if" if="[[account.status]]">
           <iron-icon class="status" icon="gr-icons:calendar"></iron-icon>

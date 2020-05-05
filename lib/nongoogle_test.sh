@@ -16,6 +16,9 @@ dropwizard-core
 duct-tape
 eddsa
 elasticsearch-rest-client
+flogger
+flogger-log4j-backend
+flogger-system-backend
 httpasyncclient
 httpcore-nio
 j2objc

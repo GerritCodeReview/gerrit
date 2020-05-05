@@ -1,5 +1,6 @@
 load("//tools/bzl:maven_jar.bzl", "maven_jar")
 
+
 def declare_nongoogle_deps():
     """loads dependencies that are not used at Google.
 
@@ -104,6 +105,29 @@ def declare_nongoogle_deps():
         name = "jackson-core",
         artifact = "com.fasterxml.jackson.core:jackson-core:2.11.0",
         sha1 = "f84302e14648f9f63c0c73951054aeb2ff0b810a",
+    )
+
+    # Google internal dependencies: these are developed at Google, so there is
+    # no concern about version skew.
+
+    FLOGGER_VERS = "0.5.1"
+
+    maven_jar(
+        name = "flogger",
+        artifact = "com.google.flogger:flogger:" + FLOGGER_VERS,
+        sha1 = "71d1e2cef9cc604800825583df56b8ef5c053f14",
+    )
+
+    maven_jar(
+        name = "flogger-log4j-backend",
+        artifact = "com.google.flogger:flogger-log4j-backend:" + FLOGGER_VERS,
+        sha1 = "5e2794b75c88223f263f1c1a9d7ea51e2dc45732",
+    )
+
+    maven_jar(
+        name = "flogger-system-backend",
+        artifact = "com.google.flogger:flogger-system-backend:" + FLOGGER_VERS,
+        sha1 = "b66d3bedb14da604828a8693bb24fd78e36b0e9e",
     )
 
     # Test-only dependencies below.

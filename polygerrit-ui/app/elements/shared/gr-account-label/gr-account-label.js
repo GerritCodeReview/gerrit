@@ -44,13 +44,24 @@ class GrAccountLabel extends mixinBehaviors( [
        * @type {{ name: string, status: string }}
        */
       account: Object,
+      /**
+       * Optional ChangeInfo object, typically comes from the change page or
+       * from a row in a list of search results. This is needed for some change
+       * related features like adding the user as a reviewer.
+       */
+      change: Object,
       voteableText: String,
       blurred: {
         type: Boolean,
         value: false,
         reflectToAttribute: true,
       },
-      showAttention: {
+      /**
+       * Should attention set related features be shown in the component? Note
+       * that the information whether the user is in the attention set or not is
+       * part of the ChangeInfo object in the change property.
+       */
+      highlightAttention: {
         type: Boolean,
         value: false,
       },
@@ -66,7 +77,10 @@ class GrAccountLabel extends mixinBehaviors( [
         type: Boolean,
         value: false,
       },
-      _serverConfig: {
+      /**
+       * This is a ServerInfo response object.
+       */
+      _config: {
         type: Object,
         value: null,
       },
@@ -76,8 +90,22 @@ class GrAccountLabel extends mixinBehaviors( [
   /** @override */
   ready() {
     super.ready();
-    this.$.restAPI.getConfig()
-        .then(config => { this._serverConfig = config; });
+    this.$.restAPI.getConfig().then(config => { this._config = config; });
+  }
+
+  get isAttentionSetEnabled() {
+    return !!this._config && !!this._config.change
+        && !!this._config.change.enable_attention_set
+        && !!this.highlightAttention && !!this.change && !!this.account;
+  }
+
+  get hasAttention() {
+    if (!this.isAttentionSetEnabled || !this.change.attention_set) return false;
+    return this.change.attention_set.hasOwnProperty(this.account._account_id);
+  }
+
+  _computeShowAttentionIcon(config, highlightAttention, account, change) {
+    return this.isAttentionSetEnabled && this.hasAttention;
   }
 
   _computeName(account, config) {

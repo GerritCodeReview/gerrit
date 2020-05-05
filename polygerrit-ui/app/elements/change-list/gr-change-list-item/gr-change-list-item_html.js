@@ -154,7 +154,7 @@ export const htmlTemplate = html`
     hidden$="[[isColumnHidden('Owner', visibleChangeTableColumns)]]"
   >
     <gr-account-link
-      show-attention
+      highlight-attention
       change="[[change]]"
       account="[[change.owner]]"
     ></gr-account-link>
@@ -186,7 +186,7 @@ export const htmlTemplate = html`
         <gr-account-link
           hide-avatar=""
           hide-status=""
-          show-attention
+          highlight-attention
           change="[[change]]"
           account="[[reviewer]]"
         ></gr-account-link

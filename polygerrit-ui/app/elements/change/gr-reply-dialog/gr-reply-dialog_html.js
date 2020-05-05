@@ -357,11 +357,11 @@ export const htmlTemplate = html`
         <div class="peopleListLabel">Owner</div>
         <gr-account-label
           account="[[_owner]]"
-          show-attention="[[_computeHasNewAttention(_owner, _newAttention)]]"
+          highlight-attention="[[_computeHasNewAttention(_owner, _newAttention)]]"
           blurred="[[!_computeHasNewAttention(_owner, _newAttention)]]"
           hide-hovercard=""
           on-click="_handleAttentionClick"
-          data-account-id\\$="[[_owner._account_id]]"
+          data-account-id$="[[_owner._account_id]]"
           tabindex="-1"
         >
         </gr-account-label>
@@ -371,11 +371,11 @@ export const htmlTemplate = html`
         <template is="dom-repeat" items="[[_reviewers]]" as="account">
           <gr-account-label
             account="[[account]]"
-            show-attention="[[_computeHasNewAttention(account, _newAttention)]]"
+            highlight-attention="[[_computeHasNewAttention(account, _newAttention)]]"
             blurred="[[!_computeHasNewAttention(account, _newAttention)]]"
             hide-hovercard=""
             on-click="_handleAttentionClick"
-            data-account-id\\$="[[account._account_id]]"
+            data-account-id$="[[account._account_id]]"
             tabindex="-1"
           >
           </gr-account-label>
@@ -386,11 +386,11 @@ export const htmlTemplate = html`
         <template is="dom-repeat" items="[[_ccs]]" as="account">
           <gr-account-label
             account="[[account]]"
-            show-attention="[[_computeHasNewAttention(account, _newAttention)]]"
+            highlight-attention="[[_computeHasNewAttention(account, _newAttention)]]"
             blurred="[[!_computeHasNewAttention(account, _newAttention)]]"
             hide-hovercard=""
             on-click="_handleAttentionClick"
-            data-account-id\\$="[[account._account_id]]"
+            data-account-id$="[[account._account_id]]"
             tabindex="-1"
           >
           </gr-account-label>

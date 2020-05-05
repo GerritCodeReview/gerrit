@@ -83,6 +83,7 @@ export const htmlTemplate = html`
   <div class$="container [[_getBackgroundClass(transparentBackground)]]">
     <gr-account-link
       account="[[account]]"
+      change="[[change]]"
       show-attention="[[showAttention]]"
       voteable-text="[[voteableText]]"
     >

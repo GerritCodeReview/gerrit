@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e529f1c_5bd6ac55",
+        "filename": "javatests/com/google/gerrit/server/account/SetInactiveFlagTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-05T09:47:40Z",
+      "side": 1,
+      "message": "There is already a test for setting active/inactive in AccountIT which is an integration test against the server, rather than using mocks.",
+      "revId": "7845e1a04e726b95b41422b5ba3e661723c8ed98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d9cb49a_1560c55a",
+        "filename": "javatests/com/google/gerrit/server/account/SetInactiveFlagTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-05T09:47:40Z",
+      "side": 1,
+      "message": "com.google.gerrit.testing.GerritJUnit.assertThrows should be used until we are able to use junit 4.13",
+      "range": {
+        "startLine": 18,
+        "startChar": 14,
+        "endLine": 18,
+        "endChar": 44
+      },
+      "revId": "7845e1a04e726b95b41422b5ba3e661723c8ed98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

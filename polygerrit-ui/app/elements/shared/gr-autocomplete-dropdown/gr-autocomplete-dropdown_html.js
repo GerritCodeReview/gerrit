@@ -95,7 +95,7 @@ export const htmlTemplate = html`
     id="cursor"
     index="{{index}}"
     cursor-target-class="selected"
-    scroll-behavior="never"
+    scroll-mode="never"
     focus-on-move=""
     stops="[[_suggestionEls]]"
   ></gr-cursor-manager>

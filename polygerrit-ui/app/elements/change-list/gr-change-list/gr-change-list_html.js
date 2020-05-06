@@ -138,7 +138,7 @@ export const htmlTemplate = html`
   <gr-cursor-manager
     id="cursor"
     index="{{selectedIndex}}"
-    scroll-behavior="keep-visible"
+    scroll-mode="keep-visible"
     focus-on-move=""
   ></gr-cursor-manager>
   <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

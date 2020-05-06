@@ -18,11 +18,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-cursor-manager_html.js';
-
-const ScrollBehavior = {
-  NEVER: 'never',
-  KEEP_VISIBLE: 'keep-visible',
-};
+import {ScrollModes} from '../../../constants/constants.js';
 
 /** @extends PolymerElement */
 class GrCursorManager extends GestureEventListeners(
@@ -81,9 +77,9 @@ class GrCursorManager extends GestureEventListeners(
        *
        * @type {string|undefined}
        */
-      scrollBehavior: {
+      scrollMode: {
         type: String,
-        value: ScrollBehavior.NEVER,
+        value: ScrollModes.NEVER,
       },
 
       /**
@@ -213,8 +209,8 @@ class GrCursorManager extends GestureEventListeners(
   setCursor(element, opt_noScroll) {
     let behavior;
     if (opt_noScroll) {
-      behavior = this.scrollBehavior;
-      this.scrollBehavior = ScrollBehavior.NEVER;
+      behavior = this.scrollMode;
+      this.scrollMode = ScrollModes.NEVER;
     }
 
     this.unsetCursor();
@@ -222,7 +218,7 @@ class GrCursorManager extends GestureEventListeners(
     this._updateIndex();
     this._decorateTarget();
 
-    if (opt_noScroll) { this.scrollBehavior = behavior; }
+    if (opt_noScroll) { this.scrollMode = behavior; }
   }
 
   unsetCursor() {
@@ -390,7 +386,7 @@ class GrCursorManager extends GestureEventListeners(
    */
   _targetIsVisible(top) {
     const dims = this._getWindowDims();
-    return this.scrollBehavior === ScrollBehavior.KEEP_VISIBLE &&
+    return this.scrollMode === ScrollModes.KEEP_VISIBLE &&
         top > (dims.pageYOffset + this.scrollTopMargin) &&
         top < dims.pageYOffset + dims.innerHeight;
   }
@@ -402,7 +398,7 @@ class GrCursorManager extends GestureEventListeners(
   }
 
   _scrollToTarget() {
-    if (!this.target || this.scrollBehavior === ScrollBehavior.NEVER) {
+    if (!this.target || this.scrollMode === ScrollModes.NEVER) {
       return;
     }
 

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6d11e2e_b90a741a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.js",
+        "patchSetId": 43
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-06T08:58:16Z",
+      "side": 1,
+      "message": "2017 or 2015 ?",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "93a2bf10db87e7b57503e744152bbe0f0cc6a69a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e239e3e0_937ab398",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager_test.js",
+        "patchSetId": 43
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-06T08:58:16Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "93a2bf10db87e7b57503e744152bbe0f0cc6a69a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4059f7c4_078d7635",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 43
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-06T08:58:16Z",
+      "side": 1,
+      "message": "do we need `lodash` here as its a direct dependency in our tests ? I think currently its imported by some other libraries, will it cause issues when they change dependencies ?",
+      "revId": "93a2bf10db87e7b57503e744152bbe0f0cc6a69a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

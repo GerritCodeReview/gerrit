@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5efe4938_4ef779be",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2230,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-05-06T21:02:04Z",
+      "side": 1,
+      "message": "Maybe: a specific instance within?",
+      "range": {
+        "startLine": 2230,
+        "startChar": 17,
+        "endLine": 2230,
+        "endChar": 31
+      },
+      "revId": "fcef757bfa9d3eb2158256f84f45d4c0f12207d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbcad83a_4234afb5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2234,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-05-06T21:02:04Z",
+      "side": 1,
+      "message": "Not exactly your change, but is this talking about the same kind of \"instance\" that instanceId is referring to? I would expect instanceName to be the same for an entire cluster, but instanceId to be different. Do we need to better distinguish those names?",
+      "range": {
+        "startLine": 2234,
+        "startChar": 30,
+        "endLine": 2234,
+        "endChar": 42
+      },
+      "revId": "fcef757bfa9d3eb2158256f84f45d4c0f12207d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

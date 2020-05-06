@@ -70,6 +70,30 @@
       "revId": "ee9491c75cce4e8e57d152bec1ab15dd70704510",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ed8f330_7ae6cefd",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-06T20:35:26Z",
+      "side": 1,
+      "message": "Clearly, that this change regresses for gerrit installation sites with ES index backend and cannot be accepted with the current approach.\n\nIf you still after removing --no-reindex option, then, at very least, it must guess existence of projects index for existing index backends today: Lucene \u0026 Elasticsearch, or even for any other possible future index backends that not necessary rely on local file system like: Apache Solr: [1].\n\nIt is out of scope of this change to fix any problems/bugs with init program for site with ES index backend, obviously.\n\n[1] https://lucene.apache.org/solr",
+      "parentUuid": "1d5350a9_76630efb",
+      "range": {
+        "startLine": 153,
+        "startChar": 2,
+        "endLine": 159,
+        "endChar": 3
+      },
+      "revId": "ee9491c75cce4e8e57d152bec1ab15dd70704510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

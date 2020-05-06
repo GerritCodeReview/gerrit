@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27bf05d0_01be488f",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-05-06T15:23:19Z",
+      "side": 1,
+      "message": "my idea was to add a hash of the \"split dimensions\", but clear-text doesn\u0027t hurt if it\u0027s really just this one.\n\nin any case, keeping it reproducible is important when you generate in-reply-to and references headers as well, so you link to the mail(s) of the same \"slice\".",
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8797bf9_c562d844",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-05-06T15:23:19Z",
+      "side": 1,
+      "message": "seems overly verbose. if you go by mime types, then the counterpart to html would be just plain, both implying text/ as the main type.",
+      "range": {
+        "startLine": 223,
+        "startChar": 27,
+        "endLine": 223,
+        "endChar": 37
+      },
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

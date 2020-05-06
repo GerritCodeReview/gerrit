@@ -15,11 +15,13 @@
  * limitations under the License.
  */
 
+import {COMMIT_MESSAGE_PATH, MERGE_LIST_PATH, PATCHSET_LEVEL_COMMENTS_FILE_PATH} from '../../constants/constants.js';
+
 /** @polymerBehavior Gerrit.PathListBehavior */
 export const PathListBehavior = {
 
-  COMMIT_MESSAGE_PATH: '/COMMIT_MSG',
-  MERGE_LIST_PATH: '/MERGE_LIST',
+  COMMIT_MESSAGE_PATH,
+  MERGE_LIST_PATH,
 
   /**
    * @param {string} a
@@ -65,6 +67,18 @@ export const PathListBehavior = {
       }
     }
     return aFile.localeCompare(bFile) || a.localeCompare(b);
+  },
+
+  hideSpecialFiles(file) {
+    return (file === PATCHSET_LEVEL_COMMENTS_FILE_PATH);
+  },
+
+  addUnmodifiedFiles(files, commentedPaths) {
+    Object.keys(commentedPaths).forEach(commentedPath => {
+      if (files.hasOwnProperty(commentedPath) ||
+        this.hideSpecialFiles(commentedPath)) { return; }
+      files[commentedPath] = {status: 'U'};
+    });
   },
 
   computeDisplayPath(path) {

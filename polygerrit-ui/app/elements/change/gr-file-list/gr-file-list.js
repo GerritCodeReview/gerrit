@@ -978,10 +978,7 @@ class GrFileList extends mixinBehaviors( [
 
     const commentedPaths = changeComments.getPaths(patchRange);
     const files = Object.assign({}, filesByPath);
-    Object.keys(commentedPaths).forEach(commentedPath => {
-      if (files.hasOwnProperty(commentedPath)) { return; }
-      files[commentedPath] = {status: 'U'};
-    });
+    this.addUnmodifiedFiles(files, commentedPaths);
     const reviewedSet = new Set(reviewed || []);
     for (const filePath in files) {
       if (!files.hasOwnProperty(filePath)) { continue; }

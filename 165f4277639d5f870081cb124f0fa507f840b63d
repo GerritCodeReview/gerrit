@@ -70,6 +70,54 @@
       "revId": "165f4277639d5f870081cb124f0fa507f840b63d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6842b710_d475da2d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-06T11:49:25Z",
+      "side": 1,
+      "message": "ya... its only single level copy, won\u0027t affect nested objects, but `range` is from API, why would it change at all ? we don\u0027t have comment service or model yet, but ideally, anything from api should not be changed by us, and all extra fields we add now are on top level, so the copy here is good enough. I will add that to the todo tho I think the code is pretty clear...",
+      "parentUuid": "8d68307e_1b27592d",
+      "range": {
+        "startLine": 209,
+        "startChar": 38,
+        "endLine": 209,
+        "endChar": 51
+      },
+      "revId": "165f4277639d5f870081cb124f0fa507f840b63d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cbb30221_480d5db1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-06T11:49:25Z",
+      "side": 1,
+      "message": "ya... its only single level copy, won\u0027t affect nested objects, but `range` is from API, why would it change ?",
+      "parentUuid": "8d68307e_1b27592d",
+      "range": {
+        "startLine": 209,
+        "startChar": 38,
+        "endLine": 209,
+        "endChar": 51
+      },
+      "revId": "165f4277639d5f870081cb124f0fa507f840b63d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

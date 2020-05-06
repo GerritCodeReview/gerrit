@@ -296,6 +296,10 @@ through the default Gerrit workflow. At this point, you can:
 * Review the link:intro-project-owner.html[Project Owners guide] to learn more
   about configuring projects in Gerrit, including setting user permissions and
   configuring verification checks
+* Read through the Git and Gerrit training slides that explain concepts and
+  workflows in detail. They are meant for self-studying how Git and Gerrit work:
+** link:https://docs.google.com/presentation/d/1IQCRPHEIX-qKo7QFxsD3V62yhyGA9_5YsYXFOiBpgkk/edit?usp=sharing[Git explained: Git Concepts and Workflows]
+** link:https://docs.google.com/presentation/d/1C73UgQdzZDw0gzpaEqIC6SPujZJhqamyqO1XOHjH-uk/edit?usp=sharing[Gerrit explained: Gerrit Concepts and Workflows]
 
 GERRIT
 ------

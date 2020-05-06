@@ -308,6 +308,30 @@
     },
     {
       "key": {
+        "uuid": "da4e79ec_6065456e",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-05-06T20:22:22Z",
+      "side": 1,
+      "message": "Sorry..wrong comment. This is GJF reformatting this way.",
+      "parentUuid": "d57f5185_96a84ff4",
+      "range": {
+        "startLine": 11,
+        "startChar": 80,
+        "endLine": 11,
+        "endChar": 98
+      },
+      "revId": "1722353e38ec438dc1e460aebdb72a09d6107ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e35e3c06_b0ecf079",
         "filename": "javatests/com/google/gerrit/acceptance/config/GerritInstanceIdTest.java",
         "patchSetId": 2

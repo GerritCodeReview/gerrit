@@ -65,3 +65,9 @@ export const ChangeStatus = {
   MERGED: 'MERGED',
   NEW: 'NEW',
 };
+
+export const SpecialFilePath = {
+  PATCHSET_LEVEL_COMMENTS_FILE_PATH: '/PATCHSET_LEVEL',
+  COMMIT_MESSAGE_PATH: '/COMMIT_MSG',
+  MERGE_LIST_PATH: '/MERGE_LIST',
+};

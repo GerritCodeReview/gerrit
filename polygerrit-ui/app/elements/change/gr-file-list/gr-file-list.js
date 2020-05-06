@@ -44,6 +44,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {appContext} from '../../../services/app-context.js';
+import {GrFileListUtils} from '../../../scripts/gr-file-list-utils/gr-file-list-utils.js';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -978,10 +979,7 @@ class GrFileList extends mixinBehaviors( [
 
     const commentedPaths = changeComments.getPaths(patchRange);
     const files = Object.assign({}, filesByPath);
-    Object.keys(commentedPaths).forEach(commentedPath => {
-      if (files.hasOwnProperty(commentedPath)) { return; }
-      files[commentedPath] = {status: 'U'};
-    });
+    GrFileListUtils.createUnmodifiedFiles(files, commentedPaths);
     const reviewedSet = new Set(reviewed || []);
     for (const filePath in files) {
       if (!files.hasOwnProperty(filePath)) { continue; }

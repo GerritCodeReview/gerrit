@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3e20ea9_cf3fbbbe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-06T18:31:30Z",
+      "side": 1,
+      "message": "There\u0027s no noun, which seems strange here in the middle of a long text. In addition, we use present tense to refer to modifications which are part of the change.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 10
+      },
+      "revId": "d8a63f4e4579f3730b432b26ed5553e26abea0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9392e66e_f93cd784",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-06T18:31:30Z",
+      "side": 1,
+      "message": "What\u0027s the situation without the fix? Are patchset-level comments excluded from email notifications or is the /PATCHSET_LEVEL file path used?",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 28
+      },
+      "revId": "d8a63f4e4579f3730b432b26ed5553e26abea0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e178f553_57b0b8c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-06T18:31:30Z",
+      "side": 1,
+      "message": "This whole paragraph is a very long sentence for which not all parts fit properly together. Can you split it?",
+      "revId": "d8a63f4e4579f3730b432b26ed5553e26abea0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd420192_d980ddc5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-06T18:31:30Z",
+      "side": 1,
+      "message": "This is the part I was looking for. It\u0027s good that you added it.",
+      "range": {
+        "startLine": 39,
+        "startChar": 47,
+        "endLine": 41,
+        "endChar": 50
+      },
+      "revId": "d8a63f4e4579f3730b432b26ed5553e26abea0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbe5d80c_3ebe8e32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-06T18:31:30Z",
+      "side": 1,
+      "message": "I guess this part of the sentence was meant to be next to the human comments, wasn\u0027t it? I don\u0027t know of any plans to create robot comments on the UI.",
+      "range": {
+        "startLine": 46,
+        "startChar": 64,
+        "endLine": 47,
+        "endChar": 35
+      },
+      "revId": "d8a63f4e4579f3730b432b26ed5553e26abea0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bcd57a0_5fcad620",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 5728,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-06T18:31:30Z",
+      "side": 1,
+      "message": "Now that we have the second, more precise sentence, this sentence is superfluous.",
+      "range": {
+        "startLine": 5728,
+        "startChar": 0,
+        "endLine": 5728,
+        "endChar": 44
+      },
+      "revId": "d8a63f4e4579f3730b432b26ed5553e26abea0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e987da7_b238d8bc",
+        "filename": "java/com/google/gerrit/entities/Patch.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-06T18:31:30Z",
+      "side": 1,
+      "message": "Omit now that the sentence starts with \"Used\".",
+      "range": {
+        "startLine": 38,
+        "startChar": 77,
+        "endLine": 38,
+        "endChar": 87
+      },
+      "revId": "d8a63f4e4579f3730b432b26ed5553e26abea0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08906c51_b0d326c3",
+        "filename": "java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-06T18:31:30Z",
+      "side": 1,
+      "message": "\u003e The problem was that when comparing between file names there is an exception for magic files, and it is written in a way that requires fixing the comparator whenever adding new magic files. I fixed for it for now, but this might require a bigger reformatting later. See (PatchList#comparePaths)\n\nWhy was this fix necessary? Was there a failing test? If not, do we now have a test which ensures the fixed behavior?\n\nLooking at the modifications, the new code treats any magic files which are not COMMIT_MSG or MERGE_LIST as regular files. Hence, it will use the regular string comparison. For magic files, we might always want to place them in a special location (\u003d before other files). The new code would only implicitly achieve that by relying on our current approach of starting magic file names with a \"/\". Such implicit assumptions can break at some point in the future and hence we should avoid them. If that\u0027s not possible in some rare cases, we would need to cover them with tests.\n\nIf we already touch and fix this method, we should generally improve it\u0027s implementation and readability. The old code was hard to read and the new code isn\u0027t better in that regard. Java provides better ways to implement Comparators nowadays. For instance, we can chain comparators. I\u0027m thinking of something like Comparator.nullsFirst(anotherComparator) but instead nullsFirst, we would have Comparator.magicFilesFirst(anotherComparator) and a comparator implementation which orders magic files. If this is what you mean by \"bigger reformatting later\", I don\u0027t think we can defer those adjustments. I\u0027m not going to merge half-baked code, which often turns out to stay around for years according to my experience.",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 0
+      },
+      "revId": "d8a63f4e4579f3730b432b26ed5553e26abea0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91705df4_aec6a0a9",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-06T18:31:30Z",
+      "side": 1,
+      "message": "Have",
+      "range": {
+        "startLine": 314,
+        "startChar": 54,
+        "endLine": 314,
+        "endChar": 58
+      },
+      "revId": "d8a63f4e4579f3730b432b26ed5553e26abea0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

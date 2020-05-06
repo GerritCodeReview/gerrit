@@ -894,6 +894,30 @@
     },
     {
       "key": {
+        "uuid": "15915194_64c343a9",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-06T18:31:30Z",
+      "side": 1,
+      "message": "I like the updated assertions on patchset 11. The \u0027crucial text\u0027 is chosen well in my opinion.",
+      "parentUuid": "ccf6d807_799ac40a",
+      "range": {
+        "startLine": 208,
+        "startChar": 4,
+        "endLine": 209,
+        "endChar": 78
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8656916a_a9297aef",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 5
@@ -1126,6 +1150,30 @@
       "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c51e2c0_aa74bfe3",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-06T18:31:30Z",
+      "side": 1,
+      "message": "I actually asked my two questions on purpose. From a look at this long test, I understood that it intends to test all aspects of deleting a comment and that it especially puts an emphasis on ensuring that the history is rewritten correctly. When I saw the adjustments in patchset 5, I guessed that you probably intended to cover \"a comment on a magic file can be deleted\" with them. That\u0027s a different test intention than ensuring that the deletion code properly rewrites history. A test just for \"a comment on a magic file can be deleted\" (without looking into history rewrites) would be much shorter. With my questions, I had actually hoped that you could think about the different test intentions/purposes yourself.\n\nIn general, I\u0027m also not happy that we avoid tests for magic files (and especially for /PATCHSET_LEVEL) just because you expect that features work the same for magic file paths as for regular file paths. What if we add another feature aspect in the future which cares about the file content? You brought up the same reasoning in another comment on which I didn\u0027t comment. Here, I insist on having a test for deletion of patchset-level comments as it\u0027s crucial that deletion works. If users run into a bug for it, they might otherwise need to delete the whole change.",
+      "parentUuid": "8e3808e3_1fb23275",
+      "range": {
+        "startLine": 1156,
+        "startChar": 0,
+        "endLine": 1161,
+        "endChar": 75
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

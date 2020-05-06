@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b7bc894_007d07a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-06T13:46:27Z",
+      "side": 1,
+      "message": "Use the imperative form in commit messages: \"Introduce a way ...\"",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 10
+      },
+      "revId": "1722353e38ec438dc1e460aebdb72a09d6107ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f917de87_546dcac5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-06T13:46:27Z",
+      "side": 1,
+      "message": "can be injected",
+      "range": {
+        "startLine": 18,
+        "startChar": 26,
+        "endLine": 18,
+        "endChar": 39
+      },
+      "revId": "1722353e38ec438dc1e460aebdb72a09d6107ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2f56b28_382da25f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2235,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-06T13:46:27Z",
+      "side": 1,
+      "message": "Should be *before* instanceName, from an alphabetic sorting perspective.",
+      "range": {
+        "startLine": 2235,
+        "startChar": 21,
+        "endLine": 2235,
+        "endChar": 38
+      },
+      "revId": "1722353e38ec438dc1e460aebdb72a09d6107ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90e475bd_eacebc12",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2237,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-06T13:46:27Z",
+      "side": 1,
+      "message": "I believe it should be clarified what is an \u0027instance\u0027 and what is a Gerrit \u0027cluster\u0027.",
+      "range": {
+        "startLine": 2237,
+        "startChar": 36,
+        "endLine": 2237,
+        "endChar": 44
+      },
+      "revId": "1722353e38ec438dc1e460aebdb72a09d6107ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58fed3e5_1f8c7e35",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-06T13:46:27Z",
+      "side": 1,
+      "message": "Why a Provider?\nCan we also define this field as @Nullable?",
+      "range": {
+        "startLine": 249,
+        "startChar": 38,
+        "endLine": 249,
+        "endChar": 46
+      },
+      "revId": "1722353e38ec438dc1e460aebdb72a09d6107ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f348d8d_3fd6fa55",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-06T13:46:27Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "range": {
+        "startLine": 11,
+        "startChar": 80,
+        "endLine": 11,
+        "endChar": 98
+      },
+      "revId": "1722353e38ec438dc1e460aebdb72a09d6107ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e35e3c06_b0ecf079",
+        "filename": "javatests/com/google/gerrit/acceptance/config/GerritInstanceIdTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-06T13:46:27Z",
+      "side": 1,
+      "message": "Add copyright header",
+      "revId": "1722353e38ec438dc1e460aebdb72a09d6107ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

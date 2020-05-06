@@ -5,6 +5,11 @@ java_import(
     jars = ["@guice-library-no-aop//file"],
 )
 
+java_import(
+    name = "guice-assistedinject-library",
+    jars = ["@guice-assistedinject//file"],
+)
+
 java_library(
     name = "guice",
     data = ["//lib:LICENSE-Apache2.0"],
@@ -26,7 +31,7 @@ java_library(
     name = "guice-assistedinject",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@guice-assistedinject//jar"],
+    exports = [":guice-assistedinject-library"],
     runtime_deps = [":guice"],
 )
 

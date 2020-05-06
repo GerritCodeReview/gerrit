@@ -172,10 +172,13 @@ http_file(
     ],
 )
 
-maven_jar(
+http_file(
     name = "guice-assistedinject",
-    artifact = "com.google.inject.extensions:guice-assistedinject:" + GUICE_VERS,
-    sha1 = "acbfddc556ee9496293ed1df250cc378f331d854",
+    downloaded_file_path = "guice-assistedinject.jar",
+    sha256 = "83be0a44b41e02c5c930e71b632d307cb402ac46274dc6cdfdd321f48f342bf1",
+    urls = [
+        "https://github.com/davido/guice/releases/download/4.42.0/guice-assistedinject-4.2.4.jar",
+    ],
 )
 
 maven_jar(

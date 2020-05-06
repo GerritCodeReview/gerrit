@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "89eeceae_8cbd23e3",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-06T18:49:07Z",
+      "side": 1,
+      "message": "Yes, I will add them tomorrow. Sorry I wanted review for idea. Thanks a lot for good comments.",
+      "parentUuid": "e52f9725_f00ee6db",
+      "revId": "18e66f291b08a0781e3c89464ee285a40c6cd135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8cb7cfa8_df18de01",
         "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "18e66f291b08a0781e3c89464ee285a40c6cd135",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab468ae4_903e56ba",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-06T18:49:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cb7cfa8_df18de01",
+      "range": {
+        "startLine": 301,
+        "startChar": 2,
+        "endLine": 301,
+        "endChar": 18
+      },
+      "revId": "18e66f291b08a0781e3c89464ee285a40c6cd135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "889eb337_f264b6da",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-06T18:49:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2197081f_6886f8bc",
+      "range": {
+        "startLine": 305,
+        "startChar": 30,
+        "endLine": 305,
+        "endChar": 32
+      },
+      "revId": "18e66f291b08a0781e3c89464ee285a40c6cd135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88b620e1_fad86dab",
         "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
         "patchSetId": 1
@@ -79,6 +145,24 @@
       "revId": "18e66f291b08a0781e3c89464ee285a40c6cd135",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8417cf5_923d227d",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-06T18:49:07Z",
+      "side": 1,
+      "message": "It\u0027s attached only to page loads metrics - like ChangeDisplayed, DiffViewDisplayed, DashboardDisplayed.\n\nI will add some explanations to comments.",
+      "parentUuid": "88b620e1_fad86dab",
+      "revId": "18e66f291b08a0781e3c89464ee285a40c6cd135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -102,6 +186,30 @@
       "revId": "18e66f291b08a0781e3c89464ee285a40c6cd135",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6450c0b3_dc93111d",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-06T18:49:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c16a9aca_f0b76257",
+      "range": {
+        "startLine": 619,
+        "startChar": 14,
+        "endLine": 619,
+        "endChar": 17
+      },
+      "revId": "18e66f291b08a0781e3c89464ee285a40c6cd135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

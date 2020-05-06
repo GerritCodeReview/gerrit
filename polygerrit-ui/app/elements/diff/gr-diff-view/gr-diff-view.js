@@ -46,6 +46,7 @@ import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {RevisionInfo} from '../../shared/revision-info/revision-info.js';
 import {appContext} from '../../../services/app-context.js';
+import {GrFileListUtils} from '../../../scripts/gr-file-list-utils/gr-file-list-utils.js';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -382,10 +383,7 @@ class GrDiffView extends mixinBehaviors( [
       if (!changeFiles) return;
       const commentedPaths = changeComments.getPaths(patchRange);
       const files = Object.assign({}, changeFiles);
-      Object.keys(commentedPaths).forEach(commentedPath => {
-        if (files.hasOwnProperty(commentedPath)) { return; }
-        files[commentedPath] = {status: 'U'};
-      });
+      GrFileListUtils.createUnmodifiedFiles(files, commentedPaths);
       this._files = {
         sortedFileList: Object.keys(files).sort(this.specialFilePathCompare),
         changeFilesByPath: files,

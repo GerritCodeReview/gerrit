@@ -211,6 +211,14 @@ export const htmlTemplate = html`
     </section>
     <section class="previewContainer">
       <label>
+        <input
+          type="checkbox"
+          checked="{{_resolvedPatchsetLevelComment}}"
+          on-change="_toggleResolvedPatchsetLevelComment"
+        />
+        Resolved
+      </label>
+      <label>
         <input type="checkbox" checked="{{_previewFormatting::change}}" />
         Preview formatting
       </label>

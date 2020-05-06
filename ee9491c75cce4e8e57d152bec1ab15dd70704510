@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98691138_9712cd9d",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-06T18:42:57Z",
+      "side": 1,
+      "message": "This approach is not secondary index agnostic. It works only for Apache Lucene, but not for Google index and  Elasticsearch: there is no such directory. On ES, the index directory looks like this:\n\n  davido@wizball:~/projects/test_site_es/index$ ls -all\n  total 12\n  drwxr-xr-x  2 davido users 4096 May  6 20:24 .\n  drwxr-xr-x 13 davido users 4096 May  6 20:24 ..\n  -rw-r--r--  1 davido users   38 May  6 20:24 gerrit_index.config\n\nSo that this change made the situation even worse: it erroneously assumes that the project index is missing and (always) forcing reindexing for it. But it also removes --no-reindex option, so that there is no way to disable projects index reindexing, even if admin knows, that this index exists.\n\nYou can start parsing gerrit_index.config, to check for something like:\n\n  [index \"projects_0004\"]\n\tready \u003d true\n\nOr you can start searching for All-Users project in index, to see if you can find it.\n\nOr you can just swap the bad named \"--no-index\" option to --index-projects options. So to say make the option upgrade site friendly.\n\nIn Elasticsearch case, after running init from this change, I cannot start gerrit anyway, so what\u0027s the point?\n\n  [2020-05-06T20:27:09.818+0200] [main] ERROR com.google.gerrit.pgm.Daemon : Unable to start daemon\ncom.google.inject.ProvisionException: Unable to provision, see the following errors:\n\n1) No index versions for index \u0027changes\u0027 ready; run java -jar /home/davido/projects/test_site_es/bin/gerrit.war reindex --index changes\n\n1 error\n\nAfter running reindex on the site and initializing changes, accounts and groups, and projects index (again) gerrit can be started.",
+      "range": {
+        "startLine": 153,
+        "startChar": 2,
+        "endLine": 159,
+        "endChar": 3
+      },
+      "revId": "ee9491c75cce4e8e57d152bec1ab15dd70704510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

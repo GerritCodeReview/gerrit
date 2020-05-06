@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a41c9c6d_76f82bdc",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2230,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-06T20:07:57Z",
+      "side": 1,
+      "message": "nit: wrap long lines",
+      "range": {
+        "startLine": 2230,
+        "startChar": 84,
+        "endLine": 2230,
+        "endChar": 110
+      },
+      "revId": "b84ceb2340426a1275b86dc94e0a981e2237c05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

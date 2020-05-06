@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4ab3f465_af484f2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-06T13:42:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d9a5ea6_9167d78c",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 14
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e551e0d7_66b40715",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f9ea8af_3dcf4cd9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-06T13:42:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e551e0d7_66b40715",
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "2d0166c0_c61576a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-06T13:42:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecdc71fd_ee44afa8",
+      "range": {
+        "startLine": 15,
+        "startChar": 29,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2fe20e62_abc37f72",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -76,6 +142,30 @@
       "writtenOn": "2020-05-04T15:44:42Z",
       "side": 1,
       "message": "Naaaaahh :-) - tests always go in the same change as the modification. If there are reasons to separate them (e.g. change is already very large) then they at least get reviewed, approved, submitted at the same time.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 50
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d7e0221_ebb9e8e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-06T13:42:04Z",
+      "side": 1,
+      "message": "I\u0027m unsure how deep I should test this.\nI currently have integration tests for MessageIdGenerator, and I added 2 tests that ensure that the message-id is as it should it be. Also, I added another test to ensure the suffix -HTML and -PLAIN_TEXT is added.\n\nHowever, I am a little hesitant to do those tests for all cases, since we\u0027re talking about \u003e15 tests (or even 15*2) that are essentially the same.\n\nWDYT?",
+      "parentUuid": "2fe20e62_abc37f72",
       "range": {
         "startLine": 18,
         "startChar": 0,
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "f758c932_00d6ddc6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-06T13:42:04Z",
+      "side": 1,
+      "message": "If I understand OutgoingEmail#Send, it checks whether it should send html email, plaintext email, or both.\nI could just always add to the message-id header \"-HTML\" or \"-PLAIN_TEXT\".\nAFAIK, it doesn\u0027t split the emails in any other case.",
+      "parentUuid": "94aada4c_87a2f20b",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 12
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f2a87980_3f670d58",
         "filename": "java/com/google/gerrit/server/change/AddReviewersEmail.java",
         "patchSetId": 2
@@ -131,6 +245,30 @@
       "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e1db4d8_4aae4240",
+        "filename": "java/com/google/gerrit/server/change/AddReviewersEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-06T13:42:04Z",
+      "side": 1,
+      "message": "Ack\nOf course :) Already thinking about this.",
+      "parentUuid": "f2a87980_3f670d58",
+      "range": {
+        "startLine": 83,
+        "startChar": 19,
+        "endLine": 83,
+        "endChar": 28
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "1b003d89_e4ea49a2",
+        "filename": "java/com/google/gerrit/server/mail/send/CreateChangeSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-06T13:42:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0eb20913_efd40c2e",
+      "range": {
+        "startLine": 54,
+        "startChar": 47,
+        "endLine": 54,
+        "endChar": 58
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d3d85b_30c833ad",
         "filename": "java/com/google/gerrit/server/mail/send/HttpPasswordUpdateSender.java",
         "patchSetId": 2
@@ -174,6 +336,24 @@
     },
     {
       "key": {
+        "uuid": "38ac000a_a3188506",
+        "filename": "java/com/google/gerrit/server/mail/send/HttpPasswordUpdateSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-06T13:42:04Z",
+      "side": 1,
+      "message": "Apparently not. Added some unique id for this specific case.",
+      "parentUuid": "28d3d85b_30c833ad",
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "248b9461_054e95ae",
         "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
         "patchSetId": 2
@@ -185,6 +365,30 @@
       "writtenOn": "2020-05-04T15:44:42Z",
       "side": 1,
       "message": "Strings are very generic, so in a lot of cases they don\u0027t make good arguments.\n\nIn this case, using a String here opens the door for callers to not really think about this field further. In the future, a contributor might just set \"create-change\" as message ID and when this doesn\u0027t stick out during review we\u0027ll send plenty of emails with the same Message ID.\n\nIf we use an AutoValue as argument that can be constructed from different sources and offers a single method to get the ID, the API becomes harder to use wrongly.\n\nFor example:\n\n\n@AutoValue\nabstract class MessageId {\n\nMessageId fromChangeUpdate()\nMessageId fromAccountUpdate()\n\npublic String asRfcMessageId() {\n  ... stitch together the ID you want to send. this is also good for unit-testing, because this class is independent from the rest.\n}\n}",
+      "range": {
+        "startLine": 103,
+        "startChar": 30,
+        "endLine": 103,
+        "endChar": 36
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f0c1915_835a15cc",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-06T13:42:04Z",
+      "side": 1,
+      "message": "Sorry, what I did doesn\u0027t completely looks like your suggestion, but hopefully it\u0027s close enough. I didn\u0027t understand the purpose of all of those functions in MessageId (but I see why they are necessary in MessageIdGenerator).\n\nThe way I implemented it I don\u0027t feel like unit tests are helpful, since I\u0027ll have to manually add to a repository the required refs, which defeats the main purpose of the test: to see that ref I\u0027m calculating actually exists. I did create an integration test though only for this class, which is more useful imo.",
+      "parentUuid": "248b9461_054e95ae",
       "range": {
         "startLine": 103,
         "startChar": 30,
@@ -220,6 +424,30 @@
     },
     {
       "key": {
+        "uuid": "d97fbfb8_39fdedd0",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-06T13:42:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c220d5d3_5c53f668",
+      "range": {
+        "startLine": 107,
+        "startChar": 61,
+        "endLine": 107,
+        "endChar": 67
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa7deabb_3ca3dde8",
         "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
         "patchSetId": 2
@@ -243,6 +471,30 @@
     },
     {
       "key": {
+        "uuid": "7139306f_c58cb5af",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-06T13:42:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa7deabb_3ca3dde8",
+      "range": {
+        "startLine": 108,
+        "startChar": 31,
+        "endLine": 108,
+        "endChar": 37
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a157cd0_c8813b73",
         "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
         "patchSetId": 2
@@ -263,6 +515,30 @@
       "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ebd8b45_da6305fd",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-06T13:42:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a157cd0_c8813b73",
+      "range": {
+        "startLine": 130,
+        "startChar": 14,
+        "endLine": 130,
+        "endChar": 35
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

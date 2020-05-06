@@ -142,6 +142,30 @@
       "revId": "165f4277639d5f870081cb124f0fa507f840b63d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f13c6458_33fbf99c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-06T12:04:19Z",
+      "side": 1,
+      "message": "hmm I was not able to reproduce this issue... I will create a bug just for tracking it",
+      "parentUuid": "39867ac5_440910dc",
+      "range": {
+        "startLine": 209,
+        "startChar": 38,
+        "endLine": 209,
+        "endChar": 51
+      },
+      "revId": "165f4277639d5f870081cb124f0fa507f840b63d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

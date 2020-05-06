@@ -287,11 +287,6 @@ class GrMessage extends GestureEventListeners(
     return mappedLines.join('\n').trim();
   }
 
-  _isMessageContentEmpty() {
-    return !this._messageContentExpanded
-        || this._messageContentExpanded.length === 0;
-  }
-
   _computeAuthor(message) {
     return message.author || message.updated_by;
   }

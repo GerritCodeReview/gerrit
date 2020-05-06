@@ -101,6 +101,7 @@ class ChangeComments {
     const commentMap = {};
     for (const response of responses) {
       for (const path in response) {
+        // if (this._hideSpecialFiles(path)) continue;
         if (response.hasOwnProperty(path) &&
           response[path].some(c => {
             // If don't care about patch range, we know that the path exists.

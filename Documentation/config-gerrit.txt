@@ -2232,6 +2232,11 @@ A good name should be short but precise enough so that users can identify the in
 +
 Defaults to the full hostname of the Gerrit server.
 
+[[gerrit.instanceId]]gerrit.instanceId::
++
+Optional identifier for this Gerrit instance.
+Used to identify an instance in a Gerrit cluster.
+Unlike `instanceName` this value is not available in the email templates.
 
 [[gerrit.serverId]]gerrit.serverId::
 +

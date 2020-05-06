@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e52f9725_f00ee6db",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-06T14:30:35Z",
+      "side": 1,
+      "message": "I assume you have tests, so maybe add tests for new things ?",
+      "revId": "18e66f291b08a0781e3c89464ee285a40c6cd135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cb7cfa8_df18de01",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-06T14:30:35Z",
+      "side": 1,
+      "message": "maybe `onVisibilityChange` ?",
+      "range": {
+        "startLine": 301,
+        "startChar": 2,
+        "endLine": 301,
+        "endChar": 18
+      },
+      "revId": "18e66f291b08a0781e3c89464ee285a40c6cd135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2197081f_6886f8bc",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-06T14:30:35Z",
+      "side": 1,
+      "message": "is this parameter for event details ? why not just pass the current duration here ?",
+      "range": {
+        "startLine": 305,
+        "startChar": 30,
+        "endLine": 305,
+        "endChar": 32
+      },
+      "revId": "18e66f291b08a0781e3c89464ee285a40c6cd135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88b620e1_fad86dab",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-06T14:30:35Z",
+      "side": 1,
+      "message": "will this info available to all events ? or only some ? who will call _pageLoadDetails ?",
+      "revId": "18e66f291b08a0781e3c89464ee285a40c6cd135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c16a9aca_f0b76257",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-06T14:30:35Z",
+      "side": 1,
+      "message": "hmm maybe have a util to get `now` instead of passing it in constructor... if its not shared for anyone else, you can just move this function to a top level function, no need to export it or have it in util",
+      "range": {
+        "startLine": 619,
+        "startChar": 14,
+        "endLine": 619,
+        "endChar": 17
+      },
+      "revId": "18e66f291b08a0781e3c89464ee285a40c6cd135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

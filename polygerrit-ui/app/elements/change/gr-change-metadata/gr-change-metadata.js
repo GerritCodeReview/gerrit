@@ -43,6 +43,7 @@ import {htmlTemplate} from './gr-change-metadata_html.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GrReviewerSuggestionsProvider, SUGGESTIONS_PROVIDERS_USERS_TYPES} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {ChangeStatus} from '../../../constants/constants.js';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -321,7 +322,7 @@ class GrChangeMetadata extends mixinBehaviors( [
   }
 
   _computeShowRequirements(change) {
-    if (change.status !== this.ChangeStatus.NEW) {
+    if (change.status !== ChangeStatus.NEW) {
       // TODO(maximeg) change this to display the stored
       // requirements, once it is implemented server-side.
       return false;
@@ -397,7 +398,7 @@ class GrChangeMetadata extends mixinBehaviors( [
   _computeBranchUrl(project, branch) {
     if (!this.change || !this.change.status) return '';
     return GerritNav.getUrlForBranch(branch, project,
-        this.change.status == this.ChangeStatus.NEW ? 'open' :
+        this.change.status == ChangeStatus.NEW ? 'open' :
           this.change.status.toLowerCase());
   }
 

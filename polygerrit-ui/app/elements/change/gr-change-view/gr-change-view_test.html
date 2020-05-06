@@ -42,7 +42,7 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import '../../edit/gr-edit-constants.js';
 import './gr-change-view.js';
-import {PrimaryTabs, SecondaryTabs} from '../../../constants/constants.js';
+import {PrimaryTabs, SecondaryTabs, ChangeStatus} from '../../../constants/constants.js';
 
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
@@ -1372,7 +1372,7 @@ suite('gr-change-view tests', () => {
 
   test('show commit message edit button', () => {
     const _change = {
-      status: element.ChangeStatus.MERGED,
+      status: ChangeStatus.MERGED,
     };
     assert.isTrue(element._computeHideEditCommitMessage(false, false, {}));
     assert.isTrue(element._computeHideEditCommitMessage(true, true, {}));
@@ -1653,7 +1653,7 @@ suite('gr-change-view tests', () => {
         rev2: {_number: 2, commit: {parents: []}},
       },
       current_revision: 'rev1',
-      status: element.ChangeStatus.MERGED,
+      status: ChangeStatus.MERGED,
       labels: {},
       actions: {},
     };
@@ -1947,7 +1947,7 @@ suite('gr-change-view tests', () => {
         sandbox.stub(element, 'fetchChangeUpdates')
             .returns(Promise.resolve({
               isLatest: true,
-              newStatus: element.ChangeStatus.MERGED,
+              newStatus: ChangeStatus.MERGED,
             }));
         element.addEventListener('show-alert', e => {
           assert.equal(e.detail.message, 'This change has been merged');
@@ -2304,7 +2304,7 @@ suite('gr-change-view tests', () => {
 
     test('merged change', () => {
       element._mergeable = null;
-      element._change.status = element.ChangeStatus.MERGED;
+      element._change.status = ChangeStatus.MERGED;
       return element._getMergeability().then(() => {
         assert.isFalse(element._mergeable);
         assert.isFalse(getMergeableStub.called);
@@ -2313,7 +2313,7 @@ suite('gr-change-view tests', () => {
 
     test('abandoned change', () => {
       element._mergeable = null;
-      element._change.status = element.ChangeStatus.ABANDONED;
+      element._change.status = ChangeStatus.ABANDONED;
       return element._getMergeability().then(() => {
         assert.isFalse(element._mergeable);
         assert.isFalse(getMergeableStub.called);

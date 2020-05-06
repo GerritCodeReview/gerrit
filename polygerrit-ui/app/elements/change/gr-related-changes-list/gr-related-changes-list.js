@@ -25,6 +25,7 @@ import {htmlTemplate} from './gr-related-changes-list_html.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {ChangeStatus} from '../../../constants/constants.js';
 
 /**
  * @extends PolymerElement
@@ -274,7 +275,7 @@ class GrRelatedChangesList extends mixinBehaviors( [
 
   _computeLinkClass(change) {
     const statuses = [];
-    if (change.status == this.ChangeStatus.ABANDONED) {
+    if (change.status == ChangeStatus.ABANDONED) {
       statuses.push('strikethrough');
     }
     if (change.submittable) {
@@ -291,7 +292,7 @@ class GrRelatedChangesList extends mixinBehaviors( [
       classes.push('indirectAncestor');
     } else if (change.submittable) {
       classes.push('submittable');
-    } else if (change.status == this.ChangeStatus.NEW) {
+    } else if (change.status == ChangeStatus.NEW) {
       classes.push('hidden');
     }
     return classes.join(' ');
@@ -299,9 +300,9 @@ class GrRelatedChangesList extends mixinBehaviors( [
 
   _computeChangeStatus(change) {
     switch (change.status) {
-      case this.ChangeStatus.MERGED:
+      case ChangeStatus.MERGED:
         return 'Merged';
-      case this.ChangeStatus.ABANDONED:
+      case ChangeStatus.ABANDONED:
         return 'Abandoned';
     }
     if (change._revision_number != change._current_revision_number) {

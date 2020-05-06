@@ -92,6 +92,47 @@
       "revId": "3c212d3f1eec672c4c9b673b0682b98e6cb063f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a5c520e_f8c0f015",
+        "filename": "javatests/com/google/gerrit/server/mail/SignedTokenTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-06T02:05:17Z",
+      "side": 1,
+      "message": "I think the intention was to confirm that no exceptions are thrown by the constructor when given that input.",
+      "parentUuid": "da9fc702_03884acf",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 56
+      },
+      "revId": "3c212d3f1eec672c4c9b673b0682b98e6cb063f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f7f74df_0ccca557",
+        "filename": "javatests/com/google/gerrit/server/mail/SignedTokenTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-06T02:05:17Z",
+      "side": 1,
+      "message": "Same here",
+      "revId": "3c212d3f1eec672c4c9b673b0682b98e6cb063f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

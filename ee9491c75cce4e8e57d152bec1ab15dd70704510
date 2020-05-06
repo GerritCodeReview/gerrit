@@ -94,6 +94,30 @@
       "revId": "ee9491c75cce4e8e57d152bec1ab15dd70704510",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "334c69b4_23f85c76",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-06T20:56:15Z",
+      "side": 1,
+      "message": "\u003e Clearly, that this change regresses for gerrit installation sites with ES index backend and cannot be accepted with the current approach.\n\nI take this as a \"Yes, that would be acceptable\". Feel free to correct me if I am wrong :-)\n\n\u003e If you still after removing --no-reindex option, then, at very least, it must guess existence of projects index for existing index backends today: Lucene \u0026 Elasticsearch, or even for any other possible future index backends that not necessary rely on local file system like: Apache Solr: [1].\n\nWe removed the support for Apache Solr a long ago, I believe it\u0027s out of scope.\n\nFor existing Gerrit setups with ElasticSearch, no projects reindexing is needed when upgrading from v3.1 to v3.2. For new setups, the parsing of gerrit_index.config would work. \n\nI will also do some E2E installs and upgrades with ES, to make sure that we don\u0027t have further gaps.\n\nThanks again for your review and suggestions, much appreciated :-)",
+      "parentUuid": "9ed8f330_7ae6cefd",
+      "range": {
+        "startLine": 153,
+        "startChar": 2,
+        "endLine": 159,
+        "endChar": 3
+      },
+      "revId": "ee9491c75cce4e8e57d152bec1ab15dd70704510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

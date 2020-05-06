@@ -108,6 +108,7 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CanonicalWebUrl;
+import com.google.gerrit.server.config.GerritInstanceId;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.SitePaths;
@@ -245,6 +246,7 @@ public abstract class AbstractDaemonTest {
   @Inject @CanonicalWebUrl protected Provider<String> canonicalWebUrl;
   @Inject @GerritPersonIdent protected Provider<PersonIdent> serverIdent;
   @Inject @GerritServerConfig protected Config cfg;
+  @Inject @GerritInstanceId @Nullable protected String instanceId;
   @Inject protected AcceptanceTestRequestScope atrScope;
   @Inject protected AccountCache accountCache;
   @Inject protected AccountCreator accountCreator;

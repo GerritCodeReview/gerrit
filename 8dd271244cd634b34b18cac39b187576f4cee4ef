@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c7347e3b_acab8759",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-06T13:58:34Z",
+      "side": 1,
+      "message": "@DavidO are you fine in keeping this on stable-3.2, because of keeping existing syntax on already released version of Gerrit?",
+      "parentUuid": "fd840c0e_dda521ae",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 16
+      },
+      "revId": "8dd271244cd634b34b18cac39b187576f4cee4ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8594fcbd_6fdd87b6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 17
@@ -93,6 +117,30 @@
       "revId": "8dd271244cd634b34b18cac39b187576f4cee4ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6dd8ecb3_c9f48472",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-06T13:58:34Z",
+      "side": 1,
+      "message": "@DavidO are you fine in considering this a different issue? More than the revert of Patrick\u0027s solution is more the \"automatic detection\" of the conditions where Patrick\u0027s solution should be applied.",
+      "parentUuid": "4ccbbed1_91df334d",
+      "range": {
+        "startLine": 31,
+        "startChar": 5,
+        "endLine": 31,
+        "endChar": 16
+      },
+      "revId": "8dd271244cd634b34b18cac39b187576f4cee4ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

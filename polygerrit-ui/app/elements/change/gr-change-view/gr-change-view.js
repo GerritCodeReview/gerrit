@@ -67,6 +67,7 @@ import {PrimaryTabs, SecondaryTabs} from '../../../constants/constants.js';
 import {NO_ROBOT_COMMENTS_THREADS_MSG} from '../../../constants/messages.js';
 import {appContext} from '../../../services/app-context.js';
 import {ExperimentIds} from '../../../services/flags.js';
+import {ChangeStatus} from '../../../constants/constants.js';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -740,7 +741,7 @@ class GrChangeView extends mixinBehaviors( [
   _computeHideEditCommitMessage(
       loggedIn, editing, change, editMode, collapsed, collapsible) {
     if (!loggedIn || editing ||
-        (change && change.status === this.ChangeStatus.MERGED) ||
+        (change && change.status === ChangeStatus.MERGED) ||
         editMode ||
         (collapsed && collapsible)) {
       return true;
@@ -1181,7 +1182,7 @@ class GrChangeView extends mixinBehaviors( [
         .then(this._getLoggedIn.bind(this))
         .then(loggedIn => {
           if (!loggedIn || !this._change ||
-              this._change.status !== this.ChangeStatus.MERGED) {
+              this._change.status !== ChangeStatus.MERGED) {
           // Do not display dialog if not logged-in or the change is not
           // merged.
             return;
@@ -1872,8 +1873,8 @@ class GrChangeView extends mixinBehaviors( [
     // If the change is closed, it is not mergeable. Note: already merged
     // changes are obviously not mergeable, but the mergeability API will not
     // answer for abandoned changes.
-    if (this._change.status === this.ChangeStatus.MERGED ||
-        this._change.status === this.ChangeStatus.ABANDONED) {
+    if (this._change.status === ChangeStatus.MERGED ||
+        this._change.status === ChangeStatus.ABANDONED) {
       this._mergeable = false;
       return Promise.resolve();
     }
@@ -2053,11 +2054,11 @@ class GrChangeView extends mixinBehaviors( [
         let toastMessage = null;
         if (!result.isLatest) {
           toastMessage = ReloadToastMessage.NEWER_REVISION;
-        } else if (result.newStatus === this.ChangeStatus.MERGED) {
+        } else if (result.newStatus === ChangeStatus.MERGED) {
           toastMessage = ReloadToastMessage.MERGED;
-        } else if (result.newStatus === this.ChangeStatus.ABANDONED) {
+        } else if (result.newStatus === ChangeStatus.ABANDONED) {
           toastMessage = ReloadToastMessage.ABANDONED;
-        } else if (result.newStatus === this.ChangeStatus.NEW) {
+        } else if (result.newStatus === ChangeStatus.NEW) {
           toastMessage = ReloadToastMessage.RESTORED;
         } else if (result.newMessages) {
           toastMessage = ReloadToastMessage.NEW_MESSAGE;

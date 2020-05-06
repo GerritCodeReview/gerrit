@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {BaseUrlBehavior} from '../base-url-behavior/base-url-behavior.js';
+import {ChangeStatus} from '../../constants/constants.js';
 
 /** @polymerBehavior Gerrit.RESTClientBehavior */
 export const RESTClientBehavior = [{
@@ -25,12 +26,6 @@ export const RESTClientBehavior = [{
     MODIFIED: 'MODIFIED',
     RENAMED: 'RENAMED',
     REWRITE: 'REWRITE',
-  },
-
-  ChangeStatus: {
-    ABANDONED: 'ABANDONED',
-    MERGED: 'MERGED',
-    NEW: 'NEW',
   },
 
   // Must be kept in sync with the ListChangesOption enum and protobuf.
@@ -124,7 +119,7 @@ export const RESTClientBehavior = [{
   },
 
   changeIsOpen(change) {
-    return change && change.status === this.ChangeStatus.NEW;
+    return change && change.status === ChangeStatus.NEW;
   },
 
   /**
@@ -135,9 +130,9 @@ export const RESTClientBehavior = [{
    */
   changeStatuses(change, opt_options) {
     const states = [];
-    if (change.status === this.ChangeStatus.MERGED) {
+    if (change.status === ChangeStatus.MERGED) {
       states.push('Merged');
-    } else if (change.status === this.ChangeStatus.ABANDONED) {
+    } else if (change.status === ChangeStatus.ABANDONED) {
       states.push('Abandoned');
     } else if (change.mergeable === false ||
         (opt_options && opt_options.mergeable === false)) {

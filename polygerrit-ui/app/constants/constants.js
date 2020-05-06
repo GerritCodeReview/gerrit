@@ -55,3 +55,13 @@ export const ScrollModes = {
   KEEP_VISIBLE: 'keep-visible',
   NEVER: 'never',
 };
+
+/**
+ * @enum
+ * @desc Specifies status for a change
+ */
+export const ChangeStatus = {
+  ABANDONED: 'ABANDONED',
+  MERGED: 'MERGED',
+  NEW: 'NEW',
+};

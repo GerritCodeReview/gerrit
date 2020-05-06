@@ -63,7 +63,7 @@ import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoi
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {RevisionInfo} from '../../shared/revision-info/revision-info.js';
 
-import {PrimaryTabs, SecondaryTabs} from '../../../constants/constants.js';
+import {PrimaryTab, SecondaryTab} from '../../../constants/constants.js';
 import {NO_ROBOT_COMMENTS_THREADS_MSG} from '../../../constants/messages.js';
 import {appContext} from '../../../services/app-context.js';
 import {ExperimentIds} from '../../../services/flags.js';
@@ -271,8 +271,8 @@ class GrChangeView extends mixinBehaviors( [
       _constants: {
         type: Object,
         value: {
-          SecondaryTabs,
-          PrimaryTabs,
+          SecondaryTab,
+          PrimaryTab,
         },
       },
       _messages: {
@@ -406,7 +406,7 @@ class GrChangeView extends mixinBehaviors( [
        */
       _activeTabs: {
         type: Array,
-        value: [PrimaryTabs.FILES, SecondaryTabs.CHANGE_LOG],
+        value: [PrimaryTab.FILES, SecondaryTab.CHANGE_LOG],
       },
       _showAllRobotComments: {
         type: Boolean,
@@ -1073,7 +1073,7 @@ class GrChangeView extends mixinBehaviors( [
   }
 
   _initActiveTabs(params = {}) {
-    let primaryTab = PrimaryTabs.FILES;
+    let primaryTab = PrimaryTab.FILES;
     if (params.queryMap && params.queryMap.has('tab')) {
       primaryTab = params.queryMap.get('tab');
     }
@@ -1085,7 +1085,7 @@ class GrChangeView extends mixinBehaviors( [
 
     // TODO: should drop this once we move CommentThreads tab
     // to primary as well
-    let secondaryTab = SecondaryTabs.CHANGE_LOG;
+    let secondaryTab = SecondaryTab.CHANGE_LOG;
     if (params.queryMap && params.queryMap.has('secondaryTab')) {
       secondaryTab = params.queryMap.get('secondaryTab');
     }

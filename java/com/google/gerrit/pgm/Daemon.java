@@ -72,6 +72,7 @@ import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.DefaultUrlFormatter;
 import com.google.gerrit.server.config.DownloadConfig;
 import com.google.gerrit.server.config.GerritGlobalModule;
+import com.google.gerrit.server.config.GerritInstanceIdModule;
 import com.google.gerrit.server.config.GerritInstanceNameModule;
 import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritRuntime;
@@ -446,6 +447,7 @@ public class Daemon extends SiteProgram {
     modules.add(new GpgModule(config));
     modules.add(new StartupChecks.Module());
     modules.add(new GerritInstanceNameModule());
+    modules.add(new GerritInstanceIdModule());
     if (MoreObjects.firstNonNull(httpd, true)) {
       modules.add(
           new CanonicalWebUrlModule() {

@@ -34,6 +34,7 @@ import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-beh
 import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {PatchsetLevelCommentsFilePath} from '../../../constants/constants.js';
 
 /**
  * @extends PolymerElement
@@ -92,6 +93,10 @@ class GrCommentList extends mixinBehaviors( [
     // Changes are not picked up by the dom-repeat due to the array instance
     // identity not changing even when it has elements added/removed from it.
     return (comments[filePath] || []).slice();
+  }
+
+  _isPatchsetLevelFile(path) {
+    return path === PatchsetLevelCommentsFilePath;
   }
 
   _computePatchDisplayName(comment) {

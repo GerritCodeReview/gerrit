@@ -542,7 +542,7 @@ export const htmlTemplate = html`
     </section>
 
     <paper-tabs id="primaryTabs" on-selected-changed="_setActivePrimaryTab">
-      <paper-tab data-name$="[[_constants.PrimaryTabs.FILES]]">Files</paper-tab>
+      <paper-tab data-name$="[[_constants.PrimaryTab.FILES]]">Files</paper-tab>
       <template
         is="dom-repeat"
         items="[[_dynamicTabHeaderEndpoints]]"
@@ -557,14 +557,14 @@ export const htmlTemplate = html`
           </gr-endpoint-decorator>
         </paper-tab>
       </template>
-      <paper-tab data-name$="[[_constants.PrimaryTabs.FINDINGS]]">
+      <paper-tab data-name$="[[_constants.PrimaryTab.FINDINGS]]">
         Findings
       </paper-tab>
     </paper-tabs>
 
     <section class="patchInfo">
       <div
-        hidden$="[[!_isTabActive(_constants.PrimaryTabs.FILES, _activeTabs)]]"
+        hidden$="[[!_isTabActive(_constants.PrimaryTab.FILES, _activeTabs)]]"
       >
         <gr-file-list-header
           id="fileListHeader"
@@ -620,7 +620,7 @@ export const htmlTemplate = html`
 
       <template
         is="dom-if"
-        if="[[_isTabActive(_constants.PrimaryTabs.FINDINGS, _activeTabs)]]"
+        if="[[_isTabActive(_constants.PrimaryTab.FINDINGS, _activeTabs)]]"
       >
         <gr-dropdown-list
           class="patch-set-dropdown"
@@ -670,13 +670,13 @@ export const htmlTemplate = html`
 
     <paper-tabs id="secondaryTabs" on-selected-changed="_setActiveSecondaryTab">
       <paper-tab
-        data-name$="[[_constants.SecondaryTabs.CHANGE_LOG]]"
+        data-name$="[[_constants.SecondaryTab.CHANGE_LOG]]"
         class="changeLog"
       >
         Change Log
       </paper-tab>
       <paper-tab
-        data-name$="[[_constants.SecondaryTabs.COMMENT_THREADS]]"
+        data-name$="[[_constants.SecondaryTab.COMMENT_THREADS]]"
         class="commentThreads"
       >
         <gr-tooltip-content
@@ -690,7 +690,7 @@ export const htmlTemplate = html`
     <section class="changeLog">
       <template
         is="dom-if"
-        if="[[_isTabActive(_constants.SecondaryTabs.CHANGE_LOG, _activeTabs)]]"
+        if="[[_isTabActive(_constants.SecondaryTab.CHANGE_LOG, _activeTabs)]]"
       >
         <template is="dom-if" if="[[!_isChangeLogExperimentEnabled()]]">
           <gr-messages-list
@@ -724,7 +724,7 @@ export const htmlTemplate = html`
       </template>
       <template
         is="dom-if"
-        if="[[_isTabActive(_constants.SecondaryTabs.COMMENT_THREADS, _activeTabs)]]"
+        if="[[_isTabActive(_constants.SecondaryTab.COMMENT_THREADS, _activeTabs)]]"
       >
         <gr-thread-list
           threads="[[_commentThreads]]"

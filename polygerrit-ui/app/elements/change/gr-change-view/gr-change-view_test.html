@@ -42,7 +42,7 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import '../../edit/gr-edit-constants.js';
 import './gr-change-view.js';
-import {PrimaryTabs, SecondaryTabs, ChangeStatus} from '../../../constants/constants.js';
+import {PrimaryTab, SecondaryTab, ChangeStatus} from '../../../constants/constants.js';
 
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
@@ -392,9 +392,9 @@ suite('gr-change-view tests', () => {
     });
 
     test('param change should switch primary tab correctly', done => {
-      assert.equal(element._activeTabs[0], PrimaryTabs.FILES);
+      assert.equal(element._activeTabs[0], PrimaryTab.FILES);
       const queryMap = new Map();
-      queryMap.set('tab', PrimaryTabs.FINDINGS);
+      queryMap.set('tab', PrimaryTab.FINDINGS);
       // view is required
       element.params = Object.assign(
           {
@@ -402,13 +402,13 @@ suite('gr-change-view tests', () => {
           },
           element.params, {queryMap});
       flush(() => {
-        assert.equal(element._activeTabs[0], PrimaryTabs.FINDINGS);
+        assert.equal(element._activeTabs[0], PrimaryTab.FINDINGS);
         done();
       });
     });
 
     test('invalid param change should not switch primary tab', done => {
-      assert.equal(element._activeTabs[0], PrimaryTabs.FILES);
+      assert.equal(element._activeTabs[0], PrimaryTab.FILES);
       const queryMap = new Map();
       queryMap.set('tab', 'random');
       // view is required
@@ -418,7 +418,7 @@ suite('gr-change-view tests', () => {
           },
           element.params, {queryMap});
       flush(() => {
-        assert.equal(element._activeTabs[0], PrimaryTabs.FILES);
+        assert.equal(element._activeTabs[0], PrimaryTab.FILES);
         done();
       });
     });
@@ -778,7 +778,7 @@ suite('gr-change-view tests', () => {
 
   test('thread list modified', () => {
     sandbox.spy(element, '_handleReloadDiffComments');
-    element._activeTabs = [PrimaryTabs.FILES, SecondaryTabs.COMMENT_THREADS];
+    element._activeTabs = [PrimaryTab.FILES, SecondaryTab.COMMENT_THREADS];
     flushAsynchronousOperations();
 
     return element._reloadComments().then(() => {
@@ -844,47 +844,47 @@ suite('gr-change-view tests', () => {
 
     test('tab switch works correctly', done => {
       assert.isTrue(element._paramsChanged.called);
-      assert.equal(element._activeTabs[1], SecondaryTabs.CHANGE_LOG);
+      assert.equal(element._activeTabs[1], SecondaryTab.CHANGE_LOG);
 
       const commentTab = element.shadowRoot.querySelector(
           'paper-tab.commentThreads'
       );
       // Switch to comment thread tab
       MockInteractions.tap(commentTab);
-      assert.equal(element._activeTabs[1], SecondaryTabs.COMMENT_THREADS);
+      assert.equal(element._activeTabs[1], SecondaryTab.COMMENT_THREADS);
 
       // Switch back to 'Change Log' tab
       element._paramsChanged(element.params);
       flush(() => {
-        assert.equal(element._activeTabs[1], SecondaryTabs.CHANGE_LOG);
+        assert.equal(element._activeTabs[1], SecondaryTab.CHANGE_LOG);
         done();
       });
     });
 
     test('show-secondary-tab event works', () => {
-      assert.equal(element._activeTabs[1], SecondaryTabs.CHANGE_LOG);
+      assert.equal(element._activeTabs[1], SecondaryTab.CHANGE_LOG);
       // Switch to comment thread tab
-      element.fire('show-secondary-tab', {tab: SecondaryTabs.COMMENT_THREADS});
-      assert.equal(element._activeTabs[1], SecondaryTabs.COMMENT_THREADS);
+      element.fire('show-secondary-tab', {tab: SecondaryTab.COMMENT_THREADS});
+      assert.equal(element._activeTabs[1], SecondaryTab.COMMENT_THREADS);
     });
 
     test('param change should switched secondary tab correctly', done => {
-      assert.equal(element._activeTabs[1], SecondaryTabs.CHANGE_LOG);
+      assert.equal(element._activeTabs[1], SecondaryTab.CHANGE_LOG);
       const queryMap = new Map();
-      queryMap.set('secondaryTab', SecondaryTabs.COMMENT_THREADS);
+      queryMap.set('secondaryTab', SecondaryTab.COMMENT_THREADS);
       // view is required
       element.params = Object.assign(
           {view: GerritNav.View.CHANGE},
           element.params, {queryMap}
       );
       flush(() => {
-        assert.equal(element._activeTabs[1], SecondaryTabs.COMMENT_THREADS);
+        assert.equal(element._activeTabs[1], SecondaryTab.COMMENT_THREADS);
         done();
       });
     });
 
     test('invalid secondaryTab should not switch tab', done => {
-      assert.equal(element._activeTabs[1], SecondaryTabs.CHANGE_LOG);
+      assert.equal(element._activeTabs[1], SecondaryTab.CHANGE_LOG);
       const queryMap = new Map();
       queryMap.set('secondaryTab', 'random');
       // view is required
@@ -892,7 +892,7 @@ suite('gr-change-view tests', () => {
         view: GerritNav.View.CHANGE,
       }, element.params, {queryMap});
       flush(() => {
-        assert.equal(element._activeTabs[1], SecondaryTabs.CHANGE_LOG);
+        assert.equal(element._activeTabs[1], SecondaryTab.CHANGE_LOG);
         done();
       });
     });

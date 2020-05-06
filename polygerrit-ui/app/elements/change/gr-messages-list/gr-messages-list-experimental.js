@@ -26,7 +26,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-messages-list-experimental_html.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {util} from '../../../scripts/util.js';
-import {MessageTags} from '../../../constants/constants.js';
+import {MessageTag} from '../../../constants/constants.js';
 import {appContext} from '../../../services/app-context.js';
 
 /**
@@ -41,8 +41,8 @@ const ExpandAllState = {
 
 function isNewPatchSet(message) {
   if (!message || !message.tag) return false;
-  return message.tag.includes(MessageTags.TAG_NEW_PATCHSET)
-      || message.tag.includes(MessageTags.TAG_NEW_WIP_PATCHSET);
+  return message.tag.includes(MessageTag.TAG_NEW_PATCHSET)
+      || message.tag.includes(MessageTag.TAG_NEW_WIP_PATCHSET);
 }
 
 function hasHigherRevisionNumber(m, message) {
@@ -51,7 +51,7 @@ function hasHigherRevisionNumber(m, message) {
 
 function isNewerReviewerUpdate(m, message) {
   if (!message || !message.tag || !m || !m.tag) return false;
-  if (m.tag != MessageTags.TAG_REVIEWER_UPDATE) return false;
+  if (m.tag != MessageTag.TAG_REVIEWER_UPDATE) return false;
   return m.date > message.date;
 }
 

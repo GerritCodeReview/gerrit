@@ -16,7 +16,7 @@
  */
 
 import {util} from '../../../scripts/util.js';
-import {MessageTags} from '../../../constants/constants.js';
+import {MessageTag} from '../../../constants/constants.js';
 
 /** @constructor */
 export function GrReviewerUpdatesParser(change) {
@@ -53,7 +53,7 @@ GrReviewerUpdatesParser.prototype._lastState = null;
  */
 GrReviewerUpdatesParser.prototype._filterRemovedMessages = function() {
   this.result.messages = this.result.messages
-      .filter(message => message.tag !== MessageTags.TAG_DELETE_REVIEWER);
+      .filter(message => message.tag !== MessageTag.TAG_DELETE_REVIEWER);
 };
 
 /**
@@ -67,7 +67,7 @@ GrReviewerUpdatesParser.prototype._startBatch = function(update) {
     author: update.updated_by,
     date: update.updated,
     type: 'REVIEWER_UPDATE',
-    tag: MessageTags.TAG_REVIEWER_UPDATE,
+    tag: MessageTag.TAG_REVIEWER_UPDATE,
   };
 };
 

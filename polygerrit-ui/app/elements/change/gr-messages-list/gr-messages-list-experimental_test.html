@@ -49,7 +49,7 @@ import './gr-messages-list-experimental.js';
 import '../../../test/mocks/comment-api.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {TEST_ONLY} from './gr-messages-list-experimental.js';
-import {MessageTags} from '../../../constants/constants.js';
+import {MessageTag} from '../../../constants/constants.js';
 
 const randomMessage = function(opt_params) {
   const params = opt_params || {};
@@ -344,11 +344,11 @@ suite('gr-messages-list-experimental tests', () => {
 
     test('isImportant filters newPatchSet also for wip', () => {
       const m1 = randomMessage(
-          {tag: MessageTags.TAG_NEW_PATCHSET, _revision_number: 3});
+          {tag: MessageTag.TAG_NEW_PATCHSET, _revision_number: 3});
       const m2 = randomMessage(
-          {tag: MessageTags.TAG_NEW_PATCHSET, _revision_number: 2});
+          {tag: MessageTag.TAG_NEW_PATCHSET, _revision_number: 2});
       const m3 = randomMessage(
-          {tag: MessageTags.TAG_NEW_WIP_PATCHSET, _revision_number: 1});
+          {tag: MessageTag.TAG_NEW_WIP_PATCHSET, _revision_number: 1});
       assert.isTrue(TEST_ONLY.isImportant(m1, [m1, m2, m3]));
       assert.isFalse(TEST_ONLY.isImportant(m2, [m1, m2, m3]));
       assert.isFalse(TEST_ONLY.isImportant(m3, [m1, m2, m3]));
@@ -357,17 +357,17 @@ suite('gr-messages-list-experimental tests', () => {
     test('isImportant filters older reviewer updates', () => {
       const m1 = randomMessage(
           {
-            tag: MessageTags.TAG_REVIEWER_UPDATE,
+            tag: MessageTag.TAG_REVIEWER_UPDATE,
             date: '2020-04-24 10:11:02.000000000',
           });
       const m2 = randomMessage(
           {
-            tag: MessageTags.TAG_REVIEWER_UPDATE,
+            tag: MessageTag.TAG_REVIEWER_UPDATE,
             date: '2020-04-25 10:11:02.000000000',
           });
       const m3 = randomMessage(
           {
-            tag: MessageTags.TAG_REVIEWER_UPDATE,
+            tag: MessageTag.TAG_REVIEWER_UPDATE,
             date: '2020-04-25 10:13:02.000000000',
           });
       assert.isFalse(TEST_ONLY.isImportant(m1, [m1, m2, m3]));

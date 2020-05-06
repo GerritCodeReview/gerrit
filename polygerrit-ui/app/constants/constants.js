@@ -65,3 +65,5 @@ export const ChangeStatus = {
   MERGED: 'MERGED',
   NEW: 'NEW',
 };
+
+export const PatchsetLevelCommentsFilePath = '/PATCHSET_LEVEL';

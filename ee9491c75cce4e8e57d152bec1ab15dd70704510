@@ -46,6 +46,30 @@
       "revId": "ee9491c75cce4e8e57d152bec1ab15dd70704510",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d5350a9_76630efb",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-06T20:12:38Z",
+      "side": 1,
+      "message": "What if I apply your suggestion:\n\n\u003e You can start parsing gerrit_index.config, to check for something like:\n\u003e [index \"projects_0004\"]\n\u003e ready \u003d true\n\nWould the change be acceptable for you?",
+      "parentUuid": "c458a407_e89d1906",
+      "range": {
+        "startLine": 153,
+        "startChar": 2,
+        "endLine": 159,
+        "endChar": 3
+      },
+      "revId": "ee9491c75cce4e8e57d152bec1ab15dd70704510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

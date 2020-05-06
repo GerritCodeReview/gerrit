@@ -2224,6 +2224,12 @@ Path prefix for PolyGerrit's static resources if using a CDN.
 Path for PolyGerrit's favicon after link:#gerrit.canonicalWebUrl[default URL],
 including icon name and extension (.ico should be used).
 
+[[gerrit.instanceId]]gerrit.instanceId::
++
+Optional identifier for this Gerrit instance.
+Used to identify a specific instance within a group of Gerrit instances with the
+same `serverId` (i.e.: a Gerrit cluster).
+Unlike `instanceName` this value is not available in the email templates.
 
 [[gerrit.instanceName]]gerrit.instanceName::
 +

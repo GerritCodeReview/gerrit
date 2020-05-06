@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f36320ef_b38d807e",
+        "filename": "java/com/google/gerrit/sshd/InactiveAccountDisconnector.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-06T13:09:10Z",
+      "side": 1,
+      "message": "5 levels of nesting are difficult to read: can you break it down in different functions to make it more readable?",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 17
+      },
+      "revId": "c6dba7ee86b92b864cf244ef70fb613e3a895d7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

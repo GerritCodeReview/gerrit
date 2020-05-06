@@ -99,18 +99,18 @@ public class SubmoduleOp {
 
   @Singleton
   public static class Factory {
-    private final GitModules.Factory gitmodulesFactory;
+    private final SubscriptionMap.Factory subscriptionMapFactory;
     private final Provider<PersonIdent> serverIdent;
     private final Config cfg;
     private final ProjectCache projectCache;
 
     @Inject
     Factory(
-        GitModules.Factory gitmodulesFactory,
+        SubscriptionMap.Factory subscriptionMapFactory,
         @GerritPersonIdent Provider<PersonIdent> serverIdent,
         @GerritServerConfig Config cfg,
         ProjectCache projectCache) {
-      this.gitmodulesFactory = gitmodulesFactory;
+      this.subscriptionMapFactory = subscriptionMapFactory;
       this.serverIdent = serverIdent;
       this.cfg = cfg;
       this.projectCache = projectCache;
@@ -119,11 +119,11 @@ public class SubmoduleOp {
     public SubmoduleOp create(Set<BranchNameKey> updatedBranches, MergeOpRepoManager orm)
         throws SubmoduleConflictException {
       return new SubmoduleOp(
-          gitmodulesFactory, serverIdent.get(), cfg, projectCache, updatedBranches, orm);
+          subscriptionMapFactory, serverIdent.get(), cfg, projectCache, updatedBranches, orm);
     }
   }
 
-  private final GitModules.Factory gitmodulesFactory;
+  private final SubscriptionMap.Factory subscriptionMapFactory;
   private final PersonIdent myIdent;
   private final ProjectCache projectCache;
   private final VerboseSuperprojectUpdate verboseSuperProject;
@@ -131,7 +131,7 @@ public class SubmoduleOp {
   private final long maxCombinedCommitMessageSize;
   private final long maxCommitMessages;
   private final MergeOpRepoManager orm;
-  private final Map<BranchNameKey, GitModules> branchGitModules;
+  private final Map<BranchNameKey, SubscriptionMap> branchSubscriptionMap;
 
   /** Branches updated as part of the enclosing submit or push batch. */
   private final ImmutableSet<BranchNameKey> updatedBranches;
@@ -161,14 +161,14 @@ public class SubmoduleOp {
   private final SetMultimap<Project.NameKey, BranchNameKey> branchesByProject;
 
   private SubmoduleOp(
-      GitModules.Factory gitmodulesFactory,
+      SubscriptionMap.Factory subscriptionMapFactory,
       PersonIdent myIdent,
       Config cfg,
       ProjectCache projectCache,
       Set<BranchNameKey> updatedBranches,
       MergeOpRepoManager orm)
       throws SubmoduleConflictException {
-    this.gitmodulesFactory = gitmodulesFactory;
+    this.subscriptionMapFactory = subscriptionMapFactory;
     this.myIdent = myIdent;
     this.projectCache = projectCache;
     this.verboseSuperProject =
@@ -183,7 +183,7 @@ public class SubmoduleOp {
     this.targets = MultimapBuilder.hashKeys().hashSetValues().build();
     this.affectedBranches = new HashSet<>();
     this.branchTips = new HashMap<>();
-    this.branchGitModules = new HashMap<>();
+    this.branchSubscriptionMap = new HashMap<>();
     this.branchesByProject = MultimapBuilder.hashKeys().hashSetValues().build();
     this.sortedBranches = calculateSubscriptionMaps();
   }
@@ -385,10 +385,10 @@ public class SubmoduleOp {
           continue;
         }
 
-        GitModules m = branchGitModules.get(targetBranch);
+        SubscriptionMap m = branchSubscriptionMap.get(targetBranch);
         if (m == null) {
-          m = gitmodulesFactory.create(targetBranch, orm);
-          branchGitModules.put(targetBranch, m);
+          m = subscriptionMapFactory.create(targetBranch, orm);
+          branchSubscriptionMap.put(targetBranch, m);
         }
         ret.addAll(m.subscribedTo(srcBranch));
       }

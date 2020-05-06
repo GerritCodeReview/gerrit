@@ -150,6 +150,7 @@ java_library(
         "//lib:jgit",
         "//lib:soy",
         "//lib/guice",
+        "@guice-assistedinject//jar",
     ],
 )
 

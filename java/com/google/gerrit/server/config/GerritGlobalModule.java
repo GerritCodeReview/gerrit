@@ -188,6 +188,7 @@ import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.server.submit.GitModules;
 import com.google.gerrit.server.submit.MergeSuperSetComputation;
 import com.google.gerrit.server.submit.SubmitStrategy;
+import com.google.gerrit.server.submit.SubscriptionMap;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.IdGenerator;
@@ -202,6 +203,7 @@ import com.google.gitiles.blame.cache.BlameCache;
 import com.google.gitiles.blame.cache.BlameCacheImpl;
 import com.google.inject.Inject;
 import com.google.inject.TypeLiteral;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.template.soy.jbcsrc.api.SoySauce;
 import java.util.List;
@@ -444,9 +446,10 @@ public class GerritGlobalModule extends FactoryModule {
     factory(ProjectConfigValidator.Factory.class);
     factory(NotesBranchUtil.Factory.class);
     factory(MergedByPushOp.Factory.class);
-    factory(GitModules.Factory.class);
     factory(VersionedAuthorizedKeys.Factory.class);
 
+    install(new FactoryModuleBuilder().implement(SubscriptionMap.class, GitModules.class)
+        .build(SubscriptionMap.Factory.class));
     bind(AccountManager.class);
 
     bind(new TypeLiteral<List<CommentLinkInfo>>() {}).toProvider(CommentLinkProvider.class);

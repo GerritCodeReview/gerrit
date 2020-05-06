@@ -41,12 +41,8 @@ import org.eclipse.jgit.treewalk.TreeWalk;
  * Loads the .gitmodules file of the specified project/branch. It can be queried which submodules
  * this branch is subscribed to.
  */
-public class GitModules {
+public class GitModules implements SubscriptionMap {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  public interface Factory {
-    GitModules create(BranchNameKey project, MergeOpRepoManager m);
-  }
 
   private static final String GIT_MODULES = ".gitmodules";
 
@@ -89,7 +85,8 @@ public class GitModules {
     }
   }
 
-  Collection<SubmoduleSubscription> subscribedTo(BranchNameKey src) {
+  @Override
+  public Collection<SubmoduleSubscription> subscribedTo(BranchNameKey src) {
     Collection<SubmoduleSubscription> ret = new ArrayList<>();
     for (SubmoduleSubscription s : subscriptions) {
       if (s.getSubmodule().equals(src)) {

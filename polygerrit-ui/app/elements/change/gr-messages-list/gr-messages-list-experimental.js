@@ -352,8 +352,7 @@ class GrMessagesListExperimental extends mixinBehaviors( [
       return [];
     }
 
-    const commentThreads = changeComments.getAllThreadsForChange()
-        .map(c => { return {...c}; });
+    const commentThreads = changeComments.getAllThreadsForChange();
 
     return commentThreads.filter(thread => thread.comments
         .map(comment => {

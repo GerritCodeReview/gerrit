@@ -820,8 +820,7 @@ class GrChangeView extends mixinBehaviors( [
     // Get any new drafts that have been saved in the diff view and show
     // in the comment thread view.
     this._reloadDrafts().then(() => {
-      this._commentThreads = this._changeComments.getAllThreadsForChange()
-          .map(thread => { return {...thread}; });
+      this._commentThreads = this._changeComments.getAllThreadsForChange();
       flush();
     });
   }
@@ -1727,8 +1726,7 @@ class GrChangeView extends mixinBehaviors( [
   _recomputeComments(comments) {
     this._changeComments = comments;
     this._diffDrafts = {...this._changeComments.drafts};
-    this._commentThreads = this._changeComments.getAllThreadsForChange()
-        .map(thread => { return {...thread}; });
+    this._commentThreads = this._changeComments.getAllThreadsForChange();
     this._draftCommentThreads = this._commentThreads
         .filter(thread => thread.comments[thread.comments.length - 1].__draft)
         .map(thread => {

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ff2d96b1_8c5c4690",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.js",
+        "patchSetId": 43
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-06T13:28:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6d11e2e_b90a741a",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "93a2bf10db87e7b57503e744152bbe0f0cc6a69a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e239e3e0_937ab398",
         "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager_test.js",
         "patchSetId": 43
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "5018fbf3_6da7b3bf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager_test.js",
+        "patchSetId": 43
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-06T13:28:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e239e3e0_937ab398",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "93a2bf10db87e7b57503e744152bbe0f0cc6a69a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4059f7c4_078d7635",
         "filename": "polygerrit-ui/package.json",
         "patchSetId": 43
@@ -62,6 +110,24 @@
       "revId": "93a2bf10db87e7b57503e744152bbe0f0cc6a69a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e6d0db6_b0ff873c",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 43
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-06T13:28:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4059f7c4_078d7635",
+      "revId": "93a2bf10db87e7b57503e744152bbe0f0cc6a69a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

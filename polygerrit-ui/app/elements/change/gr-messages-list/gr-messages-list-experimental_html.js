@@ -51,6 +51,14 @@ export const htmlTemplate = html`
     gr-message {
       background-color: var(--background-color-secondary);
     }
+    .experimentMessage {
+      padding: var(--spacing-s) var(--spacing-m);
+      background-color: var(--emphasis-color);
+      border-radius: var(--border-radius);
+    }
+    .experimentMessage iron-icon {
+      vertical-align: top;
+    }
   </style>
   <div class="header">
     <span
@@ -65,6 +73,16 @@ export const htmlTemplate = html`
       >Show all entries
       <span class="transparent separator"></span>
     </span>
+    <div class="experimentMessage">
+      <iron-icon icon="gr-icons:pets"></iron-icon>
+      <span>You're currently viewing an experimental Change Log view.</span>
+      <a
+        target="_blank"
+        href="https://www.gerritcodereview.com/2020-05-06-change-log-experiment.html"
+      >
+        Learn more
+      </a>
+    </div>
     <gr-button
       id="collapse-messages"
       link=""

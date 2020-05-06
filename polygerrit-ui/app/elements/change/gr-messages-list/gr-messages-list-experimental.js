@@ -16,6 +16,7 @@
  */
 import '@polymer/paper-toggle-button/paper-toggle-button.js';
 import '../../shared/gr-button/gr-button.js';
+import '../../shared/gr-icons/gr-icons.js';
 import '../gr-message/gr-message.js';
 import '../../../styles/shared-styles.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';

@@ -541,12 +541,10 @@ class ChangeComments {
       return true;
     }
     // If the base of the range is not the parent of the patch:
-    if (range.basePatchNum !== PARENT &&
-      comment.side !== PARENT &&
-      this._patchNumEquals(comment.patch_set, range.basePatchNum)) {
-      return true;
-    }
-    return false;
+    return range.basePatchNum !== PARENT &&
+        comment.side !== PARENT &&
+        this._patchNumEquals(comment.patch_set, range.basePatchNum);
+
   }
 
   /**

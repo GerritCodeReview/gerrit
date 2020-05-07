@@ -668,13 +668,11 @@ class GrDiff extends mixinBehaviors( [
 
   /** @return {boolean} */
   _getIsParentCommentByLineAndContent(lineEl, contentEl) {
-    if ((lineEl.classList.contains(DiffSide.LEFT) ||
+    return (lineEl.classList.contains(DiffSide.LEFT) ||
         contentEl.classList.contains('remove')) &&
         (this.patchRange.basePatchNum === 'PARENT' ||
-        this.isMergeParent(this.patchRange.basePatchNum))) {
-      return true;
-    }
-    return false;
+            this.isMergeParent(this.patchRange.basePatchNum));
+
   }
 
   /** @return {string} */

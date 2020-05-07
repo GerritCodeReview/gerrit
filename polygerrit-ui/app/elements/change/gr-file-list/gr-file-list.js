@@ -1027,9 +1027,8 @@ class GrFileList extends mixinBehaviors( [
   _filesChanged() {
     if (this._files && this._files.length > 0) {
       flush();
-      const files = Array.from(
+      this.$.fileCursor.stops = Array.from(
           dom(this.root).querySelectorAll('.file-row'));
-      this.$.fileCursor.stops = files;
       this.$.fileCursor.setCursorAtIndex(this.selectedIndex, true);
     }
   }

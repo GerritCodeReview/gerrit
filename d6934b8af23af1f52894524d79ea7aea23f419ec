@@ -22,6 +22,30 @@
       "revId": "d6934b8af23af1f52894524d79ea7aea23f419ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e88e7f8c_c4f577fb",
+        "filename": "java/com/google/gerrit/server/restapi/group/ListGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-07T05:25:44Z",
+      "side": 1,
+      "message": "It\u0027s case insensitive, so \"--ownedby\" and \"--ownedBy\" both work the same. I did it like this to match what was documented, but it could be changed to \"ownedby\".",
+      "parentUuid": "8fbcf3d4_db318f8c",
+      "range": {
+        "startLine": 210,
+        "startChar": 20,
+        "endLine": 210,
+        "endChar": 27
+      },
+      "revId": "d6934b8af23af1f52894524d79ea7aea23f419ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

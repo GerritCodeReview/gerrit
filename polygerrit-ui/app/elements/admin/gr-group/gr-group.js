@@ -141,12 +141,12 @@ class GrGroup extends GestureEventListeners(
           this._groupIsInternal = !!config.id.match(INTERNAL_GROUP_REGEX);
 
           promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {
-            this._isAdmin = isAdmin ? true : false;
+            this._isAdmin = !!isAdmin;
           }));
 
           promises.push(this.$.restAPI.getIsGroupOwner(config.name)
               .then(isOwner => {
-                this._groupOwner = isOwner ? true : false;
+                this._groupOwner = !!isOwner;
               }));
 
           // If visible to all is undefined, set to false. If it is defined
@@ -261,7 +261,7 @@ class GrGroup extends GestureEventListeners(
   }
 
   _computeGroupDisabled(owner, admin, groupIsInternal) {
-    return groupIsInternal && (admin || owner) ? false : true;
+    return !(groupIsInternal && (admin || owner));
   }
 }
 

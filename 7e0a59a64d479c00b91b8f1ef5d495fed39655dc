@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c477201_259fb32c",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3243,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2020-05-07T14:20:12Z",
+      "side": 1,
+      "message": "Could the branch contain changes that were targeted to a different branch?\n\nI wish everyone would use createNewChangeForAllNotInTarget, but assuming they don\u0027t, should we walk through commits being pushed that are not on any branch (i.e. mark other branches as uninteresting)?",
+      "range": {
+        "startLine": 3242,
+        "startChar": 60,
+        "endLine": 3243,
+        "endChar": 51
+      },
+      "revId": "7e0a59a64d479c00b91b8f1ef5d495fed39655dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

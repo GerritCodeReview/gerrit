@@ -338,12 +338,9 @@ class GrDiffHighlight extends GestureEventListeners(
     }
     const start = range.start;
     const end = range.end;
-    if (start.side !== end.side ||
+    return !(start.side !== end.side ||
         end.line < start.line ||
-        (start.line === end.line && start.column === end.column)) {
-      return false;
-    }
-    return true;
+        (start.line === end.line && start.column === end.column));
   }
 
   _handleSelection(selection, isMouseUp) {

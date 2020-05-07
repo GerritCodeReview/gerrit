@@ -149,11 +149,7 @@ class GrCreateChangeDialog extends mixinBehaviors( [
     } else if (config && config.configured_value === 'FALSE') {
       return false;
     } else if (config && config.configured_value === 'INHERIT') {
-      if (config && config.inherited_value) {
-        return true;
-      } else {
-        return false;
-      }
+      return !!(config && config.inherited_value);
     } else {
       return false;
     }

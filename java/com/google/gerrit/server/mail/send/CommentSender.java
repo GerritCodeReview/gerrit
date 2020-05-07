@@ -74,6 +74,10 @@ public class CommentSender extends ReplyToChangeSender {
 
     /** @return a web link to the given patch set and file. */
     public String getFileLink() {
+      if (filename.equals(Patch.PATCHSET_LEVEL)) {
+        return getPatchsetLevelLink();
+      }
+
       return args.urlFormatter
           .get()
           .getPatchFileView(change, patchSetId, KeyUtil.encode(filename))
@@ -82,10 +86,18 @@ public class CommentSender extends ReplyToChangeSender {
 
     /** @return a web link to a comment within a given patch set and file. */
     public String getCommentLink(short side, int startLine) {
+      if (filename.equals(Patch.PATCHSET_LEVEL)) {
+        return getPatchsetLevelLink();
+      }
+
       return args.urlFormatter
           .get()
           .getInlineCommentView(change, patchSetId, KeyUtil.encode(filename), side, startLine)
           .orElse(null);
+    }
+
+    private String getPatchsetLevelLink() {
+      return args.urlFormatter.get().getPatchsetLevelView(change, patchSetId).orElse(null);
     }
 
     /**
@@ -96,6 +108,8 @@ public class CommentSender extends ReplyToChangeSender {
         return "Commit Message";
       } else if (Patch.MERGE_LIST.equals(filename)) {
         return "Merge List";
+      } else if (Patch.PATCHSET_LEVEL.equals(filename)) {
+        return "Patchset Level";
       } else {
         return "File " + filename;
       }

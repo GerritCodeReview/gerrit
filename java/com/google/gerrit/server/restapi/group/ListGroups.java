@@ -205,7 +205,10 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     options.addAll(ListGroupsOption.fromBits(Integer.parseInt(hex, 16)));
   }
 
-  @Option(name = "--owned-by", usage = "list groups owned by the given group uuid")
+  @Option(
+      name = "--owned-by",
+      aliases = {"--ownedBy"},
+      usage = "list groups owned by the given group uuid")
   public void setOwnedBy(String ownedBy) {
     this.ownedBy = ownedBy;
   }

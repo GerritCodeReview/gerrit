@@ -1,5 +1,7 @@
 package com.google.gerrit.server.config;
 
+import static com.google.inject.Scopes.SINGLETON;
+
 import com.google.inject.AbstractModule;
 
 import static com.google.inject.Scopes.SINGLETON;

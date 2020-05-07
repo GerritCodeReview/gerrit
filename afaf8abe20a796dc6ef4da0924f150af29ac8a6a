@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8081b0a4_3ef3f372",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceIdProvider.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-07T13:40:10Z",
+      "side": 1,
+      "message": "Best to specify that can be null, as \u0027optional\u0027 can be misunderstood as the Java type.\n\n\u0027the Gerrit instanceId value, null when not set in gerrit.config\u0027",
+      "revId": "afaf8abe20a796dc6ef4da0924f150af29ac8a6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

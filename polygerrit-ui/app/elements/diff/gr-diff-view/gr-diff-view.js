@@ -1325,7 +1325,7 @@ class GrDiffView extends mixinBehaviors( [
   }
 
   _computeIsLoggedIn(loggedIn) {
-    return loggedIn ? true : false;
+    return !!loggedIn;
   }
 
   _computeCanEdit(loggedIn, changeChangeRecord) {

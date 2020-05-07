@@ -22,7 +22,7 @@ import {htmlTemplate} from './gr-ranged-comment-layer_html.js';
 import {GrDiffLine} from '../gr-diff/gr-diff-line.js';
 
 // Polymer 1 adds # before array's key, while Polymer 2 doesn't
-const HOVER_PATH_PATTERN = /^(commentRanges\.\#?\d+)\.hovering$/;
+const HOVER_PATH_PATTERN = /^(commentRanges\.#?\d+)\.hovering$/;
 
 const RANGE_HIGHLIGHT = 'style-scope gr-diff range';
 const HOVER_HIGHLIGHT = 'style-scope gr-diff rangeHighlight';

@@ -133,7 +133,7 @@ const CLASS_WHITELIST = {
 };
 
 const CPP_DIRECTIVE_WITH_LT_PATTERN = /^\s*#(if|define).*</;
-const CPP_WCHAR_PATTERN = /L\'(\\)?.\'/g;
+const CPP_WCHAR_PATTERN = /L'(\\)?.'/g;
 const JAVA_PARAM_ANNOT_PATTERN = /(@[^\s]+)\(([^)]+)\)/g;
 const GO_BACKSLASH_LITERAL = '\'\\\\\'';
 const GLOBAL_LT_PATTERN = /</g;

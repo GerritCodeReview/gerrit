@@ -143,7 +143,7 @@ const RoutePattern = {
   DIFF: /^\/c\/(.+)\/\+\/(\d+)(\/((-?\d+|edit)(\.\.(\d+|edit))?(\/(.+))))\/?$/,
 
   // Matches /c/<project>/+/<changeNum>/[<patchNum|edit>]/<path>,edit[#lineNum]
-  DIFF_EDIT: /^\/c\/(.+)\/\+\/(\d+)\/(\d+|edit)\/(.+),edit(\#\d+)?$/,
+  DIFF_EDIT: /^\/c\/(.+)\/\+\/(\d+)\/(\d+|edit)\/(.+),edit(#\d+)?$/,
 
   // Matches non-project-relative
   // /c/<changeNum>/[<basePatchNum>..]<patchNum>/<path>.
@@ -159,7 +159,7 @@ const RoutePattern = {
 
   // Matches /c/<changeNum>/ /<URL tail>
   // Catches improperly encoded URLs (context: Issue 7100)
-  IMPROPERLY_ENCODED_PLUS: /^\/c\/(.+)\/\ \/(.+)$/,
+  IMPROPERLY_ENCODED_PLUS: /^\/c\/(.+)\/ \/(.+)$/,
 
   PLUGIN_SCREEN: /^\/x\/([\w-]+)\/([\w-]+)\/?/,
 
@@ -195,7 +195,7 @@ const LEGACY_LINENUM_PATTERN = /@([ab]?\d+)$/;
 
 const LEGACY_QUERY_SUFFIX_PATTERN = /,n,z$/;
 
-const REPO_TOKEN_PATTERN = /\$\{(project|repo)\}/g;
+const REPO_TOKEN_PATTERN = /\${(project|repo)}/g;
 
 // Polymer makes `app` intrinsically defined on the window by virtue of the
 // custom element having the id "app", but it is made explicit here.

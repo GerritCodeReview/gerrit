@@ -26,7 +26,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-account-dropdown_html.js';
 import {DisplayNameBehavior} from '../../../behaviors/gr-display-name-behavior/gr-display-name-behavior.js';
 
-const INTERPOLATE_URL_PATTERN = /\$\{([\w]+)\}/g;
+const INTERPOLATE_URL_PATTERN = /\${([\w]+)}/g;
 
 /**
  * @extends PolymerElement

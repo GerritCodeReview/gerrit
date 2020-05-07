@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc95396f_453e3d60",
+        "filename": "polygerrit-ui/app/scripts/time-util.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-07T10:47:50Z",
+      "side": 1,
+      "message": "i think to make test easier, you should have this method accept the date and default to `new Date()`, then you can test it by providing different date",
+      "revId": "ea39a3e7c767065193e73171cae3a4283fba59c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

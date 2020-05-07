@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d82bd2eb_fd1f26a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-05-07T07:35:55Z",
+      "side": 1,
+      "message": "Maybe mention that is an issue with the PostReview REST endpoint?\n\nUsing the AddReviewer REST endpoint moving a reviewer to cc is actually possible (e.g. see ChangeReviewersIT#moveReviewerToCc() test). I wonder if there was a change in PolyGerrit that it\u0027s now using PostReview for this?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 6
+      },
+      "revId": "f153409fe0c158356d7f7d5f3ccccc7977d8613e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

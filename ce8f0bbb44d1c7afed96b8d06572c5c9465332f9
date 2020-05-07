@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "998114bb_85125f60",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3246,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-05-07T09:19:10Z",
+      "side": 1,
+      "message": "nit: bad line wrapping",
+      "range": {
+        "startLine": 3243,
+        "startChar": 22,
+        "endLine": 3246,
+        "endChar": 47
+      },
+      "revId": "ce8f0bbb44d1c7afed96b8d06572c5c9465332f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc16cfc7_4dc1e499",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3246,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-05-07T09:19:10Z",
+      "side": 1,
+      "message": "loops",
+      "range": {
+        "startLine": 3246,
+        "startChar": 25,
+        "endLine": 3246,
+        "endChar": 29
+      },
+      "revId": "ce8f0bbb44d1c7afed96b8d06572c5c9465332f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "304e1821_9ebad670",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3273,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-05-07T09:19:10Z",
+      "side": 1,
+      "message": "nit: uneeded line wrapping\n\nThanks for adding this comment, it makes the code easier to read :)",
+      "range": {
+        "startLine": 3272,
+        "startChar": 22,
+        "endLine": 3273,
+        "endChar": 32
+      },
+      "revId": "ce8f0bbb44d1c7afed96b8d06572c5c9465332f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,6 +1,23 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("@npm_bazel_rollup//:index.bzl", "rollup_bundle")
 
+def _get_ts_path(outdir, file_name):
+    if file_name.endswith(".js"):
+            return outdir + "/" + file_name
+    if file_name.endswith(".ts"):
+        return outdir + "/" + file_name[:-2] + "js"
+    if file_name.endswith(".js"):
+        return outdir + "/" + file_name
+    fail("The file " + file_name + " has unsupported extension")
+
+def _get_output_files(outdir, srcs):
+    result = []
+    for f in srcs:
+        if f.endswith(".d.ts"):
+            continue
+        result.append(_get_ts_path(outdir, f))
+    return result
+
 def polygerrit_bundle(name, srcs, outs, entry_point):
     """Build .zip bundle from source code
 
@@ -11,11 +28,29 @@ def polygerrit_bundle(name, srcs, outs, entry_point):
         entry_point: application entry-point
     """
 
+    ts_outdir = "__ts__out__" + name
+    ts_rule_name = "_" + name + "_ts_compiled"
+    generated_js = _get_output_files(ts_outdir, srcs)
+
+    native.genrule(
+        name = ts_rule_name,
+        srcs = srcs + [
+            ":tsconfig.json",
+            "@ui_npm//:node_modules"
+            ],
+        outs = generated_js,
+        cmd = " && ".join([
+            # "ls ./external/ui_npm && exit 1",
+            "$(location //tools/node_tools:tsc-bin) --project $(location :tsconfig.json) --outdir $(RULEDIR)/" + ts_outdir + " --baseUrl ./external/ui_npm/node_modules",
+        ]),
+        tools = ["//tools/node_tools:tsc-bin"],
+    )
+
     app_name = entry_point.split(".html")[0].split("/").pop()  # eg: gr-app
 
     native.filegroup(
         name = app_name + "-full-src",
-        srcs = srcs + [
+        srcs = generated_js + [
             "@ui_npm//:node_modules",
         ],
     )
@@ -24,7 +59,7 @@ def polygerrit_bundle(name, srcs, outs, entry_point):
         name = app_name + "-bundle-js",
         srcs = [app_name + "-full-src"],
         config_file = ":rollup.config.js",
-        entry_point = "elements/" + app_name + ".js",
+        entry_point = ts_outdir + "/elements/" + app_name + ".js",
         rollup_bin = "//tools/node_tools:rollup-bin",
         sourcemap = "hidden",
         deps = [

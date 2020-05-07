@@ -200,7 +200,6 @@ class GrErrorManager extends mixinBehaviors( [
         showSignInButton: !isLoggedIn,
       });
     });
-    return;
   }
 
   _constructServerErrorMsg({errorText, status, statusText, url, trace, tip}) {

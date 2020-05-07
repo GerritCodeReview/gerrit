@@ -1263,7 +1263,6 @@ class GrFileList extends mixinBehaviors( [
         c, {__commentSide: threadEl.commentSide}
     ));
     flush();
-    return;
   }
 
   _handleEscKey(e) {

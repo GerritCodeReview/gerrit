@@ -36,9 +36,18 @@ interface Suggestion {
   value: any;
 }
 
-/**
- * @extends PolymerElement
- */
+
+interface GrAutocomplete {
+  $: {
+    input: any;
+    suggestions: any;
+    [key: string]: Element;
+    cursor: any;
+  }
+  // From KeyboardShortcutBehavior
+  modifierPressed(e: KeyboardEvent): boolean;
+}
+
 class GrAutocomplete extends mixinBehaviors( [
   KeyboardShortcutBehavior,
 ], GestureEventListeners(
@@ -209,10 +218,40 @@ class GrAutocomplete extends mixinBehaviors( [
 
   // @ts-ignore
   private query: (input: string) => Promise<Suggestion[]>;
+  // @ts-ignore
+  private text: string;
+  // @ts-ignore
+  private _selected: HTMLElement;
+  // @ts-ignore
+  private _focused: boolean;
+  // @ts-ignore
+  private   _disableSuggestions: boolean;
+  // @ts-ignore
+  private   _suggestions: Suggestion[];
+  // @ts-ignore
+  private noDebounce: boolean;
+  // @ts-ignore
+  private threshold: number;
+  // @ts-ignore
+  private warnUncommitted: boolean;
+  // @ts-ignore
+  private value: string;
+  // @ts-ignore
+  private _index: number;
+  // @ts-ignore
+  private tabComplete: boolean;
+  // @ts-ignore
+  private allowNonSuggestedValues: boolean;
+  // @ts-ignore
+  private multi: boolean;
+  // @ts-ignore
+  private _textChangedSinceCommit: boolean;
+  // @ts-ignore
+  private clearOnCommit: boolean;
 
   private get _nativeInput() {
     // In Polymer 2 inputElement isn't nativeInput anymore
-    return this.$.input.$.nativeInput || this.$.input.inputElement;
+    return (this.$.input as any).$.nativeInput || (this.$.input as any).inputElement;
   }
 
   /** @override */
@@ -238,8 +277,8 @@ class GrAutocomplete extends mixinBehaviors( [
 
   selectAll() {
     const nativeInputElement = this._nativeInput;
-    if (!this.$.input.value) { return; }
-    nativeInputElement.setSelectionRange(0, this.$.input.value.length);
+    if (!(this.$.input as any).value) { return; }
+    nativeInputElement.setSelectionRange(0, (this.$.input as any).value.length);
   }
 
   clear() {
@@ -416,13 +455,15 @@ class GrAutocomplete extends mixinBehaviors( [
 
   _updateValue(suggestion: HTMLElement, suggestions: Suggestion[]) {
     if (!suggestion) { return; }
-    const completed = suggestions[parseInt(suggestion.dataset.index!)].value;
+    const completed = suggestions[parseInt(suggestion.dataset['index']!)].value;
     if (this.multi) {
       // Append the completed text to the end of the string.
       // Allow spaces within quoted terms.
       const tokens = this.text.match(TOKENIZE_REGEX);
-      tokens[tokens.length - 1] = completed;
-      this.value = tokens.join(' ');
+      if(tokens) {
+        tokens[tokens.length - 1] = completed;
+        this.value = tokens.join(' ');
+      }
     } else {
       this.value = completed;
     }
@@ -468,7 +509,7 @@ class GrAutocomplete extends mixinBehaviors( [
       this.setText(this.value);
     } else {
       if (!this.clearOnCommit && this._selected) {
-        this.setText(this._suggestions[this._selected.dataset.index].name);
+        this.setText(this._suggestions[parseInt(this._selected.dataset['index']!)].name);
       } else {
         this.clear();
       }

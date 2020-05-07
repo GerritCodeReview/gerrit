@@ -8,6 +8,7 @@ polygerrit_bundle(
     srcs = glob(
         [
             "**/*.js",
+            "**/*.ts",
         ],
         exclude = [
             "node_modules/**",

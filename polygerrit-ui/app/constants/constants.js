@@ -20,9 +20,18 @@
  * @desc Tab names for primary tabs on change view page.
  */
 export const PrimaryTab = {
+<<<<<<< HEAD   (9ae0f7 Rename _commentThreads to comments)
   FILES: 'files',
   COMMENT_THREADS: 'comments',
   FINDINGS: 'findings',
+=======
+  FILES: '_files',
+  /**
+   * When renaming this, the links in UrlFormatter must be updated.
+   */
+  COMMENT_THREADS: '_commentThreads',
+  FINDINGS: '_findings',
+>>>>>>> CHANGE (6d1b98 Fix links and file name in emails for patchset-level comment)
 };
 
 /**

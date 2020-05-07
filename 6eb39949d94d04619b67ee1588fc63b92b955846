@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c46c8fa3_51499653",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-07T14:30:44Z",
+      "side": 1,
+      "message": "Would consider adding some or most of the above instructions to the changed documentation. -So the act of enabling rolling upgrades is well understood in terms of how and why to do it, and what are the expectations (and consequences).",
+      "revId": "6eb39949d94d04619b67ee1588fc63b92b955846",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

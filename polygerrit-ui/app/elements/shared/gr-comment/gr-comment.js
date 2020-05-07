@@ -164,6 +164,7 @@ class GrComment extends mixinBehaviors( [
       collapsed: {
         type: Boolean,
         value: true,
+        reflectToAttribute: true,
         observer: '_toggleCollapseClass',
       },
       /** @type {?} */

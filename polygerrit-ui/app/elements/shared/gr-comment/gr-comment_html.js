@@ -23,6 +23,9 @@ export const htmlTemplate = html`
       font-family: var(--font-family);
       padding: var(--spacing-m);
     }
+    :host([collapsed]) {
+      padding: var(--spacing-s) var(--spacing-m);
+    }
     :host([disabled]) {
       pointer-events: none;
     }
@@ -34,19 +37,16 @@ export const htmlTemplate = html`
     :host([discarding]) {
       display: none;
     }
+    .body {
+      padding-top: var(--spacing-m);
+    }
     .header {
       align-items: center;
       cursor: pointer;
       display: flex;
-      margin: calc(0px - var(--spacing-m)) calc(0px - var(--spacing-m)) 0
-        calc(0px - var(--spacing-m));
-      padding: var(--spacing-m);
     }
     .headerLeft > span {
       font-weight: var(--font-weight-bold);
-    }
-    .container.collapsed .header {
-      margin-bottom: calc(0 - var(--spacing-m));
     }
     .headerMiddle {
       color: var(--deemphasized-text-color);
@@ -60,8 +60,7 @@ export const htmlTemplate = html`
     }
     .date {
       justify-content: flex-end;
-      margin-left: 5px;
-      min-width: 4.5em;
+      margin-left: var(--spacing-m);
       text-align: right;
       white-space: nowrap;
     }
@@ -76,6 +75,12 @@ export const htmlTemplate = html`
       display: flex;
       justify-content: flex-end;
       padding-top: 0;
+    }
+    .robotActions {
+      /* Better than the negative margin would be to remove the gr-button
+       * padding, but then we would also need to fix the buttons that are
+       * inserted by plugins. :-/ */
+      margin: 4px 0 -4px;
     }
     .action {
       margin-left: var(--spacing-l);
@@ -131,16 +136,6 @@ export const htmlTemplate = html`
     .robotId {
       color: var(--deemphasized-text-color);
       margin-bottom: var(--spacing-m);
-      margin-top: -0.4em;
-    }
-    .robotIcon {
-      margin-right: var(--spacing-xs);
-      /* because of the antenna of the robot, it looks off center even when it
-         is centered. artificially adjust margin to account for this. */
-      margin-top: -4px;
-    }
-    .runIdInformation {
-      margin: var(--spacing-m) 0;
     }
     .robotRun {
       margin-left: var(--spacing-m);
@@ -161,17 +156,20 @@ export const htmlTemplate = html`
     #container .collapsedContent {
       display: none;
     }
-    #container.collapsed {
-      padding-bottom: 3px;
+    #container.collapsed .body {
+      padding-top: 0;
     }
     #container.collapsed .collapsedContent {
       display: block;
       overflow: hidden;
-      padding-left: 5px;
+      padding-left: var(--spacing-m);
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+    #container.collapsed #deleteBtn,
+    #container.collapsed .date,
     #container.collapsed .actions,
+    #container.collapsed .comment-extra-note,
     #container.collapsed gr-formatted-text,
     #container.collapsed gr-textarea,
     #container.collapsed .respectfulReviewTip {

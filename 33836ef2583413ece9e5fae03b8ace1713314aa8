@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70ef86b5_406d94a2",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceIdModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-07T11:30:54Z",
+      "side": 1,
+      "message": "This is not strictly related to the propagation but rather in the definition of the instance-id provider. Can you move it to the parent change instead?",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 23
+      },
+      "revId": "33836ef2583413ece9e5fae03b8ace1713314aa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d116680f_59999752",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceIdProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-07T11:30:54Z",
+      "side": 1,
+      "message": "This isn\u0027t a proper way to initialise a static field. You may have a situation where the class is referenced and the static field used, but the Guice injection could have not be triggered yet and therefore the field would have not been initialised yet.",
+      "range": {
+        "startLine": 17,
+        "startChar": 4,
+        "endLine": 17,
+        "endChar": 14
+      },
+      "revId": "33836ef2583413ece9e5fae03b8ace1713314aa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9c67f99_6e8c41e4",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceIdProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-07T11:30:54Z",
+      "side": 1,
+      "message": "This is a public method of a public class: JavaDoc is typically required.",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 25,
+        "endChar": 37
+      },
+      "revId": "33836ef2583413ece9e5fae03b8ace1713314aa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f922572e_fe08a70f",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceIdProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-07T11:30:54Z",
+      "side": 1,
+      "message": "typo: getInstanceId",
+      "range": {
+        "startLine": 25,
+        "startChar": 23,
+        "endLine": 25,
+        "endChar": 37
+      },
+      "revId": "33836ef2583413ece9e5fae03b8ace1713314aa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

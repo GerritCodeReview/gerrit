@@ -22,6 +22,30 @@
       "revId": "7e0a59a64d479c00b91b8f1ef5d495fed39655dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa89cd2a_c8b5e7e7",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3243,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-07T14:22:02Z",
+      "side": 1,
+      "message": "\u003e Could the branch contain changes that were targeted to a different branch?\n\nIn that case, I wouldn\u0027t expect these changes to be auto-closed, actually. They didn\u0027t get merged into their destination branches.",
+      "parentUuid": "4c477201_259fb32c",
+      "range": {
+        "startLine": 3242,
+        "startChar": 60,
+        "endLine": 3243,
+        "endChar": 51
+      },
+      "revId": "7e0a59a64d479c00b91b8f1ef5d495fed39655dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

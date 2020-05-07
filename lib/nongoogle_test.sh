@@ -34,6 +34,7 @@ powermock-module-junit4
 powermock-module-junit4-common
 powermock-reflect
 sshd
+sshd-common
 sshd-mina
 testcontainers
 testcontainers-elasticsearch

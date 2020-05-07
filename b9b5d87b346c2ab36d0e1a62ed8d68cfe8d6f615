@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cb01bc1_b20c3d13",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-05-07T09:14:07Z",
+      "side": 1,
+      "message": "I think you also need to check if the schema supports the necessary field for this query operator with\n\n  if (args.getSchema().hasField(ChangeField.MERGE)) {\n\nand reject the query if not.",
+      "revId": "b9b5d87b346c2ab36d0e1a62ed8d68cfe8d6f615",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

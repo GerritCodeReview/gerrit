@@ -1281,6 +1281,10 @@ public class MyListener implements GitReferenceUpdatedListener {
 }
 ----
 
+== Trace Event origin
+
+When working with multi-master setups it can be useful to know on which instance an Event was generated.
+If link:config-gerrit.html[instanceId] is set, each Event will contain its origin in the `eventInstanceOrigin` field.
 
 [[capabilities]]
 == Plugin Owned Capabilities

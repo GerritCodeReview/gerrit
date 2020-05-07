@@ -1281,6 +1281,39 @@ public class MyListener implements GitReferenceUpdatedListener {
 }
 ----
 
+== Trace Event origin
+
+When plugins are installed in a multi-master setups it can be useful to know
+the Gerrit `instanceId` of the server that has generated an Event.
+
+E.g. A plugin that sends an instance message for every comment on a change may
+want to react only if the event is generated on the local Gerrit master, for
+avoiding duplicating the notifications.
+
+If link:config-gerrit.html[instanceId] is set, each Event will contain its
+origin in the `instanceId` field.
+
+Here and example of ref-updated JSON event payload with `instanceId`:
+
+[source,json]
+---
+{
+  "submitter": {
+    "name": "Administrator",
+    "email": "admin@example.com",
+    "username": "admin"
+  },
+  "refUpdate": {
+    "oldRev": "a69fc95c7aad5ad41c618d31548b8af835d2959a",
+    "newRev": "31da6556d638a74e5370b62f83e8007f94abb7c6",
+    "refName": "refs/changes/01/1/meta",
+    "project": "test"
+  },
+  "type": "ref-updated",
+  "eventCreatedOn": 1588849085,
+  "instanceId": "instance1"
+}
+---
 
 [[capabilities]]
 == Plugin Owned Capabilities

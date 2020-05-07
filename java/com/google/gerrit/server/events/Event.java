@@ -14,11 +14,13 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.gerrit.server.config.GerritInstanceIdProvider;
 import com.google.gerrit.server.util.time.TimeUtil;
 
 public abstract class Event {
   public final String type;
   public long eventCreatedOn = TimeUtil.nowMs() / 1000L;
+  public final String instanceId = GerritInstanceIdProvider.getInstanceId();
 
   protected Event(String type) {
     this.type = type;

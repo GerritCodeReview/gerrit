@@ -289,10 +289,9 @@ class GrDiffCursor extends GestureEventListeners(
   reInitCursor() {
     if (!this.diffRow) {
       // does not scroll during init unless requested
-      const scrollingBehaviorForInit = this.initialLineNumber ?
+      this._scrollMode = this.initialLineNumber ?
         ScrollMode.KEEP_VISIBLE :
         ScrollMode.NEVER;
-      this._scrollMode = scrollingBehaviorForInit;
       if (this.initialLineNumber) {
         this.moveToLineNumber(this.initialLineNumber, this.side);
         this.initialLineNumber = null;

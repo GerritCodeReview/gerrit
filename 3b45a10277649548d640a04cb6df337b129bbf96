@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d0d7664_e5487b6b",
+        "filename": "java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-07T17:44:12Z",
+      "side": 1,
+      "message": "This comes fairly close to what I meant but it still contains too much custom code. It\u0027s unnecessary to manually implement the comparator for magic files. In addition, you can chain the comparators directly instead of comparing on getNewName twice, which allows testing the production code instead of another test setup.\n\nCode which could be used instead to achieve the same:\n\n  static final Comparator\u003cString\u003e FILE_PATH_CMP \u003d\n      Comparator.comparing(Patch::isMagic).reversed().thenComparing(Comparator.naturalOrder());\n  private static final Comparator\u003cPatchListEntry\u003e PATCH_CMP \u003d\n      Comparator.comparing(PatchListEntry::getNewName, FILE_PATH_CMP);",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 64,
+        "endChar": 3
+      },
+      "revId": "3b45a10277649548d640a04cb6df337b129bbf96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0745bff_5d06a6d0",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-07T17:44:12Z",
+      "side": 1,
+      "message": "We don\u0027t really care what the new text is in this test. That\u0027s already covered by another test (if we even care about the exact text). Within this test, we only care that the original text is gone (\u003d deleted, as the comment entity won\u0027t be deleted). Hence, we should choose a very unique text as original comment message and verify here that it\u0027s not contained anymore.",
+      "range": {
+        "startLine": 210,
+        "startChar": 4,
+        "endLine": 212,
+        "endChar": 62
+      },
+      "revId": "3b45a10277649548d640a04cb6df337b129bbf96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "280ac2f1_b32af1ce",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-07T17:44:12Z",
+      "side": 1,
+      "message": "I don\u0027t think we care about that within this test. For this test, we only need to ensure that comment deletion generally works (\u003d original message was removed without exceptions) for patchset-level comments. Nothing more.",
+      "range": {
+        "startLine": 213,
+        "startChar": 4,
+        "endLine": 214,
+        "endChar": 53
+      },
+      "revId": "3b45a10277649548d640a04cb6df337b129bbf96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e23eed59_44050cf0",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-07T17:44:12Z",
+      "side": 1,
+      "message": "We shouldn\u0027t have this as part of this test. It\u0027s a different behavior/aspect.",
+      "range": {
+        "startLine": 279,
+        "startChar": 0,
+        "endLine": 280,
+        "endChar": 85
+      },
+      "revId": "3b45a10277649548d640a04cb6df337b129bbf96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2eaaf4f7_72cfc1bf",
+        "filename": "javatests/com/google/gerrit/server/patch/PatchListTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-07T17:44:12Z",
+      "side": 1,
+      "message": "This can easily deviate from the original configuration in PatchList. It would be better to make the path comparator in PatchList package-private, mark it as @VisibleForTesting, and directly test on it.",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 33,
+        "endChar": 96
+      },
+      "revId": "3b45a10277649548d640a04cb6df337b129bbf96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

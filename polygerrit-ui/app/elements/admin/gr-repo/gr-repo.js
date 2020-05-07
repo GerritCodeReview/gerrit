@@ -353,8 +353,8 @@ class GrRepo extends GestureEventListeners(
       commands.push({
         title,
         command: commandObj[title]
-            .replace(/\$\{project\}/gi, encodeURI(repo))
-            .replace(/\$\{project-base-name\}/gi,
+            .replace(/\${project}/gi, encodeURI(repo))
+            .replace(/\${project-base-name}/gi,
                 encodeURI(repo.substring(repo.lastIndexOf('/') + 1))),
       });
     }

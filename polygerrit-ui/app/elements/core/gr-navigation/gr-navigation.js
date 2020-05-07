@@ -86,7 +86,7 @@ const uninitialized = () => {
 const EDIT_PATCHNUM = 'edit';
 const PARENT_PATCHNUM = 'PARENT';
 
-const USER_PLACEHOLDER_PATTERN = /\$\{user\}/g;
+const USER_PLACEHOLDER_PATTERN = /\${user}/g;
 
 // NOTE: These queries are tested in Java. Any changes made to definitions
 // here require corresponding changes to:

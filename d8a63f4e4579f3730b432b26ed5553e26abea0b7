@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d963ccaf_b3f38831",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-07T14:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3e20ea9_cf3fbbbe",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 10
+      },
+      "revId": "d8a63f4e4579f3730b432b26ed5553e26abea0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9392e66e_f93cd784",
         "filename": "/COMMIT_MSG",
         "patchSetId": 11
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a1f91349_106b08af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-07T14:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9392e66e_f93cd784",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 28
+      },
+      "revId": "d8a63f4e4579f3730b432b26ed5553e26abea0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e178f553_57b0b8c1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 11
@@ -62,6 +110,24 @@
       "revId": "d8a63f4e4579f3730b432b26ed5553e26abea0b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16b6669b_768e6f7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-07T14:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e178f553_57b0b8c1",
+      "revId": "d8a63f4e4579f3730b432b26ed5553e26abea0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "56a42dde_60750023",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-07T14:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbe5d80c_3ebe8e32",
+      "range": {
+        "startLine": 46,
+        "startChar": 64,
+        "endLine": 47,
+        "endChar": 35
+      },
+      "revId": "d8a63f4e4579f3730b432b26ed5553e26abea0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1bcd57a0_5fcad620",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 11
@@ -131,6 +221,30 @@
       "revId": "d8a63f4e4579f3730b432b26ed5553e26abea0b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5ddad6f_2b50c6bb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 5728,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-07T14:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bcd57a0_5fcad620",
+      "range": {
+        "startLine": 5728,
+        "startChar": 0,
+        "endLine": 5728,
+        "endChar": 44
+      },
+      "revId": "d8a63f4e4579f3730b432b26ed5553e26abea0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -157,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "4d057002_906f0a09",
+        "filename": "java/com/google/gerrit/entities/Patch.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-07T14:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e987da7_b238d8bc",
+      "range": {
+        "startLine": 38,
+        "startChar": 77,
+        "endLine": 38,
+        "endChar": 87
+      },
+      "revId": "d8a63f4e4579f3730b432b26ed5553e26abea0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08906c51_b0d326c3",
         "filename": "java/com/google/gerrit/server/patch/PatchList.java",
         "patchSetId": 11
@@ -180,6 +318,30 @@
     },
     {
       "key": {
+        "uuid": "4cbd37e0_9e9bcbfa",
+        "filename": "java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-07T14:14:28Z",
+      "side": 1,
+      "message": "The units tests and the tests in RevisionDiffIT ensures it works properly.\nI made the change you suggested.",
+      "parentUuid": "08906c51_b0d326c3",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 0
+      },
+      "revId": "d8a63f4e4579f3730b432b26ed5553e26abea0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91705df4_aec6a0a9",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 11
@@ -200,6 +362,30 @@
       "revId": "d8a63f4e4579f3730b432b26ed5553e26abea0b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f913eaff_03e99f90",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-07T14:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91705df4_aec6a0a9",
+      "range": {
+        "startLine": 314,
+        "startChar": 54,
+        "endLine": 314,
+        "endChar": 58
+      },
+      "revId": "d8a63f4e4579f3730b432b26ed5553e26abea0b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

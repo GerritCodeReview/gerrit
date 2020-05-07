@@ -1177,6 +1177,30 @@
     },
     {
       "key": {
+        "uuid": "967608d6_c2f51f3f",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-07T14:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c51e2c0_aa74bfe3",
+      "range": {
+        "startLine": 1156,
+        "startChar": 0,
+        "endLine": 1161,
+        "endChar": 75
+      },
+      "revId": "a2d90cb8840e1ae43ada8206b77b01af1b8dc2c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "53cf1239_6032b49f",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 5

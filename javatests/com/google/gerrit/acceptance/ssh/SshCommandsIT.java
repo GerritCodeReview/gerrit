@@ -18,6 +18,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Streams;
@@ -29,6 +30,9 @@ import com.google.gerrit.acceptance.UseSsh;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Spliterator;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import org.junit.Test;
 
 @NoHttpd
@@ -162,6 +166,38 @@ public class SshCommandsIT extends AbstractDaemonTest {
     assertThat(commands).containsExactlyElementsIn(SLAVE_COMMANDS.get("gerrit")).inOrder();
   }
 
+  @Test
+  @Sandboxed
+  public void showConnections() throws Exception {
+    Spliterator<String> connectionsOutput =
+        getOutputLines(adminSshSession.exec("gerrit show-connections"));
+
+    assertThat(findConnectionsInOutput(connectionsOutput, "user")).hasSize(1);
+  }
+
+  @Test
+  @Sandboxed
+  public void cloeConnections() throws Exception {
+    List<String> connectionsOutput =
+        findConnectionsInOutput(
+            getOutputLines(adminSshSession.exec("gerrit show-connections")), "user");
+    String connectionId =
+        Splitter.on(" ")
+            .trimResults()
+            .omitEmptyStrings()
+            .split(connectionsOutput.get(0))
+            .iterator()
+            .next();
+
+    String closeConnectionOutput = adminSshSession.exec("gerrit close-connection " + connectionId);
+    assertThat(closeConnectionOutput).contains(connectionId);
+
+    assertThat(
+            findConnectionsInOutput(
+                getOutputLines(adminSshSession.exec("gerrit show-connections")), "user"))
+        .isEmpty();
+  }
+
   private List<String> parseCommandsFromGerritHelpText(String helpText) {
     List<String> commands = new ArrayList<>();
 
@@ -193,5 +229,17 @@ public class SshCommandsIT extends AbstractDaemonTest {
     }
 
     return commands;
+  }
+
+  private List<String> findConnectionsInOutput(Spliterator<String> connectionsOutput, String user) {
+    List<String> connections =
+        StreamSupport.stream(connectionsOutput, false)
+            .filter(s -> s.contains("localhost") && s.contains(user))
+            .collect(Collectors.toList());
+    return connections;
+  }
+
+  private Spliterator<String> getOutputLines(String output) throws Exception {
+    return Splitter.on("\n").trimResults().omitEmptyStrings().split(output).spliterator();
   }
 }

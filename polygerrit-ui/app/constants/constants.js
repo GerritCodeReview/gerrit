@@ -21,6 +21,9 @@
  */
 export const PrimaryTab = {
   FILES: 'files',
+  /**
+   * When renaming this, the links in UrlFormatter must be updated.
+   */
   COMMENT_THREADS: 'comments',
   FINDINGS: 'findings',
 };

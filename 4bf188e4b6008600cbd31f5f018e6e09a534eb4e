@@ -22,6 +22,30 @@
       "revId": "4bf188e4b6008600cbd31f5f018e6e09a534eb4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c16dfcd_6201c583",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-07T07:25:12Z",
+      "side": 1,
+      "message": "\u003e This again regresses compared to the --no-reindex option for upgrade of gerrit to newer release with bumped index schema version. Consider the case where project index schema version would be bumped. Old site: index schema version 17, new gerrit release would bump the index schema to 25. With this approach, 100,000 projects would be reindexed in init site program. Without this change, --no-reindex could be passed, and reindexing can be deferred to reindex program or to online reindexing feature.\n\nThe v3.1 has exactly the same schema version, so the online reindex case you are referring to isn\u0027t an issue at the moment.\nWhich patch do you suggest that would you accept this change? Preserving the \u0027--no-reindex\u0027 option anyway?",
+      "parentUuid": "f222b537_6d27772f",
+      "range": {
+        "startLine": 268,
+        "startChar": 30,
+        "endLine": 268,
+        "endChar": 88
+      },
+      "revId": "4bf188e4b6008600cbd31f5f018e6e09a534eb4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

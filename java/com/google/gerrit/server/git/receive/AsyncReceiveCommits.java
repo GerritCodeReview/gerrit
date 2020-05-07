@@ -360,12 +360,12 @@ public class AsyncReceiveCommits {
       // pre-receive hooks
       return ReceiveCommitsResult.empty();
     }
-
+    String currentThreadName = Thread.currentThread().getName();
     MultiProgressMonitor monitor = newMultiProgressMonitor(receiveCommits.getMessageSender());
     Callable<ReceiveCommitsResult> callable =
         () -> {
           String oldName = Thread.currentThread().getName();
-          Thread.currentThread().setName(oldName + "-for-" + Thread.currentThread().getName());
+          Thread.currentThread().setName(oldName + "-for-" + currentThreadName);
           try {
             return receiveCommits.processCommands(commands, monitor);
           } finally {

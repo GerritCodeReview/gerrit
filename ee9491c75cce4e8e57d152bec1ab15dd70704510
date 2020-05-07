@@ -166,6 +166,30 @@
       "revId": "ee9491c75cce4e8e57d152bec1ab15dd70704510",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9429a097_19832450",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-07T00:03:09Z",
+      "side": 1,
+      "message": "Traced as https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d12704 and it will be fixed in a follow-up change.",
+      "parentUuid": "13b6feb6_817b0e78",
+      "range": {
+        "startLine": 153,
+        "startChar": 2,
+        "endLine": 159,
+        "endChar": 3
+      },
+      "revId": "ee9491c75cce4e8e57d152bec1ab15dd70704510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

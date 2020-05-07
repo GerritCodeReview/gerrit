@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42ec5575_f3c1be11",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceIdProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-05-07T18:12:37Z",
+      "side": 1,
+      "message": "@Nullable?",
+      "revId": "744bacf7187bee61aa014a21e151b4b97a266876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

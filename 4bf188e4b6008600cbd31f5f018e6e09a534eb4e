@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f222b537_6d27772f",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-07T05:06:17Z",
+      "side": 1,
+      "message": "This again regresses compared to the --no-reindex option for upgrade of gerrit to newer release with bumped index schema version. Consider the case where project index schema version would be bumped. Old site: index schema version 17, new gerrit release would bump the index schema to 25. With this approach, 100,000 projects would be reindexed in init site program. Without this change, --no-reindex could be passed, and reindexing can be deferred to reindex program or to online reindexing feature.\n\nReal life example, see this change where I removed older index schema versions and bumped Lucene to new release: [1]. Note, that because of the online reindexing support, this can only be submitted during the new release is conducted. So that it\u0027s really unfortunate, that this series: [1] can not make into 3.2 release.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/178051/34",
+      "range": {
+        "startLine": 268,
+        "startChar": 30,
+        "endLine": 268,
+        "endChar": 88
+      },
+      "revId": "4bf188e4b6008600cbd31f5f018e6e09a534eb4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

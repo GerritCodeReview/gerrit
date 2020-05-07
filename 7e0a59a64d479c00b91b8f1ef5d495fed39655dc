@@ -46,6 +46,30 @@
       "revId": "7e0a59a64d479c00b91b8f1ef5d495fed39655dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c32de7c_032677d5",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3243,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2020-05-07T14:22:39Z",
+      "side": 1,
+      "message": "Ah, we only auto-close if the target branch is the same. That seems less plausible as a thing to happen. :)\n\nSo the change you made looks good. _Optionally_ it could make sense to do a change search as a sanity-check that there are no changes with this new branch as target and log or something if there are.",
+      "parentUuid": "4c477201_259fb32c",
+      "range": {
+        "startLine": 3242,
+        "startChar": 60,
+        "endLine": 3243,
+        "endChar": 51
+      },
+      "revId": "7e0a59a64d479c00b91b8f1ef5d495fed39655dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

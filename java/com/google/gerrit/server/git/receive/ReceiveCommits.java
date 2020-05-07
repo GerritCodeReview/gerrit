@@ -3360,6 +3360,8 @@ class ReceiveCommits {
         logger.atSevere().withCause(e).log("Can't insert patchset");
       } catch (UpdateException e) {
         logger.atSevere().withCause(e).log("Failed to auto-close changes");
+      } finally {
+        logger.atFine().log("Done auto-closing changes");
       }
     }
   }

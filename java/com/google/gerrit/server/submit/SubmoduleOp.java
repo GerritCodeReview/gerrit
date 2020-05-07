@@ -58,6 +58,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.jgit.dircache.DirCache;
@@ -82,9 +83,11 @@ public class SubmoduleOp {
   /** Only used for branches without code review changes */
   public class GitlinkOp implements RepoOnlyOp {
     private final BranchNameKey branch;
+    private final CachedBranchTips branchTipsCache;
 
-    GitlinkOp(BranchNameKey branch) {
+    GitlinkOp(BranchNameKey branch, CachedBranchTips branchTips) {
       this.branch = branch;
+      this.branchTipsCache = branchTips;
     }
 
     @Override
@@ -92,7 +95,7 @@ public class SubmoduleOp {
       CodeReviewCommit c = composeGitlinksCommit(branch);
       if (c != null) {
         ctx.addRefUpdate(c.getParent(0), c, branch.branch());
-        addBranchTip(branch, c);
+        branchTipsCache.put(branch, c);
       }
     }
   }
@@ -137,12 +140,6 @@ public class SubmoduleOp {
   private final ImmutableSet<BranchNameKey> updatedBranches;
 
   /**
-   * Current branch tips, taking into account commits created during the submit process as well as
-   * submodule updates produced by this class.
-   */
-  private final Map<BranchNameKey, CodeReviewCommit> branchTips;
-
-  /**
    * Branches in a superproject that contain submodule subscriptions, plus branches in submodules
    * which are subscribed to by some superproject.
    */
@@ -154,6 +151,7 @@ public class SubmoduleOp {
   /** Multimap of superproject branch to submodule subscriptions contained in that branch. */
   private final SetMultimap<BranchNameKey, SubmoduleSubscription> targets;
 
+  private final CachedBranchTips branchTips = new CachedBranchTips();
   /**
    * Multimap of superproject name to all branch names within that superproject which have submodule
    * subscriptions.
@@ -182,7 +180,6 @@ public class SubmoduleOp {
     this.updatedBranches = ImmutableSet.copyOf(updatedBranches);
     this.targets = MultimapBuilder.hashKeys().hashSetValues().build();
     this.affectedBranches = new HashSet<>();
-    this.branchTips = new HashMap<>();
     this.branchGitModules = new HashMap<>();
     this.branchesByProject = MultimapBuilder.hashKeys().hashSetValues().build();
     this.sortedBranches = calculateSubscriptionMaps();
@@ -432,18 +429,13 @@ public class SubmoduleOp {
       throw new StorageException("Cannot access superproject", e);
     }
 
-    CodeReviewCommit currentCommit;
-    if (branchTips.containsKey(subscriber)) {
-      currentCommit = branchTips.get(subscriber);
-    } else {
-      Ref r = or.repo.exactRef(subscriber.branch());
-      if (r == null) {
-        throw new SubmoduleConflictException(
-            "The branch was probably deleted from the subscriber repository");
-      }
-      currentCommit = or.rw.parseCommit(r.getObjectId());
-      addBranchTip(subscriber, currentCommit);
-    }
+    CodeReviewCommit currentCommit =
+        branchTips
+            .getTip(subscriber, or)
+            .orElseThrow(
+                () ->
+                    new SubmoduleConflictException(
+                        "The branch was probably deleted from the subscriber repository"));
 
     StringBuilder msgbuf = new StringBuilder();
     PersonIdent author = null;
@@ -574,25 +566,17 @@ public class SubmoduleOp {
       }
     }
 
-    final CodeReviewCommit newCommit;
-    if (branchTips.containsKey(s.getSubmodule())) {
-      // This submodule's branch was updated as part of this specific submit batch: update the
-      // gitlink to point to the new commit from the batch.
-      newCommit = branchTips.get(s.getSubmodule());
-    } else {
+    Optional<CodeReviewCommit> maybeNewCommit = branchTips.getTip(s.getSubmodule(), subOr);
+    if (!maybeNewCommit.isPresent()) {
       // For whatever reason, this submodule was not updated as part of this submit batch, but the
       // superproject is still subscribed to this branch. Re-read the ref to see if anything has
       // changed since the last time the gitlink was updated, and roll that update into the same
       // commit as all other submodule updates.
-      Ref ref = subOr.repo.getRefDatabase().exactRef(s.getSubmodule().branch());
-      if (ref == null) {
-        ed.add(new DeletePath(s.getPath()));
-        return null;
-      }
-      newCommit = subOr.rw.parseCommit(ref.getObjectId());
-      addBranchTip(s.getSubmodule(), newCommit);
+      ed.add(new DeletePath(s.getPath()));
+      return null;
     }
 
+    CodeReviewCommit newCommit = maybeNewCommit.get();
     if (Objects.equals(newCommit, oldCommit)) {
       // gitlink have already been updated for this submodule
       return null;
@@ -737,6 +721,6 @@ public class SubmoduleOp {
   }
 
   void addOp(BatchUpdate bu, BranchNameKey branch) {
-    bu.addRepoOnlyOp(new GitlinkOp(branch));
+    bu.addRepoOnlyOp(new GitlinkOp(branch, branchTips));
   }
 }

@@ -126,13 +126,13 @@ client so they are generally disabled by default. Optional fields are:
 
 ==== Find groups that are owned by another group
 
-By setting `ownedBy` and specifying the link:#group-id[\{group-id\}] of another
+By setting `owned-by` and specifying the link:#group-id[\{group-id\}] of another
 group, it is possible to find all the groups for which the owning group is the
 given group.
 
 .Request
 ----
-  GET /groups/?ownedBy=7ca042f4d5847936fcb90ca91057673157fd06fc HTTP/1.0
+  GET /groups/?owned-by=7ca042f4d5847936fcb90ca91057673157fd06fc HTTP/1.0
 ----
 
 .Response

@@ -834,8 +834,7 @@ suite('gr-diff tests', () => {
     });
 
     test('setting', () => {
-      const mockBlame = [{id: 'commit id', ranges: [{start: 1, end: 2}]}];
-      element.blame = mockBlame;
+      element.blame = [{id: 'commit id', ranges: [{start: 1, end: 2}]}];
       assert.isTrue(element.classList.contains('showBlame'));
     });
   });
@@ -1004,8 +1003,7 @@ suite('gr-diff tests', () => {
     }
     setupSampleDiff({content});
     assertDiffTableWithContent();
-    const diffCopy = Object.assign({}, element.diff);
-    element.diff = diffCopy;
+    element.diff = Object.assign({}, element.diff);
     // immediately cleaned up
     assert.equal(element.$.diffTable.innerHTML, '');
     element._renderDiffTable();

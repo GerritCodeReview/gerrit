@@ -70,6 +70,30 @@
       "revId": "4bf188e4b6008600cbd31f5f018e6e09a534eb4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ac72918_80ec2ec6",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-07T08:21:05Z",
+      "side": 1,
+      "message": "\u003e I am fine with leaving --no-reindex option as is\n\nLet me keep the --no-reindex also.",
+      "parentUuid": "b96d0755_54fa6923",
+      "range": {
+        "startLine": 268,
+        "startChar": 30,
+        "endLine": 268,
+        "endChar": 88
+      },
+      "revId": "4bf188e4b6008600cbd31f5f018e6e09a534eb4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -737,7 +737,7 @@ class ReceiveCommits {
       Set<BranchNameKey> branches = new HashSet<>();
       for (ReceiveCommand c : cmds) {
         // Most post-update steps should happen in UpdateOneRefOp#postUpdate. The only steps that
-        // should happen in this loop are things that can't happen within one BatchUpdate because
+        // should happen in this loops are things that can't happen within one BatchUpdate because
         // they involve kicking off an additional BatchUpdate.
         if (c.getResult() != OK) {
           continue;
@@ -3238,6 +3238,13 @@ class ReceiveCommits {
                       ObjectInserter ins = repo.newObjectInserter();
                       ObjectReader reader = ins.newReader();
                       RevWalk rw = new RevWalk(reader)) {
+                    if (ObjectId.zeroId().equals(cmd.getOldId())) {
+                      // The user is creating a new branch. The branch can't contain any changes, so
+                      // auto-closing doesn't apply. Exiting here early to spare any further,
+                      // potentially expensive computation that loop over all commits.
+                      return null;
+                    }
+
                     bu.setRepository(repo, rw, ins);
                     // TODO(dborowitz): Teach BatchUpdate to ignore missing changes.
 
@@ -3247,9 +3254,7 @@ class ReceiveCommits {
                     rw.reset();
                     rw.sort(RevSort.REVERSE);
                     rw.markStart(newTip);
-                    if (!ObjectId.zeroId().equals(cmd.getOldId())) {
-                      rw.markUninteresting(rw.parseCommit(cmd.getOldId()));
-                    }
+                    rw.markUninteresting(rw.parseCommit(cmd.getOldId()));
 
                     Map<Change.Key, ChangeNotes> byKey = null;
                     List<ReplaceRequest> replaceAndClose = new ArrayList<>();
@@ -3261,6 +3266,8 @@ class ReceiveCommits {
                     for (RevCommit c; (c = rw.next()) != null; ) {
                       rw.parseBody(c);
 
+                      // Check if change refs point to this commit. Usually there are 0-1 change
+                      // refs pointing to this commit.
                       for (Ref ref :
                           receivePackRefCache.tipsFromObjectId(c.copy(), RefNames.REFS_CHANGES)) {
                         PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());

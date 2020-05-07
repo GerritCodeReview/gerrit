@@ -46,6 +46,30 @@
       "revId": "4bf188e4b6008600cbd31f5f018e6e09a534eb4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b96d0755_54fa6923",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-07T08:14:23Z",
+      "side": 1,
+      "message": "\u003e The v3.1 has exactly the same schema version, so the online reindex case you are referring to isn\u0027t an issue at the moment.\n\nThat\u0027s a joke, but a bad one. I am not accepting changes that are working today (v3.1-\u003ev3.2) and break the migration machinery tomorrow, after: [1] is merged, or any other projects index schema changes are implemented.\n\nI am fine with leaving --no-reindex option as is, or open to review a change for removal of --no-reindex option. \n\nBut, needles to say, it must work for both existing index backens and without regressions for current and future projects index schema migrations.",
+      "parentUuid": "7c16dfcd_6201c583",
+      "range": {
+        "startLine": 268,
+        "startChar": 30,
+        "endLine": 268,
+        "endChar": 88
+      },
+      "revId": "4bf188e4b6008600cbd31f5f018e6e09a534eb4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

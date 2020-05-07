@@ -93,6 +93,30 @@
       "revId": "fcef757bfa9d3eb2158256f84f45d4c0f12207d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "537c22f8_67cb5051",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2234,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-05-07T18:10:08Z",
+      "side": 1,
+      "message": "I would think \u0027serviceName\u0027 would be a clearer choice instead of instanceName. Most docs referring to an application that can be clustered or not (HA wikipedia page, k8s docs, etc) refer to this object as a \u0027service\u0027.\n\nI\u0027ll admit some bias about that as we have an internal concept of \"canonical gerrit service name\" which we use to refer to a service responsible for a specific set of data (same git repos, database, etc). But, I forgot about that when I came up with serviceName and only remembered it when I typed out the first sentence above 😊\n\nI don\u0027t know what all will be involved to rename this, but maybe start with introducing serviceName as an alias? (assuming you like it too)",
+      "parentUuid": "6d8d3484_91a0bc51",
+      "range": {
+        "startLine": 2234,
+        "startChar": 30,
+        "endLine": 2234,
+        "endChar": 42
+      },
+      "revId": "fcef757bfa9d3eb2158256f84f45d4c0f12207d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

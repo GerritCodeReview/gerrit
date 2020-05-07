@@ -29,12 +29,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import org.apache.sshd.common.Factory;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
 import org.apache.sshd.server.SessionAware;
+import org.apache.sshd.server.channel.ChannelSession;
 import org.apache.sshd.server.command.Command;
 import org.apache.sshd.server.session.ServerSession;
+import org.apache.sshd.server.shell.ShellFactory;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.util.SystemReader;
 
@@ -44,7 +45,7 @@ import org.eclipse.jgit.util.SystemReader;
  * <p>This implementation is used to ensure clients who try to SSH directly to this server without
  * supplying a command will get a reasonable error message, but cannot continue further.
  */
-class NoShell implements Factory<Command> {
+class NoShell implements ShellFactory {
   private final Provider<SendMessage> shell;
 
   @Inject
@@ -53,7 +54,7 @@ class NoShell implements Factory<Command> {
   }
 
   @Override
-  public Command create() {
+  public Command createShell(ChannelSession channel) {
     return shell.get();
   }
 
@@ -103,7 +104,7 @@ class NoShell implements Factory<Command> {
     }
 
     @Override
-    public void start(Environment env) throws IOException {
+    public void start(ChannelSession channel, Environment env) throws IOException {
       Context old = sshScope.set(context);
       String message;
       try {
@@ -121,7 +122,7 @@ class NoShell implements Factory<Command> {
     }
 
     @Override
-    public void destroy() {}
+    public void destroy(ChannelSession channel) {}
   }
 
   static class MessageFactory {

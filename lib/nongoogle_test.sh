@@ -33,9 +33,8 @@ powermock-core
 powermock-module-junit4
 powermock-module-junit4-common
 powermock-reflect
-sshd
-sshd-common
 sshd-mina
+sshd-osgi
 testcontainers
 testcontainers-elasticsearch
 tukaani-xz

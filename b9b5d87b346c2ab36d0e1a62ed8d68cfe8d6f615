@@ -16,6 +16,24 @@
       "revId": "b9b5d87b346c2ab36d0e1a62ed8d68cfe8d6f615",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30bad704_c0c3c7f0",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-05-07T11:23:51Z",
+      "side": 1,
+      "message": "I see that for some fields this check is done and for some it is not.\nWhat\u0027s the criteria for doing this check?\n\nBefore uploading this check I actually did a little research. For the \"mergeable\" field\n(lines 593-598) there seems to be a reason for the check as it was implemented in\nthe context of another change [1].\n\nBut I am not sure and would like to know what\u0027s the pattern with this check\nwhen introducing a new field. For example, why for many fields we don\u0027t have the same\ncheck?\n\n[1] https://gerrit.googlesource.com/gerrit/+/d03143571d2ef104a0c306e0e1c1831e7adb7958",
+      "parentUuid": "9cb01bc1_b20c3d13",
+      "revId": "b9b5d87b346c2ab36d0e1a62ed8d68cfe8d6f615",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

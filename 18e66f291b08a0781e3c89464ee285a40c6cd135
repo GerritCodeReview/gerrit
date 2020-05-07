@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "12615812_bfabe953",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-07T07:57:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89eeceae_8cbd23e3",
+      "revId": "18e66f291b08a0781e3c89464ee285a40c6cd135",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8cb7cfa8_df18de01",
         "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.js",
         "patchSetId": 1

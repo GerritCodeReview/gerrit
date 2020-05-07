@@ -34,6 +34,24 @@
       "revId": "b9b5d87b346c2ab36d0e1a62ed8d68cfe8d6f615",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bfb323c_a1d2dd5b",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-05-07T12:19:02Z",
+      "side": 1,
+      "message": "This new query operator only works with the new index version.\nThis means all changes need to be reindexed which is usually done by online reindexing.\nWhile the online reindexing is running, you have the new code, but an old index version. At this time trying to use the new operator will fail, because the search index doesn\u0027t support the new field yet. Instead of failing you want to return a proper error message telling the user that this operator is not supported.\n\nThis proper handling of an index field not being present is especially important for us (Google), since we usually do not upgrade our index version immediately when the new code is rolled out, which means we potentially have a long period where the code is new and the index version is old. \n\nThis check doesn\u0027t exist for other fields, because either the fields in the index exited since the very beginning or were introduced at a time where we didn\u0027t care about this issue.\n\nActually when you write the test, you should hit this issue, since the tests are executed against several index versions.",
+      "parentUuid": "30bad704_c0c3c7f0",
+      "revId": "b9b5d87b346c2ab36d0e1a62ed8d68cfe8d6f615",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

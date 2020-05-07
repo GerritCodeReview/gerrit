@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "94bbf324_e49eb072",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2230,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-05-07T07:58:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5efe4938_4ef779be",
+      "range": {
+        "startLine": 2230,
+        "startChar": 17,
+        "endLine": 2230,
+        "endChar": 31
+      },
+      "revId": "fcef757bfa9d3eb2158256f84f45d4c0f12207d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbcad83a_4234afb5",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2020-05-06T21:02:04Z",
       "side": 1,
       "message": "Not exactly your change, but is this talking about the same kind of \"instance\" that instanceId is referring to? I would expect instanceName to be the same for an entire cluster, but instanceId to be different. Do we need to better distinguish those names?",
+      "range": {
+        "startLine": 2234,
+        "startChar": 30,
+        "endLine": 2234,
+        "endChar": 42
+      },
+      "revId": "fcef757bfa9d3eb2158256f84f45d4c0f12207d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d8d3484_91a0bc51",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2234,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-05-07T07:58:17Z",
+      "side": 1,
+      "message": "It is exactly what you are saying, i.e.: instanceName should be the same in the whole cluster.\n\nI can\u0027t think of a better name for \"instanceId\" :/ I think the misleading one is \"instanceName\" which should have been something like clusterName, serverName. Any suggestion about a different name?",
+      "parentUuid": "fbcad83a_4234afb5",
       "range": {
         "startLine": 2234,
         "startChar": 30,

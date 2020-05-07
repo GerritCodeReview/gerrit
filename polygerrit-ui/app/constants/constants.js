@@ -21,6 +21,10 @@
  */
 export const PrimaryTab = {
   FILES: '_files',
+  /**
+   * When renaming this, UrlFormatter#getCommentsThreadView must be renamed
+   * as well.
+   */
   COMMENT_THREADS: '_commentThreads',
   FINDINGS: '_findings',
 };

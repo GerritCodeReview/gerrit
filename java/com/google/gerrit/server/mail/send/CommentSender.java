@@ -88,6 +88,11 @@ public class CommentSender extends ReplyToChangeSender {
           .orElse(null);
     }
 
+    /** @return a web link to the comment thread view of a change. */
+    public String getCommentsThreadLink() {
+      return args.urlFormatter.get().getCommentsThreadView(change).orElse(null);
+    }
+
     /**
      * @return A title for the group, i.e. "Commit Message", "Merge List", or "File [[filename]]".
      */
@@ -96,6 +101,8 @@ public class CommentSender extends ReplyToChangeSender {
         return "Commit Message";
       } else if (Patch.MERGE_LIST.equals(filename)) {
         return "Merge List";
+      } else if (Patch.PATCHSET_LEVEL.equals(filename)) {
+        return "Patchset Level";
       } else {
         return "File " + filename;
       }
@@ -379,7 +386,11 @@ public class CommentSender extends ReplyToChangeSender {
 
     for (CommentSender.FileCommentGroup group : getGroupedInlineComments(repo)) {
       Map<String, Object> groupData = new HashMap<>();
-      groupData.put("link", group.getFileLink());
+      if (group.filename.equals(Patch.PATCHSET_LEVEL)) {
+        groupData.put("link", group.getCommentsThreadLink());
+      } else {
+        groupData.put("link", group.getFileLink());
+      }
       groupData.put("title", group.getTitle());
       groupData.put("patchSetId", group.patchSetId);
 
@@ -407,7 +418,10 @@ public class CommentSender extends ReplyToChangeSender {
         commentData.put("startLine", startLine);
 
         // Set the comment link.
-        if (comment.lineNbr == 0) {
+
+        if (comment.key.filename.equals(Patch.PATCHSET_LEVEL)) {
+          commentData.put("link", group.getCommentsThreadLink());
+        } else if (comment.lineNbr == 0) {
           commentData.put("link", group.getFileLink());
         } else {
           commentData.put("link", group.getCommentLink(comment.side, startLine));

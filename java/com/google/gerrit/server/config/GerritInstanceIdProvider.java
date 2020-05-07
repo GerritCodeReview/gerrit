@@ -24,7 +24,7 @@ public class GerritInstanceIdProvider implements Provider<String> {
   public static final String SECTION = "gerrit";
   public static final String KEY = "instanceId";
 
-  private String instanceId;
+  public static String instanceId;
 
   @Inject
   public GerritInstanceIdProvider(@GerritServerConfig Config cfg) {
@@ -33,6 +33,11 @@ public class GerritInstanceIdProvider implements Provider<String> {
 
   @Override
   public String get() {
+    return instanceId;
+  }
+
+  /** @return the Gerrit instanceId value, null when not set in gerrit.config. */
+  public static String getInstanceId() {
     return instanceId;
   }
 }

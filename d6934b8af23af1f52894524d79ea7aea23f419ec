@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8fbcf3d4_db318f8c",
+        "filename": "java/com/google/gerrit/server/restapi/group/ListGroups.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-07T05:17:06Z",
+      "side": 1,
+      "message": "Can we use: --ownedby? Is this really case sensitive, given that in the commit message you are saying:\n\n   \"--ownedby\" is not a valid option",
+      "range": {
+        "startLine": 210,
+        "startChar": 20,
+        "endLine": 210,
+        "endChar": 27
+      },
+      "revId": "d6934b8af23af1f52894524d79ea7aea23f419ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

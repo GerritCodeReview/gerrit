@@ -310,7 +310,7 @@ export const htmlTemplate = html`
             _isBlameLoading)]]</gr-button
           >
         </span>
-        <template is="dom-if" if="[[_computeIsLoggedIn(_loggedIn)]]">
+        <template is="dom-if" if="[[_computeCanEdit(_loggedIn, _change.*)]]">
           <span class="separator"></span>
           <span class="editButton">
             <gr-button

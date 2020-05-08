@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2389a942_18735e91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-08T07:11:13Z",
+      "side": 1,
+      "message": "causes",
+      "range": {
+        "startLine": 9,
+        "startChar": 36,
+        "endLine": 9,
+        "endChar": 41
+      },
+      "revId": "ec7d343966c2a2dc3453b5cd2d7ecf3a8e8c8d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9c5c1fe_feb922fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-08T07:11:13Z",
+      "side": 1,
+      "message": "has a",
+      "range": {
+        "startLine": 9,
+        "startChar": 10,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "ec7d343966c2a2dc3453b5cd2d7ecf3a8e8c8d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fa9b0ff_1bc35c5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-08T07:11:13Z",
+      "side": 1,
+      "message": "What kind of overhead and how much?",
+      "range": {
+        "startLine": 9,
+        "startChar": 47,
+        "endLine": 9,
+        "endChar": 67
+      },
+      "revId": "ec7d343966c2a2dc3453b5cd2d7ecf3a8e8c8d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "803fb9cc_5e071fc5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-08T07:11:13Z",
+      "side": 1,
+      "message": "In this indirection useful? Why not just call the util functions directly?",
+      "revId": "ec7d343966c2a2dc3453b5cd2d7ecf3a8e8c8d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d1def1b_6ada0052",
+        "filename": "polygerrit-ui/app/scripts/time-util.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-08T07:11:13Z",
+      "side": 1,
+      "message": "Optional: I think we should create a utils/ directory at the same level as elements/, services/, constants/, types/. And eventually get rid of the scripts/ directory. So I would be happy, if you could move this new file from scripts/ to a new utils/ dir.",
+      "revId": "ec7d343966c2a2dc3453b5cd2d7ecf3a8e8c8d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a651008_60ba1a31",
+        "filename": "polygerrit-ui/app/scripts/time-util.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-08T07:11:13Z",
+      "side": 1,
+      "message": "Add a test file for time-util.js.",
+      "revId": "ec7d343966c2a2dc3453b5cd2d7ecf3a8e8c8d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed58e246_84ee4849",
+        "filename": "polygerrit-ui/app/scripts/time-util.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-08T07:11:13Z",
+      "side": 1,
+      "message": "2020",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "ec7d343966c2a2dc3453b5cd2d7ecf3a8e8c8d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b8ccaa5_9b20b16c",
+        "filename": "polygerrit-ui/app/scripts/time-util.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-08T07:11:13Z",
+      "side": 1,
+      "message": "an hour",
+      "range": {
+        "startLine": 42,
+        "startChar": 32,
+        "endLine": 42,
+        "endChar": 33
+      },
+      "revId": "ec7d343966c2a2dc3453b5cd2d7ecf3a8e8c8d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

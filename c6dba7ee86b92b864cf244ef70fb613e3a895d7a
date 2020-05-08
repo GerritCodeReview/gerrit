@@ -22,6 +22,30 @@
       "revId": "c6dba7ee86b92b864cf244ef70fb613e3a895d7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "548ee71b_93f4a037",
+        "filename": "java/com/google/gerrit/sshd/InactiveAccountDisconnector.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-05-08T09:48:05Z",
+      "side": 1,
+      "message": "Done in PS4 using Id017687b53750360a52dd020335a7f433d123e6e",
+      "parentUuid": "f36320ef_b38d807e",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 17
+      },
+      "revId": "c6dba7ee86b92b864cf244ef70fb613e3a895d7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

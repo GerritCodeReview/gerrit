@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d266b6d3_4b16e5b1",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceIdProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-08T01:05:35Z",
+      "side": 1,
+      "message": "This doesn\u0027t need to be public static when there is a get method for it (below)",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 15
+      },
+      "revId": "744bacf7187bee61aa014a21e151b4b97a266876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "42ec5575_f3c1be11",
         "filename": "java/com/google/gerrit/server/config/GerritInstanceIdProvider.java",
         "patchSetId": 6
@@ -13,6 +36,52 @@
       "writtenOn": "2020-05-07T18:12:37Z",
       "side": 1,
       "message": "@Nullable?",
+      "revId": "744bacf7187bee61aa014a21e151b4b97a266876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9775e78_9b69f831",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceIdProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-08T01:05:35Z",
+      "side": 1,
+      "message": "should not be static",
+      "range": {
+        "startLine": 40,
+        "startChar": 9,
+        "endLine": 40,
+        "endChar": 15
+      },
+      "revId": "744bacf7187bee61aa014a21e151b4b97a266876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8d01c7f_e709e4d6",
+        "filename": "java/com/google/gerrit/server/events/Event.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-08T01:05:35Z",
+      "side": 1,
+      "message": "Now I see why the method and field were made static.\n\nCan we rather inject the provider in the class that creates the events?",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 76
+      },
       "revId": "744bacf7187bee61aa014a21e151b4b97a266876",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -22,6 +22,30 @@
       "revId": "94e4fbac520f815ef1b94b607fc9c2010a65dd80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25b22344_c487add7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-08T10:31:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e70085b2_85b2a596",
+      "range": {
+        "startLine": 188,
+        "startChar": 2,
+        "endLine": 188,
+        "endChar": 10
+      },
+      "revId": "94e4fbac520f815ef1b94b607fc9c2010a65dd80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

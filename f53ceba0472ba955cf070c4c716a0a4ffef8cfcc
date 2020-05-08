@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "535efdc8_bacc8256",
+        "filename": "polygerrit-ui/app/constants/constants.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-08T20:54:04Z",
+      "side": 1,
+      "message": "Do you maybe also need to change the isMagicPath() method in PathListBehavior?",
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6782857b_20f3fdfe",
         "filename": "polygerrit-ui/app/constants/constants.js",
         "patchSetId": 7
@@ -25,6 +42,40 @@
     },
     {
       "key": {
+        "uuid": "8c69da92_373652f1",
+        "filename": "polygerrit-ui/app/constants/constants.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-08T20:54:04Z",
+      "side": 1,
+      "message": "It would be great to also move these constants from PathListBehavior here, because they really belong together:\n\n COMMIT_MESSAGE_PATH: \u0027/COMMIT_MSG\u0027,\n MERGE_LIST_PATH: \u0027/MERGE_LIST\u0027,",
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d43b70e_94068c3e",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list_html.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-08T20:54:04Z",
+      "side": 1,
+      "message": "FYI: Note that \u003cgr-comment-list\u003e becomes obsolete soon when we switch to the experimental version of the Change Log. Then we will only use \u003cgr-thread-list\u003e everywhere.",
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "83ebcaa8_d4eff672",
         "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list_html.js",
         "patchSetId": 7
@@ -41,6 +92,166 @@
         "startChar": 35,
         "endLine": 78,
         "endChar": 11
+      },
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de287dd9_b844dbf3",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-08T20:54:04Z",
+      "side": 1,
+      "message": "Maybe _isResolved...",
+      "range": {
+        "startLine": 264,
+        "startChar": 6,
+        "endLine": 264,
+        "endChar": 35
+      },
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74158dab_0d098c46",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-08T20:54:04Z",
+      "side": 1,
+      "message": "I think the margin is too small between the two checkboxes. Please let Delphine have a look.",
+      "range": {
+        "startLine": 214,
+        "startChar": 9,
+        "endLine": 214,
+        "endChar": 14
+      },
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "914fe6d3_ea69b581",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-08T20:54:04Z",
+      "side": 1,
+      "message": "Do you need to listen on this event? checked above uses {{}}, so the data binding should be two-way. And the checkbox below also does not need an event handler for toggling.",
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bac625a_09a9a380",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-08T20:54:04Z",
+      "side": 1,
+      "message": "I am very unhappy about this span.\n\nMaybe we use a different name, e.g.:\nPatchset Comment\nGeneral Patchset Comment\nGeneral Comment\nOverall Comment\n\nAlso, can we maybe switch to deemphasized color?",
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fefa00e0_5b8fd141",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-08T20:54:04Z",
+      "side": 1,
+      "message": "remove space",
+      "range": {
+        "startLine": 80,
+        "startChar": 36,
+        "endLine": 80,
+        "endChar": 37
+      },
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aba6a3df_4fd9d76f",
+        "filename": "polygerrit-ui/app/scripts/gr-file-list-utils/gr-file-list-utils.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-08T20:54:04Z",
+      "side": 1,
+      "message": "Why does this util have its own directory polygerrit-ui/app/scripts/gr-file-list-utils/? Maybe just move one level up to scripts/?\n\nActually it would be great to add a new directory utils/ instead of using scripts/.",
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4f1bf85_5facb2b0",
+        "filename": "polygerrit-ui/app/scripts/gr-file-list-utils/gr-file-list-utils.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-08T20:54:04Z",
+      "side": 1,
+      "message": "Should these utilities maybe be merged in the same file with gr-path-list-behavior.js?",
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f52c623f_5f30afad",
+        "filename": "polygerrit-ui/app/scripts/gr-file-list-utils/gr-file-list-utils.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-08T20:54:04Z",
+      "side": 1,
+      "message": "2020",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
       },
       "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

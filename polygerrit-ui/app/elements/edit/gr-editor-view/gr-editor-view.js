@@ -18,7 +18,6 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-editable-label/gr-editable-label.js';
-import '../../shared/gr-fixed-panel/gr-fixed-panel.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../shared/gr-storage/gr-storage.js';
 import '../gr-default-editor/gr-default-editor.js';

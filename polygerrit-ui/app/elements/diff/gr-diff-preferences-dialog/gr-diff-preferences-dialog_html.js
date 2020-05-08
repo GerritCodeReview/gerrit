@@ -53,7 +53,7 @@ export const htmlTemplate = html`
     </div>
     <gr-diff-preferences
       id="diffPreferences"
-      diff-prefs="{{diffPrefs}}"
+      diff-prefs="{{_editableDiffPrefs}}"
       has-unsaved-changes="{{_diffPrefsChanged}}"
     ></gr-diff-preferences>
     <div class="diffActions">

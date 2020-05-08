@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a58f077b_76b60890",
+        "filename": "java/com/google/gerrit/extensions/events/AccountDeactivatedListener.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-05-08T11:38:45Z",
+      "side": 1,
+      "message": "Added onAccountActivation in PS6",
+      "parentUuid": "cd587b97_16591dc3",
+      "range": {
+        "startLine": 27,
+        "startChar": 17,
+        "endLine": 27,
+        "endChar": 43
+      },
+      "revId": "24d956b9442aab873f02221eab12b5d01073a720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0cc117b_d75b35a1",
         "filename": "java/com/google/gerrit/server/account/SetInactiveFlag.java",
         "patchSetId": 5

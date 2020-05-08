@@ -16,6 +16,24 @@
       "revId": "179968c7f56a1c87921043980a2e92c9898721e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54ff93a8_11606b31",
+        "filename": "java/com/google/gerrit/extensions/events/AccountDeactivatedListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-05-08T11:38:45Z",
+      "side": 1,
+      "message": "It seems like the general approach is ok. Hence marking Resolved.",
+      "parentUuid": "cb839565_683d858e",
+      "revId": "179968c7f56a1c87921043980a2e92c9898721e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

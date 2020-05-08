@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6782857b_20f3fdfe",
+        "filename": "polygerrit-ui/app/constants/constants.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-08T15:54:00Z",
+      "side": 1,
+      "message": "code style guide recommends UPPER_CASE style for consts (PATCHSET_LEVEL_...)",
+      "range": {
+        "startLine": 69,
+        "startChar": 13,
+        "endLine": 69,
+        "endChar": 42
+      },
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83ebcaa8_d4eff672",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list_html.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-08T15:54:00Z",
+      "side": 1,
+      "message": "Please, fix formatting",
+      "range": {
+        "startLine": 77,
+        "startChar": 35,
+        "endLine": 78,
+        "endChar": 11
+      },
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c44ed17_e2051240",
+        "filename": "polygerrit-ui/app/scripts/gr-file-list-utils/gr-file-list-utils.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-08T15:54:00Z",
+      "side": 1,
+      "message": "You have this code twice. It makes sense to add an util method isPatchsetLevelCommentsFilePath and use it",
+      "range": {
+        "startLine": 20,
+        "startChar": 10,
+        "endLine": 20,
+        "endChar": 48
+      },
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17a627f6_b311da73",
+        "filename": "polygerrit-ui/app/scripts/gr-file-list-utils/gr-file-list-utils.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-08T15:54:00Z",
+      "side": 1,
+      "message": "I think, the method name doesn\u0027t reflect what the method actually does.\n\nsomething like addUnmodifiedFiles(...) might be better",
+      "range": {
+        "startLine": 24,
+        "startChar": 9,
+        "endLine": 24,
+        "endChar": 30
+      },
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ea9aaa5_026e9631",
+        "filename": "polygerrit-ui/app/scripts/gr-file-list-utils/gr-file-list-utils.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-08T15:54:00Z",
+      "side": 1,
+      "message": "Please, do not use classes for namespacing (see https://google.github.io/styleguide/jsguide.html, 3.4.2.2 Exporting static container classes and objects)",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 1
+      },
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df43a733_115bcd42",
+        "filename": "polygerrit-ui/app/scripts/gr-file-list-utils/gr-file-list-utils_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-08T15:54:00Z",
+      "side": 1,
+      "message": "Please, convert to Karma test",
+      "range": {
+        "startLine": 1,
+        "startChar": 2,
+        "endLine": 1,
+        "endChar": 14
+      },
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95c716b5_0a177aa5",
+        "filename": "polygerrit-ui/app/scripts/gr-file-list-utils/gr-file-list-utils_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-08T15:54:00Z",
+      "side": 1,
+      "message": "Please, add more test cases (when files is non-empty).\nAlso, please check statuses in tests",
+      "range": {
+        "startLine": 32,
+        "startChar": 7,
+        "endLine": 32,
+        "endChar": 30
+      },
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

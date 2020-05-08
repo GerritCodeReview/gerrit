@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65728f78_5488871b",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceId.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-05-08T13:20:05Z",
+      "side": 1,
+      "message": "why we need singleton if this class has just one static method and it\u0027s not a part of Guice context?",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 21,
+        "endChar": 10
+      },
+      "revId": "c4b16a41d0dc4099a356f2cf5d9b75079aba9bfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41474942_d7f50954",
+        "filename": "javatests/com/google/gerrit/acceptance/config/GerritInstanceIdIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-05-08T13:20:05Z",
+      "side": 1,
+      "message": "usually we are following pattern like: shouldReturnInstanceIdWhenDefined",
+      "range": {
+        "startLine": 27,
+        "startChar": 14,
+        "endLine": 27,
+        "endChar": 38
+      },
+      "revId": "c4b16a41d0dc4099a356f2cf5d9b75079aba9bfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5e926b8_24b45937",
+        "filename": "javatests/com/google/gerrit/acceptance/config/GerritInstanceIdIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-05-08T13:20:05Z",
+      "side": 1,
+      "message": "why not shouldReturnNullWhenNotDefined?",
+      "range": {
+        "startLine": 32,
+        "startChar": 14,
+        "endLine": 32,
+        "endChar": 35
+      },
+      "revId": "c4b16a41d0dc4099a356f2cf5d9b75079aba9bfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

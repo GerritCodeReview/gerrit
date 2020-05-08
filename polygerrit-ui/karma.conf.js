@@ -34,12 +34,12 @@ function getModulesDir() {
   ];
 }
 
-function getSinonPath() {
+function getUiDevNpmFilePath(importPath) {
   if(runUnderBazel) {
-    return "external/ui_dev_npm/node_modules/sinon/pkg/sinon.js";
+    return `external/ui_dev_npm/node_modules/${importPath}`;
   }
   else {
-    return "polygerrit-ui/node_modules/sinon/pkg/sinon.js"
+    return `polygerrit-ui/node_modules/${importPath}`
   }
 }
 
@@ -73,7 +73,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      getSinonPath(),
+      getUiDevNpmFilePath('accessibility-developer-tools/dist/js/axs_testing.js'),
+      getUiDevNpmFilePath('sinon/pkg/sinon.js'),
       { pattern: testFilesPattern, type: 'module' },
     ],
     esm: {
@@ -127,7 +128,8 @@ module.exports = function(config) {
 
     client: {
       mocha: {
-        ui: 'tdd'
+        ui: 'tdd',
+        timeout: 5000,
       }
     },
 

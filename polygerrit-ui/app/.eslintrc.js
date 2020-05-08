@@ -180,7 +180,13 @@ module.exports = {
       },
     },
     {
-      "files": ["*.html", "common-test-setup.js", "common-test-setup-karma.js", "*_test.js"],
+      "files": [
+        "*.html",
+        "common-test-setup.js",
+        "common-test-setup-karma.js",
+        "*_test.js",
+        "a11y-test-utils.js",
+      ],
       // Additional global variables allowed in tests
       "globals": {
         // Global variables from 3rd party test libraries/frameworks.
@@ -188,6 +194,7 @@ module.exports = {
         // variables from these libraries and import is not possible
         "MockInteractions": "readonly",
         "_": "readonly",
+        "axs": "readonly",
         "a11ySuite": "readonly",
         "assert": "readonly",
         "expect": "readonly",

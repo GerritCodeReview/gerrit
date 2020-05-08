@@ -185,7 +185,6 @@ const elements = [
   'shared/gr-js-api-interface/gr-plugin-loader_test.html',
   'shared/gr-js-api-interface/gr-plugin-endpoints_test.html',
   'shared/gr-js-api-interface/gr-plugin-rest-api_test.html',
-  'shared/gr-fixed-panel/gr-fixed-panel_test.html',
   'shared/gr-labeled-autocomplete/gr-labeled-autocomplete_test.html',
   'shared/gr-label-info/gr-label-info_test.html',
   'shared/gr-lib-loader/gr-lib-loader_test.html',

@@ -21,9 +21,11 @@ export const htmlTemplate = html`
     :host {
       background-color: var(--view-background-color);
     }
-    gr-fixed-panel {
+    .stickyHeader {
       background-color: var(--edit-mode-background-color);
       border-bottom: 1px var(--border-color) solid;
+      position: sticky;
+      top: 0;
       z-index: 1;
     }
     header,
@@ -76,7 +78,7 @@ export const htmlTemplate = html`
       }
     }
   </style>
-  <gr-fixed-panel keep-on-scroll="">
+  <div class="stickyHeader">
     <header>
       <span class="controlGroup">
         <span>Edit mode</span>
@@ -102,7 +104,7 @@ export const htmlTemplate = html`
         >
       </span>
     </header>
-  </gr-fixed-panel>
+  </div>
   <div class="textareaWrapper">
     <gr-endpoint-decorator id="editorEndpoint" name="editor">
       <gr-endpoint-param

@@ -20,7 +20,6 @@ import '../../../styles/shared-styles.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-dropdown/gr-dropdown.js';
 import '../../shared/gr-dropdown-list/gr-dropdown-list.js';
-import '../../shared/gr-fixed-panel/gr-fixed-panel.js';
 import '../../shared/gr-icons/gr-icons.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../shared/gr-select/gr-select.js';
@@ -211,10 +210,6 @@ class GrDiffView extends mixinBehaviors( [
         type: Object,
         computed: '_computeCommentSkips(_commentMap, _fileList, _path)',
       },
-      _panelFloatingDisabled: {
-        type: Boolean,
-        value: () => window.PANEL_FLOATING_DISABLED,
-      },
       _editMode: {
         type: Boolean,
         computed: '_computeEditMode(_patchRange.*)',
@@ -238,6 +233,9 @@ class GrDiffView extends mixinBehaviors( [
       },
 
       /**
+       * TODO(brohlfs): <gr-fixed-panel> is gone.
+       * Maybe _scrollTopMargin can be removed??
+       *
        * gr-diff-view has gr-fixed-panel on top. The panel can
        * intersect a main element and partially hides a content of
        * the main element. To correctly calculates visibility of an
@@ -1207,25 +1205,12 @@ class GrDiffView extends mixinBehaviors( [
     return skips;
   }
 
-  _computeDiffClass(panelFloatingDisabled) {
-    if (panelFloatingDisabled) {
-      return 'noOverflow';
-    }
-  }
-
   /**
    * @param {!Object} patchRangeRecord
    */
   _computeEditMode(patchRangeRecord) {
     const patchRange = patchRangeRecord.base || {};
     return this.patchNumEquals(patchRange.patchNum, this.EDIT_NAME);
-  }
-
-  /**
-   * @param {boolean} editMode
-   */
-  _computeContainerClass(editMode) {
-    return editMode ? 'editMode' : '';
   }
 
   _computeBlameToggleLabel(loaded, loading) {
@@ -1318,10 +1303,6 @@ class GrDiffView extends mixinBehaviors( [
 
   _handleReloadingDiffPreference() {
     this._getDiffPreferences();
-  }
-
-  _onChangeHeaderPanelHeightChanged(e) {
-    this._scrollTopMargin = e.detail.value;
   }
 
   _computeIsLoggedIn(loggedIn) {

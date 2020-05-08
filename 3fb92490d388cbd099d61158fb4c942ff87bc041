@@ -22,6 +22,30 @@
       "revId": "3fb92490d388cbd099d61158fb4c942ff87bc041",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "653ac5cc_7fe407dd",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-08T13:18:05Z",
+      "side": 1,
+      "message": "OH that\u0027s what I wrote at first lol, and then I thought having if else with the complete block maybe easier to follow (as you have complete context regarding on those two type of mutations), I am fine to move back to that tho if got another comment for this :)",
+      "parentUuid": "1ae2e789_9832cfd9",
+      "range": {
+        "startLine": 105,
+        "startChar": 2,
+        "endLine": 115,
+        "endChar": 8
+      },
+      "revId": "3fb92490d388cbd099d61158fb4c942ff87bc041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

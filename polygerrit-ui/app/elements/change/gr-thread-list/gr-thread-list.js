@@ -96,56 +96,79 @@ class GrThreadList extends GestureEventListeners(
    * @param {!Object} changeRecord
    */
   _computeSortedThreads(changeRecord) {
-    const threads = changeRecord.base;
-    if (!threads) { return []; }
-    this._updateSortedThreads(threads);
+    const baseThreads = changeRecord.base;
+    const threads = changeRecord.value;
+    if (!baseThreads) { return []; }
+    // TODO: should change how data flows to solve the root cause
+    // We only want to sort on thread additions / removals to avoid
+    // re-rendering on modifications (add new reply / edit draft etc)
+    if (threads.indexSplices) {
+      // Array splice mutations
+      const shouldSort = threads.indexSplices.addedCount !== 0
+        || threads.indexSplices.removed.length;
+      this._updateSortedThreads(baseThreads, shouldSort);
+    } else {
+      // A replace mutation
+      this._updateSortedThreads(
+          baseThreads,
+          threads.length !== baseThreads.length
+      );
+    }
   }
 
-  // TODO(taoalpha): should allow only sort once during initialization
-  // to avoid flickering
-  _updateSortedThreads(threads) {
-    this._sortedThreads =
-        threads.map(this._getThreadWithSortInfo).sort((c1, c2) => {
-          // threads will be sorted by:
-          // - unresolved first
-          // - with drafts
-          // - file path
-          // - line
-          // - updated time
-          if (c2.unresolved || c1.unresolved) {
-            if (!c1.unresolved) { return 1; }
-            if (!c2.unresolved) { return -1; }
-          }
+  _updateSortedThreads(threads, shouldSort) {
+    const threadsWithInfo = threads.map(this._getThreadWithSortInfo);
+    if (this._sortedThreads && !shouldSort) {
+      // Instead of replacing the _sortedThreads which will trigger a re-render,
+      // we override all threads inside of it
+      for (const thread of threadsWithInfo) {
+        const idxInSortedThreads = this._sortedThreads
+            .findIndex(t => t.thread.rootId === thread.thread.rootId);
+        this._sortedThreads[idxInSortedThreads] = thread;
+      }
+    } else {
+      this._sortedThreads = threadsWithInfo.sort((c1, c2) => {
+        // threads will be sorted by:
+        // - unresolved first
+        // - with drafts
+        // - file path
+        // - line
+        // - updated time
+        if (c2.unresolved || c1.unresolved) {
+          if (!c1.unresolved) { return 1; }
+          if (!c2.unresolved) { return -1; }
+        }
 
-          if (c2.hasDraft || c1.hasDraft) {
-            if (!c1.hasDraft) { return 1; }
-            if (!c2.hasDraft) { return -1; }
-          }
+        if (c2.hasDraft || c1.hasDraft) {
+          if (!c1.hasDraft) { return 1; }
+          if (!c2.hasDraft) { return -1; }
+        }
 
-          // TODO: Update here once we introduce patchset level comments
-          // they may not have or have a special line or path attribute
+        // TODO: Update here once we introduce patchset level comments
+        // they may not have or have a special line or path attribute
 
-          if (c1.thread.path !== c2.thread.path) {
-            return c1.thread.path.localeCompare(c2.thread.path);
-          }
+        if (c1.thread.path !== c2.thread.path) {
+          return c1.thread.path.localeCompare(c2.thread.path);
+        }
 
-          // File level comments (no `line` property)
-          // should always show before any lines
-          if ([c1, c2].some(c => c.thread.line === undefined)) {
-            if (!c1.thread.line) { return -1; }
-            if (!c2.thread.line) { return 1; }
-          } else if (c1.thread.line !== c2.thread.line) {
-            return c1.thread.line - c2.thread.line;
-          }
+        // File level comments (no `line` property)
+        // should always show before any lines
+        if ([c1, c2].some(c => c.thread.line === undefined)) {
+          if (!c1.thread.line) { return -1; }
+          if (!c2.thread.line) { return 1; }
+        } else if (c1.thread.line !== c2.thread.line) {
+          return c1.thread.line - c2.thread.line;
+        }
 
-          const c1Date = c1.__date || util.parseDate(c1.updated);
-          const c2Date = c2.__date || util.parseDate(c2.updated);
-          const dateCompare = c2Date - c1Date;
-          if (dateCompare === 0 && (!c1.id || !c1.id.localeCompare)) {
-            return 0;
-          }
-          return dateCompare ? dateCompare : c1.id.localeCompare(c2.id);
-        });
+        const c1Date = c1.__date || util.parseDate(c1.updated);
+        const c2Date = c2.__date || util.parseDate(c2.updated);
+        const dateCompare = c2Date - c1Date;
+        if (dateCompare === 0 && (!c1.id || !c1.id.localeCompare)) {
+          return 0;
+        }
+        return dateCompare ? dateCompare : c1.id.localeCompare(c2.id);
+      });
+    }
   }
 
   _computeFilteredThreads(sortedThreads, unresolvedOnly, draftsOnly,

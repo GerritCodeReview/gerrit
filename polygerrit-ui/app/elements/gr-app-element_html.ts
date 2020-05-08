@@ -24,13 +24,6 @@ export const htmlTemplate = html`
       flex-direction: column;
       min-height: 100%;
     }
-    gr-fixed-panel {
-      /**
-         * This one should be greater that the z-index in gr-diff-view
-         * because gr-main-header contains overlay.
-         */
-      z-index: 10;
-    }
     gr-main-header,
     footer {
       color: var(--primary-text-color);
@@ -99,16 +92,14 @@ export const htmlTemplate = html`
     }
   </style>
   <gr-endpoint-decorator name="banner"></gr-endpoint-decorator>
-  <gr-fixed-panel id="header">
-    <gr-main-header
-      id="mainHeader"
-      search-query="{{params.query}}"
-      on-mobile-search="_mobileSearchToggle"
-      on-show-keyboard-shortcuts="handleShowKeyboardShortcuts"
-      login-url="[[_loginUrl]]"
-    >
-    </gr-main-header>
-  </gr-fixed-panel>
+  <gr-main-header
+    id="mainHeader"
+    search-query="{{params.query}}"
+    on-mobile-search="_mobileSearchToggle"
+    on-show-keyboard-shortcuts="handleShowKeyboardShortcuts"
+    login-url="[[_loginUrl]]"
+  >
+  </gr-main-header>
   <main>
     <gr-smart-search
       id="search"

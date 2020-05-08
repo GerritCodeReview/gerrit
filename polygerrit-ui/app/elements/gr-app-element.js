@@ -37,7 +37,6 @@ import './plugins/gr-plugin-host/gr-plugin-host.js';
 import './settings/gr-cla-view/gr-cla-view.js';
 import './settings/gr-registration-dialog/gr-registration-dialog.js';
 import './settings/gr-settings-view/gr-settings-view.js';
-import './shared/gr-fixed-panel/gr-fixed-panel.js';
 import './shared/gr-lib-loader/gr-lib-loader.js';
 import './shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
@@ -428,7 +427,6 @@ class GrAppElement extends KeyboardShortcutMixin(
         this.$.registrationOverlay.refit();
       });
     }
-    this.$.header.unfloat();
   }
 
   _handleShortcutTriggered(event) {

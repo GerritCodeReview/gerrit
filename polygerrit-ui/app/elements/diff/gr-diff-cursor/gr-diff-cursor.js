@@ -101,6 +101,9 @@ class GrDiffCursor extends GestureEventListeners(
       _listeningForScroll: Boolean,
 
       /**
+       * TODO(dhruvsri): <gr-fixed-panel> is gone.
+       * Maybe scrollTopMargin can be removed??
+       *
        * gr-diff-view has gr-fixed-panel on top. The panel can
        * intersect a main element and partially hides a content of
        * the main element. To correctly calculates visibility of an

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e0db9aec_f3466efa",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceIdProvider.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-05-08T09:18:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a30880f9_c287a967",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 17
+      },
+      "revId": "f5328f732bdfcd982ff0edb5a920c50a1ab84133",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4af6e3c7_a5628157",
         "filename": "javatests/com/google/gerrit/acceptance/config/GerritInstanceIdTest.java",
         "patchSetId": 10

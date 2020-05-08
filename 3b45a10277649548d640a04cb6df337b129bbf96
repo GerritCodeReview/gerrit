@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cfe11350_328f7942",
+        "filename": "java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-08T08:10:00Z",
+      "side": 1,
+      "message": "Cool! Thanks for sharing how amazing java comparators work, I would never imagine this behavior.",
+      "parentUuid": "0d0d7664_e5487b6b",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 64,
+        "endChar": 3
+      },
+      "revId": "3b45a10277649548d640a04cb6df337b129bbf96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0745bff_5d06a6d0",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 15
@@ -45,6 +69,30 @@
       "revId": "3b45a10277649548d640a04cb6df337b129bbf96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73e30d0e_aeb64b8c",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-08T08:10:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0745bff_5d06a6d0",
+      "range": {
+        "startLine": 210,
+        "startChar": 4,
+        "endLine": 212,
+        "endChar": 62
+      },
+      "revId": "3b45a10277649548d640a04cb6df337b129bbf96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "13c7638f_ea088701",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-08T08:10:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "280ac2f1_b32af1ce",
+      "range": {
+        "startLine": 213,
+        "startChar": 4,
+        "endLine": 214,
+        "endChar": 53
+      },
+      "revId": "3b45a10277649548d640a04cb6df337b129bbf96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e23eed59_44050cf0",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 15
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "75ef347b_20794327",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-08T08:10:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e23eed59_44050cf0",
+      "range": {
+        "startLine": 279,
+        "startChar": 0,
+        "endLine": 280,
+        "endChar": 85
+      },
+      "revId": "3b45a10277649548d640a04cb6df337b129bbf96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2eaaf4f7_72cfc1bf",
         "filename": "javatests/com/google/gerrit/server/patch/PatchListTest.java",
         "patchSetId": 15
@@ -114,6 +210,30 @@
       "revId": "3b45a10277649548d640a04cb6df337b129bbf96",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3caf6f4_5b0e0f14",
+        "filename": "javatests/com/google/gerrit/server/patch/PatchListTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-08T08:10:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2eaaf4f7_72cfc1bf",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 33,
+        "endChar": 96
+      },
+      "revId": "3b45a10277649548d640a04cb6df337b129bbf96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "730bd9a8d80707510684ed9766426326bef57bee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f9efb6e_4715ac9d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountListenersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-05-08T14:17:21Z",
+      "side": 1,
+      "message": "Whoops. Fixed in PS2. Thanks.",
+      "parentUuid": "5c386807_e3fd9456",
+      "revId": "730bd9a8d80707510684ed9766426326bef57bee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "360e90d99cbb11395e9e716e4c2086b16f801f81",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc6b8c7c_b5668670",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-08T05:06:48Z",
+      "side": 1,
+      "message": "It\u0027s JavaScript idiom to cast any type to boolean. The double-negation !! is not a distinct JavaScript operator but rather just a sequence of two negations. It is used to convert the value of any type to its appropriate true or false Boolean value depending on whether it is truthy or falsy.\n\nSay variable foo has value undefined, then the first negation convert it to true and the second to false. Say variable bar has value 42, then the first negation convert it to false and the second to true.",
+      "parentUuid": "0697942c_341ecdbe",
+      "range": {
+        "startLine": 152,
+        "startChar": 13,
+        "endLine": 152,
+        "endChar": 15
+      },
+      "revId": "360e90d99cbb11395e9e716e4c2086b16f801f81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

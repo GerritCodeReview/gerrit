@@ -141,6 +141,30 @@
       "revId": "fcef757bfa9d3eb2158256f84f45d4c0f12207d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7851b286_4894f1e3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2234,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-05-08T16:00:53Z",
+      "side": 1,
+      "message": "\u003e I think \"serviceName\" makes sense. It also follow the \"serverId\" naming pattern, which is the id of the Gerrit cluster.\n\nGood point!\n\n\u003e However I think this should be addressed in a followup change (Issue 12714) to keep the scope of the change as narrow as possible.\n\nI agree it makes sense to do it in an independent change, but hopefully not wait for this change series to start that. It would be a good thing to get into 3.2 as an alias so that 3.3 can remove instanceName.",
+      "parentUuid": "2f8b4392_7e800080",
+      "range": {
+        "startLine": 2234,
+        "startChar": 30,
+        "endLine": 2234,
+        "endChar": 42
+      },
+      "revId": "fcef757bfa9d3eb2158256f84f45d4c0f12207d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "725f765b_64852a8e",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceIdModule.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-05-08T13:43:40Z",
+      "side": 1,
+      "message": "Not a good idea I believe. It is also clearly discouraged: https://github.com/google/guice/wiki/AvoidStaticState",
+      "range": {
+        "startLine": 22,
+        "startChar": 4,
+        "endLine": 22,
+        "endChar": 26
+      },
+      "revId": "c4b16a41d0dc4099a356f2cf5d9b75079aba9bfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "41474942_d7f50954",
         "filename": "javatests/com/google/gerrit/acceptance/config/GerritInstanceIdIT.java",
         "patchSetId": 12

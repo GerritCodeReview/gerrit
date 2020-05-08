@@ -108,7 +108,6 @@ const elements = [
   'diff/gr-diff-selection/gr-diff-selection_test.html',
   'diff/gr-diff-view/gr-diff-view_test.html',
   'diff/gr-diff/gr-diff-group_test.html',
-  'diff/gr-diff/gr-diff_test.html',
   'diff/gr-apply-fix-dialog/gr-apply-fix-dialog_test.html',
   'diff/gr-patch-range-select/gr-patch-range-select_test.html',
   'diff/gr-ranged-comment-layer/gr-ranged-comment-layer_test.html',

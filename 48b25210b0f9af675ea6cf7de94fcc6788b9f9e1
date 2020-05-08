@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4788163_7986a747",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/auth/AuthenticationCheckIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-05-08T09:46:28Z",
+      "side": 1,
+      "message": "The basic issue is to get a proper session cookie. The test harness\u0027\nusual authentication approach does not help too much, as it logs in\nagain and again and does not take advantage of persisted session\ncookies, where one would login once and re-use the session cookie to\npass authentication.\n\nTo get a proper session token, we need to call `login` on the session\n(as for example LDAP auth does). This produces a proper re-usable\nsession token. So we need an end-point on the backend to call `login`\nfor us.\n\nAdding this directly under java/... is way too dangerous, because if\nsome hiding of the endpoint goes wrong we might accidentally expose an\nautomatic login endpoint to the world. That\u0027d not be ideal :-D\n\nThe only other way I know of to inject further endpoints at runtime\nwas plugins. So I cooked up a minimal plugin that offers an endpoint\ncall `login`. That way, we provide a way to get a proper Session\nCookie that we can re-use and thereby expose and test the issue.\n\nIf there\u0027s a simpler way to call `login` on the session that only\nlives in RequestScope,",
+      "revId": "48b25210b0f9af675ea6cf7de94fcc6788b9f9e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

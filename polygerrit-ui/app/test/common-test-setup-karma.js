@@ -22,7 +22,8 @@ self.assert = window.chai.assert;
 
 /**
  * Triggers a flush of any pending events, observations, etc and calls you back
- * after they have been processed.
+ * after they have been processed if callback is passed; otherwise returns
+ * promise.
  *
  * @param {function()} callback
  */
@@ -31,7 +32,13 @@ function flush(callback) {
   // doesn't support a callback yet
   // (https://github.com/Polymer/polymer-dev/issues/851)
   window.Polymer.dom.flush();
-  window.setTimeout(callback, 0);
+  if (callback) {
+    window.setTimeout(callback, 0);
+  } else {
+    return new Promise(resolve => {
+      window.setTimeout(resolve, 0);
+    });
+  }
 }
 
 self.flush = flush;

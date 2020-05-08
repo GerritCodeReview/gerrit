@@ -173,10 +173,46 @@ export function initPerformanceReporter(appContext) {
 export function initVisibilityReporter(appContext) {
   const reportingService = appContext.reportingService;
   document.addEventListener('visibilitychange', () => {
-    const eventName = `Visibility changed to ${document.visibilityState}`;
-    reportingService.reporter(LIFECYCLE.TYPE, LIFECYCLE.CATEGORY.VISIBILITY,
-        eventName, undefined, {}, true);
+    reportingService.onVisibilityChange();
   });
+}
+
+// Calculates the time of Gerrit being in a background tab. When Gerrit reports
+// a pageLoad metric it’s attached to its details for latency analysis.
+// It resets on locationChange.
+class HiddenDurationTimer {
+  constructor() {
+    this.reset();
+  }
+
+  reset() {
+    this.accHiddenDurationMs = 0;
+    this.lastVisibleTimestampMs = 0;
+  }
+
+  onVisibilityChange() {
+    if (document.visibilityState === 'hidden') {
+      this.lastVisibleTimestampMs = now();
+    } else if (document.visibilityState === 'visible') {
+      if (this.lastVisibleTimestampMs !== null) {
+        this.accHiddenDurationMs += now() - this.lastVisibleTimestampMs;
+        // Set to null for guarding against two 'visible' events in a row.
+        this.lastVisibleTimestampMs = null;
+      }
+    }
+  }
+
+  get hiddenDurationMs() {
+    if (document.visibilityState === 'hidden'
+      && this.lastVisibleTimestampMs !== null) {
+      return this.accHiddenDurationMs + now() - this.lastVisibleTimestampMs;
+    }
+    return this.accHiddenDurationMs;
+  }
+}
+
+export function now() {
+  return Math.round(window.performance.now());
 }
 
 export class GrReporting {
@@ -189,6 +225,7 @@ export class GrReporting {
     this._reportRepoName = undefined;
     this._pending = [];
     this._slowRpcList = [];
+    this.hiddenDurationTimer = new HiddenDurationTimer();
   }
 
   get performanceTiming() {
@@ -197,10 +234,6 @@ export class GrReporting {
 
   get slowRpcSnapshot() {
     return (this._slowRpcList || []).slice();
-  }
-
-  now() {
-    return Math.round(window.performance.now());
   }
 
   _arePluginsLoaded() {
@@ -266,7 +299,7 @@ export class GrReporting {
       category,
       name,
       value,
-      eventStart: this.now(),
+      eventStart: now(),
     };
 
     if (typeof(eventDetails) === 'object' &&
@@ -297,6 +330,15 @@ export class GrReporting {
   appStarted() {
     this.timeEnd(TIMING.EVENT.APP_STARTED);
     this._reportNavResTimes();
+  }
+
+  onVisibilityChange() {
+    this.hiddenDurationTimer.onVisibilityChange();
+    const eventName = `Visibility changed to ${document.visibilityState}`;
+    this.reporter(LIFECYCLE.TYPE, LIFECYCLE.CATEGORY.VISIBILITY,
+        eventName, undefined, {
+          hiddenDurationMs: this.hiddenDurationTimer.hiddenDurationMs,
+        }, true);
   }
 
   /**
@@ -334,6 +376,7 @@ export class GrReporting {
     this._reportRepoName = undefined;
     // reset slow rpc list since here start page loads which report these rpcs
     this._slowRpcList = [];
+    this.hiddenDurationTimer.reset();
   }
 
   locationChanged(page) {
@@ -423,6 +466,7 @@ export class GrReporting {
         toMb(window.performance.memory.usedJSHeapSize);
     }
 
+    details.hiddenDurationMs = this.hiddenDurationTimer.hiddenDurationMs;
     return details;
   }
 
@@ -448,7 +492,7 @@ export class GrReporting {
    * Reset named timer.
    */
   time(name) {
-    this._baselines[name] = this.now();
+    this._baselines[name] = now();
     window.performance.mark(`${name}-start`);
   }
 
@@ -459,7 +503,7 @@ export class GrReporting {
     if (!this._baselines.hasOwnProperty(name)) { return; }
     const baseTime = this._baselines[name];
     delete this._baselines[name];
-    this._reportTiming(name, this.now() - baseTime, eventDetails);
+    this._reportTiming(name, now() - baseTime, eventDetails);
 
     // Finalize the interval. Either from a registered start mark or
     // the navigation start time (if baseTime is 0).
@@ -488,7 +532,7 @@ export class GrReporting {
 
     // Guard against division by zero.
     if (!denominator) { return; }
-    const time = this.now() - baseTime;
+    const time = now() - baseTime;
     this._reportTiming(averageName, time / denominator);
   }
 
@@ -522,7 +566,7 @@ export class GrReporting {
       // Clear the timer and reset the start time.
       reset: () => {
         called = false;
-        start = this.now();
+        start = now();
         return timer;
       },
 
@@ -532,7 +576,7 @@ export class GrReporting {
           throw new Error(`Timer for "${name}" already ended.`);
         }
         called = true;
-        const time = this.now() - start;
+        const time = now() - start;
 
         // If a maximum is specified and the time exceeds it, do not report.
         if (max && time > max) { return timer; }

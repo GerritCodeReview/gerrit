@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c386807_e3fd9456",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountListenersIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-08T13:50:37Z",
+      "side": 1,
+      "message": "Missing copyright and license header",
+      "revId": "730bd9a8d80707510684ed9766426326bef57bee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

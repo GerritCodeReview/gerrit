@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ae2e789_9832cfd9",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-08T12:28:42Z",
+      "side": 1,
+      "message": "nit - feel free to ignore: it would be easier for me to read:\n\n```\nlet shouldSort \u003d threads.length !\u003d\u003d baseThreads.length;\nif (threads.indexSplices) {\n  shouldSort \u003d threads.indexSplices.addedCount !\u003d\u003d 0\n        || threads.indexSplices.removed.length;\n}\n\nthis._updateSortedThreads(baseThreads, shouldSort);\n```",
+      "range": {
+        "startLine": 105,
+        "startChar": 2,
+        "endLine": 115,
+        "endChar": 8
+      },
+      "revId": "3fb92490d388cbd099d61158fb4c942ff87bc041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

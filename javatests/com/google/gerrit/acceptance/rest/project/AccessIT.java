@@ -52,6 +52,8 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.webui.FileHistoryWebLink;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.schema.GrantRevertPermission;
@@ -91,18 +93,33 @@ public class AccessIT extends AbstractDaemonTest {
   @Test
   public void grantRevertPermission() throws Exception {
     String ref = "refs/heads/*";
-    String permissionName = "revert";
     String groupId = "global:Registered-Users";
 
     grantRevertPermission.execute(newProjectName);
+
     ProjectAccessInfo info = pApi().access();
     assertThat(info.local.containsKey(ref)).isTrue();
     AccessSectionInfo accessSectionInfo = info.local.get(ref);
-    assertThat(accessSectionInfo.permissions.containsKey(permissionName)).isTrue();
-    PermissionInfo permissionInfo = accessSectionInfo.permissions.get(permissionName);
+    assertThat(accessSectionInfo.permissions.containsKey(Permission.REVERT)).isTrue();
+    PermissionInfo permissionInfo = accessSectionInfo.permissions.get(Permission.REVERT);
     assertThat(permissionInfo.rules.containsKey(groupId)).isTrue();
     PermissionRuleInfo permissionRuleInfo = permissionInfo.rules.get(groupId);
     assertThat(permissionRuleInfo.action).isEqualTo(PermissionRuleInfo.Action.ALLOW);
+  }
+
+  @Test
+  public void grantRevertPermissionOnlyWorksOnce() throws Exception {
+    grantRevertPermission.execute(newProjectName);
+    grantRevertPermission.execute(newProjectName);
+
+    try (Repository repo = repoManager.openRepository(newProjectName)) {
+      MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, newProjectName, repo);
+      ProjectConfig projectConfig = projectConfigFactory.read(md);
+      AccessSection heads = projectConfig.getAccessSection(AccessSection.HEADS, true);
+
+      Permission permission = heads.getPermission(Permission.REVERT);
+      assertThat(permission.getRules()).hasSize(1);
+    }
   }
 
   @Test

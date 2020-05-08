@@ -18,6 +18,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.server.schema.AclUtil.grant;
 
 import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -57,12 +58,18 @@ public class GrantRevertPermission {
   }
 
   public void execute(Project.NameKey projectName) throws IOException, ConfigInvalidException {
+    GroupReference registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS);
     try (Repository repo = repoManager.openRepository(projectName)) {
       MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, projectName, repo);
       ProjectConfig projectConfig = projectConfigFactory.read(md);
       AccessSection heads = projectConfig.getAccessSection(AccessSection.HEADS, true);
 
-      grant(projectConfig, heads, Permission.REVERT, systemGroupBackend.getGroup(REGISTERED_USERS));
+      Permission permission = heads.getPermission(Permission.REVERT);
+      if (permission != null && permission.getRule(registeredUsers) != null) {
+        // permission already exists, don't do anything.
+        return;
+      }
+      grant(projectConfig, heads, Permission.REVERT, registeredUsers);
 
       md.getCommitBuilder().setAuthor(serverUser);
       md.getCommitBuilder().setCommitter(serverUser);

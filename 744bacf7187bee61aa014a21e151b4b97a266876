@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4dc2f917_e088ff9f",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceIdProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-05-08T12:08:23Z",
+      "side": 1,
+      "message": "removed the class in a follow up change",
+      "parentUuid": "d266b6d3_4b16e5b1",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 15
+      },
+      "revId": "744bacf7187bee61aa014a21e151b4b97a266876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "42ec5575_f3c1be11",
         "filename": "java/com/google/gerrit/server/config/GerritInstanceIdProvider.java",
         "patchSetId": 6
@@ -65,6 +89,48 @@
     },
     {
       "key": {
+        "uuid": "1e1572b8_f2a346f6",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceIdProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-05-08T12:08:23Z",
+      "side": 1,
+      "message": "removed the class in a follow up change",
+      "parentUuid": "42ec5575_f3c1be11",
+      "revId": "744bacf7187bee61aa014a21e151b4b97a266876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5e153e9_779f976c",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceIdProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-05-08T12:08:23Z",
+      "side": 1,
+      "message": "removed the class in a follow up change",
+      "parentUuid": "d9775e78_9b69f831",
+      "range": {
+        "startLine": 40,
+        "startChar": 9,
+        "endLine": 40,
+        "endChar": 15
+      },
+      "revId": "744bacf7187bee61aa014a21e151b4b97a266876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a8d01c7f_e709e4d6",
         "filename": "java/com/google/gerrit/server/events/Event.java",
         "patchSetId": 6
@@ -76,6 +142,30 @@
       "writtenOn": "2020-05-08T01:05:35Z",
       "side": 1,
       "message": "Now I see why the method and field were made static.\n\nCan we rather inject the provider in the class that creates the events?",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 23,
+        "endChar": 76
+      },
+      "revId": "744bacf7187bee61aa014a21e151b4b97a266876",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1595f162_a1f7a584",
+        "filename": "java/com/google/gerrit/server/events/Event.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-05-08T12:08:23Z",
+      "side": 1,
+      "message": "Have a look at the last change. WDYT?",
+      "parentUuid": "a8d01c7f_e709e4d6",
       "range": {
         "startLine": 23,
         "startChar": 2,

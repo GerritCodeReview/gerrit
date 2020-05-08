@@ -19,6 +19,7 @@ import {html} from '@polymer/polymer/lib/utils/html-tag';
 export const htmlTemplate = html`
   <style include="shared-styles">
     :host {
+      display: block;
       background-color: var(--view-background-color);
     }
     .hidden {
@@ -33,10 +34,17 @@ export const htmlTemplate = html`
         border-bottom: 1px solid var(--border-color);
       }
     }
-    gr-fixed-panel {
+    .stickyHeader {
       background-color: var(--view-background-color);
       border-bottom: 1px solid var(--border-color);
+      position: sticky;
+      top: 0;
+      /* TODO(dhruvsri): This is required only because of 'position:relative' in
+         <gr-diff-highlight> (which could maybe be removed??). */
       z-index: 1;
+      box-shadow: var(--elevation-level-1);
+      /* This is just for giving the box-shadow some space. */
+      margin-bottom: 2px;
     }
     header,
     .subHeader {
@@ -46,7 +54,6 @@ export const htmlTemplate = html`
     }
     header {
       padding: var(--spacing-s) var(--spacing-xl);
-      border-bottom: 1px solid var(--border-color);
     }
     .changeNumberColon {
       color: transparent;
@@ -202,13 +209,7 @@ export const htmlTemplate = html`
       --gr-comment-thread-display: none;
     }
   </style>
-  <gr-fixed-panel
-    class$="[[_computeContainerClass(_editMode)]]"
-    floating-disabled="[[_panelFloatingDisabled]]"
-    keep-on-scroll=""
-    ready-for-measure="[[!_loading]]"
-    on-floating-height-changed="_onChangeHeaderPanelHeightChanged"
-  >
+  <div class$="stickyHeader [[_computeContainerClass(_editMode)]]">
     <header>
       <div>
         <a
@@ -381,13 +382,12 @@ export const htmlTemplate = html`
         &gt;</a
       >
     </div>
-  </gr-fixed-panel>
+  </div>
   <div class="loading" hidden$="[[!_loading]]">Loading...</div>
   <gr-diff-host
     id="diffHost"
     hidden=""
     hidden$="[[_loading]]"
-    class$="[[_computeDiffClass(_panelFloatingDisabled)]]"
     is-image-diff="{{_isImageDiff}}"
     files-weblinks="{{_filesWeblinks}}"
     diff="{{_diff}}"

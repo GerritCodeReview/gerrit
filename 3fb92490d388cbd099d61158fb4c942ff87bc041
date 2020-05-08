@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "7aa55a1b_7bd86235",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-08T17:54:05Z",
+      "side": 1,
+      "message": "Adding a link to https://polymer-library.polymer-project.org/3.0/docs/devguide/observers#array-observation might be nice. At least I had to read up about array mutations before being able to review this. :-)",
+      "revId": "3fb92490d388cbd099d61158fb4c942ff87bc041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1ae2e789_9832cfd9",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 1
@@ -43,6 +60,47 @@
         "endLine": 115,
         "endChar": 8
       },
+      "revId": "3fb92490d388cbd099d61158fb4c942ff87bc041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f28992d8_41ed2a30",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-08T17:54:05Z",
+      "side": 1,
+      "message": "It is just a nit and I am fine either way, but I also feel that calling `this._updateSortedThreads(baseThreads ...` just once makes the code clearer. Otherwise the reader thinks that you are doing very different things in if and else, but actually you do the same, just with a different shouldSort value.",
+      "parentUuid": "653ac5cc_7fe407dd",
+      "range": {
+        "startLine": 105,
+        "startChar": 2,
+        "endLine": 115,
+        "endChar": 8
+      },
+      "revId": "3fb92490d388cbd099d61158fb4c942ff87bc041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8aad207e_53ca5f55",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-08T17:54:05Z",
+      "side": 1,
+      "message": "Opt and Nit: Maybe return here and remove the else{} block.",
       "revId": "3fb92490d388cbd099d61158fb4c942ff87bc041",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -22,6 +22,30 @@
       "revId": "2a4092cf40bdc7dd2babe0d83bbf89c5f6ae9918",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f6b8d18_a68d406a",
+        "filename": "polygerrit-ui/app/elements/gr-app-global-var-init.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-08T18:15:58Z",
+      "side": 0,
+      "message": "Once again, we should really not care that much about plugins. We have a public plugin API: elements/shared/gr-js-api-interface/gr-public-js-api.js. But everything else that plugins use just works by accident. And we are expecting plugin maintainers to verify and update their plugins for each release.\n\nPlugins used on googlesource.com are easily searchable. Those ones we should indeed check. And the Checks plugin apparently uses moment. So that needs to be taken care of.",
+      "parentUuid": "3727e74e_b35d74f5",
+      "range": {
+        "startLine": 106,
+        "startChar": 9,
+        "endLine": 106,
+        "endChar": 24
+      },
+      "revId": "2a4092cf40bdc7dd2babe0d83bbf89c5f6ae9918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -24,6 +24,17 @@
       /** @type {?} */
       diffPrefs: Object,
 
+      /**
+       * _editableDiffPrefs is a clone of diffPrefs.
+       * All changes in the dialog are applied to this object
+       * immediately, when a value in an editor is changed.
+       * The "Save" button replaces the "diffPrefs" object with
+       * the value of _editableDiffPrefs.
+       *
+       * @type {?}
+       */
+      _editableDiffPrefs: Object,
+
       _diffPrefsChanged: Boolean,
     },
 
@@ -48,6 +59,10 @@
     },
 
     open() {
+      // JSON.parse(JSON.stringify(...)) makes a deep clone of diffPrefs.
+      // It is known, that diffPrefs is obtained from an RestAPI call and
+      // it is safe to clone the object this way.
+      this._editableDiffPrefs = JSON.parse(JSON.stringify(this.diffPrefs));
       this.$.diffPrefsOverlay.open().then(() => {
         const focusStops = this.getFocusStops();
         this.$.diffPrefsOverlay.setFocusStops(focusStops);
@@ -56,6 +71,7 @@
     },
 
     _handleSaveDiffPreferences() {
+      this.diffPrefs = this._editableDiffPrefs;
       this.$.diffPreferences.save().then(() => {
         this.fire('reload-diff-preference', null, {bubbles: false});
 

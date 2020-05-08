@@ -34,8 +34,11 @@ class GrDiffPreferencesDialog extends GestureEventListeners(
 
   static get properties() {
     return {
-    /** @type {?} */
+      /** @type {?} */
       diffPrefs: Object,
+
+      /** @type {?} */
+      _editableDiffPrefs: Object,
 
       _diffPrefsChanged: Boolean,
     };
@@ -62,6 +65,7 @@ class GrDiffPreferencesDialog extends GestureEventListeners(
   }
 
   open() {
+    this._editableDiffPrefs = JSON.parse(JSON.stringify(this.diffPrefs));
     this.$.diffPrefsOverlay.open().then(() => {
       const focusStops = this.getFocusStops();
       this.$.diffPrefsOverlay.setFocusStops(focusStops);
@@ -70,6 +74,7 @@ class GrDiffPreferencesDialog extends GestureEventListeners(
   }
 
   _handleSaveDiffPreferences() {
+    this.diffPrefs = this._editableDiffPrefs;
     this.$.diffPreferences.save().then(() => {
       this.dispatchEvent(new CustomEvent('reload-diff-preference', {
         composed: true, bubbles: false,

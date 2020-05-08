@@ -20,7 +20,6 @@ import '../../../styles/shared-styles.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-dropdown/gr-dropdown.js';
 import '../../shared/gr-dropdown-list/gr-dropdown-list.js';
-import '../../shared/gr-fixed-panel/gr-fixed-panel.js';
 import '../../shared/gr-icons/gr-icons.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../shared/gr-select/gr-select.js';
@@ -211,10 +210,6 @@ class GrDiffView extends KeyboardShortcutMixin(
         type: Object,
         computed: '_computeCommentSkips(_commentMap, _fileList, _path)',
       },
-      _panelFloatingDisabled: {
-        type: Boolean,
-        value: () => window.PANEL_FLOATING_DISABLED,
-      },
       _editMode: {
         type: Boolean,
         computed: '_computeEditMode(_patchRange.*)',
@@ -238,6 +233,9 @@ class GrDiffView extends KeyboardShortcutMixin(
       },
 
       /**
+       * TODO(dhruvsri): <gr-fixed-panel> is gone.
+       * Maybe _scrollTopMargin can be removed??
+       *
        * gr-diff-view has gr-fixed-panel on top. The panel can
        * intersect a main element and partially hides a content of
        * the main element. To correctly calculates visibility of an
@@ -1365,10 +1363,8 @@ class GrDiffView extends KeyboardShortcutMixin(
     return skips;
   }
 
-  _computeDiffClass(panelFloatingDisabled) {
-    if (panelFloatingDisabled) {
-      return 'noOverflow';
-    }
+  _computeContainerClass(editMode) {
+    return editMode ? 'editMode' : '';
   }
 
   /**
@@ -1377,13 +1373,6 @@ class GrDiffView extends KeyboardShortcutMixin(
   _computeEditMode(patchRangeRecord) {
     const patchRange = patchRangeRecord.base || {};
     return patchNumEquals(patchRange.patchNum, SPECIAL_PATCH_SET_NUM.EDIT);
-  }
-
-  /**
-   * @param {boolean} editMode
-   */
-  _computeContainerClass(editMode) {
-    return editMode ? 'editMode' : '';
   }
 
   _computeBlameToggleLabel(loaded, loading) {
@@ -1571,16 +1560,16 @@ class GrDiffView extends KeyboardShortcutMixin(
     this._getDiffPreferences();
   }
 
-  _onChangeHeaderPanelHeightChanged(e) {
-    this._scrollTopMargin = e.detail.value;
-  }
-
   _computeCanEdit(loggedIn, changeChangeRecord) {
     if ([changeChangeRecord, changeChangeRecord.base]
         .some(arg => arg === undefined)) {
       return false;
     }
     return loggedIn && changeIsOpen(changeChangeRecord.base);
+  }
+
+  _computeIsLoggedIn(loggedIn) {
+    return loggedIn ? true : false;
   }
 
   /**

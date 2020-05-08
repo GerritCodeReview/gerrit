@@ -45,6 +45,30 @@
       "revId": "24d956b9442aab873f02221eab12b5d01073a720",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb362ef4_e5ad35d2",
+        "filename": "java/com/google/gerrit/server/account/SetInactiveFlag.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-05-08T09:49:01Z",
+      "side": 1,
+      "message": "Not sure I follow here.\n\nYou mean replacing\n\n  accountDeactivatedListeners.runEach(l -\u003e l.onAccountDeactivated(id));\n\nby something along the lines of\n\n  accountDeactivatedListeners.runEach(AccountDeactivatedListener::onAccountDeactivated);\n\n? That would not work as runEach takes an ExtensionImplConsumer as argument, which does not match AccountDeactivatedListener::onAccountDeactivated.\n\nSo I\u0027m obviously not getting what you\u0027re saying. Could you please elaborate?",
+      "parentUuid": "e0cc117b_d75b35a1",
+      "range": {
+        "startLine": 87,
+        "startChar": 40,
+        "endLine": 87,
+        "endChar": 71
+      },
+      "revId": "24d956b9442aab873f02221eab12b5d01073a720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

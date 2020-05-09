@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31fab08b_82799fc1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-09T01:17:16Z",
+      "side": 1,
+      "message": "Dmitrii\n\nAlthough we probably don\u0027t need this sentence at all, and instead just replace it with the \"Cherry-picked from ..\" line.",
+      "range": {
+        "startLine": 9,
+        "startChar": 36,
+        "endLine": 9,
+        "endChar": 44
+      },
+      "revId": "8cced7e093e0c11143d6ce8bca31b22c4ee75ef8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

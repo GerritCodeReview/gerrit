@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1e210556_da817ac1",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountListenersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-05-09T15:12:23Z",
+      "side": 1,
+      "message": "Done in PS3.",
+      "parentUuid": "e522faa0_bd8b63ca",
+      "range": {
+        "startLine": 37,
+        "startChar": 47,
+        "endLine": 37,
+        "endChar": 50
+      },
+      "revId": "08ae0cb5879b042fe032e5e4b648ba195fb25bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "14e11f12_a830922a",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountListenersIT.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2020-05-09T06:24:09Z",
       "side": 1,
       "message": "I think this can be done by overriding the createModule method that was introduced by 6155af29ee8723f1bfa163f1942ce6df4207a5bf",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 3
+      },
+      "revId": "08ae0cb5879b042fe032e5e4b648ba195fb25bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da6845fb_fb6ce207",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountListenersIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-05-09T15:12:23Z",
+      "side": 1,
+      "message": "Wow! `createModule` is neat. Thanks for the pointer. That\u0027ll come handy at some point. \\o/\n\nHowever, Luca\u0027s point for having this IT at all was that he wanted to have the listeners tested from a real plugin. If I use `createModule` from AbstractDaemonTest (instead of `@TestPlugin(...,sysModule\u003d...)` the listeners would not go through the temporarily-set-up plugin, but sidestep it and effectively test the same thing as AccountIT, which would make this new test moot.",
+      "parentUuid": "14e11f12_a830922a",
       "range": {
         "startLine": 48,
         "startChar": 2,

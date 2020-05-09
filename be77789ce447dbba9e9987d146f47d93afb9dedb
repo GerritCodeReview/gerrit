@@ -70,6 +70,24 @@
       "revId": "be77789ce447dbba9e9987d146f47d93afb9dedb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1018d214_f09f364a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-09T08:08:50Z",
+      "side": 1,
+      "message": "Can it be that this is the wrong link? The above change is merged.",
+      "parentUuid": "82ce2970_bcce1ace",
+      "revId": "be77789ce447dbba9e9987d146f47d93afb9dedb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

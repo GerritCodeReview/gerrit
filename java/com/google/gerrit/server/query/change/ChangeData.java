@@ -284,6 +284,7 @@ public class ChangeData {
   private Optional<ChangedLines> changedLines;
   private SubmitTypeRecord submitTypeRecord;
   private Boolean mergeable;
+  private Boolean merge;
   private Set<String> hashtags;
   private Map<Account.Id, Ref> editsByUser;
   private Set<Account.Id> reviewedBy;
@@ -949,6 +950,16 @@ public class ChangeData {
       }
     }
     return mergeable;
+  }
+
+  @Nullable
+  public Boolean isMerge() {
+    if (merge == null) {
+      if (!loadCommitData()) {
+        return null;
+      }
+    }
+    return parentCount > 1;
   }
 
   public Set<Account.Id> editsByUser() {

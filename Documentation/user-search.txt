@@ -487,6 +487,11 @@ is:wip::
 +
 True if the change is Work In Progress.
 
+[[merge]]
+is:merge::
++
+True if the change is a merge commit.
+
 [[status]]
 status:open, status:pending, status:new::
 +

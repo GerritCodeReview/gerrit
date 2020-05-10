@@ -597,6 +597,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       return new BooleanPredicate(ChangeField.MERGEABLE);
     }
 
+    if ("merge".equalsIgnoreCase(value)) {
+      if (args.getSchema().hasField(ChangeField.MERGE)) {
+        return new BooleanPredicate(ChangeField.MERGE);
+      }
+      throw new QueryParseException("'is:merge' operator is not supported by change index version");
+    }
+
     if ("private".equalsIgnoreCase(value)) {
       if (args.getSchema().hasField(ChangeField.PRIVATE)) {
         return new BooleanPredicate(ChangeField.PRIVATE);

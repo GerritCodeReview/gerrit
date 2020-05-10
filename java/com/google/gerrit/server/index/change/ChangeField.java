@@ -696,6 +696,19 @@ public class ChangeField {
                 return m ? "1" : "0";
               });
 
+  /** Whether the change is a merge commit. */
+  public static final FieldDef<ChangeData, String> MERGE =
+      exact(ChangeQueryBuilder.FIELD_MERGE)
+          .stored()
+          .build(
+              cd -> {
+                Boolean m = cd.isMerge();
+                if (m == null) {
+                  return null;
+                }
+                return m ? "1" : "0";
+              });
+
   /** The number of inserted lines in this change. */
   public static final FieldDef<ChangeData, Integer> ADDED =
       intRange(ChangeQueryBuilder.FIELD_ADDED)

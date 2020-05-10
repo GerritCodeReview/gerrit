@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf30faf1_18a26bef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-10T03:08:41Z",
+      "side": 1,
+      "message": "This change was merged, so we should be OK to submit this.",
+      "revId": "5a7fdb36a89a9c88b68599169edd2dd4dbda7800",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

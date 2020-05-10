@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef843f15_57ae588f",
+        "filename": "javatests/com/google/gerrit/integration/git/UploadArchiveIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-10T23:54:38Z",
+      "side": 1,
+      "message": "2020?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "d09285aebd2b93dd9f862a4b873f3068983bb501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7f8bce5_136cc777",
+        "filename": "javatests/com/google/gerrit/integration/git/UploadArchiveIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-10T23:54:38Z",
+      "side": 1,
+      "message": "Why is one an array but the other just a String?",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 61,
+        "endChar": 99
+      },
+      "revId": "d09285aebd2b93dd9f862a4b873f3068983bb501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

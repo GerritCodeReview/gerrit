@@ -508,7 +508,7 @@ public class GerritServer implements AutoCloseable {
     return url;
   }
 
-  InetSocketAddress getSshdAddress() {
+  public InetSocketAddress getSshdAddress() {
     return sshdAddress;
   }
 

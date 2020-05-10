@@ -1208,7 +1208,7 @@ Default is true.
 
 [[change.cacheAutomerge]]change.cacheAutomerge::
 +
-When reviewing diff commits, the left-hand side shows the output of the
+When reviewing merge commits, the left-hand side shows the output of the
 result of JGit's automatic merge algorithm. This option controls whether
 this output is cached in the change repository, or if only the diff is
 cached in the persistent `diff` cache.

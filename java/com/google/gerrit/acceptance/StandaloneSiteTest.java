@@ -15,10 +15,15 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 import static org.junit.Assert.fail;
 
+import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Streams;
+import com.google.common.io.ByteStreams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
@@ -36,6 +41,10 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Provider;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InterruptedIOException;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
 import org.eclipse.jgit.lib.Config;
@@ -89,6 +98,10 @@ public abstract class StandaloneSiteTest {
 
     public Injector getInjector() {
       return server.getTestInjector();
+    }
+
+    public GerritServer getServer() {
+      return server;
     }
 
     @Override
@@ -224,5 +237,51 @@ public abstract class StandaloneSiteTest {
   @SafeVarargs
   protected static void runGerrit(Iterable<String>... multiArgs) throws Exception {
     runGerrit(Arrays.stream(multiArgs).flatMap(Streams::stream).toArray(String[]::new));
+  }
+
+  protected static String execute(
+      ImmutableList<String> cmd, File dir, ImmutableMap<String, String> env) throws IOException {
+    return execute(cmd, dir, env, null);
+  }
+
+  protected static String execute(
+      ImmutableList<String> cmd,
+      File dir,
+      ImmutableMap<String, String> env,
+      @Nullable Path outputPath)
+      throws IOException {
+    ProcessBuilder pb = new ProcessBuilder(cmd);
+    pb.directory(dir);
+    if (outputPath != null) {
+      pb.redirectOutput(outputPath.toFile());
+    } else {
+      pb.redirectErrorStream(true);
+    }
+    pb.environment().putAll(env);
+    Process p = pb.start();
+    byte[] out;
+    try (InputStream in = p.getInputStream()) {
+      out = ByteStreams.toByteArray(in);
+    } finally {
+      p.getOutputStream().close();
+    }
+
+    int status;
+    try {
+      status = p.waitFor();
+    } catch (InterruptedException e) {
+      InterruptedIOException iioe =
+          new InterruptedIOException(
+              "interrupted waiting for: " + Joiner.on(' ').join(pb.command()));
+      iioe.initCause(e);
+      throw iioe;
+    }
+
+    String result = new String(out, UTF_8);
+    if (status != 0) {
+      throw new IOException(result);
+    }
+
+    return result.trim();
   }
 }

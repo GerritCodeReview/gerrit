@@ -22,6 +22,29 @@
       "revId": "e8577e4f97ae317e4e33faf12ed84631edcb2176",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1348a19_dc58ff5d",
+        "filename": "java/com/google/gerrit/server/config/SshClientImplementation.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-10T07:53:05Z",
+      "side": 1,
+      "message": "SSH client?",
+      "range": {
+        "startLine": 17,
+        "startChar": 37,
+        "endLine": 17,
+        "endChar": 40
+      },
+      "revId": "e8577e4f97ae317e4e33faf12ed84631edcb2176",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

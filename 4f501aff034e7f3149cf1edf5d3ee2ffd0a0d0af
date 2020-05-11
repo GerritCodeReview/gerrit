@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "922b686f_ce392201",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-05-11T13:33:43Z",
+      "side": 1,
+      "message": "Hmm, well using group_id under normal groups seems to include numbers rather then the UUID.\n\nWould you be able to show me the issue with screenshots please? Since uuid is basically id (only id is encoded) when using custom groups.",
+      "parentUuid": "c15713d5_11ec39a4",
+      "revId": "4f501aff034e7f3149cf1edf5d3ee2ffd0a0d0af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9a5e6f2d_bac3ec4a",
         "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
         "patchSetId": 5

@@ -187,17 +187,17 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       return null;
     }
 
-    // Some patch set of this change is actually merged into the target
+    // Some patchset of this change is actually merged into the target
     // branch, most likely because a previous run of MergeOp failed after
     // updateRepo, during updateChange.
     //
     // Do the best we can to clean this up: mark the change as merged and set
-    // the current patch set. Don't touch the dest branch at all. This can
+    // the current patchset. Don't touch the dest branch at all. This can
     // lead to some odd situations like another change in the set merging in
-    // a different patch set of this change, but that's unavoidable at this
+    // a different patchset of this change, but that's unavoidable at this
     // point.  At least the change will end up in the right state.
     //
-    // TODO(dborowitz): Consider deleting later junk patch set refs. They
+    // TODO(dborowitz): Consider deleting later junk patchset refs. They
     // presumably don't have PatchSets pointing to them.
     rw.parseBody(result);
     result.add(args.canMergeFlag);
@@ -240,22 +240,22 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       if (newPatchSet == null) {
         checkState(
             oldPsId.equals(newPsId),
-            "patch set advanced from %s to %s but updateChangeImpl did not"
-                + " return new patch set instance",
+            "patchset advanced from %s to %s but updateChangeImpl did not"
+                + " return new patchset instance",
             oldPsId,
             newPsId);
-        // Ok to use stale notes to get the old patch set, which didn't change
+        // Ok to use stale notes to get the old patchset, which didn't change
         // during the submit strategy.
         mergedPatchSet =
             requireNonNull(
                 args.psUtil.get(ctx.getNotes(), oldPsId),
-                () -> String.format("missing old patch set %s", oldPsId));
+                () -> String.format("missing old patchset %s", oldPsId));
       } else {
         PatchSet.Id n = newPatchSet.id();
         checkState(
             !n.equals(oldPsId) && n.equals(newPsId),
             "current patch was %s and is now %s, but updateChangeImpl returned"
-                + " new patch set instance at %s",
+                + " new patchset instance at %s",
             oldPsId,
             newPsId,
             n);
@@ -306,7 +306,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
 
   private PatchSet getOrCreateAlreadyMergedPatchSet(ChangeContext ctx) throws IOException {
     PatchSet.Id psId = alreadyMergedCommit.getPatchsetId();
-    logger.atFine().log("Fixing up already-merged patch set %s", psId);
+    logger.atFine().log("Fixing up already-merged patchset %s", psId);
     PatchSet prevPs = args.psUtil.current(ctx.getNotes());
     ctx.getRevWalk().parseBody(alreadyMergedCommit);
     ctx.getChange()
@@ -314,11 +314,11 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
             psId, alreadyMergedCommit.getShortMessage(), ctx.getChange().getOriginalSubject());
     PatchSet existing = args.psUtil.get(ctx.getNotes(), psId);
     if (existing != null) {
-      logger.atFine().log("Patch set row exists, only updating change");
+      logger.atFine().log("Patchset row exists, only updating change");
       return existing;
     }
-    // No patch set for the already merged commit, although we know it came form
-    // a patch set ref. Fix up the database. Note that this uses the current
+    // No patchset for the already merged commit, although we know it came form
+    // a patchset ref. Fix up the database. Note that this uses the current
     // user as the uploader, which is as good a guess as any.
     List<String> groups =
         prevPs != null ? prevPs.groups() : GroupCollector.getDefaultGroups(alreadyMergedCommit);
@@ -362,7 +362,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
             .build();
     byKey.put(submitter.key(), submitter);
 
-    // Flatten out existing approvals for this patch set based upon the current
+    // Flatten out existing approvals for this patchset based upon the current
     // permissions. Once the change is closed the approvals are not updated at
     // presentation view time, except for zero votes used to indicate a reviewer
     // was added. So we need to make sure votes are accurate now. This way if
@@ -524,7 +524,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
   /**
    * @see #updateChange(ChangeContext)
    * @param ctx
-   * @return a new patch set if one was created by the submit strategy, or null if not.
+   * @return a new patchset if one was created by the submit strategy, or null if not.
    */
   protected PatchSet updateChangeImpl(ChangeContext ctx) throws Exception {
     return null;

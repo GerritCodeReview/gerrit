@@ -63,7 +63,7 @@ import java.util.Optional;
  * referenced by the first PatchSet.
  *
  * <p>A change has at most one current PatchSet. The current PatchSet is updated when a new
- * replacement PatchSet is uploaded. When a change is submitted, the current patch set is what is
+ * replacement PatchSet is uploaded. When a change is submitted, the current patchset is what is
  * merged into the destination branch.
  *
  * <p>
@@ -92,7 +92,7 @@ import java.util.Optional;
  *
  * <p>If an Account has one or more PatchSetApprovals with a score != 0, the Change shows in their
  * dashboard, and they are said to be an active reviewer. Such individuals are highlighted when
- * notice of a replacement patch set is sent, or when notice of the change submission occurs.
+ * notice of a replacement patchset is sent, or when notice of the change submission occurs.
  */
 public final class Change {
 
@@ -319,7 +319,7 @@ public final class Change {
   /** Database constant for {@link Status#MERGED}. */
   public static final char STATUS_MERGED = 'M';
 
-  /** ID number of the first patch set in a change. */
+  /** ID number of the first patchset in a change. */
   public static final int INITIAL_PATCH_SET_ID = 1;
 
   /** Change-Id pattern. */
@@ -360,7 +360,7 @@ public final class Change {
      * Change is closed, but was not submitted to its destination branch.
      *
      * <p>Once a change has been abandoned, it cannot be further modified by adding a replacement
-     * patch set, and it cannot be merged. Draft comments however may be published, permitting
+     * patchset, and it cannot be merged. Draft comments however may be published, permitting
      * reviewers to send constructive feedback.
      */
     ABANDONED('A', ChangeStatus.ABANDONED);
@@ -461,10 +461,10 @@ public final class Change {
 
   // DELETED: id = 11 (nbrPatchSets)
 
-  /** The current patch set. */
+  /** The current patchset. */
   protected int currentPatchSetId;
 
-  /** Subject from the current patch set. */
+  /** Subject from the current patchset. */
   protected String subject;
 
   /** Topic name assigned by the user, if any. */
@@ -474,9 +474,9 @@ public final class Change {
   // DELETED: id = 16 (mergeable)
 
   /**
-   * First line of first patch set's commit message.
+   * First line of first patchset's commit message.
    *
-   * <p>Unlike {@link #subject}, this string does not change if future patch sets change the first
+   * <p>Unlike {@link #subject}, this string does not change if future patchsets change the first
    * line.
    */
   @Nullable protected String originalSubject;
@@ -650,7 +650,7 @@ public final class Change {
 
   public void setCurrentPatchSet(PatchSet.Id psId, String subject, String originalSubject) {
     if (!psId.changeId().equals(changeId)) {
-      throw new IllegalArgumentException("patch set ID " + psId + " is not for change " + changeId);
+      throw new IllegalArgumentException("patchset ID " + psId + " is not for change " + changeId);
     }
     currentPatchSetId = psId.get();
     this.subject = subject;

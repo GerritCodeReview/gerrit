@@ -45,14 +45,14 @@ public class EmailReviewComments implements Runnable, RequestContext {
     /**
      * @param notify setting for handling notification.
      * @param notes change notes.
-     * @param patchSet patch set corresponding to the top-level op
+     * @param patchSet patchset corresponding to the top-level op
      * @param user user the email should come from.
      * @param message used by text template only: the full ChangeMessage that will go in the
-     *     database. The contents of this message typically include the "Patch set N" header and "(M
+     *     database. The contents of this message typically include the "Patchset N" header and "(M
      *     comments)".
      * @param comments inline comments.
      * @param patchSetComment used by HTML template only: some quasi-human-generated text. The
-     *     contents should *not* include a "Patch set N" header or "(M comments)" footer, as these
+     *     contents should *not* include a "Patchset N" header or "(M comments)" footer, as these
      *     will be added automatically in soy in a structured way.
      * @param labels labels applied as part of this review operation.
      * @return handle for sending email.

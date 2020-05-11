@@ -45,7 +45,7 @@ public enum ChangeStatus {
    * Change is closed, but was not submitted to its destination branch.
    *
    * <p>Once a change has been abandoned, it cannot be further modified by adding a replacement
-   * patch set, and it cannot be merged. Draft comments however may be published, permitting
+   * patchset, and it cannot be merged. Draft comments however may be published, permitting
    * reviewers to send constructive feedback.
    *
    * <p>Changes in the ABANDONED state can be moved to:

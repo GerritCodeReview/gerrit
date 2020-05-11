@@ -184,7 +184,7 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
       throw new AuthException("Authentication required");
     }
 
-    // Not allowed to put message if the current patch set is locked.
+    // Not allowed to put message if the current patchset is locked.
     psUtil.checkPatchSetNotLocked(changeNotes);
     try {
       permissionBackend

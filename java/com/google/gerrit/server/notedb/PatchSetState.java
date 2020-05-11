@@ -19,9 +19,9 @@ public enum PatchSetState {
   PUBLISHED,
 
   /**
-   * Deleted patch set.
+   * Deleted patchset.
    *
-   * <p>Used internally as a tombstone; patch sets exposed by public NoteDb interfaces never have
+   * <p>Used internally as a tombstone; patchsets exposed by public NoteDb interfaces never have
    * this state.
    */
   DELETED;

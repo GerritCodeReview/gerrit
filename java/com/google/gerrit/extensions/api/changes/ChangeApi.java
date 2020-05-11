@@ -167,7 +167,7 @@ public interface ChangeApi {
 
   RevertSubmissionInfo revertSubmission(RevertInput in) throws RestApiException;
 
-  /** Create a merge patch set for the change. */
+  /** Create a merge patchset for the change. */
   ChangeInfo createMergePatchSet(MergePatchSetInput in) throws RestApiException;
 
   default List<ChangeInfo> submittedTogether() throws RestApiException {
@@ -273,14 +273,14 @@ public interface ChangeApi {
    */
   ChangeEditApi edit() throws RestApiException;
 
-  /** Create a new patch set with a new commit message. */
+  /** Create a new patchset with a new commit message. */
   default void setMessage(String message) throws RestApiException {
     CommitMessageInput in = new CommitMessageInput();
     in.message = message;
     setMessage(in);
   }
 
-  /** Create a new patch set with a new commit message. */
+  /** Create a new patchset with a new commit message. */
   void setMessage(CommitMessageInput in) throws RestApiException;
 
   /** Set hashtags on a change */
@@ -324,7 +324,7 @@ public interface ChangeApi {
    * Get all published comments on a change.
    *
    * @return comments in a map keyed by path; comments have the {@code revision} field set to
-   *     indicate their patch set.
+   *     indicate their patchset.
    * @throws RestApiException
    */
   Map<String, List<CommentInfo>> comments() throws RestApiException;
@@ -333,7 +333,7 @@ public interface ChangeApi {
    * Get all published comments on a change as a list.
    *
    * @return comments as a list; comments have the {@code revision} field set to indicate their
-   *     patch set.
+   *     patchset.
    * @throws RestApiException
    */
   List<CommentInfo> commentsAsList() throws RestApiException;
@@ -342,7 +342,7 @@ public interface ChangeApi {
    * Get all robot comments on a change.
    *
    * @return robot comments in a map keyed by path; robot comments have the {@code revision} field
-   *     set to indicate their patch set.
+   *     set to indicate their patchset.
    * @throws RestApiException
    */
   Map<String, List<RobotCommentInfo>> robotComments() throws RestApiException;
@@ -351,7 +351,7 @@ public interface ChangeApi {
    * Get all draft comments for the current user on a change.
    *
    * @return drafts in a map keyed by path; comments have the {@code revision} field set to indicate
-   *     their patch set.
+   *     their patchset.
    * @throws RestApiException
    */
   Map<String, List<CommentInfo>> drafts() throws RestApiException;

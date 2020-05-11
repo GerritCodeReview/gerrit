@@ -233,7 +233,7 @@ public class RevertSubmission
       requireNonNull(
           psUtil.get(changeData.notes(), change.currentPatchSetId()),
           String.format(
-              "current patch set %s of change %s not found",
+              "current patchset %s of change %s not found",
               change.currentPatchSetId(), change.currentPatchSetId()));
     }
   }

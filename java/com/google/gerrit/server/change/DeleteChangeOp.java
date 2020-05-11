@@ -79,7 +79,7 @@ public class DeleteChangeOp implements BatchUpdateOp {
     cleanUpReferences(id);
 
     logger.atFine().log(
-        "Deleting change %s, current patch set %d is commit %s",
+        "Deleting change %s, current patchset %d is commit %s",
         id,
         ctx.getChange().currentPatchSetId().get(),
         lazy(
@@ -103,7 +103,7 @@ public class DeleteChangeOp implements BatchUpdateOp {
       if (isPatchSetMerged(ctx, patchSet)) {
         throw new ResourceConflictException(
             String.format(
-                "Cannot delete change %s: patch set %s is already merged", id, patchSet.number()));
+                "Cannot delete change %s: patchset %s is already merged", id, patchSet.number()));
       }
     }
   }

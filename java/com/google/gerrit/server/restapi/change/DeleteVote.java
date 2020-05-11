@@ -118,7 +118,7 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
     Change change = r.getChange();
 
     if (r.getRevisionResource() != null && !r.getRevisionResource().isCurrent()) {
-      throw new MethodNotAllowedException("Cannot delete vote on non-current patch set");
+      throw new MethodNotAllowedException("Cannot delete vote on non-current patchset");
     }
 
     try (BatchUpdate bu =

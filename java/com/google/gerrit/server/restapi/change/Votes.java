@@ -57,7 +57,7 @@ public class Votes implements ChildCollection<ReviewerResource, VoteResource> {
   public VoteResource parse(ReviewerResource reviewer, IdString id)
       throws ResourceNotFoundException, AuthException, MethodNotAllowedException {
     if (reviewer.getRevisionResource() != null && !reviewer.getRevisionResource().isCurrent()) {
-      throw new MethodNotAllowedException("Cannot access on non-current patch set");
+      throw new MethodNotAllowedException("Cannot access on non-current patchset");
     }
     return new VoteResource(reviewer, id.get());
   }
@@ -75,7 +75,7 @@ public class Votes implements ChildCollection<ReviewerResource, VoteResource> {
     public Response<Map<String, Short>> apply(ReviewerResource rsrc)
         throws MethodNotAllowedException {
       if (rsrc.getRevisionResource() != null && !rsrc.getRevisionResource().isCurrent()) {
-        throw new MethodNotAllowedException("Cannot list votes on non-current patch set");
+        throw new MethodNotAllowedException("Cannot list votes on non-current patchset");
       }
 
       Map<String, Short> votes = new TreeMap<>();

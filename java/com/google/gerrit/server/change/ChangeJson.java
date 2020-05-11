@@ -570,8 +570,8 @@ public class ChangeJson {
     out.requirements = requirementsFor(cd);
 
     if (out.labels != null && has(DETAILED_LABELS)) {
-      // If limited to specific patch sets but not the current patch set, don't
-      // list permitted labels, since users can't vote on those patch sets.
+      // If limited to specific patchsets but not the current patchset, don't
+      // list permitted labels, since users can't vote on those patchsets.
       if (user.isIdentifiedUser()
           && (!limitToPsId.isPresent() || limitToPsId.get().equals(in.currentPatchSetId()))) {
         out.permittedLabels =
@@ -803,12 +803,12 @@ public class ChangeJson {
       if (limitToPsId.isPresent()) {
         ps = cd.patchSet(limitToPsId.get());
         if (ps == null) {
-          throw new StorageException("missing patch set " + limitToPsId.get());
+          throw new StorageException("missing patchset " + limitToPsId.get());
         }
       } else {
         ps = cd.currentPatchSet();
         if (ps == null) {
-          throw new StorageException("missing current patch set for change " + cd.getId());
+          throw new StorageException("missing current patchset for change " + cd.getId());
         }
       }
       src = Collections.singletonList(ps);

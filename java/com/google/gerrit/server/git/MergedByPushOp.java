@@ -126,14 +126,14 @@ public class MergedByPushOp implements BatchUpdateOp {
     }
 
     if (patchSetProvider != null) {
-      // Caller might have also arranged for construction of a new patch set
+      // Caller might have also arranged for construction of a new patchset
       // that is not present in the old notes so we can't use PatchSetUtil.
       patchSet = patchSetProvider.get();
     } else {
       patchSet =
           requireNonNull(
               psUtil.get(ctx.getNotes(), psId),
-              () -> String.format("patch set %s not found", psId));
+              () -> String.format("patchset %s not found", psId));
     }
     info = getPatchSetInfo(ctx);
 
@@ -192,7 +192,7 @@ public class MergedByPushOp implements BatchUpdateOp {
                       cm.send();
                     } catch (Exception e) {
                       logger.atSevere().withCause(e).log(
-                          "Cannot send email for submitted patch set %s", psId);
+                          "Cannot send email for submitted patchset %s", psId);
                     }
                   }
 

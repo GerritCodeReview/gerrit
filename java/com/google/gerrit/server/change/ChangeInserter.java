@@ -331,9 +331,9 @@ public class ChangeInserter implements InsertChangeOp {
   }
 
   /**
-   * Set whether to include the new patch set ref update in this update.
+   * Set whether to include the new patchset ref update in this update.
    *
-   * <p>If false, the caller is responsible for creating the patch set ref <strong>before</strong>
+   * <p>If false, the caller is responsible for creating the patchset ref <strong>before</strong>
    * executing the containing {@code BatchUpdate}.
    *
    * <p>Should not be used in new code, as it doesn't result in a single atomic batch ref update for

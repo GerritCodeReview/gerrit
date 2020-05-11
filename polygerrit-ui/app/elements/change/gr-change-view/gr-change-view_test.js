@@ -575,7 +575,7 @@ suite('gr-change-view tests', () => {
       });
     });
 
-    test('shift + R should fetch and navigate to the latest patch set',
+    test('shift + R should fetch and navigate to the latest patchset',
         done => {
           element._changeNum = '42';
           element._patchRange = {
@@ -1916,7 +1916,7 @@ suite('gr-change-view tests', () => {
             () => Promise.resolve({isLatest: false}));
         element.addEventListener('show-alert', e => {
           assert.equal(e.detail.message,
-              'A newer patch set has been uploaded');
+              'A newer patchset has been uploaded');
           done();
         });
         element._serverConfig = {change: {update_delay: 12345}};

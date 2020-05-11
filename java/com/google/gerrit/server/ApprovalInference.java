@@ -45,8 +45,8 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
- * Computes approvals for a given patch set by looking at approvals applied to the given patch set
- * and by additionally inferring approvals from the patch set's parents. The latter is done by
+ * Computes approvals for a given patchset by looking at approvals applied to the given patchset
+ * and by additionally inferring approvals from the patchset's parents. The latter is done by
  * asserting a change's kind and checking the project config for allowed forward-inference.
  *
  * <p>The result of a copy may either be stored, as when stamping approvals in the database at
@@ -69,7 +69,7 @@ public class ApprovalInference {
   }
 
   /**
-   * Returns all approvals that apply to the given patch set. Honors direct and indirect (approval
+   * Returns all approvals that apply to the given patchset. Honors direct and indirect (approval
    * on parents) approvals.
    */
   Iterable<PatchSetApproval> forPatchSet(
@@ -77,7 +77,7 @@ public class ApprovalInference {
     ProjectState project;
     try (TraceTimer traceTimer =
         TraceContext.newTimer(
-            "Computing labels for patch set",
+            "Computing labels for patchset",
             Metadata.builder()
                 .changeId(notes.load().getChangeId().get())
                 .patchSetId(psId.get())
@@ -99,8 +99,8 @@ public class ApprovalInference {
     LabelType type = project.getLabelTypes().byLabel(psa.labelId());
     if (type == null) {
       logger.atFine().log(
-          "approval %d on label %s of patch set %d of change %d cannot be copied"
-              + " to patch set %d because the label no longer exists on project %s",
+          "approval %d on label %s of patchset %d of change %d cannot be copied"
+              + " to patchset %d because the label no longer exists on project %s",
           psa.value(),
           psa.label(),
           n,
@@ -110,8 +110,8 @@ public class ApprovalInference {
       return false;
     } else if (type.isCopyMinScore() && type.isMaxNegative(psa)) {
       logger.atFine().log(
-          "veto approval %s on label %s of patch set %d of change %d can be copied"
-              + " to patch set %d because the label has set copyMinScore = true on project %s",
+          "veto approval %s on label %s of patchset %d of change %d can be copied"
+              + " to patchset %d because the label has set copyMinScore = true on project %s",
           psa.value(),
           psa.label(),
           n,
@@ -121,8 +121,8 @@ public class ApprovalInference {
       return true;
     } else if (type.isCopyMaxScore() && type.isMaxPositive(psa)) {
       logger.atFine().log(
-          "max approval %s on label %s of patch set %d of change %d can be copied"
-              + " to patch set %d because the label has set copyMaxScore = true on project %s",
+          "max approval %s on label %s of patchset %d of change %d can be copied"
+              + " to patchset %d because the label has set copyMaxScore = true on project %s",
           psa.value(),
           psa.label(),
           n,
@@ -132,8 +132,8 @@ public class ApprovalInference {
       return true;
     } else if (type.isCopyAnyScore()) {
       logger.atFine().log(
-          "approval %d on label %s of patch set %d of change %d can be copied"
-              + " to patch set %d because the label has set copyAnyScore = true on project %s",
+          "approval %d on label %s of patchset %d of change %d can be copied"
+              + " to patchset %d because the label has set copyAnyScore = true on project %s",
           psa.value(),
           psa.label(),
           n,
@@ -143,8 +143,8 @@ public class ApprovalInference {
       return true;
     } else if (type.getCopyValues().contains(psa.value())) {
       logger.atFine().log(
-          "approval %d on label %s of patch set %d of change %d can be copied"
-              + " to patch set %d because the label has set copyValue = %d on project %s",
+          "approval %d on label %s of patchset %d of change %d can be copied"
+              + " to patchset %d because the label has set copyValue = %d on project %s",
           psa.value(),
           psa.label(),
           n,
@@ -158,8 +158,8 @@ public class ApprovalInference {
       case MERGE_FIRST_PARENT_UPDATE:
         if (type.isCopyAllScoresOnMergeFirstParentUpdate()) {
           logger.atFine().log(
-              "approval %d on label %s of patch set %d of change %d can be copied"
-                  + " to patch set %d because change kind is %s and the label has set"
+              "approval %d on label %s of patchset %d of change %d can be copied"
+                  + " to patchset %d because change kind is %s and the label has set"
                   + " copyAllScoresOnMergeFirstParentUpdate = true on project %s",
               psa.value(),
               psa.label(),
@@ -174,8 +174,8 @@ public class ApprovalInference {
       case NO_CODE_CHANGE:
         if (type.isCopyAllScoresIfNoCodeChange()) {
           logger.atFine().log(
-              "approval %d on label %s of patch set %d of change %d can be copied"
-                  + " to patch set %d because change kind is %s and the label has set"
+              "approval %d on label %s of patchset %d of change %d can be copied"
+                  + " to patchset %d because change kind is %s and the label has set"
                   + " copyAllScoresIfNoCodeChange = true on project %s",
               psa.value(),
               psa.label(),
@@ -190,8 +190,8 @@ public class ApprovalInference {
       case TRIVIAL_REBASE:
         if (type.isCopyAllScoresOnTrivialRebase()) {
           logger.atFine().log(
-              "approval %d on label %s of patch set %d of change %d can be copied"
-                  + " to patch set %d because change kind is %s and the label has set"
+              "approval %d on label %s of patchset %d of change %d can be copied"
+                  + " to patchset %d because change kind is %s and the label has set"
                   + " copyAllScoresOnTrivialRebase = true on project %s",
               psa.value(),
               psa.label(),
@@ -206,8 +206,8 @@ public class ApprovalInference {
       case NO_CHANGE:
         if (type.isCopyAllScoresIfNoChange()) {
           logger.atFine().log(
-              "approval %d on label %s of patch set %d of change %d can be copied"
-                  + " to patch set %d because change kind is %s and the label has set"
+              "approval %d on label %s of patchset %d of change %d can be copied"
+                  + " to patchset %d because change kind is %s and the label has set"
                   + " copyAllScoresIfNoCodeChange = true on project %s",
               psa.value(),
               psa.label(),
@@ -220,8 +220,8 @@ public class ApprovalInference {
         }
         if (type.isCopyAllScoresOnTrivialRebase()) {
           logger.atFine().log(
-              "approval %d on label %s of patch set %d of change %d can be copied"
-                  + " to patch set %d because change kind is %s and the label has set"
+              "approval %d on label %s of patchset %d of change %d can be copied"
+                  + " to patchset %d because change kind is %s and the label has set"
                   + " copyAllScoresOnTrivialRebase = true on project %s",
               psa.value(),
               psa.label(),
@@ -234,8 +234,8 @@ public class ApprovalInference {
         }
         if (type.isCopyAllScoresOnMergeFirstParentUpdate()) {
           logger.atFine().log(
-              "approval %d on label %s of patch set %d of change %d can be copied"
-                  + " to patch set %d because change kind is %s and the label has set"
+              "approval %d on label %s of patchset %d of change %d can be copied"
+                  + " to patchset %d because change kind is %s and the label has set"
                   + " copyAllScoresOnMergeFirstParentUpdate = true on project %s",
               psa.value(),
               psa.label(),
@@ -248,8 +248,8 @@ public class ApprovalInference {
         }
         if (type.isCopyAllScoresIfNoCodeChange()) {
           logger.atFine().log(
-              "approval %d on label %s of patch set %d of change %d can be copied"
-                  + " to patch set %d because change kind is %s and the label has set"
+              "approval %d on label %s of patchset %d of change %d can be copied"
+                  + " to patchset %d because change kind is %s and the label has set"
                   + " copyAllScoresIfNoCodeChange = true on project %s",
               psa.value(),
               psa.label(),
@@ -264,8 +264,8 @@ public class ApprovalInference {
       case REWORK:
       default:
         logger.atFine().log(
-            "approval %d on label %s of patch set %d of change %d cannot be copied"
-                + " to patch set %d because change kind is %s",
+            "approval %d on label %s of patchset %d of change %d cannot be copied"
+                + " to patchset %d because change kind is %s",
             psa.value(), psa.label(), n, psa.key().patchSetId().changeId().get(), psId.get(), kind);
         return false;
     }
@@ -288,25 +288,25 @@ public class ApprovalInference {
       return Collections.emptyList();
     }
 
-    // Add approvals on the given patch set to the result
+    // Add approvals on the given patchset to the result
     Table<String, Account.Id, PatchSetApproval> resultByUser = HashBasedTable.create();
     ImmutableList<PatchSetApproval> approvalsForGivenPatchSet =
         notes.load().getApprovals().get(ps.id());
     approvalsForGivenPatchSet.forEach(psa -> resultByUser.put(psa.label(), psa.accountId(), psa));
 
-    // Bail out immediately if this is the first patch set. Return only approvals granted on the
-    // given patch set.
+    // Bail out immediately if this is the first patchset. Return only approvals granted on the
+    // given patchset.
     if (psId.get() == 1) {
       return resultByUser.values();
     }
 
-    // Call this algorithm recursively to check if the prior patch set had approvals. This has the
+    // Call this algorithm recursively to check if the prior patchset had approvals. This has the
     // advantage that all caches - most importantly ChangeKindCache - have values cached for what we
     // need for this computation.
     // The way this algorithm is written is that any approval will be copied forward by one patch
     // set at a time if configs and change kind allow so. Once an approval is held back - for
-    // example because the patch set is a REWORK - it will not be picked up again in a future
-    // patch set.
+    // example because the patchset is a REWORK - it will not be picked up again in a future
+    // patchset.
     Map.Entry<PatchSet.Id, PatchSet> priorPatchSet = notes.load().getPatchSets().lowerEntry(psId);
     if (priorPatchSet == null) {
       return resultByUser.values();
@@ -319,7 +319,7 @@ public class ApprovalInference {
       return resultByUser.values();
     }
 
-    // Add labels from the previous patch set to the result in case the label isn't already there
+    // Add labels from the previous patchset to the result in case the label isn't already there
     // and settings as well as change kind allow copying.
     ChangeKind kind =
         changeKindCache.getChangeKind(
@@ -329,7 +329,7 @@ public class ApprovalInference {
             priorPatchSet.getValue().commitId(),
             ps.commitId());
     logger.atFine().log(
-        "change kind for patch set %d of change %d against prior patch set %s is %s",
+        "change kind for patchset %d of change %d against prior patchset %s is %s",
         ps.id().get(), ps.id().changeId().get(), priorPatchSet.getValue().id().changeId(), kind);
     for (PatchSetApproval psa : priorApprovals) {
       if (resultByUser.contains(psa.label(), psa.accountId())) {

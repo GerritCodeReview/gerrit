@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea2f3353_e0d08b8f",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-11T06:02:20Z",
+      "side": 0,
+      "message": "Google style guide and gjf does not enforce that. What I don\u0027t want to see in gerrit code is that it\u0027s done differently in different source code files. And that if I comment about this problem in review comment, that the change owner respond: gjf doesn\u0027t enforce this.",
+      "range": {
+        "startLine": 198,
+        "startChar": 2,
+        "endLine": 198,
+        "endChar": 68
+      },
+      "revId": "00fd60d91ad0067d1e1f65647d5aebe79c4898fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

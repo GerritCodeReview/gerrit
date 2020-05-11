@@ -22,6 +22,30 @@
       "revId": "00fd60d91ad0067d1e1f65647d5aebe79c4898fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "700d9812_5d130eb3",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-11T06:48:41Z",
+      "side": 0,
+      "message": "On the contrary, I think if we\u0027re using a tool to format the code, we should only rely on that, and should not be commenting on the style in the code review.  If we want to remove those lines, we should raise an issue on gjf to have it do that.",
+      "parentUuid": "ea2f3353_e0d08b8f",
+      "range": {
+        "startLine": 198,
+        "startChar": 2,
+        "endLine": 198,
+        "endChar": 68
+      },
+      "revId": "00fd60d91ad0067d1e1f65647d5aebe79c4898fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

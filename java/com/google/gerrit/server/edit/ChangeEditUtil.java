@@ -138,7 +138,7 @@ public class ChangeEditUtil {
   }
 
   /**
-   * Promote change edit to patch set, by squashing the edit into its parent.
+   * Promote change edit to patchset, by squashing the edit into its parent.
    *
    * @param updateFactory factory for creating updates.
    * @param notes the {@code ChangeNotes} of the change to which the change edit belongs
@@ -164,7 +164,7 @@ public class ChangeEditUtil {
         RevWalk rw = new RevWalk(reader)) {
       PatchSet basePatchSet = edit.getBasePatchSet();
       if (!basePatchSet.id().equals(change.currentPatchSetId())) {
-        throw new ResourceConflictException("only edit for current patch set can be published");
+        throw new ResourceConflictException("only edit for current patchset can be published");
       }
 
       RevCommit squashed = squashEdit(rw, oi, edit.getEditCommit(), basePatchSet);
@@ -175,9 +175,9 @@ public class ChangeEditUtil {
               .setSendEmail(!change.isWorkInProgress());
 
       StringBuilder message =
-          new StringBuilder("Patch Set ").append(inserter.getPatchSetId().get()).append(": ");
+          new StringBuilder("Patchset ").append(inserter.getPatchSetId().get()).append(": ");
 
-      // Previously checked that the base patch set is the current patch set.
+      // Previously checked that the base patchset is the current patchset.
       ObjectId prior = basePatchSet.commitId();
       ChangeKind kind =
           changeKindCache.getChangeKind(change.getProject(), rw, repo.getConfig(), prior, squashed);
@@ -185,7 +185,7 @@ public class ChangeEditUtil {
         message.append("Commit message was updated.");
         inserter.setDescription("Edit commit message");
       } else {
-        message.append("Published edit on patch set ").append(basePatchSet.number()).append(".");
+        message.append("Published edit on patchset ").append(basePatchSet.number()).append(".");
       }
 
       try (BatchUpdate bu = updateFactory.create(change.getProject(), user, TimeUtil.nowTs())) {

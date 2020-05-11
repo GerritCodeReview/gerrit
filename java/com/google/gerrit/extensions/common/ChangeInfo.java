@@ -78,7 +78,7 @@ public class ChangeInfo {
    * indicate the conflicts.
    *
    * <p>Only set if this change info is returned in response to a request that creates a new change
-   * or patch set and conflicts are allowed. In particular this field is only populated if the
+   * or patchset and conflicts are allowed. In particular this field is only populated if the
    * change info is returned by one of the following REST endpoints: {@link
    * com.google.gerrit.server.restapi.change.CreateChange}, {@link
    * com.google.gerrit.server.restapi.change.CreateMergePatchSet}, {@link

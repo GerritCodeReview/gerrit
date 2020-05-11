@@ -74,26 +74,26 @@ class RelatedChangesSorter {
   public List<PatchSetData> sort(List<ChangeData> in, PatchSet startPs)
       throws IOException, PermissionBackendException {
     checkArgument(!in.isEmpty(), "Input may not be empty");
-    // Map of all patch sets, keyed by commit SHA-1.
+    // Map of all patchsets, keyed by commit SHA-1.
     Map<ObjectId, PatchSetData> byId = collectById(in);
     PatchSetData start = byId.get(startPs.commitId());
     requireNonNull(
         start,
         () ->
             String.format(
-                "commit %s of patch set %s not found in %s",
+                "commit %s of patchset %s not found in %s",
                 startPs.commitId().name(),
                 startPs.id(),
                 byId.entrySet().stream()
                     .collect(toMap(e -> e.getKey().name(), e -> e.getValue().patchSet().id()))));
 
-    // Map of patch set -> immediate parent.
+    // Map of patchset -> immediate parent.
     ListMultimap<PatchSetData, PatchSetData> parents =
         MultimapBuilder.hashKeys(in.size()).arrayListValues(3).build();
-    // Map of patch set -> immediate children.
+    // Map of patchset -> immediate children.
     ListMultimap<PatchSetData, PatchSetData> children =
         MultimapBuilder.hashKeys(in.size()).arrayListValues(3).build();
-    // All other patch sets of the same change as startPs.
+    // All other patchsets of the same change as startPs.
     List<PatchSetData> otherPatchSetsOfStart = new ArrayList<>();
 
     for (ChangeData cd : in) {
@@ -170,13 +170,13 @@ class RelatedChangesSorter {
     Set<Change.Id> alreadyEmittedChanges = new HashSet<>();
     addAllChangeIds(alreadyEmittedChanges, ancestors);
 
-    // Prefer descendants found by following the original patch set passed in.
+    // Prefer descendants found by following the original patchset passed in.
     List<PatchSetData> result =
         walkDescendentsImpl(alreadyEmittedChanges, children, ImmutableList.of(start));
     addAllChangeIds(alreadyEmittedChanges, result);
 
     // Then, go back and add new indirect descendants found by following any
-    // other patch sets of start. These show up after all direct descendants,
+    // other patchsets of start. These show up after all direct descendants,
     // because we wouldn't know where in the walk to insert them.
     result.addAll(walkDescendentsImpl(alreadyEmittedChanges, children, otherPatchSetsOfStart));
     return result;
@@ -210,7 +210,7 @@ class RelatedChangesSorter {
       seen.add(psd);
       if (!alreadyEmittedChanges.contains(psd.id())) {
         // Don't emit anything for changes that were previously emitted, even
-        // though different patch sets might show up later. However, do
+        // though different patchsets might show up later. However, do
         // continue walking through them for the purposes of finding indirect
         // descendants.
         PatchSet.Id oldMax = maxPatchSetIds.get(psd.id());
@@ -225,7 +225,7 @@ class RelatedChangesSorter {
       }
     }
 
-    // If we saw the same change multiple times, prefer the latest patch set.
+    // If we saw the same change multiple times, prefer the latest patchset.
     List<PatchSetData> result = new ArrayList<>(allPatchSets.size());
     for (PatchSetData psd : allPatchSets) {
       if (requireNonNull(maxPatchSetIds.get(psd.id())).equals(psd.psId())) {

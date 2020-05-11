@@ -76,16 +76,16 @@ public class PublishCommentUtil {
       PatchSet ps = patchSets.get(psIdOfDraftComment);
       if (ps == null) {
         // This can happen if changes with the same numeric ID exist:
-        // - change 12345 has 3 patch sets in repo X
-        // - another change 12345 has 7 patch sets in repo Y
-        // - the user saves a draft comment on patch set 6 of the change in repo Y
+        // - change 12345 has 3 patchsets in repo X
+        // - another change 12345 has 7 patchsets in repo Y
+        // - the user saves a draft comment on patchset 6 of the change in repo Y
         // - this draft comment gets stored in:
         //   AllUsers -> refs/draft-comments/45/12345/<account-id>
         // - when posting a review with draft handling PUBLISH_ALL_REVISIONS on the change in
         //   repo X, the draft comments are loaded from
         //   AllUsers -> refs/draft-comments/45/12345/<account-id>, including the draft
-        //   comment that was saved for patch set 6 of the change in repo Y
-        // - patch set 6 does not exist for the change in repo x, hence we get null for the patch
+        //   comment that was saved for patchset 6 of the change in repo Y
+        // - patchset 6 does not exist for the change in repo x, hence we get null for the patch
         //   set here
         // Instead of failing hard (and returning an Internal Server Error) to the caller,
         // just ignore that comment.
@@ -93,7 +93,7 @@ public class PublishCommentUtil {
         // change refs of one repo are copied/pushed to another repo on the same host (this
         // should never be done, but we know it happens).
         logger.atWarning().log(
-            "Ignoring draft comment %s on non existing patch set %s (repo = %s)",
+            "Ignoring draft comment %s on non existing patchset %s (repo = %s)",
             draftComment, psIdOfDraftComment, notes.getProjectName());
         continue;
       }

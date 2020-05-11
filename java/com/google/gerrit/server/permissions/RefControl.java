@@ -106,7 +106,7 @@ class RefControl {
     return isVisible;
   }
 
-  /** @return true if this user can add a new patch set to this ref */
+  /** @return true if this user can add a new patchset to this ref */
   boolean canAddPatchSet() {
     return projectControl
         .controlForRef(MagicBranch.NEW_CHANGE + refName)
@@ -118,7 +118,7 @@ class RefControl {
     return canPerform(Permission.REBASE);
   }
 
-  /** @return true if this user can submit patch sets to this ref */
+  /** @return true if this user can submit patchsets to this ref */
   boolean canSubmit(boolean isChangeOwner) {
     if (RefNames.REFS_CONFIG.equals(refName)) {
       // Always allow project owners to submit configuration changes.
@@ -168,7 +168,7 @@ class RefControl {
     return projectControl.controlForRef("refs/for/" + refName).canPerform(Permission.PUSH);
   }
 
-  /** @return true if this user can submit merge patch sets to this ref */
+  /** @return true if this user can submit merge patchsets to this ref */
   private boolean canUploadMerges() {
     return projectControl.controlForRef("refs/for/" + refName).canPerform(Permission.PUSH_MERGE);
   }

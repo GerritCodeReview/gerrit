@@ -228,7 +228,7 @@ public class PatchListLoader implements Callable<PatchList> {
    * returned.
    *
    * <p><b>Warning:</b> This method assumes that commitA and commitB are either a parent and child
-   * commit or represent two patch sets which belong to the same change. No checks are made to
+   * commit or represent two patchsets which belong to the same change. No checks are made to
    * confirm this assumption! Passing arbitrary commits to this method may lead to strange results
    * or take very long.
    *
@@ -276,7 +276,7 @@ public class PatchListLoader implements Callable<PatchList> {
 
     List<PatchListEntry> oldPatches = oldPatchList.getPatches();
     List<PatchListEntry> newPatches = newPatchList.getPatches();
-    // TODO(aliceks): Have separate but more limited lists for parents and patch sets (but don't
+    // TODO(aliceks): Have separate but more limited lists for parents and patchsets (but don't
     // mess up renames/copies).
     Set<String> touchedFilePaths = new HashSet<>();
     for (PatchListEntry patchListEntry : oldPatches) {

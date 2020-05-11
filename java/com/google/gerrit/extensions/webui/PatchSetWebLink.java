@@ -21,7 +21,7 @@ import com.google.gerrit.extensions.common.WebLinkInfo;
 public interface PatchSetWebLink extends WebLink {
 
   /**
-   * {@link com.google.gerrit.extensions.common.WebLinkInfo} describing a link from a patch set to
+   * {@link com.google.gerrit.extensions.common.WebLinkInfo} describing a link from a patchset to
    * an external service.
    *
    * <p>In order for the web link to be visible {@link
@@ -31,8 +31,8 @@ public interface PatchSetWebLink extends WebLink {
    * <p>
    *
    * @param projectName Name of the project
-   * @param commit Commit of the patch set
-   * @return WebLinkInfo that links to patch set in external service, null if there should be no
+   * @param commit Commit of the patchset
+   * @return WebLinkInfo that links to patchset in external service, null if there should be no
    *     link.
    */
   WebLinkInfo getPatchSetWebLink(String projectName, String commit);

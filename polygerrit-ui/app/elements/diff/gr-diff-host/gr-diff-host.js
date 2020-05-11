@@ -782,7 +782,7 @@ class GrDiffHost extends mixinBehaviors( [
     threadEl.isOnParent = !!thread.isOnParent;
     threadEl.parentIndex = this._parentIndex;
     // Use path before renmaing when comment added on the left when comparing
-    // two patch sets (not against base)
+    // two patchsets (not against base)
     if (this.file && this.file.basePath
         && thread.commentSide === GrDiffBuilder.Side.LEFT
         && !thread.isOnParent) {

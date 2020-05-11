@@ -53,17 +53,17 @@ import org.eclipse.jgit.revwalk.RevCommit;
  * group of a commit is defined as follows:
  *
  * <ul>
- *   <li>If the commit is an existing patch set of a change, the group is read from the group field
+ *   <li>If the commit is an existing patchset of a change, the group is read from the group field
  *       in the corresponding {@link PatchSet} record.
  *   <li>If all of a commit's parents are merged into the branch, then its group is its own SHA-1.
  *   <li>If the commit has a single parent that is not yet merged into the branch, then its group is
  *       the same as the parent's group.
  *   <li>
  *   <li>For a merge commit, choose a parent and use that parent's group. If one of the parents has
- *       a group from a patch set, use that group, otherwise, use the group from the first parent.
+ *       a group from a patchset, use that group, otherwise, use the group from the first parent.
  *       In addition to setting this merge commit's group, use the chosen group for all commits that
  *       would otherwise use a group from the parents that were not chosen.
- *   <li>If a merge commit has multiple parents whose group comes from separate patch sets,
+ *   <li>If a merge commit has multiple parents whose group comes from separate patchsets,
  *       concatenate the groups from those parents together. This indicates two side branches were
  *       pushed separately, followed by the merge.
  *   <li>
@@ -177,7 +177,7 @@ public class GroupCollector {
 
       for (String parentGroup : parentGroups) {
         if (isGroupFromExistingPatchSet(p, parentGroup)) {
-          // This parent's group is from an existing patch set, i.e. the parent
+          // This parent's group is from an existing patchset, i.e. the parent
           // not new in this push. Use this group for the commit.
           thisCommitGroups.add(parentGroup);
         } else {
@@ -279,7 +279,7 @@ public class GroupCollector {
         PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
         if (psId != null) {
           List<String> groups = groupLookup.lookup(psId);
-          // Group for existing patch set may be missing, e.g. if group has not
+          // Group for existing patchset may be missing, e.g. if group has not
           // been migrated yet.
           if (groups != null && !groups.isEmpty()) {
             return groups;

@@ -19,7 +19,7 @@ public enum ListChangesOption implements ListOption {
   LABELS(0),
   DETAILED_LABELS(8),
 
-  /** Return information on the current patch set of the change. */
+  /** Return information on the current patchset of the change. */
   CURRENT_REVISION(1),
   ALL_REVISIONS(2),
 
@@ -27,7 +27,7 @@ public enum ListChangesOption implements ListOption {
   CURRENT_COMMIT(3),
   ALL_COMMITS(4),
 
-  /** If a patch set is included, include the files of the patch set. */
+  /** If a patchset is included, include the files of the patchset. */
   CURRENT_FILES(5),
   ALL_FILES(6),
 
@@ -50,7 +50,7 @@ public enum ListChangesOption implements ListOption {
   /** Include download commands for the caller. */
   DOWNLOAD_COMMANDS(13),
 
-  /** Include patch set weblinks. */
+  /** Include patchset weblinks. */
   WEB_LINKS(14),
 
   /** Include consistency check results. */
@@ -62,7 +62,7 @@ public enum ListChangesOption implements ListOption {
   /** Include a copy of commit messages including review footers. */
   COMMIT_FOOTERS(17),
 
-  /** Include push certificate information along with any patch sets. */
+  /** Include push certificate information along with any patchsets. */
   PUSH_CERTIFICATES(18),
 
   /** Include change's reviewer updates. */

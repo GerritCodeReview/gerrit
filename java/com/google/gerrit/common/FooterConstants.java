@@ -17,7 +17,7 @@ package com.google.gerrit.common;
 import org.eclipse.jgit.revwalk.FooterKey;
 
 public class FooterConstants {
-  /** The change ID as used to track patch sets. */
+  /** The change ID as used to track patchsets. */
   public static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
   /** The footer telling us who reviewed the change. */

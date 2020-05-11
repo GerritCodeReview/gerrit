@@ -148,7 +148,7 @@ public class GetPatch implements RestReadView<RevisionResource> {
     }
   }
 
-  public GetPatch setPath(String path) {
+  public GetPatchsetPath(String path) {
     this.path = path;
     return this;
   }

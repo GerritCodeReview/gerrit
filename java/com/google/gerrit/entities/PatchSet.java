@@ -76,7 +76,7 @@ public abstract class PatchSet {
     }
 
     private static void checkIdFormat(boolean test, String input) {
-      checkArgument(test, "invalid patch set ID: %s", input);
+      checkArgument(test, "invalid patchset ID: %s", input);
     }
 
     /** Parse a PatchSet.Id from a {@link #refName()} result. */
@@ -95,7 +95,7 @@ public abstract class PatchSet {
     }
 
     static int fromRef(String ref, int changeIdEnd) {
-      // Patch set ID.
+      // Patchset ID.
       int ps = changeIdEnd + 1;
       if (ps >= ref.length() || ref.charAt(ps) == '0') {
         return -1;
@@ -173,11 +173,11 @@ public abstract class PatchSet {
     public abstract PatchSet build();
   }
 
-  /** ID of the patch set. */
+  /** ID of the patchset. */
   public abstract Id id();
 
   /**
-   * Commit ID of the patch set, also known as the revision.
+   * Commit ID of the patchset, also known as the revision.
    *
    * <p>If this is a deserialized instance that was originally serialized by an older version of
    * Gerrit, and the old data erroneously did not include a {@code commitId}, then this method will
@@ -186,7 +186,7 @@ public abstract class PatchSet {
   public abstract ObjectId commitId();
 
   /**
-   * Account that uploaded the patch set.
+   * Account that uploaded the patchset.
    *
    * <p>If this is a deserialized instance that was originally serialized by an older version of
    * Gerrit, and the old data erroneously did not include an {@code uploader}, then this method will
@@ -195,7 +195,7 @@ public abstract class PatchSet {
   public abstract Account.Id uploader();
 
   /**
-   * When this patch set was first introduced onto the change.
+   * When this patchset was first introduced onto the change.
    *
    * <p>If this is a deserialized instance that was originally serialized by an older version of
    * Gerrit, and the old data erroneously did not include a {@code createdOn}, then this method will
@@ -207,30 +207,30 @@ public abstract class PatchSet {
    * Opaque group identifier, usually assigned during creation.
    *
    * <p>This field is actually a comma-separated list of values, as in rare cases involving merge
-   * commits a patch set may belong to multiple groups.
+   * commits a patchset may belong to multiple groups.
    *
-   * <p>Changes on the same branch having patch sets with intersecting groups are considered
+   * <p>Changes on the same branch having patchsets with intersecting groups are considered
    * related, as in the "Related Changes" tab.
    */
   public abstract ImmutableList<String> groups();
 
-  /** Certificate sent with a push that created this patch set. */
+  /** Certificate sent with a push that created this patchset. */
   public abstract Optional<String> pushCertificate();
 
   /**
-   * Optional user-supplied description for this patch set.
+   * Optional user-supplied description for this patchset.
    *
    * <p>When this field is an empty {@code Optional}, the description was never set on the patch
    * set. When this field is present but an empty string, the description was set and later cleared.
    */
   public abstract Optional<String> description();
 
-  /** Patch set number. */
+  /** Patchset number. */
   public int number() {
     return id().get();
   }
 
-  /** Name of the corresponding patch set ref. */
+  /** Name of the corresponding patchset ref. */
   public String refName() {
     return id().toRefName();
   }

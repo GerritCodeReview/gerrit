@@ -236,10 +236,10 @@ public class ConsistencyChecker {
       currPs = psUtil.current(notes);
       if (currPs == null) {
         problem(
-            String.format("Current patch set %d not found", change().currentPatchSetId().get()));
+            String.format("Current patchset %d not found", change().currentPatchSetId().get()));
       }
     } catch (StorageException e) {
-      ProblemInfo problem = problem("Failed to look up current patch set");
+      ProblemInfo problem = problem("Failed to look up current patchset");
       logger.atWarning().withCause(e).log(
           "Error in consistency check of change %s: %s", notes.getChangeId(), problem);
     }
@@ -271,7 +271,7 @@ public class ConsistencyChecker {
       // Iterate in descending order.
       all = PS_ID_ORDER.sortedCopy(psUtil.byChange(notes));
     } catch (StorageException e) {
-      ProblemInfo problem = problem("Failed to look up patch sets");
+      ProblemInfo problem = problem("Failed to look up patchsets");
       logger.atWarning().withCause(e).log(
           "Error in consistency check of change %s: %s", notes.getChangeId(), problem);
       return false;
@@ -312,7 +312,7 @@ public class ConsistencyChecker {
       }
 
       // Check object existence.
-      RevCommit psCommit = parseCommit(objId, String.format("patch set %d", psNum));
+      RevCommit psCommit = parseCommit(objId, String.format("patchset %d", psNum));
       if (psCommit == null) {
         if (fix != null && fix.deletePatchSetIfCommitMissing) {
           deletePatchSetOps.add(new DeletePatchSetFromDbOp(lastProblem(), ps.id()));
@@ -326,7 +326,7 @@ public class ConsistencyChecker {
       }
     }
 
-    // Delete any bad patch sets found above, in a single update.
+    // Delete any bad patchsets found above, in a single update.
     deletePatchSets(deletePatchSetOps);
 
     // Check for duplicates.
@@ -334,7 +334,7 @@ public class ConsistencyChecker {
       if (e.getValue().size() > 1) {
         problem(
             String.format(
-                "Multiple patch sets pointing to %s: %s",
+                "Multiple patchsets pointing to %s: %s",
                 e.getKey().name(), Collections2.transform(e.getValue(), PatchSet::number)));
       }
     }
@@ -367,7 +367,7 @@ public class ConsistencyChecker {
       try {
         merged = rw.isMergedInto(currPsCommit, tip);
       } catch (IOException e) {
-        problem("Error checking whether patch set " + currPs.id().get() + " is merged");
+        problem("Error checking whether patchset " + currPs.id().get() + " is merged");
         return;
       }
       checkMergedBitMatchesStatus(currPs.id(), currPsCommit, merged);
@@ -378,7 +378,7 @@ public class ConsistencyChecker {
     String refName = change().getDest().branch();
     return problem(
         formatProblemMessage(
-            "Patch set %d (%s) is merged into destination ref %s (%s), but change"
+            "Patchset %d (%s) is merged into destination ref %s (%s), but change"
                 + " status is %s",
             psId.get(), commit.name(), refName, tip.name()));
   }
@@ -393,7 +393,7 @@ public class ConsistencyChecker {
     } else if (!merged && change().isMerged()) {
       problem(
           formatProblemMessage(
-              "Patch set %d (%s) is not merged into"
+              "Patchset %d (%s) is not merged into"
                   + " destination ref %s (%s), but change status is %s",
               currPs.id().get(), commit.name(), refName, tip.name()));
     }
@@ -447,13 +447,13 @@ public class ConsistencyChecker {
         } catch (StorageException e) {
           logger.atWarning().withCause(e).log(
               "Error in consistency check of change %s", notes.getChangeId());
-          // Include this patch set; should cause an error below, which is good.
+          // Include this patchset; should cause an error below, which is good.
         }
         thisCommitPsIds.add(psId);
       }
       switch (thisCommitPsIds.size()) {
         case 0:
-          // No patch set for this commit; insert one.
+          // No patchset for this commit; insert one.
           rw.parseBody(commit);
           String changeId =
               Iterables.getFirst(commit.getFooterLines(FooterConstants.CHANGE_ID), null);
@@ -469,18 +469,18 @@ public class ConsistencyChecker {
           break;
 
         case 1:
-          // Existing patch set ref pointing to this commit.
+          // Existing patchset ref pointing to this commit.
           PatchSet.Id id = thisCommitPsIds.get(0);
           if (id.equals(change().currentPatchSetId())) {
-            // If it's the current patch set, we can just fix the status.
+            // If it's the current patchset, we can just fix the status.
             fixMerged(wrongChangeStatus(id, commit));
           } else if (id.get() > change().currentPatchSetId().get()) {
-            // If it's newer than the current patch set, reuse this patch set
-            // ID when inserting a new merged patch set.
+            // If it's newer than the current patchset, reuse this patchset
+            // ID when inserting a new merged patchset.
             insertMergedPatchSet(commit, id, true);
           } else {
-            // If it's older than the current patch set, just delete the old
-            // ref, and use a new ID when inserting a new merged patch set.
+            // If it's older than the current patchset, just delete the old
+            // ref, and use a new ID when inserting a new merged patchset.
             insertMergedPatchSet(commit, id, false);
           }
           break;
@@ -488,7 +488,7 @@ public class ConsistencyChecker {
         default:
           problem(
               String.format(
-                  "Multiple patch sets for expected merged commit %s: %s",
+                  "Multiple patchsets for expected merged commit %s: %s",
                   commit.name(),
                   thisCommitPsIds.stream()
                       .sorted(comparing(PatchSet.Id::get))
@@ -505,10 +505,10 @@ public class ConsistencyChecker {
 
   private void insertMergedPatchSet(
       final RevCommit commit, @Nullable PatchSet.Id psIdToDelete, boolean reuseOldPsId) {
-    ProblemInfo notFound = problem("No patch set found for merged commit " + commit.name());
+    ProblemInfo notFound = problem("No patchset found for merged commit " + commit.name());
     if (!user.get().isIdentifiedUser()) {
       notFound.status = Status.FIX_FAILED;
-      notFound.outcome = "Must be called by an identified user to insert new patch set";
+      notFound.outcome = "Must be called by an identified user to insert new patchset";
       return;
     }
     ProblemInfo insertPatchSetProblem;
@@ -518,13 +518,13 @@ public class ConsistencyChecker {
       insertPatchSetProblem =
           problem(
               String.format(
-                  "Expected merged commit %s has no associated patch set", commit.name()));
+                  "Expected merged commit %s has no associated patchset", commit.name()));
       deleteOldPatchSetProblem = null;
     } else {
       String msg =
           String.format(
-              "Expected merge commit %s corresponds to patch set %s,"
-                  + " not the current patch set %s",
+              "Expected merge commit %s corresponds to patchset %s,"
+                  + " not the current patchset %s",
               commit.name(), psIdToDelete.get(), change().currentPatchSetId().get());
       // Maybe an identical problem, but different fix.
       deleteOldPatchSetProblem = reuseOldPsId ? null : problem(msg);
@@ -548,7 +548,7 @@ public class ConsistencyChecker {
         bu.setRepository(repo, rw, oi);
 
         if (psIdToDelete != null) {
-          // Delete the given patch set ref. If reuseOldPsId is true,
+          // Delete the given patchset ref. If reuseOldPsId is true,
           // PatchSetInserter will reinsert the same ref, making it a no-op.
           bu.addOp(
               notes.getChangeId(),
@@ -572,19 +572,19 @@ public class ConsistencyChecker {
                 .setValidate(false)
                 .setFireRevisionCreated(false)
                 .setAllowClosed(true)
-                .setMessage("Patch set for merged commit inserted by consistency checker"));
+                .setMessage("Patchset for merged commit inserted by consistency checker"));
         bu.addOp(notes.getChangeId(), new FixMergedOp(notFound));
         bu.execute();
       }
       notes = notesFactory.createChecked(inserter.getChange());
       insertPatchSetProblem.status = Status.FIXED;
-      insertPatchSetProblem.outcome = "Inserted as patch set " + psId.get();
+      insertPatchSetProblem.outcome = "Inserted as patchset " + psId.get();
     } catch (StorageException | IOException | UpdateException | RestApiException e) {
       logger.atWarning().withCause(e).log(
           "Error in consistency check of change %s", notes.getChangeId());
       for (ProblemInfo pi : currProblems) {
         pi.status = Status.FIX_FAILED;
-        pi.outcome = "Error inserting merged patch set";
+        pi.outcome = "Error inserting merged patchset";
       }
       return;
     }
@@ -630,7 +630,7 @@ public class ConsistencyChecker {
       ru.setForceUpdate(true);
       ru.setNewObjectId(ps.commitId());
       ru.setRefLogIdent(newRefLogIdent());
-      ru.setRefLogMessage("Repair patch set ref", true);
+      ru.setRefLogMessage("Repair patchset ref", true);
       RefUpdate.Result result = ru.update();
       switch (result) {
         case NEW:
@@ -638,7 +638,7 @@ public class ConsistencyChecker {
         case FAST_FORWARD:
         case NO_CHANGE:
           p.status = Status.FIXED;
-          p.outcome = "Repaired patch set ref";
+          p.outcome = "Repaired patchset ref";
           return;
         case IO_FAILURE:
         case LOCK_FAILURE:
@@ -650,11 +650,11 @@ public class ConsistencyChecker {
         case REJECTED_OTHER_REASON:
         default:
           p.status = Status.FIX_FAILED;
-          p.outcome = "Failed to update patch set ref: " + result;
+          p.outcome = "Failed to update patchset ref: " + result;
           return;
       }
     } catch (IOException e) {
-      String msg = "Error fixing patch set ref";
+      String msg = "Error fixing patchset ref";
       logger.atWarning().withCause(e).log("%s %s", msg, ps.id().toRefName());
       p.status = Status.FIX_FAILED;
       p.outcome = msg;
@@ -676,7 +676,7 @@ public class ConsistencyChecker {
         op.p.outcome = e.getMessage();
       }
     } catch (UpdateException | RestApiException e) {
-      String msg = "Error deleting patch set";
+      String msg = "Error deleting patchset";
       logger.atWarning().withCause(e).log("%s of change %s", msg, ops.get(0).psId.changeId());
       for (DeletePatchSetFromDbOp op : ops) {
         // Overwrite existing statuses that were set before the transaction was
@@ -705,7 +705,7 @@ public class ConsistencyChecker {
       ctx.getUpdate(psId).setPatchSetState(PatchSetState.DELETED);
 
       p.status = Status.FIXED;
-      p.outcome = "Deleted patch set";
+      p.outcome = "Deleted patchset";
       return true;
     }
   }
@@ -714,7 +714,7 @@ public class ConsistencyChecker {
     private static final long serialVersionUID = 1L;
 
     private NoPatchSetsWouldRemainException() {
-      super("Cannot delete patch set; no patch sets would remain");
+      super("Cannot delete patchset; no patchsets would remain");
     }
   }
 
@@ -737,7 +737,7 @@ public class ConsistencyChecker {
       TreeSet<PatchSet.Id> all = new TreeSet<>(comparing(PatchSet.Id::get));
       // Doesn't make any assumptions about the order in which deletes happen
       // and whether they are seen by this op; we are already given the full set
-      // of patch sets that will eventually be deleted in this update.
+      // of patchsets that will eventually be deleted in this update.
       for (PatchSet ps : psUtil.byChange(ctx.getNotes())) {
         if (!toDelete.contains(ps.id())) {
           all.add(ps.id());

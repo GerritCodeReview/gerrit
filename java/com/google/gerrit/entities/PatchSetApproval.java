@@ -20,7 +20,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Optional;
 
-/** An approval (or negative approval) on a patch set. */
+/** An approval (or negative approval) on a patchset. */
 @AutoValue
 public abstract class PatchSetApproval {
   public static Key key(PatchSet.Id patchSetId, Account.Id accountId, LabelId labelId) {

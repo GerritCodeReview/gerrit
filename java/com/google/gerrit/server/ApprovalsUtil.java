@@ -274,11 +274,11 @@ public class ApprovalsUtil {
   }
 
   /**
-   * Adds approvals to ChangeUpdate for a new patch set, and writes to NoteDb.
+   * Adds approvals to ChangeUpdate for a new patchset, and writes to NoteDb.
    *
    * @param update change update.
    * @param labelTypes label types for the containing project.
-   * @param ps patch set being approved.
+   * @param ps patchset being approved.
    * @param user user adding approvals.
    * @param approvals approvals to add.
    * @throws RestApiException
@@ -293,7 +293,7 @@ public class ApprovalsUtil {
     Account.Id accountId = user.getAccountId();
     checkArgument(
         accountId.equals(ps.uploader()),
-        "expected user %s to match patch set uploader %s",
+        "expected user %s to match patchset uploader %s",
         accountId,
         ps.uploader());
     if (approvals.isEmpty()) {
@@ -386,7 +386,7 @@ public class ApprovalsUtil {
 
   public static String renderMessageWithApprovals(
       int patchSetId, Map<String, Short> n, Map<String, PatchSetApproval> c) {
-    StringBuilder msgs = new StringBuilder("Uploaded patch set " + patchSetId);
+    StringBuilder msgs = new StringBuilder("Uploaded patchset " + patchSetId);
     if (!n.isEmpty()) {
       boolean first = true;
       for (Map.Entry<String, Short> e : n.entrySet()) {

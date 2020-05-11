@@ -106,7 +106,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         return new Loader(key, repoManager, project, rw, repoConfig).call();
       } catch (IOException e) {
         logger.atWarning().withCause(e).log(
-            "Cannot check trivial rebase of new patch set %s in %s", next.name(), project);
+            "Cannot check trivial rebase of new patchset %s in %s", next.name(), project);
         return ChangeKind.REWORK;
       }
     }
@@ -347,7 +347,7 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       return cache.get(key, new Loader(key, repoManager, project, rw, repoConfig));
     } catch (ExecutionException e) {
       logger.atWarning().withCause(e).log(
-          "Cannot check trivial rebase of new patch set %s in %s", next.name(), project);
+          "Cannot check trivial rebase of new patchset %s in %s", next.name(), project);
       return ChangeKind.REWORK;
     }
   }
@@ -379,13 +379,13 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         for (PatchSet ps : patchSetCollection) {
           if (ps.id().get() < patch.id().get()
               && (ps.id().get() > priorPs.id().get() || priorPs == patch)) {
-            // We only want the previous patch set, so walk until the last one
+            // We only want the previous patchset, so walk until the last one
             priorPs = ps;
           }
         }
 
         // If we still think the previous patch is the current patch,
-        // we only have one patch set.  Return the default.
+        // we only have one patchset.  Return the default.
         // This can happen if a user creates a draft, uploads a second patch,
         // and deletes the draft.
         if (priorPs != patch) {

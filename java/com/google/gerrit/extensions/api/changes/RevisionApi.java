@@ -109,7 +109,7 @@ public interface RevisionApi {
   /**
    * Applies the indicated fix by creating a new change edit or integrating the fix with the
    * existing change edit. If no change edit exists before this call, the fix must refer to the
-   * current patch set. If a change edit exists, the fix must refer to the patch set on which the
+   * current patchset. If a change edit exists, the fix must refer to the patchset on which the
    * change edit is based.
    *
    * @param fixId the ID of the fix which should be applied

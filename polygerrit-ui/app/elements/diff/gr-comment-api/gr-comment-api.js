@@ -86,7 +86,7 @@ class ChangeComments {
 
   /**
    * Get an object mapping file paths to a boolean representing whether that
-   * path contains diff comments in the given patch set (including drafts and
+   * path contains diff comments in the given patchset (including drafts and
    * robot comments).
    *
    * Paths with comments are mapped to true, whereas paths without comments

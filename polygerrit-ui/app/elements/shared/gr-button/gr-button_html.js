@@ -141,7 +141,7 @@ export const htmlTemplate = html`
     :host([link]) {
       --background-color: transparent;
       --margin: 0;
-      --padding: 5px 4px;
+      --padding: var(--spacing-s);
     }
     :host([disabled][link]),
     :host([loading][link]) {

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25cd6829_86357739",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceIdModule.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T12:55:14Z",
+      "side": 1,
+      "message": "JavaDoc missing.",
+      "revId": "120d929db9a0b1e0fa97036454d133c1966b98b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "350f645e_c08cd88e",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceIdProvider.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T12:55:14Z",
+      "side": 1,
+      "message": "Javadoc missing.",
+      "revId": "120d929db9a0b1e0fa97036454d133c1966b98b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63a7090f_7e5184a7",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceIdProvider.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T12:55:14Z",
+      "side": 1,
+      "message": "These can be inlined at L31",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 48
+      },
+      "revId": "120d929db9a0b1e0fa97036454d133c1966b98b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

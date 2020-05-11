@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd97d94f_7f13ba9e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 2235,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T12:55:14Z",
+      "side": 0,
+      "message": "nit: unrelated change.",
+      "revId": "50dd6c4fdc8b8fd68a2e6c204019d8817e84abe2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

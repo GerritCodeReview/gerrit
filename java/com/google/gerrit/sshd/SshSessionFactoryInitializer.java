@@ -15,7 +15,6 @@
 package com.google.gerrit.sshd;
 
 import static com.google.gerrit.server.config.SshClientImplementation.APACHE;
-import static com.google.gerrit.server.config.SshClientImplementation.JSCH;
 
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.transport.SshSessionFactory;
@@ -26,7 +25,7 @@ import org.eclipse.jgit.util.FS;
 
 public class SshSessionFactoryInitializer {
   public static void init(Config config) {
-    if (APACHE == config.getEnum("ssh", null, "clientImplementation", JSCH)) {
+    if (APACHE == config.getEnum("ssh", null, "clientImplementation", APACHE)) {
       SshdSessionFactory factory =
           new SshdSessionFactory(new JGitKeyCache(), new DefaultProxyDataFactory());
       factory.setHomeDirectory(FS.DETECTED.userHome());

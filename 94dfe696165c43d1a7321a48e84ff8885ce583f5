@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e95161e_8668aa5f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-11T15:05:44Z",
+      "side": 1,
+      "message": "Please, add more information what is fixed in this branch.\n\nEither reference to an existing bug or just explanation about what and/or why do you want to fix.\n\nI can suggest it from your change, but I am not sure that my suggestion is correct. So, my comment on the gr-diff-view file can be completely wrong.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 17
+      },
+      "revId": "94dfe696165c43d1a7321a48e84ff8885ce583f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c41bc83c_78d3a18c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-11T15:05:44Z",
+      "side": 1,
+      "message": "It seems, you want to open edit view only for the latest patchset - it makes sense.\n1) Could you please add test/tests for the fix?\n2) Maybe we should show some message to the user, when edit is clicked on an old patchset. Otherwise user can be confused why the edit view shows different content. What do you think about it?",
+      "range": {
+        "startLine": 541,
+        "startChar": 6,
+        "endLine": 541,
+        "endChar": 77
+      },
+      "revId": "94dfe696165c43d1a7321a48e84ff8885ce583f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

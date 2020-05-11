@@ -16,6 +16,24 @@
       "revId": "3e8cb1fe5480cc400d8eaae26954d50b650f5b4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a3a409c_83efbdbc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-05-11T00:19:20Z",
+      "side": 1,
+      "message": "Yes, one of them the issue is hidden though.",
+      "parentUuid": "016a46d3_3824f836",
+      "revId": "3e8cb1fe5480cc400d8eaae26954d50b650f5b4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

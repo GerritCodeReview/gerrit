@@ -6,9 +6,9 @@ contains the same Change-Id as a predecessor commit.
 
 The reason for rejecting such a commit is that it would introduce, for
 the corresponding change in Gerrit, a dependency upon itself. Gerrit
-prevents such dependencies between patch sets within the same change
+prevents such dependencies between patchsets within the same change
 to keep the review process simple. Otherwise reviewers would not only
-have to review the latest patch set but also all the patch sets the
+have to review the latest patchset but also all the patchsets the
 latest one depends on.
 
 This error is quite common, it appears when a user tries to address
@@ -100,7 +100,7 @@ Change-Id of the corresponding change in Gerrit.  If a change in
 Gerrit does not exist yet, the Change-Id should be generated (either
 by using a link:cmd-hook-commit-msg.html[commit hook] or by using EGit) or the Change-Id could be
 removed (not recommended since then amending this commit to create
-subsequent patch sets is more error prone). To change the Change-Id
+subsequent patchsets is more error prone). To change the Change-Id
 of an existing commit do an interactive link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[git rebase,role=external,window=_blank] and fix the
 affected commit messages.
 

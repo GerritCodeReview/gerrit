@@ -86,7 +86,7 @@ public class WebLinks {
   /**
    * @param project Project name.
    * @param commit SHA1 of commit.
-   * @return Links for patch sets.
+   * @return Links for patchsets.
    */
   public ImmutableList<WebLinkInfo> getPatchSetLinks(Project.NameKey project, String commit) {
     return filterLinks(patchSetLinks, webLink -> webLink.getPatchSetWebLink(project.get(), commit));
@@ -95,7 +95,7 @@ public class WebLinks {
   /**
    * @param project Project name.
    * @param revision SHA1 of the parent revision.
-   * @return Links for patch sets.
+   * @return Links for patchsets.
    */
   public ImmutableList<WebLinkInfo> getParentLinks(Project.NameKey project, String revision) {
     return filterLinks(parentLinks, webLink -> webLink.getParentWebLink(project.get(), revision));
@@ -132,10 +132,10 @@ public class WebLinks {
 
   /**
    * @param project Project name.
-   * @param patchSetIdA Patch set ID of side A, <code>null</code> if no base patch set was selected.
+   * @param patchSetIdA Patchset ID of side A, <code>null</code> if no base patchset was selected.
    * @param revisionA SHA1 of revision of side A.
    * @param fileA File name of side A.
-   * @param patchSetIdB Patch set ID of side B.
+   * @param patchSetIdB Patchset ID of side B.
    * @param revisionB SHA1 of revision of side B.
    * @param fileB File name of side B.
    * @return Links for file diffs.

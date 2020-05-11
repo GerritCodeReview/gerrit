@@ -382,8 +382,8 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   @Test
   public void stickyAcrossMultiplePatchSetsDoNotRegressPerformance() throws Exception {
     // The purpose of this test is to make sure that we compute change kind only against the parent
-    // patch set. Change kind is a heavy operation. In prior version of Gerrit, we computed the
-    // change kind against all prior patch sets. This is a regression that made Gerrit do expensive
+    // patchset. Change kind is a heavy operation. In prior version of Gerrit, we computed the
+    // change kind against all prior patchsets. This is a regression that made Gerrit do expensive
     // work in O(num-patch-sets). This test ensures that we aren't regressing.
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig().getLabelSections().get("Code-Review").setCopyMaxScore(true);

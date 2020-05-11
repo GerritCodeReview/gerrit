@@ -47,7 +47,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-/** Utilities for manipulating patch sets. */
+/** Utilities for manipulating patchsets. */
 @Singleton
 public class PatchSetUtil {
   private final Provider<ApprovalsUtil> approvalsUtilProvider;
@@ -116,13 +116,13 @@ public class PatchSetUtil {
     Change.Id changeId = update.getId();
     checkArgument(
         psId.changeId().equals(changeId),
-        "cannot modify patch set %s on update for change %s",
+        "cannot modify patchset %s on update for change %s",
         psId,
         changeId);
     if (update.getPatchSetId() != null) {
       checkArgument(
           update.getPatchSetId().equals(psId),
-          "cannot modify patch set %s on update for %s",
+          "cannot modify patchset %s on update for %s",
           psId,
           update.getPatchSetId());
     } else {
@@ -130,15 +130,15 @@ public class PatchSetUtil {
     }
   }
 
-  /** Check if the current patch set of the change is locked. */
+  /** Check if the current patchset of the change is locked. */
   public void checkPatchSetNotLocked(ChangeNotes notes) throws ResourceConflictException {
     if (isPatchSetLocked(notes)) {
       throw new ResourceConflictException(
-          String.format("The current patch set of change %s is locked", notes.getChangeId()));
+          String.format("The current patchset of change %s is locked", notes.getChangeId()));
     }
   }
 
-  /** Is the current patch set locked against state changes? */
+  /** Is the current patchset locked against state changes? */
   public boolean isPatchSetLocked(ChangeNotes notes) {
     Change change = notes.getChange();
     if (change.isMerged()) {

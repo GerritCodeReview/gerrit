@@ -104,8 +104,8 @@ link:https://www.gerritcodereview.com/codeofconduct.html[Code of Conduct,role=ex
 
 Positive `Code-Review` votes on changes that add/modify design docs are
 sticky. This means any `Code-Review+1` and `Code-Review+2` vote is
-preserved when a new patch set is uploaded. If a new patch set makes
-significant changes, the uploader of the new patch set must start a new
+preserved when a new patchset is uploaded. If a new patchset makes
+significant changes, the uploader of the new patchset must start a new
 review round by removing all positive `Code-Review` votes from the
 change manually.
 

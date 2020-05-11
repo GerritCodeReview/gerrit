@@ -75,7 +75,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     ChangeInfo c = get(changeId, MESSAGES);
     assertThat(c.messages).isNotNull();
     assertThat(c.messages).hasSize(1);
-    assertThat(c.messages.iterator().next().message).isEqualTo("Uploaded patch set 1.");
+    assertThat(c.messages.iterator().next().message).isEqualTo("Uploaded patchset 1.");
   }
 
   @Test
@@ -89,7 +89,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     assertThat(c.messages).isNotNull();
     assertThat(c.messages).hasSize(3);
     Iterator<ChangeMessageInfo> it = c.messages.iterator();
-    assertThat(it.next().message).isEqualTo("Uploaded patch set 1.");
+    assertThat(it.next().message).isEqualTo("Uploaded patchset 1.");
     assertMessage(firstMessage, it.next().message);
     assertMessage(secondMessage, it.next().message);
   }
@@ -104,7 +104,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     assertThat(c.messages).isNotNull();
     assertThat(c.messages).hasSize(2);
     Iterator<ChangeMessageInfo> it = c.messages.iterator();
-    assertThat(it.next().message).isEqualTo("Uploaded patch set 1.");
+    assertThat(it.next().message).isEqualTo("Uploaded patchset 1.");
     ChangeMessageInfo actual = it.next();
     assertMessage(msg, actual.message);
     assertThat(actual.tag).isEqualTo(tag);
@@ -227,12 +227,12 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     addOneReviewWithEmptyChangeMessage(changeId);
     // Commit 3: post a review with message "message 1".
     addOneReview(changeId, "message 1");
-    // Commit 4: amend a new patch set.
+    // Commit 4: amend a new patchset.
     requestScopeOperations.setApiUser(user.id());
     amendChange(changeId);
     // Commit 5: post a review with message "message 2".
     addOneReview(changeId, "message 2");
-    // Commit 6: amend a new patch set.
+    // Commit 6: amend a new patchset.
     amendChange(changeId);
     // Commit 7: approve the change.
     requestScopeOperations.setApiUser(admin.id());
@@ -402,7 +402,7 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
   }
 
   private static void assertMessage(String expected, String actual) {
-    assertThat(actual).isEqualTo("Patch Set 1:\n\n" + expected);
+    assertThat(actual).isEqualTo("Patchset 1:\n\n" + expected);
   }
 
   private void postMessage(String changeId, String msg) throws Exception {

@@ -138,7 +138,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
     }
     message =
         ChangeMessagesUtil.newMessage(
-            psId, user, ctx.getWhen(), "Patch Set " + psId.get() + ":" + buf, null);
+            psId, user, ctx.getWhen(), "Patchset " + psId.get() + ":" + buf, null);
     cmUtil.addChangeMessage(changeUpdate, message);
     return true;
   }

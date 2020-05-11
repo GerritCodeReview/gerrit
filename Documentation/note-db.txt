@@ -10,7 +10,7 @@ data in the same repository as code changes.
   than being split between the site directory and a possibly external database
   server.
 - *Consistency*: Replication and backups can use a snapshot of the Git
-  repository refs, which will include both the branch and patch set refs, and
+  repository refs, which will include both the branch and patchset refs, and
   the change metadata that points to them.
 - *Auditability*: Rather than storing mutable rows in a database, modifications
   to changes are stored as a sequence of Git commits, automatically preserving

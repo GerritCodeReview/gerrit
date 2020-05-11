@@ -22,7 +22,7 @@ import com.google.gerrit.exceptions.StorageException;
  *
  * <ul>
  *   <li>The number of NoteDb updates per change.
- *   <li>The number of patch sets per change.
+ *   <li>The number of patchsets per change.
  *   <li>The number of files per change.
  * </ul>
  */

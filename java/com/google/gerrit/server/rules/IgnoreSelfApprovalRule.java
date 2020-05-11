@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Rule to require an approval from a user that did not upload the current patch set or block
+ * Rule to require an approval from a user that did not upload the current patchset or block
  * submission.
  */
 @Singleton

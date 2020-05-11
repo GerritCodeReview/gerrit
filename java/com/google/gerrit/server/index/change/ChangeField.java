@@ -152,7 +152,7 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Timestamp> UPDATED =
       timestamp("updated2").stored().build(changeGetter(Change::getLastUpdatedOn));
 
-  /** List of full file paths modified in the current patch set. */
+  /** List of full file paths modified in the current patchset. */
   public static final FieldDef<ChangeData, Iterable<String>> PATH =
       // Named for backwards compatibility.
       exact(ChangeQueryBuilder.FIELD_FILE)
@@ -182,11 +182,11 @@ public class ChangeField {
           .buildRepeatable(
               cd -> cd.hashtags().stream().map(t -> t.getBytes(UTF_8)).collect(toSet()));
 
-  /** Components of each file path modified in the current patch set. */
+  /** Components of each file path modified in the current patchset. */
   public static final FieldDef<ChangeData, Iterable<String>> FILE_PART =
       exact(ChangeQueryBuilder.FIELD_FILEPART).buildRepeatable(ChangeField::getFileParts);
 
-  /** File extensions of each file modified in the current patch set. */
+  /** File extensions of each file modified in the current patchset. */
   public static final FieldDef<ChangeData, Iterable<String>> EXTENSION =
       exact(ChangeQueryBuilder.FIELD_EXTENSION).buildRepeatable(ChangeField::getExtensions);
 
@@ -195,7 +195,7 @@ public class ChangeField {
   }
 
   /**
-   * File extensions of each file modified in the current patch set as a sorted list. The purpose of
+   * File extensions of each file modified in the current patchset as a sorted list. The purpose of
    * this field is to allow matching changes that only touch files with certain file extensions.
    */
   public static final FieldDef<ChangeData, String> ONLY_EXTENSIONS =
@@ -222,7 +222,7 @@ public class ChangeField {
         .map(f -> Files.getFileExtension(f).toLowerCase(Locale.US));
   }
 
-  /** Footers from the commit message of the current patch set. */
+  /** Footers from the commit message of the current patchset. */
   public static final FieldDef<ChangeData, Iterable<String>> FOOTER =
       exact(ChangeQueryBuilder.FIELD_FOOTER).buildRepeatable(ChangeField::getFooters);
 
@@ -232,7 +232,7 @@ public class ChangeField {
         .collect(toSet());
   }
 
-  /** Folders that are touched by the current patch set. */
+  /** Folders that are touched by the current patchset. */
   public static final FieldDef<ChangeData, Iterable<String>> DIRECTORY =
       exact(ChangeQueryBuilder.FIELD_DIRECTORY).buildRepeatable(ChangeField::getDirectories);
 
@@ -537,11 +537,11 @@ public class ChangeField {
     changeData.setAttentionSet(attentionSet);
   }
 
-  /** Commit ID of any patch set on the change, using prefix match. */
+  /** Commit ID of any patchset on the change, using prefix match. */
   public static final FieldDef<ChangeData, Iterable<String>> COMMIT =
       prefix(ChangeQueryBuilder.FIELD_COMMIT).buildRepeatable(ChangeField::getRevisions);
 
-  /** Commit ID of any patch set on the change, using exact match. */
+  /** Commit ID of any patchset on the change, using exact match. */
   public static final FieldDef<ChangeData, Iterable<String>> EXACT_COMMIT =
       exact(ChangeQueryBuilder.FIELD_EXACTCOMMIT).buildRepeatable(ChangeField::getRevisions);
 
@@ -554,7 +554,7 @@ public class ChangeField {
       exact(ChangeQueryBuilder.FIELD_TR)
           .buildRepeatable(cd -> ImmutableSet.copyOf(cd.trackingFooters().values()));
 
-  /** List of labels on the current patch set including change owner votes. */
+  /** List of labels on the current patchset including change owner votes. */
   public static final FieldDef<ChangeData, Iterable<String>> LABEL =
       exact("label2").buildRepeatable(cd -> getLabels(cd, true));
 
@@ -621,7 +621,7 @@ public class ChangeField {
 
   /**
    * The exact email address, or any part of the committer name or email address, in the current
-   * patch set.
+   * patchset.
    */
   public static final FieldDef<ChangeData, Iterable<String>> COMMITTER =
       fullText(ChangeQueryBuilder.FIELD_COMMITTER).buildRepeatable(ChangeField::getCommitterParts);
@@ -636,7 +636,7 @@ public class ChangeField {
       storedOnly("_change")
           .build(changeGetter(change -> toProto(ChangeProtoConverter.INSTANCE, change)));
 
-  /** Serialized approvals for the current patch set, used for pre-populating results. */
+  /** Serialized approvals for the current patchset, used for pre-populating results. */
   public static final FieldDef<ChangeData, Iterable<byte[]>> APPROVAL =
       storedOnly("_approval")
           .buildRepeatable(
@@ -660,7 +660,7 @@ public class ChangeField {
     return Integer.toString(accountId.get());
   }
 
-  /** Commit message of the current patch set. */
+  /** Commit message of the current patchset. */
   public static final FieldDef<ChangeData, String> COMMIT_MESSAGE =
       fullText(ChangeQueryBuilder.FIELD_MESSAGE).build(ChangeData::commitMessage);
 
@@ -766,13 +766,13 @@ public class ChangeField {
       integer(ChangeQueryBuilder.FIELD_STARBY)
           .buildRepeatable(cd -> Iterables.transform(cd.stars().keySet(), Account.Id::get));
 
-  /** Opaque group identifiers for this change's patch sets. */
+  /** Opaque group identifiers for this change's patchsets. */
   public static final FieldDef<ChangeData, Iterable<String>> GROUP =
       exact(ChangeQueryBuilder.FIELD_GROUP)
           .buildRepeatable(
               cd -> cd.patchSets().stream().flatMap(ps -> ps.groups().stream()).collect(toSet()));
 
-  /** Serialized patch set object, used for pre-populating results. */
+  /** Serialized patchset object, used for pre-populating results. */
   public static final FieldDef<ChangeData, Iterable<byte[]>> PATCH_SET =
       storedOnly("_patch_set")
           .buildRepeatable(cd -> toProtos(PatchSetProtoConverter.INSTANCE, cd.patchSets()));
@@ -793,7 +793,7 @@ public class ChangeField {
    * Users the change was reviewed by since the last author update.
    *
    * <p>A change is considered reviewed by a user if the latest update by that user is newer than
-   * the latest update by the change author. Both top-level change messages and new patch sets are
+   * the latest update by the change author. Both top-level change messages and new patchsets are
    * considered to be updates.
    *
    * <p>If the latest update is by the change owner, then the special value {@link #NOT_REVIEWED} is

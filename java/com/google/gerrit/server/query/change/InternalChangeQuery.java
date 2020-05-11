@@ -296,7 +296,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
       Project.NameKey project,
       Collection<String> groups) {
     // These queries may be complex along multiple dimensions:
-    //  * Many groups per change, if there are very many patch sets. This requires partitioning the
+    //  * Many groups per change, if there are very many patchsets. This requires partitioning the
     //    list of predicates and combining results.
     //  * Many changes with the same set of groups, if the relation chain is very long. This
     //    requires querying exhaustively with pagination.

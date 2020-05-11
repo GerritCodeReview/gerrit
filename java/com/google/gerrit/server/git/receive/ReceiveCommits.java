@@ -980,7 +980,7 @@ class ReceiveCommits {
         logger.atFine().withCause(e).log("Rejecting due to client error");
         reject(magicBranchCmd, e.getMessage());
       } catch (RestApiException | IOException e) {
-        throw new StorageException("Can't insert change/patch set for " + project.getName(), e);
+        throw new StorageException("Can't insert change/patchset for " + project.getName(), e);
       }
 
       if (magicBranch != null && magicBranch.submit) {
@@ -2139,7 +2139,7 @@ class ReceiveCommits {
             //      2. Push B to refs/for/master
             //      3. Force push A~ to refs/heads/master
             //      4. Push C to refs/for/master.
-            //      B will be in existing so we aren't replacing the patch set. It
+            //      B will be in existing so we aren't replacing the patchset. It
             //      used to have its own group, but now needs to to be changed to
             //      A's group.
             // C) Commit is a PatchSet of a pre-existing change uploaded with a
@@ -2718,7 +2718,7 @@ class ReceiveCommits {
     }
 
     /**
-     * Validate the new patch set commit for this change.
+     * Validate the new patchset commit for this change.
      *
      * <p><strong>Side effects:</strong>
      *
@@ -2776,8 +2776,8 @@ class ReceiveCommits {
         priorPatchSet = change.currentPatchSetId();
         if (!revisions.containsValue(priorPatchSet)) {
           logger.atWarning().log(
-              "Change %d is missing revision for patch set %s"
-                  + " (it has revisions for these patch sets: %s)",
+              "Change %d is missing revision for patchset %s"
+                  + " (it has revisions for these patchsets: %s)",
               change.getChangeId(),
               priorPatchSet.getId(),
               Iterables.toString(
@@ -2791,16 +2791,16 @@ class ReceiveCommits {
 
         RevCommit newCommit = receivePack.getRevWalk().parseCommit(newCommitId);
 
-        // Not allowed to create a new patch set if the current patch set is locked.
+        // Not allowed to create a new patchset if the current patchset is locked.
         if (psUtil.isPatchSetLocked(notes)) {
-          reject(inputCommand, "cannot add patch set to " + ontoChange + ".");
+          reject(inputCommand, "cannot add patchset to " + ontoChange + ".");
           return false;
         }
 
         try {
           permissions.change(notes).check(ChangePermission.ADD_PATCH_SET);
         } catch (AuthException no) {
-          reject(inputCommand, "cannot add patch set to " + ontoChange + ".");
+          reject(inputCommand, "cannot add patchset to " + ontoChange + ".");
           return false;
         }
 
@@ -3341,7 +3341,7 @@ class ReceiveCommits {
                     }
 
                     logger.atFine().log(
-                        "Auto-closing %d changes with existing patch sets and %d with new patch"
+                        "Auto-closing %d changes with existing patchsets and %d with new patch"
                             + " sets",
                         existingPatchSets, newPatchSets);
                     bu.execute();

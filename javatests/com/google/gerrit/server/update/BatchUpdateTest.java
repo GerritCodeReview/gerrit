@@ -245,7 +245,7 @@ public class BatchUpdateTest {
       ResourceConflictException thrown = assertThrows(ResourceConflictException.class, bu::execute);
       assertThat(thrown)
           .hasMessageThat()
-          .contains("Change " + changeId + " may not exceed " + MAX_PATCH_SETS + " patch sets");
+          .contains("Change " + changeId + " may not exceed " + MAX_PATCH_SETS + " patchsets");
     }
     assertThat(changeNotesFactory.create(project, changeId).getPatchSets()).hasSize(MAX_PATCH_SETS);
     assertThat(getMetaId(changeId)).isEqualTo(oldMetaId);

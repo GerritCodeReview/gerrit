@@ -204,7 +204,7 @@ public class TextParserTest extends AbstractParserTest {
         + "> ...............................................................\n"
         + "> \n"
         + "> \n"
-        + "> Patch Set 1: Code-Review+1\n"
+        + "> Patchset 1: Code-Review+1\n"
         + "> \n"
         + "> (3 comments)\n"
         + "> \n"
@@ -215,7 +215,7 @@ public class TextParserTest extends AbstractParserTest {
         + "> gerrit-server/test.txt:\n"
         + (f1 == null ? "" : f1 + "\n")
         + "> \n"
-        + "> Patch Set #4:\n"
+        + "> Patchset #4:\n"
         + "> "
         + CHANGE_URL
         + "/1/gerrit-server/test.txt\n"

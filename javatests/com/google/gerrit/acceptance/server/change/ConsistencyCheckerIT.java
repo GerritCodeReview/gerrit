@@ -133,7 +133,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
         notes,
         null,
         problem("Ref missing: " + ps.id().toRefName()),
-        problem("Object missing: patch set 2: deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
+        problem("Object missing: patchset 2: deadbeefdeadbeefdeadbeefdeadbeefdeadbeef"));
   }
 
   @Test
@@ -148,7 +148,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
         notes,
         new FixInput(),
         problem("Ref missing: " + refName),
-        problem("Object missing: patch set 2: " + rev));
+        problem("Object missing: patchset 2: " + rev));
   }
 
   @Test
@@ -170,7 +170,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     deleteRef(refName);
 
     assertProblems(
-        notes, new FixInput(), problem("Ref missing: " + refName, FIXED, "Repaired patch set ref"));
+        notes, new FixInput(), problem("Ref missing: " + refName, FIXED, "Repaired patchset ref"));
     assertThat(serverSideTestRepo.getRepository().exactRef(refName).getObjectId())
         .isEqualTo(commitId);
   }
@@ -190,7 +190,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
         notes,
         fix,
         problem("Ref missing: " + ps2.id().toRefName()),
-        problem("Object missing: patch set 2: " + rev2, FIXED, "Deleted patch set"));
+        problem("Object missing: patchset 2: " + rev2, FIXED, "Deleted patchset"));
 
     notes = reload(notes);
     assertThat(notes.getChange().currentPatchSetId().get()).isEqualTo(1);
@@ -219,9 +219,9 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
         notes,
         fix,
         problem("Ref missing: " + ps2.id().toRefName()),
-        problem("Object missing: patch set 2: " + rev2, FIXED, "Deleted patch set"),
+        problem("Object missing: patchset 2: " + rev2, FIXED, "Deleted patchset"),
         problem("Ref missing: " + ps4.id().toRefName()),
-        problem("Object missing: patch set 4: " + rev4, FIXED, "Deleted patch set"));
+        problem("Object missing: patchset 4: " + rev4, FIXED, "Deleted patchset"));
 
     notes = reload(notes);
     assertThat(notes.getChange().currentPatchSetId().get()).isEqualTo(3);
@@ -267,9 +267,9 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
         fix,
         problem("Ref missing: " + ps.id().toRefName()),
         problem(
-            "Object missing: patch set 1: " + rev,
+            "Object missing: patchset 1: " + rev,
             FIX_FAILED,
-            "Cannot delete patch set; no patch sets would remain"));
+            "Cannot delete patchset; no patchsets would remain"));
 
     notes = reload(notes);
     assertThat(notes.getChange().currentPatchSetId().get()).isEqualTo(1);
@@ -286,7 +286,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     assertProblems(
         notes,
         null,
-        problem("Multiple patch sets pointing to " + ps1.commitId().name() + ": [1, 2]"));
+        problem("Multiple patchsets pointing to " + ps1.commitId().name() + ": [1, 2]"));
   }
 
   @Test
@@ -328,7 +328,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
         notes,
         null,
         problem(
-            "Patch set 1 ("
+            "Patchset 1 ("
                 + psUtil.current(notes).commitId().name()
                 + ") is not merged into destination ref"
                 + " refs/heads/master ("
@@ -348,7 +348,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
         notes,
         null,
         problem(
-            "Patch set 1 ("
+            "Patchset 1 ("
                 + commitId.name()
                 + ") is merged into destination ref"
                 + " refs/heads/master ("
@@ -368,7 +368,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
         notes,
         new FixInput(),
         problem(
-            "Patch set 1 ("
+            "Patchset 1 ("
                 + commitId.name()
                 + ") is merged into destination ref"
                 + " refs/heads/master ("
@@ -411,7 +411,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
         notes,
         fix,
         problem(
-            "Patch set 1 ("
+            "Patchset 1 ("
                 + commitId.name()
                 + ") is merged into destination ref"
                 + " refs/heads/master ("
@@ -472,13 +472,13 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
         notes,
         fix,
         problem(
-            "No patch set found for merged commit " + mergedAs.name(),
+            "No patchset found for merged commit " + mergedAs.name(),
             FIXED,
             "Marked change as merged"),
         problem(
-            "Expected merged commit " + mergedAs.name() + " has no associated patch set",
+            "Expected merged commit " + mergedAs.name() + " has no associated patchset",
             FIXED,
-            "Inserted as patch set 2"));
+            "Inserted as patchset 2"));
 
     notes = reload(notes);
     PatchSet.Id psId2 = PatchSet.id(notes.getChangeId(), 2);
@@ -520,13 +520,13 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
         notes,
         fix,
         problem(
-            "No patch set found for merged commit " + mergedAs.name(),
+            "No patchset found for merged commit " + mergedAs.name(),
             FIXED,
             "Marked change as merged"),
         problem(
-            "Expected merged commit " + mergedAs.name() + " has no associated patch set",
+            "Expected merged commit " + mergedAs.name() + " has no associated patchset",
             FIXED,
-            "Inserted as patch set 2"));
+            "Inserted as patchset 2"));
 
     notes = reload(notes);
     PatchSet.Id psId2 = PatchSet.id(notes.getChangeId(), 2);
@@ -552,23 +552,23 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
         notes,
         fix,
         problem(
-            "No patch set found for merged commit " + commitId1.name(),
+            "No patchset found for merged commit " + commitId1.name(),
             FIXED,
             "Marked change as merged"),
         problem(
             "Expected merge commit "
                 + commitId1.name()
-                + " corresponds to patch set 1,"
-                + " not the current patch set 2",
+                + " corresponds to patchset 1,"
+                + " not the current patchset 2",
             FIXED,
-            "Deleted patch set"),
+            "Deleted patchset"),
         problem(
             "Expected merge commit "
                 + commitId1.name()
-                + " corresponds to patch set 1,"
-                + " not the current patch set 2",
+                + " corresponds to patchset 1,"
+                + " not the current patchset 2",
             FIXED,
-            "Inserted as patch set 3"));
+            "Inserted as patchset 3"));
 
     notes = reload(notes);
     PatchSet.Id psId3 = PatchSet.id(notes.getChangeId(), 3);
@@ -600,23 +600,23 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
         notes,
         fix,
         problem(
-            "No patch set found for merged commit " + commit2.name(),
+            "No patchset found for merged commit " + commit2.name(),
             FIXED,
             "Marked change as merged"),
         problem(
             "Expected merge commit "
                 + commit2.name()
-                + " corresponds to patch set 2,"
-                + " not the current patch set 3",
+                + " corresponds to patchset 2,"
+                + " not the current patchset 3",
             FIXED,
-            "Deleted patch set"),
+            "Deleted patchset"),
         problem(
             "Expected merge commit "
                 + commit2.name()
-                + " corresponds to patch set 2,"
-                + " not the current patch set 3",
+                + " corresponds to patchset 2,"
+                + " not the current patchset 3",
             FIXED,
-            "Inserted as patch set 4"));
+            "Inserted as patchset 4"));
 
     notes = reload(notes);
     PatchSet.Id psId4 = PatchSet.id(notes.getChangeId(), 4);
@@ -631,7 +631,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
     ChangeNotes notes = insertChange();
     PatchSet ps1 = psUtil.current(notes);
 
-    // Create dangling ref with no patch set.
+    // Create dangling ref with no patchset.
     PatchSet.Id psId2 = PatchSet.id(notes.getChangeId(), 2);
     RevCommit commit2 = patchSetCommit(psId2);
     serverSideTestRepo.branch(psId2.toRefName()).update(commit2);
@@ -644,16 +644,16 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
         notes,
         fix,
         problem(
-            "No patch set found for merged commit " + commit2.name(),
+            "No patchset found for merged commit " + commit2.name(),
             FIXED,
             "Marked change as merged"),
         problem(
             "Expected merge commit "
                 + commit2.name()
-                + " corresponds to patch set 2,"
-                + " not the current patch set 1",
+                + " corresponds to patchset 2,"
+                + " not the current patchset 1",
             FIXED,
-            "Inserted as patch set 2"));
+            "Inserted as patchset 2"));
 
     notes = reload(notes);
     assertThat(notes.getChange().currentPatchSetId()).isEqualTo(psId2);
@@ -721,7 +721,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
         notes1,
         fix,
         problem(
-            "Multiple patch sets for expected merged commit "
+            "Multiple patchsets for expected merged commit "
                 + commit.name()
                 + ": ["
                 + psId1
@@ -804,7 +804,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
 
     addNoteDbCommit(
         c.getId(),
-        "Update patch set "
+        "Update patchset "
             + psId.get()
             + "\n"
             + "\n"

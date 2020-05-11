@@ -47,7 +47,7 @@ and writing:
 ====
   Add sample commit message to guidelines doc
 
-  The original patch set for the contributing guidelines doc did not
+  The original patchset for the contributing guidelines doc did not
   include a sample commit message, this new patchset does.  Hopefully this
   makes things a bit clearer since examples can sometimes help when
   explanations don't.

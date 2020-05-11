@@ -265,7 +265,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
     assertThat(thrown)
         .hasMessageThat()
         .contains(
-            String.format("The current patch set of change %s is locked", r.getChange().getId()));
+            String.format("The current patchset of change %s is locked", r.getChange().getId()));
   }
 
   @Test

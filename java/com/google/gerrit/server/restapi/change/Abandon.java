@@ -71,7 +71,7 @@ public class Abandon
   public Response<ChangeInfo> apply(ChangeResource rsrc, AbandonInput input)
       throws RestApiException, UpdateException, PermissionBackendException, IOException,
           ConfigInvalidException {
-    // Not allowed to abandon if the current patch set is locked.
+    // Not allowed to abandon if the current patchset is locked.
     patchSetUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
     rsrc.permissions().check(ChangePermission.ABANDON);
@@ -147,7 +147,7 @@ public class Abandon
       }
     } catch (StorageException e) {
       logger.atSevere().withCause(e).log(
-          "Failed to check if the current patch set of change %s is locked", change.getId());
+          "Failed to check if the current patchset of change %s is locked", change.getId());
       return description;
     }
 

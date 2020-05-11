@@ -216,12 +216,12 @@ public class PatchSetInserter implements BatchUpdateOp {
       throws ResourceConflictException, IOException, BadRequestException {
     change = ctx.getChange();
     ChangeUpdate update = ctx.getUpdate(psId);
-    update.setSubjectForCommit("Create patch set " + psId.get());
+    update.setSubjectForCommit("Create patchset " + psId.get());
 
     if (!change.isNew() && !allowClosed) {
       throw new ResourceConflictException(
           String.format(
-              "Cannot create new patch set of change %s because it is %s",
+              "Cannot create new patchset of change %s because it is %s",
               change.getId(), ChangeUtil.status(change)));
     }
 
@@ -294,7 +294,7 @@ public class PatchSetInserter implements BatchUpdateOp {
         cm.send();
       } catch (Exception err) {
         logger.atSevere().withCause(err).log(
-            "Cannot send email for new patch set on change %s", change.getId());
+            "Cannot send email for new patchset on change %s", change.getId());
       }
     }
 
@@ -309,7 +309,7 @@ public class PatchSetInserter implements BatchUpdateOp {
 
   private void validate(RepoContext ctx)
       throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
-    // Not allowed to create a new patch set if the current patch set is locked.
+    // Not allowed to create a new patchset if the current patchset is locked.
     psUtil.checkPatchSetNotLocked(origNotes);
 
     if (checkAddPatchSetPermission) {

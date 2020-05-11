@@ -80,7 +80,7 @@ link:cmd-rename-group.html[gerrit rename-group]::
 	Rename an account group.
 
 link:cmd-review.html[gerrit review]::
-	Verify, approve and/or submit a patch set from the command line.
+	Verify, approve and/or submit a patchset from the command line.
 
 link:cmd-set-head.html[gerrit set-head]::
 	Change the HEAD reference of a project.

@@ -769,7 +769,7 @@ public class ChangeIT extends AbstractDaemonTest {
     // Rebase the second change
     rebase.call(changeId);
 
-    // Second change should have 2 patch sets and an approval
+    // Second change should have 2 patchsets and an approval
     ChangeInfo c2 = gApi.changes().id(changeId).get(CURRENT_REVISION, DETAILED_LABELS);
     assertThat(c2.revisions.get(c2.currentRevision)._number).isEqualTo(2);
 
@@ -1223,7 +1223,7 @@ public class ChangeIT extends AbstractDaemonTest {
         assertThrows(ResourceConflictException.class, () -> gApi.changes().id(changeId).delete());
     assertThat(thrown)
         .hasMessageThat()
-        .contains(String.format("Cannot delete change %s: patch set 1 is already merged", id));
+        .contains(String.format("Cannot delete change %s: patchset 1 is already merged", id));
   }
 
   @Test
@@ -1471,8 +1471,8 @@ public class ChangeIT extends AbstractDaemonTest {
     pr = pushHead(testRepo, "refs/heads/master", false);
     assertPushOk(pr, "refs/heads/master");
 
-    // create a successor commit and push it as second patch set to the change,
-    // so that patch set 2 has 1 parent
+    // create a successor commit and push it as second patchset to the change,
+    // so that patchset 2 has 1 parent
     RevCommit c2 =
         testRepo
             .commit()
@@ -2419,7 +2419,7 @@ public class ChangeIT extends AbstractDaemonTest {
     Map<String, Short> m =
         gApi.changes().id(r.getChangeId()).reviewer(user.id().toString()).votes();
 
-    // Dummy 0 approval on the change to block vote copying to this patch set.
+    // Dummy 0 approval on the change to block vote copying to this patchset.
     assertThat(m).containsExactly("Code-Review", Short.valueOf((short) 0));
 
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
@@ -2576,7 +2576,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(info.project).isEqualTo(in.project);
     assertThat(RefNames.fullName(info.branch)).isEqualTo(RefNames.fullName(in.branch));
     assertThat(info.subject).isEqualTo(in.subject);
-    assertThat(Iterables.getOnlyElement(info.messages).message).isEqualTo("Uploaded patch set 1.");
+    assertThat(Iterables.getOnlyElement(info.messages).message).isEqualTo("Uploaded patchset 1.");
   }
 
   @Test
@@ -2894,7 +2894,7 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeInfo actual = gApi.changes().id(r2.getChangeId()).get(ALL_REVISIONS, COMMIT_FOOTERS);
     assertThat(actual.revisions).hasSize(2);
 
-    // No footers except on latest patch set.
+    // No footers except on latest patchset.
     assertThat(actual.revisions.get(r1.getCommit().getName()).commitWithFooters).isNull();
 
     List<String> footers =
@@ -3063,7 +3063,7 @@ public class ChangeIT extends AbstractDaemonTest {
       RevCommit commitPatchSetCreation =
           rw.parseCommit(repo.exactRef(changeMetaRef(Change.id(c._number))).getObjectId());
 
-      assertThat(commitPatchSetCreation.getShortMessage()).isEqualTo("Create patch set 2");
+      assertThat(commitPatchSetCreation.getShortMessage()).isEqualTo("Create patchset 2");
       PersonIdent expectedAuthor =
           changeNoteUtil.newIdent(getAccount(admin.id()).id(), c.updated, serverIdent.get());
       assertThat(commitPatchSetCreation.getAuthorIdent()).isEqualTo(expectedAuthor);
@@ -3093,7 +3093,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(info.project).isEqualTo(in.project);
     assertThat(RefNames.fullName(info.branch)).isEqualTo(RefNames.fullName(in.branch));
     assertThat(info.subject).isEqualTo(in.subject);
-    assertThat(Iterables.getOnlyElement(info.messages).message).isEqualTo("Uploaded patch set 1.");
+    assertThat(Iterables.getOnlyElement(info.messages).message).isEqualTo("Uploaded patchset 1.");
   }
 
   @Test
@@ -3134,7 +3134,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // Amend change as user
     PushOneCommit.Result r2 = amendChange(r1.getChangeId(), "refs/for/master", user, userTestRepo);
-    r2.assertErrorStatus("cannot add patch set to " + r1.getChange().getId().get() + ".");
+    r2.assertErrorStatus("cannot add patchset to " + r1.getChange().getId().get() + ".");
   }
 
   @Test
@@ -3234,7 +3234,7 @@ public class ChangeIT extends AbstractDaemonTest {
     // Verify the message that has been posted on the change.
     List<ChangeMessageInfo> messages = gApi.changes().id(changeId).messages();
     assertThat(messages).hasSize(2);
-    assertThat(Iterables.getLast(messages).message).isEqualTo("Uploaded patch set 2.");
+    assertThat(Iterables.getLast(messages).message).isEqualTo("Uploaded patchset 2.");
 
     assertThat(changeInfo.revisions.get(changeInfo.currentRevision).commit.message)
         .contains(subject);
@@ -3356,7 +3356,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(changeInfo.revisions.get(changeInfo.currentRevision).commit.parents.get(0).commit)
         .isEqualTo(parent);
 
-    // Verify that the file content in the created patch set is correct.
+    // Verify that the file content in the created patchset is correct.
     // We expect that it has conflict markers to indicate the conflict.
     BinaryResult bin = gApi.changes().id(changeId).current().file(fileName).content();
     ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -3387,7 +3387,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(messages).hasSize(2);
     assertThat(Iterables.getLast(messages).message)
         .isEqualTo(
-            "Uploaded patch set 2.\n\n"
+            "Uploaded patchset 2.\n\n"
                 + "The following files contain Git conflicts:\n"
                 + "* "
                 + fileName
@@ -4456,7 +4456,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).ignore(true);
     assertThat(gApi.changes().id(r.getChangeId()).ignored()).isTrue();
 
-    // New patch set notification is not sent to users ignoring the change
+    // New patchset notification is not sent to users ignoring the change
     sender.clear();
     requestScopeOperations.setApiUser(admin.id());
     amendChange(r.getChangeId());

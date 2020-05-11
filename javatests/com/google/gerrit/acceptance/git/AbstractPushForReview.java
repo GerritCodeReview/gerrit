@@ -479,7 +479,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r = amendChange(r.getChangeId(), "refs/for/master");
     r.assertErrorStatus("change " + url + " closed");
 
-    // Check that new commit was added as patch set
+    // Check that new commit was added as patchset
     ChangeInfo change = change(r).get();
     assertThat(change.revisions).hasSize(2);
     assertThat(change.currentRevision).isEqualTo(c.name());
@@ -755,7 +755,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r.assertMessage(" [PRIVATE]");
     assertThat(r.getChange().change().isPrivate()).isTrue();
 
-    // Pushing a new patch set without --private doesn't remove the privacy flag from the change.
+    // Pushing a new patchset without --private doesn't remove the privacy flag from the change.
     r = amendChange(r.getChangeId(), "refs/for/master");
     r.assertOkStatus();
     r.assertMessage(" [PRIVATE]");
@@ -793,7 +793,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(r.getChange().change().isWorkInProgress()).isTrue();
     assertUploadTag(r.getChange(), ChangeMessagesUtil.TAG_UPLOADED_WIP_PATCH_SET);
 
-    // Pushing a new patch set without --wip doesn't remove the wip flag from the change.
+    // Pushing a new patchset without --wip doesn't remove the wip flag from the change.
     String changeId = r.getChangeId();
     r = amendChange(changeId, "refs/for/master");
     r.assertOkStatus();
@@ -938,7 +938,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     Collection<ChangeMessageInfo> changeMessages = ci.messages;
     assertThat(changeMessages).hasSize(1);
     for (ChangeMessageInfo cm : changeMessages) {
-      assertThat(cm.message).isEqualTo("Uploaded patch set 1.\nmy test message");
+      assertThat(cm.message).isEqualTo("Uploaded patchset 1.\nmy test message");
     }
     Collection<RevisionInfo> revisions = ci.revisions.values();
     assertThat(revisions).hasSize(1);
@@ -996,7 +996,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(changeMessages).hasSize(1);
     for (ChangeMessageInfo cm : changeMessages) {
       assertThat(cm.message)
-          .isEqualTo("Uploaded patch set 1.\nPunctu...ation~-@{u} | (╯°□°）╯︵ ┻━┻ ^_^");
+          .isEqualTo("Uploaded patchset 1.\nPunctu...ation~-@{u} | (╯°□°）╯︵ ┻━┻ ^_^");
     }
     Collection<RevisionInfo> revisions = ci.revisions.values();
     assertThat(revisions).hasSize(1);
@@ -1014,7 +1014,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     Collection<ChangeMessageInfo> changeMessages = ci.messages;
     assertThat(changeMessages).hasSize(1);
     for (ChangeMessageInfo cm : changeMessages) {
-      assertThat(cm.message).isEqualTo("Uploaded patch set 1.\nnot percent decodable %%oops%20");
+      assertThat(cm.message).isEqualTo("Uploaded patchset 1.\nnot percent decodable %%oops%20");
     }
     Collection<RevisionInfo> revisions = ci.revisions.values();
     assertThat(revisions).hasSize(1);
@@ -1033,7 +1033,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(cr.all.get(0).name).isEqualTo("Administrator");
     assertThat(cr.all.get(0).value).isEqualTo(1);
     assertThat(Iterables.getLast(ci.messages).message)
-        .isEqualTo("Uploaded patch set 1: Code-Review+1.");
+        .isEqualTo("Uploaded patchset 1: Code-Review+1.");
 
     PushOneCommit push =
         pushFactory.create(
@@ -1048,7 +1048,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     ci = get(r.getChangeId(), DETAILED_LABELS, MESSAGES, DETAILED_ACCOUNTS);
     cr = ci.labels.get("Code-Review");
     assertThat(Iterables.getLast(ci.messages).message)
-        .isEqualTo("Uploaded patch set 2: Code-Review+2.");
+        .isEqualTo("Uploaded patchset 2: Code-Review+2.");
     // Check that the user who pushed the change was added as a reviewer since they added a vote
     assertThatUserIsOnlyReviewer(ci, admin);
 
@@ -1066,7 +1066,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             r.getChangeId());
     r = push.to("refs/for/master%l=Code-Review+2");
     ci = get(r.getChangeId(), MESSAGES);
-    assertThat(Iterables.getLast(ci.messages).message).isEqualTo("Uploaded patch set 3.");
+    assertThat(Iterables.getLast(ci.messages).message).isEqualTo("Uploaded patchset 3.");
   }
 
   @Test
@@ -1087,9 +1087,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     ChangeInfo ci = get(r.getChangeId(), DETAILED_LABELS, MESSAGES, DETAILED_ACCOUNTS);
     LabelInfo cr = ci.labels.get("Code-Review");
     assertThat(Iterables.getLast(ci.messages).message)
-        .isEqualTo("Uploaded patch set 2: Code-Review+2.");
+        .isEqualTo("Uploaded patchset 2: Code-Review+2.");
 
-    // Check that the user who pushed the new patch set was added as a reviewer since they added
+    // Check that the user who pushed the new patchset was added as a reviewer since they added
     // a vote
     assertThatUserIsOnlyReviewer(ci, admin);
 
@@ -1125,7 +1125,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void pushNewPatchSetForMasterWithForgedAuthorAndCommitter() throws Exception {
     TestAccount user2 = accountCreator.user2();
-    // First patch set has author and committer matching change owner.
+    // First patchset has author and committer matching change owner.
     PushOneCommit.Result r = pushTo("refs/for/master");
 
     assertThat(getOwnerEmail(r.getChangeId())).isEqualTo(admin.email());
@@ -1189,7 +1189,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(cr.all.get(indexUser).name).isEqualTo(user.fullName());
     assertThat(cr.all.get(indexUser).value.intValue()).isEqualTo(0);
     assertThat(Iterables.getLast(ci.messages).message)
-        .isEqualTo("Uploaded patch set 1: Code-Review+1.");
+        .isEqualTo("Uploaded patchset 1: Code-Review+1.");
     // Check that the user who pushed the change was added as a reviewer since they added a vote
     assertThatUserIsOnlyReviewer(ci, admin);
   }
@@ -1242,7 +1242,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             r.getChangeId());
     revision(r).review(new ReviewInput().label("Patch-Set-Lock", 1));
     r = push.to("refs/for/master");
-    r.assertErrorStatus("cannot add patch set to " + r.getChange().change().getChangeId() + ".");
+    r.assertErrorStatus("cannot add patchset to " + r.getChange().change().getChangeId() + ".");
   }
 
   @Test
@@ -1276,7 +1276,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     Set<String> hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
     assertThat(hashtags).containsExactlyElementsIn(expected);
 
-    // specify a single hashtag as option in new patch set
+    // specify a single hashtag as option in new patchset
     String hashtag2 = "tag2";
     PushOneCommit push =
         pushFactory.create(
@@ -1307,7 +1307,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     Set<String> hashtags = gApi.changes().id(r.getChangeId()).getHashtags();
     assertThat(hashtags).containsExactlyElementsIn(expected);
 
-    // specify multiple hashtags as options in new patch set
+    // specify multiple hashtags as options in new patchset
     String hashtag3 = "tag3";
     String hashtag4 = "tag4";
     PushOneCommit push =
@@ -1515,7 +1515,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     List<RevCommit> commits2 = amendChanges(initialHead, commits, r);
 
-    // Check that there are correct patch sets.
+    // Check that there are correct patchsets.
     for (int i = 0; i < n; i++) {
       RevCommit c = commits.get(i);
       RevCommit c2 = commits2.get(i);
@@ -1762,7 +1762,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     // Change 1 is still new despite being merged into the branch, because
     // ReceiveCommits only considers commits between the branch tip (which is
-    // now the merged change 1) and the push tip (new patch set of change 2).
+    // now the merged change 1) and the push tip (new patchset of change 2).
     assertThat(gApi.changes().id(id1.get()).info().status).isEqualTo(ChangeStatus.NEW);
     assertThat(gApi.changes().id(id2.get()).info().status).isEqualTo(ChangeStatus.NEW);
   }
@@ -1817,7 +1817,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     RevCommit ps2Commit;
     try (Repository repo = repoManager.openRepository(project);
         TestRepository<?> tr = new TestRepository<>(repo)) {
-      // Create a new patch set of the change directly in Gerrit's repository,
+      // Create a new patchset of the change directly in Gerrit's repository,
       // without pushing it. In reality it's more likely that the client would
       // create and push this behind Gerrit's back (e.g. an admin accidentally
       // using direct ssh access to the repo), but that's harder to do in tests.
@@ -2028,7 +2028,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void publishedCommentsAssignedToChangeMessages() throws Exception {
     TestTimeUtil.resetWithClockStep(0, TimeUnit.SECONDS);
-    PushOneCommit.Result r = createChange(); // creating the change with patch set 1
+    PushOneCommit.Result r = createChange(); // creating the change with patchset 1
     TestTimeUtil.incrementClock(5, TimeUnit.SECONDS);
 
     /** Create and publish a comment on PS2. Increment the clock step */
@@ -2048,17 +2048,17 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     assertThat(allMessages.stream().map(m -> m.message).collect(toList()))
         .containsExactly(
-            "Uploaded patch set 1.",
-            "Uploaded patch set 2.",
-            "Patch Set 2:\n\n(1 comment)",
-            "Uploaded patch set 3.",
-            "Patch Set 3:\n\n(1 comment)")
+            "Uploaded patchset 1.",
+            "Uploaded patchset 2.",
+            "Patchset 2:\n\n(1 comment)",
+            "Uploaded patchset 3.",
+            "Patchset 3:\n\n(1 comment)")
         .inOrder();
 
     /**
      * Note that the following 3 items have the same timestamp: comment "comment_PS2", message
-     * "Uploaded patch set 2.", and message "Patch Set 2:\n\n(1 comment)". The comment will not be
-     * matched with the upload change message because it is auto-generated. Same goes for patch set
+     * "Uploaded patchset 2.", and message "Patchset 2:\n\n(1 comment)". The comment will not be
+     * matched with the upload change message because it is auto-generated. Same goes for patchset
      * 3.
      */
     String commentPs2MessageId =
@@ -2075,13 +2075,13 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     String message2Id =
         allMessages.stream()
-            .filter(m -> m.message.equals("Patch Set 2:\n\n(1 comment)"))
+            .filter(m -> m.message.equals("Patchset 2:\n\n(1 comment)"))
             .collect(onlyElement())
             .id;
 
     String message3Id =
         allMessages.stream()
-            .filter(m -> m.message.equals("Patch Set 3:\n\n(1 comment)"))
+            .filter(m -> m.message.equals("Patchset 3:\n\n(1 comment)"))
             .collect(onlyElement())
             .id;
 
@@ -2116,10 +2116,10 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     List<String> messagesText = allMessages.stream().map(m -> m.message).collect(toList());
     assertThat(messagesText)
         .containsExactly(
-            "Uploaded patch set 1.",
-            "Uploaded patch set 2.",
-            "Uploaded patch set 3.",
-            "Patch Set 3:\n\n(3 comments)")
+            "Uploaded patchset 1.",
+            "Uploaded patchset 2.",
+            "Uploaded patchset 3.",
+            "Patchset 3:\n\n(3 comments)")
         .inOrder();
 
     /* Assert the tags - PS#2 comments do not have tags, PS#3 upload is autogenerated */
@@ -2138,10 +2138,10 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     assertThat(emailMessages.get(0)).contains("Gerrit-MessageType: newpatchset");
     assertThat(emailMessages.get(0)).contains("I'd like you to reexamine a change");
-    assertThat(emailMessages.get(0)).doesNotContain("Uploaded patch set 3");
+    assertThat(emailMessages.get(0)).doesNotContain("Uploaded patchset 3");
 
     assertThat(emailMessages.get(1)).contains("Gerrit-MessageType: comment");
-    assertThat(emailMessages.get(1)).contains("Patch Set 3:\n\n(3 comments)");
+    assertThat(emailMessages.get(1)).contains("Patchset 3:\n\n(3 comments)");
     assertThat(emailMessages.get(1)).contains("PS1, Line 1:");
     assertThat(emailMessages.get(1)).contains("PS2, Line 1:");
 
@@ -2149,14 +2149,14 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     List<RevCommit> commitMessages = getChangeMetaCommitsInReverseOrder(r.getChange().getId());
     assertThat(commitMessages).hasSize(5);
     assertThat(commitMessages.get(0).getShortMessage()).isEqualTo("Create change");
-    assertThat(commitMessages.get(1).getShortMessage()).isEqualTo("Create patch set 2");
-    assertThat(commitMessages.get(2).getShortMessage()).isEqualTo("Update patch set 2");
-    assertThat(commitMessages.get(3).getShortMessage()).isEqualTo("Create patch set 3");
+    assertThat(commitMessages.get(1).getShortMessage()).isEqualTo("Create patchset 2");
+    assertThat(commitMessages.get(2).getShortMessage()).isEqualTo("Update patchset 2");
+    assertThat(commitMessages.get(3).getShortMessage()).isEqualTo("Create patchset 3");
     assertThat(commitMessages.get(4).getFullMessage())
         .isEqualTo(
-            "Update patch set 3\n"
+            "Update patchset 3\n"
                 + "\n"
-                + "Patch Set 3:\n"
+                + "Patchset 3:\n"
                 + "\n"
                 + "(3 comments)\n"
                 + "\n"
@@ -2173,7 +2173,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     Collection<CommentInfo> comments = getPublishedComments(r.getChangeId());
     assertThat(comments.stream().map(c -> c.message)).containsExactly("comment1");
-    assertThat(getLastMessage(r.getChangeId())).isEqualTo("Patch Set 2:\n" + "\n" + "(1 comment)");
+    assertThat(getLastMessage(r.getChangeId())).isEqualTo("Patchset 2:\n" + "\n" + "(1 comment)");
   }
 
   @Test
@@ -2194,19 +2194,19 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     List<ChangeMessageInfo> messages1 = getMessages(id1);
     assertThat(cs1.stream().map(c -> c.message)).containsExactly("comment1");
     assertThat(cs1.stream().map(c -> c.id)).containsExactly(c1.id);
-    assertThat(messages1.get(0).message).isEqualTo("Uploaded patch set 1.");
+    assertThat(messages1.get(0).message).isEqualTo("Uploaded patchset 1.");
     assertThat(messages1.get(1).message)
-        .isEqualTo("Uploaded patch set 2: Commit message was updated.");
-    assertThat(messages1.get(2).message).isEqualTo("Patch Set 2:\n\n(1 comment)");
+        .isEqualTo("Uploaded patchset 2: Commit message was updated.");
+    assertThat(messages1.get(2).message).isEqualTo("Patchset 2:\n\n(1 comment)");
 
     Collection<CommentInfo> cs2 = getPublishedComments(id2);
     List<ChangeMessageInfo> messages2 = getMessages(id2);
     assertThat(cs2.stream().map(c -> c.message)).containsExactly("comment2");
     assertThat(cs2.stream().map(c -> c.id)).containsExactly(c2.id);
-    assertThat(messages2.get(0).message).isEqualTo("Uploaded patch set 1.");
+    assertThat(messages2.get(0).message).isEqualTo("Uploaded patchset 1.");
     assertThat(messages2.get(1).message)
-        .isEqualTo("Uploaded patch set 2: Commit message was updated.");
-    assertThat(messages2.get(2).message).isEqualTo("Patch Set 2:\n\n(1 comment)");
+        .isEqualTo("Uploaded patchset 2: Commit message was updated.");
+    assertThat(messages2.get(2).message).isEqualTo("Patchset 2:\n\n(1 comment)");
   }
 
   @Test
@@ -2231,7 +2231,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(cs2.stream().map(c -> c.id)).containsExactly(c2.id);
 
     assertThat(getLastMessage(id1)).doesNotMatch("[Cc]omment");
-    assertThat(getLastMessage(id2)).isEqualTo("Patch Set 2:\n\n(1 comment)");
+    assertThat(getLastMessage(id2)).isEqualTo("Patchset 2:\n\n(1 comment)");
   }
 
   @Test

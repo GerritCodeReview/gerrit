@@ -130,7 +130,7 @@ public class CherryPick extends SubmitStrategy {
         toMerge.setStatusCode(SKIPPED_IDENTICAL_TREE);
         return;
       }
-      // Initial copy doesn't have new patch set ID since change hasn't been
+      // Initial copy doesn't have new patchset ID since change hasn't been
       // updated yet.
       newCommit = amendGitlink(newCommit);
       newCommit.copyFrom(toMerge);

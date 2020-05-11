@@ -1077,7 +1077,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
           .author(author)
           .committer(committer)
           .message(
-              "Update patch set "
+              "Update patchset "
                   + psId.get()
                   + "\n"
                   + "\n"

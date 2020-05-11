@@ -97,8 +97,13 @@
       }
     },
 
+    /**
+     * Generates groups link (/admin/groups/<uuid>)
+     *
+     * @param {string} id
+     */
     _computeGroupUrl(id) {
-      return Gerrit.Nav.getUrlForGroup(id);
+      return Gerrit.Nav.getUrlForGroup(decodeURIComponent(id));
     },
 
     _getCreateGroupCapability() {

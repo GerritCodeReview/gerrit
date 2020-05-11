@@ -117,7 +117,6 @@ public class TestCommentHelper {
     RobotCommentInput in = new RobotCommentInput();
     in.robotId = "happyRobot";
     in.robotRunId = "1";
-    in.line = 1;
     in.message = "nit: trailing whitespace";
     in.path = path;
     return in;

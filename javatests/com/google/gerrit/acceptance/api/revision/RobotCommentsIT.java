@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.revision;
 import static com.google.common.collect.MoreCollectors.onlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.common.testing.DiffInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.testing.EditInfoSubject.assertThat;
@@ -35,6 +36,7 @@ import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.client.Comment;
+import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.ChangeType;
@@ -264,6 +266,57 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     assertThat(out).hasSize(1);
     RobotCommentInfo comment = Iterables.getOnlyElement(out.get(in.path));
     assertRobotComment(comment, in, false);
+  }
+
+  @Test
+  public void patchsetLevelRobotCommentCanBeAddedAndRetrieved() throws Exception {
+    RobotCommentInput input = TestCommentHelper.createRobotCommentInput(PATCHSET_LEVEL);
+    testCommentHelper.addRobotComment(changeId, input);
+
+    List<RobotCommentInfo> results = getRobotComments();
+    assertThatList(results).onlyElement().path().isEqualTo(PATCHSET_LEVEL);
+  }
+
+  @Test
+  public void patchsetLevelRobotCommentCantHaveLine() throws Exception {
+    RobotCommentInput input = TestCommentHelper.createRobotCommentInput(PATCHSET_LEVEL);
+    input.line = 1;
+    BadRequestException ex =
+        assertThrows(
+            BadRequestException.class, () -> testCommentHelper.addRobotComment(changeId, input));
+    assertThat(ex.getMessage()).contains("line");
+  }
+
+  @Test
+  public void patchsetLevelRobotCommentCantHaveRange() throws Exception {
+    RobotCommentInput input = TestCommentHelper.createRobotCommentInput(PATCHSET_LEVEL);
+    input.range = createRange(2, 9, 5, 10);
+    BadRequestException ex =
+        assertThrows(
+            BadRequestException.class, () -> testCommentHelper.addRobotComment(changeId, input));
+    assertThat(ex.getMessage()).contains("range");
+  }
+
+  @Test
+  public void patchsetLevelRobotCommentCantHaveSide() throws Exception {
+    RobotCommentInput input = TestCommentHelper.createRobotCommentInput(PATCHSET_LEVEL);
+    input.side = Side.REVISION;
+    BadRequestException ex =
+        assertThrows(
+            BadRequestException.class, () -> testCommentHelper.addRobotComment(changeId, input));
+    assertThat(ex.getMessage()).contains("side");
+  }
+
+  @Test
+  public void fixSuggestionCannotPointToPatchsetLevel() throws Exception {
+    RobotCommentInput input = TestCommentHelper.createRobotCommentInput(FILE_NAME);
+    FixReplacementInfo brokenFixReplacement = createFixReplacementInfo();
+    brokenFixReplacement.path = PATCHSET_LEVEL;
+    input.fixSuggestions = ImmutableList.of(createFixSuggestionInfo(brokenFixReplacement));
+    BadRequestException ex =
+        assertThrows(
+            BadRequestException.class, () -> testCommentHelper.addRobotComment(changeId, input));
+    assertThat(ex.getMessage()).contains("file path must not be " + PATCHSET_LEVEL);
   }
 
   @Test

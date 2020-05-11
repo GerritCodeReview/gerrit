@@ -18,7 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static com.google.gerrit.truth.MapSubject.assertThatMap;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
@@ -173,6 +175,189 @@ public class CommentsIT extends AbstractDaemonTest {
       assertThat(comment)
           .isEqualTo(infoToInput(file).apply(getPublishedComment(changeId, revId, actual.id)));
     }
+  }
+
+  @Test
+  public void patchsetLevelCommentCanBeAddedAndRetrieved() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    CommentInput comment = newCommentWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    addComments(changeId, ps1, comment);
+
+    Map<String, List<CommentInfo>> results = getPublishedComments(changeId, ps1);
+    assertThatMap(results).keys().containsExactly(PATCHSET_LEVEL);
+  }
+
+  @Test
+  public void deletePatchsetLevelComment() throws Exception {
+    requestScopeOperations.setApiUser(admin.id());
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    String commentMessage = "to be deleted";
+    CommentInput comment = newCommentWithOnlyMandatoryFields(PATCHSET_LEVEL, commentMessage);
+    addComments(changeId, revId, comment);
+
+    Map<String, List<CommentInfo>> results = getPublishedComments(changeId, revId);
+    CommentInfo oldComment = Iterables.getOnlyElement(results.get(PATCHSET_LEVEL));
+
+    DeleteCommentInput input = new DeleteCommentInput("reason");
+    gApi.changes().id(changeId).revision(revId).comment(oldComment.id).delete(input);
+    CommentInfo updatedComment =
+        Iterables.getOnlyElement(getPublishedComments(changeId, revId).get(PATCHSET_LEVEL));
+
+    assertThat(updatedComment.message).doesNotContain(commentMessage);
+  }
+
+  @Test
+  public void patchsetLevelCommentCantHaveLine() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    CommentInput input = newCommentWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    input.line = 1;
+    BadRequestException ex =
+        assertThrows(BadRequestException.class, () -> addComments(changeId, ps1, input));
+    assertThat(ex.getMessage()).contains("line");
+  }
+
+  @Test
+  public void patchsetLevelCommentCantHaveRange() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    CommentInput input = newCommentWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    input.range = createLineRange(1, 3);
+    BadRequestException ex =
+        assertThrows(BadRequestException.class, () -> addComments(changeId, ps1, input));
+    assertThat(ex.getMessage()).contains("range");
+  }
+
+  @Test
+  public void patchsetLevelCommentCantHaveSide() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    CommentInput input = newCommentWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    input.side = Side.REVISION;
+    BadRequestException ex =
+        assertThrows(BadRequestException.class, () -> addComments(changeId, ps1, input));
+    assertThat(ex.getMessage()).contains("side");
+  }
+
+  @Test
+  public void patchsetLevelDraftCommentCanBeAddedAndRetrieved() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    DraftInput comment = newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    addDraft(changeId, revId, comment);
+    Map<String, List<CommentInfo>> results = getDraftComments(changeId, revId);
+    assertThatMap(results).keys().containsExactly(PATCHSET_LEVEL);
+  }
+
+  @Test
+  public void deletePatchsetLevelDraft() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    DraftInput draft = newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment 1");
+    CommentInfo returned = addDraft(changeId, revId, draft);
+    deleteDraft(changeId, revId, returned.id);
+    Map<String, List<CommentInfo>> drafts = getDraftComments(changeId, revId);
+    assertThat(drafts).isEmpty();
+  }
+
+  @Test
+  public void patchsetLevelDraftCommentCantHaveLine() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    DraftInput comment = newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    comment.line = 1;
+    BadRequestException ex =
+        assertThrows(BadRequestException.class, () -> addDraft(changeId, revId, comment));
+    assertThat(ex.getMessage()).contains("line");
+  }
+
+  @Test
+  public void patchsetLevelDraftCommentCantHaveRange() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    DraftInput comment = newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    comment.range = createLineRange(1, 3);
+    BadRequestException ex =
+        assertThrows(BadRequestException.class, () -> addDraft(changeId, revId, comment));
+    assertThat(ex.getMessage()).contains("range");
+  }
+
+  @Test
+  public void patchsetLevelDraftCommentCantHaveSide() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    DraftInput comment = newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    comment.side = Side.REVISION;
+    BadRequestException ex =
+        assertThrows(BadRequestException.class, () -> addDraft(changeId, revId, comment));
+    assertThat(ex.getMessage()).contains("range");
+  }
+
+  @Test
+  public void patchsetLevelDraftCommentCantBeUpdatedToHaveLine() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    DraftInput comment = newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    addDraft(changeId, revId, comment);
+    Map<String, List<CommentInfo>> results = getDraftComments(changeId, revId);
+    DraftInput update = newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    update.id = Iterables.getOnlyElement(results.get(PATCHSET_LEVEL)).id;
+    update.line = 1;
+    BadRequestException ex =
+        assertThrows(
+            BadRequestException.class, () -> updateDraft(changeId, revId, update, update.id));
+    assertThat(ex.getMessage()).contains("line");
+  }
+
+  @Test
+  public void patchsetLevelDraftCommentCantBeUpdatedToHaveRange() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    DraftInput comment = newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    addDraft(changeId, revId, comment);
+    Map<String, List<CommentInfo>> results = getDraftComments(changeId, revId);
+    DraftInput update = newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    update.id = Iterables.getOnlyElement(results.get(PATCHSET_LEVEL)).id;
+    update.range = createLineRange(1, 3);
+    BadRequestException ex =
+        assertThrows(
+            BadRequestException.class, () -> updateDraft(changeId, revId, update, update.id));
+    assertThat(ex.getMessage()).contains("range");
+  }
+
+  @Test
+  public void patchsetLevelDraftCommentCantBeUpdatedToHaveSide() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    DraftInput comment = newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    addDraft(changeId, revId, comment);
+    Map<String, List<CommentInfo>> results = getDraftComments(changeId, revId);
+    DraftInput update = newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    update.id = Iterables.getOnlyElement(results.get(PATCHSET_LEVEL)).id;
+    update.side = Side.REVISION;
+    BadRequestException ex =
+        assertThrows(
+            BadRequestException.class, () -> updateDraft(changeId, revId, update, update.id));
+    assertThat(ex.getMessage()).contains("side");
   }
 
   @Test
@@ -1083,7 +1268,7 @@ public class CommentsIT extends AbstractDaemonTest {
     addComments(changeId, ps4, c7, c8);
 
     // 11th commit: Add (c9) to PS2.
-    CommentInput c9 = newComment("b.txt", "comment 9");
+    CommentInput c9 = newCommentWithOnlyMandatoryFields("b.txt", "comment 9");
     addComments(changeId, ps2, c9);
 
     List<CommentInfo> commentsBeforeDelete = getChangeSortedComments(id.get());
@@ -1340,6 +1525,11 @@ public class CommentsIT extends AbstractDaemonTest {
     return newComment(file, Side.REVISION, 0, message, false);
   }
 
+  private static CommentInput newCommentWithOnlyMandatoryFields(String path, String message) {
+    CommentInput c = new CommentInput();
+    return populate(c, path, null, null, null, null, message, false);
+  }
+
   private static CommentInput newComment(
       String path, Side side, int line, String message, Boolean unresolved) {
     CommentInput c = new CommentInput();
@@ -1367,19 +1557,24 @@ public class CommentsIT extends AbstractDaemonTest {
     return populate(d, path, Side.PARENT, parent, line, message, false);
   }
 
+  private DraftInput newDraftWithOnlyMandatoryFields(String path, String message) {
+    DraftInput d = new DraftInput();
+    return populate(d, path, null, null, null, null, message, false);
+  }
+
   private static <C extends Comment> C populate(
       C c,
       String path,
       Side side,
       Integer parent,
-      int line,
+      Integer line,
       Comment.Range range,
       String message,
       Boolean unresolved) {
     c.path = path;
     c.side = side;
     c.parent = parent;
-    c.line = line != 0 ? line : null;
+    c.line = line != null && line != 0 ? line : null;
     c.message = message;
     c.unresolved = unresolved;
     if (range != null) {

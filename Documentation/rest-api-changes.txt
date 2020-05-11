@@ -5723,6 +5723,11 @@ information and the committer information.
 The list of commits that are being integrated into the destination
 branch by submitting the merge commit.
 
+* `/PATCHSET_LEVEL`:
++
+This file path is used exclusively for posting and indicating
+patchset-level comments, thus not relevant for other use-cases.
+
 [[fix-id]]
 === \{fix-id\}
 UUID of a suggested fix.
@@ -6218,7 +6223,7 @@ The patch set number for the comment; only set in contexts where +
 comments may be returned for multiple patch sets.
 |`id`          ||The URL encoded UUID of the comment.
 |`path`        |optional|
-The path of the file for which the inline comment was done. +
+link:#file-id[The file path] for which the inline comment was done. +
 Not set if returned in a map where the key is the file path.
 |`side`        |optional|
 The side on which the comment was added. +
@@ -6271,7 +6276,7 @@ comment.
 The URL encoded UUID of the comment if an existing draft comment should
 be updated.
 |`path`        |optional|
-The path of the file for which the inline comment should be added. +
+link:#file-id[The file path] for which the inline comment should be added. +
 Doesn't need to be set if contained in a map where the key is the file
 path.
 |`side`        |optional|

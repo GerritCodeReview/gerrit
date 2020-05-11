@@ -25,6 +25,98 @@
     },
     {
       "key": {
+        "uuid": "1cc13d8b_69ec4c19",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceId.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T10:56:06Z",
+      "side": 1,
+      "message": "This looks the wrong name: what about GerritInstanceIdProvider?",
+      "range": {
+        "startLine": 22,
+        "startChar": 13,
+        "endLine": 22,
+        "endChar": 29
+      },
+      "revId": "c4b16a41d0dc4099a356f2cf5d9b75079aba9bfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d398655_e85b929a",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceId.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T10:56:06Z",
+      "side": 1,
+      "message": "Why static?",
+      "range": {
+        "startLine": 28,
+        "startChar": 18,
+        "endLine": 28,
+        "endChar": 24
+      },
+      "revId": "c4b16a41d0dc4099a356f2cf5d9b75079aba9bfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12e3859d_8559d53b",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceId.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T10:56:06Z",
+      "side": 1,
+      "message": "Avoid injecting in this way and rely instead on the constructor.",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 9
+      },
+      "revId": "c4b16a41d0dc4099a356f2cf5d9b75079aba9bfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dc749bd_2e7580ab",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceId.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T10:56:06Z",
+      "side": 1,
+      "message": "This must be in the constructor.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 5
+      },
+      "revId": "c4b16a41d0dc4099a356f2cf5d9b75079aba9bfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "725f765b_64852a8e",
         "filename": "java/com/google/gerrit/server/config/GerritInstanceIdModule.java",
         "patchSetId": 12

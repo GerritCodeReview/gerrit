@@ -236,5 +236,9 @@
     _computeGroupDisabled(owner, admin, groupIsInternal) {
       return groupIsInternal && (admin || owner) ? false : true;
     },
+
+    _getGroupUUID(uuid, id) {
+      return !uuid || uuid.includes('/') ? id : uuid;
+    },
   });
 })();

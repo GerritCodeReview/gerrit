@@ -98,7 +98,7 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * A single conceptual operation, such as a REST API call or a merge operation, may make multiple
  * changes at each step, which all need to be serialized relative to each other. Moreover, for
  * consistency, the git ref updates must be visible to the review metadata updates, since for
- * example the metadata might refer to newly-created patch set refs. In NoteDb, this is accomplished
+ * example the metadata might refer to newly-created patchset refs. In NoteDb, this is accomplished
  * by combining these two phases into a single {@link BatchRefUpdate}.
  *
  * <p>Similarly, all post-update steps, such as sending email, must run only after all storage
@@ -156,7 +156,7 @@ public class BatchUpdate implements AutoCloseable {
       ((ListenableFuture<?>) Futures.allAsList(indexFutures)).get();
 
       // Fire ref update events only after all mutations are finished, since callers may assume a
-      // patch set ref being created means the change was created, or a branch advancing meaning
+      // patchset ref being created means the change was created, or a branch advancing meaning
       // some changes were closed.
       updates.stream()
           .filter(u -> u.batchRefUpdate != null)
@@ -270,7 +270,7 @@ public class BatchUpdate implements AutoCloseable {
     /**
      * Updates where the caller allowed us to combine potentially multiple adjustments into a single
      * commit in NoteDb by re-using the same ChangeUpdate instance. Will still be one commit per
-     * patch set.
+     * patchset.
      */
     private final ListMultimap<Id, ChangeUpdate> distinctUpdates;
 

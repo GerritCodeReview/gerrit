@@ -71,7 +71,7 @@ class GrLabelScoreRow extends GestureEventListeners(
   }
 
   setSelectedValue(value) {
-    // The selector may not be present if it’s not at the latest patch set.
+    // The selector may not be present if it’s not at the latest patchset.
     if (!this._ironSelector) { return; }
     this._ironSelector.select(value);
   }

@@ -573,7 +573,7 @@ public class LuceneChangeIndex implements ChangeIndex {
     List<PatchSet> patchSets = decodeProtos(doc, PATCH_SET_FIELD, PatchSetProtoConverter.INSTANCE);
     if (!patchSets.isEmpty()) {
       // Will be an empty list for schemas prior to when this field was stored;
-      // this cannot be valid since a change needs at least one patch set.
+      // this cannot be valid since a change needs at least one patchset.
       cd.setPatchSets(patchSets);
     }
   }

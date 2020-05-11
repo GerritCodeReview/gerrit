@@ -265,7 +265,7 @@ class ChangeNotesParser {
         PatchSet ps = e.getValue().build();
         result.put(ps.id(), ps);
       } catch (Exception ex) {
-        ConfigInvalidException cie = parseException("Error building patch set %s", e.getKey());
+        ConfigInvalidException cie = parseException("Error building patchset %s", e.getKey());
         cie.initCause(ex);
         throw cie;
       }
@@ -275,7 +275,7 @@ class ChangeNotesParser {
 
   private PatchSet.Id buildCurrentPatchSetId() {
     // currentPatchSets are in parse order, i.e. newest first. Pick the first
-    // patch set that was marked as current, excluding deleted patch sets.
+    // patchset that was marked as current, excluding deleted patchsets.
     for (PatchSet.Id psId : currentPatchSets) {
       if (patchSetCommitParsed(psId)) {
         return psId;
@@ -289,7 +289,7 @@ class ChangeNotesParser {
         MultimapBuilder.hashKeys().arrayListValues().build();
     for (PatchSetApproval.Builder a : approvals.values()) {
       if (!patchSetCommitParsed(a.key().patchSetId())) {
-        continue; // Patch set deleted or missing.
+        continue; // Patchset deleted or missing.
       } else if (allPastReviewers.contains(a.key().accountId())
           && !reviewers.containsRow(a.key().accountId())) {
         continue; // Reviewer was explicitly removed.
@@ -382,7 +382,7 @@ class ChangeNotesParser {
       return;
     }
 
-    // Parse mutable patch set fields first so they can be recorded in the PendingPatchSetFields.
+    // Parse mutable patchset fields first so they can be recorded in the PendingPatchSetFields.
     parseDescription(psId, commit);
     parseGroups(psId, commit);
 
@@ -503,13 +503,13 @@ class ChangeNotesParser {
   private void parsePatchSet(PatchSet.Id psId, ObjectId rev, Account.Id accountId, Timestamp ts)
       throws ConfigInvalidException {
     if (accountId == null) {
-      throw parseException("patch set %s requires an identified user as uploader", psId.get());
+      throw parseException("patchset %s requires an identified user as uploader", psId.get());
     }
     if (patchSetCommitParsed(psId)) {
       ObjectId commitId = patchSets.get(psId).commitId().orElseThrow(IllegalStateException::new);
       throw new ConfigInvalidException(
           String.format(
-              "Multiple revisions parsed for patch set %s: %s and %s",
+              "Multiple revisions parsed for patchset %s: %s and %s",
               psId.get(), commitId.name(), rev.name()));
     }
     patchSets
@@ -539,8 +539,8 @@ class ChangeNotesParser {
 
   private void parseCurrentPatchSet(PatchSet.Id psId, ChangeNotesCommit commit)
       throws ConfigInvalidException {
-    // This commit implies a new current patch set if either it creates a new
-    // patch set, or sets the current field explicitly.
+    // This commit implies a new current patchset if either it creates a new
+    // patchset, or sets the current field explicitly.
     boolean current = false;
     if (parseOneFooter(commit, FOOTER_COMMIT) != null) {
       current = true;
@@ -549,7 +549,7 @@ class ChangeNotesParser {
       if (Boolean.TRUE.toString().equalsIgnoreCase(currentStr)) {
         current = true;
       } else if (currentStr != null) {
-        // Only "true" is allowed; unsetting the current patch set makes no
+        // Only "true" is allowed; unsetting the current patchset makes no
         // sense.
         throw invalidFooter(FOOTER_CURRENT, currentStr);
       }
@@ -748,8 +748,7 @@ class ChangeNotesParser {
       ObjectId commitId =
           b.commitId()
               .orElseThrow(
-                  () ->
-                      new IllegalStateException("never parsed commit ID for patch set " + b.id()));
+                  () -> new IllegalStateException("never parsed commit ID for patchset " + b.id()));
       ChangeRevisionNote rn = rns.get(commitId);
       if (rn != null && rn.getPushCert() != null) {
         b.pushCertificate(Optional.of(rn.getPushCert()));
@@ -761,7 +760,7 @@ class ChangeNotesParser {
       PatchSet.Id psId, Account.Id accountId, Account.Id realAccountId, Timestamp ts, String line)
       throws ConfigInvalidException {
     if (accountId == null) {
-      throw parseException("patch set %s requires an identified user as uploader", psId.get());
+      throw parseException("patchset %s requires an identified user as uploader", psId.get());
     }
     PatchSetApproval.Builder psa;
     if (line.startsWith("-")) {
@@ -779,7 +778,7 @@ class ChangeNotesParser {
     //  1. The account from the commit, which is the effective IdentifiedUser
     //     that produced the update.
     //  2. The account in the label footer itself, which is used during submit
-    //     to copy other users' labels to a new patch set.
+    //     to copy other users' labels to a new patchset.
     //  3. The account in the Real-user footer, indicating that the whole
     //     update operation was executed by this user on behalf of the effective
     //     user.
@@ -1048,7 +1047,7 @@ class ChangeNotesParser {
     }
 
     // Post-process other collections to remove items corresponding to deleted
-    // (or otherwise missing) patch sets. This is safer than trying to prevent
+    // (or otherwise missing) patchsets. This is safer than trying to prevent
     // insertion, as it will also filter out items racily added after the patch
     // set was deleted.
     int pruned =
@@ -1062,7 +1061,7 @@ class ChangeNotesParser {
 
     if (!missing.isEmpty()) {
       logger.atWarning().log(
-          "ignoring %s additional entities due to missing patch sets: %s", pruned, missing);
+          "ignoring %s additional entities due to missing patchsets: %s", pruned, missing);
     }
   }
 
@@ -1118,7 +1117,7 @@ class ChangeNotesParser {
       throws ConfigInvalidException {
     if (patchSetCommitParsed(psId)) {
       throw parseException(
-          "%s field found for patch set %s before patch set was originally defined",
+          "%s field found for patchset %s before patchset was originally defined",
           footer.getName(), psId.get());
     }
   }

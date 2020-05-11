@@ -207,7 +207,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
     // Any decoding that is done here must also be done in {@link LuceneChangeIndex}.
 
-    // Patch sets.
+    // Patchsets.
     cd.setPatchSets(
         decodeProtos(source, ChangeField.PATCH_SET.getName(), PatchSetProtoConverter.INSTANCE));
 

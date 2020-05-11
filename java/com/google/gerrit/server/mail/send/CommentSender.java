@@ -72,7 +72,7 @@ public class CommentSender extends ReplyToChangeSender {
     public PatchFile fileData;
     public List<Comment> comments = new ArrayList<>();
 
-    /** @return a web link to the given patch set and file. */
+    /** @return a web link to the given patchset and file. */
     public String getFileLink() {
       return args.urlFormatter
           .get()
@@ -80,7 +80,7 @@ public class CommentSender extends ReplyToChangeSender {
           .orElse(null);
     }
 
-    /** @return a web link to a comment within a given patch set and file. */
+    /** @return a web link to a comment within a given patchset and file. */
     public String getCommentLink(short side, int startLine) {
       return args.urlFormatter
           .get()

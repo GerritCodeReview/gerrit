@@ -716,7 +716,7 @@ class GrChangeActions extends mixinBehaviors( [
       return;
     }
     if (this.actions && editPatchsetLoaded) {
-      // Only show actions that mutate an edit if an actual edit patch set
+      // Only show actions that mutate an edit if an actual edit patchset
       // is loaded.
       if (this.changeIsOpen(this.change)) {
         if (editBasedOnCurrentPatchSet) {
@@ -748,7 +748,7 @@ class GrChangeActions extends mixinBehaviors( [
       } else {
         if (!this.actions.edit) { this.set('actions.edit', EDIT); }
       }
-      // Only show STOP_EDIT if edit mode is enabled, but no edit patch set
+      // Only show STOP_EDIT if edit mode is enabled, but no edit patchset
       // is loaded.
       if (editMode && !editPatchsetLoaded) {
         if (!this.actions.stopEdit) {

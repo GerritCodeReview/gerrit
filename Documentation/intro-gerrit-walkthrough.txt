@@ -230,7 +230,7 @@ Notice that the output of this command is slightly different from Max's first
 commit. This time, the output verifies that the change was updated.
 
 Having uploaded the reworked commit, Max can go back to the Gerrit web
-interface, look at his change and diff the first patch set with his rework in
+interface, look at his change and diff the first patchset with his rework in
 the second one. Once he has verified that the rework follows Hannahs
 recommendation he presses the *DONE* button to let Hannah know that she can
 review the changes.

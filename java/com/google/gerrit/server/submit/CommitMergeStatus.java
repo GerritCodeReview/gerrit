@@ -112,8 +112,8 @@ public enum CommitMergeStatus {
           cd.patchSets().stream().filter(ps -> ps.commitId().name().equals(otherCommit)).findAny();
       if (patchSet.isPresent()) {
         return String.format(
-            "Commit %s depends on commit %s, which is outdated patch set %d of change %d."
-                + " The latest patch set is %d.",
+            "Commit %s depends on commit %s, which is outdated patchset %d of change %d."
+                + " The latest patchset is %d.",
             commit,
             otherCommit,
             patchSet.get().id().get(),

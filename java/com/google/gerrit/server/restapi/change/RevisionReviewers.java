@@ -71,7 +71,7 @@ public class RevisionReviewers implements ChildCollection<RevisionResource, Revi
       throws ResourceNotFoundException, AuthException, MethodNotAllowedException, IOException,
           ConfigInvalidException {
     if (!rsrc.isCurrent()) {
-      throw new MethodNotAllowedException("Cannot access on non-current patch set");
+      throw new MethodNotAllowedException("Cannot access on non-current patchset");
     }
     Address address = Address.tryParse(id.get());
 

@@ -65,7 +65,7 @@ import org.kohsuke.args4j.spi.FieldSetter;
 import org.kohsuke.args4j.spi.OneArgumentOptionHandler;
 import org.kohsuke.args4j.spi.Setter;
 
-@CommandMetaData(name = "review", description = "Apply reviews to one or more patch sets")
+@CommandMetaData(name = "review", description = "Apply reviews to one or more patchsets")
 public class ReviewCommand extends SshCommand {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -83,7 +83,7 @@ public class ReviewCommand extends SshCommand {
       required = true,
       multiValued = true,
       metaVar = "{COMMIT | CHANGE,PATCHSET}",
-      usage = "list of commits or patch sets to review")
+      usage = "list of commits or patchsets to review")
   void addPatchSetId(String token) {
     try {
       PatchSet ps = psParser.parsePatchSet(token, projectState, branch);
@@ -98,10 +98,10 @@ public class ReviewCommand extends SshCommand {
   @Option(
       name = "--project",
       aliases = "-p",
-      usage = "project containing the specified patch set(s)")
+      usage = "project containing the specified patchset(s)")
   private ProjectState projectState;
 
-  @Option(name = "--branch", aliases = "-b", usage = "branch containing the specified patch set(s)")
+  @Option(name = "--branch", aliases = "-b", usage = "branch containing the specified patchset(s)")
   private String branch;
 
   @Option(
@@ -130,7 +130,7 @@ public class ReviewCommand extends SshCommand {
   @Option(name = "--move", usage = "move the specified change(s)", metaVar = "BRANCH")
   private String moveToBranch;
 
-  @Option(name = "--submit", aliases = "-s", usage = "submit the specified patch set(s)")
+  @Option(name = "--submit", aliases = "-s", usage = "submit the specified patchset(s)")
   private boolean submitChange;
 
   @Option(name = "--json", aliases = "-j", usage = "read review input json from stdin")

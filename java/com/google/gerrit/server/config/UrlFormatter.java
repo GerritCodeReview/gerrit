@@ -47,13 +47,13 @@ public interface UrlFormatter {
     return getWebUrl().map(url -> url + "c/" + project.get() + "/+/" + id.get());
   }
 
-  /** Returns the URL for viewing a file in a given patch set of a change. */
+  /** Returns the URL for viewing a file in a given patchset of a change. */
   default Optional<String> getPatchFileView(Change change, int patchsetId, String filename) {
     return getChangeViewUrl(change.getProject(), change.getId())
         .map(url -> url + "/" + patchsetId + "/" + filename);
   }
 
-  /** Returns the URL for viewing a comment in a file in a given patch set of a change. */
+  /** Returns the URL for viewing a comment in a file in a given patchset of a change. */
   default Optional<String> getInlineCommentView(
       Change change, int patchsetId, String filename, short side, int startLine) {
     return getPatchFileView(change, patchsetId, filename)

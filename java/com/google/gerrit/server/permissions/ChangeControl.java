@@ -94,7 +94,7 @@ class ChangeControl {
     return refControl.getRange(permission, isOwner());
   }
 
-  /** Can this user add a patch set to this change? */
+  /** Can this user add a patchset to this change? */
   private boolean canAddPatchSet() {
     if (!refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE)) {
       return false;

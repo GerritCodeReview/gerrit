@@ -253,7 +253,7 @@ public class CherryPickChange {
     try (Repository git = gitManager.openRepository(project);
         // This inserter and revwalk *must* be passed to any BatchUpdates
         // created later on, to ensure the cherry-picked commit is flushed
-        // before patch sets are updated.
+        // before patchsets are updated.
         ObjectInserter oi = git.newObjectInserter();
         ObjectReader reader = oi.newReader();
         CodeReviewRevWalk revWalk = CodeReviewCommit.newRevWalk(reader)) {
@@ -328,7 +328,7 @@ public class CherryPickChange {
               "Several changes with key "
                   + changeKey
                   + " reside on the same branch. "
-                  + "Cannot create a new patch set.");
+                  + "Cannot create a new patchset.");
         }
         try (BatchUpdate bu = batchUpdateFactory.create(project, identifiedUser, timestamp)) {
           bu.setRepository(git, revWalk, oi);
@@ -345,7 +345,7 @@ public class CherryPickChange {
           }
           if (destChanges.size() == 1) {
             // The change key exists on the destination branch. The cherry pick
-            // will be added as a new patch set. If "idForNewChange" is not null we must fail,
+            // will be added as a new patchset. If "idForNewChange" is not null we must fail,
             // since we are not expecting an already existing change.
             if (idForNewChange != null) {
               throw new InvalidChangeOperationException(
@@ -453,7 +453,7 @@ public class CherryPickChange {
     Change destChange = destNotes.getChange();
     PatchSet.Id psId = ChangeUtil.nextPatchSetId(git, destChange.currentPatchSetId());
     PatchSetInserter inserter = patchSetInserterFactory.create(destNotes, psId, cherryPickCommit);
-    inserter.setMessage("Uploaded patch set " + inserter.getPatchSetId().get() + ".");
+    inserter.setMessage("Uploaded patchset " + inserter.getPatchSetId().get() + ".");
     inserter.setTopic(topic);
     bu.addOp(destChange.getId(), inserter);
     if (destChange.getCherryPickOf() == null
@@ -485,7 +485,7 @@ public class CherryPickChange {
             revertOf == null
                 ? messageForDestinationChange(
                     ins.getPatchSetId(), sourceBranch, sourceCommit, cherryPickCommit)
-                : "Uploaded patch set 1.") // For revert commits, the message should not include
+                : "Uploaded patchset 1.") // For revert commits, the message should not include
         // cherry-pick information.
         .setTopic(topic)
         .setCherryPickOf(sourcePatchSetId)
@@ -536,7 +536,7 @@ public class CherryPickChange {
       BranchNameKey sourceBranch,
       ObjectId sourceCommit,
       CodeReviewCommit cherryPickCommit) {
-    StringBuilder stringBuilder = new StringBuilder("Patch Set ").append(patchSetId.get());
+    StringBuilder stringBuilder = new StringBuilder("Patchset ").append(patchSetId.get());
     if (sourceBranch != null) {
       stringBuilder.append(": Cherry Picked from branch ").append(sourceBranch.shortName());
     } else {

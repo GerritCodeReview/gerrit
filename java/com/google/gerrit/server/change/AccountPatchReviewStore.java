@@ -25,8 +25,8 @@ import java.util.Optional;
 /**
  * Store for reviewed flags on changes.
  *
- * <p>A reviewed flag is a tuple of (patch set ID, file, account ID) and records whether the user
- * has reviewed a file in a patch set. Each user can easily have thousands of reviewed flags and the
+ * <p>A reviewed flag is a tuple of (patchset ID, file, account ID) and records whether the user has
+ * reviewed a file in a patchset. Each user can easily have thousands of reviewed flags and the
  * number of reviewed flags is growing without bound. The store must be able handle this data volume
  * efficiently.
  *
@@ -35,7 +35,7 @@ import java.util.Optional;
  */
 public interface AccountPatchReviewStore {
 
-  /** Represents patch set id with reviewed files. */
+  /** Represents patchset id with reviewed files. */
   @AutoValue
   abstract class PatchSetWithReviewedFiles {
     public abstract PatchSet.Id patchSetId();
@@ -48,9 +48,9 @@ public interface AccountPatchReviewStore {
   }
 
   /**
-   * Marks the given file in the given patch set as reviewed by the given user.
+   * Marks the given file in the given patchset as reviewed by the given user.
    *
-   * @param psId patch set ID
+   * @param psId patchset ID
    * @param accountId account ID of the user
    * @param path file path
    * @return {@code true} if the reviewed flag was updated, {@code false} if the reviewed flag was
@@ -59,45 +59,45 @@ public interface AccountPatchReviewStore {
   boolean markReviewed(PatchSet.Id psId, Account.Id accountId, String path);
 
   /**
-   * Marks the given files in the given patch set as reviewed by the given user.
+   * Marks the given files in the given patchset as reviewed by the given user.
    *
-   * @param psId patch set ID
+   * @param psId patchset ID
    * @param accountId account ID of the user
    * @param paths file paths
    */
   void markReviewed(PatchSet.Id psId, Account.Id accountId, Collection<String> paths);
 
   /**
-   * Clears the reviewed flag for the given file in the given patch set for the given user.
+   * Clears the reviewed flag for the given file in the given patchset for the given user.
    *
-   * @param psId patch set ID
+   * @param psId patchset ID
    * @param accountId account ID of the user
    * @param path file path
    */
   void clearReviewed(PatchSet.Id psId, Account.Id accountId, String path);
 
   /**
-   * Clears the reviewed flags for all files in the given patch set for all users.
+   * Clears the reviewed flags for all files in the given patchset for all users.
    *
-   * @param psId patch set ID
+   * @param psId patchset ID
    */
   void clearReviewed(PatchSet.Id psId);
 
   /**
-   * Clears the reviewed flags for all files in all patch sets in the given change for all users.
+   * Clears the reviewed flags for all files in all patchsets in the given change for all users.
    *
    * @param changeId change ID
    */
   void clearReviewed(Change.Id changeId);
 
   /**
-   * Find the latest patch set, that is smaller or equals to the given patch set, where at least,
-   * one file has been reviewed by the given user.
+   * Find the latest patchset, that is smaller or equals to the given patchset, where at least, one
+   * file has been reviewed by the given user.
    *
-   * @param psId patch set ID
+   * @param psId patchset ID
    * @param accountId account ID of the user
    * @return optionally, all files that have been reviewed by the given user that belong to the
-   *     patch set that is smaller or equals to the given patch set
+   *     patchset that is smaller or equals to the given patchset
    */
   Optional<PatchSetWithReviewedFiles> findReviewed(PatchSet.Id psId, Account.Id accountId);
 }

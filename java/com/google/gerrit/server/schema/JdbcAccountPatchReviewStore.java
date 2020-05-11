@@ -311,7 +311,7 @@ public abstract class JdbcAccountPatchReviewStore
   public void clearReviewed(PatchSet.Id psId) {
     try (TraceTimer ignored =
             TraceContext.newTimer(
-                "Clear all reviewed flags of patch set",
+                "Clear all reviewed flags of patchset",
                 Metadata.builder().patchSetId(psId.get()).build());
         Connection con = ds.getConnection();
         PreparedStatement stmt =

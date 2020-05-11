@@ -46,7 +46,7 @@ Where:
 
 * [CD] is the last two digits of the change number
 * [ABCD] is the change number
-* [EF] is the patch set number
+* [EF] is the patchset number
 
 For example:
 

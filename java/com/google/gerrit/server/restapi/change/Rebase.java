@@ -102,7 +102,7 @@ public class Rebase
   @Override
   public Response<ChangeInfo> apply(RevisionResource rsrc, RebaseInput input)
       throws UpdateException, RestApiException, IOException, PermissionBackendException {
-    // Not allowed to rebase if the current patch set is locked.
+    // Not allowed to rebase if the current patchset is locked.
     patchSetUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
     rsrc.permissions().check(ChangePermission.REBASE);
@@ -150,7 +150,7 @@ public class Rebase
     Change change = rsrc.getChange();
     String str = input.base.trim();
     if (str.equals("")) {
-      // Remove existing dependency to other patch set.
+      // Remove existing dependency to other patchset.
       Ref destRef = repo.exactRef(destRefKey.branch());
       if (destRef == null) {
         throw new ResourceConflictException(
@@ -240,7 +240,7 @@ public class Rebase
       }
     } catch (StorageException e) {
       logger.atSevere().withCause(e).log(
-          "Failed to check if the current patch set of change %s is locked", change.getId());
+          "Failed to check if the current patchset of change %s is locked", change.getId());
       return description;
     }
 
@@ -256,7 +256,7 @@ public class Rebase
       // If the index is broken, we log and disable the UI action, but still show the page to the
       // user.
       logger.atSevere().withCause(e).log(
-          "Failed to check if patch set can be rebased: %s", rsrc.getPatchSet());
+          "Failed to check if patchset can be rebased: %s", rsrc.getPatchSet());
       return description;
     }
 

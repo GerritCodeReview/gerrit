@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "fb15067a_692be155",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-11T08:01:59Z",
+      "side": 1,
+      "message": "\u003e This sounds reasonable.  In that case, the change should be moved to stable-3.2 so it can be included in the final 3.2 release.  I assume we would also need to upgrade jgit on stable-3.2 to use the head of master.\n\nThat\u0027s correct. This change depends on Thomas Wolf\u0027s JGit change to bump MINA SSHD version to 2.4.0. Should we defer the question about doing this to ESC before moving this change and updating JGit to tip of master branch on stable-3.2?",
+      "parentUuid": "fec58894_355aa07f",
+      "range": {
+        "startLine": 11,
+        "startChar": 26,
+        "endLine": 12,
+        "endChar": 20
+      },
+      "revId": "dee2bd44ebccfe0dd4f46e5d78c1732bc8b6f497",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d4273aa_97fd45fe",
         "filename": "/COMMIT_MSG",
         "patchSetId": 11

@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "66c650ab_4973fe0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-11T12:19:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c25dd97_88aae7bb",
+      "range": {
+        "startLine": 7,
+        "startChar": 40,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "4b19d5f879063092535529f307090959a87c1abd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7f2d796_dec7cd8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-11T12:19:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a89407df_13b24f5a",
+      "range": {
+        "startLine": 7,
+        "startChar": 11,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "4b19d5f879063092535529f307090959a87c1abd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ec77275_59695ae3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -62,6 +110,24 @@
       "revId": "4b19d5f879063092535529f307090959a87c1abd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0bfa08d_22cd17db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-11T12:19:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ec77275_59695ae3",
+      "revId": "4b19d5f879063092535529f307090959a87c1abd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "2e081068_e6b9d679",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-11T12:19:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "901a4a4e_2c918d07",
+      "revId": "4b19d5f879063092535529f307090959a87c1abd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68749228_9df43230",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog.js",
         "patchSetId": 5
@@ -96,6 +180,24 @@
       "revId": "4b19d5f879063092535529f307090959a87c1abd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2012ce24_f70c10e2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-11T12:19:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68749228_9df43230",
+      "revId": "4b19d5f879063092535529f307090959a87c1abd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -119,6 +221,30 @@
       "revId": "4b19d5f879063092535529f307090959a87c1abd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95e1c21c_85eb96ec",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-11T12:19:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5957bf1_11cf74b6",
+      "range": {
+        "startLine": 704,
+        "startChar": 8,
+        "endLine": 704,
+        "endChar": 27
+      },
+      "revId": "4b19d5f879063092535529f307090959a87c1abd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

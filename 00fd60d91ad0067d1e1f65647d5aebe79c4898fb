@@ -214,6 +214,30 @@
       "revId": "00fd60d91ad0067d1e1f65647d5aebe79c4898fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "011b356b_d5ac3e83",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-11T08:56:47Z",
+      "side": 0,
+      "message": "I was counting L187 to L198, the entire block that I\u0027ve removed.  While it\u0027s true that the entire block is not specifically about the blank line, the whole block is not needed if we take the approach of only caring about the format that can be automatically applied.",
+      "parentUuid": "81a67c22_35e7b85b",
+      "range": {
+        "startLine": 198,
+        "startChar": 2,
+        "endLine": 198,
+        "endChar": 68
+      },
+      "revId": "00fd60d91ad0067d1e1f65647d5aebe79c4898fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

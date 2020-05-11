@@ -94,6 +94,30 @@
       "revId": "ea6ee1ed7fb52283b3ae89727a3b37d3e07c57ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c48612fc_1961da10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T14:08:06Z",
+      "side": 1,
+      "message": "Right, I did not express myself clearly enough :-)\nWhat\u0027s the consequence of *referring* to both v1.61 and v1.65 in the same JVM?\nAre the interfaces we use in Gerrit compatible? Is there any breaking change between the two?\n\nIf not, we could just include the v1.65 JAR in gerrit.war and Google will continue to use the v1.61 instead.",
+      "parentUuid": "53782f74_4ba53f8b",
+      "range": {
+        "startLine": 12,
+        "startChar": 12,
+        "endLine": 12,
+        "endChar": 39
+      },
+      "revId": "ea6ee1ed7fb52283b3ae89727a3b37d3e07c57ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

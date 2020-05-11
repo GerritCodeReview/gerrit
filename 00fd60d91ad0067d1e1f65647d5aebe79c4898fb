@@ -190,6 +190,30 @@
       "revId": "00fd60d91ad0067d1e1f65647d5aebe79c4898fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81a67c22_35e7b85b",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-11T08:47:50Z",
+      "side": 0,
+      "message": "It\u0027s not true: it is one line and not 10+:\n\n  Do not add blank lines at the beginning or end of class/methods\n\nand I do very much care about it.",
+      "parentUuid": "6b13f21e_7445cf09",
+      "range": {
+        "startLine": 198,
+        "startChar": 2,
+        "endLine": 198,
+        "endChar": 68
+      },
+      "revId": "00fd60d91ad0067d1e1f65647d5aebe79c4898fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

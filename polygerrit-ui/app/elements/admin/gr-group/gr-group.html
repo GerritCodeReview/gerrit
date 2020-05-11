@@ -54,6 +54,14 @@ limitations under the License.
                   id="uuid"
                   text="[[_getGroupUUID(_groupConfig.id)]]"></gr-copy-clipboard>
             </fieldset>
+            <template is="dom-if" if="[[_groupConfig.group_id]]">
+              <h3 id="groupID">Group ID</h3>
+              <fieldset>
+                <gr-copy-clipboard
+                    id="uuid"
+                    text="[[_groupConfig.group_id]]"></gr-copy-clipboard>
+              </fieldset>
+            </template>
             <h3 id="groupName" class$="[[_computeHeaderClass(_rename)]]">
               Group Name
             </h3>

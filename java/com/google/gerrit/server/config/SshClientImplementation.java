@@ -31,6 +31,6 @@ public enum SshClientImplementation {
     if (value == null) {
       value = Strings.emptyToNull(System.getProperty("gerrit.sshClientImplementation"));
     }
-    return value == null ? JSCH : SshClientImplementation.valueOf(value);
+    return value == null ? MINA : SshClientImplementation.valueOf(value);
   }
 }

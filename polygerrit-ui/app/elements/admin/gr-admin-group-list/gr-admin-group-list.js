@@ -97,7 +97,14 @@
       }
     },
 
+    /**
+     * Generates groups link (/admin/groups/<uuid>)
+     *
+     * @param {string} id
+     */
     _computeGroupUrl(id) {
+      // We do not need to decode this as internal
+      // groups are not shown in the list.
       return Gerrit.Nav.getUrlForGroup(id);
     },
 

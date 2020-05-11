@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.pgm;
 import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.errorprone.annotations.MustBeClosed;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.StandaloneSiteTest;
 import com.google.gerrit.entities.Project;
@@ -82,27 +83,33 @@ public class InitIT extends StandaloneSiteTest {
 
   private void setProjectsIndexLastModifiedInThePast(Path indexDir, Instant time)
       throws IOException {
-    for (Path path : getAllProjectsIndexFiles(indexDir).collect(Collectors.toList())) {
-      FS.DETECTED.setLastModified(path, time);
+    try (Stream<Path> allprojectsIndexFiles = getAllProjectsIndexFiles(indexDir)) {
+      for (Path path : allprojectsIndexFiles.collect(Collectors.toList())) {
+        FS.DETECTED.setLastModified(path, time);
+      }
     }
   }
 
   private Optional<Instant> getProjectsIndexLastModified(Path indexDir) throws IOException {
-    return getAllProjectsIndexFiles(indexDir)
-        .map(FS.DETECTED::lastModifiedInstant)
-        .max(Comparator.comparingLong(Instant::toEpochMilli));
+    try (Stream<Path> allprojectsIndexFiles = getAllProjectsIndexFiles(indexDir)) {
+      return allprojectsIndexFiles
+          .map(FS.DETECTED::lastModifiedInstant)
+          .max(Comparator.comparingLong(Instant::toEpochMilli));
+    }
   }
 
+  @MustBeClosed
   private Stream<Path> getAllProjectsIndexFiles(Path indexDir) throws IOException {
-    Optional<Path> projectsPath =
-        Files.walk(indexDir, 1)
-            .filter(Files::isDirectory)
-            .filter(p -> p.getFileName().toString().startsWith("projects_"))
-            .findFirst();
-    if (!projectsPath.isPresent()) {
-      return Stream.empty();
+    try (Stream<Path> stream = Files.walk(indexDir, 1)) {
+      Optional<Path> projectsPath =
+          stream
+              .filter(Files::isDirectory)
+              .filter(p -> p.getFileName().toString().startsWith("projects_"))
+              .findFirst();
+      if (!projectsPath.isPresent()) {
+        return Stream.empty();
+      }
+      return Files.walk(projectsPath.get(), 1, FileVisitOption.FOLLOW_LINKS);
     }
-
-    return Files.walk(projectsPath.get(), 1, FileVisitOption.FOLLOW_LINKS);
   }
 }

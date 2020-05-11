@@ -22,6 +22,30 @@
       "revId": "09698a35569a851358b0521c16a6a8e025d486f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a836616_443c29c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-11T21:40:59Z",
+      "side": 1,
+      "message": "I am working on the merge change to master. On top of the merge change I will swap the productive code path and the tests to use MINA as default ssh client implementation. So, even if we wouldn\u0027t   have dedicated checkers for both ssh clients, we would still check per default against different client implementations on one existing backend checker:\n\n* stable-3.2: JSch client\n* master: MINA client",
+      "parentUuid": "ea8e7e16_d0038219",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 62
+      },
+      "revId": "09698a35569a851358b0521c16a6a8e025d486f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "54b7fd81_dfb0e76d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-11T06:23:58Z",
+      "side": 1,
+      "message": "Define the future? This change is snot merged yet. So, we still don\u0027t know whether or not it is included in 3.2 release. In any event, this is intrusive change, that I would compare with adding support for Git wire protocol v2. So that my plan would be:\n\n* next release: MINA ssh client option is added, but JSch is still the default\n* next release + 1: MINA ssh client is swapped to be the default, but JSch is still there\n* next release + 2: Support for JSch is dropped (probably also from JGit protocol)",
+      "parentUuid": "6d96c9d6_695d274f",
+      "range": {
+        "startLine": 11,
+        "startChar": 26,
+        "endLine": 12,
+        "endChar": 20
+      },
+      "revId": "dee2bd44ebccfe0dd4f46e5d78c1732bc8b6f497",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d4273aa_97fd45fe",
         "filename": "/COMMIT_MSG",
         "patchSetId": 11
@@ -36,6 +60,30 @@
       "writtenOn": "2020-05-10T23:57:22Z",
       "side": 1,
       "message": "By doing this there is risk that we will introduce regression for Jsch client and not notice it. Can we make the tests use both?\n\nAlternatively, can we just drop JSch already and unconditionally switch to MINA?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 70
+      },
+      "revId": "dee2bd44ebccfe0dd4f46e5d78c1732bc8b6f497",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a190263c_e8d5b84c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-11T06:23:58Z",
+      "side": 1,
+      "message": "To selectively switch to JSch or MINA in acceptance tests is certainly doable, but would be much more work. I was trying to avoid this.",
+      "parentUuid": "4d4273aa_97fd45fe",
       "range": {
         "startLine": 14,
         "startChar": 0,

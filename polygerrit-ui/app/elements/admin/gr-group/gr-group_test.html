@@ -250,5 +250,13 @@ limitations under the License.
 
       assert.equal(element._groupConfig.id, element.$.uuid.text);
     });
+
+    test('id', () => {
+      element._groupConfig = {
+        group_id: 1,
+      };
+
+      assert.equal(element._groupConfig.id, element.$.uuid.text);
+    });
   });
 </script>

@@ -97,8 +97,8 @@
       }
     },
 
-    _computeGroupUrl(id) {
-      return Gerrit.Nav.getUrlForGroup(id);
+    _computeGroupUrl(uuid) {
+      return Gerrit.Nav.getUrlForGroup(uuid);
     },
 
     _getCreateGroupCapability() {

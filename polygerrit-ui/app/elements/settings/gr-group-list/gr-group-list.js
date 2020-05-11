@@ -37,11 +37,10 @@
     },
 
     _computeGroupPath(group) {
-      if (!group || !group.id) { return; }
+      if (!group || !group.id) return;
 
-      // Group ID is already encoded from the API
-      // Decode it here to match with our router encoding behavior
-      return Gerrit.Nav.getUrlForGroup(decodeURIComponent(group.id));
+      return Gerrit.Nav.getUrlForGroup(
+          group.group_id ? group.group_id  : decodeURIComponent(group.id));
     },
   });
 })();

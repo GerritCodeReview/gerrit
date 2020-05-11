@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c25dd97_88aae7bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-11T08:39:18Z",
+      "side": 1,
+      "message": "clicking",
+      "range": {
+        "startLine": 7,
+        "startChar": 40,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "4b19d5f879063092535529f307090959a87c1abd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a89407df_13b24f5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-11T08:39:18Z",
+      "side": 1,
+      "message": "preferences",
+      "range": {
+        "startLine": 7,
+        "startChar": 11,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "4b19d5f879063092535529f307090959a87c1abd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ec77275_59695ae3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-11T08:39:18Z",
+      "side": 1,
+      "message": "I am not very happy with the convention, but I think it should be\n\n  Bug: Issue 12707",
+      "revId": "4b19d5f879063092535529f307090959a87c1abd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "901a4a4e_2c918d07",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-11T08:39:18Z",
+      "side": 1,
+      "message": "Maybe add a comment about what this is and what the difference is compared to _diffPrefs.",
+      "revId": "4b19d5f879063092535529f307090959a87c1abd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68749228_9df43230",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-11T08:39:18Z",
+      "side": 1,
+      "message": "Maybe add a comment explaining what parse(stringify( does and why you do this.",
+      "revId": "4b19d5f879063092535529f307090959a87c1abd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5957bf1_11cf74b6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-11T08:39:18Z",
+      "side": 1,
+      "message": "nit: this is keys1 (and keys2 below)",
+      "range": {
+        "startLine": 704,
+        "startChar": 8,
+        "endLine": 704,
+        "endChar": 27
+      },
+      "revId": "4b19d5f879063092535529f307090959a87c1abd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

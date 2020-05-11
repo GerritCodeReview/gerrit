@@ -33,19 +33,17 @@ public class Query extends SshCommand implements DynamicOptions.BeanReceiver {
     processor.setOutput(out, format);
   }
 
-  @Option(name = "--current-patch-set", usage = "Include information about current patch set")
+  @Option(name = "--current-patch-set", usage = "Include information about current patchset")
   void setCurrentPatchSet(boolean on) {
     processor.setIncludeCurrentPatchSet(on);
   }
 
-  @Option(name = "--patch-sets", usage = "Include information about all patch sets")
+  @Option(name = "--patch-sets", usage = "Include information about all patchsets")
   void setPatchSets(boolean on) {
     processor.setIncludePatchSets(on);
   }
 
-  @Option(
-      name = "--all-approvals",
-      usage = "Include information about all patch sets and approvals")
+  @Option(name = "--all-approvals", usage = "Include information about all patchsets and approvals")
   void setApprovals(boolean on) {
     if (on) {
       processor.setIncludePatchSets(on);
@@ -53,12 +51,12 @@ public class Query extends SshCommand implements DynamicOptions.BeanReceiver {
     processor.setIncludeApprovals(on);
   }
 
-  @Option(name = "--comments", usage = "Include patch set and inline comments")
+  @Option(name = "--comments", usage = "Include patchset and inline comments")
   void setComments(boolean on) {
     processor.setIncludeComments(on);
   }
 
-  @Option(name = "--files", usage = "Include file list on patch sets")
+  @Option(name = "--files", usage = "Include file list on patchsets")
   void setFiles(boolean on) {
     processor.setIncludeFiles(on);
   }

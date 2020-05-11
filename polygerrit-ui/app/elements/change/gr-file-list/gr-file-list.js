@@ -45,7 +45,7 @@ import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoi
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {appContext} from '../../../services/app-context.js';
 
-// Maximum length for patch set descriptions.
+// Maximum length for patchset descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
 const WARN_SHOW_ALL_THRESHOLD = 1000;
 const LOADING_DEBOUNCE_INTERVAL = 100;
@@ -382,7 +382,7 @@ class GrFileList extends mixinBehaviors( [
   get diffs() {
     const diffs = dom(this.root).querySelectorAll('gr-diff-host');
     // It is possible that a bogus diff element is hanging around invisibly
-    // from earlier with a different patch set choice and associated with a
+    // from earlier with a different patchset choice and associated with a
     // different entry in the files array. So filter on visible items only.
     return Array.from(diffs).filter(
         el => !!el && !!el.style && el.style.display !== 'none');

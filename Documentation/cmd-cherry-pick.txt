@@ -21,7 +21,7 @@ you will be asked to resolve the conflict and restart the command
 with the `--continue` option.
 
 Change ids may be specified as either the change id (e.g. 1234)
-or as change id slash patch set number (e.g. 1234/8).  If the patch
+or as change id slash patchset number (e.g. 1234/8).  If the patch
 set number is not supplied, `/1` is assumed.
 
 The `--close` command line option is now deprecated, as closing

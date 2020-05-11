@@ -86,9 +86,9 @@ public class PatchSetParser {
         case 1:
           return matches.iterator().next();
         case 0:
-          throw error("\"" + token + "\" no such patch set");
+          throw error("\"" + token + "\" no such patchset");
         default:
-          throw error("\"" + token + "\" matches multiple patch sets");
+          throw error("\"" + token + "\" matches multiple patchsets");
       }
     }
 
@@ -99,12 +99,12 @@ public class PatchSetParser {
       try {
         patchSetId = PatchSet.Id.parse(token);
       } catch (IllegalArgumentException e) {
-        throw error("\"" + token + "\" is not a valid patch set", e);
+        throw error("\"" + token + "\" is not a valid patchset", e);
       }
       ChangeNotes notes = getNotes(projectState, patchSetId.changeId());
       PatchSet patchSet = psUtil.get(notes, patchSetId);
       if (patchSet == null) {
-        throw error("\"" + token + "\" no such patch set");
+        throw error("\"" + token + "\" no such patchset");
       }
       if (projectState != null || branch != null) {
         Change change = notes.getChange();
@@ -118,7 +118,7 @@ public class PatchSetParser {
       return patchSet;
     }
 
-    throw error("\"" + token + "\" is not a valid patch set");
+    throw error("\"" + token + "\" is not a valid patchset");
   }
 
   private ChangeNotes getNotes(@Nullable ProjectState projectState, Change.Id changeId)

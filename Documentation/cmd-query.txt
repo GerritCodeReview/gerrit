@@ -29,8 +29,8 @@ Queries the change search index and returns results describing changes
 that match the input query.  More recently updated changes appear
 before older changes, which is the same order presented in the
 web interface.  For each matching change, the result contains data
-for the change's latest patch set, even if the query matched on an
-older patch set (for example an older patch set's sha1 revision).
+for the change's latest patchset, even if the query matched on an
+older patchset (for example an older patchset's sha1 revision).
 
 A query may be limited on the number of results it returns with the
 'limit:' operator.  If no limit is supplied an internal default
@@ -55,23 +55,23 @@ command line parser in the server).
 	per matching record, with embedded LFs escaped.
 
 --current-patch-set::
-	Include information about the current patch set in the results.
+	Include information about the current patchset in the results.
 	Note that the information will only be included when the current
-	patch set is visible to the caller.
+	patchset is visible to the caller.
 
 --patch-sets::
-	Include information about all patch sets visible to the caller.
+	Include information about all patchsets visible to the caller.
         If combined with the --current-patch-set flag then the current patch
 	set information will be output twice, once in each field.
 
 --all-approvals::
-	Include information about all patch sets visible to the caller along
-	with the approval information for each patch set.  If combined with
-	the --current-patch-set flag then the current patch set
+	Include information about all patchsets visible to the caller along
+	with the approval information for each patchset.  If combined with
+	the --current-patch-set flag then the current patchset
 	information will be output twice, once in each field.
 
 --files::
-	Support for listing files with patch sets and their
+	Support for listing files with patchsets and their
 	attributes (ADDED, MODIFIED, DELETED, RENAMED, COPIED)
 	and size information (number of insertions and deletions).
 	Note that this option requires either the --current-patch-set
@@ -80,14 +80,14 @@ command line parser in the server).
 --comments::
 	Include comments for all changes. If combined with the
 	--patch-sets flag then all inline/file comments are included for
-	each patch set that is visible to the caller.
+	each patchset that is visible to the caller.
 
 --commit-message::
 	Include the full commit message in the change description.
 
 --dependencies::
-	Show information about patch sets which depend on, or are needed by,
-	each patch set.
+	Show information about patchsets which depend on, or are needed by,
+	each patchset.
 
 --all-reviewers::
 	Show the name and email of all reviewers which are added to a change

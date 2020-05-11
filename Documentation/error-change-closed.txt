@@ -11,7 +11,7 @@ the Change-Id of a closed change in its commit message. A change can
 be closed either because it was already submitted and merged or
 because it was abandoned.
 
-If the change for which you wanted to upload a new patch set was
+If the change for which you wanted to upload a new patchset was
 already submitted and merged you may want to push your commit as a
 new change. To do this you have to remove the Change-Id from the
 commit message as explained link:error-push-fails-due-to-commit-message.html[here] and ideally generate a new Change-Id
@@ -19,12 +19,12 @@ using the link:cmd-hook-commit-msg.html[commit hook] or EGit. Before pushing aga
 recommended to do a link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[git rebase,role=external,window=_blank] to base your commit on the submitted
 change. Pushing again should now create a new change in Gerrit.
 
-If the change for which you wanted to upload a new patch set was
+If the change for which you wanted to upload a new patchset was
 abandoned and your new changes overcome the reasons for abandoning
 this change you may want to restore the change in the Gerrit Web UI
 (browse the abandoned change in the Gerrit Web UI and click on the
 'Restore Change' button). Afterwards the push should succeed and a
-new patch set for this change will be created.
+new patchset for this change will be created.
 
 == When Submitting a Review Label
 

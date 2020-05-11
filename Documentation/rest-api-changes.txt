@@ -220,7 +220,7 @@ default. Optional fields are:
 
 [[current-revision]]
 --
-* `CURRENT_REVISION`: describe the current revision (patch set)
+* `CURRENT_REVISION`: describe the current revision (patchset)
   of the change, including the commit SHA-1 and URLs to fetch from.
 --
 
@@ -746,7 +746,7 @@ REJECTED > APPROVED > DISLIKED > RECOMMENDED.
           "username": "jdoe"
         },
         "date": "2013-03-23 21:34:02.419000000",
-        "message": "Patch Set 1:\n\nThis is the first message.",
+        "message": "Patchset 1:\n\nThis is the first message.",
         "_revision_number": 1
       },
       {
@@ -758,7 +758,7 @@ REJECTED > APPROVED > DISLIKED > RECOMMENDED.
           "username": "jroe"
         },
         "date": "2013-03-23 21:36:52.332000000",
-        "message": "Patch Set 1:\n\nThis is the second message.\n\nWith a line break.",
+        "message": "Patchset 1:\n\nThis is the second message.\n\nWith a line break.",
         "_revision_number": 1
       }
     ]
@@ -766,7 +766,7 @@ REJECTED > APPROVED > DISLIKED > RECOMMENDED.
 ----
 
 [[create-merge-patch-set-for-change]]
-=== Create Merge Patch Set For Change
+=== Create Merge Patchset For Change
 --
 'POST /changes/link:#change-id[\{change-id\}]/merge'
 --
@@ -775,7 +775,7 @@ Update an existing change by using a
 link:#merge-patch-set-input[MergePatchSetInput] entity.
 
 Gerrit will create a merge commit based on the information of
-MergePatchSetInput and add a new patch set to the change corresponding
+MergePatchSetInput and add a new patchset to the change corresponding
 to the new merge commit.
 
 .Request
@@ -829,7 +829,7 @@ returned that describes the resulting change.
 'PUT /changes/link:#change-id[\{change-id\}]/message'
 --
 
-Creates a new patch set with a new commit message.
+Creates a new patchset with a new commit message.
 
 The new commit message must be provided in the request body inside a
 link:#commit-message-input[CommitMessageInput] entity. If a Change-Id
@@ -1254,7 +1254,7 @@ the error message is contained in the response body.
 
 Rebases a change.
 
-Optionally, the parent revision can be changed to another patch set through the
+Optionally, the parent revision can be changed to another patchset through the
 link:#rebase-input[RebaseInput] entity.
 
 .Request
@@ -1268,7 +1268,7 @@ link:#rebase-input[RebaseInput] entity.
 ----
 
 As response a link:#change-info[ChangeInfo] entity is returned that
-describes the rebased change. Information about the current patch set
+describes the rebased change. Information about the current patchset
 is included.
 
 .Response
@@ -1996,7 +1996,7 @@ Lists the published comments of all revisions of the change.
 
 Returns a map of file paths to lists of link:#comment-info[CommentInfo]
 entries. The entries in the map are sorted by file path, and the
-comments for each path are sorted by patch set number. Each comment has
+comments for each path are sorted by patchset number. Each comment has
 the `patch_set` and `author` fields set.
 
 .Request
@@ -2109,7 +2109,7 @@ the calling user.
 
 Returns a map of file paths to lists of link:#comment-info[CommentInfo]
 entries. The entries in the map are sorted by file path, and the
-comments for each path are sorted by patch set number. Each comment has
+comments for each path are sorted by patchset number. Each comment has
 the `patch_set` field set, and no `author`.
 
 .Request
@@ -2189,7 +2189,7 @@ missing from the result. At least `id`, `project`, `branch`, and
     },
     "problems": [
       {
-        "message": "Current patch set 1 not found"
+        "message": "Current patchset 1 not found"
       }
     ]
   }
@@ -2241,10 +2241,10 @@ Only the change owner, a project owner, or an administrator may fix changes.
     },
     "problems": [
       {
-        "message": "Current patch set 2 not found"
+        "message": "Current patchset 2 not found"
       },
       {
-        "message": "Patch set 1 (1eee2c9d8f352483781e772f35dc586a69ff5646) is merged into destination ref master (1eee2c9d8f352483781e772f35dc586a69ff5646), but change status is NEW",
+        "message": "Patchset 1 (1eee2c9d8f352483781e772f35dc586a69ff5646) is merged into destination ref master (1eee2c9d8f352483781e772f35dc586a69ff5646), but change status is NEW",
         "status": FIXED,
         "outcome": "Marked change as merged"
       }
@@ -2263,7 +2263,7 @@ ready by the owner, project owners or site administrators.
 
 The request body does not need to include a
 link:#work-in-progress-input[WorkInProgressInput] entity if no review comment
-is added. Actions that create a new patch set in a WIP change default to
+is added. Actions that create a new patchset in a WIP change default to
 notifying *OWNER* instead of *ALL*.
 
 .Request
@@ -2414,7 +2414,7 @@ Un-marks a change as ignored.
 Marks a change as reviewed.
 
 This allows users to "de-highlight" changes in their dashboard until a new
-patch set is uploaded.
+patchset is uploaded.
 
 This differs from the link:#ignore[ignore] endpoint, which will mute
 emails and hide the change from dashboard completely until it is
@@ -2546,7 +2546,7 @@ As response a list of link:#change-message-info[ChangeMessageInfo] entities is r
       "username": "jdoe"
       },
       "date": "2013-03-23 21:34:02.419000000",
-      "message": "Patch Set 1:\n\nThis is the first message.",
+      "message": "Patchset 1:\n\nThis is the first message.",
       "_revision_number": 1
     },
     {
@@ -2558,7 +2558,7 @@ As response a list of link:#change-message-info[ChangeMessageInfo] entities is r
       "username": "jroe"
       },
       "date": "2013-03-23 21:36:52.332000000",
-      "message": "Patch Set 1:\n\nThis is the second message.\n\nWith a line break.",
+      "message": "Patchset 1:\n\nThis is the second message.\n\nWith a line break.",
       "_revision_number": 1
     }
   ]
@@ -2940,7 +2940,7 @@ returned.
 ----
 
 [[get-edit-message]]
-=== Retrieve commit message from Change Edit or current patch set of the change
+=== Retrieve commit message from Change Edit or current patchset of the change
 --
 'GET /changes/link:#change-id[\{change-id\}]/edit:message
 --
@@ -2983,7 +2983,7 @@ Alternatively, if the only value of the Accept request header is
 'POST /changes/link:#change-id[\{change-id\}]/edit:publish
 --
 
-Promotes change edit to a regular patch set.
+Promotes change edit to a regular patchset.
 
 Options can be provided in the request body as a
 link:#publish-change-edit-input[PublishChangeEditInput] entity.
@@ -3011,16 +3011,16 @@ As response "`204 No Content`" is returned.
 'POST /changes/link:#change-id[\{change-id\}]/edit:rebase
 --
 
-Rebases change edit on top of latest patch set.
+Rebases change edit on top of latest patchset.
 
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit:rebase HTTP/1.0
 ----
 
-When change was rebased on top of latest patch set, response
+When change was rebased on top of latest patchset, response
 "`204 No Content`" is returned. When change edit is already
-based on top of the latest patch set, the response
+based on top of the latest patchset, the response
 "`409 Conflict`" is returned.
 
 .Response
@@ -3522,7 +3522,7 @@ returns a link:#commit-info[CommitInfo] with the additional field `web_links`.
 'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/description'
 --
 
-Retrieves the description of a patch set.
+Retrieves the description of a patchset.
 
 .Request
 ----
@@ -3539,7 +3539,7 @@ Retrieves the description of a patch set.
   "Added Documentation"
 ----
 
-If the patch set does not have a description an empty string is returned.
+If the patchset does not have a description an empty string is returned.
 
 [[set-description]]
 === Set Description
@@ -3547,7 +3547,7 @@ If the patch set does not have a description an empty string is returned.
 'PUT /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/description'
 --
 
-Sets the description of a patch set.
+Sets the description of a patchset.
 
 The new description must be provided in the request body inside a
 link:#description-input[DescriptionInput] entity.
@@ -3653,7 +3653,7 @@ Retrieves revision link:#action-info[actions] of the revision of a change.
   "submit": {
     "method": "POST",
     "label": "Submit",
-    "title": "Submit patch set 1 into master",
+    "title": "Submit patchset 1 into master",
     "enabled": true
   },
   "cherrypick": {
@@ -3688,7 +3688,7 @@ revision. The revision for which the review is retrieved is contained
 in the `revisions` field. In addition the `current_revision` field is
 set if the revision for which the review is retrieved is the current
 revision of the change. Please note that the returned labels are always
-for the current patch set.
+for the current patchset.
 
 .Response
 ----
@@ -4139,7 +4139,7 @@ link:#add-reviewer[Add Reviewer].
 
 Rebases a revision.
 
-Optionally, the parent revision can be changed to another patch set through the
+Optionally, the parent revision can be changed to another patchset through the
 link:#rebase-input[RebaseInput] entity.
 
 .Request
@@ -4153,7 +4153,7 @@ link:#rebase-input[RebaseInput] entity.
 ----
 
 As response a link:#change-info[ChangeInfo] entity is returned that
-describes the rebased change. Information about the current patch set
+describes the rebased change. Information about the current patchset
 is included.
 
 .Response
@@ -4962,8 +4962,8 @@ returned that describes the robot comment.
 Applies a suggested fix by creating a change edit which includes the
 modifications indicated by the fix suggestion. If a change edit already exists,
 it will be updated accordingly. A fix can only be applied if no change edit
-exists and the fix refers to the current patch set, or the fix refers to the
-patch set on which the change edit is based.
+exists and the fix refers to the current patchset, or the fix refers to the
+patchset on which the change edit is based.
 
 .Request
 ----
@@ -5081,7 +5081,7 @@ auto merge result.
 
 The request parameter `base` changes the response to return a map of the
 files which are different in this commit compared to the given revision. The
-revision must correspond to a patch set in the change.
+revision must correspond to a patchset in the change.
 
 The `reviewed`, `q`, `parent`, and `base` options are mutually exclusive.
 That is, only one of them may be used at a time.
@@ -5115,7 +5115,7 @@ Gets the content of a file from a certain revision.
 The optional, integer-valued `parent` parameter can be specified to request
 the named file from a parent commit of the specified revision. The value is
 the 1-based index of the parent's position in the commit object. If the
-parameter is omitted or the value is non-positive, the patch set is referenced.
+parameter is omitted or the value is non-positive, the patchset is referenced.
 
 .Request
 ----
@@ -5169,7 +5169,7 @@ applicable type for safe files, or "application/zip" for unsafe files.
 The optional, integer-valued `parent` parameter can be specified to request
 the named file from a parent commit of the specified revision. The value is
 the 1-based index of the parent's position in the commit object. If the
-parameter is omitted or the value non-positive, the patch set is referenced.
+parameter is omitted or the value non-positive, the patchset is referenced.
 
 Filenames are decorated with a suffix of `_new` for the current patch,
 `_old` for the only parent, or `_oldN` for the Nth parent of many.
@@ -5333,7 +5333,7 @@ If the `intraline` parameter is specified, intraline differences are included in
     }
 ----
 
-The `base` parameter can be specified to control the base patch set from which the diff should
+The `base` parameter can be specified to control the base patchset from which the diff should
 be generated.
 
 The integer-valued request parameter `parent` can be specified to control the
@@ -5389,7 +5389,7 @@ in the diff.  Valid values are `ALL` or number of lines.
 Gets the diffs of all files for a certain <<fix-id,\{fix-id\}>>.
 As response, a map of link:#diff-info[DiffInfo] entities is returned that describes the diffs.
 
-Each link:#diff-info[DiffInfo] is the differences between the patch set indicated by revision-id and a virtual patch set with the applied fix.
+Each link:#diff-info[DiffInfo] is the differences between the patchset indicated by revision-id and a virtual patchset with the applied fix.
 
 [[get-blame]]
 === Get Blame
@@ -5448,7 +5448,7 @@ blame.
   }
 ----
 
-The `base` parameter can be specified to control the base patch set from which
+The `base` parameter can be specified to control the base patchset from which
 the blame should be generated.
 
 [[set-reviewed]]
@@ -5637,7 +5637,7 @@ The entries in the map are sorted by label name.
 
 Deletes a single vote from a revision. The deletion will be possible only
 if the revision is the current revision. By using this endpoint you can prevent
-deleting the vote (with same label) from a newer patch set by mistake.
+deleting the vote (with same label) from a newer patchset by mistake.
 
 Note, that even when the last vote of a reviewer is removed the reviewer itself
 is still listed on the change.
@@ -5733,11 +5733,11 @@ Identifier that uniquely identifies one revision of a change.
 
 This can be:
 
-* the literal `current` to name the current patch set/revision
+* the literal `current` to name the current patchset/revision
 * a commit ID ("674ac754f91e64a0efb8087e59a176484bd534d1")
 * an abbreviated commit ID that uniquely identifies one revision of the
   change ("674ac754"), at least 4 digits are required
-* a legacy numeric patch number ("1" for first patch set of the change)
+* a legacy numeric patch number ("1" for first patchset of the change)
 * "0" or the literal `edit` for a change edit
 
 [[json-entities]]
@@ -5964,10 +5964,10 @@ Number of inserted lines.
 |`deletions`          ||
 Number of deleted lines.
 |`total_comment_count`  |optional|
-Total number of inline comments across all patch sets. Not set if the current
+Total number of inline comments across all patchsets. Not set if the current
 change index doesn't have the data.
 |`unresolved_comment_count`  |optional|
-Number of unresolved inline comment threads across all patch sets. Not set if
+Number of unresolved inline comment threads across all patchsets. Not set if
 the current change index doesn't have the data.
 |`_number`            ||The legacy numeric ID of the change.
 |`owner`              ||
@@ -6018,12 +6018,12 @@ Messages associated with the change as a list of
 link:#change-message-info[ChangeMessageInfo] entities. +
 Only set if link:#messages[messages] are requested.
 |`current_revision`   |optional|
-The commit ID of the current patch set of this change. +
+The commit ID of the current patchset of this change. +
 Only set if link:#current-revision[the current revision] is requested
 or if link:#all-revisions[all revisions] are requested.
 |`revisions`          |optional|
-All patch sets of this change as a map that maps the commit ID of the
-patch set to a link:#revision-info[RevisionInfo] entity. +
+All patchsets of this change as a map that maps the commit ID of the
+patchset to a link:#revision-info[RevisionInfo] entity. +
 Only set if link:#current-revision[the current revision] is requested
 (in which case it will only contain a key for the current revision) or
 if link:#all-revisions[all revisions] are requested.
@@ -6060,10 +6060,10 @@ Whether the change contains conflicts. +
 If `true`, some of the file contents of the change contain git conflict
 markers to indicate the conflicts. +
 Only set if this change info is returned in response to a request that
-creates a new change or patch set and conflicts are allowed. In
+creates a new change or patchset and conflicts are allowed. In
 particular this field is only populated if the change info is returned
 by one of the following REST endpoints: link:#create-change[Create
-Change], link:#create-merge-patch-set-for-change[Create Merge Patch Set
+Change], link:#create-merge-patch-set-for-change[Create Merge Patchset
 For Change], link:#cherry-pick[Cherry Pick Revision],
 link:rest-api-project.html#cherry-pick-commit[Cherry Pick Commit]
 |==================================
@@ -6214,8 +6214,8 @@ The `CommentInfo` entity contains information about an inline comment.
 |===========================
 |Field Name    ||Description
 |`patch_set`   |optional|
-The patch set number for the comment; only set in contexts where +
-comments may be returned for multiple patch sets.
+The patchset number for the comment; only set in contexts where +
+comments may be returned for multiple patchsets.
 |`id`          ||The URL encoded UUID of the comment.
 |`path`        |optional|
 The path of the file for which the inline comment was done. +
@@ -6516,7 +6516,7 @@ link:#diff-file-meta-info[DiffFileMetaInfo] entity.
 `COPIED`, `REWRITE`).
 |`intraline_status`|only set when the `intraline` parameter was specified in the request|
 Intraline status (`OK`, `ERROR`, `TIMEOUT`).
-|`diff_header`     ||A list of strings representing the patch set diff header.
+|`diff_header`     ||A list of strings representing the patchset diff header.
 |`content`         ||The content differences in the file as a list of
 link:#diff-content[DiffContent] entities.
 |`web_links`       |optional|
@@ -6579,11 +6579,11 @@ The `EditInfo` entity contains information about a change edit.
 |Field Name             ||Description
 |`commit`               ||The commit of change edit as
 link:#commit-info[CommitInfo] entity.
-|`base_patch_set_number`||The patch set number of the patch set the change edit is based on.
-|`base_revision`        ||The revision of the patch set the change edit is based on.
+|`base_patch_set_number`||The patchset number of the patchset the change edit is based on.
+|`base_revision`        ||The revision of the patchset the change edit is based on.
 |`ref`                  ||The ref of the change edit.
 |`fetch`                |optional|
-Information about how to fetch this patch set. The fetch information is
+Information about how to fetch this patchset. The fetch information is
 provided as a map that maps the protocol name ("`git`", "`http`",
 "`ssh`") to link:#fetch-info[FetchInfo] entities.
 |`files`                |optional|
@@ -6600,16 +6600,16 @@ set via a certain protocol.
 |==========================
 |Field Name    ||Description
 |`url`         ||The URL of the project.
-|`ref`         ||The ref of the patch set.
+|`ref`         ||The ref of the patchset.
 |`commands`    |optional|
-The download commands for this patch set as a map that maps the command
+The download commands for this patchset as a map that maps the command
 names to the commands. +
 Only set if link:#download-commands[download commands] are requested.
 |==========================
 
 [[file-info]]
 === FileInfo
-The `FileInfo` entity contains information about a file in a patch set.
+The `FileInfo` entity contains information about a file in a patchset.
 
 [options="header",cols="1,^1,5"]
 |=============================
@@ -6646,11 +6646,11 @@ link:#fix-change[fix change] endpoint.
 [options="header",cols="1,6"]
 |==========================
 |Field Name                          |Description
-|`delete_patch_set_if_commit_missing`|If true, delete patch sets from the
+|`delete_patch_set_if_commit_missing`|If true, delete patchsets from the
 database if they refer to missing commit options.
 |`expect_merged_as`                  |If set, check that the change is
 merged into the destination branch as this exact SHA-1. If not, insert
-a new patch set referring to this commit.
+a new patchset referring to this commit.
 |==========================
 
 [[fix-suggestion-info]]
@@ -6747,7 +6747,7 @@ change is deployed.
 [[label-info]]
 === LabelInfo
 The `LabelInfo` entity contains information about a label on a change, always
-corresponding to the current patch set.
+corresponding to the current patchset.
 
 There are two options that control the contents of `LabelInfo`:
 link:#labels[`LABELS`] and link:#detailed-labels[`DETAILED_LABELS`].
@@ -6874,10 +6874,10 @@ change by creating a new merge commit.
 The new subject for the change, if not specified, will reuse the current patch
 set's subject
 |`inherit_parent`     |optional, default to `false`|
-Use the current patch set's first parent as the merge tip when set to `true`.
+Use the current patchset's first parent as the merge tip when set to `true`.
 |`base_change`        |optional|
 A link:#change-id[\{change-id\}] that identifies a change. When `inherit_parent`
-is `false`, the merge tip will be the current patch set of the `base_change` if
+is `false`, the merge tip will be the current patchset of the `base_change` if
 it's set. Otherwise, the current branch tip of the destination branch will be used.
 |`merge`              ||
 The detail of the source commit for merge as a link:#merge-input[MergeInput]
@@ -7009,7 +7009,7 @@ The `RebaseInput` entity contains information for changing parent when rebasing.
 |`base`        |optional|
 The new parent revision. This can be a ref or a SHA1 to a concrete patchset. +
 Alternatively, a change number can be specified, in which case the current
-patch set is inferred. +
+patchset is inferred. +
 Empty string is used for rebasing directly on top of the target branch,
 which effectively breaks dependency towards a parent change.
 |===========================
@@ -7285,7 +7285,7 @@ of recipient type to link:#notify-info[NotifyInfo] entity.
 
 [[revision-info]]
 === RevisionInfo
-The `RevisionInfo` entity contains information about a patch set.
+The `RevisionInfo` entity contains information about a patchset.
 Not all fields are returned by default.  Additional fields can
 be obtained by adding `o` parameters as described in
 link:#list-changes[Query Changes].
@@ -7295,25 +7295,25 @@ link:#list-changes[Query Changes].
 |Field Name    ||Description
 |`kind`        ||The change kind. Valid values are `REWORK`, `TRIVIAL_REBASE`,
 `MERGE_FIRST_PARENT_UPDATE`, `NO_CODE_CHANGE`, and `NO_CHANGE`.
-|`_number`     ||The patch set number, or `edit` if the patch set is an edit.
+|`_number`     ||The patchset number, or `edit` if the patchset is an edit.
 |`created`     ||
-The link:rest-api.html#timestamp[timestamp] of when the patch set was
+The link:rest-api.html#timestamp[timestamp] of when the patchset was
 created.
 |`uploader`    ||
-The uploader of the patch set as an
+The uploader of the patchset as an
 link:rest-api-accounts.html#account-info[AccountInfo] entity.
-|`ref`         ||The Git reference for the patch set.
+|`ref`         ||The Git reference for the patchset.
 |`fetch`       ||
-Information about how to fetch this patch set. The fetch information is
+Information about how to fetch this patchset. The fetch information is
 provided as a map that maps the protocol name ("`git`", "`http`",
 "`ssh`") to link:#fetch-info[FetchInfo] entities. This information is
 only included if a plugin implementing the
 link:intro-project-owner.html#download-commands[download commands]
 interface is installed.
-|`commit`      |optional|The commit of the patch set as
+|`commit`      |optional|The commit of the patchset as
 link:#commit-info[CommitInfo] entity.
 |`files`       |optional|
-The files of the patch set as a map that maps the file names to
+The files of the patchset as a map that maps the file names to
 link:#file-info[FileInfo] entities. Only set if
 link:#current-files[CURRENT_FILES] or link:#all-files[ALL_FILES]
 option is requested.
@@ -7326,14 +7326,14 @@ Indicates whether the caller is authenticated and has commented on the
 current revision. Only set if link:#reviewed[REVIEWED] option is requested.
 |`commit_with_footers` |optional|
 If the link:#commit-footers[COMMIT_FOOTERS] option is requested and
-this is the current patch set, contains the full commit message with
+this is the current patchset, contains the full commit message with
 Gerrit-specific commit footers, as if this revision were submitted
 using the link:project-configuration.html#cherry_pick[Cherry Pick]
 submit type.
 |`push_certificate` |optional|
 If the link:#push-certificates[PUSH_CERTIFICATES] option is requested,
 contains the push certificate provided by the user when uploading this
-patch set as a link:#push-certificate-info[PushCertificateInfo] entity.
+patchset as a link:#push-certificate-info[PushCertificateInfo] entity.
 This field is always set if the option is requested; if no push
 certificate was provided, it is set to an empty object.
 |`description` |optional|

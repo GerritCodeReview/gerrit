@@ -92,15 +92,15 @@ public class PutDescription
       String summary;
       if (oldDescription.isEmpty()) {
         summary =
-            String.format("Description of patch set %d set to \"%s\"", psId.get(), newDescription);
+            String.format("Description of patchset %d set to \"%s\"", psId.get(), newDescription);
       } else if (newDescription.isEmpty()) {
         summary =
             String.format(
-                "Description \"%s\" removed from patch set %d", oldDescription, psId.get());
+                "Description \"%s\" removed from patchset %d", oldDescription, psId.get());
       } else {
         summary =
             String.format(
-                "Description of patch set %d changed to \"%s\"", psId.get(), newDescription);
+                "Description of patchset %d changed to \"%s\"", psId.get(), newDescription);
       }
       ChangeMessage cmsg =
           ChangeMessagesUtil.newMessage(

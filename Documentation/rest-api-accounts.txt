@@ -2508,7 +2508,7 @@ Whether the 'Reviewed' flag should not be set automatically on a patch
 when it is viewed.
 |`retain_header`               |not set if `false`|
 Whether the header that is displayed above the patch (that either shows
-the commit message, the diff preferences, the patch sets or the files)
+the commit message, the diff preferences, the patchsets or the files)
 should be retained on file switch.
 |`show_line_endings`           |not set if `false`|
 Whether Windows EOL/Cr-Lf should be displayed as '\r' in a dotted-line
@@ -2570,7 +2570,7 @@ Whether the 'Reviewed' flag should not be set automatically on a patch
 when it is viewed.
 |`retain_header`               |optional|
 Whether the header that is displayed above the patch (that either shows
-the commit message, the diff preferences, the patch sets or the files)
+the commit message, the diff preferences, the patchsets or the files)
 should be retained on file switch.
 |`show_line_endings`           |optional|
 Whether Windows EOL/Cr-Lf should be displayed as '\r' in a dotted-line
@@ -2936,7 +2936,7 @@ for a user.
 |`project`                  |        |The name of the project.
 |`filter`                   |optional|A filter string to be applied to the project.
 |`notify_new_changes`       |optional|Notify on new changes.
-|`notify_new_patch_sets`    |optional|Notify on new patch sets.
+|`notify_new_patch_sets`    |optional|Notify on new patchsets.
 |`notify_all_comments`      |optional|Notify on comments.
 |`notify_submitted_changes` |optional|Notify on submitted changes.
 |`notify_abandoned_changes` |optional|Notify on abandoned changes.

@@ -53,7 +53,7 @@ text with no operator, which will match against a variety of fields.
 age:'AGE'::
 +
 Amount of time that has expired since the change was last updated
-with a review comment or new patch set.  The age must be specified
+with a review comment or new patchset.  The age must be specified
 to include a unit suffix, for example `-age:2d`:
 +
 * s, sec, second, seconds
@@ -159,7 +159,7 @@ Changes that have been, or need to be, reviewed by a user in 'GROUP'.
 [[commit]]
 commit:'SHA1'::
 +
-Changes where 'SHA1' is one of the patch sets of the change.
+Changes where 'SHA1' is one of the patchsets of the change.
 
 [[project]]
 project:'PROJECT', p:'PROJECT'::
@@ -337,7 +337,7 @@ empty string.
 [[directory]]
 directory:'DIR', dir:'DIR'::
 +
-Matches any change where the current patch set touches a file in the directory
+Matches any change where the current patchset touches a file in the directory
 'DIR'. The matching is done case-insensitive. 'DIR' can be a full directory
 name, a directory prefix or any combination of intermediate directory segments.
 E.g. a change that touches a file in the directory 'a/b/c' matches for 'a/b/c',
@@ -354,7 +354,7 @@ library,role=external,window=_blank] is used for evaluation of such patterns.
 footer:'FOOTER'::
 +
 Matches any change that has 'FOOTER' as footer in the commit message of the
-current patch set. 'FOOTER' can be specified verbatim ('<key>: <value>', must
+current patchset. 'FOOTER' can be specified verbatim ('<key>: <value>', must
 be quoted) or as '<key>=<value>'. The matching is done case-insensitive.
 
 [[star]]
@@ -415,7 +415,7 @@ and thus is likely to notify the user when it updates.
 is:reviewed::
 +
 True if any user has commented on the change more recently than the
-last update (comment or patch set) from the change owner.
+last update (comment or patchset) from the change owner.
 
 is:owner::
 +
@@ -500,7 +500,7 @@ True if the change state is 'review in progress'.
 status:reviewed::
 +
 Same as 'is:reviewed', matches if any user has commented on the change
-more recently than the last update (comment or patch set) from the
+more recently than the last update (comment or patchset) from the
 change owner.
 
 status:closed::
@@ -544,18 +544,18 @@ Changes containing a top-level or inline comment by 'USER', or owned by
 reviewedby:'USER'::
 +
 Changes where 'USER' has commented on the change more recently than the
-last update (comment or patch set) from the change owner.
+last update (comment or patchset) from the change owner.
 
 [[author]]
 author:'AUTHOR'::
 +
-Changes where 'AUTHOR' is the author of the current patch set. 'AUTHOR' may be
+Changes where 'AUTHOR' is the author of the current patchset. 'AUTHOR' may be
 the author's exact email address, or part of the name or email address.
 
 [[committer]]
 committer:'COMMITTER'::
 +
-Changes where 'COMMITTER' is the committer of the current patch set.
+Changes where 'COMMITTER' is the committer of the current patchset.
 'COMMITTER' may be the committer's exact email address, or part of the name or
 email address.
 

@@ -49,7 +49,7 @@ class ListRevisionReviewers implements RestReadView<RevisionResource> {
   public Response<List<ReviewerInfo>> apply(RevisionResource rsrc)
       throws MethodNotAllowedException, PermissionBackendException {
     if (!rsrc.isCurrent()) {
-      throw new MethodNotAllowedException("Cannot list reviewers on non-current patch set");
+      throw new MethodNotAllowedException("Cannot list reviewers on non-current patchset");
     }
 
     Map<String, ReviewerResource> reviewers = new LinkedHashMap<>();

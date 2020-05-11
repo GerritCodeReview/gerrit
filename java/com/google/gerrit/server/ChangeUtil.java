@@ -49,11 +49,11 @@ public class ChangeUtil {
   }
 
   /**
-   * Get the next patch set ID from a previously-read map of refs below the change prefix.
+   * Get the next patchset ID from a previously-read map of refs below the change prefix.
    *
    * @param changeRefNames existing full change ref names with the same change ID as {@code id}.
-   * @param id previous patch set ID.
-   * @return next unused patch set ID for the same change, skipping any IDs whose corresponding ref
+   * @param id previous patchset ID.
+   * @return next unused patchset ID for the same change, skipping any IDs whose corresponding ref
    *     names appear in the {@code changeRefs} map.
    */
   public static PatchSet.Id nextPatchSetIdFromChangeRefs(
@@ -76,23 +76,23 @@ public class ChangeUtil {
   }
 
   /**
-   * Get the next patch set ID just looking at a single previous patch set ID.
+   * Get the next patchset ID just looking at a single previous patchset ID.
    *
-   * <p>This patch set ID may or may not be available in the database.
+   * <p>This patchset ID may or may not be available in the database.
    *
-   * @param id previous patch set ID.
-   * @return next patch set ID for the same change, incrementing by 1.
+   * @param id previous patchset ID.
+   * @return next patchset ID for the same change, incrementing by 1.
    */
   public static PatchSet.Id nextPatchSetId(PatchSet.Id id) {
     return PatchSet.id(id.changeId(), id.get() + 1);
   }
 
   /**
-   * Get the next patch set ID from scanning refs in the repo.
+   * Get the next patchset ID from scanning refs in the repo.
    *
-   * @param git repository to scan for patch set refs.
-   * @param id previous patch set ID.
-   * @return next unused patch set ID for the same change, skipping any IDs whose corresponding ref
+   * @param git repository to scan for patchset refs.
+   * @param id previous patchset ID.
+   * @return next unused patchset ID for the same change, skipping any IDs whose corresponding ref
    *     names appear in the repository.
    */
   public static PatchSet.Id nextPatchSetId(Repository git, PatchSet.Id id) throws IOException {

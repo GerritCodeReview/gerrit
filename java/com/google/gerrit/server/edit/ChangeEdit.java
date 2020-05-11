@@ -25,7 +25,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
  *
  * <p>There is max. one edit per user per change. Edits are stored on refs:
  * refs/users/UU/UUUU/edit-CCCC/P where UU/UUUU is sharded representation of user account, CCCC is
- * change number and P is the patch set number it is based on.
+ * change number and P is the patchset number it is based on.
  */
 public class ChangeEdit {
   private final Change change;

@@ -33,7 +33,7 @@ import {DiffSide, rangesEqual} from './gr-diff-utils.js';
 import {getHiddenScroll} from '../../../scripts/hiddenscroll.js';
 
 const ERR_COMMENT_ON_EDIT = 'You cannot comment on an edit.';
-const ERR_COMMENT_ON_EDIT_BASE = 'You cannot comment on the base patch set ' +
+const ERR_COMMENT_ON_EDIT_BASE = 'You cannot comment on the base patchset ' +
     'of an edit.';
 const ERR_INVALID_LINE = 'Invalid line number: ';
 

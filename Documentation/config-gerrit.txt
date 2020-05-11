@@ -779,7 +779,7 @@ the number of entries held by the cache (each entry costs 1).
 For caches where the size of an entry can vary significantly between
 individual entries (notably `"diff"`, `"diff_intraline"`), memoryLimit
 is an approximation of the total number of bytes stored by the cache.
-Larger entries that represent bigger patch sets or longer source files
+Larger entries that represent bigger patchsets or longer source files
 will consume a bigger portion of the memoryLimit. For these caches the
 memoryLimit should be set to roughly the amount of RAM (in bytes) the
 administrator can dedicate to the cache.
@@ -1396,11 +1396,11 @@ Default is "Submit including parents".
 [[change.submitTooltip]]change.submitTooltip::
 +
 Tooltip for the submit button.  Variables available for replacement
-include `${patchSet}` for the current patch set number (1, 2, 3),
+include `${patchSet}` for the current patchset number (1, 2, 3),
 `${branch}` for the branch name ("master") and `${commit}` for the
 abbreviated commit SHA-1 (`c9c0edb`).
 +
-Default is "Submit patch set ${patchSet} into ${branch}".
+Default is "Submit patchset ${patchSet} into ${branch}".
 
 [[change.submitTooltipAncestors]]change.submitTooltipAncestors::
 +
@@ -1882,20 +1882,20 @@ Multiple commands are supported:
 +
 * `checkout`
 +
-Command to fetch and checkout the patch set.
+Command to fetch and checkout the patchset.
 +
 * `cherry_pick`
 +
-Command to fetch the patch set and to cherry-pick it onto the current
+Command to fetch the patchset and to cherry-pick it onto the current
 commit.
 +
 * `pull`
 +
-Command to pull the patch set.
+Command to pull the patchset.
 +
 * `format_patch`
 +
-Command to fetch the patch set and to feed it into the `format-patch`
+Command to fetch the patchset and to feed it into the `format-patch`
 command.
 
 +
@@ -1928,7 +1928,7 @@ variable.
 +
 * `repo_download`
 +
-Gerrit advertises patch set downloads with the `repo download`
+Gerrit advertises patchset downloads with the `repo download`
 command, assuming that all projects managed by this instance are
 generally worked on with the repo multi-repository tool.  This is
 not default, as not all instances will deploy repo.
@@ -2066,7 +2066,7 @@ to the newly uploaded changes.
 +
 Optional base URL for repositories available over the anonymous git
 protocol.  For example, set this to `git://mirror.example.com/base/`
-to have Gerrit display patch set download URLs in the UI.  Gerrit
+to have Gerrit display patchset download URLs in the UI.  Gerrit
 automatically appends the project name onto the end of the URL.
 +
 By default unset, as the git daemon must be configured externally
@@ -3898,7 +3898,7 @@ Default is 5 minutes.
 
 [[receive.changeUpdateThreads]]receive.changeUpdateThreads::
 +
-Number of threads to perform change creation or patch set updates
+Number of threads to perform change creation or patchset updates
 concurrently. Each thread uses its own database connection from
 the database connection pool, and if all threads are busy then
 main receive thread will also perform a change creation or patch

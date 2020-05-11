@@ -102,7 +102,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
         return match.get(0);
       default:
         throw new ResourceNotFoundException(
-            "Multiple patch sets for \"" + id.get() + "\": " + Joiner.on("; ").join(match));
+            "Multiple patchsets for \"" + id.get() + "\": " + Joiner.on("; ").join(match));
     }
   }
 
@@ -126,7 +126,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
     if (id.equals("0") || id.equals("edit")) {
       return loadEdit(change, null);
     } else if (id.length() < 6 && id.matches("^[1-9][0-9]{0,4}$")) {
-      // Legacy patch set number syntax.
+      // Legacy patchset number syntax.
       return byLegacyPatchSetId(change, id);
     } else if (id.length() < 4 || id.length() > ObjectIds.STR_LEN) {
       // Require a minimum of 4 digits.
@@ -139,7 +139,7 @@ public class Revisions implements ChildCollection<ChangeResource, RevisionResour
           out.add(new RevisionResource(change, ps));
         }
       }
-      // Not an existing patch set on a change, but might be an edit.
+      // Not an existing patchset on a change, but might be an edit.
       if (out.isEmpty() && ObjectId.isId(id)) {
         return loadEdit(change, ObjectId.fromString(id));
       }

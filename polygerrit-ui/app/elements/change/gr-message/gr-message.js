@@ -32,7 +32,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-message_html.js';
 
-const PATCH_SET_PREFIX_PATTERN = /^Patch Set \d+:\s*(.*)/;
+const PATCH_SET_PREFIX_PATTERN = /^Patchset \d+:\s*(.*)/;
 const LABEL_TITLE_SCORE_PATTERN = /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?$/;
 
 /**
@@ -275,10 +275,10 @@ class GrMessage extends GestureEventListeners(
       // The change message formatting is not very consistent, so
       // unfortunately we have to do a bit of tweaking here:
       //   Labels should be stripped from lines like this:
-      //     Patch Set 29: Verified+1
+      //     Patchset 29: Verified+1
       //   Rebase messages (which have a ':newPatchSet' tag) should be kept on
       //   lines like this:
-      //     Patch Set 27: Patch Set 26 was rebased
+      //     Patchset 27: Patchset 26 was rebased
       if (isNewPatchSet) {
         line = line.replace(PATCH_SET_PREFIX_PATTERN, '$1');
       }

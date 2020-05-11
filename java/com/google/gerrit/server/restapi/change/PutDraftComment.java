@@ -125,7 +125,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
 
       PatchSet ps = psUtil.get(ctx.getNotes(), psId);
       if (ps == null) {
-        throw new ResourceNotFoundException("patch set not found: " + psId);
+        throw new ResourceNotFoundException("patchset not found: " + psId);
       }
       if (in.path != null && !in.path.equals(origComment.key.filename)) {
         // Updating the path alters the primary key, which isn't possible.

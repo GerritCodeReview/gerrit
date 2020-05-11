@@ -1415,7 +1415,7 @@ The following consistency checks are supported:
 [[auto-closeable-changes-check]]
 --
 * AutoCloseableChangesCheck: Searches for open changes that can be
-  auto-closed because a patch set of the change is already contained in
+  auto-closed because a patchset of the change is already contained in
   the destination branch or because the destination branch contains a
   commit with the same Change-Id. Normally Gerrit auto-closes such
   changes when the corresponding commits are pushed directly to the
@@ -1478,7 +1478,7 @@ entity is returned that results for the consistency checks.
             },
             "problems": [
               {
-                "message": "Patch set 1 (2f15e416237ed9b561199f24184f5f5d2708c584) is merged into destination ref refs/heads/master (2f15e416237ed9b561199f24184f5f5d2708c584), but change status is NEW",
+                "message": "Patchset 1 (2f15e416237ed9b561199f24184f5f5d2708c584) is merged into destination ref refs/heads/master (2f15e416237ed9b561199f24184f5f5d2708c584), but change status is NEW",
                 "status": "FIXED",
                 "outcome": "Marked change as merged"
               }
@@ -3917,7 +3917,7 @@ copyAllScoresOnTrivialRebase] is set on the label.
 Whether link:config-labels.html#label_copyAllScoresOnMergeFirstParentUpdate[
 copyAllScoresOnMergeFirstParentUpdate] is set on the label.
 |`copy_values`   |optional|
-List of values that should be copied forward when a new patch set is uploaded.
+List of values that should be copied forward when a new patchset is uploaded.
 |`allow_post_submit`|`false` if not set|
 Whether link:config-labels.html#label_allowPostSubmit[allowPostSubmit] is set
 on the label.
@@ -3984,7 +3984,7 @@ copyAllScoresOnTrivialRebase] is set on the label.
 Whether link:config-labels.html#label_copyAllScoresOnMergeFirstParentUpdate[
 copyAllScoresOnMergeFirstParentUpdate] is set on the label.
 |`copy_values`   |optional|
-List of values that should be copied forward when a new patch set is uploaded.
+List of values that should be copied forward when a new patchset is uploaded.
 |`allow_post_submit`|optional|
 Whether link:config-labels.html#label_allowPostSubmit[allowPostSubmit] is set
 on the label.

@@ -52,7 +52,7 @@ public class FixReplacementInterpreter {
    *
    * @param repository the affected Git repository
    * @param projectState the affected project
-   * @param patchSetCommitId the patch set which should be modified
+   * @param patchSetCommitId the patchset which should be modified
    * @param fixReplacements the replacements which should be applied
    * @return a list of {@code TreeModification}s representing the given replacements
    * @throws ResourceNotFoundException if a file to which one of the replacements refers doesn't

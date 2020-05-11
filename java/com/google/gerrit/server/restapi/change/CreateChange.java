@@ -322,7 +322,7 @@ public class CreateChange
         ChangeNotes baseChange = getBaseChange(input.baseChange);
         basePatchSet = psUtil.current(baseChange);
         groups = basePatchSet.groups();
-        logger.atFine().log("base patch set = %s (groups = %s)", basePatchSet.id(), groups);
+        logger.atFine().log("base patchset = %s (groups = %s)", basePatchSet.id(), groups);
       }
 
       ObjectId parentCommit =
@@ -572,7 +572,7 @@ public class CreateChange
 
   private static String messageForNewChange(PatchSet.Id patchSetId, CodeReviewCommit commit) {
     StringBuilder stringBuilder =
-        new StringBuilder(String.format("Uploaded patch set %s.", patchSetId.get()));
+        new StringBuilder(String.format("Uploaded patchset %s.", patchSetId.get()));
 
     if (!commit.getFilesWithGitConflicts().isEmpty()) {
       stringBuilder.append("\n\nThe following files contain Git conflicts:\n");

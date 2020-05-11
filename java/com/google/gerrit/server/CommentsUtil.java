@@ -356,7 +356,7 @@ public class CommentsUtil {
       throws PatchListNotAvailableException {
     checkArgument(
         c.key.patchSetId == ps.id().get(),
-        "cannot set commit ID for patch set %s on comment %s",
+        "cannot set commit ID for patchset %s on comment %s",
         ps.id(),
         c);
     if (c.getCommitId() == null) {

@@ -70,7 +70,7 @@ public class ParserUtil {
     return j.toString().trim();
   }
 
-  /** Check if string is an inline comment url on a patch set or the base */
+  /** Check if string is an inline comment url on a patchset or the base */
   public static boolean isCommentUrl(String str, String changeUrl, Comment comment) {
     int lineNbr = comment.range == null ? comment.lineNbr : comment.range.startLine;
     return str.equals(filePath(changeUrl, comment) + "@" + lineNbr)

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5c80e24_3b532db1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-11T00:31:46Z",
+      "side": 1,
+      "message": "Specifically mention what it is fixing, in addition to mentioning the issue below.",
+      "revId": "93d611f4636c4307464624550e0832f5c7240bc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab7cbd3d_e182c19f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-11T00:31:46Z",
+      "side": 1,
+      "message": "This issue has restricted visibility. I\u0027ve asked the submitter to create a public one that describes the problem.",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 16
+      },
+      "revId": "93d611f4636c4307464624550e0832f5c7240bc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

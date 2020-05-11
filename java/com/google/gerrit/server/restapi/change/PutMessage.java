@@ -141,7 +141,7 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
             createCommit(objectInserter, patchSetCommit, sanitizedCommitMessage, ts);
         PatchSetInserter inserter = psInserterFactory.create(resource.getNotes(), psId, newCommit);
         inserter.setMessage(
-            String.format("Patch Set %s: Commit message was updated.", psId.getId()));
+            String.format("Patchset %s: Commit message was updated.", psId.getId()));
         inserter.setDescription("Edit commit message");
         bu.setNotify(resolveNotify(input, resource));
         bu.addOp(resource.getChange().getId(), inserter);
@@ -184,7 +184,7 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
       throw new AuthException("Authentication required");
     }
 
-    // Not allowed to put message if the current patch set is locked.
+    // Not allowed to put message if the current patchset is locked.
     psUtil.checkPatchSetNotLocked(changeNotes);
     try {
       permissionBackend

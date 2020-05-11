@@ -124,7 +124,7 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc, MergePatchSetInput in)
       throws IOException, RestApiException, UpdateException, PermissionBackendException {
-    // Not allowed to create a new patch set if the current patch set is locked.
+    // Not allowed to create a new patchset if the current patchset is locked.
     psUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
     rsrc.permissions().check(ChangePermission.ADD_PATCH_SET);
@@ -238,7 +238,7 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
 
     ObjectId parentCommit;
     if (in.inheritParent) {
-      // inherit first parent from previous patch set
+      // inherit first parent from previous patchset
       parentCommit = currentPsCommit.getParent(0);
     } else if (!in.baseChange.isEmpty()) {
       parentCommit = currentPsCommit.getId();
@@ -257,7 +257,7 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
     if (Strings.emptyToNull(in.subject) != null) {
       commitMsg = ChangeIdUtil.insertId(in.subject, changeId);
     } else {
-      // reuse previous patch set commit message
+      // reuse previous patchset commit message
       commitMsg = currentPsCommit.getFullMessage();
     }
 
@@ -280,7 +280,7 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
 
   private static String messageForChange(PatchSet.Id patchSetId, CodeReviewCommit commit) {
     StringBuilder stringBuilder =
-        new StringBuilder(String.format("Uploaded patch set %s.", patchSetId.get()));
+        new StringBuilder(String.format("Uploaded patchset %s.", patchSetId.get()));
 
     if (!commit.getFilesWithGitConflicts().isEmpty()) {
       stringBuilder.append("\n\nThe following files contain Git conflicts:\n");

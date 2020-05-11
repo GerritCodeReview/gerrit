@@ -195,7 +195,7 @@ created.
 
 === Patchset Created
 
-Sent when a new change has been uploaded, or a new patch set has been uploaded
+Sent when a new change has been uploaded, or a new patchset has been uploaded
 to an existing change.
 
 type:: "patchset-created"

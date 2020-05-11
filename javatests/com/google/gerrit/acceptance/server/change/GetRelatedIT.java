@@ -531,7 +531,7 @@ public class GetRelatedIT extends AbstractDaemonTest {
     PatchSet.Id psId2_2 = getPatchSetId(c2_2);
 
     // Push updated the group for PS1,1, so it shows up in related changes even
-    // though a new patch set was not pushed.
+    // though a new patchset was not pushed.
     assertRelated(psId2_2, changeAndCommit(psId2_2, c2_2, 2), changeAndCommit(psId1_1, c1_1, 1));
   }
 

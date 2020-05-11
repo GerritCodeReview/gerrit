@@ -268,7 +268,7 @@ public class CommitUtil {
         changeInserterFactory
             .create(changeId, revertCommit, notes.getChange().getDest().branch())
             .setTopic(input.topic == null ? changeToRevert.getTopic() : input.topic.trim());
-    ins.setMessage("Uploaded patch set 1.");
+    ins.setMessage("Uploaded patchset 1.");
 
     ReviewerSet reviewerSet = approvalsUtil.getReviewers(notes);
 

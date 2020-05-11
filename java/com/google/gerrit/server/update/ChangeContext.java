@@ -30,24 +30,24 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
  */
 public interface ChangeContext extends Context {
   /**
-   * Get the first update for this change at a given patch set.
+   * Get the first update for this change at a given patchset.
    *
-   * <p>A single operation can modify changes at different patch sets. Commits in the NoteDb graph
-   * within this update are created in patch set order.
+   * <p>A single operation can modify changes at different patchsets. Commits in the NoteDb graph
+   * within this update are created in patchset order.
    *
-   * <p>To get the current patch set ID, use {@link com.google.gerrit.server.PatchSetUtil#current}.
+   * <p>To get the current patchset ID, use {@link com.google.gerrit.server.PatchSetUtil#current}.
    *
-   * @param psId patch set ID.
+   * @param psId patchset ID.
    * @return handle for change updates.
    */
   ChangeUpdate getUpdate(PatchSet.Id psId);
 
   /**
-   * Gets a new ChangeUpdate for this change at a given patch set.
+   * Gets a new ChangeUpdate for this change at a given patchset.
    *
-   * <p>To get the current patch set ID, use {@link com.google.gerrit.server.PatchSetUtil#current}.
+   * <p>To get the current patchset ID, use {@link com.google.gerrit.server.PatchSetUtil#current}.
    *
-   * @param psId patch set ID.
+   * @param psId patchset ID.
    * @return handle for change updates.
    */
   ChangeUpdate getDistinctUpdate(PatchSet.Id psId);

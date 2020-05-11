@@ -65,7 +65,7 @@ The ignore star is represented by the special star label 'ignore'.
 == Reviewed Star
 
 If the "reviewed/<patchset_id>"-star is set by a user, and <patchset_id>
-matches the current patch set, the change is always reported as "reviewed"
+matches the current patchset, the change is always reported as "reviewed"
 in the ChangeInfo.
 
 This allows users to "de-highlight" changes in a dashboard until a new
@@ -75,7 +75,7 @@ patchset has been uploaded.
 == Unreviewed Star
 
 If the "unreviewed/<patchset_id>"-star is set by a user, and <patchset_id>
-matches the current patch set, the change is always reported as "unreviewed"
+matches the current patchset, the change is always reported as "unreviewed"
 in the ChangeInfo.
 
 This allows users to "highlight" changes in a dashboard.

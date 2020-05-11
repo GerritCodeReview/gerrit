@@ -179,10 +179,10 @@ public class RobotCommentsIT extends AbstractDaemonTest {
 
     assertThat(allMessages.stream().map(cm -> cm.message).collect(toList()))
         .containsExactly(
-            "Uploaded patch set 1.",
-            "Patch Set 1:\n\n(1 comment)\n\nrobot message 1",
-            "Patch Set 1:\n\n(1 comment)\n\nrobot message 2",
-            "Patch Set 1:\n\n(1 comment)\n\nrobot message 3");
+            "Uploaded patchset 1.",
+            "Patchset 1:\n\n(1 comment)\n\nrobot message 1",
+            "Patchset 1:\n\n(1 comment)\n\nrobot message 2",
+            "Patchset 1:\n\n(1 comment)\n\nrobot message 3");
 
     assertThat(robotCommentsList.stream().map(c -> c.message).collect(toList()))
         .containsExactly("robot comment 1", "robot comment 2", "robot comment 3");
@@ -862,7 +862,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
-    // Remember patch set and add another one.
+    // Remember patchset and add another one.
     String previousRevision = gApi.changes().id(changeId).get().currentRevision;
     amendChange(changeId);
 
@@ -888,7 +888,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
-    // Remember patch set and add another one.
+    // Remember patchset and add another one.
     String previousRevision = gApi.changes().id(changeId).get().currentRevision;
     amendChange(changeId);
 
@@ -913,7 +913,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     // Create an empty change edit.
     gApi.changes().id(changeId).edit().create();
 
-    // Add another patch set.
+    // Add another patchset.
     amendChange(changeId);
 
     fixReplacementInfo.path = FILE_NAME;

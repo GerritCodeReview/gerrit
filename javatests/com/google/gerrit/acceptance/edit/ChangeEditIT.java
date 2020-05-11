@@ -164,9 +164,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertChangeMessages(
         changeId,
         ImmutableList.of(
-            "Uploaded patch set 1.",
-            "Uploaded patch set 2.",
-            "Patch Set 3: Published edit on patch set 2."));
+            "Uploaded patchset 1.",
+            "Uploaded patchset 2.",
+            "Patchset 3: Published edit on patchset 2."));
 
     // The tag for the publish edit change message should vary according
     // to whether the change was WIP at the time of publishing.
@@ -201,9 +201,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertChangeMessages(
         changeId,
         ImmutableList.of(
-            "Uploaded patch set 1.",
-            "Uploaded patch set 2.",
-            "Patch Set 3: Published edit on patch set 2."));
+            "Uploaded patchset 1.",
+            "Uploaded patchset 2.",
+            "Patchset 3: Published edit on patchset 2."));
   }
 
   @Test
@@ -395,9 +395,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertChangeMessages(
         changeId,
         ImmutableList.of(
-            "Uploaded patch set 1.",
-            "Uploaded patch set 2.",
-            "Patch Set 3: Commit message was updated."));
+            "Uploaded patchset 1.",
+            "Uploaded patchset 2.",
+            "Patchset 3: Commit message was updated."));
   }
 
   @Test
@@ -431,9 +431,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertChangeMessages(
         changeId,
         ImmutableList.of(
-            "Uploaded patch set 1.",
-            "Uploaded patch set 2.",
-            "Patch Set 3: Commit message was updated."));
+            "Uploaded patchset 1.",
+            "Uploaded patchset 2.",
+            "Patchset 3: Commit message was updated."));
   }
 
   @Test
@@ -455,11 +455,11 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Test
   public void editIsDiffedAgainstPatchSetParentByDefault() throws Exception {
-    // Create a patch set. The previous patch set contained FILE_NAME.
+    // Create a patchset. The previous patchset contained FILE_NAME.
     addNewPatchSetWithModifiedFile(
-        changeId2, "file_in_latest_patch_set.txt", "Content of a file in latest patch set.");
+        changeId2, "file_in_latest_patch_set.txt", "Content of a file in latest patchset.");
 
-    // Create an empty edit on top of that patch set.
+    // Create an empty edit on top of that patchset.
     createEmptyEditFor(changeId2);
 
     Optional<EditInfo> edit =
@@ -479,12 +479,12 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Test
   public void editCanBeDiffedAgainstCurrentPatchSet() throws Exception {
-    // Create a patch set.
+    // Create a patchset.
     addNewPatchSetWithModifiedFile(
-        changeId2, "file_in_latest_patch_set.txt", "Content of a file in latest patch set.");
+        changeId2, "file_in_latest_patch_set.txt", "Content of a file in latest patchset.");
     String currentPatchSetId = gApi.changes().id(changeId2).get().currentRevision;
 
-    // Create an edit on top of that patch set and add a new file.
+    // Create an edit on top of that patchset and add a new file.
     gApi.changes()
         .id(changeId2)
         .edit()
@@ -492,7 +492,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
             "file_in_change_edit.txt",
             RawInputUtil.create("Content of the file added to the current change edit."));
 
-    // Diff the edit against the patch set.
+    // Diff the edit against the patchset.
     Optional<EditInfo> edit =
         gApi.changes()
             .id(changeId2)
@@ -507,12 +507,12 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Test
   public void editCanBeDiffedAgainstEarlierPatchSet() throws Exception {
-    // Create two patch sets.
+    // Create two patchsets.
     addNewPatchSetWithModifiedFile(
-        changeId2, "file_in_old_patch_set.txt", "Content of file in older patch set.");
+        changeId2, "file_in_old_patch_set.txt", "Content of file in older patchset.");
     String previousPatchSetId = gApi.changes().id(changeId2).get().currentRevision;
     addNewPatchSetWithModifiedFile(
-        changeId2, "file_in_latest_patch_set.txt", "Content of a file in latest patch set.");
+        changeId2, "file_in_latest_patch_set.txt", "Content of a file in latest patchset.");
 
     // Create an edit and add a new file.
     gApi.changes()
@@ -522,7 +522,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
             "file_in_change_edit.txt",
             RawInputUtil.create("Content of the file added to the current change edit."));
 
-    // Diff the edit against the previous patch set.
+    // Diff the edit against the previous patchset.
     Optional<EditInfo> edit =
         gApi.changes()
             .id(changeId2)

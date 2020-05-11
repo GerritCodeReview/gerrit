@@ -134,7 +134,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
   }
 
   private int estimateSize(Repository repo) throws IOException {
-    // Estimate size based on IDs that show up in ref names. This is not perfect, since patch set
+    // Estimate size based on IDs that show up in ref names. This is not perfect, since patchset
     // refs may exist for changes whose metadata was never successfully stored. But that's ok, as
     // the estimate is just used as a heuristic for sorting projects.
     long size =

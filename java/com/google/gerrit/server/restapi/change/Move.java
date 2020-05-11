@@ -137,7 +137,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
       throw new ResourceConflictException("Change is already destined for the specified branch");
     }
 
-    // Not allowed to move if the current patch set is locked.
+    // Not allowed to move if the current patchset is locked.
     psUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
     // Move requires abandoning this change, and creating a new change.
@@ -218,7 +218,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
       }
 
       if (!change.currentPatchSetId().equals(patchSetId)) {
-        throw new ResourceConflictException("Patch set is not current");
+        throw new ResourceConflictException("Patchset is not current");
       }
 
       PatchSet.Id psId = change.currentPatchSetId();
@@ -303,7 +303,7 @@ public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction
       }
     } catch (StorageException e) {
       logger.atSevere().withCause(e).log(
-          "Failed to check if the current patch set of change %s is locked", change.getId());
+          "Failed to check if the current patchset of change %s is locked", change.getId());
       return description;
     }
 

@@ -99,7 +99,7 @@ const TRAILING_WHITESPACE_REGEX = /[ \t]+$/gm;
 const MSG_PREFIX = '#message-';
 
 const ReloadToastMessage = {
-  NEWER_REVISION: 'A newer patch set has been uploaded',
+  NEWER_REVISION: 'A newer patchset has been uploaded',
   RESTORED: 'This change has been restored',
   ABANDONED: 'This change has been abandoned',
   MERGED: 'This change has been merged',
@@ -1570,14 +1570,14 @@ class GrChangeView extends mixinBehaviors( [
       fetch: edit.fetch,
     };
     // If the edit is based on the most recent patchset, load it by
-    // default, unless another patch set to load was specified in the URL.
+    // default, unless another patchset to load was specified in the URL.
     if (!this._patchRange.patchNum &&
         change.current_revision === edit.base_revision) {
       change.current_revision = edit.commit.commit;
       this.set('_patchRange.patchNum', this.EDIT_NAME);
       // Because edits are fibbed as revisions and added to the revisions
       // array, and revision actions are always derived from the 'latest'
-      // patch set, we must copy over actions from the patch set base.
+      // patchset, we must copy over actions from the patchset base.
       // Context: Issue 7243
       change.revisions[edit.commit.commit].actions =
           change.revisions[edit.base_revision].actions;
@@ -1757,7 +1757,7 @@ class GrChangeView extends mixinBehaviors( [
     // Array to house all promises related to data requests.
     const allDataPromises = [];
 
-    // Resolves when the change detail and the edit patch set (if available)
+    // Resolves when the change detail and the edit patchset (if available)
     // are loaded.
     const detailCompletes = this._getChangeDetail();
     allDataPromises.push(detailCompletes);
@@ -2177,7 +2177,7 @@ class GrChangeView extends mixinBehaviors( [
       return;
     }
 
-    // Avoid putting patch set in the URL unless a non-latest patch set is
+    // Avoid putting patchset in the URL unless a non-latest patchset is
     // selected.
     let patchNum;
     if (!this.patchNumEquals(this._patchRange.patchNum,

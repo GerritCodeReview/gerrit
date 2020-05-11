@@ -134,13 +134,13 @@ public class ChangeEditModifier {
   }
 
   /**
-   * Rebase change edit on latest patch set
+   * Rebase change edit on latest patchset
    *
    * @param repository the affected Git repository
    * @param notes the {@link ChangeNotes} of the change whose change edit should be rebased
    * @throws AuthException if the user isn't authenticated or not allowed to use change edits
    * @throws InvalidChangeOperationException if a change edit doesn't exist for the specified
-   *     change, the change edit is already based on the latest patch set, or the change represents
+   *     change, the change edit is already based on the latest patchset, or the change represents
    *     the root commit
    * @throws MergeConflictException if rebase fails due to merge conflicts
    * @throws PermissionBackendException
@@ -161,7 +161,7 @@ public class ChangeEditModifier {
     if (isBasedOn(changeEdit, currentPatchSet)) {
       throw new InvalidChangeOperationException(
           String.format(
-              "Change edit for change %s is already based on latest patch set %s",
+              "Change edit for change %s is already based on latest patchset %s",
               notes.getChangeId(), currentPatchSet.id()));
     }
 
@@ -199,7 +199,7 @@ public class ChangeEditModifier {
 
   /**
    * Modifies the commit message of a change edit. If the change edit doesn't exist, a new one will
-   * be created based on the current patch set.
+   * be created based on the current patchset.
    *
    * @param repository the affected Git repository
    * @param notes the {@link ChangeNotes} of the change whose change edit's message should be
@@ -246,7 +246,7 @@ public class ChangeEditModifier {
 
   /**
    * Modifies the contents of a file of a change edit. If the change edit doesn't exist, a new one
-   * will be created based on the current patch set.
+   * will be created based on the current patchset.
    *
    * @param repository the affected Git repository
    * @param notes the {@link ChangeNotes} of the change whose change edit should be modified
@@ -267,7 +267,7 @@ public class ChangeEditModifier {
 
   /**
    * Deletes a file from the Git tree of a change edit. If the change edit doesn't exist, a new one
-   * will be created based on the current patch set.
+   * will be created based on the current patchset.
    *
    * @param repository the affected Git repository
    * @param notes the {@link ChangeNotes} of the change whose change edit should be modified
@@ -286,7 +286,7 @@ public class ChangeEditModifier {
 
   /**
    * Renames a file of a change edit or moves it to another directory. If the change edit doesn't
-   * exist, a new one will be created based on the current patch set.
+   * exist, a new one will be created based on the current patchset.
    *
    * @param repository the affected Git repository
    * @param notes the {@link ChangeNotes} of the change whose change edit should be modified
@@ -307,9 +307,9 @@ public class ChangeEditModifier {
   }
 
   /**
-   * Restores a file of a change edit to the state it was in before the patch set on which the
-   * change edit is based. If the change edit doesn't exist, a new one will be created based on the
-   * current patch set.
+   * Restores a file of a change edit to the state it was in before the patchset on which the change
+   * edit is based. If the change edit doesn't exist, a new one will be created based on the current
+   * patchset.
    *
    * @param repository the affected Git repository
    * @param notes the {@link ChangeNotes} of the change whose change edit should be modified
@@ -356,19 +356,19 @@ public class ChangeEditModifier {
   }
 
   /**
-   * Applies the indicated modifications to the specified patch set. If a change edit exists and is
-   * based on the same patch set, the modified patch set tree is merged with the change edit. If the
+   * Applies the indicated modifications to the specified patchset. If a change edit exists and is
+   * based on the same patchset, the modified patchset tree is merged with the change edit. If the
    * change edit doesn't exist, a new one will be created.
    *
    * @param repository the affected Git repository
-   * @param notes the {@link ChangeNotes} of the change to which the patch set belongs
+   * @param notes the {@link ChangeNotes} of the change to which the patchset belongs
    * @param patchSet the {@code PatchSet} which should be modified
    * @param treeModifications the modifications which should be applied
    * @return the resulting {@code ChangeEdit}
    * @throws AuthException if the user isn't authenticated or not allowed to use change edits
    * @throws InvalidChangeOperationException if the existing change edit is based on another patch
-   *     set or no change edit exists but the specified patch set isn't the current one
-   * @throws MergeConflictException if the modified patch set tree can't be merged with an existing
+   *     set or no change edit exists but the specified patchset isn't the current one
+   * @throws MergeConflictException if the modified patchset tree can't be merged with an existing
    *     change edit
    */
   public ChangeEdit combineWithModifiedPatchSetTree(
@@ -424,7 +424,7 @@ public class ChangeEditModifier {
           String.format("change %s is %s", c.getChangeId(), ChangeUtil.status(c)));
     }
 
-    // Not allowed to edit if the current patch set is locked.
+    // Not allowed to edit if the current patchset is locked.
     patchSetUtil.checkPatchSetNotLocked(notes);
     try {
       permissionBackend.currentUser().change(notes).check(ChangePermission.ADD_PATCH_SET);
@@ -445,8 +445,8 @@ public class ChangeEditModifier {
       if (!isBasedOn(changeEdit, patchSet)) {
         throw new InvalidChangeOperationException(
             String.format(
-                "Only the patch set %s on which the existing change edit is based may be modified "
-                    + "(specified patch set: %s)",
+                "Only the patchset %s on which the existing change edit is based may be modified "
+                    + "(specified patchset: %s)",
                 changeEdit.getBasePatchSet().id(), patchSet.id()));
       }
     } else {
@@ -455,7 +455,7 @@ public class ChangeEditModifier {
       if (!patchSetId.equals(currentPatchSetId)) {
         throw new InvalidChangeOperationException(
             String.format(
-                "A change edit may only be created for the current patch set %s (and not for %s)",
+                "A change edit may only be created for the current patchset %s (and not for %s)",
                 currentPatchSetId, patchSetId));
       }
     }

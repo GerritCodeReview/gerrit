@@ -280,7 +280,7 @@ Q: `Do we believe this feature belongs to Gerrit Code Review use-cases?`
 
 Q: `Is the proposed solution aligned with Gerrit’s vision?`
 
-* Yes: Showing comments of older patch sets in newer patch sets to
+* Yes: Showing comments of older patchsets in newer patchsets to
   keep track (core code review)
 * No: Implement a bug tracker in Gerrit (not core code review).
 

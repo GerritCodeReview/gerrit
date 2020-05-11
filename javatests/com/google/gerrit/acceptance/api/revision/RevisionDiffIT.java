@@ -1260,7 +1260,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     rebaseChangeOn(changeId, commit3);
     // Apply the modification again to bring the file into the same state as for the previous
-    // patch set.
+    // patchset.
     addModifiedPatchSet(
         changeId, newFilePath, fileContent -> fileContent.replace("1st line\n", "First line\n"));
 
@@ -1472,7 +1472,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   @Test
   public void rebaseHunkIsIdentifiedWhenMovedDownInPreviousPatchSet() throws Exception {
     // Move the code down by introducing additional lines (pure insert + enlarging replacement) in
-    // the previous patch set.
+    // the previous patchset.
     Function<String, String> contentModification1 =
         fileContent ->
             "Line zero\n" + fileContent.replace("Line 10\n", "Line ten\nLine ten and a half\n");
@@ -1511,7 +1511,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     rebaseChangeOn(changeId, commit2);
     // Move the code down by introducing additional lines (pure insert + enlarging replacement) in
-    // the latest patch set.
+    // the latest patchset.
     Function<String, String> contentModification =
         fileContent ->
             "Line zero\n" + fileContent.replace("Line 10\n", "Line ten\nLine ten and a half\n");
@@ -1545,7 +1545,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   @Test
   public void rebaseHunkIsIdentifiedWhenMovedUpInPreviousPatchSet() throws Exception {
     // Move the code up by removing lines (pure deletion + shrinking replacement) in the previous
-    // patch set.
+    // patchset.
     Function<String, String> contentModification1 =
         fileContent ->
             fileContent.replace("Line 1\n", "").replace("Line 10\nLine 11\n", "Line ten\n");
@@ -1584,7 +1584,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
 
     rebaseChangeOn(changeId, commit2);
     // Move the code up by removing lines (pure deletion + shrinking replacement) in the latest
-    // patch set.
+    // patchset.
     Function<String, String> contentModification =
         fileContent ->
             fileContent.replace("Line 1\n", "").replace("Line 10\nLine 11\n", "Line ten\n");
@@ -1810,7 +1810,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   @Test
   public void rebaseHunksDirectlyTouchingHunksOfPatchSetsNotModifiedBetweenThemAreIdentified()
       throws Exception {
-    // Add to hunks in a patch set and remove them in a further patch set to allow rebasing.
+    // Add to hunks in a patchset and remove them in a further patchset to allow rebasing.
     Function<String, String> contentModification =
         fileContent ->
             fileContent.replace("Line 1\n", "Line one\n").replace("Line 3\n", "Line three\n");

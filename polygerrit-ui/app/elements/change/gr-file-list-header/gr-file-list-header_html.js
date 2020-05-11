@@ -160,7 +160,7 @@ export const htmlTemplate = html`
         ></gr-commit-info>
         <span class="container latestPatchContainer">
           <span class="separator"></span>
-          <a href$="[[changeUrl]]">Go to latest patch set</a>
+          <a href$="[[changeUrl]]">Go to latest patchset</a>
         </span>
         <span class="container descriptionContainer hideOnEdit">
           <span class="separator"></span>

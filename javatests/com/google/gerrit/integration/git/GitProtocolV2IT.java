@@ -127,7 +127,7 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       ChangeInput in = new ChangeInput(project.get(), "master", "Test public change");
       in.newBranch = true;
 
-      // Create new change and retrieve SHA1 for the created patch set
+      // Create new change and retrieve SHA1 for the created patchset
       String commit =
           gApi.changes()
               .id(gApi.changes().create(in).info().changeId)
@@ -139,7 +139,7 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       in = new ChangeInput(project.get(), ADMIN_PASSWORD, "Test secret change");
       in.newBranch = true;
 
-      // Create new change and retrieve SHA1 for the created patch set
+      // Create new change and retrieve SHA1 for the created patchset
       String secretCommit =
           gApi.changes()
               .id(gApi.changes().create(in).info().changeId)
@@ -237,7 +237,7 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
                   .group(SystemGroupBackend.ANONYMOUS_USERS))
           .update();
 
-      // Create new change and retrieve refs for the created patch set
+      // Create new change and retrieve refs for the created patchset
       ChangeInput visibleChangeIn =
           new ChangeInput(allRefsVisibleProject.get(), "master", "Test public change");
       visibleChangeIn.newBranch = true;
@@ -310,7 +310,7 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
                   .group(SystemGroupBackend.REGISTERED_USERS))
           .update();
 
-      // Create new change and retrieve refs for the created patch set
+      // Create new change and retrieve refs for the created patchset
       ChangeInput visibleChangeIn =
           new ChangeInput(privateProject.get(), "master", "Test private change");
       visibleChangeIn.newBranch = true;

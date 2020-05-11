@@ -331,8 +331,8 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "Commit: abcd1234abcd1234abcd1234abcd1234abcd1234\n"
             + "Commit: deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
     assertParseFails(
-        "Update patch set 1\n"
-            + "Uploaded patch set 1.\n"
+        "Update patchset 1\n"
+            + "Uploaded patchset 1.\n"
             + "Patch-set: 2\n"
             + "Branch: refs/heads/master\n"
             + "Subject: Some subject of a change\n"

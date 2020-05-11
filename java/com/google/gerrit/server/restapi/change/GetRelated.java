@@ -117,7 +117,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
         ps = rsrc.getPatchSet();
         commit = rsrc.getEdit().get().getEditCommit();
         logger.atFine().log(
-            "Replaced base of edit (patch set %s, commit %s) with edit (patch set %s, commit %s)",
+            "Replaced base of edit (patchset %s, commit %s) with edit (patchset %s, commit %s)",
             d.patchSet().id(), d.commit(), ps.id(), commit);
       } else {
         commit = d.commit();
@@ -150,14 +150,14 @@ public class GetRelated implements RestReadView<RevisionResource> {
     List<ChangeData> changeDatas = new ArrayList<>(changeDatasFromIndex.size() + 1);
     changeDatas.addAll(changeDatasFromIndex);
 
-    // Reload the change in case the patch set is absent.
+    // Reload the change in case the patchset is absent.
     changeDatas.stream()
         .filter(
             cd -> cd.getId().equals(wantedPs.id().changeId()) && cd.patchSet(wantedPs.id()) == null)
         .forEach(ChangeData::reloadChange);
 
     if (changeDatas.stream().noneMatch(cd -> cd.getId().equals(wantedPs.id().changeId()))) {
-      // The change of the wanted patch set is missing in the result from the index.
+      // The change of the wanted patchset is missing in the result from the index.
       // Load it from NoteDb and add it to the result.
       changeDatas.add(changeDataFactory.create(wantedChange));
     }

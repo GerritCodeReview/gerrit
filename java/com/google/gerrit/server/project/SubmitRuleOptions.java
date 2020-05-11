@@ -20,7 +20,7 @@ import com.google.auto.value.AutoValue;
  * Stable identifier for options passed to a particular submit rule evaluator.
  *
  * <p>Used to test whether it is ok to reuse a cached list of submit records. Does not include a
- * change or patch set ID; callers are responsible for checking those on their own.
+ * change or patchset ID; callers are responsible for checking those on their own.
  */
 @AutoValue
 public abstract class SubmitRuleOptions {

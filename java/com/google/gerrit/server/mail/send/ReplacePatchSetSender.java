@@ -29,7 +29,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/** Send notice of new patch sets for reviewers. */
+/** Send notice of new patchsets for reviewers. */
 public class ReplacePatchSetSender extends ReplyToChangeSender {
   public interface Factory {
     ReplacePatchSetSender create(Project.NameKey project, Change.Id changeId);
@@ -57,7 +57,7 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
     super.init();
 
     if (fromId != null) {
-      // Don't call yourself a reviewer of your own patch set.
+      // Don't call yourself a reviewer of your own patchset.
       //
       reviewers.remove(fromId);
     }

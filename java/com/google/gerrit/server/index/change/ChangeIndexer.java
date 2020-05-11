@@ -212,7 +212,7 @@ public class ChangeIndexer {
       } catch (RuntimeException e) {
         throw new StorageException(
             String.format(
-                "Failed to replace change %d in index version %d (current patch set = %d)",
+                "Failed to replace change %d in index version %d (current patchset = %d)",
                 cd.getId().get(), i.getSchema().getVersion(), cd.currentPatchSet().number()),
             e);
       }

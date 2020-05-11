@@ -260,8 +260,8 @@ public class EventFactory {
       parentNames.add(p.name());
     }
 
-    // Find changes in this project having a patch set matching any parent of
-    // this patch set's revision.
+    // Find changes in this project having a patchset matching any parent of
+    // this patchset's revision.
     for (ChangeData cd : queryProvider.get().byProjectCommits(change.getProject(), parentNames)) {
       for (PatchSet ps : cd.patchSets()) {
         for (String p : parentNames) {
@@ -291,8 +291,8 @@ public class EventFactory {
       return;
     }
     String rev = currentPs.commitId().name();
-    // Find changes in the same related group as this patch set, having a patch
-    // set whose parent matches this patch set's revision.
+    // Find changes in the same related group as this patchset, having a patch
+    // set whose parent matches this patchset's revision.
     for (ChangeData cd :
         InternalChangeQuery.byProjectGroups(
             queryProvider, indexConfig, change.getProject(), currentPs.groups())) {
@@ -455,7 +455,7 @@ public class EventFactory {
       p.sizeInsertions = patchList.getInsertions();
       p.kind = changeKindCache.getChangeKind(change, patchSet);
     } catch (IOException | StorageException e) {
-      logger.atSevere().withCause(e).log("Cannot load patch set data for %s", patchSet.id());
+      logger.atSevere().withCause(e).log("Cannot load patchset data for %s", patchSet.id());
     } catch (PatchListObjectTooLargeException e) {
       logger.atWarning().log("Cannot get size information for %s: %s", pId, e.getMessage());
     } catch (PatchListNotAvailableException e) {

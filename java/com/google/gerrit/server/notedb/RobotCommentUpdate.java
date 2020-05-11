@@ -45,7 +45,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 /**
  * A single delta to apply atomically to a change.
  *
- * <p>This delta contains only robot comments on a single patch set of a change by a single author.
+ * <p>This delta contains only robot comments on a single patchset of a change by a single author.
  * This delta will become a single commit in the repository.
  *
  * <p>This class is not thread safe.

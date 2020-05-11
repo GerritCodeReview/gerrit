@@ -259,7 +259,7 @@ public class GroupCollectorTest {
 
     RevWalk rw = newWalk(b, branchTip);
     rw.markStart(rw.parseCommit(d));
-    // Schema upgrade case: all commits are existing patch sets, but none have
+    // Schema upgrade case: all commits are existing patchsets, but none have
     // groups assigned yet.
     SortedSetMultimap<ObjectId, String> groups = collectGroups(rw, groups());
 

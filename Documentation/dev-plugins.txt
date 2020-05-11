@@ -1420,7 +1420,7 @@ The link:rest-api-changes.html#change-info[ChangeInfo] entity for the
 current change.
 +
 The link:rest-api-changes.html#revision-info[RevisionInfo] entity for
-the current patch set.
+the current patchset.
 
 * Project Info Screen:
 ** `GerritUiExtensionPoint.PROJECT_INFO_SCREEN_TOP`:
@@ -1517,7 +1517,7 @@ For instance a plugin to integrate Jira with Gerrit changes may
 contribute a "File bug" button to allow filing a bug from the change
 page or plugins to integrate continuous integration systems may
 contribute a "Schedule" button to allow a CI build to be scheduled
-manually from the patch set panel.
+manually from the patchset panel.
 
 Two different places on core Gerrit pages are supported:
 
@@ -1548,7 +1548,7 @@ class HelloWorldAction implements UiAction<RevisionResource>,
     final String greeting = input.french
         ? "Bonjour"
         : "Hello";
-    return String.format("%s %s from change %s, patch set %d!",
+    return String.format("%s %s from change %s, patchset %d!",
         greeting,
         Strings.isNullOrEmpty(input.message)
             ? Objects.firstNonNull(user.get().getUserName(), "world")
@@ -1567,10 +1567,10 @@ class HelloWorldAction implements UiAction<RevisionResource>,
 }
 ----
 
-Sometimes plugins may want to be able to change the state of a patch set or
+Sometimes plugins may want to be able to change the state of a patchset or
 change in the `UiAction.apply()` method and reflect these changes on the core
 UI. For example a buildbot plugin which exposes a 'Schedule' button on the
-patch set panel may want to disable that button after the build was scheduled
+patchset panel may want to disable that button after the build was scheduled
 and update the tooltip of that button. But because of Gerrit's caching
 strategy the following must be taken into consideration.
 
@@ -1730,7 +1730,7 @@ can be accessed from any REST client, i. e.:
     -d '{message: "François", french: true}' \
     --user joe:secret \
     http://host:port/a/changes/1/revisions/1/cookbook~say-hello
-  "Bonjour François from change 1, patch set 1!"
+  "Bonjour François from change 1, patchset 1!"
 ----
 
 A special case is to bind an endpoint without a view name.  This is
@@ -2300,8 +2300,8 @@ replication plugin,role=external,window=_blank] for an example of usage.
 == AccountPatchReviewStore
 
 The AccountPatchReviewStore is used to store reviewed flags on changes.
-A reviewed flag is a tuple of (patch set ID, file, account ID) and
-records whether the user has reviewed a file in a patch set. Each user
+A reviewed flag is a tuple of (patchset ID, file, account ID) and
+records whether the user has reviewed a file in a patchset. Each user
 can easily have thousands of reviewed flags and the number of reviewed
 flags is growing without bound. The store must be able handle this data
 volume efficiently.

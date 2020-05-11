@@ -121,7 +121,7 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
                       new OwnerPredicate(user)))) {
         PatchSet ps = cd.currentPatchSet();
         if (ps != null) {
-          // Ensure we actually observed a patch set ref pointing to this
+          // Ensure we actually observed a patchset ref pointing to this
           // object, in case the database is out of sync with the repo and the
           // object doesn't actually exist.
           try {

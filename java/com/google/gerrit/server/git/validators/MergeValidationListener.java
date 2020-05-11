@@ -36,7 +36,7 @@ public interface MergeValidationListener {
    * @param commit commit details
    * @param destProject the destination project
    * @param destBranch the destination branch
-   * @param patchSetId the patch set ID
+   * @param patchSetId the patchset ID
    * @param caller the user who initiated the merge request
    * @throws MergeValidationException if the commit fails to validate
    */

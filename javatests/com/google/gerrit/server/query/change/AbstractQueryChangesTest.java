@@ -1564,7 +1564,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertThat(comment.message).isEqualTo(commentInput.message);
     ChangeMessageInfo lastMsg =
         Iterables.getLast(gApi.changes().id(change.getId().get()).get().messages, null);
-    assertThat(lastMsg.message).isEqualTo("Patch Set 1:\n\n(1 comment)\n\n" + input.message);
+    assertThat(lastMsg.message).isEqualTo("Patchset 1:\n\n(1 comment)\n\n" + input.message);
 
     assertQuery("comment:foo");
     assertQuery("comment:toplevel", change);
@@ -2166,7 +2166,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     PatchSet.Id ps3_1 = change3.currentPatchSetId();
     change3 = newPatchSet(repo, change3);
     assertThat(change3.currentPatchSetId()).isNotEqualTo(ps3_1);
-    // Response to previous patch set still counts as reviewing.
+    // Response to previous patchset still counts as reviewing.
     gApi.changes()
         .id(change3.getId().get())
         .revision(ps3_1.get())
@@ -3324,7 +3324,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   protected Change newPatchSet(TestRepository<Repo> repo, Change c) throws Exception {
-    // Add a new file so the patch set is not a trivial rebase, to avoid default
+    // Add a new file so the patchset is not a trivial rebase, to avoid default
     // Code-Review label copying.
     int n = c.currentPatchSetId().get() + 1;
     RevCommit commit =

@@ -31,7 +31,7 @@ public class GmailHtmlParserTest extends HtmlParserTest {
             + "<p><a href=\""
             + CHANGE_URL
             + "/1\" "
-            + "target=\"_blank\">View Change</a></p><div>Patch Set 2: CR-1\n"
+            + "target=\"_blank\">View Change</a></p><div>Patchset 2: CR-1\n"
             + "\n"
             + "(3 comments)</div><ul><li>"
             + "<p>"
@@ -44,7 +44,7 @@ public class GmailHtmlParserTest extends HtmlParserTest {
             + "<a href=\""
             + CHANGE_URL
             + "/1/gerrit-server/test.txt\">"
-            + "Patch Set #2:</a> </p>"
+            + "Patchset #2:</a> </p>"
             + "<blockquote><pre>Some inline comment from Gerrit</pre>"
             + "</blockquote><p>Some comment on file 1</p>"
             + "</li>"
@@ -53,7 +53,7 @@ public class GmailHtmlParserTest extends HtmlParserTest {
             + "<a href=\""
             + CHANGE_URL
             + "/1/gerrit-server/test.txt@2\">"
-            + "Patch Set #2, Line 31:</a> </p>"
+            + "Patchset #2, Line 31:</a> </p>"
             + "<blockquote><pre>Some inline comment from Gerrit</pre>"
             + "</blockquote><p>Some text from original comment</p>"
             + "</li>"
@@ -64,7 +64,7 @@ public class GmailHtmlParserTest extends HtmlParserTest {
             + "<a href=\""
             + CHANGE_URL
             + "/1/gerrit-server/test.txt@3\">"
-            + "Patch Set #2, Line 47:</a> </p>"
+            + "Patchset #2, Line 47:</a> </p>"
             + "<blockquote><pre>Some comment posted on Gerrit</pre>"
             + "</blockquote><p>Some more comments from Gerrit</p>"
             + "</li>"
@@ -73,7 +73,7 @@ public class GmailHtmlParserTest extends HtmlParserTest {
             + "<a href=\""
             + CHANGE_URL
             + "/1/gerrit-server/test.txt@115\">"
-            + "Patch Set #2, Line 115:</a> <code>some code</code></p>"
+            + "Patchset #2, Line 115:</a> <code>some code</code></p>"
             + "<p>some comment</p></li></ul></li>"
             + ""
             + "<li><p>"
@@ -87,7 +87,7 @@ public class GmailHtmlParserTest extends HtmlParserTest {
             + "<a href=\""
             + CHANGE_URL
             + "/1/gerrit-server/readme.txt@3\">"
-            + "Patch Set #2, Line 31:</a> </p>"
+            + "Patchset #2, Line 31:</a> </p>"
             + "<blockquote><pre>Some inline comment from Gerrit</pre>"
             + "</blockquote><p>Some text from original comment</p>"
             + "</li>"

@@ -46,7 +46,7 @@ public class PatchSetProtoConverterTest {
             .createdOn(new Timestamp(930349320L))
             .groups(ImmutableList.of("group1", " group2"))
             .pushCertificate("my push certificate")
-            .description("This is a patch set description.")
+            .description("This is a patchset description.")
             .build();
 
     Entities.PatchSet proto = patchSetProtoConverter.toProto(patchSet);
@@ -63,7 +63,7 @@ public class PatchSetProtoConverterTest {
             .setCreatedOn(930349320L)
             .setGroups("group1, group2")
             .setPushCertificate("my push certificate")
-            .setDescription("This is a patch set description.")
+            .setDescription("This is a patchset description.")
             .build();
     assertThat(proto).isEqualTo(expectedProto);
   }
@@ -104,7 +104,7 @@ public class PatchSetProtoConverterTest {
             .createdOn(new Timestamp(930349320L))
             .groups(ImmutableList.of("group1", " group2"))
             .pushCertificate("my push certificate")
-            .description("This is a patch set description.")
+            .description("This is a patchset description.")
             .build();
 
     PatchSet convertedPatchSet =

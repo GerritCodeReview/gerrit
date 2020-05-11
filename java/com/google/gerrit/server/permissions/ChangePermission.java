@@ -21,17 +21,17 @@ import com.google.gerrit.extensions.api.access.GerritPermission;
 public enum ChangePermission implements ChangePermissionOrLabel {
   READ,
   /**
-   * The change can't be restored if its current patch set is locked.
+   * The change can't be restored if its current patchset is locked.
    *
-   * <p>Before checking this permission, the caller should first verify the current patch set of the
+   * <p>Before checking this permission, the caller should first verify the current patchset of the
    * change is not locked by calling {@code PatchSetUtil.isPatchSetLocked}.
    */
   RESTORE,
   DELETE,
   /**
-   * The change can't be abandoned if its current patch set is locked.
+   * The change can't be abandoned if its current patchset is locked.
    *
-   * <p>Before checking this permission, the caller should first verify the current patch set of the
+   * <p>Before checking this permission, the caller should first verify the current patchset of the
    * change is not locked by calling {@code PatchSetUtil.isPatchSetLocked}.
    */
   ABANDON,
@@ -41,16 +41,16 @@ public enum ChangePermission implements ChangePermissionOrLabel {
   EDIT_TOPIC_NAME,
   REMOVE_REVIEWER,
   /**
-   * A new patch set can't be added if the patch set is locked for the change.
+   * A new patchset can't be added if the patchset is locked for the change.
    *
-   * <p>Before checking this permission, the caller should first verify the current patch set of the
+   * <p>Before checking this permission, the caller should first verify the current patchset of the
    * change is not locked by calling {@code PatchSetUtil.isPatchSetLocked}.
    */
   ADD_PATCH_SET,
   /**
-   * The change can't be rebased if its current patch set is locked.
+   * The change can't be rebased if its current patchset is locked.
    *
-   * <p>Before checking this permission, the caller should first verify the current patch set of the
+   * <p>Before checking this permission, the caller should first verify the current patchset of the
    * change is not locked by calling {@code PatchSetUtil.isPatchSetLocked}.
    */
   REBASE,

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "3ada978b_4a7d3f40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2020-05-11T06:51:16Z",
+      "side": 1,
+      "message": "\u003e * next release: MINA ssh client option is added, but JSch is still the default\n\u003e * next release + 1: MINA ssh client is swapped to be the default, but JSch is still there\n\nThat\u0027s what we did in Eclipse, too.\n\n\u003e * next release + 2: Support for JSch is dropped (probably also from JGit protocol)\n\nThat\u0027s the long-term goal in Eclipse, too, but IMO we can drop JSch from JGit only once we have support for ssh-agent and Pageant in the MINA sshd implementation. MINA sshd does have support for this (I think at least for ssh-agent, via the Tomcat APR library; not sure about Pageant). See JGit issues 541274 and 541275.[1][2]\n\nFor JSch, there is (was?) Gunnar Wagenknecht\u0027s third-party bundles[3][4]. IIRC this never made it into core Eclipse because the underlying JSch code accesses JDK internals. (And I don\u0027t know if it even still works on JDK \u003e 8.) See also Eclipse issue report 179924.[5]\n\nUnrelated to all this: Eclipse also would like to drop JSch outside of EGit/JGit; see Eclipse issue report 540727.[6] But that is a huge task; IMO bigger than adding MINA sshd to JGit, and will need a dedicated sponsor. \n\n[1] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d541274\n[2] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d541275\n[3] https://eclipseguru.github.io/eclipse-jsch-agent-proxy/\n[4] https://github.com/eclipseguru/eclipse-jsch-agent-proxy\n[5] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d179924\n[6] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d540727",
+      "parentUuid": "54b7fd81_dfb0e76d",
+      "range": {
+        "startLine": 11,
+        "startChar": 26,
+        "endLine": 12,
+        "endChar": 20
+      },
+      "revId": "dee2bd44ebccfe0dd4f46e5d78c1732bc8b6f497",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d4273aa_97fd45fe",
         "filename": "/COMMIT_MSG",
         "patchSetId": 11

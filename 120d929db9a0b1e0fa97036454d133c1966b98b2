@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fc732355_7f7aa39b",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceIdModule.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-05-11T13:08:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25cd6829_86357739",
+      "revId": "120d929db9a0b1e0fa97036454d133c1966b98b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "350f645e_c08cd88e",
         "filename": "java/com/google/gerrit/server/config/GerritInstanceIdProvider.java",
         "patchSetId": 14
@@ -33,6 +51,24 @@
       "revId": "120d929db9a0b1e0fa97036454d133c1966b98b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b76053e_7fe2fe04",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceIdProvider.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-05-11T13:08:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "350f645e_c08cd88e",
+      "revId": "120d929db9a0b1e0fa97036454d133c1966b98b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -56,6 +92,30 @@
       "revId": "120d929db9a0b1e0fa97036454d133c1966b98b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0f9db36_537ea804",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceIdProvider.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-05-11T13:08:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63a7090f_7e5184a7",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 48
+      },
+      "revId": "120d929db9a0b1e0fa97036454d133c1966b98b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

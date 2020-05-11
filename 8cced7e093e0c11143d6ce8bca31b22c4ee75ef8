@@ -22,6 +22,30 @@
       "revId": "8cced7e093e0c11143d6ce8bca31b22c4ee75ef8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8408178f_7d1ca9d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-05-11T07:08:24Z",
+      "side": 1,
+      "message": "Done\n\n(And sorry for mistyping the name)",
+      "parentUuid": "31fab08b_82799fc1",
+      "range": {
+        "startLine": 9,
+        "startChar": 36,
+        "endLine": 9,
+        "endChar": 44
+      },
+      "revId": "8cced7e093e0c11143d6ce8bca31b22c4ee75ef8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

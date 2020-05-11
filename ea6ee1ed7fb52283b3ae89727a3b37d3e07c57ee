@@ -22,6 +22,30 @@
       "revId": "ea6ee1ed7fb52283b3ae89727a3b37d3e07c57ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20a62eec_b9313b31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-11T08:08:32Z",
+      "side": 1,
+      "message": "Yeah, the upgrade is here: [1]. Should we cancel 3.2 release and wait (couple of months or years?) until security library is bumped  (we are 4 major releases behind)? Or we just conduct two gerrit releases:\n\n* 1. gerrit-3.2-with-bounsycastle-1.61.war\n* 2. gerrit-3.2-with-bounsycastle-1.65.war\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/241130",
+      "parentUuid": "ac9e9717_f93239c9",
+      "range": {
+        "startLine": 12,
+        "startChar": 12,
+        "endLine": 12,
+        "endChar": 39
+      },
+      "revId": "ea6ee1ed7fb52283b3ae89727a3b37d3e07c57ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

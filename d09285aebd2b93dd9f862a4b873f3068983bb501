@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "713eded9_dcf71a43",
+        "filename": "javatests/com/google/gerrit/integration/git/UploadArchiveIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-11T06:17:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef843f15_57ae588f",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "d09285aebd2b93dd9f862a4b873f3068983bb501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7f8bce5_136cc777",
         "filename": "javatests/com/google/gerrit/integration/git/UploadArchiveIT.java",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "d09285aebd2b93dd9f862a4b873f3068983bb501",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea18d98b_7d9161de",
+        "filename": "javatests/com/google/gerrit/integration/git/UploadArchiveIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-11T06:17:57Z",
+      "side": 1,
+      "message": "The former is argument to ProcessBuilder ctr, as List of string: new ProcessBuilder(cmd), and the latter is argument to putAll to set up the environment for new process:\n\n  pb.environment().putAll(env);\n\nSo that the GIT_SSH_COMMAND above is the value of the environment variable with the name GIT_SSH_COMMAND.\n\nWhat this test is actually doing is to spawn external git-core process, with specific environment, that would be  equivalent to:\n\n  $ export GIT_SSH_COMMAND\u003d\"ssh -o UserKnownHostsFile\u003d/dev/null -o StrictHostKeyChecking\u003dno -o \u0027IdentitiesOnly yes\u0027 -i\"\n  $ git archive -f\u003dzip --prefix\u003d\u003csha1\u003e --remote \u003cssh-destination\u003e \u003csha1\u003e a.txt \u003e archive\n\nand investigate the content of archive after decompression.",
+      "parentUuid": "f7f8bce5_136cc777",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 61,
+        "endChar": 99
+      },
+      "revId": "d09285aebd2b93dd9f862a4b873f3068983bb501",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

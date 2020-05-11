@@ -70,6 +70,30 @@
       "revId": "ea6ee1ed7fb52283b3ae89727a3b37d3e07c57ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53782f74_4ba53f8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-11T13:52:58Z",
+      "side": 1,
+      "message": "\u003e What are the consequences of having 1.61 vs. 1.65 in the same JVM?\n\nWho is talking about the same JAR in two different versions in releas.war?",
+      "parentUuid": "dab6d760_01ef3f66",
+      "range": {
+        "startLine": 12,
+        "startChar": 12,
+        "endLine": 12,
+        "endChar": 39
+      },
+      "revId": "ea6ee1ed7fb52283b3ae89727a3b37d3e07c57ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

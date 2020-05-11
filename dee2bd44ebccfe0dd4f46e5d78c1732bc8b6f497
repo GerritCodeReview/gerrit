@@ -213,6 +213,30 @@
       "revId": "dee2bd44ebccfe0dd4f46e5d78c1732bc8b6f497",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73766218_c1c99b74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-11T21:42:58Z",
+      "side": 1,
+      "message": "\u003e By doing this there is risk that we will introduce regression for Jsch client and not notice it. Can we make the tests use both?\n\nI restored JSch ssh client and added environment variable for bazel and Java system property for IDE to switch between two clients. Done.",
+      "parentUuid": "bb8535fb_cbd21bf9",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 70
+      },
+      "revId": "dee2bd44ebccfe0dd4f46e5d78c1732bc8b6f497",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

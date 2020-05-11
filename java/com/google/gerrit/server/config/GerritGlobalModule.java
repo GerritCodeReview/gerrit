@@ -289,7 +289,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), AuthBackend.class);
 
     if (SshClientImplementation.MINA
-        == cfg.getEnum("ssh", null, "clientImplementation", SshClientImplementation.JSCH)) {
+        == cfg.getEnum("ssh", null, "clientImplementation", SshClientImplementation.MINA)) {
       SshdSessionFactory factory =
           new SshdSessionFactory(new JGitKeyCache(), new DefaultProxyDataFactory());
       factory.setHomeDirectory(FS.DETECTED.userHome());

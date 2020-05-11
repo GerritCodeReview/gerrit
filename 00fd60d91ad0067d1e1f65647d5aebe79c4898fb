@@ -166,6 +166,30 @@
       "revId": "00fd60d91ad0067d1e1f65647d5aebe79c4898fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b13f21e_7445cf09",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-11T08:33:34Z",
+      "side": 0,
+      "message": "IMO detecting appropriate use of \u0027final\u0027 is beyond the scope of a code formatter; there are cases where not using final results in compilation error, for example. So explicitly mentioning it here is valid.\n\nOn the other hand we don\u0027t need 10+ lines of description only about a blank line that neither the google style care or gjf cares about.",
+      "parentUuid": "4dd3012b_8bf7d27b",
+      "range": {
+        "startLine": 198,
+        "startChar": 2,
+        "endLine": 198,
+        "endChar": 68
+      },
+      "revId": "00fd60d91ad0067d1e1f65647d5aebe79c4898fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -39,7 +39,7 @@ public class RemoveReviewerControl {
   }
 
   /**
-   * Checks if removing the given reviewer and patch set approval is OK.
+   * Checks if removing the given reviewer and patchset approval is OK.
    *
    * @throws AuthException if this user is not allowed to remove this approval.
    * @throws PermissionBackendException on failure of permission checks.

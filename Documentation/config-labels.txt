@@ -22,7 +22,7 @@ The range of values is:
 +
 The code is so horribly incorrect/buggy/broken that it must not be
 submitted to this project, or to this branch.  This value is valid
-across all patch sets in the same change, i.e. the reviewer must
+across all patchsets in the same change, i.e. the reviewer must
 actively change his/her review to something else before the change
 is submittable.
 +
@@ -59,10 +59,10 @@ how the project will develop.
 +
 *Any +2 enables submit.*
 
-For a change to be submittable, the latest patch set must have a
+For a change to be submittable, the latest patchset must have a
 `+2 Looks good to me, approved` in this category, and no
-`-2 Do not submit`.  Thus `-2` on any patch set can block a submit,
-while `+2` on the latest patch set can enable it.
+`-2 Do not submit`.  Thus `-2` on any patchset can block a submit,
+while `+2` on the latest patchset can enable it.
 
 If a Gerrit installation does not wish to use this label in any project,
 the `[label "Code-Review"]` section can be deleted from `project.config`
@@ -245,7 +245,7 @@ validation is running.
 This function is designed to allow overlapping locks, so several lock
 accounts could lock the same change.
 +
-Allowed range of values are 0 (Patch Set Unlocked) to 1 (Patch Set
+Allowed range of values are 0 (Patchset Unlocked) to 1 (Patchset
 Locked).
 
 [[label_allowPostSubmit]]
@@ -272,14 +272,14 @@ set is uploaded. Defaults to false.
 === `label.Label-Name.copyMinScore`
 
 If true, the lowest possible negative value for the label is copied
-forward when a new patch set is uploaded. Defaults to false, except
+forward when a new patchset is uploaded. Defaults to false, except
 for All-Projects which has it true by default.
 
 [[label_copyMaxScore]]
 === `label.Label-Name.copyMaxScore`
 
 If true, the highest possible positive value for the label is copied
-forward when a new patch set is uploaded. This can be used to enable
+forward when a new patchset is uploaded. This can be used to enable
 sticky approvals, reducing turn-around for trivial cleanups prior to
 submitting a change. Defaults to false.
 
@@ -289,11 +289,11 @@ submitting a change. Defaults to false.
 This policy is useful if you don't want to trigger CI or human
 verification again if your target branch moved on but the feature
 branch being merged into the target branch did not change. It only
-applies if the patch set is a merge commit.
+applies if the patchset is a merge commit.
 
 If true, all scores for the label are copied forward when a new
-patch set is uploaded that is a new merge commit which only
-differs from the previous patch set in its first parent, or has
+patchset is uploaded that is a new merge commit which only
+differs from the previous patchset in its first parent, or has
 identical parents. The first parent would be the parent of the merge
 commit that is part of the change's target branch, whereas the other
 parent(s) refer to the feature branch(es) to be merged.
@@ -303,10 +303,10 @@ Defaults to false.
 [[label_copyAllScoresOnTrivialRebase]]
 === `label.Label-Name.copyAllScoresOnTrivialRebase`
 
-If true, all scores for the label are copied forward when a new patch set is
-uploaded that is a trivial rebase. A new patch set is considered to be trivial
-rebase if the commit message is the same as in the previous patch set and if it
-has the same diff (including context lines) as the previous patch set. This is
+If true, all scores for the label are copied forward when a new patchset is
+uploaded that is a trivial rebase. A new patchset is considered to be trivial
+rebase if the commit message is the same as in the previous patchset and if it
+has the same diff (including context lines) as the previous patchset. This is
 the case if the change was rebased onto a different parent and that rebase did
 not require git to perform any conflict resolution, or if the parent did not
 change at all.
@@ -320,9 +320,9 @@ Defaults to false.
 [[label_copyAllScoresIfNoCodeChange]]
 === `label.Label-Name.copyAllScoresIfNoCodeChange`
 
-If true, all scores for the label are copied forward when a new patch set is
-uploaded that has the same parent tree as the previous patch set and the same
-code diff (including context lines) as the previous patch set. This means only
+If true, all scores for the label are copied forward when a new patchset is
+uploaded that has the same parent tree as the previous patchset and the same
+code diff (including context lines) as the previous patchset. This means only
 the commit message is different; the change hasn't even been rebased. This can
 be used to enable sticky approvals on labels that only depend on the code,
 reducing turn-around if only the commit message is changed prior to submitting a
@@ -336,7 +336,7 @@ Defaults to false.
 
 If true, all scores for the label are copied forward when a new patch
 set is uploaded that has the same parent tree, code delta, and commit
-message as the previous patch set. This means that only the patch
+message as the previous patchset. This means that only the patch
 set SHA1 is different. This can be used to enable sticky
 approvals, reducing turn-around for this special case.
 It is recommended to leave this enabled for both Verified and
@@ -347,7 +347,7 @@ Defaults to true.
 [[label_copyValue]]
 === `label.Label-Name.copyValue`
 
-Value that should be copied forward when a new patch set is uploaded.
+Value that should be copied forward when a new patchset is uploaded.
 This can be used to enable sticky votes. Can be specified multiple
 times. By default not set.
 
@@ -391,7 +391,7 @@ link:access-control.html#reference[here], but must not contain `${username}` or
 [[label_ignoreSelfApproval]]
 === `label.Label-Name.ignoreSelfApproval`
 
-If true, the label may be voted on by the uploader of the latest patch set,
+If true, the label may be voted on by the uploader of the latest patchset,
 but their approval does not make a change submittable. Instead, a
 non-uploader who has the right to vote has to approve the change.
 
@@ -442,17 +442,17 @@ Upon clicking the Reply button:
 * Project Owners have limited scores (-2..+2) available, -2 is set as the default.
 * Registered Users have limited scores (-1..+1) available, -1 is set as the default.
 
-=== Patch Set Lock Example
+=== Patchset Lock Example
 
-This example shows how a label can be configured to have a standard patch set lock.
+This example shows how a label can be configured to have a standard patchset lock.
 
 ----
   [access "refs/heads/*"]
       label-Patch-Set-Lock = +0..+1 group Administrators
   [label "Patch-Set-Lock"]
       function = PatchSetLock
-      value =  0 Patch Set Unlocked
-      value = +1 Patch Set Locked
+      value =  0 Patchset Unlocked
+      value = +1 Patchset Locked
       defaultValue = 0
 ----
 

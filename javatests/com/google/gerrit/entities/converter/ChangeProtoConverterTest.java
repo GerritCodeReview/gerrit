@@ -129,7 +129,7 @@ public class ChangeProtoConverterTest {
             Account.id(35),
             BranchNameKey.create(Project.nameKey("project 67"), "branch-74"),
             new Timestamp(987654L));
-    // O as ID actually means that no current patch set is present.
+    // O as ID actually means that no current patchset is present.
     change.setCurrentPatchSet(PatchSet.id(Change.id(14), 0), null, null);
 
     Entities.Change proto = changeProtoConverter.toProto(change);

@@ -71,7 +71,7 @@ link:#change-ref[staging area] where it can be checked and reviewed.
 Only when it is approved and submitted it gets applied to the code
 base. If there is feedback on a change, the author can improve the code
 modification by link:#upload-patch-set[amending the commit and
-uploading the new commit as a new patch set]. This way a change is
+uploading the new commit as a new patchset]. This way a change is
 improved iteratively and it is applied to the code base only when is
 ready.
 
@@ -120,9 +120,9 @@ is explained below.
 
 A change ref has the format `refs/changes/X/Y/Z` where `X` is the last
 two digits of the change number, `Y` is the entire change number, and `Z`
-is the patch set. For example, if the change number is
+is the patchset. For example, if the change number is
 link:https://gerrit-review.googlesource.com/c/gerrit/+/263270[263270,role=external,window=_blank],
-the ref would be `refs/changes/70/263270/2` for the second patch set.
+the ref would be `refs/changes/70/263270/2` for the second patchset.
 
 [[fetch-change]]
 Using the change ref git clients can fetch the corresponding commit,
@@ -147,17 +147,17 @@ an open change.
 
 [[change]]
 A change consists of a link:user-changeid.html[Change-Id], meta data
-(owner, project, target branch etc.), one or more patch sets, comments
-and votes. A patch set is a git commit. Each patch set in a change
+(owner, project, target branch etc.), one or more patchsets, comments
+and votes. A patchset is a git commit. Each patchset in a change
 represents a new version of the change and replaces the previous patch
-set. Only the latest patch set is relevant. This means all failed
+set. Only the latest patchset is relevant. This means all failed
 iterations of a change will never be applied to the target branch, but
-only the last patch set that is approved is integrated.
+only the last patchset that is approved is integrated.
 
 [[change-id]]
 The Change-Id is important for Gerrit to know whether a commit that is
 pushed for code review should create a new change or whether it should
-create a new patch set for an existing change.
+create a new patchset for an existing change.
 
 The Change-Id is a SHA-1 that is prefixed with an uppercase `I`. It is
 specified as footer in the commit message (last paragraph):
@@ -176,25 +176,25 @@ specified as footer in the commit message (last paragraph):
 If a commit that has a Change-Id in its commit message is pushed for
 review, Gerrit checks if a change with this Change-Id already exists
 for this project and target branch, and if yes, Gerrit creates a new
-patch set for this change. If not, a new change with the given
+patchset for this change. If not, a new change with the given
 Change-Id is created.
 
 If a commit without Change-Id is pushed for review, Gerrit creates a
 new change and generates a Change-Id for it. Since in this case the
 Change-Id is not included in the commit message, it must be manually
-inserted when a new patch set should be uploaded. Most projects already
+inserted when a new patchset should be uploaded. Most projects already
 link:project-configuration.html#require-change-id[require a Change-Id]
-when pushing the very first patch set. This reduces the risk of
+when pushing the very first patchset. This reduces the risk of
 accidentally creating a new change instead of uploading a new patch
 set. Any push without Change-Id then fails with
 link:error-missing-changeid.html[missing Change-Id in commit message
 footer].
 
 Amending and rebasing a commit preserves the Change-Id so that the new
-commit automatically becomes a new patch set of the existing change,
+commit automatically becomes a new patchset of the existing change,
 when it is pushed for review.
 
-.Push new Patch Set
+.Push new Patchset
 ----
   $ git commit --amend
   $ git push origin HEAD:refs/for/master
@@ -232,12 +232,12 @@ rendered. Users can configure their preferences in the
 link:user-review-ui.html#diff-preferences[diff preferences].
 
 [[upload-patch-set]]
-== Upload a new Patch Set
+== Upload a new Patchset
 
 If there is feedback from code review and a change should be improved a
-new patch set with the reworked code should be uploaded.
+new patchset with the reworked code should be uploaded.
 
-This is done by amending the commit of the last patch set. If needed
+This is done by amending the commit of the last patchset. If needed
 this commit can be fetched from Gerrit by using the fetch command from
 the link:user-review-ui.html#download[download commands] in the change
 screen.
@@ -248,7 +248,7 @@ as a footer (last paragraph). Normally the commit message already
 contains the correct Change-Id and the Change-Id is preserved when the
 commit is amended.
 
-.Push Patch Set
+.Push Patchset
 ----
   // fetch and checkout the change
   // (checkout command copied from change screen)
@@ -261,14 +261,14 @@ commit is amended.
   // amend commit
   $ git commit --amend
 
-  // push patch set
+  // push patchset
   $ git push origin HEAD:refs/for/master
 ----
 
 [NOTE]
 Never amend a commit that is already part of a central branch.
 
-Pushing a new patch set triggers email notification to the reviewers.
+Pushing a new patchset triggers email notification to the reviewers.
 
 [[multiple-features]]
 == Developing multiple Features in parallel
@@ -372,7 +372,7 @@ project-level]. The project dashboards can be seen in the web UI under
 == Submit a Change
 
 Submitting a change means that the code modifications of the current
-patch set are applied to the target branch. Submit requires the
+patchset are applied to the target branch. Submit requires the
 link:access-control.html#category_submit[Submit] access right and is
 done on the change screen by clicking on the
 link:user-review-ui.html#submit[Submit] button.
@@ -392,7 +392,7 @@ link:intro-project-owner.html#submit-type[configured on project-level].
 
 Submitting a change may fail with conflicts. In this case you need to
 link:#rebase[rebase] the change locally, resolve the conflicts and
-upload the commit with the conflict resolution as new patch set.
+upload the commit with the conflict resolution as new patchset.
 
 If a change cannot be merged due to path conflicts this is highlighted
 on the change screen by a bold red `Cannot Merge` label.
@@ -425,7 +425,7 @@ must be done locally.
   // continue the rebase
   $ git rebase --continue
 
-  // push the commit with the conflict resolution as new patch set
+  // push the commit with the conflict resolution as new patchset
   $ git push origin HEAD:refs/for/master
 ----
 
@@ -435,7 +435,7 @@ also depends on the link:intro-project-owner.html#submit-type[submit
 type] that is configured for the project.
 
 Generally changes shouldn't be rebased without reason as it
-increases the number of patch sets and creates noise with
+increases the number of patchsets and creates noise with
 notifications. However if a change is in review for a long time it may
 make sense to rebase it from time to time, so that reviewers can see
 the delta against the current HEAD of the target branch. It also shows
@@ -645,14 +645,14 @@ remove yourself.
 
 Alternatively, rather than completely ignoring the change, it can be marked
 as 'Reviewed'. Marking a change as 'Reviewed' means it will not be highlighted
-in the dashboard, until a new patch set is uploaded.
+in the dashboard, until a new patchset is uploaded.
 
 [[inline-edit]]
 == Inline Edit
 
 It is possible to link:user-inline-edit.html#editing-change[edit
 changes inline] directly in the web UI. This is useful to make small
-corrections immediately and publish them as a new patch set.
+corrections immediately and publish them as a new patchset.
 
 It is also possible to link:user-inline-edit.html#create-change[create
 new changes inline].
@@ -885,7 +885,7 @@ Change subject: My new change
 ......................................................................
 
 
-Patch Set 3:
+Patchset 3:
 
 Just a couple of smaller things I found.
 
@@ -915,7 +915,7 @@ Thanks, I'll fix it.
 > ......................................................................
 >
 >
-> Patch Set 3:
+> Patchset 3:
 >
 > Just a couple of smaller things I found.
 >

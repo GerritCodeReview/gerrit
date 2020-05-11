@@ -26,7 +26,7 @@ public class DiffInfo {
   public IntraLineStatus intralineStatus;
   // The type of change
   public ChangeType changeType;
-  // A list of strings representing the patch set diff header
+  // A list of strings representing the patchset diff header
   public List<String> diffHeader;
   // The content differences in the file as a list of entities
   public List<ContentEntry> content;

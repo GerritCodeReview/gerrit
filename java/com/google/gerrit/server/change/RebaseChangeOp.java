@@ -189,9 +189,9 @@ public class RebaseChangeOp implements BatchUpdateOp {
             .setSendEmail(sendEmail);
     if (postMessage) {
       patchSetInserter.setMessage(
-          "Patch Set "
+          "Patchset "
               + rebasedPatchSetId.get()
-              + ": Patch Set "
+              + ": Patchset "
               + originalPatchSet.id().get()
               + " was rebased");
     }

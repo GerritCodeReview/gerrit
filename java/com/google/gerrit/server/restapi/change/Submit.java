@@ -85,9 +85,9 @@ public class Submit
     implements RestModifyView<RevisionResource, SubmitInput>, UiAction<RevisionResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private static final String DEFAULT_TOOLTIP = "Submit patch set ${patchSet} into ${branch}";
+  private static final String DEFAULT_TOOLTIP = "Submit patchset ${patchSet} into ${branch}";
   private static final String DEFAULT_TOOLTIP_ANCESTORS =
-      "Submit patch set ${patchSet} and ancestors (${submitSize} changes "
+      "Submit patchset ${patchSet} and ancestors (${submitSize} changes "
           + "altogether) into ${branch}";
   private static final String DEFAULT_TOPIC_TOOLTIP =
       "Submit all ${topicSize} changes of the same topic "

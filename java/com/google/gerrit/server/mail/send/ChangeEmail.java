@@ -284,7 +284,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
   }
 
-  /** Get the patch list corresponding to patch set patchSetId of this change. */
+  /** Get the patch list corresponding to patchset patchSetId of this change. */
   protected PatchList getPatchList(int patchSetId) throws PatchListNotAvailableException {
     PatchSet ps;
     if (patchSetId == patchSet.number()) {
@@ -299,7 +299,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     return args.patchListCache.get(change, ps);
   }
 
-  /** Get the patch list corresponding to this patch set. */
+  /** Get the patch list corresponding to this patchset. */
   protected PatchList getPatchList() throws PatchListNotAvailableException {
     if (patchSet != null) {
       return args.patchListCache.get(change, patchSet);
@@ -312,7 +312,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     return projectState;
   }
 
-  /** TO or CC all vested parties (change owner, patch set uploader, author). */
+  /** TO or CC all vested parties (change owner, patchset uploader, author). */
   protected void rcptToAuthors(RecipientType rt) {
     for (Account.Id id : authors) {
       add(rt, id);
@@ -515,7 +515,7 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   private static final int HEAP_EST_SIZE = 32 * 1024;
 
-  /** Show patch set as unified difference. */
+  /** Show patchset as unified difference. */
   public String getUnifiedDiff() {
     PatchList patchList;
     try {

@@ -26,7 +26,7 @@ import {htmlTemplate} from './gr-patch-range-select_html.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
 
-// Maximum length for patch set descriptions.
+// Maximum length for patchset descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
 
 /**

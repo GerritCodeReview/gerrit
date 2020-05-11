@@ -274,8 +274,7 @@ public class Files implements ChildCollection<RevisionResource, FileResource> {
         PatchSet patchSet = psUtil.get(resource.getNotes(), old);
         if (patchSet == null) {
           throw new PatchListNotAvailableException(
-              String.format(
-                  "patch set %s of change %s not found", old.get(), change.getId().get()));
+              String.format("patchset %s of change %s not found", old.get(), change.getId().get()));
         }
 
         PatchList oldList = patchListCache.get(change, patchSet);

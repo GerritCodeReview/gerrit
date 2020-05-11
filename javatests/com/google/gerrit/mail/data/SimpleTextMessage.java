@@ -33,7 +33,7 @@ public class SimpleTextMessage extends RawMailMessage {
           + "...........................................................\n"
           + "\n"
           + "\n"
-          + "Patch Set 2:\n"
+          + "Patchset 2:\n"
           + "\n"
           + "This is producing NPEs server-side and 500s for the client.   \n"
           + "when I try to load this change:\n"

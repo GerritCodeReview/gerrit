@@ -155,15 +155,15 @@ suite('gr-patch-set-behavior tests', () => {
   });
 
   test('_computeWipForPatchSets', () => {
-    // Compute patch sets for a given timeline on a change. The initial WIP
+    // Compute patchsets for a given timeline on a change. The initial WIP
     // property of the change can be true or false. The map of tags by
-    // revision is keyed by patch set number. Each value is a list of change
+    // revision is keyed by patchset number. Each value is a list of change
     // message tags in the order that they occurred in the timeline. These
     // indicate actions that modify the WIP property of the change and/or
-    // create new patch sets.
+    // create new patchsets.
     //
     // Returns the actual results with an assertWip method that can be used
-    // to compare against an expected value for a particular patch set.
+    // to compare against an expected value for a particular patchset.
     const compute = (initialWip, tagsByRevision) => {
       const change = {
         messages: [],

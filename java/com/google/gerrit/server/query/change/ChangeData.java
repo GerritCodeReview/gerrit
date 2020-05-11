@@ -627,7 +627,7 @@ public class ChangeData {
     this.attentionSet = attentionSet;
   }
 
-  /** @return patches for the change, in patch set ID order. */
+  /** @return patches for the change, in patchset ID order. */
   public Collection<PatchSet> patchSets() {
     if (patchSets == null) {
       patchSets = psUtil.byChange(notes());
@@ -654,8 +654,8 @@ public class ChangeData {
   }
 
   /**
-   * @return all patch set approvals for the change, keyed by ID, ordered by timestamp within each
-   *     patch set.
+   * @return all patchset approvals for the change, keyed by ID, ordered by timestamp within each
+   *     patchset.
    */
   public ListMultimap<PatchSet.Id, PatchSetApproval> approvals() {
     if (allApprovals == null) {

@@ -106,7 +106,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
             PatchListNotAvailableException {
       PatchSet ps = psUtil.get(ctx.getNotes(), psId);
       if (ps == null) {
-        throw new ResourceNotFoundException("patch set not found: " + psId);
+        throw new ResourceNotFoundException("patchset not found: " + psId);
       }
       String parentUuid = Url.decode(in.inReplyTo);
 

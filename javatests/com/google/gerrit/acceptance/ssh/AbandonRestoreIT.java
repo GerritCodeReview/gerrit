@@ -42,7 +42,7 @@ public class AbandonRestoreIT extends AbstractDaemonTest {
     assertChangeMessages(
         result.getChangeId(),
         ImmutableList.of(
-            "Uploaded patch set 1.", "Abandoned\n\nabandon it", "Restored\n\nrestore it"));
+            "Uploaded patchset 1.", "Abandoned\n\nabandon it", "Restored\n\nrestore it"));
   }
 
   @Test
@@ -52,7 +52,7 @@ public class AbandonRestoreIT extends AbstractDaemonTest {
     executeCmd(commit, "abandon", null);
     executeCmd(commit, "restore", null);
     assertChangeMessages(
-        result.getChangeId(), ImmutableList.of("Uploaded patch set 1.", "Abandoned", "Restored"));
+        result.getChangeId(), ImmutableList.of("Uploaded patchset 1.", "Abandoned", "Restored"));
   }
 
   private void executeCmd(String commit, String op, String message) throws Exception {

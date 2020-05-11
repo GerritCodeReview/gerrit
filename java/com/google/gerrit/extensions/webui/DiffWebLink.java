@@ -32,10 +32,10 @@ public interface DiffWebLink extends WebLink {
    *
    * @param projectName Name of the project
    * @param changeId ID of the change
-   * @param patchSetIdA Patch set ID of side A, <code>null</code> if no base patch set was selected
+   * @param patchSetIdA Patchset ID of side A, <code>null</code> if no base patchset was selected
    * @param revisionA Name of the revision of side A (e.g. branch or commit ID)
    * @param fileNameA Name of the file of side A
-   * @param patchSetIdB Patch set ID of side B
+   * @param patchSetIdB Patchset ID of side B
    * @param revisionB Name of the revision of side B (e.g. branch or commit ID)
    * @param fileNameB Name of the file of side B
    * @return WebLinkInfo that links to file diff in external service, null if there should be no

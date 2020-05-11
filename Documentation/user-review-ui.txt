@@ -45,10 +45,10 @@ preventing the submit.
 
 - [[not-current]]`Not Current`:
 +
-The currently viewed patch set is outdated.
+The currently viewed patchset is outdated.
 +
 Please note that some operations, like voting, are not available on
-outdated patch sets, but only on the current patch set.
+outdated patchsets, but only on the current patchset.
 
 - [[ready-to-submit]]`Ready to Submit`:
 +
@@ -66,7 +66,7 @@ The change was abandoned.
 === Commit Info Block
 
 The commit info block shows information about the commit of the
-currently viewed patch set.
+currently viewed patchset.
 
 It displays the author and the committer as links to a list of this
 person's changes that have the same status as the currently viewed
@@ -220,7 +220,7 @@ comment message to explain why the change is being restored.
 ** [[rebase]]`Rebase`:
 +
 Rebases the change. The rebase is always done with content merge
-enabled. If the rebase is successful a new patch set with the rebased
+enabled. If the rebase is successful a new patchset with the rebased
 commit is created. If the rebase fails, there are conflicts that have
 to be resolved manually.
 +
@@ -228,7 +228,7 @@ If the change does not depend on another open change, it is rebased
 onto the tip of the destination branch.
 +
 If the change depends on another open change, it is rebased onto the
-current patch set of that other change.
+current patchset of that other change.
 +
 It is possible to change parent revision of a change. The new parent
 revision can be another change towards the same target branch, or
@@ -278,7 +278,7 @@ image::images/user-review-ui-change-screen-change-info-labels.png[width=800, lin
 === File List
 
 The file list shows the files that are modified in the currently viewed
-patch set.
+patchset.
 
 image::images/user-review-ui-change-screen-file-list.png[width=800, link="images/user-review-ui-change-screen-file-list.png"]
 
@@ -331,7 +331,7 @@ The file is new and is copied from an existing file.
 - `U` (Unchanged):
 +
 The file is unchanged and has the same content. Unchanged files only
-appear in the file list if 2 patch sets are compared and the file has
+appear in the file list if 2 patchsets are compared and the file has
 comments on at least one of the sides. Otherwise unchanged files are
 filtered out.
 
@@ -385,7 +385,7 @@ image::images/user-review-ui-change-screen-file-list-size.png[width=800, link="i
 [[diff-against]]
 In the header of the file list, the `Diff Against` selection can be
 changed. This selection allows one to choose if the currently viewed
-patch set should be compared against its base or against another patch
+patchset should be compared against its base or against another patch
 set of this change. The file list is updated accordingly.
 
 [[open-all]]
@@ -395,17 +395,17 @@ diff views for all files in the file list.
 image::images/user-review-ui-change-screen-file-list-header.png[width=800, link="images/user-review-ui-change-screen-file-list-header.png"]
 
 [[patch-sets]]
-=== Patch Sets
+=== Patchsets
 
-The change screen only presents one patch set at a time. Which patch
-set is currently viewed can be seen from the `Patch Sets` drop-down
+The change screen only presents one patchset at a time. Which patch
+set is currently viewed can be seen from the `Patchsets` drop-down
 panel in the change header. It shows the number of the currently viewed
-patch set and the total number of patch sets, in the form: "current
-patch set/number of patch sets".
+patchset and the total number of patchsets, in the form: "current
+patchset/number of patchsets".
 
-If a non-current patch set is viewed this is indicated by the
+If a non-current patchset is viewed this is indicated by the
 link:#not-current[Not Current] change state. Please note that some
-operations are only available on the current patch set.
+operations are only available on the current patchset.
 
 image::images/user-review-ui-change-screen-patch-sets.png[width=800, link="images/user-review-ui-change-screen-patch-sets.png"]
 
@@ -414,11 +414,11 @@ Another indication is a highlighted drop-down label.
 image::images/user-review-ui-change-screen-not-current.png[width=800, link="images/user-review-ui-change-screen-not-current.png"]
 
 [[patch-set-drop-down]]
-The patch set drop-down list shows the list of patch sets and allows to
-switch between them. The patch sets are sorted in descending order so
-that the current patch set is always on top.
+The patchset drop-down list shows the list of patchsets and allows to
+switch between them. The patchsets are sorted in descending order so
+that the current patchset is always on top.
 
-Draft patch sets are marked with `DRAFT`.
+Draft patchsets are marked with `DRAFT`.
 
 image::images/user-review-ui-change-screen-patch-set-list.png[width=800, link="images/user-review-ui-change-screen-patch-set-list.png"]
 
@@ -426,7 +426,7 @@ image::images/user-review-ui-change-screen-patch-set-list.png[width=800, link="i
 === Download
 
 The `Download` drop-down panel in the change header offers commands and
-links for downloading the currently viewed patch set.
+links for downloading the currently viewed patchset.
 
 image::images/user-review-ui-change-screen-download-commands.png[width=800, link="images/user-review-ui-change-screen-download-commands.png"]
 
@@ -434,7 +434,7 @@ The available download commands depend on the installed Gerrit plugins.
 The most popular plugin for download commands, the
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/download-commands[
 download-commands,role=external,window=_blank] plugin, provides commands to checkout, pull and
-cherry-pick a patch set.
+cherry-pick a patchset.
 
 Each command has a copy-to-clipboard icon that allows the command to be
 copied into the clipboard. This makes it easy to paste and execute the
@@ -447,11 +447,11 @@ and selects this download scheme the next time the download commands
 drop-down panel is opened.
 
 The `Patch-File` links provide the Git patch file for the currently
-viewed patch set for download. The patch file can be base64 encoded or
+viewed patchset for download. The patch file can be base64 encoded or
 zipped.
 
 The `Archive` links allow one to download an archive with the contents
-of the currently viewed patch set. The archive is offered in several
+of the currently viewed patchset. The archive is offered in several
 formats (e.g. tar and tbz2); which formats are available depends on the
 configuration of the server.
 
@@ -516,30 +516,30 @@ descendants.
 image::images/user-review-ui-change-screen-related-changes.png[width=800, link="images/user-review-ui-change-screen-related-changes.png"]
 +
 Related changes may be decorated with an icon to signify dependencies
-on outdated patch sets, or commits that are not associated to changes
+on outdated patchsets, or commits that are not associated to changes
 under review:
 +
 ** [[outdated]]Orange Dot:
 +
-The selected patch set of the change is outdated; it is not the current
-patch set of the change.
+The selected patchset of the change is outdated; it is not the current
+patchset of the change.
 +
 If an ancestor change is marked with an orange dot it means that the
-currently viewed patch set depends on a outdated patch set of the
-ancestor change. This is because a new patch set for the ancestor
+currently viewed patchset depends on a outdated patchset of the
+ancestor change. This is because a new patchset for the ancestor
 change was uploaded in the meantime and as result the currently viewed
-patch set now needs to be rebased.
+patchset now needs to be rebased.
 +
 If a descendant change is marked with an orange dot it means that an
-old patch set of the descendant change depends on the currently viewed
-patch set. It may be that the descendant was rebased in the meantime
-and with the new patch set this dependency was removed.
+old patchset of the descendant change depends on the currently viewed
+patchset. It may be that the descendant was rebased in the meantime
+and with the new patchset this dependency was removed.
 
 ** [[indirect-descendant]]Green Tilde:
 +
-The selected patch set of the change is an indirect descendant of the
-currently viewed patch set; it has a dependency to another patch set of
-this change. E.g. this could mean that a new patch set was uploaded for
+The selected patchset of the change is an indirect descendant of the
+currently viewed patchset; it has a dependency to another patchset of
+this change. E.g. this could mean that a new patchset was uploaded for
 this change and the descendant change now needs to be rebased. Please
 note that following the link to an indirect descendant change may
 result in a completely different related changes listing.
@@ -585,7 +585,7 @@ image::images/user-review-ui-change-screen-same-topic.png[width=800, link="image
 +
 This tab page shows changes that will be submitted together with the
 currently viewed change, when clicking the submit button. It includes
-ancestors of the current patch set.
+ancestors of the current patchset.
 +
 This may include changes and its ancestors with the same topic if
 `change.submitWholeTopic` is enabled. Only open changes with the
@@ -610,7 +610,7 @@ If there are no related changes for a tab, the tab is not displayed.
 === Reply
 
 The `Reply...` button in the change header allows to reply to the
-currently viewed patch set; one can add a summary comment, publish
+currently viewed patchset; one can add a summary comment, publish
 inline draft comments, and vote on the labels.
 
 image::images/user-review-ui-change-screen-reply.png[width=800, link="images/user-review-ui-change-screen-reply.png"]
@@ -619,7 +619,7 @@ Clicking on the `Reply...` button opens a popup panel.
 
 [[summary-comment]]
 A text box allows to type a summary comment for the currently viewed
-patch set. Some basic markdown-like syntax is supported which renders
+patchset. Some basic markdown-like syntax is supported which renders
 indented lines preformatted, lines starting with "- " or "* " as list
 items, and lines starting with "> " as block quotes (also see replying to
 link:#reply-to-message[messages] and link:#reply-inline-comment[inline comments]).
@@ -628,9 +628,9 @@ Note that you can set the text and tooltip of the button in
 link:config-gerrit.html#change.replyLabel[gerrit.config].
 
 [[vote]]
-If the current patch set is viewed, radio buttons are displayed for
+If the current patchset is viewed, radio buttons are displayed for
 each label on which the user is allowed to vote. Voting on non-current
-patch sets is not possible.
+patchsets is not possible.
 
 The inline draft comments that will be published are displayed in a
 separate section so that they can be reviewed before publishing. There
@@ -666,7 +666,7 @@ image::images/user-review-ui-change-screen-quick-approve.png[width=800, link="im
 The history of the change can be seen in the lower part of the screen.
 
 The history contains messages for all kinds of change updates, e.g. a
-message is added when a new patch set is uploaded or when a review was
+message is added when a new patchset is uploaded or when a review was
 done.
 
 Messages with new comments from other users, that were published after
@@ -763,13 +763,13 @@ being mistaken for blank lines in the file
 image::images/user-review-ui-side-by-side-diff-screen-red-bar.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-red-bar.png"]
 
 [[patch-set-selection]]
-In the header, on each side, the list of patch sets is shown. Clicking
-on a patch set changes the selection for the patch set comparison and
+In the header, on each side, the list of patchsets is shown. Clicking
+on a patchset changes the selection for the patchset comparison and
 the screen is refreshed to show the diff between the selected patch
-sets. The currently selected patch set is highlighted by a light blue
+sets. The currently selected patchset is highlighted by a light blue
 background.
 
-On the left side `Base` can be selected to compare a patch set against
+On the left side `Base` can be selected to compare a patchset against
 its base. For merge commits `Auto Merge` is available instead which
 allows to compare the patch against the result of the auto merge. The
 auto merge version may contain Git conflict markers and is useful for
@@ -783,7 +783,7 @@ comparing the old patch against the current patch.
 image::images/user-review-ui-side-by-side-diff-screen-patch-sets.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-patch-sets.png"]
 
 [[download-file]]
-The download icon next to the patch set list allows to download the
+The download icon next to the patchset list allows to download the
 patch. Unless the mime type of the file is configured as safe, the
 download file is a zip archive that contains the patch file.
 
@@ -801,11 +801,11 @@ content is unmodified.
 image::images/user-review-ui-side-by-side-diff-screen-rename.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-rename.png"]
 
 [[navigation]]
-For navigating between the patches in a patch set there are navigation
+For navigating between the patches in a patchset there are navigation
 buttons on the right side of the screen header. The left arrow button
 navigates to the previous patch; the right arrow button navigates to
 the next patch. The arrow up button leads back to the change screen. In
-all cases the selection for the patch set comparison is kept.
+all cases the selection for the patchset comparison is kept.
 
 image::images/user-review-ui-side-by-side-diff-screen-navigation.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-navigation.png"]
 
@@ -875,7 +875,7 @@ image::images/user-review-ui-side-by-side-diff-screen-comment-edit.png[width=800
 [[done]]
 Clicking on the `Done` button is a quick way to reply with "Done" to a
 comment. This is used to mark a comment as addressed by a follow-up
-patch set.
+patchset.
 
 image::images/user-review-ui-side-by-side-diff-screen-replied-done.png[width=800, link="images/user-review-ui-side-by-side-diff-screen-replied-done.png"]
 
@@ -1094,7 +1094,7 @@ when scrolling down more than half of a page.
 
 - [[mark-reviewed]]`Mark Reviewed`:
 +
-Controls whether the files of the patch set should be automatically
+Controls whether the files of the patchset should be automatically
 marked as reviewed when they are viewed.
 
 - [[expand-all-comments]]`Expand All Comments`:
@@ -1150,10 +1150,10 @@ navigate] and link:#search[search] within a patch file.
 There are some important conceptual differences between the old and
 new review UIs:
 
-- The old change screen directly shows all patch sets of the change.
-  With the new change screen only a single patch set is displayed;
-  users can switch between the patch sets by choosing another patch
-  set from the link:#patch-sets[Patch Sets] drop down panel in the
+- The old change screen directly shows all patchsets of the change.
+  With the new change screen only a single patchset is displayed;
+  users can switch between the patchsets by choosing another patch
+  set from the link:#patch-sets[Patchsets] drop down panel in the
   screen header.
 - On the old side-by-side diff screen, new comments are inserted by
   double-clicking on a line. With the new side-by-side diff screen

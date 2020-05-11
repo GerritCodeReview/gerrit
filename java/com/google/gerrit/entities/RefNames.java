@@ -224,7 +224,7 @@ public class RefNames {
    *
    * @param accountId account id
    * @param changeId change number
-   * @param psId patch set number
+   * @param psId patchset number
    * @return reference for this change edit
    */
   public static String refsEdit(Account.Id accountId, Change.Id changeId, PatchSet.Id psId) {

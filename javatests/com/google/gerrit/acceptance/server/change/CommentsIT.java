@@ -856,7 +856,7 @@ public class CommentsIT extends AbstractDaemonTest {
     int c = r1.getChange().getId().get();
     assertThat(extractComments(messages.get(0).body()))
         .isEqualTo(
-            "Patch Set 2:\n"
+            "Patchset 2:\n"
                 + "\n"
                 + "(6 comments)\n"
                 + "\n"

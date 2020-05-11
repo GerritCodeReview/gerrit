@@ -315,7 +315,7 @@ By using a custom link:#submit-rules[submit rule] it can be controlled
 per change whether a label is required for submit or not.
 
 A useful feature on labels is the possibility to automatically copy
-scores forward to new patch sets if it was a
+scores forward to new patchsets if it was a
 link:config-labels.html#label_copyAllScoresOnTrivialRebase[trivial
 rebase] or if link:config-labels.html#label_copyAllScoresIfNoCodeChange[
 there was no code change] (e.g. only the commit message was edited).
@@ -364,7 +364,7 @@ testing submit rules] while developing them.
 == Continuous Integration
 
 With Gerrit you can have continuous integration builds not only for
-updates of central branches but also whenever a new change/patch set is
+updates of central branches but also whenever a new change/patchset is
 uploaded for review. This way you get automatic verification of all
 changes *before* they are merged and any build and test issues are
 detected early. To indicate the build and test status the continuous
@@ -572,7 +572,7 @@ Web UI under `Projects` > `List` > <your project> > `General` in the
 == Download Commands
 
 On the change screen in the `Downloads` drop-down panel Gerrit offers
-commands for downloading the currently viewed patch set.
+commands for downloading the currently viewed patchset.
 
 The download commands are implemented by Gerrit plugins. This means
 that the available download commands depend on the installed Gerrit

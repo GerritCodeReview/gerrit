@@ -233,10 +233,10 @@ public class RevertIT extends AbstractDaemonTest {
     ChangeInfo revertChange = gApi.changes().id(r.getChangeId()).revert().get();
 
     // expected messages on source change:
-    // 1. Uploaded patch set 1.
-    // 2. Patch Set 1: Code-Review+2
+    // 1. Uploaded patchset 1.
+    // 2. Patchset 1: Code-Review+2
     // 3. Change has been successfully merged by Administrator
-    // 4. Patch Set 1: Reverted
+    // 4. Patchset 1: Reverted
     List<ChangeMessageInfo> sourceMessages =
         new ArrayList<>(gApi.changes().id(r.getChangeId()).get().messages);
     assertThat(sourceMessages).hasSize(4);
@@ -245,7 +245,7 @@ public class RevertIT extends AbstractDaemonTest {
     assertThat(sourceMessages.get(3).message).isEqualTo(expectedMessage);
 
     assertThat(revertChange.messages).hasSize(1);
-    assertThat(revertChange.messages.iterator().next().message).isEqualTo("Uploaded patch set 1.");
+    assertThat(revertChange.messages.iterator().next().message).isEqualTo("Uploaded patchset 1.");
     assertThat(revertChange.revertOf).isEqualTo(gApi.changes().id(r.getChangeId()).get()._number);
   }
 
@@ -821,8 +821,8 @@ public class RevertIT extends AbstractDaemonTest {
         .hasSize(3);
 
     // expected messages on source change:
-    // 1. Uploaded patch set 1.
-    // 2. Patch Set 1: Code-Review+2
+    // 1. Uploaded patchset 1.
+    // 2. Patchset 1: Code-Review+2
     // 3. Change has been successfully merged by Administrator
     // 4. Created a revert of this change as %s
 
@@ -836,11 +836,11 @@ public class RevertIT extends AbstractDaemonTest {
           String.format(
               "Created a revert of this change as %s", revertChanges.get(i).get().changeId);
       assertThat(sourceMessages.get(3).message).isEqualTo(expectedMessage);
-      // Expected message on the created change: "Uploaded patch set 1."
+      // Expected message on the created change: "Uploaded patchset 1."
       List<ChangeMessageInfo> messages =
           revertChanges.get(i).get().messages.stream().collect(toList());
       assertThat(messages).hasSize(1);
-      assertThat(messages.get(0).message).isEqualTo("Uploaded patch set 1.");
+      assertThat(messages.get(0).message).isEqualTo("Uploaded patchset 1.");
       assertThat(revertChanges.get(i).get().revertOf)
           .isEqualTo(gApi.changes().id(resultCommits.get(i).getChangeId()).get()._number);
       assertThat(revertChanges.get(i).get().topic)

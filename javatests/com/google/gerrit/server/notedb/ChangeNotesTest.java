@@ -610,7 +610,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
     SubmissionId submissionId = new SubmissionId(c);
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setSubjectForCommit("Submit patch set 1");
+    update.setSubjectForCommit("Submit patchset 1");
 
     update.merge(
         submissionId,
@@ -652,7 +652,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
     SubmissionId submissionId = new SubmissionId(c);
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setSubjectForCommit("Submit patch set 1");
+    update.setSubjectForCommit("Submit patchset 1");
     update.merge(
         submissionId,
         ImmutableList.of(
@@ -661,7 +661,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     incrementPatchSet(c);
     update = newUpdate(c, changeOwner);
-    update.setSubjectForCommit("Submit patch set 2");
+    update.setSubjectForCommit("Submit patchset 2");
     update.merge(
         submissionId,
         ImmutableList.of(
@@ -1121,7 +1121,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     PatchSet ps = notes.getCurrentPatchSet();
     assertThat(ps).isNotNull();
 
-    // new revId for the same patch set, ps1
+    // new revId for the same patchset, ps1
     ChangeUpdate update = newUpdate(c, changeOwner);
     RevCommit commit = tr.commit().message("PS1 again").create();
     update.setCommit(rw, commit);
@@ -1131,7 +1131,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertCause(
         e,
         ConfigInvalidException.class,
-        "Multiple revisions parsed for patch set 1:"
+        "Multiple revisions parsed for patchset 1:"
             + " "
             + commit.name()
             + " and "
@@ -1164,10 +1164,10 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(ps2.uploader()).isEqualTo(otherUser.getAccountId());
     assertThat(ps2.createdOn()).isEqualTo(notes.getChange().getLastUpdatedOn());
 
-    // comment on ps1, current patch set is still ps2
+    // comment on ps1, current patchset is still ps2
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setPatchSetId(ps1.id());
-    update.setChangeMessage("Comment on old patch set.");
+    update.setChangeMessage("Comment on old patchset.");
     update.commit();
     notes = newNotes(c);
     assertThat(notes.getChange().currentPatchSetId()).isEqualTo(ps2.id());
@@ -2128,7 +2128,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Timestamp now = TimeUtil.nowTs();
     PatchSet.Id psId = c.currentPatchSetId();
 
-    // Write two drafts on the same side of one patch set.
+    // Write two drafts on the same side of one patchset.
     ChangeUpdate update = newUpdate(c, otherUser);
     update.setPatchSetId(psId);
     Comment comment1 =

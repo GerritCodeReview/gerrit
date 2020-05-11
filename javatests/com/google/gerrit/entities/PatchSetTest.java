@@ -56,7 +56,7 @@ public class PatchSetTest {
     // Mismatched last 2 digits.
     assertNotRef("refs/changes/35/1234/56");
 
-    // Something other than patch set after change.
+    // Something other than patchset after change.
     assertNotRef("refs/changes/34/1234/0");
     assertNotRef("refs/changes/34/1234/foo");
     assertNotRef("refs/changes/34/1234|56");

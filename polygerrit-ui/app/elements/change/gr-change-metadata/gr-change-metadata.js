@@ -348,7 +348,7 @@ class GrChangeMetadata extends mixinBehaviors( [
       return {
         class: 'help',
         icon: 'gr-icons:help',
-        message: 'This patch set was created without a push certificate',
+        message: 'This patchset was created without a push certificate',
       };
     }
 

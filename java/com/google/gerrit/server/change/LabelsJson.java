@@ -275,9 +275,9 @@ public class LabelsJson {
     Set<Account.Id> allUsers = new HashSet<>();
     if (detailed) {
       // Users expect to see all reviewers on closed changes, even if they
-      // didn't vote on the latest patch set. If we don't need detailed labels,
+      // didn't vote on the latest patchset. If we don't need detailed labels,
       // we aren't including 0 votes for all users below, so we can just look at
-      // the latest patch set (in the next loop).
+      // the latest patchset (in the next loop).
       for (PatchSetApproval psa : cd.approvals().values()) {
         allUsers.add(psa.accountId());
       }

@@ -36,7 +36,7 @@ public class TestLabels {
 
   public static LabelType patchSetLock() {
     LabelType label =
-        label("Patch-Set-Lock", value(1, "Patch Set Locked"), value(0, "Patch Set Unlocked"));
+        label("Patch-Set-Lock", value(1, "Patchset Locked"), value(0, "Patchset Unlocked"));
     label.setFunction(LabelFunction.PATCH_SET_LOCK);
     return label;
   }

@@ -88,7 +88,7 @@ public class DeleteDraftComment implements RestModifyView<DraftCommentResource, 
       PatchSet.Id psId = PatchSet.id(ctx.getChange().getId(), key.patchSetId);
       PatchSet ps = psUtil.get(ctx.getNotes(), psId);
       if (ps == null) {
-        throw new ResourceNotFoundException("patch set not found: " + psId);
+        throw new ResourceNotFoundException("patchset not found: " + psId);
       }
       Comment c = maybeComment.get();
       setCommentCommitId(c, patchListCache, ctx.getChange(), ps);

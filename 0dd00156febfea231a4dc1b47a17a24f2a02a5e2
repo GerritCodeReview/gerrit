@@ -22,6 +22,30 @@
       "revId": "0dd00156febfea231a4dc1b47a17a24f2a02a5e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87e21ee9_d9de57d0",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceId.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-05-11T18:36:33Z",
+      "side": 1,
+      "message": "\u003ccode\u003enull\u003c/code\u003e seems the way to go",
+      "parentUuid": "faec91d2_6f608cea",
+      "range": {
+        "startLine": 25,
+        "startChar": 16,
+        "endLine": 25,
+        "endChar": 38
+      },
+      "revId": "0dd00156febfea231a4dc1b47a17a24f2a02a5e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

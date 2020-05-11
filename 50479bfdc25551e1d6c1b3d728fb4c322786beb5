@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de91956f_6676a0ce",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-11T12:58:51Z",
+      "side": 1,
+      "message": "It might be nice to move JSON.parse(JSON.stringify to its own function, maybe even move to utils/. Then you could give it a proper name (deepClone?) and maybe also add a comment that functions are not converted.",
+      "range": {
+        "startLine": 79,
+        "startChar": 30,
+        "endLine": 79,
+        "endChar": 55
+      },
+      "revId": "50479bfdc25551e1d6c1b3d728fb4c322786beb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

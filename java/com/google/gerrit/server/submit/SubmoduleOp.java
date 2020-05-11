@@ -485,7 +485,7 @@ public class SubmoduleOp {
   }
 
   /** Amend an existing commit with gitlink updates */
-  CodeReviewCommit composeGitlinksCommit(BranchNameKey subscriber, CodeReviewCommit currentCommit)
+  CodeReviewCommit amendGitlinksCommit(BranchNameKey subscriber, CodeReviewCommit currentCommit)
       throws IOException, SubmoduleConflictException {
     OpenRepo or;
     try {

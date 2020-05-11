@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ae728f75_002b88be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-05-11T12:52:38Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "39e9d294_b3ee2c07",
+      "revId": "4f501aff034e7f3149cf1edf5d3ee2ffd0a0d0af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54a3639e_d8e3efc4",
         "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
         "patchSetId": 5
@@ -74,6 +92,30 @@
       "revId": "4f501aff034e7f3149cf1edf5d3ee2ffd0a0d0af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "332207b9_f87fb099",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-05-11T12:52:38Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "9a5e6f2d_bac3ec4a",
+      "range": {
+        "startLine": 241,
+        "startChar": 6,
+        "endLine": 245,
+        "endChar": 18
+      },
+      "revId": "4f501aff034e7f3149cf1edf5d3ee2ffd0a0d0af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

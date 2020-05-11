@@ -34,6 +34,24 @@
       "revId": "66b6088d03f0a76e826adcad5f2247833d8488d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab8fc889_662e5d0b",
+        "filename": "polygerrit-ui/app/test/common-test-setup-karma.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-11T14:44:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fe8a5e8_888161f4",
+      "revId": "66b6088d03f0a76e826adcad5f2247833d8488d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

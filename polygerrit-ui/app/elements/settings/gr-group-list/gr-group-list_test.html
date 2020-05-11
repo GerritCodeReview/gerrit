@@ -92,22 +92,32 @@ limitations under the License.
       assert.equal(element._computeVisibleToAll(groups[1]), 'Yes');
     });
 
-    test('_computeGroupPath', () => {
+    test('_computeGroupPath id', () => {
       sandbox.stub(Gerrit.Nav, 'getUrlForGroup',
           () => '/admin/groups/e2cd66f88a2db4d391ac068a92d987effbe872f5');
 
       let group = {
         id: 'e2cd66f88a2db4d391ac068a92d987effbe872f5',
       };
-
       assert.equal(element._computeGroupPath(group),
           '/admin/groups/e2cd66f88a2db4d391ac068a92d987effbe872f5');
 
       group = {
         name: 'admin',
       };
-
       assert.isUndefined(element._computeGroupPath(group));
+    });
+
+    test('_computeGroupPath group_id', () => {
+      sandbox.stub(Gerrit.Nav, 'getUrlForGroup',
+          () => '/admin/groups/1');
+
+      const group = {
+        id: 'e2cd66f88a2db4d391ac068a92d987effbe872f5',
+        group_id: 1,
+      };
+
+      assert.equal(element._computeGroupPath(group), 1);
     });
   });
 </script>

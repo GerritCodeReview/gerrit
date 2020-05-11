@@ -261,7 +261,7 @@ public class ReplaceOp implements BatchUpdateOp {
     oldRecipients = getRecipientsFromReviewers(cd.reviewers());
 
     ChangeUpdate update = ctx.getUpdate(patchSetId);
-    update.setSubjectForCommit("Create patch set " + patchSetId.get());
+    update.setSubjectForCommit("Create patchset " + patchSetId.get());
 
     String reviewMessage = null;
     String psDescription = null;
@@ -380,7 +380,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private static InternalAddReviewerInput newAddReviewerInput(
       String reviewer, ReviewerState state) {
     // Disable individual emails when adding reviewers, as all reviewers will receive the single
-    // bulk new patch set email.
+    // bulk new patchset email.
     InternalAddReviewerInput input =
         ReviewerAdder.newAddReviewerInput(reviewer, state, NotifyHandling.NONE);
 
@@ -421,15 +421,15 @@ public class ReplaceOp implements BatchUpdateOp {
   private String changeKindMessage(ChangeKind changeKind) {
     switch (changeKind) {
       case MERGE_FIRST_PARENT_UPDATE:
-        return ": New merge patch set was added with a new first parent relative to Patch Set "
+        return ": New merge patchset was added with a new first parent relative to Patchset "
             + priorPatchSetId.get()
             + ".";
       case TRIVIAL_REBASE:
-        return ": Patch Set " + priorPatchSetId.get() + " was rebased.";
+        return ": Patchset " + priorPatchSetId.get() + " was rebased.";
       case NO_CHANGE:
-        return ": New patch set was added with same tree, parent"
+        return ": New patchset was added with same tree, parent"
             + (commit.getParentCount() != 1 ? "s" : "")
-            + ", and commit message as Patch Set "
+            + ", and commit message as Patchset "
             + priorPatchSetId.get()
             + ".";
       case NO_CODE_CHANGE:
@@ -537,7 +537,7 @@ public class ReplaceOp implements BatchUpdateOp {
         cm.send();
       } catch (Exception e) {
         logger.atSevere().withCause(e).log(
-            "Cannot send email for new patch set %s", newPatchSet.id());
+            "Cannot send email for new patchset %s", newPatchSet.id());
       }
     }
 

@@ -170,12 +170,12 @@ It is recommended to set this option and use a
 link:user-changeid.html#create[commit-msg hook] (or other client side
 tooling like EGit) to automatically generate Change-Id's for new
 commits. This way the Change-Id is automatically in place when changes
-are reworked or rebased and uploading new patch sets gets easy.
+are reworked or rebased and uploading new patchsets gets easy.
 
 If this option is not set, commits can be uploaded without a Change-Id,
 but then users have to remember to copy the assigned Change-Id from the
 change screen and insert it manually into the commit message when they
-want to upload a second patch set.
+want to upload a second patchset.
 
 Default is `INHERIT`, which means that this property is inherited from
 the parent project. The global default for new hosts is `true`
@@ -389,7 +389,7 @@ project needs to follow submits with `git log --first-parent`.
 [[cherry_pick]]
 * Cherry Pick
 +
-Always cherry pick the patch set, ignoring the parent lineage
+Always cherry pick the patchset, ignoring the parent lineage
 and instead creating a brand new commit on top of the current
 branch head.
 +
@@ -397,7 +397,7 @@ When cherry picking a change, Gerrit automatically appends onto the
 end of the commit message a short summary of the change's approvals,
 and a URL link back to the change on the web.  The committer header
 is also set to the submitter, while the author header retains the
-original patch set author.
+original patchset author.
 +
 Note that Gerrit ignores dependencies between changes when using this
 submit type unless

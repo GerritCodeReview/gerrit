@@ -19,7 +19,7 @@ public enum ChangeKind {
   /** Nontrivial content changes. */
   REWORK,
 
-  /** Conflict-free merge between the new parent and the prior patch set. */
+  /** Conflict-free merge between the new parent and the prior patchset. */
   TRIVIAL_REBASE,
 
   /** Conflict-free change of first (left) parent of a merge commit. */

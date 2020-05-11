@@ -1,7 +1,7 @@
 = gerrit review
 
 == NAME
-gerrit review - Apply reviews to one or more patch sets.
+gerrit review - Apply reviews to one or more patchsets.
 
 == SYNOPSIS
 [verse]
@@ -27,10 +27,10 @@ Updates the current user's approval status of the specified patch
 sets and/or submits them for merging, sending out email
 notifications and updating code review metadata.
 
-Patch sets may be specified in 'CHANGEID,PATCHSET' format, such as
+Patchsets may be specified in 'CHANGEID,PATCHSET' format, such as
 '8242,2', or 'COMMIT' format.
 
-If a patch set is specified with the 'COMMIT' format, the complete
+If a patchset is specified with the 'COMMIT' format, the complete
 or abbreviated commit SHA-1 may be used.  If the same commit is available
 in multiple projects the `--project` option may be used to limit where
 Gerrit searches for the change to only the contents of the specified project.
@@ -103,7 +103,7 @@ branch.
 
 --submit::
 -s::
-	Submit the specified patch set(s) for merging.
+	Submit the specified patchset(s) for merging.
 	(option is mutually exclusive with --abandon, --rebase
 	and --json)
 
@@ -121,7 +121,7 @@ branch.
 	Set a label by name to the value 'N'. The ability to vote on all specified
 	labels is required. If the vote is invalid (invalid label or invalid name),
 	the vote is not permitted for the user, or the vote is on an outdated or
-	closed patch set, return an error instead of silently discarding the vote.
+	closed patchset, return an error instead of silently discarding the vote.
 
 --tag::
 -t::
@@ -145,7 +145,7 @@ Approve the change with commit c0ff33 as "Verified +1"
 $ ssh -p 29418 review.example.com gerrit review --verified +1 8242,2
 ----
 
-Approve the change with change number 8242 and patch set 2 as "Code-Review +2"
+Approve the change with change number 8242 and patchset 2 as "Code-Review +2"
 ----
 $ ssh -p 29418 review.example.com gerrit review --code-review +2 8242,2
 ----

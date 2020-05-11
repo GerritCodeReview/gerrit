@@ -50,7 +50,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * Helper to sort {@link ChangeData}s based on {@link RevWalk} ordering.
  *
  * <p>Split changes by project, and map each change to a single commit based on the latest patch
- * set. The set of patch sets considered may be limited by calling {@link
+ * set. The set of patchsets considered may be limited by calling {@link
  * #includePatchSets(Iterable)}. Perform a standard {@link RevWalk} on each project repository, do
  * an approximate topo sort, and record the order in which each change's commit is seen.
  *
@@ -124,7 +124,7 @@ public class WalkSorter {
         return ImmutableList.of(byCommit.values().iterator().next());
       }
 
-      // Walk from all patch set SHA-1s, and terminate as soon as we've found
+      // Walk from all patchset SHA-1s, and terminate as soon as we've found
       // everything we're looking for. This is equivalent to just sorting the
       // list of commits by the RevWalk's configured order.
       //
@@ -227,14 +227,14 @@ public class WalkSorter {
         }
       }
       if (maxPs == null) {
-        continue; // No patch sets matched.
+        continue; // No patchsets matched.
       }
       try {
         RevCommit c = rw.parseCommit(maxPs.commitId());
         byCommit.put(c, PatchSetData.create(cd, maxPs, c));
       } catch (MissingObjectException | IncorrectObjectTypeException e) {
         logger.atWarning().withCause(e).log(
-            "missing commit %s for patch set %s", maxPs.commitId().name(), maxPs.id());
+            "missing commit %s for patchset %s", maxPs.commitId().name(), maxPs.id());
       }
     }
     return byCommit;

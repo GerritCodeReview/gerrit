@@ -145,7 +145,7 @@ public class RevisionJson {
   }
 
   /**
-   * Returns a {@link RevisionInfo} based on a change and patch set. Reads from the repository
+   * Returns a {@link RevisionInfo} based on a change and patchset. Reads from the repository
    * depending on the options provided when constructing this instance.
    */
   public RevisionInfo getRevisionInfo(ChangeData cd, PatchSet in)

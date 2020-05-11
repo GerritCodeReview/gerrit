@@ -340,7 +340,7 @@ public class GitwebConfig {
 
     @Override
     public WebLinkInfo getParentWebLink(String projectName, String commit) {
-      // For Gitweb treat parent revision links the same as patch set links
+      // For Gitweb treat parent revision links the same as patchset links
       return getPatchSetWebLink(projectName, commit);
     }
 

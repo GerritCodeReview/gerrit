@@ -66,7 +66,7 @@ export const htmlTemplate = html`
   </style>
   <section>
     <h3 class="title">
-      Patch set [[patchNum]] of [[_computePatchSetQuantity(change.revisions)]]
+      Patchset [[patchNum]] of [[_computePatchSetQuantity(change.revisions)]]
     </h3>
   </section>
   <section class$="[[_computeShowDownloadCommands(_schemes)]]">

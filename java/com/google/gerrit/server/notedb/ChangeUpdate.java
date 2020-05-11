@@ -550,7 +550,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (commitSubject != null) {
       msg.append(commitSubject);
     } else {
-      msg.append("Update patch set ").append(ps);
+      msg.append("Update patchset ").append(ps);
     }
     msg.append("\n\n");
 

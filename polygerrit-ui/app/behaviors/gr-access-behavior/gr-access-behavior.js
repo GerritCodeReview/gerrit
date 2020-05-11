@@ -28,7 +28,7 @@ export const AccessBehavior = {
         },
         addPatchSet: {
           id: 'addPatchSet',
-          name: 'Add Patch Set',
+          name: 'Add Patchset',
         },
         create: {
           id: 'create',

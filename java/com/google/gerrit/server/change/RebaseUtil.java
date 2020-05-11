@@ -64,7 +64,7 @@ public class RebaseUtil {
       return false;
     } catch (StorageException | IOException e) {
       logger.atWarning().withCause(e).log(
-          "Error checking if patch set %s on %s can be rebased", patchSet.id(), dest);
+          "Error checking if patchset %s on %s can be rebased", patchSet.id(), dest);
       return false;
     }
   }
@@ -95,7 +95,7 @@ public class RebaseUtil {
       }
     }
 
-    // Try parsing base as a change number (assume current patch set).
+    // Try parsing base as a change number (assume current patchset).
     Integer baseChangeId = Ints.tryParse(base);
     if (baseChangeId != null) {
       ChangeNotes baseNotes = notesFor(rsrc, Change.id(baseChangeId));
@@ -127,16 +127,16 @@ public class RebaseUtil {
   }
 
   /**
-   * Find the commit onto which a patch set should be rebased.
+   * Find the commit onto which a patchset should be rebased.
    *
-   * <p>This is defined as the latest patch set of the change corresponding to this commit's parent,
+   * <p>This is defined as the latest patchset of the change corresponding to this commit's parent,
    * or the destination branch tip in the case where the parent's change is merged.
    *
-   * @param patchSet patch set for which the new base commit should be found.
+   * @param patchSet patchset for which the new base commit should be found.
    * @param destBranch the destination branch.
    * @param git the repository.
    * @param rw the RevWalk.
-   * @return the commit onto which the patch set should be rebased.
+   * @return the commit onto which the patchset should be rebased.
    * @throws RestApiException if rebase is not possible.
    * @throws IOException if accessing the repository fails.
    */
@@ -170,7 +170,7 @@ public class RebaseUtil {
         if (depChange.isNew()) {
           if (depPatchSet.id().equals(depChange.currentPatchSetId())) {
             throw new ResourceConflictException(
-                "Change is already based on the latest patch set of the dependent change.");
+                "Change is already based on the latest patchset of the dependent change.");
           }
           baseId = cd.currentPatchSet().commitId();
         }

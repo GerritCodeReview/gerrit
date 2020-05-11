@@ -25,7 +25,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * An API for the change edit of a change. A change edit is similar to a patch set and will become
+ * An API for the change edit of a change. A change edit is similar to a patchset and will become
  * one if it is published (by {@link #publish(PublishChangeEditInput)}). Whenever the descriptions
  * below refer to files of a change edit, they actually refer to the files of the Git tree which is
  * represented by the change edit. A change can have at most one change edit at each point in time.
@@ -69,7 +69,7 @@ public interface ChangeEditApi {
   Optional<EditInfo> get() throws RestApiException;
 
   /**
-   * Creates a new change edit. It has exactly the same Git tree as the current patch set of the
+   * Creates a new change edit. It has exactly the same Git tree as the current patchset of the
    * change.
    *
    * @throws RestApiException if the change edit couldn't be created or a change edit already exists
@@ -84,7 +84,7 @@ public interface ChangeEditApi {
   void delete() throws RestApiException;
 
   /**
-   * Rebases the change edit on top of the latest patch set of this change.
+   * Rebases the change edit on top of the latest patchset of this change.
    *
    * @throws RestApiException if the change edit couldn't be rebased or a change edit wasn't present
    */
@@ -123,7 +123,7 @@ public interface ChangeEditApi {
 
   /**
    * Renames a file of the change edit or moves the file to another directory. If the change edit
-   * doesn't exist, it will be created based on the current patch set of the change.
+   * doesn't exist, it will be created based on the current patchset of the change.
    *
    * @param oldFilePath the current file path
    * @param newFilePath the desired file path
@@ -132,10 +132,10 @@ public interface ChangeEditApi {
   void renameFile(String oldFilePath, String newFilePath) throws RestApiException;
 
   /**
-   * Restores a file of the change edit to the state in which it was before the patch set on which
+   * Restores a file of the change edit to the state in which it was before the patchset on which
    * the change edit is based. This includes the file content as well as the existence or
    * non-existence of the file. If the change edit doesn't exist, it will be created based on the
-   * current patch set of the change.
+   * current patchset of the change.
    *
    * @param filePath the path of the file
    * @throws RestApiException if the file couldn't be restored to its previous state
@@ -145,7 +145,7 @@ public interface ChangeEditApi {
   /**
    * Modify the contents of the specified file of the change edit. If no content is provided, the
    * content of the file is erased but the file isn't deleted. If the change edit doesn't exist, it
-   * will be created based on the current patch set of the change.
+   * will be created based on the current patchset of the change.
    *
    * @param filePath the path of the file which should be modified
    * @param newContent the desired content of the file
@@ -160,7 +160,7 @@ public interface ChangeEditApi {
   /**
    * Modify the contents of the specified file of the change edit. If no content is provided, the
    * content of the file is erased but the file isn't deleted. If the change edit doesn't exist, it
-   * will be created based on the current patch set of the change.
+   * will be created based on the current patchset of the change.
    *
    * @param filePath the path of the file which should be modified
    * @param input the desired content of the file
@@ -170,7 +170,7 @@ public interface ChangeEditApi {
 
   /**
    * Deletes the specified file from the change edit. If the change edit doesn't exist, it will be
-   * created based on the current patch set of the change.
+   * created based on the current patchset of the change.
    *
    * @param filePath the path fo the file which should be deleted
    * @throws RestApiException if the file couldn't be deleted
@@ -188,7 +188,7 @@ public interface ChangeEditApi {
 
   /**
    * Modifies the commit message of the change edit. If the change edit doesn't exist, it will be
-   * created based on the current patch set of the change.
+   * created based on the current patchset of the change.
    *
    * @param newCommitMessage the desired commit message
    * @throws RestApiException if the commit message couldn't be modified

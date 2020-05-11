@@ -1330,7 +1330,7 @@ suite('gr-diff-host tests', () => {
   });
 
   test('thread should use old file path if first created' +
-   'on patch set (left) before renaming', () => {
+   'on patchset (left) before renaming', () => {
     const commentSide = 'left';
     element.file = {basePath: 'file_renamed.txt', path: element.path};
 
@@ -1346,7 +1346,7 @@ suite('gr-diff-host tests', () => {
   });
 
   test('thread should use new file path if first created' +
-   'on patch set (right) after renaming', () => {
+   'on patchset (right) after renaming', () => {
     const commentSide = 'right';
     element.file = {basePath: 'file_renamed.txt', path: element.path};
 
@@ -1362,7 +1362,7 @@ suite('gr-diff-host tests', () => {
   });
 
   test('thread should use new file path if first created' +
-   'on patch set (left) but is base', () => {
+   'on patchset (left) but is base', () => {
     const commentSide = 'left';
     element.file = {basePath: 'file_renamed.txt', path: element.path};
 

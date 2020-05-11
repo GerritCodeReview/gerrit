@@ -236,5 +236,15 @@
     _computeGroupDisabled(owner, admin, groupIsInternal) {
       return groupIsInternal && (admin || owner) ? false : true;
     },
+
+    _getGroupUUID(id) {
+      if (!id) return;
+
+      if (id.match(INTERNAL_GROUP_REGEX)) {
+        return decodeURIComponent(id);
+      }
+
+      return id;
+    },
   });
 })();

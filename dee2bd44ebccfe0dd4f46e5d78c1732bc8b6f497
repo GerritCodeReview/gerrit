@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "fec58894_355aa07f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-11T06:52:55Z",
+      "side": 1,
+      "message": "This sounds reasonable.  In that case, the change should be moved to stable-3.2 so it can be included in the final 3.2 release.  I assume we would also need to upgrade jgit on stable-3.2 to use the head of master.",
+      "parentUuid": "3ada978b_4a7d3f40",
+      "range": {
+        "startLine": 11,
+        "startChar": 26,
+        "endLine": 12,
+        "endChar": 20
+      },
+      "revId": "dee2bd44ebccfe0dd4f46e5d78c1732bc8b6f497",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d4273aa_97fd45fe",
         "filename": "/COMMIT_MSG",
         "patchSetId": 11

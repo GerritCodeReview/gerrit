@@ -19,6 +19,41 @@
     },
     {
       "key": {
+        "uuid": "937cb3be_687f2ec8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-11T12:52:30Z",
+      "side": 1,
+      "message": "replied in the bug: https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d12725\n\nThere are multiple issues with this bug",
+      "parentUuid": "39e9d294_b3ee2c07",
+      "revId": "4f501aff034e7f3149cf1edf5d3ee2ffd0a0d0af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54a3639e_d8e3efc4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-11T12:52:30Z",
+      "side": 1,
+      "message": "why not just use `id` field all the time ? https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html#group-info\n\nand `/` is too hacky.. we have group with `:` instead of `/` : https://gerrit-review.googlesource.com/admin/groups/ldap:employees\n\nas I mentioned in the bug, I think there are problems on the group admin page, that\u0027s where the numeric id was exposed at the first place",
+      "revId": "4f501aff034e7f3149cf1edf5d3ee2ffd0a0d0af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9a5e6f2d_bac3ec4a",
         "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
         "patchSetId": 5

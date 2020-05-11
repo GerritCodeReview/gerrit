@@ -141,6 +141,30 @@
       "revId": "dee2bd44ebccfe0dd4f46e5d78c1732bc8b6f497",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb8535fb_cbd21bf9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-05-11T07:23:15Z",
+      "side": 1,
+      "message": "dropping JSch requires https://git.eclipse.org/r/#/c/156153/ so that jgit core does no longer depend on it",
+      "parentUuid": "a190263c_e8d5b84c",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 70
+      },
+      "revId": "dee2bd44ebccfe0dd4f46e5d78c1732bc8b6f497",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

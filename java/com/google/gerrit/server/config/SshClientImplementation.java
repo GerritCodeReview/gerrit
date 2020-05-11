@@ -38,7 +38,7 @@ public enum SshClientImplementation {
       value = System.getProperty(SYS_PROP);
     }
     if (Strings.isNullOrEmpty(value)) {
-      return JSCH;
+      return APACHE;
     }
     SshClientImplementation client =
         Enums.getIfPresent(SshClientImplementation.class, value).orNull();

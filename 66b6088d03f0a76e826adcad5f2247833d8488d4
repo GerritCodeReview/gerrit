@@ -16,6 +16,24 @@
       "revId": "66b6088d03f0a76e826adcad5f2247833d8488d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fe8a5e8_888161f4",
+        "filename": "polygerrit-ui/app/test/common-test-setup-karma.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-11T12:30:26Z",
+      "side": 1,
+      "message": "Yes, this is intended (and the comment defines that this is expected behavior).\nThe implementation with callback is required to avoid modification in existing tests.\nIf a callback is passed, it must be prohibited to use async/promise at the same time.\n\nAnother option is to add separate method flushAsync without callback (callback is also an async code, so may be this name is not good).",
+      "parentUuid": "18f885b0_a17522a6",
+      "revId": "66b6088d03f0a76e826adcad5f2247833d8488d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -52,6 +52,24 @@
       "revId": "3e8cb1fe5480cc400d8eaae26954d50b650f5b4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3009e480_3e4b0590",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-05-11T00:28:51Z",
+      "side": 1,
+      "message": "This https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d12679",
+      "parentUuid": "43cfa75c_1e9ddaa3",
+      "revId": "3e8cb1fe5480cc400d8eaae26954d50b650f5b4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

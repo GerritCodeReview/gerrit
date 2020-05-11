@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm;
 
 import static com.google.gerrit.common.Version.getVersion;
+import static com.google.gerrit.server.config.SshClientImplementation.APACHE;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -77,7 +78,6 @@ import com.google.gerrit.server.config.GerritInstanceNameModule;
 import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SshClientImplementation;
 import com.google.gerrit.server.config.SysExecutorModule;
 import com.google.gerrit.server.events.EventBroker;
 import com.google.gerrit.server.events.StreamEventsApiListener;
@@ -474,8 +474,7 @@ public class Daemon extends SiteProgram {
           });
     }
     modules.add(new DefaultUrlFormatter.Module());
-    if (SshClientImplementation.APACHE
-        == config.getEnum("ssh", null, "clientImplementation", SshClientImplementation.JSCH)) {
+    if (APACHE == config.getEnum("ssh", null, "clientImplementation", APACHE)) {
       SshdSessionFactory factory =
           new SshdSessionFactory(new JGitKeyCache(), new DefaultProxyDataFactory());
       factory.setHomeDirectory(FS.DETECTED.userHome());

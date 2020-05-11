@@ -4672,10 +4672,10 @@ namespace. To alias `replication start` to `gerrit replicate`:
 
 [[ssh.clientImplementation]]ssh.clientImplementation::
 +
-Apache MINA SSH client is supported in addition to the JCraft JSch client.
-To use Apache MINA SSH client set the value to `APACHE`.
+JCraft JSch client is supported in addition to Apache MINA SSH client.
+To use JSch client set the value to `JSCH`.
 +
-By default, `JSCH`.
+By default, `APACHE`.
 
 [[sshd]]
 === Section sshd

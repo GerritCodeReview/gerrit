@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.init;
 
+import static com.google.gerrit.server.config.SshClientImplementation.APACHE;
 import static com.google.inject.Stage.PRODUCTION;
 
 import com.google.common.base.Splitter;
@@ -68,7 +69,6 @@ import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
-import com.google.gerrit.server.config.SshClientImplementation;
 import com.google.gerrit.server.config.SysExecutorModule;
 import com.google.gerrit.server.events.EventBroker;
 import com.google.gerrit.server.events.StreamEventsApiListener;
@@ -214,8 +214,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
       dbInjector = createDbInjector();
       initIndexType();
       config = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
-      if (SshClientImplementation.APACHE
-          == config.getEnum("ssh", null, "clientImplementation", SshClientImplementation.JSCH)) {
+      if (APACHE == config.getEnum("ssh", null, "clientImplementation", APACHE)) {
         SshdSessionFactory factory =
             new SshdSessionFactory(new JGitKeyCache(), new DefaultProxyDataFactory());
         factory.setHomeDirectory(FS.DETECTED.userHome());

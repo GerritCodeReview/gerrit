@@ -94,6 +94,30 @@
       "revId": "00fd60d91ad0067d1e1f65647d5aebe79c4898fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2edc7d47_3f2f98c2",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-11T08:12:03Z",
+      "side": 0,
+      "message": "\u003e In that case we just remove this part from the document and don\u0027t care about the blank lines.\n\u003e \n\u003e The point here is that we should rely *only* on the automated formatting, not automated formatting plus some minor nits that must be done manually.\n\nI disagree. If Google Style Guide doesn\u0027t address some specific code styles, even minor ones, this project can and should enforce them and this is exactly the correct place to do that.",
+      "parentUuid": "fb63aef2_2e96e9cf",
+      "range": {
+        "startLine": 198,
+        "startChar": 2,
+        "endLine": 198,
+        "endChar": 68
+      },
+      "revId": "00fd60d91ad0067d1e1f65647d5aebe79c4898fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

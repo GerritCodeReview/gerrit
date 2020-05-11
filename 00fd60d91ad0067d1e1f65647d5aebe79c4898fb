@@ -238,6 +238,30 @@
       "revId": "00fd60d91ad0067d1e1f65647d5aebe79c4898fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f609002_79828aba",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T13:02:09Z",
+      "side": 0,
+      "message": "I agree: we should rely on GJF and, if we don\u0027t like it, we fork it or submit PRs to it.\n\nHaving to do \"half auto\" and \"half manual\" corrections on formatting (*only the stuff that GJF does*), it forces us spending time in reviewing spaces rather than code :-(",
+      "parentUuid": "011b356b_d5ac3e83",
+      "range": {
+        "startLine": 198,
+        "startChar": 2,
+        "endLine": 198,
+        "endChar": 68
+      },
+      "revId": "00fd60d91ad0067d1e1f65647d5aebe79c4898fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

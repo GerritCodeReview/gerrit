@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "dfd72957_31c35d0e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2237,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T13:18:29Z",
+      "side": 1,
+      "message": "Possibly makes sense, but as a follow-up change IMHO.",
+      "parentUuid": "4ff69400_60ba787d",
+      "range": {
+        "startLine": 2237,
+        "startChar": 36,
+        "endLine": 2237,
+        "endChar": 44
+      },
+      "revId": "1722353e38ec438dc1e460aebdb72a09d6107ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58fed3e5_1f8c7e35",
         "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 2
@@ -329,6 +353,30 @@
       "revId": "1722353e38ec438dc1e460aebdb72a09d6107ff5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31b24e11_66dd8ed5",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceId.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T13:18:29Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "da4e79ec_6065456e",
+      "range": {
+        "startLine": 11,
+        "startChar": 80,
+        "endLine": 11,
+        "endChar": 98
+      },
+      "revId": "1722353e38ec438dc1e460aebdb72a09d6107ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -22,6 +22,30 @@
       "revId": "93c6035d17b449e42dde6aaba1328df6061a5363",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e51d37f9_fd5debae",
+        "filename": "javatests/com/google/gerrit/integration/git/UploadArchiveIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-11T18:50:21Z",
+      "side": 1,
+      "message": "Never mind, git archive doesn\u0027t support HTTP protocol.",
+      "parentUuid": "20e2844a_9fe360be",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 8
+      },
+      "revId": "93c6035d17b449e42dde6aaba1328df6061a5363",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

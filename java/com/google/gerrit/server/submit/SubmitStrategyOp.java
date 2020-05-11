@@ -549,7 +549,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
 
     // Modify the commit with gitlink update
     try {
-      return args.submoduleOp.composeGitlinksCommit(args.destBranch, commit);
+      return args.submoduleOp.amendGitlinksCommit(args.destBranch, commit);
     } catch (IOException e) {
       throw new StorageException(
           String.format("cannot update gitlink for the commit at branch %s", args.destBranch), e);

@@ -46,6 +46,30 @@
       "revId": "00fd60d91ad0067d1e1f65647d5aebe79c4898fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20ce7d08_7966f7e7",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-11T07:20:36Z",
+      "side": 0,
+      "message": "\u003e If we want to remove those lines, we should raise an issue on gjf to have it do that.\n\nIt will be rejected, because Google Style Guide does not enforce it, as mentioned in my previous comment. I will defer to Google team to clarify the situation.",
+      "parentUuid": "700d9812_5d130eb3",
+      "range": {
+        "startLine": 198,
+        "startChar": 2,
+        "endLine": 198,
+        "endChar": 68
+      },
+      "revId": "00fd60d91ad0067d1e1f65647d5aebe79c4898fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

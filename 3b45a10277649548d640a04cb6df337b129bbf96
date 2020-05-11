@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "8b356f82_3927b739",
+        "filename": "java/com/google/gerrit/server/patch/PatchList.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-11T16:57:49Z",
+      "side": 1,
+      "message": "\u003e Cool! Thanks for sharing how amazing java comparators work, I would never imagine this behavior.\n\nI\u0027m positive that you will with time. :-)",
+      "parentUuid": "cfe11350_328f7942",
+      "range": {
+        "startLine": 48,
+        "startChar": 2,
+        "endLine": 64,
+        "endChar": 3
+      },
+      "revId": "3b45a10277649548d640a04cb6df337b129bbf96",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0745bff_5d06a6d0",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 15

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a21c431c_a9f1d247",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-11T07:57:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7aa55a1b_7bd86235",
+      "revId": "3fb92490d388cbd099d61158fb4c942ff87bc041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ae2e789_9832cfd9",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 1
@@ -90,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "40b1aa51_8cdb8afd",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-11T07:57:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f28992d8_41ed2a30",
+      "range": {
+        "startLine": 105,
+        "startChar": 2,
+        "endLine": 115,
+        "endChar": 8
+      },
+      "revId": "3fb92490d388cbd099d61158fb4c942ff87bc041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8aad207e_53ca5f55",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 1
@@ -104,6 +146,24 @@
       "revId": "3fb92490d388cbd099d61158fb4c942ff87bc041",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7be462fd_634972b2",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-11T07:57:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8aad207e_53ca5f55",
+      "revId": "3fb92490d388cbd099d61158fb4c942ff87bc041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

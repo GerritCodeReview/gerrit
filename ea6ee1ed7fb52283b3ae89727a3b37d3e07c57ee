@@ -46,6 +46,30 @@
       "revId": "ea6ee1ed7fb52283b3ae89727a3b37d3e07c57ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dab6d760_01ef3f66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T13:06:38Z",
+      "side": 1,
+      "message": "What are the consequences of having 1.61 vs. 1.65 in the same JVM?\nWhat if we bump Bouncycastle to v1.65 in Gerrit core and the Google version would stick with the old one?\n\nAt the end of the day, this looks similar to the Servlet API deps where the OpenSource version included a higher version than the Google\u0027s one: we lived and managed that problem for years.",
+      "parentUuid": "20a62eec_b9313b31",
+      "range": {
+        "startLine": 12,
+        "startChar": 12,
+        "endLine": 12,
+        "endChar": 39
+      },
+      "revId": "ea6ee1ed7fb52283b3ae89727a3b37d3e07c57ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

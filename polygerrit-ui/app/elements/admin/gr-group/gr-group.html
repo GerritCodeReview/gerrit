@@ -52,7 +52,7 @@ limitations under the License.
             <fieldset>
               <gr-copy-clipboard
                   id="uuid"
-                  text="[[_groupConfig.id)]]"></gr-copy-clipboard>
+                  text="[[_getGroupUUID(_groupConfig.id, groupId)]]"></gr-copy-clipboard>
             </fieldset>
             <h3 id="groupName" class$="[[_computeHeaderClass(_rename)]]">
               Group Name

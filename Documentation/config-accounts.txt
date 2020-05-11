@@ -218,7 +218,7 @@ be sent only for changes of that project that match this query.
 In addition, each watch configuration can contain a list of
 notification types that determine for which events email notifications
 should be sent. E.g. a user can configure that email notifications
-should only be sent if a new patch set is uploaded and when the change
+should only be sent if a new patchset is uploaded and when the change
 gets submitted, but not on other events.
 
 Project watches are stored in a `watch.config` file in the user branch:
@@ -396,8 +396,8 @@ star labels.
 [[reviewed-flags]]
 == Reviewed Flags
 
-When reviewing a patch set in the Gerrit UI, the reviewer can mark
-files in the patch set as reviewed. These markers are called ‘Reviewed
+When reviewing a patchset in the Gerrit UI, the reviewer can mark
+files in the patchset as reviewed. These markers are called ‘Reviewed
 Flags’ and are private to the user. A reviewed flag is a tuple of patch
 set ID, file and account ID.
 

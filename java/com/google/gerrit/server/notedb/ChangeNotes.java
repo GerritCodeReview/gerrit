@@ -182,7 +182,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
           }
         } catch (NoSuchChangeException e) {
           // Match ReviewDb behavior, returning not found; maybe the caller learned about it from
-          // a dangling patch set ref or something.
+          // a dangling patchset ref or something.
           continue;
         }
       }
@@ -215,7 +215,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     @Nullable
     private ChangeNotesResult scanOneChange(Project.NameKey project, ScanResult sr, Change.Id id) {
       if (!sr.fromMetaRefs().contains(id)) {
-        // Stray patch set refs can happen due to normal error conditions, e.g. failed
+        // Stray patchset refs can happen due to normal error conditions, e.g. failed
         // push processing, so aren't worth even a warning.
         return null;
       }
@@ -517,7 +517,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   public PatchSet getCurrentPatchSet() {
     PatchSet.Id psId = change.currentPatchSetId();
     return requireNonNull(
-        getPatchSets().get(psId), () -> String.format("missing current patch set %s", psId.get()));
+        getPatchSets().get(psId), () -> String.format("missing current patchset %s", psId.get()));
   }
 
   @Override

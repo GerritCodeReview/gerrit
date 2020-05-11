@@ -370,7 +370,7 @@ public class ParameterizedStringTest {
 
   @Test
   public void replaceSubmitTooltipWithVariables() {
-    ParameterizedString p = new ParameterizedString("Submit patch set ${patchSet} into ${branch}");
+    ParameterizedString p = new ParameterizedString("Submit patchset ${patchSet} into ${branch}");
     assertThat(p.getParameterNames()).hasSize(2);
     assertThat(p.getParameterNames()).containsExactly("patchSet", "branch");
 
@@ -382,17 +382,17 @@ public class ParameterizedStringTest {
     assertThat(p.bind(params)).hasLength(2);
     assertThat(p.bind(params)[0]).isEqualTo("42");
     assertThat(p.bind(params)[1]).isEqualTo("foo");
-    assertThat(p.replace(params)).isEqualTo("Submit patch set 42 into foo");
+    assertThat(p.replace(params)).isEqualTo("Submit patchset 42 into foo");
   }
 
   @Test
   public void replaceSubmitTooltipWithoutVariables() {
-    ParameterizedString p = new ParameterizedString("Submit patch set 40 into master");
+    ParameterizedString p = new ParameterizedString("Submit patchset 40 into master");
     Map<String, String> params =
         ImmutableMap.of(
             "patchSet", "42",
             "branch", "foo");
     assertThat(p.bind(params)).isEmpty();
-    assertThat(p.replace(params)).isEqualTo("Submit patch set 40 into master");
+    assertThat(p.replace(params)).isEqualTo("Submit patchset 40 into master");
   }
 }

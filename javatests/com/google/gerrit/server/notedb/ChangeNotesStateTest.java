@@ -230,7 +230,7 @@ public class ChangeNotesStateTest {
   public void serializeOriginalSubject() throws Exception {
     assertRoundTrip(
         newBuilder()
-            .columns(cols.toBuilder().originalSubject("The first patch set").build())
+            .columns(cols.toBuilder().originalSubject("The first patchset").build())
             .build(),
         ChangeNotesStateProto.newBuilder()
             .setMetaId(SHA_BYTES)
@@ -238,7 +238,7 @@ public class ChangeNotesStateTest {
             .setColumns(
                 colsProto
                     .toBuilder()
-                    .setOriginalSubject("The first patch set")
+                    .setOriginalSubject("The first patchset")
                     .setHasOriginalSubject(true))
             .build());
   }

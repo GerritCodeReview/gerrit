@@ -545,7 +545,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
         pushFactory.create(user.newIdent(), testRepo, "feature", "b.txt", "bar");
     PushOneCommit.Result change2Result = change2.to("refs/for/master");
 
-    // Create new patch set for first change.
+    // Create new patchset for first change.
     testRepo.reset(changeResult.getCommit().name());
     amendChange(changeResult.getChangeId());
 
@@ -563,11 +563,11 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
             + change2Result.getCommit().name()
             + " depends on commit "
             + changeResult.getCommit().name()
-            + ", which is outdated patch set "
+            + ", which is outdated patchset "
             + patchSetId.get()
             + " of change "
             + changeResult.getChange().getId()
-            + ". The latest patch set is "
+            + ". The latest patchset is "
             + changeResult.getPatchSetId().get()
             + ".");
 

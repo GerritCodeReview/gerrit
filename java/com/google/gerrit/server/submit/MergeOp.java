@@ -289,7 +289,7 @@ public class MergeOp implements AutoCloseable {
       throws ResourceConflictException {
     PatchSet patchSet = cd.currentPatchSet();
     if (patchSet == null) {
-      throw new ResourceConflictException("missing current patch set for change " + cd.getId());
+      throw new ResourceConflictException("missing current patchset for change " + cd.getId());
     }
     List<SubmitRecord> results = getSubmitRecords(cd, allowClosed);
     if (SubmitRecord.allRecordsOK(results)) {
@@ -777,7 +777,7 @@ public class MergeOp implements AutoCloseable {
         continue;
       }
       if (chg.currentPatchSetId() == null) {
-        String msg = "Missing current patch set on change";
+        String msg = "Missing current patchset on change";
         logger.atSevere().log("%s %s", msg, changeId);
         commitStatus.problem(changeId, msg);
         continue;
@@ -792,36 +792,36 @@ public class MergeOp implements AutoCloseable {
         continue;
       }
       if (ps == null) {
-        commitStatus.logProblem(changeId, "Missing patch set on change");
+        commitStatus.logProblem(changeId, "Missing patchset on change");
         continue;
       }
 
       ObjectId id = ps.commitId();
       if (!revisions.containsEntry(id, ps.id())) {
         if (revisions.containsValue(ps.id())) {
-          // TODO This is actually an error, the patch set ref exists but points to a revision that
-          // is different from the revision that we have stored for the patch set in the change
+          // TODO This is actually an error, the patchset ref exists but points to a revision that
+          // is different from the revision that we have stored for the patchset in the change
           // meta data.
           commitStatus.logProblem(
               changeId,
               "Revision "
                   + id.name()
-                  + " of patch set "
+                  + " of patchset "
                   + ps.number()
-                  + " does not match the revision of the patch set ref "
+                  + " does not match the revision of the patchset ref "
                   + ps.id().toRefName());
           continue;
         }
 
-        // The patch set ref is not found but we want to merge the change. We can't safely do that
-        // if the patch set ref is missing. In a cluster setups with multiple primary nodes this can
+        // The patchset ref is not found but we want to merge the change. We can't safely do that
+        // if the patchset ref is missing. In a cluster setups with multiple primary nodes this can
         // indicate a replication lag (e.g. the change meta data was already replicated, but the
-        // replication of the patch set ref is still pending).
+        // replication of the patchset ref is still pending).
         commitStatus.logProblem(
             changeId,
-            "Patch set ref "
+            "Patchset ref "
                 + ps.id().toRefName()
-                + " not found. Expected patch set ref of "
+                + " not found. Expected patchset ref of "
                 + ps.number()
                 + " to point to revision "
                 + id.name());

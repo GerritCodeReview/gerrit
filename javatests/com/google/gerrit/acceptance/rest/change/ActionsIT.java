@@ -341,12 +341,12 @@ public class ActionsIT extends AbstractDaemonTest {
     }
     assertThat(info.method).isEqualTo("POST");
     if (nrChanges == 1) {
-      assertThat(info.title).isEqualTo("Submit patch set 1 into master");
+      assertThat(info.title).isEqualTo("Submit patchset 1 into master");
     } else {
       assertThat(info.title)
           .isEqualTo(
               String.format(
-                  "Submit patch set 1 and ancestors (%d changes altogether) into master",
+                  "Submit patchset 1 and ancestors (%d changes altogether) into master",
                   nrChanges));
     }
   }

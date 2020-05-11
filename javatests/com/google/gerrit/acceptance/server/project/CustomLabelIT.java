@@ -190,7 +190,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
       assertThat(q.rejected).isNull();
       assertThat(q.blocking).isNull();
       assertThat(testListener.lastCommentAddedEvent.getComment())
-          .isEqualTo("Patch Set 1:\n\n" + input.message);
+          .isEqualTo("Patchset 1:\n\n" + input.message);
     }
   }
 

@@ -5,14 +5,14 @@ by a <<change-id>>.
 
 Multiple git commits can share the same Change-Id, allowing you to update a
 change as you receive feedback through the code review process. In Gerrit,
-commits that share the same Change-Id are referred to as _patch sets_. When a
+commits that share the same Change-Id are referred to as _patchsets_. When a
 change is approved, only the latest version of a commit is submitted to the
 repository.
 
 You can view a specific change using Gerrit's Review screen. This screen
 provides the following information for each change:
 
-* Current and previous patch sets
+* Current and previous patchsets
 * <<Change properties>>, such as owner, project, and target branch
 * link:CONCEPT-comments.html[Comments]
 * Votes on link:config-labels.html[Review Labels]
@@ -136,7 +136,7 @@ It is often used when users of the project want to be able to read the history
 of submits by running the `git log --first-parent` command.
 
 |Cherry Pick
-|Always cherry pick the patch set, ignoring the parent lineage and instead
+|Always cherry pick the patchset, ignoring the parent lineage and instead
 creating a new commit on top of the current branch.
 
 When cherry picking a change, Gerrit automatically appends a short summary of
@@ -155,7 +155,7 @@ the branch is fast-forwarded to the change. If not, the change is automatically
 rebased and the branch is fast-forwarded to the change.
 
 |Rebase Always
-|Similar to Rebase If Necessary, but creates a new patch set even if fast
+|Similar to Rebase If Necessary, but creates a new patchset even if fast
 forward is possible. This strategy is also similar to Cherry Pick; however,
 Rebase Always does not ignore dependencies.
 
@@ -167,7 +167,7 @@ to submit a change.
 [[change-id]]
 == Change-Id
 
-Gerrit uses a Change-Id to identify which patch sets belong to the same review.
+Gerrit uses a Change-Id to identify which patchsets belong to the same review.
 For example, you make a change to a project. A reviewer supplies some feedback,
 which you address in an amended commit. By assigning the same Change-Id to both
 commits, Gerrit can attach those commits to the same change.

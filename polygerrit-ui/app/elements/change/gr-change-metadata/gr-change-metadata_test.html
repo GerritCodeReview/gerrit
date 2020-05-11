@@ -420,7 +420,7 @@ suite('gr-change-metadata tests', () => {
     const result =
         element._computePushCertificateValidation(serverConfig, change);
     assert.equal(result.message,
-        'This patch set was created without a push certificate');
+        'This patchset was created without a push certificate');
     assert.equal(result.icon, 'gr-icons:help');
     assert.equal(result.class, 'help');
   });

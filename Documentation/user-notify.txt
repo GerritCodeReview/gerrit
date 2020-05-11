@@ -22,7 +22,7 @@ to only see changes proposed for the master branch. If a filter would
 match at the `All-Projects` level as well as a specific project, the
 more specific project's notification settings are used.
 
-Notification mails for new changes and new patch sets are not sent to
+Notification mails for new changes and new patchsets are not sent to
 the change owner.
 
 Notification mails for comments added on changes are not sent to the user
@@ -100,7 +100,7 @@ Types of notifications to send. If not specified, all notifications
 are sent.
 +
 * `new_changes`: Only newly created changes.
-* `new_patchsets`: Only newly created patch sets.
+* `new_patchsets`: Only newly created patchsets.
 * `all_comments`: Only comments on existing changes.
 * `submitted_changes`: Only changes that have been submitted.
 * `abandoned_changes`: Only changes that have been abandoned.
@@ -188,9 +188,9 @@ example `92191`.
 
 [[Gerrit-PatchSet]]Gerrit-PatchSet::
 
-The patch set footer states the number of the patch set that the email
+The patchset footer states the number of the patchset that the email
 relates to. For example, a notification email for a vote being set on
-the seventh patch set will take a value of `7`.
+the seventh patchset will take a value of `7`.
 
 [[Gerrit-Owner]]Gerrit-Owner::
 

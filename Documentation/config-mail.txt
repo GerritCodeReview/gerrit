@@ -210,7 +210,7 @@ The subject of the current change.
 
 $change.originalSubject::
 +
-The subject corresponding to the first patch set of the current change.
+The subject corresponding to the first patchset of the current change.
 
 $change.shortSubject::
 +
@@ -251,19 +251,19 @@ SSH hostname for the Gerrit instance.
 
 $patchSet.patchSetId::
 +
-The current patch set number.
+The current patchset number.
 
 $patchSet.refname::
 +
-The refname of the patch set.
+The refname of the patchset.
 
 $patchSetInfo.authorName::
 +
-The name of the author of the patch set.
+The name of the author of the patchset.
 
 $patchSetInfo.authorEmail::
 +
-The email address of the author of the patch set.
+The email address of the author of the patchset.
 
 GERRIT
 ------

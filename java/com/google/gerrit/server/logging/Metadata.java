@@ -116,7 +116,7 @@ public abstract class Metadata {
   // Type of a sequence in NoteDb (ACCOUNTS, CHANGES, GROUPS).
   public abstract Optional<String> noteDbSequenceType();
 
-  // The ID of a patch set.
+  // The ID of a patchset.
   public abstract Optional<Integer> patchSetId();
 
   // Plugin metadata that doesn't fit into any other category.

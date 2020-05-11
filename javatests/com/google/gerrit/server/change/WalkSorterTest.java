@@ -67,7 +67,7 @@ public class WalkSorterTest {
         ImmutableList.of(
             patchSetData(cd3, c3_1), patchSetData(cd2, c2_1), patchSetData(cd1, c1_1)));
 
-    // Add new patch sets whose commits are in reverse order, so output is in
+    // Add new patchsets whose commits are in reverse order, so output is in
     // reverse order.
     RevCommit c3_2 = p.commit().create();
     RevCommit c2_2 = p.commit().parent(c3_2).create();
@@ -263,7 +263,7 @@ public class WalkSorterTest {
     ChangeData cd1 = newChange(p, c1_1);
     ChangeData cd2 = newChange(p, c2_1);
 
-    // Add new patch sets whose commits are in reverse order.
+    // Add new patchsets whose commits are in reverse order.
     RevCommit c2_2 = p.commit().create();
     RevCommit c1_2 = p.commit().parent(c2_2).create();
 

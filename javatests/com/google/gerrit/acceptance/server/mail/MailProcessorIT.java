@@ -106,7 +106,7 @@ public class MailProcessorIT extends AbstractMailIT {
 
     Collection<ChangeMessageInfo> messages = gApi.changes().id(changeId).get().messages;
     assertThat(messages).hasSize(3);
-    assertThat(Iterables.getLast(messages).message).isEqualTo("Patch Set 1:\n\nTest Message");
+    assertThat(Iterables.getLast(messages).message).isEqualTo("Patchset 1:\n\nTest Message");
     assertThat(Iterables.getLast(messages).tag).isEqualTo("mailMessageId=some id");
   }
 
@@ -130,7 +130,7 @@ public class MailProcessorIT extends AbstractMailIT {
     // Assert messages
     Collection<ChangeMessageInfo> messages = gApi.changes().id(changeId).get().messages;
     assertThat(messages).hasSize(3);
-    assertThat(Iterables.getLast(messages).message).isEqualTo("Patch Set 1:\n\n(1 comment)");
+    assertThat(Iterables.getLast(messages).message).isEqualTo("Patchset 1:\n\n(1 comment)");
     assertThat(Iterables.getLast(messages).tag).isEqualTo("mailMessageId=some id");
 
     // Assert comment
@@ -161,7 +161,7 @@ public class MailProcessorIT extends AbstractMailIT {
     // Assert messages
     Collection<ChangeMessageInfo> messages = gApi.changes().id(changeId).get().messages;
     assertThat(messages).hasSize(3);
-    assertThat(Iterables.getLast(messages).message).isEqualTo("Patch Set 1:\n\n(1 comment)");
+    assertThat(Iterables.getLast(messages).message).isEqualTo("Patchset 1:\n\n(1 comment)");
     assertThat(Iterables.getLast(messages).tag).isEqualTo("mailMessageId=some id");
 
     // Assert comment

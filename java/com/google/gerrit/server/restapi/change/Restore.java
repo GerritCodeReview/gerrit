@@ -87,7 +87,7 @@ public class Restore
   @Override
   public Response<ChangeInfo> apply(ChangeResource rsrc, RestoreInput input)
       throws RestApiException, UpdateException, PermissionBackendException, IOException {
-    // Not allowed to restore if the current patch set is locked.
+    // Not allowed to restore if the current patchset is locked.
     psUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
     rsrc.permissions().check(ChangePermission.RESTORE);
@@ -187,7 +187,7 @@ public class Restore
       }
     } catch (StorageException e) {
       logger.atSevere().withCause(e).log(
-          "Failed to check if the current patch set of change %s is locked", change.getId());
+          "Failed to check if the current patchset of change %s is locked", change.getId());
       return description;
     }
 

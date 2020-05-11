@@ -76,7 +76,7 @@ the following table.
 |Predicate                  |Example usage  |Description
 
 |`commit_delta/1`           |`commit_delta('\\.java$').`
-    |True if any file name from the last patch set matches the given regex.
+    |True if any file name from the last patchset matches the given regex.
 
 |`commit_delta/3`           |`commit_delta('\\.java$', T, P)`
     |Returns the change type (via `T`) and path (via `P`), if the change type

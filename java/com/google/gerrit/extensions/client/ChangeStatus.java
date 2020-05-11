@@ -27,7 +27,7 @@ public enum ChangeStatus {
    * <p>Changes in the NEW state can be moved to:
    *
    * <ul>
-   *   <li>{@link #MERGED} - when the Submit Patch Set action is used;
+   *   <li>{@link #MERGED} - when the Submit Patchset action is used;
    *   <li>{@link #ABANDONED} - when the Abandon action is used.
    * </ul>
    */
@@ -45,7 +45,7 @@ public enum ChangeStatus {
    * Change is closed, but was not submitted to its destination branch.
    *
    * <p>Once a change has been abandoned, it cannot be further modified by adding a replacement
-   * patch set, and it cannot be merged. Draft comments however may be published, permitting
+   * patchset, and it cannot be merged. Draft comments however may be published, permitting
    * reviewers to send constructive feedback.
    *
    * <p>Changes in the ABANDONED state can be moved to:

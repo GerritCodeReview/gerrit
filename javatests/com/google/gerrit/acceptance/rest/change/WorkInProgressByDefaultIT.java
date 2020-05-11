@@ -156,7 +156,7 @@ public class WorkInProgressByDefaultIT extends AbstractDaemonTest {
 
     setWorkInProgressByDefaultForUser();
 
-    // Create new patch set on existing change, this shouldn't mark the change as WIP.
+    // Create new patchset on existing change, this shouldn't mark the change as WIP.
     result = pushFactory.create(admin.newIdent(), testRepo, changeId).to("refs/for/master");
     result.assertOkStatus();
     assertThat(gApi.changes().id(changeId).get().workInProgress).isNull();
@@ -188,7 +188,7 @@ public class WorkInProgressByDefaultIT extends AbstractDaemonTest {
     testRepo.git().fetch().setRefSpecs(RefNames.patchSetRef(ps1OfChange1) + ":c1").call();
     testRepo.reset("c1");
 
-    // Create a new patch set on the existing change and in the same push create a new successor
+    // Create a new patchset on the existing change and in the same push create a new successor
     // change.
     RevCommit commit1b = testRepo.amend(commit1a).create();
     testRepo.reset(commit1b);

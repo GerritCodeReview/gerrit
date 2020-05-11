@@ -48,7 +48,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
 
     RevCommit commit = parseCommit(update.getResult());
     assertBodyEquals(
-        "Update patch set 1\n"
+        "Update patchset 1\n"
             + "\n"
             + "Patch-set: 1\n"
             + "Change-id: "
@@ -87,7 +87,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     assertThat(update.getRefName()).isEqualTo("refs/changes/01/1/meta");
 
     assertBodyEquals(
-        "Update patch set 1\n"
+        "Update patchset 1\n"
             + "\n"
             + "Just a little code change.\n"
             + "How about a new line\n"
@@ -115,7 +115,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     assertThat(update.getRefName()).isEqualTo("refs/changes/01/1/meta");
 
     assertBodyEquals(
-        "Update patch set 1\n"
+        "Update patchset 1\n"
             + "\n"
             + "Foo\n"
             + "\n"
@@ -139,14 +139,14 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.commit();
 
     assertBodyEquals(
-        "Update patch set 1\n\nPatch-set: 1\nLabel: -Code-Review\n", update.getResult());
+        "Update patchset 1\n\nPatch-set: 1\nLabel: -Code-Review\n", update.getResult());
   }
 
   @Test
   public void submitCommitFormat() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setSubjectForCommit("Submit patch set 1");
+    update.setSubjectForCommit("Submit patchset 1");
 
     SubmissionId submissionId = new SubmissionId(c);
     update.merge(
@@ -166,7 +166,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
 
     RevCommit commit = parseCommit(update.getResult());
     assertBodyEquals(
-        "Submit patch set 1\n"
+        "Submit patchset 1\n"
             + "\n"
             + "Patch-set: 1\n"
             + "Status: merged\n"
@@ -207,7 +207,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.commit();
 
     RevCommit commit = parseCommit(update.getResult());
-    assertBodyEquals("Update patch set 1\n\nComment on the change.\n\nPatch-set: 1\n", commit);
+    assertBodyEquals("Update patchset 1\n\nComment on the change.\n\nPatch-set: 1\n", commit);
 
     PersonIdent author = commit.getAuthorIdent();
     assertThat(author.getName()).isEqualTo("Gerrit User 3");
@@ -218,22 +218,22 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   public void submitWithErrorMessage() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
-    update.setSubjectForCommit("Submit patch set 1");
+    update.setSubjectForCommit("Submit patchset 1");
 
     SubmissionId submissionId = new SubmissionId(c);
     update.merge(
-        submissionId, ImmutableList.of(submitRecord("RULE_ERROR", "Problem with patch set:\n1")));
+        submissionId, ImmutableList.of(submitRecord("RULE_ERROR", "Problem with patchset:\n1")));
     update.commit();
 
     assertBodyEquals(
-        "Submit patch set 1\n"
+        "Submit patchset 1\n"
             + "\n"
             + "Patch-set: 1\n"
             + "Status: merged\n"
             + "Submission-id: "
             + submissionId.toString()
             + "\n"
-            + "Submitted-with: RULE_ERROR Problem with patch set: 1\n",
+            + "Submitted-with: RULE_ERROR Problem with patchset: 1\n",
         update.getResult());
   }
 
@@ -245,7 +245,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.commit();
 
     assertBodyEquals(
-        "Update patch set 1\n\nPatch-set: 1\nReviewer: Gerrit User 1 <1@gerrit>\n",
+        "Update patchset 1\n\nPatch-set: 1\nReviewer: Gerrit User 1 <1@gerrit>\n",
         update.getResult());
   }
 
@@ -257,7 +257,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.commit();
 
     assertBodyEquals(
-        "Update patch set 1\n"
+        "Update patchset 1\n"
             + "\n"
             + "Testing trailing double newline\n"
             + "\n"
@@ -275,7 +275,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.commit();
 
     assertBodyEquals(
-        "Update patch set 1\n"
+        "Update patchset 1\n"
             + "\n"
             + "Testing paragraph 1\n"
             + "\n"
@@ -296,7 +296,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.commit();
 
     assertBodyEquals(
-        "Update patch set 1\n"
+        "Update patchset 1\n"
             + "\n"
             + "Change message with tag\n"
             + "\n"
@@ -315,7 +315,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.commit();
 
     assertBodyEquals(
-        "Update patch set 1\n"
+        "Update patchset 1\n"
             + "\n"
             + "Patch-set: 1\n"
             + "Change-id: "
@@ -336,7 +336,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.commit();
 
     assertBodyEquals(
-        "Update patch set 1\n"
+        "Update patchset 1\n"
             + "\n"
             + "Patch-set: 1\n"
             + "Change-id: "
@@ -364,7 +364,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     assertThat(author.getEmailAddress()).isEqualTo("2@gerrit");
 
     assertBodyEquals(
-        "Update patch set 1\n"
+        "Update patchset 1\n"
             + "\n"
             + "Message on behalf of other user\n"
             + "\n"
@@ -380,7 +380,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.setCurrentPatchSet();
     update.commit();
 
-    assertBodyEquals("Update patch set 1\n\nPatch-set: 1\nCurrent: true\n", update.getResult());
+    assertBodyEquals("Update patchset 1\n\nPatch-set: 1\nCurrent: true\n", update.getResult());
   }
 
   @Test
@@ -392,7 +392,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.commit();
 
     assertBodyEquals(
-        "Update patch set 1\n\nPatch-set: 1\n"
+        "Update patchset 1\n\nPatch-set: 1\n"
             + "Reviewer-email: John Doe <j.doe@gerritcodereview.com>\n",
         update.getResult());
   }
@@ -406,7 +406,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.commit();
 
     assertBodyEquals(
-        "Update patch set 1\n\nPatch-set: 1\nCC-email: j.doe@gerritcodereview.com\n",
+        "Update patchset 1\n\nPatch-set: 1\nCC-email: j.doe@gerritcodereview.com\n",
         update.getResult());
   }
 

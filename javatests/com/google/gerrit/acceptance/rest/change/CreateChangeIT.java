@@ -156,7 +156,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     // Verify the message that has been posted on the change.
     List<ChangeMessageInfo> messages = gApi.changes().id(info._number).messages();
     assertThat(messages).hasSize(1);
-    assertThat(Iterables.getOnlyElement(messages).message).isEqualTo("Uploaded patch set 1.");
+    assertThat(Iterables.getOnlyElement(messages).message).isEqualTo("Uploaded patchset 1.");
   }
 
   @Test
@@ -447,7 +447,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     // Verify the message that has been posted on the change.
     List<ChangeMessageInfo> messages = gApi.changes().id(change._number).messages();
     assertThat(messages).hasSize(1);
-    assertThat(Iterables.getOnlyElement(messages).message).isEqualTo("Uploaded patch set 1.");
+    assertThat(Iterables.getOnlyElement(messages).message).isEqualTo("Uploaded patchset 1.");
   }
 
   @Test
@@ -532,7 +532,7 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertThat(messages).hasSize(1);
     assertThat(Iterables.getOnlyElement(messages).message)
         .isEqualTo(
-            "Uploaded patch set 1.\n\n"
+            "Uploaded patchset 1.\n\n"
                 + "The following files contain Git conflicts:\n"
                 + "* "
                 + fileName

@@ -388,7 +388,7 @@ a change edit the change must already exist.
 [NOTE]
 When a change edit already exists for a change then pushing with
 `%edit` replaces the existing change edit. This option is useful to
-rebase a change edit on the newest patch set when the rebase of the
+rebase a change edit on the newest patchset when the rebase of the
 change edit in the web UI fails due to conflicts.
 
 [[reviewers]]
@@ -456,7 +456,7 @@ investigate issues more easily.
 [[push_replace]]
 === Replace Changes
 
-To add an additional patch set to a change, ensure Change-Id
+To add an additional patchset to a change, ensure Change-Id
 lines were created in the original commit messages, and just use
 `git push URL HEAD:refs/for/...` as <<push_create,described above>>.
 Gerrit Code Review will automatically match the commits back to

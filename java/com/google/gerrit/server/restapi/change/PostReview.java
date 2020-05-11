@@ -1414,7 +1414,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
       message =
           ChangeMessagesUtil.newMessage(
-              psId, user, ctx.getWhen(), "Patch Set " + psId.get() + ":" + buf, in.tag);
+              psId, user, ctx.getWhen(), "Patchset " + psId.get() + ":" + buf, in.tag);
       cmUtil.addChangeMessage(ctx.getUpdate(psId), message);
       return true;
     }

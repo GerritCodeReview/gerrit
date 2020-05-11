@@ -330,7 +330,7 @@ public class MailProcessor {
       patchSet = psUtil.get(ctx.getNotes(), psId);
       notes = ctx.getNotes();
       if (patchSet == null) {
-        throw new StorageException("patch set not found: " + psId);
+        throw new StorageException("patchset not found: " + psId);
       }
 
       changeMessage = generateChangeMessage(ctx);
@@ -387,9 +387,9 @@ public class MailProcessor {
     }
 
     private ChangeMessage generateChangeMessage(ChangeContext ctx) {
-      String changeMsg = "Patch Set " + psId.get() + ":";
+      String changeMsg = "Patchset " + psId.get() + ":";
       if (parsedComments.get(0).getType() == MailComment.CommentType.CHANGE_MESSAGE) {
-        // Add a blank line after Patch Set to follow the default format
+        // Add a blank line after Patchset to follow the default format
         if (parsedComments.size() > 1) {
           changeMsg += "\n\n" + numComments(parsedComments.size() - 1);
         }
@@ -414,8 +414,8 @@ public class MailProcessor {
         ChangeContext ctx, MailComment mailComment, PatchSet patchSetForComment)
         throws UnprocessableEntityException, PatchListNotAvailableException {
       String fileName;
-      // The patch set that this comment is based on is different if this
-      // comment was sent in reply to a comment on a previous patch set.
+      // The patchset that this comment is based on is different if this
+      // comment was sent in reply to a comment on a previous patchset.
       Side side;
       if (mailComment.getInReplyTo() != null) {
         fileName = mailComment.getInReplyTo().key.filename;

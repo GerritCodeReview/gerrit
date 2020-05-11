@@ -128,7 +128,7 @@ class OpenRepo implements AutoCloseable {
   <U extends AbstractChangeUpdate> void addUpdatesNoLimits(ListMultimap<String, U> all)
       throws IOException {
     addUpdates(
-        all, Optional.empty() /* unlimited updates */, Optional.empty() /* unlimited patch sets */);
+        all, Optional.empty() /* unlimited updates */, Optional.empty() /* unlimited patchsets */);
   }
 
   <U extends AbstractChangeUpdate> void addUpdates(
@@ -155,12 +155,12 @@ class OpenRepo implements AutoCloseable {
       ObjectId curr = old;
       for (U update : updates) {
         if (maxPatchSets.isPresent() && update.psId != null) {
-          // Patch set IDs are assigned consecutively. Patch sets may have been deleted, but the ID
+          // Patchset IDs are assigned consecutively. Patchsets may have been deleted, but the ID
           // is still a good estimate and an upper bound.
           if (update.psId.get() > maxPatchSets.get()) {
             throw new LimitExceededException(
                 String.format(
-                    "Change %d may not exceed %d patch sets. To continue working on this change, "
+                    "Change %d may not exceed %d patchsets. To continue working on this change, "
                         + "recreate it with a new Change-Id, then abandon this one.",
                     update.getId().get(), maxPatchSets.get()));
           }

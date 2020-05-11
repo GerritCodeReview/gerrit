@@ -326,7 +326,7 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(cherryPickChangeInfoWithDetails.workInProgress).isNull();
     assertThat(cherryPickChangeInfoWithDetails.messages).hasSize(1);
     Iterator<ChangeMessageInfo> cherryIt = cherryPickChangeInfoWithDetails.messages.iterator();
-    assertThat(cherryIt.next().message).isEqualTo("Patch Set 1: Cherry Picked from branch master.");
+    assertThat(cherryIt.next().message).isEqualTo("Patchset 1: Cherry Picked from branch master.");
 
     assertThat(cherry.get().subject).contains(in.message);
     assertThat(cherry.get().topic).isEqualTo("someTopic-foo");
@@ -469,14 +469,14 @@ public class RevisionIT extends AbstractDaemonTest {
     ChangeApi change = gApi.changes().id(project.get() + "~master~" + r.getChangeId());
     CherryPickInput in = new CherryPickInput();
     in.destination = "master";
-    in.message = "it generates a new patch set\n\nChange-Id: " + r.getChangeId();
+    in.message = "it generates a new patchset\n\nChange-Id: " + r.getChangeId();
     ChangeInfo cherryInfo = change.revision(r.getCommit().name()).cherryPick(in).get();
     assertThat(cherryInfo.messages).hasSize(2);
     Iterator<ChangeMessageInfo> cherryIt = cherryInfo.messages.iterator();
     assertThat(cherryInfo.cherryPickOfChange).isEqualTo(change.get()._number);
     assertThat(cherryInfo.cherryPickOfPatchSet).isEqualTo(1);
-    assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 1.");
-    assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 2.");
+    assertThat(cherryIt.next().message).isEqualTo("Uploaded patchset 1.");
+    assertThat(cherryIt.next().message).isEqualTo("Uploaded patchset 2.");
   }
 
   @Test
@@ -511,8 +511,8 @@ public class RevisionIT extends AbstractDaemonTest {
     ChangeInfo cherryInfo = cherry.get();
     assertThat(cherryInfo.messages).hasSize(2);
     Iterator<ChangeMessageInfo> cherryIt = cherryInfo.messages.iterator();
-    assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 1.");
-    assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 2.");
+    assertThat(cherryIt.next().message).isEqualTo("Uploaded patchset 1.");
+    assertThat(cherryIt.next().message).isEqualTo("Uploaded patchset 2.");
 
     // Parent of change 2 should now be the change that was merged, i.e.
     // change 2 is rebased onto the head of the master branch.
@@ -667,7 +667,7 @@ public class RevisionIT extends AbstractDaemonTest {
     Iterator<ChangeMessageInfo> cherryIt = cherryPickChangeWithDetails.messages.iterator();
     assertThat(cherryIt.next().message)
         .isEqualTo(
-            "Patch Set 1: Cherry Picked from branch master.\n\n"
+            "Patchset 1: Cherry Picked from branch master.\n\n"
                 + "The following files contain Git conflicts:\n"
                 + "* "
                 + PushOneCommit.FILE_NAME);
@@ -737,7 +737,7 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(thrown)
         .hasMessageThat()
         .isEqualTo(
-            "Cannot create new patch set of change "
+            "Cannot create new patchset of change "
                 + info(t2)._number
                 + " because it is abandoned");
 
@@ -1442,19 +1442,19 @@ public class RevisionIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description("foo");
     assertDescription(r, "foo");
     assertThat(Iterables.getLast(gApi.changes().id(r.getChangeId()).get().messages).message)
-        .isEqualTo("Description of patch set 1 set to \"foo\"");
+        .isEqualTo("Description of patchset 1 set to \"foo\"");
 
     // update description
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description("bar");
     assertDescription(r, "bar");
     assertThat(Iterables.getLast(gApi.changes().id(r.getChangeId()).get().messages).message)
-        .isEqualTo("Description of patch set 1 changed to \"bar\"");
+        .isEqualTo("Description of patchset 1 changed to \"bar\"");
 
     // remove description
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).description("");
     assertDescription(r, "");
     assertThat(Iterables.getLast(gApi.changes().id(r.getChangeId()).get().messages).message)
-        .isEqualTo("Description \"bar\" removed from patch set 1");
+        .isEqualTo("Description \"bar\" removed from patchset 1");
   }
 
   @Test
@@ -1763,17 +1763,17 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void deleteVoteOnNonCurrentPatchSet() throws Exception {
-    PushOneCommit.Result r = createChange(); // patch set 1
+    PushOneCommit.Result r = createChange(); // patchset 1
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
 
-    // patch set 2
+    // patchset 2
     amendChange(r.getChangeId());
 
     // code-review
     requestScopeOperations.setApiUser(user.id());
     recommend(r.getChangeId());
 
-    // check if it's blocked to delete a vote on a non-current patch set.
+    // check if it's blocked to delete a vote on a non-current patchset.
     requestScopeOperations.setApiUser(admin.id());
     MethodNotAllowedException thrown =
         assertThrows(
@@ -1784,15 +1784,15 @@ public class RevisionIT extends AbstractDaemonTest {
                     .revision(r.getCommit().getName())
                     .reviewer(user.id().toString())
                     .deleteVote("Code-Review"));
-    assertThat(thrown).hasMessageThat().contains("Cannot access on non-current patch set");
+    assertThat(thrown).hasMessageThat().contains("Cannot access on non-current patchset");
   }
 
   @Test
   public void deleteVoteOnCurrentPatchSet() throws Exception {
-    PushOneCommit.Result r = createChange(); // patch set 1
+    PushOneCommit.Result r = createChange(); // patchset 1
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
 
-    // patch set 2
+    // patchset 2
     amendChange(r.getChangeId());
 
     // code-review
@@ -1821,7 +1821,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
   @Test
   public void listVotesByRevision() throws Exception {
-    // Create patch set 1 and vote on it
+    // Create patchset 1 and vote on it
     String changeId = createChange().getChangeId();
     ListMultimap<String, ApprovalInfo> votes = gApi.changes().id(changeId).current().votes();
     assertThat(votes).isEmpty();
@@ -1839,7 +1839,7 @@ public class RevisionIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
     gApi.changes().id(changeId).current().review(ReviewInput.dislike());
 
-    // Patch set 1 has 2 votes on Code-Review
+    // Patchset 1 has 2 votes on Code-Review
     requestScopeOperations.setApiUser(admin.id());
     votes = gApi.changes().id(changeId).current().votes();
     assertThat(votes.keySet()).containsExactly("Code-Review");
@@ -1848,7 +1848,7 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(approvals.stream().map(a -> a._accountId))
         .containsExactlyElementsIn(ImmutableList.of(admin.id().get(), user.id().get()));
 
-    // Create a new patch set which does not have any votes
+    // Create a new patchset which does not have any votes
     amendChange(changeId);
     votes = gApi.changes().id(changeId).current().votes();
     assertThat(votes).isEmpty();

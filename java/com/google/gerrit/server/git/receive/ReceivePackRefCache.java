@@ -96,14 +96,14 @@ public interface ReceivePackRefCache {
   }
 
   class WithAdvertisedRefs implements ReceivePackRefCache {
-    /** We estimate that a change has an average of 4 patch sets plus the meta ref. */
+    /** We estimate that a change has an average of 4 patchsets plus the meta ref. */
     private static final int ESTIMATED_NUMBER_OF_REFS_PER_CHANGE = 5;
 
     private final Supplier<Map<String, Ref>> allRefsSupplier;
 
     // Collections lazily populated during processing.
     private Map<String, Ref> allRefs;
-    /** Contains only patch set refs. */
+    /** Contains only patchset refs. */
     private ListMultimap<Change.Id, Ref> refsByChange;
     /** Contains all refs. */
     private ListMultimap<ObjectId, Ref> refsByObjectId;

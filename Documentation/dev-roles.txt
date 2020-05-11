@@ -109,7 +109,7 @@ license agreement] which enables them to push changes.
 Regular contributors can ask to be added to the `gerrit-verifiers`
 group, which allows to:
 
-* add patch sets to changes of other users
+* add patchsets to changes of other users
 * propose project config changes (push changes for the
   `refs/meta/config` branch
 

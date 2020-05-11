@@ -303,7 +303,7 @@ public class AccessIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(admin.id());
 
     ChangeInfo c = gApi.changes().id(out._number).get(MESSAGES);
-    assertThat(c.messages.stream().map(m -> m.message)).containsExactly("Uploaded patch set 1");
+    assertThat(c.messages.stream().map(m -> m.message)).containsExactly("Uploaded patchset 1");
 
     ReviewInput reviewIn = new ReviewInput();
     reviewIn.label("Code-Review", (short) 2);

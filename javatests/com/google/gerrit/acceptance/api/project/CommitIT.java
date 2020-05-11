@@ -132,7 +132,7 @@ public class CommitIT extends AbstractDaemonTest {
     assertThat(changeInfo.messages).hasSize(1);
     Iterator<ChangeMessageInfo> messageIterator = changeInfo.messages.iterator();
     String expectedMessage =
-        String.format("Patch Set 1: Cherry Picked from commit %s.", revCommit.getName());
+        String.format("Patchset 1: Cherry Picked from commit %s.", revCommit.getName());
     assertThat(messageIterator.next().message).isEqualTo(expectedMessage);
 
     RevisionInfo revInfo = changeInfo.revisions.get(changeInfo.currentRevision);
@@ -161,7 +161,7 @@ public class CommitIT extends AbstractDaemonTest {
     assertThat(changeInfo.messages).hasSize(1);
     Iterator<ChangeMessageInfo> messageIterator = changeInfo.messages.iterator();
     String expectedMessage =
-        String.format("Patch Set 1: Cherry Picked from commit %s.", revCommit.getName());
+        String.format("Patchset 1: Cherry Picked from commit %s.", revCommit.getName());
     assertThat(messageIterator.next().message).isEqualTo(expectedMessage);
 
     RevisionInfo revInfo = changeInfo.revisions.get(changeInfo.currentRevision);

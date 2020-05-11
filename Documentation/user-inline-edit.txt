@@ -125,7 +125,7 @@ image::images/inline-edit-add-file-page.png[width=650]
 . When you're done editing and adding files, click Stop Editing.
 
 . Click Publish Edit. When you publish an edit, you promote it to a regular
-  patch set. The special ref that represents the change is deleted when the
+  patchset. The special ref that represents the change is deleted when the
   change is published.
 
 Not happy with your edits? Click Delete Edit.
@@ -163,8 +163,8 @@ Use the side-by-side diff screen.
 
 image::images/inline-edit-diff-screen.png[width=800]
 
-It's possible that subsequent patch sets may exist. For example, this sequence
-means that the change was created on top of patch set 9 while a regular
+It's possible that subsequent patchsets may exist. For example, this sequence
+means that the change was created on top of patchset 9 while a regular
 patchset was uploaded later:
 
 1 2 3 4 5 6 7 8 9 edit 10
@@ -191,9 +191,9 @@ those changes that contain edits, see link:user-search.html#has[has:edit].
 [[rebase-change-edit]]
 === Rebasing a Change Edit
 
-Only when a change is based on the current patch set can the change be
-published. In the meantime, if a new patch set has been uploaded, the change
-must be rebased on top of the current patch set before the change can be
+Only when a change is based on the current patchset can the change be
+published. In the meantime, if a new patchset has been uploaded, the change
+must be rebased on top of the current patchset before the change can be
 published.
 
 To rebase a change:
@@ -216,7 +216,7 @@ $ git push host HEAD:refs/for/master%edit
 [[download-change-edit-patch]]
 === Downloading a Patch
 
-As with regular patch sets, you can download changes. For example, as provided
+As with regular patchsets, you can download changes. For example, as provided
 by the `download-commands` plugin. Only the owners of a change and those
 users granted the
 link:access-control.html#capability_accessDatabase[accessDatabase] global

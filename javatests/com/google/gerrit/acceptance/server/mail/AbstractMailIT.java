@@ -104,7 +104,7 @@ public class AbstractMailIT extends AbstractDaemonTest {
         + "> ...............................................................\n"
         + "> \n"
         + "> \n"
-        + "> Patch Set 1: Code-Review+1\n"
+        + "> Patchset 1: Code-Review+1\n"
         + "> \n"
         + "> (3 comments)\n"
         + "> \n"
@@ -115,7 +115,7 @@ public class AbstractMailIT extends AbstractDaemonTest {
         + "> gerrit-server/test.txt:\n"
         + (f1 == null ? "" : f1 + "\n")
         + "> \n"
-        + "> Patch Set #4:\n"
+        + "> Patchset #4:\n"
         + "> "
         + changeURL
         + "/gerrit-server/test.txt\n"

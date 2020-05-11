@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b2f9568_fd11d36b",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T15:41:57Z",
+      "side": 1,
+      "message": "I believe the exception thrown was a IOException: do we really need to catch everything?",
+      "range": {
+        "startLine": 390,
+        "startChar": 15,
+        "endLine": 390,
+        "endChar": 24
+      },
+      "revId": "22dbde68f01aed66e21c86b64145fef0b949a484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4e0f738_c67361c8",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T15:41:57Z",
+      "side": 1,
+      "message": "I believe this is very misleading: a JSON parsing problem *IS* a fatal error.\nThe question is: should we abort a reindexing operation if we get a fatal error from one change only?",
+      "range": {
+        "startLine": 394,
+        "startChar": 15,
+        "endLine": 394,
+        "endChar": 30
+      },
+      "revId": "22dbde68f01aed66e21c86b64145fef0b949a484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0435ca9c_ea7a1da9",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-11T15:41:57Z",
+      "side": 1,
+      "message": "If we do not throw exceptions because we are in L393-L394, what do we return here?",
+      "revId": "22dbde68f01aed66e21c86b64145fef0b949a484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

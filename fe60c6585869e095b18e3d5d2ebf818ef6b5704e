@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "faafb5f2_893f6c92",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-12T14:00:59Z",
+      "side": 1,
+      "message": "quite opposite, i think you only need to decode for external groups :) all internal groups should have the uuid as the hashed id",
+      "revId": "fe60c6585869e095b18e3d5d2ebf818ef6b5704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

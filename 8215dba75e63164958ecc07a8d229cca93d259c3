@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7e21e41_50b872ba",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-12T13:26:53Z",
+      "side": 1,
+      "message": "if you want to be super safe, you can do decode only for those not matching the INTERNAL_GROUP_REGEX :)",
+      "range": {
+        "startLine": 242,
+        "startChar": 13,
+        "endLine": 242,
+        "endChar": 31
+      },
+      "revId": "8215dba75e63164958ecc07a8d229cca93d259c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

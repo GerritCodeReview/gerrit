@@ -16,6 +16,24 @@
       "revId": "76736f406dcb7d392bd280d2b974d553bf4f3243",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43d14fef_708e1f4a",
+        "filename": "java/com/google/gerrit/server/submit/CachedBranchTips.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-05-12T17:37:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd204838_b32cfba4",
+      "revId": "76736f406dcb7d392bd280d2b974d553bf4f3243",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

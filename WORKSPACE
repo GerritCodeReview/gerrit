@@ -789,24 +789,24 @@ maven_jar(
 )
 
 # When updating Bouncy Castle, also update it in bazlets.
-BC_VERS = "1.60"
+BC_VERS = "1.64"
 
 maven_jar(
     name = "bcprov",
     artifact = "org.bouncycastle:bcprov-jdk15on:" + BC_VERS,
-    sha1 = "bd47ad3bd14b8e82595c7adaa143501e60842a84",
+    sha1 = "1467dac1b787b5ad2a18201c0c281df69882259e",
 )
 
 maven_jar(
     name = "bcpg",
     artifact = "org.bouncycastle:bcpg-jdk15on:" + BC_VERS,
-    sha1 = "13c7a199c484127daad298996e95818478431a2c",
+    sha1 = "56956a8c63ccadf62e7c678571cf86f30bd84441",
 )
 
 maven_jar(
     name = "bcpkix",
     artifact = "org.bouncycastle:bcpkix-jdk15on:" + BC_VERS,
-    sha1 = "d0c46320fbc07be3a24eb13a56cee4e3d38e0c75",
+    sha1 = "3dac163e20110817d850d17e0444852a6d7d0bd7",
 )
 
 maven_jar(

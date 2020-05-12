@@ -15,13 +15,13 @@
 package com.google.gerrit.scenarios
 
 import io.gatling.core.Predef._
-import io.gatling.core.feeder.FileBasedFeederBuilder
+import io.gatling.core.feeder.FeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
 
 import scala.concurrent.duration._
 
 class ReplayRecordsFromFeeder extends GitSimulation {
-  private val data: FileBasedFeederBuilder[Any]#F#F = jsonFile(resource).convert(keys).circular
+  private val data: FeederBuilder = jsonFile(resource).convert(keys).circular
   private val default: String = name
 
   override def relativeRuntimeWeight = 30

@@ -15,11 +15,11 @@
 package com.google.gerrit.scenarios
 
 import io.gatling.core.Predef._
-import io.gatling.core.feeder.FileBasedFeederBuilder
+import io.gatling.core.feeder.FeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
 
 class DeleteProject extends ProjectSimulation {
-  private val data: FileBasedFeederBuilder[Any]#F#F = jsonFile(resource).convert(keys).queue
+  private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
 
   def this(default: String) {
     this()

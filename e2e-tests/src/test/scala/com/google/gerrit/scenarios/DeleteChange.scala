@@ -15,12 +15,12 @@
 package com.google.gerrit.scenarios
 
 import io.gatling.core.Predef.{atOnceUsers, _}
-import io.gatling.core.feeder.FileBasedFeederBuilder
+import io.gatling.core.feeder.FeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef.http
 
 class DeleteChange extends GerritSimulation {
-  private val data: FileBasedFeederBuilder[Any]#F#F = jsonFile(resource).convert(keys).queue
+  private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
   var number: Option[Int] = None
 
   override def relativeRuntimeWeight = 2

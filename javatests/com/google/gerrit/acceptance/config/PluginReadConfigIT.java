@@ -1,0 +1,62 @@
+// Copyright (C) 2020 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.acceptance.config;
+
+import com.google.gerrit.acceptance.LightweightPluginDaemonTest;
+import com.google.gerrit.acceptance.TestPlugin;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.server.config.GerritInstanceId;
+import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
+import com.google.inject.Scopes;
+import org.junit.Test;
+
+import static com.google.common.truth.Truth.assertThat;
+
+@TestPlugin(
+    name = "read-config",
+    sysModule = "com.google.gerrit.acceptance.config.PluginReadConfigIT$Module")
+public class PluginReadConfigIT extends LightweightPluginDaemonTest {
+
+  public static class Module extends AbstractModule {
+
+    @Override
+    protected void configure() {
+      bind(TestConfigLoader.class).in(Scopes.SINGLETON);
+    }
+  }
+
+  public static class TestConfigLoader {
+    String gerritInstanceId;
+
+    @Inject
+    TestConfigLoader(@Nullable @GerritInstanceId String gerritInstanceId) {
+      this.gerritInstanceId = gerritInstanceId;
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
+  public void shouldReturnInstanceIdWhenDefined() {
+    TestConfigLoader testConfigLoader = plugin.getSysInjector().getInstance(TestConfigLoader.class);
+    assertThat(testConfigLoader.gerritInstanceId).isEqualTo("testInstanceId");
+  }
+
+  @Test
+  public void shouldReturnNullWhenNotDefined() {
+    TestConfigLoader testConfigLoader = plugin.getSysInjector().getInstance(TestConfigLoader.class);
+    assertThat(testConfigLoader.gerritInstanceId).isNull();
+  }
+}

@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54b0b7c6_0d8e7a49",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CacheFlushSimulation.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-05-12T13:16:45Z",
+      "side": 1,
+      "message": "I think this whole function can be make more functional. For example, usage of mutable variable is discouraged in FP.\n\nAlso CacheFlushSimulation could become a case class and the constant \"entriesKeyand\" and \"memKey\" could go in the companion object.\n\nSomething that can maybe be done in a follow up change or to keep in mind for the next similar change.",
+      "revId": "94f46910a403744a3889947d985c7b966dc2e179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cf79e29_24c7b956",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CacheFlushSimulation.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-05-12T13:16:45Z",
+      "side": 1,
+      "message": "Can this be an Int? It is initialised as a String and transformed into in Int at L30",
+      "range": {
+        "startLine": 23,
+        "startChar": 39,
+        "endLine": 23,
+        "endChar": 45
+      },
+      "revId": "94f46910a403744a3889947d985c7b966dc2e179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdbf9ce8_17f8389a",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckProjectsCacheFlushEntries.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-05-12T13:16:45Z",
+      "side": 1,
+      "message": "nit: I think this might simply be a `FeederBuilder`",
+      "range": {
+        "startLine": 23,
+        "startChar": 20,
+        "endLine": 23,
+        "endChar": 51
+      },
+      "revId": "94f46910a403744a3889947d985c7b966dc2e179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47a6e20c_56a3a280",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckProjectsCacheFlushEntries.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-05-12T13:16:45Z",
+      "side": 1,
+      "message": "This could be more functional style:\n\nproducer.map(session.set(entriesKey, _.get.expectedEntriesAfterFlush()))",
+      "range": {
+        "startLine": 33,
+        "startChar": 8,
+        "endLine": 37,
+        "endChar": 9
+      },
+      "revId": "94f46910a403744a3889947d985c7b966dc2e179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a27c97a_dd26153a",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckProjectsCacheFlushEntries.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-05-12T13:16:45Z",
+      "side": 1,
+      "message": "You should be able to concatenate in this way: \n\n`regex(s\"\\\"memKey\\\": (\\\\d+)\")`",
+      "range": {
+        "startLine": 40,
+        "startChar": 23,
+        "endLine": 40,
+        "endChar": 51
+      },
+      "revId": "94f46910a403744a3889947d985c7b966dc2e179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9df75f15_32a25f4e",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/FlushProjectsCache.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-05-12T13:16:45Z",
+      "side": 1,
+      "message": "What is the purpose of this variable?  We are not doing nay computation on it. Can we just use \"name\" instead?",
+      "range": {
+        "startLine": 25,
+        "startChar": 14,
+        "endLine": 25,
+        "endChar": 21
+      },
+      "revId": "94f46910a403744a3889947d985c7b966dc2e179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad3447a5_90ef5e7f",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GetProjectsCacheEntries.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-05-12T13:16:45Z",
+      "side": 1,
+      "message": "Same comment for `CacheFlushSimulation.scala` applies I believe. This could be more functional but it will require a bit of rework. Maybe we can leave it for later.",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 3
+      },
+      "revId": "94f46910a403744a3889947d985c7b966dc2e179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf50e9ce_87e0a83e",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GetProjectsCacheEntries.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-05-12T13:16:45Z",
+      "side": 1,
+      "message": "In a more functional fashion this could be:\n\n`consumer.foreach(_.entriesBeforeFlush(session(entriesKey).as[String]))`\n\nor \n\n`consumer.map(_.entriesBeforeFlush(session(entriesKey).as[String]))`",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 37,
+        "endChar": 9
+      },
+      "revId": "94f46910a403744a3889947d985c7b966dc2e179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

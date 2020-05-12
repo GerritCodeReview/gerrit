@@ -41,10 +41,15 @@ suite('gr-thread-list tests', () => {
   let sandbox;
   let threadElements;
 
-  setup(() => {
+  function getVisibleThreads() {
+    return [...dom(element.root)
+        .querySelectorAll('gr-comment-thread')]
+        .filter(e => e.style.display !== 'none');
+  }
+
+  setup(done => {
     sandbox = sinon.sandbox.create();
     element = fixture('basic');
-    element.onlyShowRobotCommentsWithHumanReply = true;
     element.threads = [
       {
         comments: [
@@ -69,7 +74,7 @@ suite('gr-thread-list tests', () => {
             in_reply_to: 'ecf0b9fa_fe1a5f62',
             updated: '2018-02-13 22:48:48.018000000',
             message: 'draft',
-            unresolved: false,
+            unresolved: true,
             __draft: true,
             __draftID: '0.m683trwff68',
             __editing: false,
@@ -233,9 +238,13 @@ suite('gr-thread-list tests', () => {
         start_datetime: '2019-03-08 18:49:18.000000000',
       },
     ];
-    flushAsynchronousOperations();
-    threadElements = dom(element.root)
-        .querySelectorAll('gr-comment-thread');
+
+    // use flush to render all (bypass initial-count set on dom-repeat)
+    flush(() => {
+      threadElements = dom(element.root)
+          .querySelectorAll('gr-comment-thread');
+      done();
+    });
   });
 
   teardown(() => {
@@ -252,45 +261,44 @@ suite('gr-thread-list tests', () => {
     'none');
   });
 
-  test('there are five threads by default', () => {
+  test('show all threads by default', () => {
     assert.equal(dom(element.root)
-        .querySelectorAll('gr-comment-thread').length, 5);
+        .querySelectorAll('gr-comment-thread').length, element.threads.length);
+    assert.equal(getVisibleThreads().length, element.threads.length);
+  });
+
+  test('onlyShowRobotCommentsWithHumanReply ', () => {
+    element.onlyShowRobotCommentsWithHumanReply = true;
+    flushAsynchronousOperations();
+    assert.equal(
+        getVisibleThreads().length,
+        element.threads.length - 1);
+    assert.isNotOk(getVisibleThreads().find(th => th.rootId === 'rc1'));
   });
 
   test('_computeSortedThreads', () => {
     assert.equal(element._sortedThreads.length, 7);
     // Draft and unresolved for commit-msg at line 5
-    assert.equal(element._sortedThreads[0].thread.rootId,
+    assert.equal(element._sortedThreads[0].rootId,
         'ecf0b9fa_fe1a5f62');
-    // /COMMIT_MSG
     // unresolved no draft and file level
-    assert.equal(element._sortedThreads[1].thread.rootId,
+    assert.equal(element._sortedThreads[1].rootId,
         '8caddf38_44770ec1');
     // unresolved no draft at line 4
-    assert.equal(element._sortedThreads[2].thread.rootId,
+    assert.equal(element._sortedThreads[2].rootId,
         'scaddf38_44770ec1');
     // unresolved no draft at line 5
-    assert.equal(element._sortedThreads[3].thread.rootId,
+    assert.equal(element._sortedThreads[3].rootId,
         'rc1');
     // Unresolved no draft at line 7
-    assert.equal(element._sortedThreads[4].thread.rootId,
+    assert.equal(element._sortedThreads[4].rootId,
         'rc2');
     // resolved and draft on COMMIT_MSG
-    assert.equal(element._sortedThreads[5].thread.rootId,
+    assert.equal(element._sortedThreads[5].rootId,
         'zcf0b9fa_fe1a5f62');
     // resolved and on file test.txt
-    assert.equal(element._sortedThreads[6].thread.rootId,
+    assert.equal(element._sortedThreads[6].rootId,
         '09a9fb0a_1484e6cf');
-  });
-
-  test('filtered threads do not contain robot comments without reply', () => {
-    const thread = element.threads.find(thread => thread.rootId === 'rc1');
-    assert.equal(element._filteredThreads.includes(thread), false);
-  });
-
-  test('filtered threads contains robot comments with reply', () => {
-    const thread = element.threads.find(thread => thread.rootId === 'rc2');
-    assert.equal(element._filteredThreads.includes(thread), true);
   });
 
   test('thread removal and sort again', () => {
@@ -301,60 +309,61 @@ suite('gr-thread-list tests', () => {
         }));
     flushAsynchronousOperations();
     assert.equal(element._sortedThreads.length, 6);
-    assert.equal(element._sortedThreads[0].thread.rootId,
+    assert.equal(element._sortedThreads[0].rootId,
         'ecf0b9fa_fe1a5f62');
-    // /COMMIT_MSG
     // unresolved no draft and file level
-    assert.equal(element._sortedThreads[1].thread.rootId,
+    assert.equal(element._sortedThreads[1].rootId,
         '8caddf38_44770ec1');
     // unresolved no draft at line 4
-    assert.equal(element._sortedThreads[2].thread.rootId,
+    assert.equal(element._sortedThreads[2].rootId,
         'scaddf38_44770ec1');
     // unresolved no draft at line 5
-    assert.equal(element._sortedThreads[3].thread.rootId,
+    assert.equal(element._sortedThreads[3].rootId,
         'rc1');
     // resolved and draft
-    assert.equal(element._sortedThreads[4].thread.rootId,
+    assert.equal(element._sortedThreads[4].rootId,
         'zcf0b9fa_fe1a5f62');
     // resolved and on file test.txt
-    assert.equal(element._sortedThreads[5].thread.rootId,
+    assert.equal(element._sortedThreads[5].rootId,
         '09a9fb0a_1484e6cf');
   });
 
   test('modification on thread shold not trigger sort again', () => {
+    const currentSortedThreads = [...element._sortedThreads];
+    for (const thread of currentSortedThreads) {
+      thread.comments = [...thread.comments];
+    }
     const modifiedThreads = [...element.threads];
-    modifiedThreads[5].comments = [...modifiedThreads[5].comments];
-    modifiedThreads[5].comments.push({
+    modifiedThreads[5] = {...modifiedThreads[5]};
+    modifiedThreads[5].comments = [...modifiedThreads[5].comments, {
       ...modifiedThreads[5].comments[0],
       unresolved: false,
-    });
-    const currentSortedThreads = [...element._sortedThreads];
+    }];
     element.threads = modifiedThreads;
     assert.notDeepEqual(currentSortedThreads, element._sortedThreads);
 
     // exact same order as in _computeSortedThreads
     assert.equal(element._sortedThreads.length, 7);
     // Draft and unresolved for commit-msg at line 5
-    assert.equal(element._sortedThreads[0].thread.rootId,
+    assert.equal(element._sortedThreads[0].rootId,
         'ecf0b9fa_fe1a5f62');
-    // /COMMIT_MSG
     // unresolved no draft and file level
-    assert.equal(element._sortedThreads[1].thread.rootId,
+    assert.equal(element._sortedThreads[1].rootId,
         '8caddf38_44770ec1');
     // unresolved no draft at line 4
-    assert.equal(element._sortedThreads[2].thread.rootId,
+    assert.equal(element._sortedThreads[2].rootId,
         'scaddf38_44770ec1');
     // unresolved no draft at line 5
-    assert.equal(element._sortedThreads[3].thread.rootId,
+    assert.equal(element._sortedThreads[3].rootId,
         'rc1');
     // Unresolved no draft at line 7
-    assert.equal(element._sortedThreads[4].thread.rootId,
+    assert.equal(element._sortedThreads[4].rootId,
         'rc2');
     // resolved and draft on COMMIT_MSG
-    assert.equal(element._sortedThreads[5].thread.rootId,
+    assert.equal(element._sortedThreads[5].rootId,
         'zcf0b9fa_fe1a5f62');
     // resolved and on file test.txt
-    assert.equal(element._sortedThreads[6].thread.rootId,
+    assert.equal(element._sortedThreads[6].rootId,
         '09a9fb0a_1484e6cf');
   });
 
@@ -369,26 +378,26 @@ suite('gr-thread-list tests', () => {
     // exact same order as in _computeSortedThreads
     assert.equal(element._sortedThreads.length, 7);
     // Draft and unresolved for commit-msg at line 5
-    assert.equal(element._sortedThreads[0].thread.rootId,
+    assert.equal(element._sortedThreads[0].rootId,
         'ecf0b9fa_fe1a5f62');
     // /COMMIT_MSG
     // unresolved no draft and file level
-    assert.equal(element._sortedThreads[1].thread.rootId,
+    assert.equal(element._sortedThreads[1].rootId,
         '8caddf38_44770ec1');
     // unresolved no draft at line 4
-    assert.equal(element._sortedThreads[2].thread.rootId,
+    assert.equal(element._sortedThreads[2].rootId,
         'scaddf38_44770ec1');
     // unresolved no draft at line 5
-    assert.equal(element._sortedThreads[3].thread.rootId,
+    assert.equal(element._sortedThreads[3].rootId,
         'rc1');
     // Unresolved no draft at line 7
-    assert.equal(element._sortedThreads[4].thread.rootId,
+    assert.equal(element._sortedThreads[4].rootId,
         'rc2');
     // resolved and draft on COMMIT_MSG
-    assert.equal(element._sortedThreads[5].thread.rootId,
+    assert.equal(element._sortedThreads[5].rootId,
         'zcf0b9fa_fe1a5f62');
     // resolved and on file test.txt
-    assert.equal(element._sortedThreads[6].thread.rootId,
+    assert.equal(element._sortedThreads[6].rootId,
         '09a9fb0a_1484e6cf');
   });
 
@@ -396,15 +405,29 @@ suite('gr-thread-list tests', () => {
     MockInteractions.tap(element.shadowRoot.querySelector(
         '#unresolvedToggle'));
     flushAsynchronousOperations();
-    assert.equal(dom(element.root)
-        .querySelectorAll('gr-comment-thread').length, 5);
+    assert.equal(getVisibleThreads().length, 5);
   });
 
   test('toggle drafts only shows threads with draft comments', () => {
     MockInteractions.tap(element.shadowRoot.querySelector('#draftToggle'));
     flushAsynchronousOperations();
-    assert.equal(dom(element.root)
-        .querySelectorAll('gr-comment-thread').length, 2);
+    assert.equal(getVisibleThreads().length, 2);
+  });
+
+  test('toggle drafts and unresolved should ignore comments in editing', () => {
+    const modifiedThreads = [...element.threads];
+    modifiedThreads[5] = {...modifiedThreads[5]};
+    modifiedThreads[5].comments = [...modifiedThreads[5].comments];
+    modifiedThreads[5].comments.push({
+      ...modifiedThreads[5].comments[0],
+      __editing: true,
+    });
+    element.threads = modifiedThreads;
+    MockInteractions.tap(element.shadowRoot.querySelector('#draftToggle'));
+    MockInteractions.tap(element.shadowRoot.querySelector(
+        '#unresolvedToggle'));
+    flushAsynchronousOperations();
+    assert.equal(getVisibleThreads().length, 3);
   });
 
   test('toggle drafts and unresolved only shows threads with drafts and ' +
@@ -413,8 +436,7 @@ suite('gr-thread-list tests', () => {
     MockInteractions.tap(element.shadowRoot.querySelector(
         '#unresolvedToggle'));
     flushAsynchronousOperations();
-    assert.equal(dom(element.root)
-        .querySelectorAll('gr-comment-thread').length, 2);
+    assert.equal(getVisibleThreads().length, 2);
   });
 
   test('modification events are consumed and displatched', () => {

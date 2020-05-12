@@ -49,12 +49,6 @@ class GrThreadList extends GestureEventListeners(
       _sortedThreads: {
         type: Array,
       },
-      _filteredThreads: {
-        type: Array,
-        computed: '_computeFilteredThreads(_sortedThreads, ' +
-          '_unresolvedOnly, _draftsOnly,' +
-          'onlyShowRobotCommentsWithHumanReply)',
-      },
       _unresolvedOnly: {
         type: Boolean,
         value: false,
@@ -125,7 +119,7 @@ class GrThreadList extends GestureEventListeners(
       for (const thread of threadsWithInfo) {
         const idxInSortedThreads = this._sortedThreads
             .findIndex(t => t.thread.rootId === thread.thread.rootId);
-        this._sortedThreads[idxInSortedThreads] = thread;
+        this.set(`_sortedThreads.${idxInSortedThreads}`, thread);
       }
       return;
     }
@@ -173,56 +167,52 @@ class GrThreadList extends GestureEventListeners(
     });
   }
 
-  _computeFilteredThreads(sortedThreads, unresolvedOnly, draftsOnly,
-      onlyShowRobotCommentsWithHumanReply) {
+  _shouldShowThread(
+      thread, unresolvedOnly, draftsOnly, onlyShowRobotCommentsWithHumanReply
+  ) {
     // Polymer 2: check for undefined
     if ([
-      sortedThreads,
+      thread,
       unresolvedOnly,
       draftsOnly,
       onlyShowRobotCommentsWithHumanReply,
-    ].some(arg => arg === undefined)) {
-      return undefined;
+    ].includes(undefined)) {
+      return false;
     }
 
-    return sortedThreads.filter(c => {
-      if (draftsOnly) {
-        return c.hasDraft;
-      } else if (unresolvedOnly) {
-        return c.unresolved;
-      } else {
-        const comments = c && c.thread && c.thread.comments;
-        let robotComment = false;
-        let humanReplyToRobotComment = false;
-        comments.forEach(comment => {
-          if (comment.robot_id) {
-            robotComment = true;
-          } else if (robotComment) {
-            // Robot comment exists and human comment exists after it
-            humanReplyToRobotComment = true;
-          }
-        });
-        if (robotComment && onlyShowRobotCommentsWithHumanReply) {
-          return humanReplyToRobotComment;
-        }
-        return c;
+    if (draftsOnly) {
+      return thread.hasDraft;
+    } else {
+      const comments = thread && thread.thread && thread.thread.comments;
+      if (unresolvedOnly) {
+        const lastComment = comments[comments.length - 1];
+        return lastComment.unresolved;
       }
-    }).map(threadInfo => threadInfo.thread);
+      let isRobotComment = false;
+      let hasHumanReplyToRobotComment = false;
+      comments.forEach(comment => {
+        if (comment.robot_id) {
+          isRobotComment = true;
+        } else if (isRobotComment) {
+          // Robot comment exists and human comment exists after it
+          hasHumanReplyToRobotComment = true;
+        }
+      });
+      if (isRobotComment && onlyShowRobotCommentsWithHumanReply) {
+        return hasHumanReplyToRobotComment;
+      }
+
+      // otherwise always show
+      return true;
+    }
   }
 
   _getThreadWithSortInfo(thread) {
     const lastComment = thread.comments[thread.comments.length - 1] || {};
 
-    const lastNonDraftComment =
-        (lastComment.__draft && thread.comments.length > 1) ?
-          thread.comments[thread.comments.length - 2] :
-          lastComment;
-
     return {
       thread,
-      // Use the unresolved bit for the last non draft comment. This is what
-      // anybody other than the current user would see.
-      unresolved: !!lastNonDraftComment.unresolved,
+      unresolved: !!lastComment.unresolved,
       hasDraft: !!lastComment.__draft,
       updated: lastComment.updated || lastComment.__date,
     };

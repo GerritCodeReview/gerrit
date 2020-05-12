@@ -22,7 +22,7 @@ import java.lang.annotation.Retention;
 /**
  * Marker on a {@link String} holding the instance id for this server.
  *
- * <p>Note that the String may be null, if the administrator has not configured the value. Clients
+ * <p>Note that the String may be <code>null<code/>, if the administrator has not configured the value. Clients
  * must handle such cases explicitly.
  */
 @Retention(RUNTIME)

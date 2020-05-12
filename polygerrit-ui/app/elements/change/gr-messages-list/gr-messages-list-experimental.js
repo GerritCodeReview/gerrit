@@ -296,6 +296,11 @@ class GrMessagesListExperimental extends mixinBehaviors( [
     return messages.some(m => !isImportant(m, messages));
   }
 
+  _computeHiddenEntriesCount(messages) {
+    messages = messages || [];
+    return messages.filter(m => !isImportant(m, messages)).length;
+  }
+
   /**
    * This method is for reporting stats only.
    */

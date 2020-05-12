@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4aabd8d4_abea0bfa",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-12T13:29:12Z",
+      "side": 1,
+      "message": "uuid ?",
+      "revId": "66a2d5079eed56b33615d960b253e3dc217ef5fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5fc8edc_4a4f5e5a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-12T13:29:12Z",
+      "side": 1,
+      "message": "not sure if we want to expose group_id at all.",
+      "revId": "66a2d5079eed56b33615d960b253e3dc217ef5fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

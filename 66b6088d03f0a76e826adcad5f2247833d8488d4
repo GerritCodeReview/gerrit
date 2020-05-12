@@ -52,6 +52,24 @@
       "revId": "66b6088d03f0a76e826adcad5f2247833d8488d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3c13cea_d870b071",
+        "filename": "polygerrit-ui/app/test/common-test-setup-karma.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-12T15:37:16Z",
+      "side": 1,
+      "message": "i am thinking why not just always return a promise for both cases ? with the `callback`, it doesn\u0027t hurt to also return a promise right ?\n\n```\nreturn new Promise(resolve \u003d\u003e {\n      window.setTimeout(() \u003d\u003e {\n        callback();\n        resolve();\n      }, 0);\n    });\n```",
+      "parentUuid": "ab8fc889_662e5d0b",
+      "revId": "66b6088d03f0a76e826adcad5f2247833d8488d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

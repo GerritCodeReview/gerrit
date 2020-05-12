@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "93842b04_4b889ada",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-12T13:34:26Z",
+      "side": 1,
+      "message": "Done in 267004.",
+      "parentUuid": "339e10c5_dbe7f32f",
+      "range": {
+        "startLine": 299,
+        "startChar": 29,
+        "endLine": 299,
+        "endChar": 37
+      },
+      "revId": "3ed3ab71e45e85034698321e9465e5093d6766f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85708468_ca5537f7",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental_html.js",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "3ed3ab71e45e85034698321e9465e5093d6766f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea87453f_718ec1c5",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental_html.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-12T13:34:26Z",
+      "side": 1,
+      "message": "When it is 0, then _isVisibleShowAllActivityToggle() will make sure that the entire filter toggle is not shown.",
+      "parentUuid": "85708468_ca5537f7",
+      "revId": "3ed3ab71e45e85034698321e9465e5093d6766f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

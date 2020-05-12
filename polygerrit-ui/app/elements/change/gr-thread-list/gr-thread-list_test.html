@@ -358,6 +358,40 @@ suite('gr-thread-list tests', () => {
         '09a9fb0a_1484e6cf');
   });
 
+  test('non-equal length of sortThreads and threads' +
+    ' shold trigger sort again', () => {
+    const modifiedThreads = [...element.threads];
+    const currentSortedThreads = [...element._sortedThreads];
+    element._sortedThreads = [];
+    element.threads = modifiedThreads;
+    assert.deepEqual(currentSortedThreads, element._sortedThreads);
+
+    // exact same order as in _computeSortedThreads
+    assert.equal(element._sortedThreads.length, 7);
+    // Draft and unresolved for commit-msg at line 5
+    assert.equal(element._sortedThreads[0].thread.rootId,
+        'ecf0b9fa_fe1a5f62');
+    // /COMMIT_MSG
+    // unresolved no draft and file level
+    assert.equal(element._sortedThreads[1].thread.rootId,
+        '8caddf38_44770ec1');
+    // unresolved no draft at line 4
+    assert.equal(element._sortedThreads[2].thread.rootId,
+        'scaddf38_44770ec1');
+    // unresolved no draft at line 5
+    assert.equal(element._sortedThreads[3].thread.rootId,
+        'rc1');
+    // Unresolved no draft at line 7
+    assert.equal(element._sortedThreads[4].thread.rootId,
+        'rc2');
+    // resolved and draft on COMMIT_MSG
+    assert.equal(element._sortedThreads[5].thread.rootId,
+        'zcf0b9fa_fe1a5f62');
+    // resolved and on file test.txt
+    assert.equal(element._sortedThreads[6].thread.rootId,
+        '09a9fb0a_1484e6cf');
+  });
+
   test('toggle unresolved only shows unresolved comments', () => {
     MockInteractions.tap(element.shadowRoot.querySelector(
         '#unresolvedToggle'));

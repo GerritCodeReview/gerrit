@@ -117,7 +117,9 @@ class GrThreadList extends GestureEventListeners(
 
   _updateSortedThreads(threads, shouldSort) {
     const threadsWithInfo = threads.map(this._getThreadWithSortInfo);
-    if (this._sortedThreads && !shouldSort) {
+    if (this._sortedThreads
+        && this._sortedThreads.length === threads.length
+        && !shouldSort) {
       // Instead of replacing the _sortedThreads which will trigger a re-render,
       // we override all threads inside of it
       for (const thread of threadsWithInfo) {

@@ -259,14 +259,6 @@ suite('gr-comment tests', () => {
       });
     });
 
-    test('extra note shown if exists', () => {
-      element.comment = {id: 'abc_123', extraNote: 'asd'};
-      flushAsynchronousOperations();
-      assert.equal(element.shadowRoot
-          .querySelector('.comment-extra-note')
-          .textContent, 'asd');
-    });
-
     test('delete comment button for non-admins is hidden', () => {
       element._isAdmin = false;
       assert.isFalse(element.shadowRoot

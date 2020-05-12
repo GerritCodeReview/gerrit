@@ -365,9 +365,6 @@ class GrMessagesListExperimental extends mixinBehaviors( [
           // all comments we can modify them here without worrying about
           // polluting other threads.
           comment.collapsed = !condition;
-          if (condition) {
-            comment.extraNote = 'From this log entry';
-          }
           return condition;
         })
     );

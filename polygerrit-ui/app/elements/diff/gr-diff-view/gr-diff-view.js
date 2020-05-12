@@ -1303,6 +1303,11 @@ class GrDiffView extends mixinBehaviors( [
   _computeIsLoggedIn(loggedIn) {
     return loggedIn ? true : false;
   }
+
+  _computeCanEdit(loggedIn, changeChangeRecord) {
+    return this._computeIsLoggedIn(loggedIn) &&
+        this.changeIsOpen(changeChangeRecord.base);
+  }
 }
 
 customElements.define(GrDiffView.is, GrDiffView);

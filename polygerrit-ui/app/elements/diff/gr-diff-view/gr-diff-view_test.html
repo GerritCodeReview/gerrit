@@ -94,16 +94,36 @@ suite('gr-diff-view tests', () => {
       sandbox = sinon.sandbox.create();
 
       stub('gr-rest-api-interface', {
-        getConfig() { return Promise.resolve({change: {}}); },
-        getLoggedIn() { return Promise.resolve(false); },
-        getProjectConfig() { return Promise.resolve({}); },
-        getDiffChangeDetail() { return Promise.resolve({}); },
-        getChangeFiles() { return Promise.resolve({}); },
-        saveFileReviewed() { return Promise.resolve(); },
-        getDiffComments() { return Promise.resolve({}); },
-        getDiffRobotComments() { return Promise.resolve({}); },
-        getDiffDrafts() { return Promise.resolve({}); },
-        getReviewedFiles() { return Promise.resolve([]); },
+        getConfig() {
+          return Promise.resolve({change: {}});
+        },
+        getLoggedIn() {
+          return Promise.resolve(false);
+        },
+        getProjectConfig() {
+          return Promise.resolve({});
+        },
+        getDiffChangeDetail() {
+          return Promise.resolve({});
+        },
+        getChangeFiles() {
+          return Promise.resolve({});
+        },
+        saveFileReviewed() {
+          return Promise.resolve();
+        },
+        getDiffComments() {
+          return Promise.resolve({});
+        },
+        getDiffRobotComments() {
+          return Promise.resolve({});
+        },
+        getDiffDrafts() {
+          return Promise.resolve({});
+        },
+        getReviewedFiles() {
+          return Promise.resolve([]);
+        },
       });
       element = fixture('basic');
       return element._loadComments();
@@ -383,6 +403,7 @@ suite('gr-diff-view tests', () => {
       };
       element._change = {
         _number: 42,
+        status: 'NEW',
         revisions: {
           a: {_number: 1, commit: {parents: []}},
           b: {_number: 2, commit: {parents: []}},
@@ -399,26 +420,61 @@ suite('gr-diff-view tests', () => {
       });
     });
 
-    test('edit hidden when not logged in', done => {
-      element._loggedIn = false;
-      element._path = 't.txt';
-      element._patchRange = {
-        basePatchNum: PARENT,
-        patchNum: '1',
-      };
-      element._change = {
-        _number: 42,
-        revisions: {
-          a: {_number: 1, commit: {parents: []}},
-          b: {_number: 2, commit: {parents: []}},
-        },
-      };
-      flush(() => {
-        const editBtn = element.shadowRoot
-            .querySelector('.editButton gr-button');
-        assert.isFalse(!!editBtn);
-        done();
+    function isEditVisibile({loggedIn, changeStatus}) {
+      return new Promise(resolve => {
+        element._loggedIn = loggedIn;
+        element._path = 't.txt';
+        element._patchRange = {
+          basePatchNum: PARENT,
+          patchNum: '1',
+        };
+        element._change = {
+          _number: 42,
+          status: changeStatus,
+          revisions: {
+            a: {_number: 1, commit: {parents: []}},
+            b: {_number: 2, commit: {parents: []}},
+          },
+        };
+        flush(() => {
+          const editBtn = element.shadowRoot
+              .querySelector('.editButton gr-button');
+          resolve(!!editBtn);
+        });
       });
+    }
+
+    test('edit visible only when logged and status NEW', async () => {
+      for (const changeStatus in element.ChangeStatus) {
+        if (!element.ChangeStatus.hasOwnProperty(changeStatus)) {
+          continue;
+        }
+        assert.isFalse(await isEditVisibile({loggedIn: false, changeStatus}),
+            `loggedIn: false, changeStatus: ${changeStatus}`);
+
+        if (changeStatus !== element.ChangeStatus.NEW) {
+          assert.isFalse(await isEditVisibile({loggedIn: true, changeStatus}),
+              `loggedIn: true, changeStatus: ${changeStatus}`);
+        } else {
+          assert.isTrue(await isEditVisibile({loggedIn: true, changeStatus}),
+              `loggedIn: true, changeStatus: ${changeStatus}`);
+        }
+      }
+    });
+
+    test('edit visible when logged and status NEW', async () => {
+      assert.isTrue(await isEditVisibile(
+          {loggedIn: true, changeStatus: element.ChangeStatus.NEW}));
+    });
+
+    test('edit hidden when logged and status ABANDONED', async () => {
+      assert.isFalse(await isEditVisibile(
+          {loggedIn: true, changeStatus: element.ChangeStatus.ABANDONED}));
+    });
+
+    test('edit hidden when logged and status MERGED', async () => {
+      assert.isFalse(await isEditVisibile(
+          {loggedIn: true, changeStatus: element.ChangeStatus.MERGED}));
     });
 
     suite('diff prefs hidden', () => {

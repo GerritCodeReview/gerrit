@@ -16,6 +16,24 @@
       "revId": "fe60c6585869e095b18e3d5d2ebf818ef6b5704e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a5681ef_7d99f6a3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-05-12T14:02:55Z",
+      "side": 1,
+      "message": "oh! So you mean like if group is internal use \u0027id\u0027 and if not then decode?",
+      "parentUuid": "faafb5f2_893f6c92",
+      "revId": "fe60c6585869e095b18e3d5d2ebf818ef6b5704e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

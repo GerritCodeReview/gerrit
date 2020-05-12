@@ -10,8 +10,6 @@ java_library(
     deps = [
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/extensions:api",
-        "//java/com/google/gerrit/proto",
-        "//java/com/google/gerrit/server/cache/serialize",
         "//lib:guava",
         "//lib:jgit",
         "//lib:protobuf",

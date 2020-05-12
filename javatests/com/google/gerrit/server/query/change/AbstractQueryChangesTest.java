@@ -3034,6 +3034,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     List<ChangeInfo> result = newQuery("attention:" + user2Id.toString()).get();
     assertThat(result).hasSize(1);
     ChangeInfo changeInfo = Iterables.getOnlyElement(result);
+    assertThat(changeInfo.attentionSet).isNotNull();
     assertThat(changeInfo.attentionSet.keySet()).containsExactly(userId.get(), user2Id.get());
     assertThat(changeInfo.attentionSet.get(userId.get()).reason).isEqualTo("reason 1");
     assertThat(changeInfo.attentionSet.get(user2Id.get()).reason).isEqualTo("reason 2");

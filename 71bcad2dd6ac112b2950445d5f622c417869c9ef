@@ -1,0 +1,222 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b8fde89_81c306a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-12T22:11:18Z",
+      "side": 1,
+      "message": "Verify that",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "71bcad2dd6ac112b2950445d5f622c417869c9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d8281a8_9f3b7194",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-12T22:11:18Z",
+      "side": 1,
+      "message": "to verify that",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "71bcad2dd6ac112b2950445d5f622c417869c9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47e32467_dde66333",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-12T22:11:18Z",
+      "side": 1,
+      "message": "nit: remove empty line",
+      "revId": "71bcad2dd6ac112b2950445d5f622c417869c9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fedc8058_0591f831",
+        "filename": "javatests/com/google/gerrit/acceptance/config/PluginReadConfigIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-12T22:11:18Z",
+      "side": 1,
+      "message": "InstanceIdFromPluginIT?",
+      "revId": "71bcad2dd6ac112b2950445d5f622c417869c9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd6f3d99_37bb79c0",
+        "filename": "javatests/com/google/gerrit/acceptance/config/PluginReadConfigIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-12T22:11:18Z",
+      "side": 1,
+      "message": "instance-id-from-plugin",
+      "range": {
+        "startLine": 29,
+        "startChar": 12,
+        "endLine": 29,
+        "endChar": 23
+      },
+      "revId": "71bcad2dd6ac112b2950445d5f622c417869c9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ecf6b9d_8c362639",
+        "filename": "javatests/com/google/gerrit/acceptance/config/PluginReadConfigIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-12T22:11:18Z",
+      "side": 1,
+      "message": "InstanceIdFromPluginIT",
+      "range": {
+        "startLine": 31,
+        "startChar": 13,
+        "endLine": 31,
+        "endChar": 31
+      },
+      "revId": "71bcad2dd6ac112b2950445d5f622c417869c9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ae67a1b_ad424bbc",
+        "filename": "javatests/com/google/gerrit/acceptance/config/PluginReadConfigIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-12T22:11:18Z",
+      "side": 1,
+      "message": "InstanceIdLoader?",
+      "range": {
+        "startLine": 37,
+        "startChar": 11,
+        "endLine": 37,
+        "endChar": 27
+      },
+      "revId": "71bcad2dd6ac112b2950445d5f622c417869c9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "156f46de_7ae2d253",
+        "filename": "javatests/com/google/gerrit/acceptance/config/PluginReadConfigIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-12T22:11:18Z",
+      "side": 1,
+      "message": "public final String",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 27
+      },
+      "revId": "71bcad2dd6ac112b2950445d5f622c417869c9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac5433ef_a72d1183",
+        "filename": "javatests/com/google/gerrit/acceptance/config/PluginReadConfigIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-12T22:11:18Z",
+      "side": 1,
+      "message": "Why not DRYing out this into a private method?\nExample:\n  private TestConfigLoader testConfigLoader() {\n    return plugins.getSysInjector().getInstance(TestConfigLoader.class);\n  }",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 100
+      },
+      "revId": "71bcad2dd6ac112b2950445d5f622c417869c9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82ac29af_03c90410",
+        "filename": "javatests/com/google/gerrit/acceptance/config/PluginReadConfigIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-12T22:11:18Z",
+      "side": 1,
+      "message": "This would simply be:\n  testConfigLoader()",
+      "range": {
+        "startLine": 54,
+        "startChar": 15,
+        "endLine": 54,
+        "endChar": 31
+      },
+      "revId": "71bcad2dd6ac112b2950445d5f622c417869c9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

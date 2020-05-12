@@ -45,6 +45,9 @@ export const htmlTemplate = html`
       align-items: center;
       display: flex;
     }
+    .hiddenEntries {
+      color: var(--deemphasized-text-color);
+    }
     gr-message:not(:last-of-type) {
       border-bottom: 1px solid var(--border-color);
     }
@@ -61,18 +64,24 @@ export const htmlTemplate = html`
     }
   </style>
   <div class="header">
-    <span
-      id="showAllActivityToggleContainer"
-      class="container"
-      hidden$="[[!_isVisibleShowAllActivityToggle(_combinedMessages)]]"
+    <template
+      is="dom-if"
+      if="[[_isVisibleShowAllActivityToggle(_combinedMessages)]]"
     >
-      <paper-toggle-button
-        id="showAllActivityToggle"
-        checked="{{_showAllActivity}}"
-      ></paper-toggle-button
-      >Show all entries
-      <span class="transparent separator"></span>
-    </span>
+      <div id="showAllActivityToggleContainer" class="container">
+        <paper-toggle-button
+          class="showAllActivityToggle"
+          checked="{{_showAllActivity}}"
+        ></paper-toggle-button>
+        <div>
+          <span>Show all entries</span>
+          <span class="hiddenEntries" hidden$="[[_showAllActivity]]">
+            ([[_computeHiddenEntriesCount(_combinedMessages)]] hidden)
+          </span>
+        </div>
+        <span class="transparent separator"></span>
+      </div>
+    </template>
     <div class="experimentMessage">
       <iron-icon icon="gr-icons:pets"></iron-icon>
       <span>You're currently viewing an experimental Change Log view.</span>

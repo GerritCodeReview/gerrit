@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b9e6c28a_01048bd5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-05-12T19:14:07Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4e95161e_8668aa5f",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 17
+      },
+      "revId": "94dfe696165c43d1a7321a48e84ff8885ce583f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c41bc83c_78d3a18c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "94dfe696165c43d1a7321a48e84ff8885ce583f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "178b9fa3_02d3c01e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 541,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-05-12T19:14:07Z",
+      "side": 1,
+      "message": "Done to the first point, the second point is we already do. We currently have \"title\u003d\"Edit current file\"\"",
+      "parentUuid": "c41bc83c_78d3a18c",
+      "range": {
+        "startLine": 541,
+        "startChar": 6,
+        "endLine": 541,
+        "endChar": 77
+      },
+      "revId": "94dfe696165c43d1a7321a48e84ff8885ce583f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -51,6 +51,7 @@ import org.apache.sshd.common.io.IoAcceptor;
 import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.common.io.mina.MinaSession;
 import org.apache.sshd.server.Environment;
+import org.apache.sshd.server.channel.ChannelSession;
 import org.kohsuke.args4j.Option;
 
 /** Show the current cache states. */
@@ -97,7 +98,7 @@ final class ShowCaches extends SshCommand {
   private int nw;
 
   @Override
-  public void start(Environment env) throws IOException {
+  public void start(ChannelSession channel, Environment env) throws IOException {
     String s = env.getEnv().get(Environment.ENV_COLUMNS);
     if (s != null && !s.isEmpty()) {
       try {
@@ -106,7 +107,7 @@ final class ShowCaches extends SshCommand {
         columns = 80;
       }
     }
-    super.start(env);
+    super.start(channel, env);
   }
 
   @Override

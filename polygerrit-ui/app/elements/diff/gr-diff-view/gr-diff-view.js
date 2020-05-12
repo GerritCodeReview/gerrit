@@ -1300,13 +1300,12 @@ class GrDiffView extends mixinBehaviors( [
     this._scrollTopMargin = e.detail.value;
   }
 
-  _computeIsLoggedIn(loggedIn) {
-    return loggedIn ? true : false;
-  }
-
-  _computeCanEdit(loggedIn, changeChangeRecord) {
-    return this._computeIsLoggedIn(loggedIn) &&
-        this.changeIsOpen(changeChangeRecord.base);
+  computeCanEdit(loggedIn, changeChangeRecord) {
+    if ([changeChangeRecord, changeChangeRecord.base]
+        .some(arg => arg === undefined)) {
+      return false;
+    }
+    return loggedIn && this.changeIsOpen(changeChangeRecord.base);
   }
 }
 

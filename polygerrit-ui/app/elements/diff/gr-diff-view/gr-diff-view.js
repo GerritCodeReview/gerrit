@@ -1114,8 +1114,11 @@
     },
 
     _computeCanEdit(loggedIn, changeChangeRecord) {
-      return this._computeIsLoggedIn(loggedIn) &&
-          this.changeIsOpen(changeChangeRecord.base.status);
+      if ([changeChangeRecord, changeChangeRecord.base]
+          .some(arg => arg === undefined)) {
+        return false;
+      }
+      return loggedIn && this.changeIsOpen(changeChangeRecord.base.status);
     },
   });
 })();

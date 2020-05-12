@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63b1844a_63207e44",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1189,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-12T11:17:03Z",
+      "side": 1,
+      "message": "return false",
+      "revId": "779d86bf9bd992b10e5f553d4dfe4dbb5a1e00e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce55b868_16b3a9c6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1191,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-12T11:17:03Z",
+      "side": 1,
+      "message": "Replace this by just `loggedIn`.",
+      "range": {
+        "startLine": 1191,
+        "startChar": 13,
+        "endLine": 1191,
+        "endChar": 47
+      },
+      "revId": "779d86bf9bd992b10e5f553d4dfe4dbb5a1e00e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

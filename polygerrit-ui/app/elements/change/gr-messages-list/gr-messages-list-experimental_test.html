@@ -306,9 +306,6 @@ suite('gr-messages-list-experimental tests', () => {
       assert.equal(
           messageElements[0].commentThreads[0].comments.length,
           1);
-      assert.equal(
-          messageElements[0].commentThreads[0].comments[0].extraNote,
-          'From this log entry');
     });
 
     test('isImportant human message', () => {

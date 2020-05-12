@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b07705a_4f119b35",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-12T13:56:59Z",
+      "side": 1,
+      "message": "it turns out that a complete overwrite on `threads` will also fall into this category (replace), thus if _sortedThreads is already initialized, then it will go out of sync here without checking the length of it against the sortedThreads",
+      "revId": "a770eddf3b5b152e03dcc5615f56fa7f55292421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -70,7 +70,7 @@ export const htmlTemplate = html`
         id="showAllActivityToggle"
         checked="{{_showAllActivity}}"
       ></paper-toggle-button
-      >Show all entries
+      >Show all entries (some hidden)
       <span class="transparent separator"></span>
     </span>
     <div class="experimentMessage">

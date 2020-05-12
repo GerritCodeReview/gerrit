@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2532494f_df1a2941",
+        "filename": "java/com/google/gerrit/extensions/events/AccountActivationListener.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-12T09:10:53Z",
+      "side": 1,
+      "message": "Why not passing the Account.Id directly?",
+      "range": {
+        "startLine": 34,
+        "startChar": 34,
+        "endLine": 34,
+        "endChar": 37
+      },
+      "revId": "89c91a1111c088eb518344b502d1fce42dcd1d40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23652690_6e47d1d1",
+        "filename": "java/com/google/gerrit/extensions/events/AccountActivationListener.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-12T09:10:53Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 41,
+        "startChar": 36,
+        "endLine": 41,
+        "endChar": 39
+      },
+      "revId": "89c91a1111c088eb518344b502d1fce42dcd1d40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17330a80_5a4239e7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-12T09:10:53Z",
+      "side": 1,
+      "message": "Why not using a mock here?",
+      "range": {
+        "startLine": 613,
+        "startChar": 45,
+        "endLine": 613,
+        "endChar": 81
+      },
+      "revId": "89c91a1111c088eb518344b502d1fce42dcd1d40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ad2d8e6_09dc2edc",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountListenersIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-12T09:10:53Z",
+      "side": 1,
+      "message": "It is quite hard to read and understand the test with all these magic numbers hardcoded.\nTests are the only part of the code that are never tested and purely relying on the clarity of what they do when you read them.\n\nCan you come up with a more readable form of showing what the test is willing to verify?",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 47
+      },
+      "revId": "89c91a1111c088eb518344b502d1fce42dcd1d40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c802cb7e_bd33ada6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountListenersIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-12T09:10:53Z",
+      "side": 1,
+      "message": "Why is this a failure if you have one activation validation?",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 68
+      },
+      "revId": "89c91a1111c088eb518344b502d1fce42dcd1d40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3389cfc_48a6f49e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountListenersIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-12T09:10:53Z",
+      "side": 1,
+      "message": "Why is this a failure if you have two deactivation validations?",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 68
+      },
+      "revId": "89c91a1111c088eb518344b502d1fce42dcd1d40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

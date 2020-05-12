@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5efaa365_c44babf0",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CacheFlushSimulation.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-12T18:23:23Z",
+      "side": 1,
+      "message": "In some follow-up yes, as I don\u0027t know how to code this differently myself. I understand functional programming considerations, but I don\u0027t see how to start implementing your proposal in Scala. This code should still be clean enough I think.",
+      "parentUuid": "54b0b7c6_0d8e7a49",
+      "revId": "94f46910a403744a3889947d985c7b966dc2e179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cf79e29_24c7b956",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CacheFlushSimulation.scala",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "94f46910a403744a3889947d985c7b966dc2e179",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b90ea154_0f49d685",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CacheFlushSimulation.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-12T18:23:23Z",
+      "side": 1,
+      "message": "Yes; done. This must have been a String from a primitive version of this change.",
+      "parentUuid": "3cf79e29_24c7b956",
+      "range": {
+        "startLine": 23,
+        "startChar": 39,
+        "endLine": 23,
+        "endChar": 45
+      },
+      "revId": "94f46910a403744a3889947d985c7b966dc2e179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "9ebb6317_1d509ec3",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckProjectsCacheFlushEntries.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-12T18:23:23Z",
+      "side": 1,
+      "message": "Yes; nice. Done. I will apply this to the other similar classes in another change. I applied this to every new class from this change.",
+      "parentUuid": "cdbf9ce8_17f8389a",
+      "range": {
+        "startLine": 23,
+        "startChar": 20,
+        "endLine": 23,
+        "endChar": 51
+      },
+      "revId": "94f46910a403744a3889947d985c7b966dc2e179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47a6e20c_56a3a280",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckProjectsCacheFlushEntries.scala",
         "patchSetId": 1
@@ -85,6 +151,30 @@
       "revId": "94f46910a403744a3889947d985c7b966dc2e179",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0457abb7_cc565e74",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckProjectsCacheFlushEntries.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-12T18:23:23Z",
+      "side": 1,
+      "message": "Trying this locally doesn\u0027t compile for me. Maybe through some follow-up proposal?",
+      "parentUuid": "47a6e20c_56a3a280",
+      "range": {
+        "startLine": 33,
+        "startChar": 8,
+        "endLine": 37,
+        "endChar": 9
+      },
+      "revId": "94f46910a403744a3889947d985c7b966dc2e179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "0288e844_e8e5006e",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckProjectsCacheFlushEntries.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-12T18:23:23Z",
+      "side": 1,
+      "message": "This as is doesn\u0027t compile. Adding a $ prefix doesn\u0027t, either. And curly braces raise a warning in IntelliJ. I couldn\u0027t find a quick way of applying this form. Other existing /sibling classes implemented similar logic this way. A follow-up change could be proposed to refactor all of these in a way that works though.",
+      "parentUuid": "5a27c97a_dd26153a",
+      "range": {
+        "startLine": 40,
+        "startChar": 23,
+        "endLine": 40,
+        "endChar": 51
+      },
+      "revId": "94f46910a403744a3889947d985c7b966dc2e179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9df75f15_32a25f4e",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/FlushProjectsCache.scala",
         "patchSetId": 1
@@ -131,6 +245,30 @@
       "revId": "94f46910a403744a3889947d985c7b966dc2e179",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25e7546c_8d0d0ea3",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/FlushProjectsCache.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-12T18:23:23Z",
+      "side": 1,
+      "message": "This \"pattern\" has been used in similar classes up to this change included. This constant value is used here at lines 33 and 36 below. Its purpose is to ensure that the same value is used explicitly for both project creation and deletion, below. It is the default test project name, which in the case of this scenario happens to be used consistently here and across the below delegate scenarios. Replacing it with \u0027name\u0027 at lines 33 an 36 would not make that explicit.",
+      "parentUuid": "9df75f15_32a25f4e",
+      "range": {
+        "startLine": 25,
+        "startChar": 14,
+        "endLine": 25,
+        "endChar": 21
+      },
+      "revId": "94f46910a403744a3889947d985c7b966dc2e179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "c4de2253_ff7dda66",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GetProjectsCacheEntries.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-12T18:23:23Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ad3447a5_90ef5e7f",
+      "range": {
+        "startLine": 25,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 3
+      },
+      "revId": "94f46910a403744a3889947d985c7b966dc2e179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf50e9ce_87e0a83e",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GetProjectsCacheEntries.scala",
         "patchSetId": 1
@@ -177,6 +339,30 @@
       "revId": "94f46910a403744a3889947d985c7b966dc2e179",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7908ee57_c051c225",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GetProjectsCacheEntries.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-12T18:23:23Z",
+      "side": 1,
+      "message": "Would again require a potential follow-up, yes.",
+      "parentUuid": "cf50e9ce_87e0a83e",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 37,
+        "endChar": 9
+      },
+      "revId": "94f46910a403744a3889947d985c7b966dc2e179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

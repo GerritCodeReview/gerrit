@@ -151,6 +151,7 @@
     },
 
     _visibleToAll(item) {
+      console.log('test');
       return item.options.visible_to_all === true ? 'Y' : 'N';
     },
   });

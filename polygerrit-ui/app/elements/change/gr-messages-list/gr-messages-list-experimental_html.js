@@ -45,6 +45,9 @@ export const htmlTemplate = html`
       align-items: center;
       display: flex;
     }
+    .hiddenEntries {
+      color: var(--deemphasized-text-color);
+    }
     gr-message:not(:last-of-type) {
       border-bottom: 1px solid var(--border-color);
     }
@@ -69,8 +72,13 @@ export const htmlTemplate = html`
       <paper-toggle-button
         id="showAllActivityToggle"
         checked="{{_showAllActivity}}"
-      ></paper-toggle-button
-      >Show all entries
+      ></paper-toggle-button>
+      <div>
+        <span>Show all entries</span>
+        <span class="hiddenEntries" hidden$="[[_showAllActivity]]">
+          ([[_computeHiddenEntriesCount(_combinedMessages)]] hidden)
+        </span>
+      </div>
       <span class="transparent separator"></span>
     </span>
     <div class="experimentMessage">

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "244c8f9d_1af38f49",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-12T04:38:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "320d0ef9_86fc4a1a",
+      "range": {
+        "startLine": 169,
+        "startChar": 6,
+        "endLine": 175,
+        "endChar": 98
+      },
+      "revId": "faa7d1a383d65b7c17b96cc032a46958ffa58256",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "049f3475_d1bc9065",
         "filename": "java/com/google/gerrit/server/config/SshClientImplementation.java",
         "patchSetId": 16
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "3084e9df_5d1d2678",
+        "filename": "java/com/google/gerrit/server/config/SshClientImplementation.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-12T04:38:51Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "049f3475_d1bc9065",
+      "range": {
+        "startLine": 34,
+        "startChar": 34,
+        "endLine": 34,
+        "endChar": 73
+      },
+      "revId": "faa7d1a383d65b7c17b96cc032a46958ffa58256",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b757d7b3_269e2e04",
         "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 16
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "757d5211_9396dc70",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-12T04:38:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b757d7b3_269e2e04",
+      "revId": "faa7d1a383d65b7c17b96cc032a46958ffa58256",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a60c335_39ea92e9",
         "filename": "resources/log4j.properties",
         "patchSetId": 16
@@ -79,6 +145,24 @@
       "revId": "faa7d1a383d65b7c17b96cc032a46958ffa58256",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7b19a1d_43c9f373",
+        "filename": "resources/log4j.properties",
+        "patchSetId": 16
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-12T04:38:51Z",
+      "side": 1,
+      "message": "Reverted. Done.",
+      "parentUuid": "2a60c335_39ea92e9",
+      "revId": "faa7d1a383d65b7c17b96cc032a46958ffa58256",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

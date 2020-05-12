@@ -1,0 +1,299 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "478eaaf2_6ce21cb2",
+        "filename": "javatests/com/google/gerrit/server/notedb/CommitMessageOutputTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-12T02:02:34Z",
+      "side": 1,
+      "message": "Should we change this too?",
+      "range": {
+        "startLine": 383,
+        "startChar": 43,
+        "endLine": 383,
+        "endChar": 52
+      },
+      "revId": "4bb9d5284cb8788b684dc08f1cc5bc54ac850b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8abfe9dd_3fbfd18a",
+        "filename": "lib/LICENSE-highlightjs",
+        "patchSetId": 9
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-12T02:02:34Z",
+      "side": 1,
+      "message": "Only change here is a newline.",
+      "revId": "4bb9d5284cb8788b684dc08f1cc5bc54ac850b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6a9fef8_e4abc888",
+        "filename": "polygerrit-ui/Polymer3.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-12T02:02:34Z",
+      "side": 1,
+      "message": "Only change here is a newline.",
+      "revId": "4bb9d5284cb8788b684dc08f1cc5bc54ac850b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e912d131_d9567dbd",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-12T02:02:34Z",
+      "side": 1,
+      "message": "Will this have impact on existing change messages that say \"Patch Set\"?",
+      "revId": "4bb9d5284cb8788b684dc08f1cc5bc54ac850b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19940ae0_94176857",
+        "filename": "polygerrit-ui/app/samples/bind-parameters.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-12T02:02:34Z",
+      "side": 1,
+      "message": "Only change here is a newline.",
+      "revId": "4bb9d5284cb8788b684dc08f1cc5bc54ac850b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d22ac24e_1fcdc070",
+        "filename": "polygerrit-ui/app/samples/coverage-plugin.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-12T02:02:34Z",
+      "side": 1,
+      "message": "Only change here is a newline.",
+      "revId": "4bb9d5284cb8788b684dc08f1cc5bc54ac850b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "620e6261_42f356c3",
+        "filename": "polygerrit-ui/app/samples/lgtm-plugin.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-12T02:02:34Z",
+      "side": 1,
+      "message": "Only change here is a newline.",
+      "revId": "4bb9d5284cb8788b684dc08f1cc5bc54ac850b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71c375b6_a67a8e7b",
+        "filename": "polygerrit-ui/app/samples/repo-command.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-12T02:02:34Z",
+      "side": 1,
+      "message": "Only change here is a newline.",
+      "revId": "4bb9d5284cb8788b684dc08f1cc5bc54ac850b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67326eeb_4a6a3d00",
+        "filename": "polygerrit-ui/app/samples/some-screen.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-12T02:02:34Z",
+      "side": 1,
+      "message": "Only change here is a newline.",
+      "revId": "4bb9d5284cb8788b684dc08f1cc5bc54ac850b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21bc7500_f4e71540",
+        "filename": "polygerrit-ui/app/samples/theme-plugin.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-12T02:02:34Z",
+      "side": 1,
+      "message": "Only change here is a newline.",
+      "revId": "4bb9d5284cb8788b684dc08f1cc5bc54ac850b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23003c70_6314b3a5",
+        "filename": "polygerrit-ui/app/services/README.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-12T02:02:34Z",
+      "side": 1,
+      "message": "Only change here is a newline.",
+      "revId": "4bb9d5284cb8788b684dc08f1cc5bc54ac850b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27f67c37_7cd581cc",
+        "filename": "polygerrit-ui/app/services/app-context-init_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-12T02:02:34Z",
+      "side": 1,
+      "message": "Only change here is a newline.",
+      "revId": "4bb9d5284cb8788b684dc08f1cc5bc54ac850b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59ec8096_b088f506",
+        "filename": "polygerrit-ui/app/services/app-context.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-12T02:02:34Z",
+      "side": 1,
+      "message": "Only change here is a newline.",
+      "revId": "4bb9d5284cb8788b684dc08f1cc5bc54ac850b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abe69ef9_570be3fb",
+        "filename": "polygerrit-ui/app/services/flags_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-12T02:02:34Z",
+      "side": 1,
+      "message": "Only change here is a newline.",
+      "revId": "4bb9d5284cb8788b684dc08f1cc5bc54ac850b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26ca3c63_ef3e2682",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting_mock_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-12T02:02:34Z",
+      "side": 1,
+      "message": "Only change here is a newline.",
+      "revId": "4bb9d5284cb8788b684dc08f1cc5bc54ac850b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "181cb76c_23a937d0",
+        "filename": "polygerrit-ui/app/types/custom-externs.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-12T02:02:34Z",
+      "side": 1,
+      "message": "Only change here is a newline.",
+      "revId": "4bb9d5284cb8788b684dc08f1cc5bc54ac850b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c173f539_67694757",
+        "filename": "polygerrit-ui/app/types/types.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-12T02:02:34Z",
+      "side": 1,
+      "message": "Only change here is a newline.",
+      "revId": "4bb9d5284cb8788b684dc08f1cc5bc54ac850b76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

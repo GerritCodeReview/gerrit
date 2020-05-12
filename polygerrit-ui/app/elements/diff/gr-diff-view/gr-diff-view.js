@@ -1184,6 +1184,10 @@
     },
 
     _computeCanEdit(loggedIn, changeChangeRecord) {
+      if ([changeChangeRecord, changeChangeRecord.base]
+          .some(arg => arg === undefined)) {
+        return undefined;
+      }
       return this._computeIsLoggedIn(loggedIn) &&
           this.changeIsOpen(changeChangeRecord.base.status);
     },

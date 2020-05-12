@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "320d0ef9_86fc4a1a",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-12T00:00:42Z",
+      "side": 1,
+      "message": "Optional: this is common to both getMinaSession and getJschSession, so could be factored out to a method.",
+      "range": {
+        "startLine": 169,
+        "startChar": 6,
+        "endLine": 175,
+        "endChar": 98
+      },
+      "revId": "faa7d1a383d65b7c17b96cc032a46958ffa58256",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "049f3475_d1bc9065",
+        "filename": "java/com/google/gerrit/server/config/SshClientImplementation.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-12T00:00:42Z",
+      "side": 1,
+      "message": "This will fail if the environment var or system property is set to a non-existing value.",
+      "range": {
+        "startLine": 34,
+        "startChar": 34,
+        "endLine": 34,
+        "endChar": 73
+      },
+      "revId": "faa7d1a383d65b7c17b96cc032a46958ffa58256",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b757d7b3_269e2e04",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-12T00:00:42Z",
+      "side": 1,
+      "message": "Add a variant of cloneProject that passes the null, so we don\u0027t need explicit calls like this?",
+      "revId": "faa7d1a383d65b7c17b96cc032a46958ffa58256",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a60c335_39ea92e9",
+        "filename": "resources/log4j.properties",
+        "patchSetId": 16
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-12T00:00:42Z",
+      "side": 1,
+      "message": "Does this class have more info logs in the newer jgit?  Maybe do this as a separate change?",
+      "revId": "faa7d1a383d65b7c17b96cc032a46958ffa58256",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

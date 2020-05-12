@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "76b87e77_0895aa44",
+        "filename": "java/com/google/gerrit/extensions/events/AccountActivationListener.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-05-12T12:02:07Z",
+      "side": 1,
+      "message": "To me, com.google.gerrit.extensions.events seems the natural place for this extension event. Evenything else more or less derives from that.\n\nLet me elaborate:\nWhen trying to make the code consistent with similar code, the options\nare `int` and `AccountState`.\n\n* `int` because the `AccountIndexedListener` in the same package uses `int` for the account id.\n* `AccountState` because the similar and related `AccountActivationValidationListener` is using `AccountState`.\n\nBut although `AccountState` is visible to the already existing validator (as it lives in com.google.gerrit.server.validators), `AccountState` is not visible in com.google.gerrit.extensions.events. So we cannot easily use `AccountState` here.\n\nSo if one did not want to mess with library visibility, `int` seemed the\nnatural choice to keep consistent with sibling classes.\n\nYour suggested Account.Id is also not visible in com/google/gerrit/acceptance/api/accounts\n\nI\u0027m not happy with `int` either. If we want a different parameter type, that\u0027s fine by me. But which package would this extension point\nfit other than the current?",
+      "parentUuid": "2532494f_df1a2941",
+      "range": {
+        "startLine": 34,
+        "startChar": 34,
+        "endLine": 34,
+        "endChar": 37
+      },
+      "revId": "89c91a1111c088eb518344b502d1fce42dcd1d40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23652690_6e47d1d1",
         "filename": "java/com/google/gerrit/extensions/events/AccountActivationListener.java",
         "patchSetId": 9
@@ -45,6 +69,30 @@
       "revId": "89c91a1111c088eb518344b502d1fce42dcd1d40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2f90709_e16ef8f5",
+        "filename": "java/com/google/gerrit/extensions/events/AccountActivationListener.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-05-12T12:02:07Z",
+      "side": 1,
+      "message": "See above.",
+      "parentUuid": "23652690_6e47d1d1",
+      "range": {
+        "startLine": 41,
+        "startChar": 36,
+        "endLine": 41,
+        "endChar": 39
+      },
+      "revId": "89c91a1111c088eb518344b502d1fce42dcd1d40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "1a4bdb62_fe2f0d4a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-05-12T12:02:07Z",
+      "side": 1,
+      "message": "On the one hand, because this is an integration test, and the listener is\nimmediately close to the code under test.\n\nOn the other hand because of consistency, because `validationListener` is not a mock either (but simple enough so it could have been a mock).\n\nAnyway. Done. It\u0027s a mock in PS10.",
+      "parentUuid": "17330a80_5a4239e7",
+      "range": {
+        "startLine": 613,
+        "startChar": 45,
+        "endLine": 613,
+        "endChar": 81
+      },
+      "revId": "89c91a1111c088eb518344b502d1fce42dcd1d40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ad2d8e6_09dc2edc",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountListenersIT.java",
         "patchSetId": 9
@@ -91,6 +163,30 @@
       "revId": "89c91a1111c088eb518344b502d1fce42dcd1d40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51629d92_be6fc2f0",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountListenersIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-05-12T12:02:07Z",
+      "side": 1,
+      "message": "I re-did the test. It\u0027s now less in a playbook style but more verbose.\nI hope this addresses your concerns.",
+      "parentUuid": "3ad2d8e6_09dc2edc",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 47
+      },
+      "revId": "89c91a1111c088eb518344b502d1fce42dcd1d40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "f4a26e35_1e6b5de6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountListenersIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-05-12T12:02:07Z",
+      "side": 1,
+      "message": "Re-did test.",
+      "parentUuid": "c802cb7e_bd33ada6",
+      "range": {
+        "startLine": 102,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 68
+      },
+      "revId": "89c91a1111c088eb518344b502d1fce42dcd1d40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3389cfc_48a6f49e",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountListenersIT.java",
         "patchSetId": 9
@@ -137,6 +257,30 @@
       "revId": "89c91a1111c088eb518344b502d1fce42dcd1d40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99b9640e_65ff9bef",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountListenersIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-05-12T12:02:07Z",
+      "side": 1,
+      "message": "Re-did test.",
+      "parentUuid": "c3389cfc_48a6f49e",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 68
+      },
+      "revId": "89c91a1111c088eb518344b502d1fce42dcd1d40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

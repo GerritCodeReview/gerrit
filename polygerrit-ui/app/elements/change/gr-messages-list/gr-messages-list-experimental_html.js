@@ -69,8 +69,13 @@ export const htmlTemplate = html`
       <paper-toggle-button
         id="showAllActivityToggle"
         checked="{{_showAllActivity}}"
-      ></paper-toggle-button
-      >Show all entries (some hidden)
+      ></paper-toggle-button>
+      <div>
+        <span>Show all entries</span>
+        <span hidden$="[[_showAllActivity]]">
+          ([[_computeHiddenEntriesCount(_combinedMessages)]] hidden)
+        </span>
+      </div>
       <span class="transparent separator"></span>
     </span>
     <div class="experimentMessage">

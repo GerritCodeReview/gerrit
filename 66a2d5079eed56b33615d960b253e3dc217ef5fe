@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "84e66dba_4149fbf5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-05-12T14:01:52Z",
+      "side": 1,
+      "message": "Oh, whoops, changing this to id. Thanks!",
+      "parentUuid": "4aabd8d4_abea0bfa",
+      "revId": "66a2d5079eed56b33615d960b253e3dc217ef5fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b5fc8edc_4a4f5e5a",
         "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.html",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2020-05-12T13:29:12Z",
       "side": 1,
       "message": "not sure if we want to expose group_id at all.",
+      "revId": "66a2d5079eed56b33615d960b253e3dc217ef5fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "232614d7_fb579e7d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-05-12T14:01:52Z",
+      "side": 1,
+      "message": "I think we should. Since we can use either \u0027id\u0027 or \u0027group_id\u0027 to load groups on /admin/.",
+      "parentUuid": "b5fc8edc_4a4f5e5a",
       "revId": "66a2d5079eed56b33615d960b253e3dc217ef5fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

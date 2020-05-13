@@ -1,39 +1,21 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2015 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2015 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<meta charset="utf-8">
-<title>gr-diff</title>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
-<script src="/components/web-component-tester/data/a11ySuite.js"></script>
-
-<test-fixture id="basic">
-  <template>
-    <gr-diff></gr-diff>
-  </template>
-</test-fixture>
-
-<script type="module">
-import '../../../test/common-test-setup.js';
+import '../../../test/common-test-setup-karma.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-diff.js';
@@ -41,6 +23,16 @@ import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
 import {util} from '../../../scripts/util.js';
 import {_setHiddenScroll} from '../../../scripts/hiddenscroll.js';
+import {runA11yAudit} from '../../../test/a11y-test-utils.js';
+import '@polymer/paper-button/paper-button.js';
+
+const basicFixture = fixtureFromElement('gr-diff');
+
+suite('gr-diff a11y test', () => {
+  test('audit', async () => {
+    await runA11yAudit(basicFixture);
+  });
+});
 
 suite('gr-diff tests', () => {
   let element;
@@ -62,7 +54,7 @@ suite('gr-diff tests', () => {
     };
 
     setup(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       sandbox.stub(element.$.highlights, 'handleSelectionChange');
     });
 
@@ -80,21 +72,21 @@ suite('gr-diff tests', () => {
   });
 
   test('cancel', () => {
-    element = fixture('basic');
+    element = basicFixture.instantiate();
     const cancelStub = sandbox.stub(element.$.diffBuilder, 'cancel');
     element.cancel();
     assert.isTrue(cancelStub.calledOnce);
   });
 
   test('line limit with line_wrapping', () => {
-    element = fixture('basic');
+    element = basicFixture.instantiate();
     element.prefs = Object.assign({}, MINIMAL_PREFS, {line_wrapping: true});
     flushAsynchronousOperations();
     assert.equal(util.getComputedStyleValue('--line-limit', element), '80ch');
   });
 
   test('line limit without line_wrapping', () => {
-    element = fixture('basic');
+    element = basicFixture.instantiate();
     element.prefs = Object.assign({}, MINIMAL_PREFS, {line_wrapping: false});
     flushAsynchronousOperations();
     assert.isNotOk(util.getComputedStyleValue('--line-limit', element));
@@ -105,7 +97,7 @@ suite('gr-diff tests', () => {
     let contentEl;
 
     setup(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       lineEl = document.createElement('td');
       contentEl = document.createElement('span');
     });
@@ -191,7 +183,7 @@ suite('gr-diff tests', () => {
       stub('gr-rest-api-interface', {
         getLoggedIn() { return getLoggedInPromise; },
       });
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       return getLoggedInPromise;
     });
 
@@ -645,7 +637,7 @@ suite('gr-diff tests', () => {
   suite('logged in', () => {
     let fakeLineEl;
     setup(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       element.loggedIn = true;
       element.patchRange = {};
 
@@ -710,6 +702,22 @@ suite('gr-diff tests', () => {
         assert.isTrue(element._renderDiffTable.called);
       });
 
+      test('adding/removing property in preferences re-renders diff', () => {
+        const stub = sandbox.stub(element, '_renderDiffTable');
+        const newPrefs1 = Object.assign({}, MINIMAL_PREFS,
+            {line_wrapping: true});
+        element.prefs = newPrefs1;
+        element.flushDebouncer('renderDiffTable');
+        assert.isTrue(element._renderDiffTable.called);
+        stub.reset();
+
+        const newPrefs2 = Object.assign({}, newPrefs1);
+        delete newPrefs2.line_wrapping;
+        element.prefs = newPrefs2;
+        element.flushDebouncer('renderDiffTable');
+        assert.isTrue(element._renderDiffTable.called);
+      });
+
       test('change in preferences does not re-renders diff with ' +
           'noRenderOnPrefsChange', () => {
         sandbox.stub(element, '_renderDiffTable');
@@ -724,7 +732,7 @@ suite('gr-diff tests', () => {
 
   suite('diff header', () => {
     setup(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       element.diff = {
         meta_a: {name: 'carrot.jpg', content_type: 'image/jpeg', lines: 66},
         meta_b: {name: 'carrot.jpg', content_type: 'image/jpeg',
@@ -769,7 +777,7 @@ suite('gr-diff tests', () => {
     let renderStub;
 
     setup(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       renderStub = sandbox.stub(element.$.diffBuilder, 'render',
           () => {
             element.$.diffBuilder.dispatchEvent(
@@ -821,7 +829,7 @@ suite('gr-diff tests', () => {
 
   suite('blame', () => {
     setup(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
     });
 
     test('unsetting', () => {
@@ -847,7 +855,7 @@ suite('gr-diff tests', () => {
       element.shadowRoot.querySelector('.newlineWarning').textContent;
 
     setup(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       element.showNewlineWarningLeft = false;
       element.showNewlineWarningRight = false;
     });
@@ -907,7 +915,7 @@ suite('gr-diff tests', () => {
     let renderStub;
 
     setup(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       element.prefs = {};
       renderStub = sandbox.stub(element.$.diffBuilder, 'render')
           .returns(new Promise(() => {}));
@@ -956,7 +964,7 @@ suite('gr-diff tests', () => {
   });
   const setupSampleDiff = function(params) {
     const {ignore_whitespace, content} = params;
-    element = fixture('basic');
+    element = basicFixture.instantiate();
     element.prefs = {
       ignore_whitespace: ignore_whitespace || 'IGNORE_ALL',
       auto_hide_diff_table_header: true,
@@ -1115,7 +1123,7 @@ suite('gr-diff tests', () => {
   });
 
   test('`render` event has contentRendered field in detail', done => {
-    element = fixture('basic');
+    element = basicFixture.instantiate();
     element.prefs = {};
     sandbox.stub(element.$.diffBuilder, 'render')
         .returns(Promise.resolve());
@@ -1125,7 +1133,21 @@ suite('gr-diff tests', () => {
     });
     element._renderDiffTable();
   });
-});
 
-a11ySuite('basic');
-</script>
+  test('_prefsEqual', () => {
+    element = basicFixture.instantiate();
+    assert.isTrue(element._prefsEqual(null, null));
+    assert.isTrue(element._prefsEqual({}, {}));
+    assert.isTrue(element._prefsEqual({x: 1}, {x: 1}));
+    assert.isTrue(element._prefsEqual({x: 1, abc: 'def'}, {x: 1, abc: 'def'}));
+    const somePref = {abc: 'def', p: true};
+    assert.isTrue(element._prefsEqual(somePref, somePref));
+
+    assert.isFalse(element._prefsEqual({}, null));
+    assert.isFalse(element._prefsEqual(null, {}));
+    assert.isFalse(element._prefsEqual({x: 1}, {x: 2}));
+    assert.isFalse(element._prefsEqual({x: 1, y: 'abc'}, {x: 1, y: 'abcd'}));
+    assert.isFalse(element._prefsEqual({x: 1, y: 'abc'}, {x: 1}));
+    assert.isFalse(element._prefsEqual({x: 1}, {x: 1, y: 'abc'}));
+  });
+});

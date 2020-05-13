@@ -52,6 +52,7 @@ object has a `_more_accounts: true` JSON field set.
 The `S` or `start` query parameter can be supplied to skip a number
 of accounts from the list.
 
+[[query-options]]
 Additional fields can be obtained by adding `o` parameters, each
 option slows down the query response time to the client so they are
 generally disabled by default. Optional fields are:

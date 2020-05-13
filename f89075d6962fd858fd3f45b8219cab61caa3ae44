@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91a99e0c_43479100",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1479,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-05-13T14:27:47Z",
+      "side": 1,
+      "message": "better: destination branch",
+      "range": {
+        "startLine": 1479,
+        "startChar": 4,
+        "endLine": 1479,
+        "endChar": 15
+      },
+      "revId": "f89075d6962fd858fd3f45b8219cab61caa3ae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d56886e_b0ec73c7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1489,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-05-13T14:27:47Z",
+      "side": 1,
+      "message": "Maybe just drop this part. We normally don\u0027t have examples for the standard error codes (e.g. there is no example for 409 below). Otherwise if you want to keep this example, please make it clearer that this is the response that is returned if the revert permission is missing. As it is phrased now it sounds like this would also be the response if the upload permission is missing, but in this case the error message would be different.",
+      "range": {
+        "startLine": 1482,
+        "startChar": 0,
+        "endLine": 1489,
+        "endChar": 4
+      },
+      "revId": "f89075d6962fd858fd3f45b8219cab61caa3ae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f0a8901_0067fc9f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1611,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-05-13T14:27:47Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 1604,
+        "startChar": 0,
+        "endLine": 1611,
+        "endChar": 4
+      },
+      "revId": "f89075d6962fd858fd3f45b8219cab61caa3ae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6793e86_0bca1d69",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-05-13T14:27:47Z",
+      "side": 1,
+      "message": "Does the revert permission need to be checked here too?",
+      "range": {
+        "startLine": 528,
+        "startChar": 8,
+        "endLine": 537,
+        "endChar": 47
+      },
+      "revId": "f89075d6962fd858fd3f45b8219cab61caa3ae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d60aa7cb_7ece272a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-05-13T14:27:47Z",
+      "side": 1,
+      "message": "Here and below, why is this needed?\n\nI thought the Revert permission is by default assigned for \u0027Registered Users\u0027 when the \u0027All-Projects\u0027 project is created, so assigning it here again should not be necessary?",
+      "range": {
+        "startLine": 239,
+        "startChar": 3,
+        "endLine": 243,
+        "endChar": 18
+      },
+      "revId": "f89075d6962fd858fd3f45b8219cab61caa3ae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13f66fca_14e202b2",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/ChangeNotificationsIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-05-13T14:27:47Z",
+      "side": 1,
+      "message": "Isn\u0027t this permission assigned for \u0027Registered Users\u0027 by default?",
+      "revId": "f89075d6962fd858fd3f45b8219cab61caa3ae44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

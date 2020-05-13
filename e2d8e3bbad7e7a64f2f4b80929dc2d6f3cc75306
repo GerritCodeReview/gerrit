@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "079fa5bd_51aa004e",
+        "filename": "java/com/google/gerrit/httpd/InactiveAccountsLogoutFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-13T10:33:44Z",
+      "side": 1,
+      "message": "This is a useful description of the issue you are solving. However, we should document in JavaDoc what the class is representing.\n\nWhat about saying something like:\n\nFilter out inactive accounts for preventing old sessions to be reused\nfor authenticating incoming HTTP calls as come from an IdentifiedUser.\n\nOr anything different that identify what the filter is actually doing?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 98
+      },
+      "revId": "e2d8e3bbad7e7a64f2f4b80929dc2d6f3cc75306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed1bfce2_f6d2d4a1",
+        "filename": "java/com/google/gerrit/httpd/InactiveAccountsLogoutFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-13T10:33:44Z",
+      "side": 1,
+      "message": "Should we managing the logout redirection as well?\n(see https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#auth.logoutUrl)\n\nWe could also introduce a different logout experience, as the user should be informed why he has been logged out forcibly.",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 75,
+        "endChar": 23
+      },
+      "revId": "e2d8e3bbad7e7a64f2f4b80929dc2d6f3cc75306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -70,6 +70,24 @@
       "revId": "66b6088d03f0a76e826adcad5f2247833d8488d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ccda17f_9717a300",
+        "filename": "polygerrit-ui/app/test/common-test-setup-karma.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-13T12:12:48Z",
+      "side": 1,
+      "message": "I want to avoid code like:\nawait flush(() \u003d\u003e {\n   action1();\n})\naction2();\n\nThis is why I implemented it in a way, that it can be used either with callback or with await.\nIt must be impossible to use both at the same time.",
+      "parentUuid": "c3c13cea_d870b071",
+      "revId": "66b6088d03f0a76e826adcad5f2247833d8488d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

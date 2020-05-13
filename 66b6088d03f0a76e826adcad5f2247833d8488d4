@@ -106,6 +106,24 @@
       "revId": "66b6088d03f0a76e826adcad5f2247833d8488d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6901fd13_ec1d9581",
+        "filename": "polygerrit-ui/app/test/common-test-setup-karma.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-13T12:50:17Z",
+      "side": 1,
+      "message": "i actually don\u0027t see why we want to avoid:\n```\nawait flush(() \u003d\u003e {\n   action1();\n})\naction2();\n```\nas long as the order of the execution matches the expectation, but probably not worth arguing for",
+      "parentUuid": "ef5a1ceb_24945793",
+      "revId": "66b6088d03f0a76e826adcad5f2247833d8488d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

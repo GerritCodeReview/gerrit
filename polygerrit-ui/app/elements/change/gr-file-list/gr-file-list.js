@@ -66,7 +66,6 @@ const FileStatus = {
   M: 'Modified',
   R: 'Renamed',
   W: 'Rewritten',
-  U: 'Unchanged',
 };
 
 /**
@@ -985,7 +984,6 @@ class GrFileList extends mixinBehaviors( [
     const files = Object.assign({}, filesByPath);
     Object.keys(commentedPaths).forEach(commentedPath => {
       if (files.hasOwnProperty(commentedPath)) { return; }
-      files[commentedPath] = {status: 'U'};
     });
     const reviewedSet = new Set(reviewed || []);
     for (const filePath in files) {

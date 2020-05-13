@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fd3cd723_7fb5d3cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-13T11:07:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0575a850_9359b90a",
+      "range": {
+        "startLine": 11,
+        "startChar": 38,
+        "endLine": 11,
+        "endChar": 63
+      },
+      "revId": "8d8609036c6140826082f9fe963c7b516842e8f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0dc7a755_fae7775c",
         "filename": "java/com/google/gerrit/server/permissions/ChangeControl.java",
         "patchSetId": 8
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "323f64f4_faaf172d",
+        "filename": "java/com/google/gerrit/server/permissions/ChangeControl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-13T11:07:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dc7a755_fae7775c",
+      "revId": "8d8609036c6140826082f9fe963c7b516842e8f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "764bb0cd_b14cb969",
         "filename": "java/com/google/gerrit/server/permissions/ChangePermission.java",
         "patchSetId": 8
@@ -56,6 +98,24 @@
       "revId": "8d8609036c6140826082f9fe963c7b516842e8f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afce8e03_2a419e7d",
+        "filename": "java/com/google/gerrit/server/permissions/ChangePermission.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-13T11:07:16Z",
+      "side": 1,
+      "message": "I can\u0027t think of something very useful to add here.",
+      "parentUuid": "764bb0cd_b14cb969",
+      "revId": "8d8609036c6140826082f9fe963c7b516842e8f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "447173d8_62bb4029",
+        "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-13T11:07:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e99ab439_6620c381",
+      "range": {
+        "startLine": 98,
+        "startChar": 29,
+        "endLine": 98,
+        "endChar": 52
+      },
+      "revId": "8d8609036c6140826082f9fe963c7b516842e8f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbd459ba_a90e936b",
         "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
         "patchSetId": 8
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "08b68ddf_67743290",
+        "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-13T11:07:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbd459ba_a90e936b",
+      "range": {
+        "startLine": 139,
+        "startChar": 30,
+        "endLine": 139,
+        "endChar": 53
+      },
+      "revId": "8d8609036c6140826082f9fe963c7b516842e8f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "41dccf20_e8f1ab3f",
         "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
         "patchSetId": 8
@@ -125,6 +233,30 @@
       "revId": "8d8609036c6140826082f9fe963c7b516842e8f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6ac28a5_ec9c6287",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-13T11:07:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41dccf20_e8f1ab3f",
+      "range": {
+        "startLine": 227,
+        "startChar": 63,
+        "endLine": 227,
+        "endChar": 80
+      },
+      "revId": "8d8609036c6140826082f9fe963c7b516842e8f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

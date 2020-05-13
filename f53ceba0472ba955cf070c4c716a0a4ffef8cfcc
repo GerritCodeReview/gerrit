@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4dec7c76_3554c2df",
+        "filename": "polygerrit-ui/app/constants/constants.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-13T10:49:10Z",
+      "side": 1,
+      "message": "Not for this change, since this magic file will never be rendered in the UI.",
+      "parentUuid": "535efdc8_bacc8256",
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6782857b_20f3fdfe",
         "filename": "polygerrit-ui/app/constants/constants.js",
         "patchSetId": 7
@@ -59,6 +77,48 @@
     },
     {
       "key": {
+        "uuid": "d0d6c55b_7ac2b4b3",
+        "filename": "polygerrit-ui/app/constants/constants.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-13T10:49:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c69da92_373652f1",
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "40a3b1bf_179e9c7a",
+        "filename": "polygerrit-ui/app/constants/constants.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-13T10:49:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6782857b_20f3fdfe",
+      "range": {
+        "startLine": 69,
+        "startChar": 13,
+        "endLine": 69,
+        "endChar": 42
+      },
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d43b70e_94068c3e",
         "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list_html.js",
         "patchSetId": 7
@@ -73,6 +133,24 @@
       "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e09c1e3a_e3b7f7a5",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list_html.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-13T10:49:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1d43b70e_94068c3e",
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -99,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "73896640_32c87203",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list_html.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-13T10:49:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83ebcaa8_d4eff672",
+      "range": {
+        "startLine": 77,
+        "startChar": 35,
+        "endLine": 78,
+        "endChar": 11
+      },
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de287dd9_b844dbf3",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 7
@@ -119,6 +221,30 @@
       "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3638c61_16034d5f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-13T10:49:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de287dd9_b844dbf3",
+      "range": {
+        "startLine": 264,
+        "startChar": 6,
+        "endLine": 264,
+        "endChar": 35
+      },
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -145,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "d5a90885_308a978a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-13T10:49:10Z",
+      "side": 1,
+      "message": "Added some margin and will add Delphine to this change.",
+      "parentUuid": "74158dab_0d098c46",
+      "range": {
+        "startLine": 214,
+        "startChar": 9,
+        "endLine": 214,
+        "endChar": 14
+      },
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "914fe6d3_ea69b581",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.js",
         "patchSetId": 7
@@ -159,6 +309,24 @@
       "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aaabf5da_6d6a9a47",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-13T10:49:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "914fe6d3_ea69b581",
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -202,6 +370,48 @@
     },
     {
       "key": {
+        "uuid": "94343c53_811fcf41",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-13T10:49:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fefa00e0_5b8fd141",
+      "range": {
+        "startLine": 80,
+        "startChar": 36,
+        "endLine": 80,
+        "endChar": 37
+      },
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84b1bf52_8e57744b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-13T10:49:10Z",
+      "side": 1,
+      "message": "What is the source of the unhappiness?\nThis text has UX approval and I think it\u0027s pretty clear on what it is.\nWe don\u0027t need General/Overall type words to provide a more generic picture.",
+      "parentUuid": "3bac625a_09a9a380",
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aba6a3df_4fd9d76f",
         "filename": "polygerrit-ui/app/scripts/gr-file-list-utils/gr-file-list-utils.js",
         "patchSetId": 7
@@ -219,6 +429,24 @@
     },
     {
       "key": {
+        "uuid": "89ea310c_7787b7e8",
+        "filename": "polygerrit-ui/app/scripts/gr-file-list-utils/gr-file-list-utils.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-13T10:49:10Z",
+      "side": 1,
+      "message": "Removing this new util files and moving into path-list-behaviour.",
+      "parentUuid": "aba6a3df_4fd9d76f",
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4f1bf85_5facb2b0",
         "filename": "polygerrit-ui/app/scripts/gr-file-list-utils/gr-file-list-utils.js",
         "patchSetId": 7
@@ -233,6 +461,24 @@
       "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f270283d_52d5a11b",
+        "filename": "polygerrit-ui/app/scripts/gr-file-list-utils/gr-file-list-utils.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-13T10:49:10Z",
+      "side": 1,
+      "message": "Yeah, moving this into gr-path-list-behavior.js.",
+      "parentUuid": "f4f1bf85_5facb2b0",
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -259,6 +505,30 @@
     },
     {
       "key": {
+        "uuid": "3cf586ef_c48743dd",
+        "filename": "polygerrit-ui/app/scripts/gr-file-list-utils/gr-file-list-utils.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-13T10:49:10Z",
+      "side": 1,
+      "message": "Should this be updated in a separate change for all files?\nOr we add the year only when we create the file?",
+      "parentUuid": "f52c623f_5f30afad",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c44ed17_e2051240",
         "filename": "polygerrit-ui/app/scripts/gr-file-list-utils/gr-file-list-utils.js",
         "patchSetId": 7
@@ -279,6 +549,30 @@
       "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "586ff072_4b1eee5b",
+        "filename": "polygerrit-ui/app/scripts/gr-file-list-utils/gr-file-list-utils.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-13T10:49:10Z",
+      "side": 1,
+      "message": "We may want to do this for other files too.",
+      "parentUuid": "6c44ed17_e2051240",
+      "range": {
+        "startLine": 20,
+        "startChar": 10,
+        "endLine": 20,
+        "endChar": 48
+      },
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -305,6 +599,30 @@
     },
     {
       "key": {
+        "uuid": "f692d8b1_edd536ec",
+        "filename": "polygerrit-ui/app/scripts/gr-file-list-utils/gr-file-list-utils.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-13T10:49:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17a627f6_b311da73",
+      "range": {
+        "startLine": 24,
+        "startChar": 9,
+        "endLine": 24,
+        "endChar": 30
+      },
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ea9aaa5_026e9631",
         "filename": "polygerrit-ui/app/scripts/gr-file-list-utils/gr-file-list-utils.js",
         "patchSetId": 7
@@ -325,6 +643,30 @@
       "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31f07088_91f3198a",
+        "filename": "polygerrit-ui/app/scripts/gr-file-list-utils/gr-file-list-utils.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-13T10:49:10Z",
+      "side": 1,
+      "message": "Removed util file and moved to behaviour.",
+      "parentUuid": "9ea9aaa5_026e9631",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 1
+      },
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -351,6 +693,30 @@
     },
     {
       "key": {
+        "uuid": "67b58f2c_6119316c",
+        "filename": "polygerrit-ui/app/scripts/gr-file-list-utils/gr-file-list-utils_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-13T10:49:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df43a733_115bcd42",
+      "range": {
+        "startLine": 1,
+        "startChar": 2,
+        "endLine": 1,
+        "endChar": 14
+      },
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95c716b5_0a177aa5",
         "filename": "polygerrit-ui/app/scripts/gr-file-list-utils/gr-file-list-utils_test.html",
         "patchSetId": 7
@@ -371,6 +737,30 @@
       "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28fa6982_d62827f5",
+        "filename": "polygerrit-ui/app/scripts/gr-file-list-utils/gr-file-list-utils_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-13T10:49:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95c716b5_0a177aa5",
+      "range": {
+        "startLine": 32,
+        "startChar": 7,
+        "endLine": 32,
+        "endChar": 30
+      },
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

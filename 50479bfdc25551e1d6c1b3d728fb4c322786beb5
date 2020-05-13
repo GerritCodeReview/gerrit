@@ -22,6 +22,30 @@
       "revId": "50479bfdc25551e1d6c1b3d728fb4c322786beb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2778ec9e_2dc3c2bd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-13T12:21:30Z",
+      "side": 1,
+      "message": "I am afraid of moving it to utils.\nThere are limitations:\n1) It can be used only with objects which contains primitive types (or nested objects with primitive types).\n2) If object is too big, contains large array - it is slow and consumes a lot of memory.\n\nIncorrect usage of this method can lead to performance issues or unexpected problem, when after clone you get an object with a wrong data.\n\nI would like to keep it as is, because it is one line of code and i don\u0027t see where can we reuse safely.",
+      "parentUuid": "de91956f_6676a0ce",
+      "range": {
+        "startLine": 79,
+        "startChar": 30,
+        "endLine": 79,
+        "endChar": 55
+      },
+      "revId": "50479bfdc25551e1d6c1b3d728fb4c322786beb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

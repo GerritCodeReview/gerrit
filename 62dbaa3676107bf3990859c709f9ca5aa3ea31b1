@@ -33,6 +33,24 @@
       "revId": "62dbaa3676107bf3990859c709f9ca5aa3ea31b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5aa3216_946f39da",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-13T08:28:31Z",
+      "side": 1,
+      "message": "\u003e While setting `val` to `null` does the trick, I think it\u0027s a bit too little.\n\u003e E.g.: it does not evict the cookie from the cache. It does not tell the\n\u003e client to throw the cookie away.\n\nI would like to keep your solution on the stable-3.1 onwards, but minimise the changes on the older releases.\n\nIf I were on master, I would do a much better user experience by giving back an error page explaining what happened: \"Please note that your account has been disabled. Please refer to the Gerrit admin if you believe this was not expected. You have been logged out from Gerrit\".\n\nIs it something we can target with your fix?\n\n\u003e What about calling `logout` instead?\n\u003e \n\u003e Then all the invalidating would still happen in one place (the `logout` method) and intent is clear as well.\n\nThis isn\u0027t about invalidating the session (your fix) but rather avoiding a disabled user to be flagged as authenticated by cookie.",
+      "parentUuid": "f6b7695b_82b7f654",
+      "revId": "62dbaa3676107bf3990859c709f9ca5aa3ea31b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -21,6 +21,7 @@
  */
 export const PrimaryTab = {
   FILES: '_files',
+  COMMENT_THREADS: '_commentThreads',
   FINDINGS: '_findings',
 };
 
@@ -30,7 +31,6 @@ export const PrimaryTab = {
  */
 export const SecondaryTab = {
   CHANGE_LOG: '_changeLog',
-  COMMENT_THREADS: '_commentThreads',
 };
 
 /**

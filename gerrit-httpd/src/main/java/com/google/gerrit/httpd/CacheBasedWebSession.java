@@ -26,6 +26,8 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.config.AuthConfig;
@@ -61,7 +63,8 @@ public abstract class CacheBasedWebSession implements WebSession {
       final WebSessionManager manager,
       final AuthConfig authConfig,
       final Provider<AnonymousUser> anonymousProvider,
-      final IdentifiedUser.RequestFactory identified) {
+      final IdentifiedUser.RequestFactory identified,
+      final AccountCache byIdCache) {
     this.request = request;
     this.response = response;
     this.manager = manager;
@@ -78,6 +81,13 @@ public abstract class CacheBasedWebSession implements WebSession {
           // Cookie is more than half old. Send the cookie again to the
           // client with an updated expiration date.
           val = manager.createVal(key, val);
+        }
+
+        if (val != null) {
+          AccountState accountState = byIdCache.get(val.getAccountId());
+          if (accountState != null && !accountState.getAccount().isActive()) {
+            val = null;
+          }
         }
 
         String token = request.getHeader(HostPageData.XSRF_HEADER_NAME);

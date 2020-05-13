@@ -723,7 +723,6 @@ export const htmlTemplate = html`
             change-comments="[[_changeComments]]"
             project-name="[[_change.project]]"
             show-reply-buttons="[[_loggedIn]]"
-            on-message-anchor-tap="_handleMessageAnchorTap"
             on-reply="_handleMessageReply"
           ></gr-messages-list>
         </template>
@@ -738,7 +737,6 @@ export const htmlTemplate = html`
             change-comments="[[_changeComments]]"
             project-name="[[_change.project]]"
             show-reply-buttons="[[_loggedIn]]"
-            on-message-anchor-tap="_handleMessageAnchorTap"
             on-reply="_handleMessageReply"
           ></gr-messages-list-experimental>
         </template>

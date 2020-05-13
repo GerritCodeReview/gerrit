@@ -3,6 +3,7 @@
   "description": "Gerrit Code Review - Polygerrit dependencies",
   "browser": true,
   "dependencies": {
+    "@polymer/decorators": "^3.0.0",
     "@polymer/font-roboto-local": "^3.0.2",
     "@polymer/iron-a11y-keys-behavior": "^3.0.1",
     "@polymer/iron-autogrow-textarea": "^3.0.3",

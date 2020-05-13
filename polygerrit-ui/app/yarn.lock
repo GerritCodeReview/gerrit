@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@polymer/decorators@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@polymer/decorators/-/decorators-3.0.0.tgz#e4212ac976d9abd1210f560b6e1be4165c1c0183"
+  integrity sha512-qh+VID9nDV9q3ABvIfWgm7/+udl7v2HKsMLPXFm8tj1fI7qr7yWJMFwS3xWBkMmuNPtmkS8MDP0vqLAQIEOWzg==
+  dependencies:
+    "@polymer/polymer" "^3.0.5"
+
 "@polymer/font-roboto-local@^3.0.2":
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/@polymer/font-roboto-local/-/font-roboto-local-3.0.2.tgz#563cd6cabbcaef54999d654c0f3d476bcc49ce58"
@@ -307,6 +314,13 @@
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/@polymer/polymer/-/polymer-3.3.1.tgz#9ad48992d2a96775f80b0673f3a615d6df8a3dfc"
   integrity sha512-8KaB48tzyMjdsHdxo5KvCAaqmTe7rYDzQAoj/pyEfq9Fp4YfUaS+/xqwYj0GbiDAUNzwkmEQ7dw9cgnRNdKO8A==
+  dependencies:
+    "@webcomponents/shadycss" "^1.9.1"
+
+"@polymer/polymer@^3.0.5":
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/@polymer/polymer/-/polymer-3.4.1.tgz#333bef25711f8411bb5624fb3eba8212ef8bee96"
+  integrity sha512-KPWnhDZibtqKrUz7enIPOiO4ZQoJNOuLwqrhV2MXzIt3VVnUVJVG5ORz4Z2sgO+UZ+/UZnPD0jqY+jmw/+a9mQ==
   dependencies:
     "@webcomponents/shadycss" "^1.9.1"
 

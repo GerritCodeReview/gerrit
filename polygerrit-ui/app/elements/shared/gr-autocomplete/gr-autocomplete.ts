@@ -26,11 +26,12 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-autocomplete_html.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {customElement, property} from '@polymer/decorators/lib/decorators';
 
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 const DEBOUNCE_WAIT_MS = 210;
 
-interface Suggestion {
+interface Suggestion {   
   name: string;
   text: string;
   value: any;
@@ -48,6 +49,7 @@ interface GrAutocomplete {
   modifierPressed(e: KeyboardEvent): boolean;
 }
 
+@customElement('gr-autocomplete')
 class GrAutocomplete extends mixinBehaviors( [
   KeyboardShortcutBehavior,
 ], GestureEventListeners(
@@ -59,7 +61,6 @@ class GrAutocomplete extends mixinBehaviors( [
 
   public static get template() { return htmlTemplate; }
 
-  public static get is() { return 'gr-autocomplete'; }
   /**
    * Fired when a value is chosen.
    *
@@ -79,135 +80,134 @@ class GrAutocomplete extends mixinBehaviors( [
    * @event input-keydown
    */
 
-  public static get properties() {
-    return {
-
-      /**
-       * Query for requesting autocomplete suggestions. The function should
-       * accept the input as a string parameter and return a promise. The
-       * promise yields an array of suggestion objects with "name", "label",
-       * "value" properties. The "name" property will be displayed in the
-       * suggestion entry. The "label" property will, when specified, appear
-       * next to the "name" as label text. The "value" property will be emitted
-       * if that suggestion is selected.
-       *
-       * @type {function(string): Promise<?>}
-       */
-      query: {
-        type: Function,
-        value() {
-          return function() {
-            return Promise.resolve([]);
-          };
-        },
-      },
-
-      /**
-       * The number of characters that must be typed before suggestions are
-       * made. If threshold is zero, default suggestions are enabled.
-       */
-      threshold: {
-        type: Number,
-        value: 1,
-      },
-
-      allowNonSuggestedValues: Boolean,
-      borderless: Boolean,
-      disabled: Boolean,
-      showSearchIcon: {
-        type: Boolean,
-        value: false,
-      },
-      /**
-       * Vertical offset needed for an element with 20px line-height, 4px
-       * padding and 1px border (30px height total). Plus 1px spacing between
-       * input and dropdown. Inputs with different line-height or padding will
-       * need to tweak vertical offset.
-       */
-      verticalOffset: {
-        type: Number,
-        value: 31,
-      },
-
-      text: {
-        type: String,
-        value: '',
-        notify: true,
-      },
-
-      placeholder: String,
-
-      clearOnCommit: {
-        type: Boolean,
-        value: false,
-      },
-
-      /**
-       * When true, tab key autocompletes but does not fire the commit event.
-       * When false, tab key not caught, and focus is removed from the element.
-       * See Issue 4556, Issue 6645.
-       */
-      tabComplete: {
-        type: Boolean,
-        value: false,
-      },
-
-      value: {
-        type: String,
-        notify: true,
-      },
-
-      /**
-       * Multi mode appends autocompleted entries to the value.
-       * If false, autocompleted entries replace value.
-       */
-      multi: {
-        type: Boolean,
-        value: false,
-      },
-
-      /**
-       * When true and uncommitted text is left in the autocomplete input after
-       * blurring, the text will appear red.
-       */
-      warnUncommitted: {
-        type: Boolean,
-        value: false,
-      },
-
-      /**
-       * When true, querying for suggestions is not debounced w/r/t keypresses
-       */
-      noDebounce: {
-        type: Boolean,
-        value: false,
-      },
-
-      /** @type {?} */
-      _suggestions: {
-        type: Array,
-        value() { return []; },
-      },
-
-      _suggestionEls: {
-        type: Array,
-        value() { return []; },
-      },
-
-      _index: Number,
-      _disableSuggestions: {
-        type: Boolean,
-        value: false,
-      },
-      _focused: {
-        type: Boolean,
-        value: false,
-      },
-
-      /** The DOM element of the selected suggestion. */
-      //_selected: Object,
-    };
-  }
+  // public static get properties() {
+  //   return {
+  //
+  //     /**
+  //      * Query for requesting autocomplete suggestions. The function should
+  //      * accept the input as a string parameter and return a promise. The
+  //      * promise yields an array of suggestion objects with "name", "label",
+  //      * "value" properties. The "name" property will be displayed in the
+  //      * suggestion entry. The "label" property will, when specified, appear
+  //      * next to the "name" as label text. The "value" property will be emitted
+  //      * if that suggestion is selected.
+  //      *
+  //      * @type {function(string): Promise<?>}
+  //      */
+  //     query: {
+  //       type: Function,
+  //       value() {
+  //         return function() {
+  //           return Promise.resolve([]);
+  //         };
+  //       },
+  //     },
+  //
+  //     /**
+  //      * The number of characters that must be typed before suggestions are
+  //      * made. If threshold is zero, default suggestions are enabled.
+  //      */
+  //     threshold: {
+  //       type: Number,
+  //       value: 1,
+  //     },
+  //
+  //     borderless: Boolean,
+  //     disabled: Boolean,
+  //     showSearchIcon: {
+  //       type: Boolean,
+  //       value: false,
+  //     },
+  //     /**
+  //      * Vertical offset needed for an element with 20px line-height, 4px
+  //      * padding and 1px border (30px height total). Plus 1px spacing between
+  //      * input and dropdown. Inputs with different line-height or padding will
+  //      * need to tweak vertical offset.
+  //      */
+  //     verticalOffset: {
+  //       type: Number,
+  //       value: 31,
+  //     },
+  //
+  //     text: {
+  //       type: String,
+  //       value: '',
+  //       notify: true,
+  //     },
+  //
+  //     placeholder: String,
+  //
+  //     clearOnCommit: {
+  //       type: Boolean,
+  //       value: false,
+  //     },
+  //
+  //     /**
+  //      * When true, tab key autocompletes but does not fire the commit event.
+  //      * When false, tab key not caught, and focus is removed from the element.
+  //      * See Issue 4556, Issue 6645.
+  //      */
+  //     tabComplete: {
+  //       type: Boolean,
+  //       value: false,
+  //     },
+  //
+  //     value: {
+  //       type: String,
+  //       notify: true,
+  //     },
+  //
+  //     /**
+  //      * Multi mode appends autocompleted entries to the value.
+  //      * If false, autocompleted entries replace value.
+  //      */
+  //     multi: {
+  //       type: Boolean,
+  //       value: false,
+  //     },
+  //
+  //     /**
+  //      * When true and uncommitted text is left in the autocomplete input after
+  //      * blurring, the text will appear red.
+  //      */
+  //     warnUncommitted: {
+  //       type: Boolean,
+  //       value: false,
+  //     },
+  //
+  //     /**
+  //      * When true, querying for suggestions is not debounced w/r/t keypresses
+  //      */
+  //     noDebounce: {
+  //       type: Boolean,
+  //       value: false,
+  //     },
+  //
+  //     /** @type {?} */
+  //     _suggestions: {
+  //       type: Array,
+  //       value() { return []; },
+  //     },
+  //
+  //     _suggestionEls: {
+  //       type: Array,
+  //       value() { return []; },
+  //     },
+  //
+  //     _index: Number,
+  //     _disableSuggestions: {
+  //       type: Boolean,
+  //       value: false,
+  //     },
+  //     _focused: {
+  //       type: Boolean,
+  //       value: false,
+  //     },
+  //
+  //     /** The DOM element of the selected suggestion. */
+  //     //_selected: Object,
+  //   };
+  // }
 
   public static get observers() {
     return [
@@ -240,8 +240,9 @@ class GrAutocomplete extends mixinBehaviors( [
   private _index: number;
   // @ts-ignore
   private tabComplete: boolean;
-  // @ts-ignore
-  private allowNonSuggestedValues: boolean;
+
+  @property({type: Boolean})
+  private allowNonSuggestedValues: boolean = true;
   // @ts-ignore
   private multi: boolean;
   // @ts-ignore
@@ -531,4 +532,9 @@ class GrAutocomplete extends mixinBehaviors( [
   }
 }
 
-customElements.define(GrAutocomplete.is, GrAutocomplete);
+// customElements.define(GrAutocomplete.is, GrAutocomplete);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-autocomplete': GrAutocomplete;
+  }
+}

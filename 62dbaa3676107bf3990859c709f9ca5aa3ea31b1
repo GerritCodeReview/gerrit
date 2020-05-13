@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e21a5d53_ecbdf01a",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-05-13T06:07:09Z",
+      "side": 1,
+      "message": "Ah! You\u0027re right. Doing it here is way better than doing it from a\ndedicated servlet.\nWMF had the \"logging out servlet\" running in a plugin, which was the\nonly option. But now that it\u0027s coming to core, it\u0027s better to handle\nit right at the session. Nice!",
+      "revId": "62dbaa3676107bf3990859c709f9ca5aa3ea31b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6b7695b_82b7f654",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-05-13T06:07:09Z",
+      "side": 1,
+      "message": "While setting `val` to `null` does the trick, I think it\u0027s a bit too little.\nE.g.: it does not evict the cookie from the cache. It does not tell the\nclient to throw the cookie away.\n\nWhat about calling `logout` instead?\n\nThen all the invalidating would still happen in one place (the `logout` method) and intent is clear as well.",
+      "revId": "62dbaa3676107bf3990859c709f9ca5aa3ea31b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

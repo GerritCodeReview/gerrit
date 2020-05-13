@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83cd05b3_e9490c81",
+        "filename": "java/com/google/gerrit/sshd/InactiveAccountDisconnector.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-13T20:02:54Z",
+      "side": 1,
+      "message": "Can an SSH session be associated with a non-identified user?",
+      "range": {
+        "startLine": 43,
+        "startChar": 12,
+        "endLine": 43,
+        "endChar": 47
+      },
+      "revId": "e22c69e0454610a8d201970e00f6dc0d5a8729da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1c7783f_80203acf",
+        "filename": "java/com/google/gerrit/sshd/InactiveAccountDisconnector.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-13T20:02:54Z",
+      "side": 1,
+      "message": "Can be inlined at L46?",
+      "range": {
+        "startLine": 45,
+        "startChar": 37,
+        "endLine": 45,
+        "endChar": 72
+      },
+      "revId": "e22c69e0454610a8d201970e00f6dc0d5a8729da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b53ffe4_5eb3edba",
+        "filename": "java/com/google/gerrit/sshd/InactiveAccountDisconnector.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-13T20:02:54Z",
+      "side": 1,
+      "message": "Flogger is null-safe",
+      "range": {
+        "startLine": 49,
+        "startChar": 65,
+        "endLine": 49,
+        "endChar": 76
+      },
+      "revId": "e22c69e0454610a8d201970e00f6dc0d5a8729da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4ef99d3_07c1ae78",
+        "filename": "java/com/google/gerrit/sshd/InactiveAccountDisconnector.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-13T20:02:54Z",
+      "side": 1,
+      "message": "id",
+      "range": {
+        "startLine": 49,
+        "startChar": 78,
+        "endLine": 49,
+        "endChar": 94
+      },
+      "revId": "e22c69e0454610a8d201970e00f6dc0d5a8729da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3cdff96_0691562c",
+        "filename": "java/com/google/gerrit/sshd/InactiveAccountDisconnector.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-13T20:02:54Z",
+      "side": 1,
+      "message": "It would be best to log this exception anyway.",
+      "revId": "e22c69e0454610a8d201970e00f6dc0d5a8729da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -80,25 +80,30 @@ export const htmlTemplate = html`
     </template>
     <template
       is="dom-repeat"
-      items="[[_filteredThreads]]"
+      items="[[_sortedThreads]]"
       as="thread"
-      initial-count="5"
+      initial-count="10"
       target-framerate="60"
     >
-      <gr-comment-thread
-        show-file-path=""
-        change-num="[[changeNum]]"
-        comments="[[thread.comments]]"
-        comment-side="[[thread.commentSide]]"
-        project-name="[[change.project]]"
-        is-on-parent="[[_isOnParent(thread.commentSide)]]"
-        line-num="[[thread.line]]"
-        patch-num="[[thread.patchNum]]"
-        path="[[thread.path]]"
-        root-id="{{thread.rootId}}"
-        on-thread-changed="_handleCommentsChanged"
-        on-thread-discard="_handleThreadDiscard"
-      ></gr-comment-thread>
+      <template
+        is="dom-if"
+        if="[[_shouldShowThread(thread, _unresolvedOnly, _draftsOnly, onlyShowRobotCommentsWithHumanReply)]]"
+      >
+        <gr-comment-thread
+          show-file-path=""
+          change-num="[[changeNum]]"
+          comments="[[thread.comments]]"
+          comment-side="[[thread.commentSide]]"
+          project-name="[[change.project]]"
+          is-on-parent="[[_isOnParent(thread.commentSide)]]"
+          line-num="[[thread.line]]"
+          patch-num="[[thread.patchNum]]"
+          path="[[thread.path]]"
+          root-id="{{thread.rootId}}"
+          on-thread-changed="_handleCommentsChanged"
+          on-thread-discard="_handleThreadDiscard"
+        ></gr-comment-thread>
+      </template>
     </template>
   </div>
 `;

@@ -2,6 +2,74 @@
   "comments": [
     {
       "key": {
+        "uuid": "97a958c9_d3968578",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T14:14:06Z",
+      "side": 1,
+      "message": "Maybe replace\n\n  calc(var(--spacing-l) - 0.35rem)\n\nby just\n\n  var(--spacing-l)\n\nI think the .35rem calc was originally introduced in change 164730, but then in change 172438 it was forgotten to remove the calc.\n\nAnyway, there should be a 12px padding between viewport border and file name (same as in change metadata).",
+      "revId": "dbfa45ebe21f20fc2c5b82e79bf4b35455ad5ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "278f12c5_3adb3ece",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T14:14:06Z",
+      "side": 1,
+      "message": "I think you can just remove this.",
+      "revId": "dbfa45ebe21f20fc2c5b82e79bf4b35455ad5ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bd0e2c4_74d49d52",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T14:14:06Z",
+      "side": 1,
+      "message": "I think a `margin-left: var(--spacing-s);` would be good to add.",
+      "revId": "dbfa45ebe21f20fc2c5b82e79bf4b35455ad5ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18ff07eb_e8ef4150",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T14:14:06Z",
+      "side": 1,
+      "message": "I think I would go for deemphasized.",
+      "revId": "dbfa45ebe21f20fc2c5b82e79bf4b35455ad5ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e4fbbf69_6b782009",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
         "patchSetId": 2
@@ -67,6 +135,23 @@
         "endLine": 85,
         "endChar": 13
       },
+      "revId": "dbfa45ebe21f20fc2c5b82e79bf4b35455ad5ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce9bf579_c7969bf6",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T14:14:06Z",
+      "side": 1,
+      "message": "Note that everything inside the \u003ca\u003e gets underlined on hover. Maybe move this and the gr-copy-clipboard outside the \u003ca\u003e?",
       "revId": "dbfa45ebe21f20fc2c5b82e79bf4b35455ad5ee6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

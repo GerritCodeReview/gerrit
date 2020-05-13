@@ -286,6 +286,30 @@
       "revId": "00fd60d91ad0067d1e1f65647d5aebe79c4898fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a8e28b6_b947aa68",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-13T16:48:04Z",
+      "side": 0,
+      "message": "\u003e I also concur with solely relying on automated and Google-documented formatting rules. This makes styling rules predictable and consistent thus usable by Gerrit contributors. Let\u0027s keep this Gerrit documentation as simple as possible and usable that way; it is already expanding enough (who reads for that long?).\n\u003e \n\u003e Regarding blank lines and potentially other non-covered aspects of style, I think we should expect common sense that emanates from the Gerrit codebase already. -Both before pushing patches and as reviewers through comments.\n\u003e \n\u003e Project-external references can be used if need be to back that up, like well-known books such as Effective Java or Clean Code. (Going beyond basic style as well here yes.)\n\nDavidO removed the -1, we can merge then :-)",
+      "parentUuid": "88ad9954_3b1a543f",
+      "range": {
+        "startLine": 198,
+        "startChar": 2,
+        "endLine": 198,
+        "endChar": 68
+      },
+      "revId": "00fd60d91ad0067d1e1f65647d5aebe79c4898fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

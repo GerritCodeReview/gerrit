@@ -300,12 +300,26 @@ export const htmlTemplate = html`
           </span>
         </template>
         <template is="dom-if" if="[[message.id]]">
-          <span class="date" on-click="_handleAnchorClick">
+          <span class="date">
             <gr-date-formatter
               has-tooltip=""
               show-date-and-time=""
               date-str="[[message.date]]"
             ></gr-date-formatter>
+            <gr-button
+              id="generateChangeMessageLink"
+              link=""
+              has-tooltip="[[hasTooltip]]"
+              on-click="_handleAnchorClick"
+            >
+              <a href="[[_changeMessageUrl]]">
+                <iron-icon
+                  id="icon"
+                  class="link-icon"
+                  icon="gr-icons:link"
+                ></iron-icon>
+              </a>
+            </gr-button>
           </span>
         </template>
         <iron-icon

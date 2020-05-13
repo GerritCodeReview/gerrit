@@ -154,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "7d1e910f_27283f37",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T11:24:44Z",
+      "side": 1,
+      "message": "Really? :-) Well, not worth arguing about ...",
+      "parentUuid": "10f5131a_c0108ba6",
+      "range": {
+        "startLine": 204,
+        "startChar": 4,
+        "endLine": 214,
+        "endChar": 0
+      },
+      "revId": "2e390e237a27e69078e0bf451dd58fe01736d0c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9fe0970_239f0061",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 4

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df5e01d8_5d58153a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-13T12:56:19Z",
+      "side": 1,
+      "message": "not sure why do we want to expose the numeric id ?",
+      "revId": "dd3ae51bb10784dfd782b01b9417a7cd67c1c132",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

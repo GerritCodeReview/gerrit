@@ -88,12 +88,16 @@ def queryChangedFiles(url) {
 def collectBuildModes() {
     Builds.modes = ["notedb"]
     def changedFiles = queryChangedFiles(Globals.gerritUrl)
+    def isMerge = changedFiles.contains("/MERGE_LIST")
     def polygerritFiles = changedFiles.findAll { it.startsWith("polygerrit-ui") ||
         it.startsWith("lib/js") }
     def bazelFiles = changedFiles.findAll { it == "WORKSPACE" || it.endsWith("BUILD") ||
         it.endsWith(".bzl") }
 
-    if(polygerritFiles.size() > 0) {
+    if(isMerge) {
+        println "Merge commit detected, adding 'polygerrit' validation..."
+        Builds.modes += "polygerrit"
+    } else if(polygerritFiles.size() > 0) {
         if(changedFiles.size() == polygerritFiles.size() && bazelFiles.isEmpty()) {
             println "Only PolyGerrit UI changes detected, skipping other test modes..."
             Builds.modes = ["polygerrit"]

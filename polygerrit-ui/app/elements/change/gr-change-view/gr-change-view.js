@@ -1037,7 +1037,7 @@ class GrChangeView extends mixinBehaviors( [
     this.$.fileList.collapseAllDiffs();
   }
 
-  _paramsChanged(value) {
+  _paramsChanged(value, oldValue) {
     if (value.view !== GerritNav.View.CHANGE) {
       this._initialLoadComplete = false;
       return;
@@ -1079,6 +1079,8 @@ class GrChangeView extends mixinBehaviors( [
     this._changeNum = value.changeNum;
     this.$.relatedChanges.clear();
 
+    const paramsChanged = JSON.stringify(oldValue) !== JSON.stringify(value);
+    if (!paramsChanged) return;
     this._reload(true).then(() => {
       this._performPostLoadTasks();
     });
@@ -1153,14 +1155,6 @@ class GrChangeView extends mixinBehaviors( [
 
   _numFilesShownChanged(numFilesShown) {
     this.viewState.numFilesShown = numFilesShown;
-  }
-
-  _handleMessageAnchorTap(e) {
-    const hash = MSG_PREFIX + e.detail.id;
-    const url = GerritNav.getUrlForChange(this._change,
-        this._patchRange.patchNum, this._patchRange.basePatchNum,
-        this._editMode, hash);
-    history.replaceState(null, '', url);
   }
 
   _maybeScrollToMessage(hash) {

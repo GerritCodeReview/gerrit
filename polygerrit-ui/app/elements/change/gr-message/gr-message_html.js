@@ -181,6 +181,9 @@ export const htmlTemplate = html`
         content: 'PS ';
       }
     }
+    .message-link {
+      text-decoration: none;
+    }
   </style>
   <div class$="[[_computeClass(_expanded)]]">
     <div class="contentContainer">
@@ -300,13 +303,20 @@ export const htmlTemplate = html`
           </span>
         </template>
         <template is="dom-if" if="[[message.id]]">
-          <span class="date" on-click="_handleAnchorClick">
+          <span class="date">
             <gr-date-formatter
               has-tooltip=""
               show-date-and-time=""
               date-str="[[message.date]]"
             ></gr-date-formatter>
           </span>
+          <a class="message-link" href="[[_changeMessageUrl]]">
+            <iron-icon
+              id="icon"
+              class="link-icon"
+              icon="gr-icons:link"
+            ></iron-icon>
+          </a>
         </template>
         <iron-icon
           id="expandToggle"

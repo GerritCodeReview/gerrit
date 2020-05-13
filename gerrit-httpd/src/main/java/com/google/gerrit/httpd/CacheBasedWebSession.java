@@ -16,6 +16,7 @@ package com.google.gerrit.httpd;
 
 import static java.util.concurrent.TimeUnit.HOURS;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.HostPageData;
@@ -26,6 +27,8 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.ExternalId;
 import com.google.gerrit.server.config.AuthConfig;
@@ -39,7 +42,7 @@ import org.eclipse.jgit.http.server.GitSmartHttpTools;
 
 @RequestScoped
 public abstract class CacheBasedWebSession implements WebSession {
-  private static final String ACCOUNT_COOKIE = "GerritAccount";
+  @VisibleForTesting public static final String ACCOUNT_COOKIE = "GerritAccount";
   protected static final long MAX_AGE_MINUTES = HOURS.toMinutes(12);
 
   private final HttpServletRequest request;
@@ -49,6 +52,7 @@ public abstract class CacheBasedWebSession implements WebSession {
   private final Provider<AnonymousUser> anonymousProvider;
   private final IdentifiedUser.RequestFactory identified;
   private final EnumSet<AccessPath> okPaths = EnumSet.of(AccessPath.UNKNOWN);
+  private final AccountCache byIdCache;
   private Cookie outCookie;
 
   private Key key;
@@ -61,13 +65,15 @@ public abstract class CacheBasedWebSession implements WebSession {
       final WebSessionManager manager,
       final AuthConfig authConfig,
       final Provider<AnonymousUser> anonymousProvider,
-      final IdentifiedUser.RequestFactory identified) {
+      final IdentifiedUser.RequestFactory identified,
+      final AccountCache byIdCache) {
     this.request = request;
     this.response = response;
     this.manager = manager;
     this.authConfig = authConfig;
     this.anonymousProvider = anonymousProvider;
     this.identified = identified;
+    this.byIdCache = byIdCache;
 
     if (request.getRequestURI() == null || !GitSmartHttpTools.isGitClient(request)) {
       String cookie = readCookie();
@@ -78,6 +84,13 @@ public abstract class CacheBasedWebSession implements WebSession {
           // Cookie is more than half old. Send the cookie again to the
           // client with an updated expiration date.
           val = manager.createVal(key, val);
+        }
+
+        if (val != null) {
+          AccountState accountState = byIdCache.get(val.getAccountId());
+          if (accountState != null && !accountState.getAccount().isActive()) {
+            val = null;
+          }
         }
 
         String token = request.getHeader(HostPageData.XSRF_HEADER_NAME);
@@ -155,6 +168,12 @@ public abstract class CacheBasedWebSession implements WebSession {
 
     if (val != null) {
       manager.destroy(key);
+    }
+
+    AccountState accountState = byIdCache.get(id);
+    if (accountState != null && !accountState.getAccount().isActive()) {
+      val = null;
+      return;
     }
 
     key = manager.createKey(id);

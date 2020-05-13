@@ -39,10 +39,12 @@ import com.google.common.collect.Iterables;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.AccountCreator;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -61,6 +63,7 @@ import com.google.gerrit.gpg.Fingerprint;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.server.GpgKeys;
 import com.google.gerrit.gpg.testutil.TestKey;
+import com.google.gerrit.httpd.CacheBasedWebSession;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountByEmailCache;
@@ -77,6 +80,7 @@ import com.google.gerrit.testutil.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -86,6 +90,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicCookieStore;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
@@ -121,6 +133,10 @@ public class AccountIT extends AbstractDaemonTest {
   private ExternalIdsUpdate externalIdsUpdate;
   private List<ExternalId> savedExternalIds;
 
+  private BasicCookieStore httpCookieStore;
+
+  private CloseableHttpClient httpclient;
+
   @Before
   public void saveExternalIds() throws Exception {
     externalIdsUpdate = externalIdsUpdateFactory.create();
@@ -128,6 +144,16 @@ public class AccountIT extends AbstractDaemonTest {
     savedExternalIds = new ArrayList<>();
     savedExternalIds.addAll(getExternalIds(admin));
     savedExternalIds.addAll(getExternalIds(user));
+  }
+
+  @Before
+  public void createHttpClient() {
+    httpCookieStore = new BasicCookieStore();
+    httpclient =
+        HttpClientBuilder.create()
+            .disableRedirectHandling()
+            .setDefaultCookieStore(httpCookieStore)
+            .build();
   }
 
   @After
@@ -199,11 +225,48 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void active() throws Exception {
-    assertThat(gApi.accounts().id("user").getActive()).isTrue();
-    gApi.accounts().id("user").setActive(false);
-    assertThat(gApi.accounts().id("user").getActive()).isFalse();
-    gApi.accounts().id("user").setActive(true);
-    assertThat(gApi.accounts().id("user").getActive()).isTrue();
+    assertThat(accountIdApi().getActive()).isTrue();
+    accountIdApi().setActive(false);
+    assertThat(accountIdApi().getActive()).isFalse();
+    accountIdApi().setActive(true);
+    assertThat(accountIdApi().getActive()).isTrue();
+  }
+
+  @Test
+  @GerritConfig(name = "auth.type", value = "DEVELOPMENT_BECOME_ANY_ACCOUNT")
+  public void activeUserGetSessionCookieOnLogin() throws Exception {
+    Integer accountId = accountIdApi().get()._accountId;
+    assertThat(accountIdApi().getActive()).isTrue();
+
+    webLogin(accountId);
+    assertThat(getCookiesNames()).contains(CacheBasedWebSession.ACCOUNT_COOKIE);
+  }
+
+  @Test
+  @GerritConfig(name = "auth.type", value = "DEVELOPMENT_BECOME_ANY_ACCOUNT")
+  public void inactiveUserDoesNotGetCookieOnLogin() throws Exception {
+    Integer accountId = accountIdApi().get()._accountId;
+    accountIdApi().setActive(false);
+    assertThat(accountIdApi().getActive()).isFalse();
+
+    webLogin(accountId);
+    assertThat(getCookiesNames()).isEmpty();
+  }
+
+  @Test
+  @GerritConfig(name = "auth.type", value = "DEVELOPMENT_BECOME_ANY_ACCOUNT")
+  public void userDeactivatedAfterLoginDoesNotGetCookie() throws Exception {
+    Integer accountId = accountIdApi().get()._accountId;
+    assertThat(accountIdApi().getActive()).isTrue();
+
+    webLogin(accountId);
+    assertThat(getCookiesNames()).contains(CacheBasedWebSession.ACCOUNT_COOKIE);
+    httpGetAndAssertStatus("accounts/self/detail", HttpServletResponse.SC_OK);
+
+    accountIdApi().setActive(false);
+    assertThat(accountIdApi().getActive()).isFalse();
+
+    httpGetAndAssertStatus("accounts/self/detail", HttpServletResponse.SC_FORBIDDEN);
   }
 
   @Test
@@ -215,16 +278,16 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void deactivateNotActive() throws Exception {
-    assertThat(gApi.accounts().id("user").getActive()).isTrue();
-    gApi.accounts().id("user").setActive(false);
-    assertThat(gApi.accounts().id("user").getActive()).isFalse();
+    assertThat(accountIdApi().getActive()).isTrue();
+    accountIdApi().setActive(false);
+    assertThat(accountIdApi().getActive()).isFalse();
     try {
-      gApi.accounts().id("user").setActive(false);
+      accountIdApi().setActive(false);
       fail("Expected exception");
     } catch (ResourceConflictException e) {
       assertThat(e.getMessage()).isEqualTo("account not active");
     }
-    gApi.accounts().id("user").setActive(true);
+    accountIdApi().setActive(true);
   }
 
   @Test
@@ -995,5 +1058,29 @@ public class AccountIT extends AbstractDaemonTest {
   private void assertEmail(Set<Account.Id> accounts, TestAccount expectedAccount) {
     assertThat(accounts).hasSize(1);
     assertThat(Iterables.getOnlyElement(accounts)).isEqualTo(expectedAccount.getId());
+  }
+
+  private AccountApi accountIdApi() throws RestApiException {
+    return gApi.accounts().id("user");
+  }
+
+  private Set<String> getCookiesNames() {
+    Set<String> cookieNames =
+        httpCookieStore.getCookies().stream()
+            .map(cookie -> cookie.getName())
+            .collect(Collectors.toSet());
+    return cookieNames;
+  }
+
+  private void webLogin(Integer accountId) throws IOException, ClientProtocolException {
+    httpGetAndAssertStatus(
+        "login?account_id=" + accountId, HttpServletResponse.SC_MOVED_TEMPORARILY);
+  }
+
+  private void httpGetAndAssertStatus(String urlPath, int expectedHttpStatus)
+      throws ClientProtocolException, IOException {
+    HttpGet httpGet = new HttpGet(canonicalWebUrl.get() + urlPath);
+    HttpResponse loginResponse = httpclient.execute(httpGet);
+    assertThat(loginResponse.getStatusLine().getStatusCode()).isEqualTo(expectedHttpStatus);
   }
 }

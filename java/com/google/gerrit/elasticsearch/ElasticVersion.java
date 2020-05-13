@@ -47,7 +47,14 @@ public enum ElasticVersion {
     }
   }
 
-  public static ElasticVersion forVersion(String version) throws UnsupportedVersion {
+  /**
+   * Convert a version String to an ElasticVersion if supported.
+   *
+   * @param version for which to return an ElasticVersion
+   * @return the corresponding ElasticVersion if supported
+   * @throws UnsupportedVersion
+   */
+  public static ElasticVersion forVersion(String version) {
     for (ElasticVersion value : ElasticVersion.values()) {
       if (value.pattern.matcher(version).matches()) {
         return value;

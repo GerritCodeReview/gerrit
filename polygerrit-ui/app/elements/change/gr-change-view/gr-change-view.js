@@ -1167,6 +1167,15 @@ class GrChangeView extends mixinBehaviors( [
     const url = GerritNav.getUrlForChange(this._change,
         this._patchRange.patchNum, this._patchRange.basePatchNum,
         this._editMode, hash);
+    if (e.detail.copyToClipboard) {
+      const el = document.createElement('textarea');
+      el.style.display = 'none';
+      el.value = url;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+    }
     history.replaceState(null, '', url);
   }
 

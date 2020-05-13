@@ -394,7 +394,7 @@ class GrMessage extends GestureEventListeners(
     this.dispatchEvent(new CustomEvent('message-anchor-tap', {
       bubbles: true,
       composed: true,
-      detail: {id: this.message.id},
+      detail: {id: this.message.id, copytoClickboard: true},
     }));
   }
 

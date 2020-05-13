@@ -181,6 +181,10 @@ export const htmlTemplate = html`
         content: 'PS ';
       }
     }
+    .link-icon {
+      position: relative;
+      top: var(--spacing-s);
+    }
   </style>
   <div class$="[[_computeClass(_expanded)]]">
     <div class="contentContainer">
@@ -300,12 +304,26 @@ export const htmlTemplate = html`
           </span>
         </template>
         <template is="dom-if" if="[[message.id]]">
-          <span class="date" on-click="_handleAnchorClick">
+          <span class="date">
             <gr-date-formatter
               has-tooltip=""
               show-date-and-time=""
               date-str="[[message.date]]"
             ></gr-date-formatter>
+            <gr-button
+              id="copyMessageLinkButton"
+              link=""
+              has-tooltip="[[hasTooltip]]"
+              class="copyToClipboard"
+              title="[[buttonTitle]]"
+              on-click="_handleAnchorClick"
+            >
+              <iron-icon
+                id="icon"
+                class="link-icon"
+                icon="gr-icons:link"
+              ></iron-icon>
+            </gr-button>
           </span>
         </template>
         <iron-icon

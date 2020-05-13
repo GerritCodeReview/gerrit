@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9bb843d9_38c7733c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-13T08:46:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59efd423_d77c697b",
+      "range": {
+        "startLine": 9,
+        "startChar": 7,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c824003_fe5c67bd",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8aae0f20_128b8076",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-13T08:46:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c824003_fe5c67bd",
+      "range": {
+        "startLine": 12,
+        "startChar": 17,
+        "endLine": 12,
+        "endChar": 24
+      },
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +142,54 @@
     },
     {
       "key": {
+        "uuid": "06653e05_4532806c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-13T08:46:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f415b8aa_c566f0ee",
+      "range": {
+        "startLine": 14,
+        "startChar": 50,
+        "endLine": 14,
+        "endChar": 53
+      },
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "482bd852_f850ab50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-13T08:46:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b22159e_eff1c6e4",
+      "range": {
+        "startLine": 14,
+        "startChar": 24,
+        "endLine": 14,
+        "endChar": 36
+      },
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f58c883_4c31c636",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -114,6 +210,30 @@
       "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb7f9eac_515972c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-13T08:46:47Z",
+      "side": 1,
+      "message": "we have a very low usage on comment threads tab, even less for filtering, i think that\u0027s why nobody reported it. I read the original bug report, and I think what they really want is not filtering the comments they are editing as that causes the unexpected behavior at the first place.",
+      "parentUuid": "2f58c883_4c31c636",
+      "range": {
+        "startLine": 15,
+        "startChar": 3,
+        "endLine": 16,
+        "endChar": 48
+      },
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "ec882c57_ed4289e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-13T08:46:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5f97298_826dd65d",
+      "range": {
+        "startLine": 18,
+        "startChar": 33,
+        "endLine": 18,
+        "endChar": 35
+      },
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "52e42db2_ca679a2a",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 3
@@ -154,6 +298,24 @@
       "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac7447f6_0a5a5806",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-13T08:46:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52e42db2_ca679a2a",
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -180,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "6e54d5ac_f9ba6d4c",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-13T08:46:47Z",
+      "side": 1,
+      "message": "this is just to keep consistent with the undefined check, if they have a default value, they should not be undefined when this method called.",
+      "parentUuid": "c5c5a9c4_3a4b53f5",
+      "range": {
+        "startLine": 177,
+        "startChar": 5,
+        "endLine": 179,
+        "endChar": 42
+      },
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11773858_b92413d7",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 3
@@ -194,6 +380,24 @@
       "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa1b3fb2_50ad5cc9",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-13T08:46:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11773858_b92413d7",
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -220,6 +424,30 @@
     },
     {
       "key": {
+        "uuid": "2a11a7c0_b6e631d7",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-13T08:46:47Z",
+      "side": 1,
+      "message": "good catch, the logic is copied from existing, apparently its not handled correctly...",
+      "parentUuid": "420b1591_b6c8ea92",
+      "range": {
+        "startLine": 191,
+        "startChar": 8,
+        "endLine": 191,
+        "endChar": 18
+      },
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1cc60d61_d8b5fadd",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 3
@@ -243,6 +471,30 @@
     },
     {
       "key": {
+        "uuid": "5e5513b2_aafad838",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-13T08:46:47Z",
+      "side": 1,
+      "message": "ya why not, just a few more unnecessary `forEach` loops, but should not hurt",
+      "parentUuid": "1cc60d61_d8b5fadd",
+      "range": {
+        "startLine": 197,
+        "startChar": 5,
+        "endLine": 198,
+        "endChar": 46
+      },
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d48fd4c0_e9861d10",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 3
@@ -257,6 +509,24 @@
       "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bfa5ffe_f3bf2632",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-13T08:46:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d48fd4c0_e9861d10",
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -277,6 +547,24 @@
     },
     {
       "key": {
+        "uuid": "cb0a4b0a_5cc538ee",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-13T08:46:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d18e615d_bb291d51",
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46689c27_54037ed0",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.js",
         "patchSetId": 3
@@ -291,6 +579,24 @@
       "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53571f7d_589a7276",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-13T08:46:47Z",
+      "side": 1,
+      "message": "ya it doesn\u0027t allow pass additional parameters and I need the UI to update when those filter status changed (so need it bind to the polymer lifecycle)",
+      "parentUuid": "46689c27_54037ed0",
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

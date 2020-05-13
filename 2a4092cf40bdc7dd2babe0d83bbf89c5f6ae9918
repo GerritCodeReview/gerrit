@@ -46,6 +46,30 @@
       "revId": "2a4092cf40bdc7dd2babe0d83bbf89c5f6ae9918",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "376b4c4e_be9b66f5",
+        "filename": "polygerrit-ui/app/elements/gr-app-global-var-init.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-13T12:44:00Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "4f6b8d18_a68d406a",
+      "range": {
+        "startLine": 106,
+        "startChar": 9,
+        "endLine": 106,
+        "endChar": 24
+      },
+      "revId": "2a4092cf40bdc7dd2babe0d83bbf89c5f6ae9918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

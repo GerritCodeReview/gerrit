@@ -22,6 +22,30 @@
       "revId": "dbfa45ebe21f20fc2c5b82e79bf4b35455ad5ee6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a729c060_ff7871c1",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-13T13:45:43Z",
+      "side": 1,
+      "message": "ya I have a draft to remove the U completely as its a FE status only, but before that, we probably want to have it in a neutral bg, @delphine, any color suggestions ?\n\nand following are status we have now:\n\nconst FileStatus \u003d {\n  A: \u0027Added\u0027,\n  C: \u0027Copied\u0027,\n  D: \u0027Deleted\u0027,\n  M: \u0027Modified\u0027,\n  R: \u0027Renamed\u0027,\n  W: \u0027Rewritten\u0027,\n  U: \u0027Unchanged\u0027, // FE status only, all above are from BE\n};",
+      "parentUuid": "e4fbbf69_6b782009",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 13
+      },
+      "revId": "dbfa45ebe21f20fc2c5b82e79bf4b35455ad5ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

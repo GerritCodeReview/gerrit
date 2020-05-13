@@ -1,0 +1,296 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59efd423_d77c697b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T08:08:34Z",
+      "side": 1,
+      "message": "_sortedThreads",
+      "range": {
+        "startLine": 9,
+        "startChar": 7,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c824003_fe5c67bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T08:08:34Z",
+      "side": 1,
+      "message": "problems",
+      "range": {
+        "startLine": 12,
+        "startChar": 17,
+        "endLine": 12,
+        "endChar": 24
+      },
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b22159e_eff1c6e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T08:08:34Z",
+      "side": 1,
+      "message": "initialCount or initial-count",
+      "range": {
+        "startLine": 14,
+        "startChar": 24,
+        "endLine": 14,
+        "endChar": 36
+      },
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f415b8aa_c566f0ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T08:08:34Z",
+      "side": 1,
+      "message": "sentence ending abruptly",
+      "range": {
+        "startLine": 14,
+        "startChar": 50,
+        "endLine": 14,
+        "endChar": 53
+      },
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f58c883_4c31c636",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T08:08:34Z",
+      "side": 1,
+      "message": "That could be intentional. At least I was aware of this behavior and thought it could be intended, and never bothered to change it. I am ok with changing it, but you may find that some users are surprised by the change. :-)",
+      "range": {
+        "startLine": 15,
+        "startChar": 3,
+        "endLine": 16,
+        "endChar": 48
+      },
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5f97298_826dd65d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T08:08:34Z",
+      "side": 1,
+      "message": "\"in editing mode\" or \"while editing\"",
+      "range": {
+        "startLine": 18,
+        "startChar": 33,
+        "endLine": 18,
+        "endChar": 35
+      },
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52e42db2_ca679a2a",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T08:08:34Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5c5a9c4_3a4b53f5",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T08:08:34Z",
+      "side": 1,
+      "message": "Maybe just use `false` default values for these three?",
+      "range": {
+        "startLine": 177,
+        "startChar": 5,
+        "endLine": 179,
+        "endChar": 42
+      },
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11773858_b92413d7",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T08:08:34Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "420b1591_b6c8ea92",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T08:08:34Z",
+      "side": 1,
+      "message": "Can both toggles (draftsOnly and unresolvedOnly) be turned on at the same time?",
+      "range": {
+        "startLine": 191,
+        "startChar": 8,
+        "endLine": 191,
+        "endChar": 18
+      },
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cc60d61_d8b5fadd",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T08:08:34Z",
+      "side": 1,
+      "message": "Would it make sense to add these two also to the status info properties?",
+      "range": {
+        "startLine": 197,
+        "startChar": 5,
+        "endLine": 198,
+        "endChar": 46
+      },
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d48fd4c0_e9861d10",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T08:08:34Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d18e615d_bb291d51",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T08:08:34Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46689c27_54037ed0",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T08:08:34Z",
+      "side": 1,
+      "message": "Maybe use a dom-repeat filter instead?\n\nThere is an example in gr-messages-list-experimental_html.js.\n\nhttps://polymer-library.polymer-project.org/3.0/api/elements/dom-repeat#DomRepeat-property-filter",
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
+import static com.google.gerrit.server.permissions.ChangePermission.REVERT;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Objects.requireNonNull;
@@ -224,6 +225,7 @@ public class RevertSubmission
 
       contributorAgreements.check(change.getProject(), changeResource.getUser());
       permissionBackend.currentUser().ref(change.getDest()).check(CREATE_CHANGE);
+      permissionBackend.currentUser().change(changeData).check(REVERT);
       permissionBackend.currentUser().change(changeData).check(ChangePermission.READ);
       projectCache
           .get(change.getProject())
@@ -518,14 +520,16 @@ public class RevertSubmission
             "Revert this change and all changes that have been submitted together with this change")
         .setVisible(
             and(
-                change.isMerged()
-                    && change.getSubmissionId() != null
-                    && isChangePartOfSubmission(change.getSubmissionId())
-                    && projectStatePermitsWrite,
-                permissionBackend
-                    .user(rsrc.getUser())
-                    .ref(change.getDest())
-                    .testCond(CREATE_CHANGE)));
+                and(
+                    change.isMerged()
+                        && change.getSubmissionId() != null
+                        && isChangePartOfSubmission(change.getSubmissionId())
+                        && projectStatePermitsWrite,
+                    permissionBackend
+                        .user(rsrc.getUser())
+                        .ref(change.getDest())
+                        .testCond(CREATE_CHANGE)),
+                permissionBackend.user(rsrc.getUser()).change(rsrc.getNotes()).testCond(REVERT)));
   }
 
   /**

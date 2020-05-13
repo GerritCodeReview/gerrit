@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
+import static com.google.gerrit.server.permissions.ChangePermission.REVERT;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
@@ -94,6 +95,7 @@ public class Revert
         .get(rsrc.getProject())
         .orElseThrow(illegalState(rsrc.getProject()))
         .checkStatePermitsWrite();
+    rsrc.permissions().check(REVERT);
     ChangeNotes notes = rsrc.getNotes();
     Change.Id changeIdToRevert = notes.getChangeId();
     PatchSet.Id patchSetId = notes.getChange().currentPatchSetId();
@@ -125,10 +127,12 @@ public class Revert
         .setTitle("Revert the change")
         .setVisible(
             and(
-                change.isMerged() && projectStatePermitsWrite,
-                permissionBackend
-                    .user(rsrc.getUser())
-                    .ref(change.getDest())
-                    .testCond(CREATE_CHANGE)));
+                and(
+                    change.isMerged() && projectStatePermitsWrite,
+                    permissionBackend
+                        .user(rsrc.getUser())
+                        .ref(change.getDest())
+                        .testCond(CREATE_CHANGE)),
+                permissionBackend.user(rsrc.getUser()).change(rsrc.getNotes()).testCond(REVERT)));
   }
 }

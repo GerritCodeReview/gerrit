@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3b04105a_23ceef83",
+        "filename": "java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-05-13T14:27:47Z",
+      "side": 0,
+      "message": "unrelated removal of line",
+      "revId": "037a4680f5592a208fd0b4d266db2ecc2aec905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "81a3cb3d_4926bdef",
         "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
         "patchSetId": 8
@@ -34,6 +51,40 @@
       "revId": "037a4680f5592a208fd0b4d266db2ecc2aec905e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70815492_753d662f",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-05-13T14:27:47Z",
+      "side": 0,
+      "message": "unrelated removal of line",
+      "revId": "037a4680f5592a208fd0b4d266db2ecc2aec905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c5a1257_9f9b96f4",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-05-13T14:27:47Z",
+      "side": 0,
+      "message": "unrelated removal of line",
+      "revId": "037a4680f5592a208fd0b4d266db2ecc2aec905e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -46,6 +46,30 @@
       "revId": "dbfa45ebe21f20fc2c5b82e79bf4b35455ad5ee6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b44b138_6b549b38",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-13T13:54:29Z",
+      "side": 1,
+      "message": "FYI: I rebased the change of removing `U` on top of this change, if we can agree on removing it at the same time, we then don\u0027t need a neutral status any more.",
+      "parentUuid": "a729c060_ff7871c1",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 13
+      },
+      "revId": "dbfa45ebe21f20fc2c5b82e79bf4b35455ad5ee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

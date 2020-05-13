@@ -2,6 +2,252 @@
   "comments": [
     {
       "key": {
+        "uuid": "423726f1_4302af2d",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-13T12:38:46Z",
+      "side": 1,
+      "message": "Same as above: Please wrap only necessary parts with try/catch",
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e44afbe2_d25f58da",
+        "filename": "java/com/google/gerrit/server/change/WorkInProgressOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-13T12:38:46Z",
+      "side": 1,
+      "message": "Please extract this into a local variable and wrap only this line with a try-catch",
+      "range": {
+        "startLine": 147,
+        "startChar": 14,
+        "endLine": 147,
+        "endChar": 31
+      },
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a0b19e9_d30b1304",
+        "filename": "java/com/google/gerrit/server/mail/send/HttpPasswordUpdateSender.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-13T12:38:46Z",
+      "side": 1,
+      "message": "Nice!",
+      "range": {
+        "startLine": 52,
+        "startChar": 27,
+        "endLine": 52,
+        "endChar": 58
+      },
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24f58a7e_cd922434",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageId.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-13T12:38:46Z",
+      "side": 1,
+      "message": "nit: Please add a JavaDoc",
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99c8046b_96598c1e",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-13T12:38:46Z",
+      "side": 1,
+      "message": "nit: please add java docs",
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5dbbf2d2_79156038",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-13T12:38:46Z",
+      "side": 1,
+      "message": "Please add a constructor with @Inject and make the members private final\n\nfinal members have advantages when it comes to multi-threading",
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8edfc5ec_2c7d9eff",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-13T12:38:46Z",
+      "side": 1,
+      "message": "nit: maybe \"forChangeUpdate\"?\n\nUp to you.",
+      "range": {
+        "startLine": 37,
+        "startChar": 19,
+        "endLine": 37,
+        "endChar": 23
+      },
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3485a43_af323787",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-13T12:38:46Z",
+      "side": 1,
+      "message": "Easier to read/write:\n\nreturn metaSha1.map(new AutoValue).orElseThrow",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 7
+      },
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af78e10d_f9f0f9dd",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-13T12:38:46Z",
+      "side": 1,
+      "message": "Please wrap only the line with try-catch that throws the exception\n\nOptional\u003cObjectId\u003e metaSha1;\ntry {\nmetaSha1 \u003d ...\n} catch(){}\n...",
+      "range": {
+        "startLine": 46,
+        "startChar": 5,
+        "endLine": 48,
+        "endChar": 5
+      },
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "415907db_5ee3ece4",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-13T12:38:46Z",
+      "side": 1,
+      "message": "Easier to read/write:\n\ncheckState(metaSha1.isPresent, metaRef + \" must exist\");\nreturn new AutoValue...",
+      "range": {
+        "startLine": 55,
+        "startChar": 6,
+        "endLine": 59,
+        "endChar": 7
+      },
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "245ea61b_f00b22b3",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-13T12:38:46Z",
+      "side": 1,
+      "message": "RefNames.refsUsers(accountId)",
+      "range": {
+        "startLine": 67,
+        "startChar": 5,
+        "endLine": 72,
+        "endChar": 88
+      },
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ccd3f85_1cf8f120",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-13T12:38:46Z",
+      "side": 1,
+      "message": "The logic is almost the same except for getting the ref name. Can you factor opening the repo and returning the HEAD sha of the branch out into a private method that you call from the other places?",
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "27bf05d0_01be488f",
         "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
         "patchSetId": 4
@@ -36,6 +282,63 @@
         "endLine": 223,
         "endChar": 37
       },
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23c49695_1d2e811d",
+        "filename": "javatests/com/google/gerrit/acceptance/OutgoingEmailTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-13T12:38:46Z",
+      "side": 1,
+      "message": "Prefer \"isEqualTo\" where possible to make sure this really looks like what you expect it to look like (here and below)",
+      "range": {
+        "startLine": 44,
+        "startChar": 9,
+        "endLine": 44,
+        "endChar": 17
+      },
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72de9659_9c81f7e8",
+        "filename": "javatests/com/google/gerrit/acceptance/OutgoingEmailTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-13T12:38:46Z",
+      "side": 1,
+      "message": "RefNames.refsUsers",
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94778fee_84cb46d5",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/MessageIdGeneratorIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-13T12:38:46Z",
+      "side": 1,
+      "message": "Please use RefNames.refsUsers",
       "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

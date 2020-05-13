@@ -178,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "4d3d1641_db6ae4da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-13T12:38:46Z",
+      "side": 1,
+      "message": "I think the tests you have are OK. We just need a single test per source (change update, account update, etc.).\n\nWhat we currently don\u0027t have covered is the programmer error of forgetting to add Messageid to a new email we want to send.\n\nTo protect against this, we could do is have OutgoingEmail throw an IllegalStateException if message ID was not set.\n\nI would expect normal ITs to be written including a test for emails if new functionality is added. Throwing an ISE would make these tests fail and prompts the engineer at adding a Message Id.",
+      "parentUuid": "0d7e0221_ebb9e8e2",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 50
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "94aada4c_87a2f20b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -213,6 +237,30 @@
       "side": 1,
       "message": "If I understand OutgoingEmail#Send, it checks whether it should send html email, plaintext email, or both.\nI could just always add to the message-id header \"-HTML\" or \"-PLAIN_TEXT\".\nAFAIK, it doesn\u0027t split the emails in any other case.",
       "parentUuid": "94aada4c_87a2f20b",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 12
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3f0c59f_faa299c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-13T12:38:46Z",
+      "side": 1,
+      "message": "Sounds good to me",
+      "parentUuid": "f758c932_00d6ddc6",
       "range": {
         "startLine": 24,
         "startChar": 0,
@@ -389,6 +437,30 @@
       "side": 1,
       "message": "Sorry, what I did doesn\u0027t completely looks like your suggestion, but hopefully it\u0027s close enough. I didn\u0027t understand the purpose of all of those functions in MessageId (but I see why they are necessary in MessageIdGenerator).\n\nThe way I implemented it I don\u0027t feel like unit tests are helpful, since I\u0027ll have to manually add to a repository the required refs, which defeats the main purpose of the test: to see that ref I\u0027m calculating actually exists. I did create an integration test though only for this class, which is more useful imo.",
       "parentUuid": "248b9461_054e95ae",
+      "range": {
+        "startLine": 103,
+        "startChar": 30,
+        "endLine": 103,
+        "endChar": 36
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90a7283f_0352bee8",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-13T12:38:46Z",
+      "side": 1,
+      "message": "What you have looks good.\n\nThe IT is OK, but you could write the same test coverage as unit test (you don\u0027t need Gerrit, just a fake InMemory repo: new InMemoryRepositoryManager()). The unit test would run much faster.\n\nI would try to move MessageId into MessageIdGenerator as static inner class and make MessageId\u0027s constructor private so that only MessageIdGenerator can construct it. This way you against future programmer error (someone comes by and just instantiates a MessageId from a string without thinking much).",
+      "parentUuid": "7f0c1915_835a15cc",
       "range": {
         "startLine": 103,
         "startChar": 30,

@@ -62,11 +62,27 @@ export const htmlTemplate = html`
       align-items: center;
       display: inline-flex;
     }
-    .reviewed,
-    .status {
+    .reviewed {
       display: inline-block;
       text-align: left;
       width: 1.5em;
+    }
+    .status {
+      display: inline-block;
+      text-align: center;
+      border-radius: var(--border-radius);
+      padding: 0 var(--spacing-m);
+      color: var(--primary-text-color);
+      font-size: var(--font-size-small);
+      background-color: var(--dark-add-highlight-color);
+    }
+    .status.M {
+      display: none;
+    }
+    .status.D,
+    .status.R,
+    .status.C {
+      background-color: var(--dark-remove-highlight-color);
     }
     .file-row {
       cursor: pointer;
@@ -277,7 +293,6 @@ export const htmlTemplate = html`
   </style>
   <div id="container" on-click="_handleFileListClick">
     <div class="header-row row">
-      <div class="status"></div>
       <div class="path">File</div>
       <div class="comments">Comments</div>
       <div class="sizeBars">Size</div>
@@ -313,14 +328,6 @@ export const htmlTemplate = html`
           data-file$="[[_computeFileRange(file)]]"
           tabindex="-1"
         >
-          <div
-            class$="[[_computeClass('status', file.__path)]]"
-            tabindex="0"
-            title$="[[_computeFileStatusLabel(file.status)]]"
-            aria-label$="[[_computeFileStatusLabel(file.status)]]"
-          >
-            [[_computeFileStatus(file.status)]]
-          </div>
           <!-- TODO: Remove data-url as it appears its not used -->
           <span
             data-url="[[_computeDiffURL(change, patchRange, file.__path, editMode)]]"
@@ -342,6 +349,14 @@ export const htmlTemplate = html`
               >
                 [[computeTruncatedPath(file.__path)]]
               </span>
+              <div
+                class$="[[_computeStatusClass(file)]]"
+                tabindex="0"
+                title$="[[_computeFileStatusLabel(file.status)]]"
+                aria-label$="[[_computeFileStatusLabel(file.status)]]"
+              >
+                [[_computeFileStatusLabel(file.status)]]
+              </div>
               <gr-copy-clipboard
                 hide-input=""
                 text="[[file.__path]]"

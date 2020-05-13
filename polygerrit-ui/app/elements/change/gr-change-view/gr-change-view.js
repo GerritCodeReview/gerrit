@@ -1162,14 +1162,6 @@ class GrChangeView extends mixinBehaviors( [
     this.viewState.numFilesShown = numFilesShown;
   }
 
-  _handleMessageAnchorTap(e) {
-    const hash = MSG_PREFIX + e.detail.id;
-    const url = GerritNav.getUrlForChange(this._change,
-        this._patchRange.patchNum, this._patchRange.basePatchNum,
-        this._editMode, hash);
-    history.replaceState(null, '', url);
-  }
-
   _maybeScrollToMessage(hash) {
     if (hash.startsWith(MSG_PREFIX)) {
       this.messagesList.scrollToMessage(hash.substr(MSG_PREFIX.length));

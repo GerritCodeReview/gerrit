@@ -34,12 +34,15 @@ limitations under the License.
 <script type="module">
 import '../../../test/common-test-setup.js';
 import './gr-message.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 suite('gr-message tests', () => {
   let element;
+  let sandbox;
 
   suite('when admin and logged in', () => {
     setup(done => {
+      sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(true); },
         getPreferences() { return Promise.resolve({}); },
@@ -222,24 +225,14 @@ suite('gr-message tests', () => {
       });
     });
 
-    test('clicking on date link fires event', () => {
-      element.message = {
-        type: 'REVIEWER_UPDATE',
-        updated: '2016-01-12 20:24:49.448000000',
-        reviewer: {},
-        id: '47c43261_55aa2c41',
-        expanded: false,
-      };
-      flushAsynchronousOperations();
-      const stub = sinon.stub();
-      element.addEventListener('message-anchor-tap', stub);
-      const dateEl = element.shadowRoot
-          .querySelector('.date');
-      assert.ok(dateEl);
-      MockInteractions.tap(dateEl);
-
-      assert.isTrue(stub.called);
-      assert.deepEqual(stub.lastCall.args[0].detail, {id: element.message.id});
+    test('change message url is correctly set', () => {
+      const getUrlStub = sandbox.stub(GerritNav, 'getUrlForChangeById').
+          returns('url');
+      element.message = {id: 'a12345', date: ''};
+      element.changeNum = '1';
+      element.projectName = 'gerrit';
+      assert.equal(element._changeMessageUrl, 'url');
+      assert.equal(getUrlStub.lastCall.args[3], '#message-a12345');
     });
 
     suite('compute messages', () => {

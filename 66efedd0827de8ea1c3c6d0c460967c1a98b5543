@@ -597,6 +597,24 @@
       "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c6e714d_70801bbd",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T11:16:28Z",
+      "side": 1,
+      "message": "Yeah, that is why I had to use the ugly render() call in gr-messages-list-experimental_html.js.\n\nI guess your solution is indeed a bit more flexible.",
+      "parentUuid": "53571f7d_589a7276",
+      "revId": "66efedd0827de8ea1c3c6d0c460967c1a98b5543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c89a29f_31b9c6f9",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T11:16:28Z",
+      "side": 1,
+      "message": "indentation",
+      "revId": "2e390e237a27e69078e0bf451dd58fe01736d0c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0f0201f_75d84cc0",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T11:16:28Z",
+      "side": 1,
+      "message": "Optional: I think I would even remove this comment.",
+      "revId": "2e390e237a27e69078e0bf451dd58fe01736d0c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93b62e7f_94507795",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T11:16:28Z",
+      "side": 1,
+      "message": "Maybe just `return false` here? And remove the `robotCommentCheck` variable?",
+      "revId": "2e390e237a27e69078e0bf451dd58fe01736d0c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ec8071e_7b51d8c2",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T11:16:28Z",
+      "side": 1,
+      "message": "Maybe replace the 10 lines by this line?\n\n  return (!draftsOnly || threadInfo.hasDraft) \u0026\u0026 (!unresolvedOnly || threadInfo.unresolved);",
+      "range": {
+        "startLine": 204,
+        "startChar": 4,
+        "endLine": 214,
+        "endChar": 0
+      },
+      "revId": "2e390e237a27e69078e0bf451dd58fe01736d0c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9fe0970_239f0061",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-13T11:16:28Z",
+      "side": 1,
+      "message": "Nit: replace both `thread.comments` by `comments`.",
+      "range": {
+        "startLine": 218,
+        "startChar": 24,
+        "endLine": 218,
+        "endChar": 56
+      },
+      "revId": "2e390e237a27e69078e0bf451dd58fe01736d0c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

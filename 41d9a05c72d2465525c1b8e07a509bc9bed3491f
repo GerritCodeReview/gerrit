@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aa34e00_9a79eb17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-13T14:23:31Z",
+      "side": 1,
+      "message": "What you\u0027re referring to is a case for which \u0027U\u0027 files were erroneously shown. There are other situations for which they are rightfully shown. The related use cases might be negatively affected if we simply removed this feature.",
+      "range": {
+        "startLine": 10,
+        "startChar": 49,
+        "endLine": 13,
+        "endChar": 45
+      },
+      "revId": "41d9a05c72d2465525c1b8e07a509bc9bed3491f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

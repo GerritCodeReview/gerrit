@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "050f90db_4f630604",
+        "filename": "polygerrit-ui/app/behaviors/gr-path-list-behavior/gr-path-list-behavior.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-13T12:38:14Z",
+      "side": 1,
+      "message": "Is there any plugin which uses PathListBehavior.COMMIT_MESSAGE_PATH or PathListBehavior.MERGE_LIST_PATH ?\nIf such plugins don\u0027t exists, remove these 2 properties from PathListBehavior and use imported constants instead.",
+      "range": {
+        "startLine": 23,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 17
+      },
+      "revId": "2f59e29b66b880e7a7156a489b07b7f86cc34110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96f0272f_17c3099e",
+        "filename": "polygerrit-ui/app/behaviors/gr-path-list-behavior/gr-path-list-behavior.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-13T12:38:14Z",
+      "side": 1,
+      "message": "Either change name or implementation\nAs I can see, there are 3 different special files and in this method only one type is checked.",
+      "range": {
+        "startLine": 72,
+        "startChar": 2,
+        "endLine": 72,
+        "endChar": 18
+      },
+      "revId": "2f59e29b66b880e7a7156a489b07b7f86cc34110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b64ef29_a65b8f93",
+        "filename": "polygerrit-ui/app/constants/constants.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-13T12:38:14Z",
+      "side": 1,
+      "message": "make it enum:\nexport const SpecialFilePath \u003d {\n   PATCHSET_LEVEL_COMMENTS: \u0027/PATCHSET_LEVEL\u0027,\n   COMMIT_MESSAGE: ...\n}",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 0
+      },
+      "revId": "2f59e29b66b880e7a7156a489b07b7f86cc34110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6ba39fa_c28d8ab6",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-13T12:38:14Z",
+      "side": 1,
+      "message": "Why don\u0027t use hideSpecialFiles from PathListBehavior instead of this method?\nThey look identically.\n(The same in gr-comment-thread.js)",
+      "range": {
+        "startLine": 98,
+        "startChar": 2,
+        "endLine": 98,
+        "endChar": 22
+      },
+      "revId": "2f59e29b66b880e7a7156a489b07b7f86cc34110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

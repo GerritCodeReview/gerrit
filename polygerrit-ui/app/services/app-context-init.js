@@ -21,10 +21,10 @@ import {GrReporting} from './gr-reporting/gr-reporting.js';
 const initializedServices = new Map();
 
 function getService(serviceName, serviceInit) {
-  if (!initializedServices[serviceName]) {
-    initializedServices[serviceName] = serviceInit();
+  if (!initializedServices.has(serviceName)) {
+    initializedServices.set(serviceName, serviceInit());
   }
-  return initializedServices[serviceName];
+  return initializedServices.get(serviceName);
 }
 
 /**

@@ -191,12 +191,12 @@ export const htmlTemplate = html`
       if="[[_computeShowRepoBranchTogether(change.project, change.branch)]]"
     >
       <section>
-        <span class="title">Repo / Branch</span>
+        <span class="title">Repo | Branch</span>
         <span class="value">
           <a href$="[[_computeProjectUrl(change.project)]]"
             >[[change.project]]</a
           >
-          /
+          |
           <a href$="[[_computeBranchUrl(change.project, change.branch)]]"
             >[[change.branch]]</a
           >

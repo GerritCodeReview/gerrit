@@ -47,11 +47,10 @@ public class SshSession {
   }
 
   @SuppressWarnings("resource")
-  public String exec(String command, InputStream opt) throws Exception {
+  public String exec(String command) throws Exception {
     ChannelExec channel = (ChannelExec) getSession().openChannel("exec");
     try {
       channel.setCommand(command);
-      channel.setInputStream(opt);
       InputStream in = channel.getInputStream();
       InputStream err = channel.getErrStream();
       channel.connect();
@@ -64,19 +63,6 @@ public class SshSession {
     } finally {
       channel.disconnect();
     }
-  }
-
-  public InputStream exec2(String command, InputStream opt) throws Exception {
-    ChannelExec channel = (ChannelExec) getSession().openChannel("exec");
-    channel.setCommand(command);
-    channel.setInputStream(opt);
-    InputStream in = channel.getInputStream();
-    channel.connect();
-    return in;
-  }
-
-  public String exec(String command) throws Exception {
-    return exec(command, null);
   }
 
   private boolean hasError() {

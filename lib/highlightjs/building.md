@@ -42,7 +42,7 @@ Minify the file using closure-compiler using the command below.
     $> mv closure-compiler-*.jar closure-compiler.jar
 
     $>  java -jar ./closure-compiler.jar \
-            --js build/highlight.pack.js \
+            --js build/highlight.js \
             --js_output_file build/highlight.min.js
 
 Copy the header comment that appears on the first line of

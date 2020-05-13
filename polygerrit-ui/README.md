@@ -174,7 +174,7 @@ npm run test:karma
 * Run all Karma tests in debug mode (the command opens Chrome browser with
 the default Karma page; you should click the "Debug" button to start testing):
 ```sh
-npm test:karma:debug
+npm run test:karma:debug
 ```
 
 * Run a single test file:

@@ -22,9 +22,9 @@
       "updated": "2020-05-13T22:10:48Z"
     },
     "gerritforge:reviewdb-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "NOT_STARTED",
+      "state": "SCHEDULED",
       "created": "2020-05-13T19:30:17Z",
-      "updated": "2020-05-14T16:07:00Z"
+      "updated": "2020-05-14T16:10:16Z"
     }
   }
 }

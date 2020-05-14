@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f58b809f_ca82273e",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeIsVisibleToPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-14T12:17:51Z",
+      "side": 0,
+      "message": "In another change you added the cast to InternalUser. Is it addition lost now?",
+      "range": {
+        "startLine": 94,
+        "startChar": 28,
+        "endLine": 94,
+        "endChar": 61
+      },
+      "revId": "73a922fd6f9cc95208304989a36f69a894ba437a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

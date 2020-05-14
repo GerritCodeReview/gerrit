@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf9f6321_2b3f70b0",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1740,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-14T00:43:13Z",
+      "side": 1,
+      "message": "Both changes are",
+      "range": {
+        "startLine": 1740,
+        "startChar": 7,
+        "endLine": 1740,
+        "endChar": 13
+      },
+      "revId": "ba1f104130f9331490a4333dc6c37471cbf6ad94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

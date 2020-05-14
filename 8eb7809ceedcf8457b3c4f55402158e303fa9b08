@@ -73,6 +73,29 @@
     },
     {
       "key": {
+        "uuid": "15379faa_ab82e934",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-05-14T10:56:48Z",
+      "side": 1,
+      "message": "Move the status to use the same background color as added https://imgur.com/a/oTAEXGs",
+      "range": {
+        "startLine": 84,
+        "startChar": 5,
+        "endLine": 84,
+        "endChar": 14
+      },
+      "revId": "8eb7809ceedcf8457b3c4f55402158e303fa9b08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "be6f40a1_c7c30644",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
         "patchSetId": 4

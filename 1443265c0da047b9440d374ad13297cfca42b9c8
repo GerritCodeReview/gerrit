@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f30cfbc_79bd0555",
+        "filename": "java/com/google/gerrit/acceptance/GitUtil.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-14T14:27:34Z",
+      "side": 1,
+      "message": "The mina logic would have to move out of here to a place where we can ignore it.",
+      "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5acf7d0_11eb1394",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-14T14:27:34Z",
+      "side": 1,
+      "message": "We currently don\u0027t have this dependency inside Google. For testing only, we could add it. The problem is that our Apache SSH lib is at 2.1 and JGit is using 2.4 which is incompatible as well.\n\nIt will require effort to get Apache SSH updated to 2.4 and make JGit test dependencies for our Gerrit to have a test dependency on.\n\nI would prefer if we didn\u0027t have to do this and I believe that path will also be faster to execute on:\nIf you separate the JSch/Mina logic into two classes that have the same interface and then call either one with reflection or Guice bindings, we can just skip importing the Mina file and nothing will break as no existing class would grow a dependency on mina.",
+      "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b69f60e5_c78af6d5",
+        "filename": "java/com/google/gerrit/server/BUILD",
+        "patchSetId": 19
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-14T14:27:34Z",
+      "side": 1,
+      "message": "We don\u0027t compile this into our binaries inside Google, so adding this dependency here and using it in GerritGlobalModule breaks our import.\n\nCan we bind this in Daemon instead? (we don\u0027t use that class inside Google, so any dependency there is fine). Around l.468 we bind other SSH things.",
+      "range": {
+        "startLine": 99,
+        "startChar": 8,
+        "endLine": 99,
+        "endChar": 32
+      },
+      "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

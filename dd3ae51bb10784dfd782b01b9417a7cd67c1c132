@@ -34,6 +34,24 @@
       "revId": "dd3ae51bb10784dfd782b01b9417a7cd67c1c132",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "230224c3_1f838126",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-14T08:58:19Z",
+      "side": 1,
+      "message": "ya but not sure if there will be any use case on the numeric id or not ? if in all documentation we expect people use uuid, then having numeric id here seems only add confusion ?",
+      "parentUuid": "350b449b_366b2526",
+      "revId": "dd3ae51bb10784dfd782b01b9417a7cd67c1c132",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

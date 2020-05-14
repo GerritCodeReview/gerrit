@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6fbae9ef_4f53756e",
+        "filename": "polygerrit-ui/app/elements/settings/gr-group-list/gr-group-list_test.html",
+        "patchSetId": 20
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-14T08:56:47Z",
+      "side": 1,
+      "message": "maybe also add a test for cases that decode does something :)",
+      "revId": "53d81305a22ae43eaeca6740213e44d6cf079218",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

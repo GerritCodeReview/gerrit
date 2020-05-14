@@ -187,6 +187,30 @@
       "revId": "2f59e29b66b880e7a7156a489b07b7f86cc34110",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e869598_dcaa8dc7",
+        "filename": "polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-14T13:19:46Z",
+      "side": 1,
+      "message": "Sorry, not clear :)\nDoes it mean that you are going to change it in this change or later?\nIf there is no reason to have it as a separate method, I suggest to fix it in this change.",
+      "parentUuid": "72c999f0_f24f4ffa",
+      "range": {
+        "startLine": 98,
+        "startChar": 2,
+        "endLine": 98,
+        "endChar": 22
+      },
+      "revId": "2f59e29b66b880e7a7156a489b07b7f86cc34110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

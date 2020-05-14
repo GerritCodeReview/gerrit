@@ -31,7 +31,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Provider;
 import java.io.IOException;
-import java.util.Optional;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 
 public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData> {
@@ -42,7 +41,7 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
   protected final CurrentUser user;
   protected final PermissionBackend permissionBackend;
   protected final ProjectCache projectCache;
-  private final Provider<AnonymousUser> anonymousUserProvider;
+  private final CurrentUser accessUser;
 
   public ChangeIsVisibleToPredicate(
       Provider<ReviewDb> db,
@@ -57,7 +56,7 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
     this.user = user;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
-    this.anonymousUserProvider = anonymousUserProvider;
+    this.accessUser = user.allowsGlobalChangeQuery() ? user : anonymousUserProvider.get();
   }
 
   @Override
@@ -89,10 +88,7 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
     PermissionBackend.WithUser withUser =
         user.isIdentifiedUser()
             ? permissionBackend.absentUser(user.getAccountId())
-            : permissionBackend.user(
-                Optional.of(user)
-                    .filter(u -> u instanceof SingleGroupUser)
-                    .orElseGet(anonymousUserProvider::get));
+            : permissionBackend.user(accessUser);
     try {
       withUser.indexedChange(cd, notes).database(db).check(ChangePermission.READ);
     } catch (PermissionBackendException e) {

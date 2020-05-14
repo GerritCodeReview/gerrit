@@ -41,4 +41,9 @@ public final class SingleGroupUser extends CurrentUser {
   public Object getCacheKey() {
     return groups.getKnownGroups();
   }
+
+  @Override
+  public boolean allowsGlobalChangeQuery() {
+    return true;
+  }
 }

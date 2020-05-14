@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf338f84_591d663b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1145,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-05-14T10:18:51Z",
+      "side": 1,
+      "message": "_computeSendDisabled now takes 9 arguments \"buttonLabel\" should follow \"canBeStarted\".\nSame for following tests.",
+      "range": {
+        "startLine": 1145,
+        "startChar": 8,
+        "endLine": 1145,
+        "endChar": 33
+      },
+      "revId": "474c24d290018f2fc1858bc06276da4cf399f5eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

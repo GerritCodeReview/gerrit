@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c74d5d2c_230eaae8",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-05-14T15:38:14Z",
+      "side": 0,
+      "message": "shouldn\u0027t be removed",
+      "range": {
+        "startLine": 452,
+        "startChar": 6,
+        "endLine": 452,
+        "endChar": 28
+      },
+      "revId": "a16d35a11ffe8f6c3b9276bd9455f9c9f666a4a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

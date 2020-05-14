@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4dfe12ad_cfb81116",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-05-14T15:38:14Z",
+      "side": 1,
+      "message": "current implementation uses MINA SSH client regardless of any switch provided in as env/eclipse test parameter\nis should be refreshed with https://gerrit-review.googlesource.com/c/gerrit/+/263692/19/java/com/google/gerrit/acceptance/SshSession.java (or newer version)",
+      "range": {
+        "startLine": 112,
+        "startChar": 22,
+        "endLine": 112,
+        "endChar": 32
+      },
+      "revId": "5c017919adf8f7e2123729273491f5063948614e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b4f92c47_b0b6ac67",
         "filename": "resources/log4j.properties",
         "patchSetId": 4
@@ -22,6 +45,30 @@
       "revId": "5c017919adf8f7e2123729273491f5063948614e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b8ce377_f193aef5",
+        "filename": "resources/log4j.properties",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-05-14T15:38:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4f92c47_b0b6ac67",
+      "range": {
+        "startLine": 27,
+        "startChar": 68,
+        "endLine": 27,
+        "endChar": 72
+      },
+      "revId": "5c017919adf8f7e2123729273491f5063948614e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

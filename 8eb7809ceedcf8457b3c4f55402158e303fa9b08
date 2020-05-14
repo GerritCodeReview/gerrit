@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99718f3f_4dbbe5aa",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-05-14T10:38:53Z",
+      "side": 1,
+      "message": "If this affects both light and dark theme, then the font color on the dark background colors for the chips would not pass WCAG AA contrast.\n\nIs there a specific rule change for dark theme setting the font to primary text color (as it looks like in your screenshot of dark theme chips https://imgur.com/a/TWENery)?",
+      "range": {
+        "startLine": 74,
+        "startChar": 7,
+        "endLine": 74,
+        "endChar": 43
+      },
+      "revId": "8eb7809ceedcf8457b3c4f55402158e303fa9b08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

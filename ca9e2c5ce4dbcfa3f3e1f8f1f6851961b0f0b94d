@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1b1ce5d_a5f814d3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-14T07:44:00Z",
+      "side": 1,
+      "message": "Failing here:\n\n expected \u0027user/group\u0027 to equal \u0027user%2Fgroup\u0027",
+      "revId": "ca9e2c5ce4dbcfa3f3e1f8f1f6851961b0f0b94d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -278,6 +278,12 @@ suite('gr-group tests', () => {
     };
 
     assert.equal(element._groupConfig.id, element.$.uuid.text);
+
+    element._groupConfig = {
+      id: 'user%2Fgroup',
+    };
+
+    assert.equal('user/group', element.$.uuid.text);
   });
 });
 </script>

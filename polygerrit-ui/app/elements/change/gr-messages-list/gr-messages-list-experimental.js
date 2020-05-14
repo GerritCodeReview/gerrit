@@ -291,9 +291,12 @@ class GrMessagesListExperimental extends mixinBehaviors( [
     this.scrollToMessage(e.detail.id);
   }
 
-  _isVisibleShowAllActivityToggle(messages) {
-    messages = messages || [];
+  _isVisibleShowAllActivityToggle(messages = []) {
     return messages.some(m => !isImportant(m, messages));
+  }
+
+  _computeHiddenEntriesCount(messages = []) {
+    return messages.filter(m => !isImportant(m, messages)).length;
   }
 
   /**

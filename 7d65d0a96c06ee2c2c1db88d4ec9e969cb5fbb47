@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "f1ed5a98_6aa3b1d2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-14T13:46:25Z",
+      "side": 1,
+      "message": "\u003e Per ^, this is a valid return.\n\u003e \n\u003e If you really want to you can return an empty string, but really makes no difference.\n\nI am definitely NOT a JavaScript expert, apologies for my incompetence on the topic :-(",
+      "parentUuid": "e3fd06a7_ab4e6520",
+      "range": {
+        "startLine": 269,
+        "startChar": 13,
+        "endLine": 269,
+        "endChar": 20
+      },
+      "revId": "7d65d0a96c06ee2c2c1db88d4ec9e969cb5fbb47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "430aa3b8_c019dfa1",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 3

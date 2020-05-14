@@ -18,6 +18,7 @@ import static com.google.gerrit.server.ssh.SshAddressesModule.IANA_SSH_PORT;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.apache.sshd.common.channel.ChannelOutputStream.WAIT_FOR_SPACE_TIMEOUT;
+import static org.apache.sshd.common.session.helpers.AbstractConnectionService.MAX_CONCURRENT_CHANNELS_PROP;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
@@ -66,6 +67,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.sshd.common.BaseBuilder;
 import org.apache.sshd.common.NamedFactory;
+import org.apache.sshd.common.PropertyResolverUtils;
 import org.apache.sshd.common.channel.RequestHandler;
 import org.apache.sshd.common.cipher.Cipher;
 import org.apache.sshd.common.compression.BuiltinCompressions;
@@ -220,6 +222,12 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         backend == SshSessionBackend.MINA
             ? MinaServiceFactoryFactory.class.getName()
             : Nio2ServiceFactoryFactory.class.getName());
+
+    // TODO(davido): Enable multiplexing when this issue is fixed:
+    // https://issues.apache.org/jira/browse/SSHD-966
+    if (backend == SshSessionBackend.NIO2) {
+      PropertyResolverUtils.updateProperty(this, MAX_CONCURRENT_CHANNELS_PROP, 1);
+    }
 
     initProviderBouncyCastle(cfg);
     initCiphers(cfg);

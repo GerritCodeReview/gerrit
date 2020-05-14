@@ -46,6 +46,53 @@
       "revId": "8eb7809ceedcf8457b3c4f55402158e303fa9b08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed4f1f1c_1629f09f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-05-14T10:50:39Z",
+      "side": 1,
+      "message": "I think we should change this to --primary-text-color: black; for the reason that --deemphasized-text-color: #5F6368; is not contrasted to pass WCAG AA on dark theme background colors.",
+      "parentUuid": "108c971b_228c47d8",
+      "range": {
+        "startLine": 74,
+        "startChar": 7,
+        "endLine": 74,
+        "endChar": 43
+      },
+      "revId": "8eb7809ceedcf8457b3c4f55402158e303fa9b08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be6f40a1_c7c30644",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-05-14T10:50:39Z",
+      "side": 1,
+      "message": "On second thoughts, we could actually reuse --comment-background-color, which is the color closer to my first proposal for U files https://imgur.com/a/ok7xKaV\n\nSo the colors would look like https://imgur.com/a/JrOT5o9",
+      "range": {
+        "startLine": 88,
+        "startChar": 24,
+        "endLine": 88,
+        "endChar": 49
+      },
+      "revId": "8eb7809ceedcf8457b3c4f55402158e303fa9b08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

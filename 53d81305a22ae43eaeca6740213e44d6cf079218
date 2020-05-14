@@ -16,6 +16,24 @@
       "revId": "53d81305a22ae43eaeca6740213e44d6cf079218",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c775d0e4_e748a6f3",
+        "filename": "polygerrit-ui/app/elements/settings/gr-group-list/gr-group-list_test.html",
+        "patchSetId": 20
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-05-14T09:35:04Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6fbae9ef_4f53756e",
+      "revId": "53d81305a22ae43eaeca6740213e44d6cf079218",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2aaf187_7910dcd8",
+        "filename": "java/com/google/gerrit/acceptance/EventRecorder.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-05-14T10:22:55Z",
+      "side": 1,
+      "message": "Those 2 statements cannot be collapsed together with the one at L82 since it will require to modify all the assertion helper methods (i.e.: all the get*Events methods)",
+      "range": {
+        "startLine": 72,
+        "startChar": 16,
+        "endLine": 75,
+        "endChar": 86
+      },
+      "revId": "d18ffdf3c0f64cf8bfbae65e36464c81ff0b910f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

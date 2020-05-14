@@ -34,6 +34,24 @@
       "revId": "ca9e2c5ce4dbcfa3f3e1f8f1f6851961b0f0b94d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc57244f_6c360e15",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-05-14T22:08:15Z",
+      "side": 1,
+      "message": "He fixed it, see his new patchset.\n\nMissing html change due to conflicts.",
+      "parentUuid": "03800528_83adfcd4",
+      "revId": "ca9e2c5ce4dbcfa3f3e1f8f1f6851961b0f0b94d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

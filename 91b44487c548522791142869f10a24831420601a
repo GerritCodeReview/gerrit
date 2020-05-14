@@ -123,6 +123,30 @@
       "revId": "91b44487c548522791142869f10a24831420601a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "feba2099_5636dd37",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeIsVisibleToPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-14T10:48:54Z",
+      "side": 1,
+      "message": "I\u0027m fine with keeping the ugliness on v2.16 and sort this out in stable-3.2 and master. However, I\u0027ll wait for DavidO to comment on this.\n\nI\u0027m preparing the separate change, as refactoring should NOT be part of a fix or a feature.",
+      "parentUuid": "9ade9cd3_740bc541",
+      "range": {
+        "startLine": 95,
+        "startChar": 28,
+        "endLine": 95,
+        "endChar": 90
+      },
+      "revId": "91b44487c548522791142869f10a24831420601a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

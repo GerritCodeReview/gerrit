@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "408eaa72_a8bfb015",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1743,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-14T00:41:46Z",
+      "side": 1,
+      "message": "GJF missing",
+      "range": {
+        "startLine": 1739,
+        "startChar": 0,
+        "endLine": 1743,
+        "endChar": 5
+      },
+      "revId": "493aa568467cac94d08e9bd84df4a35b04f065c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

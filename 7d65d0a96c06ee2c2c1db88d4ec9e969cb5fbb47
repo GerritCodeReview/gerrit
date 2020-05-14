@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "c0fb2a3e_da8817da",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-14T12:16:08Z",
+      "side": 1,
+      "message": "IIUC javascript functions can return \"nothing\" or \"undefined\" which is what it\u0027s doing here.\n\nhttps://codeburst.io/javascript-what-is-the-return-statement-97d8b11a1a0c",
+      "parentUuid": "47e6c68f_1570e51c",
+      "range": {
+        "startLine": 269,
+        "startChar": 13,
+        "endLine": 269,
+        "endChar": 20
+      },
+      "revId": "7d65d0a96c06ee2c2c1db88d4ec9e969cb5fbb47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "430aa3b8_c019dfa1",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 3

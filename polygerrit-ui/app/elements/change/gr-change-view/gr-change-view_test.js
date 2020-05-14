@@ -347,9 +347,9 @@ suite('gr-change-view tests', () => {
       assert(element._dynamicTabHeaderEndpoints.includes(
           'change-view-tab-header-url'));
       const paperTabs = element.shadowRoot.querySelector('#primaryTabs');
-      // 3 Tabs are : Files, Plugin, Findings
-      assert.equal(paperTabs.querySelectorAll('paper-tab').length, 3);
-      assert.equal(paperTabs.querySelectorAll('paper-tab')[1].dataset.name,
+      // 4 Tabs are : Files, Comment Threads, Plugin, Findings
+      assert.equal(paperTabs.querySelectorAll('paper-tab').length, 4);
+      assert.equal(paperTabs.querySelectorAll('paper-tab')[2].dataset.name,
           'change-view-tab-header-url');
     });
 
@@ -404,7 +404,7 @@ suite('gr-change-view tests', () => {
 
     test('switching tab sets _selectedTabPluginEndpoint', done => {
       const paperTabs = element.shadowRoot.querySelector('#primaryTabs');
-      MockInteractions.tap(paperTabs.querySelectorAll('paper-tab')[1]);
+      MockInteractions.tap(paperTabs.querySelectorAll('paper-tab')[2]);
       flush(() => {
         assert.equal(element._selectedTabPluginEndpoint,
             'change-view-tab-content-url');
@@ -757,7 +757,7 @@ suite('gr-change-view tests', () => {
 
   test('thread list modified', () => {
     sandbox.spy(element, '_handleReloadDiffComments');
-    element._activeTabs = [PrimaryTab.FILES, SecondaryTab.COMMENT_THREADS];
+    element._activeTabs = [PrimaryTab.COMMENT_THREADS, SecondaryTab.CHANGE_LOG];
     flushAsynchronousOperations();
 
     return element._reloadComments().then(() => {
@@ -821,47 +821,6 @@ suite('gr-change-view tests', () => {
       element.params = {view: 'change', changeNum: '1'};
     });
 
-    test('tab switch works correctly', done => {
-      assert.isTrue(element._paramsChanged.called);
-      assert.equal(element._activeTabs[1], SecondaryTab.CHANGE_LOG);
-
-      const commentTab = element.shadowRoot.querySelector(
-          'paper-tab.commentThreads'
-      );
-      // Switch to comment thread tab
-      MockInteractions.tap(commentTab);
-      assert.equal(element._activeTabs[1], SecondaryTab.COMMENT_THREADS);
-
-      // Switch back to 'Change Log' tab
-      element._paramsChanged(element.params);
-      flush(() => {
-        assert.equal(element._activeTabs[1], SecondaryTab.CHANGE_LOG);
-        done();
-      });
-    });
-
-    test('show-secondary-tab event works', () => {
-      assert.equal(element._activeTabs[1], SecondaryTab.CHANGE_LOG);
-      // Switch to comment thread tab
-      element.fire('show-secondary-tab', {tab: SecondaryTab.COMMENT_THREADS});
-      assert.equal(element._activeTabs[1], SecondaryTab.COMMENT_THREADS);
-    });
-
-    test('param change should switched secondary tab correctly', done => {
-      assert.equal(element._activeTabs[1], SecondaryTab.CHANGE_LOG);
-      const queryMap = new Map();
-      queryMap.set('secondaryTab', SecondaryTab.COMMENT_THREADS);
-      // view is required
-      element.params = Object.assign(
-          {view: GerritNav.View.CHANGE},
-          element.params, {queryMap}
-      );
-      flush(() => {
-        assert.equal(element._activeTabs[1], SecondaryTab.COMMENT_THREADS);
-        done();
-      });
-    });
-
     test('invalid secondaryTab should not switch tab', done => {
       assert.equal(element._activeTabs[1], SecondaryTab.CHANGE_LOG);
       const queryMap = new Map();
@@ -892,7 +851,7 @@ suite('gr-change-view tests', () => {
       };
       element._commentThreads = THREADS;
       const paperTabs = element.shadowRoot.querySelector('#primaryTabs');
-      MockInteractions.tap(paperTabs.querySelectorAll('paper-tab')[2]);
+      MockInteractions.tap(paperTabs.querySelectorAll('paper-tab')[3]);
       flush(() => {
         done();
       });

@@ -543,6 +543,17 @@ export const htmlTemplate = html`
 
     <paper-tabs id="primaryTabs" on-selected-changed="_setActivePrimaryTab">
       <paper-tab data-name$="[[_constants.PrimaryTab.FILES]]">Files</paper-tab>
+      <paper-tab
+        data-name$="[[_constants.PrimaryTab.COMMENT_THREADS]]"
+        class="commentThreads"
+      >
+        <gr-tooltip-content
+          has-tooltip=""
+          title$="[[_computeTotalCommentCounts(_change.unresolved_comment_count, _changeComments)]]"
+        >
+          <span>Comments</span></gr-tooltip-content
+        >
+      </paper-tab>
       <template
         is="dom-repeat"
         items="[[_dynamicTabHeaderEndpoints]]"
@@ -617,7 +628,19 @@ export const htmlTemplate = html`
         >
         </gr-file-list>
       </div>
-
+      <template
+        is="dom-if"
+        if="[[_isTabActive(_constants.PrimaryTab.COMMENT_THREADS, _activeTabs)]]"
+      >
+        <gr-thread-list
+          threads="[[_commentThreads]]"
+          change="[[_change]]"
+          change-num="[[_changeNum]]"
+          logged-in="[[_loggedIn]]"
+          only-show-robot-comments-with-human-reply=""
+          on-thread-list-modified="_handleReloadDiffComments"
+        ></gr-thread-list>
+      </template>
       <template
         is="dom-if"
         if="[[_isTabActive(_constants.PrimaryTab.FINDINGS, _activeTabs)]]"
@@ -675,17 +698,6 @@ export const htmlTemplate = html`
       >
         Change Log
       </paper-tab>
-      <paper-tab
-        data-name$="[[_constants.SecondaryTab.COMMENT_THREADS]]"
-        class="commentThreads"
-      >
-        <gr-tooltip-content
-          has-tooltip=""
-          title$="[[_computeTotalCommentCounts(_change.unresolved_comment_count, _changeComments)]]"
-        >
-          <span>Comment Threads</span></gr-tooltip-content
-        >
-      </paper-tab>
     </paper-tabs>
     <section class="changeLog">
       <template
@@ -721,19 +733,6 @@ export const htmlTemplate = html`
             on-reply="_handleMessageReply"
           ></gr-messages-list-experimental>
         </template>
-      </template>
-      <template
-        is="dom-if"
-        if="[[_isTabActive(_constants.SecondaryTab.COMMENT_THREADS, _activeTabs)]]"
-      >
-        <gr-thread-list
-          threads="[[_commentThreads]]"
-          change="[[_change]]"
-          change-num="[[_changeNum]]"
-          logged-in="[[_loggedIn]]"
-          only-show-robot-comments-with-human-reply=""
-          on-thread-list-modified="_handleReloadDiffComments"
-        ></gr-thread-list>
       </template>
     </section>
   </div>

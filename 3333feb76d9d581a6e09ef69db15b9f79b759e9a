@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "724d763b_20528ea7",
+        "filename": "java/com/google/gerrit/acceptance/GitUtil.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-05-14T15:32:21Z",
+      "side": 0,
+      "message": "not sure if I understand why this comment was removed... can you elaborate?",
+      "range": {
+        "startLine": 115,
+        "startChar": 6,
+        "endLine": 117,
+        "endChar": 49
+      },
+      "revId": "3333feb76d9d581a6e09ef69db15b9f79b759e9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17b69b0e_f6c42f23",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-05-14T15:32:21Z",
+      "side": 0,
+      "message": "this check can be preserved with:\ncheckState(sshdSession !\u003d null || jschSession !\u003d null, \"session must be opened\");",
+      "range": {
+        "startLine": 117,
+        "startChar": 4,
+        "endLine": 117,
+        "endChar": 58
+      },
+      "revId": "3333feb76d9d581a6e09ef69db15b9f79b759e9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

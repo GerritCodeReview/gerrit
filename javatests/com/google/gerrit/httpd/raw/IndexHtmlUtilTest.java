@@ -99,7 +99,6 @@ public class IndexHtmlUtilTest {
   @Test
   public void usePreloadRest() throws Exception {
     Map<String, String[]> urlParms = new HashMap<>();
-    urlParms.put("pl", new String[0]);
     assertThat(
             staticTemplateData(
                 "http://example.com/",

@@ -204,14 +204,7 @@ public class IndexHtmlUtil {
     if (faviconPath != null) {
       data.put("faviconPath", faviconPath);
     }
-    if (urlParameterMap.containsKey("ce")) {
-      data.put("polyfillCE", "true");
-    }
-    if (urlParameterMap.containsKey("gf")) {
-      data.put("useGoogleFonts", "true");
-    }
-
-    if (urlParameterMap.containsKey("pl") && requestedURL != null) {
+    if (requestedURL != null) {
       data.put("defaultChangeDetailHex", getDefaultChangeDetailHex());
       data.put("defaultDiffDetailHex", getDefaultDiffDetailHex());
 
@@ -226,6 +219,13 @@ public class IndexHtmlUtil {
       if (changeRequestsPath != null) {
         data.put("changeRequestsPath", changeRequestsPath);
       }
+    }
+
+    if (urlParameterMap.containsKey("ce")) {
+      data.put("polyfillCE", "true");
+    }
+    if (urlParameterMap.containsKey("gf")) {
+      data.put("useGoogleFonts", "true");
     }
 
     return data.build();

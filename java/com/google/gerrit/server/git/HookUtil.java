@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.Map;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
-import org.eclipse.jgit.transport.BaseReceivePack;
+import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 
 /** Static utilities for writing git protocol hooks. */
@@ -31,7 +31,7 @@ public class HookUtil {
    * @return map of refs that were advertised.
    * @throws ServiceMayNotContinueException if a problem occurred.
    */
-  public static Map<String, Ref> ensureAllRefsAdvertised(BaseReceivePack rp)
+  public static Map<String, Ref> ensureAllRefsAdvertised(ReceivePack rp)
       throws ServiceMayNotContinueException {
     Map<String, Ref> refs = rp.getAdvertisedRefs();
     if (refs != null) {

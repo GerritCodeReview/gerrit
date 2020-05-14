@@ -18,6 +18,14 @@ import * as path from "path";
 import { unexpectedValue } from "../utils/unexpectedValue";
 import * as codeUtils from "../utils/codeUtils";
 import {CommentsParser} from '../utils/commentsParser';
+import {assertNodeKind} from '../utils/codeUtils';
+
+function methodFromProperty(name: string, propertyAssignment: ts.PropertyAssignment): ts.MethodDeclaration {
+  const funcExpr: ts.FunctionExpression = assertNodeKind(propertyAssignment.initializer, ts.SyntaxKind.FunctionExpression);
+  const method = ts.createMethod(undefined, undefined, undefined, name, undefined, undefined, funcExpr.parameters, undefined, funcExpr.body);
+  method.pos = propertyAssignment.pos;
+  return method;
+}
 
 export class LegacyPolymerComponentParser {
   public constructor(private readonly rootDir: string, private readonly htmlFiles: Set<string>) {
@@ -139,7 +147,13 @@ export class LegacyPolymerComponentParser {
           ordinaryGetAccessors.set(name, val as ts.GetAccessorDeclaration);
           break;
         case ts.SyntaxKind.PropertyAssignment:
-          ordinaryPropertyAssignments.set(name, val as ts.PropertyAssignment);
+          const propertyAssignment: ts.PropertyAssignment = assertNodeKind(val, ts.SyntaxKind.PropertyAssignment);
+          if(propertyAssignment.initializer.kind === ts.SyntaxKind.FunctionExpression) {
+            ordinaryMethods.set(name, methodFromProperty(name, propertyAssignment));
+          }
+          else {
+            ordinaryPropertyAssignments.set(name, propertyAssignment);
+          }
           break;
         default:
           throw new Error(`Unsupported element kind: ${ts.SyntaxKind[val.kind]}`);
@@ -231,7 +245,11 @@ export class LegacyPolymerComponentParser {
     if (!property) {
       return undefined;
     }
-    return codeUtils.assertNodeKind(property, ts.SyntaxKind.MethodDeclaration) as ts.MethodDeclaration;
+    if(property.kind === ts.SyntaxKind.MethodDeclaration) {
+      return codeUtils.assertNodeKind(property, ts.SyntaxKind.MethodDeclaration) as ts.MethodDeclaration;
+    } else {
+      return methodFromProperty(propName, codeUtils.assertNodeKind(property, ts.SyntaxKind.PropertyAssignment));
+    }
   }
 
 }

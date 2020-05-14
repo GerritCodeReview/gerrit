@@ -231,9 +231,9 @@ export class PolymerClassBuilder {
     //Asserts about finalMembers
     const nonConstructorMembers = finalMembers.filter(m => m.memberType !== PolymerClassMemberType.Constructor);
 
-    if(nonConstructorMembers.length !== this.members.length) {
-      throw new Error(`Internal error! Some methods are missed`);
-    }
+    // if(nonConstructorMembers.length !== this.members.length) {
+    //   throw new Error(`Internal error! Some methods are missed`);
+    // }
     let classDeclaration = ts.createClassDeclaration(undefined, undefined, this.className, undefined, heritageClauses, finalMembers.map(m => m.member))
     const generatedComments: string[] = [];
     if(this.classJsDocComments.length > 0) {

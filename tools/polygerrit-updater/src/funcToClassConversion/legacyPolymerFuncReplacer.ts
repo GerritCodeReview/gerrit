@@ -32,12 +32,25 @@ export class LegacyPolymerFuncReplaceResult {
 }
 
 export class LegacyPolymerFuncReplacer {
-  private readonly callStatement: ts.ExpressionStatement;
-  private readonly parentBlock: ts.Block;
+  private readonly callStatement: ts.Statement;
+  private readonly parentBlock: ts.SourceFile;
   private readonly callStatementIndexInBlock: number;
   public constructor(private readonly legacyComponent: LegacyPolymerComponent) {
-    this.callStatement = codeUtils.assertNodeKind(legacyComponent.polymerFuncCallExpr.parent, ts.SyntaxKind.ExpressionStatement);
-    this.parentBlock = codeUtils.assertNodeKind(this.callStatement.parent, ts.SyntaxKind.Block);
+    if(legacyComponent.polymerFuncCallExpr.parent.kind === ts.SyntaxKind.ExpressionStatement) {
+      // case:
+      // Polymer(...);
+      this.callStatement = codeUtils.assertNodeKind(legacyComponent.polymerFuncCallExpr.parent, ts.SyntaxKind.ExpressionStatement);
+    } else if(legacyComponent.polymerFuncCallExpr.parent.kind === ts.SyntaxKind.BinaryExpression) {
+      // case
+      // x = Polymer(..)
+      this.callStatement = codeUtils.assertNodeKind(legacyComponent.polymerFuncCallExpr.parent.parent, ts.SyntaxKind.ExpressionStatement);
+    } else {
+      // case
+      // let x = Polymer(..)
+      const componentDeclaration: ts.VariableDeclaration = codeUtils.assertNodeKind(legacyComponent.polymerFuncCallExpr.parent, ts.SyntaxKind.VariableDeclaration);
+      this.callStatement = codeUtils.assertNodeKind(componentDeclaration.parent.parent, ts.SyntaxKind.VariableStatement);
+    }
+    this.parentBlock = codeUtils.assertNodeKind(this.callStatement.parent, ts.SyntaxKind.SourceFile);
     this.callStatementIndexInBlock = this.parentBlock.statements.indexOf(this.callStatement);
     if(this.callStatementIndexInBlock < 0) {
       throw new Error("Internal error! Couldn't find statement in its own parent");

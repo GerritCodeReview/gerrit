@@ -35,7 +35,7 @@ import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
-import org.eclipse.jgit.transport.BaseReceivePack;
+import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
 
@@ -67,7 +67,7 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
   }
 
   @Override
-  public void advertiseRefs(BaseReceivePack rp) throws ServiceMayNotContinueException {
+  public void advertiseRefs(ReceivePack rp) throws ServiceMayNotContinueException {
     Result r = advertiseRefs(HookUtil.ensureAllRefsAdvertised(rp));
     rp.setAdvertisedRefs(r.allRefs(), r.additionalHaves());
   }

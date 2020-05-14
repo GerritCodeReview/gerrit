@@ -180,6 +180,11 @@ public abstract class StandaloneSiteTest {
           public int getTimezone(long when) {
             return oldSystemReader.getTimezone(when);
           }
+
+          @Override
+          public FileBasedConfig openJGitConfig(Config parent, FS fs) {
+            return oldSystemReader.openJGitConfig(parent, fs);
+          }
         });
     return oldSystemReader;
   }

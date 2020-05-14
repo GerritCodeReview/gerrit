@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3bbfcedc_20fe5aaa",
+        "filename": "polygerrit-ui/app/behaviors/gr-path-list-behavior/gr-path-list-behavior.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-14T12:39:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68cb01dd_bd1a4fa3",
+      "range": {
+        "startLine": 70,
+        "startChar": 11,
+        "endLine": 70,
+        "endChar": 12
+      },
+      "revId": "da75e938dd33390364a28721b2b9ebe82ba8c221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77526403_0c78b53f",
         "filename": "polygerrit-ui/app/behaviors/gr-path-list-behavior/gr-path-list-behavior.js",
         "patchSetId": 11
@@ -45,6 +69,30 @@
       "revId": "da75e938dd33390364a28721b2b9ebe82ba8c221",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce0a5f55_dc165877",
+        "filename": "polygerrit-ui/app/behaviors/gr-path-list-behavior/gr-path-list-behavior.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-14T12:39:56Z",
+      "side": 1,
+      "message": "Yeah, Ben also commented on this part.\nI can add it here but it will never be used.",
+      "parentUuid": "77526403_0c78b53f",
+      "range": {
+        "startLine": 90,
+        "startChar": 2,
+        "endLine": 90,
+        "endChar": 13
+      },
+      "revId": "da75e938dd33390364a28721b2b9ebe82ba8c221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "03a81d49_a0531ef8",
+        "filename": "polygerrit-ui/app/constants/constants.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-14T12:39:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66d9bd18_5d0cf6e1",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 28
+      },
+      "revId": "da75e938dd33390364a28721b2b9ebe82ba8c221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "410f6173_d6d4889f",
         "filename": "polygerrit-ui/app/constants/constants.js",
         "patchSetId": 11
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "cc1de763_be1e2b87",
+        "filename": "polygerrit-ui/app/constants/constants.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-14T12:39:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "410f6173_d6d4889f",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 35
+      },
+      "revId": "da75e938dd33390364a28721b2b9ebe82ba8c221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dfa6b1a6_c8438248",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.js",
         "patchSetId": 11
@@ -114,6 +210,30 @@
       "revId": "da75e938dd33390364a28721b2b9ebe82ba8c221",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5382afec_5118d749",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-14T12:39:56Z",
+      "side": 1,
+      "message": "The text is specific to the Patchset Level comment file while the shouldHide() function is more generic and can be extended in the future.\nI will keep it as it is.",
+      "parentUuid": "dfa6b1a6_c8438248",
+      "range": {
+        "startLine": 78,
+        "startChar": 34,
+        "endLine": 78,
+        "endChar": 57
+      },
+      "revId": "da75e938dd33390364a28721b2b9ebe82ba8c221",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

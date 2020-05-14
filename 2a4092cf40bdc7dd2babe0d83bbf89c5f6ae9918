@@ -70,6 +70,30 @@
       "revId": "2a4092cf40bdc7dd2babe0d83bbf89c5f6ae9918",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bcf2257_aa27d0fe",
+        "filename": "polygerrit-ui/app/elements/gr-app-global-var-init.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-14T10:32:02Z",
+      "side": 0,
+      "message": "I checked googlesource.com and I found only checks plugin using moment. So I am removing moment from Checks plugin as well.",
+      "parentUuid": "376b4c4e_be9b66f5",
+      "range": {
+        "startLine": 106,
+        "startChar": 9,
+        "endLine": 106,
+        "endChar": 24
+      },
+      "revId": "2a4092cf40bdc7dd2babe0d83bbf89c5f6ae9918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

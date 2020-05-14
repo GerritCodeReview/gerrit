@@ -22,6 +22,30 @@
       "revId": "d9511d5cb6883ed9badf42316d2eab4cfa0c6462",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41383852_9bef8768",
+        "filename": "polygerrit-ui/app/utils/date-util_test.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-14T10:32:02Z",
+      "side": 1,
+      "message": "nice catch, thanks.",
+      "parentUuid": "44bf70ff_eff722e1",
+      "range": {
+        "startLine": 20,
+        "startChar": 7,
+        "endLine": 20,
+        "endChar": 13
+      },
+      "revId": "d9511d5cb6883ed9badf42316d2eab4cfa0c6462",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

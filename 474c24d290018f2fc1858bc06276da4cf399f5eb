@@ -22,6 +22,30 @@
       "revId": "474c24d290018f2fc1858bc06276da4cf399f5eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61f6ec26_64274269",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 1145,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-05-14T10:19:53Z",
+      "side": 1,
+      "message": "Sorry, didn\u0027t notice that you removed that argument in ps3",
+      "parentUuid": "bf338f84_591d663b",
+      "range": {
+        "startLine": 1145,
+        "startChar": 8,
+        "endLine": 1145,
+        "endChar": 33
+      },
+      "revId": "474c24d290018f2fc1858bc06276da4cf399f5eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

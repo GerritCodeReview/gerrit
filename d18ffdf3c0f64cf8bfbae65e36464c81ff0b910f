@@ -2,6 +2,98 @@
   "comments": [
     {
       "key": {
+        "uuid": "0573581a_af9f4b35",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 1286,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-14T11:48:18Z",
+      "side": 1,
+      "message": "nit: wrap long lines",
+      "range": {
+        "startLine": 1286,
+        "startChar": 81,
+        "endLine": 1286,
+        "endChar": 114
+      },
+      "revId": "d18ffdf3c0f64cf8bfbae65e36464c81ff0b910f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bde9a6cc_6081fd1c",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 1289,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-14T11:48:18Z",
+      "side": 1,
+      "message": "nit: wrap long lines",
+      "range": {
+        "startLine": 1289,
+        "startChar": 79,
+        "endLine": 1289,
+        "endChar": 113
+      },
+      "revId": "d18ffdf3c0f64cf8bfbae65e36464c81ff0b910f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa05fa54_67efc6d8",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 1292,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-14T11:48:18Z",
+      "side": 1,
+      "message": "nit: wrap long lines",
+      "range": {
+        "startLine": 1292,
+        "startChar": 75,
+        "endLine": 1292,
+        "endChar": 108
+      },
+      "revId": "d18ffdf3c0f64cf8bfbae65e36464c81ff0b910f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57b44928_6bdadd8c",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-14T11:48:18Z",
+      "side": 1,
+      "message": "ref-updated JSON event payload",
+      "range": {
+        "startLine": 1294,
+        "startChar": 20,
+        "endLine": 1294,
+        "endChar": 25
+      },
+      "revId": "d18ffdf3c0f64cf8bfbae65e36464c81ff0b910f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c2aaf187_7910dcd8",
         "filename": "java/com/google/gerrit/acceptance/EventRecorder.java",
         "patchSetId": 20
@@ -22,6 +114,30 @@
       "revId": "d18ffdf3c0f64cf8bfbae65e36464c81ff0b910f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbad1e9e_d89bf9cb",
+        "filename": "java/com/google/gerrit/acceptance/EventRecorder.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-14T11:48:18Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c2aaf187_7910dcd8",
+      "range": {
+        "startLine": 72,
+        "startChar": 16,
+        "endLine": 75,
+        "endChar": 86
+      },
+      "revId": "d18ffdf3c0f64cf8bfbae65e36464c81ff0b910f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

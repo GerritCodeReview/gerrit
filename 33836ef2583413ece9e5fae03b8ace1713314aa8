@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "ac4c798d_f44e2581",
+        "filename": "java/com/google/gerrit/server/config/GerritInstanceIdProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2020-05-14T07:50:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "267b1154_ad276fc0",
+      "range": {
+        "startLine": 17,
+        "startChar": 4,
+        "endLine": 17,
+        "endChar": 14
+      },
+      "revId": "33836ef2583413ece9e5fae03b8ace1713314aa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9c67f99_6e8c41e4",
         "filename": "java/com/google/gerrit/server/config/GerritInstanceIdProvider.java",
         "patchSetId": 1

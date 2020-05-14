@@ -22,6 +22,30 @@
       "revId": "8eb7809ceedcf8457b3c4f55402158e303fa9b08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "108c971b_228c47d8",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-14T10:41:14Z",
+      "side": 1,
+      "message": "oh I forgot to update the screenshot, it\u0027s still using the primary text color, i like it better as well. I think its fine to use that",
+      "parentUuid": "99718f3f_4dbbe5aa",
+      "range": {
+        "startLine": 74,
+        "startChar": 7,
+        "endLine": 74,
+        "endChar": 43
+      },
+      "revId": "8eb7809ceedcf8457b3c4f55402158e303fa9b08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

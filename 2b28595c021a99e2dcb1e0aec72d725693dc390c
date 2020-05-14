@@ -46,6 +46,30 @@
       "revId": "2b28595c021a99e2dcb1e0aec72d725693dc390c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ba3d53e_0fc53515",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-14T23:35:10Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "234134e7_cf42b3e5",
+      "range": {
+        "startLine": 229,
+        "startChar": 28,
+        "endLine": 229,
+        "endChar": 80
+      },
+      "revId": "2b28595c021a99e2dcb1e0aec72d725693dc390c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

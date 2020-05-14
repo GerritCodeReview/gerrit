@@ -430,6 +430,24 @@
     },
     {
       "key": {
+        "uuid": "c068d26a_650fb123",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-05-14T12:49:21Z",
+      "side": 1,
+      "message": "I don\u0027t have a strong preference between \"Patchset-level comment\" and \"patchset comment\". I\u0027m ok with changing to \"Patchset comment\", it still makes it clear that it is a comment on the patchset.\n\nOne thing we have to keep in mind is that it will be the current copy for patchset comment in the meantime before the following up Comment tabs redesign. In the proposal for the Comment tab redesign, we will write the Patchset number, so having only \"Patchset comment\" brings us closer to the future changes.",
+      "parentUuid": "070d1b32_4fe02fb6",
+      "revId": "f53ceba0472ba955cf070c4c716a0a4ffef8cfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aba6a3df_4fd9d76f",
         "filename": "polygerrit-ui/app/scripts/gr-file-list-utils/gr-file-list-utils.js",
         "patchSetId": 7

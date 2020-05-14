@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "cd6643de_233fc243",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-14T10:50:01Z",
+      "side": 1,
+      "message": "\u003e Am I understanding correctly, that without this change plugin cannot query for changes any more? Would you mind to mention that in the commit message?\n\nAn InternalUser cannot query the changes anymore, which is what is mentioned in the commit message.",
+      "parentUuid": "8d56ac4e_989edee3",
+      "revId": "91b44487c548522791142869f10a24831420601a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "73a5683d_4e4c762a",
         "filename": "java/com/google/gerrit/server/query/change/ChangeIsVisibleToPredicate.java",
         "patchSetId": 6

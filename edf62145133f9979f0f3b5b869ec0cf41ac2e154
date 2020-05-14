@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff2ecba4_6753ac94",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-14T06:26:59Z",
+      "side": 1,
+      "message": "nit: this should be after git-protocol-v2 to maintain alphabetical order.",
+      "revId": "edf62145133f9979f0f3b5b869ec0cf41ac2e154",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

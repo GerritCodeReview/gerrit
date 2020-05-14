@@ -104,28 +104,32 @@ export class PolymerFuncToClassBasedConverter {
 
   private static getMixinNamesFromBehaviors(behaviors: ts.ArrayLiteralExpression): string[] {
     return behaviors.elements.map((expression) => {
-      const propertyAccessExpression = codeUtils.assertNodeKind(expression, ts.SyntaxKind.PropertyAccessExpression) as ts.PropertyAccessExpression;
-      const namespaceName = codeUtils.assertNodeKind(propertyAccessExpression.expression, ts.SyntaxKind.Identifier) as ts.Identifier;
-      const behaviorName = propertyAccessExpression.name;
-      if(namespaceName.text === 'Gerrit') {
-        let behaviorNameText = behaviorName.text;
-        const suffix = 'Behavior';
-        if(behaviorNameText.endsWith(suffix)) {
-          behaviorNameText =
-              behaviorNameText.substr(0, behaviorNameText.length - suffix.length);
+      if(expression.kind === ts.SyntaxKind.PropertyAccessExpression) {
+        const propertyAccessExpression = codeUtils.assertNodeKind(expression, ts.SyntaxKind.PropertyAccessExpression) as ts.PropertyAccessExpression;
+        const namespaceName = codeUtils.assertNodeKind(propertyAccessExpression.expression, ts.SyntaxKind.Identifier) as ts.Identifier;
+        const behaviorName = propertyAccessExpression.name;
+        if (namespaceName.text === 'Gerrit') {
+          let behaviorNameText = behaviorName.text;
+          const suffix = 'Behavior';
+          if (behaviorNameText.endsWith(suffix)) {
+            behaviorNameText =
+                behaviorNameText.substr(0, behaviorNameText.length - suffix.length);
+          }
+          const mixinName = behaviorNameText + 'Mixin';
+          return `${namespaceName.text}.${mixinName}`
+        } else if (namespaceName.text === 'Polymer') {
+          let behaviorNameText = behaviorName.text;
+          if (behaviorNameText === "IronFitBehavior") {
+            return "Polymer.IronFitMixin";
+          } else if (behaviorNameText === "IronOverlayBehavior") {
+            return "";
+          }
+          throw new Error(`Unsupported behavior: ${propertyAccessExpression.getText()}`);
         }
-        const mixinName = behaviorNameText + 'Mixin';
-        return `${namespaceName.text}.${mixinName}`
-      } else if(namespaceName.text === 'Polymer') {
-        let behaviorNameText = behaviorName.text;
-        if(behaviorNameText === "IronFitBehavior") {
-          return "Polymer.IronFitMixin";
-        } else if(behaviorNameText === "IronOverlayBehavior") {
-          return "";
-        }
-        throw new Error(`Unsupported behavior: ${propertyAccessExpression.getText()}`);
+        throw new Error(`Unsupported behavior name ${expression.getFullText()}`)
+      } else {
+        return codeUtils.assertNodeKind(expression, ts.SyntaxKind.Identifier).getText();
       }
-      throw new Error(`Unsupported behavior name ${expression.getFullText()}`)
     }).filter(name => name.length > 0);
   }
 }

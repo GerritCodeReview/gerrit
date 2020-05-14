@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "d15a4515_dbd40e24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-14T12:01:18Z",
+      "side": 1,
+      "message": "Let me mention that in the commit message anyway, just for the sake of extra clarity.",
+      "parentUuid": "cd6643de_233fc243",
+      "revId": "91b44487c548522791142869f10a24831420601a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73a5683d_4e4c762a",
         "filename": "java/com/google/gerrit/server/query/change/ChangeIsVisibleToPredicate.java",
         "patchSetId": 6

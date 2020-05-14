@@ -108,7 +108,7 @@ introduced any new Eclipse warnings, mention this in a comment to your
 change, so that reviewers will do it for you. Yes, the way to go is to
 extend gerrit CI to take care of this, but it's not yet implemented.
 
-Gerrit generally follows the
+Gerrit follows the
 link:https://google.github.io/styleguide/javaguide.html[Google Java Style
 Guide,role=external,window=_blank].
 
@@ -128,19 +128,6 @@ You may download and run `google-java-format` on your own, or you may
 run `./tools/setup_gjf.sh` to download a local copy and set up a
 wrapper script. If you run your own copy, please use the same version,
 as there may be slight differences between versions.
-
-When considering the style beyond just formatting rules, it is often
-more important to match the style of the nearby code which you are
-modifying than it is to match the style guide exactly. This is
-especially true within the same file.
-
-Additionally, you will notice that most of the newline spacing
-is fairly consistent throughout the code in Gerrit, it helps to
-stick to the blank line conventions.  Here are some specific
-examples:
-
-  * Keep a blank line between all class and method declarations.
-  * Do not add blank lines at the beginning or end of class/methods.
 
 When to use `final` modifier and when not (in new code):
 

@@ -22,6 +22,30 @@
       "revId": "70870059cd7aaa465b7264af5de070d943482a54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d06c913_019d54ce",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeIsVisibleToPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-14T00:05:09Z",
+      "side": 1,
+      "message": "This has also broken the management of the InternalUser permissions. See Issue 12747. As a consequence, potentially a number of plugins may have been broken.\n\nI am working on a fix on stable-2.16, so that this can be sorted before the EOL of the release.",
+      "parentUuid": "c16108d2_ac9719ed",
+      "range": {
+        "startLine": 88,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 66
+      },
+      "revId": "70870059cd7aaa465b7264af5de070d943482a54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

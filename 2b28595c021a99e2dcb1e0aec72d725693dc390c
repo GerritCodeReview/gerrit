@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7b54f73_2ceb1e31",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-14T21:03:33Z",
+      "side": 1,
+      "message": "Should this potential performance loss consequence (of using NIO2) be documented under [3]?\n\n[3] https://gerrit-documentation.storage.googleapis.com/Documentation/2.16/config-gerrit.html#sshd.backend\n\nThis would be so that NIO2 users in Gerrit understand the reliability gain at the cost of that loss. That sshd issue is likely to last for another while so documenting this would help I think. -Especially as NIO2 is still our default.",
+      "range": {
+        "startLine": 229,
+        "startChar": 28,
+        "endLine": 229,
+        "endChar": 80
+      },
+      "revId": "2b28595c021a99e2dcb1e0aec72d725693dc390c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

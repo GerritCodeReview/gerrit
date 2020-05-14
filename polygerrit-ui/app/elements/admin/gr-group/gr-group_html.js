@@ -45,7 +45,7 @@ export const htmlTemplate = html`
           <fieldset>
             <gr-copy-clipboard
               id="uuid"
-              text="[[_groupConfig.id]]"
+              text="[[_getGroupUUID(_groupConfig.id)]]"
             ></gr-copy-clipboard>
           </fieldset>
           <h3 id="groupName" class$="[[_computeHeaderClass(_rename)]]">

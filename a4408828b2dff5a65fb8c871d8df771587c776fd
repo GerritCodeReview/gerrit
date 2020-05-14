@@ -356,6 +356,30 @@
     },
     {
       "key": {
+        "uuid": "d2302086_426b27b5",
+        "filename": "polygerrit-ui/app/utils/time-util_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-14T09:23:25Z",
+      "side": 1,
+      "message": "I removed \u0027not within Day\u0027 condition from function. I did reimplementation as it was before, but it doesn\u0027t make sense to have the condition in util method. If somebody will want such behavior, they can use \n`!isWithinDay(now, date) \u0026\u0026 isWithinHalfYear(now, date)`\n\nI checked usage of isWithinHalfYear and it is used only in gr-date-formatter and it is separating within day and half year by if statement.",
+      "parentUuid": "0baa4ed9_1c561bf2",
+      "range": {
+        "startLine": 74,
+        "startChar": 12,
+        "endLine": 74,
+        "endChar": 24
+      },
+      "revId": "a4408828b2dff5a65fb8c871d8df771587c776fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6d7783f_84f70457",
         "filename": "polygerrit-ui/app/utils/time-util_test.html",
         "patchSetId": 9
@@ -376,6 +400,30 @@
       "revId": "a4408828b2dff5a65fb8c871d8df771587c776fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8094cb7e_3d660388",
+        "filename": "polygerrit-ui/app/utils/time-util_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-14T09:23:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6d7783f_84f70457",
+      "range": {
+        "startLine": 82,
+        "startChar": 11,
+        "endLine": 82,
+        "endChar": 21
+      },
+      "revId": "a4408828b2dff5a65fb8c871d8df771587c776fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

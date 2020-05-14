@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9aa4103d_b0c1c67a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-14T10:30:45Z",
+      "side": 1,
+      "message": "It returns nothing when the id is not set?",
+      "parentUuid": "5c9fb6b0_fc0e1189",
+      "range": {
+        "startLine": 269,
+        "startChar": 13,
+        "endLine": 269,
+        "endChar": 20
+      },
+      "revId": "7d65d0a96c06ee2c2c1db88d4ec9e969cb5fbb47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "430aa3b8_c019dfa1",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2020-05-14T10:27:01Z",
       "side": 1,
       "message": "Are we sure we want the stable-3.1 version for this?",
+      "range": {
+        "startLine": 649,
+        "startChar": 0,
+        "endLine": 649,
+        "endChar": 74
+      },
+      "revId": "7d65d0a96c06ee2c2c1db88d4ec9e969cb5fbb47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bef12a45_0571e480",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-14T10:30:45Z",
+      "side": 1,
+      "message": "I assume yes, because this is the fix that was done on stable-3.1\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/267053",
+      "parentUuid": "430aa3b8_c019dfa1",
       "range": {
         "startLine": 649,
         "startChar": 0,

@@ -30,6 +30,7 @@ junit_tests(
     tags = ["no_windows"],
     visibility = ["//visibility:public"],
     runtime_deps = [
+        "//lib/bouncycastle:bcpg",
         "//lib/bouncycastle:bcprov",
         "//prolog:gerrit-prolog-common",
     ],

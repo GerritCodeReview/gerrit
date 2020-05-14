@@ -170,4 +170,15 @@ public abstract class CurrentUser {
   public boolean hasSameAccountId(CurrentUser other) {
     return false;
   }
+
+  /**
+   * Checks whether the current user has special global access permissions to change queries.
+   *
+   * <p>Certain type of users may be allowed for global access to change queries.
+   *
+   * @return true if the user has global access capability.
+   */
+  public boolean allowsGlobalChangeQuery() {
+    return false;
+  }
 }

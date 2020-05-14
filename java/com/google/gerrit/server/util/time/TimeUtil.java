@@ -104,6 +104,11 @@ public class TimeUtil {
     public int getTimezone(long when) {
       return delegate.getTimezone(when);
     }
+
+    @Override
+    public FileBasedConfig openJGitConfig(Config parent, FS fs) {
+      return delegate.openJGitConfig(parent, fs);
+    }
   }
 
   private TimeUtil() {}

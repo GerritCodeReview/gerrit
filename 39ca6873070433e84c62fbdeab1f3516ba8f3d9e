@@ -16,6 +16,24 @@
       "revId": "39ca6873070433e84c62fbdeab1f3516ba8f3d9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63da78a2_7a8e16f1",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-05-14T12:21:30Z",
+      "side": 1,
+      "message": "We decided to use the primary text color because the issue with using the secondary color is that it doesn\u0027t pass WCAG AA contrast on dark theme background colors for the chips.",
+      "parentUuid": "5b26d6f3_be9433ec",
+      "revId": "39ca6873070433e84c62fbdeab1f3516ba8f3d9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

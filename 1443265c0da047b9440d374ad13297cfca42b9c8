@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "4d311554_c129168a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-15T15:05:17Z",
+      "side": 1,
+      "message": "\u003e But I see how this can be confusing. Note, though, that while backend should stay: NIO2/MINA backends, the client library option is only introduced temporary and the goal is to get rid of unmaintained JCraft JSch in JGit/Gerrit.\n\nAck.\n\n\u003e How about to avoid MINA at all and just call it APACHE-SSHD? or even without \"D\", just APACHE-SSH or APACHE-SSH?\n\u003e \n\u003e   ssh.clientImplementation\u003dJSCH|APACHE-SSH\n\nI think this would be the best naming proposal so far, yes; JSCH|APACHE-SSH\n(no D, as it would get too close to sshd[.backend] config matters).\n-Seems like this would also fit JGit.",
+      "parentUuid": "fbb937e1_b3763dbc",
+      "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6f30cfbc_79bd0555",
         "filename": "java/com/google/gerrit/acceptance/GitUtil.java",
         "patchSetId": 19

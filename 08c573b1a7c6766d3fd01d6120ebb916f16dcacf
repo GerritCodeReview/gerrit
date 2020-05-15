@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "751f1428_f55fa9b1",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-15T16:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "423726f1_4302af2d",
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e44afbe2_d25f58da",
         "filename": "java/com/google/gerrit/server/change/WorkInProgressOp.java",
         "patchSetId": 4
@@ -39,6 +57,30 @@
       "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2162e211_8c6e9f51",
+        "filename": "java/com/google/gerrit/server/change/WorkInProgressOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-15T16:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e44afbe2_d25f58da",
+      "range": {
+        "startLine": 147,
+        "startChar": 14,
+        "endLine": 147,
+        "endChar": 31
+      },
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "e3a67dc0_f5bf78df",
+        "filename": "java/com/google/gerrit/server/mail/send/HttpPasswordUpdateSender.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-15T16:33:57Z",
+      "side": 1,
+      "message": ":)",
+      "parentUuid": "6a0b19e9_d30b1304",
+      "range": {
+        "startLine": 52,
+        "startChar": 27,
+        "endLine": 52,
+        "endChar": 58
+      },
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24f58a7e_cd922434",
         "filename": "java/com/google/gerrit/server/mail/send/MessageId.java",
         "patchSetId": 4
@@ -79,6 +145,24 @@
       "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0aa0011a_a40fb757",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageId.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-15T16:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24f58a7e_cd922434",
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "c0ecc134_f8813dec",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-15T16:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99c8046b_96598c1e",
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5dbbf2d2_79156038",
         "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
         "patchSetId": 4
@@ -116,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "0504c248_5ba0d84d",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-15T16:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5dbbf2d2_79156038",
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8edfc5ec_2c7d9eff",
         "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
         "patchSetId": 4
@@ -127,6 +247,30 @@
       "writtenOn": "2020-05-13T12:38:46Z",
       "side": 1,
       "message": "nit: maybe \"forChangeUpdate\"?\n\nUp to you.",
+      "range": {
+        "startLine": 37,
+        "startChar": 19,
+        "endLine": 37,
+        "endChar": 23
+      },
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6420a465_f02dd4e1",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-15T16:33:57Z",
+      "side": 1,
+      "message": "I think from is fine",
+      "parentUuid": "8edfc5ec_2c7d9eff",
       "range": {
         "startLine": 37,
         "startChar": 19,
@@ -162,6 +306,30 @@
     },
     {
       "key": {
+        "uuid": "5f61b2c9_ef383292",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-15T16:33:57Z",
+      "side": 1,
+      "message": "Done\nAre you sure this works so cleanly? I had to use \"() -\u003e\" syntax for it to work.",
+      "parentUuid": "c3485a43_af323787",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 7
+      },
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af78e10d_f9f0f9dd",
         "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
         "patchSetId": 4
@@ -182,6 +350,30 @@
       "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c367449a_ac0248eb",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-15T16:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af78e10d_f9f0f9dd",
+      "range": {
+        "startLine": 46,
+        "startChar": 5,
+        "endLine": 48,
+        "endChar": 5
+      },
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -208,6 +400,30 @@
     },
     {
       "key": {
+        "uuid": "24ecdd68_b340895f",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-15T16:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "415907db_5ee3ece4",
+      "range": {
+        "startLine": 55,
+        "startChar": 6,
+        "endLine": 59,
+        "endChar": 7
+      },
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "245ea61b_f00b22b3",
         "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
         "patchSetId": 4
@@ -231,6 +447,30 @@
     },
     {
       "key": {
+        "uuid": "25fb6d54_851e5830",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-15T16:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "245ea61b_f00b22b3",
+      "range": {
+        "startLine": 67,
+        "startChar": 5,
+        "endLine": 72,
+        "endChar": 88
+      },
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ccd3f85_1cf8f120",
         "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
         "patchSetId": 4
@@ -248,6 +488,24 @@
     },
     {
       "key": {
+        "uuid": "0cf92c66_617bc732",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-15T16:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ccd3f85_1cf8f120",
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27bf05d0_01be488f",
         "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
         "patchSetId": 4
@@ -262,6 +520,24 @@
       "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebf6a953_e9631934",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-15T16:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27bf05d0_01be488f",
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -288,6 +564,30 @@
     },
     {
       "key": {
+        "uuid": "97e834c0_0a124a20",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-15T16:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8797bf9_c562d844",
+      "range": {
+        "startLine": 223,
+        "startChar": 27,
+        "endLine": 223,
+        "endChar": 37
+      },
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23c49695_1d2e811d",
         "filename": "javatests/com/google/gerrit/acceptance/OutgoingEmailTest.java",
         "patchSetId": 4
@@ -311,6 +611,30 @@
     },
     {
       "key": {
+        "uuid": "855312ba_44b02ed9",
+        "filename": "javatests/com/google/gerrit/acceptance/OutgoingEmailTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-15T16:33:57Z",
+      "side": 1,
+      "message": "Done\nNot changed in the bottom test since the entire purpose is to check for the suffix.",
+      "parentUuid": "23c49695_1d2e811d",
+      "range": {
+        "startLine": 44,
+        "startChar": 9,
+        "endLine": 44,
+        "endChar": 17
+      },
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72de9659_9c81f7e8",
         "filename": "javatests/com/google/gerrit/acceptance/OutgoingEmailTest.java",
         "patchSetId": 4
@@ -328,6 +652,24 @@
     },
     {
       "key": {
+        "uuid": "30641d2b_59f0af03",
+        "filename": "javatests/com/google/gerrit/acceptance/OutgoingEmailTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-15T16:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72de9659_9c81f7e8",
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94778fee_84cb46d5",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/MessageIdGeneratorIT.java",
         "patchSetId": 4
@@ -342,6 +684,24 @@
       "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3926f9d_96d6e434",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/MessageIdGeneratorIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-15T16:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94778fee_84cb46d5",
+      "revId": "08c573b1a7c6766d3fd01d6120ebb916f16dcacf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

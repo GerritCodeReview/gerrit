@@ -202,6 +202,30 @@
     },
     {
       "key": {
+        "uuid": "6930ca5e_5db12ae3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-15T16:33:57Z",
+      "side": 1,
+      "message": "For the rejection email I felt that\u0027s an overkill to copy the test to OutgoingEmailTest, so I just put the simple header check there (MailProcessorIT) - I hope that\u0027s fine.",
+      "parentUuid": "4d3d1641_db6ae4da",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 50
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94aada4c_87a2f20b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -270,6 +294,30 @@
       "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c44673c5_3b5d1fa5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-15T16:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3f0c59f_faa299c5",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 12
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -461,6 +509,30 @@
       "side": 1,
       "message": "What you have looks good.\n\nThe IT is OK, but you could write the same test coverage as unit test (you don\u0027t need Gerrit, just a fake InMemory repo: new InMemoryRepositoryManager()). The unit test would run much faster.\n\nI would try to move MessageId into MessageIdGenerator as static inner class and make MessageId\u0027s constructor private so that only MessageIdGenerator can construct it. This way you against future programmer error (someone comes by and just instantiates a MessageId from a string without thinking much).",
       "parentUuid": "7f0c1915_835a15cc",
+      "range": {
+        "startLine": 103,
+        "startChar": 30,
+        "endLine": 103,
+        "endChar": 36
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d2b7f4f_15814294",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-15T16:33:57Z",
+      "side": 1,
+      "message": "I was unable to figure out how to create a private constructor with AutoValue: I think this current way is the way to go, and it can\u0027t be created outside of the package.\n\nAbout the unit tests, I agree that this is possible, but it has a major con imo. This integration test ensure that we take whatever ref Gerrit creates, and we use it properly. A unit test would require the test to manually create a ref (e.g refs/users/00/1000000), thus we skip one important part of the test - that we create the correct Gerrit ref.",
+      "parentUuid": "90a7283f_0352bee8",
       "range": {
         "startLine": 103,
         "startChar": 30,

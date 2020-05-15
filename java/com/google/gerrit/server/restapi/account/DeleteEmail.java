@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.account;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.extensions.client.AccountFieldName;
+import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -33,6 +34,7 @@ import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -52,6 +54,7 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
   private final PermissionBackend permissionBackend;
   private final AccountManager accountManager;
   private final ExternalIds externalIds;
+  private final AuthType authType;
 
   @Inject
   DeleteEmail(
@@ -59,12 +62,14 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
       Realm realm,
       PermissionBackend permissionBackend,
       AccountManager accountManager,
-      ExternalIds externalIds) {
+      ExternalIds externalIds,
+      AuthConfig authConfig) {
     this.self = self;
     this.realm = realm;
     this.permissionBackend = permissionBackend;
     this.accountManager = accountManager;
     this.externalIds = externalIds;
+    this.authType = authConfig.getAuthType();
   }
 
   @Override
@@ -93,6 +98,14 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
             .collect(toSet());
     if (extIds.isEmpty()) {
       throw new ResourceNotFoundException(email);
+    }
+
+    if (realm.accountBelongsToRealm(extIds)) {
+      String errorMsg =
+          String.format(
+              "Cannot remove e-mail '%s' which is directly associated with %s authentication",
+              email, authType);
+      throw new ResourceConflictException(errorMsg);
     }
 
     try {

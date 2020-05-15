@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8e0fd8a6_4bbc93a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-15T00:30:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "205ce892_f32f7634",
+      "range": {
+        "startLine": 27,
+        "startChar": 47,
+        "endLine": 27,
+        "endChar": 49
+      },
+      "revId": "207579a5984008994408ca1862dab807a8d618af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "039f2ab9_22d41d34",
         "filename": "java/com/google/gerrit/server/restapi/account/DeleteEmail.java",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "207579a5984008994408ca1862dab807a8d618af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bedd065f_ebf73f47",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-15T00:30:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "039f2ab9_22d41d34",
+      "range": {
+        "startLine": 101,
+        "startChar": 56,
+        "endLine": 101,
+        "endChar": 58
+      },
+      "revId": "207579a5984008994408ca1862dab807a8d618af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

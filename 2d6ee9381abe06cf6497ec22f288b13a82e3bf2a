@@ -22,6 +22,30 @@
       "revId": "2d6ee9381abe06cf6497ec22f288b13a82e3bf2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f674db89_9566655f",
+        "filename": "javatests/com/google/gerrit/integration/git/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-15T17:04:36Z",
+      "side": 1,
+      "message": "Done. Is it normal that the group name has no \u0027git-\u0027 prefix though, compared to the corresponding label name?",
+      "parentUuid": "0e012549_1a0c1ff7",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 1
+      },
+      "revId": "2d6ee9381abe06cf6497ec22f288b13a82e3bf2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

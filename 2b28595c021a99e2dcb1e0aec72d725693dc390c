@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9525a37a_c9ac3951",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-15T19:32:24Z",
+      "side": 1,
+      "message": "\u003e An actual fix in MINA SSHD would definitely be better indeed.\n\u003e No problem, I can test with the updated SSHD. Is there a gerrit 2.16 build somewhere which already includes it?\n\nIt\u0027s here: [1].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/267747\n",
+      "revId": "2b28595c021a99e2dcb1e0aec72d725693dc390c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c7b54f73_2ceb1e31",
         "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
         "patchSetId": 1

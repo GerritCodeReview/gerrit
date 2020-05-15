@@ -24,6 +24,8 @@ limitations under the License.
 <script type="module">
 import '../../test/common-test-setup.js';
 import {PathListBehavior} from './gr-path-list-behavior.js';
+import {SpecialFilePath} from '../../constants/constants.js';
+
 suite('gr-path-list-behavior tests', () => {
   test('special sort', () => {
     const sort = PathListBehavior.specialFilePathCompare;
@@ -61,6 +63,20 @@ suite('gr-path-list-behavior tests', () => {
     assert.isFalse(isMagic('/foo.cc'));
     assert.isTrue(isMagic('/COMMIT_MSG'));
     assert.isTrue(isMagic('/MERGE_LIST'));
+  });
+
+  test('patchset level comments are hidden', () => {
+    const commentedPaths = {
+      [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: true,
+      'file1.txt': true,
+    };
+
+    const files = {'file2.txt': {status: 'M'}};
+    PathListBehavior.addUnmodifiedFiles(files, commentedPaths);
+    assert.equal(files['file1.txt'].status, 'U');
+    assert.equal(files['file2.txt'].status, 'M');
+    assert.isFalse(files.hasOwnProperty(
+        SpecialFilePath.PATCHSET_LEVEL_COMMENTS));
   });
 
   test('truncatePath with long path should add ellipsis', () => {

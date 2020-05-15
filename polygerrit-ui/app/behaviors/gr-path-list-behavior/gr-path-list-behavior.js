@@ -15,11 +15,10 @@
  * limitations under the License.
  */
 
+import {SpecialFilePath} from '../../constants/constants.js';
+
 /** @polymerBehavior Gerrit.PathListBehavior */
 export const PathListBehavior = {
-
-  COMMIT_MESSAGE_PATH: '/COMMIT_MSG',
-  MERGE_LIST_PATH: '/MERGE_LIST',
 
   /**
    * @param {string} a
@@ -28,18 +27,18 @@ export const PathListBehavior = {
    */
   specialFilePathCompare(a, b) {
     // The commit message always goes first.
-    if (a === PathListBehavior.COMMIT_MESSAGE_PATH) {
+    if (a === SpecialFilePath.COMMIT_MESSAGE) {
       return -1;
     }
-    if (b === PathListBehavior.COMMIT_MESSAGE_PATH) {
+    if (b === SpecialFilePath.COMMIT_MESSAGE) {
       return 1;
     }
 
     // The merge list always comes next.
-    if (a === PathListBehavior.MERGE_LIST_PATH) {
+    if (a === SpecialFilePath.MERGE_LIST) {
       return -1;
     }
-    if (b === PathListBehavior.MERGE_LIST_PATH) {
+    if (b === SpecialFilePath.MERGE_LIST) {
       return 1;
     }
 
@@ -67,10 +66,22 @@ export const PathListBehavior = {
     return aFile.localeCompare(bFile) || a.localeCompare(b);
   },
 
+  shouldHideFile(file) {
+    return file === SpecialFilePath.PATCHSET_LEVEL_COMMENTS;
+  },
+
+  addUnmodifiedFiles(files, commentedPaths) {
+    Object.keys(commentedPaths).forEach(commentedPath => {
+      if (files.hasOwnProperty(commentedPath) ||
+        this.shouldHideFile(commentedPath)) { return; }
+      files[commentedPath] = {status: 'U'};
+    });
+  },
+
   computeDisplayPath(path) {
-    if (path === PathListBehavior.COMMIT_MESSAGE_PATH) {
+    if (path === SpecialFilePath.COMMIT_MESSAGE) {
       return 'Commit message';
-    } else if (path === PathListBehavior.MERGE_LIST_PATH) {
+    } else if (path === SpecialFilePath.MERGE_LIST) {
       return 'Merge list';
     }
     return path;
@@ -78,8 +89,8 @@ export const PathListBehavior = {
 
   isMagicPath(path) {
     return !!path &&
-        (path === PathListBehavior.COMMIT_MESSAGE_PATH || path ===
-            PathListBehavior.MERGE_LIST_PATH);
+        (path === SpecialFilePath.COMMIT_MESSAGE || path ===
+            SpecialFilePath.MERGE_LIST);
   },
 
   computeTruncatedPath(path) {

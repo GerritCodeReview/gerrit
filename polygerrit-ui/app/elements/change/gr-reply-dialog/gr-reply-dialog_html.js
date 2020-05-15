@@ -137,6 +137,9 @@ export const htmlTemplate = html`
     #pluginMessage:empty {
       display: none;
     }
+    .preview-formatting {
+      margin-left: var(--spacing-m);
+    }
   </style>
   <div class="container" tabindex="-1">
     <section class="peopleContainer">
@@ -211,6 +214,14 @@ export const htmlTemplate = html`
     </section>
     <section class="previewContainer">
       <label>
+        <input
+          id="resolvedPatchsetLevelCommentCheckbox"
+          type="checkbox"
+          checked="{{_isResolvedPatchsetLevelComment::change}}"
+        />
+        Resolved
+      </label>
+      <label class="preview-formatting">
         <input type="checkbox" checked="{{_previewFormatting::change}}" />
         Preview formatting
       </label>

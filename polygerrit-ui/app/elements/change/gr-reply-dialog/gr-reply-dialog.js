@@ -41,6 +41,7 @@ import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-c
 import {GrReviewerSuggestionsProvider, SUGGESTIONS_PROVIDERS_USERS_TYPES} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {appContext} from '../../../services/app-context.js';
+import {SpecialFilePath} from '../../../constants/constants.js';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -257,6 +258,12 @@ class GrReplyDialog extends mixinBehaviors( [
       draftCommentThreads: {
         type: Array,
         observer: '_handleHeightChanged',
+      },
+      // Track if the message typed in the reply dialog will be created as a
+      // resolved/unresolved patchset level comment
+      _isResolvedPatchsetLevelComment: {
+        type: Boolean,
+        value: true,
       },
     };
   }
@@ -489,7 +496,12 @@ class GrReplyDialog extends mixinBehaviors( [
     }
 
     if (this.draft != null) {
-      obj.message = this.draft;
+      obj.comments = {[SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [
+        {
+          message: this.draft,
+          unresolved: !this._isResolvedPatchsetLevelComment,
+        },
+      ]};
     }
 
     const accountAdditions = {};

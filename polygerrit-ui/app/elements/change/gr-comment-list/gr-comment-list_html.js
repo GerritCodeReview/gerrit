@@ -34,6 +34,9 @@ export const htmlTemplate = html`
       min-width: 135px;
       text-align: right;
     }
+    .patchset-level-comment-text {
+      margin-right: var(--spacing-m);
+    }
     .message {
       flex: 1;
       --gr-formatted-text-prose-max-width: 80ch;
@@ -55,9 +58,13 @@ export const htmlTemplate = html`
     as="file"
   >
     <div class="file">
-      <a class="fileLink" href="[[_computeDiffURL(file, changeNum, comments)]]"
-        >[[computeDisplayPath(file)]]</a
-      >
+      <template is="dom-if" if="[[!shouldHideFile(file)]]">
+        <a
+          class="fileLink"
+          href="[[_computeDiffURL(file, changeNum, comments)]]"
+          >[[computeDisplayPath(file)]]
+        </a>
+      </template>
     </div>
     <template
       is="dom-repeat"
@@ -65,18 +72,25 @@ export const htmlTemplate = html`
       as="comment"
     >
       <div class="container">
-        <a
-          class="lineNum"
-          href$="[[_computeDiffLineURL(file, changeNum, comment.patch_set, comment)]]"
-        >
-          <span hidden$="[[!comment.line]]">
-            <span>[[_computePatchDisplayName(comment)]]</span>
-            Line <span>[[comment.line]]</span>
+        <template is="dom-if" if="[[shouldHideFile(file)]]">
+          <span class="patchset-level-comment-text">
+            Patchset Comment:
           </span>
-          <span hidden$="[[comment.line]]">
-            File comment:
-          </span>
-        </a>
+        </template>
+        <template is="dom-if" if="[[!shouldHideFile(file)]]">
+          <a
+            class="lineNum"
+            href$="[[_computeDiffLineURL(file, changeNum, comment.patch_set, comment)]]"
+          >
+            <span hidden$="[[!comment.line]]">
+              <span>[[_computePatchDisplayName(comment)]]</span>
+              Line <span>[[comment.line]]</span>
+            </span>
+            <span hidden$="[[comment.line]]">
+              File comment:
+            </span>
+          </a>
+        </template>
         <gr-formatted-text
           class="message"
           no-trailing-margin=""

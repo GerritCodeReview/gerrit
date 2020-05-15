@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af08f16b_1157f7e2",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-15T01:54:34Z",
+      "side": 1,
+      "message": "guava.bzl is under the lib/ folder, so even though we move this line here from WORKSPACE, we still need to get the Library-Compliance label when the version is changed in guava.bzl",
+      "revId": "7e827bd2be882e8d0de7303c260ce75f928f5579",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cafd03f7_bb3d3aa9",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-15T01:54:34Z",
+      "side": 1,
+      "message": "maven_jar call for guava needs to be added here.",
+      "revId": "7e827bd2be882e8d0de7303c260ce75f928f5579",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

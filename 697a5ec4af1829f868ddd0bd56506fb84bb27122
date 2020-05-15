@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c766a96e_48ca127c",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-15T01:54:34Z",
+      "side": 0,
+      "message": "This was removed here, but has not been added in nongoogle.bzl",
+      "range": {
+        "startLine": 253,
+        "startChar": 0,
+        "endLine": 257,
+        "endChar": 1
+      },
+      "revId": "697a5ec4af1829f868ddd0bd56506fb84bb27122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

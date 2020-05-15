@@ -175,6 +175,30 @@
       "revId": "c740221903444b168581391d4f07bfff0d5e7e9f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28d361bc_85752294",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1017568
+      },
+      "writtenOn": "2020-05-15T16:21:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dd4ce5f_64c723c0",
+      "range": {
+        "startLine": 32,
+        "startChar": 46,
+        "endLine": 32,
+        "endChar": 51
+      },
+      "revId": "c740221903444b168581391d4f07bfff0d5e7e9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

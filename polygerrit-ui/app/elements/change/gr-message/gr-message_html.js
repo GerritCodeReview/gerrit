@@ -245,26 +245,28 @@ export const htmlTemplate = html`
               </gr-button>
             </div>
           </template>
-          <template is="dom-if" if="[[!_isCleanerLogExperimentEnabled]]">
-            <gr-comment-list
-              comments="[[comments]]"
-              change-num="[[changeNum]]"
-              patch-num="[[message._revision_number]]"
-              project-name="[[projectName]]"
-              project-config="[[_projectConfig]]"
-            ></gr-comment-list>
-          </template>
-          <template is="dom-if" if="[[_isCleanerLogExperimentEnabled]]">
-            <gr-thread-list
-              change="[[change]]"
-              hidden$="[[!commentThreads.length]]"
-              threads="[[commentThreads]]"
-              change-num="[[changeNum]]"
-              logged-in="[[_loggedIn]]"
-              hide-toggle-buttons
-              on-thread-list-modified="_onThreadListModified"
-            >
-            </gr-thread-list>
+          <template is="dom-if" if="[[_expanded]]">
+            <template is="dom-if" if="[[!_isCleanerLogExperimentEnabled]]">
+              <gr-comment-list
+                comments="[[comments]]"
+                change-num="[[changeNum]]"
+                patch-num="[[message._revision_number]]"
+                project-name="[[projectName]]"
+                project-config="[[_projectConfig]]"
+              ></gr-comment-list>
+            </template>
+            <template is="dom-if" if="[[_isCleanerLogExperimentEnabled]]">
+              <gr-thread-list
+                change="[[change]]"
+                hidden$="[[!commentThreads.length]]"
+                threads="[[commentThreads]]"
+                change-num="[[changeNum]]"
+                logged-in="[[_loggedIn]]"
+                hide-toggle-buttons
+                on-thread-list-modified="_onThreadListModified"
+              >
+              </gr-thread-list>
+            </template>
           </template>
         </div>
       </template>

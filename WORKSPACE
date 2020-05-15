@@ -811,16 +811,22 @@ maven_jar(
 
 SSHD_VERS = "2.4.0"
 
-maven_jar(
+http_file(
     name = "sshd",
-    artifact = "org.apache.sshd:sshd-core:" + SSHD_VERS,
-    sha1 = "102eefb7e195aae25096f54f2398e54cb0fe839c",
+    downloaded_file_path = "sshd-core.jar",
+    sha256 = "ec22386228284be34cd7d61df60e60e38e922649eb9bd4bf424f1f99507caace",
+    urls = [
+        "https://github.com/davido/mina-sshd/releases/download/SSHD-966/sshd-core-2.4.1-sshd-0.13.0-1473-gfde26f50.jar",
+    ],
 )
 
-maven_jar(
+http_file(
     name = "sshd-common",
-    artifact = "org.apache.sshd:sshd-common:" + SSHD_VERS,
-    sha1 = "017be0597f41449518762fc529c707148007f4bc",
+    downloaded_file_path = "sshd-common.jar",
+    sha256 = "7c91082537dec9c4d42a6ba3cf29a8bb1168cdb4b22ba3df0c4d2c2e770b5c0d",
+    urls = [
+        "https://github.com/davido/mina-sshd/releases/download/SSHD-966/sshd-common-2.4.1-sshd-0.13.0-1473-gfde26f50.jar",
+    ],
 )
 
 maven_jar(

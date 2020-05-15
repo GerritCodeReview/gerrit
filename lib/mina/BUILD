@@ -1,4 +1,14 @@
-load("@rules_java//java:defs.bzl", "java_library")
+load("@rules_java//java:defs.bzl", "java_import", "java_library")
+
+java_import(
+    name = "sshd-library",
+    jars = ["@sshd//file"],
+)
+
+java_import(
+    name = "sshd-common",
+    jars = ["@sshd-common//file"],
+)
 
 java_library(
     name = "sshd",
@@ -6,9 +16,9 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         ":eddsa",
-        "@sshd-common//jar",
+        ":sshd-common",
+        ":sshd-library",
         "@sshd-mina//jar",
-        "@sshd//jar",
     ],
     runtime_deps = [":core"],
 )

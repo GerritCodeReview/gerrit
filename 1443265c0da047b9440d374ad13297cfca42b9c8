@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "f703e7c9_1ae6d389",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-15T13:21:33Z",
+      "side": 1,
+      "message": "\u003e \u003d\u003e [2] https://gerrit-review.googlesource.com/c/gerrit/+/264096 (for this record).\n\nI pushed this comment to above [2]\u0027s thread but here it is, as proposed by @Jacek -from [2]:\n\n\"Documentation [3] for sshd backend configuration states \u0027NIO2\u0027 as the default for (the \"new\") MINA. We\u0027re internally still sticking to the non-default /old \u0027MINA\u0027 for reliability purposes so far. Maybe that \u0027NIO2\u0027 default will become confusing for some, while comparing it to its \u0027MINA\u0027 counterpart and this change\u0027s own \u0027MINA\u0027 option to eventually become default (over JSCH).\n\n[3] https://gerrit-documentation.storage.googleapis.com/Documentation/3.1.0/config-gerrit.html#sshd.backend\n\nThat eventuality will lend 3 possible values for ssh-related configuration parameters, along with differing defaults. These are differing parameters indeed, but they will use terms and defaults differing in potentially confusing ways for users, whole ssh-wise.\n\nI\u0027d either clarify the documentation accordingly, or revisit how to name the configuration values (and their defaults). Of course, names and defaults can hardly change in stable revisions. This would then be done for breaking or not so stable versions.\"",
+      "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f30cfbc_79bd0555",
         "filename": "java/com/google/gerrit/acceptance/GitUtil.java",
         "patchSetId": 19

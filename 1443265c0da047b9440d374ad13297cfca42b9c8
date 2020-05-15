@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "440f07d3_24e7684c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-05-15T15:47:26Z",
+      "side": 1,
+      "message": "in EGit we name these configuration choices which client implementation to use\n- for ssh client: JSCH | APACHE \n- similarly for the http client: JDK | APACHE\n\nin JGit there is no name associated since the implementation is chosen by setting the desired session factory by calling SshSessionFactory.setInstance(factory object)",
+      "parentUuid": "4d311554_c129168a",
+      "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6f30cfbc_79bd0555",
         "filename": "java/com/google/gerrit/acceptance/GitUtil.java",
         "patchSetId": 19

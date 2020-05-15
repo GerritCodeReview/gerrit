@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0afe5e1_d430d268",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-15T17:18:31Z",
+      "side": 1,
+      "message": "Maybe we don\u0027t have to revert and can instead use an experiment flag. Here is a suggestion for how we could do that: https://gerrit-review.googlesource.com/c/gerrit/+/267745",
+      "revId": "f30aa71ab3f43d7e45491e42f317d25e82a52270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

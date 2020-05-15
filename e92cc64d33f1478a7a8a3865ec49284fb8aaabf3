@@ -39,6 +39,30 @@
       "revId": "e92cc64d33f1478a7a8a3865ec49284fb8aaabf3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08435907_3a980605",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-15T13:27:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "220ee195_b3e1d34b",
+      "range": {
+        "startLine": 106,
+        "startChar": 22,
+        "endLine": 106,
+        "endChar": 52
+      },
+      "revId": "e92cc64d33f1478a7a8a3865ec49284fb8aaabf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

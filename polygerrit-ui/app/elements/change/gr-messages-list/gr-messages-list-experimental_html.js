@@ -64,11 +64,11 @@ export const htmlTemplate = html`
     }
   </style>
   <div class="header">
-    <template
-      is="dom-if"
-      if="[[_isVisibleShowAllActivityToggle(_combinedMessages)]]"
-    >
-      <div id="showAllActivityToggleContainer" class="container">
+    <div id="showAllActivityToggleContainer" class="container">
+      <template
+        is="dom-if"
+        if="[[_isVisibleShowAllActivityToggle(_combinedMessages)]]"
+      >
         <paper-toggle-button
           class="showAllActivityToggle"
           checked="{{_showAllActivity}}"
@@ -80,8 +80,8 @@ export const htmlTemplate = html`
           </span>
         </div>
         <span class="transparent separator"></span>
-      </div>
-    </template>
+      </template>
+    </div>
     <div class="experimentMessage">
       <iron-icon icon="gr-icons:pets"></iron-icon>
       <span>You're currently viewing an experimental Change Log view.</span>

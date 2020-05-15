@@ -350,44 +350,46 @@ export const htmlTemplate = html`
         config="[[projectConfig.commentlinks]]"
       ></gr-formatted-text>
       <div class="actions humanActions" hidden$="[[!_showHumanActions]]">
-        <div class="action resolve hideOnPublished">
-          <label>
-            <input
-              type="checkbox"
-              id="resolvedCheckbox"
-              checked="[[resolved]]"
-              on-change="_handleToggleResolved"
-            />
-            Resolved
-          </label>
-        </div>
-        <div class="rightActions">
-          <gr-button
-            link=""
-            class="action cancel hideOnPublished"
-            on-click="_handleCancel"
-            >Cancel</gr-button
-          >
-          <gr-button
-            link=""
-            class="action discard hideOnPublished"
-            on-click="_handleDiscard"
-            >Discard</gr-button
-          >
-          <gr-button
-            link=""
-            class="action edit hideOnPublished"
-            on-click="_handleEdit"
-            >Edit</gr-button
-          >
-          <gr-button
-            link=""
-            disabled$="[[_computeSaveDisabled(_messageText, comment, resolved)]]"
-            class="action save hideOnPublished"
-            on-click="_handleSave"
-            >Save</gr-button
-          >
-        </div>
+        <template is="dom-if" if="[[comment.__draft]]">
+          <div class="action resolve hideOnPublished">
+            <label>
+              <input
+                type="checkbox"
+                id="resolvedCheckbox"
+                checked="[[resolved]]"
+                on-change="_handleToggleResolved"
+              />
+              Resolved
+            </label>
+          </div>
+          <div class="rightActions">
+            <gr-button
+              link=""
+              class="action cancel hideOnPublished"
+              on-click="_handleCancel"
+              >Cancel</gr-button
+            >
+            <gr-button
+              link=""
+              class="action discard hideOnPublished"
+              on-click="_handleDiscard"
+              >Discard</gr-button
+            >
+            <gr-button
+              link=""
+              class="action edit hideOnPublished"
+              on-click="_handleEdit"
+              >Edit</gr-button
+            >
+            <gr-button
+              link=""
+              disabled$="[[_computeSaveDisabled(_messageText, comment, resolved)]]"
+              class="action save hideOnPublished"
+              on-click="_handleSave"
+              >Save</gr-button
+            >
+          </div>
+        </template>
       </div>
       <div class="robotActions" hidden$="[[!_showRobotActions]]">
         <template is="dom-if" if="[[isRobotComment]]">

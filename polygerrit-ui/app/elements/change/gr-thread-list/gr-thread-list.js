@@ -22,7 +22,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-thread-list_html.js';
-import {util} from '../../../scripts/util.js';
+import {parseDate} from '../../../utils/date-util.js';
 
 import {NO_THREADS_MSG} from '../../../constants/messages.js';
 
@@ -158,8 +158,8 @@ class GrThreadList extends GestureEventListeners(
         return c1.thread.line - c2.thread.line;
       }
 
-      const c1Date = c1.__date || util.parseDate(c1.updated);
-      const c2Date = c2.__date || util.parseDate(c2.updated);
+      const c1Date = c1.__date || parseDate(c1.updated);
+      const c2Date = c2.__date || parseDate(c2.updated);
       const dateCompare = c2Date - c1Date;
       if (dateCompare === 0 && (!c1.id || !c1.id.localeCompare)) {
         return 0;

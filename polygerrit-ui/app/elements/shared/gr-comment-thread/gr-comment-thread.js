@@ -26,7 +26,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-comment-thread_html.js';
 import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
-import {util} from '../../../scripts/util.js';
+import {parseDate} from '../../../utils/date-util.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {appContext} from '../../../services/app-context.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
@@ -312,8 +312,8 @@ class GrCommentThread extends mixinBehaviors( [
 
   _sortedComments(comments) {
     return comments.slice().sort((c1, c2) => {
-      const c1Date = c1.__date || util.parseDate(c1.updated);
-      const c2Date = c2.__date || util.parseDate(c2.updated);
+      const c1Date = c1.__date || parseDate(c1.updated);
+      const c2Date = c2.__date || parseDate(c2.updated);
       const dateCompare = c1Date - c2Date;
       // Ensure drafts are at the end. There should only be one but in edge
       // cases could be more. In the unlikely event two drafts are being

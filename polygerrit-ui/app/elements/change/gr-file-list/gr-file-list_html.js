@@ -26,8 +26,7 @@ export const htmlTemplate = html`
       border-top: 1px solid var(--border-color);
       display: flex;
       min-height: calc(var(--line-height-normal) + 2 * var(--spacing-s));
-      padding: var(--spacing-xs) var(--spacing-l) var(--spacing-xs)
-        calc(var(--spacing-l) - 0.35rem);
+      padding: var(--spacing-xs) var(--spacing-l);
     }
     :host(.loading) .row {
       opacity: 0.5;
@@ -62,11 +61,30 @@ export const htmlTemplate = html`
       align-items: center;
       display: inline-flex;
     }
-    .reviewed,
-    .status {
+    .reviewed {
       display: inline-block;
       text-align: left;
       width: 1.5em;
+    }
+    .status {
+      display: inline-block;
+      border-radius: var(--border-radius);
+      margin-left: var(--spacing-s);
+      padding: 0 var(--spacing-m);
+      color: var(--primary-text-color);
+      font-size: var(--font-size-small);
+      background-color: var(--dark-add-highlight-color);
+    }
+    .status.M {
+      display: none;
+    }
+    .status.D,
+    .status.R,
+    .status.W {
+      background-color: var(--dark-remove-highlight-color);
+    }
+    .status.U {
+      background-color: var(--comment-background-color);
     }
     .file-row {
       cursor: pointer;
@@ -221,7 +239,8 @@ export const htmlTemplate = html`
       padding: var(--spacing-s) 0;
       text-decoration: none;
     }
-    .pathLink:hover {
+    .pathLink:hover span.fullFileName,
+    .pathLink:hover span.truncatedFileName {
       text-decoration: underline;
     }
 
@@ -231,7 +250,6 @@ export const htmlTemplate = html`
       display: inline-block;
       visibility: hidden;
       vertical-align: bottom;
-      text-decoration: none;
       --gr-button: {
         padding: 0px;
       }
@@ -277,7 +295,6 @@ export const htmlTemplate = html`
   </style>
   <div id="container" on-click="_handleFileListClick">
     <div class="header-row row">
-      <div class="status"></div>
       <div class="path">File</div>
       <div class="comments">Comments</div>
       <div class="sizeBars">Size</div>
@@ -313,14 +330,6 @@ export const htmlTemplate = html`
           data-file$="[[_computeFileRange(file)]]"
           tabindex="-1"
         >
-          <div
-            class$="[[_computeClass('status', file.__path)]]"
-            tabindex="0"
-            title$="[[_computeFileStatusLabel(file.status)]]"
-            aria-label$="[[_computeFileStatusLabel(file.status)]]"
-          >
-            [[_computeFileStatus(file.status)]]
-          </div>
           <!-- TODO: Remove data-url as it appears its not used -->
           <span
             data-url="[[_computeDiffURL(change, patchRange, file.__path, editMode)]]"
@@ -341,6 +350,14 @@ export const htmlTemplate = html`
                 class="truncatedFileName"
               >
                 [[computeTruncatedPath(file.__path)]]
+              </span>
+              <span
+                class$="[[_computeStatusClass(file)]]"
+                tabindex="0"
+                title$="[[_computeFileStatusLabel(file.status)]]"
+                aria-label$="[[_computeFileStatusLabel(file.status)]]"
+              >
+                [[_computeFileStatusLabel(file.status)]]
               </span>
               <gr-copy-clipboard
                 hide-input=""

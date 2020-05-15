@@ -952,6 +952,11 @@ class GrFileList extends mixinBehaviors( [
     return classes.join(' ');
   }
 
+  _computeStatusClass(file) {
+    const classStr = this._computeClass('status', file.__path);
+    return `${classStr} ${this._computeFileStatus(file.status)}`;
+  }
+
   _computePathClass(path, expandedFilesRecord) {
     return this._isFileExpanded(path, expandedFilesRecord) ? 'expanded' : '';
   }

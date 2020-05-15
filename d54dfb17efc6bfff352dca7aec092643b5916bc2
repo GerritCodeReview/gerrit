@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a2213c96_f347dcd5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-15T14:51:10Z",
+      "side": 1,
+      "message": "Thanks again @Fabio for the reviews. By now, would other reviewers be able to potentially approve these Topic changes, then review their (more trivial) follow-ups? Included in that series is also the multi-site one, Ia285581ee.",
+      "revId": "d54dfb17efc6bfff352dca7aec092643b5916bc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

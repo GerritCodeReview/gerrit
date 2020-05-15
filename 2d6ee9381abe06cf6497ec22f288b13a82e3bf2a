@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e012549_1a0c1ff7",
+        "filename": "javatests/com/google/gerrit/integration/git/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-15T16:36:26Z",
+      "side": 1,
+      "message": "This should be separated. See stable-3.2 change: [1]\n\n  acceptance_tests(\n    srcs \u003d [\"GitProtocolV2IT.java\"],\n    group \u003d \"protocol-v2\",\n    labels \u003d [\"git-protocol-v2\"],\n  )\n\n  acceptance_tests(\n    srcs \u003d [\"UploadArchiveIT.java\"],\n    group \u003d \"upload-archive\",\n    labels \u003d [\"git-upload-archive\"],\n  )\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/266631/5/javatests/com/google/gerrit/integration/git/BUILD",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 1
+      },
+      "revId": "2d6ee9381abe06cf6497ec22f288b13a82e3bf2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

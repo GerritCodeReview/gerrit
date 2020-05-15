@@ -98,6 +98,24 @@
       "revId": "28880b5f22d1b16cbda65bc92eea03bc73c16d5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "347871fa_98e7f517",
+        "filename": "javatests/com/google/gerrit/integration/git/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-15T16:20:10Z",
+      "side": 1,
+      "message": "(Resolved.)",
+      "parentUuid": "0fcebde2_26bb9296",
+      "revId": "28880b5f22d1b16cbda65bc92eea03bc73c16d5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

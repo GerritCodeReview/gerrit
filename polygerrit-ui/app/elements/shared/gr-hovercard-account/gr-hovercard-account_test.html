@@ -49,6 +49,8 @@ limitations under the License.
     setup(() => {
       element = fixture('basic');
       element.account = Object.assign({}, ACCOUNT);
+      element.show({});
+      flushAsynchronousOperations();
     });
 
     test('account name is shown', () => {

@@ -64,33 +64,35 @@ export const htmlTemplate = html`
     }
   </style>
   <div id="container" role="tooltip" tabindex="-1">
-    <div class="top">
-      <div class="avatar">
-        <gr-avatar account="[[account]]" image-size="56"></gr-avatar>
+    <template is="dom-if" if="[[_isShowing]]">
+      <div class="top">
+        <div class="avatar">
+          <gr-avatar account="[[account]]" image-size="56"></gr-avatar>
+        </div>
+        <div class="account">
+          <h3 class="name">[[account.name]]</h3>
+          <div class="email">[[account.email]]</div>
+        </div>
       </div>
-      <div class="account">
-        <h3 class="name">[[account.name]]</h3>
-        <div class="email">[[account.email]]</div>
-      </div>
-    </div>
-    <template is="dom-if" if="[[account.status]]">
-      <div class="status">
-        <span class="title">
-          <iron-icon icon="gr-icons:calendar"></iron-icon>
-          Status:
-        </span>
-        <span class="value">[[account.status]]</span>
+      <template is="dom-if" if="[[account.status]]">
+        <div class="status">
+          <span class="title">
+            <iron-icon icon="gr-icons:calendar"></iron-icon>
+            Status:
+          </span>
+          <span class="value">[[account.status]]</span>
+        </div>
+      </template>
+      <template is="dom-if" if="[[voteableText]]">
+        <div class="voteable">
+          <span class="title">Voteable:</span>
+          <span class="value">[[voteableText]]</span>
+        </div>
+      </template>
+      <div class="attention">
+        <iron-icon icon="gr-icons:attention"></iron-icon>
+        <span>It is this user's turn to take action.</span>
       </div>
     </template>
-    <template is="dom-if" if="[[voteableText]]">
-      <div class="voteable">
-        <span class="title">Voteable:</span>
-        <span class="value">[[voteableText]]</span>
-      </div>
-    </template>
-    <div class="attention">
-      <iron-icon icon="gr-icons:attention"></iron-icon>
-      <span>It is this user's turn to take action.</span>
-    </div>
   </div>
 `;

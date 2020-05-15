@@ -218,34 +218,34 @@ export const htmlTemplate = html`
             content="[[_messageContentExpanded]]"
             config="[[_projectConfig.commentlinks]]"
           ></gr-formatted-text>
-          <template is="dom-if" if="[[_messageContentExpanded]]">
-            <div
-              class="replyActionContainer"
-              hidden$="[[!showReplyButton]]"
-              hidden=""
-            >
-              <gr-button
-                class="replyBtn"
-                link=""
-                small=""
-                on-click="_handleReplyTap"
-              >
-                Reply
-              </gr-button>
-              <gr-button
-                disabled$="[[_isDeletingChangeMsg]]"
-                class="deleteBtn"
-                hidden$="[[!_isAdmin]]"
-                hidden=""
-                link=""
-                small=""
-                on-click="_handleDeleteMessage"
-              >
-                Delete
-              </gr-button>
-            </div>
-          </template>
           <template is="dom-if" if="[[_expanded]]">
+            <template is="dom-if" if="[[_messageContentExpanded]]">
+              <div
+                class="replyActionContainer"
+                hidden$="[[!showReplyButton]]"
+                hidden=""
+              >
+                <gr-button
+                  class="replyBtn"
+                  link=""
+                  small=""
+                  on-click="_handleReplyTap"
+                >
+                  Reply
+                </gr-button>
+                <gr-button
+                  disabled$="[[_isDeletingChangeMsg]]"
+                  class="deleteBtn"
+                  hidden$="[[!_isAdmin]]"
+                  hidden=""
+                  link=""
+                  small=""
+                  on-click="_handleDeleteMessage"
+                >
+                  Delete
+                </gr-button>
+              </div>
+            </template>
             <template is="dom-if" if="[[!_isCleanerLogExperimentEnabled]]">
               <gr-comment-list
                 comments="[[comments]]"

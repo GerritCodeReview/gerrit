@@ -1,4 +1,6 @@
 load("//tools/bzl:maven_jar.bzl", "maven_jar")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
+load("@bazel_tools//tools/build_defs/repo:java.bzl", "java_import_external")
 
 def declare_nongoogle_deps():
     """loads dependencies that are not used at Google.
@@ -29,10 +31,13 @@ def declare_nongoogle_deps():
 
     SSHD_VERS = "2.4.0"
 
-    maven_jar(
+    java_import_external(
         name = "sshd-osgi",
-        artifact = "org.apache.sshd:sshd-osgi:" + SSHD_VERS,
-        sha1 = "fc4551c1eeda35e4671b263297d37d2bca81c4d4",
+        jar_sha256 = "005c3d47a0316d1bb6a369458bb66f4f79e75538d08391392ca18515e3232dc6",
+        jar_urls = [
+            "https://github.com/davido/mina-sshd/releases/download/v2.4.0-134-gbb07cf5d/sshd-osgi-2.4.1-sshd-2.4.0-134-gbb07cf5d.jar",
+        ],
+        licenses = ["unencumbered"],  # public domain
     )
 
     maven_jar(

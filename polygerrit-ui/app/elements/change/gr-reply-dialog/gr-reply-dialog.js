@@ -42,6 +42,7 @@ import {GrReviewerSuggestionsProvider, SUGGESTIONS_PROVIDERS_USERS_TYPES} from '
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {appContext} from '../../../services/app-context.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
+import {ExperimentIds} from '../../../services/flags.js';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -134,6 +135,7 @@ class GrReplyDialog extends mixinBehaviors( [
     super();
     this.FocusTarget = FocusTarget;
     this.reporting = appContext.reportingService;
+    this.flagsService = appContext.flagsService;
   }
 
   static get properties() {
@@ -298,6 +300,8 @@ class GrReplyDialog extends mixinBehaviors( [
   /** @override */
   ready() {
     super.ready();
+    this._isPatchsetCommentsExperimentEnabled = this.flagsService
+        .isEnabled(ExperimentIds.PATCHSET_COMMENTS);
     this.$.jsAPI.addElement(this.$.jsAPI.Element.REPLY_DIALOG, this);
   }
 
@@ -496,12 +500,17 @@ class GrReplyDialog extends mixinBehaviors( [
     }
 
     if (this.draft != null) {
-      obj.comments = {[SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [
-        {
+      if (this._isPatchsetCommentsExperimentEnabled) {
+        const comment = {
           message: this.draft,
           unresolved: !this._isResolvedPatchsetLevelComment,
-        },
-      ]};
+        };
+        obj.comments = {
+          [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [comment],
+        };
+      } else {
+        obj.message = this.draft;
+      }
     }
 
     const accountAdditions = {};

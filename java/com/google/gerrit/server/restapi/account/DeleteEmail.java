@@ -95,6 +95,14 @@ public class DeleteEmail implements RestModifyView<AccountResource.Email, Input>
       throw new ResourceNotFoundException(email);
     }
 
+    if (realm.accountBelongsToRealm(extIds)) {
+      String errorMsg =
+          String.format(
+              "Removal of e-mail %s not allowed because it is associated with the main scheme of the realm",
+              email);
+      throw new ResourceConflictException(errorMsg);
+    }
+
     try {
       accountManager.unlink(
           user.getAccountId(), extIds.stream().map(ExternalId::key).collect(toSet()));

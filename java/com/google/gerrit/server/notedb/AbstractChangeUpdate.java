@@ -110,7 +110,7 @@ public abstract class AbstractChangeUpdate {
       ChangeNoteUtil noteUtil, PersonIdent serverIdent, CurrentUser u, Date when) {
     checkUserType(u);
     if (u instanceof IdentifiedUser) {
-      return noteUtil.newIdent(u.asIdentifiedUser().getAccount().id(), when, serverIdent);
+      return noteUtil.newAccountIdIdent(u.asIdentifiedUser().getAccount().id(), when, serverIdent);
     } else if (u instanceof InternalUser) {
       return serverIdent;
     }

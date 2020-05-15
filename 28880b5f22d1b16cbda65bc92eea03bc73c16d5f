@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "92a2d0c5_db3cc3cf",
+        "filename": "javatests/com/google/gerrit/integration/git/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-15T16:17:21Z",
+      "side": 1,
+      "message": "\u003e Should this have been git-upload-archive from downstream, according to dev-bazel.txt\u0027s own addition? If so, this fix would be for stable-2.16 or so, then up again.\n\nWould still apply for downstream (only).\n\n\u003e Similarly, I think dev-bazel.txt\u0027s git-protocol-v2 is missing from this list, downstream too.\n\nNo, as there can be only one group, AFAIK; fixed.",
+      "parentUuid": "9dbd3477_06ab620a",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "28880b5f22d1b16cbda65bc92eea03bc73c16d5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "728b5ecf_2ad621e8",
         "filename": "javatests/com/google/gerrit/integration/git/BUILD",
         "patchSetId": 1
@@ -53,6 +77,24 @@
       "writtenOn": "2020-05-15T16:03:11Z",
       "side": 1,
       "message": "Should this other list also contain dev-bazel.txt\u0027s \"git\" group name? (Downstream.)",
+      "revId": "28880b5f22d1b16cbda65bc92eea03bc73c16d5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fcebde2_26bb9296",
+        "filename": "javatests/com/google/gerrit/integration/git/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-15T16:17:21Z",
+      "side": 1,
+      "message": "\u003e Should this other list also contain dev-bazel.txt\u0027s \"git\" group name? (Downstream.)\n\nI think not, as group above already has it.",
+      "parentUuid": "728b5ecf_2ad621e8",
       "revId": "28880b5f22d1b16cbda65bc92eea03bc73c16d5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

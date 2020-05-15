@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "804f6169_09453833",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-15T14:44:38Z",
+      "side": 1,
+      "message": "\u003e \u003e I\u0027d either clarify the documentation accordingly, or revisit how to name the configuration values (and their defaults).\n\u003e \n\u003e Do you have any suggestions how to name the new config option and the corresponding values added by this CL:\n\u003e \n\u003e   ssh.clientImplementation\u003dJSCH|MINA\n\u003e \n\u003e ?\n\n1. If we decide to stick with NIO2 as default for sshd.backend (likely for now),\n2. and if this change or series is about NIO2 more than straight MINA (\"NIO-1\"),\nthen how about JSCH|NIO2?\n\nWould this fit with JGit\u0027s own implementation?\n(Is that based on MINA NIO v2, or straight v1?)",
+      "parentUuid": "c0e92178_4a514595",
+      "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6f30cfbc_79bd0555",
         "filename": "java/com/google/gerrit/acceptance/GitUtil.java",
         "patchSetId": 19

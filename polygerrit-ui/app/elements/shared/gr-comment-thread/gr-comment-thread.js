@@ -29,7 +29,6 @@ import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-beh
 import {util} from '../../../scripts/util.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {appContext} from '../../../services/app-context.js';
-import {SpecialFilePath} from '../../../constants/constants.js';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -225,10 +224,6 @@ class GrCommentThread extends mixinBehaviors( [
     return GerritNav.getUrlForDiffById(changeNum,
         projectName, path, patchNum,
         null, this.lineNum);
-  }
-
-  _isPatchsetLevelComment(path) {
-    return path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS;
   }
 
   _computeDisplayPath(path) {

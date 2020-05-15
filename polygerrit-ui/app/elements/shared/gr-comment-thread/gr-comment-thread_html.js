@@ -75,17 +75,11 @@ export const htmlTemplate = html`
   </style>
   <template is="dom-if" if="[[showFilePath]]">
     <div class="pathInfo">
-      <template is="dom-if" if="[[_isPatchsetLevelComment(path)]]">
-        <span>Patchset Comment</span>
-        <span class="descriptionText">Patchset [[patchNum]]</span>
-      </template>
-      <template is="dom-if" if="[[!_isPatchsetLevelComment(path)]]">
-        <a
-          href$="[[_getDiffUrlForComment(projectName, changeNum, path, patchNum)]]"
-          >[[_computeDisplayPath(path)]]</a
-        >
-        <span class="descriptionText">Patchset [[patchNum]]</span>
-      </template>
+      <a
+        href$="[[_getDiffUrlForComment(projectName, changeNum, path, patchNum)]]"
+        >[[_computeDisplayPath(path)]]</a
+      >
+      <span class="descriptionText">Patchset [[patchNum]]</span>
     </div>
   </template>
   <div

@@ -65,13 +65,3 @@ export const ChangeStatus = {
   MERGED: 'MERGED',
   NEW: 'NEW',
 };
-
-/**
- * @enum
- * @desc Special file paths
- */
-export const SpecialFilePath = {
-  PATCHSET_LEVEL_COMMENTS: '/PATCHSET_LEVEL',
-  COMMIT_MESSAGE: '/COMMIT_MSG',
-  MERGE_LIST: '/MERGE_LIST',
-};

@@ -382,7 +382,10 @@ class GrDiffView extends mixinBehaviors( [
       if (!changeFiles) return;
       const commentedPaths = changeComments.getPaths(patchRange);
       const files = Object.assign({}, changeFiles);
-      this.addUnmodifiedFiles(files, commentedPaths);
+      Object.keys(commentedPaths).forEach(commentedPath => {
+        if (files.hasOwnProperty(commentedPath)) { return; }
+        files[commentedPath] = {status: 'U'};
+      });
       this._files = {
         sortedFileList: Object.keys(files).sort(this.specialFilePathCompare),
         changeFilesByPath: files,

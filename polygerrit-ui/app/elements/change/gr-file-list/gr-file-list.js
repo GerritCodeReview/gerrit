@@ -44,7 +44,6 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {appContext} from '../../../services/app-context.js';
-import {SpecialFilePath} from '../../../constants/constants.js';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -904,7 +903,7 @@ class GrFileList extends mixinBehaviors( [
         .some(arg => arg === undefined)) {
       return;
     }
-    if (editMode && path !== SpecialFilePath.MERGE_LIST) {
+    if (editMode && path !== this.MERGE_LIST_PATH) {
       return GerritNav.getEditUrlForDiff(change, path, patchRange.patchNum,
           patchRange.basePatchNum);
     }
@@ -947,8 +946,7 @@ class GrFileList extends mixinBehaviors( [
     if (baseClass) {
       classes.push(baseClass);
     }
-    if (path === SpecialFilePath.COMMIT_MESSAGE ||
-      path === SpecialFilePath.MERGE_LIST) {
+    if (path === this.COMMIT_MESSAGE_PATH || path === this.MERGE_LIST_PATH) {
       classes.push('invisible');
     }
     return classes.join(' ');
@@ -980,7 +978,10 @@ class GrFileList extends mixinBehaviors( [
 
     const commentedPaths = changeComments.getPaths(patchRange);
     const files = Object.assign({}, filesByPath);
-    this.addUnmodifiedFiles(files, commentedPaths);
+    Object.keys(commentedPaths).forEach(commentedPath => {
+      if (files.hasOwnProperty(commentedPath)) { return; }
+      files[commentedPath] = {status: 'U'};
+    });
     const reviewedSet = new Set(reviewed || []);
     for (const filePath in files) {
       if (!files.hasOwnProperty(filePath)) { continue; }
@@ -1305,8 +1306,7 @@ class GrFileList extends mixinBehaviors( [
    * @return {boolean}
    */
   _showBarsForPath(path) {
-    return path !== SpecialFilePath.COMMIT_MESSAGE &&
-      path !== SpecialFilePath.MERGE_LIST;
+    return path !== this.COMMIT_MESSAGE_PATH && path !== this.MERGE_LIST_PATH;
   }
 
   /**

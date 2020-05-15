@@ -36,8 +36,6 @@ import {IronOverlayManager} from '@polymer/iron-overlay-behavior/iron-overlay-ma
 import '../../../test/common-test-setup.js';
 import './gr-reply-dialog.js';
 import {mockPromise} from '../../../test/test-utils.js';
-import {SpecialFilePath} from '../../../constants/constants.js';
-
 function cloneableResponse(status, text) {
   return {
     ok: false,
@@ -174,52 +172,10 @@ suite('gr-reply-dialog tests', () => {
               'Code-Review': 0,
               'Verified': 0,
             },
-            comments: {
-              [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [{
-                message: 'I wholeheartedly disapprove',
-                unresolved: false,
-              }],
-            },
+            message: 'I wholeheartedly disapprove',
             reviewers: [],
           });
           assert.isFalse(element.$.commentList.hidden);
-          done();
-        });
-
-        // This is needed on non-Blink engines most likely due to the ways in
-        // which the dom-repeat elements are stamped.
-        flush(() => {
-          MockInteractions.tap(element.shadowRoot
-              .querySelector('.send'));
-        });
-      });
-    });
-  });
-
-  test('toggle resolved checkbox', done => {
-    // Async tick is needed because iron-selector content is distributed and
-    // distributed content requires an observer to be set up.
-    // Note: Double flush seems to be needed in Safari. {@see Issue 4963}.
-    MockInteractions.tap(element.$.resolvedPatchsetLevelCommentCheckbox);
-    flush(() => {
-      flush(() => {
-        element.draft = 'I wholeheartedly disapprove';
-
-        stubSaveReview(review => {
-          assert.deepEqual(review, {
-            drafts: 'PUBLISH_ALL_REVISIONS',
-            labels: {
-              'Code-Review': 0,
-              'Verified': 0,
-            },
-            comments: {
-              [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [{
-                message: 'I wholeheartedly disapprove',
-                unresolved: true,
-              }],
-            },
-            reviewers: [],
-          });
           done();
         });
 
@@ -251,12 +207,7 @@ suite('gr-reply-dialog tests', () => {
               'Code-Review': 0,
               'Verified': 0,
             },
-            comments: {
-              [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [{
-                message: 'I wholeheartedly disapprove',
-                unresolved: false,
-              }],
-            },
+            message: 'I wholeheartedly disapprove',
             reviewers: [],
           });
           assert.isTrue(element.$.commentList.hidden);
@@ -282,12 +233,7 @@ suite('gr-reply-dialog tests', () => {
           'Code-Review': -1,
           'Verified': -1,
         },
-        comments: {
-          [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [{
-            message: 'I wholeheartedly disapprove',
-            unresolved: false,
-          }],
-        },
+        message: 'I wholeheartedly disapprove',
         reviewers: [],
       });
     });

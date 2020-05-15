@@ -168,6 +168,10 @@ class RefControl {
     return projectControl.controlForRef("refs/for/" + refName).canPerform(Permission.PUSH);
   }
 
+  boolean canRevert() {
+    return canPerform(Permission.REVERT);
+  }
+
   /** @return true if this user can submit merge patch sets to this ref */
   private boolean canUploadMerges() {
     return projectControl.controlForRef("refs/for/" + refName).canPerform(Permission.PUSH_MERGE);

@@ -21,6 +21,7 @@ import com.google.gerrit.index.query.IsVisibleToPredicate;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -94,7 +95,7 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
             ? permissionBackend.absentUser(user.getAccountId())
             : permissionBackend.user(
                 Optional.of(user)
-                    .filter(u -> u instanceof SingleGroupUser)
+                    .filter(u -> u instanceof SingleGroupUser || u instanceof InternalUser)
                     .orElseGet(anonymousUserProvider::get));
     try {
       withUser.indexedChange(cd, notes).check(ChangePermission.READ);

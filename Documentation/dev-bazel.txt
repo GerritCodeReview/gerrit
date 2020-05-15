@@ -343,6 +343,7 @@ The following values are currently supported for the group name:
 * edit
 * elastic
 * git
+* git-upload-archive
 * notedb
 * pgm
 * rest

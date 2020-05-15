@@ -1881,6 +1881,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         new AccountGroup.UUID(gApi.groups().id(g1).get().id));
     assertQuery(q + " visibleto:" + g1, change1);
 
+    // Both changes are visible to InternalUser
+    try (ManualRequestContext ctx = oneOffRequestContext.open()) {
+      assertQuery(q, change2, change1);
+    }
+
     requestContext.setContext(newRequestContext(user2));
     assertQuery("is:visible", change1);
 

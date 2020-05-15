@@ -781,6 +781,26 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void attentionSet_redactUserName() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    AttentionSetUpdate attentionSetUpdate =
+        AttentionSetUpdate.createForWrite(changeOwner.getAccountId(), Operation.ADD, "test");
+    update.setAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate));
+    update.commit();
+
+    ObjectId result = update.commit();
+    assertThat(result).isNotNull();
+    try (RevWalk rw = new RevWalk(repo)) {
+      RevCommit commit = rw.parseCommit(update.getResult());
+      rw.parseBody(commit);
+      String s = commit.getFullMessage();
+      String strIdent = "Gerrit User " + otherUserId + " <" + otherUserId + "@" + serverId + ">";
+      assertThat(commit.getFullMessage()).contains("Assignee: " + strIdent);
+    }
+  }
+
+  @Test
   public void assigneeCommit() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);

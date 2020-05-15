@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c0e92178_4a514595",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-15T13:42:46Z",
+      "side": 1,
+      "message": "\u003e I\u0027d either clarify the documentation accordingly, or revisit how to name the configuration values (and their defaults).\n\nDo you have any suggestions how to name the new config option and the corresponding values added by this CL:\n\n  ssh.clientImplementation\u003dJSCH|MINA\n\n?",
+      "parentUuid": "f703e7c9_1ae6d389",
+      "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6f30cfbc_79bd0555",
         "filename": "java/com/google/gerrit/acceptance/GitUtil.java",
         "patchSetId": 19

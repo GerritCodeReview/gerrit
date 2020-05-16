@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29b82260_d19530c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1095383
+      },
+      "writtenOn": "2020-05-16T23:43:20Z",
+      "side": 1,
+      "message": "Both methods have been tested locally. They do need \u0027.jar\u0027",
+      "revId": "1fd25fcdd89df3357a65b9d06b65f1728054bd33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28b24c66_b0eec37e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-05-16T15:48:10Z",
+      "side": 1,
+      "message": "Sorry that i have created a mess of the changes, i tried pushing so that the merge to master depended on the merge in stable-3.2, but it created two merge commits on master.",
+      "revId": "58d92c8ef477c97c7b5f330347ef0654e3ff19aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

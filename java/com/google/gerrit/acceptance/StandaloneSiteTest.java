@@ -42,6 +42,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collections;
 import org.eclipse.jgit.lib.Config;
@@ -207,6 +208,22 @@ public abstract class StandaloneSiteTest {
       ImmutableList<String> cmd, File dir, ImmutableMap<String, String> env) throws IOException {
     ProcessBuilder pb = new ProcessBuilder(cmd);
     pb.directory(dir).redirectErrorStream(true);
+    return execute(cmd, dir, env, null);
+  }
+
+  protected static String execute(
+      ImmutableList<String> cmd,
+      File dir,
+      ImmutableMap<String, String> env,
+      @Nullable Path outputPath)
+      throws IOException {
+    ProcessBuilder pb = new ProcessBuilder(cmd);
+    pb.directory(dir);
+    if (outputPath != null) {
+      pb.redirectOutput(outputPath.toFile());
+    } else {
+      pb.redirectErrorStream(true);
+    }
     pb.environment().putAll(env);
     Process p = pb.start();
     byte[] out;

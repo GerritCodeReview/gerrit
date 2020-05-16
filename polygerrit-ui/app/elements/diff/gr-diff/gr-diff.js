@@ -644,19 +644,24 @@
     },
 
     _prefsObserver(newPrefs, oldPrefs) {
-      // Scan the preference objects one level deep to see if they differ.
-      let differ = !oldPrefs;
-      if (newPrefs && oldPrefs) {
-        for (const key in newPrefs) {
-          if (newPrefs[key] !== oldPrefs[key]) {
-            differ = true;
-          }
-        }
-      }
-
-      if (differ) {
+      if (!this._prefsEqual(newPrefs, oldPrefs)) {
         this._prefsChanged(newPrefs);
       }
+    },
+
+    _prefsEqual(prefs1, prefs2) {
+      if (prefs1 === prefs2) {
+        return true;
+      }
+      if (!prefs1 || !prefs2) {
+        return false;
+      }
+      // Scan the preference objects one level deep to see if they differ.
+      const keys1 = Object.keys(prefs1);
+      const keys2 = Object.keys(prefs2);
+      return keys1.length === keys2.length &&
+          keys1.every(key => prefs1[key] === prefs2[key]) &&
+          keys2.every(key => prefs1[key] === prefs2[key]);
     },
 
     _pathObserver() {

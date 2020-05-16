@@ -246,7 +246,7 @@ List all plugins that match substring `project`:
 [[install-plugin]]
 === Install Plugin
 --
-'PUT /plugins/link:#plugin-id[\{plugin-id\}]'
+'PUT /plugins/link:#plugin-id[\{plugin-id\}].jar'
 --
 
 Installs a new plugin on the Gerrit server. If a plugin with the
@@ -260,7 +260,7 @@ a link:#plugin-input[PluginInput] entity.
 
 .Request
 ----
-  PUT /plugins/delete-project HTTP/1.0
+  PUT /plugins/delete-project.jar HTTP/1.0
   Content-Type: application/json; charset=UTF-8
 
   {
@@ -272,7 +272,7 @@ To provide the plugin jar as binary data in the request body the
 following curl command can be used:
 
 ----
-  curl --user admin:TNNuLkWsIV8w -X PUT --data-binary @delete-project-2.8.jar 'http://gerrit:8080/a/plugins/delete-project'
+  curl --user admin:TNNuLkWsIV8w -X PUT -H "Content-Type:application/octet-stream" --data-binary @delete-project.jar 'http://gerrit:8080/a/plugins/delete-project.jar'
 ----
 
 As response a link:#plugin-info[PluginInfo] entity is returned that
@@ -282,12 +282,15 @@ describes the plugin.
 ----
   HTTP/1.1 201 Created
   Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
+  Content-Type: application/json;charset=utf-8
+  Content-Length: 150
 
   )]}'
   {
     "id": "delete-project",
-    "version": "2.8"
+    "version": "v2.16-221-g35bb8bbac4",
+    "index_url": "plugins/delete-project/",
+    "filename": "delete-project.jar"
   }
 ----
 

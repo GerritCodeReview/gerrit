@@ -107,6 +107,7 @@ const elements = [
   'diff/gr-diff-highlight/gr-diff-highlight_test.html',
   'diff/gr-diff-host/gr-diff-host_test.html',
   'diff/gr-diff-mode-selector/gr-diff-mode-selector_test.html',
+  'diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog_test.html',
   'diff/gr-diff-processor/gr-diff-processor_test.html',
   'diff/gr-diff-selection/gr-diff-selection_test.html',
   'diff/gr-diff-view/gr-diff-view_test.html',

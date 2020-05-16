@@ -46,7 +46,7 @@ public class ElasticV7QueryChangesTest extends AbstractQueryChangesTest {
   public static void startIndexService() {
     if (container == null) {
       // Only start Elasticsearch once
-      container = ElasticContainer.createAndStart(ElasticVersion.V7_6);
+      container = ElasticContainer.createAndStart(ElasticVersion.V7_7);
       client = HttpAsyncClients.createDefault();
       client.start();
     }

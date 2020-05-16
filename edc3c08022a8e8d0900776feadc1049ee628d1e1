@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a2e6100_03658a26",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-16T01:13:24Z",
+      "side": 1,
+      "message": "Manual conflict resolution in the PG parts.  Please double-check.\n",
+      "revId": "edc3c08022a8e8d0900776feadc1049ee628d1e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

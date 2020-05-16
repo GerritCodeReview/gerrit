@@ -206,8 +206,6 @@ public abstract class StandaloneSiteTest {
 
   protected static String execute(
       ImmutableList<String> cmd, File dir, ImmutableMap<String, String> env) throws IOException {
-    ProcessBuilder pb = new ProcessBuilder(cmd);
-    pb.directory(dir).redirectErrorStream(true);
     return execute(cmd, dir, env, null);
   }
 

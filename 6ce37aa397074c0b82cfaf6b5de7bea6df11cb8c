@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "786ea543_98bc9fb4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-16T01:18:26Z",
+      "side": 1,
+      "message": "@Milutin the removal of moment.js needed also the update of the licenses in Gerrit documentation. This has been now fixed in master with [1].\n\nI have added to the CI pipeline an extra step for running the license check:\nbazel test //Documentation:check_licenses\n\nSee the amended CI pipeline change at [2].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/267605\n[2] https://gerrit-review.googlesource.com/c/gerrit-ci-scripts/+/267872",
+      "revId": "6ce37aa397074c0b82cfaf6b5de7bea6df11cb8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

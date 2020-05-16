@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a540a26c_7507efb2",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-16T08:36:01Z",
+      "side": 1,
+      "message": "hmm is this the issue why its not showing when toggle `show all entries` ?  how ? the `isCleanerLogExperimentEnabled` won\u0027t change during that toggle",
+      "range": {
+        "startLine": 206,
+        "startChar": 46,
+        "endLine": 206,
+        "endChar": 75
+      },
+      "revId": "326fdcf1ae6312e2754309ca6ed5a3dae242da34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

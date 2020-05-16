@@ -710,6 +710,22 @@ suite('gr-diff tests', () => {
         assert.isTrue(element._renderDiffTable.called);
       });
 
+      test('adding/removing property in preferences re-renders diff', () => {
+        const stub = sandbox.stub(element, '_renderDiffTable');
+        const newPrefs1 = Object.assign({}, MINIMAL_PREFS,
+            {line_wrapping: true});
+        element.prefs = newPrefs1;
+        element.flushDebouncer('renderDiffTable');
+        assert.isTrue(element._renderDiffTable.called);
+        stub.reset();
+
+        const newPrefs2 = Object.assign({}, newPrefs1);
+        delete newPrefs2.line_wrapping;
+        element.prefs = newPrefs2;
+        element.flushDebouncer('renderDiffTable');
+        assert.isTrue(element._renderDiffTable.called);
+      });
+
       test('change in preferences does not re-renders diff with ' +
           'noRenderOnPrefsChange', () => {
         sandbox.stub(element, '_renderDiffTable');
@@ -901,6 +917,24 @@ suite('gr-diff tests', () => {
       assert.equal(element._computeNewlineWarningClass('foo', true), hidden);
       assert.equal(element._computeNewlineWarningClass(null, false), hidden);
       assert.equal(element._computeNewlineWarningClass('foo', false), shown);
+    });
+
+    test('_prefsEqual', () => {
+      element = fixture('basic');
+      assert.isTrue(element._prefsEqual(null, null));
+      assert.isTrue(element._prefsEqual({}, {}));
+      assert.isTrue(element._prefsEqual({x: 1}, {x: 1}));
+      assert.isTrue(
+          element._prefsEqual({x: 1, abc: 'def'}, {x: 1, abc: 'def'}));
+      const somePref = {abc: 'def', p: true};
+      assert.isTrue(element._prefsEqual(somePref, somePref));
+
+      assert.isFalse(element._prefsEqual({}, null));
+      assert.isFalse(element._prefsEqual(null, {}));
+      assert.isFalse(element._prefsEqual({x: 1}, {x: 2}));
+      assert.isFalse(element._prefsEqual({x: 1, y: 'abc'}, {x: 1, y: 'abcd'}));
+      assert.isFalse(element._prefsEqual({x: 1, y: 'abc'}, {x: 1}));
+      assert.isFalse(element._prefsEqual({x: 1}, {x: 1, y: 'abc'}));
     });
   });
 

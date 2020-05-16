@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ce81fdd_a606c785",
+        "filename": "java/com/google/gerrit/acceptance/StandaloneSiteTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-16T20:31:53Z",
+      "side": 1,
+      "message": "Should not have been kept here; removed in I67b6925ee.",
+      "range": {
+        "startLine": 209,
+        "startChar": 0,
+        "endLine": 211,
+        "endChar": 0
+      },
+      "revId": "d2e554851f2e84e08667e532836ac43d33c191e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

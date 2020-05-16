@@ -3202,11 +3202,6 @@ Note that the same username and password are used for all servers.
 
 For further information about Elasticsearch security, please refer to the documentation:
 
-* link:https://www.elastic.co/guide/en/x-pack/5.6/security-getting-started.html[Elasticsearch 5.6,role=external,window=_blank]
-* link:https://www.elastic.co/guide/en/x-pack/6.2/security-getting-started.html[Elasticsearch 6.2,role=external,window=_blank]
-* link:https://www.elastic.co/guide/en/elastic-stack-overview/6.3/security-getting-started.html[Elasticsearch 6.3,role=external,window=_blank]
-* link:https://www.elastic.co/guide/en/elastic-stack-overview/6.4/security-getting-started.html[Elasticsearch 6.4,role=external,window=_blank]
-* link:https://www.elastic.co/guide/en/elastic-stack-overview/6.5/security-getting-started.html[Elasticsearch 6.5,role=external,window=_blank]
 * link:https://www.elastic.co/guide/en/elastic-stack-overview/6.6/security-getting-started.html[Elasticsearch 6.6,role=external,window=_blank]
 
 [[elasticsearch.username]]elasticsearch.username::

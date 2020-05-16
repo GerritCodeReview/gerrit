@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "706358d4_ddbcb846",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-16T00:06:38Z",
+      "side": 1,
+      "message": "This fails with:\n\n FAIL: js_licenses.txt out of date\n\nwhich also happens at the head of master.",
+      "revId": "6cd245671b9bc9c82bc66265a0e47c1ff8440653",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

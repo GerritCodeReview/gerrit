@@ -909,6 +909,24 @@ suite('gr-diff tests', () => {
       assert.equal(element._computeNewlineWarningClass(null, false), hidden);
       assert.equal(element._computeNewlineWarningClass('foo', false), shown);
     });
+
+    test('_prefsEqual', () => {
+      element = fixture('basic');
+      assert.isTrue(element._prefsEqual(null, null));
+      assert.isTrue(element._prefsEqual({}, {}));
+      assert.isTrue(element._prefsEqual({x: 1}, {x: 1}));
+      assert.isTrue(
+          element._prefsEqual({x: 1, abc: 'def'}, {x: 1, abc: 'def'}));
+      const somePref = {abc: 'def', p: true};
+      assert.isTrue(element._prefsEqual(somePref, somePref));
+
+      assert.isFalse(element._prefsEqual({}, null));
+      assert.isFalse(element._prefsEqual(null, {}));
+      assert.isFalse(element._prefsEqual({x: 1}, {x: 2}));
+      assert.isFalse(element._prefsEqual({x: 1, y: 'abc'}, {x: 1, y: 'abcd'}));
+      assert.isFalse(element._prefsEqual({x: 1, y: 'abc'}, {x: 1}));
+      assert.isFalse(element._prefsEqual({x: 1}, {x: 1, y: 'abc'}));
+    });
   });
 
   suite('key locations', () => {

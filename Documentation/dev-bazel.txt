@@ -352,8 +352,8 @@ The following values are currently supported for the group name:
 * edit
 * elastic
 * git
-* git-upload-archive
 * git-protocol-v2
+* git-upload-archive
 * notedb
 * pgm
 * rest

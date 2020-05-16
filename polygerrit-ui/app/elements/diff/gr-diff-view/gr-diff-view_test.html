@@ -405,6 +405,7 @@ suite('gr-diff-view tests', () => {
       element._change = {
         _number: 42,
         status: ChangeStatus.NEW,
+        project: 'gerrit',
         revisions: {
           a: {_number: 1, commit: {parents: []}},
           b: {_number: 2, commit: {parents: []}},
@@ -417,6 +418,8 @@ suite('gr-diff-view tests', () => {
         assert.isTrue(!!editBtn);
         MockInteractions.tap(editBtn);
         assert.isTrue(redirectStub.called);
+        assert.isTrue(redirectStub.lastCall.calledWithExactly(
+            GerritNav.getEditUrlForDiff(element._change, element._path)));
         done();
       });
     });

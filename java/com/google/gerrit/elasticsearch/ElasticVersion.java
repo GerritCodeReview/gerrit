@@ -18,7 +18,6 @@ import com.google.common.base.Joiner;
 import java.util.regex.Pattern;
 
 public enum ElasticVersion {
-  V6_5("6.5.*"),
   V6_6("6.6.*"),
   V6_7("6.7.*"),
   V6_8("6.8.*"),
@@ -28,7 +27,8 @@ public enum ElasticVersion {
   V7_3("7.3.*"),
   V7_4("7.4.*"),
   V7_5("7.5.*"),
-  V7_6("7.6.*");
+  V7_6("7.6.*"),
+  V7_7("7.7.*");
 
   private final String version;
   private final Pattern pattern;
@@ -48,7 +48,14 @@ public enum ElasticVersion {
     }
   }
 
-  public static ElasticVersion forVersion(String version) throws UnsupportedVersion {
+  /**
+   * Convert a version String to an ElasticVersion if supported.
+   *
+   * @param version for which to return an ElasticVersion
+   * @return the corresponding ElasticVersion if supported
+   * @throws UnsupportedVersion
+   */
+  public static ElasticVersion forVersion(String version) {
     for (ElasticVersion value : ElasticVersion.values()) {
       if (value.pattern.matcher(version).matches()) {
         return value;

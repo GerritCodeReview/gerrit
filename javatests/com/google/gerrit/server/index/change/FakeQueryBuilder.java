@@ -25,7 +25,7 @@ import org.junit.Ignore;
 public class FakeQueryBuilder extends ChangeQueryBuilder {
   FakeQueryBuilder(ChangeIndexCollection indexes) {
     super(
-        new ChangeQueryBuilder.Definition<>(FakeQueryBuilder.class),
+        new Definition<>(FakeQueryBuilder.class),
         new ChangeQueryBuilder.Arguments(
             null,
             null,

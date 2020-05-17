@@ -292,7 +292,8 @@ public class MailProcessorIT extends AbstractMailIT {
 
     Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
     mailProcessor.process(b.build());
-    assertThat(testCommentHelper.getPublishedComments(changeId)).isEqualTo(commentsBefore);
+    assertThat(testCommentHelper.getPublishedComments(changeId))
+        .containsExactlyElementsIn(commentsBefore);
 
     assertNotifyTo(user);
     Message message = sender.nextMessage();
@@ -321,7 +322,8 @@ public class MailProcessorIT extends AbstractMailIT {
 
     Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
     mailProcessor.process(b.build());
-    assertThat(testCommentHelper.getPublishedComments(changeId)).isEqualTo(commentsBefore);
+    assertThat(testCommentHelper.getPublishedComments(changeId))
+        .containsExactlyElementsIn(commentsBefore);
 
     assertNotifyTo(user);
     Message message = sender.nextMessage();
@@ -346,7 +348,8 @@ public class MailProcessorIT extends AbstractMailIT {
 
     Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
     mailProcessor.process(b.build());
-    assertThat(testCommentHelper.getPublishedComments(changeId)).isEqualTo(commentsBefore);
+    assertThat(testCommentHelper.getPublishedComments(changeId))
+        .containsExactlyElementsIn(commentsBefore);
 
     assertNotifyTo(user);
     Message message = sender.nextMessage();
@@ -432,7 +435,8 @@ public class MailProcessorIT extends AbstractMailIT {
 
     Collection<CommentInfo> commentsBefore = testCommentHelper.getPublishedComments(changeId);
     mailProcessor.process(mailMessage.build());
-    assertThat(testCommentHelper.getPublishedComments(changeId)).isEqualTo(commentsBefore);
+    assertThat(testCommentHelper.getPublishedComments(changeId))
+        .containsExactlyElementsIn(commentsBefore);
 
     assertNotifyTo(user);
     Message message = sender.nextMessage();

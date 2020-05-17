@@ -21,7 +21,6 @@ import com.google.gerrit.pgm.util.SiteProgram;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.notedb.DeleteZombieCommentsRefs;
-import com.google.gerrit.server.notedb.DeleteZombieCommentsRefs.Factory;
 import com.google.gerrit.server.schema.SchemaModule;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.inject.AbstractModule;
@@ -54,7 +53,7 @@ public class DeleteZombieDrafts extends SiteProgram {
     mustHaveValidSite();
     Injector sysInjector = getSysInjector();
     DeleteZombieCommentsRefs cleanup =
-        sysInjector.getInstance(Factory.class).create(cleanupPercentage);
+        sysInjector.getInstance(DeleteZombieCommentsRefs.Factory.class).create(cleanupPercentage);
     cleanup.execute();
     return 0;
   }

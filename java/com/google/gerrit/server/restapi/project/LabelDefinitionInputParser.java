@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 
@@ -42,7 +41,7 @@ public class LabelDefinitionInputParser {
       throws BadRequestException {
     List<LabelValue> valueList = new ArrayList<>();
     Set<Short> allValues = new HashSet<>();
-    for (Entry<String, String> e : values.entrySet()) {
+    for (Map.Entry<String, String> e : values.entrySet()) {
       short value;
       try {
         value = Shorts.checkedCast(PermissionRule.parseInt(e.getKey().trim()));

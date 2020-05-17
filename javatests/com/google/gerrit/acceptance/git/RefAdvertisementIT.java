@@ -1389,7 +1389,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
               .user(user(admin))
               .project(project)
               .filter(singleRef, repo, RefFilterOptions.defaults());
-      assertThat(filteredRefs).isEqualTo(singleRef);
+      assertThat(filteredRefs).containsExactlyElementsIn(singleRef);
     }
   }
 

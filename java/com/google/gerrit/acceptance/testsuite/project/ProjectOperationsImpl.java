@@ -22,7 +22,6 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.acceptance.testsuite.project.TestProjectCreation.Builder;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestCapability;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestLabelPermission;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestPermission;
@@ -82,7 +81,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
   }
 
   @Override
-  public Builder newProject() {
+  public TestProjectCreation.Builder newProject() {
     return TestProjectCreation.builder(this::createNewProject);
   }
 

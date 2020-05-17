@@ -57,7 +57,7 @@ public class CapabilitiesIT extends AbstractDaemonTest {
       RestResponse r = userRestSession.get("/accounts/self/capabilities");
       r.assertOK();
       CapabilityInfo info =
-          (new Gson()).fromJson(r.getReader(), new TypeToken<CapabilityInfo>() {}.getType());
+          new Gson().fromJson(r.getReader(), new TypeToken<CapabilityInfo>() {}.getType());
       for (String c : GlobalCapability.getAllNames()) {
         if (ADMINISTRATE_SERVER.equals(c)) {
           assertThat(info.administrateServer).isFalse();
@@ -87,7 +87,7 @@ public class CapabilitiesIT extends AbstractDaemonTest {
     RestResponse r = adminRestSession.get("/accounts/self/capabilities");
     r.assertOK();
     CapabilityInfo info =
-        (new Gson()).fromJson(r.getReader(), new TypeToken<CapabilityInfo>() {}.getType());
+        new Gson().fromJson(r.getReader(), new TypeToken<CapabilityInfo>() {}.getType());
     for (String c : GlobalCapability.getAllNames()) {
       if (BATCH_CHANGES_LIMIT.equals(c)) {
         // It does not have default value for any user as it can override the

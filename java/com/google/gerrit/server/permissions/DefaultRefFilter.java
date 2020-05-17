@@ -164,7 +164,8 @@ class DefaultRefFilter {
     // we have to investigate separately (deferred tags) then perform a reachability check starting
     // from all visible branches (refs/heads/*).
     Result initialRefFilter = filterRefs(new ArrayList<>(refs), repo, opts);
-    List<Ref> visibleRefs = initialRefFilter.visibleRefs();
+    // Get rid of immutable collection
+    List<Ref> visibleRefs = new ArrayList<>(initialRefFilter.visibleRefs());
     if (!initialRefFilter.deferredTags().isEmpty()) {
       try (TraceTimer traceTimer = TraceContext.newTimer("Check visibility of deferred tags")) {
         Result allVisibleBranches = filterRefs(getTaggableRefs(repo), repo, opts);
@@ -214,13 +215,15 @@ class DefaultRefFilter {
         skipFilterCount.increment();
         logger.atFinest().log(
             "Fast path, all refs are visible because user has READ on refs/*: %s", refs);
-        return new AutoValue_DefaultRefFilter_Result(refs, ImmutableList.of());
+        return new AutoValue_DefaultRefFilter_Result(
+            ImmutableList.copyOf(refs), ImmutableList.of());
       } else if (projectControl.allRefsAreVisible(ImmutableSet.of(RefNames.REFS_CONFIG))) {
         skipFilterCount.increment();
         refs = fastHideRefsMetaConfig(refs);
         logger.atFinest().log(
             "Fast path, all refs except %s are visible: %s", RefNames.REFS_CONFIG, refs);
-        return new AutoValue_DefaultRefFilter_Result(refs, ImmutableList.of());
+        return new AutoValue_DefaultRefFilter_Result(
+            ImmutableList.copyOf(refs), ImmutableList.of());
       }
     }
     logger.atFinest().log("Doing full ref filtering");
@@ -353,7 +356,9 @@ class DefaultRefFilter {
         logger.atFinest().log("Filter out ref %s", name);
       }
     }
-    Result result = new AutoValue_DefaultRefFilter_Result(resultRefs, deferredTags);
+    Result result =
+        new AutoValue_DefaultRefFilter_Result(
+            ImmutableList.copyOf(resultRefs), ImmutableList.copyOf(deferredTags));
     logger.atFinest().log("Result of ref filtering = %s", result);
     return result;
   }
@@ -587,12 +592,12 @@ class DefaultRefFilter {
   @AutoValue
   abstract static class Result {
     /** Subset of the refs passed into the computation that is visible to the user. */
-    abstract List<Ref> visibleRefs();
+    abstract ImmutableList<Ref> visibleRefs();
 
     /**
      * List of tags where we couldn't figure out visibility in the first pass and need to do an
      * expensive ref walk.
      */
-    abstract List<Ref> deferredTags();
+    abstract ImmutableList<Ref> deferredTags();
   }
 }

@@ -35,7 +35,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gerrit.server.project.ProjectConfig.Factory;
 import com.google.gerrit.server.project.RefPattern;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -63,7 +62,7 @@ public class AllUsersCreator {
       AllUsersName allUsersName,
       SystemGroupBackend systemGroupBackend,
       @GerritPersonIdent PersonIdent serverUser,
-      Factory projectConfigFactory) {
+      ProjectConfig.Factory projectConfigFactory) {
     this.mgr = mgr;
     this.allUsersName = allUsersName;
     this.serverUser = serverUser;

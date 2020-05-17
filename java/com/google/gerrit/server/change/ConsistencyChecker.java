@@ -92,7 +92,7 @@ public class ConsistencyChecker {
 
   @AutoValue
   public abstract static class Result {
-    private static Result create(ChangeNotes notes, List<ProblemInfo> problems) {
+    private static Result create(ChangeNotes notes, ImmutableList<ProblemInfo> problems) {
       return new AutoValue_ConsistencyChecker_Result(
           notes.getChangeId(), notes.getChange(), problems);
     }
@@ -102,7 +102,7 @@ public class ConsistencyChecker {
     @Nullable
     public abstract Change change();
 
-    public abstract List<ProblemInfo> problems();
+    public abstract ImmutableList<ProblemInfo> problems();
   }
 
   private final ChangeNotes.Factory notesFactory;
@@ -784,6 +784,6 @@ public class ConsistencyChecker {
   }
 
   private Result result() {
-    return Result.create(notes, problems);
+    return Result.create(notes, ImmutableList.copyOf(problems));
   }
 }

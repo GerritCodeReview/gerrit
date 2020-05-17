@@ -34,30 +34,30 @@ public final class PatchSetInfo {
     protected ParentInfo() {}
   }
 
-  protected PatchSet.Id key;
+  PatchSet.Id key;
 
   /** First line of {@link #message}. */
-  protected String subject;
+  String subject;
 
   /** The complete description of the change the patch set introduces. */
-  protected String message;
+  String message;
 
   /** Identity of who wrote the patch set. May differ from {@link #committer}. */
-  protected UserIdentity author;
+  UserIdentity author;
 
   /** Identity of who committed the patch set to the VCS. */
-  protected UserIdentity committer;
+  UserIdentity committer;
 
   /** List of parents of the patch set. */
-  protected List<ParentInfo> parents;
+  List<ParentInfo> parents;
 
   /** ID of commit. */
-  protected ObjectId commitId;
+  ObjectId commitId;
 
   /** Optional user-supplied description for the patch set. */
-  protected String description;
+  String description;
 
-  protected PatchSetInfo() {}
+  PatchSetInfo() {}
 
   public PatchSetInfo(PatchSet.Id k) {
     key = k;

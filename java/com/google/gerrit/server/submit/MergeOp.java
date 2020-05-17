@@ -736,7 +736,7 @@ public class MergeOp implements AutoCloseable {
     @Nullable
     abstract SubmitType submitType();
 
-    abstract Set<CodeReviewCommit> commits();
+    abstract ImmutableSet<CodeReviewCommit> commits();
   }
 
   private BranchBatch validateChangeList(OpenRepo or, Collection<ChangeData> submitted) {
@@ -851,7 +851,7 @@ public class MergeOp implements AutoCloseable {
       toSubmit.add(commit);
     }
     logger.atFine().log("Submitting on this run: %s", toSubmit);
-    return new AutoValue_MergeOp_BranchBatch(submitType, toSubmit);
+    return new AutoValue_MergeOp_BranchBatch(submitType, ImmutableSet.copyOf(toSubmit));
   }
 
   private SetMultimap<ObjectId, PatchSet.Id> getRevisions(OpenRepo or, Collection<ChangeData> cds) {

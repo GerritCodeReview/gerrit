@@ -34,6 +34,52 @@
       "revId": "1fd25fcdd89df3357a65b9d06b65f1728054bd33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89f52bfb_83dee247",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-17T00:19:52Z",
+      "side": 1,
+      "message": "Is this correct?  Per the description on L249 this should be the plugin ID. And in the example response (L289) it\u0027s returned without the .jar suffix\n\nIf it\u0027s requiring the .jar suffix here maybe it\u0027s a bug in the implementation?",
+      "range": {
+        "startLine": 263,
+        "startChar": 15,
+        "endLine": 263,
+        "endChar": 33
+      },
+      "revId": "1fd25fcdd89df3357a65b9d06b65f1728054bd33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c90cf7f2_3938c786",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-17T00:19:52Z",
+      "side": 1,
+      "message": "What about here?",
+      "range": {
+        "startLine": 306,
+        "startChar": 15,
+        "endLine": 306,
+        "endChar": 29
+      },
+      "revId": "1fd25fcdd89df3357a65b9d06b65f1728054bd33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -585,12 +585,13 @@ public class PatchListLoader implements Callable<PatchList> {
         List<DiffEntry> relevantDiffEntries,
         Multimap<String, ContextAwareEdit> editsDueToRebasePerFilePath) {
       return new AutoValue_PatchListLoader_EditsDueToRebaseResult(
-          relevantDiffEntries, editsDueToRebasePerFilePath);
+          ImmutableList.copyOf(relevantDiffEntries),
+          ImmutableMultimap.copyOf(editsDueToRebasePerFilePath));
     }
 
-    public abstract List<DiffEntry> getRelevantOriginalDiffEntries();
+    public abstract ImmutableList<DiffEntry> getRelevantOriginalDiffEntries();
 
     /** Returns the edits per file path they modify in {@code treeB}. */
-    public abstract Multimap<String, ContextAwareEdit> getEditsDueToRebasePerFilePath();
+    public abstract ImmutableMultimap<String, ContextAwareEdit> getEditsDueToRebasePerFilePath();
   }
 }

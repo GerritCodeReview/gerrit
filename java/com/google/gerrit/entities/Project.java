@@ -94,27 +94,27 @@ public final class Project {
     }
   }
 
-  protected NameKey name;
+  NameKey name;
 
-  protected String description;
+  String description;
 
-  protected Map<BooleanProjectConfig, InheritableBoolean> booleanConfigs;
+  Map<BooleanProjectConfig, InheritableBoolean> booleanConfigs;
 
-  protected SubmitType submitType;
+  SubmitType submitType;
 
-  protected ProjectState state;
+  ProjectState state;
 
-  protected NameKey parent;
+  NameKey parent;
 
-  protected String maxObjectSizeLimit;
+  String maxObjectSizeLimit;
 
-  protected String defaultDashboardId;
+  String defaultDashboardId;
 
-  protected String localDefaultDashboardId;
+  String localDefaultDashboardId;
 
-  protected String configRefState;
+  String configRefState;
 
-  protected Project() {}
+  Project() {}
 
   public Project(Project.NameKey nameKey) {
     name = nameKey;

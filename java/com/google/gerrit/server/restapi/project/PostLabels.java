@@ -37,7 +37,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Map.Entry;
+import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /** REST endpoint that allows to add, update and delete label definitions in a batch. */
@@ -118,7 +118,7 @@ public class PostLabels
       }
 
       if (input.update != null && !input.update.isEmpty()) {
-        for (Entry<String, LabelDefinitionInput> e : input.update.entrySet()) {
+        for (Map.Entry<String, LabelDefinitionInput> e : input.update.entrySet()) {
           LabelType labelType = config.getLabelSections().get(e.getKey().trim());
           if (labelType == null) {
             throw new UnprocessableEntityException(String.format("label %s not found", e.getKey()));

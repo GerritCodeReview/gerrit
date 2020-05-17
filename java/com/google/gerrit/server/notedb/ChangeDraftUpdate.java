@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.collect.Sets;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
@@ -37,7 +36,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -191,7 +189,6 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       RevWalk rw, ObjectInserter ins, ObjectId curr, CommitBuilder cb)
       throws ConfigInvalidException, IOException {
     RevisionNoteMap<ChangeRevisionNote> rnm = getRevisionNoteMap(rw, curr);
-    Set<ObjectId> updatedCommits = Sets.newHashSetWithExpectedSize(rnm.revisionNotes.size());
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
 
     for (Comment c : put) {
@@ -207,7 +204,6 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     Map<ObjectId, RevisionNoteBuilder> builders = cache.getBuilders();
     boolean touchedAnyRevs = false;
     for (Map.Entry<ObjectId, RevisionNoteBuilder> e : builders.entrySet()) {
-      updatedCommits.add(e.getKey());
       ObjectId id = e.getKey();
       byte[] data = e.getValue().build(noteUtil.getChangeNoteJson());
       if (!Arrays.equals(data, e.getValue().baseRaw)) {

@@ -468,7 +468,7 @@ public class GitOverHttpServlet extends GitServlet {
         throws ServiceNotAuthorizedException {
       final ProjectState state = (ProjectState) req.getAttribute(ATT_STATE);
 
-      if (!(userProvider.get().isIdentifiedUser())) {
+      if (!userProvider.get().isIdentifiedUser()) {
         // Anonymous users are not permitted to push.
         throw new ServiceNotAuthorizedException();
       }
@@ -572,7 +572,7 @@ public class GitOverHttpServlet extends GitServlet {
         return;
       }
 
-      if (!(userProvider.get().isIdentifiedUser())) {
+      if (!userProvider.get().isIdentifiedUser()) {
         chain.doFilter(request, responseWrapper);
         return;
       }

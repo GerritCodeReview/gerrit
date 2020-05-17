@@ -1918,7 +1918,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change1 = insert(repo, newChange(repo));
     Change change2 = insert(repo, newChange(repo));
 
-    assertQuery("has:draft");
+    assertQuery(DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY);
 
     DraftInput in = new DraftInput();
     in.line = 1;
@@ -1935,7 +1935,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     int user2 =
         accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId().get();
 
-    assertQuery("has:draft", change2, change1);
+    assertQuery(DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY, change2, change1);
     assertQuery("draftby:" + userId.get(), change2, change1);
     assertQuery("draftby:" + user2);
   }

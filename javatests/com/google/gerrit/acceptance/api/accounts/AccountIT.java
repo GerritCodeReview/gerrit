@@ -764,7 +764,7 @@ public class AccountIT extends AbstractDaemonTest {
       AuthException thrown =
           assertThrows(
               AuthException.class,
-              () -> gApi.accounts().id(Integer.toString((admin.id().get()))).getStars(triplet));
+              () -> gApi.accounts().id(Integer.toString(admin.id().get())).getStars(triplet));
       assertThat(thrown).hasMessageThat().contains("not allowed to get stars of another account");
     }
   }

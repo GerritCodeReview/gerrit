@@ -57,10 +57,10 @@ public class AccountExternalIdInfo implements Comparable<AccountExternalIdInfo> 
   public boolean equals(Object o) {
     if (o instanceof AccountExternalIdInfo) {
       AccountExternalIdInfo a = (AccountExternalIdInfo) o;
-      return (Objects.equals(a.identity, identity))
-          && (Objects.equals(a.emailAddress, emailAddress))
-          && (Objects.equals(a.trusted, trusted))
-          && (Objects.equals(a.canDelete, canDelete));
+      return Objects.equals(a.identity, identity)
+          && Objects.equals(a.emailAddress, emailAddress)
+          && Objects.equals(a.trusted, trusted)
+          && Objects.equals(a.canDelete, canDelete);
     }
     return false;
   }

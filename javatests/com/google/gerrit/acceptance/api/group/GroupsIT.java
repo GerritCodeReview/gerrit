@@ -69,7 +69,6 @@ import com.google.gerrit.extensions.api.groups.Groups.ListRequest;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo.GroupMemberAuditEventInfo;
-import com.google.gerrit.extensions.common.GroupAuditEventInfo.Type;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo.UserMemberAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
@@ -406,7 +405,8 @@ public class GroupsIT extends AbstractDaemonTest {
 
     List<? extends GroupAuditEventInfo> auditEvents = gApi.groups().id(group.get()).auditLog();
     assertThat(auditEvents).hasSize(1);
-    assertSubgroupAuditEvent(auditEvents.get(0), Type.ADD_GROUP, admin.id(), "Registered Users");
+    assertSubgroupAuditEvent(
+        auditEvents.get(0), GroupAuditEventInfo.Type.ADD_GROUP, admin.id(), "Registered Users");
   }
 
   @Test
@@ -604,7 +604,7 @@ public class GroupsIT extends AbstractDaemonTest {
     assertThat(group.name).isEqualTo(anonymousUsersGroup.getName());
 
     group = gApi.groups().id(anonymousUsersGroup.getName()).get();
-    assertThat(group.id).isEqualTo(Url.encode((anonymousUsersGroup.getUUID().get())));
+    assertThat(group.id).isEqualTo(Url.encode(anonymousUsersGroup.getUUID().get()));
   }
 
   @Test
@@ -612,7 +612,7 @@ public class GroupsIT extends AbstractDaemonTest {
     GroupReference anonymousUsersGroup = systemGroupBackend.getGroup(ANONYMOUS_USERS);
     GroupInfo group = gApi.groups().id("Anonymous Users").get();
     assertThat(group.name).isEqualTo(anonymousUsersGroup.getName());
-    assertThat(group.id).isEqualTo(Url.encode((anonymousUsersGroup.getUUID().get())));
+    assertThat(group.id).isEqualTo(Url.encode(anonymousUsersGroup.getUUID().get()));
   }
 
   @Test
@@ -1042,41 +1042,48 @@ public class GroupsIT extends AbstractDaemonTest {
     GroupApi g = gApi.groups().create(name("group"));
     List<? extends GroupAuditEventInfo> auditEvents = g.auditLog();
     assertThat(auditEvents).hasSize(1);
-    assertMemberAuditEvent(auditEvents.get(0), Type.ADD_USER, admin.id(), admin.id());
+    assertMemberAuditEvent(
+        auditEvents.get(0), GroupAuditEventInfo.Type.ADD_USER, admin.id(), admin.id());
 
     g.addMembers(user.username());
     auditEvents = g.auditLog();
     assertThat(auditEvents).hasSize(2);
-    assertMemberAuditEvent(auditEvents.get(0), Type.ADD_USER, admin.id(), user.id());
+    assertMemberAuditEvent(
+        auditEvents.get(0), GroupAuditEventInfo.Type.ADD_USER, admin.id(), user.id());
 
     g.removeMembers(user.username());
     auditEvents = g.auditLog();
     assertThat(auditEvents).hasSize(3);
-    assertMemberAuditEvent(auditEvents.get(0), Type.REMOVE_USER, admin.id(), user.id());
+    assertMemberAuditEvent(
+        auditEvents.get(0), GroupAuditEventInfo.Type.REMOVE_USER, admin.id(), user.id());
 
     String otherGroup = name("otherGroup");
     gApi.groups().create(otherGroup);
     g.addGroups(otherGroup);
     auditEvents = g.auditLog();
     assertThat(auditEvents).hasSize(4);
-    assertSubgroupAuditEvent(auditEvents.get(0), Type.ADD_GROUP, admin.id(), otherGroup);
+    assertSubgroupAuditEvent(
+        auditEvents.get(0), GroupAuditEventInfo.Type.ADD_GROUP, admin.id(), otherGroup);
 
     g.removeGroups(otherGroup);
     auditEvents = g.auditLog();
     assertThat(auditEvents).hasSize(5);
-    assertSubgroupAuditEvent(auditEvents.get(0), Type.REMOVE_GROUP, admin.id(), otherGroup);
+    assertSubgroupAuditEvent(
+        auditEvents.get(0), GroupAuditEventInfo.Type.REMOVE_GROUP, admin.id(), otherGroup);
 
     // Add a removed member back again.
     g.addMembers(user.username());
     auditEvents = g.auditLog();
     assertThat(auditEvents).hasSize(6);
-    assertMemberAuditEvent(auditEvents.get(0), Type.ADD_USER, admin.id(), user.id());
+    assertMemberAuditEvent(
+        auditEvents.get(0), GroupAuditEventInfo.Type.ADD_USER, admin.id(), user.id());
 
     // Add a removed group back again.
     g.addGroups(otherGroup);
     auditEvents = g.auditLog();
     assertThat(auditEvents).hasSize(7);
-    assertSubgroupAuditEvent(auditEvents.get(0), Type.ADD_GROUP, admin.id(), otherGroup);
+    assertSubgroupAuditEvent(
+        auditEvents.get(0), GroupAuditEventInfo.Type.ADD_GROUP, admin.id(), otherGroup);
 
     Timestamp lastDate = null;
     for (GroupAuditEventInfo auditEvent : auditEvents) {
@@ -1108,7 +1115,8 @@ public class GroupsIT extends AbstractDaemonTest {
     List<? extends GroupAuditEventInfo> auditEvents = gApi.groups().id(parentGroup.id).auditLog();
     assertThat(auditEvents).hasSize(2);
     // Verify the unavailable subgroup's name is null.
-    assertSubgroupAuditEvent(auditEvents.get(0), Type.ADD_GROUP, admin.id(), null);
+    assertSubgroupAuditEvent(
+        auditEvents.get(0), GroupAuditEventInfo.Type.ADD_GROUP, admin.id(), null);
   }
 
   private void deleteGroupRef(String groupId) throws Exception {
@@ -1607,7 +1615,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
   private void assertMemberAuditEvent(
       GroupAuditEventInfo info,
-      Type expectedType,
+      GroupAuditEventInfo.Type expectedType,
       Account.Id expectedUser,
       Account.Id expectedMember) {
     assertThat(info.user._accountId).isEqualTo(expectedUser.get());
@@ -1618,7 +1626,7 @@ public class GroupsIT extends AbstractDaemonTest {
 
   private void assertSubgroupAuditEvent(
       GroupAuditEventInfo info,
-      Type expectedType,
+      GroupAuditEventInfo.Type expectedType,
       Account.Id expectedUser,
       String expectedMemberGroupName) {
     assertThat(info.user._accountId).isEqualTo(expectedUser.get());

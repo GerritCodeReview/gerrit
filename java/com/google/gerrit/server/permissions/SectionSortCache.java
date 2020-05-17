@@ -125,7 +125,7 @@ public class SectionSortCache {
   abstract static class EntryKey {
     public abstract String ref();
 
-    public abstract List<String> patterns();
+    public abstract ImmutableList<String> patterns();
 
     public abstract int cachedHashCode();
 

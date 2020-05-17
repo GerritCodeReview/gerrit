@@ -14,7 +14,6 @@
 
 package com.google.gerrit.index.query;
 
-import static com.google.common.collect.ImmutableList.of;
 import static com.google.gerrit.index.query.Predicate.and;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.junit.Assert.assertEquals;
@@ -23,6 +22,7 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
+import com.google.common.collect.ImmutableList;
 import java.util.List;
 import org.junit.Test;
 
@@ -44,13 +44,13 @@ public class AndPredicateTest extends PredicateTest {
     final Predicate<String> n = and(a, b);
 
     assertThrows(UnsupportedOperationException.class, () -> n.getChildren().clear());
-    assertChildren("clear", n, of(a, b));
+    assertChildren("clear", n, ImmutableList.of(a, b));
 
     assertThrows(UnsupportedOperationException.class, () -> n.getChildren().remove(0));
-    assertChildren("remove(0)", n, of(a, b));
+    assertChildren("remove(0)", n, ImmutableList.of(a, b));
 
     assertThrows(UnsupportedOperationException.class, () -> n.getChildren().iterator().remove());
-    assertChildren("iterator().remove()", n, of(a, b));
+    assertChildren("iterator().remove()", n, ImmutableList.of(a, b));
   }
 
   private static void assertChildren(
@@ -98,8 +98,8 @@ public class AndPredicateTest extends PredicateTest {
     final TestPredicate a = f("author", "alice");
     final TestPredicate b = f("author", "bob");
     final TestPredicate c = f("author", "charlie");
-    final List<TestPredicate> s2 = of(a, b);
-    final List<TestPredicate> s3 = of(a, b, c);
+    final List<TestPredicate> s2 = ImmutableList.of(a, b);
+    final List<TestPredicate> s3 = ImmutableList.of(a, b, c);
     final Predicate<String> n2 = and(a, b);
 
     assertNotSame(n2, n2.copy(s2));

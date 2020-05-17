@@ -50,7 +50,6 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.CommentJson;
 import com.google.gerrit.server.restapi.change.CommentJson.CommentFormatter;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.BatchUpdate.Factory;
 import com.google.gerrit.server.update.BatchUpdateListener;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -85,7 +84,7 @@ public class DeleteDraftComments
   @Inject
   DeleteDraftComments(
       Provider<CurrentUser> userProvider,
-      Factory batchUpdateFactory,
+      BatchUpdate.Factory batchUpdateFactory,
       Provider<ChangeQueryBuilder> queryBuilderProvider,
       Provider<InternalChangeQuery> queryProvider,
       ChangeData.Factory changeDataFactory,

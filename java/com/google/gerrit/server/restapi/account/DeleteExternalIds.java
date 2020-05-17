@@ -94,8 +94,7 @@ public class DeleteExternalIds implements RestModifyView<AccountResource, List<S
             String.format("External id %s does not exist", externalIdStr));
       }
 
-      if ((!id.isScheme(SCHEME_USERNAME))
-          && (!last.isPresent() || (!last.get().equals(id.key())))) {
+      if (!id.isScheme(SCHEME_USERNAME) && (!last.isPresent() || !last.get().equals(id.key()))) {
         toDelete.add(id);
       } else {
         throw new ResourceConflictException(

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.pgm.init.api;
 
+import com.google.errorprone.annotations.FormatMethod;
 import com.google.gerrit.common.Die;
 import java.io.Console;
 import java.util.EnumSet;
@@ -75,6 +76,7 @@ public abstract class ConsoleUI {
   public abstract String password(String fmt, Object... args);
 
   /** Display an error message on the system stderr. */
+  @FormatMethod
   public void error(String format, Object... args) {
     System.err.println(String.format(format, args));
     System.err.flush();
@@ -97,6 +99,7 @@ public abstract class ConsoleUI {
     }
 
     @Override
+    @FormatMethod
     public boolean yesno(Boolean def, String fmt, Object... args) {
       final String prompt = String.format(fmt, args);
       for (; ; ) {
@@ -135,6 +138,7 @@ public abstract class ConsoleUI {
     }
 
     @Override
+    @FormatMethod
     public String readString(String def, String fmt, Object... args) {
       final String prompt = String.format(fmt, args);
       String r;
@@ -171,6 +175,7 @@ public abstract class ConsoleUI {
     }
 
     @Override
+    @FormatMethod
     public String password(String fmt, Object... args) {
       final String prompt = String.format(fmt, args);
       for (; ; ) {
@@ -195,6 +200,7 @@ public abstract class ConsoleUI {
     }
 
     @Override
+    @FormatMethod
     public <T extends Enum<?>, A extends EnumSet<? extends T>> T readEnum(
         T def, A options, String fmt, Object... args) {
       final String prompt = String.format(fmt, args);

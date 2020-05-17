@@ -67,7 +67,7 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
       ChangeInfo info = gApi.changes().id(r.getChangeId()).get(DETAILED_LABELS);
       assertThat(info.reviewers).isEqualTo(ImmutableMap.of(state, ImmutableList.of(acc)));
       // All reviewers added by email should be removable
-      assertThat(info.removableReviewers).isEqualTo(ImmutableList.of(acc));
+      assertThat(info.removableReviewers).containsExactlyElementsIn(ImmutableList.of(acc));
     }
   }
 
@@ -92,7 +92,8 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
       ChangeInfo info = gApi.changes().id(r.getChangeId()).get(DETAILED_LABELS);
       assertThat(info.reviewers).isEqualTo(ImmutableMap.of(state, ImmutableList.of(byId, byEmail)));
       // All reviewers (both by id and by email) should be removable
-      assertThat(info.removableReviewers).isEqualTo(ImmutableList.of(byId, byEmail));
+      assertThat(info.removableReviewers)
+          .containsExactlyElementsIn(ImmutableList.of(byId, byEmail));
     }
   }
 
@@ -368,6 +369,6 @@ public class ChangeReviewersByEmailIT extends AbstractDaemonTest {
   }
 
   private static String toRfcAddressString(AccountInfo info) {
-    return (Address.create(info.name, info.email)).toString();
+    return Address.create(info.name, info.email).toString();
   }
 }

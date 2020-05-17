@@ -1350,6 +1350,76 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "auth.type", value = "LDAP")
+  public void deleteEmailShouldNotRemoveLdapExternalIdScheme() throws Exception {
+    String ldapEmail = "foo@company.com";
+    String ldapExternalId = ExternalId.SCHEME_GERRIT + ":foo";
+    accountsUpdateProvider
+        .get()
+        .update(
+            "Add External IDs",
+            admin.id(),
+            u ->
+                u.addExternalId(
+                    ExternalId.createWithEmail(
+                        ExternalId.Key.parse(ldapExternalId), admin.id(), ldapEmail)));
+    accountIndexedCounter.assertReindexOf(admin);
+    assertThat(
+            gApi.accounts().self().getExternalIds().stream().map(e -> e.identity).collect(toSet()))
+        .contains(ldapExternalId);
+
+    requestScopeOperations.resetCurrentApiUser();
+    assertThat(getEmails()).contains(ldapEmail);
+
+    ResourceConflictException exception =
+        assertThrows(
+            ResourceConflictException.class, () -> gApi.accounts().self().deleteEmail(ldapEmail));
+    assertThat(exception).hasMessageThat().contains(ldapEmail);
+
+    requestScopeOperations.resetCurrentApiUser();
+    assertThat(getEmails()).contains(ldapEmail);
+    assertThat(
+            gApi.accounts().self().getExternalIds().stream().map(e -> e.identity).collect(toSet()))
+        .contains(ldapExternalId);
+  }
+
+  @Test
+  @GerritConfig(name = "auth.type", value = "LDAP")
+  public void deleteEmailShouldRemoveNonLdapExternalIdScheme() throws Exception {
+    String ldapEmail = "foo@company.com";
+    String ldapExternalId = ExternalId.SCHEME_GERRIT + ":foo";
+    String nonLdapEMail = "foo@example.com";
+    String nonLdapExternalId = ExternalId.SCHEME_MAILTO + ":foo@example.com";
+    accountsUpdateProvider
+        .get()
+        .update(
+            "Add External IDs",
+            admin.id(),
+            u ->
+                u.addExternalId(
+                        ExternalId.createWithEmail(
+                            ExternalId.Key.parse(nonLdapExternalId), admin.id(), nonLdapEMail))
+                    .addExternalId(
+                        ExternalId.createWithEmail(
+                            ExternalId.Key.parse(ldapExternalId), admin.id(), ldapEmail)));
+    accountIndexedCounter.assertReindexOf(admin);
+    assertThat(
+            gApi.accounts().self().getExternalIds().stream().map(e -> e.identity).collect(toSet()))
+        .containsAtLeast(ldapExternalId, nonLdapExternalId);
+
+    requestScopeOperations.resetCurrentApiUser();
+    assertThat(getEmails()).containsAtLeast(ldapEmail, nonLdapEMail);
+
+    gApi.accounts().self().deleteEmail(nonLdapEMail);
+
+    requestScopeOperations.resetCurrentApiUser();
+    assertThat(getEmails()).doesNotContain(nonLdapEMail);
+    assertThat(
+            gApi.accounts().self().getExternalIds().stream().map(e -> e.identity).collect(toSet()))
+        .contains(ldapExternalId);
+  }
+
+  @Test
   public void deleteEmailOfOtherUser() throws Exception {
     AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
     try (Registration registration =

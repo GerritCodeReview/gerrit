@@ -348,6 +348,8 @@ suite('gr-comment tests', () => {
     test('edit reports interaction', () => {
       const reportStub = sandbox.stub(element.reporting,
           'recordDraftInteraction');
+      element.draft = true;
+      flushAsynchronousOperations();
       MockInteractions.tap(element.shadowRoot
           .querySelector('.edit'));
       assert.isTrue(reportStub.calledOnce);
@@ -357,6 +359,7 @@ suite('gr-comment tests', () => {
       const reportStub = sandbox.stub(element.reporting,
           'recordDraftInteraction');
       element.draft = true;
+      flushAsynchronousOperations();
       MockInteractions.tap(element.shadowRoot
           .querySelector('.discard'));
       assert.isTrue(reportStub.calledOnce);
@@ -427,6 +430,7 @@ suite('gr-comment tests', () => {
           .querySelector('.robotActions').hasAttribute('hidden'));
 
       element.draft = true;
+      flushAsynchronousOperations();
       assert.isTrue(isVisible(element.shadowRoot
           .querySelector('.edit')), 'edit is visible');
       assert.isTrue(isVisible(element.shadowRoot
@@ -552,6 +556,8 @@ suite('gr-comment tests', () => {
 
       // When the edit button is pressed, should still see the actions
       // and also textarea
+      element.draft = true;
+      flushAsynchronousOperations();
       MockInteractions.tap(element.shadowRoot
           .querySelector('.edit'));
       flushAsynchronousOperations();
@@ -655,6 +661,8 @@ suite('gr-comment tests', () => {
 
     test('draft creation/cancellation', done => {
       assert.isFalse(element.editing);
+      element.draft = true;
+      flushAsynchronousOperations();
       MockInteractions.tap(element.shadowRoot
           .querySelector('.edit'));
       assert.isTrue(element.editing);
@@ -787,6 +795,7 @@ suite('gr-comment tests', () => {
       const cancelDebounce = sandbox.stub(element, 'cancelDebouncer');
 
       element.draft = true;
+      flushAsynchronousOperations();
       MockInteractions.tap(element.shadowRoot
           .querySelector('.edit'));
       element._messageText = 'good news, everyone!';
@@ -852,6 +861,7 @@ suite('gr-comment tests', () => {
       const saveStub = sandbox.stub(element, 'save').returns(Promise.resolve());
       element.showActions = true;
       element.draft = true;
+      flushAsynchronousOperations();
       MockInteractions.tap(element.$.header);
       MockInteractions.tap(element.shadowRoot
           .querySelector('.edit'));

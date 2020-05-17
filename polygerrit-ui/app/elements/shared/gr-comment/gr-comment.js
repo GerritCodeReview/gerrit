@@ -483,7 +483,10 @@ class GrComment extends mixinBehaviors( [
 
     this.$.container.classList.toggle('editing', editing);
     if (this.comment && this.comment.id) {
-      this.shadowRoot.querySelector('.cancel').hidden = !editing;
+      const cancelButton = this.shadowRoot.querySelector('.cancel');
+      if (cancelButton) {
+        cancelButton.hidden = !editing;
+      }
     }
     if (this.comment) {
       this.comment.__editing = this.editing;

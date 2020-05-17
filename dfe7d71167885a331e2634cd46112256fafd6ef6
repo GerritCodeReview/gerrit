@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1950782_fa98d5f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-17T09:18:37Z",
+      "side": 1,
+      "message": "As pointed out in the resolution of: [1], the severity can be promoted to error again, given that the dependency on javax.annotation is consistently added (so that the for cross compilation case with local JDK 11 works as expected and false positives are not reported).\n\n[1] https://github.com/google/error-prone/issues/1348#issuecomment-629750573",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 31
+      },
+      "revId": "dfe7d71167885a331e2634cd46112256fafd6ef6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1998981_54c38886",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-17T16:57:14Z",
+      "side": 1,
+      "message": "CI failure is related:\n\n  javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java:1372: error: cannot find symbol\n    accountIndexedCounter.assertReindexOf(admin);\n    ^\n  symbol:   variable accountIndexedCounter\n  location: class AccountIT",
+      "revId": "a27908279d897e1ae8116ccad44a571e0432db15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

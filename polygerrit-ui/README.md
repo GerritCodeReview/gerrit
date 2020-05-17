@@ -1,8 +1,5 @@
-# Gerrit Polymer Frontend
 
-Follow the
-[setup instructions for Gerrit backend developers](https://gerrit-review.googlesource.com/Documentation/dev-readme.html)
-where applicable.
+# PolyGerrit
 
 ## Installing [Bazel](https://bazel.build/)
 

@@ -119,6 +119,8 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
 
 public class RevisionIT extends AbstractDaemonTest {
+  private static final String CODE_REVIEW = "Code-Review";
+
   @Inject private GetRevisionActions getRevisionActions;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
@@ -163,8 +165,7 @@ public class RevisionIT extends AbstractDaemonTest {
     String changeId = project.get() + "~master~" + r.getChangeId();
     gApi.changes().id(changeId).current().review(ReviewInput.recommend());
 
-    String label = "Code-Review";
-    ApprovalInfo approval = getApproval(changeId, label);
+    ApprovalInfo approval = getApproval(changeId, CODE_REVIEW);
     assertThat(approval.value).isEqualTo(1);
     assertThat(approval.postSubmit).isNull();
 
@@ -172,15 +173,15 @@ public class RevisionIT extends AbstractDaemonTest {
     git().push().setRefSpecs(new RefSpec(r.getCommit().name() + ":refs/heads/master")).call();
     assertThat(gApi.changes().id(changeId).get().status).isEqualTo(ChangeStatus.MERGED);
 
-    approval = getApproval(changeId, label);
+    approval = getApproval(changeId, CODE_REVIEW);
     assertThat(approval.value).isEqualTo(1);
     assertThat(approval.postSubmit).isNull();
-    assertPermitted(gApi.changes().id(changeId).get(DETAILED_LABELS), "Code-Review", 1, 2);
+    assertPermitted(gApi.changes().id(changeId).get(DETAILED_LABELS), CODE_REVIEW, 1, 2);
 
     // Repeating the current label is allowed. Does not flip the postSubmit bit
     // due to deduplication codepath.
     gApi.changes().id(changeId).current().review(ReviewInput.recommend());
-    approval = getApproval(changeId, label);
+    approval = getApproval(changeId, CODE_REVIEW);
     assertThat(approval.value).isEqualTo(1);
     assertThat(approval.postSubmit).isNull();
 
@@ -192,16 +193,16 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(thrown)
         .hasMessageThat()
         .isEqualTo("Cannot reduce vote on labels for closed change: Code-Review");
-    approval = getApproval(changeId, label);
+    approval = getApproval(changeId, CODE_REVIEW);
     assertThat(approval.value).isEqualTo(1);
     assertThat(approval.postSubmit).isNull();
 
     // Increasing vote is allowed.
     gApi.changes().id(changeId).current().review(ReviewInput.approve());
-    approval = getApproval(changeId, label);
+    approval = getApproval(changeId, CODE_REVIEW);
     assertThat(approval.value).isEqualTo(2);
     assertThat(approval.postSubmit).isTrue();
-    assertPermitted(gApi.changes().id(changeId).get(DETAILED_LABELS), "Code-Review", 2);
+    assertPermitted(gApi.changes().id(changeId).get(DETAILED_LABELS), CODE_REVIEW, 2);
 
     // Decreasing to previous post-submit vote is still not allowed.
     thrown =
@@ -211,7 +212,7 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(thrown)
         .hasMessageThat()
         .isEqualTo("Cannot reduce vote on labels for closed change: Code-Review");
-    approval = getApproval(changeId, label);
+    approval = getApproval(changeId, CODE_REVIEW);
     assertThat(approval.value).isEqualTo(2);
     assertThat(approval.postSubmit).isTrue();
   }
@@ -228,9 +229,9 @@ public class RevisionIT extends AbstractDaemonTest {
     revision(r).review(ReviewInput.recommend());
 
     requestScopeOperations.setApiUser(admin.id());
-    gApi.changes().id(changeId).reviewer(user.username()).deleteVote("Code-Review");
+    gApi.changes().id(changeId).reviewer(user.username()).deleteVote(CODE_REVIEW);
     Optional<ApprovalInfo> crUser =
-        get(changeId, DETAILED_LABELS).labels.get("Code-Review").all.stream()
+        get(changeId, DETAILED_LABELS).labels.get(CODE_REVIEW).all.stream()
             .filter(a -> a._accountId == user.id().get())
             .findFirst();
     assertThat(crUser).isPresent();
@@ -240,12 +241,12 @@ public class RevisionIT extends AbstractDaemonTest {
 
     requestScopeOperations.setApiUser(user.id());
     ReviewInput in = new ReviewInput();
-    in.label("Code-Review", 1);
+    in.label(CODE_REVIEW, 1);
     in.message = "Still LGTM";
     revision(r).review(in);
 
     ApprovalInfo cr =
-        gApi.changes().id(changeId).get(DETAILED_LABELS).labels.get("Code-Review").all.stream()
+        gApi.changes().id(changeId).get(DETAILED_LABELS).labels.get(CODE_REVIEW).all.stream()
             .filter(a -> a._accountId == user.id().get())
             .findFirst()
             .get();
@@ -260,7 +261,7 @@ public class RevisionIT extends AbstractDaemonTest {
     revision(r).submit();
 
     ReviewInput in = new ReviewInput();
-    in.label("Code-Review", 0);
+    in.label(CODE_REVIEW, 0);
 
     ResourceConflictException thrown =
         assertThrows(ResourceConflictException.class, () -> revision(r).review(in));
@@ -283,7 +284,7 @@ public class RevisionIT extends AbstractDaemonTest {
         Iterators.getOnlyElement(
             cd.currentApprovals().stream().filter(a -> !a.isLegacySubmit()).iterator());
     assertThat(psa.patchSetId().get()).isEqualTo(2);
-    assertThat(psa.label()).isEqualTo("Code-Review");
+    assertThat(psa.label()).isEqualTo(CODE_REVIEW);
     assertThat(psa.value()).isEqualTo(2);
     assertThat(psa.postSubmit()).isFalse();
   }
@@ -1797,7 +1798,7 @@ public class RevisionIT extends AbstractDaemonTest {
                     .id(r.getChangeId())
                     .revision(r.getCommit().getName())
                     .reviewer(user.id().toString())
-                    .deleteVote("Code-Review"));
+                    .deleteVote(CODE_REVIEW));
     assertThat(thrown).hasMessageThat().contains("Cannot access on non-current patch set");
   }
 
@@ -1818,12 +1819,12 @@ public class RevisionIT extends AbstractDaemonTest {
         .id(r.getChangeId())
         .current()
         .reviewer(user.id().toString())
-        .deleteVote("Code-Review");
+        .deleteVote(CODE_REVIEW);
 
     Map<String, Short> m =
         gApi.changes().id(r.getChangeId()).current().reviewer(user.id().toString()).votes();
 
-    assertThat(m).containsExactly("Code-Review", Short.valueOf((short) 0));
+    assertThat(m).containsExactly(CODE_REVIEW, Short.valueOf((short) 0));
 
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
     ChangeMessageInfo message = Iterables.getLast(c.messages);
@@ -1841,8 +1842,8 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(votes).isEmpty();
     recommend(changeId);
     votes = gApi.changes().id(changeId).current().votes();
-    assertThat(votes.keySet()).containsExactly("Code-Review");
-    List<ApprovalInfo> approvals = votes.get("Code-Review");
+    assertThat(votes.keySet()).containsExactly(CODE_REVIEW);
+    List<ApprovalInfo> approvals = votes.get(CODE_REVIEW);
     assertThat(approvals).hasSize(1);
     ApprovalInfo approval = approvals.get(0);
     assertThat(approval._accountId).isEqualTo(admin.id().get());
@@ -1856,8 +1857,8 @@ public class RevisionIT extends AbstractDaemonTest {
     // Patch set 1 has 2 votes on Code-Review
     requestScopeOperations.setApiUser(admin.id());
     votes = gApi.changes().id(changeId).current().votes();
-    assertThat(votes.keySet()).containsExactly("Code-Review");
-    approvals = votes.get("Code-Review");
+    assertThat(votes.keySet()).containsExactly(CODE_REVIEW);
+    approvals = votes.get(CODE_REVIEW);
     assertThat(approvals).hasSize(2);
     assertThat(approvals.stream().map(a -> a._accountId))
         .containsExactlyElementsIn(ImmutableList.of(admin.id().get(), user.id().get()));
@@ -1869,8 +1870,8 @@ public class RevisionIT extends AbstractDaemonTest {
 
     // Votes are still returned for ps 1
     votes = gApi.changes().id(changeId).revision(1).votes();
-    assertThat(votes.keySet()).containsExactly("Code-Review");
-    approvals = votes.get("Code-Review");
+    assertThat(votes.keySet()).containsExactly(CODE_REVIEW);
+    approvals = votes.get(CODE_REVIEW);
     assertThat(approvals).hasSize(2);
   }
 

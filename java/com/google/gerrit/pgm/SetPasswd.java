@@ -16,13 +16,12 @@ package com.google.gerrit.pgm;
 
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.Section;
-import com.google.gerrit.pgm.init.api.Section.Factory;
 import com.google.inject.Inject;
 
 public class SetPasswd {
 
   private ConsoleUI ui;
-  private Factory sections;
+  private Section.Factory sections;
 
   @Inject
   public SetPasswd(ConsoleUI ui, Section.Factory sections) {

@@ -68,7 +68,7 @@ public class PerThreadCache implements AutoCloseable {
 
     /**
      * Returns a key based on the value's class and an identifier that uniquely identify the value.
-     * The identifier needs to implement {@code equals()} and {@hashCode()}.
+     * The identifier needs to implement {@code equals()} and {@code hashCode()}.
      */
     public static <T> Key<T> create(Class<T> clazz, Object identifier) {
       return new Key<>(clazz, ImmutableList.of(identifier));
@@ -76,7 +76,7 @@ public class PerThreadCache implements AutoCloseable {
 
     /**
      * Returns a key based on the value's class and a set of identifiers that uniquely identify the
-     * value. Identifiers need to implement {@code equals()} and {@hashCode()}.
+     * value. Identifiers need to implement {@code equals()} and {@code hashCode()}.
      */
     public static <T> Key<T> create(Class<T> clazz, Object... identifiers) {
       return new Key<>(clazz, ImmutableList.copyOf(identifiers));

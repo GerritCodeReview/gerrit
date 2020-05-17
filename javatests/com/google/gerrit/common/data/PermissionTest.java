@@ -284,7 +284,7 @@ public class PermissionTest {
     PermissionRule permissionRule3 =
         new PermissionRule(new GroupReference(AccountGroup.uuid("uuid-3"), "group3"));
 
-    Permission permission1 = new Permission("foo");
+    Permission permission1 = new Permission(PERMISSION_NAME);
     permission1.setRules(ImmutableList.of(permissionRule1, permissionRule2));
 
     Permission permission2 = new Permission("bar");
@@ -309,7 +309,7 @@ public class PermissionTest {
     permissionSameRulesOtherName.setRules(ImmutableList.of(permissionRule1, permissionRule2));
     assertThat(permission.equals(permissionSameRulesOtherName)).isFalse();
 
-    Permission permissionSameRulesSameNameOtherExclusiveGroup = new Permission("foo");
+    Permission permissionSameRulesSameNameOtherExclusiveGroup = new Permission(PERMISSION_NAME);
     permissionSameRulesSameNameOtherExclusiveGroup.setRules(
         ImmutableList.of(permissionRule1, permissionRule2));
     permissionSameRulesSameNameOtherExclusiveGroup.setExclusiveGroup(true);

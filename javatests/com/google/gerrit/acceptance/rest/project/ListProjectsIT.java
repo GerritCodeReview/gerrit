@@ -227,7 +227,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
 
     assertThatNameList(gApi.projects().list().withRegex(".*some").get())
         .containsExactly(projectAwesome);
-    String r = ("lpwr-some-project$").replace(".", "\\.");
+    String r = "lpwr-some-project$".replace(".", "\\.");
     assertThatNameList(gApi.projects().list().withRegex(r).get()).containsExactly(someProject);
     assertThatNameList(gApi.projects().list().withRegex(".*").get())
         .containsExactly(

@@ -37,9 +37,6 @@ import org.junit.Test;
  */
 @NoHttpd
 public class RulesIT extends AbstractDaemonTest {
-  private static final String RULE_TEMPLATE =
-      "submit_rule(submit(W)) :- \n" + "%s,\n" + "W = label('OK', ok(user(1000000))).";
-
   @Inject private ProjectOperations projectOperations;
   @Inject private SubmitRuleEvaluator.Factory evaluatorFactory;
 
@@ -97,7 +94,10 @@ public class RulesIT extends AbstractDaemonTest {
   }
 
   private void modifySubmitRules(String ruleTested) throws Exception {
-    String newContent = String.format(RULE_TEMPLATE, ruleTested);
+    String newContent =
+        String.format(
+            "submit_rule(submit(W)) :- \n" + "%s,\n" + "W = label('OK', ok(user(1000000))).",
+            ruleTested);
 
     try (Repository repo = repoManager.openRepository(project);
         TestRepository<Repository> testRepo = new TestRepository<>(repo)) {

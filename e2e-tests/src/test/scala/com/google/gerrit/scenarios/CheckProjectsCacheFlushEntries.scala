@@ -14,24 +14,35 @@
 
 package com.google.gerrit.scenarios
 
-import io.gatling.core.Predef._
+import io.gatling.core.Predef.{atOnceUsers, _}
 import io.gatling.core.feeder.FeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
+import io.gatling.http.Predef._
 
-class CreateProject extends ProjectSimulation {
+class CheckProjectsCacheFlushEntries extends CacheFlushSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
 
-  def this(default: String) {
+  def this(producer: CacheFlushSimulation) {
     this()
-    this.default = default
+    this.producer = Some(producer)
   }
 
   val test: ScenarioBuilder = scenario(unique)
       .feed(data)
-      .exec(httpRequest.body(RawFileBody(body)).asJson)
+      .exec(session => {
+        if (producer.nonEmpty) {
+          session.set(entriesKey, producer.get.expectedEntriesAfterFlush())
+        } else {
+          session
+        }
+      })
+      .exec(http(unique).get("${url}")
+          .check(regex("\"" + memKey + "\": (\\d+)")
+              .is(session => session(entriesKey).as[String])))
 
   setUp(
     test.inject(
       atOnceUsers(1)
-    )).protocols(httpProtocol)
+    ),
+  ).protocols(httpProtocol)
 }

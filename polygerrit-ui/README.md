@@ -1,8 +1,13 @@
+<<<<<<< HEAD   (b76ec4 StandaloneSiteTest: Remove extra lines in execute)
 # Gerrit Polymer Frontend
 
 Follow the
 [setup instructions for Gerrit backend developers](https://gerrit-review.googlesource.com/Documentation/dev-readme.html)
 where applicable.
+=======
+
+# PolyGerrit
+>>>>>>> CHANGE (1826ee [DO NOT MERGE] Trigger a PolyGerrit verification)
 
 ## Installing [Bazel](https://bazel.build/)
 

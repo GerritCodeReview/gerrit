@@ -14,24 +14,19 @@
 
 package com.google.gerrit.scenarios
 
-import io.gatling.core.Predef._
-import io.gatling.core.feeder.FeederBuilder
-import io.gatling.core.structure.ScenarioBuilder
+class CacheFlushSimulation extends GerritSimulation {
+  protected val entriesKey = "entries"
+  protected val memKey = "mem"
+  protected var producer: Option[CacheFlushSimulation] = None
+  protected var consumer: Option[CacheFlushSimulation] = None
 
-class CreateProject extends ProjectSimulation {
-  private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
+  private var cacheEntriesBeforeFlush: Int = 0
 
-  def this(default: String) {
-    this()
-    this.default = default
+  def entriesBeforeFlush(entries: Int): Unit = {
+    cacheEntriesBeforeFlush = entries
   }
 
-  val test: ScenarioBuilder = scenario(unique)
-      .feed(data)
-      .exec(httpRequest.body(RawFileBody(body)).asJson)
-
-  setUp(
-    test.inject(
-      atOnceUsers(1)
-    )).protocols(httpProtocol)
+  def expectedEntriesAfterFlush(): Int = {
+    cacheEntriesBeforeFlush - 1
+  }
 }

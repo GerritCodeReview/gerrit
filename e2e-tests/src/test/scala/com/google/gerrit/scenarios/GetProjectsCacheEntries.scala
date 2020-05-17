@@ -17,18 +17,26 @@ package com.google.gerrit.scenarios
 import io.gatling.core.Predef._
 import io.gatling.core.feeder.FeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
+import io.gatling.http.Predef.{http, _}
 
-class CreateProject extends ProjectSimulation {
+class GetProjectsCacheEntries extends CacheFlushSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
 
-  def this(default: String) {
+  def this(consumer: CacheFlushSimulation) {
     this()
-    this.default = default
+    this.consumer = Some(consumer)
   }
 
   val test: ScenarioBuilder = scenario(unique)
       .feed(data)
-      .exec(httpRequest.body(RawFileBody(body)).asJson)
+      .exec(http(unique).get("${url}")
+          .check(regex("\"" + memKey + "\": (\\d+)").saveAs(entriesKey)))
+      .exec(session => {
+        if (consumer.nonEmpty) {
+          consumer.get.entriesBeforeFlush(session(entriesKey).as[Int])
+        }
+        session
+      })
 
   setUp(
     test.inject(

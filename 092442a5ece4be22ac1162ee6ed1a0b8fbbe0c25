@@ -16,6 +16,24 @@
       "revId": "092442a5ece4be22ac1162ee6ed1a0b8fbbe0c25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d191f057_f03238d9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-05-18T17:08:34Z",
+      "side": 1,
+      "message": "well i mean under GWTUI this is basically what we did (so i guess we could say it\u0027s a regression because who wants to create an edit on a older patchset?)",
+      "parentUuid": "1145afba_9ea8ae8d",
+      "revId": "092442a5ece4be22ac1162ee6ed1a0b8fbbe0c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

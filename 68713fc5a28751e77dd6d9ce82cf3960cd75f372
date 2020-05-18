@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2597bea3_248db83a",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-18T15:23:26Z",
+      "side": 1,
+      "message": "replaced with id",
+      "parentUuid": "23b9b64f_9c13961c",
+      "range": {
+        "startLine": 252,
+        "startChar": 10,
+        "endLine": 252,
+        "endChar": 13
+      },
+      "revId": "68713fc5a28751e77dd6d9ce82cf3960cd75f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4301e3f_1ca01045",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "68713fc5a28751e77dd6d9ce82cf3960cd75f372",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e824327_a3f787e5",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-18T15:23:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4301e3f_1ca01045",
+      "revId": "68713fc5a28751e77dd6d9ce82cf3960cd75f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "001810e8_5dcac5ab",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-18T15:23:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9d71d44_15bfedc6",
+      "revId": "68713fc5a28751e77dd6d9ce82cf3960cd75f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82ec29f6_1b26efb4",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 2
@@ -70,6 +130,30 @@
       "writtenOn": "2020-05-18T11:42:41Z",
       "side": 1,
       "message": "remove",
+      "range": {
+        "startLine": 268,
+        "startChar": 55,
+        "endLine": 268,
+        "endChar": 69
+      },
+      "revId": "68713fc5a28751e77dd6d9ce82cf3960cd75f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f90cfae_084d151d",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-18T15:23:26Z",
+      "side": 1,
+      "message": "What am I supposed to remove?",
+      "parentUuid": "82ec29f6_1b26efb4",
       "range": {
         "startLine": 268,
         "startChar": 55,
@@ -102,6 +186,30 @@
       "revId": "68713fc5a28751e77dd6d9ce82cf3960cd75f372",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19a3b427_d5e096d9",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-18T15:23:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36769b9d_eb740915",
+      "range": {
+        "startLine": 270,
+        "startChar": 4,
+        "endLine": 271,
+        "endChar": 49
+      },
+      "revId": "68713fc5a28751e77dd6d9ce82cf3960cd75f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -160,6 +160,9 @@ public class SubmoduleOp {
    */
   private final SetMultimap<Project.NameKey, BranchNameKey> branchesByProject;
 
+  /** All branches subscribed by other projects. */
+  private final Set<BranchNameKey> subBranches;
+
   private SubmoduleOp(
       GitModules.Factory gitmodulesFactory,
       PersonIdent myIdent,
@@ -185,6 +188,7 @@ public class SubmoduleOp {
     this.branchTips = new HashMap<>();
     this.branchGitModules = new HashMap<>();
     this.branchesByProject = MultimapBuilder.hashKeys().hashSetValues().build();
+    this.subBranches = new HashSet<>();
     this.sortedBranches = calculateSubscriptionMaps();
   }
 
@@ -197,6 +201,7 @@ public class SubmoduleOp {
    *   <li>{@link #affectedBranches}
    *   <li>{@link #targets}
    *   <li>{@link #branchesByProject}
+   *   <li>{@link #subBranches}
    * </ul>
    *
    * @return the ordered set to be stored in {@link #sortedBranches}.
@@ -269,6 +274,7 @@ public class SubmoduleOp {
         branchesByProject.put(superBranch.project(), superBranch);
         affectedBranches.add(superBranch);
         affectedBranches.add(sub.getSubmodule());
+        subBranches.add(sub.getSubmodule());
       }
     } catch (IOException e) {
       throw new StorageException("Cannot find superprojects for " + current, e);
@@ -358,8 +364,7 @@ public class SubmoduleOp {
     return ret;
   }
 
-  @UsedAt(UsedAt.Project.PLUGIN_DELETE_PROJECT)
-  public Collection<SubmoduleSubscription> superProjectSubscriptionsForSubmoduleBranch(
+  private Collection<SubmoduleSubscription> superProjectSubscriptionsForSubmoduleBranch(
       BranchNameKey srcBranch) throws IOException {
     logger.atFine().log("Calculating possible superprojects for %s", srcBranch);
     Collection<SubmoduleSubscription> ret = new ArrayList<>();
@@ -395,6 +400,11 @@ public class SubmoduleOp {
     }
     logger.atFine().log("Calculated superprojects for %s are %s", srcBranch, ret);
     return ret;
+  }
+
+  @UsedAt(UsedAt.Project.PLUGIN_DELETE_PROJECT)
+  public boolean hasSuperproject(BranchNameKey branch) {
+    return subBranches.contains(branch);
   }
 
   public void updateSuperProjects() throws RestApiException {

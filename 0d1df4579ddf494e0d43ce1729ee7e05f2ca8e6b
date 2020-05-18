@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cddbf7a_d63bcc18",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-18T18:26:02Z",
+      "side": 1,
+      "message": "It\u0027s very hard to understand what test is doing. I would rephrase it to:\n`when blame was loaded, then it loads for subsequent files`",
+      "range": {
+        "startLine": 154,
+        "startChar": 10,
+        "endLine": 154,
+        "endChar": 46
+      },
+      "revId": "0d1df4579ddf494e0d43ce1729ee7e05f2ca8e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "899ea125_fb472ddf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-18T18:26:02Z",
+      "side": 1,
+      "message": "Maybe check if element._isBlameLoaded is still true?",
+      "range": {
+        "startLine": 168,
+        "startChar": 6,
+        "endLine": 170,
+        "endChar": 9
+      },
+      "revId": "0d1df4579ddf494e0d43ce1729ee7e05f2ca8e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

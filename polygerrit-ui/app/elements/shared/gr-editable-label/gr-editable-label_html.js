@@ -75,29 +75,31 @@ export const htmlTemplate = html`
     on-click="_showDropdown"
     >[[_computeLabel(value, placeholder)]]</label
   >
-  <iron-dropdown
-    id="dropdown"
-    vertical-align="auto"
-    horizontal-align="auto"
-    vertical-offset="[[_verticalOffset]]"
-    allow-outside-scroll="true"
-    on-iron-overlay-canceled="_cancel"
-  >
-    <div class="dropdown-content" slot="dropdown-content">
-      <div class="inputContainer">
-        <paper-input
-          id="input"
-          label="[[labelText]]"
-          maxlength="[[maxLength]]"
-          value="{{_inputText}}"
-        ></paper-input>
-        <div class="buttons">
-          <gr-button link="" id="cancelBtn" on-click="_cancel"
-            >cancel</gr-button
-          >
-          <gr-button link="" id="saveBtn" on-click="_save">save</gr-button>
+  <template is="dom-if" if="[[!readOnly]]">
+    <iron-dropdown
+      id="dropdown"
+      vertical-align="auto"
+      horizontal-align="auto"
+      vertical-offset="[[_verticalOffset]]"
+      allow-outside-scroll="true"
+      on-iron-overlay-canceled="_cancel"
+    >
+      <div class="dropdown-content" slot="dropdown-content">
+        <div class="inputContainer">
+          <paper-input
+            id="input"
+            label="[[labelText]]"
+            maxlength="[[maxLength]]"
+            value="{{_inputText}}"
+          ></paper-input>
+          <div class="buttons">
+            <gr-button link="" id="cancelBtn" on-click="_cancel"
+              >cancel</gr-button
+            >
+            <gr-button link="" id="saveBtn" on-click="_save">save</gr-button>
+          </div>
         </div>
       </div>
-    </div>
-  </iron-dropdown>
+    </iron-dropdown>
+  </template>
 `;

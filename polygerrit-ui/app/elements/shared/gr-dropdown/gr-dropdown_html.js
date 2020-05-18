@@ -96,68 +96,70 @@ export const htmlTemplate = html`
   >
     <slot></slot>
   </gr-button>
-  <iron-dropdown
-    id="dropdown"
-    vertical-align="top"
-    vertical-offset="[[verticalOffset]]"
-    allow-outside-scroll="true"
-    horizontal-align="[[horizontalAlign]]"
-    on-click="_handleDropdownClick"
-  >
-    <div class="dropdown-content" slot="dropdown-content">
-      <ul>
-        <template is="dom-if" if="[[topContent]]">
-          <div class="topContent">
-            <template
-              is="dom-repeat"
-              items="[[topContent]]"
-              as="item"
-              initial-count="75"
-            >
-              <div
-                class$="[[_getClassIfBold(item.bold)]] top-item"
-                tabindex="-1"
+  <template is="dom-if" if="[[loadDropdown]]">
+    <iron-dropdown
+      id="dropdown"
+      vertical-align="top"
+      vertical-offset="[[verticalOffset]]"
+      allow-outside-scroll="true"
+      horizontal-align="[[horizontalAlign]]"
+      on-click="_handleDropdownClick"
+    >
+      <div class="dropdown-content" slot="dropdown-content">
+        <ul>
+          <template is="dom-if" if="[[topContent]]">
+            <div class="topContent">
+              <template
+                is="dom-repeat"
+                items="[[topContent]]"
+                as="item"
+                initial-count="75"
               >
-                [[item.text]]
-              </div>
-            </template>
-          </div>
-        </template>
-        <template
-          is="dom-repeat"
-          items="[[items]]"
-          as="link"
-          initial-count="75"
-        >
-          <li tabindex="-1">
-            <gr-tooltip-content
-              has-tooltip="[[_computeHasTooltip(link.tooltip)]]"
-              title$="[[link.tooltip]]"
-            >
-              <span
-                class$="itemAction [[_computeDisabledClass(link.id, disabledIds.*)]]"
-                data-id$="[[link.id]]"
-                on-click="_handleItemTap"
-                hidden$="[[link.url]]"
-                tabindex="-1"
-                >[[link.name]]</span
+                <div
+                  class$="[[_getClassIfBold(item.bold)]] top-item"
+                  tabindex="-1"
+                >
+                  [[item.text]]
+                </div>
+              </template>
+            </div>
+          </template>
+          <template
+            is="dom-repeat"
+            items="[[items]]"
+            as="link"
+            initial-count="75"
+          >
+            <li tabindex="-1">
+              <gr-tooltip-content
+                has-tooltip="[[_computeHasTooltip(link.tooltip)]]"
+                title$="[[link.tooltip]]"
               >
-              <a
-                class="itemAction"
-                href$="[[_computeLinkURL(link)]]"
-                download$="[[_computeIsDownload(link)]]"
-                rel$="[[_computeLinkRel(link)]]"
-                target$="[[link.target]]"
-                hidden$="[[!link.url]]"
-                tabindex="-1"
-                >[[link.name]]</a
-              >
-            </gr-tooltip-content>
-          </li>
-        </template>
-      </ul>
-    </div>
-  </iron-dropdown>
+                <span
+                  class$="itemAction [[_computeDisabledClass(link.id, disabledIds.*)]]"
+                  data-id$="[[link.id]]"
+                  on-click="_handleItemTap"
+                  hidden$="[[link.url]]"
+                  tabindex="-1"
+                  >[[link.name]]</span
+                >
+                <a
+                  class="itemAction"
+                  href$="[[_computeLinkURL(link)]]"
+                  download$="[[_computeIsDownload(link)]]"
+                  rel$="[[_computeLinkRel(link)]]"
+                  target$="[[link.target]]"
+                  hidden$="[[!link.url]]"
+                  tabindex="-1"
+                  >[[link.name]]</a
+                >
+              </gr-tooltip-content>
+            </li>
+          </template>
+        </ul>
+      </div>
+    </iron-dropdown>
+  </template>
   <gr-cursor-manager
     id="cursor"
     cursor-target-class="selected"

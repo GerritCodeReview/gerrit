@@ -151,6 +151,27 @@ suite('gr-diff-view tests', () => {
       });
     });
 
+    test('params change cases blame to load if it was set to true', () => {
+      // Blame loads for subsequent files if it was loaded for one file
+      element._isBlameLoaded = true;
+      sandbox.stub(element.reporting, 'diffViewDisplayed');
+      sandbox.stub(element, '_loadBlame');
+      sandbox.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
+      sandbox.spy(element, '_paramsChanged');
+      element.params = {
+        view: GerritNav.View.DIFF,
+        changeNum: '42',
+        patchNum: '2',
+        basePatchNum: '1',
+        path: '/COMMIT_MSG',
+      };
+
+      return element._paramsChanged.returnValues[0].then(() => {
+        assert.isTrue(element._isBlameLoaded);
+        assert.isTrue(element._loadBlame.calledOnce);
+      });
+    });
+
     test('toggle left diff with a hotkey', () => {
       const toggleLeftDiffStub = sandbox.stub(
           element.$.diffHost, 'toggleLeftDiff');

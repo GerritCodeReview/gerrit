@@ -46,6 +46,30 @@
       "revId": "3b29b02774aca2d672f5c52e63c8bc6b65a7300f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38c043b0_e14edb0e",
+        "filename": "tools/BUILD",
+        "patchSetId": 10
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-18T14:23:07Z",
+      "side": 1,
+      "message": "Correct. ModifiedButNotUsed cannot be promoted in parent change, without applyig changes from this change, because this check is broken older EP releases (that is shipped with Bazel) and would report false positive. In this change we are switching to newer EP release, where this bug was fixed and that\u0027s why ee can enable it now. Yes, it makes sense to squash this change into the parent change.",
+      "parentUuid": "f2a949c6_691217df",
+      "range": {
+        "startLine": 136,
+        "startChar": 10,
+        "endLine": 136,
+        "endChar": 38
+      },
+      "revId": "3b29b02774aca2d672f5c52e63c8bc6b65a7300f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

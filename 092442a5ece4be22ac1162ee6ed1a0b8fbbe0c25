@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1145afba_9ea8ae8d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-18T17:06:24Z",
+      "side": 1,
+      "message": "copy my comment from the revert on master: I am a bit unsure on this/ yet, as I mentioned in the other change that from change page, we allow you Edit on an older patchset, so it seems weird if we disable that on diff page ? And i can see people using that as a way to reset change back to an older patchset :)",
+      "revId": "092442a5ece4be22ac1162ee6ed1a0b8fbbe0c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

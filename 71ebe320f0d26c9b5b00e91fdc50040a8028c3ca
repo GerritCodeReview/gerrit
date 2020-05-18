@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17a1ecfd_d3d3af4c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-18T14:43:36Z",
+      "side": 0,
+      "message": "this is no longer needed ? or it will be included by the new logic ?",
+      "range": {
+        "startLine": 151,
+        "startChar": 6,
+        "endLine": 157,
+        "endChar": 7
+      },
+      "revId": "71ebe320f0d26c9b5b00e91fdc50040a8028c3ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

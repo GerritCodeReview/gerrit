@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22ddfae2_2e4796da",
+        "filename": "tools/BUILD",
+        "patchSetId": 10
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-18T12:45:25Z",
+      "side": 1,
+      "message": "Can this severity be promoted in a separate change?",
+      "range": {
+        "startLine": 136,
+        "startChar": 10,
+        "endLine": 136,
+        "endChar": 38
+      },
+      "revId": "3b29b02774aca2d672f5c52e63c8bc6b65a7300f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

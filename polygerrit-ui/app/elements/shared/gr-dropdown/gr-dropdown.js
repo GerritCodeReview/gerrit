@@ -98,6 +98,11 @@ class GrDropdown extends mixinBehaviors( [
         type: Array,
         value() { return []; },
       },
+
+      loadDropdown: {
+        type: Boolean,
+        value: false,
+      },
     };
   }
 
@@ -116,7 +121,8 @@ class GrDropdown extends mixinBehaviors( [
    * @param {!Event} e
    */
   _handleUp(e) {
-    if (this.$.dropdown.opened) {
+    const dropdown = this.shadowRoot.querySelector('#dropdown');
+    if (dropdown && dropdown.opened) {
       e.preventDefault();
       e.stopPropagation();
       this.$.cursor.previous();
@@ -131,7 +137,8 @@ class GrDropdown extends mixinBehaviors( [
    * @param {!Event} e
    */
   _handleDown(e) {
-    if (this.$.dropdown.opened) {
+    const dropdown = this.shadowRoot.querySelector('#dropdown');
+    if (dropdown && dropdown.opened) {
       e.preventDefault();
       e.stopPropagation();
       this.$.cursor.next();
@@ -146,7 +153,8 @@ class GrDropdown extends mixinBehaviors( [
    * @param {!Event} e
    */
   _handleTab(e) {
-    if (this.$.dropdown.opened) {
+    const dropdown = this.shadowRoot.querySelector('#dropdown');
+    if (dropdown && dropdown.opened) {
       // Tab in a native select is a no-op. Emulate this.
       e.preventDefault();
       e.stopPropagation();
@@ -161,7 +169,8 @@ class GrDropdown extends mixinBehaviors( [
   _handleEnter(e) {
     e.preventDefault();
     e.stopPropagation();
-    if (this.$.dropdown.opened) {
+    const dropdown = this.shadowRoot.querySelector('#dropdown');
+    if (dropdown && dropdown.opened) {
       // TODO(milutin): This solution is not particularly robust in general.
       // Since gr-tooltip-content click on shadow dom is not propagated down,
       // we have to target `a` inside it.
@@ -189,7 +198,8 @@ class GrDropdown extends mixinBehaviors( [
   _dropdownTriggerTapHandler(e) {
     e.preventDefault();
     e.stopPropagation();
-    if (this.$.dropdown.opened) {
+    const dropdown = this.shadowRoot.querySelector('#dropdown');
+    if (dropdown && dropdown.opened) {
       this._close();
     } else {
       this._open();
@@ -200,7 +210,9 @@ class GrDropdown extends mixinBehaviors( [
    * Open the dropdown and initialize the cursor.
    */
   _open() {
-    this.$.dropdown.open();
+    this.loadDropdown = true;
+    flush();
+    this.shadowRoot.querySelector('#dropdown').open();
     this._resetCursorStops();
     this.$.cursor.setCursorAtIndex(0);
     this.$.cursor.target.focus();
@@ -210,7 +222,7 @@ class GrDropdown extends mixinBehaviors( [
     // async is needed so that that the click event is fired before the
     // dropdown closes (This was a bug for touch devices).
     this.async(() => {
-      this.$.dropdown.close();
+      this.shadowRoot.querySelector('#dropdown').close();
     }, 1);
   }
 
@@ -314,7 +326,9 @@ class GrDropdown extends mixinBehaviors( [
    * Recompute the stops for the dropdown item cursor.
    */
   _resetCursorStops() {
-    if (this.items && this.items.length > 0 && this.$.dropdown.opened) {
+    const dropdown = this.shadowRoot.querySelector('#dropdown');
+    if (this.items && this.items.length > 0
+       && dropdown && dropdown.opened) {
       flush();
       this._listElements = Array.from(
           dom(this.root).querySelectorAll('li'));

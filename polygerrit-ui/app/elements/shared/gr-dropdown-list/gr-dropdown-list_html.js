@@ -128,40 +128,42 @@ export const htmlTemplate = html`
   >
     <span id="triggerText">[[text]]</span>
   </gr-button>
-  <iron-dropdown
-    id="dropdown"
-    vertical-align="top"
-    allow-outside-scroll="true"
-    on-click="_handleDropdownClick"
-  >
-    <paper-listbox
-      class="dropdown-content"
-      slot="dropdown-content"
-      attr-for-selected="data-value"
-      selected="{{value}}"
-      on-tap="_handleDropdownTap"
+  <template is="dom-if" if="[[loadDropdown]]">
+    <iron-dropdown
+      id="dropdown"
+      vertical-align="top"
+      allow-outside-scroll="true"
+      on-click="_handleDropdownClick"
     >
-      <template
-        is="dom-repeat"
-        items="[[items]]"
-        initial-count="[[initialCount]]"
+      <paper-listbox
+        class="dropdown-content"
+        slot="dropdown-content"
+        attr-for-selected="data-value"
+        selected="{{value}}"
+        on-tap="_handleDropdownTap"
       >
-        <paper-item disabled="[[item.disabled]]" data-value$="[[item.value]]">
-          <div class="topContent">
-            <div>[[item.text]]</div>
-            <template is="dom-if" if="[[item.date]]">
-              <gr-date-formatter date-str="[[item.date]]"></gr-date-formatter>
-            </template>
-          </div>
-          <template is="dom-if" if="[[item.bottomText]]">
-            <div class="bottomContent">
-              <div>[[item.bottomText]]</div>
+        <template
+          is="dom-repeat"
+          items="[[items]]"
+          initial-count="[[initialCount]]"
+        >
+          <paper-item disabled="[[item.disabled]]" data-value$="[[item.value]]">
+            <div class="topContent">
+              <div>[[item.text]]</div>
+              <template is="dom-if" if="[[item.date]]">
+                <gr-date-formatter date-str="[[item.date]]"></gr-date-formatter>
+              </template>
             </div>
-          </template>
-        </paper-item>
-      </template>
-    </paper-listbox>
-  </iron-dropdown>
+            <template is="dom-if" if="[[item.bottomText]]">
+              <div class="bottomContent">
+                <div>[[item.bottomText]]</div>
+              </div>
+            </template>
+          </paper-item>
+        </template>
+      </paper-listbox>
+    </iron-dropdown>
+  </template>
   <gr-select bind-value="{{value}}">
     <select>
       <template is="dom-repeat" items="[[items]]">

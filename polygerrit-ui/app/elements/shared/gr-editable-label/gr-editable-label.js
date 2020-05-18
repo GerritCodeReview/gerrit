@@ -114,8 +114,9 @@ class GrEditableLabel extends mixinBehaviors( [
     if (this.readOnly || this.editing) { return; }
     return this._open().then(() => {
       this._nativeInput.focus();
-      if (!this.$.input.value) { return; }
-      this._nativeInput.setSelectionRange(0, this.$.input.value.length);
+      const input = this.shadowRoot.querySelector('#input');
+      if (!input.value) { return; }
+      this._nativeInput.setSelectionRange(0, input.value.length);
     });
   }
 
@@ -126,12 +127,13 @@ class GrEditableLabel extends mixinBehaviors( [
   }
 
   _open(...args) {
-    this.$.dropdown.open();
+    this.shadowRoot.querySelector('#dropdown').open();
     this._inputText = this.value;
     this.editing = true;
 
     return new Promise(resolve => {
-      IronOverlayBehaviorImpl.open.apply(this.$.dropdown, args);
+      IronOverlayBehaviorImpl.open.apply(
+          this.shadowRoot.querySelector('#dropdown'), args);
       this._awaitOpen(resolve);
     });
   }
@@ -144,7 +146,8 @@ class GrEditableLabel extends mixinBehaviors( [
     let iters = 0;
     const step = () => {
       this.async(() => {
-        if (this.$.dropdown.style.display !== 'none') {
+        if (this.shadowRoot.querySelector('#dropdown')
+            .style.display !== 'none') {
           fn.call(this);
         } else if (iters++ < AWAIT_MAX_ITERS) {
           step.call(this);
@@ -160,7 +163,7 @@ class GrEditableLabel extends mixinBehaviors( [
 
   _save() {
     if (!this.editing) { return; }
-    this.$.dropdown.close();
+    this.shadowRoot.querySelector('#dropdown').close();
     this.value = this._inputText;
     this.editing = false;
     this.dispatchEvent(new CustomEvent('changed', {
@@ -171,7 +174,7 @@ class GrEditableLabel extends mixinBehaviors( [
 
   _cancel() {
     if (!this.editing) { return; }
-    this.$.dropdown.close();
+    this.shadowRoot.querySelector('#dropdown').close();
     this.editing = false;
     this._inputText = this.value;
   }
@@ -179,7 +182,8 @@ class GrEditableLabel extends mixinBehaviors( [
   get _nativeInput() {
     // In Polymer 2, the namespace of nativeInput
     // changed from input to nativeInput
-    return this.$.input.$.nativeInput || this.$.input.$.input;
+    const input = this.shadowRoot.querySelector('#input');
+    return input.$.nativeInput || input.$.input;
   }
 
   _handleEnter(e) {

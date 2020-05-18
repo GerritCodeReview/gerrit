@@ -374,10 +374,12 @@ limitations under the License.
       element._path = 't.txt';
       element._patchRange = {
         basePatchNum: PARENT,
-        patchNum: '1',
+        patchNum: '2',
       };
       element._change = {
         _number: 42,
+        current_revision: 'b',
+        project: 'gerrit',
         status: 'NEW',
         revisions: {
           a: {_number: 1, commit: {parents: []}},
@@ -391,8 +393,37 @@ limitations under the License.
         assert.isTrue(!!editBtn);
         MockInteractions.tap(editBtn);
         assert.isTrue(redirectStub.called);
+        assert.isTrue(redirectStub.lastCall.calledWithExactly(
+            GerritNav.getEditUrlForDiff(
+                element._change,
+                element._path,
+                element._patchRange.patchNum
+            )));
         done();
       });
+    });
+
+    test('_computeCanEdit', () => {
+      const loggedIn = true;
+      const patchRange = {
+        base: {
+          basePatchNum: PARENT,
+          patchNum: 2,
+        },
+      };
+      const change = {
+        base: {
+          _number: 42,
+          current_revision: 'b',
+          project: 'gerrit',
+          status: 'NEW',
+          revisions: {
+            a: {_number: 1, commit: {parents: []}},
+            b: {_number: 2, commit: {parents: []}},
+          },
+        },
+      };
+      assert.isTrue(element._computeCanEdit(loggedIn, change, patchRange));
     });
 
     function isEditVisibile({loggedIn, changeStatus}) {
@@ -401,10 +432,12 @@ limitations under the License.
         element._path = 't.txt';
         element._patchRange = {
           basePatchNum: PARENT,
-          patchNum: '1',
+          patchNum: '2',
         };
         element._change = {
           _number: 42,
+          current_revision: 'b',
+          project: 'gerrit',
           status: changeStatus,
           revisions: {
             a: {_number: 1, commit: {parents: []}},

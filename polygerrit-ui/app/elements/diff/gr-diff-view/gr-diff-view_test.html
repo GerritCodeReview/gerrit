@@ -419,7 +419,11 @@ suite('gr-diff-view tests', () => {
         MockInteractions.tap(editBtn);
         assert.isTrue(redirectStub.called);
         assert.isTrue(redirectStub.lastCall.calledWithExactly(
-            GerritNav.getEditUrlForDiff(element._change, element._path)));
+            GerritNav.getEditUrlForDiff(
+                element._change,
+                element._path,
+                element._patchRange.patchNum
+            )));
         done();
       });
     });

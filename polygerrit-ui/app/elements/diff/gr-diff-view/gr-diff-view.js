@@ -667,7 +667,11 @@ class GrDiffView extends mixinBehaviors( [
 
   _goToEditFile() {
     // TODO(taoalpha): add a shortcut for editing
-    const editUrl = GerritNav.getEditUrlForDiff(this._change, this._path);
+    const editUrl = GerritNav.getEditUrlForDiff(
+        this._change,
+        this._path,
+        this._patchRange.patchNum
+    );
     return GerritNav.navigateToRelativeUrl(editUrl);
   }
 

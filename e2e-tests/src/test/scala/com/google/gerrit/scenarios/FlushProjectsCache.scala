@@ -14,45 +14,42 @@
 
 package com.google.gerrit.scenarios
 
-import io.gatling.core.Predef.{atOnceUsers, _}
+import io.gatling.core.Predef._
 import io.gatling.core.feeder.FeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
-import io.gatling.http.Predef._
 
 import scala.concurrent.duration._
 
-class CreateChange extends GerritSimulation {
+class FlushProjectsCache extends CacheFlushSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
   private val default: String = name
-  private val numberKey = "_number"
 
   override def relativeRuntimeWeight = 2
 
-  val test: ScenarioBuilder = scenario(unique)
+  private val flushCache: ScenarioBuilder = scenario(unique)
       .feed(data)
-      .exec(httpRequest
-          .body(ElFileBody(body)).asJson
-          .check(regex("\"" + numberKey + "\":(\\d+),").saveAs(numberKey)))
-      .exec(session => {
-        deleteChange.number = Some(session(numberKey).as[Int])
-        session
-      })
+      .exec(httpRequest)
 
   private val createProject = new CreateProject(default)
+  private val getCacheEntriesAfterProject = new GetProjectsCacheEntries(this)
+  private val checkCacheEntriesAfterFlush = new CheckProjectsCacheFlushEntries(this)
   private val deleteProject = new DeleteProject(default)
-  private val deleteChange = new DeleteChange
 
   setUp(
     createProject.test.inject(
       nothingFor(stepWaitTime(createProject) seconds),
       atOnceUsers(1)
     ),
-    test.inject(
+    getCacheEntriesAfterProject.test.inject(
+      nothingFor(stepWaitTime(getCacheEntriesAfterProject) seconds),
+      atOnceUsers(1)
+    ),
+    flushCache.inject(
       nothingFor(stepWaitTime(this) seconds),
       atOnceUsers(1)
     ),
-    deleteChange.test.inject(
-      nothingFor(stepWaitTime(deleteChange) seconds),
+    checkCacheEntriesAfterFlush.test.inject(
+      nothingFor(stepWaitTime(checkCacheEntriesAfterFlush) seconds),
       atOnceUsers(1)
     ),
     deleteProject.test.inject(

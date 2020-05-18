@@ -46,9 +46,14 @@ public class TestCommentHelper {
     return populate(new DraftInput(), "file", message);
   }
 
-  public DraftInput newDraft(String path, Side side, int line, String message) {
+  public DraftInput newDraft(String path, Side side, Integer line, String message) {
     DraftInput d = new DraftInput();
     return populate(d, path, side, line, message);
+  }
+
+  public DraftInput newDraftWithMandatoryFieldsOnly(String path, String message) {
+    DraftInput d = new DraftInput();
+    return populateMandatoryFieldsOnly(d, path, message);
   }
 
   public void addDraft(String changeId, String revId, DraftInput in) throws Exception {
@@ -62,18 +67,22 @@ public class TestCommentHelper {
   }
 
   public static <C extends Comment> C populate(C c, String path, String message) {
-    return populate(c, path, createLineRange(), message);
+    return populate(c, path, 0, message, Side.REVISION);
   }
 
-  private static <C extends Comment> C populate(C c, String path, Range range, String message) {
-    int line = range.startLine;
+  public static <C extends Comment> C populateMandatoryFieldsOnly(
+      C c, String path, String message) {
+    return populate(c, path, null, message, null);
+  }
+
+  private static <C extends Comment> C populate(
+      C c, String path, Integer line, String message, Side side) {
     c.path = path;
-    c.side = Side.REVISION;
+    c.side = side;
     c.parent = null;
-    c.line = line != 0 ? line : null;
+    c.line = line;
     c.message = message;
     c.unresolved = false;
-    if (line != 0) c.range = range;
     return c;
   }
 
@@ -93,15 +102,6 @@ public class TestCommentHelper {
   private static <C extends Comment> C populate(
       C c, String path, Side side, int line, String message) {
     return populate(c, path, side, createLineRange(line), message);
-  }
-
-  private static Range createLineRange() {
-    Range range = new Range();
-    range.startLine = 0;
-    range.startCharacter = 1;
-    range.endLine = 0;
-    range.endCharacter = 5;
-    return range;
   }
 
   private static Range createLineRange(int line) {

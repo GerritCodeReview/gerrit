@@ -1113,9 +1113,16 @@
       return loggedIn ? true : false;
     },
 
-    _computeCanEdit(loggedIn, changeChangeRecord) {
-      return this._computeIsLoggedIn(loggedIn) &&
-          this.changeIsOpen(changeChangeRecord.base.status);
+    _computeCanEdit(loggedIn, changeChangeRecord, patchRange) {
+      const base = changeChangeRecord.base;
+      let patchNumLatest = false;
+      if (base && base.revisions && base.current_revision &&
+          base.revisions[base.current_revision]) {
+        patchNumLatest =
+            base.revisions[base.current_revision]._number;
+      }
+      return loggedIn && this.changeIsOpen(base.status) &&
+          patchNumLatest == patchRange.base.patchNum;
     },
   });
 })();

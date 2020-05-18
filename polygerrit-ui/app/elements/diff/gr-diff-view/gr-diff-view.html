@@ -289,7 +289,7 @@ limitations under the License.
                 disabled="[[_isBlameLoading]]"
                 on-tap="_toggleBlame">[[_computeBlameToggleLabel(_isBlameLoaded, _isBlameLoading)]]</gr-button>
           </span>
-          <template is="dom-if" if="[[_computeCanEdit(_loggedIn, _change.*)]]">
+          <template is="dom-if" if="[[_computeCanEdit(_loggedIn, _change.*, _patchRange.*)]]">
             <span class="separator"></span>
             <span class="editButton">
               <gr-button

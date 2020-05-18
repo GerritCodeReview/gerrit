@@ -1021,9 +1021,11 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
                               comment instanceof RobotComment
                                   ? CommentForValidation.CommentSource.ROBOT
                                   : CommentForValidation.CommentSource.HUMAN,
-                              comment.lineNbr > 0
-                                  ? CommentForValidation.CommentType.INLINE_COMMENT
-                                  : CommentForValidation.CommentType.FILE_COMMENT,
+                              comment.key.filename.equals(PATCHSET_LEVEL)
+                                  ? CommentForValidation.CommentType.PATCHSET_LEVEL_COMMENT
+                                  : comment.lineNbr > 0
+                                      ? CommentForValidation.CommentType.INLINE_COMMENT
+                                      : CommentForValidation.CommentType.FILE_COMMENT,
                               comment.message,
                               comment.getApproximateSize())),
                   Stream.of(

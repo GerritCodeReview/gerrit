@@ -26,6 +26,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.client.Side;
@@ -55,6 +56,13 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
       CommentForValidation.create(
           CommentForValidation.CommentSource.HUMAN,
           CommentForValidation.CommentType.FILE_COMMENT,
+          COMMENT_TEXT,
+          COMMENT_TEXT.length());
+
+  private static final CommentForValidation PATCHSET_LEVEL_COMMENT_FOR_VALIDATION =
+      CommentForValidation.create(
+          CommentForValidation.CommentSource.HUMAN,
+          CommentForValidation.CommentType.PATCHSET_LEVEL_COMMENT,
           COMMENT_TEXT,
           COMMENT_TEXT.length());
 
@@ -92,6 +100,26 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
             ImmutableList.of(COMMENT_FOR_VALIDATION)))
         .thenReturn(ImmutableList.of());
     DraftInput comment = testCommentHelper.newDraft(COMMENT_TEXT);
+    testCommentHelper.addDraft(changeId, revId, comment);
+    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).isEmpty();
+    Result amendResult = amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
+    amendResult.assertOkStatus();
+    amendResult.assertNotMessage("Comment validation failure:");
+    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(1);
+  }
+
+  @Test
+  public void validatePatchsetLevelComments_commentOK() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    String revId = result.getCommit().getName();
+    when(mockCommentValidator.validateComments(
+            CommentValidationContext.create(
+                result.getChange().getId().get(), result.getChange().project().get()),
+            ImmutableList.of(PATCHSET_LEVEL_COMMENT_FOR_VALIDATION)))
+        .thenReturn(ImmutableList.of());
+    DraftInput comment =
+        testCommentHelper.newDraftWithMandatoryFieldsOnly(Patch.PATCHSET_LEVEL, COMMENT_TEXT);
     testCommentHelper.addDraft(changeId, revId, comment);
     assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).isEmpty();
     Result amendResult = amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);

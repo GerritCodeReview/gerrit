@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.flogger.LazyArgs.lazy;
+import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.entities.RefNames.REFS_CHANGES;
 import static com.google.gerrit.entities.RefNames.isConfigRef;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
@@ -2031,9 +2032,11 @@ class ReceiveCommits {
                     comment ->
                         CommentForValidation.create(
                             CommentSource.HUMAN,
-                            comment.lineNbr > 0
-                                ? CommentType.INLINE_COMMENT
-                                : CommentType.FILE_COMMENT,
+                            comment.key.filename.equals(PATCHSET_LEVEL)
+                                ? CommentForValidation.CommentType.PATCHSET_LEVEL_COMMENT
+                                : comment.lineNbr > 0
+                                    ? CommentType.INLINE_COMMENT
+                                    : CommentType.FILE_COMMENT,
                             comment.message,
                             comment.message.length()))
                 .collect(toImmutableList());

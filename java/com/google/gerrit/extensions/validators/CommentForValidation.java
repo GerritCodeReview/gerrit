@@ -39,7 +39,9 @@ public abstract class CommentForValidation {
     /** A file comment. */
     FILE_COMMENT,
     /** A change message. */
-    CHANGE_MESSAGE
+    CHANGE_MESSAGE,
+    /** A patchset-level comment. */
+    PATCHSET_LEVEL_COMMENT
   }
 
   public static CommentForValidation create(

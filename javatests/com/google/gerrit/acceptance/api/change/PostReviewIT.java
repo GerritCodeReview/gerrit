@@ -31,6 +31,7 @@ import com.google.common.truth.Correspondence;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -76,6 +77,12 @@ public class PostReviewIT extends AbstractDaemonTest {
       CommentForValidation.create(
           CommentForValidation.CommentSource.HUMAN,
           CommentForValidation.CommentType.INLINE_COMMENT,
+          COMMENT_TEXT,
+          COMMENT_TEXT.length());
+  private static final CommentForValidation PATCHSET_LEVEL_COMMENT_FOR_VALIDATION =
+      CommentForValidation.create(
+          CommentForValidation.CommentSource.HUMAN,
+          CommentForValidation.CommentType.PATCHSET_LEVEL_COMMENT,
           COMMENT_TEXT,
           COMMENT_TEXT.length());
   private static final CommentForValidation CHANGE_MESSAGE_FOR_VALIDATION =
@@ -133,6 +140,24 @@ public class PostReviewIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).current().review(input);
 
     assertValidatorCalledWith(CHANGE_MESSAGE_FOR_VALIDATION, FILE_COMMENT_FOR_VALIDATION);
+    assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).hasSize(1);
+  }
+
+  @Test
+  public void validatePatchsetLevelComments() throws Exception {
+    PushOneCommit.Result r = createChange();
+    when(mockCommentValidator.validateComments(eq(contextFor(r)), captor.capture()))
+        .thenReturn(ImmutableList.of());
+
+    ReviewInput input = new ReviewInput().message(COMMENT_TEXT);
+    CommentInput comment = newCommentWithMandatoryFieldsonly(Patch.PATCHSET_LEVEL);
+    comment.updated = new Timestamp(0);
+    input.comments = ImmutableMap.of(Patch.PATCHSET_LEVEL, ImmutableList.of(comment));
+
+    assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).isEmpty();
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    assertValidatorCalledWith(CHANGE_MESSAGE_FOR_VALIDATION, PATCHSET_LEVEL_COMMENT_FOR_VALIDATION);
     assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).hasSize(1);
   }
 
@@ -390,6 +415,11 @@ public class PostReviewIT extends AbstractDaemonTest {
 
   private static CommentInput newComment(String path) {
     return TestCommentHelper.populate(new CommentInput(), path, PostReviewIT.COMMENT_TEXT);
+  }
+
+  private static CommentInput newCommentWithMandatoryFieldsonly(String path) {
+    return TestCommentHelper.populateMandatoryFieldsOnly(
+        new CommentInput(), path, PostReviewIT.COMMENT_TEXT);
   }
 
   private static CommentValidationContext contextFor(PushOneCommit.Result result) {

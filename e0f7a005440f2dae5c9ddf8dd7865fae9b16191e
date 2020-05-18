@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "07775aa2_48573edc",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1095383
+      },
+      "writtenOn": "2020-05-18T18:42:54Z",
+      "side": 1,
+      "message": "plugin-manager has been using this for 4 years\n\nhttps://gerrit.googlesource.com/plugins/plugin-manager/+/e1cb31d0218867d8d2a9ac4f6d68d0affe517a6e%5E%21/src/main/resources/static/js/plugin-manager.js",
+      "parentUuid": "024a76a4_537111c1",
+      "range": {
+        "startLine": 249,
+        "startChar": 44,
+        "endLine": 249,
+        "endChar": 48
+      },
+      "revId": "e0f7a005440f2dae5c9ddf8dd7865fae9b16191e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6cbf74c3_b7a0e611",
         "filename": "Documentation/rest-api-plugins.txt",
         "patchSetId": 4
@@ -36,6 +60,24 @@
       "writtenOn": "2020-05-18T12:24:27Z",
       "side": 1,
       "message": "I am confused about \".jar\" suffix. What happens if you omit .jar suffix:\n\n  $ curl [...] http://gerrit:8080/a/plugins/delete-project\n\n?",
+      "revId": "e0f7a005440f2dae5c9ddf8dd7865fae9b16191e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "805516a0_9a679412",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1095383
+      },
+      "writtenOn": "2020-05-18T18:42:54Z",
+      "side": 1,
+      "message": "Without .jar suffix\n\n  cannot install delete-project:\n  com.google.gerrit.server.plugins.PluginInstallException: Unsupported plugin type: delete-project [1], suffix comparaison UI [3] and jar [4]\n  at com.google.gerrit.server.plugins.PluginLoader\n    runPlugin(PluginLoader.java:516)\n    installPluginFromStream(PluginLoader.java:190) \n  at com.google.gerrit.server.plugins.InstallPlugin\n    [2] apply(InstallPlugin.java:66)\n    $Create.apply(InstallPlugin.java:114)\n    $Create.apply(InstallPlugin.java:97)\n  ...\n\n\nIt looks like install \u0026 load are meshed\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-2.16/java/com/google/gerrit/server/plugins/PluginLoader.java#574\n[2] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-2.16/java/com/google/gerrit/server/plugins/InstallPlugin.java#65\n[3] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-2.16/java/com/google/gerrit/server/plugins/PluginLoader.java#718\n[4] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-2.16/java/com/google/gerrit/server/plugins/JarPluginProvider.java#56",
+      "parentUuid": "6cbf74c3_b7a0e611",
       "revId": "e0f7a005440f2dae5c9ddf8dd7865fae9b16191e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -301,11 +301,13 @@ suite('gr-file-list-header tests', () => {
     test('edit-controls visibility', () => {
       element.editMode = true;
       flushAsynchronousOperations();
-      assert.isTrue(isVisible(element.$.editControls.parentElement));
+      assert.isTrue(isVisible(element.shadowRoot
+          .querySelector('#editControls').parentElement));
 
       element.editMode = false;
       flushAsynchronousOperations();
-      assert.isFalse(isVisible(element.$.editControls.parentElement));
+      assert.isFalse(isVisible(element.shadowRoot
+          .querySelector('#editControls').parentElement));
     });
 
     test('_computeUploadHelpContainerClass', () => {

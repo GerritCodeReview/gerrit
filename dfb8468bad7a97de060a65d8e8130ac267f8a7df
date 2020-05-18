@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "428e2564_6d87eb0e",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-18T12:28:25Z",
+      "side": 1,
+      "message": "For a first iteration, I think we can live with that. In the long-term, it might be more helpful to link to the comment threads tab instead.",
+      "range": {
+        "startLine": 100,
+        "startChar": 13,
+        "endLine": 100,
+        "endChar": 91
+      },
+      "revId": "dfb8468bad7a97de060a65d8e8130ac267f8a7df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b84f13b_bf44d8c1",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-18T12:28:25Z",
+      "side": 1,
+      "message": "The behavior of this method assumes that all file paths even magic ones have valid, regular links. I\u0027m wondering whether we shouldn\u0027t rather exclude magic files first and explicitly add chosen links for magic files.",
+      "range": {
+        "startLine": 391,
+        "startChar": 36,
+        "endLine": 391,
+        "endChar": 64
+      },
+      "revId": "dfb8468bad7a97de060a65d8e8130ac267f8a7df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "938356a6_f3fb9427",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-18T12:28:25Z",
+      "side": 1,
+      "message": "We have this existing approach of using different links for file-level comments and line/range comments. It\u0027s a bit strange if we now change the behavior of the getFileLink() and getCommentLink() for patchset-level comments instead of using conditions on the same level. By the way, the new code in getCommentLink() might even be dead as patchset-level comments should have \"lineNbr \u003d\u003d 0\" if I remember correctly.\n\nI think we should use a consistent approach. What I like about the existing approach is that we don\u0027t use a method whose name and Javadoc indicate to return something which isn\u0027t fulfilled for patchset-level comments (e.g. getFileLink() won\u0027t return a file link for a patchset-level comment but a patchset link). Hence, if you decide to adjust this existing approach, we should improve the method names and Javadoc.",
+      "range": {
+        "startLine": 424,
+        "startChar": 0,
+        "endLine": 428,
+        "endChar": 9
+      },
+      "revId": "dfb8468bad7a97de060a65d8e8130ac267f8a7df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

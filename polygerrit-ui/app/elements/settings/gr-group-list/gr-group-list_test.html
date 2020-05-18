@@ -93,21 +93,30 @@ limitations under the License.
     });
 
     test('_computeGroupPath', () => {
-      sandbox.stub(Gerrit.Nav, 'getUrlForGroup',
+      let urlStub = sandbox.stub(Gerrit.Nav, 'getUrlForGroup',
           () => '/admin/groups/e2cd66f88a2db4d391ac068a92d987effbe872f5');
 
       let group = {
         id: 'e2cd66f88a2db4d391ac068a92d987effbe872f5',
       };
-
       assert.equal(element._computeGroupPath(group),
           '/admin/groups/e2cd66f88a2db4d391ac068a92d987effbe872f5');
 
       group = {
         name: 'admin',
       };
-
       assert.isUndefined(element._computeGroupPath(group));
+
+      urlStub.restore();
+
+      urlStub = sandbox.stub(Gerrit.Nav, 'getUrlForGroup',
+          () => '/admin/groups/user/test');
+
+      group = {
+        id: 'user%2Ftest',
+      };
+      assert.equal(element._computeGroupPath(group),
+          '/admin/groups/user/test');
     });
   });
 </script>

@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23b9b64f_9c13961c",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-18T11:42:41Z",
+      "side": 1,
+      "message": "What does the x stand for?",
+      "range": {
+        "startLine": 252,
+        "startChar": 10,
+        "endLine": 252,
+        "endChar": 13
+      },
+      "revId": "68713fc5a28751e77dd6d9ce82cf3960cd75f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4301e3f_1ca01045",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-18T11:42:41Z",
+      "side": 1,
+      "message": "Maybe remove this comment, because it just describes the code.",
+      "revId": "68713fc5a28751e77dd6d9ce82cf3960cd75f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9d71d44_15bfedc6",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-18T11:42:41Z",
+      "side": 1,
+      "message": "If there is one reply to an existing ps level comment, and a new ps level comment, then which one should be the summary? Maybe the new one?",
+      "revId": "68713fc5a28751e77dd6d9ce82cf3960cd75f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82ec29f6_1b26efb4",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-18T11:42:41Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 268,
+        "startChar": 55,
+        "endLine": 268,
+        "endChar": 69
+      },
+      "revId": "68713fc5a28751e77dd6d9ce82cf3960cd75f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36769b9d_eb740915",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-18T11:42:41Z",
+      "side": 1,
+      "message": "Maybe use these two lines as a comment for the method, i.e. move to line 250.",
+      "range": {
+        "startLine": 270,
+        "startChar": 4,
+        "endLine": 271,
+        "endChar": 49
+      },
+      "revId": "68713fc5a28751e77dd6d9ce82cf3960cd75f372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

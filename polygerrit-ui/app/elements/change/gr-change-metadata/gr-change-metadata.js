@@ -131,7 +131,7 @@
 
       _currentParents: {
         type: Array,
-        computed: '_computeParents(change)',
+        computed: '_computeParents(revision)',
       },
 
       /** @type {?} */
@@ -446,12 +446,10 @@
     },
 
     _computeParents(change) {
-      if (!change.current_revision ||
-          !change.revisions[change.current_revision] ||
-          !change.revisions[change.current_revision].commit) {
+      if (!revision || !revision.commit) {
         return undefined;
       }
-      return change.revisions[change.current_revision].commit.parents;
+      return revision.commit.parents;
     },
 
     _computeParentsLabel(parents) {

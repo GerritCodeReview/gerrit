@@ -225,6 +225,14 @@ limitations under the License.
       assert.isFalse(isHidden(element.$$('.placeholder')));
       element.labelInfo = {all: [{value: 1}]};
       assert.isTrue(isHidden(element.$$('.placeholder')));
+      element.labelInfo = {rejected: []};
+      assert.isTrue(isHidden(element.$$('.placeholder')));
+      element.labelInfo = {values: [], rejected: [], all: [{value: 1}]};
+      assert.isTrue(isHidden(element.$$('.placeholder')));
+      element.labelInfo = {accepted: []};
+      assert.isTrue(isHidden(element.$$('.placeholder')));
+      element.labelInfo = {values: [], accepted: [], all: [{value: 1}]};
+      assert.isTrue(isHidden(element.$$('.placeholder')));
     });
   });
 </script>

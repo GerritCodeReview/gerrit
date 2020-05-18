@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c19d02fe_a9c57a54",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 813,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-18T14:35:53Z",
+      "side": 1,
+      "message": "Don\u0027t do this before reporting.\n\n`\n .then(() \u003d\u003e {\n          this.reporting.diffViewFullyLoaded();\n          // If diff view displayed has not ended yet, it ends here.\n          this.reporting.diffViewDisplayed();\n        })\n.then(() \u003d\u003e {if (this._isBlameLoaded) this._loadBlame();});\n`\n\nBlame shouldn\u0027t be included in metrics time.",
+      "range": {
+        "startLine": 813,
+        "startChar": 12,
+        "endLine": 813,
+        "endChar": 13
+      },
+      "revId": "fd8e82ed129453e1b9ff8b12c6c6b12c6104e706",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

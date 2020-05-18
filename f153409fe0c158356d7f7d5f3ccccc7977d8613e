@@ -22,6 +22,30 @@
       "revId": "f153409fe0c158356d7f7d5f3ccccc7977d8613e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2905ad3_74c81fb6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-18T15:25:04Z",
+      "side": 1,
+      "message": "Done.\n\nPotentially, this was caused by a change in FE code, but I think it has to work on /review in any case.",
+      "parentUuid": "d82bd2eb_fd1f26a7",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 6
+      },
+      "revId": "f153409fe0c158356d7f7d5f3ccccc7977d8613e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

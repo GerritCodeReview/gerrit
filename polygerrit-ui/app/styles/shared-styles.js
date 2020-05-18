@@ -160,7 +160,12 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
           /* paper-tabs uses 0.8 here, but we want to control the color directly */
           opacity: 1;
           color: var(--deemphasized-text-color);
-        };      }
+        };
+      }
+      iron-autogrow-textarea {
+        /** This is needed for firefox */
+        --iron-autogrow-textarea_-_white-space: pre-wrap;
+      }
       strong {
         font-weight: var(--font-weight-bold);
       }

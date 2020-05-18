@@ -63,6 +63,24 @@
       "revId": "927d8bb1da800f79bc070bb7db23d731a5dcaf83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96dafaea_cb3c869c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-18T09:53:33Z",
+      "side": 1,
+      "message": "probably, I will do that after double-verify it on gerrit site",
+      "parentUuid": "ef206a7e_e5b468a2",
+      "revId": "927d8bb1da800f79bc070bb7db23d731a5dcaf83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

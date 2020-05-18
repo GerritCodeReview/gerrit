@@ -50,9 +50,6 @@ export const htmlTemplate = html`
     }
     iron-autogrow-textarea {
       position: relative;
-
-      /** This is needed for firefox */
-      --iron-autogrow-textarea_-_white-space: pre-wrap;
     }
     #textarea.noBorder {
       border: none;

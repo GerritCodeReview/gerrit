@@ -22,6 +22,30 @@
       "revId": "3b29b02774aca2d672f5c52e63c8bc6b65a7300f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2a949c6_691217df",
+        "filename": "tools/BUILD",
+        "patchSetId": 10
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-18T12:46:17Z",
+      "side": 1,
+      "message": "Actually, it should be squashed in to the parent change",
+      "parentUuid": "22ddfae2_2e4796da",
+      "range": {
+        "startLine": 136,
+        "startChar": 10,
+        "endLine": 136,
+        "endChar": 38
+      },
+      "revId": "3b29b02774aca2d672f5c52e63c8bc6b65a7300f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

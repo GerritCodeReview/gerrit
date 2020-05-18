@@ -2136,7 +2136,8 @@ class GrChangeView extends mixinBehaviors( [
 
   _handleFileActionTap(e) {
     e.preventDefault();
-    const controls = this.$.fileListHeader.$.editControls;
+    const controls = this.$.fileListHeader
+        .shadowRoot.querySelector('#editControls');
     const path = e.detail.path;
     switch (e.detail.action) {
       case GrEditConstants.Actions.DELETE.id:

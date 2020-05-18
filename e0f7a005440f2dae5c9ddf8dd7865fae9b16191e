@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "98b6be84_49b307ff",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-18T21:29:38Z",
+      "side": 1,
+      "message": "The plugin loader ... my first contribution to the Gerrit project back in 2012 :-)\nYes, the plugins can be coded in different languages (Scala, Java, Groovy, HTML, JS, really anything).\n\nThe extension of the plugin file is used by the plugin loader to understand *who* is responsible for decoding and loading the classes of the plugin.\n\nWhen you copy a file into the $GERRIT_SITE/plugins directory, it\u0027s easy. The REST-API instead? It needed also to understand the extension somehow. That\u0027s why we have the extension there.\nIf we did not have the extension, the plugin loader would have not been in the position to understand how to manage it.\n\nThis is the way it works today and has been working for a few years. We can obviously change it in the future, but I believe the purpose of this change is to document how it it works.\n\nWe can have another change (design document?) to propose a better way to manage the plugins with more standard and nicer APIs.\n\nHTH\n\nLuca.",
+      "parentUuid": "07775aa2_48573edc",
+      "range": {
+        "startLine": 249,
+        "startChar": 44,
+        "endLine": 249,
+        "endChar": 48
+      },
+      "revId": "e0f7a005440f2dae5c9ddf8dd7865fae9b16191e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6cbf74c3_b7a0e611",
         "filename": "Documentation/rest-api-plugins.txt",
         "patchSetId": 4
@@ -78,6 +102,24 @@
       "side": 1,
       "message": "Without .jar suffix\n\n  cannot install delete-project:\n  com.google.gerrit.server.plugins.PluginInstallException: Unsupported plugin type: delete-project [1], suffix comparaison UI [3] and jar [4]\n  at com.google.gerrit.server.plugins.PluginLoader\n    runPlugin(PluginLoader.java:516)\n    installPluginFromStream(PluginLoader.java:190) \n  at com.google.gerrit.server.plugins.InstallPlugin\n    [2] apply(InstallPlugin.java:66)\n    $Create.apply(InstallPlugin.java:114)\n    $Create.apply(InstallPlugin.java:97)\n  ...\n\n\nIt looks like install \u0026 load are meshed\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-2.16/java/com/google/gerrit/server/plugins/PluginLoader.java#574\n[2] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-2.16/java/com/google/gerrit/server/plugins/InstallPlugin.java#65\n[3] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-2.16/java/com/google/gerrit/server/plugins/PluginLoader.java#718\n[4] https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-2.16/java/com/google/gerrit/server/plugins/JarPluginProvider.java#56",
       "parentUuid": "6cbf74c3_b7a0e611",
+      "revId": "e0f7a005440f2dae5c9ddf8dd7865fae9b16191e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57657f73_f07eb9fe",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-18T21:29:38Z",
+      "side": 1,
+      "message": "\u003e Without .jar suffix\n\u003e \n\u003e   cannot install delete-project:\n\u003e   com.google.gerrit.server.plugins.PluginInstallException: Unsupported plugin type: delete-project [1], suffix comparaison UI [3] and jar [4]\n\u003e   at com.google.gerrit.server.plugins.PluginLoader\n\u003e     runPlugin(PluginLoader.java:516)\n\u003e     installPluginFromStream(PluginLoader.java:190) \n\u003e   at com.google.gerrit.server.plugins.InstallPlugin\n\u003e     [2] apply(InstallPlugin.java:66)\n\u003e     $Create.apply(InstallPlugin.java:114)\n\u003e     $Create.apply(InstallPlugin.java:97)\n\n\nYep, without extension you don\u0027t know who should be loading the plugin.",
+      "parentUuid": "805516a0_9a679412",
       "revId": "e0f7a005440f2dae5c9ddf8dd7865fae9b16191e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

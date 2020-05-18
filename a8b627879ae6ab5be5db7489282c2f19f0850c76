@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a5107286_4ffd4ddd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-18T14:06:03Z",
+      "side": 1,
+      "message": "That is fantastic!",
+      "revId": "a8b627879ae6ab5be5db7489282c2f19f0850c76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f07ce9ac_da1a9f96",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 2

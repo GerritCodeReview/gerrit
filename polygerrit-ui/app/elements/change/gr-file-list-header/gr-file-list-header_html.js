@@ -188,14 +188,16 @@ export const htmlTemplate = html`
       </div>
     </div>
     <div class$="rightControls [[_computeExpandedClass(filesExpanded)]]">
-      <span class="showOnEdit flexContainer">
-        <gr-edit-controls
-          id="editControls"
-          patch-num="[[patchNum]]"
-          change="[[change]]"
-        ></gr-edit-controls>
-        <span class="separator"></span>
-      </span>
+      <template is="dom-if" if="[[editMode]]">
+        <span class="showOnEdit flexContainer">
+          <gr-edit-controls
+            id="editControls"
+            patch-num="[[patchNum]]"
+            change="[[change]]"
+          ></gr-edit-controls>
+          <span class="separator"></span>
+        </span>
+      </template>
       <span class$="[[_computeUploadHelpContainerClass(change, account)]]">
         <gr-button link="" class="upload" on-click="_handleUploadTap"
           >Update Change</gr-button

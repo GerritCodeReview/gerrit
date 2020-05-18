@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "024a76a4_537111c1",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-18T12:24:27Z",
+      "side": 1,
+      "message": "Same here, I would expect it should work without \".jar\" suffix. If it is a changed behaviour we should identified the root cause and document this in the commit message.",
+      "range": {
+        "startLine": 249,
+        "startChar": 44,
+        "endLine": 249,
+        "endChar": 48
+      },
+      "revId": "e0f7a005440f2dae5c9ddf8dd7865fae9b16191e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cbf74c3_b7a0e611",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-18T12:24:27Z",
+      "side": 1,
+      "message": "I am confused about \".jar\" suffix. What happens if you omit .jar suffix:\n\n  $ curl [...] http://gerrit:8080/a/plugins/delete-project\n\n?",
+      "revId": "e0f7a005440f2dae5c9ddf8dd7865fae9b16191e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

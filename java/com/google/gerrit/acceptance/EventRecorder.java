@@ -40,7 +40,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 
 public class EventRecorder {
   private final RegistrationHandle eventListenerRegistration;
-  private final ListMultimap<String, RefEvent> recordedEvents;
+  private final ListMultimap<String, Event> recordedEvents;
 
   @Singleton
   public static class Factory {
@@ -79,6 +79,8 @@ public class EventRecorder {
                       refEventKey(
                           event.getType(), event.getProjectNameKey().get(), event.getRefName());
                   recordedEvents.put(key, event);
+                } else {
+                  recordedEvents.put(e.type, e);
                 }
               }
 
@@ -154,6 +156,17 @@ public class EventRecorder {
         FluentIterable.from(recordedEvents.get(key))
             .transform(ChangeDeletedEvent.class::cast)
             .toList();
+    assertThat(events).hasSize(expectedSize);
+    return events;
+  }
+
+  public ImmutableList<Event> getGenericEvents(String type, int expectedSize) {
+    if (expectedSize == 0) {
+      assertThat(recordedEvents).doesNotContainKey(type);
+      return ImmutableList.of();
+    }
+    assertThat(recordedEvents).containsKey(type);
+    ImmutableList<Event> events = FluentIterable.from(recordedEvents.get(type)).toList();
     assertThat(events).hasSize(expectedSize);
     return events;
   }

@@ -21,6 +21,7 @@
  */
 export const ExperimentIds = {
   CLEANER_CHANGELOG: 'UiFeature__cleaner_changelog',
+  PATCHSET_COMMENTS: 'UiFeature__patchset_comments',
 };
 
 /**

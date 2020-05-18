@@ -37,6 +37,7 @@ import '../../../test/common-test-setup.js';
 import './gr-reply-dialog.js';
 import {mockPromise} from '../../../test/test-utils.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
+import {appContext} from '../../../services/app-context.js';
 
 function cloneableResponse(status, text) {
   return {
@@ -83,6 +84,8 @@ suite('gr-reply-dialog tests', () => {
       getChange() { return Promise.resolve({}); },
       getChangeSuggestedReviewers() { return Promise.resolve([]); },
     });
+
+    sandbox.stub(appContext.flagsService, 'isEnabled').returns(true);
 
     element = fixture('basic');
     element.change = {
@@ -200,7 +203,9 @@ suite('gr-reply-dialog tests', () => {
     // Async tick is needed because iron-selector content is distributed and
     // distributed content requires an observer to be set up.
     // Note: Double flush seems to be needed in Safari. {@see Issue 4963}.
-    MockInteractions.tap(element.$.resolvedPatchsetLevelCommentCheckbox);
+    const checkboxEl = element.shadowRoot.querySelector(
+        '#resolvedPatchsetLevelCommentCheckbox');
+    MockInteractions.tap(checkboxEl);
     flush(() => {
       flush(() => {
         element.draft = 'I wholeheartedly disapprove';

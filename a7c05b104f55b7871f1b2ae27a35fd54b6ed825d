@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d8a994c3_cfc80184",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-18T06:51:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "77a510f1_48bbcdf5",
+      "revId": "a7c05b104f55b7871f1b2ae27a35fd54b6ed825d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbb7ffe7_a47182ab",
         "filename": "javatests/com/google/gerrit/index/query/OrPredicateTest.java",
         "patchSetId": 2

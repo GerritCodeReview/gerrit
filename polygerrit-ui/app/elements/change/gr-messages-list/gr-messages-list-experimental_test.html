@@ -207,8 +207,10 @@ suite('gr-messages-list-experimental tests', () => {
     });
 
     test('showAllActivity does not appear when all msgs are important', () => {
-      assert.isNotOk(element.shadowRoot
+      assert.isOk(element.shadowRoot
           .querySelector('#showAllActivityToggleContainer'));
+      assert.isNotOk(element.shadowRoot
+          .querySelector('.showAllActivityToggle'));
     });
 
     test('scroll to message', () => {

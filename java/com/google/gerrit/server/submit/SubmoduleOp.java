@@ -144,7 +144,7 @@ public class SubmoduleOp {
     this.orm = orm;
     this.branchTips = new HashMap<>();
     this.subscriptionGraphFactory =
-        new SubscriptionGraph.Factory(gitmodulesFactory, projectCache, orm);
+        new SubscriptionGraph.DefaultFactory(gitmodulesFactory, projectCache, orm);
     if (cfg.getBoolean("submodule", "enableSuperProjectSubscriptions", true)) {
       this.subscriptionGraph =
           subscriptionGraphFactory.create(ImmutableSet.copyOf(updatedBranches));

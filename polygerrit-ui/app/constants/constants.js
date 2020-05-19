@@ -20,9 +20,9 @@
  * @desc Tab names for primary tabs on change view page.
  */
 export const PrimaryTab = {
-  FILES: '_files',
-  COMMENT_THREADS: '_commentThreads',
-  FINDINGS: '_findings',
+  FILES: 'files',
+  COMMENT_THREADS: 'comments',
+  FINDINGS: 'findings',
 };
 
 /**

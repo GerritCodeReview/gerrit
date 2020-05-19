@@ -1098,16 +1098,9 @@ class GrChangeView extends mixinBehaviors( [
         tab: primaryTab,
       },
     });
-
-    // TODO: should drop this once we move CommentThreads tab
-    // to primary as well
-    let secondaryTab = SecondaryTab.CHANGE_LOG;
-    if (params.queryMap && params.queryMap.has('secondaryTab')) {
-      secondaryTab = params.queryMap.get('secondaryTab');
-    }
     this._setActiveSecondaryTab({
       detail: {
-        tab: secondaryTab,
+        tab: SecondaryTab.CHANGE_LOG,
       },
     });
   }

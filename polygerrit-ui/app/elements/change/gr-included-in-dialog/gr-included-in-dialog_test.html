@@ -82,5 +82,20 @@ limitations under the License.
         {title: 'Tags', items: ['v2.0', 'v2.1']},
       ]);
     });
+
+    test('_computeGroups with .bindValue', done => {
+      element.$.filterInput.bindValue = 'stable-3.2';
+      const includedIn = {branches: [], tags: []};
+      includedIn.branches.push('master', 'stable-3.2');
+
+      setTimeout(() => {
+        const filterText = element._filterText;
+        assert.deepEqual(element._computeGroups(includedIn, filterText), [
+          {title: 'Branches', items: ['stable-3.2']},
+        ]);
+
+        done();
+      });
+    });
   });
 </script>

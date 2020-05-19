@@ -67,6 +67,7 @@ public abstract class OutgoingEmail {
   private Address smtpFromAddress;
   private StringBuilder textBody;
   private StringBuilder htmlBody;
+  private MessageIdGenerator.MessageId messageId;
   protected Map<String, Object> soyContext;
   protected Map<String, Object> soyContextEmailData;
   protected List<String> footers;
@@ -86,6 +87,10 @@ public abstract class OutgoingEmail {
 
   public void setNotify(NotifyResolver.Result notify) {
     this.notify = requireNonNull(notify);
+  }
+
+  public void setMessageId(MessageIdGenerator.MessageId messageId) {
+    this.messageId = messageId;
   }
 
   /**
@@ -108,6 +113,9 @@ public abstract class OutgoingEmail {
     }
 
     init();
+    if (messageId == null) {
+      throw new IllegalStateException("All emails must have a messageId");
+    }
     if (useHtml()) {
       appendHtml(soyHtmlTemplate("HeaderHtml"));
     }
@@ -201,31 +209,21 @@ public abstract class OutgoingEmail {
         va.htmlBody = null;
       }
 
-      for (OutgoingEmailValidationListener validator : args.outgoingEmailValidationListeners) {
-        try {
-          validator.validateOutgoingEmail(va);
-        } catch (ValidationException e) {
-          logger.atFine().log(
-              "Not sending '%s': Rejected by outgoing email validator: %s",
-              messageClass, e.getMessage());
-          return;
-        }
-      }
-
       Set<Address> intersection = Sets.intersection(va.smtpRcptTo, smtpRcptToPlaintextOnly);
       if (!intersection.isEmpty()) {
         logger.atSevere().log("Email '%s' will be sent twice to %s", messageClass, intersection);
       }
-
       if (!va.smtpRcptTo.isEmpty()) {
         // Send multipart message
+        addMessageId(va, "-HTML");
+        if (!validateEmail(va)) return;
         logger.atFine().log(
             "Sending multipart '%s' from %s to %s",
             messageClass, va.smtpFromAddress, va.smtpRcptTo);
         args.emailSender.send(va.smtpFromAddress, va.smtpRcptTo, va.headers, va.body, va.htmlBody);
       }
-
       if (!smtpRcptToPlaintextOnly.isEmpty()) {
+        addMessageId(va, "-PLAIN");
         // Send plaintext message
         Map<String, EmailHeader> shallowCopy = new HashMap<>();
         shallowCopy.putAll(headers);
@@ -238,11 +236,32 @@ public abstract class OutgoingEmail {
           to.add(a);
           shallowCopy.put(FieldName.TO, to);
         }
+        if (!validateEmail(va)) return;
         logger.atFine().log(
             "Sending plaintext '%s' from %s to %s",
             messageClass, va.smtpFromAddress, smtpRcptToPlaintextOnly);
         args.emailSender.send(va.smtpFromAddress, smtpRcptToPlaintextOnly, shallowCopy, va.body);
       }
+    }
+  }
+
+  private boolean validateEmail(OutgoingEmailValidationListener.Args va) {
+    for (OutgoingEmailValidationListener validator : args.outgoingEmailValidationListeners) {
+      try {
+        validator.validateOutgoingEmail(va);
+      } catch (ValidationException e) {
+        logger.atFine().log(
+            "Not sending '%s': Rejected by outgoing email validator: %s",
+            messageClass, e.getMessage());
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private void addMessageId(OutgoingEmailValidationListener.Args va, String suffix) {
+    if (messageId != null) {
+      va.headers.put(FieldName.MESSAGE_ID, new EmailHeader.String(messageId.id() + suffix));
     }
   }
 
@@ -262,7 +281,6 @@ public abstract class OutgoingEmail {
     headers.put(FieldName.FROM, new EmailHeader.AddressList(smtpFromAddress));
     headers.put(FieldName.TO, new EmailHeader.AddressList());
     headers.put(FieldName.CC, new EmailHeader.AddressList());
-    setHeader(FieldName.MESSAGE_ID, "");
     setHeader(MailHeader.AUTO_SUBMITTED.fieldName(), "auto-generated");
 
     for (RecipientType recipientType : notify.accounts().keySet()) {

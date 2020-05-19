@@ -142,7 +142,12 @@ public class SubscriptionGraph {
     return targets.get(branch);
   }
 
-  static class Factory {
+  public interface Factory {
+    SubscriptionGraph create(ImmutableSet<BranchNameKey> updatedBranches)
+        throws SubmoduleConflictException;
+  }
+
+  static class DefaultFactory implements Factory {
     private final ProjectCache projectCache;
     private final GitModules.Factory gitmodulesFactory;
     private final Map<BranchNameKey, GitModules> branchGitModules;
@@ -161,7 +166,7 @@ public class SubscriptionGraph {
     /** @see SubscriptionGraph#subscribedBranches */
     private final Set<BranchNameKey> subscribedBranches;
 
-    Factory(
+    DefaultFactory(
         GitModules.Factory gitmodulesFactory, ProjectCache projectCache, MergeOpRepoManager orm) {
       this.gitmodulesFactory = gitmodulesFactory;
       this.projectCache = projectCache;
@@ -174,7 +179,8 @@ public class SubscriptionGraph {
       this.subscribedBranches = new HashSet<>();
     }
 
-    SubscriptionGraph create(ImmutableSet<BranchNameKey> updatedBranches)
+    @Override
+    public SubscriptionGraph create(ImmutableSet<BranchNameKey> updatedBranches)
         throws SubmoduleConflictException {
       return new SubscriptionGraph(
           updatedBranches,

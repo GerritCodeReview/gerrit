@@ -28,6 +28,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmoduleSubscription;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.submit.SubscriptionGraph.DefaultFactory;
 import com.google.gerrit.server.submit.SubscriptionGraph.Factory;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import java.util.List;
@@ -83,7 +84,7 @@ public class SubscriptionGraphTest {
 
   @Test
   public void oneSuperprojectOneSubmodule() throws Exception {
-    factory = new Factory(mockGitModulesFactory, mockProjectCache, mergeOpRepoManager);
+    factory = new DefaultFactory(mockGitModulesFactory, mockProjectCache, mergeOpRepoManager);
     SubscriptionGraph subscriptionGraph = factory.create(ImmutableSet.of(SUB_BRANCH));
 
     assertThat(subscriptionGraph.getAffectedSuperProjects()).containsExactly(SUPER_PROJECT);
@@ -99,7 +100,7 @@ public class SubscriptionGraphTest {
 
   @Test
   public void circularSubscription() throws Exception {
-    factory = new Factory(mockGitModulesFactory, mockProjectCache, mergeOpRepoManager);
+    factory = new DefaultFactory(mockGitModulesFactory, mockProjectCache, mergeOpRepoManager);
 
     setSubscription(SUPER_BRANCH, ImmutableList.of(SUB_BRANCH));
     SubmoduleConflictException e =
@@ -155,7 +156,7 @@ public class SubscriptionGraphTest {
     setSubscription(submoduleBranch2, ImmutableList.of(superBranch1));
     setSubscription(submoduleBranch3, ImmutableList.of(superBranch1, superBranch2));
 
-    factory = new Factory(mockGitModulesFactory, mockProjectCache, mergeOpRepoManager);
+    factory = new DefaultFactory(mockGitModulesFactory, mockProjectCache, mergeOpRepoManager);
     SubscriptionGraph subscriptionGraph =
         factory.create(ImmutableSet.of(submoduleBranch1, submoduleBranch2));
 

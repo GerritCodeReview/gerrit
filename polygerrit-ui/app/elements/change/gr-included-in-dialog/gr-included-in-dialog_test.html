@@ -81,5 +81,13 @@ suite('gr-included-in-dialog', () => {
       {title: 'Tags', items: ['v2.0', 'v2.1']},
     ]);
   });
+
+  test('_computeGroups with .bindValue', () => {
+    element.$.filterInput.bindValue = 'stable-3.2';
+    const includedIn = {branches: ['stable-3.1', 'stable-3.2'], tags: []};
+    assert.deepEqual(element._computeGroups(includedIn, element._filterText), [
+      {title: 'Branches', items: ['stable-3.2']},
+    ]);
+  });
 });
 </script>

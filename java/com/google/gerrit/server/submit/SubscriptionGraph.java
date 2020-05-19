@@ -148,7 +148,11 @@ public class SubscriptionGraph {
     return targets.get(branch);
   }
 
-  static class Factory {
+  public interface Factory {
+    SubscriptionGraph compute(Set<BranchNameKey> updatedBranches) throws SubmoduleConflictException;
+  }
+
+  static class DefaultFactory implements Factory {
     private static final FluentLogger logger = FluentLogger.forEnclosingClass();
     private final ProjectCache projectCache;
     private final GitModules.Factory gitmodulesFactory;
@@ -168,7 +172,7 @@ public class SubscriptionGraph {
     /** @see SubscriptionGraph#subscribedBranches */
     private final Set<BranchNameKey> subscribedBranches;
 
-    Factory(
+    DefaultFactory(
         GitModules.Factory gitmodulesFactory, ProjectCache projectCache, MergeOpRepoManager orm) {
       this.gitmodulesFactory = gitmodulesFactory;
       this.projectCache = projectCache;
@@ -181,7 +185,8 @@ public class SubscriptionGraph {
       this.subscribedBranches = new HashSet<>();
     }
 
-    SubscriptionGraph compute(Set<BranchNameKey> updatedBranches)
+    @Override
+    public SubscriptionGraph compute(Set<BranchNameKey> updatedBranches)
         throws SubmoduleConflictException {
       return new SubscriptionGraph(
           updatedBranches,

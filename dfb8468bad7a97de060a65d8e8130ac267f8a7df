@@ -148,6 +148,30 @@
     },
     {
       "key": {
+        "uuid": "a7f2162b_7bfb98b7",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-19T11:49:03Z",
+      "side": 1,
+      "message": "The advantage is that for each magic file we would need to actively make the decision for a file link. Magic files might not have any file content (as the /PATCHSET_LEVEL file) and hence it would be safer to not have links to possibly not existing files by default. I would consider this kind of change as related to this change as we changed the notion of magic files with /PATCHSET_LEVEL. It\u0027s the first time a magic file doesn\u0027t have content. A follow-up change would change the implementation of this change again.\n\nI generally think it would be better to apply the described approach instead of the current special fix for /PATCHSET_LEVEL. It\u0027s not critical enough to have a longer discussion, though, so I won\u0027t block this change on that aspect.",
+      "parentUuid": "6bdb4d53_ea7e7112",
+      "range": {
+        "startLine": 391,
+        "startChar": 36,
+        "endLine": 391,
+        "endChar": 64
+      },
+      "revId": "dfb8468bad7a97de060a65d8e8130ac267f8a7df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "938356a6_f3fb9427",
         "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
         "patchSetId": 2
@@ -183,6 +207,30 @@
       "side": 1,
       "message": "If I understand this comment correctly, the problem you described is the fact that group.getFileLink() didn\u0027t return a file link.\nI adjusted it to have the same workflow as before now, by adding a couple of conditionals.",
       "parentUuid": "938356a6_f3fb9427",
+      "range": {
+        "startLine": 424,
+        "startChar": 0,
+        "endLine": 428,
+        "endChar": 9
+      },
+      "revId": "dfb8468bad7a97de060a65d8e8130ac267f8a7df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "764f2144_4f185390",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-19T11:49:03Z",
+      "side": 1,
+      "message": "\u003e If I understand this comment correctly, the problem you described is the fact that group.getFileLink() didn\u0027t return a file link.\n\nIt was more than that. The new conditions fix all mentioned aspects and hence we\u0027re fine anyway. :-)",
+      "parentUuid": "7bb39200_c28cb039",
       "range": {
         "startLine": 424,
         "startChar": 0,

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "971ae419_acab090b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-19T11:49:03Z",
+      "side": 1,
+      "message": "tab",
+      "range": {
+        "startLine": 11,
+        "startChar": 54,
+        "endLine": 11,
+        "endChar": 60
+      },
+      "revId": "b22a167bf79e4731ed6ee8098f2035c45423cb3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f2d2ceb_0ad148b2",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-19T11:49:03Z",
+      "side": 1,
+      "message": "Here and for getCommentsThreadView(): The name is currently misleading and suggests that the link directly points to a comment thread. As I48ea57ff1 renames the constant and we already use \"Comments\" as tab name, could we rather use a name for both methods which refers to the \"comments tab\"?",
+      "range": {
+        "startLine": 92,
+        "startChar": 18,
+        "endLine": 92,
+        "endChar": 39
+      },
+      "revId": "b22a167bf79e4731ed6ee8098f2035c45423cb3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68d582f8_0518380a",
+        "filename": "polygerrit-ui/app/constants/constants.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-19T11:49:03Z",
+      "side": 1,
+      "message": "I would rather write \"the links in UrlFormatter must be updated\" as the method name could likely change in the future.",
+      "range": {
+        "startLine": 25,
+        "startChar": 25,
+        "endLine": 25,
+        "endChar": 75
+      },
+      "revId": "b22a167bf79e4731ed6ee8098f2035c45423cb3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

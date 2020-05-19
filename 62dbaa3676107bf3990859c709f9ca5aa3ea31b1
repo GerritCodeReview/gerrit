@@ -69,6 +69,24 @@
       "revId": "62dbaa3676107bf3990859c709f9ca5aa3ea31b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0550b4ad_88a2c701",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-19T22:15:12Z",
+      "side": 1,
+      "message": "I am willing to add a validation test and a private changes CI pipeline for verification. Also, I\u0027d like to fix this in stable-2.13 even though we may or may not make a release there, as it was built with Buck.\n\nI\u0027m a bit behind with this, but I\u0027ll try to catch-up the rest of the week and early next week.\n\nThanks for your feedback.",
+      "parentUuid": "c76b3239_52a1f0a8",
+      "revId": "62dbaa3676107bf3990859c709f9ca5aa3ea31b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

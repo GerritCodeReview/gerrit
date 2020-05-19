@@ -34,6 +34,24 @@
       "revId": "092442a5ece4be22ac1162ee6ed1a0b8fbbe0c25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59b9c320_41843619",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-19T07:34:49Z",
+      "side": 1,
+      "message": "I can see Tao\u0027s point about using this feature for reverting a file to an older state.\n\nWhat about showing a toast/warning instead?",
+      "parentUuid": "d191f057_f03238d9",
+      "revId": "092442a5ece4be22ac1162ee6ed1a0b8fbbe0c25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

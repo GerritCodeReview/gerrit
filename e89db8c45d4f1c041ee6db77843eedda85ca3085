@@ -69,6 +69,24 @@
       "revId": "e89db8c45d4f1c041ee6db77843eedda85ca3085",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7071778a_0da0678d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-05-19T21:20:02Z",
+      "side": 1,
+      "message": "The commit message still says \"Even if there is a deadlock it will eventually time out after at most ~2 min\"!? I thought that Francois was referring to that and\nthen found out that a deadlock never timed out, not even after 30 minutes.\n\nAnyway, this part of the commit message is misleading.",
+      "parentUuid": "310fcf82_d85be8b2",
+      "revId": "e89db8c45d4f1c041ee6db77843eedda85ca3085",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

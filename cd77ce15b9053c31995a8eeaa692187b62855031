@@ -22,6 +22,30 @@
       "revId": "cd77ce15b9053c31995a8eeaa692187b62855031",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2d88dba_6bcd72ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-19T12:28:38Z",
+      "side": 1,
+      "message": "I hope it\u0027s fine to leave the non-user facing parts as is :-) \nAre you sure \"Patchset Comment\" is good, though? There might be more than 1 comment. I can suggest \"Patchset Comments\" but that is also inaccurate. Maybe Patchset Level is actually better in this case since this is a good way to describe 1 or more comments?\n\nShould I also change \"/PATCHSET_LEVEL\" to \"/PATCHSET_COMMENT\"? It is kind of user facing.",
+      "parentUuid": "1088e42a_48e7ae60",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 23
+      },
+      "revId": "cd77ce15b9053c31995a8eeaa692187b62855031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

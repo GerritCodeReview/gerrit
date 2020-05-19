@@ -50,6 +50,8 @@ objects needing finalization.
 * `proc/jvm/thread/num_daemon_live`: Current live daemon threads count.
 * `proc/jvm/thread/num_peak_live`: Peak live thread count since the Java virtual machine started or peak was reset.
 * `proc/jvm/thread/num_total_started`: Total number of threads created and also started since the Java virtual machine started.
+* `proc/jvm/thread/num_deadlocked_threads`: Number of threads that are deadlocked waiting for object monitors or ownable synchronizers.
+* `proc/jvm/thread/num_monitordeadlocked_threads`: Number of threads that are deadlocked waiting to acquire object monitors.
 
 === Caches
 

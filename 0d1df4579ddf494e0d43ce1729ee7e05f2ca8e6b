@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "d71d736c_33b47d7a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-19T11:57:07Z",
+      "side": 1,
+      "message": "We have very different strategy to unit testing. I am trying to name unit test not according to code, but according to what UX I am expecting. \n\nIf we change code to use different thing as params change, you would need to rename unit test name. My idea for test name would still work.\n\nBut ok, it\u0027s your change 😊",
+      "parentUuid": "f4aabeb4_0dcf0602",
+      "range": {
+        "startLine": 154,
+        "startChar": 10,
+        "endLine": 154,
+        "endChar": 46
+      },
+      "revId": "0d1df4579ddf494e0d43ce1729ee7e05f2ca8e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "899ea125_fb472ddf",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
         "patchSetId": 2

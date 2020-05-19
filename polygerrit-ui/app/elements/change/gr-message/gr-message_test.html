@@ -391,6 +391,65 @@ suite('gr-message tests', () => {
     });
   });
 
+  suite('patchset comment summary', () => {
+    setup(() => {
+      element = fixture('basic');
+      element.message = {id: '6a07f64a82f96e7337ca5f7f84cfc73abf8ac2a3'};
+    });
+
+    test('single patchset comment posted', () => {
+      const threads = [{
+        comments: [{
+          __path: '/PATCHSET_LEVEL',
+          change_message_id: '6a07f64a82f96e7337ca5f7f84cfc73abf8ac2a3',
+          patch_set: 1,
+          id: 'e365b138_bed65caa',
+          updated: '2020-05-15 13:35:56.000000000',
+          message: 'testing the load',
+          unresolved: false,
+          path: '/PATCHSET_LEVEL',
+          collapsed: false,
+        }],
+        patchNum: 1,
+        path: '/PATCHSET_LEVEL',
+        rootId: 'e365b138_bed65caa',
+      }];
+      assert.equal(element._patchsetCommentSummary(threads),
+          'testing the load');
+    });
+
+    test('single patchset comment with reply', () => {
+      const threads = [{
+        comments: [{
+          __path: '/PATCHSET_LEVEL',
+          patch_set: 1,
+          id: 'e365b138_bed65caa',
+          updated: '2020-05-15 13:35:56.000000000',
+          message: 'testing the load',
+          unresolved: false,
+          path: '/PATCHSET_LEVEL',
+          collapsed: false,
+        }, {
+          __path: '/PATCHSET_LEVEL',
+          change_message_id: '6a07f64a82f96e7337ca5f7f84cfc73abf8ac2a3',
+          patch_set: 1,
+          id: 'd6efcc85_4cbbb6f4',
+          in_reply_to: 'e365b138_bed65caa',
+          updated: '2020-05-15 16:55:28.000000000',
+          message: 'n',
+          unresolved: false,
+          path: '/PATCHSET_LEVEL',
+          __draft: true,
+          collapsed: true,
+        }],
+        patchNum: 1,
+        path: '/PATCHSET_LEVEL',
+        rootId: 'e365b138_bed65caa',
+      }];
+      assert.equal(element._patchsetCommentSummary(threads), 'n');
+    });
+  });
+
   suite('when logged in but not admin', () => {
     setup(done => {
       stub('gr-rest-api-interface', {

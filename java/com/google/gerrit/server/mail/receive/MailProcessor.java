@@ -57,6 +57,7 @@ import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.mail.MailFilter;
 import com.google.gerrit.server.mail.send.InboundEmailRejectionSender;
+import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -115,6 +116,7 @@ public class MailProcessor {
   private final AccountCache accountCache;
   private final DynamicItem<UrlFormatter> urlFormatter;
   private final PluginSetContext<CommentValidator> commentValidators;
+  private final MessageIdGenerator messageIdGenerator;
 
   @Inject
   public MailProcessor(
@@ -133,7 +135,8 @@ public class MailProcessor {
       CommentAdded commentAdded,
       AccountCache accountCache,
       DynamicItem<UrlFormatter> urlFormatter,
-      PluginSetContext<CommentValidator> commentValidators) {
+      PluginSetContext<CommentValidator> commentValidators,
+      MessageIdGenerator messageIdGenerator) {
     this.emails = emails;
     this.emailRejectionSender = emailRejectionSender;
     this.retryHelper = retryHelper;
@@ -150,6 +153,7 @@ public class MailProcessor {
     this.accountCache = accountCache;
     this.urlFormatter = urlFormatter;
     this.commentValidators = commentValidators;
+    this.messageIdGenerator = messageIdGenerator;
   }
 
   /**
@@ -222,6 +226,7 @@ public class MailProcessor {
     try {
       InboundEmailRejectionSender em =
           emailRejectionSender.create(message.from(), message.id(), reason);
+      em.setMessageId(messageIdGenerator.fromMailMessage(message));
       em.send();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot send email to warn for an error");
@@ -366,7 +371,8 @@ public class MailProcessor {
               changeMessage,
               comments,
               patchSetComment,
-              ImmutableList.of())
+              ImmutableList.of(),
+              ctx.getRepoView())
           .sendAsync();
       // Get previous approvals from this user
       Map<String, Short> approvals = new HashMap<>();

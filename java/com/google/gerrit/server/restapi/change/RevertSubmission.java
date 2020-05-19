@@ -57,6 +57,7 @@ import com.google.gerrit.server.change.WalkSorter.PatchSetData;
 import com.google.gerrit.server.extensions.events.ChangeReverted;
 import com.google.gerrit.server.git.CommitUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.RevertedSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.Sequences;
@@ -125,6 +126,7 @@ public class RevertSubmission
   private final BatchUpdate.Factory updateFactory;
   private final ChangeResource.Factory changeResourceFactory;
   private final GetRelated getRelated;
+  private final MessageIdGenerator messageIdGenerator;
 
   private CherryPickInput cherryPickInput;
   private List<ChangeInfo> results;
@@ -153,7 +155,8 @@ public class RevertSubmission
       NotifyResolver notifyResolver,
       BatchUpdate.Factory updateFactory,
       ChangeResource.Factory changeResourceFactory,
-      GetRelated getRelated) {
+      GetRelated getRelated,
+      MessageIdGenerator messageIdGenerator) {
     this.queryProvider = queryProvider;
     this.user = user;
     this.permissionBackend = permissionBackend;
@@ -174,6 +177,7 @@ public class RevertSubmission
     this.updateFactory = updateFactory;
     this.changeResourceFactory = changeResourceFactory;
     this.getRelated = getRelated;
+    this.messageIdGenerator = messageIdGenerator;
     results = new ArrayList<>();
     cherryPickInput = null;
   }
@@ -597,6 +601,8 @@ public class RevertSubmission
         RevertedSender cm = revertedSenderFactory.create(ctx.getProject(), change.getId());
         cm.setFrom(ctx.getAccountId());
         cm.setNotify(ctx.getNotify(change.getId()));
+        cm.setMessageId(
+            messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
         cm.send();
       } catch (Exception err) {
         logger.atSevere().withCause(err).log(

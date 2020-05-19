@@ -25,6 +25,7 @@ import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.send.AddReviewerSender;
+import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collection;
@@ -37,13 +38,16 @@ public class AddReviewersEmail {
 
   private final AddReviewerSender.Factory addReviewerSenderFactory;
   private final ExecutorService sendEmailsExecutor;
+  private final MessageIdGenerator messageIdGenerator;
 
   @Inject
   AddReviewersEmail(
       AddReviewerSender.Factory addReviewerSenderFactory,
-      @SendEmailExecutor ExecutorService sendEmailsExecutor) {
+      @SendEmailExecutor ExecutorService sendEmailsExecutor,
+      MessageIdGenerator messageIdGenerator) {
     this.addReviewerSenderFactory = addReviewerSenderFactory;
     this.sendEmailsExecutor = sendEmailsExecutor;
+    this.messageIdGenerator = messageIdGenerator;
   }
 
   public void emailReviewersAsync(
@@ -86,6 +90,9 @@ public class AddReviewersEmail {
                 cm.addReviewersByEmail(immutableAddedByEmail);
                 cm.addExtraCC(immutableToCopy);
                 cm.addExtraCCByEmail(immutableCopiedByEmail);
+                cm.setMessageId(
+                    messageIdGenerator.fromChangeUpdate(
+                        change.getProject(), change.currentPatchSetId()));
                 cm.send();
               } catch (Exception err) {
                 logger.atSevere().withCause(err).log(

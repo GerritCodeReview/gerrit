@@ -36,6 +36,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.extensions.events.ChangeRestored;
+import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.ReplyToChangeSender;
 import com.google.gerrit.server.mail.send.RestoredSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -65,6 +66,7 @@ public class Restore
   private final PatchSetUtil psUtil;
   private final ChangeRestored changeRestored;
   private final ProjectCache projectCache;
+  private final MessageIdGenerator messageIdGenerator;
 
   @Inject
   Restore(
@@ -74,7 +76,8 @@ public class Restore
       ChangeMessagesUtil cmUtil,
       PatchSetUtil psUtil,
       ChangeRestored changeRestored,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      MessageIdGenerator messageIdGenerator) {
     this.updateFactory = updateFactory;
     this.restoredSenderFactory = restoredSenderFactory;
     this.json = json;
@@ -82,6 +85,7 @@ public class Restore
     this.psUtil = psUtil;
     this.changeRestored = changeRestored;
     this.projectCache = projectCache;
+    this.messageIdGenerator = messageIdGenerator;
   }
 
   @Override
@@ -149,6 +153,8 @@ public class Restore
         ReplyToChangeSender cm = restoredSenderFactory.create(ctx.getProject(), change.getId());
         cm.setFrom(ctx.getAccountId());
         cm.setChangeMessage(message.getMessage(), ctx.getWhen());
+        cm.setMessageId(
+            messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
         cm.send();
       } catch (Exception e) {
         logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());

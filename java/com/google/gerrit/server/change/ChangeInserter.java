@@ -59,6 +59,7 @@ import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
 import com.google.gerrit.server.mail.send.CreateChangeSender;
+import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -108,6 +109,7 @@ public class ChangeInserter implements InsertChangeOp {
   private final RevisionCreated revisionCreated;
   private final CommentAdded commentAdded;
   private final ReviewerAdder reviewerAdder;
+  private final MessageIdGenerator messageIdGenerator;
 
   private final Change.Id changeId;
   private final PatchSet.Id psId;
@@ -156,6 +158,7 @@ public class ChangeInserter implements InsertChangeOp {
       CommentAdded commentAdded,
       RevisionCreated revisionCreated,
       ReviewerAdder reviewerAdder,
+      MessageIdGenerator messageIdGenerator,
       @Assisted Change.Id changeId,
       @Assisted ObjectId commitId,
       @Assisted String refName) {
@@ -171,6 +174,7 @@ public class ChangeInserter implements InsertChangeOp {
     this.revisionCreated = revisionCreated;
     this.commentAdded = commentAdded;
     this.reviewerAdder = reviewerAdder;
+    this.messageIdGenerator = messageIdGenerator;
 
     this.changeId = changeId;
     this.psId = PatchSet.id(changeId, INITIAL_PATCH_SET_ID);
@@ -475,6 +479,8 @@ public class ChangeInserter implements InsertChangeOp {
                 cm.addExtraCC(reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCs));
                 cm.addExtraCCByEmail(
                     reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCsByEmail));
+                cm.setMessageId(
+                    messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
                 cm.send();
               } catch (Exception e) {
                 logger.atSevere().withCause(e).log(

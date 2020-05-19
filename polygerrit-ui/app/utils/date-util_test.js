@@ -110,5 +110,12 @@ suite('date-util tests', () => {
           formatDate(new Date('Jul 03 2013 17:00:00'), isoFormat + ' '
           + timeFormat));
     });
+    test('h:mm:ss A shows correctly midnight and midday', () => {
+      const timeFormat = 'h:mm A';
+      assert.equal('12:14 PM',
+          formatDate(new Date('Jul 03 2013 12:14:00'), timeFormat));
+      assert.equal('12:15 AM',
+          formatDate(new Date('Jul 03 2013 00:15:00'), timeFormat));
+    });
   });
 });

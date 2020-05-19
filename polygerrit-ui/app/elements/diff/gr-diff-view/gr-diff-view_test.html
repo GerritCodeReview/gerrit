@@ -378,7 +378,6 @@ limitations under the License.
       };
       element._change = {
         _number: 42,
-        project: 'gerrit',
         status: 'NEW',
         revisions: {
           a: {_number: 1, commit: {parents: []}},
@@ -392,8 +391,6 @@ limitations under the License.
         assert.isTrue(!!editBtn);
         MockInteractions.tap(editBtn);
         assert.isTrue(redirectStub.called);
-        assert.isTrue(redirectStub.lastCall.calledWithExactly(
-            Gerrit.Nav.getEditUrlForDiff(element._change, element._path)));
         done();
       });
     });

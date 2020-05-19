@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c16a5431_27127e81",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-19T13:37:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3f974e1_31a42904",
+      "range": {
+        "startLine": 53,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 8
+      },
+      "revId": "741db3dcf6d749e711db1ebe48b1682257f459c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b849606_75fa93c0",
         "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "00f1c138_30199c24",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-19T13:37:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b849606_75fa93c0",
+      "range": {
+        "startLine": 58,
+        "startChar": 3,
+        "endLine": 58,
+        "endChar": 4
+      },
+      "revId": "741db3dcf6d749e711db1ebe48b1682257f459c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d908707_116e9fd4",
         "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
         "patchSetId": 5
@@ -59,6 +107,30 @@
       "writtenOn": "2020-05-19T12:31:33Z",
       "side": 1,
       "message": "Wouldn\u0027t this reuse the inbound email\u0027s ID?\n\nIf we reuse that, we\u0027d break the assumption that IDs are unique.\n\nNow, we likely append a suffix later on (-HTML, -PLAIN), but we can\u0027t rely on that because it can easily break.\n\nHow about appending \"-rejection\" to the ID here?",
+      "range": {
+        "startLine": 98,
+        "startChar": 54,
+        "endLine": 98,
+        "endChar": 70
+      },
+      "revId": "741db3dcf6d749e711db1ebe48b1682257f459c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b111dca_3808c3b5",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-19T13:37:16Z",
+      "side": 1,
+      "message": "No, I don\u0027t think it reuses the inbound email\u0027s ID since mailMessage.id() is not Message-Id. Also, if I understand correctly, inbound emails don\u0027t have Message-Id since they are not sent by Gerrit. Did I miss something?",
+      "parentUuid": "6d908707_116e9fd4",
       "range": {
         "startLine": 98,
         "startChar": 54,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "6837d9b2_985fe2bb",
+        "filename": "javatests/com/google/gerrit/acceptance/OutgoingEmailTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-19T13:37:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "897e343f_cd7c49bd",
+      "range": {
+        "startLine": 32,
+        "startChar": 26,
+        "endLine": 32,
+        "endChar": 30
+      },
+      "revId": "741db3dcf6d749e711db1ebe48b1682257f459c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "961bd841_7ff9a863",
         "filename": "javatests/com/google/gerrit/acceptance/OutgoingEmailTest.java",
         "patchSetId": 5
@@ -114,6 +210,30 @@
       "revId": "741db3dcf6d749e711db1ebe48b1682257f459c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0a9734c_70eafe09",
+        "filename": "javatests/com/google/gerrit/acceptance/OutgoingEmailTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-19T13:37:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "961bd841_7ff9a863",
+      "range": {
+        "startLine": 45,
+        "startChar": 14,
+        "endLine": 46,
+        "endChar": 46
+      },
+      "revId": "741db3dcf6d749e711db1ebe48b1682257f459c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

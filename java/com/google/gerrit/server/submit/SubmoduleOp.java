@@ -139,7 +139,7 @@ public class SubmoduleOp {
     this.maxCommitMessages = cfg.getLong("submodule", "maxCommitMessages", 1000);
     this.orm = orm;
     this.subscriptionGraphFactory =
-        new SubscriptionGraph.Factory(gitmodulesFactory, projectCache, orm);
+        new SubscriptionGraph.DefaultFactory(gitmodulesFactory, projectCache, orm);
     if (cfg.getBoolean("submodule", "enableSuperProjectSubscriptions", true)) {
       this.subscriptionGraph =
           subscriptionGraphFactory.create(ImmutableSet.copyOf(updatedBranches));

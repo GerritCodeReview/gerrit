@@ -21,7 +21,7 @@
  */
 export const PrimaryTab = {
   FILES: '_files',
-  COMMENT_THREADS: '_commentThreads',
+  COMMENT_THREADS: '_comments',
   FINDINGS: '_findings',
 };
 

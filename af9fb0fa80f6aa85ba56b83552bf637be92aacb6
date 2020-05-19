@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "39431a0f_2ff797d9",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-19T10:03:07Z",
+      "side": 1,
+      "message": "Would it be an option to use \"for of\" instead of \"forEach\"?",
+      "parentUuid": "e2609045_1b7e970d",
+      "revId": "af9fb0fa80f6aa85ba56b83552bf637be92aacb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7a307a39_b5998bb0",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 3

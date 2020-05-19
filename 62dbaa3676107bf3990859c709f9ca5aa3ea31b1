@@ -51,6 +51,24 @@
       "revId": "62dbaa3676107bf3990859c709f9ca5aa3ea31b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c76b3239_52a1f0a8",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-05-19T14:42:08Z",
+      "side": 1,
+      "message": "\u003e If I were on master, I would do a much better user experience by giving back an error page explaining what happened: \"Please note that your account has been disabled. Please refer to the Gerrit admin if you believe this was not expected. You have been logged out from Gerrit\".\n\u003e \n\u003e Is it something we can target with your fix?\n\nI guess we could, but it leaks information, which I\u0027m not sure we\u0027d want.\nBut let\u0027s discuss at the stable-3.1 bug, about which this discussion is.\n\n\n\u003e \u003e What about calling `logout` instead?\n\u003e \u003e [...]\n\u003e \n\u003e This isn\u0027t about invalidating the session (your fix) but rather avoiding a disabled user to be flagged as authenticated by cookie.\n\nMhmm. Ok. Not sure I fully follow the reasoning, but I\u0027ll retract my -1\nthen.",
+      "parentUuid": "b5aa3216_946f39da",
+      "revId": "62dbaa3676107bf3990859c709f9ca5aa3ea31b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

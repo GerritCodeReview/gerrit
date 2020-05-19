@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e700bb72_cea42e93",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-19T09:31:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30704556_67bcc80b",
+      "range": {
+        "startLine": 261,
+        "startChar": 10,
+        "endLine": 261,
+        "endChar": 29
+      },
+      "revId": "af9fb0fa80f6aa85ba56b83552bf637be92aacb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ac1f0783_5659874b",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "af9fb0fa80f6aa85ba56b83552bf637be92aacb6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2609045_1b7e970d",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-19T09:31:43Z",
+      "side": 1,
+      "message": "Returning from forEach will not return the entire function.\n`There is no way to stop or break a forEach() loop other than by throwing an exception. If you need such behavior, the forEach() method is the wrong tool.`\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach#Description",
+      "parentUuid": "ac1f0783_5659874b",
+      "revId": "af9fb0fa80f6aa85ba56b83552bf637be92aacb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "af9fb0fa80f6aa85ba56b83552bf637be92aacb6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27ae48bf_ce18a664",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-19T09:31:43Z",
+      "side": 1,
+      "message": "Same.",
+      "parentUuid": "7a307a39_b5998bb0",
+      "range": {
+        "startLine": 269,
+        "startChar": 48,
+        "endLine": 269,
+        "endChar": 55
+      },
+      "revId": "af9fb0fa80f6aa85ba56b83552bf637be92aacb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

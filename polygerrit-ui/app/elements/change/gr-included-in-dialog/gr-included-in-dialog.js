@@ -50,10 +50,7 @@ class GrIncludedInDialog extends GestureEventListeners(
         type: Boolean,
         value: false,
       },
-      _filterText: {
-        type: String,
-        value: '',
-      },
+      _filterText: String,
     };
   }
 
@@ -76,7 +73,7 @@ class GrIncludedInDialog extends GestureEventListeners(
   _computeGroups(includedIn, filterText) {
     if (!includedIn) { return []; }
 
-    const filter = item => !filterText.length ||
+    const filter = item => !filterText ||
         item.toLowerCase().indexOf(filterText.toLowerCase()) !== -1;
 
     const groups = [
@@ -104,12 +101,6 @@ class GrIncludedInDialog extends GestureEventListeners(
 
   _computeLoadingClass(loaded) {
     return loaded ? 'loading loaded' : 'loading';
-  }
-
-  _onFilterChanged() {
-    this.debounce('filter-change', () => {
-      this._filterText = this.$.filterInput.bindValue;
-    }, 100);
   }
 }
 

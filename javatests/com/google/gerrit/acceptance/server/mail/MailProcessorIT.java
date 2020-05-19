@@ -40,6 +40,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidator;
+import com.google.gerrit.mail.EmailHeader;
 import com.google.gerrit.mail.MailMessage;
 import com.google.gerrit.mail.MailProcessingUtil;
 import com.google.gerrit.server.mail.receive.MailProcessor;
@@ -296,6 +297,10 @@ public class MailProcessorIT extends AbstractMailIT {
     assertNotifyTo(user);
     Message message = sender.nextMessage();
     assertThat(message.body()).contains("rejected one or more comments");
+
+    // ensure the message header contains a valid message id.
+    assertThat(((EmailHeader.String) (message.headers().get("Message-ID"))).getString())
+        .isEqualTo("some id-HTML");
   }
 
   @Test

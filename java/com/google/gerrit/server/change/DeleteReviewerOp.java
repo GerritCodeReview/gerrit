@@ -38,6 +38,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.extensions.events.ReviewerDeleted;
 import com.google.gerrit.server.mail.send.DeleteReviewerSender;
+import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -45,6 +46,7 @@ import com.google.gerrit.server.project.RemoveReviewerControl;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.RepoView;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -71,6 +73,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
   private final DeleteReviewerSender.Factory deleteReviewerSenderFactory;
   private final RemoveReviewerControl removeReviewerControl;
   private final ProjectCache projectCache;
+  private final MessageIdGenerator messageIdGenerator;
 
   private final AccountState reviewer;
   private final DeleteReviewerInput input;
@@ -92,6 +95,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
       DeleteReviewerSender.Factory deleteReviewerSenderFactory,
       RemoveReviewerControl removeReviewerControl,
       ProjectCache projectCache,
+      MessageIdGenerator messageIdGenerator,
       @Assisted AccountState reviewerAccount,
       @Assisted DeleteReviewerInput input) {
     this.approvalsUtil = approvalsUtil;
@@ -103,6 +107,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     this.deleteReviewerSenderFactory = deleteReviewerSenderFactory;
     this.removeReviewerControl = removeReviewerControl;
     this.projectCache = projectCache;
+    this.messageIdGenerator = messageIdGenerator;
     this.reviewer = reviewerAccount;
     this.input = input;
   }
@@ -181,7 +186,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     }
     try {
       if (notify.shouldNotify()) {
-        emailReviewers(ctx.getProject(), currChange, changeMessage, notify);
+        emailReviewers(ctx.getProject(), currChange, changeMessage, notify, ctx.getRepoView());
       }
     } catch (Exception err) {
       logger.atSevere().withCause(err).log("Cannot email update for change %s", currChange.getId());
@@ -215,8 +220,9 @@ public class DeleteReviewerOp implements BatchUpdateOp {
       Project.NameKey projectName,
       Change change,
       ChangeMessage changeMessage,
-      NotifyResolver.Result notify)
-      throws EmailException {
+      NotifyResolver.Result notify,
+      RepoView repoView)
+      throws EmailException, IOException {
     Account.Id userId = user.get().getAccountId();
     if (userId.equals(reviewer.account().id())) {
       // The user knows they removed themselves, don't bother emailing them.
@@ -227,6 +233,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     cm.addReviewers(Collections.singleton(reviewer.account().id()));
     cm.setChangeMessage(changeMessage.getMessage(), changeMessage.getWrittenOn());
     cm.setNotify(notify);
+    cm.setMessageId(messageIdGenerator.fromChangeUpdate(repoView, change.currentPatchSetId()));
     cm.send();
   }
 }

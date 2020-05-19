@@ -28,6 +28,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.mail.send.MergedSender;
+import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -70,6 +71,7 @@ public class MergedByPushOp implements BatchUpdateOp {
   private final PatchSetUtil psUtil;
   private final ExecutorService sendEmailExecutor;
   private final ChangeMerged changeMerged;
+  private final MessageIdGenerator messageIdGenerator;
 
   private final PatchSet.Id psId;
   private final SubmissionId submissionId;
@@ -90,6 +92,7 @@ public class MergedByPushOp implements BatchUpdateOp {
       PatchSetUtil psUtil,
       @SendEmailExecutor ExecutorService sendEmailExecutor,
       ChangeMerged changeMerged,
+      MessageIdGenerator messageIdGenerator,
       @Assisted RequestScopePropagator requestScopePropagator,
       @Assisted PatchSet.Id psId,
       @Assisted SubmissionId submissionId,
@@ -101,6 +104,7 @@ public class MergedByPushOp implements BatchUpdateOp {
     this.psUtil = psUtil;
     this.sendEmailExecutor = sendEmailExecutor;
     this.changeMerged = changeMerged;
+    this.messageIdGenerator = messageIdGenerator;
     this.requestScopePropagator = requestScopePropagator;
     this.submissionId = submissionId;
     this.psId = psId;
@@ -189,6 +193,8 @@ public class MergedByPushOp implements BatchUpdateOp {
                           mergedSenderFactory.create(ctx.getProject(), psId.changeId());
                       cm.setFrom(ctx.getAccountId());
                       cm.setPatchSet(patchSet, info);
+                      cm.setMessageId(
+                          messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
                       cm.send();
                     } catch (Exception e) {
                       logger.atSevere().withCause(e).log(

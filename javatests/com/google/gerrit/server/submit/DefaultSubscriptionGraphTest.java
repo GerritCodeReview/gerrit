@@ -42,7 +42,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-public class SubscriptionGraphTest {
+public class DefaultSubscriptionGraphTest {
   private static final String TEST_PATH = "test/path";
   private static final Project.NameKey SUPER_PROJECT = Project.nameKey("Superproject");
   private static final Project.NameKey SUB_PROJECT = Project.nameKey("Subproject");
@@ -81,7 +81,7 @@ public class SubscriptionGraphTest {
 
   @Test
   public void submoduleNotEnabled() throws Exception {
-    SubscriptionGraph subGraph = createGraph(false);
+    DefaultSubscriptionGraph subGraph = createGraph(false);
 
     assertThat(subGraph.getTargets()).isEmpty();
     assertThat(subGraph.getBranchesByProject()).isEmpty();
@@ -90,7 +90,7 @@ public class SubscriptionGraphTest {
 
   @Test
   public void oneSuperprojectOneSubmodule() throws Exception {
-    SubscriptionGraph subGraph = createGraph(true);
+    DefaultSubscriptionGraph subGraph = createGraph(true);
 
     assertThat(subGraph.getTargets())
         .containsExactly(
@@ -145,7 +145,7 @@ public class SubscriptionGraphTest {
     setSubscription(superBranch1, ImmutableList.of());
     setSubscription(superBranch2, ImmutableList.of());
 
-    SubscriptionGraph subGraph = createGraph(true, ImmutableSet.of(subBranch1, subBranch2));
+    DefaultSubscriptionGraph subGraph = createGraph(true, ImmutableSet.of(subBranch1, subBranch2));
 
     assertThat(subGraph.getTargets())
         .containsExactly(
@@ -185,9 +185,9 @@ public class SubscriptionGraphTest {
         .thenReturn(mockModulesMap.get(srcBranch));
   }
 
-  private SubscriptionGraph createGraph(
+  private DefaultSubscriptionGraph createGraph(
       boolean enableSubscription, Set<BranchNameKey> updatedBranches) throws Exception {
-    return new SubscriptionGraph(
+    return new DefaultSubscriptionGraph(
         mockGitModulesFactory,
         updatedBranches,
         mockProjectCache,
@@ -195,7 +195,7 @@ public class SubscriptionGraphTest {
         enableSubscription);
   }
 
-  private SubscriptionGraph createGraph(boolean enableSubscription) throws Exception {
+  private DefaultSubscriptionGraph createGraph(boolean enableSubscription) throws Exception {
     return createGraph(enableSubscription, ImmutableSet.of(SUB_BRANCH));
   }
 }

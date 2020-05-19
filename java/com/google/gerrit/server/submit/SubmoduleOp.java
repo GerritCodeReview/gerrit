@@ -118,8 +118,10 @@ public class SubmoduleOp {
   private final long maxCombinedCommitMessageSize;
   private final long maxCommitMessages;
   private final MergeOpRepoManager orm;
-  private final SubscriptionGraph.Factory subscriptionGraphFactory;
   private final SubscriptionGraph subscriptionGraph;
+
+  /** Branches updated as part of the enclosing submit or push batch. */
+  private final ImmutableSet<BranchNameKey> updatedBranches;
 
   /**
    * Current branch tips, taking into account commits created during the submit process as well as
@@ -142,14 +144,15 @@ public class SubmoduleOp {
         cfg.getLong("submodule", "maxCombinedCommitMessageSize", 256 << 10);
     this.maxCommitMessages = cfg.getLong("submodule", "maxCommitMessages", 1000);
     this.orm = orm;
+    this.updatedBranches = ImmutableSet.copyOf(updatedBranches);
     this.branchTips = new HashMap<>();
-    this.subscriptionGraphFactory =
-        new SubscriptionGraph.Factory(
+    this.subscriptionGraph =
+        new SubscriptionGraph(
             gitmodulesFactory,
+            updatedBranches,
             projectCache,
             orm,
             cfg.getBoolean("submodule", "enableSuperProjectSubscriptions", true));
-    this.subscriptionGraph = subscriptionGraphFactory.create(ImmutableSet.copyOf(updatedBranches));
   }
 
   @UsedAt(UsedAt.Project.PLUGIN_DELETE_PROJECT)
@@ -167,11 +170,11 @@ public class SubmoduleOp {
     try {
       for (Project.NameKey project : projects) {
         // only need superprojects
-        if (subscriptionGraph.isAffectedSuperProject(project)) {
+        if (subscriptionGraph.isAffected(project)) {
           superProjects.add(project);
           // get a new BatchUpdate for the super project
           OpenRepo or = orm.getRepo(project);
-          for (BranchNameKey branch : subscriptionGraph.getAffectedSuperBranches(project)) {
+          for (BranchNameKey branch : subscriptionGraph.getAffectedBranches(project)) {
             addOp(or.getUpdate(), branch);
           }
         }
@@ -212,7 +215,7 @@ public class SubmoduleOp {
     int count = 0;
 
     List<SubmoduleSubscription> subscriptions =
-        subscriptionGraph.getSubscriptions(subscriber).stream()
+        subscriptionGraph.subscribedBy(subscriber).stream()
             .sorted(comparing(SubmoduleSubscription::getPath))
             .collect(toList());
     for (SubmoduleSubscription s : subscriptions) {
@@ -265,7 +268,7 @@ public class SubmoduleOp {
     StringBuilder msgbuf = new StringBuilder();
     DirCache dc = readTree(or.rw, currentCommit);
     DirCacheEditor ed = dc.editor();
-    for (SubmoduleSubscription s : subscriptionGraph.getSubscriptions(subscriber)) {
+    for (SubmoduleSubscription s : subscriptionGraph.subscribedBy(subscriber)) {
       updateSubmodule(dc, ed, msgbuf, s);
     }
     ed.finish();
@@ -442,7 +445,7 @@ public class SubmoduleOp {
       addAllSubmoduleProjects(project, new LinkedHashSet<>(), projects);
     }
 
-    for (BranchNameKey branch : subscriptionGraph.getUpdatedBranches()) {
+    for (BranchNameKey branch : updatedBranches) {
       projects.add(branch.project());
     }
     return ImmutableSet.copyOf(projects);
@@ -456,7 +459,7 @@ public class SubmoduleOp {
     if (current.contains(project)) {
       throw new SubmoduleConflictException(
           "Project level circular subscriptions detected:  "
-              + SubscriptionGraph.Factory.printCircularPath(current, project));
+              + SubmoduleUtils.printCircularPath(current, project));
     }
 
     if (projects.contains(project)) {
@@ -465,8 +468,8 @@ public class SubmoduleOp {
 
     current.add(project);
     Set<Project.NameKey> subprojects = new HashSet<>();
-    for (BranchNameKey branch : subscriptionGraph.getAffectedSuperBranches(project)) {
-      Collection<SubmoduleSubscription> subscriptions = subscriptionGraph.getSubscriptions(branch);
+    for (BranchNameKey branch : subscriptionGraph.getAffectedBranches(project)) {
+      Collection<SubmoduleSubscription> subscriptions = subscriptionGraph.subscribedBy(branch);
       for (SubmoduleSubscription s : subscriptions) {
         subprojects.add(s.getSubmodule().project());
       }
@@ -482,10 +485,10 @@ public class SubmoduleOp {
 
   ImmutableSet<BranchNameKey> getBranchesInOrder() {
     LinkedHashSet<BranchNameKey> branches = new LinkedHashSet<>();
-    if (subscriptionGraph.getSortedSuperprojectAndSubmoduleBranches() != null) {
-      branches.addAll(subscriptionGraph.getSortedSuperprojectAndSubmoduleBranches());
+    if (subscriptionGraph.getSortedBranches() != null) {
+      branches.addAll(subscriptionGraph.getSortedBranches());
     }
-    branches.addAll(subscriptionGraph.getUpdatedBranches());
+    branches.addAll(updatedBranches);
     return ImmutableSet.copyOf(branches);
   }
 

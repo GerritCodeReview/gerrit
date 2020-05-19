@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "bf1eb32c_3b33517e",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1095383
+      },
+      "writtenOn": "2020-05-19T07:45:23Z",
+      "side": 1,
+      "message": "\u003e but I believe the purpose of this change is to document how it it works.\nIndeed.",
+      "parentUuid": "98b6be84_49b307ff",
+      "range": {
+        "startLine": 249,
+        "startChar": 44,
+        "endLine": 249,
+        "endChar": 48
+      },
+      "revId": "e0f7a005440f2dae5c9ddf8dd7865fae9b16191e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6cbf74c3_b7a0e611",
         "filename": "Documentation/rest-api-plugins.txt",
         "patchSetId": 4
@@ -123,6 +147,24 @@
       "revId": "e0f7a005440f2dae5c9ddf8dd7865fae9b16191e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4d2b440_8d0bf5fe",
+        "filename": "Documentation/rest-api-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1095383
+      },
+      "writtenOn": "2020-05-19T07:45:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57657f73_f07eb9fe",
+      "revId": "e0f7a005440f2dae5c9ddf8dd7865fae9b16191e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

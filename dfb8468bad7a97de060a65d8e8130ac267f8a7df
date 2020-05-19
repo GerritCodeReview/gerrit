@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "ef5d0427_a21192db",
+        "filename": "java/com/google/gerrit/server/config/UrlFormatter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1102791
+      },
+      "writtenOn": "2020-05-19T00:32:34Z",
+      "side": 1,
+      "message": "test",
+      "revId": "dfb8468bad7a97de060a65d8e8130ac267f8a7df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad303939_679f0de1",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1102791
+      },
+      "writtenOn": "2020-05-19T00:32:34Z",
+      "side": 1,
+      "message": "this is test content",
+      "revId": "dfb8468bad7a97de060a65d8e8130ac267f8a7df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "428e2564_6d87eb0e",
         "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
         "patchSetId": 2

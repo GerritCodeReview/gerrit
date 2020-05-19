@@ -40,6 +40,7 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.extensions.events.ChangeReverted;
+import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.RevertedSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
@@ -86,6 +87,7 @@ public class CommitUtil {
   private final ChangeMessagesUtil cmUtil;
   private final ChangeReverted changeReverted;
   private final BatchUpdate.Factory updateFactory;
+  private final MessageIdGenerator messageIdGenerator;
 
   @Inject
   CommitUtil(
@@ -98,7 +100,8 @@ public class CommitUtil {
       RevertedSender.Factory revertedSenderFactory,
       ChangeMessagesUtil cmUtil,
       ChangeReverted changeReverted,
-      BatchUpdate.Factory updateFactory) {
+      BatchUpdate.Factory updateFactory,
+      MessageIdGenerator messageIdGenerator) {
     this.repoManager = repoManager;
     this.serverIdent = serverIdent;
     this.seq = seq;
@@ -109,6 +112,7 @@ public class CommitUtil {
     this.cmUtil = cmUtil;
     this.changeReverted = changeReverted;
     this.updateFactory = updateFactory;
+    this.messageIdGenerator = messageIdGenerator;
   }
 
   public static CommitInfo toCommitInfo(RevCommit commit) throws IOException {
@@ -308,6 +312,8 @@ public class CommitUtil {
         RevertedSender cm = revertedSenderFactory.create(ctx.getProject(), change.getId());
         cm.setFrom(ctx.getAccountId());
         cm.setNotify(ctx.getNotify(change.getId()));
+        cm.setMessageId(
+            messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
         cm.send();
       } catch (Exception err) {
         logger.atSevere().withCause(err).log(

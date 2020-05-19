@@ -568,7 +568,8 @@
 
     _goToEditFile() {
       // TODO(taoalpha): add a shortcut for editing
-      const editUrl = Gerrit.Nav.getEditUrlForDiff(this._change, this._path);
+      const editUrl = Gerrit.Nav.getEditUrlForDiff(
+          this._change, this._path, this._patchRange.patchNum);
       return Gerrit.Nav.navigateToRelativeUrl(editUrl);
     },
 

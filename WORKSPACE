@@ -238,7 +238,7 @@ maven_jar(
 CAFFEINE_GUAVA_SHA256 = "3a66ee3ec70971dee0bae6e56bda7b8742bc4bedd7489161bfbbaaf7137d89e1"
 
 # TODO(davido): Rename guava.jar to caffeine-guava.jar on fetch to prevent potential
-# naming collision between caffeine guava adapater and guava library itself.
+# naming collision between caffeine guava adapter and guava library itself.
 # Remove this renaming procedure, once this upstream issue is fixed:
 # https://github.com/ben-manes/caffeine/issues/364.
 http_file(

@@ -235,5 +235,23 @@ public class ProcMetricModule extends MetricModule {
             .setGauge()
             .setUnit("threads"),
         thread::getTotalStartedThreadCount);
+    if (thread.isSynchronizerUsageSupported()) {
+      metrics.newCallbackMetric(
+          "proc/jvm/thread/num_deadlocked_threads",
+          Integer.class,
+          new Description(
+                  "number of threads that are deadlocked waiting for object monitors or ownable synchronizers")
+              .setGauge()
+              .setUnit("threads"),
+          () -> thread.findDeadlockedThreads().length);
+    } else {
+      metrics.newCallbackMetric(
+          "proc/jvm/thread/num_monitordeadlocked_threads",
+          Integer.class,
+          new Description(
+                  "number of threads that are deadlocked waiting to acquire object monitors")
+              .setGauge()
+              .setUnit("threads"),
+          () -> thread.findMonitorDeadlockedThreads().length);    }
   }
 }

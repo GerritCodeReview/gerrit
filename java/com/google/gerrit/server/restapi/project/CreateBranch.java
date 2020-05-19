@@ -26,6 +26,8 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.reviewdb.client.Branch;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -39,7 +41,10 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.RefUtil;
 import com.google.gerrit.server.project.RefValidationHelper;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.MagicBranch;
+import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -64,6 +69,7 @@ public class CreateBranch
   private final GitReferenceUpdated referenceUpdated;
   private final RefValidationHelper refCreationValidator;
   private final CreateRefControl createRefControl;
+  private final Provider<InternalChangeQuery> queryProvider;
 
   @Inject
   CreateBranch(
@@ -72,19 +78,21 @@ public class CreateBranch
       GitRepositoryManager repoManager,
       GitReferenceUpdated referenceUpdated,
       RefValidationHelper.Factory refHelperFactory,
-      CreateRefControl createRefControl) {
+      CreateRefControl createRefControl,
+      Provider<InternalChangeQuery> queryProvider) {
     this.identifiedUser = identifiedUser;
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
     this.referenceUpdated = referenceUpdated;
     this.refCreationValidator = refHelperFactory.create(ReceiveCommand.Type.CREATE);
     this.createRefControl = createRefControl;
+    this.queryProvider = queryProvider;
   }
 
   @Override
   public BranchInfo apply(ProjectResource rsrc, IdString id, BranchInput input)
       throws BadRequestException, AuthException, ResourceConflictException, IOException,
-          PermissionBackendException, NoSuchProjectException {
+          PermissionBackendException, NoSuchProjectException, OrmException {
     String ref = id.get();
     if (input == null) {
       input = new BranchInput();
@@ -115,6 +123,7 @@ public class CreateBranch
     final Branch.NameKey name = new Branch.NameKey(rsrc.getNameKey(), ref);
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
       ObjectId revid = RefUtil.parseBaseRevision(repo, rsrc.getNameKey(), input.revision);
+      verifyNoUnsubmittedChanges(name.getParentKey(), revid);
       RevWalk rw = RefUtil.verifyConnected(repo, revid);
       RevObject object = rw.parseAny(revid);
 
@@ -199,6 +208,19 @@ public class CreateBranch
       }
     } catch (RefUtil.InvalidRevisionException e) {
       throw new BadRequestException("invalid revision \"" + input.revision + "\"", e);
+    }
+  }
+
+  private void verifyNoUnsubmittedChanges(Project.NameKey project, ObjectId revid)
+      throws ResourceConflictException, OrmException {
+    for (ChangeData cd : queryProvider.get().byProjectCommit(project, revid)) {
+      if (cd.change().getStatus() != Change.Status.MERGED) {
+        throw new ResourceConflictException(
+            "There is unsubmitted change "
+                + cd.change().getChangeId()
+                + " for the commit "
+                + revid.name());
+      }
     }
   }
 }

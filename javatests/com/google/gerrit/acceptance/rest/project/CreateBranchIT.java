@@ -22,6 +22,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchApi;
@@ -233,6 +234,17 @@ public class CreateBranchIT extends AbstractDaemonTest {
         "invalid\trevision",
         BadRequestException.class,
         "invalid revision \"invalid\trevision\"");
+  }
+
+  @Test(expected = ResourceConflictException.class)
+  public void createOnUnsubmittedRevision_Conflict() throws Exception {
+    PushOneCommit.Result result = pushTo("refs/for/master");
+    String rev = result.getPatchSet().getRevision().get();
+    assertThat(getRemoteHead(project, "master")).isNotEqualTo(rev);
+
+    BranchInput input = new BranchInput();
+    input.revision = rev;
+    branch(testBranch).create(input).get();
   }
 
   private void blockCreateReference() throws Exception {

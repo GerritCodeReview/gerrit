@@ -33,7 +33,6 @@ import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -230,7 +229,7 @@ public class SubscriptionGraph {
       if (currentVisited.contains(current)) {
         throw new SubmoduleConflictException(
             "Branch level circular subscriptions detected:  "
-                + printCircularPath(currentVisited, current));
+                + CircularPathFinder.printCircularPath(currentVisited, current));
       }
 
       if (allVisited.contains(current)) {
@@ -346,21 +345,6 @@ public class SubscriptionGraph {
       }
       logger.atFine().log("Calculated superprojects for %s are %s", srcBranch, ret);
       return ret;
-    }
-
-    static <T> String printCircularPath(LinkedHashSet<T> p, T target) {
-      StringBuilder sb = new StringBuilder();
-      sb.append(target);
-      ArrayList<T> reverseP = new ArrayList<>(p);
-      Collections.reverse(reverseP);
-      for (T t : reverseP) {
-        sb.append("->");
-        sb.append(t);
-        if (t.equals(target)) {
-          break;
-        }
-      }
-      return sb.toString();
     }
 
     private static <T> void reverse(LinkedHashSet<T> set) {

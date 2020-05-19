@@ -438,7 +438,7 @@ public class SubmoduleOp {
     if (current.contains(project)) {
       throw new SubmoduleConflictException(
           "Project level circular subscriptions detected:  "
-              + SubscriptionGraph.Factory.printCircularPath(current, project));
+              + CircularPathFinder.printCircularPath(current, project));
     }
 
     if (projects.contains(project)) {

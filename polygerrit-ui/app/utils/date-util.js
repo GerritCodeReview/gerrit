@@ -108,8 +108,14 @@ export function formatDate(date, format) {
   if (format.includes('ss')) {
     options.second = '2-digit';
   }
-  // en-GB is using h23 on Chrome 80, en-US is using h24 (midnight is 24:00)
-  const dtf = new Intl.DateTimeFormat('en-GB', options);
+  let locale = 'en-US';
+  // Workaround for Chrome 80, en-US is using h24 (midnight is 24:00),
+  // en-GB is using h23 (midnight is 00:00)
+  if (format.includes('HH')) {
+    locale = 'en-GB';
+  }
+
+  const dtf = new Intl.DateTimeFormat(locale, options);
   const parts = dtf.formatToParts(date).filter(o => o.type != 'literal')
       .reduce((acc, o) => {
         acc[o.type] = o.value;

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "17b1567b_c086d14e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-19T09:44:00Z",
+      "side": 1,
+      "message": "test\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/BUILD#66",
+      "revId": "ee8142800c0c29718082672a4e09eb6ae87eb777",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "376b552d_74b5dc10",
         "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls_test.html",
         "patchSetId": 7

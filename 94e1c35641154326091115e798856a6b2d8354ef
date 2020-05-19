@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8bb0ba51_c5e1f2c2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-19T09:42:42Z",
+      "side": 1,
+      "message": "Comment removed by: Tao Zhou",
+      "revId": "94e1c35641154326091115e798856a6b2d8354ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

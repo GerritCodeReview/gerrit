@@ -118,6 +118,30 @@
       "revId": "5f0622527eb04e56805ccf25ba9534d0df785df6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fc0398a_51d806e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-19T09:47:59Z",
+      "side": 1,
+      "message": "It is actually not used in Gerrit: [1] produces no results in open source gerrit projects. So it is hard to say if it works as expected or not.\n\n* [1] https://cs.bazel.build/search?q\u003dr%3Agerrit+RemoveAfter",
+      "parentUuid": "a35e4e41_57321668",
+      "range": {
+        "startLine": 11,
+        "startChar": 40,
+        "endLine": 12,
+        "endChar": 52
+      },
+      "revId": "5f0622527eb04e56805ccf25ba9534d0df785df6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -820,20 +820,6 @@ suite('gr-change-view tests', () => {
       sandbox.spy(element, '_paramsChanged');
       element.params = {view: 'change', changeNum: '1'};
     });
-
-    test('invalid secondaryTab should not switch tab', done => {
-      assert.equal(element._activeTabs[1], SecondaryTab.CHANGE_LOG);
-      const queryMap = new Map();
-      queryMap.set('secondaryTab', 'random');
-      // view is required
-      element.params = Object.assign({
-        view: GerritNav.View.CHANGE,
-      }, element.params, {queryMap});
-      flush(() => {
-        assert.equal(element._activeTabs[1], SecondaryTab.CHANGE_LOG);
-        done();
-      });
-    });
   });
 
   suite('Findings comment tab', () => {

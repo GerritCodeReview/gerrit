@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97e6e1c0_0a2e93ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-19T08:10:01Z",
+      "side": 1,
+      "message": "Per [1] the default severity is already ERROR.\n\nWe don\u0027t currently set anything for this warning in tools/BUILD.  Is it supported by the error prone version that is embedded in the currently used version of bazel?",
+      "range": {
+        "startLine": 11,
+        "startChar": 40,
+        "endLine": 12,
+        "endChar": 52
+      },
+      "revId": "5f0622527eb04e56805ccf25ba9534d0df785df6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

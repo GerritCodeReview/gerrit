@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "8dd6f6e1_0eb6ecd6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-19T07:32:07Z",
+      "side": 1,
+      "message": "Is this reset when you switch to another change?",
+      "range": {
+        "startLine": 818,
+        "startChar": 10,
+        "endLine": 818,
+        "endChar": 34
+      },
+      "revId": "0d1df4579ddf494e0d43ce1729ee7e05f2ca8e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce1fcf34_174aa38f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 818,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-19T07:32:07Z",
+      "side": 1,
+      "message": "Add a comment about why you are loading the blame info here.",
+      "revId": "0d1df4579ddf494e0d43ce1729ee7e05f2ca8e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9cddbf7a_d63bcc18",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
         "patchSetId": 2

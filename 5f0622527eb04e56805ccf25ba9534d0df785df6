@@ -94,6 +94,30 @@
       "revId": "5f0622527eb04e56805ccf25ba9534d0df785df6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a35e4e41_57321668",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-19T09:41:55Z",
+      "side": 1,
+      "message": "I don\u0027t have time to do this deeper investigation. The proposed change is a reaction to an internal person doing a wider cleanup. If you\u0027re objecting to the current details in the commit message, I can remove them. If you object to the code change, please provide reasons for why you want to stay with the source retention.",
+      "parentUuid": "824ecd92_686d396c",
+      "range": {
+        "startLine": 11,
+        "startChar": 40,
+        "endLine": 12,
+        "endChar": 52
+      },
+      "revId": "5f0622527eb04e56805ccf25ba9534d0df785df6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

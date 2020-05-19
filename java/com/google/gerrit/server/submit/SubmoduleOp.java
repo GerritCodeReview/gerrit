@@ -147,7 +147,7 @@ public class SubmoduleOp {
     this.updatedBranches = ImmutableSet.copyOf(updatedBranches);
     this.branchTips = new HashMap<>();
     this.subscriptionGraph =
-        new SubscriptionGraph(
+        new DefaultSubscriptionGraph(
             gitmodulesFactory,
             updatedBranches,
             projectCache,

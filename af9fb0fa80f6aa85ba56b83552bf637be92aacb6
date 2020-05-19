@@ -102,6 +102,24 @@
     },
     {
       "key": {
+        "uuid": "f704fd99_2ade65d4",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-19T10:12:29Z",
+      "side": 1,
+      "message": "Yes. Used for of.",
+      "parentUuid": "39431a0f_2ff797d9",
+      "revId": "af9fb0fa80f6aa85ba56b83552bf637be92aacb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a307a39_b5998bb0",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 3

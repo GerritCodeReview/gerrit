@@ -124,7 +124,7 @@ class SubscriptionGraph {
     // a submodule branch. Need remove all unrelated branches and reverse
     // the order.
     allVisited.retainAll(affectedBranches);
-    reverse(allVisited);
+    SubmoduleUtils.reverse(allVisited);
     return ImmutableSet.copyOf(allVisited);
   }
 
@@ -138,7 +138,7 @@ class SubscriptionGraph {
     if (currentVisited.contains(current)) {
       throw new SubmoduleConflictException(
           "Branch level circular subscriptions detected:  "
-              + printCircularPath(currentVisited, current));
+              + SubmoduleUtils.printCircularPath(currentVisited, current));
     }
 
     if (allVisited.contains(current)) {
@@ -254,34 +254,6 @@ class SubscriptionGraph {
     }
     logger.atFine().log("Calculated superprojects for %s are %s", srcBranch, ret);
     return ret;
-  }
-
-  static <T> String printCircularPath(LinkedHashSet<T> p, T target) {
-    StringBuilder sb = new StringBuilder();
-    sb.append(target);
-    ArrayList<T> reverseP = new ArrayList<>(p);
-    Collections.reverse(reverseP);
-    for (T t : reverseP) {
-      sb.append("->");
-      sb.append(t);
-      if (t.equals(target)) {
-        break;
-      }
-    }
-    return sb.toString();
-  }
-
-  private static <T> void reverse(LinkedHashSet<T> set) {
-    if (set == null) {
-      return;
-    }
-
-    Deque<T> q = new ArrayDeque<>(set);
-    set.clear();
-
-    while (!q.isEmpty()) {
-      set.add(q.removeLast());
-    }
   }
 
   Collection<SubmoduleSubscription> subscribedBy(BranchNameKey branch) {

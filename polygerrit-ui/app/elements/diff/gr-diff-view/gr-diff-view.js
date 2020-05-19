@@ -817,6 +817,11 @@ class GrDiffView extends mixinBehaviors( [
           this.reporting.diffViewFullyLoaded();
           // If diff view displayed has not ended yet, it ends here.
           this.reporting.diffViewDisplayed();
+        })
+        .then(() => {
+          // If the blame was loaded for a previous file and user navigates to
+          // another file, then we load the blame for this file too
+          if (this._isBlameLoaded) this._loadBlame();
         });
   }
 
@@ -1233,16 +1238,7 @@ class GrDiffView extends mixinBehaviors( [
     return 'Show blame';
   }
 
-  /**
-   * Load and display blame information if it has not already been loaded.
-   * Otherwise hide it.
-   */
-  _toggleBlame() {
-    if (this._isBlameLoaded) {
-      this.$.diffHost.clearBlame();
-      return;
-    }
-
+  _loadBlame() {
     this._isBlameLoading = true;
     this.dispatchEvent(new CustomEvent('show-alert', {
       detail: {message: MSG_LOADING_BLAME},
@@ -1259,6 +1255,18 @@ class GrDiffView extends mixinBehaviors( [
         .catch(() => {
           this._isBlameLoading = false;
         });
+  }
+
+  /**
+   * Load and display blame information if it has not already been loaded.
+   * Otherwise hide it.
+   */
+  _toggleBlame() {
+    if (this._isBlameLoaded) {
+      this.$.diffHost.clearBlame();
+      return;
+    }
+    this._loadBlame();
   }
 
   _handleToggleBlame(e) {

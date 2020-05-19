@@ -54,6 +54,7 @@ import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RobotComment;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -904,9 +905,23 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
       NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
       if (notify.shouldNotify()) {
-        email
-            .create(notify, notes, ps, user, message, comments, in.message, labelDelta)
-            .sendAsync();
+        try {
+          email
+              .create(
+                  notify,
+                  notes,
+                  ps,
+                  user,
+                  message,
+                  comments,
+                  in.message,
+                  labelDelta,
+                  ctx.getRepoView())
+              .sendAsync();
+        } catch (IOException ex) {
+          throw new StorageException(
+              String.format("Repository %s not found", ctx.getProject().get()), ex);
+        }
       }
       commentAdded.fire(
           notes.getChange(),

@@ -46,6 +46,30 @@
       "revId": "cd77ce15b9053c31995a8eeaa692187b62855031",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4033a6df_28224c35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-19T12:42:49Z",
+      "side": 1,
+      "message": "The non-user facing parts can definitely stay and the constant /PATCHSET_LEVEL as well. We made a deliberate decision together to name it like that. The constant should also never be exposed to users, at least not in relevant contexts (e.g. users not directly using the REST API). Or is there still one you identified?\n\nI\u0027m personally not very happy with \"Patchset Comment\" but that doesn\u0027t matter anymore. Delphine also has another design for the comments tab and we might even drop the text then.\n\nIn the emails, \"Patchset Comment\" certainly looks a bit strange. My suggestion would be to go with \"Patchset\" for the group in the email. If you think that \"Patchset Level\" is better/clearer, go with it and just resolve this comment.",
+      "parentUuid": "f2d88dba_6bcd72ea",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 23
+      },
+      "revId": "cd77ce15b9053c31995a8eeaa692187b62855031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22f63247_6bbfcbf4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-19T09:24:13Z",
+      "side": 1,
+      "message": "maybe mention its introduced: https://gerrit-review.googlesource.com/c/gerrit/+/201010 and removed at https://gerrit-review.googlesource.com/c/gerrit/+/246927 for more context ?",
+      "revId": "74140f58c5cc6d4d264d8fe275faf5412d862c74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

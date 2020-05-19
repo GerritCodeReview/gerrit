@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "980353c7_b18908be",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-19T14:03:46Z",
+      "side": 1,
+      "message": "woops, it doesn\u0027t work if we want to test it in MessageIdGeneratorIT.\nI saw that Change.Id and Account.Id etc are all public, so I followed the example. Is that ok?",
+      "parentUuid": "c16a5431_27127e81",
+      "range": {
+        "startLine": 53,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 8
+      },
+      "revId": "741db3dcf6d749e711db1ebe48b1682257f459c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8b849606_75fa93c0",
         "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
         "patchSetId": 5

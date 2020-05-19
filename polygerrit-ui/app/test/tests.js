@@ -27,6 +27,7 @@ const elements = [
   // This seemed to be flaky when it was farther down the list. Keep at the
   // beginning.
   'gr-app_test.html',
+  'change/gr-included-in-dialog/gr-included-in-dialog_test.html',
   'admin/gr-admin-group-list/gr-admin-group-list_test.html',
   'admin/gr-admin-view/gr-admin-view_test.html',
   'admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog_test.html',

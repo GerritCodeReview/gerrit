@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1088e42a_48e7ae60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-19T12:23:53Z",
+      "side": 1,
+      "message": "I just noticed that this is still the old name. Did you see the chat discussion where I added you? Ben and Dhruv decided to go with a different term (\"Patchset Comment\") on the UI. We should be consistent.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 23
+      },
+      "revId": "cd77ce15b9053c31995a8eeaa692187b62855031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3f974e1_31a42904",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-19T12:31:33Z",
+      "side": 1,
+      "message": "protected should work, or package-private by omitting the quantifier",
+      "range": {
+        "startLine": 53,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 8
+      },
+      "revId": "741db3dcf6d749e711db1ebe48b1682257f459c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b849606_75fa93c0",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-19T12:31:33Z",
+      "side": 1,
+      "message": "nit: IIRC javadoc / google style guide says that you always have to at least provide a summary fragment (first sentence of the comment.\n\n/**\n  * Create a {@link MessageId} as a result of a change update.\n  * @param ...\n...",
+      "range": {
+        "startLine": 58,
+        "startChar": 3,
+        "endLine": 58,
+        "endChar": 4
+      },
+      "revId": "741db3dcf6d749e711db1ebe48b1682257f459c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d908707_116e9fd4",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-19T12:31:33Z",
+      "side": 1,
+      "message": "Wouldn\u0027t this reuse the inbound email\u0027s ID?\n\nIf we reuse that, we\u0027d break the assumption that IDs are unique.\n\nNow, we likely append a suffix later on (-HTML, -PLAIN), but we can\u0027t rely on that because it can easily break.\n\nHow about appending \"-rejection\" to the ID here?",
+      "range": {
+        "startLine": 98,
+        "startChar": 54,
+        "endLine": 98,
+        "endChar": 70
+      },
+      "revId": "741db3dcf6d749e711db1ebe48b1682257f459c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "897e343f_cd7c49bd",
+        "filename": "javatests/com/google/gerrit/acceptance/OutgoingEmailTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-19T12:31:33Z",
+      "side": 1,
+      "message": "nit: IT since it\u0027s an integration test",
+      "range": {
+        "startLine": 32,
+        "startChar": 26,
+        "endLine": 32,
+        "endChar": 30
+      },
+      "revId": "741db3dcf6d749e711db1ebe48b1682257f459c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "961bd841_7ff9a863",
+        "filename": "javatests/com/google/gerrit/acceptance/OutgoingEmailTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-19T12:31:33Z",
+      "side": 1,
+      "message": "nit: put this in a static convenience method",
+      "range": {
+        "startLine": 45,
+        "startChar": 14,
+        "endLine": 46,
+        "endChar": 46
+      },
+      "revId": "741db3dcf6d749e711db1ebe48b1682257f459c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

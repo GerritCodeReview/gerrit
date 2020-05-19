@@ -545,6 +545,30 @@
     },
     {
       "key": {
+        "uuid": "bf6114aa_b50b5538",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-19T12:31:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2d2b7f4f_15814294",
+      "range": {
+        "startLine": 103,
+        "startChar": 30,
+        "endLine": 103,
+        "endChar": 36
+      },
+      "revId": "847e9ad5447677e64ef02f8faa382b910932bcf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c220d5d3_5c53f668",
         "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
         "patchSetId": 2

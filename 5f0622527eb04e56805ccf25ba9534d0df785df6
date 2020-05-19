@@ -46,6 +46,30 @@
       "revId": "5f0622527eb04e56805ccf25ba9534d0df785df6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27b178fa_bb86c007",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-19T09:15:05Z",
+      "side": 1,
+      "message": "In that case I would expect it to be failing the build already, given that its default severity is ERROR and we don\u0027t configure it otherwise.",
+      "parentUuid": "b1b351f8_01171e79",
+      "range": {
+        "startLine": 11,
+        "startChar": 40,
+        "endLine": 12,
+        "endChar": 52
+      },
+      "revId": "5f0622527eb04e56805ccf25ba9534d0df785df6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

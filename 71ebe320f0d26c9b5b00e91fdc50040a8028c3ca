@@ -46,6 +46,30 @@
       "revId": "71ebe320f0d26c9b5b00e91fdc50040a8028c3ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd066569_dceb582c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-05-19T10:29:23Z",
+      "side": 0,
+      "message": "Ok, I understand your concern now. With my change, I assume that the default value is 0, which might not be the case. Let me test, what the behavior is, when the default value is not 0 and adapt my change if necessary.",
+      "parentUuid": "55fdc12f_059a4874",
+      "range": {
+        "startLine": 151,
+        "startChar": 6,
+        "endLine": 157,
+        "endChar": 7
+      },
+      "revId": "71ebe320f0d26c9b5b00e91fdc50040a8028c3ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

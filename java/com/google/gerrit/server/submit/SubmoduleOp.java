@@ -364,8 +364,7 @@ public class SubmoduleOp {
     return ret;
   }
 
-  @UsedAt(UsedAt.Project.PLUGIN_DELETE_PROJECT)
-  public Collection<SubmoduleSubscription> superProjectSubscriptionsForSubmoduleBranch(
+  private Collection<SubmoduleSubscription> superProjectSubscriptionsForSubmoduleBranch(
       BranchNameKey srcBranch) throws IOException {
     logger.atFine().log("Calculating possible superprojects for %s", srcBranch);
     Collection<SubmoduleSubscription> ret = new ArrayList<>();

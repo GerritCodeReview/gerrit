@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0e7fba0e_bf86800c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-19T12:14:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "971ae419_acab090b",
+      "range": {
+        "startLine": 11,
+        "startChar": 54,
+        "endLine": 11,
+        "endChar": 60
+      },
+      "revId": "b22a167bf79e4731ed6ee8098f2035c45423cb3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f2d2ceb_0ad148b2",
         "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ad6bf22c_f41d9d52",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-19T12:14:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f2d2ceb_0ad148b2",
+      "range": {
+        "startLine": 92,
+        "startChar": 18,
+        "endLine": 92,
+        "endChar": 39
+      },
+      "revId": "b22a167bf79e4731ed6ee8098f2035c45423cb3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68d582f8_0518380a",
         "filename": "polygerrit-ui/app/constants/constants.js",
         "patchSetId": 6
@@ -68,6 +116,30 @@
       "revId": "b22a167bf79e4731ed6ee8098f2035c45423cb3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1668fbaa_ad6d79f8",
+        "filename": "polygerrit-ui/app/constants/constants.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-19T12:14:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68d582f8_0518380a",
+      "range": {
+        "startLine": 25,
+        "startChar": 25,
+        "endLine": 25,
+        "endChar": 75
+      },
+      "revId": "b22a167bf79e4731ed6ee8098f2035c45423cb3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

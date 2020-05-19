@@ -22,6 +22,30 @@
       "revId": "5f0622527eb04e56805ccf25ba9534d0df785df6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1b351f8_01171e79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-19T08:28:17Z",
+      "side": 1,
+      "message": "Considering the history of the implementation of that bug pattern [1], I would expect it to be part of the ErrorProne version we\u0027re using.\n\n[1] https://github.com/google/error-prone/commits/master/docs/bugpattern/InjectScopeOrQualifierAnnotationRetention.md",
+      "parentUuid": "97e6e1c0_0a2e93ef",
+      "range": {
+        "startLine": 11,
+        "startChar": 40,
+        "endLine": 12,
+        "endChar": 52
+      },
+      "revId": "5f0622527eb04e56805ccf25ba9534d0df785df6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

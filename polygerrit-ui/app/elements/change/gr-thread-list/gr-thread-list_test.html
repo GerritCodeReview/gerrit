@@ -36,6 +36,8 @@ import '../../../test/common-test-setup.js';
 import './gr-thread-list.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {NO_THREADS_MSG} from '../../../constants/messages.js';
+import {SpecialFilePath} from '../../../constants/constants.js';
+
 suite('gr-thread-list tests', () => {
   let element;
   let sandbox;
@@ -178,6 +180,40 @@ suite('gr-thread-list tests', () => {
       {
         comments: [
           {
+            id: 'patchset_level_1',
+            path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
+            updated: '2018-02-15 22:48:48.018000000',
+            message: 'patchset comment 1',
+            unresolved: false,
+            __editing: false,
+            patch_set: '2',
+          },
+        ],
+        patchNum: 2,
+        path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
+        rootId: 'patchset_level_1',
+        start_datetime: '2018-02-09 18:49:18.000000000',
+      },
+      {
+        comments: [
+          {
+            id: 'patchset_level_2',
+            path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
+            updated: '2018-02-15 22:48:48.018000000',
+            message: 'patchset comment 2',
+            unresolved: false,
+            __editing: false,
+            patch_set: '3',
+          },
+        ],
+        patchNum: 3,
+        path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
+        rootId: 'patchset_level_2',
+        start_datetime: '2018-02-09 18:49:18.000000000',
+      },
+      {
+        comments: [
+          {
             __path: '/COMMIT_MSG',
             author: {
               _account_id: 1000000,
@@ -276,29 +312,88 @@ suite('gr-thread-list tests', () => {
     assert.isNotOk(getVisibleThreads().find(th => th.rootId === 'rc1'));
   });
 
+  suite('_compareThreads', () => {
+    test('patchset comes before any other file', () => {
+      const t1 = {thread: {path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS}};
+      const t2 = {thread: {path: SpecialFilePath.COMMIT_MESSAGE}};
+      assert.equal(element._compareThreads(t1, t2), -1);
+    });
+
+    test('file path is compared lexicographically', () => {
+      const t1 = {thread: {path: 'a.txt'}};
+      const t2 = {thread: {path: 'b.txt'}};
+      assert.equal(element._compareThreads(t1, t2), -1);
+    });
+
+    test('patchset comments sorted by reverse patchset', () => {
+      const t1 = {thread: {path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
+        patchNum: 1}};
+      const t2 = {thread: {path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
+        patchNum: 2}};
+      assert.equal(element._compareThreads(t1, t2), 1);
+    });
+
+    test('patchset comments with same patchset picks unresolved first', () => {
+      const t1 = {thread: {path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
+        patchNum: 1}, unresolved: true};
+      const t2 = {thread: {path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
+        patchNum: 1}, unresolved: false};
+      assert.equal(element._compareThreads(t1, t2), -1);
+    });
+
+    test('file level comment before line', () => {
+      const t1 = {thread: {path: 'a.txt', line: 2}};
+      const t2 = {thread: {path: 'a.txt'}};
+      assert.equal(element._compareThreads(t1, t2), 1);
+    });
+
+    test('comments sorted by line', () => {
+      const t1 = {thread: {path: 'a.txt', line: 2}};
+      const t2 = {thread: {path: 'a.txt', line: 3}};
+      assert.equal(element._compareThreads(t1, t2), -1);
+    });
+
+    test('comments on same line sorted by reverse patchset', () => {
+      const t1 = {thread: {path: 'a.txt', line: 2, patchNum: 1}};
+      const t2 = {thread: {path: 'a.txt', line: 2, patchNum: 2}};
+      assert.equal(element._compareThreads(t1, t2), 1);
+    });
+
+    test('comments on same line & patchset sorted by unresolved first',
+        () => {
+          const t1 = {thread: {path: 'a.txt', line: 2, patchNum: 1},
+            unresolved: true};
+          const t2 = {thread: {path: 'a.txt', line: 2, patchNum: 1},
+            unresolved: false};
+          assert.equal(element._compareThreads(t1, t2), -1);
+        });
+
+    test('comments on same line & patchset & unresolved sorted by draft',
+        () => {
+          const t1 = {thread: {path: 'a.txt', line: 2, patchNum: 1},
+            unresolved: true, hasDraft: false};
+          const t2 = {thread: {path: 'a.txt', line: 2, patchNum: 1},
+            unresolved: true, hasDraft: true};
+          assert.equal(element._compareThreads(t1, t2), 1);
+        });
+  });
+
   test('_computeSortedThreads', () => {
-    assert.equal(element._sortedThreads.length, 7);
-    // Draft and unresolved for commit-msg at line 5
-    assert.equal(element._sortedThreads[0].rootId,
-        'ecf0b9fa_fe1a5f62');
-    // unresolved no draft and file level
-    assert.equal(element._sortedThreads[1].rootId,
-        '8caddf38_44770ec1');
-    // unresolved no draft at line 4
-    assert.equal(element._sortedThreads[2].rootId,
-        'scaddf38_44770ec1');
-    // unresolved no draft at line 5
-    assert.equal(element._sortedThreads[3].rootId,
-        'rc1');
-    // Unresolved no draft at line 7
-    assert.equal(element._sortedThreads[4].rootId,
-        'rc2');
-    // resolved and draft on COMMIT_MSG
-    assert.equal(element._sortedThreads[5].rootId,
-        'zcf0b9fa_fe1a5f62');
-    // resolved and on file test.txt
-    assert.equal(element._sortedThreads[6].rootId,
-        '09a9fb0a_1484e6cf');
+    assert.equal(element._sortedThreads.length, 9);
+    const expectedSortedRootIds = [
+      'patchset_level_2', // Posted on Patchset 3
+      'patchset_level_1', // Posted on Patchset 2
+      '8caddf38_44770ec1', // File level on COMMIT_MSG
+      'scaddf38_44770ec1', // Line 4 on COMMIT_MSG
+      'ecf0b9fa_fe1a5f62', // Line 5 on COMMIT_MESSAGE but with drafts
+      'rc1', // Line 5 on COMMIT_MESSAGE without drafts
+      'zcf0b9fa_fe1a5f62', // Line 6 on COMMIT_MSG
+      'rc2', // Line 7 on COMMIT_MSG
+      '09a9fb0a_1484e6cf', // File level on test.txt
+    ];
+    element._sortedThreads.forEach((thread, index) => {
+      assert.equal(thread.rootId, expectedSortedRootIds[index]);
+    });
   });
 
   test('thread removal and sort again', () => {
@@ -308,24 +403,20 @@ suite('gr-thread-list tests', () => {
           composed: true, bubbles: true,
         }));
     flushAsynchronousOperations();
-    assert.equal(element._sortedThreads.length, 6);
-    assert.equal(element._sortedThreads[0].rootId,
-        'ecf0b9fa_fe1a5f62');
-    // unresolved no draft and file level
-    assert.equal(element._sortedThreads[1].rootId,
-        '8caddf38_44770ec1');
-    // unresolved no draft at line 4
-    assert.equal(element._sortedThreads[2].rootId,
-        'scaddf38_44770ec1');
-    // unresolved no draft at line 5
-    assert.equal(element._sortedThreads[3].rootId,
-        'rc1');
-    // resolved and draft
-    assert.equal(element._sortedThreads[4].rootId,
-        'zcf0b9fa_fe1a5f62');
-    // resolved and on file test.txt
-    assert.equal(element._sortedThreads[5].rootId,
-        '09a9fb0a_1484e6cf');
+    assert.equal(element._sortedThreads.length, 8);
+    const expectedSortedRootIds = [
+      'patchset_level_2',
+      'patchset_level_1',
+      '8caddf38_44770ec1', // File level on COMMIT_MSG
+      'scaddf38_44770ec1', // Line 4 on COMMIT_MSG
+      'ecf0b9fa_fe1a5f62', // Line 5 on COMMIT_MESSAGE but with drafts
+      'rc1', // Line 5 on COMMIT_MESSAGE without drafts
+      'zcf0b9fa_fe1a5f62', // Line 6 on COMMIT_MSG
+      '09a9fb0a_1484e6cf', // File level on test.txt
+    ];
+    element._sortedThreads.forEach((thread, index) => {
+      assert.equal(thread.rootId, expectedSortedRootIds[index]);
+    });
   });
 
   test('modification on thread shold not trigger sort again', () => {
@@ -343,28 +434,20 @@ suite('gr-thread-list tests', () => {
     assert.notDeepEqual(currentSortedThreads, element._sortedThreads);
 
     // exact same order as in _computeSortedThreads
-    assert.equal(element._sortedThreads.length, 7);
-    // Draft and unresolved for commit-msg at line 5
-    assert.equal(element._sortedThreads[0].rootId,
-        'ecf0b9fa_fe1a5f62');
-    // unresolved no draft and file level
-    assert.equal(element._sortedThreads[1].rootId,
-        '8caddf38_44770ec1');
-    // unresolved no draft at line 4
-    assert.equal(element._sortedThreads[2].rootId,
-        'scaddf38_44770ec1');
-    // unresolved no draft at line 5
-    assert.equal(element._sortedThreads[3].rootId,
-        'rc1');
-    // Unresolved no draft at line 7
-    assert.equal(element._sortedThreads[4].rootId,
-        'rc2');
-    // resolved and draft on COMMIT_MSG
-    assert.equal(element._sortedThreads[5].rootId,
-        'zcf0b9fa_fe1a5f62');
-    // resolved and on file test.txt
-    assert.equal(element._sortedThreads[6].rootId,
-        '09a9fb0a_1484e6cf');
+    const expectedSortedRootIds = [
+      'patchset_level_2',
+      'patchset_level_1',
+      '8caddf38_44770ec1', // File level on COMMIT_MSG
+      'scaddf38_44770ec1', // Line 4 on COMMIT_MSG
+      'ecf0b9fa_fe1a5f62', // Line 5 on COMMIT_MESSAGE but with drafts
+      'rc1', // Line 5 on COMMIT_MESSAGE without drafts
+      'zcf0b9fa_fe1a5f62', // Line 6 on COMMIT_MSG
+      'rc2', // Line 7 on COMMIT_MSG
+      '09a9fb0a_1484e6cf', // File level on test.txt
+    ];
+    element._sortedThreads.forEach((thread, index) => {
+      assert.equal(thread.rootId, expectedSortedRootIds[index]);
+    });
   });
 
   test('reset sortedThreads when threads set to undefiend', () => {
@@ -373,7 +456,7 @@ suite('gr-thread-list tests', () => {
   });
 
   test('non-equal length of sortThreads and threads' +
-    ' shold trigger sort again', () => {
+    ' should trigger sort again', () => {
     const modifiedThreads = [...element.threads];
     const currentSortedThreads = [...element._sortedThreads];
     element._sortedThreads = [];
@@ -381,29 +464,20 @@ suite('gr-thread-list tests', () => {
     assert.deepEqual(currentSortedThreads, element._sortedThreads);
 
     // exact same order as in _computeSortedThreads
-    assert.equal(element._sortedThreads.length, 7);
-    // Draft and unresolved for commit-msg at line 5
-    assert.equal(element._sortedThreads[0].rootId,
-        'ecf0b9fa_fe1a5f62');
-    // /COMMIT_MSG
-    // unresolved no draft and file level
-    assert.equal(element._sortedThreads[1].rootId,
-        '8caddf38_44770ec1');
-    // unresolved no draft at line 4
-    assert.equal(element._sortedThreads[2].rootId,
-        'scaddf38_44770ec1');
-    // unresolved no draft at line 5
-    assert.equal(element._sortedThreads[3].rootId,
-        'rc1');
-    // Unresolved no draft at line 7
-    assert.equal(element._sortedThreads[4].rootId,
-        'rc2');
-    // resolved and draft on COMMIT_MSG
-    assert.equal(element._sortedThreads[5].rootId,
-        'zcf0b9fa_fe1a5f62');
-    // resolved and on file test.txt
-    assert.equal(element._sortedThreads[6].rootId,
-        '09a9fb0a_1484e6cf');
+    const expectedSortedRootIds = [
+      'patchset_level_2',
+      'patchset_level_1',
+      '8caddf38_44770ec1', // File level on COMMIT_MSG
+      'scaddf38_44770ec1', // Line 4 on COMMIT_MSG
+      'ecf0b9fa_fe1a5f62', // Line 5 on COMMIT_MESSAGE but with drafts
+      'rc1', // Line 5 on COMMIT_MESSAGE without drafts
+      'zcf0b9fa_fe1a5f62', // Line 6 on COMMIT_MSG
+      'rc2', // Line 7 on COMMIT_MSG
+      '09a9fb0a_1484e6cf', // File level on test.txt
+    ];
+    element._sortedThreads.forEach((thread, index) => {
+      assert.equal(thread.rootId, expectedSortedRootIds[index]);
+    });
   });
 
   test('toggle unresolved only shows unresolved comments', () => {

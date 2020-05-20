@@ -3,17 +3,28 @@ load("//tools/js:eslint.bzl", "eslint")
 
 package(default_visibility = ["//visibility:public"])
 
+src_dirs = [
+    "behaviors",
+    "constants",
+    "elements",
+    "embed",
+    "gr-diff",
+    "samples",
+    "scripts",
+    "services",
+    "styles",
+    "types",
+    "utils",
+]
+
 polygerrit_bundle(
     name = "polygerrit_ui",
     srcs = glob(
-        [
-            "**/*.js",
-        ],
+        [src_dir + "/**/*" + ext for src_dir in src_dirs for ext in [
+            ".js",
+            ".ts",
+        ]],
         exclude = [
-            "node_modules/**",
-            "node_modules_licenses/**",
-            "test/**",
-            "**/*_test.html",
             "**/*_test.js",
         ],
     ),

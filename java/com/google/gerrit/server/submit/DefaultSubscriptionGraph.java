@@ -18,6 +18,10 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
+import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,7 +35,17 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.RefSpec;
 
 /** A container which stores subscription relationship. */
-class DefaultSubscriptionGraph implements SubscriptionGraph {
+public class DefaultSubscriptionGraph implements SubscriptionGraph {
+
+  public static class Module extends AbstractModule {
+    @Override
+    protected void configure() {
+      install(
+          new FactoryModuleBuilder()
+              .implement(SubscriptionGraph.class, DefaultSubscriptionGraph.class)
+              .build(SubscriptionGraph.Factory.class));
+    }
+  }
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -63,14 +77,15 @@ class DefaultSubscriptionGraph implements SubscriptionGraph {
   private final SetMultimap<Project.NameKey, BranchNameKey> branchesByProject;
 
   /** All branches subscribed by other projects. */
-  private final Set<BranchNameKey> subBranches;
+  private final Set<BranchNameKey> subscribedBranches;
 
+  @Inject
   DefaultSubscriptionGraph(
       GitModules.Factory gitmodulesFactory,
-      Set<BranchNameKey> updatedBranches,
+      @Assisted Set<BranchNameKey> updatedBranches,
       ProjectCache projectCache,
-      MergeOpRepoManager orm,
-      boolean enableSuperProjectSubscriptions)
+      @Assisted MergeOpRepoManager orm,
+      @Assisted boolean enableSuperProjectSubscriptions)
       throws SubmoduleConflictException {
     this.gitmodulesFactory = gitmodulesFactory;
     this.updatedBranches = ImmutableSet.copyOf(updatedBranches);
@@ -81,7 +96,7 @@ class DefaultSubscriptionGraph implements SubscriptionGraph {
     this.affectedBranches = new HashSet<>();
     this.branchesByProject = MultimapBuilder.hashKeys().hashSetValues().build();
     this.enableSuperProjectSubscriptions = enableSuperProjectSubscriptions;
-    this.subBranches = new HashSet<>();
+    this.subscribedBranches = new HashSet<>();
     this.sortedBranches = calculateSubscriptionMaps();
   }
 
@@ -94,7 +109,7 @@ class DefaultSubscriptionGraph implements SubscriptionGraph {
    *   <li>{@link #affectedBranches}
    *   <li>{@link #targets}
    *   <li>{@link #branchesByProject}
-   *   <li>{@link #subBranches}
+   *   <li>{@link #subscribedBranches}
    * </ul>
    *
    * @return the ordered set to be stored in {@link #sortedBranches}.
@@ -153,7 +168,7 @@ class DefaultSubscriptionGraph implements SubscriptionGraph {
         branchesByProject.put(superBranch.project(), superBranch);
         affectedBranches.add(superBranch);
         affectedBranches.add(sub.getSubmodule());
-        subBranches.add(sub.getSubmodule());
+        subscribedBranches.add(sub.getSubmodule());
       }
     } catch (IOException e) {
       throw new StorageException("Cannot find superprojects for " + current, e);
@@ -292,7 +307,7 @@ class DefaultSubscriptionGraph implements SubscriptionGraph {
   /** {@inheritDoc} */
   @Override
   public boolean hasSuperproject(BranchNameKey branch) {
-    return subBranches.contains(branch);
+    return subscribedBranches.contains(branch);
   }
 
   @VisibleForTesting

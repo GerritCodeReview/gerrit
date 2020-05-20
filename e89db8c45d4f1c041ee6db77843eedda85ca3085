@@ -87,6 +87,24 @@
       "revId": "e89db8c45d4f1c041ee6db77843eedda85ca3085",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3880dda_7505a162",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1017568
+      },
+      "writtenOn": "2020-05-20T16:22:03Z",
+      "side": 1,
+      "message": "Had some build/deploy issue, and ended up testing incorrect version.\nWith the patched JGit, there are indeed no more deadlock, but I very often hit the timeout, possibly on almost every rekey; and thus git checkout fails very often, esp. on large repositories (even without repo)",
+      "parentUuid": "a510f90f_f059922f",
+      "revId": "e89db8c45d4f1c041ee6db77843eedda85ca3085",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -144,12 +144,15 @@ public class SubmoduleOp {
     this.orm = orm;
     this.branchTips = new HashMap<>();
     this.subscriptionGraphFactory =
-        new SubscriptionGraph.Factory(
-            gitmodulesFactory,
-            projectCache,
-            orm,
-            cfg.getBoolean("submodule", "enableSuperProjectSubscriptions", true));
-    this.subscriptionGraph = subscriptionGraphFactory.create(ImmutableSet.copyOf(updatedBranches));
+        new SubscriptionGraph.DefaultFactory(gitmodulesFactory, projectCache, orm);
+    if (cfg.getBoolean("submodule", "enableSuperProjectSubscriptions", true)) {
+      this.subscriptionGraph =
+          subscriptionGraphFactory.create(ImmutableSet.copyOf(updatedBranches));
+    } else {
+      logger.atFine().log("Updating superprojects disabled");
+      this.subscriptionGraph =
+          SubscriptionGraph.createEmptyGraph(ImmutableSet.copyOf(updatedBranches));
+    }
   }
 
   @UsedAt(UsedAt.Project.PLUGIN_DELETE_PROJECT)

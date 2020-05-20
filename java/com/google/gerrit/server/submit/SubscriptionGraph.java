@@ -36,7 +36,7 @@ import org.eclipse.jgit.transport.RefSpec;
  * subscribed by other projects, SubscriptionGraph would record information about these updated
  * branches and branches/projects affected.
  */
-class SubscriptionGraph {
+public class SubscriptionGraph {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   /** Branches updated as part of the enclosing submit or push batch. */
@@ -71,6 +71,16 @@ class SubscriptionGraph {
     this.branchesByProject = branchesByProject;
     this.subscribedBranches = subscribedBranches;
     this.sortedBranches = sortedBranches;
+  }
+
+  /** Returns an empty {@code SubscriptionGraph}. */
+  static SubscriptionGraph createEmptyGraph(ImmutableSet<BranchNameKey> updatedBranches) {
+    return new SubscriptionGraph(
+        updatedBranches,
+        MultimapBuilder.hashKeys().hashSetValues().build(),
+        MultimapBuilder.hashKeys().hashSetValues().build(),
+        new HashSet<>(),
+        null);
   }
 
   /** Get branches updated as part of the enclosing submit or push batch. */
@@ -119,8 +129,12 @@ class SubscriptionGraph {
     return targets.get(branch);
   }
 
-  static class Factory {
-    private final boolean enableSuperProjectSubscriptions;
+  public interface Factory {
+    SubscriptionGraph create(ImmutableSet<BranchNameKey> updatedBranches)
+        throws SubmoduleConflictException;
+  }
+
+  static class DefaultFactory implements Factory {
     private final ProjectCache projectCache;
     private final GitModules.Factory gitmodulesFactory;
     private final Map<BranchNameKey, GitModules> branchGitModules;
@@ -139,17 +153,12 @@ class SubscriptionGraph {
     /** @see SubscriptionGraph#subscribedBranches */
     private final Set<BranchNameKey> subscribedBranches;
 
-    Factory(
-        GitModules.Factory gitmodulesFactory,
-        ProjectCache projectCache,
-        MergeOpRepoManager orm,
-        boolean enableSuperProjectSubscriptions)
-        throws SubmoduleConflictException {
+    DefaultFactory(
+        GitModules.Factory gitmodulesFactory, ProjectCache projectCache, MergeOpRepoManager orm) {
       this.gitmodulesFactory = gitmodulesFactory;
       this.projectCache = projectCache;
       this.orm = orm;
       this.branchGitModules = new HashMap<>();
-      this.enableSuperProjectSubscriptions = enableSuperProjectSubscriptions;
 
       this.affectedBranches = new HashSet<>();
       this.targets = MultimapBuilder.hashKeys().hashSetValues().build();
@@ -157,7 +166,8 @@ class SubscriptionGraph {
       this.subscribedBranches = new HashSet<>();
     }
 
-    SubscriptionGraph create(ImmutableSet<BranchNameKey> updatedBranches)
+    @Override
+    public SubscriptionGraph create(ImmutableSet<BranchNameKey> updatedBranches)
         throws SubmoduleConflictException {
       return new SubscriptionGraph(
           updatedBranches,
@@ -183,11 +193,6 @@ class SubscriptionGraph {
      */
     private ImmutableSet<BranchNameKey> calculateSubscriptionMaps(
         Set<BranchNameKey> updatedBranches) throws SubmoduleConflictException {
-      if (!enableSuperProjectSubscriptions) {
-        logger.atFine().log("Updating superprojects disabled");
-        return null;
-      }
-
       logger.atFine().log("Calculating superprojects - submodules map");
       LinkedHashSet<BranchNameKey> allVisited = new LinkedHashSet<>();
       for (BranchNameKey updatedBranch : updatedBranches) {

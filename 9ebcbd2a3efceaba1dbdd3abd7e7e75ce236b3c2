@@ -52,6 +52,24 @@
       "revId": "9ebcbd2a3efceaba1dbdd3abd7e7e75ce236b3c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1da27ab_6dfb1847",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-20T23:57:46Z",
+      "side": 1,
+      "message": "We can follow up on this separately; it doesn\u0027t need to be in this change.",
+      "parentUuid": "9a8598bb_6f99a0c3",
+      "revId": "9ebcbd2a3efceaba1dbdd3abd7e7e75ce236b3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

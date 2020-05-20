@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ccf20dc3_34961562",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateBranchIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-20T01:12:00Z",
+      "side": 1,
+      "message": "Use the assertThrows instead",
+      "range": {
+        "startLine": 239,
+        "startChar": 2,
+        "endLine": 239,
+        "endChar": 51
+      },
+      "revId": "68f3636d9a19302cfd4e2109d2f33f710b356445",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9da926fe_22d3917b",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateBranchIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-20T01:12:00Z",
+      "side": 1,
+      "message": "Rather:\n\n  ResourceConflictException thrown \u003d assertThrows(ResourceConflictException.class,\n    () -\u003e branch(testBranch).create(input).get());\n\nit is then also possible to perform further assertions on the thrown exception, for example that it has an expected message:\n\n  assertThat(thrown).hasMessageThat().contains(\"some expected message\");",
+      "range": {
+        "startLine": 247,
+        "startChar": 4,
+        "endLine": 247,
+        "endChar": 43
+      },
+      "revId": "68f3636d9a19302cfd4e2109d2f33f710b356445",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

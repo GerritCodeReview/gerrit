@@ -18,6 +18,10 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
+import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,7 +35,17 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.RefSpec;
 
 /** A container which stores subscription relationship. */
-class DefaultSubscriptionGraph implements SubscriptionGraph {
+public class DefaultSubscriptionGraph implements SubscriptionGraph {
+
+  public static class Module extends AbstractModule {
+    @Override
+    protected void configure() {
+      install(
+          new FactoryModuleBuilder()
+              .implement(SubscriptionGraph.class, DefaultSubscriptionGraph.class)
+              .build(SubscriptionGraph.Factory.class));
+    }
+  }
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -65,12 +79,13 @@ class DefaultSubscriptionGraph implements SubscriptionGraph {
   /** All branches subscribed by other projects. */
   private final Set<BranchNameKey> subBranches;
 
+  @Inject
   DefaultSubscriptionGraph(
       GitModules.Factory gitmodulesFactory,
-      Set<BranchNameKey> updatedBranches,
+      @Assisted Set<BranchNameKey> updatedBranches,
       ProjectCache projectCache,
-      MergeOpRepoManager orm,
-      boolean enableSuperProjectSubscriptions)
+      @Assisted MergeOpRepoManager orm,
+      @Assisted boolean enableSuperProjectSubscriptions)
       throws SubmoduleConflictException {
     this.gitmodulesFactory = gitmodulesFactory;
     this.updatedBranches = ImmutableSet.copyOf(updatedBranches);

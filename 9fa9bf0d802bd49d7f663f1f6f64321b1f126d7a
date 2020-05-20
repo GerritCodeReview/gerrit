@@ -16,6 +16,24 @@
       "revId": "9fa9bf0d802bd49d7f663f1f6f64321b1f126d7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b1fe53b_92274020",
+        "filename": "java/com/google/gerrit/server/ApprovalInference.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-20T11:13:53Z",
+      "side": 1,
+      "message": "Should your change be reverted on stable-2.16 branch first, prior to porting the change from Edwin?",
+      "parentUuid": "f430a53c_c399f213",
+      "revId": "9fa9bf0d802bd49d7f663f1f6f64321b1f126d7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

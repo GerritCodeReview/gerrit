@@ -89,18 +89,18 @@ public class SubmoduleOp {
 
   @Singleton
   public static class Factory {
-    private final GitModules.Factory gitmodulesFactory;
+    private final SubscriptionGraph.Factory subscriptionGraphFactory;
     private final Provider<PersonIdent> serverIdent;
     private final Config cfg;
     private final ProjectCache projectCache;
 
     @Inject
     Factory(
-        GitModules.Factory gitmodulesFactory,
+        SubscriptionGraph.Factory subscriptionGraphFactory,
         @GerritPersonIdent Provider<PersonIdent> serverIdent,
         @GerritServerConfig Config cfg,
         ProjectCache projectCache) {
-      this.gitmodulesFactory = gitmodulesFactory;
+      this.subscriptionGraphFactory = subscriptionGraphFactory;
       this.serverIdent = serverIdent;
       this.cfg = cfg;
       this.projectCache = projectCache;
@@ -109,7 +109,7 @@ public class SubmoduleOp {
     public SubmoduleOp create(Set<BranchNameKey> updatedBranches, MergeOpRepoManager orm)
         throws SubmoduleConflictException {
       return new SubmoduleOp(
-          gitmodulesFactory, serverIdent.get(), cfg, projectCache, updatedBranches, orm);
+          subscriptionGraphFactory, serverIdent.get(), cfg, projectCache, updatedBranches, orm);
     }
   }
 
@@ -118,13 +118,12 @@ public class SubmoduleOp {
   private final long maxCombinedCommitMessageSize;
   private final long maxCommitMessages;
   private final MergeOpRepoManager orm;
-  private final SubscriptionGraph.Factory subscriptionGraphFactory;
   private final SubscriptionGraph subscriptionGraph;
 
   private final BranchTips branchTips = new BranchTips();
 
   private SubmoduleOp(
-      GitModules.Factory gitmodulesFactory,
+      SubscriptionGraph.Factory subscriptionGraphFactory,
       PersonIdent myIdent,
       Config cfg,
       ProjectCache projectCache,
@@ -138,10 +137,8 @@ public class SubmoduleOp {
         cfg.getLong("submodule", "maxCombinedCommitMessageSize", 256 << 10);
     this.maxCommitMessages = cfg.getLong("submodule", "maxCommitMessages", 1000);
     this.orm = orm;
-    this.subscriptionGraphFactory =
-        new SubscriptionGraph.DefaultFactory(gitmodulesFactory, projectCache, orm);
     if (cfg.getBoolean("submodule", "enableSuperProjectSubscriptions", true)) {
-      this.subscriptionGraph = subscriptionGraphFactory.compute(updatedBranches);
+      this.subscriptionGraph = subscriptionGraphFactory.compute(updatedBranches, orm);
     } else {
       logger.atFine().log("Updating superprojects disabled");
       this.subscriptionGraph =

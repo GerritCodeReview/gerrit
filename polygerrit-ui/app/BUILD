@@ -1,24 +1,42 @@
-load(":rules.bzl", "polygerrit_bundle", "wct_suite")
+load(":rules.bzl", "compile_ts", "polygerrit_bundle", "wct_suite")
 load("//tools/js:eslint.bzl", "eslint")
 
 package(default_visibility = ["//visibility:public"])
 
-polygerrit_bundle(
-    name = "polygerrit_ui",
+# This list must be in sync with the "include" list in the tsconfig.json file
+src_dirs = [
+    "behaviors",
+    "constants",
+    "elements",
+    "embed",
+    "gr-diff",
+    "samples",
+    "scripts",
+    "services",
+    "styles",
+    "types",
+    "utils",
+]
+
+compiled_pg_srcs = compile_ts(
+    name = "compile_pg",
     srcs = glob(
-        [
-            "**/*.js",
-        ],
+        [src_dir + "/**/*" + ext for src_dir in src_dirs for ext in [
+            ".js",
+            ".ts",
+        ]],
         exclude = [
-            "node_modules/**",
-            "node_modules_licenses/**",
-            "test/**",
-            "**/*_test.html",
             "**/*_test.js",
         ],
     ),
+    ts_outdir = "_pg_ts_out",
+)
+
+polygerrit_bundle(
+    name = "polygerrit_ui",
+    srcs = compiled_pg_srcs,
     outs = ["polygerrit_ui.zip"],
-    entry_point = "elements/gr-app.html",
+    entry_point = "_pg_ts_out/elements/gr-app.js",
 )
 
 filegroup(

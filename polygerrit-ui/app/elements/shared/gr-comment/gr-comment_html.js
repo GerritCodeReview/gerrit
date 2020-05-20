@@ -232,13 +232,22 @@ export const htmlTemplate = html`
     .pointer {
       cursor: pointer;
     }
+    .headerLeft {
+      margin-right: var(--spacing-s);
+    }
+    .headerLeft gr-account-label {
+      --gr-account-label-text-style: {
+        font-weight: var(--font-weight-bold);
+      }
+    }
   </style>
   <div id="container" class="container">
     <div class="header" id="header" on-click="_handleToggleCollapsed">
       <div class="headerLeft">
-        <span class="authorName">
-          [[_computeAuthorName(comment, _serverConfig)]]
-        </span>
+        <gr-account-label
+          account="[[comment.author]]"
+          hide-status
+        ></gr-account-label>
         <span class="draftLabel">DRAFT</span>
         <gr-tooltip-content
           class="draftTooltip"

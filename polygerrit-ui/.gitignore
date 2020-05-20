@@ -5,3 +5,4 @@ fonts
 bower_components
 .tmp
 .vscode
+_ts-app-out

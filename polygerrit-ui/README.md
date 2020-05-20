@@ -1,5 +1,12 @@
 # Gerrit Polymer Frontend
 
+**Warning**: DON'T ADD MORE TYPESCRIPT FILES/TYPES. Gerrit Polymer Frontend
+contains several typescript files and uses typescript compiler. This is a
+preparation for the upcoming migration to typescript and we actively working on
+it. We want to avoid massive typescript-related changes until the preparation
+work is done. Thanks for your understanding!    
+
+
 Follow the
 [setup instructions for Gerrit backend developers](https://gerrit-review.googlesource.com/Documentation/dev-readme.html)
 where applicable, the most important command is:
@@ -73,6 +80,20 @@ bazel fetch @tools_npm//:node_modules
 ```
 
 More information for installing and using nodejs rules can be found here https://bazelbuild.github.io/rules_nodejs/install.html
+
+## Setup typescript support in the IDE
+
+Modern IDE should automatically handle typescript settings from the 
+`pollygerrit-ui/app/tsconfig.json` files. IDE places compiled files in the
+`polygerrit-ui/_ts-app-out` directory and you can configure IDE to exclude
+this directory. To do it in the IntelliJ IDEA click on this directory and select
+"Mark Directory As > Excluded" in the context menu.
+
+However, if you receive some errors from IDE, you can try to configure IDE
+manually. For example, if IntelliJ IDEA shows
+`Cannot find parent 'tsconfig.json'` error, you can try to setup typescript
+options `--project polygerrit-ui/app/tsconfig.json` in the IDE settings.
+  
 
 ## Serving files locally
 

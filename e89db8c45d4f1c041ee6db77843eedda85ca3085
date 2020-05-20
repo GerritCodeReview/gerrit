@@ -105,6 +105,24 @@
       "revId": "e89db8c45d4f1c041ee6db77843eedda85ca3085",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8655d2ee_7b183dd0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1017568
+      },
+      "writtenOn": "2020-05-20T16:25:31Z",
+      "side": 1,
+      "message": "My bad, not clear indeed.\n\nWhat I meant is I checked 30 minutes later, and add the deadlock: i.e. much longer than the expected timeout, which was thus not reached.\n\nBut anyway, this test was done with an incorrect build, so did not have the updated jgit. With updated jgit there is indeed no deadlock, but timeout happens too often : it breaks downloading large repositories, even with a single git client on the whole server.",
+      "parentUuid": "e3880dda_7505a162",
+      "revId": "e89db8c45d4f1c041ee6db77843eedda85ca3085",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "06ad73f4_f25f9232",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1100,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-20T08:32:38Z",
+      "side": 1,
+      "message": "Tests are passing.\nIs there a missing test?",
+      "parentUuid": "719e8c46_35a95c17",
+      "revId": "9ae0f763cad7855eebe5407cde17b0ebc17965e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b0521a8f_a4a0d37e",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 3

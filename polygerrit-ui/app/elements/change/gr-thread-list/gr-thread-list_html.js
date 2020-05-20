@@ -53,6 +53,10 @@ export const htmlTemplate = html`
     .draftsOnly.unresolvedOnly gr-comment-thread[has-draft][unresolved] {
       display: block;
     }
+    .thread-separator {
+      border-top: 1px solid var(--border-color);
+      margin-top: var(--spacing-xl);
+    }
   </style>
   <template is="dom-if" if="[[!hideToggleButtons]]">
     <div class="header">
@@ -85,11 +89,18 @@ export const htmlTemplate = html`
         is="dom-if"
         if="[[_shouldShowThread(thread, _unresolvedOnly, _draftsOnly, onlyShowRobotCommentsWithHumanReply)]]"
       >
+        <template
+          is="dom-if"
+          if="[[_shouldRenderSeparator(thread, _unresolvedOnly, _draftsOnly, onlyShowRobotCommentsWithHumanReply)]]"
+        >
+          <div class="thread-separator"></div>
+        </template>
         <gr-comment-thread
           show-file-path=""
           change-num="[[changeNum]]"
           comments="[[thread.comments]]"
           comment-side="[[thread.commentSide]]"
+          show-file-name="[[_isFirstThreadWithFileName(thread, _unresolvedOnly, _draftsOnly, onlyShowRobotCommentsWithHumanReply)]]"
           project-name="[[change.project]]"
           is-on-parent="[[_isOnParent(thread.commentSide)]]"
           line-num="[[thread.line]]"

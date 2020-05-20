@@ -155,6 +155,10 @@ class GrCommentThread extends mixinBehaviors( [
         value: false,
         reflectToAttribute: true,
       },
+      renderFileName: {
+        type: Boolean,
+        value: true,
+      },
     };
   }
 
@@ -221,6 +225,11 @@ class GrCommentThread extends mixinBehaviors( [
         {detail: {rootId: this.rootId}, bubbles: false}));
   }
 
+  _getDiffUrlForPath(path) {
+    return GerritNav.getUrlForDiffById(this.changeNum, this.projectName, path,
+        this.patchNum);
+  }
+
   _getDiffUrlForComment(projectName, changeNum, path, patchNum) {
     return GerritNav.getUrlForDiffById(changeNum,
         projectName, path, patchNum,
@@ -232,8 +241,23 @@ class GrCommentThread extends mixinBehaviors( [
   }
 
   _computeDisplayPath(path) {
-    const lineString = this.lineNum ? `#${this.lineNum}` : '';
-    return this.computeDisplayPath(path) + lineString;
+    const displayPath = this.computeDisplayPath(path);
+    if (displayPath === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
+      return `Patchset ${this.patchNum}`;
+    }
+    return displayPath;
+  }
+
+  _computeDisplayLine() {
+    if (this.lineNum) return `#${this.lineNum}`;
+    if (!this.lineNum && !this.range) {
+      // file level comment
+      if (this.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
+        return '';
+      }
+      return 'FILE';
+    }
+    return '';
   }
 
   _getLoggedIn() {

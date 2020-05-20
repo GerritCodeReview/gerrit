@@ -53,6 +53,10 @@ export const htmlTemplate = html`
     .draftsOnly.unresolvedOnly gr-comment-thread[has-draft][unresolved] {
       display: block;
     }
+    .border {
+      border: 1px solid var(--comment-separator-color);
+      margin-top: var(--spacing-xl);
+    }
   </style>
   <template is="dom-if" if="[[!hideToggleButtons]]">
     <div class="header">
@@ -90,6 +94,7 @@ export const htmlTemplate = html`
           change-num="[[changeNum]]"
           comments="[[thread.comments]]"
           comment-side="[[thread.commentSide]]"
+          render-file-name="[[thread.renderFileName]]"
           project-name="[[change.project]]"
           is-on-parent="[[_isOnParent(thread.commentSide)]]"
           line-num="[[thread.line]]"
@@ -99,6 +104,9 @@ export const htmlTemplate = html`
           on-thread-changed="_handleCommentsChanged"
           on-thread-discard="_handleThreadDiscard"
         ></gr-comment-thread>
+        <template is="dom-if" if="[[thread.showBorder]]">
+          <div class="border"></div>
+        </template>
       </template>
     </template>
   </div>

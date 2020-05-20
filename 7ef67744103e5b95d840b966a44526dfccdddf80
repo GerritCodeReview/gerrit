@@ -16,6 +16,24 @@
       "revId": "7ef67744103e5b95d840b966a44526dfccdddf80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "768315b1_72abcdf9",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-05-20T22:38:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a051b1a_d678937e",
+      "revId": "7ef67744103e5b95d840b966a44526dfccdddf80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

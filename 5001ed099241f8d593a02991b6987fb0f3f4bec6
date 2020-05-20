@@ -52,6 +52,24 @@
       "revId": "5001ed099241f8d593a02991b6987fb0f3f4bec6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "364920e8_28550420",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-05-20T14:36:16Z",
+      "side": 1,
+      "message": "AFAICS it\u0027s up to the JVM implementation which one is available. I now expose them under the\nsame name but use a different description to make clear which semantics are used with the used JVM.",
+      "parentUuid": "f50b0696_3614c5db",
+      "revId": "5001ed099241f8d593a02991b6987fb0f3f4bec6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

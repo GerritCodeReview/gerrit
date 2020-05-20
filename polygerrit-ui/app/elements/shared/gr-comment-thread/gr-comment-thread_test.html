@@ -42,6 +42,7 @@ import '../../../test/common-test-setup.js';
 import './gr-comment-thread.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {SpecialFilePath} from '../../../constants/constants.js';
 
 suite('gr-comment-thread tests', () => {
   suite('basic test', () => {
@@ -215,17 +216,37 @@ suite('gr-comment-thread tests', () => {
       assert.notEqual(getComputedStyle(element.shadowRoot
           .querySelector('.pathInfo')).display,
       'none');
-      assert.isTrue(GerritNav.getUrlForDiffById.lastCall.calledWithExactly(
+      assert.isTrue(GerritNav.getUrlForDiffById.getCall(0).calledWithExactly(
           element.changeNum, element.projectName, element.path,
           element.patchNum, null, element.lineNum));
+      assert.isTrue(GerritNav.getUrlForDiffById.getCall(1).calledWithExactly(
+          element.changeNum, element.projectName, element.path,
+          element.patchNum));
     });
 
     test('_computeDisplayPath', () => {
-      const path = 'path/to/file';
+      let path = 'path/to/file';
       assert.equal(element._computeDisplayPath(path), 'path/to/file');
 
       element.lineNum = 5;
-      assert.equal(element._computeDisplayPath(path), 'path/to/file#5');
+      assert.equal(element._computeDisplayPath(path), 'path/to/file');
+
+      element.patchNum = '3';
+      path = SpecialFilePath.PATCHSET_LEVEL_COMMENTS;
+      assert.equal(element._computeDisplayPath(path), 'Patchset 3');
+    });
+
+    test('_computeDisplayLine', () => {
+      element.lineNum = 5;
+      assert.equal(element._computeDisplayLine(), '#5');
+
+      element.path = SpecialFilePath.COMMIT_MESSAGE;
+      element.lineNum = 5;
+      assert.equal(element._computeDisplayLine(), '#5');
+
+      element.lineNum = undefined;
+      element.path = SpecialFilePath.PATCHSET_LEVEL_COMMENTS;
+      assert.equal(element._computeDisplayLine(), '');
     });
   });
 });

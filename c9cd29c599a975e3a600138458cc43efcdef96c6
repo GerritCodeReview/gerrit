@@ -22,6 +22,52 @@
       "revId": "c9cd29c599a975e3a600138458cc43efcdef96c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40d6b0f9_2c063584",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-20T08:02:13Z",
+      "side": 1,
+      "message": "Maybe I don\u0027t understand to this, but I would expect condition like this:\n\n`if (m._revision_number \u003e revision)`",
+      "range": {
+        "startLine": 95,
+        "startChar": 4,
+        "endLine": 95,
+        "endChar": 61
+      },
+      "revId": "c9cd29c599a975e3a600138458cc43efcdef96c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b950a66d_4d6d5565",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-20T08:02:13Z",
+      "side": 1,
+      "message": "So is it ok, when we don\u0027t set revision? Isn\u0027t setting revision to 0 better, than not setting revision?",
+      "range": {
+        "startLine": 97,
+        "startChar": 1,
+        "endLine": 97,
+        "endChar": 56
+      },
+      "revId": "c9cd29c599a975e3a600138458cc43efcdef96c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

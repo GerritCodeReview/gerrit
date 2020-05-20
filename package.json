@@ -15,7 +15,7 @@
     "fried-twinkie": "^0.2.2",
     "polymer-cli": "^1.9.11",
     "prettier": "2.0.5",
-    "typescript": "^3.7.4",
+    "typescript": "3.8.2",
     "web-component-tester": "^6.5.1"
   },
   "scripts": {

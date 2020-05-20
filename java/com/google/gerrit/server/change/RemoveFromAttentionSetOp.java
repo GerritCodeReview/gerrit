@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.AttentionSetUpdate.Operation;
@@ -29,30 +28,32 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 
 /** Remove a specified user from the attention set. */
 public class RemoveFromAttentionSetOp implements BatchUpdateOp {
 
   public interface Factory {
-    RemoveFromAttentionSetOp create(Account.Id attentionUserId, String reason);
+    RemoveFromAttentionSetOp create(Set<Account.Id> attentionUserIdSet, String reason);
   }
 
   private final ChangeData.Factory changeDataFactory;
   private final ChangeMessagesUtil cmUtil;
-  private final Account.Id attentionUserId;
+  private final Set<Account.Id> attentionUserIdSet;
   private final String reason;
 
   @Inject
   RemoveFromAttentionSetOp(
       ChangeData.Factory changeDataFactory,
       ChangeMessagesUtil cmUtil,
-      @Assisted Account.Id attentionUserId,
+      @Assisted Set<Account.Id> attentionUserIdSet,
       @Assisted String reason) {
     this.changeDataFactory = changeDataFactory;
     this.cmUtil = cmUtil;
-    this.attentionUserId = requireNonNull(attentionUserId, "user");
+    this.attentionUserIdSet = requireNonNull(attentionUserIdSet, "users");
     this.reason = requireNonNull(reason, "reason");
   }
 
@@ -62,21 +63,29 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
     Map<Account.Id, AttentionSetUpdate> attentionMap =
         changeData.attentionSet().stream()
             .collect(toImmutableMap(AttentionSetUpdate::account, Function.identity()));
-    AttentionSetUpdate existingEntry = attentionMap.get(attentionUserId);
-    if (existingEntry == null || existingEntry.operation() == Operation.REMOVE) {
-      return false;
-    }
-
     ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
-    update.setAttentionSetUpdates(
-        ImmutableSet.of(
-            AttentionSetUpdate.createForWrite(attentionUserId, Operation.REMOVE, reason)));
-    addMessage(ctx, update);
-    return true;
+    String message = "Removed attention set: ";
+    Set<AttentionSetUpdate> attentionSetUpdates = new HashSet();
+    for (Account.Id attentionUserId : attentionUserIdSet) {
+      AttentionSetUpdate existingEntry = attentionMap.get(attentionUserId);
+      if (existingEntry == null || existingEntry.operation() == Operation.REMOVE) {
+        // We can ignore accounts that are not in the attention set.
+        continue;
+      }
+      attentionSetUpdates.add(
+          AttentionSetUpdate.createForWrite(
+              attentionUserId, AttentionSetUpdate.Operation.REMOVE, reason));
+      message += attentionUserId + " ";
+    }
+    if (!attentionSetUpdates.isEmpty()) {
+      addMessage(ctx, update, message);
+      update.setAttentionSetUpdates(attentionSetUpdates);
+      return true;
+    }
+    return false;
   }
 
-  private void addMessage(ChangeContext ctx, ChangeUpdate update) {
-    String message = "Removed from attention set: " + attentionUserId;
+  private void addMessage(ChangeContext ctx, ChangeUpdate update, String message) {
     cmUtil.addChangeMessage(
         update,
         ChangeMessagesUtil.newMessage(ctx, message, ChangeMessagesUtil.TAG_UPDATE_ATTENTION_SET));

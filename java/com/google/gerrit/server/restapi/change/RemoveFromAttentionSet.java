@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.api.changes.RemoveFromAttentionSetInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -61,7 +62,7 @@ public class RemoveFromAttentionSet
         updateFactory.create(
             changeResource.getProject(), changeResource.getUser(), TimeUtil.nowTs())) {
       RemoveFromAttentionSetOp op =
-          opFactory.create(attentionResource.getAccountId(), input.reason);
+          opFactory.create(ImmutableSet.of(attentionResource.getAccountId()), input.reason);
       bu.addOp(changeResource.getId(), op);
       bu.execute();
     }

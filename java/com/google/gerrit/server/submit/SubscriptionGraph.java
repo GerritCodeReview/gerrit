@@ -15,6 +15,8 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
+import com.google.inject.ImplementedBy;
+import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -128,33 +130,45 @@ public class SubscriptionGraph {
     return targets.get(branch);
   }
 
+  @ImplementedBy(DefaultFactory.class)
   public interface Factory {
-    SubscriptionGraph create(ImmutableSet<BranchNameKey> updatedBranches)
+    SubscriptionGraph create(
+        ImmutableSet<BranchNameKey> updatedBranches,
+        ProjectCache projectCache,
+        MergeOpRepoManager orm)
         throws SubmoduleConflictException;
   }
 
   static class DefaultFactory implements Factory {
-    private final ProjectCache projectCache;
     private final GitModules.Factory gitmodulesFactory;
-    private final Map<BranchNameKey, GitModules> branchGitModules;
-    private final MergeOpRepoManager orm;
+    private Map<BranchNameKey, GitModules> branchGitModules;
+    private MergeOpRepoManager orm;
+    private ProjectCache projectCache;
 
     // Fields required to the constructor of SubmoduleGraph.
     /** All affected branches, including those in superprojects and submodules. */
-    private final Set<BranchNameKey> affectedBranches;
+    private Set<BranchNameKey> affectedBranches;
 
     /** @see SubscriptionGraph#targets */
-    private final SetMultimap<BranchNameKey, SubmoduleSubscription> targets;
+    private SetMultimap<BranchNameKey, SubmoduleSubscription> targets;
 
     /** @see SubscriptionGraph#branchesByProject */
-    private final SetMultimap<Project.NameKey, BranchNameKey> branchesByProject;
+    private SetMultimap<Project.NameKey, BranchNameKey> branchesByProject;
 
     /** @see SubscriptionGraph#subscribedBranches */
-    private final Set<BranchNameKey> subscribedBranches;
+    private Set<BranchNameKey> subscribedBranches;
 
-    DefaultFactory(
-        GitModules.Factory gitmodulesFactory, ProjectCache projectCache, MergeOpRepoManager orm) {
+    @Inject
+    DefaultFactory(GitModules.Factory gitmodulesFactory) {
       this.gitmodulesFactory = gitmodulesFactory;
+    }
+
+    @Override
+    public SubscriptionGraph create(
+        ImmutableSet<BranchNameKey> updatedBranches,
+        ProjectCache projectCache,
+        MergeOpRepoManager orm)
+        throws SubmoduleConflictException {
       this.projectCache = projectCache;
       this.orm = orm;
       this.branchGitModules = new HashMap<>();
@@ -163,11 +177,6 @@ public class SubscriptionGraph {
       this.targets = MultimapBuilder.hashKeys().hashSetValues().build();
       this.branchesByProject = MultimapBuilder.hashKeys().hashSetValues().build();
       this.subscribedBranches = new HashSet<>();
-    }
-
-    @Override
-    public SubscriptionGraph create(ImmutableSet<BranchNameKey> updatedBranches)
-        throws SubmoduleConflictException {
       return new SubscriptionGraph(
           updatedBranches,
           targets,

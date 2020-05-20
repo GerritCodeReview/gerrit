@@ -35,7 +35,7 @@ import org.eclipse.jgit.transport.RefSpec;
  * subscribed by other projects, SubscriptionGraph would record information about these updated
  * branches and branches/projects affected.
  */
-class SubscriptionGraph {
+public class SubscriptionGraph {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   /** Branches updated as part of the enclosing submit or push batch. */

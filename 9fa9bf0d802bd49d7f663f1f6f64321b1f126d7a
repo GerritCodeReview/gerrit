@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f430a53c_c399f213",
+        "filename": "java/com/google/gerrit/server/ApprovalInference.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-20T11:08:24Z",
+      "side": 1,
+      "message": "When stable-3.1 gets merged up to stable-3.2 the changes in this file conflict with the changes that were done by Edwin in https://gerrit-review.googlesource.com/c/gerrit/+/253592\n\nI wasn\u0027t aware of that when I did my change on stable-2.16.\n\nI\u0027ll backport that to stable-2.16 and then re-do all the merges up so that the logging is consistent on all the branches.",
+      "revId": "9fa9bf0d802bd49d7f663f1f6f64321b1f126d7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

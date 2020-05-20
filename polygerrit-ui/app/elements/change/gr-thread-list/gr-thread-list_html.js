@@ -90,6 +90,7 @@ export const htmlTemplate = html`
           change-num="[[changeNum]]"
           comments="[[thread.comments]]"
           comment-side="[[thread.commentSide]]"
+          render-file-name="[[thread.renderFileName]]"
           project-name="[[change.project]]"
           is-on-parent="[[_isOnParent(thread.commentSide)]]"
           line-num="[[thread.line]]"

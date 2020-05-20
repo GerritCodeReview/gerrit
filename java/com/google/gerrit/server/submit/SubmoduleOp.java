@@ -30,7 +30,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.VerboseSuperprojectUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.project.NoSuchProjectException;
-import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateListener;
@@ -89,27 +88,24 @@ public class SubmoduleOp {
 
   @Singleton
   public static class Factory {
-    private final GitModules.Factory gitmodulesFactory;
+    private final SubscriptionGraph.Factory subscriptionGraphFactory;
     private final Provider<PersonIdent> serverIdent;
     private final Config cfg;
-    private final ProjectCache projectCache;
 
     @Inject
     Factory(
-        GitModules.Factory gitmodulesFactory,
+        SubscriptionGraph.Factory subscriptionGraphFactory,
         @GerritPersonIdent Provider<PersonIdent> serverIdent,
-        @GerritServerConfig Config cfg,
-        ProjectCache projectCache) {
-      this.gitmodulesFactory = gitmodulesFactory;
+        @GerritServerConfig Config cfg) {
+      this.subscriptionGraphFactory = subscriptionGraphFactory;
       this.serverIdent = serverIdent;
       this.cfg = cfg;
-      this.projectCache = projectCache;
     }
 
     public SubmoduleOp create(Set<BranchNameKey> updatedBranches, MergeOpRepoManager orm)
         throws SubmoduleConflictException {
       return new SubmoduleOp(
-          gitmodulesFactory, serverIdent.get(), cfg, projectCache, updatedBranches, orm);
+          subscriptionGraphFactory, serverIdent.get(), cfg, updatedBranches, orm);
     }
   }
 
@@ -118,16 +114,14 @@ public class SubmoduleOp {
   private final long maxCombinedCommitMessageSize;
   private final long maxCommitMessages;
   private final MergeOpRepoManager orm;
-  private final SubscriptionGraph.Factory subscriptionGraphFactory;
   private final SubscriptionGraph subscriptionGraph;
 
   private final BranchTips branchTips = new BranchTips();
 
   private SubmoduleOp(
-      GitModules.Factory gitmodulesFactory,
+      SubscriptionGraph.Factory subscriptionGraphFactory,
       PersonIdent myIdent,
       Config cfg,
-      ProjectCache projectCache,
       Set<BranchNameKey> updatedBranches,
       MergeOpRepoManager orm)
       throws SubmoduleConflictException {
@@ -138,10 +132,8 @@ public class SubmoduleOp {
         cfg.getLong("submodule", "maxCombinedCommitMessageSize", 256 << 10);
     this.maxCommitMessages = cfg.getLong("submodule", "maxCommitMessages", 1000);
     this.orm = orm;
-    this.subscriptionGraphFactory =
-        new SubscriptionGraph.DefaultFactory(gitmodulesFactory, projectCache, orm);
     if (cfg.getBoolean("submodule", "enableSuperProjectSubscriptions", true)) {
-      this.subscriptionGraph = subscriptionGraphFactory.compute(updatedBranches);
+      this.subscriptionGraph = subscriptionGraphFactory.compute(updatedBranches, orm);
     } else {
       logger.atFine().log("Updating superprojects disabled");
       this.subscriptionGraph =

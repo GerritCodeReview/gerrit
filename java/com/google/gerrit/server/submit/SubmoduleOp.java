@@ -93,23 +93,35 @@ public class SubmoduleOp {
     private final Provider<PersonIdent> serverIdent;
     private final Config cfg;
     private final ProjectCache projectCache;
+    private final SubscriptionGraph.Factory subGraphFactory;
 
     @Inject
     Factory(
         GitModules.Factory gitmodulesFactory,
         @GerritPersonIdent Provider<PersonIdent> serverIdent,
         @GerritServerConfig Config cfg,
-        ProjectCache projectCache) {
+        ProjectCache projectCache,
+        SubscriptionGraph.Factory subGraphFactory) {
       this.gitmodulesFactory = gitmodulesFactory;
       this.serverIdent = serverIdent;
       this.cfg = cfg;
       this.projectCache = projectCache;
+      this.subGraphFactory = subGraphFactory;
     }
 
     public SubmoduleOp create(Set<BranchNameKey> updatedBranches, MergeOpRepoManager orm)
         throws SubmoduleConflictException {
       return new SubmoduleOp(
-          gitmodulesFactory, serverIdent.get(), cfg, projectCache, updatedBranches, orm);
+          gitmodulesFactory,
+          serverIdent.get(),
+          cfg,
+          projectCache,
+          updatedBranches,
+          orm,
+          subGraphFactory.create(
+              orm,
+              updatedBranches,
+              cfg.getBoolean("submodule", "enableSuperProjectSubscriptions", true)));
     }
   }
 
@@ -135,7 +147,8 @@ public class SubmoduleOp {
       Config cfg,
       ProjectCache projectCache,
       Set<BranchNameKey> updatedBranches,
-      MergeOpRepoManager orm)
+      MergeOpRepoManager orm,
+      SubscriptionGraph subscriptionGraph)
       throws SubmoduleConflictException {
     this.myIdent = myIdent;
     this.verboseSuperProject =
@@ -146,13 +159,7 @@ public class SubmoduleOp {
     this.orm = orm;
     this.updatedBranches = ImmutableSet.copyOf(updatedBranches);
     this.branchTips = new HashMap<>();
-    this.subscriptionGraph =
-        new DefaultSubscriptionGraph(
-            gitmodulesFactory,
-            updatedBranches,
-            projectCache,
-            orm,
-            cfg.getBoolean("submodule", "enableSuperProjectSubscriptions", true));
+    this.subscriptionGraph = subscriptionGraph;
   }
 
   @UsedAt(UsedAt.Project.PLUGIN_DELETE_PROJECT)

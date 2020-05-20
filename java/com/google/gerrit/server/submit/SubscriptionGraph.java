@@ -8,7 +8,13 @@ import java.util.Collection;
 import java.util.Set;
 
 /** A container which stores subscription relationship. */
-interface SubscriptionGraph {
+public interface SubscriptionGraph {
+
+  interface Factory {
+    SubscriptionGraph create(
+        MergeOpRepoManager orm, Set<BranchNameKey> updatedBranches, boolean enableSubscription)
+        throws SubmoduleConflictException;
+  }
 
   // Get all {@code SubmoduleSubscription}s with {@code branch} as a super branch.
   Collection<SubmoduleSubscription> subscribedBy(BranchNameKey branch);

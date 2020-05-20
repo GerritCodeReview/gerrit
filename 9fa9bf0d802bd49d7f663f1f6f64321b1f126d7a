@@ -34,6 +34,24 @@
       "revId": "9fa9bf0d802bd49d7f663f1f6f64321b1f126d7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f62074a3_f42d60ac",
+        "filename": "java/com/google/gerrit/server/ApprovalInference.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-20T11:20:54Z",
+      "side": 1,
+      "message": "It doesn\u0027t make a lot of difference.  The change will conflict anyway due to the file name change.  I was just going to apply it on the tip of the branch and resolve the conflicts, but if you think it\u0027s cleaner I will revert it first.",
+      "parentUuid": "3b1fe53b_92274020",
+      "revId": "9fa9bf0d802bd49d7f663f1f6f64321b1f126d7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "5001ed099241f8d593a02991b6987fb0f3f4bec6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c5ab192_55e975d9",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-20T12:30:43Z",
+      "side": 1,
+      "message": "Per the implementation both metrics cannot exist, it\u0027s either one or the other.",
+      "parentUuid": "7c67d06d_57b3a479",
+      "revId": "5001ed099241f8d593a02991b6987fb0f3f4bec6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

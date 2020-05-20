@@ -107,6 +107,7 @@ import com.google.gerrit.server.ssh.NoSshKeyCache;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.server.submit.LocalMergeSuperSetComputation;
+import com.google.gerrit.server.submit.SubscriptionGraph;
 import com.google.gerrit.sshd.SshHostKeyModule;
 import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
@@ -411,6 +412,8 @@ public class Daemon extends SiteProgram {
     // work queue can get stuck waiting on index futures that will never return.
     modules.add(createIndexModule());
 
+
+    modules.add(new SubscriptionGraph.Module());
     modules.add(new WorkQueue.Module());
     modules.add(new StreamEventsApiListener.Module());
     modules.add(new EventBroker.Module());

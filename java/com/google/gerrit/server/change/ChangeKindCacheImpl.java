@@ -347,10 +347,12 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       ObjectId next) {
     try {
       Key key = Key.create(prior, next, useRecursiveMerge);
-      return cache.get(key, new Loader(key, repoManager, project, rw, repoConfig));
+      ChangeKind kind = cache.get(key, new Loader(key, repoManager, project, rw, repoConfig));
+      logger.atFine().log("Change kind of new patch set %s in %s: %s", next.name(), project, kind);
+      return kind;
     } catch (ExecutionException e) {
       logger.atWarning().withCause(e).log(
-          "Cannot check trivial rebase of new patch set %s in %s", next.name(), project);
+          "Cannot check change kind of new patch set %s in %s", next.name(), project);
       return ChangeKind.REWORK;
     }
   }
@@ -407,6 +409,9 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
             patch.getPatchSetId(), change.getId());
       }
     }
+    logger.atFine().log(
+        "Change kind for patchSet %s of change %s: %s",
+        patch.getPatchSetId(), change.getId(), kind);
     return kind;
   }
 
@@ -434,6 +439,9 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
             patch.getPatchSetId(), change.getChangeId());
       }
     }
+    logger.atFine().log(
+        "Change kind for patchSet %s of change %s: %s",
+        patch.getPatchSetId(), change.getChangeId(), kind);
     return kind;
   }
 }

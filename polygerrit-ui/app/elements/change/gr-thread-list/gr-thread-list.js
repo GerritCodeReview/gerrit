@@ -25,6 +25,7 @@ import {htmlTemplate} from './gr-thread-list_html.js';
 import {parseDate} from '../../../utils/date-util.js';
 
 import {NO_THREADS_MSG} from '../../../constants/messages.js';
+import {SpecialFilePath} from '../../../constants/constants.js';
 
 /**
  * Fired when a comment is saved or deleted
@@ -82,10 +83,14 @@ class GrThreadList extends GestureEventListeners(
 
   /**
    * Order as follows:
-   *  - Unresolved threads with drafts (reverse chronological)
-   *  - Unresolved threads without drafts (reverse chronological)
-   *  - Resolved threads with drafts (reverse chronological)
-   *  - Resolved threads without drafts (reverse chronological)
+   *  - Patchset level threads (descending based on patchset number)
+   *    - unresolved
+   *    - resolved
+   *  - File name
+   *    - Line number
+   *      - Unresolved (descending based on patchset number)
+   *      - Resolved (descending based on patchset number)
+   *
    *
    * @param {!Object} changeRecord
    */
@@ -126,12 +131,36 @@ class GrThreadList extends GestureEventListeners(
     const threadsWithInfo = threads
         .map(thread => this._getThreadWithStatusInfo(thread));
     this._sortedThreads = threadsWithInfo.sort((c1, c2) => {
-      // threads will be sorted by:
-      // - unresolved first
-      // - with drafts
-      // - file path
-      // - line
-      // - updated time
+      if (c1.thread.path !== c2.thread.path) {
+        // '/PATCHSET' will not come before '/COMMIT' when sorting
+        // alphabetically so move it to the front explicitly
+        if (c1.thread.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
+          return -1;
+        }
+        if (c2.thread.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
+          return 1;
+        }
+        return c1.thread.path.localeCompare(c2.thread.path);
+      }
+
+      if (c1.thread.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
+        // both are patchset level comments so sort first by reverse patchset
+        if (c1.thread.patch_set != c2.thread.patch_set) {
+          return c1.thread.patch_set > c2.thread.patch_set ? -1 : 1;
+        }
+        if (c1.unresolved != c2.unresolved) {
+          return c1.unresolved ? -1 : 1;
+        }
+      }
+
+      if (c1.thread.line != c2.thread.line) {
+        if (!c1.thread.line || !c2.thread.line) {
+          // one of them is a file level comment, show first
+          return c1.line ? 1 : -1;
+        }
+        return c1.thread.line < c2.thread.line ? -1 : 1;
+      }
+
       if (c2.unresolved || c1.unresolved) {
         if (!c1.unresolved) { return 1; }
         if (!c2.unresolved) { return -1; }
@@ -140,22 +169,6 @@ class GrThreadList extends GestureEventListeners(
       if (c2.hasDraft || c1.hasDraft) {
         if (!c1.hasDraft) { return 1; }
         if (!c2.hasDraft) { return -1; }
-      }
-
-      // TODO: Update here once we introduce patchset level comments
-      // they may not have or have a special line or path attribute
-
-      if (c1.thread.path !== c2.thread.path) {
-        return c1.thread.path.localeCompare(c2.thread.path);
-      }
-
-      // File level comments (no `line` property)
-      // should always show before any lines
-      if ([c1, c2].some(c => c.thread.line === undefined)) {
-        if (!c1.thread.line) { return -1; }
-        if (!c2.thread.line) { return 1; }
-      } else if (c1.thread.line !== c2.thread.line) {
-        return c1.thread.line - c2.thread.line;
       }
 
       const c1Date = c1.__date || parseDate(c1.updated);

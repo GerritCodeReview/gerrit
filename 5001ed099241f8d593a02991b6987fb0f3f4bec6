@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c67d06d_57b3a479",
+        "filename": "Documentation/metrics.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-05-20T12:25:48Z",
+      "side": 1,
+      "message": "What is the total number of deadlocked threads when both metrics exist? Is it the sum of the two or does one metric include the other?\n\nWhy do we need two metrics here? All we want to know is the total number of deadlocks.",
+      "revId": "5001ed099241f8d593a02991b6987fb0f3f4bec6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -32,6 +32,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.change.ClearAttentionSetOp;
 import com.google.gerrit.server.change.LabelNormalizer;
 import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.change.SetPrivateOp;
@@ -118,6 +119,7 @@ public abstract class SubmitStrategy {
     final Provider<InternalChangeQuery> queryProvider;
     final ProjectConfig.Factory projectConfigFactory;
     final SetPrivateOp.Factory setPrivateOpFactory;
+    final ClearAttentionSetOp.Factory clearAttentionSetOpFactory;
 
     final BranchNameKey destBranch;
     final CodeReviewRevWalk rw;
@@ -157,6 +159,7 @@ public abstract class SubmitStrategy {
         Provider<InternalChangeQuery> queryProvider,
         ProjectConfig.Factory projectConfigFactory,
         SetPrivateOp.Factory setPrivateOpFactory,
+        ClearAttentionSetOp.Factory clearAttentionSetOpFactory,
         @Assisted BranchNameKey destBranch,
         @Assisted CommitStatus commitStatus,
         @Assisted CodeReviewRevWalk rw,
@@ -185,6 +188,7 @@ public abstract class SubmitStrategy {
       this.tagCache = tagCache;
       this.queryProvider = queryProvider;
       this.setPrivateOpFactory = setPrivateOpFactory;
+      this.clearAttentionSetOpFactory = clearAttentionSetOpFactory;
 
       this.serverIdent = serverIdent;
       this.destBranch = destBranch;

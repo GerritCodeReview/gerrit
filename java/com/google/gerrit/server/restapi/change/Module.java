@@ -34,6 +34,7 @@ import com.google.gerrit.server.change.AddReviewersOp;
 import com.google.gerrit.server.change.AddToAttentionSetOp;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.ClearAttentionSetOp;
 import com.google.gerrit.server.change.DeleteChangeOp;
 import com.google.gerrit.server.change.DeleteReviewerByEmailOp;
 import com.google.gerrit.server.change.DeleteReviewerOp;
@@ -217,5 +218,6 @@ public class Module extends RestApiModule {
     factory(SetTopicOp.Factory.class);
     factory(AddToAttentionSetOp.Factory.class);
     factory(RemoveFromAttentionSetOp.Factory.class);
+    factory(ClearAttentionSetOp.Factory.class);
   }
 }

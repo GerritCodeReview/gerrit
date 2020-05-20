@@ -21,6 +21,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
@@ -42,6 +43,7 @@ public class AbandonOp implements BatchUpdateOp {
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
   private final ChangeAbandoned changeAbandoned;
+  private final ClearAttentionSetOp.Factory clearAttentionSetOpFactory;
 
   private final String msgTxt;
   private final AccountState accountState;
@@ -61,12 +63,14 @@ public class AbandonOp implements BatchUpdateOp {
       ChangeMessagesUtil cmUtil,
       PatchSetUtil psUtil,
       ChangeAbandoned changeAbandoned,
+      ClearAttentionSetOp.Factory clearAttentionSetOpFactory,
       @Assisted @Nullable AccountState accountState,
       @Assisted @Nullable String msgTxt) {
     this.abandonedSenderFactory = abandonedSenderFactory;
     this.cmUtil = cmUtil;
     this.psUtil = psUtil;
     this.changeAbandoned = changeAbandoned;
+    this.clearAttentionSetOpFactory = clearAttentionSetOpFactory;
 
     this.accountState = accountState;
     this.msgTxt = Strings.nullToEmpty(msgTxt);
@@ -78,7 +82,7 @@ public class AbandonOp implements BatchUpdateOp {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx) throws ResourceConflictException {
+  public boolean updateChange(ChangeContext ctx) throws RestApiException {
     change = ctx.getChange();
     PatchSet.Id psId = change.currentPatchSetId();
     ChangeUpdate update = ctx.getUpdate(psId);
@@ -92,6 +96,7 @@ public class AbandonOp implements BatchUpdateOp {
     update.setStatus(change.getStatus());
     message = newMessage(ctx);
     cmUtil.addChangeMessage(update, message);
+    clearAttentionSetOpFactory.create("Change was abandoned").updateChange(ctx);
     return true;
   }
 

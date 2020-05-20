@@ -262,7 +262,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
         mergedPatchSet = newPatchSet;
       }
     }
-
+    args.clearAttentionSetOpFactory.create("Change was submitted").updateChange(ctx);
     Change c = ctx.getChange();
     Change.Id id = c.getId();
     CodeReviewCommit commit = args.commitStatus.get(id);

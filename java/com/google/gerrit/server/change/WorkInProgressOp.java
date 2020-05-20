@@ -22,6 +22,7 @@ import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.InputWithMessage;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.extensions.events.WorkInProgressStateChanged;
@@ -57,6 +58,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
   private final boolean workInProgress;
   private final Input in;
   private final WorkInProgressStateChanged stateChanged;
+  private final ClearAttentionSetOp.Factory clearAttentionSetOpFactory;
 
   private boolean sendEmail = true;
   private Change change;
@@ -70,12 +72,14 @@ public class WorkInProgressOp implements BatchUpdateOp {
       EmailReviewComments.Factory email,
       PatchSetUtil psUtil,
       WorkInProgressStateChanged stateChanged,
+      ClearAttentionSetOp.Factory clearAttentionSetOpFactory,
       @Assisted boolean workInProgress,
       @Assisted Input in) {
     this.cmUtil = cmUtil;
     this.email = email;
     this.psUtil = psUtil;
     this.stateChanged = stateChanged;
+    this.clearAttentionSetOpFactory = clearAttentionSetOpFactory;
     this.workInProgress = workInProgress;
     this.in = in;
   }
@@ -85,7 +89,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
   }
 
   @Override
-  public boolean updateChange(ChangeContext ctx) {
+  public boolean updateChange(ChangeContext ctx) throws RestApiException {
     change = ctx.getChange();
     notes = ctx.getNotes();
     ps = psUtil.get(ctx.getNotes(), change.currentPatchSetId());
@@ -97,6 +101,9 @@ public class WorkInProgressOp implements BatchUpdateOp {
     change.setLastUpdatedOn(ctx.getWhen());
     update.setWorkInProgress(workInProgress);
     addMessage(ctx, update);
+    if (workInProgress) {
+      clearAttentionSetOpFactory.create("Change is work in progress").updateChange(ctx);
+    }
     return true;
   }
 

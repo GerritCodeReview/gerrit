@@ -36,3 +36,12 @@ nodejs_binary(
     # ts service in background). It works without any workaround.
     entry_point = "@tools_npm//:node_modules/@bazel/typescript/internal/tsc_wrapped/tsc_wrapped.js",
 )
+
+# Wrap a typescript into a tsc-bin binary.
+# The tsc-bin can be used as a tool to compile typescript code.
+nodejs_binary(
+    name = "tsc-bin",
+    # Point bazel to your node_modules to find the entry point
+    data = ["@tools_npm//:node_modules"],
+    entry_point = "@tools_npm//:node_modules/typescript/lib/tsc.js",
+)

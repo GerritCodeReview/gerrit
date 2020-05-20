@@ -60,7 +60,6 @@ export const htmlTemplate = html`
     }
     .date {
       justify-content: flex-end;
-      margin-left: var(--spacing-m);
       text-align: right;
       white-space: nowrap;
     }
@@ -270,6 +269,8 @@ export const htmlTemplate = html`
       >
         <iron-icon id="icon" icon="gr-icons:delete"></iron-icon>
       </gr-button>
+      <span> Patchset [[patchNum]]</span>
+      <span class="separator"></span>
       <span class="date" tabindex="0" on-click="_handleAnchorClick">
         <gr-date-formatter
           has-tooltip=""

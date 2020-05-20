@@ -72,19 +72,29 @@ export const htmlTemplate = html`
       margin-left: var(--spacing-m);
       font-style: italic;
     }
+    .fileName {
+      padding: var(--spacing-m) var(--spacing-s) var(--spacing-m);
+    }
   </style>
   <template is="dom-if" if="[[showFilePath]]">
+    <template is="dom-if" if="[[showFileName]]">
+      <div class="fileName">
+        <template is="dom-if" if="[[_isPatchsetLevelComment(path)]]">
+          <span> [[_computeDisplayPath(path)]] </span>
+        </template>
+        <template is="dom-if" if="[[!_isPatchsetLevelComment(path)]]">
+          <a href$="[[_getDiffUrlForPath(path)]]">
+            [[_computeDisplayPath(path)]]
+          </a>
+        </template>
+      </div>
+    </template>
     <div class="pathInfo">
-      <template is="dom-if" if="[[_isPatchsetLevelComment(path)]]">
-        <span>Patchset Comment</span>
-        <span class="descriptionText">Patchset [[patchNum]]</span>
-      </template>
       <template is="dom-if" if="[[!_isPatchsetLevelComment(path)]]">
         <a
           href$="[[_getDiffUrlForComment(projectName, changeNum, path, patchNum)]]"
-          >[[_computeDisplayPath(path)]]</a
+          >[[_computeDisplayLine()]]</a
         >
-        <span class="descriptionText">Patchset [[patchNum]]</span>
       </template>
     </div>
   </template>

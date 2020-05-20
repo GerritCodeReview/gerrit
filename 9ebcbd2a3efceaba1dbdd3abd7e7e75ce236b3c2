@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3bd5486_11ce61d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-20T14:57:23Z",
+      "side": 1,
+      "message": "ldapwiki telling me: [1]:\n\nHTTP 503 (Service Unavailable) The server is not ready to handle the request.\n\nCommon causes are a server that is down for maintenance or that is overloaded.\n\nNote that together with this response, a user-friendly page explaining the problem should be sent. This responses SHOULD be used for temporary conditions and the Retry-After: HTTP Header Field should, if possible, contain the estimated time before the recovery of the service. The webmaster MUST also take care about the caching-related headers that are sent along with this response, as these temporary condition responses should usually not be cached.\n\nBased on this description should we do more in base Servlet class?\n\n* [1] https://ldapwiki.com/wiki/HTTP%20503",
+      "revId": "9ebcbd2a3efceaba1dbdd3abd7e7e75ce236b3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

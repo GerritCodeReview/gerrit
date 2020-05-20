@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dded4899_3cfe5eba",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-20T07:46:10Z",
+      "side": 1,
+      "message": "personally I don\u0027t like functions like this since they will modify the input in-place which makes code harder to read and maintain (side effects may happen when adding more stuff in it), I would prefer something like:\n\n`message.tag \u003d computeMessageTag(message);`\n\nbut since its personal preference, I won\u0027t block the change for this.",
+      "range": {
+        "startLine": 57,
+        "startChar": 9,
+        "endLine": 57,
+        "endChar": 18
+      },
+      "revId": "c9cd29c599a975e3a600138458cc43efcdef96c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

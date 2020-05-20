@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "973fb517_aebadb28",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-20T13:12:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dded4899_3cfe5eba",
+      "range": {
+        "startLine": 57,
+        "startChar": 9,
+        "endLine": 57,
+        "endChar": 18
+      },
+      "revId": "c9cd29c599a975e3a600138458cc43efcdef96c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "40d6b0f9_2c063584",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "5aa104c1_9dbe8d75",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-20T13:12:59Z",
+      "side": 1,
+      "message": "It does not matter, because allMessages is sorted, but I have changed it, because as you say this will be less confusing to read.",
+      "parentUuid": "40d6b0f9_2c063584",
+      "range": {
+        "startLine": 95,
+        "startChar": 4,
+        "endLine": 95,
+        "endChar": 61
+      },
+      "revId": "c9cd29c599a975e3a600138458cc43efcdef96c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b950a66d_4d6d5565",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
         "patchSetId": 3
@@ -68,6 +116,30 @@
       "revId": "c9cd29c599a975e3a600138458cc43efcdef96c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec8e9f0b_3c6ba6b6",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-20T13:12:59Z",
+      "side": 1,
+      "message": "No, I think it is better to keep undefined instead of 0. It is the status quo that the UI can handle messages that don\u0027t have a revision set.",
+      "parentUuid": "b950a66d_4d6d5565",
+      "range": {
+        "startLine": 97,
+        "startChar": 1,
+        "endLine": 97,
+        "endChar": 56
+      },
+      "revId": "c9cd29c599a975e3a600138458cc43efcdef96c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

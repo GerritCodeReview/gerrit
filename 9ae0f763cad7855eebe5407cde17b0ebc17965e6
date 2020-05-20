@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "76b4b53e_cb41827f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1100,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-20T08:34:05Z",
+      "side": 1,
+      "message": "they probably won\u0027t fail due to the way we test things, but some may need updates like `invalid secondaryTab should not switch tab`",
+      "parentUuid": "06ad73f4_f25f9232",
+      "revId": "9ae0f763cad7855eebe5407cde17b0ebc17965e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b0521a8f_a4a0d37e",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 3

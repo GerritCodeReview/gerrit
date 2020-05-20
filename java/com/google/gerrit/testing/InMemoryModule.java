@@ -83,6 +83,7 @@ import com.google.gerrit.server.schema.SchemaCreatorImpl;
 import com.google.gerrit.server.securestore.DefaultSecureStore;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.ssh.NoSshKeyCache;
+import com.google.gerrit.server.submit.DefaultSubscriptionGraph;
 import com.google.gerrit.server.submit.LocalMergeSuperSetComputation;
 import com.google.gerrit.server.util.ReplicaUtil;
 import com.google.inject.AbstractModule;
@@ -166,6 +167,7 @@ public class InMemoryModule extends FactoryModule {
     bind(MetricMaker.class).to(DisabledMetricMaker.class);
     install(cfgInjector.getInstance(GerritGlobalModule.class));
     install(new GerritApiModule());
+    install(new DefaultSubscriptionGraph.Module());
     factory(PluginUser.Factory.class);
     install(new PluginApiModule());
     install(new DefaultPermissionBackendModule());

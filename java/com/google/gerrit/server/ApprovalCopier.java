@@ -20,6 +20,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Table;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.client.ChangeKind;
@@ -54,6 +55,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
  */
 @Singleton
 public class ApprovalCopier {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final ProjectCache projectCache;
   private final ChangeKindCache changeKindCache;
   private final LabelNormalizer labelNormalizer;
@@ -225,27 +228,53 @@ public class ApprovalCopier {
     checkArgument(n != psId.get());
     LabelType type = project.getLabelTypes().byLabel(psa.getLabelId());
     if (type == null) {
+      logger.atFine().log("Cannot copy because label type is null");
       return false;
     } else if ((type.isCopyMinScore() && type.isMaxNegative(psa))
         || (type.isCopyMaxScore() && type.isMaxPositive(psa))) {
+      logger.atFine().log("Can copy because of copyMinScore or copyMaxScore");
       return true;
     }
+    boolean canCopy = false;
     switch (kind) {
       case MERGE_FIRST_PARENT_UPDATE:
-        return type.isCopyAllScoresOnMergeFirstParentUpdate();
+        canCopy = type.isCopyAllScoresOnMergeFirstParentUpdate();
+        logCopyStatusForChangeKind(kind, "isCopyAllScoresOnMergeFirstParentUpdate", canCopy);
+        break;
       case NO_CODE_CHANGE:
-        return type.isCopyAllScoresIfNoCodeChange();
+        canCopy = type.isCopyAllScoresIfNoCodeChange();
+        logCopyStatusForChangeKind(kind, "isCopyAllScoresIfNoCodeChange", canCopy);
+        break;
       case TRIVIAL_REBASE:
-        return type.isCopyAllScoresOnTrivialRebase();
+        canCopy = type.isCopyAllScoresOnTrivialRebase();
+        logCopyStatusForChangeKind(kind, "isCopyAllScoresOnTrivialRebase", canCopy);
+        break;
       case NO_CHANGE:
-        return type.isCopyAllScoresIfNoChange()
-            || type.isCopyAllScoresOnTrivialRebase()
-            || type.isCopyAllScoresOnMergeFirstParentUpdate()
-            || type.isCopyAllScoresIfNoCodeChange();
+        canCopy =
+            type.isCopyAllScoresIfNoChange()
+                || type.isCopyAllScoresOnTrivialRebase()
+                || type.isCopyAllScoresOnMergeFirstParentUpdate()
+                || type.isCopyAllScoresIfNoCodeChange();
+        logCopyStatusForChangeKind(
+            kind,
+            "isCopyAllScoresIfNoChange||isCopyAllScoresOnTrivialRebase||isCopyAllScoresOnMergeFirstParentUpdate"
+                + "||isCopyAllScoresIfNoCodeChange",
+            canCopy);
+        break;
       case REWORK:
+        logger.atFine().log("Cannot copy because change kind is REWORK");
+        break;
       default:
-        return false;
+        logger.atFine().log("Cannot copy because change kind %s is unknown", kind);
+        break;
     }
+    return canCopy;
+  }
+
+  private static void logCopyStatusForChangeKind(ChangeKind kind, String setting, boolean canCopy) {
+    logger.atFine().log(
+        "Can%s copy because change kind is %s and %s is %b",
+        canCopy ? "" : "not", kind, setting, canCopy);
   }
 
   private static PatchSetApproval copy(PatchSetApproval src, PatchSet.Id psId) {

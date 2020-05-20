@@ -34,6 +34,24 @@
       "revId": "9ebcbd2a3efceaba1dbdd3abd7e7e75ce236b3c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a8598bb_6f99a0c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-05-20T19:03:37Z",
+      "side": 1,
+      "message": "I agree a user friendly page explaining why the server can\u0027t respond would be nice. If you can provide a hint where this should be added I can look into this in another change.\n\nIn the case I reported in Issue 12786 the connection to the LDAP server timed out, how should we know in this case when LDAP is reachable again ?",
+      "parentUuid": "447b53d1_03bb79ee",
+      "revId": "9ebcbd2a3efceaba1dbdd3abd7e7e75ce236b3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

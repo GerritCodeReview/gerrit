@@ -83,8 +83,9 @@ public class SubscriptionGraphTest {
 
   @Test
   public void oneSuperprojectOneSubmodule() throws Exception {
-    factory = new DefaultFactory(mockGitModulesFactory, mockProjectCache, mergeOpRepoManager);
-    SubscriptionGraph subscriptionGraph = factory.create(ImmutableSet.of(SUB_BRANCH));
+    factory = new DefaultFactory(mockGitModulesFactory);
+    SubscriptionGraph subscriptionGraph =
+        factory.create(ImmutableSet.of(SUB_BRANCH), mockProjectCache, mergeOpRepoManager);
 
     assertThat(subscriptionGraph.getAffectedSuperProjects()).containsExactly(SUPER_PROJECT);
     assertThat(subscriptionGraph.getAffectedSuperBranches(SUPER_PROJECT))
@@ -99,12 +100,14 @@ public class SubscriptionGraphTest {
 
   @Test
   public void circularSubscription() throws Exception {
-    factory = new DefaultFactory(mockGitModulesFactory, mockProjectCache, mergeOpRepoManager);
+    factory = new DefaultFactory(mockGitModulesFactory);
 
     setSubscription(SUPER_BRANCH, ImmutableList.of(SUB_BRANCH));
     SubmoduleConflictException e =
         assertThrows(
-            SubmoduleConflictException.class, () -> factory.create(ImmutableSet.of(SUB_BRANCH)));
+            SubmoduleConflictException.class,
+            () ->
+                factory.create(ImmutableSet.of(SUB_BRANCH), mockProjectCache, mergeOpRepoManager));
 
     String expectedErrorMessage =
         "Subproject,refs/heads/one->Superproject,refs/heads/one->Subproject,refs/heads/one";
@@ -155,9 +158,12 @@ public class SubscriptionGraphTest {
     setSubscription(submoduleBranch2, ImmutableList.of(superBranch1));
     setSubscription(submoduleBranch3, ImmutableList.of(superBranch1, superBranch2));
 
-    factory = new DefaultFactory(mockGitModulesFactory, mockProjectCache, mergeOpRepoManager);
+    factory = new DefaultFactory(mockGitModulesFactory);
     SubscriptionGraph subscriptionGraph =
-        factory.create(ImmutableSet.of(submoduleBranch1, submoduleBranch2));
+        factory.create(
+            ImmutableSet.of(submoduleBranch1, submoduleBranch2),
+            mockProjectCache,
+            mergeOpRepoManager);
 
     assertThat(subscriptionGraph.getAffectedSuperProjects())
         .containsExactly(superProject1, superProject2);

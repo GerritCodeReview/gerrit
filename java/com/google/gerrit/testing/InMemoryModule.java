@@ -87,6 +87,7 @@ import com.google.gerrit.server.securestore.DefaultSecureStore;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.ssh.NoSshKeyCache;
 import com.google.gerrit.server.submit.LocalMergeSuperSetComputation;
+import com.google.gerrit.server.submit.SubscriptionGraph;
 import com.google.gerrit.server.util.ReplicaUtil;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -175,6 +176,7 @@ public class InMemoryModule extends FactoryModule {
     install(new SearchingChangeCacheImpl.Module());
     factory(GarbageCollection.Factory.class);
     install(new AuditModule());
+    install(new SubscriptionGraph.Module());
 
     bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
 

@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import com.google.common.base.MoreObjects;
@@ -31,6 +32,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.AuthenticationFailedException;
+import com.google.gerrit.server.auth.AuthenticationUnavailableException;
 import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
@@ -168,6 +170,10 @@ class ProjectBasicAuthFilter implements Filter {
       // stacktrace for it.
       logger.atWarning().log(authenticationFailedMsg(username, req) + ": %s", e.getMessage());
       rsp.sendError(SC_UNAUTHORIZED);
+      return false;
+    } catch (AuthenticationUnavailableException e) {
+      logger.atSevere().withCause(e).log("could not reach authentication backend");
+      rsp.sendError(SC_SERVICE_UNAVAILABLE);
       return false;
     } catch (AccountException e) {
       logger.atWarning().withCause(e).log(authenticationFailedMsg(username, req));

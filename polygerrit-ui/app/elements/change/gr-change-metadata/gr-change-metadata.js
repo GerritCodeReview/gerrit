@@ -152,7 +152,7 @@ class GrChangeMetadata extends mixinBehaviors( [
 
       _currentParents: {
         type: Array,
-        computed: '_computeParents(change)',
+        computed: '_computeParents(revision)',
       },
 
       /** @type {?} */
@@ -494,13 +494,11 @@ class GrChangeMetadata extends mixinBehaviors( [
     return null;
   }
 
-  _computeParents(change) {
-    if (!change || !change.current_revision ||
-        !change.revisions[change.current_revision] ||
-        !change.revisions[change.current_revision].commit) {
+  _computeParents(revision) {
+    if (!revision || !revision.commit) {
       return undefined;
     }
-    return change.revisions[change.current_revision].commit.parents;
+    return revision.commit.parents;
   }
 
   _computeParentsLabel(parents) {

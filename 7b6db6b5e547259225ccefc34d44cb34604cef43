@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d3c619c_1e856539",
+        "filename": "java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-21T11:14:41Z",
+      "side": 1,
+      "message": "I am a bit confused with the removal of ApprovalCopier from the auto-merge: was it because it was added, merged and then removed?",
+      "revId": "7b6db6b5e547259225ccefc34d44cb34604cef43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54d07b4f_77573f86",
+        "filename": "java/com/google/gerrit/server/ApprovalInference.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-21T11:14:41Z",
+      "side": 1,
+      "message": "... and possibly this is the result of removing ApprovalCopier and making instead the changes on ApprovalInference?",
+      "revId": "7b6db6b5e547259225ccefc34d44cb34604cef43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

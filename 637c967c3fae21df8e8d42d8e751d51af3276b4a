@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33c22e17_b93d6935",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list_html.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-21T12:14:44Z",
+      "side": -1,
+      "message": "Was wondering where it came from. I overlooked, that the target branch is stable-3.2, with Polymer 3 migration, so that the code is from deleted: gr-admin-group-list.html.",
+      "revId": "637c967c3fae21df8e8d42d8e751d51af3276b4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

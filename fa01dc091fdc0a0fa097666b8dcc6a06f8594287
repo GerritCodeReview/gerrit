@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7d1580a_9b82c8c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-21T14:06:45Z",
+      "side": 1,
+      "message": "Isn\u0027t there an issue for the error prone warnings?\n\nSame applies to the other recently uploaded changes.",
+      "revId": "fa01dc091fdc0a0fa097666b8dcc6a06f8594287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

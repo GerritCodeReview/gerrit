@@ -21,7 +21,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
-import com.vladsch.flexmark.Extension;
 import com.vladsch.flexmark.ast.Block;
 import com.vladsch.flexmark.ast.Heading;
 import com.vladsch.flexmark.ast.Node;
@@ -36,7 +35,6 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.eclipse.jgit.util.RawParseUtils;
@@ -94,11 +92,6 @@ public class MarkdownFormatter {
         PegdownOptionsAdapter.flexmarkOptions(
                 options, MarkdownFormatterHeader.HeadingExtension.create())
             .toMutable();
-
-    ArrayList<Extension> extensions = new ArrayList<>();
-    for (Extension extension : optionsExt.get(com.vladsch.flexmark.parser.Parser.EXTENSIONS)) {
-      extensions.add(extension);
-    }
 
     return optionsExt;
   }

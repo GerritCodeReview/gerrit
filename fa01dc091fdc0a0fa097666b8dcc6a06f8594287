@@ -16,6 +16,24 @@
       "revId": "fa01dc091fdc0a0fa097666b8dcc6a06f8594287",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9bd2116_26463a49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-21T14:09:16Z",
+      "side": 1,
+      "message": "Right: [1]. Let me add it here and in other changes.\n\n[1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d12677",
+      "parentUuid": "b7d1580a_9b82c8c8",
+      "revId": "fa01dc091fdc0a0fa097666b8dcc6a06f8594287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

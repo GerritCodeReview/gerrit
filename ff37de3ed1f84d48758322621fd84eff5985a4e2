@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "31127971_08e4ce39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-21T15:38:30Z",
+      "side": 1,
+      "message": "\u003e The latest caffeine is now 2.8.3\n\nAnd 2.8.4, today.",
+      "parentUuid": "5c4ff1a6_7e592839",
+      "revId": "ff37de3ed1f84d48758322621fd84eff5985a4e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e3361492_e1c82751",
         "filename": "WORKSPACE",
         "patchSetId": 4

@@ -49,10 +49,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class DeleteReviewerOp implements BatchUpdateOp {
@@ -134,12 +132,10 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     msg.append("Removed reviewer " + reviewer.account().fullName());
     StringBuilder removedVotesMsg = new StringBuilder();
     removedVotesMsg.append(" with the following votes:\n\n");
-    List<PatchSetApproval> del = new ArrayList<>();
     boolean votesRemoved = false;
     for (PatchSetApproval a : approvals(ctx, reviewerId)) {
       // Check if removing this vote is OK
       removeReviewerControl.checkRemoveReviewer(ctx.getNotes(), ctx.getUser(), a);
-      del.add(a);
       if (a.patchSetId().equals(currPs.id()) && a.value() != 0) {
         oldApprovals.put(a.label(), a.value());
         removedVotesMsg

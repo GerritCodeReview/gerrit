@@ -15,6 +15,7 @@
 package com.google.gerrit.server.events;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -23,6 +24,7 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.GerritInstanceId;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -65,18 +67,22 @@ public class EventBroker implements EventDispatcher {
 
   protected final ChangeNotes.Factory notesFactory;
 
+  protected final String gerritInstanceId;
+
   @Inject
   public EventBroker(
       PluginSetContext<UserScopedEventListener> listeners,
       PluginSetContext<EventListener> unrestrictedListeners,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
-      ChangeNotes.Factory notesFactory) {
+      ChangeNotes.Factory notesFactory,
+      @Nullable @GerritInstanceId String gerritInstanceId) {
     this.listeners = listeners;
     this.unrestrictedListeners = unrestrictedListeners;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
     this.notesFactory = notesFactory;
+    this.gerritInstanceId = gerritInstanceId;
   }
 
   @Override
@@ -105,6 +111,7 @@ public class EventBroker implements EventDispatcher {
   }
 
   protected void fireEvent(Change change, ChangeEvent event) throws PermissionBackendException {
+    setInstanceId(event);
     for (PluginSetEntryContext<UserScopedEventListener> c : listeners) {
       CurrentUser user = c.call(UserScopedEventListener::getUser);
       if (isVisibleTo(change, user)) {
@@ -115,7 +122,9 @@ public class EventBroker implements EventDispatcher {
   }
 
   protected void fireEvent(Project.NameKey project, ProjectEvent event) {
+    setInstanceId(event);
     for (PluginSetEntryContext<UserScopedEventListener> c : listeners) {
+
       CurrentUser user = c.call(UserScopedEventListener::getUser);
       if (isVisibleTo(project, user)) {
         c.run(l -> l.onEvent(event));
@@ -126,6 +135,7 @@ public class EventBroker implements EventDispatcher {
 
   protected void fireEvent(BranchNameKey branchName, RefEvent event)
       throws PermissionBackendException {
+    setInstanceId(event);
     for (PluginSetEntryContext<UserScopedEventListener> c : listeners) {
       CurrentUser user = c.call(UserScopedEventListener::getUser);
       if (isVisibleTo(branchName, user)) {
@@ -136,6 +146,7 @@ public class EventBroker implements EventDispatcher {
   }
 
   protected void fireEvent(Event event) throws PermissionBackendException {
+    setInstanceId(event);
     for (PluginSetEntryContext<UserScopedEventListener> c : listeners) {
       CurrentUser user = c.call(UserScopedEventListener::getUser);
       if (isVisibleTo(event, user)) {
@@ -143,6 +154,10 @@ public class EventBroker implements EventDispatcher {
       }
     }
     fireEventForUnrestrictedListeners(event);
+  }
+
+  protected void setInstanceId(Event event) {
+    event.instanceId = gerritInstanceId;
   }
 
   protected boolean isVisibleTo(Project.NameKey project, CurrentUser user) {

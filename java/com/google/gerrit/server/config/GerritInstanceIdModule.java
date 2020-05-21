@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2020 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,20 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.events;
+package com.google.gerrit.server.config;
 
-import com.google.gerrit.server.util.time.TimeUtil;
+import static com.google.inject.Scopes.SINGLETON;
 
-public abstract class Event {
-  public final String type;
-  public long eventCreatedOn = TimeUtil.nowMs() / 1000L;
-  public String instanceId;
+import com.google.inject.AbstractModule;
 
-  protected Event(String type) {
-    this.type = type;
-  }
-
-  public String getType() {
-    return type;
+/** Supports binding the {@link GerritInstanceId} annotation. */
+public class GerritInstanceIdModule extends AbstractModule {
+  @Override
+  protected void configure() {
+    bind(String.class)
+        .annotatedWith(GerritInstanceId.class)
+        .toProvider(GerritInstanceIdProvider.class)
+        .in(SINGLETON);
   }
 }

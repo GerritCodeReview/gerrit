@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a589a72_9349a6a5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-05-21T08:27:48Z",
+      "side": 1,
+      "message": "This should be reverted, Tao updated the test in https://gerrit-review.googlesource.com/c/gerrit/+/268058 .",
+      "revId": "0216073cacd66f03961424d6a9ed8fe0b3c11c1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

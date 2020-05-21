@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "131259c7_d41570a5",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmitByRebase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-21T16:52:55Z",
+      "side": 0,
+      "message": "Why has this test been removed? When making performance improvement or refactoring, tests should not change as you need to demonstrate that the code works exactly as before.",
+      "range": {
+        "startLine": 356,
+        "startChar": 0,
+        "endLine": 375,
+        "endChar": 3
+      },
+      "revId": "f6588dcef1dc0f936b3ad0831bc189f502167892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

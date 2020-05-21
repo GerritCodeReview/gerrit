@@ -172,53 +172,159 @@ public class ApprovalCopier {
     checkArgument(n != psId.get());
     LabelType type = project.getLabelTypes().byLabel(psa.getLabelId());
     if (type == null) {
-      logger.atFine().log("Cannot copy because label type is null");
+      logger.atFine().log(
+          "approval %d on label %s of patch set %d of change %d cannot be copied"
+              + " to patch set %d because the label no longer exists on project %s",
+          psa.getValue(),
+          psa.getLabel(),
+          n,
+          psa.getKey().getParentKey().changeId.get(),
+          psId.get(),
+          project.getName());
       return false;
-    } else if ((type.isCopyMinScore() && type.isMaxNegative(psa))
-        || (type.isCopyMaxScore() && type.isMaxPositive(psa))) {
-      logger.atFine().log("Can copy because of copyMinScore or copyMaxScore");
+    } else if (type.isCopyMinScore() && type.isMaxNegative(psa)) {
+      logger.atFine().log(
+          "veto approval %s on label %s of patch set %d of change %d can be copied"
+              + " to patch set %d because the label has set copyMinScore = true on project %s",
+          psa.getValue(),
+          psa.getLabel(),
+          n,
+          psa.getKey().getParentKey().changeId.get(),
+          psId.get(),
+          project.getName());
+      return true;
+    } else if (type.isCopyMaxScore() && type.isMaxPositive(psa)) {
+      logger.atFine().log(
+          "max approval %s on label %s of patch set %d of change %d can be copied"
+              + " to patch set %d because the label has set copyMaxScore = true on project %s",
+          psa.getValue(),
+          psa.getLabel(),
+          n,
+          psa.getKey().getParentKey().changeId.get(),
+          psId.get(),
+          project.getName());
       return true;
     }
-    boolean canCopy = false;
     switch (kind) {
       case MERGE_FIRST_PARENT_UPDATE:
-        canCopy = type.isCopyAllScoresOnMergeFirstParentUpdate();
-        logCopyStatusForChangeKind(kind, "isCopyAllScoresOnMergeFirstParentUpdate", canCopy);
-        break;
+        if (type.isCopyAllScoresOnMergeFirstParentUpdate()) {
+          logger.atFine().log(
+              "approval %d on label %s of patch set %d of change %d can be copied"
+                  + " to patch set %d because change kind is %s and the label has set"
+                  + " copyAllScoresOnMergeFirstParentUpdate = true on project %s",
+              psa.getValue(),
+              psa.getLabel(),
+              n,
+              psa.getKey().getParentKey().changeId.get(),
+              psId.get(),
+              kind,
+              project.getName());
+          return true;
+        }
+        return false;
       case NO_CODE_CHANGE:
-        canCopy = type.isCopyAllScoresIfNoCodeChange();
-        logCopyStatusForChangeKind(kind, "isCopyAllScoresIfNoCodeChange", canCopy);
-        break;
+        if (type.isCopyAllScoresIfNoCodeChange()) {
+          logger.atFine().log(
+              "approval %d on label %s of patch set %d of change %d can be copied"
+                  + " to patch set %d because change kind is %s and the label has set"
+                  + " copyAllScoresIfNoCodeChange = true on project %s",
+              psa.getValue(),
+              psa.getLabel(),
+              n,
+              psa.getKey().getParentKey().changeId.get(),
+              psId.get(),
+              kind,
+              project.getName());
+          return true;
+        }
+        return false;
       case TRIVIAL_REBASE:
-        canCopy = type.isCopyAllScoresOnTrivialRebase();
-        logCopyStatusForChangeKind(kind, "isCopyAllScoresOnTrivialRebase", canCopy);
-        break;
+        if (type.isCopyAllScoresOnTrivialRebase()) {
+          logger.atFine().log(
+              "approval %d on label %s of patch set %d of change %d can be copied"
+                  + " to patch set %d because change kind is %s and the label has set"
+                  + " copyAllScoresOnTrivialRebase = true on project %s",
+              psa.getValue(),
+              psa.getLabel(),
+              n,
+              psa.getKey().getParentKey().changeId.get(),
+              psId.get(),
+              kind,
+              project.getName());
+          return true;
+        }
+        return false;
       case NO_CHANGE:
-        canCopy =
-            type.isCopyAllScoresIfNoChange()
-                || type.isCopyAllScoresOnTrivialRebase()
-                || type.isCopyAllScoresOnMergeFirstParentUpdate()
-                || type.isCopyAllScoresIfNoCodeChange();
-        logCopyStatusForChangeKind(
-            kind,
-            "isCopyAllScoresIfNoChange||isCopyAllScoresOnTrivialRebase||isCopyAllScoresOnMergeFirstParentUpdate"
-                + "||isCopyAllScoresIfNoCodeChange",
-            canCopy);
-        break;
+        if (type.isCopyAllScoresIfNoChange()) {
+          logger.atFine().log(
+              "approval %d on label %s of patch set %d of change %d can be copied"
+                  + " to patch set %d because change kind is %s and the label has set"
+                  + " copyAllScoresIfNoCodeChange = true on project %s",
+              psa.getValue(),
+              psa.getLabel(),
+              n,
+              psa.getKey().getParentKey().changeId.get(),
+              psId.get(),
+              kind,
+              project.getName());
+          return true;
+        }
+        if (type.isCopyAllScoresOnTrivialRebase()) {
+          logger.atFine().log(
+              "approval %d on label %s of patch set %d of change %d can be copied"
+                  + " to patch set %d because change kind is %s and the label has set"
+                  + " copyAllScoresOnTrivialRebase = true on project %s",
+              psa.getValue(),
+              psa.getLabel(),
+              n,
+              psa.getKey().getParentKey().changeId.get(),
+              psId.get(),
+              kind,
+              project.getName());
+          return true;
+        }
+        if (type.isCopyAllScoresOnMergeFirstParentUpdate()) {
+          logger.atFine().log(
+              "approval %d on label %s of patch set %d of change %d can be copied"
+                  + " to patch set %d because change kind is %s and the label has set"
+                  + " copyAllScoresOnMergeFirstParentUpdate = true on project %s",
+              psa.getValue(),
+              psa.getLabel(),
+              n,
+              psa.getKey().getParentKey().changeId.get(),
+              psId.get(),
+              kind,
+              project.getName());
+          return true;
+        }
+        if (type.isCopyAllScoresIfNoCodeChange()) {
+          logger.atFine().log(
+              "approval %d on label %s of patch set %d of change %d can be copied"
+                  + " to patch set %d because change kind is %s and the label has set"
+                  + " copyAllScoresIfNoCodeChange = true on project %s",
+              psa.getValue(),
+              psa.getLabel(),
+              n,
+              psa.getKey().getParentKey().changeId.get(),
+              psId.get(),
+              kind,
+              project.getName());
+          return true;
+        }
+        return false;
       case REWORK:
-        logger.atFine().log("Cannot copy because change kind is REWORK");
-        break;
       default:
-        logger.atFine().log("Cannot copy because change kind %s is unknown", kind);
-        break;
+        logger.atFine().log(
+            "approval %d on label %s of patch set %d of change %d cannot be copied"
+                + " to patch set %d because change kind is %s",
+            psa.getValue(),
+            psa.getLabel(),
+            n,
+            psa.getKey().getParentKey().changeId.get(),
+            psId.get(),
+            kind);
+        return false;
     }
-    return canCopy;
-  }
-
-  private static void logCopyStatusForChangeKind(ChangeKind kind, String setting, boolean canCopy) {
-    logger.atFine().log(
-        "Can%s copy because change kind is %s and %s is %b",
-        canCopy ? "" : "not", kind, setting, canCopy);
   }
 
   private static PatchSetApproval copy(PatchSetApproval src, PatchSet.Id psId) {

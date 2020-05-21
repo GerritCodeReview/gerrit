@@ -66,6 +66,30 @@ suite('gr-admin-group-list tests', () => {
     sandbox.restore();
   });
 
+    test('_computeGroupUrl', () => {
+      let urlStub = sandbox.stub(Gerrit.Nav, 'getUrlForGroup',
+          () => '/admin/groups/e2cd66f88a2db4d391ac068a92d987effbe872f5');
+
+      let group = {
+        id: 'e2cd66f88a2db4d391ac068a92d987effbe872f5',
+      };
+      assert.equal(element._computeGroupUrl(group),
+          '/admin/groups/e2cd66f88a2db4d391ac068a92d987effbe872f5');
+
+      urlStub.restore();
+
+      urlStub = sandbox.stub(Gerrit.Nav, 'getUrlForGroup',
+          () => '/admin/groups/user/test');
+
+      group = {
+        id: 'user%2Ftest',
+      };
+      assert.equal(element._computeGroupUrl(group),
+          '/admin/groups/user/test');
+
+      urlStub.restore();
+    });
+
   suite('list with groups', () => {
     setup(done => {
       groups = _.times(26, groupGenerator);

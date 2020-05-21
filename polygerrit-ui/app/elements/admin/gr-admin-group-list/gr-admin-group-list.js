@@ -123,8 +123,13 @@ class GrAdminGroupList extends mixinBehaviors( [
     }
   }
 
+    /**
+     * Generates groups link (/admin/groups/<uuid>)
+     *
+     * @param {string} id
+     */
   _computeGroupUrl(id) {
-    return GerritNav.getUrlForGroup(id);
+    return GerritNav.getUrlForGroup(decodeURIComponent(id));
   }
 
   _getCreateGroupCapability() {

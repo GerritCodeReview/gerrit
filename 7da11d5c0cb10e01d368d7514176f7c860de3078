@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ea718fc9_020ad9bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-05-21T20:13:06Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4673fefb_c7eb4884",
+      "revId": "7da11d5c0cb10e01d368d7514176f7c860de3078",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7dd70bac_96eb77ca",
         "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.js",
         "patchSetId": 8
@@ -33,6 +51,24 @@
       "revId": "7da11d5c0cb10e01d368d7514176f7c860de3078",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0def15fa_24e8bfcc",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-05-21T20:13:06Z",
+      "side": 1,
+      "message": "Yeh, thanks, done.",
+      "parentUuid": "7dd70bac_96eb77ca",
+      "revId": "7da11d5c0cb10e01d368d7514176f7c860de3078",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "bf111d2c_723c5797",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-05-21T20:13:06Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "523dc540_0ea7f98d",
+      "revId": "7da11d5c0cb10e01d368d7514176f7c860de3078",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4c4bf56_9dcc9baf",
         "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog_test.html",
         "patchSetId": 8
@@ -67,6 +121,24 @@
       "revId": "7da11d5c0cb10e01d368d7514176f7c860de3078",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6378d76f_b40a4d43",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-05-21T20:13:06Z",
+      "side": 1,
+      "message": "I mean that wouldn\u0027t do much, since we already check that the bindings work.\n\nMockInteraction does not type this using it would not bring any benefits i think. (I don\u0027t even see a usecase because you type, you don\u0027t press a button apart from focusing the mouse at the box.",
+      "parentUuid": "c4c4bf56_9dcc9baf",
+      "revId": "7da11d5c0cb10e01d368d7514176f7c860de3078",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -60,7 +60,7 @@ public class UniversalGroupBackend implements GroupBackend {
   private GroupBackend backend(AccountGroup.UUID uuid) {
     if (uuid != null) {
       for (PluginSetEntryContext<GroupBackend> c : backends) {
-        if (c.call(b -> b.handles(uuid))) {
+        if (Boolean.TRUE.equals(c.call(b -> b.handles(uuid)))) {
           return c.get();
         }
       }
@@ -197,7 +197,7 @@ public class UniversalGroupBackend implements GroupBackend {
   @Override
   public boolean isVisibleToAll(AccountGroup.UUID uuid) {
     for (PluginSetEntryContext<GroupBackend> c : backends) {
-      if (c.call(b -> b.handles(uuid))) {
+      if (Boolean.TRUE.equals(c.call(b -> b.handles(uuid)))) {
         return c.call(b -> b.isVisibleToAll(uuid));
       }
     }

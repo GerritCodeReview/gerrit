@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f70ffbea_283b5437",
+        "filename": "tools/bzl/always_pass_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-22T17:01:14Z",
+      "side": 1,
+      "message": "It would be best to:\n- Add the copyright anyway\n- Add a comment on why this file exists and the links to the issue that is trying to resolve",
+      "revId": "a9c2d9ae92cb85f56304aa158551c66f16c4301b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

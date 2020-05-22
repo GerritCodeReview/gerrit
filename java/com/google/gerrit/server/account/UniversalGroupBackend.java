@@ -116,6 +116,7 @@ public class UniversalGroupBackend implements GroupBackend {
           }
         }
       }
+      logger.atFine().log("Unknown GroupMembership for UUID: %s", uuid);
       return null;
     }
 
@@ -126,7 +127,6 @@ public class UniversalGroupBackend implements GroupBackend {
       }
       GroupMembership m = membership(uuid);
       if (m == null) {
-        logger.atFine().log("Unknown GroupMembership for UUID: %s", uuid);
         return false;
       }
       return m.contains(uuid);
@@ -142,7 +142,6 @@ public class UniversalGroupBackend implements GroupBackend {
         }
         GroupMembership m = membership(uuid);
         if (m == null) {
-          logger.atFine().log("Unknown GroupMembership for UUID: %s", uuid);
           continue;
         }
         lookups.put(m, uuid);

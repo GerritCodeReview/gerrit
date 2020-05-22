@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7fabb1c_8b3f94ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-22T16:10:19Z",
+      "side": 1,
+      "message": "differentiate",
+      "range": {
+        "startLine": 15,
+        "startChar": 35,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "6ceb1b506dcacfc95a8f40a133c46e2486851ba5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dd8bb50_fbf71579",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-22T16:10:19Z",
+      "side": 1,
+      "message": "What if a pipeline does require this differentiation? Is this change no longer allowing pipelines or other builders to discriminate between 4 and other error codes? If so, I think that would be an issue. Beside, clarifying such considerations in this commit message may help.",
+      "revId": "6ceb1b506dcacfc95a8f40a133c46e2486851ba5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

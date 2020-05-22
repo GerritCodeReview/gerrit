@@ -81,6 +81,24 @@
       "revId": "6ceb1b506dcacfc95a8f40a133c46e2486851ba5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c9eeaa8_8e174a78",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-22T17:12:35Z",
+      "side": 1,
+      "message": "Yes, in the sense that other pipelines may still only run the SUT tests alone and react accordingly, i.e., without passing this added script to the command line.\n\nNow if this \"test\" is run beside other test(s) that end up failing, then their negative return code wouldn\u0027t be eaten by this always-positive one, I assume (within bazel-test I mean).",
+      "parentUuid": "a6efb47d_269d85d5",
+      "revId": "6ceb1b506dcacfc95a8f40a133c46e2486851ba5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

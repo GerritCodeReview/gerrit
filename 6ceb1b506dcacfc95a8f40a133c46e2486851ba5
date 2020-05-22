@@ -39,6 +39,24 @@
       "revId": "6ceb1b506dcacfc95a8f40a133c46e2486851ba5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6efb47d_269d85d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-22T16:18:18Z",
+      "side": 1,
+      "message": "Does the explanation in: [1] answer your question?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit-ci-scripts/+/268643",
+      "parentUuid": "3dd8bb50_fbf71579",
+      "revId": "6ceb1b506dcacfc95a8f40a133c46e2486851ba5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -32,7 +32,7 @@ class GerritSimulation extends Simulation {
   protected val unique: String = name + "-" + this.hashCode()
 
   private val powerFactor: Double = replaceProperty("power_factor", 1.0).toDouble
-  private val SecondsPerWeightUnit: Int = 2
+  protected val SecondsPerWeightUnit: Int = 2
   val maxExecutionTime: Int = (SecondsPerWeightUnit * relativeRuntimeWeight * powerFactor).toInt
   private var cumulativeWaitTime: Int = 0
 

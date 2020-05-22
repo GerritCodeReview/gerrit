@@ -60,7 +60,7 @@ public class UniversalGroupBackend implements GroupBackend {
   private GroupBackend backend(AccountGroup.UUID uuid) {
     if (uuid != null) {
       for (PluginSetEntryContext<GroupBackend> c : backends) {
-        if (c.call(b -> b.handles(uuid))) {
+        if (Boolean.TRUE.equals(c.call(b -> b.handles(uuid)))) {
           return c.get();
         }
       }
@@ -116,6 +116,7 @@ public class UniversalGroupBackend implements GroupBackend {
           }
         }
       }
+      logger.atFine().log("Unknown GroupMembership for UUID: %s", uuid);
       return null;
     }
 
@@ -126,7 +127,6 @@ public class UniversalGroupBackend implements GroupBackend {
       }
       GroupMembership m = membership(uuid);
       if (m == null) {
-        logger.atFine().log("Unknown GroupMembership for UUID: %s", uuid);
         return false;
       }
       return m.contains(uuid);
@@ -142,7 +142,6 @@ public class UniversalGroupBackend implements GroupBackend {
         }
         GroupMembership m = membership(uuid);
         if (m == null) {
-          logger.atFine().log("Unknown GroupMembership for UUID: %s", uuid);
           continue;
         }
         lookups.put(m, uuid);
@@ -198,7 +197,7 @@ public class UniversalGroupBackend implements GroupBackend {
   @Override
   public boolean isVisibleToAll(AccountGroup.UUID uuid) {
     for (PluginSetEntryContext<GroupBackend> c : backends) {
-      if (c.call(b -> b.handles(uuid))) {
+      if (Boolean.TRUE.equals(c.call(b -> b.handles(uuid)))) {
         return c.call(b -> b.isVisibleToAll(uuid));
       }
     }

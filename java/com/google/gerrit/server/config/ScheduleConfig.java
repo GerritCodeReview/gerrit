@@ -256,7 +256,7 @@ public abstract class ScheduleConfig {
     requireNonNull(start);
 
     try {
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("[E ]HH:mm").withLocale(Locale.US);
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("[E ]H:mm").withLocale(Locale.US);
       LocalTime firstStartTime = LocalTime.parse(start, formatter);
       ZonedDateTime startTime = now.with(firstStartTime);
       try {

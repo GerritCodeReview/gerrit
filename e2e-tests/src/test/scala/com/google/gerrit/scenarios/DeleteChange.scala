@@ -39,6 +39,5 @@ class DeleteChange extends GerritSimulation {
   setUp(
     test.inject(
       atOnceUsers(1)
-    ),
-  ).protocols(httpProtocol)
+    )).protocols(httpProtocol)
 }

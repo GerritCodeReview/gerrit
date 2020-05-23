@@ -39,6 +39,8 @@ public class ScheduleConfigTest {
 
   @Test
   public void initialDelay() throws Exception {
+    assertThat(initialDelay("4:00", "1h")).isEqualTo(ms(1, HOURS));
+    assertThat(initialDelay("9:00", "1h")).isEqualTo(ms(1, HOURS));
     assertThat(initialDelay("11:00", "1h")).isEqualTo(ms(1, HOURS));
     assertThat(initialDelay("11:00", "1 hour")).isEqualTo(ms(1, HOURS));
     assertThat(initialDelay("05:30", "1h")).isEqualTo(ms(30, MINUTES));
@@ -197,13 +199,7 @@ public class ScheduleConfigTest {
     rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "Mon 01:000");
     assertThat(ScheduleConfig.builder(rc, "a").buildSchedule()).isEmpty();
 
-    rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "001:00");
-    assertThat(ScheduleConfig.builder(rc, "a").buildSchedule()).isEmpty();
-
     rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "0100");
-    assertThat(ScheduleConfig.builder(rc, "a").buildSchedule()).isEmpty();
-
-    rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "1:00");
     assertThat(ScheduleConfig.builder(rc, "a").buildSchedule()).isEmpty();
   }
 
@@ -213,7 +209,6 @@ public class ScheduleConfigTest {
     assertThat(Schedule.create(1, "x")).isEmpty();
     assertThat(Schedule.create(1, "Foo 00:00")).isEmpty();
     assertThat(Schedule.create(0, "Mon 00:000")).isEmpty();
-    assertThat(Schedule.create(1, "000:00")).isEmpty();
     assertThat(Schedule.create(1, "0000")).isEmpty();
   }
 

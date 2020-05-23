@@ -5237,7 +5237,8 @@ The placeholders can have the following values:
 
 +
 The time zone cannot be specified but is always the system default
-time zone. Hours must be zero-padded, i.e. `06:00` rather than `6:00`.
+time zone. Hours may be specified with or without zero-paddeding,
+i.e. `06:00` and `6:00` are both accepted.
 
 The section (and optionally the subsection) in which the `interval` and
 `startTime` keys must be set depends on the background job for which a

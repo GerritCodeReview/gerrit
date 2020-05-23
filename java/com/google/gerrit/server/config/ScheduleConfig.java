@@ -22,6 +22,7 @@ import com.google.auto.value.extension.memoized.Memoized;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.inject.ProvisionException;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalTime;
@@ -272,8 +273,7 @@ public abstract class ScheduleConfig {
       }
       return delay;
     } catch (DateTimeParseException e) {
-      logger.atSevere().log("Invalid start time: %s", e.getMessage());
-      return INVALID_CONFIG;
+      throw new ProvisionException("Invalid start time: " + e.getMessage());
     }
   }
 

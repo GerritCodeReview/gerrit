@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "730f725d_f81f7dab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-24T14:10:57Z",
+      "side": 1,
+      "message": "\u003e The problem also affects all the other configurations that use ScheduleConfig, namely:\n\u003e \n\u003e  - changeCleanup.startTime\n\u003e  - index.scheduledIndexer.startTime\n\u003e  - accountDeactivation.startTime\n\nAgreed, we should fix those too.",
+      "parentUuid": "fa6c3958_5916bac3",
+      "range": {
+        "startLine": 10,
+        "startChar": 47,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "367b41f69d49770908a203d78bd96d6c4360da2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3eb93232_3633f10a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2020-05-24T01:35:31Z",
       "side": 1,
       "message": "This issue is about missing logs during server startup, and this change does not fix that. We should create a separate issue for the startTime parsing regression.",
+      "range": {
+        "startLine": 18,
+        "startChar": 5,
+        "endLine": 18,
+        "endChar": 16
+      },
+      "revId": "367b41f69d49770908a203d78bd96d6c4360da2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02deb87a_9d615509",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-24T14:10:57Z",
+      "side": 1,
+      "message": "We never had logs in error_log about configuration parsing errors. It\u0027s a valid issue, we should address that on stable-3.2 or master IMHO:\n- blocking Gerrit startup?\n- creating a stderr_log/stdout_log?\n\n... still TBC I believe.",
+      "parentUuid": "3eb93232_3633f10a",
       "range": {
         "startLine": 18,
         "startChar": 5,

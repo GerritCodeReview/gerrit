@@ -93,6 +93,30 @@
       "revId": "367b41f69d49770908a203d78bd96d6c4360da2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6082399c_09a35ac5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-24T23:51:03Z",
+      "side": 1,
+      "message": "It\u0027s a valid issue, yes. But this commit doesn\u0027t fix it; it\u0027s fixing the regression in hour parsing.",
+      "parentUuid": "02deb87a_9d615509",
+      "range": {
+        "startLine": 18,
+        "startChar": 5,
+        "endLine": 18,
+        "endChar": 16
+      },
+      "revId": "367b41f69d49770908a203d78bd96d6c4360da2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

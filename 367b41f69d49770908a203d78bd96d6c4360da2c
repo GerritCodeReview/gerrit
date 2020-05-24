@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa6c3958_5916bac3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-24T01:35:31Z",
+      "side": 1,
+      "message": "The problem also affects all the other configurations that use ScheduleConfig, namely:\n\n - changeCleanup.startTime\n - index.scheduledIndexer.startTime\n - accountDeactivation.startTime",
+      "range": {
+        "startLine": 10,
+        "startChar": 47,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "367b41f69d49770908a203d78bd96d6c4360da2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3eb93232_3633f10a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-24T01:35:31Z",
+      "side": 1,
+      "message": "This issue is about missing logs during server startup, and this change does not fix that. We should create a separate issue for the startTime parsing regression.",
+      "range": {
+        "startLine": 18,
+        "startChar": 5,
+        "endLine": 18,
+        "endChar": 16
+      },
+      "revId": "367b41f69d49770908a203d78bd96d6c4360da2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

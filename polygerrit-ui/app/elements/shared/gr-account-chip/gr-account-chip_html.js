@@ -92,7 +92,6 @@ export const htmlTemplate = html`
       link=""
       hidden$="[[!removable]]"
       hidden=""
-      tabindex="-1"
       aria-label="Remove"
       class$="remove [[_getBackgroundClass(transparentBackground)]]"
       on-click="_handleRemoveTap"

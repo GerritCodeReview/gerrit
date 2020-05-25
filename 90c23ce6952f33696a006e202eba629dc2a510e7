@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a119bd11_4b1ab5c8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-25T11:37:34Z",
+      "side": 1,
+      "message": "Should it be aria-label?",
+      "range": {
+        "startLine": 446,
+        "startChar": 18,
+        "endLine": 446,
+        "endChar": 23
+      },
+      "revId": "90c23ce6952f33696a006e202eba629dc2a510e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96c079b0_28bd592c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-25T11:37:34Z",
+      "side": 1,
+      "message": "Isn\u0027t a title good enough?",
+      "range": {
+        "startLine": 448,
+        "startChar": 18,
+        "endLine": 448,
+        "endChar": 23
+      },
+      "revId": "90c23ce6952f33696a006e202eba629dc2a510e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

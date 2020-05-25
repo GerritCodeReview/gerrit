@@ -215,6 +215,30 @@
     },
     {
       "key": {
+        "uuid": "0db52c5d_de0b5c49",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-25T11:17:30Z",
+      "side": 1,
+      "message": "Done\nREJECTION in capital for consistency.",
+      "parentUuid": "a527e6ac_85fcdf5c",
+      "range": {
+        "startLine": 98,
+        "startChar": 54,
+        "endLine": 98,
+        "endChar": 70
+      },
+      "revId": "741db3dcf6d749e711db1ebe48b1682257f459c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "897e343f_cd7c49bd",
         "filename": "javatests/com/google/gerrit/acceptance/OutgoingEmailTest.java",
         "patchSetId": 5

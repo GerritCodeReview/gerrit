@@ -90,10 +90,10 @@ export const htmlTemplate = html`
       line-height: var(--line-height-mono);
     }
     .u-green {
-      color: var(--vote-text-color-recommended);
+      color: var(--positive-green-text-color);
     }
     .u-red {
-      color: var(--vote-text-color-disliked);
+      color: var(--negative-red-text-color);
     }
     .u-gray-background {
       background-color: var(--table-header-background-color);

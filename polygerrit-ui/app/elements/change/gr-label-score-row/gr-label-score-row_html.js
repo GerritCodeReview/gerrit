@@ -53,7 +53,6 @@ export const htmlTemplate = html`
           --button-background-color,
           var(--table-header-background-color)
         );
-        color: var(--primary-text-color);
         padding: 0 var(--spacing-m);
         @apply --vote-chip-styles;
       }

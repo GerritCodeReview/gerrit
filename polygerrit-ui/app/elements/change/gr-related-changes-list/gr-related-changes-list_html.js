@@ -79,7 +79,7 @@ export const htmlTemplate = html`
       color: #1b5e20;
     }
     .submittableCheck {
-      color: var(--vote-text-color-recommended);
+      color: var(--positive-green-text-color);
       display: none;
     }
     .submittableCheck.submittable {

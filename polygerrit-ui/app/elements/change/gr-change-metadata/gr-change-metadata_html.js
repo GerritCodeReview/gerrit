@@ -74,10 +74,10 @@ export const htmlTemplate = html`
       color: #ffa62f;
     }
     .icon.invalid {
-      color: var(--vote-text-color-disliked);
+      color: var(--negative-red-text-color);
     }
     .icon.trusted {
-      color: var(--vote-text-color-recommended);
+      color: var(--positive-green-text-color);
     }
     .parentList.notCurrent.nonMerge #parentNotCurrentMessage {
       --arrow-color: #ffa62f;

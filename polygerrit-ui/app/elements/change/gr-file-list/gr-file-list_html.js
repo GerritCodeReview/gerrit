@@ -151,10 +151,10 @@ export const htmlTemplate = html`
       min-width: 3.5em;
     }
     .added {
-      color: var(--vote-text-color-recommended);
+      color: var(--positive-green-text-color);
     }
     .removed {
-      color: var(--vote-text-color-disliked);
+      color: var(--negative-red-text-color);
       text-align: left;
       min-width: 4em;
       padding-left: var(--spacing-s);
@@ -396,14 +396,14 @@ export const htmlTemplate = html`
                 x$="[[_computeBarAdditionX(file, _sizeBarLayout)]]"
                 y="0"
                 height="8"
-                fill="#388E3C"
+                fill="var(--positive-green-text-color)"
                 width$="[[_computeBarAdditionWidth(file, _sizeBarLayout)]]"
               ></rect>
               <rect
                 x$="[[_computeBarDeletionX(_sizeBarLayout)]]"
                 y="0"
                 height="8"
-                fill="#D32F2F"
+                fill="var(--negative-red-text-color)"
                 width$="[[_computeBarDeletionWidth(file, _sizeBarLayout)]]"
               ></rect>
             </svg>

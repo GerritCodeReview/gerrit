@@ -132,7 +132,7 @@ export const htmlTemplate = html`
     }
     .score {
       border-radius: var(--border-radius);
-      color: var(--primary-text-color);
+      color: var(--vote-text-color);
       display: inline-block;
       padding: 0 var(--spacing-s);
       text-align: center;

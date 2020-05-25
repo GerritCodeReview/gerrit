@@ -39,9 +39,9 @@ html {
     /* Used on text color for change list that doesn't need user's attention. */
   --reviewed-text-color: black;
   --tooltip-text-color: white;
-  --vote-text-color-recommended: #388e3c;
-  --vote-text-color-disliked: #d32f2f;
-
+  --negative-red-text-color: #d93025;
+  --positive-green-text-color: #188038;
+  
   /* background colors */
   /* primary background colors */
   --background-color-primary: #ffffff;

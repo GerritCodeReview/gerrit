@@ -273,7 +273,7 @@ class GrMessage extends GestureEventListeners(
   _computeMessageContentCollapsed(content, tag, commentThreads) {
     const summary =
       this._computeMessageContent(content, tag, false);
-    if (summary || !commentThreads) return;
+    if (summary || !commentThreads) return summary;
     return this._patchsetCommentSummary(commentThreads);
   }
 

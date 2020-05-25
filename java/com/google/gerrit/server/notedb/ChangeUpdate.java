@@ -65,6 +65,7 @@ import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.util.AttentionSetUtil;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.assistedinject.Assisted;
@@ -80,6 +81,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -583,6 +585,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     if (status != null) {
       addFooter(msg, FOOTER_STATUS, status.name().toLowerCase());
+      if (status.equals(Change.Status.ABANDONED)) {
+        clearAttentionSet(msg, "Change was abandoned");
+      }
+      if (status.equals(Change.Status.MERGED)) {
+        clearAttentionSet(msg, "Change was submitted");
+      }
     }
 
     if (topic != null) {
@@ -686,6 +694,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     if (workInProgress != null) {
       addFooter(msg, FOOTER_WORK_IN_PROGRESS, workInProgress);
+      if (workInProgress) {
+        clearAttentionSet(msg, "Change was marked work in progress");
+      }
     }
 
     if (revertOf != null) {
@@ -707,6 +718,23 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       throw new StorageException(e);
     }
     return cb;
+  }
+
+  private void clearAttentionSet(StringBuilder msg, String reason) {
+    if (getNotes().getAttentionSet() == null) {
+      return;
+    }
+    Set<AttentionSetUpdate> toClear =
+        AttentionSetUtil.additionsOnly(getNotes().getAttentionSet()).stream()
+            .map(
+                a ->
+                    AttentionSetUpdate.createForWrite(
+                        a.account(), AttentionSetUpdate.Operation.REMOVE, reason))
+            .collect(Collectors.toSet());
+
+    for (AttentionSetUpdate attentionSetUpdate : toClear) {
+      addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));
+    }
   }
 
   private void addPatchSetFooter(StringBuilder sb, int ps) {

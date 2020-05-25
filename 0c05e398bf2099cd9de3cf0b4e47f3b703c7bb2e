@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8d4b31b_ab592e78",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-25T12:33:42Z",
+      "side": 1,
+      "message": "Why do you change formatting?",
+      "revId": "0c05e398bf2099cd9de3cf0b4e47f3b703c7bb2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

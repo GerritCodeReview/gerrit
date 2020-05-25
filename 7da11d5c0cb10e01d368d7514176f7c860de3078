@@ -139,6 +139,24 @@
       "revId": "7da11d5c0cb10e01d368d7514176f7c860de3078",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9405617_71a5a5c4",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-25T09:00:09Z",
+      "side": 1,
+      "message": "you probably right :) for me, I intend to do less in the test and mimic the actual use case as much as possible, for example, maybe better to verify _computeGroups by checking against a series of UI actions and UI elements instead of checking by calling it explicitly ?",
+      "parentUuid": "6378d76f_b40a4d43",
+      "revId": "7da11d5c0cb10e01d368d7514176f7c860de3078",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

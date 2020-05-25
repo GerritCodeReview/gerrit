@@ -277,7 +277,10 @@ export const htmlTemplate = html`
         ></gr-date-formatter>
       </span>
       <div class="show-hide">
-        <label class="show-hide">
+        <label
+          class="show-hide"
+          aria-label="[[_computeShowHideAriaLabel(collapsed)]]"
+        >
           <input
             type="checkbox"
             class="show-hide"

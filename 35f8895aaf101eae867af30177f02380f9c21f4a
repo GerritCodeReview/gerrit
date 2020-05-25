@@ -70,6 +70,30 @@
       "revId": "35f8895aaf101eae867af30177f02380f9c21f4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6b5cec1_488314cd",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-25T14:09:20Z",
+      "side": 1,
+      "message": "i think what I asked is the line after the `if (summary....` should also be tested and its better to test that compared to only test `_patchsetCommentSummary` directly..",
+      "parentUuid": "aacfe30c_04fc8188",
+      "range": {
+        "startLine": 255,
+        "startChar": 21,
+        "endLine": 255,
+        "endChar": 27
+      },
+      "revId": "35f8895aaf101eae867af30177f02380f9c21f4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

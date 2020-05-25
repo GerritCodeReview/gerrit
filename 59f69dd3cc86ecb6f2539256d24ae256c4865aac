@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6aac86f_77425764",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-25T12:13:18Z",
+      "side": 1,
+      "message": "The height of the row has grown, and the alignment of the two icons (link and expand) looks wrong.",
+      "revId": "59f69dd3cc86ecb6f2539256d24ae256c4865aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b143d50_7d4e3b4e",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-25T12:13:18Z",
+      "side": 1,
+      "message": "better return \u0027\u0027",
+      "range": {
+        "startLine": 425,
+        "startChar": 48,
+        "endLine": 425,
+        "endChar": 54
+      },
+      "revId": "59f69dd3cc86ecb6f2539256d24ae256c4865aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b44bea0e_9488424e",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message_html.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-25T12:13:18Z",
+      "side": 1,
+      "message": "What is the purpose of wrapping the \u003ca\u003e with a \u003cgr-button\u003e?",
+      "revId": "59f69dd3cc86ecb6f2539256d24ae256c4865aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9305f36_9eda7da3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-icons/gr-icons.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-25T12:13:18Z",
+      "side": 1,
+      "message": "Add a line above this about where this is copied from.",
+      "revId": "59f69dd3cc86ecb6f2539256d24ae256c4865aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

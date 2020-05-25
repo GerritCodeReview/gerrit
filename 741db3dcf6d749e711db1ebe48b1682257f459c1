@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "bb3234c7_4cc64a43",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-25T08:25:48Z",
+      "side": 1,
+      "message": "Sure.",
+      "parentUuid": "980353c7_b18908be",
+      "range": {
+        "startLine": 53,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 8
+      },
+      "revId": "741db3dcf6d749e711db1ebe48b1682257f459c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b849606_75fa93c0",
         "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
         "patchSetId": 5
@@ -155,6 +179,30 @@
       "side": 1,
       "message": "No, I don\u0027t think it reuses the inbound email\u0027s ID since mailMessage.id() is not Message-Id. Also, if I understand correctly, inbound emails don\u0027t have Message-Id since they are not sent by Gerrit. Did I miss something?",
       "parentUuid": "6d908707_116e9fd4",
+      "range": {
+        "startLine": 98,
+        "startChar": 54,
+        "endLine": 98,
+        "endChar": 70
+      },
+      "revId": "741db3dcf6d749e711db1ebe48b1682257f459c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a527e6ac_85fcdf5c",
+        "filename": "java/com/google/gerrit/server/mail/send/MessageIdGenerator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-25T08:25:48Z",
+      "side": 1,
+      "message": "I think MailMessage#id is the parsed Message-ID header as per RFC. The tests confirm that, for example: \n\nSimpleTextMessage#expectedMailMessage\nRawMailParser l.61\n\nIt\u0027s not set by Gerrit, but by the email client that sent us the message. If we reuse it, it still becomes non-unique because now we have 2 messages with the same ID.",
+      "parentUuid": "8b111dca_3808c3b5",
       "range": {
         "startLine": 98,
         "startChar": 54,

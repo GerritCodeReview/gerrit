@@ -16,6 +16,8 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.Iterables;
+import com.google.common.collect.UnmodifiableIterator;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -23,6 +25,7 @@ import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.extensions.api.changes.AddToAttentionSetInput;
 import com.google.gerrit.extensions.api.changes.RemoveFromAttentionSetInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.server.util.time.TimeUtil;
 import java.time.Duration;
 import java.time.Instant;
@@ -132,5 +135,63 @@ public class AttentionSetIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     change(r).attention(user.id().toString()).remove(new RemoveFromAttentionSetInput("foo"));
     assertThat(r.getChange().attentionSet()).isEmpty();
+  }
+
+  @Test
+  public void abandonRemovesUsers() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r).addToAttentionSet(new AddToAttentionSetInput(user.email(), "user"));
+    change(r).addToAttentionSet(new AddToAttentionSetInput(admin.email(), "admin"));
+
+    change(r).abandon();
+
+    UnmodifiableIterator<AttentionSetUpdate> attentionSets =
+        r.getChange().attentionSet().iterator();
+    AttentionSetUpdate userUpdate = attentionSets.next();
+    assertThat(userUpdate.account()).isEqualTo(user.id());
+    assertThat(userUpdate.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(userUpdate.reason()).isEqualTo("Change was abandoned");
+
+    AttentionSetUpdate adminUpdate = attentionSets.next();
+    assertThat(adminUpdate.account()).isEqualTo(admin.id());
+    assertThat(adminUpdate.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(adminUpdate.reason()).isEqualTo("Change was abandoned");
+  }
+
+  @Test
+  public void workInProgressRemovesUsers() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r).addToAttentionSet(new AddToAttentionSetInput(user.email(), "reason"));
+
+    change(r).setWorkInProgress();
+
+    AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet.reason()).isEqualTo("Change was marked work in progress");
+  }
+
+  @Test
+  public void submitRemovesUsersForAllSubmittedChanges() throws Exception {
+    PushOneCommit.Result r1 = createChange("refs/heads/master", "file1", "content");
+    change(r1).addToAttentionSet(new AddToAttentionSetInput(user.email(), "reason"));
+    change(r1).current().review(ReviewInput.approve());
+
+    PushOneCommit.Result r2 = createChange("refs/heads/master", "file2", "content");
+
+    change(r2).addToAttentionSet(new AddToAttentionSetInput(user.email(), "reason"));
+    change(r2).current().review(ReviewInput.approve());
+
+    change(r2).current().submit();
+
+    AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r1.getChange().attentionSet());
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet.reason()).isEqualTo("Change was submitted");
+
+    attentionSet = Iterables.getOnlyElement(r2.getChange().attentionSet());
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet.reason()).isEqualTo("Change was submitted");
   }
 }

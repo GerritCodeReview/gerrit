@@ -315,6 +315,7 @@ export const htmlTemplate = html`
           <span class="editButton">
             <gr-button
               link=""
+              label="Edit current file"
               title="Edit current file"
               on-click="_goToEditFile"
               >edit</gr-button

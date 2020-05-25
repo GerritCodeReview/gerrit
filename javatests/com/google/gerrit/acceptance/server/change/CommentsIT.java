@@ -212,6 +212,20 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void patchsetLevelCommentEmailNotification() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    CommentInput comment = newCommentWithOnlyMandatoryFields(PATCHSET_LEVEL, "comment");
+    addComments(changeId, ps1, comment);
+
+    String emailBody = Iterables.getOnlyElement(email.getMessages()).body();
+    assertThat(emailBody).contains("Patchset");
+    assertThat(emailBody).doesNotContain("/PATCHSET_LEVEL");
+  }
+
+  @Test
   public void patchsetLevelCommentCantHaveLine() throws Exception {
     PushOneCommit.Result result = createChange();
     String changeId = result.getChangeId();

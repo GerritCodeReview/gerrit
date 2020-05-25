@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31526a1a_2184a960",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 2139,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-25T10:27:06Z",
+      "side": 1,
+      "message": "is it possible that the `editControls` not available when this method gets called ? since you moved it behind if now",
+      "revId": "0db9276a176b911f30bfb6fd469b1cc9ac495567",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83e58db1_df73f35c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-25T10:27:06Z",
+      "side": 1,
+      "message": "you might also want to a test to make sure the `#editControls` not in dom when editMode is false initially, as that\u0027s the purpose of this change right ? you want to make sure its not in the dom to reduce the size of the dom instead of just hiding them",
+      "revId": "0db9276a176b911f30bfb6fd469b1cc9ac495567",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

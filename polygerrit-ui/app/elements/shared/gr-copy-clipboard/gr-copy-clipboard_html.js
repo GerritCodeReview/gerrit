@@ -79,6 +79,7 @@ export const htmlTemplate = html`
       class="copyToClipboard"
       title="[[buttonTitle]]"
       on-click="_copyToClipboard"
+      aria-label="Click to copy to clipboard"
     >
       <iron-icon id="icon" icon="gr-icons:content-copy"></iron-icon>
     </gr-button>

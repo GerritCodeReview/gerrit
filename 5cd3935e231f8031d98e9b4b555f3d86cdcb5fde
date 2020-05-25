@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f72c3c7_a9a3cd52",
+        "filename": "polygerrit-ui/app/samples/bind-parameters.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-25T10:39:02Z",
+      "side": 1,
+      "message": "samples/* files are plugin examples right ? will they be imported to any file ? I am curious where the error of redeclaration is from",
+      "revId": "5cd3935e231f8031d98e9b4b555f3d86cdcb5fde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e337f1af_16cca4b7",
+        "filename": "polygerrit-ui/app/samples/bind-parameters.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-25T10:39:02Z",
+      "side": 1,
+      "message": "hmm so only `Element` has issues ? `html` is fine ? compared to have the comments above, maybe just replace `html` with `Polymer.html` as well.. otherwise personally I think its even more confusing... (or maybe add the reason why `html` works just fine to avoid questions like this one)",
+      "revId": "5cd3935e231f8031d98e9b4b555f3d86cdcb5fde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -443,6 +443,8 @@ export const htmlTemplate = html`
                 <gr-button
                   id="replyBtn"
                   class="reply"
+                  label="[[createTitle(Shortcut.OPEN_REPLY_DIALOG,
+                        ShortcutSection.ACTIONS)]]"
                   title="[[createTitle(Shortcut.OPEN_REPLY_DIALOG,
                         ShortcutSection.ACTIONS)]]"
                   hidden$="[[!_loggedIn]]"

@@ -53,7 +53,6 @@ export const htmlTemplate = html`
         data-account-id$="[[account._account_id]]"
         removable="[[_computeRemovable(account, readonly)]]"
         on-keydown="_handleChipKeydown"
-        tabindex="-1"
       >
       </gr-account-chip>
     </template>

@@ -215,6 +215,24 @@
     },
     {
       "key": {
+        "uuid": "77226cb7_8a04ce45",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-25T20:44:18Z",
+      "side": 1,
+      "message": "\u003e The way that I read Matthias change is that he is moving all SSH related things into an SSH sub package? So by that you could build JGit without any ssh support?\n\nThat\u0027s correct. I have uploaded the adaptation change to gerrit: [1] to demonstrate what would have to be done to adapt the build tool chain to: [2]. Note, though, that the package names have not changed. So, basically you would only need to add new third party dependency to your monorepo and only for the test part of your build, done.\n\n\u003e I think this won\u0027t make it into 3.2 regardless. I am also not so sure adding a library on such short notice would be a good idea.\n\nLet\u0027s move that change to master, then.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/268846\n[2] https://git.eclipse.org/r/#/c/156153",
+      "parentUuid": "b842f496_ed21a36f",
+      "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b69f60e5_c78af6d5",
         "filename": "java/com/google/gerrit/server/BUILD",
         "patchSetId": 19

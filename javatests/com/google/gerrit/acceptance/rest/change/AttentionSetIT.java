@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -23,6 +24,7 @@ import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.extensions.api.changes.AddToAttentionSetInput;
 import com.google.gerrit.extensions.api.changes.RemoveFromAttentionSetInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.server.util.time.TimeUtil;
 import java.time.Duration;
 import java.time.Instant;
@@ -132,5 +134,83 @@ public class AttentionSetIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     change(r).attention(user.id().toString()).remove(new RemoveFromAttentionSetInput("foo"));
     assertThat(r.getChange().attentionSet()).isEmpty();
+  }
+
+  @Test
+  public void abandonRemovesUsers() throws Exception {
+    PushOneCommit.Result r = createChange();
+    int accountId =
+        change(r).addToAttentionSet(new AddToAttentionSetInput(user.email(), "user"))._accountId;
+    assertThat(accountId).isEqualTo(user.id().get());
+
+    AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet.reason()).isEqualTo("user");
+
+    change(r).abandon();
+
+    attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet.reason()).isEqualTo("Change was closed");
+  }
+
+  @Test
+  public void workInProgressRemovesUsers() throws Exception {
+    PushOneCommit.Result r = createChange();
+    int accountId =
+        change(r).addToAttentionSet(new AddToAttentionSetInput(user.email(), "user"))._accountId;
+    assertThat(accountId).isEqualTo(user.id().get());
+
+    AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet.reason()).isEqualTo("user");
+
+    change(r).setWorkInProgress();
+
+    attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet.reason()).isEqualTo("Change is work in progress");
+  }
+
+  @Test
+  public void submitRemovesUsersForAllSubmittedChanges() throws Exception {
+    PushOneCommit.Result r1 = createChange("refs/heads/master", "file1", "content");
+    int accountId =
+        change(r1).addToAttentionSet(new AddToAttentionSetInput(user.email(), "user"))._accountId;
+    assertThat(accountId).isEqualTo(user.id().get());
+    change(r1).current().review(ReviewInput.approve());
+
+    AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r1.getChange().attentionSet());
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet.reason()).isEqualTo("user");
+
+    PushOneCommit.Result r2 = createChange("refs/heads/master", "file2", "content");
+
+    accountId =
+        change(r2).addToAttentionSet(new AddToAttentionSetInput(user.email(), "user"))._accountId;
+    assertThat(accountId).isEqualTo(user.id().get());
+    change(r2).current().review(ReviewInput.approve());
+
+    attentionSet = Iterables.getOnlyElement(r2.getChange().attentionSet());
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet.reason()).isEqualTo("user");
+
+    change(r2).current().submit();
+
+    attentionSet = Iterables.getOnlyElement(r1.getChange().attentionSet());
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet.reason()).isEqualTo("Change was closed");
+
+    attentionSet = Iterables.getOnlyElement(r2.getChange().attentionSet());
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet.reason()).isEqualTo("Change was closed");
   }
 }

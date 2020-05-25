@@ -80,6 +80,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -583,6 +584,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     if (status != null) {
       addFooter(msg, FOOTER_STATUS, status.name().toLowerCase());
+      if (status.isClosed()) {
+        clearAttentionSet(msg, "Change was closed");
+      }
     }
 
     if (topic != null) {
@@ -686,6 +690,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     if (workInProgress != null) {
       addFooter(msg, FOOTER_WORK_IN_PROGRESS, workInProgress);
+      if (workInProgress) {
+        clearAttentionSet(msg, "Change is work in progress");
+      }
     }
 
     if (revertOf != null) {
@@ -707,6 +714,24 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       throw new StorageException(e);
     }
     return cb;
+  }
+
+  private void clearAttentionSet(StringBuilder msg, String reason) {
+    if (getNotes().getAttentionSet() == null) {
+      return;
+    }
+    Set<AttentionSetUpdate> toClear =
+        getNotes().getAttentionSet().stream()
+            .filter(a -> a.operation().equals(AttentionSetUpdate.Operation.ADD))
+            .map(
+                a ->
+                    AttentionSetUpdate.createForWrite(
+                        a.account(), AttentionSetUpdate.Operation.REMOVE, reason))
+            .collect(Collectors.toSet());
+
+    for (AttentionSetUpdate attentionSetUpdate : toClear) {
+      addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));
+    }
   }
 
   private void addPatchSetFooter(StringBuilder sb, int ps) {

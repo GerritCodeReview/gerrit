@@ -179,6 +179,24 @@
     },
     {
       "key": {
+        "uuid": "41d4edf5_935e5cb4",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-25T07:54:43Z",
+      "side": 1,
+      "message": "\u003e We currently don\u0027t have this dependency inside Google. For testing only, we could add it. The problem is that our Apache SSH lib is at 2.1 and JGit is using 2.4 which is incompatible as well.\n\u003e \n\u003e It will require effort to get Apache SSH updated to 2.4 and make JGit test dependencies for our Gerrit to have a test dependency on.\n\u003e \n\u003e I would prefer if we didn\u0027t have to do this [...]\n\nIn light of this major issue: switching SSH implementaion in JGit: [1]\nI don\u0027t think you have much a choise to avoid (or even procrastinate) adding new dependencies to Google\u0027s monorepo related to JCraft JSch and Apache MINA SSH clients, see Matthias Sohn\u0027s summary provided in this comment: [2].\n\nThe current way how JGit core is undconditionally packaging its dependency on JCraft\u0027s JSch will be abandoned once this CL is merged: [2]. So even in short term\n(next couple of weeks?) you would have to add new dependency to new JGit \"org.eclipse.jgit.ssh.jsch\" artifact, once this CL is merged upstream: [3], see also the related issue: [4].\n\nNow it is probably easier to understand what this change is doing: it is adding new dependency on \"org.eclipse.jgit.ssh.apache\" for the SSH client transport layer, because JSch is known to have major bugs and is unmaintained.\n\nAgain, in mid term, Gerrit would offer both SSH clients with a switch, but long term plan is to drop support for org.eclipse.jgit.ssh.jsch SSH client implementation entirely.\n\nThat all means for Google:\n\n* Add 2 new JGit dependencies on \"org.eclipse.jgit.ssh.apache\" and \"org.eclipse.jgit.ssh.jsch\"\n* Bump JGit to master\n* Bump Apache MINA SSHD to 2.4\n\nI know, that the above plan will take months (or years?), but you have to start at some point and file those requests against third-party team @Google. Please let me know, if justification above and the pointer to upstream issues I gave you is enough to file those requests, or if you need more informations.\n\n[1] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d520927\n[2] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d12599#c7\n[3] https://git.eclipse.org/r/#/c/156153\n[4] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d553625",
+      "parentUuid": "d5acf7d0_11eb1394",
+      "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b69f60e5_c78af6d5",
         "filename": "java/com/google/gerrit/server/BUILD",
         "patchSetId": 19

@@ -255,6 +255,8 @@ export const htmlTemplate = html`
       }
     }
     .pathLink:hover gr-copy-clipboard,
+    .pathLink:focus gr-copy-clipboard,
+    .oldPath:focus gr-copy-clipboard,
     .oldPath:hover gr-copy-clipboard {
       visibility: visible;
     }

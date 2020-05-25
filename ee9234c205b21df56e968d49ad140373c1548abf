@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba8532a2_35be84f2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 2138,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-25T22:18:00Z",
+      "side": 1,
+      "message": "We should add a note to mention that setting this flag doesn\u0027t guarantee that the rolling upgrade is possible. The release notes would tell if and how the rolling upgrade may work.",
+      "revId": "ee9234c205b21df56e968d49ad140373c1548abf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d17a717_0a0f0872",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersionCheck.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-25T22:18:00Z",
+      "side": 1,
+      "message": "\u003e expected",
+      "range": {
+        "startLine": 68,
+        "startChar": 18,
+        "endLine": 68,
+        "endChar": 25
+      },
+      "revId": "ee9234c205b21df56e968d49ad140373c1548abf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab3dfee2_eac14de2",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersions.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-25T22:18:00Z",
+      "side": 1,
+      "message": "Not useful and error-prone: best to just allow to have a more recent schema version and delegate the verification to the Gerrit admin checking the release notes.",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 54
+      },
+      "revId": "ee9234c205b21df56e968d49ad140373c1548abf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

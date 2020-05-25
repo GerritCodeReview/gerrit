@@ -39,7 +39,7 @@ suite('gr-autocomplete tests', () => {
     sandbox.restore();
   });
 
-  test('renders', () => {
+  test('renders', async () => {
     let promise;
     const queryStub = sandbox.spy(input => promise = Promise.resolve([
       {name: input + ' 0', value: 0},
@@ -50,6 +50,7 @@ suite('gr-autocomplete tests', () => {
     ]));
     element.query = queryStub;
     assert.isTrue(element.$.suggestions.isHidden);
+    assert.equal(element.$.input.getAttribute('aria-expanded'), "false");
     assert.equal(element.$.suggestions.$.cursor.index, -1);
 
     focusOnInput(element);
@@ -58,18 +59,18 @@ suite('gr-autocomplete tests', () => {
     assert.isTrue(queryStub.called);
     element._focused = true;
 
-    return promise.then(() => {
-      assert.isFalse(element.$.suggestions.isHidden);
-      const suggestions =
-          dom(element.$.suggestions.root).querySelectorAll('li');
-      assert.equal(suggestions.length, 5);
+    await flush();
+    assert.isFalse(element.$.suggestions.isHidden);
+    assert.equal(element.$.input.getAttribute('aria-expanded'), "true");
+    const suggestions =
+        dom(element.$.suggestions.root).querySelectorAll('li');
+    assert.equal(suggestions.length, 5);
 
-      for (let i = 0; i < 5; i++) {
-        assert.equal(suggestions[i].innerText.trim(), 'blah ' + i);
-      }
+    for (let i = 0; i < 5; i++) {
+      assert.equal(suggestions[i].innerText.trim(), 'blah ' + i);
+    }
 
-      assert.notEqual(element.$.suggestions.$.cursor.index, -1);
-    });
+    assert.notEqual(element.$.suggestions.$.cursor.index, -1);
   });
 
   test('selectAll', done => {
@@ -87,7 +88,7 @@ suite('gr-autocomplete tests', () => {
     });
   });
 
-  test('esc key behavior', done => {
+  test('esc key behavior', async () => {
     let promise;
     const queryStub = sandbox.spy(() => promise = Promise.resolve([
       {name: 'blah', value: 123},
@@ -95,25 +96,27 @@ suite('gr-autocomplete tests', () => {
     element.query = queryStub;
 
     assert.isTrue(element.$.suggestions.isHidden);
+    assert.equal(element.$.input.getAttribute('aria-expanded'), "false");
 
     element._focused = true;
     element.text = 'blah';
 
-    promise.then(() => {
-      assert.isFalse(element.$.suggestions.isHidden);
+    await flush();
+    assert.isFalse(element.$.suggestions.isHidden);
+    assert.equal(element.$.input.getAttribute('aria-expanded'), "true");
 
-      const cancelHandler = sandbox.spy();
-      element.addEventListener('cancel', cancelHandler);
 
-      MockInteractions.pressAndReleaseKeyOn(element.$.input, 27, null, 'esc');
-      assert.isFalse(cancelHandler.called);
-      assert.isTrue(element.$.suggestions.isHidden);
-      assert.equal(element._suggestions.length, 0);
+    const cancelHandler = sandbox.spy();
+    element.addEventListener('cancel', cancelHandler);
 
-      MockInteractions.pressAndReleaseKeyOn(element.$.input, 27, null, 'esc');
-      assert.isTrue(cancelHandler.called);
-      done();
-    });
+    MockInteractions.pressAndReleaseKeyOn(element.$.input, 27, null, 'esc');
+    assert.isFalse(cancelHandler.called);
+    assert.isTrue(element.$.suggestions.isHidden);
+    assert.equal(element.$.input.getAttribute('aria-expanded'), "false");
+    assert.equal(element._suggestions.length, 0);
+
+    MockInteractions.pressAndReleaseKeyOn(element.$.input, 27, null, 'esc');
+    assert.isTrue(cancelHandler.called);
   });
 
   test('emits commit and handles cursor movement', done => {

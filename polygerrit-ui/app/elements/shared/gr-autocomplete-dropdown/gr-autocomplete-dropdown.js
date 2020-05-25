@@ -57,6 +57,7 @@ class GrAutocompleteDropdown extends mixinBehaviors( [
         type: Boolean,
         value: true,
         reflectToAttribute: true,
+        notify: true,
       },
       verticalOffset: {
         type: Number,

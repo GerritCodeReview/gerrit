@@ -69,8 +69,7 @@ export const htmlTemplate = html`
   <div
     class="dropdown-content"
     slot="dropdown-content"
-    id="suggestions"
-    role="listbox"
+    id="suggestions"    
   >
     <ul>
       <template is="dom-repeat" items="[[suggestions]]">

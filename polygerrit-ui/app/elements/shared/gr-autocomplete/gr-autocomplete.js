@@ -185,6 +185,11 @@ class GrAutocomplete extends mixinBehaviors( [
         value: false,
       },
 
+      _dropdownHidden: {
+        type: Boolean,
+        value: true,
+      },
+
       /** The DOM element of the selected suggestion. */
       _selected: Object,
     };
@@ -206,6 +211,13 @@ class GrAutocomplete extends mixinBehaviors( [
   attached() {
     super.attached();
     this.listen(document.body, 'click', '_handleBodyClick');
+    if(!this.hasAttribute('role')) {
+      // Set role only if not set
+      // See https://developers.google.com/web/fundamentals/web-components/best-practices#dont-override
+      // Also see https://www.w3.org/TR/2017/REC-wai-aria-1.1-20171214/#combobox
+      // for additional aria-... related requirements
+      this.setAttribute('role', 'combobox');
+    }
   }
 
   /** @override */
@@ -429,6 +441,10 @@ class GrAutocomplete extends mixinBehaviors( [
     e.stopPropagation();
     this.$.cursor.setCursor(e.target);
     this._commit();
+  }
+
+  _handleDropdownHiddenChanged(e) {
+    this._dropdownHidden = e.detail.value;
   }
 
   /**

@@ -73,7 +73,7 @@ export const htmlTemplate = html`
         font-size: inherit;
       }
     }
-  </style>
+  </style>  
   <paper-input
     no-label-float=""
     id="input"
@@ -85,6 +85,11 @@ export const htmlTemplate = html`
     on-focus="_onInputFocus"
     on-blur="_onInputBlur"
     autocomplete="off"
+    role="searchbox"
+    aria-multiline="false"
+    aria-label="paper input label"
+    aria-controls="suggestions"
+    aria-expanded="[[!_dropdownHidden]]"        
   >
     <!-- prefix as attribute is required to for polymer 1 -->
     <div slot="prefix" prefix="">
@@ -102,6 +107,7 @@ export const htmlTemplate = html`
     id="suggestions"
     on-item-selected="_handleItemSelect"
     on-keydown="_handleKeydown"
+    on-is-hidden-changed="_handleDropdownHiddenChanged"
     suggestions="[[_suggestions]]"
     role="listbox"
     index="[[_index]]"

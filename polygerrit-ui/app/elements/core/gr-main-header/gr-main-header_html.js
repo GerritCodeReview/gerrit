@@ -200,6 +200,8 @@ export const htmlTemplate = html`
       <gr-smart-search
         id="search"
         search-query="{{searchQuery}}"
+        aria-label="Changes"
+        role="search"
       ></gr-smart-search>
       <gr-endpoint-decorator
         class="hideOnMobile"

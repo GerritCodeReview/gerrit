@@ -117,7 +117,7 @@ export const htmlTemplate = html`
   <style include="gr-change-list-styles">
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
   </style>
-  <td class="cell leftPadding"></td>
+  <td aria-hidden="true" class="cell leftPadding"></td>
   <td class="cell star" hidden$="[[!showStar]]" hidden="">
     <gr-change-star change="{{change}}"></gr-change-star>
   </td>

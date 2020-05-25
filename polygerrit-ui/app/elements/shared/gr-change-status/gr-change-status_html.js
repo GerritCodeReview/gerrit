@@ -25,43 +25,43 @@ export const htmlTemplate = html`
       white-space: nowrap;
     }
     :host(.merged) .chip {
-      background-color: #5b9d52;
-      color: #5b9d52;
+      background-color: var(--status-merged);
+      color: var(--status-merged);
     }
     :host(.abandoned) .chip {
-      background-color: #afafaf;
-      color: #afafaf;
+      background-color: var(--status-abandoned);
+      color: var(--status-abandoned);
     }
     :host(.wip) .chip {
-      background-color: #8f756c;
-      color: #8f756c;
+      background-color: var(--status-wip);
+      color: var(--status-wip);
     }
     :host(.private) .chip {
-      background-color: #c17ccf;
-      color: #c17ccf;
+      background-color: var(--status-private);
+      color: var(--status-private);
     }
     :host(.merge-conflict) .chip {
-      background-color: #dc5c60;
-      color: #dc5c60;
+      background-color: var(--status-conflict);
+      color: var(--status-conflict);
     }
     :host(.active) .chip {
-      background-color: #29b6f6;
-      color: #29b6f6;
+      background-color: var(--status-active);
+      color: var(--status-active);
     }
     :host(.ready-to-submit) .chip {
-      background-color: #e10ca3;
-      color: #e10ca3;
+      background-color: var(--status-ready);
+      color: var(--status-ready);
     }
     :host(.custom) .chip {
-      background-color: #825cc2;
-      color: #825cc2;
+      background-color: var(--status-custom);
+      color: var(--status-custom);
     }
     :host([flat]) .chip {
       background-color: transparent;
       padding: 0;
     }
     :host(:not([flat])) .chip {
-      color: white;
+      color: var(--status-text-color);
     }
   </style>
   <gr-tooltip-content

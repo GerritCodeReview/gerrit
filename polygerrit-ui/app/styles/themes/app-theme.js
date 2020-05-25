@@ -38,6 +38,7 @@ html {
   --primary-button-text-color: white;
     /* Used on text color for change list that doesn't need user's attention. */
   --reviewed-text-color: black;
+  --status-text-color: white;
   --tooltip-text-color: white;
   --vote-text-color-recommended: #388e3c;
   --vote-text-color-disliked: #d32f2f;
@@ -82,6 +83,16 @@ html {
   /* misc colors */
   --border-color: #e8e8e8;
   --comment-separator-color: #dadce0;
+
+  /* status colors */
+  --status-merged: #188038;
+  --status-abandoned: #5f6368;
+  --status-wip: #795548;
+  --status-private: #a142f4;
+  --status-conflict: #d93025;
+  --status-active: #1976d2;
+  --status-ready: #b80672;
+  --status-custom: #681da8;
 
   /* fonts */
   --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';

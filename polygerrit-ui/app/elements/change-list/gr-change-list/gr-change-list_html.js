@@ -103,7 +103,11 @@ export const htmlTemplate = html`
               </td>
             </template>
             <template is="dom-repeat" items="[[labelNames]]" as="labelName">
-              <td class="label" title$="[[labelName]]">
+              <td
+                class="label"
+                aria-label="[[labelName]]"
+                title$="[[labelName]]"
+              >
                 [[_computeLabelShortcut(labelName)]]
               </td>
             </template>

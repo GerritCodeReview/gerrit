@@ -98,10 +98,11 @@ export const htmlTemplate = html`
       <section class="darkToggle">
         <div class="toggle">
           <paper-toggle-button
+            aria-labelledby="darkThemeToggleLabel"
             checked="[[_isDark]]"
             on-change="_handleToggleDark"
           ></paper-toggle-button>
-          <div>Dark theme (alpha)</div>
+          <div id="darkThemeToggleLabel">Dark theme (alpha)</div>
         </div>
         <p>
           Gerrit's dark theme is in early alpha, and almost definitely will not

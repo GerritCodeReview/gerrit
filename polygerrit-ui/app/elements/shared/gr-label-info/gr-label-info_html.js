@@ -109,7 +109,7 @@ export const htmlTemplate = html`
         <td>
           <gr-button
             link=""
-            aria-label="Remove"
+            aria-label="Remove vote"
             on-click="_onDeleteVote"
             tooltip="Remove vote"
             data-account-id$="[[mappedLabel.account._account_id]]"

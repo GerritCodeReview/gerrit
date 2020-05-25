@@ -117,6 +117,30 @@
       "revId": "e34909c867cb22eea9f88b62a73b5d1d9fcba939",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc2b0a6f_bd846883",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-25T22:21:20Z",
+      "side": 1,
+      "message": "I would prefer to avoid creating false expectations that setting this flag would enable \"the magic to happen\", as there may be gotchas and restrictions form version to version. Coding all of them here is going to be difficult and prone to errors anyway.\n\nI would prefer to relax the check and improving the documentation.",
+      "parentUuid": "8256b4bc_772ab32e",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 54
+      },
+      "revId": "e34909c867cb22eea9f88b62a73b5d1d9fcba939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

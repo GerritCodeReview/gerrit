@@ -277,7 +277,7 @@ export const htmlTemplate = html`
         ></gr-date-formatter>
       </span>
       <div class="show-hide">
-        <label class="show-hide">
+        <label class="show-hide" aria-label="Expand and collapse toggler">
           <input
             type="checkbox"
             class="show-hide"

@@ -347,6 +347,10 @@ class GrComment extends mixinBehaviors( [
     return collapsed ? 'gr-icons:expand-more' : 'gr-icons:expand-less';
   }
 
+  _computeShowHideAriaLabel(collapsed) {
+    return collapsed ? 'Expand' : 'Collapse';
+  }
+
   _calculateActionstoShow(showActions, isRobotComment) {
     // Polymer 2: check for undefined
     if ([showActions, isRobotComment].some(arg => arg === undefined)) {

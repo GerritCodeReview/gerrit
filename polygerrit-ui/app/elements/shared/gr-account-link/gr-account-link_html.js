@@ -40,7 +40,7 @@ export const htmlTemplate = html`
     }
   </style>
   <span>
-    <a href$="[[_computeOwnerLink(account)]]" tabindex="-1">
+    <a href$="[[_computeOwnerLink(account)]]">
       <gr-account-label
         show-attention="[[showAttention]]"
         hide-avatar="[[hideAvatar]]"

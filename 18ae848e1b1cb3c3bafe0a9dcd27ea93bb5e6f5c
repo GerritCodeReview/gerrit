@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15baacc4_7d6e4a84",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-25T12:28:59Z",
+      "side": 1,
+      "message": "should not this return `summary` instead ?",
+      "revId": "18ae848e1b1cb3c3bafe0a9dcd27ea93bb5e6f5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

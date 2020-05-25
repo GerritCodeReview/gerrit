@@ -141,6 +141,30 @@
       "revId": "e34909c867cb22eea9f88b62a73b5d1d9fcba939",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fa55082_39032193",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersions.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-25T23:10:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc2b0a6f_bd846883",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 54
+      },
+      "revId": "e34909c867cb22eea9f88b62a73b5d1d9fcba939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

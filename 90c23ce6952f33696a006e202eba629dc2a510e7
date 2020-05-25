@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8ef9c38c_4e41be77",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-25T13:13:04Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a119bd11_4b1ab5c8",
+      "range": {
+        "startLine": 446,
+        "startChar": 18,
+        "endLine": 446,
+        "endChar": 23
+      },
+      "revId": "90c23ce6952f33696a006e202eba629dc2a510e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96c079b0_28bd592c",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.js",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "90c23ce6952f33696a006e202eba629dc2a510e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c38e6f75_24bf8bf6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-25T13:13:04Z",
+      "side": 1,
+      "message": "As discussed on team chat, yes.\nHence abandoning this change.",
+      "parentUuid": "96c079b0_28bd592c",
+      "range": {
+        "startLine": 448,
+        "startChar": 18,
+        "endLine": 448,
+        "endChar": 23
+      },
+      "revId": "90c23ce6952f33696a006e202eba629dc2a510e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

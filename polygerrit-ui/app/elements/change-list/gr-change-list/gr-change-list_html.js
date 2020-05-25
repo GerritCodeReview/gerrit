@@ -52,8 +52,13 @@ export const htmlTemplate = html`
       <template is="dom-if" if="[[changeSection.name]]">
         <tbody>
           <tr class="groupHeader">
-            <td class="leftPadding"></td>
-            <td class="star" hidden$="[[!showStar]]" hidden=""></td>
+            <td aria-hidden="true" class="leftPadding"></td>
+            <td
+              aria-hidden="true"
+              class="star"
+              hidden$="[[!showStar]]"
+              hidden=""
+            ></td>
             <td
               class="cell"
               colspan$="[[_computeColspan(changeTableColumns, labelNames)]]"
@@ -74,8 +79,8 @@ export const htmlTemplate = html`
       <tbody class="groupContent">
         <template is="dom-if" if="[[_isEmpty(changeSection)]]">
           <tr class="noChanges">
-            <td class="leftPadding"></td>
-            <td class="star" hidden$="[[!showStar]]" hidden=""></td>
+            <td aria-hidden="true" class="leftPadding"></td>
+            <td aria-hidden="true" class="star" hidden></td>
             <td
               class="cell"
               colspan$="[[_computeColspan(changeTableColumns, labelNames)]]"
@@ -91,8 +96,13 @@ export const htmlTemplate = html`
         </template>
         <template is="dom-if" if="[[!_isEmpty(changeSection)]]">
           <tr class="groupTitle">
-            <td class="leftPadding"></td>
-            <td class="star" hidden$="[[!showStar]]" hidden=""></td>
+            <td aria-hidden="true" class="leftPadding"></td>
+            <td
+              aria-label="Star status column"
+              class="star"
+              hidden$="[[!showStar]]"
+              hidden=""
+            ></td>
             <td class="number" hidden$="[[!showNumber]]" hidden="">#</td>
             <template is="dom-repeat" items="[[changeTableColumns]]" as="item">
               <td

@@ -157,6 +157,24 @@
       "revId": "7da11d5c0cb10e01d368d7514176f7c860de3078",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3534895b_5f79a5e6",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-05-25T18:02:36Z",
+      "side": 1,
+      "message": "I\u0027m not sure what you mean by \"verify _computeGroups by checking against a series of UI actions and UI elements instead of checking by calling it explicitly\"?",
+      "parentUuid": "e9405617_71a5a5c4",
+      "revId": "7da11d5c0cb10e01d368d7514176f7c860de3078",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

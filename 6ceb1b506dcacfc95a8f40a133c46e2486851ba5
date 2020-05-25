@@ -99,6 +99,24 @@
       "revId": "6ceb1b506dcacfc95a8f40a133c46e2486851ba5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "926cd6a5_0153e6b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-05-25T14:22:24Z",
+      "side": 1,
+      "message": "\u003e Now if this \"test\" is run beside other test(s) that end up failing, then their negative return code wouldn\u0027t be eaten by this always-positive one, I assume (within bazel-test I mean).\n\nThis behaviour is right, as confirmed by I3b102d0ef\u0027s own thread.",
+      "parentUuid": "6c9eeaa8_8e174a78",
+      "revId": "6ceb1b506dcacfc95a8f40a133c46e2486851ba5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

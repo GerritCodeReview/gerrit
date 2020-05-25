@@ -197,6 +197,24 @@
     },
     {
       "key": {
+        "uuid": "b842f496_ed21a36f",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-25T08:09:22Z",
+      "side": 1,
+      "message": "Thanks for the additional context from the JGit world. I can follow up internally, but want be sure I understand the issue well enough first.\n\n\u003e In light of this major issue: switching SSH implementaion in JGit: [1]\n\u003e I don\u0027t think you have much a choise to avoid (or even procrastinate) adding new dependencies to Google\u0027s monorepo related to JCraft JSch and Apache MINA SSH clients, see Matthias Sohn\u0027s summary provided in this comment: [2].\n\nThe way that I read Matthias change is that he is moving all SSH related things into an SSH sub package? So by that you could build JGit without any ssh support?\n\n\u003e I know, that the above plan will take months (or years?)\n\nI hope not years :-)\n\nI think this won\u0027t make it into 3.2 regardless. I am also not so sure adding a library on such short notice would be a good idea. Last time we enabled a feature (Gitv2) on a stable branch before a release we got burnt. But leaving this to you.",
+      "parentUuid": "41d4edf5_935e5cb4",
+      "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b69f60e5_c78af6d5",
         "filename": "java/com/google/gerrit/server/BUILD",
         "patchSetId": 19

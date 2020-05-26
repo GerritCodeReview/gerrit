@@ -460,6 +460,7 @@ export const htmlTemplate = html`
               <input
                 class="reviewed"
                 type="checkbox"
+                aria-label="Toggle review status of the file"
                 checked="[[file.isReviewed]]"
               />
               <span
@@ -486,6 +487,7 @@ export const htmlTemplate = html`
               <input
                 type="checkbox"
                 class="show-hide"
+                aria-label="Expand or collapse the file"
                 checked$="[[_isFileExpanded(file.__path, _expandedFiles.*)]]"
                 data-path$="[[file.__path]]"
                 data-expand="true"

@@ -138,7 +138,7 @@ export const htmlTemplate = html`
             visible-change-table-columns="[[visibleChangeTableColumns]]"
             show-number="[[showNumber]]"
             show-star="[[showStar]]"
-            tabindex="0"
+            tabindex$="[[_computeTabIndex(sectionIndex, index, selectedIndex)]]"
             label-names="[[labelNames]]"
           ></gr-change-list-item>
         </template>

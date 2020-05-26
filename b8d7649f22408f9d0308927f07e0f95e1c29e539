@@ -22,6 +22,30 @@
       "revId": "b8d7649f22408f9d0308927f07e0f95e1c29e539",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20e95b63_0c9d92f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-26T19:41:58Z",
+      "side": 1,
+      "message": "https://a11y-101.com/development/aria-disabled",
+      "parentUuid": "c736a401_78ab1ca7",
+      "range": {
+        "startLine": 9,
+        "startChar": 18,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "b8d7649f22408f9d0308927f07e0f95e1c29e539",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

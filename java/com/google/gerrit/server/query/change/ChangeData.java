@@ -38,6 +38,7 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
@@ -101,6 +102,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 public class ChangeData {
+
   public static List<Change> asChanges(List<ChangeData> changeDatas) {
     List<Change> result = new ArrayList<>(changeDatas.size());
     for (ChangeData cd : changeDatas) {
@@ -960,6 +962,10 @@ public class ChangeData {
       }
     }
     return parentCount > 1;
+  }
+
+  public BranchNameKey getCherryPickOfRef() {
+    return notesFactory.createChecked(change.getCherryPickOf().changeId()).getChange().getDest();
   }
 
   public Set<Account.Id> editsByUser() {

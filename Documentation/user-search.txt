@@ -244,6 +244,14 @@ matches 'PATCHSET'. Note that 'PATCHSET' is optional. For example, a
 change 12345 and `cherrypickof:12345,2` matches all changes which were
 cherry-picked from the 2nd patchset of change 12345.
 
+[[cherrypickofref]]
+cherrypickofref:'REF'::
++
+Changes which were created using the 'cherry-pick' functionality and
+whose source change's destination branch matches 'REF' name.'REF' can
+be absolute from the top of the repository, so it can start with 'refs/'.
+If it does not, refs/heads/ prefix is assumed.
+
 [[ref]]
 ref:'REF'::
 +

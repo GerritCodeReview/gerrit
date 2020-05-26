@@ -39,6 +39,7 @@ const SEARCH_OPERATORS = [
   'cc:self',
   'change:',
   'cherrypickof:',
+  'cherrypickofref:',
   'comment:',
   'commentby:',
   'commit:',

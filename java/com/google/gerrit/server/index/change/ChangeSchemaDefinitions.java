@@ -130,8 +130,13 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           .build();
 
   /** Added new fields {@link ChangeField#MERGE} */
+  @Deprecated
   static final Schema<ChangeData> V60 =
       new Schema.Builder<ChangeData>().add(V59).add(ChangeField.MERGE).build();
+
+  /** Added new fields {@link ChangeField#CHERRY_PICK_OF_REF} */
+  static final Schema<ChangeData> V61 =
+      new Schema.Builder<ChangeData>().add(V60).add(ChangeField.CHERRY_PICK_OF_REF).build();
 
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.

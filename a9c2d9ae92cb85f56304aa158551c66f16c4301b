@@ -16,6 +16,24 @@
       "revId": "a9c2d9ae92cb85f56304aa158551c66f16c4301b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc32e441_f9ac3b51",
+        "filename": "tools/bzl/always_pass_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-26T07:30:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f70ffbea_283b5437",
+      "revId": "a9c2d9ae92cb85f56304aa158551c66f16c4301b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

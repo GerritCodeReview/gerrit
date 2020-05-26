@@ -23,8 +23,8 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "dropwizard-core",
-        artifact = "io.dropwizard.metrics:metrics-core:4.1.8",
-        sha1 = "f4765fc53af5d5712261a7e29afe97beb6b30118",
+        artifact = "io.dropwizard.metrics:metrics-core:4.1.9",
+        sha1 = "dd76a62b007ffea9e6aba10f64c04173ef65f895",
     )
 
     SSHD_VERS = "2.4.0"

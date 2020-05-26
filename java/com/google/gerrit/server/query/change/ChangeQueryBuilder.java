@@ -196,6 +196,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_CHERRY_PICK_OF = "cherrypickof";
   public static final String FIELD_CHERRY_PICK_OF_CHANGE = "cherrypickofchange";
   public static final String FIELD_CHERRY_PICK_OF_PATCHSET = "cherrypickofpatchset";
+  public static final String FIELD_CHERRY_PICK_OF_REF = "cherrypickofref";
 
   public static final String ARG_ID_USER = "user";
   public static final String ARG_ID_GROUP = "group";
@@ -1321,6 +1322,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
     throw new QueryParseException(
         "'cherrypickof' operator is not supported by change index version");
+  }
+
+  @Operator
+  public Predicate<ChangeData> cherryPickOfRef(String value) throws QueryParseException {
+    if (args.getSchema().hasField(ChangeField.CHERRY_PICK_OF_REF)) {
+      return new CherryPickOfRefPredicate(value);
+    }
+    throw new QueryParseException(
+        "'cherrypickofref' operator is not supported by change index version");
   }
 
   @Override

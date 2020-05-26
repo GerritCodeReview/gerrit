@@ -290,6 +290,15 @@ public class ChangeField {
                       ? cd.change().getCherryPickOf().get()
                       : null);
 
+  /** References the source change ref that this change was cherry-picked from. */
+  public static final FieldDef<ChangeData, String> CHERRY_PICK_OF_REF =
+      exact(ChangeQueryBuilder.FIELD_CHERRY_PICK_OF_REF)
+          .build(
+              cd ->
+                  cd.getCherryPickOfRef().isPresent()
+                      ? cd.getCherryPickOfRef().get().branch()
+                      : null);
+
   /** This class decouples the internal and API types from storage. */
   private static class StoredAttentionSetEntry {
     final long timestampMillis;

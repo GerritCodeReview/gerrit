@@ -86,14 +86,15 @@ export const htmlTemplate = html`
         href$="[[_computeNavLink(_query, _offset, -1, _changesPerPage)]]"
         class$="[[_computePrevArrowClass(_offset)]]"
       >
-        <iron-icon icon="gr-icons:chevron-left"></iron-icon>
+        <iron-icon icon="gr-icons:chevron-left" aria-label="Older"> </iron-icon>
       </a>
       <a
         id="nextArrow"
         href$="[[_computeNavLink(_query, _offset, 1, _changesPerPage)]]"
         class$="[[_computeNextArrowClass(_changes)]]"
       >
-        <iron-icon icon="gr-icons:chevron-right"></iron-icon>
+        <iron-icon icon="gr-icons:chevron-right" aria-label="Newer">
+        </iron-icon>
       </a>
     </nav>
   </div>

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ddb0d538_8a68f86b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 2139,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-26T18:55:23Z",
+      "side": 1,
+      "message": "No, because this is fired from when on-file-action-tap, which is dispatch only from gr-edit-file-controls, which are #editControls.",
+      "parentUuid": "31526a1a_2184a960",
+      "revId": "0db9276a176b911f30bfb6fd469b1cc9ac495567",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83e58db1_df73f35c",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header_test.html",
         "patchSetId": 6
@@ -33,6 +51,24 @@
       "revId": "0db9276a176b911f30bfb6fd469b1cc9ac495567",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da03f259_aa7ed798",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-26T18:55:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83e58db1_df73f35c",
+      "revId": "0db9276a176b911f30bfb6fd469b1cc9ac495567",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

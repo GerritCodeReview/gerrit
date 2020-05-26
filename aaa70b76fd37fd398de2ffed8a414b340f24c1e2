@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "349b81b1_d6883aaa",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-05-26T08:20:36Z",
+      "side": 1,
+      "message": "For the vote chip colors, there is an issue in dark theme that the primary text color (a light grey) is not meeting contrast ratio 4:5:1 on the chips colors. I recommend we use black color as text color on the voting chips (similarly to the change status chips in dark theme) to pass accessibility standards.",
+      "range": {
+        "startLine": 33,
+        "startChar": 3,
+        "endLine": 37,
+        "endChar": 44
+      },
+      "revId": "aaa70b76fd37fd398de2ffed8a414b340f24c1e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

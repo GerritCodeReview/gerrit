@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "03918d19_61f67c5b",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-26T13:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11a1723d_b8c99f93",
+      "range": {
+        "startLine": 283,
+        "startChar": 61,
+        "endLine": 283,
+        "endChar": 68
+      },
+      "revId": "6f5eb4066129c20edc781a4aef71e4fd9a30ce86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb634d09_0bc3fcc1",
         "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "6f5eb4066129c20edc781a4aef71e4fd9a30ce86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f8d7c0f_e3d73aa9",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-26T13:50:32Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "bb634d09_0bc3fcc1",
+      "range": {
+        "startLine": 288,
+        "startChar": 68,
+        "endLine": 288,
+        "endChar": 84
+      },
+      "revId": "6f5eb4066129c20edc781a4aef71e4fd9a30ce86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "a56a48da_96b1a0da",
+        "filename": "java/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-26T13:50:32Z",
+      "side": 1,
+      "message": "I did in the follow up change that adds the functionality to the project cache.\n\nAs of this change, the settings doesn\u0027t make sense, because no cache supports it, so I left it undocumented for now.",
+      "parentUuid": "6b4c3872_4788f99f",
+      "range": {
+        "startLine": 112,
+        "startChar": 14,
+        "endLine": 115,
+        "endChar": 34
+      },
+      "revId": "6f5eb4066129c20edc781a4aef71e4fd9a30ce86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a58c46aa_0b66b361",
         "filename": "javatests/com/google/gerrit/server/cache/h2/H2CacheTest.java",
         "patchSetId": 3
@@ -91,6 +163,30 @@
       "revId": "6f5eb4066129c20edc781a4aef71e4fd9a30ce86",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9abf270c_d459921e",
+        "filename": "javatests/com/google/gerrit/server/cache/h2/H2CacheTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-26T13:50:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a58c46aa_0b66b361",
+      "range": {
+        "startLine": 169,
+        "startChar": 24,
+        "endLine": 169,
+        "endChar": 30
+      },
+      "revId": "6f5eb4066129c20edc781a4aef71e4fd9a30ce86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

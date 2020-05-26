@@ -79,8 +79,10 @@ export const htmlTemplate = html`
       <paper-toggle-button
         id="automatedMessageToggle"
         checked="{{_hideAutomated}}"
+        aria-labelledby="onlyCommentsLabel"
+        role="switch"
       ></paper-toggle-button
-      >Only comments
+      ><span id="onlyCommentsLabel">Only comments</span>
       <span class="transparent separator"></span>
     </span>
     <gr-button

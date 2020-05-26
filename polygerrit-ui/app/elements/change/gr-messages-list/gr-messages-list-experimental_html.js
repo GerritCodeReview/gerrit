@@ -72,8 +72,10 @@ export const htmlTemplate = html`
         <paper-toggle-button
           class="showAllActivityToggle"
           checked="{{_showAllActivity}}"
+          aria-labelledby="showAllEntriesLabel"
+          role="switch"
         ></paper-toggle-button>
-        <div>
+        <div id="showAllEntriesLabel">
           <span>Show all entries</span>
           <span class="hiddenEntries" hidden$="[[_showAllActivity]]">
             ([[_computeHiddenEntriesCount(_combinedMessages)]] hidden)

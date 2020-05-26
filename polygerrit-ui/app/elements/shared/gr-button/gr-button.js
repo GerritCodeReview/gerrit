@@ -65,6 +65,11 @@ class GrButton extends mixinBehaviors( [
         value: false,
         reflectToAttribute: true,
       },
+      ariaDisabled: {
+        type: Boolean,
+        computed: '_computeDisabled(disabled, loading)',
+        reflectToAttribute: true,
+      },
 
       _disabled: {
         type: Boolean,

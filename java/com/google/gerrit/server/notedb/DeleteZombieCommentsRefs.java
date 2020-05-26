@@ -27,6 +27,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -53,6 +54,7 @@ public class DeleteZombieCommentsRefs {
   private final AllUsersName allUsers;
   private final int cleanupPercentage;
   private Repository allUsersRepo;
+  private final Consumer<String> uiConsumer;
 
   public interface Factory {
     DeleteZombieCommentsRefs create(int cleanupPercentage);
@@ -63,9 +65,18 @@ public class DeleteZombieCommentsRefs {
       AllUsersName allUsers,
       GitRepositoryManager repoManager,
       @Assisted Integer cleanupPercentage) {
+    this(allUsers, repoManager, cleanupPercentage, (msg) -> {});
+  }
+
+  public DeleteZombieCommentsRefs(
+      AllUsersName allUsers,
+      GitRepositoryManager repoManager,
+      Integer cleanupPercentage,
+      Consumer<String> uiConsumer) {
     this.allUsers = allUsers;
     this.repoManager = repoManager;
     this.cleanupPercentage = (cleanupPercentage == null) ? 100 : cleanupPercentage;
+    this.uiConsumer = uiConsumer;
   }
 
   public void execute() throws IOException {
@@ -74,15 +85,17 @@ public class DeleteZombieCommentsRefs {
     List<Ref> draftRefs = allUsersRepo.getRefDatabase().getRefsByPrefix(DRAFT_REFS_PREFIX);
     List<Ref> zombieRefs = filterZombieRefs(draftRefs);
 
-    logger.atInfo().log(
-        "Found a total of %d zombie draft refs in %s repo.", zombieRefs.size(), allUsers.get());
+    logInfo(
+        String.format(
+            "Found a total of %d zombie draft refs in %s repo.",
+            zombieRefs.size(), allUsers.get()));
 
-    logger.atInfo().log("Cleanup percentage = %d", cleanupPercentage);
+    logInfo(String.format("Cleanup percentage = %d", cleanupPercentage));
     zombieRefs =
         zombieRefs.stream()
             .filter(ref -> Change.Id.fromAllUsersRef(ref.getName()).get() % 100 < cleanupPercentage)
             .collect(toImmutableList());
-    logger.atInfo().log("Number of zombie refs to be cleaned = %d", zombieRefs.size());
+    logInfo(String.format("Number of zombie refs to be cleaned = %d", zombieRefs.size()));
 
     long zombieRefsCnt = zombieRefs.size();
     long deletedRefsCnt = 0;
@@ -124,8 +137,17 @@ public class DeleteZombieCommentsRefs {
     return allUsersRepo.parseCommit(ref.getObjectId()).getTree().getName().equals(EMPTY_TREE_ID);
   }
 
+  private void logInfo(String message) {
+    logger.atInfo().log(message);
+    uiConsumer.accept(message);
+  }
+
   private void logProgress(long deletedRefsCount, long allRefsCount, long elapsed) {
-    logger.atInfo().log(
-        "Deleted %d/%d zombie draft refs (%d seconds)\n", deletedRefsCount, allRefsCount, elapsed);
+    String message =
+        String.format(
+            "Deleted %d/%d zombie draft refs (%d seconds)\n",
+            deletedRefsCount, allRefsCount, elapsed);
+    logger.atInfo().log(message);
+    uiConsumer.accept(message);
   }
 }

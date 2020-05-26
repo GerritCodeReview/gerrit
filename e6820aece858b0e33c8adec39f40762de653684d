@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5e479291_2a26eb6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-26T22:48:16Z",
+      "side": 1,
+      "message": "Yes, that\u0027s possibly a different bug as well. It took around 1h on my laptop, I reckon it could take also a lot more on a real production server.\n\nI believe the way that refs are removed can be optimised.",
+      "parentUuid": "d9985444_c3577e33",
+      "range": {
+        "startLine": 9,
+        "startChar": 32,
+        "endLine": 9,
+        "endChar": 49
+      },
+      "revId": "e6820aece858b0e33c8adec39f40762de653684d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b4f59a68_f6ff330b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "e6820aece858b0e33c8adec39f40762de653684d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33965e4e_1fccf8d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-26T22:48:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4f59a68_f6ff330b",
+      "range": {
+        "startLine": 11,
+        "startChar": 37,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "e6820aece858b0e33c8adec39f40762de653684d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -540,7 +540,11 @@ public class CommitValidators {
         return Collections.emptyList();
       }
       try {
-        perm.check(RefPermission.MERGE);
+        if (MagicBranch.isMagicBranch(receiveEvent.getRefName())) {
+          perm.check(RefPermission.MERGE_REVIEW);
+        } else {
+          perm.check(RefPermission.MERGE_REGULAR);
+        }
         return Collections.emptyList();
       } catch (AuthException e) {
         throw new CommitValidationException("you are not allowed to upload merges", e);

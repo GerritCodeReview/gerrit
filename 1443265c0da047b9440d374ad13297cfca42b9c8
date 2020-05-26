@@ -251,6 +251,24 @@
     },
     {
       "key": {
+        "uuid": "e8bcfe37_79081b8f",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-05-26T14:20:32Z",
+      "side": 1,
+      "message": "With these changes jgit code depending on any of the 2 supported ssh clients\nand jgit code depending on bouncycastle are built in separate artefacts\n\norg.eclipse.jgit.ssh.jsch\norg.eclipse.jgit.ssh.apache\n\norg.eclipse.jgit.gpg.bc\n\nso that the rest of jgit can be built and used without these dependencies.",
+      "parentUuid": "b842f496_ed21a36f",
+      "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b69f60e5_c78af6d5",
         "filename": "java/com/google/gerrit/server/BUILD",
         "patchSetId": 19

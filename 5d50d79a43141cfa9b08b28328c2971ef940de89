@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43e1705f_d48f9dbf",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message_html.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-26T09:55:02Z",
+      "side": 1,
+      "message": "Why have a custom click handler? Maybe the browser default handler of the \u003ca\u003e is enough?",
+      "revId": "5d50d79a43141cfa9b08b28328c2971ef940de89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

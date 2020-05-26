@@ -52,6 +52,24 @@
       "revId": "5d50d79a43141cfa9b08b28328c2971ef940de89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71d09d1b_f0df2efe",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message_html.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-26T10:51:17Z",
+      "side": 1,
+      "message": "Reload is still happening if we let browser handle it after using the relative url.\nWe can fix this by using our own click handler.",
+      "parentUuid": "55770c8a_af6a097b",
+      "revId": "5d50d79a43141cfa9b08b28328c2971ef940de89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

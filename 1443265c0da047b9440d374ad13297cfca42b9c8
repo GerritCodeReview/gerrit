@@ -233,6 +233,24 @@
     },
     {
       "key": {
+        "uuid": "94f2c3a2_34262d18",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-26T06:23:34Z",
+      "side": 1,
+      "message": "\u003e Let\u0027s move that change to master, then.\n\nDone.",
+      "parentUuid": "77226cb7_8a04ce45",
+      "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b69f60e5_c78af6d5",
         "filename": "java/com/google/gerrit/server/BUILD",
         "patchSetId": 19

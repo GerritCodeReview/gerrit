@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "defe98d3_e6e78268",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-26T09:48:31Z",
+      "side": 1,
+      "message": "https://screenshot.googleplex.com/XtzL0up5y43\nHow it looks now.",
+      "parentUuid": "b6aac86f_77425764",
+      "revId": "59f69dd3cc86ecb6f2539256d24ae256c4865aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b143d50_7d4e3b4e",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 7
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "0cad2597_c8cb5ae2",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-26T09:48:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b143d50_7d4e3b4e",
+      "range": {
+        "startLine": 425,
+        "startChar": 48,
+        "endLine": 425,
+        "endChar": 54
+      },
+      "revId": "59f69dd3cc86ecb6f2539256d24ae256c4865aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b44bea0e_9488424e",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message_html.js",
         "patchSetId": 7
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "fd79bfea_28dd0166",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message_html.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-26T09:48:31Z",
+      "side": 1,
+      "message": "Yeah, removed the gr-button.",
+      "parentUuid": "b44bea0e_9488424e",
+      "revId": "59f69dd3cc86ecb6f2539256d24ae256c4865aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c9305f36_9eda7da3",
         "filename": "polygerrit-ui/app/elements/shared/gr-icons/gr-icons.js",
         "patchSetId": 7
@@ -73,6 +133,24 @@
       "revId": "59f69dd3cc86ecb6f2539256d24ae256c4865aac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8231f5aa_13397445",
+        "filename": "polygerrit-ui/app/elements/shared/gr-icons/gr-icons.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-05-26T09:48:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9305f36_9eda7da3",
+      "revId": "59f69dd3cc86ecb6f2539256d24ae256c4865aac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

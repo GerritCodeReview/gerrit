@@ -168,7 +168,6 @@ class GrChangeList extends mixinBehaviors( [
   /** @override */
   ready() {
     super.ready();
-    this._ensureAttribute('tabindex', 0);
     this.$.restAPI.getConfig().then(config => {
       this._config = config;
     });
@@ -294,6 +293,11 @@ class GrChangeList extends mixinBehaviors( [
   _computeItemSelected(sectionIndex, index, selectedIndex) {
     const idx = this._computeItemAbsoluteIndex(sectionIndex, index);
     return idx == selectedIndex;
+  }
+
+  _computeTabIndex(sectionIndex, index, selectedIndex) {
+    return this._computeItemSelected(sectionIndex, index, selectedIndex)
+      ? 0 : undefined;
   }
 
   _computeItemNeedsReview(account, change, showReviewedState) {

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f75819f4_dd331ba6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-26T23:56:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6194a25a_12a2629e",
+      "range": {
+        "startLine": 11,
+        "startChar": 37,
+        "endLine": 11,
+        "endChar": 44
+      },
+      "revId": "1c64ec8f8e5f1737fc6e22a5ffed6ff1e4ad1d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad677429_e6a34984",
         "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "6d70a105_28915c14",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-26T23:56:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad677429_e6a34984",
+      "range": {
+        "startLine": 150,
+        "startChar": 4,
+        "endLine": 151,
+        "endChar": 31
+      },
+      "revId": "1c64ec8f8e5f1737fc6e22a5ffed6ff1e4ad1d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91ff90ce_8e863197",
         "filename": "java/com/google/gerrit/server/schema/Schema_182.java",
         "patchSetId": 6
@@ -68,6 +116,30 @@
       "revId": "1c64ec8f8e5f1737fc6e22a5ffed6ff1e4ad1d22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e6bca7d_57e687c1",
+        "filename": "java/com/google/gerrit/server/schema/Schema_182.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-26T23:56:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91ff90ce_8e863197",
+      "range": {
+        "startLine": 32,
+        "startChar": 68,
+        "endLine": 32,
+        "endChar": 92
+      },
+      "revId": "1c64ec8f8e5f1737fc6e22a5ffed6ff1e4ad1d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

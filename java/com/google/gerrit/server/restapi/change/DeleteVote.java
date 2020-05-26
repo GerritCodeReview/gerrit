@@ -44,6 +44,7 @@ import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.VoteResource;
 import com.google.gerrit.server.extensions.events.VoteDeleted;
 import com.google.gerrit.server.mail.send.DeleteVoteSender;
+import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.ReplyToChangeSender;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -77,6 +78,7 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
   private final NotifyResolver notifyResolver;
   private final RemoveReviewerControl removeReviewerControl;
   private final ProjectCache projectCache;
+  private final MessageIdGenerator messageIdGenerator;
 
   @Inject
   DeleteVote(
@@ -89,7 +91,8 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
       DeleteVoteSender.Factory deleteVoteSenderFactory,
       NotifyResolver notifyResolver,
       RemoveReviewerControl removeReviewerControl,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      MessageIdGenerator messageIdGenerator) {
     this.updateFactory = updateFactory;
     this.approvalsUtil = approvalsUtil;
     this.psUtil = psUtil;
@@ -100,6 +103,7 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
     this.notifyResolver = notifyResolver;
     this.removeReviewerControl = removeReviewerControl;
     this.projectCache = projectCache;
+    this.messageIdGenerator = messageIdGenerator;
   }
 
   @Override
@@ -229,6 +233,8 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
           cm.setFrom(user.getAccountId());
           cm.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
           cm.setNotify(notify);
+          cm.setMessageId(
+              messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
           cm.send();
         }
       } catch (Exception e) {

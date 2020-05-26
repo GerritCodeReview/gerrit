@@ -175,6 +175,24 @@
       "revId": "7da11d5c0cb10e01d368d7514176f7c860de3078",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c445a0e1_e83aac40",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-26T10:44:47Z",
+      "side": 1,
+      "message": "so `_computeGroups` is used in the html template to render all groups right ? and here you are trying to test when filter value changed, the result should change correspondingly right ? A better way might be just mock type the value there and trigger the filtering, and then verify against the html elements: the list of groups should only contain those matched with your filter string. And by testing that flow, you are testing against the real user behavior, it maybe better, as even for some people who are not familiar with `bindValue`, the test is still clear and easy to follow.\n\nI knew our code base is already using this calling method directly pattern everywhere... so if you really don\u0027t want to change, I am fine to approve it.",
+      "parentUuid": "3534895b_5f79a5e6",
+      "revId": "7da11d5c0cb10e01d368d7514176f7c860de3078",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

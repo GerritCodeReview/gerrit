@@ -28,7 +28,8 @@ public class Schema_182 implements NoteDbSchemaVersion {
   public void upgrade(Arguments args, UpdateUI ui) throws Exception {
     AllUsersName allUsers = args.allUsers;
     GitRepositoryManager gitRepoManager = args.repoManager;
-    DeleteZombieCommentsRefs cleanup = new DeleteZombieCommentsRefs(allUsers, gitRepoManager, 100);
+    DeleteZombieCommentsRefs cleanup =
+        new DeleteZombieCommentsRefs(allUsers, gitRepoManager, 100, ui::message);
     cleanup.execute();
   }
 }

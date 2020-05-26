@@ -22,8 +22,6 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,15 +52,8 @@ public class DeleteZombieCommentsRefs {
   private final int cleanupPercentage;
   private Repository allUsersRepo;
 
-  public interface Factory {
-    DeleteZombieCommentsRefs create(int cleanupPercentage);
-  }
-
-  @Inject
   public DeleteZombieCommentsRefs(
-      AllUsersName allUsers,
-      GitRepositoryManager repoManager,
-      @Assisted Integer cleanupPercentage) {
+      AllUsersName allUsers, GitRepositoryManager repoManager, Integer cleanupPercentage) {
     this.allUsers = allUsers;
     this.repoManager = repoManager;
     this.cleanupPercentage = (cleanupPercentage == null) ? 100 : cleanupPercentage;

@@ -34,6 +34,24 @@
       "revId": "5d50d79a43141cfa9b08b28328c2971ef940de89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55770c8a_af6a097b",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message_html.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-26T10:23:53Z",
+      "side": 1,
+      "message": "Can you maybe just append #message-id to the current URL? That should not cause a reload. The href would then be \"#message-id\".",
+      "parentUuid": "fdc1b5b5_c6af8287",
+      "revId": "5d50d79a43141cfa9b08b28328c2971ef940de89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -193,6 +193,24 @@
       "revId": "7da11d5c0cb10e01d368d7514176f7c860de3078",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7083c1d1_78d66670",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-05-26T13:44:48Z",
+      "side": 1,
+      "message": "Do you have an example i could follow?\n\nI mean this is ok as a minimum to prevent a regression.",
+      "parentUuid": "c445a0e1_e83aac40",
+      "revId": "7da11d5c0cb10e01d368d7514176f7c860de3078",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

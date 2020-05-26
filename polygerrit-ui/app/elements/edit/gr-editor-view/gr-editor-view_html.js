@@ -95,6 +95,7 @@ export const htmlTemplate = html`
         <gr-button
           id="save"
           disabled$="[[_saveDisabled]]"
+          aria-disabled$="[[_saveDisabled]]"
           primary=""
           link=""
           on-click="_saveEdit"

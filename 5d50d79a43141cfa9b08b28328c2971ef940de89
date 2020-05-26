@@ -70,6 +70,24 @@
       "revId": "5d50d79a43141cfa9b08b28328c2971ef940de89",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a496748a_fbe122e6",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message_html.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-26T12:07:41Z",
+      "side": 1,
+      "message": "\u003e Reload is still happening.\n\nThen that is a bug in our code. Apparently the router and the change view are too lazy to compare old params with new params. If they would, then would not get a reload. That should be fixed instead of creating a click handler as a workaround.\n\nhttps://gerrit.googlesource.com/gerrit/+/e1f4fee1f3ce674f44cb9788e6798ff8522bb876/polygerrit-ui/app/elements/core/gr-router/gr-router.js#1352\nhttps://gerrit.googlesource.com/gerrit/+/e1f4fee1f3ce674f44cb9788e6798ff8522bb876/polygerrit-ui/app/elements/core/gr-router/gr-router.js#257\nhttps://gerrit.googlesource.com/gerrit/+/e1f4fee1f3ce674f44cb9788e6798ff8522bb876/polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js#1040",
+      "parentUuid": "71d09d1b_f0df2efe",
+      "revId": "5d50d79a43141cfa9b08b28328c2971ef940de89",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

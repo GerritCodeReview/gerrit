@@ -269,6 +269,24 @@
     },
     {
       "key": {
+        "uuid": "9d15e1ae_f44b294a",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-27T05:45:57Z",
+      "side": 1,
+      "message": "I rebased this change on top of the JGit\u0027s jsch split change, that is adapting gerrit build tool chain for addition dependency: org.eclipse.jgit.ssh.jsch.",
+      "parentUuid": "e8bcfe37_79081b8f",
+      "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b69f60e5_c78af6d5",
         "filename": "java/com/google/gerrit/server/BUILD",
         "patchSetId": 19

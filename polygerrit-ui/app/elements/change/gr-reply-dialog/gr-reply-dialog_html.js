@@ -104,6 +104,10 @@ export const htmlTemplate = html`
     gr-endpoint-decorator[name='reply-label-scores'] {
       display: block;
     }
+    gr-endpoint-decorator[name='reviewer-controls'] {
+      display: inline-block;
+      width: initial;
+    }
     .previewContainer gr-formatted-text {
       background: var(--table-header-background-color);
       padding: var(--spacing-l);
@@ -156,7 +160,20 @@ export const htmlTemplate = html`
           suggestions-provider="[[_getReviewerSuggestionsProvider(change)]]"
         >
         </gr-account-list>
+        <gr-endpoint-decorator name="reviewer-controls">
+          <gr-endpoint-param
+            name="change"
+            value="[[change]]"
+          ></gr-endpoint-param>
+        </gr-endpoint-decorator>
       </div>
+      <gr-endpoint-decorator name="reviewer-controls-content">
+        <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
+        <gr-endpoint-param
+          name="hidden"
+          value="[[!_isReviewerControlsContentVisible]]"
+        ></gr-endpoint-param>
+      </gr-endpoint-decorator>
       <div class="peopleList">
         <div class="peopleListLabel">CC</div>
         <gr-account-list

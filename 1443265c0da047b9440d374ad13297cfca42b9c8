@@ -145,6 +145,24 @@
     },
     {
       "key": {
+        "uuid": "f4288630_74f7fe67",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-05-27T14:04:40Z",
+      "side": 1,
+      "message": "changed to APACHE",
+      "parentUuid": "610376b9_2236b7ad",
+      "revId": "1443265c0da047b9440d374ad13297cfca42b9c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6f30cfbc_79bd0555",
         "filename": "java/com/google/gerrit/acceptance/GitUtil.java",
         "patchSetId": 19

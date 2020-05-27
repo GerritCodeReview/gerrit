@@ -22,6 +22,30 @@
       "revId": "d1fd2987c07c9bbcc5882ba3092c853e99b83b08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da311fec_4211f909",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-05-27T14:34:35Z",
+      "side": 1,
+      "message": "OTOH we miss SshKeyCacheImpl.module() but that inconsistency was there before so I\u0027m not really sure what we risk in this case :D",
+      "parentUuid": "eb40683b_9b040b7f",
+      "range": {
+        "startLine": 482,
+        "startChar": 4,
+        "endLine": 482,
+        "endChar": 15
+      },
+      "revId": "d1fd2987c07c9bbcc5882ba3092c853e99b83b08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

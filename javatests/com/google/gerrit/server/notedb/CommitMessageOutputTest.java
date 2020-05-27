@@ -45,7 +45,6 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.putReviewer(otherUser.getAccount().id(), CC);
     update.commit();
     assertThat(update.getRefName()).isEqualTo("refs/changes/01/1/meta");
-
     RevCommit commit = parseCommit(update.getResult());
     assertBodyEquals(
         "Update patch set 1\n"
@@ -61,6 +60,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
             + "\n"
             + "Reviewer: Gerrit User 1 <1@gerrit>\n"
             + "CC: Gerrit User 2 <2@gerrit>\n"
+            + "Attention: {\"person_ident\":\"Gerrit User 1 \\u003c1@gerrit\\u003e\",\"operation\":\"ADD\",\"reason\":\"Reviewer was added\"}\n"
             + "Label: Code-Review=-1\n"
             + "Label: Verified=+1\n",
         commit);
@@ -245,7 +245,8 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     update.commit();
 
     assertBodyEquals(
-        "Update patch set 1\n\nPatch-set: 1\nReviewer: Gerrit User 1 <1@gerrit>\n",
+        "Update patch set 1\n\nPatch-set: 1\nReviewer: Gerrit User 1 <1@gerrit>\n"
+            + "Attention: {\"person_ident\":\"Gerrit User 1 \\u003c1@gerrit\\u003e\",\"operation\":\"ADD\",\"reason\":\"Reviewer was added\"}\n",
         update.getResult());
   }
 

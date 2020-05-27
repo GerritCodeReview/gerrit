@@ -51,7 +51,7 @@ export const htmlTemplate = html`
       }
     }
   </style>
-  <span class="patchRange">
+  <span class="patchRange" aria-label="patch range starts with">
     <gr-dropdown-list
       id="basePatchDropdown"
       value="[[basePatchNum]]"
@@ -67,8 +67,8 @@ export const htmlTemplate = html`
       >
     </template>
   </span>
-  <span class="arrow">→</span>
-  <span class="patchRange">
+  <span aria-hidden="true" class="arrow">→</span>
+  <span class="patchRange" aria-label="patch range ends with">
     <gr-dropdown-list
       id="patchNumDropdown"
       value="[[patchNum]]"

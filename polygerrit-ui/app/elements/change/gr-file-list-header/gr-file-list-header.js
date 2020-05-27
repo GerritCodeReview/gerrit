@@ -155,7 +155,7 @@ class GrFileListHeader extends mixinBehaviors( [
   }
 
   _computeDescriptionPlaceholder(readOnly) {
-    return (readOnly ? 'No' : 'Add') + ' patchset description';
+    return (readOnly ? 'No' : 'Add') + ' Patchset Description';
   }
 
   _computeDescriptionReadOnly(loggedIn, change, account) {

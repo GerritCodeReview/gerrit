@@ -304,7 +304,7 @@ export const htmlTemplate = html`
         <template is="dom-if" if="[[canBeStarted]]">
           <!-- Use 'Send' here as the change may only about reviewers / ccs
               and when this button is visible, the next button will always
-              be 'Start review' -->
+              be 'Start Review' -->
           <gr-button
             link=""
             disabled="[[_isState(knownLatestState, 'not-latest')]]"

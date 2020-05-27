@@ -22,14 +22,13 @@ export const htmlTemplate = html`
       align-items: center;
       display: inline-flex;
     }
-    :host([uppercase]) label {
-      text-transform: uppercase;
-    }
     input,
     label {
       width: 100%;
     }
     label {
+      font-family: 'Open Sans';
+      font-weight: 600;
       color: var(--deemphasized-text-color);
       display: inline-block;
       overflow: hidden;
@@ -93,7 +92,7 @@ export const htmlTemplate = html`
         ></paper-input>
         <div class="buttons">
           <gr-button link="" id="cancelBtn" on-click="_cancel"
-            >cancel</gr-button
+            >Cancel</gr-button
           >
           <gr-button link="" id="saveBtn" on-click="_save">save</gr-button>
         </div>

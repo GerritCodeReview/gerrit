@@ -314,7 +314,7 @@ class GrChangeMetadata extends mixinBehaviors( [
   _computeTopicPlaceholder(_topicReadOnly) {
     // Action items in Material Design are uppercase -- placeholder label text
     // is sentence case.
-    return _topicReadOnly ? 'No topic' : 'ADD TOPIC';
+    return _topicReadOnly ? 'No topic' : 'Add Topic';
   }
 
   _computeHashtagPlaceholder(_hashtagReadOnly) {

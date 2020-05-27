@@ -37,7 +37,6 @@ export const htmlTemplate = html`
         background-color: transparent;
         border: none;
         color: var(--link-color);
-        text-transform: uppercase;
       }
     }
   </style>

@@ -33,7 +33,7 @@ class GrReviewerList extends GestureEventListeners(
 
   static get is() { return 'gr-reviewer-list'; }
   /**
-   * Fired when the "Add reviewer..." button is tapped.
+   * Fired when the "Add Reviewer..." button is tapped.
    *
    * @event show-reply-dialog
    */
@@ -286,7 +286,7 @@ class GrReviewerList extends GestureEventListeners(
   }
 
   _computeAddLabel(ccsOnly) {
-    return ccsOnly ? 'Add CC' : 'Add reviewer';
+    return ccsOnly ? 'Add CC' : 'Add Reviewer';
   }
 }
 

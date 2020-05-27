@@ -1053,7 +1053,7 @@ suite('gr-change-view tests', () => {
   });
 
   test('start review button when owner of WIP change', () => {
-    assert.equal(element.$.startReviewBtn.innerHTML, 'Start review');
+    assert.equal(element.$.startReviewBtn.innerHTML, 'Start Review');
   });
 
   test('comment events properly update diff drafts', () => {

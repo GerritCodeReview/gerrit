@@ -25,7 +25,6 @@ export const htmlTemplate = html`
     }
     paper-tab {
       max-width: 15rem;
-      text-transform: uppercase;
       --paper-tab-ink: var(--link-color);
     }
     label,

@@ -458,7 +458,7 @@ export const htmlTemplate = html`
                   hidden="[[!_canStartReview]]"
                   primary$="[[_canStartReview]]"
                   on-click="_handleReadyTap"
-                  >Start review</gr-button
+                  >Start Review</gr-button
                 >
               </div>
               <div id="commitMessage" class="commitMessage">

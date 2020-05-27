@@ -31,9 +31,6 @@ export const htmlTemplate = html`
     :host([hidden]) {
       display: none;
     }
-    :host([no-uppercase]) paper-button {
-      text-transform: none;
-    }
     paper-button {
       /* The next lines contains a copy of paper-button style.
           Without a copy, the @apply works incorrectly with Polymer 2.
@@ -51,7 +48,6 @@ export const htmlTemplate = html`
       -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
       -webkit-tap-highlight-color: transparent;
       font: inherit;
-      text-transform: uppercase;
       outline-width: 0;
       border-radius: var(--border-radius);
       -moz-user-select: none;
@@ -67,13 +63,16 @@ export const htmlTemplate = html`
       /* End of copy*/
 
       /* paper-button sets this to anti-aliased, which appears different than
-          bold font elsewhere on macOS. */
+         bold font elsewhere on macOS. */
       -webkit-font-smoothing: initial;
       align-items: center;
       background-color: var(--background-color);
       color: var(--text-color);
       display: flex;
-      font-family: inherit;
+      font-family: 'Open Sans';
+      font-weight: 600;
+      letter-spacing: 0.15px;
+      text-transform: none;
       justify-content: center;
       margin: var(--margin, 0);
       min-width: var(--border, 0);

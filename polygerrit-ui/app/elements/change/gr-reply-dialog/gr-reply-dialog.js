@@ -65,7 +65,7 @@ const LatestPatchState = {
 };
 
 const ButtonLabels = {
-  START_REVIEW: 'Start review',
+  START_REVIEW: 'Start Review',
   SEND: 'Send',
 };
 

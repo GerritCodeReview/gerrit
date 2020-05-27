@@ -59,9 +59,7 @@ export const htmlTemplate = html`
     }
     .linksTitle {
       display: inline-block;
-      font-weight: var(--font-weight-bold);
       position: relative;
-      text-transform: uppercase;
     }
     .linksTitle:hover {
       opacity: 0.75;

@@ -243,7 +243,7 @@ export const htmlTemplate = html`
         <gr-tooltip-content
           class="draftTooltip"
           has-tooltip=""
-          title="This draft is only visible to you. To publish drafts, click the 'Reply' or 'Start review' button at the top of the change or press the 'A' key."
+          title="This draft is only visible to you. To publish drafts, click the 'Reply' or 'Start Review' button at the top of the change or press the 'A' key."
           max-width="20em"
           show-icon=""
         ></gr-tooltip-content>

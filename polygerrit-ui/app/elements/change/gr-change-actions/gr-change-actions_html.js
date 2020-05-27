@@ -145,7 +145,8 @@ export const htmlTemplate = html`
       disabled-ids="[[_disabledMenuActions]]"
       items="[[_menuActions]]"
     >
-      <iron-icon icon="gr-icons:more-vert"></iron-icon>
+      <iron-icon icon="gr-icons:more-vert" aria-labelledby="moreMessage">
+      </iron-icon>
       <span id="moreMessage">More</span>
     </gr-dropdown>
   </div>

@@ -211,6 +211,24 @@
       "revId": "7da11d5c0cb10e01d368d7514176f7c860de3078",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64d13c1d_a9dfe086",
+        "filename": "polygerrit-ui/app/elements/change/gr-included-in-dialog/gr-included-in-dialog_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-27T13:20:24Z",
+      "side": 1,
+      "message": "ya like in gr-textarea_test.html, you can see something like:\n\n```\n    test(\u0027enter key\u0027, () \u003d\u003e {\n      const enterSpy \u003d sandbox.spy(element.$.emojiSuggestions,\n          \u0027getCursorTarget\u0027);\n      MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);\n      assert.isFalse(enterSpy.called);\n      setupDropdown();\n      MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);\n      assert.isTrue(enterSpy.called);\n      flushAsynchronousOperations();\n      assert.equal(element.text, \u0027💯\u0027);\n    });\n```\n\nbut ya its not a blocking issue",
+      "parentUuid": "7083c1d1_78d66670",
+      "revId": "7da11d5c0cb10e01d368d7514176f7c860de3078",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

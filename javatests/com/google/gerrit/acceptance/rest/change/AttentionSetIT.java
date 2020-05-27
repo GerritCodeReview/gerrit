@@ -174,24 +174,54 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void submitRemovesUsersForAllSubmittedChanges() throws Exception {
     PushOneCommit.Result r1 = createChange("refs/heads/master", "file1", "content");
-    change(r1).addToAttentionSet(new AddToAttentionSetInput(user.email(), "reason"));
+
+    // Approval also automatically adds you as a reviewer and therefore to the attention set.
+    // TODO[paiking]: This is actually not what we want to happen on reply, as the replying user
+    // should be removed from the attention set.
     change(r1).current().review(ReviewInput.approve());
 
     PushOneCommit.Result r2 = createChange("refs/heads/master", "file2", "content");
 
-    change(r2).addToAttentionSet(new AddToAttentionSetInput(user.email(), "reason"));
     change(r2).current().review(ReviewInput.approve());
 
     change(r2).current().submit();
 
     AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r1.getChange().attentionSet());
-    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.account()).isEqualTo(admin.id());
     assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
     assertThat(attentionSet.reason()).isEqualTo("Change was submitted");
 
     attentionSet = Iterables.getOnlyElement(r2.getChange().attentionSet());
-    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.account()).isEqualTo(admin.id());
     assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
     assertThat(attentionSet.reason()).isEqualTo("Change was submitted");
+  }
+
+  @Test
+  public void reviewersAddedAndRemovedFromAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    gApi.changes().id(r.getChangeId()).addReviewer(user.id().toString());
+
+    AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet.reason()).isEqualTo("Reviewer was added");
+
+    gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove();
+
+    attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet.reason()).isEqualTo("Reviewer was removed");
+  }
+
+  @Test
+  public void reviewersInWorkProgressNotAddedToAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).setWorkInProgress();
+    gApi.changes().id(r.getChangeId()).addReviewer(user.email());
+
+    assertThat(r.getChange().attentionSet()).hasSize(0);
   }
 }

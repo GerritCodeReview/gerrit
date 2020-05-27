@@ -137,7 +137,6 @@ export const htmlTemplate = html`
     <gr-dropdown
       id="moreActions"
       link=""
-      tabindex="0"
       vertical-offset="32"
       horizontal-align="right"
       on-tap-item="_handleOverflowItemTap"
@@ -145,7 +144,8 @@ export const htmlTemplate = html`
       disabled-ids="[[_disabledMenuActions]]"
       items="[[_menuActions]]"
     >
-      <iron-icon icon="gr-icons:more-vert"></iron-icon>
+      <iron-icon icon="gr-icons:more-vert" aria-labelledby="moreMessage">
+      </iron-icon>
       <span id="moreMessage">More</span>
     </gr-dropdown>
   </div>

@@ -602,9 +602,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
 
     if (attentionSetUpdates != null) {
-      for (AttentionSetUpdate attentionSetUpdate : attentionSetUpdates) {
-        addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));
-      }
+      updateAttentionSet(msg, attentionSetUpdates);
     }
 
     if (assignee != null) {
@@ -633,6 +631,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, e.getValue().getFooterKey());
       addIdent(msg, e.getKey()).append('\n');
     }
+    addReviewersToAttentionSet(msg);
 
     for (Map.Entry<Address, ReviewerStateInternal> e : reviewersByEmail.entrySet()) {
       addFooter(msg, e.getValue().getByEmailFooterKey(), e.getKey().toString());
@@ -732,7 +731,39 @@ public class ChangeUpdate extends AbstractChangeUpdate {
                         a.account(), AttentionSetUpdate.Operation.REMOVE, reason))
             .collect(Collectors.toSet());
 
-    for (AttentionSetUpdate attentionSetUpdate : toClear) {
+    updateAttentionSet(msg, toClear);
+  }
+
+  private void addReviewersToAttentionSet(StringBuilder msg) {
+    if (workInProgress != null || getNotes().getChange().isWorkInProgress()) {
+      // Users shouldn't be added to the attention set if the change is work in progress.
+      return;
+    }
+
+    Set<Account.Id> currentReviewers =
+        getNotes().getReviewers().byState(ReviewerStateInternal.REVIEWER);
+    Set<AttentionSetUpdate> updates = new HashSet();
+    for (Map.Entry<Account.Id, ReviewerStateInternal> reviewer : reviewers.entrySet()) {
+      // Only add new reviewers to the attention set.
+      if (reviewer.getValue().equals(ReviewerStateInternal.REVIEWER)
+          && !currentReviewers.contains(reviewer.getKey())) {
+        updates.add(
+            AttentionSetUpdate.createForWrite(
+                reviewer.getKey(), AttentionSetUpdate.Operation.ADD, "Reviewer was added"));
+      }
+      // Treat both REMOVED and CC as "removed reviewers".
+      if (!reviewer.getValue().equals(ReviewerStateInternal.REVIEWER)
+          && currentReviewers.contains(reviewer.getKey())) {
+        updates.add(
+            AttentionSetUpdate.createForWrite(
+                reviewer.getKey(), AttentionSetUpdate.Operation.REMOVE, "Reviewer was removed"));
+      }
+    }
+    updateAttentionSet(msg, updates);
+  }
+
+  private void updateAttentionSet(StringBuilder msg, Set<AttentionSetUpdate> updates) {
+    for (AttentionSetUpdate attentionSetUpdate : updates) {
       addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));
     }
   }

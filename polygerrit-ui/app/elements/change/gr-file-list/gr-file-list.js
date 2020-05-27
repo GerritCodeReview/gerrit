@@ -225,6 +225,11 @@ class GrFileList extends mixinBehaviors( [
         computed: '_computeShowDynamicColumns(_dynamicHeaderEndpoints, ' +
                 '_dynamicContentEndpoints, _dynamicSummaryEndpoints)',
       },
+      _showPrependedDynamicColumns: {
+        type: Boolean,
+        computed: '_computeShowPrependedDynamicColumns(' +
+        '_dynamicPrependedHeaderEndpoints, _dynamicPrependedContentEndpoints)',
+      },
       /** @type {Array<string>} */
       _dynamicHeaderEndpoints: {
         type: Array,
@@ -235,6 +240,14 @@ class GrFileList extends mixinBehaviors( [
       },
       /** @type {Array<string>} */
       _dynamicSummaryEndpoints: {
+        type: Array,
+      },
+      /** @type {Array<string>} */
+      _dynamicPrependedHeaderEndpoints: {
+        type: Array,
+      },
+      /** @type {Array<string>} */
+      _dynamicPrependedContentEndpoints: {
         type: Array,
       },
     };
@@ -295,15 +308,24 @@ class GrFileList extends mixinBehaviors( [
   attached() {
     super.attached();
     pluginLoader.awaitPluginsLoaded().then(() => {
-      this._dynamicHeaderEndpoints = pluginEndpoints.getDynamicEndpoints(
-          'change-view-file-list-header');
-      this._dynamicContentEndpoints = pluginEndpoints.getDynamicEndpoints(
-          'change-view-file-list-content');
-      this._dynamicSummaryEndpoints = pluginEndpoints.getDynamicEndpoints(
-          'change-view-file-list-summary');
+      this._dynamicHeaderEndpoints = pluginEndpoints
+          .getDynamicEndpoints('change-view-file-list-header');
+      this._dynamicContentEndpoints = pluginEndpoints
+          .getDynamicEndpoints('change-view-file-list-content');
+      this._dynamicPrependedHeaderEndpoints = pluginEndpoints
+          .getDynamicEndpoints('change-view-file-list-header-prepend');
+      this._dynamicPrependedContentEndpoints = pluginEndpoints
+          .getDynamicEndpoints('change-view-file-list-content-prepend');
+      this._dynamicSummaryEndpoints = pluginEndpoints
+          .getDynamicEndpoints('change-view-file-list-summary');
 
       if (this._dynamicHeaderEndpoints.length !==
           this._dynamicContentEndpoints.length) {
+        console.warn(
+            'Different number of dynamic file-list header and content.');
+      }
+      if (this._dynamicPrependedHeaderEndpoints.length !==
+        this._dynamicPrependedContentEndpoints.length) {
         console.warn(
             'Different number of dynamic file-list header and content.');
       }
@@ -1432,8 +1454,20 @@ class GrFileList extends mixinBehaviors( [
   _computeShowDynamicColumns(
       headerEndpoints, contentEndpoints, summaryEndpoints) {
     return headerEndpoints && contentEndpoints && summaryEndpoints &&
+           headerEndpoints.length &&
            headerEndpoints.length === contentEndpoints.length &&
            headerEndpoints.length === summaryEndpoints.length;
+  }
+
+  /**
+   * Shows registered dynamic prepended columns iff the 'header', 'content'
+   * endpoints are registered the exact same number of times.
+   */
+  _computeShowPrependedDynamicColumns(
+      headerEndpoints, contentEndpoints) {
+    return headerEndpoints && contentEndpoints &&
+           headerEndpoints.length &&
+           headerEndpoints.length === contentEndpoints.length;
   }
 
   /**

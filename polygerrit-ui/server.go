@@ -61,6 +61,7 @@ func main() {
 
 	dirListingMux := http.NewServeMux()
 	dirListingMux.Handle("/styles/", http.StripPrefix("/styles/", http.FileServer(http.Dir("app/styles"))))
+	dirListingMux.Handle("/samples/", http.StripPrefix("/samples/", http.FileServer(http.Dir("app/samples"))))
 	dirListingMux.Handle("/elements/", http.StripPrefix("/elements/", http.FileServer(http.Dir("app/elements"))))
 	dirListingMux.Handle("/behaviors/", http.StripPrefix("/behaviors/", http.FileServer(http.Dir("app/behaviors"))))
 

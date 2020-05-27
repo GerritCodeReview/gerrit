@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c6c2d90_4738637e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-27T08:31:37Z",
+      "side": 1,
+      "message": "maybe add some descriptive aria-label instead, like `continue next to select patchset for right side` or something informative ?",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 26
+      },
+      "revId": "8919b6080d24c635f51fd1fe3b7c23563f582f6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

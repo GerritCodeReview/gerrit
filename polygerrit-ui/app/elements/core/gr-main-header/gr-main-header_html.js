@@ -221,6 +221,7 @@ export const htmlTemplate = html`
           class="settingsButton"
           href$="[[_generateSettingsLink()]]"
           title="Settings"
+          aria-label="Settings"
         >
           <iron-icon icon="gr-icons:settings"></iron-icon>
         </a>

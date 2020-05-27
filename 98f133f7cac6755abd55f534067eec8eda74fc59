@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe91689f_97a67914",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header_html.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-27T10:52:22Z",
+      "side": 1,
+      "message": "maybe also add a `role\u003d\"button\"` ? actually not sure why we are not using gr-button here, but its a separate thing",
+      "revId": "98f133f7cac6755abd55f534067eec8eda74fc59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

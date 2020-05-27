@@ -64,6 +64,8 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.AttentionSetUtil;
 import com.google.gerrit.server.util.LabelVote;
@@ -74,6 +76,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -81,6 +84,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -116,6 +120,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private final RobotCommentUpdate.Factory robotCommentUpdateFactory;
   private final DeleteCommentRewriter.Factory deleteCommentRewriterFactory;
+  private final AccountResolver accountResolver;
 
   private final Table<String, Account.Id, Optional<Short>> approvals;
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
@@ -160,6 +165,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
       ProjectCache projectCache,
+      AccountResolver accountResolver,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user,
       @Assisted Date when,
@@ -170,6 +176,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         draftUpdateFactory,
         robotCommentUpdateFactory,
         deleteCommentRewriterFactory,
+        accountResolver,
         notes,
         user,
         when,
@@ -193,6 +200,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
+      AccountResolver accountResolver,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user,
       @Assisted Date when,
@@ -203,6 +211,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
     this.deleteCommentRewriterFactory = deleteCommentRewriterFactory;
+    this.accountResolver = accountResolver;
     this.approvals = approvals(labelNameComparator);
   }
 
@@ -602,10 +611,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
 
     if (attentionSetUpdates != null) {
-      for (AttentionSetUpdate attentionSetUpdate : attentionSetUpdates) {
-        addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));
-      }
+      updateAttentionSet(msg, attentionSetUpdates);
     }
+    addReviewersToAttentionSet(msg);
 
     if (assignee != null) {
       if (assignee.isPresent()) {
@@ -732,7 +740,66 @@ public class ChangeUpdate extends AbstractChangeUpdate {
                         a.account(), AttentionSetUpdate.Operation.REMOVE, reason))
             .collect(Collectors.toSet());
 
-    for (AttentionSetUpdate attentionSetUpdate : toClear) {
+    updateAttentionSet(msg, toClear);
+  }
+
+  private void addReviewersToAttentionSet(StringBuilder msg) {
+    if (workInProgress != null || getNotes().getChange().isWorkInProgress()) {
+      // Users shouldn't be added to the attention set if the change is work in progress.
+      return;
+    }
+
+    Set<Map.Entry<Account.Id, ReviewerStateInternal>> allReviewers = new HashSet<>();
+    allReviewers.addAll(convertAccountAddressesToIds(reviewersByEmail).entrySet());
+    allReviewers.addAll(reviewers.entrySet());
+
+    Set<Account.Id> currentReviewers =
+        getNotes().getReviewers().byState(ReviewerStateInternal.REVIEWER);
+    Set<AttentionSetUpdate> updates = new HashSet();
+    for (Map.Entry<Account.Id, ReviewerStateInternal> reviewer : allReviewers) {
+      if (reviewer.getValue().equals(ReviewerStateInternal.REVIEWER)) {
+        updates.add(
+            AttentionSetUpdate.createForWrite(
+                reviewer.getKey(), AttentionSetUpdate.Operation.ADD, "Reviewer was added"));
+      }
+      if (reviewer.getValue().equals(ReviewerStateInternal.REMOVED)
+          && currentReviewers.contains(reviewer.getKey())) {
+        updates.add(
+            AttentionSetUpdate.createForWrite(
+                reviewer.getKey(), AttentionSetUpdate.Operation.REMOVE, "Reviewer was removed"));
+      }
+    }
+    updateAttentionSet(msg, updates);
+  }
+
+  private Map<Account.Id, ReviewerStateInternal> convertAccountAddressesToIds(
+      Map<Address, ReviewerStateInternal> reviewersAddressToState) {
+    Map<Account.Id, ReviewerStateInternal> accountIdToState = new HashMap();
+    for (Map.Entry<Address, ReviewerStateInternal> reviewer : reviewersAddressToState.entrySet()) {
+      try {
+        accountIdToState.put(
+            accountResolver
+                .resolve(reviewer.getKey().email(), accountStateIncludeInactive())
+                .asUnique()
+                .account()
+                .id(),
+            reviewer.getValue());
+      } catch (IOException
+          | ConfigInvalidException
+          | AccountResolver.UnresolvableAccountException ex) {
+        throw new StorageException(
+            String.format("Account %s could not be resolved", reviewer.getKey().email()), ex);
+      }
+    }
+    return accountIdToState;
+  }
+
+  private static Predicate<AccountState> accountStateIncludeInactive() {
+    return (AccountState s) -> true;
+  }
+
+  private void updateAttentionSet(StringBuilder msg, Set<AttentionSetUpdate> updates) {
+    for (AttentionSetUpdate attentionSetUpdate : updates) {
       addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));
     }
   }

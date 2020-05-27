@@ -93,6 +93,11 @@ public class CommentSender extends ReplyToChangeSender {
       return args.urlFormatter.get().getCommentsTabView(change).orElse(null);
     }
 
+    /** @return a web link to the findings tab view of a change. */
+    public String getFindingsTabLink() {
+      return args.urlFormatter.get().getFindingsTabView(change).orElse(null);
+    }
+
     /**
      * @return A title for the group, i.e. "Commit Message", "Merge List", or "File [[filename]]".
      */
@@ -386,9 +391,7 @@ public class CommentSender extends ReplyToChangeSender {
 
     for (CommentSender.FileCommentGroup group : getGroupedInlineComments(repo)) {
       Map<String, Object> groupData = new HashMap<>();
-      if (group.filename.equals(Patch.PATCHSET_LEVEL)) {
-        groupData.put("link", group.getCommentsTabLink());
-      } else {
+      if (!group.filename.equals(Patch.PATCHSET_LEVEL)) {
         groupData.put("link", group.getFileLink());
       }
       groupData.put("title", group.getTitle());
@@ -420,7 +423,11 @@ public class CommentSender extends ReplyToChangeSender {
         // Set the comment link.
 
         if (comment.key.filename.equals(Patch.PATCHSET_LEVEL)) {
-          commentData.put("link", group.getCommentsTabLink());
+          if (comment instanceof RobotComment) {
+            commentData.put("link", group.getFindingsTabLink());
+          } else {
+            commentData.put("link", group.getCommentsTabLink());
+          }
         } else if (comment.lineNbr == 0) {
           commentData.put("link", group.getFileLink());
         } else {

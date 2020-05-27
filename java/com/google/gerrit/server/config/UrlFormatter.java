@@ -52,6 +52,11 @@ public interface UrlFormatter {
     return getChangeViewUrl(change.getProject(), change.getId()).map(url -> url + "?tab=comments");
   }
 
+  /** Returns the URL for viewing the findings tab view of a change. */
+  default Optional<String> getFindingsTabView(Change change) {
+    return getChangeViewUrl(change.getProject(), change.getId()).map(url -> url + "?tab=findings");
+  }
+
   /** Returns the URL for viewing a file in a given patch set of a change. */
   default Optional<String> getPatchFileView(Change change, int patchsetId, String filename) {
     return getChangeViewUrl(change.getProject(), change.getId())

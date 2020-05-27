@@ -70,6 +70,30 @@
       "revId": "b8d7649f22408f9d0308927f07e0f95e1c29e539",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af362652_7373cd77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-27T07:28:15Z",
+      "side": 1,
+      "message": "hmm have you looked at the video ? you can see that when the screen reader reads out the `disabled` state, they have both `aria-disabled` and `disabled`",
+      "parentUuid": "7c22148f_23d15f26",
+      "range": {
+        "startLine": 9,
+        "startChar": 18,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "b8d7649f22408f9d0308927f07e0f95e1c29e539",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

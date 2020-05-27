@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9159a97b_29d1c102",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-27T14:13:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f45c5fe_4b68ca9b",
+      "revId": "2428ebd1fa59911f49e329d31598257682af8b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a460d4b_22c21bfe",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "2428ebd1fa59911f49e329d31598257682af8b9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4fc629d_7bfe7699",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-27T14:13:44Z",
+      "side": 1,
+      "message": "I don\u0027t want -1 because then whole subtree would be be keyboard focusable. I want undefined, so element doesn\u0027t have any tabIndex set.",
+      "parentUuid": "1a460d4b_22c21bfe",
+      "range": {
+        "startLine": 300,
+        "startChar": 12,
+        "endLine": 300,
+        "endChar": 21
+      },
+      "revId": "2428ebd1fa59911f49e329d31598257682af8b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

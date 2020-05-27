@@ -94,6 +94,30 @@
       "revId": "b8d7649f22408f9d0308927f07e0f95e1c29e539",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "696c48b4_dad48fbe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-27T08:37:09Z",
+      "side": 1,
+      "message": "actually its not in the video, but I just tried the voiceover again, with the `aria-disabled`, it will read `button, dimmed, button text`, without it, it will just read `button, button text`, and i think disabled status can be very helpful",
+      "parentUuid": "af362652_7373cd77",
+      "range": {
+        "startLine": 9,
+        "startChar": 18,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "b8d7649f22408f9d0308927f07e0f95e1c29e539",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

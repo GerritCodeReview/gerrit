@@ -74,14 +74,6 @@ class GrMessage extends GestureEventListeners(
         computed: '_computeAuthor(message)',
       },
       /**
-       * Used in cleaner_changelog experiment
-       *
-       * @type {Array} - array of threads attached to the message
-       */
-      commentThreads: {
-        type: Array,
-      },
-      /**
        * TODO(taoalpha): remove once the change log experiment is launched
        *
        * @type {Object} - a map on file and comments on it
@@ -140,11 +132,11 @@ class GrMessage extends GestureEventListeners(
         type: String,
         computed:
             '_computeMessageContentCollapsed(message.message, message.tag,' +
-            ' commentThreads)',
+            ' message.commentThreads)',
       },
       _commentCountText: {
         type: Number,
-        computed: '_computeCommentCountText(comments, commentThreads,'
+        computed: '_computeCommentCountText(comments, message.commentThreads,'
             + ' _isCleanerLogExperimentEnabled)',
       },
       _loggedIn: {

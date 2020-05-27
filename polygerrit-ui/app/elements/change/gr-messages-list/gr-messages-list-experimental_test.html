@@ -302,11 +302,11 @@ suite('gr-messages-list-experimental tests', () => {
       const messageElements = getMessages();
       // threads
       assert.equal(
-          messageElements[0].commentThreads.length,
+          messageElements[0].message.commentThreads.length,
           3);
       // first thread contains 1 comment
       assert.equal(
-          messageElements[0].commentThreads[0].comments.length,
+          messageElements[0].message.commentThreads[0].comments.length,
           1);
     });
 

@@ -258,8 +258,8 @@ export const htmlTemplate = html`
             <template is="dom-if" if="[[_isCleanerLogExperimentEnabled]]">
               <gr-thread-list
                 change="[[change]]"
-                hidden$="[[!commentThreads.length]]"
-                threads="[[commentThreads]]"
+                hidden$="[[!message.commentThreads.length]]"
+                threads="[[message.commentThreads]]"
                 change-num="[[changeNum]]"
                 logged-in="[[_loggedIn]]"
                 hide-toggle-buttons

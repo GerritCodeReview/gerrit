@@ -275,8 +275,9 @@ class GrMessagesListExperimental extends mixinBehaviors( [
    * all messages and updates, aligns or massages some of the properties.
    */
   _computeCombinedMessages(messages, reviewerUpdates, changeComments) {
-    messages = messages || [];
-    reviewerUpdates = reviewerUpdates || [];
+    const params = [messages, reviewerUpdates, changeComments];
+    if (params.some(o => o === undefined)) return [];
+
     let mi = 0;
     let ri = 0;
     let combinedMessages = [];

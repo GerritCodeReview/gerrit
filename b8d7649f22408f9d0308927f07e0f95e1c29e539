@@ -46,6 +46,30 @@
       "revId": "b8d7649f22408f9d0308927f07e0f95e1c29e539",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c22148f_23d15f26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-27T07:22:22Z",
+      "side": 1,
+      "message": "I understand that article that they recommend to use just \u003cbutton aria-disabled\u003d\"true\"\u003e  instead of \u003cbutton disabled\u003e. \n\n\u003cbutton aria-disabled\u003dtrue disabled\u003e I guess will be ignore same as \u003cbutton disabled\u003e I don\u0027t see what will be changed. But I haven\u0027t tested it.",
+      "parentUuid": "20e95b63_0c9d92f4",
+      "range": {
+        "startLine": 9,
+        "startChar": 18,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "b8d7649f22408f9d0308927f07e0f95e1c29e539",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

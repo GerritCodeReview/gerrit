@@ -105,6 +105,21 @@ class DefaultMemoryCacheFactory implements MemoryCacheFactory {
       builder.expireAfterAccess(expireAfterAccess.toNanos(), NANOSECONDS);
     }
 
+    Duration refreshAfterWrite = def.refreshAfterWrite();
+    if (has(def.configKey(), "refreshAfterWrite")) {
+      builder.refreshAfterWrite(
+          ConfigUtil.getTimeUnit(
+              cfg,
+              "cache",
+              def.configKey(),
+              "refreshAfterWrite",
+              toSeconds(refreshAfterWrite),
+              SECONDS),
+          SECONDS);
+    } else if (refreshAfterWrite != null) {
+      builder.refreshAfterWrite(refreshAfterWrite.toNanos(), NANOSECONDS);
+    }
+
     return builder;
   }
 
@@ -139,6 +154,21 @@ class DefaultMemoryCacheFactory implements MemoryCacheFactory {
           SECONDS);
     } else if (expireAfterAccess != null) {
       builder.expireAfterAccess(expireAfterAccess.toNanos(), NANOSECONDS);
+    }
+
+    Duration refreshAfterWrite = def.refreshAfterWrite();
+    if (has(def.configKey(), "refreshAfterWrite")) {
+      builder.expireAfterAccess(
+          ConfigUtil.getTimeUnit(
+              cfg,
+              "cache",
+              def.configKey(),
+              "refreshAfterWrite",
+              toSeconds(refreshAfterWrite),
+              SECONDS),
+          SECONDS);
+    } else if (refreshAfterWrite != null) {
+      builder.refreshAfterWrite(refreshAfterWrite.toNanos(), NANOSECONDS);
     }
 
     return builder;

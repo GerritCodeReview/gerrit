@@ -32,7 +32,6 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -59,7 +58,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -85,9 +83,6 @@ public class ProjectState {
   private final Set<AccountGroup.UUID> localOwners;
   private final long globalMaxObjectSizeLimit;
   private final boolean inheritProjectMaxObjectSizeLimit;
-
-  /** Last system time the configuration's revision was examined. */
-  private volatile long lastCheckGeneration;
 
   /** Local access sections, wrapped in SectionMatchers for faster evaluation. */
   private volatile List<SectionMatcher> localAccessSections;
@@ -137,33 +132,6 @@ public class ProjectState {
         }
       }
       localOwners = Collections.unmodifiableSet(groups);
-    }
-  }
-
-  void initLastCheck(long generation) {
-    lastCheckGeneration = generation;
-  }
-
-  boolean needsRefresh(long generation) {
-    if (generation <= 0) {
-      return isRevisionOutOfDate();
-    }
-    if (lastCheckGeneration != generation) {
-      lastCheckGeneration = generation;
-      return isRevisionOutOfDate();
-    }
-    return false;
-  }
-
-  private boolean isRevisionOutOfDate() {
-    try (Repository git = gitMgr.openRepository(getNameKey())) {
-      Ref ref = git.getRefDatabase().exactRef(RefNames.REFS_CONFIG);
-      if (ref == null || ref.getObjectId() == null) {
-        return true;
-      }
-      return !ref.getObjectId().equals(config.getRevision());
-    } catch (IOException gone) {
-      return true;
     }
   }
 

@@ -14,7 +14,11 @@
 
 package com.google.gerrit.server.config;
 
+import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
+
+import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gerrit.server.CacheRefreshExecutor;
 import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.AbstractModule;
@@ -24,7 +28,7 @@ import java.util.concurrent.ExecutorService;
 import org.eclipse.jgit.lib.Config;
 
 /**
- * Module providing the {@link ReceiveCommitsExecutor}.
+ * Module providing different executors.
  *
  * <p>This module is intended to be installed at the top level when creating a {@code sysInjector}
  * in {@code Daemon} or similar, not nested in another module. This ensures the module can be
@@ -37,7 +41,7 @@ public class SysExecutorModule extends AbstractModule {
   @Provides
   @Singleton
   @ReceiveCommitsExecutor
-  public ExecutorService createReceiveCommitsExecutor(
+  public ExecutorService provideReceiveCommitsExecutor(
       @GerritServerConfig Config config, WorkQueue queues) {
     int poolSize =
         config.getInt(
@@ -48,11 +52,11 @@ public class SysExecutorModule extends AbstractModule {
   @Provides
   @Singleton
   @SendEmailExecutor
-  public ExecutorService createSendEmailExecutor(
+  public ExecutorService provideSendEmailExecutor(
       @GerritServerConfig Config config, WorkQueue queues) {
     int poolSize = config.getInt("sendemail", null, "threadPoolSize", 1);
     if (poolSize == 0) {
-      return MoreExecutors.newDirectExecutorService();
+      return newDirectExecutorService();
     }
     return queues.createQueue(poolSize, "SendEmail", true);
   }
@@ -60,11 +64,24 @@ public class SysExecutorModule extends AbstractModule {
   @Provides
   @Singleton
   @FanOutExecutor
-  public ExecutorService createFanOutExecutor(@GerritServerConfig Config config, WorkQueue queues) {
+  public ExecutorService provideFanOutExecutor(
+      @GerritServerConfig Config config, WorkQueue queues) {
     int poolSize = config.getInt("execution", null, "fanOutThreadPoolSize", 25);
     if (poolSize == 0) {
-      return MoreExecutors.newDirectExecutorService();
+      return newDirectExecutorService();
     }
     return queues.createQueue(poolSize, "FanOut");
+  }
+
+  @Provides
+  @Singleton
+  @CacheRefreshExecutor
+  public ListeningExecutorService provideCacheRefreshExecutor(
+      @GerritServerConfig Config config, WorkQueue queues) {
+    int poolSize = config.getInt("cache", null, "refreshThreadPoolSize", 2);
+    if (poolSize == 0) {
+      return newDirectExecutorService();
+    }
+    return MoreExecutors.listeningDecorator(queues.createQueue(poolSize, "CacheRefresh"));
   }
 }

@@ -828,6 +828,49 @@ Default is 128 MiB per cache, except:
 +
 If 0 or negative, disk storage for the cache is disabled.
 
+[[cache.name.expireAfterWrite]]cache.<name>.expireAfterWrite::
++
+Duration after which a cached value will be evicted and not
+read anymore.
++
+Values should use common unit suffixes to express their setting:
++
+* ms, milliseconds
+* s, sec, second, seconds
+* m, min, minute, minutes
+* h, hr, hour, hours
++
+Disabled by default.
+
+[[cache.name.refreshAfterWrite]]cache.<name>.refreshAfterWrite::
++
+Duration after which we asynchronously refresh the cached value.
++
+Values should use common unit suffixes to express their setting:
++
+* ms, milliseconds
+* s, sec, second, seconds
+* m, min, minute, minutes
+* h, hr, hour, hours
++
+This applies only to these caches that support refreshing:
++
+* `"projects"`: Caching project information in-memory. Defaults to 15 minutes.
+
+[[cache.refreshThreadPoolSize]]cache.refreshThreadPoolSize::
++
+Number of threads that are available to refresh cached values that became
+out of date. This applies only to these caches that support refreshing:
++
+* `"projects"`: Caching project information in-memory
++
+Refreshes will only be scheduled on this executor if the values are
+out of sync.
+The check if they are is cheap and always happens on the thread that
+inquires for a cached value.
++
+Defaults to 2.
+
 ==== [[cache_names]]Standard Caches
 
 cache `"accounts"`::
@@ -1124,22 +1167,6 @@ this setting will fallback to `cache.diff.intraline` if not set in the
 configuration.
 +
 Default is true, enabled.
-
-[[cache.projects.checkFrequency]]cache.projects.checkFrequency::
-+
-How often project configuration should be checked for update from Git.
-Gerrit Code Review caches project access rules and configuration in
-memory, checking the refs/meta/config branch every checkFrequency
-minutes to see if a new revision should be loaded and used for future
-access. Values can be specified using standard time unit abbreviations
-('ms', 'sec', 'min', etc.).
-+
-If set to 0, checks occur every time, which may slow down operations.
-If set to 'disabled' or 'off', no check will ever be done.
-Administrators may force the cache to flush with
-link:cmd-flush-caches.html[gerrit flush-caches].
-+
-Default is 5 minutes.
 
 [[cache.projects.loadOnStartup]]cache.projects.loadOnStartup::
 +

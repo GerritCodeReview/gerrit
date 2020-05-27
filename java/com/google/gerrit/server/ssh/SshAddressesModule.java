@@ -40,7 +40,7 @@ public class SshAddressesModule extends AbstractModule {
   @Provides
   @Singleton
   @SshListenAddresses
-  public List<SocketAddress> getListenAddresses(@GerritServerConfig Config cfg) {
+  public List<SocketAddress> provideListenAddresses(@GerritServerConfig Config cfg) {
     List<SocketAddress> listen = Lists.newArrayListWithExpectedSize(2);
     String[] want = cfg.getStringList("sshd", null, "listenaddress");
     if (want == null || want.length == 0) {
@@ -71,7 +71,7 @@ public class SshAddressesModule extends AbstractModule {
   @Provides
   @Singleton
   @SshAdvertisedAddresses
-  List<String> getAdvertisedAddresses(
+  List<String> provideAdvertisedAddresses(
       @GerritServerConfig Config cfg, @SshListenAddresses List<SocketAddress> listen) {
     String[] want = cfg.getStringList("sshd", null, "advertisedaddress");
     if (want.length > 0) {

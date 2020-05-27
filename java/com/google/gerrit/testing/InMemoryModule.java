@@ -15,10 +15,11 @@
 package com.google.gerrit.testing;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.base.Strings;
-import com.google.common.util.concurrent.MoreExecutors;
+import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperationsImpl;
 import com.google.gerrit.extensions.client.AuthType;
@@ -30,6 +31,7 @@ import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.index.project.ProjectSchemaDefinitions;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.server.CacheRefreshExecutor;
 import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
@@ -209,7 +211,7 @@ public class InMemoryModule extends FactoryModule {
           @Singleton
           @DiffExecutor
           public ExecutorService createDiffExecutor() {
-            return MoreExecutors.newDirectExecutorService();
+            return newDirectExecutorService();
           }
         });
     install(new DefaultMemoryCacheModule());
@@ -277,7 +279,7 @@ public class InMemoryModule extends FactoryModule {
   @Singleton
   @SendEmailExecutor
   public ExecutorService createSendEmailExecutor() {
-    return MoreExecutors.newDirectExecutorService();
+    return newDirectExecutorService();
   }
 
   @Provides
@@ -285,6 +287,13 @@ public class InMemoryModule extends FactoryModule {
   @FanOutExecutor
   public ExecutorService createFanOutExecutor(WorkQueue queues) {
     return queues.createQueue(2, "FanOut");
+  }
+
+  @Provides
+  @Singleton
+  @CacheRefreshExecutor
+  public ListeningExecutorService createCacheRefreshExecutor() {
+    return newDirectExecutorService();
   }
 
   private Module luceneIndexModule() {

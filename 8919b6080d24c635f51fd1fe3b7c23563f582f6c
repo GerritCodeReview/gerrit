@@ -22,6 +22,30 @@
       "revId": "8919b6080d24c635f51fd1fe3b7c23563f582f6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f71ed505_7d7fe94b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-27T14:49:14Z",
+      "side": 1,
+      "message": "I tried to make it more informative by adding aria-label to patch range start and end comboboxes",
+      "parentUuid": "5c6c2d90_4738637e",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 26
+      },
+      "revId": "8919b6080d24c635f51fd1fe3b7c23563f582f6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

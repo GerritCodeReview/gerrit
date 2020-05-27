@@ -297,10 +297,22 @@ export const htmlTemplate = html`
   </style>
   <div id="container" on-click="_handleFileListClick">
     <div class="header-row row">
+      <!-- endpoint: change-view-file-list-header-prepend -->
+      <template is="dom-if" if="[[_showPrependedDynamicColumns]]">
+        <template
+          is="dom-repeat"
+          items="[[_dynamicPrependedHeaderEndpoints]]"
+          as="headerEndpoint"
+        >
+          <gr-endpoint-decorator name$="[[headerEndpoint]]">
+          </gr-endpoint-decorator>
+        </template>
+      </template>
       <div class="path">File</div>
       <div class="comments">Comments</div>
       <div class="sizeBars">Size</div>
       <div class="header-stats">Delta</div>
+      <!-- endpoint: change-view-file-list-header -->
       <template is="dom-if" if="[[_showDynamicColumns]]">
         <template
           is="dom-repeat"
@@ -332,6 +344,23 @@ export const htmlTemplate = html`
           data-file$="[[_computeFileRange(file)]]"
           tabindex="-1"
         >
+          <!-- endpoint: change-view-file-list-content-prepend -->
+          <template is="dom-if" if="[[_showPrependedDynamicColumns]]">
+            <template
+              is="dom-repeat"
+              items="[[_dynamicPrependedContentEndpoints]]"
+              as="contentEndpoint"
+            >
+              <gr-endpoint-decorator name="[[contentEndpoint]]">
+                <gr-endpoint-param name="changeNum" value="[[changeNum]]">
+                </gr-endpoint-param>
+                <gr-endpoint-param name="patchRange" value="[[patchRange]]">
+                </gr-endpoint-param>
+                <gr-endpoint-param name="path" value="[[file.__path]]">
+                </gr-endpoint-param>
+              </gr-endpoint-decorator>
+            </template>
+          </template>
           <!-- TODO: Remove data-url as it appears its not used -->
           <span
             data-url="[[_computeDiffURL(change, patchRange, file.__path, editMode)]]"
@@ -433,6 +462,7 @@ export const htmlTemplate = html`
               file.size_delta)]]
             </span>
           </div>
+          <!-- endpoint: change-view-file-list-content -->
           <template is="dom-if" if="[[_showDynamicColumns]]">
             <template
               is="dom-repeat"
@@ -537,6 +567,7 @@ export const htmlTemplate = html`
         -[[_patchChange.deleted]]
       </span>
     </div>
+    <!-- endpoint: change-view-file-list-summary -->
     <template is="dom-if" if="[[_showDynamicColumns]]">
       <template
         is="dom-repeat"

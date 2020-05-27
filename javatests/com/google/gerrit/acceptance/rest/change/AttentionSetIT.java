@@ -194,4 +194,32 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
     assertThat(attentionSet.reason()).isEqualTo("Change was submitted");
   }
+
+  @Test
+  public void reviewersAddedAndRemovedFromAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    gApi.changes().id(r.getChangeId()).addReviewer(user.id().toString());
+
+    AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet.reason()).isEqualTo("Reviewer was added");
+
+    gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove();
+
+    attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet.reason()).isEqualTo("Reviewer was removed");
+  }
+
+  @Test
+  public void reviewersInWorkProgressNotAddedToAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).setWorkInProgress();
+    gApi.changes().id(r.getChangeId()).addReviewer(user.email());
+
+    assertThat(r.getChange().attentionSet()).hasSize(0);
+  }
 }

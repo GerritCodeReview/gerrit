@@ -67,7 +67,7 @@ export const htmlTemplate = html`
       >
     </template>
   </span>
-  <span class="arrow">→</span>
+  <span aria-hidden="true" class="arrow">→</span>
   <span class="patchRange">
     <gr-dropdown-list
       id="patchNumDropdown"

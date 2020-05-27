@@ -22,6 +22,30 @@
       "revId": "d525fa2d1ab0a08ea4a00455444d703666914a7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a98b38b2_bc3fe6e5",
+        "filename": "java/com/google/gerrit/server/notedb/DeleteZombieCommentsRefs.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-27T01:20:51Z",
+      "side": 1,
+      "message": "Agreed, let me amend that as well.",
+      "parentUuid": "6c2dce6c_b3b98c11",
+      "range": {
+        "startLine": 51,
+        "startChar": 46,
+        "endLine": 51,
+        "endChar": 98
+      },
+      "revId": "d525fa2d1ab0a08ea4a00455444d703666914a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "02ef5f8c71a05c8ec3400ac6522c02b6b7bf4322",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b4bd26a_5d02a51c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-28T10:45:15Z",
+      "side": 1,
+      "message": "It was like that in the original commit.",
+      "parentUuid": "767fa34b_3973c12d",
+      "range": {
+        "startLine": 13,
+        "startChar": 25,
+        "endLine": 13,
+        "endChar": 32
+      },
+      "revId": "02ef5f8c71a05c8ec3400ac6522c02b6b7bf4322",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

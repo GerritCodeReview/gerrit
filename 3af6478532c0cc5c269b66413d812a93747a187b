@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f560405d_9ce5b2ee",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-28T08:18:15Z",
+      "side": 1,
+      "message": "Just to double check:\nThe _computeTabIndex method is used to set attribute value. The doc for the setAttribute method(\nhttps://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute) says \"A DOMString containing the value to assign to the attribute. Any non-string value specified is converted automatically into a string.\"\n\nHow does it work with polymer binding? I suspect, that it can assign string \"undefined\" when method returns undefined. Could you please confirm, that tabindex attribute works correctly with attribute (i.e. assign value undefined, not string)? Or may be extend on of exsiting test and check tabindex in the test.",
+      "range": {
+        "startLine": 300,
+        "startChar": 12,
+        "endLine": 300,
+        "endChar": 21
+      },
+      "revId": "3af6478532c0cc5c269b66413d812a93747a187b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

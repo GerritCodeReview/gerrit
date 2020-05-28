@@ -1,0 +1,366 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62ee9002_eef4cc81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-28T16:35:04Z",
+      "side": 1,
+      "message": "easier",
+      "range": {
+        "startLine": 15,
+        "startChar": 3,
+        "endLine": 15,
+        "endChar": 9
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18e964b6_582febf7",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleCommitHelper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-28T16:35:04Z",
+      "side": 1,
+      "message": "It\u0027s typically discouraged to name classes xxxHelper. What about \"SubmoduleCommits\"?",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 27
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "310e0836_8e711fda",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleCommitHelper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-28T16:35:04Z",
+      "side": 1,
+      "message": "Could you please add a Javadoc description for this class?",
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54ee228f_9a6832ab",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleCommitHelper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-28T16:35:04Z",
+      "side": 1,
+      "message": "Could we make those fields final?",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 38
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b72b680f_d19b1ca5",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleCommitHelper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-28T16:35:04Z",
+      "side": 1,
+      "message": "Now that this is a method in another class, it would be better if we could switch to Optional if it\u0027s not too much effort.",
+      "range": {
+        "startLine": 78,
+        "startChar": 2,
+        "endLine": 78,
+        "endChar": 11
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "820e8ce6_c2680f9f",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-28T16:35:04Z",
+      "side": 1,
+      "message": "This class is written to by GitlinkOp/SubmoduleOp and read from SubmoduleCommitHelper. I\u0027m wondering whether it wouldn\u0027t be better to move CachedBranchTips as a field to SubmoduleCommitHelper and limit reading/writing to SubmoduleCommitHelper. What do you think?",
+      "range": {
+        "startLine": 71,
+        "startChar": 18,
+        "endLine": 71,
+        "endChar": 50
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15187937_c70f0a55",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-28T16:35:04Z",
+      "side": 1,
+      "message": "Should also be final.",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 39
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "189e59f1_f0aabdb7",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-28T16:35:04Z",
+      "side": 1,
+      "message": "This code is duplicated. Would it make sense to extract it to a private method?",
+      "range": {
+        "startLine": 469,
+        "startChar": 4,
+        "endLine": 472,
+        "endChar": 31
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2023af9a_1fec1b1d",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-28T16:35:04Z",
+      "side": 1,
+      "message": "The previous version of this method in this class had package-private visibility and was in a different location. Is there a reason to open up visibility and to move the method within this class?",
+      "range": {
+        "startLine": 476,
+        "startChar": 2,
+        "endLine": 476,
+        "endChar": 8
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "661d914a_b84fe599",
+        "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitHelperTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-28T16:35:04Z",
+      "side": 1,
+      "message": "Thanks for adding these tests. :-)",
+      "range": {
+        "startLine": 58,
+        "startChar": 13,
+        "endLine": 58,
+        "endChar": 38
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab6ee263_4a272e6c",
+        "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitHelperTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-28T16:35:04Z",
+      "side": 1,
+      "message": "Nit, here and below: We typically use ImmutableList.of() from Guava.",
+      "range": {
+        "startLine": 122,
+        "startChar": 73,
+        "endLine": 122,
+        "endChar": 86
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76518eab_1bccde8f",
+        "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitHelperTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-28T16:35:04Z",
+      "side": 1,
+      "message": "Unused variable.",
+      "range": {
+        "startLine": 144,
+        "startChar": 8,
+        "endLine": 144,
+        "endChar": 60
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "377ce293_f1db8736",
+        "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitHelperTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-28T16:35:04Z",
+      "side": 1,
+      "message": "Is this ToDo a leftover?",
+      "range": {
+        "startLine": 158,
+        "startChar": 2,
+        "endLine": 158,
+        "endChar": 78
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f007850_da85d200",
+        "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitHelperTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-28T16:35:04Z",
+      "side": 1,
+      "message": "Should be private.",
+      "range": {
+        "startLine": 159,
+        "startChar": 2,
+        "endLine": 159,
+        "endChar": 11
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cad80952_190c8f01",
+        "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitHelperTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-28T16:35:04Z",
+      "side": 1,
+      "message": "Is this necessary as SubmoduleCommitHelper didn\u0027t use flush() on the ObjectInserter?",
+      "range": {
+        "startLine": 205,
+        "startChar": 7,
+        "endLine": 205,
+        "endChar": 92
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d215dae_8ba64111",
+        "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitHelperTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-28T16:35:04Z",
+      "side": 1,
+      "message": "It\u0027s interesting that so many operations are required to read the submodule SHA-1. Are there any plans for adding a simpler mechanism to JGit? (Just asking as I\u0027m curious.)",
+      "range": {
+        "startLine": 209,
+        "startChar": 19,
+        "endLine": 209,
+        "endChar": 38
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

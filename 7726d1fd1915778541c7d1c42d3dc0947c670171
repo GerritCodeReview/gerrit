@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ad070b3_712d9e64",
+        "filename": "java/com/google/gerrit/server/submit/CachedBranchTips.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-28T11:29:04Z",
+      "side": 1,
+      "message": "Are there plans to use this class outside of this package? If its use stays as in this series, we could reduce the visibility to package-private.",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 6
+      },
+      "revId": "7726d1fd1915778541c7d1c42d3dc0947c670171",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "924f4cfe_e3dda26c",
+        "filename": "java/com/google/gerrit/server/submit/CachedBranchTips.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-28T11:29:04Z",
+      "side": 1,
+      "message": "It\u0027s a bit strange that getTip() uses public visibility whereas put() uses package-private visibility. Was this a deliberate choice?",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 8
+      },
+      "revId": "7726d1fd1915778541c7d1c42d3dc0947c670171",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8505bc0c_7b8535c6",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-28T11:29:04Z",
+      "side": 1,
+      "message": "The class and variable name would be confusing inside of Gerrit as Gerrit has actual caches whose implementation contains \"cache\" in their name. Could we just go with BranchTips as class and variable name?",
+      "range": {
+        "startLine": 86,
+        "startChar": 18,
+        "endLine": 86,
+        "endChar": 50
+      },
+      "revId": "7726d1fd1915778541c7d1c42d3dc0947c670171",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

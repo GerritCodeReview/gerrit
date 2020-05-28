@@ -16,6 +16,24 @@
       "revId": "e4dd09422d631a9d2598ee8360c2eec85d305dc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ff27776_16ae6a23",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-28T21:19:21Z",
+      "side": 1,
+      "message": "I don\u0027t understand where the nested for loop is. Can you clarify? :-)",
+      "parentUuid": "be28ff31_20e0baf3",
+      "revId": "e4dd09422d631a9d2598ee8360c2eec85d305dc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

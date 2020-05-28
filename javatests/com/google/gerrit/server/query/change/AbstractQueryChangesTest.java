@@ -227,7 +227,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @After
   public void cleanUp() {
-    lifecycle.stop();
+    if (lifecycle != null) {
+      lifecycle.stop();
+    }
   }
 
   protected void initAfterLifecycleStart() throws Exception {}
@@ -261,7 +263,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     if (lifecycle != null) {
       lifecycle.stop();
     }
-    requestContext.setContext(null);
+    if (requestContext != null) {
+      requestContext.setContext(null);
+    }
   }
 
   @Before
@@ -280,7 +284,25 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @After
   public void resetTime() {
     TestTimeUtil.useSystemTime();
-    System.setProperty("user.timezone", systemTimeZone);
+    // Different behaviour between JDK 8/11 and JDK 14
+    // fullTextWithSpecialChars(com.google.gerrit.server.query.change.LuceneQueryChangesLatestIndexVersionTest)
+    // java.lang.NullPointerException
+    //  at java.base/java.util.concurrent.ConcurrentHashMap.putVal(ConcurrentHashMap.java:1011)
+    //  at java.base/java.util.concurrent.ConcurrentHashMap.put(ConcurrentHashMap.java:1006)
+    //  at java.base/java.util.Properties.put(Properties.java:1334)
+    //  at java.base/java.util.Properties.setProperty(Properties.java:229)
+    //  at java.base/java.lang.System.setProperty(System.java:929)
+    //  at
+    // com.google.gerrit.server.query.change.AbstractQueryChangesTest.resetTime(AbstractQueryChangesTest.java:284)
+    //  at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+    //  at
+    // java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+    //  at
+    // java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+    //  at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+    if (systemTimeZone != null) {
+      System.setProperty("user.timezone", systemTimeZone);
+    }
   }
 
   @Test

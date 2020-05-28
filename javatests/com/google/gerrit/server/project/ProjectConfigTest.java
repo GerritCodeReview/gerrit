@@ -631,13 +631,12 @@ public class ProjectConfigTest {
             .create();
     ProjectConfig cfg = read(rev);
     assertThat(cfg.getCommentLinkSections()).isEmpty();
-    assertThat(cfg.getValidationErrors())
-        .containsExactly(
-            ValidationError.create(
-                "project.config: Invalid pattern \"(bugs{+#?)(d+)\" in commentlink.bugzilla.match: "
-                    + "Illegal repetition near index 4\n"
-                    + "(bugs{+#?)(d+)\n"
-                    + "    ^"));
+    // TODO(davido): Different error is reported between JDK 8/11 and JDK 14/15:
+    // shorten the text to check for in the error message
+    assertThat(cfg.getValidationErrors().get(0).getMessage())
+        .contains(
+            "project.config: Invalid pattern \"(bugs{+#?)(d+)\" in commentlink.bugzilla.match: "
+                + "Illegal repetition near index");
   }
 
   @Test

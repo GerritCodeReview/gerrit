@@ -87,12 +87,14 @@ const ChangeActions = {
   PRIVATE: 'private',
   PRIVATE_DELETE: 'private.delete',
   PUBLISH_EDIT: 'publishEdit',
+  REBASE: 'rebase',
   REBASE_EDIT: 'rebaseEdit',
   RESTORE: 'restore',
   REVERT: 'revert',
   REVERT_SUBMISSION: 'revert_submission',
   REVIEWED: 'reviewed',
   STOP_EDIT: 'stopEdit',
+  SUBMIT: 'submit',
   UNIGNORE: 'unignore',
   UNREVIEWED: 'unreviewed',
   WIP: 'wip',
@@ -1353,6 +1355,8 @@ class GrChangeActions extends mixinBehaviors( [
         case ChangeActions.DELETE_EDIT:
         case ChangeActions.PUBLISH_EDIT:
         case ChangeActions.REBASE_EDIT:
+        case ChangeActions.REBASE:
+        case ChangeActions.SUBMIT:
           GerritNav.navigateToChange(this.change);
           break;
         case ChangeActions.REVERT_SUBMISSION:

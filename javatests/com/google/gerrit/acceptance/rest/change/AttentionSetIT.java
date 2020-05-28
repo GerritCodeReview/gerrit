@@ -250,12 +250,11 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void addingReviewerWhileMarkingWorkInprogressDoesntAddToAttentionSet() throws Exception {
     PushOneCommit.Result r = createChange();
-    ReviewInput reviewInput = new ReviewInput();
+    ReviewInput reviewInput = new ReviewInput().setWorkInProgress(true);
     AddReviewerInput addReviewerInput = new AddReviewerInput();
     addReviewerInput.state = ReviewerState.REVIEWER;
     addReviewerInput.reviewer = user.email();
     reviewInput.reviewers = ImmutableList.of(addReviewerInput);
-    reviewInput.workInProgress = true;
 
     change(r).current().review(reviewInput);
 
@@ -288,5 +287,18 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet.account()).isEqualTo(user.id());
     assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
     assertThat(attentionSet.reason()).isEqualTo("Reviewer was removed");
+  }
+
+  @Test
+  public void readyForReviewAddsAllReviewersToAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r).setWorkInProgress();
+    change(r).addReviewer(user.email());
+
+    change(r).setReadyForReview();
+    AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet.reason()).isEqualTo("Change was marked ready for review");
   }
 }

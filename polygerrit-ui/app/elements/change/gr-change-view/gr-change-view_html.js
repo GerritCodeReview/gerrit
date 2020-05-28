@@ -172,9 +172,6 @@ export const htmlTemplate = html`
       margin: var(--spacing-l) 0;
       padding: 0 var(--spacing-l);
     }
-    #startReviewBtn {
-      margin-left: var(--spacing-s);
-    }
     .collapseToggleContainer {
       display: flex;
       margin-bottom: 8px;
@@ -446,19 +443,10 @@ export const htmlTemplate = html`
                   title="[[createTitle(Shortcut.OPEN_REPLY_DIALOG,
                         ShortcutSection.ACTIONS)]]"
                   hidden$="[[!_loggedIn]]"
-                  primary$="[[!_canStartReview]]"
+                  primary=""
                   disabled="[[_replyDisabled]]"
                   on-click="_handleReplyTap"
                   >[[_replyButtonLabel]]</gr-button
-                >
-                <gr-button
-                  id="startReviewBtn"
-                  class="startReview"
-                  title="Switches change state from 'Work in Progress' to 'Active'."
-                  hidden="[[!_canStartReview]]"
-                  primary$="[[_canStartReview]]"
-                  on-click="_handleReadyTap"
-                  >Start review</gr-button
                 >
               </div>
               <div id="commitMessage" class="commitMessage">

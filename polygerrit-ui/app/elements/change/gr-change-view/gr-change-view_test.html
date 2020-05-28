@@ -1062,7 +1062,7 @@ suite('gr-change-view tests', () => {
     const getLabel = element._computeReplyButtonLabel;
 
     assert.equal(getLabel(null, false), 'Reply');
-    assert.equal(getLabel(null, true), 'Reply');
+    assert.equal(getLabel(null, true), 'Start Review');
 
     const changeRecord = {base: null};
     assert.equal(getLabel(changeRecord, false), 'Reply');
@@ -1075,10 +1075,6 @@ suite('gr-change-view tests', () => {
       'file2.txt': [{}, {}],
     };
     assert.equal(getLabel(changeRecord, false), 'Reply (3)');
-  });
-
-  test('start review button when owner of WIP change', () => {
-    assert.equal(element.$.startReviewBtn.innerHTML, 'Start review');
   });
 
   test('comment events properly update diff drafts', () => {

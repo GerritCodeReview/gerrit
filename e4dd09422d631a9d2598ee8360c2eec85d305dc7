@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be28ff31_20e0baf3",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-28T16:10:24Z",
+      "side": 1,
+      "message": "should not it be moved out of current forEach loop first ? otherwise you are having a nested for loop here, is that necessary ?",
+      "revId": "e4dd09422d631a9d2598ee8360c2eec85d305dc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

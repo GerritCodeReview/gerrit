@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.change;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.UnmodifiableIterator;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -26,6 +27,7 @@ import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddToAttentionSetInput;
+import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.RemoveFromAttentionSetInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ReviewerState;
@@ -250,12 +252,11 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void addingReviewerWhileMarkingWorkInprogressDoesntAddToAttentionSet() throws Exception {
     PushOneCommit.Result r = createChange();
-    ReviewInput reviewInput = new ReviewInput();
+    ReviewInput reviewInput = new ReviewInput().setWorkInProgress(true);
     AddReviewerInput addReviewerInput = new AddReviewerInput();
     addReviewerInput.state = ReviewerState.REVIEWER;
     addReviewerInput.reviewer = user.email();
     reviewInput.reviewers = ImmutableList.of(addReviewerInput);
-    reviewInput.workInProgress = true;
 
     change(r).current().review(reviewInput);
 
@@ -307,5 +308,68 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet.account()).isEqualTo(user.id());
     assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
     assertThat(attentionSet.reason()).isEqualTo("Reviewer was removed");
+  }
+
+  @Test
+  public void readyForReviewAddsAllReviewersToAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r).setWorkInProgress();
+    change(r).addReviewer(user.email());
+
+    change(r).setReadyForReview();
+    AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet.reason()).isEqualTo("Change was marked ready for review");
+  }
+
+  @Test
+  public void readyForReviewWhileRemovingReviewerDoesntAddThemToAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r).setWorkInProgress();
+    change(r).addReviewer(user.email());
+
+    ReviewInput reviewInput = new ReviewInput().setReady(true);
+    AddReviewerInput addReviewerInput = new AddReviewerInput();
+    addReviewerInput.state = ReviewerState.CC;
+    addReviewerInput.reviewer = user.email();
+    reviewInput.reviewers = ImmutableList.of(addReviewerInput);
+    change(r).current().review(reviewInput);
+
+    assertThat(r.getChange().attentionSet()).hasSize(0);
+  }
+
+  @Test
+  public void readyForReviewWhileAddingReviewerAddsThemToAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r).setWorkInProgress();
+
+    ReviewInput reviewInput = new ReviewInput().setReady(true);
+    AddReviewerInput addReviewerInput = new AddReviewerInput();
+    addReviewerInput.state = ReviewerState.REVIEWER;
+    addReviewerInput.reviewer = user.email();
+    reviewInput.reviewers = ImmutableList.of(addReviewerInput);
+    change(r).current().review(reviewInput);
+
+    AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet.reason()).isEqualTo("Change was marked ready for review");
+  }
+
+  @Test
+  public void reviewersAreNotAddedForNoReasonBecauseOfAnUpdate() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r).addToAttentionSet(new AddToAttentionSetInput(user.email(), "user"));
+    change(r).attention(user.id().toString()).remove(new RemoveFromAttentionSetInput("removed"));
+
+    HashtagsInput hashtagsInput = new HashtagsInput();
+    hashtagsInput.add = ImmutableSet.of("tag");
+    change(r).setHashtags(hashtagsInput);
+
+    AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet.reason()).isEqualTo("removed");
   }
 }

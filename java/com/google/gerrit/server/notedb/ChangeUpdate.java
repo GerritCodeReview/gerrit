@@ -82,6 +82,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -631,7 +632,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, e.getValue().getFooterKey());
       addIdent(msg, e.getKey()).append('\n');
     }
-    addReviewersToAttentionSet(msg);
+    addNewReviewersToAttentionSet(msg);
 
     for (Map.Entry<Address, ReviewerStateInternal> e : reviewersByEmail.entrySet()) {
       addFooter(msg, e.getValue().getByEmailFooterKey(), e.getKey().toString());
@@ -695,6 +696,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_WORK_IN_PROGRESS, workInProgress);
       if (workInProgress) {
         clearAttentionSet(msg, "Change was marked work in progress");
+      } else {
+        addAllReviewersToAttentionSet(msg);
       }
     }
 
@@ -734,12 +737,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     updateAttentionSet(msg, toClear);
   }
 
-  private void addReviewersToAttentionSet(StringBuilder msg) {
+  private void addNewReviewersToAttentionSet(StringBuilder msg) {
     if (workInProgress != null || getNotes().getChange().isWorkInProgress()) {
       // Users shouldn't be added to the attention set if the change is work in progress.
       return;
     }
-
     Set<Account.Id> currentReviewers =
         getNotes().getReviewers().byState(ReviewerStateInternal.REVIEWER);
     Set<AttentionSetUpdate> updates = new HashSet();
@@ -759,6 +761,32 @@ public class ChangeUpdate extends AbstractChangeUpdate {
                 reviewer.getKey(), AttentionSetUpdate.Operation.REMOVE, "Reviewer was removed"));
       }
     }
+    updateAttentionSet(msg, updates);
+  }
+
+  private void addAllReviewersToAttentionSet(StringBuilder msg) {
+    Set<Account.Id> newAddedReviewers =
+        reviewers.entrySet().stream()
+            .filter(r -> r.getValue().equals(ReviewerStateInternal.REVIEWER))
+            .map(r -> r.getKey())
+            .collect(Collectors.toSet());
+    Set<Account.Id> newRemovedReviewers =
+        reviewers.entrySet().stream()
+            .filter(r -> !r.getValue().equals(ReviewerStateInternal.REVIEWER))
+            .map(r -> r.getKey())
+            .collect(Collectors.toSet());
+    Set<AttentionSetUpdate> updates =
+        Stream.concat(
+                getNotes().getReviewers().byState(ReviewerStateInternal.REVIEWER).stream()
+                    // Don't add reviewers that are currently being removed.
+                    .filter(r -> !newRemovedReviewers.contains(r)),
+                // Also add reviewers that are currently being added.
+                newAddedReviewers.stream())
+            .map(
+                r ->
+                    AttentionSetUpdate.createForWrite(
+                        r, AttentionSetUpdate.Operation.ADD, "Change was marked ready for review"))
+            .collect(Collectors.toSet());
     updateAttentionSet(msg, updates);
   }
 

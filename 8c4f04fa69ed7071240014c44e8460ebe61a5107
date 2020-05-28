@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f3d0f59_98e365c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-28T15:45:13Z",
+      "side": 1,
+      "message": "It is way better now, an I could probably be convinced to accept that \"fix\" with the current intermediate state, but, I am still not happy with this solution. (I know, we can bikeshed that topic indefinitely, but it\u0027s not me who started the bikeshed process).\n\nSo what I am after is to undo as much as possible from changes in: [1]. And only do a minimal invasive/cosmetic change to satisfy new Gerrit developers. Remember: it is not the final solution, but a interim state.\n\nPrimary reason is because I am against changing the semantic of the existig action and moving it around in other part of the UI and doing completely different thing: no amending reviewer or leaving a comment thing. This is what you should generally never do, and much less as a part of interim solution. I would procrastenate with that move until design team will conduct extensive UI/UX research and come to the final conclusion (may be even with design process suggested by Matthias Sohn).\n\nSo my favorite interim solution fix would still be (as discussed in the issue linked to this CL):\n\n* 1. Restore the original button name for Reply button: \"Start Review\" that is the only primary button (blue). Alternatively: rename it in \"Reply and Start Review\": most importantly, keep: \"Start Review\" as part of its name, like it was in the past.\n* 2. Find another name for the new, de-emphasized button that only flipping the WIP bit, but *not* offering amend reviewers and/or leaving a message, e.g.: \"Mark as Ready\". Alternatively: \"Set Ready\" or just \"Ready\".\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/256995",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "8c4f04fa69ed7071240014c44e8460ebe61a5107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

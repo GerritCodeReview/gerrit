@@ -270,13 +270,13 @@ export const htmlTemplate = html`
       >
         <iron-icon id="icon" icon="gr-icons:delete"></iron-icon>
       </gr-button>
-      <span class="date" on-click="_handleAnchorClick">
+      <span class="date" tabindex="0" on-click="_handleAnchorClick">
         <gr-date-formatter
           has-tooltip=""
           date-str="[[comment.updated]]"
         ></gr-date-formatter>
       </span>
-      <div class="show-hide">
+      <div class="show-hide" tabindex="0">
         <label
           class="show-hide"
           aria-label="[[_computeShowHideAriaLabel(collapsed)]]"

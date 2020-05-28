@@ -70,6 +70,30 @@
       "revId": "d50369682583b2869414bea53864fe273e090ddd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1918ebe0_54a500e5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-05-28T14:12:41Z",
+      "side": 0,
+      "message": "Ok, thanks for the explanation!",
+      "parentUuid": "3f45572a_3d7d6c36",
+      "range": {
+        "startLine": 449,
+        "startChar": 31,
+        "endLine": 449,
+        "endChar": 46
+      },
+      "revId": "d50369682583b2869414bea53864fe273e090ddd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

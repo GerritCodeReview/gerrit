@@ -33,6 +33,25 @@ load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
 load("//tools:nongoogle.bzl", "declare_nongoogle_deps")
 
 http_archive(
+    name = "remote_java_tools_linux",
+    sha256 = "e687f08039c973ea9497cb3efbf2f589a8f742dd8eeabee91bc5cceacd8f8226",
+    urls = [
+        "https://github.com/davido/java_tools/releases/download/v14.0/java_tools_javac14_linux-v14.0.zip",
+    ],
+)
+
+http_archive(
+    name = "openjdk14_linux_archive",
+    build_file_content = """
+java_runtime(name = 'runtime', srcs =  glob(['**']), visibility = ['//visibility:public'])
+exports_files(["WORKSPACE"], visibility = ["//visibility:public"])
+""",
+    sha256 = "48bb8947034cd079ad1ef83335e7634db4b12a26743a0dc314b6b861480777aa",
+    strip_prefix = "zulu14.28.21-ca-jdk14.0.1-linux_x64",
+    urls = ["https://cdn.azul.com/zulu/bin/zulu14.28.21-ca-jdk14.0.1-linux_x64.tar.gz"],
+)
+
+http_archive(
     name = "bazel_toolchains",
     sha256 = "88e818f9f03628eef609c8429c210ecf265ffe46c2af095f36c7ef8b1855fef5",
     strip_prefix = "bazel-toolchains-92dd8a7a518a2fb7ba992d47c8b38299fe0be825",

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f05597b1_8e537281",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-28T13:25:24Z",
+      "side": 0,
+      "message": "Now, that all (?) caller sites for that helper method are removed, can that method itself be removed as well?\n\n   _canStartReview() \n\nis here: [1], that is using:\n\n   _computeCanStartReview()\n\nhere: [2].\n\n[1] \nhttps://gerrit.googlesource.com/gerrit/+/0f4eb98932cc923a746f389a7e9048d23134d6b9/polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js#227\n[2] \nhttps://gerrit.googlesource.com/gerrit/+/0f4eb98932cc923a746f389a7e9048d23134d6b9/polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js#1892",
+      "range": {
+        "startLine": 449,
+        "startChar": 31,
+        "endLine": 449,
+        "endChar": 46
+      },
+      "revId": "d50369682583b2869414bea53864fe273e090ddd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

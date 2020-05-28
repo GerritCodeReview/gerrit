@@ -243,4 +243,17 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     assertThat(r.getChange().attentionSet()).hasSize(0);
   }
+
+  @Test
+  public void readyForReviewAddsAllReviewersToAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r).setWorkInProgress();
+    change(r).addReviewer(user.email());
+
+    change(r).setReadyForReview();
+    AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet.reason()).isEqualTo("Change was marked ready for review");
+  }
 }

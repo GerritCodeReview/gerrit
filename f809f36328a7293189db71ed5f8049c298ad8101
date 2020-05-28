@@ -46,6 +46,30 @@
       "revId": "f809f36328a7293189db71ed5f8049c298ad8101",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb7d3bc9_af9a40ef",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-star/gr-change-star.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-28T13:58:49Z",
+      "side": 1,
+      "message": "I forgot to mention, this is how gmail is doing it. But your labels are fine as well",
+      "parentUuid": "fd841910_f540522b",
+      "range": {
+        "startLine": 57,
+        "startChar": 29,
+        "endLine": 57,
+        "endChar": 33
+      },
+      "revId": "f809f36328a7293189db71ed5f8049c298ad8101",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

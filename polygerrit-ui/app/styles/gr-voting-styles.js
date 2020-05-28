@@ -26,6 +26,7 @@ $_documentContainer.innerHTML = `<dom-module id="gr-voting-styles">
           box-shadow: none;
           box-sizing: border-box;
           min-width: 3em;
+          color: var(--vote-text-color);
         }
       }
     </style>

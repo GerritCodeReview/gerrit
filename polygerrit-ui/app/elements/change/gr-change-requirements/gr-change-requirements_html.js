@@ -31,10 +31,10 @@ export const htmlTemplate = html`
       line-height: var(--line-height-mono);
     }
     .approved.status {
-      color: var(--vote-text-color-recommended);
+      color: var(--positive-green-text-color);
     }
     .rejected.status {
-      color: var(--vote-text-color-disliked);
+      color: var(--negative-red-text-color);
     }
     iron-icon {
       color: inherit;

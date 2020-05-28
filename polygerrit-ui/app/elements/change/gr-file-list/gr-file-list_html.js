@@ -256,8 +256,13 @@ export const htmlTemplate = html`
     }
     .pathLink:hover gr-copy-clipboard,
     .pathLink:focus gr-copy-clipboard,
+    .pathLink span:focus + span + span + gr-copy-clipboard,
+    .pathLink span:focus + span + gr-copy-clipboard,
+    .pathLink span:focus + gr-copy-clipboard,
     .oldPath:focus gr-copy-clipboard,
-    .oldPath:hover gr-copy-clipboard {
+    .oldPath:hover gr-copy-clipboard,
+    gr-copy-clipboard.copyFileName:hover,
+    gr-copy-clipboard.copyFileName:focus {
       visibility: visible;
     }
 
@@ -365,20 +370,24 @@ export const htmlTemplate = html`
           <span
             data-url="[[_computeDiffURL(change, patchRange, file.__path, editMode)]]"
             class="path"
+            tabindex="-1"
           >
             <a
               class="pathLink"
               href$="[[_computeDiffURL(change, patchRange, file.__path, editMode)]]"
+              tabindex="-1"
             >
               <span
                 title$="[[computeDisplayPath(file.__path)]]"
                 class="fullFileName"
+                tabindex="0"
               >
                 [[computeDisplayPath(file.__path)]]
               </span>
               <span
                 title$="[[computeDisplayPath(file.__path)]]"
                 class="truncatedFileName"
+                tabindex="0"
               >
                 [[computeTruncatedPath(file.__path)]]
               </span>
@@ -391,14 +400,17 @@ export const htmlTemplate = html`
                 [[_computeFileStatusLabel(file.status)]]
               </span>
               <gr-copy-clipboard
-                hide-input=""
+                tabindex="0"
+                class="copyFileName"
+                hide-input
                 text="[[file.__path]]"
               ></gr-copy-clipboard>
             </a>
             <template is="dom-if" if="[[file.old_path]]">
-              <div class="oldPath" title$="[[file.old_path]]">
-                [[file.old_path]]
+              <div tabindex="-1" class="oldPath" title$="[[file.old_path]]">
+                <span tabindex="0">[[file.old_path]]</span>
                 <gr-copy-clipboard
+                  tabindex="0"
                   hide-input=""
                   text="[[file.old_path]]"
                 ></gr-copy-clipboard>

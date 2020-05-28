@@ -46,6 +46,30 @@
       "revId": "d50369682583b2869414bea53864fe273e090ddd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f45572a_3d7d6c36",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-28T14:07:42Z",
+      "side": 0,
+      "message": "The rest endpoint exposes UiAction: [1] that implements: [2] Description meta data, that is serialized as JSON and transported to the client side, that understands visible action attribute and handles them in generic way for all actions:\n\n  [...]\n  .setVisible(\n    and(\n       rsrc.getChange().isNew() \u0026\u0026 rsrc.getChange().isWorkInProgress(),\n    rsrc.permissions().testCond(ChangePermission.TOGGLE_WORK_IN_PROGRESS_STATE)));\n\nOnly if you render the button manually (as previously done with \"Start Review\" button) you need to interefere and evaluate the visible attribute yourself.\n\n[1] https://gerrit.googlesource.com/gerrit/+/0f4eb98932cc923a746f389a7e9048d23134d6b9/java/com/google/gerrit/server/restapi/change/SetReadyForReview.java#42\n[2] https://gerrit.googlesource.com/gerrit/+/0f4eb98932cc923a746f389a7e9048d23134d6b9/java/com/google/gerrit/server/restapi/change/SetReadyForReview.java#80",
+      "parentUuid": "52aeb180_3e32d5be",
+      "range": {
+        "startLine": 449,
+        "startChar": 31,
+        "endLine": 449,
+        "endChar": 46
+      },
+      "revId": "d50369682583b2869414bea53864fe273e090ddd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

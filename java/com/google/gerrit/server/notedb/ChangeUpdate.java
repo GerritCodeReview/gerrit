@@ -647,7 +647,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addIdent(msg, e.getKey()).append('\n');
     }
     applyReviewerUpdatesToAttentionSet();
-
     for (Map.Entry<Address, ReviewerStateInternal> e : reviewersByEmail.entrySet()) {
       addFooter(msg, e.getValue().getByEmailFooterKey(), e.getKey().toString());
     }
@@ -710,6 +709,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_WORK_IN_PROGRESS, workInProgress);
       if (workInProgress) {
         clearAttentionSet("Change was marked work in progress");
+      } else {
+        addAllReviewersToAttentionSet();
       }
     }
 
@@ -754,11 +755,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private void applyReviewerUpdatesToAttentionSet() {
-    if (workInProgress != null || getNotes().getChange().isWorkInProgress()) {
+    if ((workInProgress != null && workInProgress == true)
+        || getNotes().getChange().isWorkInProgress()) {
       // Users shouldn't be added to the attention set if the change is work in progress.
       return;
     }
-
     Set<Account.Id> currentReviewers =
         getNotes().getReviewers().byState(ReviewerStateInternal.REVIEWER);
     Set<AttentionSetUpdate> updates = new HashSet();
@@ -778,6 +779,17 @@ public class ChangeUpdate extends AbstractChangeUpdate {
                 reviewer.getKey(), AttentionSetUpdate.Operation.REMOVE, "Reviewer was removed"));
       }
     }
+    addToPlannedAttentionSetUpdates(updates);
+  }
+
+  private void addAllReviewersToAttentionSet() {
+    Set<AttentionSetUpdate> updates =
+        getNotes().getReviewers().byState(ReviewerStateInternal.REVIEWER).stream()
+            .map(
+                r ->
+                    AttentionSetUpdate.createForWrite(
+                        r, AttentionSetUpdate.Operation.ADD, "Change was marked ready for review"))
+            .collect(Collectors.toSet());
     addToPlannedAttentionSetUpdates(updates);
   }
 

@@ -75,6 +75,7 @@ export const htmlTemplate = html`
       font-size: var(--font-size-small);
       background-color: var(--dark-add-highlight-color);
     }
+    .status.invisible,
     .status.M {
       display: none;
     }

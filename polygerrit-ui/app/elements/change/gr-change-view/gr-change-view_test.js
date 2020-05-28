@@ -2000,7 +2000,10 @@ suite('gr-change-view tests', () => {
     };
     const fileList = element.$.fileList;
     const Actions = GrEditConstants.Actions;
-    const controls = element.$.fileListHeader.$.editControls;
+    element.$.fileListHeader.editMode = true;
+    flushAsynchronousOperations();
+    const controls = element.$.fileListHeader
+        .shadowRoot.querySelector('#editControls');
     sandbox.stub(controls, 'openDeleteDialog');
     sandbox.stub(controls, 'openRenameDialog');
     sandbox.stub(controls, 'openRestoreDialog');

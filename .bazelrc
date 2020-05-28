@@ -2,7 +2,11 @@ build --workspace_status_command="python ./tools/workspace_status.py" --strategy
 build --repository_cache=~/.gerritcodereview/bazel-cache/repository
 build --action_env=PATH
 build --disk_cache=~/.gerritcodereview/bazel-cache/cas
-build --java_toolchain //tools:error_prone_warnings_toolchain
+
+build --java_toolchain=@remote_java_tools_linux//:toolchain_jdk_14
+build --host_java_toolchain=@remote_java_tools_linux//:toolchain_jdk_14
+build --javabase=@openjdk14_linux_archive//:runtime
+build --host_javabase=@openjdk14_linux_archive//:runtime
 
 # Enable strict_action_env flag to. For more information on this feature see
 # https://groups.google.com/forum/#!topic/bazel-discuss/_VmRfMyyHBk.

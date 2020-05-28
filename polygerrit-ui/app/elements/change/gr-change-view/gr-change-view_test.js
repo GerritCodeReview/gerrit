@@ -1052,10 +1052,6 @@ suite('gr-change-view tests', () => {
     assert.equal(getLabel(changeRecord, false), 'Reply (3)');
   });
 
-  test('start review button when owner of WIP change', () => {
-    assert.equal(element.$.startReviewBtn.innerHTML, 'Start review');
-  });
-
   test('comment events properly update diff drafts', () => {
     element._patchRange = {
       basePatchNum: 'PARENT',

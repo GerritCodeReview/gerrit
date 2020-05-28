@@ -921,23 +921,6 @@ class GrChangeView extends mixinBehaviors( [
     this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
   }
 
-  _handleReadyTap(e) {
-    e.preventDefault();
-    const button = e && e.target;
-    if (button) {
-      button.loading = true;
-    }
-    return this.$.restAPI.startReview(this._changeNum)
-        .then(result => {
-          this._reload(result);
-        })
-        .finally(() => {
-          if (button) {
-            button.loading = false;
-          }
-        });
-  }
-
   _handleOpenDiffPrefs() {
     this.$.fileList.openDiffPrefs();
   }

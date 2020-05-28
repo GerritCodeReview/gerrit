@@ -9,7 +9,17 @@ acceptance_tests(
         "no_windows",
     ],
     deps = [
+        ":util",
         "//java/com/google/gerrit/mail",
         "//java/com/google/gerrit/server/util/time",
+    ],
+)
+
+java_library(
+    name = "util",
+    testonly = True,
+    srcs = glob(["TestRealm.java"]),
+    deps = [
+        "//java/com/google/gerrit/acceptance:lib",
     ],
 )

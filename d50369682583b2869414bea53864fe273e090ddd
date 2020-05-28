@@ -94,6 +94,30 @@
       "revId": "d50369682583b2869414bea53864fe273e090ddd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c36c17a2_aa626c5b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-28T15:14:39Z",
+      "side": 0,
+      "message": "_canStartReview cannot be removed. It is used as an input for the reply dialog.",
+      "parentUuid": "1918ebe0_54a500e5",
+      "range": {
+        "startLine": 449,
+        "startChar": 31,
+        "endLine": 449,
+        "endChar": 46
+      },
+      "revId": "d50369682583b2869414bea53864fe273e090ddd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

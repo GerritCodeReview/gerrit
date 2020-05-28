@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.AttentionSetUpdate.Operation;
@@ -81,8 +80,7 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
 
     ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
     update.addToPlannedAttentionSetUpdates(
-        ImmutableSet.of(
-            AttentionSetUpdate.createForWrite(attentionUserId, Operation.REMOVE, reason)));
+        AttentionSetUpdate.createForWrite(attentionUserId, Operation.REMOVE, reason));
     if (withChangeMessage) {
       addChangeMessage(ctx, update);
     }

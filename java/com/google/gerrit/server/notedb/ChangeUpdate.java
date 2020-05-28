@@ -50,6 +50,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -406,6 +407,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         .forEach(u -> plannedAttentionSetUpdates.putIfAbsent(u.account(), u));
   }
 
+  public void addToPlannedAttentionSetUpdates(AttentionSetUpdate update) {
+    addToPlannedAttentionSetUpdates(ImmutableSet.of(update));
+  }
+
   public void setAssignee(Account.Id assignee) {
     checkArgument(assignee != null, "use removeAssignee");
     this.assignee = Optional.of(assignee);
@@ -647,7 +652,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addIdent(msg, e.getKey()).append('\n');
     }
     applyReviewerUpdatesToAttentionSet();
-
     for (Map.Entry<Address, ReviewerStateInternal> e : reviewersByEmail.entrySet()) {
       addFooter(msg, e.getValue().getByEmailFooterKey(), e.getKey().toString());
     }
@@ -710,6 +714,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_WORK_IN_PROGRESS, workInProgress);
       if (workInProgress) {
         clearAttentionSet("Change was marked work in progress");
+      } else {
+        addAllReviewersToAttentionSet();
       }
     }
 
@@ -742,23 +748,20 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (getNotes().getAttentionSet() == null) {
       return;
     }
-    Set<AttentionSetUpdate> removeAll =
-        AttentionSetUtil.additionsOnly(getNotes().getAttentionSet()).stream()
-            .map(
-                a ->
-                    AttentionSetUpdate.createForWrite(
-                        a.account(), AttentionSetUpdate.Operation.REMOVE, reason))
-            .collect(Collectors.toSet());
-
-    addToPlannedAttentionSetUpdates(removeAll);
+    AttentionSetUtil.additionsOnly(getNotes().getAttentionSet()).stream()
+        .map(
+            a ->
+                AttentionSetUpdate.createForWrite(
+                    a.account(), AttentionSetUpdate.Operation.REMOVE, reason))
+        .forEach(a -> addToPlannedAttentionSetUpdates(a));
   }
 
   private void applyReviewerUpdatesToAttentionSet() {
-    if (workInProgress != null || getNotes().getChange().isWorkInProgress()) {
+    if ((workInProgress != null && workInProgress == true)
+        || getNotes().getChange().isWorkInProgress()) {
       // Users shouldn't be added to the attention set if the change is work in progress.
       return;
     }
-
     Set<Account.Id> currentReviewers =
         getNotes().getReviewers().byState(ReviewerStateInternal.REVIEWER);
     Set<AttentionSetUpdate> updates = new HashSet();
@@ -779,6 +782,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       }
     }
     addToPlannedAttentionSetUpdates(updates);
+  }
+
+  private void addAllReviewersToAttentionSet() {
+    getNotes().getReviewers().byState(ReviewerStateInternal.REVIEWER).stream()
+        .map(
+            r ->
+                AttentionSetUpdate.createForWrite(
+                    r, AttentionSetUpdate.Operation.ADD, "Change was marked ready for review"))
+        .forEach(a -> addToPlannedAttentionSetUpdates(a));
   }
 
   /**

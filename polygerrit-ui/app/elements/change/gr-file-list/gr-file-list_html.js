@@ -419,7 +419,11 @@ export const htmlTemplate = html`
             [[_computeCommentsStringMobile(changeComments, patchRange,
             file.__path)]]
           </div>
-          <div class$="[[_computeSizeBarsClass(_showSizeBars, file.__path)]]">
+          <div
+            class$="[[_computeSizeBarsClass(_showSizeBars, file.__path)]]"
+            aria-label="A bar that represents the addition and deletion ratio for the current file"
+            tabindex="0"
+          >
             <svg width="61" height="8">
               <rect
                 x$="[[_computeBarAdditionX(file, _sizeBarLayout)]]"

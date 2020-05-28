@@ -70,6 +70,30 @@
       "revId": "1f17a147d8e3560719a8956628c2d3dc9f906f7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6a2ee20_50785fa5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-05-28T17:23:22Z",
+      "side": 1,
+      "message": "\u003e well, one semi-reliable way to detect picks is to parse cherry-pick -x footers (cherry-picks without these are a crime against humanity anyway).\n\nYet they are everywhere, I don\u0027t believe Gerrit adds these footers during a cherry-pick?\n\n\u003e additionally, as this is gerrit, we have change-ids - a change which is created after another change with the same id was integrated is pretty much by definition a cherry-pick.\n\nUnfortunately, while this is the \"natural\" way of things, this cannot be relied upon to always be true. There are many ways that a human can make this not be the case. In the early days of Gerrit, some people reused change-id across projects to show that changes were related. I believe Shawn wanted to even make it a \"submit together\" policy. I specifically advocated against it for the exact reason that it was unnatural since the change-id is naturally there during a cherry-pick. \n\nThe other more serious problem with this, is that it does not convey direction, i.e. which change was cherry-picked from which one, and might there have been other cherry-picks in the middle, or perhaps both have a common commit they were both cherry-picked from?",
+      "parentUuid": "39af4425_387c7edb",
+      "range": {
+        "startLine": 9,
+        "startChar": 30,
+        "endLine": 10,
+        "endChar": 13
+      },
+      "revId": "1f17a147d8e3560719a8956628c2d3dc9f906f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

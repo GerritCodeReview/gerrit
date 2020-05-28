@@ -1218,20 +1218,6 @@ suite('gr-change-view tests', () => {
     assert.isTrue(collapseStub.calledTwice);
   });
 
-  test('related changes are updated and new patch selected after rebase',
-      done => {
-        element._changeNum = '42';
-        sandbox.stub(element, 'computeLatestPatchNum', () => 1);
-        sandbox.stub(element, '_reload',
-            () => Promise.resolve());
-        const e = {detail: {action: 'rebase'}};
-        element._handleReloadChange(e).then(() => {
-          assert.isTrue(navigateToChangeStub.lastCall.calledWithExactly(
-              element._change));
-          done();
-        });
-      });
-
   test('related changes are not updated after other action', done => {
     sandbox.stub(element, '_reload', () => Promise.resolve());
     sandbox.stub(element.$.relatedChanges, 'reload');

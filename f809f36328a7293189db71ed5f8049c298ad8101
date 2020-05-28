@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61370351_9563f3b9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-star/gr-change-star.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-05-28T13:53:35Z",
+      "side": 1,
+      "message": "Maybe just `starred ? \u0027Starred\u0027 : \u0027Not starred\u0027",
+      "range": {
+        "startLine": 57,
+        "startChar": 29,
+        "endLine": 57,
+        "endChar": 33
+      },
+      "revId": "f809f36328a7293189db71ed5f8049c298ad8101",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

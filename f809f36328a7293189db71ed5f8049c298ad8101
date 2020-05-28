@@ -22,6 +22,30 @@
       "revId": "f809f36328a7293189db71ed5f8049c298ad8101",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd841910_f540522b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-star/gr-change-star.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-28T13:55:35Z",
+      "side": 1,
+      "message": "that feels like the status but not sure if it can deliver that this is clickable or actionable or not ?",
+      "parentUuid": "61370351_9563f3b9",
+      "range": {
+        "startLine": 57,
+        "startChar": 29,
+        "endLine": 57,
+        "endChar": 33
+      },
+      "revId": "f809f36328a7293189db71ed5f8049c298ad8101",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

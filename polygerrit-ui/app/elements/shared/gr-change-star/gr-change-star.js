@@ -53,6 +53,10 @@ class GrChangeStar extends GestureEventListeners(
     return `gr-icons:star${starred ? '' : '-border'}`;
   }
 
+  _computeAriaLabel(starred) {
+    return starred ? 'Unstar this change' : 'Star this change';
+  }
+
   toggleStar() {
     const newVal = !this.change.starred;
     this.set('change.starred', newVal);

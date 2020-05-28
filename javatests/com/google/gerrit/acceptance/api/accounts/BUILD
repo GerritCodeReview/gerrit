@@ -11,5 +11,15 @@ acceptance_tests(
     deps = [
         "//java/com/google/gerrit/mail",
         "//java/com/google/gerrit/server/util/time",
+        "util",
+    ],
+)
+
+java_library(
+    name = "util",
+    testonly = True,
+    srcs = glob(["TestRealm.java"]),
+    deps = [
+        "//java/com/google/gerrit/acceptance:lib",
     ],
 )

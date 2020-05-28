@@ -16,6 +16,24 @@
       "revId": "0f4eb98932cc923a746f389a7e9048d23134d6b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a51e748a_e8e0c797",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2020-05-28T13:05:22Z",
+      "side": 1,
+      "message": "I think https://gerrit-review.googlesource.com/c/gerrit/+/256995/5/polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html#972 \nThis test has to be changed, as the button is moved/removed.",
+      "parentUuid": "fdff64f1_d1655f48",
+      "revId": "0f4eb98932cc923a746f389a7e9048d23134d6b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

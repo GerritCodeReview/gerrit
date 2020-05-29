@@ -420,6 +420,7 @@ public abstract class VersionedMetaData {
           case NEW:
           case FAST_FORWARD:
             revision = rw.parseCommit(ru.getNewObjectId());
+            update.evictCaches(ru);
             update.fireGitRefUpdatedEvent(ru);
             logger.atFine().log(
                 "Saved commit '%s' as revision '%s' on project '%s'",

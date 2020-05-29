@@ -103,7 +103,7 @@ public class ProjectConfigSchemaUpdateTest {
       return factory
           .read(
               new MetaDataUpdate(
-                  GitReferenceUpdated.DISABLED, Project.nameKey(ALL_PROJECTS), repo, null))
+                  GitReferenceUpdated.DISABLED, null, Project.nameKey(ALL_PROJECTS), repo, null))
           .getConfig();
     }
   }

@@ -1029,7 +1029,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       cfg.getLabelSections().put(verified.getName(), verified);
       cfg.commit(md);
     }
-    projectCache.evict(project);
 
     String heads = RefNames.REFS_HEADS + "*";
     projectOperations

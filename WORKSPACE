@@ -564,36 +564,36 @@ maven_jar(
     sha1 = "5e3bda828a80c7a21dfbe2308d1755759c2fd7b4",
 )
 
-OW2_VERS = "7.2"
+OW2_VERS = "9.0"
 
 maven_jar(
     name = "ow2-asm",
     artifact = "org.ow2.asm:asm:" + OW2_VERS,
-    sha1 = "fa637eb67eb7628c915d73762b681ae7ff0b9731",
+    sha1 = "af582ff60bc567c42d931500c3fdc20e0141ddf9",
 )
 
 maven_jar(
     name = "ow2-asm-analysis",
     artifact = "org.ow2.asm:asm-analysis:" + OW2_VERS,
-    sha1 = "b6e6abe057f23630113f4167c34bda7086691258",
+    sha1 = "4630afefbb43939c739445dde0af1a5729a0fb4e",
 )
 
 maven_jar(
     name = "ow2-asm-commons",
     artifact = "org.ow2.asm:asm-commons:" + OW2_VERS,
-    sha1 = "ca2954e8d92a05bacc28ff465b25c70e0f512497",
+    sha1 = "5a34a3a9ac44f362f35d1b27932380b0031a3334",
 )
 
 maven_jar(
     name = "ow2-asm-tree",
     artifact = "org.ow2.asm:asm-tree:" + OW2_VERS,
-    sha1 = "3a23cc36edaf8fc5a89cb100182758ccb5991487",
+    sha1 = "9df939f25c556b0c7efe00701d47e77a49837f24",
 )
 
 maven_jar(
     name = "ow2-asm-util",
     artifact = "org.ow2.asm:asm-util:" + OW2_VERS,
-    sha1 = "a3ae34e57fa8a4040e28247291d0cc3d6b8c7bcf",
+    sha1 = "7c059a94ab5eed3347bf954e27fab58e52968848",
 )
 
 AUTO_VALUE_VERSION = "1.7.4"
@@ -913,28 +913,28 @@ maven_jar(
 
 maven_jar(
     name = "mockito",
-    artifact = "org.mockito:mockito-core:2.24.0",
-    sha1 = "969a7bcb6f16e076904336ebc7ca171d412cc1f9",
+    artifact = "org.mockito:mockito-core:3.3.3",
+    sha1 = "4878395d4e63173f3825e17e5e0690e8054445f1",
 )
 
-BYTE_BUDDY_VERSION = "1.9.7"
+BYTE_BUDDY_VERSION = "1.10.19"
 
 maven_jar(
     name = "bytebuddy",
     artifact = "net.bytebuddy:byte-buddy:" + BYTE_BUDDY_VERSION,
-    sha1 = "8fea78fea6449e1738b675cb155ce8422661e237",
+    sha1 = "7a8cf46cd99db76f02b335d53aad222d42bc412d",
 )
 
 maven_jar(
     name = "bytebuddy-agent",
     artifact = "net.bytebuddy:byte-buddy-agent:" + BYTE_BUDDY_VERSION,
-    sha1 = "8e7d1b599f4943851ffea125fd9780e572727fc0",
+    sha1 = "6453928a03a95dc23d7ef120cfd58f4539c64b53",
 )
 
 maven_jar(
     name = "objenesis",
-    artifact = "org.objenesis:objenesis:2.6",
-    sha1 = "639033469776fd37c08358c6b92a4761feb2af4b",
+    artifact = "org.objenesis:objenesis:3.1",
+    sha1 = "48f12deaae83a8dfc3775d830c9fd60ea59bbbca",
 )
 
 load("@build_bazel_rules_nodejs//:index.bzl", "yarn_install")

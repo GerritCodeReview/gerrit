@@ -313,6 +313,11 @@ class GrMessagesListExperimental extends mixinBehaviors( [
       m.commentThreads = computeThreads(m, combinedMessages, changeComments);
       m._revision_number = computeRevision(m, combinedMessages);
       m.tag = computeTag(m);
+    });
+    // computeIsImportant() depends on tags and revision numbers already being
+    // updated for all messages, so we have to compute this in its own forEach
+    // loop.
+    combinedMessages.forEach(m => {
       m.isImportant = computeIsImportant(m, combinedMessages);
     });
     return combinedMessages;

@@ -9,9 +9,9 @@
       "updated": "2020-05-29T13:25:01Z"
     },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "NOT_STARTED",
+      "state": "SCHEDULED",
       "created": "2020-05-29T13:20:23Z",
-      "updated": "2020-05-29T13:43:32Z"
+      "updated": "2020-05-29T13:45:16Z"
     },
     "gerritforge:reviewdb-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "FAILED",

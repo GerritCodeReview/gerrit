@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5db969dc_96186787",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-29T13:58:07Z",
+      "side": 1,
+      "message": "@VisibleForTesting?",
+      "range": {
+        "startLine": 81,
+        "startChar": 2,
+        "endLine": 81,
+        "endChar": 9
+      },
+      "revId": "48b2619755aeaa53f5a05261578586c5f908cae9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aabfbfab_c64967a0",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
         "patchSetId": 2

@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "f58d346d_843f5575",
+        "filename": "java/com/google/gerrit/server/restapi/change/SetReadyForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-29T12:38:08Z",
+      "side": 1,
+      "message": "\"Ready for Review\" is too close to \"Start Review\". And that applies to any title with \"review\" in it.\n\n\"Mark as Active\" is indeed not elegant, but I think it will convey to users very clearly what it does, and that it does no more than a state change. It is consistent with other \"Mark as ...\" actions.",
+      "parentUuid": "3859990f_7a6a1429",
+      "range": {
+        "startLine": 78,
+        "startChar": 19,
+        "endLine": 78,
+        "endChar": 33
+      },
+      "revId": "37f5b49cef3e8d3b80dcf95a614913f6689d80ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "92d94013_563cb563",
         "filename": "java/com/google/gerrit/server/restapi/change/SetReadyForReview.java",
         "patchSetId": 1
@@ -93,6 +117,30 @@
       "revId": "37f5b49cef3e8d3b80dcf95a614913f6689d80ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22b72a6d_153b4f5a",
+        "filename": "java/com/google/gerrit/server/restapi/change/SetReadyForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-29T12:38:08Z",
+      "side": 1,
+      "message": "See above.",
+      "parentUuid": "92d94013_563cb563",
+      "range": {
+        "startLine": 79,
+        "startChar": 59,
+        "endLine": 79,
+        "endChar": 75
+      },
+      "revId": "37f5b49cef3e8d3b80dcf95a614913f6689d80ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

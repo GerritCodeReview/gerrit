@@ -70,6 +70,8 @@ const FileStatus = {
   U: 'Unchanged',
 };
 
+const FILE_ROW_CLASS = 'file-row';
+
 /**
  * Type for FileInfo
  *
@@ -664,29 +666,55 @@ class GrFileList extends mixinBehaviors( [
   }
 
   /**
+   * Returns true if the event e is a click on an element.
+   *
+   * The click is: mouse click or pressing Enter or Space key
+   * P.S> Screen readers sends click event as well
+   */
+  _isClickEvent(e) {
+    if (e.type === 'click') {
+      return true;
+    }
+    const isSpaceOrEnter = (e.key === 'Enter' || e.key === ' ');
+    return e.type === 'keydown' && isSpaceOrEnter;
+  }
+
+  _fileActionClick(e, fileAction) {
+    if (this._isClickEvent(e)) {
+      const fileRow = this._getFileRowFromEvent(e);
+      if (!fileRow) {
+        return;
+      }
+      // Prevent default actions (e.g. scrolling for space key)
+      e.preventDefault();
+      // Prevent _handleFileListClick handler call
+      e.stopPropagation();
+      this.$.fileCursor.setCursor(fileRow.element);
+      fileAction(fileRow.file);
+    }
+  }
+
+  _reviewedClick(e) {
+    this._fileActionClick(e,
+        file => this._reviewFile(file.path));
+  }
+
+  _expandedClick(e) {
+    this._fileActionClick(e,
+        file => this._toggleFileExpanded(file));
+  }
+
+  /**
    * Handle all events from the file list dom-repeat so event handleers don't
    * have to get registered for potentially very long lists.
    */
   _handleFileListClick(e) {
-    // Traverse upwards to find the row element if the target is not the row.
-    let row = e.target;
-    while (!row.classList.contains('row') && row.parentElement) {
-      row = row.parentElement;
-    }
-
-    // No action needed for item without a valid file
-    if (!row.dataset.file) {
+    const fileRow = this._getFileRowFromEvent(e);
+    if (!fileRow) {
       return;
     }
-
-    const file = JSON.parse(row.dataset.file);
+    const file = fileRow.file;
     const path = file.path;
-    // Handle checkbox mark as reviewed.
-    if (e.target.classList.contains('markReviewed')) {
-      e.preventDefault();
-      return this._reviewFile(path);
-    }
-
     // If a path cannot be interpreted from the click target (meaning it's not
     // somewhere in the row, e.g. diff content) or if the user clicked the
     // link, defer to the native behavior.
@@ -696,7 +724,26 @@ class GrFileList extends mixinBehaviors( [
     if (this.descendedFromClass(e.target, 'editFileControls')) { return; }
 
     e.preventDefault();
+    this.$.fileCursor.setCursor(fileRow.element);
     this._toggleFileExpanded(file);
+  }
+
+  _getFileRowFromEvent(e) {
+    // Traverse upwards to find the row element if the target is not the row.
+    let row = e.target;
+    while (!row.classList.contains(FILE_ROW_CLASS) && row.parentElement) {
+      row = row.parentElement;
+    }
+
+    // No action needed for item without a valid file
+    if (!row.dataset.file) {
+      return null;
+    }
+
+    return {
+      file: JSON.parse(row.dataset.file),
+      element: row,
+    };
   }
 
   /**
@@ -1054,7 +1101,7 @@ class GrFileList extends mixinBehaviors( [
     if (this._files && this._files.length > 0) {
       flush();
       this.$.fileCursor.stops = Array.from(
-          dom(this.root).querySelectorAll('.file-row'));
+          dom(this.root).querySelectorAll(`.${FILE_ROW_CLASS}`));
       this.$.fileCursor.setCursorAtIndex(this.selectedIndex, true);
     }
   }
@@ -1117,8 +1164,27 @@ class GrFileList extends mixinBehaviors( [
       FileStatus[statusCode] : 'Status Unknown';
   }
 
+  /**
+   * Converts any boolean-like variable to the string 'true' or 'false'
+   *
+   * This method is useful when you bind aria-checked attribute to a boolean
+   * value. The aria-checked attribute is string attribute. Binding directly
+   * to boolean variable causes problem on gerrit-CI.
+   *
+   * @param {object} val
+   * @return {string} 'true' if val is true-like, otherwise false
+   */
+  _booleanToString(val) {
+    return val ? 'true' : 'false';
+  }
+
   _isFileExpanded(path, expandedFilesRecord) {
     return expandedFilesRecord.base.some(f => f.path === path);
+  }
+
+  _isFileExpandedStr(path, expandedFilesRecord) {
+    return this._booleanToString(
+        this._isFileExpanded(path, expandedFilesRecord));
   }
 
   _computeExpandedFiles(expandedCount, totalCount) {

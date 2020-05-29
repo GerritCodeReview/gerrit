@@ -70,6 +70,30 @@
       "revId": "8c4f04fa69ed7071240014c44e8460ebe61a5107",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e346c618_1f4efa1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-05-29T07:56:48Z",
+      "side": 1,
+      "message": "Just to clarify, the change you are talking about [1] *prevented* the \"Reply\" button from being renamed to \"Start Review\". With [1], \"Reply\" button will always be named \"Reply\".",
+      "parentUuid": "f4852cce_352c015a",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "8c4f04fa69ed7071240014c44e8460ebe61a5107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

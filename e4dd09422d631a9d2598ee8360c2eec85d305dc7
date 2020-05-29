@@ -34,6 +34,24 @@
       "revId": "e4dd09422d631a9d2598ee8360c2eec85d305dc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a72f9597_e943b108",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list-experimental.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-29T08:03:52Z",
+      "side": 1,
+      "message": "oh my bad, somehow I read it like this forEach is inside of the previous forEach... did not notice the `})` in L316",
+      "parentUuid": "2ff27776_16ae6a23",
+      "revId": "e4dd09422d631a9d2598ee8360c2eec85d305dc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

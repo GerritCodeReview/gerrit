@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "45f70747_d31cae1b",
+        "filename": "java/com/google/gerrit/server/schema/GrantRevertPermission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-29T09:58:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "860a645f_d06da390",
+      "range": {
+        "startLine": 76,
+        "startChar": 8,
+        "endLine": 76,
+        "endChar": 69
+      },
+      "revId": "9720f23d6b225a98652de89cb28928d08f1b2c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db0ec5e1_7ad72328",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "8f6d6714_7d718cef",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-29T09:58:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db0ec5e1_7ad72328",
+      "range": {
+        "startLine": 115,
+        "startChar": 11,
+        "endLine": 115,
+        "endChar": 17
+      },
+      "revId": "9720f23d6b225a98652de89cb28928d08f1b2c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ce7643c_3a4f866f",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
         "patchSetId": 3
@@ -62,6 +110,24 @@
       "revId": "9720f23d6b225a98652de89cb28928d08f1b2c2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1195c11_15cdb619",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-29T09:58:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ce7643c_3a4f866f",
+      "revId": "9720f23d6b225a98652de89cb28928d08f1b2c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

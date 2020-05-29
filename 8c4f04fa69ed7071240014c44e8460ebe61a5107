@@ -46,6 +46,30 @@
       "revId": "8c4f04fa69ed7071240014c44e8460ebe61a5107",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4852cce_352c015a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-29T07:23:03Z",
+      "side": 1,
+      "message": "\u003e And I would prefer that a prominent button did not change name and action, which I consider poor UX.\n\nBut this is exactly what: [1] did: it renamed primary button behind Reply dialog from \"Start Review\" to \"Reply\", while still leaving the primary action in the dialog itself: \"Sent and Start Review\". It\u0027s not just \"poor UX\", it is counter productive and will confuse everyone.\n\nDo you see \"Start Review\" part in the primary action in the dialog. Also note, that \"Reply\" is very bad choice! Why? Because you cannot reply at all in WIP state. The notification firehouse is switched off. You can only Save the comments.\n\nIf: [1] would de-couple \"Start Review\" action from Popup Dialog, and remove \"Send and Start Review\" button entirely, only leaving \"Cancel\" | \"Save\" actions, then, and only then it would be justified to remove \"Start Review\" part from the existing button.\n\nI don\u0027t have opinion on the mentioned de-coupling: UI experts would have to investigate the whole voting/amending reviewer/leaving comment/WIP \u003c-\u003e Ready bit flip area and make a conclusion (but you would probably get a shit storm from users who would require two clicks: 1/ amend reviewers in the popup dialog, 2/ close the dialog and click primary standalone button \"Ready for review\"). I only wanted to emphasize why it was wrong to rename the button in: [1], and what condition must be met to rename the button: amend the primary action in the dialog itself!",
+      "parentUuid": "c31d35e8_a2da8188",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "8c4f04fa69ed7071240014c44e8460ebe61a5107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

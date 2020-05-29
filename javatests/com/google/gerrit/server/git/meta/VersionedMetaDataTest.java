@@ -213,7 +213,7 @@ public class VersionedMetaDataTest {
   }
 
   private MetaDataUpdate newMetaDataUpdate(@Nullable BatchRefUpdate bru) {
-    MetaDataUpdate u = new MetaDataUpdate(GitReferenceUpdated.DISABLED, project, repo, bru);
+    MetaDataUpdate u = new MetaDataUpdate(GitReferenceUpdated.DISABLED, null, project, repo, bru);
     CommitBuilder cb = newCommitBuilder();
     u.getCommitBuilder().setAuthor(cb.getAuthor());
     u.getCommitBuilder().setCommitter(cb.getCommitter());

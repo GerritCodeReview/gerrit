@@ -14,12 +14,15 @@
 
 package com.google.gerrit.server.git.meta;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -34,6 +37,8 @@ import org.eclipse.jgit.lib.Repository;
 
 /** Helps with the updating of a {@link VersionedMetaData}. */
 public class MetaDataUpdate implements AutoCloseable {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   @Singleton
   public static class User {
     private final InternalFactory factory;
@@ -181,7 +186,8 @@ public class MetaDataUpdate implements AutoCloseable {
   }
 
   private final GitReferenceUpdated gitRefUpdated;
-  private final Project.NameKey projectName;
+  @Nullable private final Project.NameKey projectName;
+  private final ProjectCache projectCache;
   private final Repository repository;
   private final BatchRefUpdate batch;
   private final CommitBuilder commit;
@@ -193,10 +199,12 @@ public class MetaDataUpdate implements AutoCloseable {
   @Inject
   public MetaDataUpdate(
       GitReferenceUpdated gitRefUpdated,
+      @Nullable ProjectCache projectCache,
       @Assisted Project.NameKey projectName,
       @Assisted Repository repository,
       @Assisted @Nullable BatchRefUpdate batch) {
     this.gitRefUpdated = gitRefUpdated;
+    this.projectCache = projectCache;
     this.projectName = projectName;
     this.repository = repository;
     this.batch = batch;
@@ -205,7 +213,7 @@ public class MetaDataUpdate implements AutoCloseable {
 
   public MetaDataUpdate(
       GitReferenceUpdated gitRefUpdated, Project.NameKey projectName, Repository repository) {
-    this(gitRefUpdated, projectName, repository, null);
+    this(gitRefUpdated, null, projectName, repository, null);
   }
 
   /** Set the commit message used when committing the update. */
@@ -269,5 +277,16 @@ public class MetaDataUpdate implements AutoCloseable {
 
   protected void fireGitRefUpdatedEvent(RefUpdate ru) {
     gitRefUpdated.fire(projectName, ru, author == null ? null : author.state());
+  }
+
+  protected void evictCaches(RefUpdate ru) {
+    if (projectCache == null) {
+      return;
+    }
+
+    if (RefNames.REFS_CONFIG.equals(ru.getName())) {
+      logger.atFine().log("Reloading project in cache");
+      projectCache.evict(projectName);
+    }
   }
 }

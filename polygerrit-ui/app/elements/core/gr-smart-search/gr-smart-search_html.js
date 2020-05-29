@@ -20,6 +20,7 @@ export const htmlTemplate = html`
   <style include="shared-styles"></style>
   <gr-search-bar
     id="search"
+    label="[[label]]"
     value="{{searchQuery}}"
     on-handle-search="_handleSearch"
     project-suggestions="[[_projectSuggestions]]"

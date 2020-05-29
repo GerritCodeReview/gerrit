@@ -30,6 +30,7 @@ export const htmlTemplate = html`
   </style>
   <form>
     <gr-autocomplete
+      label="[[label]]"
       show-search-icon=""
       id="searchInput"
       text="{{_inputVal}}"

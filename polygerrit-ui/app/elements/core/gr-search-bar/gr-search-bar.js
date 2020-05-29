@@ -171,6 +171,14 @@ class GrSearchBar extends mixinBehaviors( [
         type: Number,
         value: 1,
       },
+      /**
+       * Invisible label for input element. This label is exposed to
+       * screen readers by nested element
+       */
+      label: {
+        type: String,
+        value: '',
+      },
     };
   }
 

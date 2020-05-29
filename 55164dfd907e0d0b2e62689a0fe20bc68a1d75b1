@@ -65,6 +65,30 @@
     },
     {
       "key": {
+        "uuid": "bfa2407f_2dd4742e",
+        "filename": "java/com/google/gerrit/server/schema/GrantRevertPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-29T09:38:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f011436_1aa41004",
+      "range": {
+        "startLine": 68,
+        "startChar": 17,
+        "endLine": 68,
+        "endChar": 27
+      },
+      "revId": "55164dfd907e0d0b2e62689a0fe20bc68a1d75b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c96e6446_cbe95929",
         "filename": "java/com/google/gerrit/server/schema/GrantRevertPermission.java",
         "patchSetId": 1
@@ -85,6 +109,30 @@
       "revId": "55164dfd907e0d0b2e62689a0fe20bc68a1d75b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbfcdb8d_aecc81de",
+        "filename": "java/com/google/gerrit/server/schema/GrantRevertPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-29T09:38:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c96e6446_cbe95929",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 78
+      },
+      "revId": "55164dfd907e0d0b2e62689a0fe20bc68a1d75b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +159,30 @@
     },
     {
       "key": {
+        "uuid": "a51ad622_5b2de8c9",
+        "filename": "java/com/google/gerrit/server/schema/GrantRevertPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-29T09:38:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17542e47_64ffd4dc",
+      "range": {
+        "startLine": 82,
+        "startChar": 6,
+        "endLine": 82,
+        "endChar": 16
+      },
+      "revId": "55164dfd907e0d0b2e62689a0fe20bc68a1d75b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95b6cf20_2e1da034",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
         "patchSetId": 1
@@ -125,6 +197,24 @@
       "revId": "55164dfd907e0d0b2e62689a0fe20bc68a1d75b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6536d6ca_7e71d0b2",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-29T09:38:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95b6cf20_2e1da034",
+      "revId": "55164dfd907e0d0b2e62689a0fe20bc68a1d75b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -151,6 +241,30 @@
     },
     {
       "key": {
+        "uuid": "ba4b9a5a_1cd219b7",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-29T09:38:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "251867f9_43285c8e",
+      "range": {
+        "startLine": 140,
+        "startChar": 41,
+        "endLine": 140,
+        "endChar": 78
+      },
+      "revId": "55164dfd907e0d0b2e62689a0fe20bc68a1d75b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3eafc0ed_f4f25225",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
         "patchSetId": 1
@@ -165,6 +279,24 @@
       "revId": "55164dfd907e0d0b2e62689a0fe20bc68a1d75b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b90393d3_8b8bfe77",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-29T09:38:35Z",
+      "side": 1,
+      "message": "sorry, the comment was just wrong. The test checks that nothing changed, essentially.",
+      "parentUuid": "3eafc0ed_f4f25225",
+      "revId": "55164dfd907e0d0b2e62689a0fe20bc68a1d75b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

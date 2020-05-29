@@ -16,6 +16,7 @@ package com.google.gerrit.server.schema;
 
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.schema.AclUtil.grant;
+import static com.google.gerrit.server.schema.AclUtil.remove;
 
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
@@ -64,12 +65,28 @@ public class GrantRevertPermission {
       ProjectConfig projectConfig = projectConfigFactory.read(md);
       AccessSection heads = projectConfig.getAccessSection(AccessSection.HEADS, true);
 
-      Permission permission = heads.getPermission(Permission.REVERT);
-      if (permission != null && permission.getRule(registeredUsers) != null) {
-        // permission already exists, don't do anything.
+      Permission permissionOnRefsHeads = heads.getPermission(Permission.REVERT);
+
+      if (permissionOnRefsHeads != null) {
+        if (permissionOnRefsHeads.getRule(registeredUsers) == null
+            || permissionOnRefsHeads.getRules().size() > 1) {
+          // If admins already changed the permission, don't do anything.
+          return;
+        }
+        if (permissionOnRefsHeads.getRule(registeredUsers) != null) {
+          // permission already exists in refs/heads/*, delete it for Registered Users.
+          remove(projectConfig, heads, Permission.REVERT, registeredUsers);
+        }
+      }
+
+      AccessSection all = projectConfig.getAccessSection(AccessSection.ALL, true);
+      Permission permissionOnRefsStar = all.getPermission(Permission.REVERT);
+      if (permissionOnRefsStar != null && permissionOnRefsStar.getRule(registeredUsers) != null) {
+        // permission already exists in refs/*, don't do anything.
         return;
       }
-      grant(projectConfig, heads, Permission.REVERT, registeredUsers);
+      // If the permission doesn't exist of refs/* for Registered Users, grant it.
+      grant(projectConfig, all, Permission.REVERT, registeredUsers);
 
       md.getCommitBuilder().setAuthor(serverUser);
       md.getCommitBuilder().setCommitter(serverUser);

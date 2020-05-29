@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea0b20b0_7d0cd906",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T11:06:21Z",
+      "side": 1,
+      "message": "another",
+      "range": {
+        "startLine": 10,
+        "startChar": 31,
+        "endLine": 10,
+        "endChar": 36
+      },
+      "revId": "bd677cbb8fdc522624bf752e43e23ec5efaf2b58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8877afd1_d0ca53b7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T11:06:21Z",
+      "side": 1,
+      "message": "introduces",
+      "range": {
+        "startLine": 13,
+        "startChar": 12,
+        "endLine": 13,
+        "endChar": 22
+      },
+      "revId": "bd677cbb8fdc522624bf752e43e23ec5efaf2b58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5e953b6_7249db2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T11:06:21Z",
+      "side": 1,
+      "message": "a",
+      "range": {
+        "startLine": 13,
+        "startChar": 65,
+        "endLine": 13,
+        "endChar": 67
+      },
+      "revId": "bd677cbb8fdc522624bf752e43e23ec5efaf2b58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f47e8f91_01ccd476",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T11:06:21Z",
+      "side": 1,
+      "message": "This variable name is a bit confusing to me as a \"sub\" prefix typically means that something is smaller/lower (e.g. like sub-category). I guess you used \"sub\" here as an abbreviation for \"subscribed\". If so, could we please use \"subscribedBranches\" instead. It\u0027s longer but I would appreciate the clarity.",
+      "range": {
+        "startLine": 164,
+        "startChar": 35,
+        "endLine": 164,
+        "endChar": 46
+      },
+      "revId": "bd677cbb8fdc522624bf752e43e23ec5efaf2b58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

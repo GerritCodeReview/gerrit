@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "19e524c4_a78ebc8a",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1835,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-05-29T09:51:44Z",
+      "side": 1,
+      "message": "Note that the accountManager.realm is actually DefaultRealm when this tests runs and the\nDefaultRealm allows edit of FULL_NAME. Therefore, this is not testing the LDAP case for\nwhich we use LdapRealm at runtime.",
+      "revId": "36d32d9d6cf82863c483b1b90eb604f24945626a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d2a9c6b5_f3cf03aa",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 3

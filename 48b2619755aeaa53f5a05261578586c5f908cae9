@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aabfbfab_c64967a0",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-05-29T13:18:54Z",
+      "side": 1,
+      "message": "It is actually pity that we have to create AccountManager this way, only to provide a custom\nrealm. A more elegant way would be to create a child injector or the server.getTestInjector,\noverride the binding for the Realm and then ask the child injector for an instance of AccountManager. Unfortunately, overriding bindings in child injectors is not allowed in guice.",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 29
+      },
+      "revId": "48b2619755aeaa53f5a05261578586c5f908cae9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

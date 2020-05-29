@@ -1,5 +1,6 @@
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
 load("//tools/bzl:genrule2.bzl", "genrule2")
+load("//:version.bzl", "GERRIT_VERSION")
 load(
     "//tools/bzl:gwt.bzl",
     "GWT_COMPILER_ARGS",
@@ -103,7 +104,7 @@ def gerrit_plugin(
             "GEN_VERSION=$$(cat bazel-out/stable-status.txt | grep -w STABLE_BUILD_%s_LABEL | cut -d ' ' -f 2)" % dir_name.upper(),
             "cd $$TMP",
             "unzip -q $$ROOT/$<",
-            "echo \"Implementation-Version: $$GEN_VERSION\n$$(cat META-INF/MANIFEST.MF)\" > META-INF/MANIFEST.MF",
+            "echo \"Implementation-Version: $$GEN_VERSION\nGerrit-ApiVersion: " + GERRIT_VERSION + "\n$$(cat META-INF/MANIFEST.MF)\" > META-INF/MANIFEST.MF",
             "find . -exec touch '{}' ';'",
             "zip -Xqr $$ROOT/$@ .",
         ]),

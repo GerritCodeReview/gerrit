@@ -319,6 +319,30 @@
     },
     {
       "key": {
+        "uuid": "bb9e55d5_84d4d964",
+        "filename": "java/com/google/gerrit/entities/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T14:44:23Z",
+      "side": 1,
+      "message": "It\u0027s very easy to forget that getApproximateSize() should be overridden in child classes. If child classes should definitely override/implement a method, you can add an abstract method (without implementation body) whose implementation will be enforced by the compiler.\nIn this case I assume that we want to provide a basic implementation in Comment. That implementation should happen in a method whose visibility is \"protected\". In addition to that, we\u0027d need another public, abstract method which forces child classes to implement it. Those child classes can refer to the protected method in addition to their custom logic.",
+      "parentUuid": "5ad7c9d4_7788fd48",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 12
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3a59ac84_fd4f89a1",
         "filename": "java/com/google/gerrit/entities/Comment.java",
         "patchSetId": 2
@@ -495,6 +519,24 @@
     },
     {
       "key": {
+        "uuid": "d92ef940_03d6e247",
+        "filename": "java/com/google/gerrit/entities/HumanComment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T14:44:23Z",
+      "side": 1,
+      "message": "There\u0027s an issue here: Human comments previously were considered unequal if they differed in their parentUuid or in the unresolved state. The refactoring will lead to a different behavior.\nMy guess is that for RobotComment, we simply forgot to add the equals() and hashCode() methods in the past.\n\nBy the way, according to I73da6ae9a, it was a deliberate decision to move from comparing just the \"key\" fields to a full equals()/hashCode() implementation. If it\u0027s a full implementation, we should honor that approach in child classes.",
+      "parentUuid": "f7794a86_b66eee2f",
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3c63204b_6c0c3f88",
         "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
         "patchSetId": 2
@@ -636,6 +678,30 @@
     },
     {
       "key": {
+        "uuid": "c68cbdd1_ee3a0e84",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T14:44:23Z",
+      "side": 1,
+      "message": "It looks much better with the changed order. :-)",
+      "parentUuid": "3befc8f4_e8f18827",
+      "range": {
+        "startLine": 418,
+        "startChar": 8,
+        "endLine": 420,
+        "endChar": 61
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4aae41b5_7a2b9af7",
         "filename": "java/com/google/gerrit/server/notedb/ChangeRevisionNote.java",
         "patchSetId": 2
@@ -668,6 +734,24 @@
       "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ba13944_48b1f275",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeRevisionNote.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T14:44:23Z",
+      "side": 1,
+      "message": "The issue with our tests is that they also change with the implementation (if the test is not written in a way which explicitly specifies the JSON/NoteDb input as string). I glanced over the tests in CommentsIT and they seem to use Gerrit\u0027s code for creating comments. (Please correct me if I\u0027m wrong here.) Hence, this will give us no information regarding backwards compatibility. The test which comes closest to what we need is the one in ChangeNotesStateTest. It\u0027s doing a full roundtrip, though, and hence doesn\u0027t check against a previous format. You wrote in another comment that you verified that the old/new created and parsed strings are the same. So, we should probably be good. Let\u0027s just hope that there\u0027s no corner case we overlooked.\n(If we wanted to be absolutely sure, we could use a local test instance, create some comments, apply this change to the local code, start the test instance again, and see whether the comments show up and work as previously.)",
+      "parentUuid": "33fcccae_b98fb61b",
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -800,6 +884,30 @@
       "side": 1,
       "message": "This class is necessary for ChangeRevisionNote since we need to return a list of HumanComment rather than a list of Comment. Continuing to use RevisionNoteData without changing the list to HumanComment, would result in a loss of information (parentUuid in this case, and later other information like status and unresolved).\n\nRevisionNoteData also can\u0027t be changed, since it\u0027s actually used by another point in the code, which has to have a list of comments. This is in RevisionNoteBuilder; That class relates both to HumanComment and RobotComment, so we have to keep it as Comment there.",
       "parentUuid": "f9e9b3c4_fa068f22",
+      "range": {
+        "startLine": 20,
+        "startChar": 6,
+        "endLine": 20,
+        "endChar": 35
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "609e39c2_30c986b3",
+        "filename": "java/com/google/gerrit/server/notedb/HumanCommentsRevisionNoteData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T14:44:23Z",
+      "side": 1,
+      "message": "I actually meant switching to HumanComment within RevisionNoteData but after looking more at the code I see why we can\u0027t do it without more adjustments.\n\nNote for posterity: Both robot comments as well as human comments use RevisionNoteData for writing the JSON content. For parsing it, robot comments use RobotCommentsRevisionNoteData and human comments use HumanCommentsRevisionNoteData.\n\nCould we maybe have comments on RevisionNoteData, RobotCommentsRevisionNoteData, and HumanCommentsRevisionNoteData which make this serialization/deserialization use clear? At the moment, RevisionNoteData claims to be used for both.",
+      "parentUuid": "c19b2d5f_c7d8b54f",
       "range": {
         "startLine": 20,
         "startChar": 6,
@@ -958,6 +1066,24 @@
       "side": 1,
       "message": "It could, be since we\u0027re anyway migrating \"unresolved\" field to HumanComment soon, might as well just keep it this way: or else when migrating \"unresolved\", we will have to redefine this method in terms of HumanComment again.",
       "parentUuid": "e7ce625c_07fdd174",
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05bf13ae_14b2fe18",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T14:44:23Z",
+      "side": 1,
+      "message": "Even when we migrate the \"unresolved\" field, we won\u0027t need to change this method as it doesn\u0027t refer to the \"unresolved\" field at all. We would only use this method in code paths relating to the \"unresolved\" field at the moment but there\u0027s no reason to limit this general method to HumanComment.",
+      "parentUuid": "07fa356e_d59e82ce",
       "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

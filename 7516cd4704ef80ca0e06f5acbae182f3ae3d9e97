@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "464dc179_4122e550",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T14:44:23Z",
+      "side": 1,
+      "message": "Now that we have patchset-level robot comments, there\u0027s actually a use case for robots replying to themselves: they can use the reply-functionality to organize their own related comments into threads, which increases the overview for chatty robots. In light of this, I would vote for keeping the parentUuid field for all comments even though the part about replying to human comments still stands.\n\nSorry that we\u0027re changing course here. If you don\u0027t want to touch parentUuid within this change anymore, I can create a follow-up change which I would put into the same topic.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 57
+      },
+      "revId": "7516cd4704ef80ca0e06f5acbae182f3ae3d9e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c90badba_36c7463b",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T14:44:23Z",
+      "side": 1,
+      "message": "This line is unnecessary. comments can directly be passed to email.create().",
+      "range": {
+        "startLine": 118,
+        "startChar": 6,
+        "endLine": 118,
+        "endChar": 57
+      },
+      "revId": "7516cd4704ef80ca0e06f5acbae182f3ae3d9e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51343fe4_672ff1ae",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 813,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T14:44:23Z",
+      "side": 1,
+      "message": "Nit: Unnecessary line break.",
+      "range": {
+        "startLine": 812,
+        "startChar": 2,
+        "endLine": 813,
+        "endChar": 4
+      },
+      "revId": "7516cd4704ef80ca0e06f5acbae182f3ae3d9e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

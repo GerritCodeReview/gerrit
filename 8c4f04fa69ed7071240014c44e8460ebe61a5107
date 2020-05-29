@@ -118,6 +118,30 @@
       "revId": "8c4f04fa69ed7071240014c44e8460ebe61a5107",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3916195_c10aebf4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-29T09:01:33Z",
+      "side": 1,
+      "message": "Reverted \"Reply\" to \"Start Review\" and renamed \"Start Review\" to \"Mark as Active\". WDYT?",
+      "parentUuid": "fda9001f_a1a4407c",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "8c4f04fa69ed7071240014c44e8460ebe61a5107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

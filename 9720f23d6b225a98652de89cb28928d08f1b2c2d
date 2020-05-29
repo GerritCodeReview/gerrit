@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "860a645f_d06da390",
+        "filename": "java/com/google/gerrit/server/schema/GrantRevertPermission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-29T09:47:37Z",
+      "side": 1,
+      "message": "the refactoring showed that this if in unnecessary :-)\n\nif the rule is null, we already returned, so you can just call remove here",
+      "range": {
+        "startLine": 76,
+        "startChar": 8,
+        "endLine": 76,
+        "endChar": 69
+      },
+      "revId": "9720f23d6b225a98652de89cb28928d08f1b2c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db0ec5e1_7ad72328",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-29T09:47:37Z",
+      "side": 1,
+      "message": "nit: refsHeads\nnit: refsRefsStar",
+      "range": {
+        "startLine": 115,
+        "startChar": 11,
+        "endLine": 115,
+        "endChar": 17
+      },
+      "revId": "9720f23d6b225a98652de89cb28928d08f1b2c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ce7643c_3a4f866f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-29T09:47:37Z",
+      "side": 1,
+      "message": "same (refsStar, refsHeads)",
+      "revId": "9720f23d6b225a98652de89cb28928d08f1b2c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22295c56_72e7656a",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-29T09:47:37Z",
+      "side": 1,
+      "message": "optional:\n\nIIRC AccessSection on the API implements #euqals, so you can just call GetAccess before running your migration and afterwards and see that the two results are equal.\n\nYou need to make sure you evict the project cache manually, though.",
+      "revId": "9720f23d6b225a98652de89cb28928d08f1b2c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

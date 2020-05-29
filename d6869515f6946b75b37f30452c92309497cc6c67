@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "18926af1_53f9daf1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-05-29T09:24:24Z",
+      "side": 1,
+      "message": "I agree, didn\u0027t notice that it was uploaded against stable-3.2.\nWe should at least minimize the confusion by just changing the behavior in one release and not change it first on 3.2 and then again on 3.3.",
+      "parentUuid": "4a4e5493_c58797cc",
+      "range": {
+        "startLine": 10,
+        "startChar": 47,
+        "endLine": 10,
+        "endChar": 60
+      },
+      "revId": "d6869515f6946b75b37f30452c92309497cc6c67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7e7fe87f_9b363458",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7

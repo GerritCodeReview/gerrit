@@ -1,0 +1,291 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f3c9481_aa6be120",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T11:10:19Z",
+      "side": 1,
+      "message": "a",
+      "range": {
+        "startLine": 16,
+        "startChar": 16,
+        "endLine": 16,
+        "endChar": 18
+      },
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ed3a147_dbfa2a61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T11:10:19Z",
+      "side": 1,
+      "message": "uses",
+      "range": {
+        "startLine": 16,
+        "startChar": 12,
+        "endLine": 16,
+        "endChar": 15
+      },
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c247671_609fec03",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T11:10:19Z",
+      "side": 1,
+      "message": "Javadoc description missing.",
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28ff2431_c193a5df",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T11:10:19Z",
+      "side": 1,
+      "message": "As this is the getter method to hasSubscription, I would have expected this method to rather be named \"getSubscriptions()\".",
+      "range": {
+        "startLine": 287,
+        "startChar": 36,
+        "endLine": 287,
+        "endChar": 48
+      },
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79cd2502_290ac817",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T11:10:19Z",
+      "side": 1,
+      "message": "Here and below: Javadoc comments need the /** */ style.",
+      "range": {
+        "startLine": 291,
+        "startChar": 2,
+        "endLine": 291,
+        "endChar": 55
+      },
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "683ead7f_8c7496a3",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T11:10:19Z",
+      "side": 1,
+      "message": "Just \"getSuperProjectes()\"?",
+      "range": {
+        "startLine": 297,
+        "startChar": 23,
+        "endLine": 297,
+        "endChar": 47
+      },
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd90dd60_889753b0",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T11:10:19Z",
+      "side": 1,
+      "message": "Here and for the other methods: The term \"affected\" doesn\u0027t mean anything for me in the context of this class. I didn\u0027t understand what this method is for just from reading the description and the method name. I had to take a look at the usage of this method.\n\nAlternative name idea: What about \"isSuperproject()\"?",
+      "range": {
+        "startLine": 301,
+        "startChar": 2,
+        "endLine": 302,
+        "endChar": 20
+      },
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3718421d_7a4b64e6",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T11:10:19Z",
+      "side": 1,
+      "message": "This description says something slightly different than the Javadoc comment above the branchesByProject variable. Following the variable description, I\u0027d rather suggest to write \"Returns all branches within the superproject which have submodule subscriptions\".",
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "316f87f1_187e15a6",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T11:10:19Z",
+      "side": 1,
+      "message": "superproject",
+      "range": {
+        "startLine": 306,
+        "startChar": 63,
+        "endLine": 306,
+        "endChar": 75
+      },
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0f9dccf_103b9305",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T11:10:19Z",
+      "side": 1,
+      "message": "Alternative name idea: What about \"getSubscribedBranches()\"?",
+      "range": {
+        "startLine": 307,
+        "startChar": 21,
+        "endLine": 307,
+        "endChar": 40
+      },
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ad89466_7f27fa3d",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T11:10:19Z",
+      "side": 1,
+      "message": "Neither the description nor the method name are very helpful to me. As method name, something like \"getSortedSuperprojectAndSubmoduleBranches()\" would express more, though that\u0027s a bit long. A shorter but still clear name would be appreciated. We can put additional, helpful details into the Javadoc description.",
+      "range": {
+        "startLine": 311,
+        "startChar": 2,
+        "endLine": 312,
+        "endChar": 49
+      },
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fff6596_c7aef92f",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T11:10:19Z",
+      "side": 1,
+      "message": "In this case, I find the method name much more helpful than this description. What about \"Check if this branch is a submodule of a superproject\"?",
+      "range": {
+        "startLine": 316,
+        "startChar": 5,
+        "endLine": 316,
+        "endChar": 54
+      },
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b0a1872_83ec4c20",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T11:10:19Z",
+      "side": 1,
+      "message": "I don\u0027t think that we need this. The delete-project plugin is a core plugin (and included in the Git tree via a submodule) and hence this method shouldn\u0027t show up as unused.",
+      "range": {
+        "startLine": 316,
+        "startChar": 56,
+        "endLine": 317,
+        "endChar": 12
+      },
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

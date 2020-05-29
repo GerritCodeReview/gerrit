@@ -166,6 +166,30 @@
       "revId": "8c4f04fa69ed7071240014c44e8460ebe61a5107",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d02b6b8_8983aee5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-29T10:33:51Z",
+      "side": 1,
+      "message": "\u003e One question, from a UX standpoint, that should be addressed:\nWhat has higher priority?\nNot changing design so that current users doesn\u0027t have to \"relearn\", or making on-boarding of new users smoother?\n\nI don\u0027t have answer to your question.\n\nHowever, I would like to bring to your attention the fact, that we already have very heat and very emotional discussion about naming \"Submit\" button on the old change screen.\n\nIt was changed multiple times, and every time we got another shit storm from another big gerrit user group, and as the consequence, it was reverted and there were multiplce such change/revert cycles.\n\nAt the end, I came up with (yeah sorry for that) yet another configuartion option, see: [1] and\n\n   issue 2667 \"Submit button poorly labeled\"\n\nBut then with that option in our tool box, we were able to prevent all bikesheding pon that topic again. As we got next bikesheding message on the mailing list: Hey, the \"Submit\" button should not be called \"Submit\" but be called \"Mickey Mouse\" instead, we said, \"yeah fine set your above HOST option\", done.\n\nSo, if all other options fail, I would consider the compromise and add a label and tooltip for:\n\n  change.ReplyButtonWipStateLabel \u003d Foo\n  change.ReplyButtonWipStateTooltip \u003d Bar\n\nAnd if you think you need the same for the Standalone WIP -\u003e Ready flip state button why don\u0027t we add another two:\n\n  change.StandaloneWipStateLabel \u003d Foo\n  change.StandaloneWipStateTooltip \u003d Bar\n\nDisclaimer: I only support the above idea for per HOST preference, and never/ever project or user wide preferences!\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/57300",
+      "parentUuid": "d5db3be8_66259f12",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "8c4f04fa69ed7071240014c44e8460ebe61a5107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

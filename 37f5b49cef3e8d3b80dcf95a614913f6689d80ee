@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "982c2179_c68d61ba",
+        "filename": "java/com/google/gerrit/server/restapi/change/SetReadyForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-05-29T09:19:36Z",
+      "side": 1,
+      "message": "+1 to \"Ready for review\" but I guess it needs to be a verb to fit the standard.\n\"Mark as ready\"?",
+      "parentUuid": "e58edbc1_c6437689",
+      "range": {
+        "startLine": 78,
+        "startChar": 19,
+        "endLine": 78,
+        "endChar": 33
+      },
+      "revId": "37f5b49cef3e8d3b80dcf95a614913f6689d80ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "92d94013_563cb563",
         "filename": "java/com/google/gerrit/server/restapi/change/SetReadyForReview.java",
         "patchSetId": 1

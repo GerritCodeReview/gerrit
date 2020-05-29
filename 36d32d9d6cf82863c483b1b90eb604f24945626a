@@ -52,6 +52,24 @@
       "revId": "36d32d9d6cf82863c483b1b90eb604f24945626a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84b19043_4411b1bd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-29T09:19:41Z",
+      "side": 1,
+      "message": "Agree with you, let\u0027s fix it on stable-2.16, possibly with test coverage documenting the intended behaviour.\n\nThanks for following this up :-) I may do yet another v2.16.x release today, with the latest fixes on stable-2.16 before the EOL.",
+      "parentUuid": "569f50b0_1e60f150",
+      "revId": "36d32d9d6cf82863c483b1b90eb604f24945626a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

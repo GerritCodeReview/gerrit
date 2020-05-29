@@ -104,6 +104,20 @@ suite('gr-label-row-score tests', () => {
     sandbox.restore();
   });
 
+  function checkAriaCheckedValid() {
+    const items = element.$.labelSelector.items;
+    const selectedItem = element.selectedItem;
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      if (items[i] === selectedItem) {
+        assert.isTrue(item.hasAttribute('aria-checked'), `item ${i}`);
+        assert.equal(item.getAttribute('aria-checked'), 'true', `item ${i}`);
+      } else {
+        assert.isFalse(item.hasAttribute('aria-checked'), `item ${i}`);
+      }
+    }
+  }
+
   test('label picker', () => {
     const labelsChangedHandler = sandbox.stub();
     element.addEventListener('labels-changed', labelsChangedHandler);
@@ -120,6 +134,7 @@ suite('gr-label-row-score tests', () => {
     const detail = labelsChangedHandler.args[0][0].detail;
     assert.equal(detail.name, 'Verified');
     assert.equal(detail.value, '-1');
+    checkAriaCheckedValid();
   });
 
   test('_computeVoteAttribute', () => {
@@ -163,6 +178,7 @@ suite('gr-label-row-score tests', () => {
             .textContent.trim(), '+1');
     assert.strictEqual(
         element.$.selectedValueLabel.textContent.trim(), 'good');
+    checkAriaCheckedValid();
   });
 
   test('do not display tooltips on touch devices', () => {
@@ -243,6 +259,7 @@ suite('gr-label-row-score tests', () => {
     assert.strictEqual(selector.selected, ' 0');
     assert.strictEqual(
         element.$.selectedValueLabel.textContent.trim(), 'No score');
+    checkAriaCheckedValid();
   });
 
   test('without permitted labels', () => {
@@ -339,6 +356,7 @@ suite('gr-label-row-score tests', () => {
     };
     flushAsynchronousOperations();
     assert.strictEqual(element.selectedValue, '-1');
+    checkAriaCheckedValid();
   });
 
   test('default_value is null if not permitted', () => {

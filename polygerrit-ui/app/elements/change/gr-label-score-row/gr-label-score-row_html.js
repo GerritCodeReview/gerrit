@@ -93,7 +93,9 @@ export const htmlTemplate = html`
       }
     }
   </style>
-  <span class="labelNameCell">[[label.name]]</span>
+  <span class="labelNameCell" id="labelName" aria-hidden="true"
+    >[[label.name]]</span
+  >
   <div class="buttonsCell">
     <template
       is="dom-repeat"
@@ -108,9 +110,12 @@ export const htmlTemplate = html`
       selected="[[_computeLabelValue(labels, permittedLabels, label)]]"
       hidden$="[[!_computeAnyPermittedLabelValues(permittedLabels, label.name)]]"
       on-selected-item-changed="_setSelectedValueText"
+      role="radiogroup"
+      aria-labelledby="labelName"
     >
       <template is="dom-repeat" items="[[_items]]" as="value">
         <gr-button
+          role="radio"
           vote$="[[_computeVoteAttribute(value, index, _items.length)]]"
           has-tooltip=""
           data-name$="[[label.name]]"

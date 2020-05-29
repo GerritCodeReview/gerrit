@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a612d690_527f1d59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-29T21:09:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c14427eb_ef9ddabf",
+      "revId": "62f9c715bd4cd478e7c97c44901061ca1f4ddd35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "361c2270_0a767596",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
         "patchSetId": 6

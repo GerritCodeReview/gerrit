@@ -66,6 +66,12 @@ export const htmlTemplate = html`
         height: 0;
         display: none;
       }
+      /* Hide label for input. The label is still visible for
+      screen readers. Workaround found at:
+      https://github.com/PolymerElements/paper-input/issues/478 */
+      --paper-input-container-label: {
+          display: none;
+        };
     }
     paper-input.warnUncommitted {
       --paper-input-container-input: {
@@ -85,6 +91,7 @@ export const htmlTemplate = html`
     on-focus="_onInputFocus"
     on-blur="_onInputBlur"
     autocomplete="off"
+    label="[[label]]"
   >
     <!-- prefix as attribute is required to for polymer 1 -->
     <div slot="prefix" prefix="">

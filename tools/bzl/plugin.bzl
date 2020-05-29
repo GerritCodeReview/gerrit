@@ -107,7 +107,7 @@ def gerrit_plugin(
             "GEN_VERSION=$$(cat bazel-out/stable-status.txt | grep -w STABLE_BUILD_%s_LABEL | cut -d ' ' -f 2)" % dir_name.upper(),
             "cd $$TMP",
             "unzip -q $$ROOT/$<",
-            "echo \"Implementation-Version: $$GEN_VERSION\n$$(cat META-INF/MANIFEST.MF)\" > META-INF/MANIFEST.MF",
+            "echo \"Implementation-Version: $$GEN_VERSION\n$$(cat META-INF/MANIFEST.MF)\" > META-INF/MANIFEST.MF" if not any([line.startswith("Implementation-Version:") for line in manifest_entries]) else ":",
             "find . -exec touch '{}' ';'",
             "zip -Xqr $$ROOT/$@ .",
         ]),

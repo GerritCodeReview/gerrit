@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ff8b4ed_1bab4be6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 2130,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-29T10:52:16Z",
+      "side": 1,
+      "message": "Until software is able automagically to detect compatible vs. non compatible gerrit releases, I prefer to have experimental in the option name. gerrit.experimentalRollingUpgrade",
+      "range": {
+        "startLine": 2130,
+        "startChar": 0,
+        "endLine": 2130,
+        "endChar": 48
+      },
+      "revId": "947a802b7737d1e3ae659f499aa30e9cadd9d5cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f71cec76_44c0e1c7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 2134,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-29T10:52:16Z",
+      "side": 1,
+      "message": "You are mixing again gerrit releases and schema versions? What is schema version in gerrit 3.1 and what is schema version in release 3.2? Can you write it down? Here?\n\n* 3.1 180\n* 3.2 182\n\nAdd those number here in description as example?",
+      "range": {
+        "startLine": 2133,
+        "startChar": 0,
+        "endLine": 2134,
+        "endChar": 24
+      },
+      "revId": "947a802b7737d1e3ae659f499aa30e9cadd9d5cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5cf0e81_7797672a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 2148,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-29T10:52:16Z",
+      "side": 1,
+      "message": "You mean running java -jar gerrit.war init -d \u003csite_path\u003e?\n\nShouldn\u0027t you disable gerrit.rollingUpgrade for that master? So that the actualy migration take place? Or is this a different code path?",
+      "range": {
+        "startLine": 2148,
+        "startChar": 0,
+        "endLine": 2148,
+        "endChar": 60
+      },
+      "revId": "947a802b7737d1e3ae659f499aa30e9cadd9d5cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d525c0d_ff6eed89",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 2154,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-29T10:52:16Z",
+      "side": 1,
+      "message": "hange this to WARNING?",
+      "range": {
+        "startLine": 2154,
+        "startChar": 1,
+        "endLine": 2154,
+        "endChar": 5
+      },
+      "revId": "947a802b7737d1e3ae659f499aa30e9cadd9d5cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

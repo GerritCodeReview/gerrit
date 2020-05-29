@@ -16,6 +16,29 @@
       "revId": "84b6dc3a994d436431d2793f07a2fa46c2e623ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8b1bc6f_92938b86",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-05-29T15:56:19Z",
+      "side": 1,
+      "message": "I fixed it in a different way here: https://gerrit-review.googlesource.com/c/gerrit/+/269588",
+      "range": {
+        "startLine": 490,
+        "startChar": 16,
+        "endLine": 490,
+        "endChar": 56
+      },
+      "revId": "84b6dc3a994d436431d2793f07a2fa46c2e623ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

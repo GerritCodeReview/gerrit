@@ -46,6 +46,30 @@
       "revId": "7ee2064414be4ae881ac3a3e4aa0b92f0a0d4267",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad7a9b53_376edd80",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersionCheck.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-29T10:12:09Z",
+      "side": 1,
+      "message": "\u003e Specified that is only between version N and N+1. 4.0 would be many more versions more than 3.0.\n\nAre we talking past each other? What is \"N\" in your above statement? I assumed it is schema version: 190 and not gerrit releases 4.0.\n\nNow, if you have 42 schema versions between\n\n* release 4.0 has schema version 200\n* release 4.1 has schema vesion 242\n\nAnd I upgrade from 4.0 to 4.1, and I am a release engineer, how do I know if those 42 schema migration are all innocent cosmetic changes that could be done as rollingUpgrade or not?\n\nBut even if I know, it is not, is *not* enough to document in the release notes:\n\n  \"It truns out that schema migration number 242 appears to not be rolling Upgrade capable,\n  so please ensure, that you switched off your gerrit.rollingUpgrade setting,\n  otherwise you would have site corruption\".\n\nThe software should automagically detect that incompatibility and ignore rollingUpgrade and issue a huge warning.",
+      "parentUuid": "8d4076c9_c5d135f2",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 91
+      },
+      "revId": "7ee2064414be4ae881ac3a3e4aa0b92f0a0d4267",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

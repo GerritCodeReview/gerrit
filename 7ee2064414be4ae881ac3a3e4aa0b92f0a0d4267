@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b9537ac_c1ce2a13",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersionCheck.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-29T09:56:17Z",
+      "side": 1,
+      "message": "I would prefer to see the answer to David Pursehouse comment already today an not in future. Gerrit seleases. Say 4.0 added incompatible changes. compared to 3.0. and user activated this setting. What is the plan?\n\nI would assume, that the general plan is to maintain a map of \"from-version\" -\u003e \"to-version\" so that the incompatible case is detected and rejected. So, in the above case I would expect to see the error in the form: \n\n  Schema version 199 (Gerrit release 3.9.x) introduced incompatible schema changes,\n  so that gerrit.rollingUpgrade setting is ignored.\n\nOne option may be to add new attribute to the schema class and mark a schema migration compatible or not. Tha way the developer who is writing the new schema class would have to think about that property of schema version N+1 in advance. What would be much harder, release engineer, to decide ater the fact: OK, we have 13 Schema migration between two releases: Are they rollingUpgrade capable or not?!",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 91
+      },
+      "revId": "7ee2064414be4ae881ac3a3e4aa0b92f0a0d4267",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

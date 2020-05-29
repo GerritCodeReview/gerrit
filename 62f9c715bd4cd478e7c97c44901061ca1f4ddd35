@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c14427eb_ef9ddabf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-29T17:04:50Z",
+      "side": 1,
+      "message": "+1 to that.",
+      "parentUuid": "2032244f_cf560c9c",
+      "revId": "62f9c715bd4cd478e7c97c44901061ca1f4ddd35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "361c2270_0a767596",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
         "patchSetId": 6
@@ -30,6 +48,24 @@
       "writtenOn": "2020-05-29T16:14:37Z",
       "side": 1,
       "message": "Is there a test showing that users still can\u0027t manually edit the full name when using a read-only realm? I think we want to preserve that behavior, correct?",
+      "revId": "62f9c715bd4cd478e7c97c44901061ca1f4ddd35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cef864b_6c9ac127",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-29T17:04:50Z",
+      "side": 1,
+      "message": "It should be covered by the accounts REST-API.",
+      "parentUuid": "361c2270_0a767596",
       "revId": "62f9c715bd4cd478e7c97c44901061ca1f4ddd35",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

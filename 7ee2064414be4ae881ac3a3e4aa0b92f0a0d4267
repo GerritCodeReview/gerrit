@@ -70,6 +70,30 @@
       "revId": "7ee2064414be4ae881ac3a3e4aa0b92f0a0d4267",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cd3ff95_598f105c",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersionCheck.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-29T10:19:31Z",
+      "side": 1,
+      "message": "\u003e \u003e Specified that is only between version N and N+1. 4.0 would be many more versions more than 3.0.\n\u003e \n\u003e Are we talking past each other? What is \"N\" in your above statement? I assumed it is schema version: 190 and not gerrit releases 4.0.\n\nTrue, let me clarify what version means. Good point.\n\n\u003e Now, if you have 42 schema versions between\n\u003e \n\u003e * release 4.0 has schema version 200\n\u003e * release 4.1 has schema vesion 242\n\u003e \n\u003e And I upgrade from 4.0 to 4.1, and I am a release engineer, how do I know if those 42 schema migration are all innocent cosmetic changes that could be done as rollingUpgrade or not?\n\nWhen doing upgrades, the Gerrit admin *HAS TO READ* the release notes carefully. This is beyond the rolling upgrade but for every upgrade.\n\nThe rolling upgrade notice is on the top of the release notes and cannot pass unnoticed.\n\n\u003e But even if I know, it is not, is *not* enough to document in the release notes:\n\u003e \n\u003e   \"It truns out that schema migration number 242 appears to not be rolling Upgrade capable,\n\u003e   so please ensure, that you switched off your gerrit.rollingUpgrade setting,\n\u003e   otherwise you would have site corruption\".\n\u003e \n\u003e The software should automagically detect that incompatibility and ignore rollingUpgrade and issue a huge warning.\n\nYes, I agree that it would be nice. But, unfortunately, we\u0027re not there yet with Gerrit. You cannot just let the software automatically do the upgrade and the Gerrit admin not reading the release notes at all.\n\nI agree we should get there, but there is a long way to go IMHO. In my experience, every long journey needs to start with a small step :-)",
+      "parentUuid": "ad7a9b53_376edd80",
+      "range": {
+        "startLine": 67,
+        "startChar": 6,
+        "endLine": 67,
+        "endChar": 91
+      },
+      "revId": "7ee2064414be4ae881ac3a3e4aa0b92f0a0d4267",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

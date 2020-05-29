@@ -70,6 +70,30 @@
       "revId": "f809f36328a7293189db71ed5f8049c298ad8101",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c0aac10_e08319fb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-star/gr-change-star.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-29T08:00:51Z",
+      "side": 1,
+      "message": "Ack, will keep it for now, its easy to change if needed",
+      "parentUuid": "eb7d3bc9_af9a40ef",
+      "range": {
+        "startLine": 57,
+        "startChar": 29,
+        "endLine": 57,
+        "endChar": 33
+      },
+      "revId": "f809f36328a7293189db71ed5f8049c298ad8101",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

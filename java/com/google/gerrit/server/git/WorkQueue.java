@@ -606,9 +606,12 @@ public class WorkQueue {
     @Override
     public void run() {
       if (running.compareAndSet(false, true)) {
+        String oldThreadName = Thread.currentThread().getName();
         try {
+          Thread.currentThread().setName(oldThreadName + "[" + task.toString() + "]");
           task.run();
         } finally {
+          Thread.currentThread().setName(oldThreadName);
           if (isPeriodic()) {
             running.set(false);
           } else {
@@ -680,6 +683,11 @@ public class WorkQueue {
     @Override
     public boolean hasCustomizedPrint() {
       return runnable.hasCustomizedPrint();
+    }
+
+    @Override
+    public String toString() {
+      return runnable.toString();
     }
   }
 }

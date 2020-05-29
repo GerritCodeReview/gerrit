@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "3859990f_7a6a1429",
+        "filename": "java/com/google/gerrit/server/restapi/change/SetReadyForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-29T11:13:19Z",
+      "side": 1,
+      "message": "I agree it should begin with a verb.\n\n\"Set Ready for Review\"?",
+      "parentUuid": "982c2179_c68d61ba",
+      "range": {
+        "startLine": 78,
+        "startChar": 19,
+        "endLine": 78,
+        "endChar": 33
+      },
+      "revId": "37f5b49cef3e8d3b80dcf95a614913f6689d80ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "92d94013_563cb563",
         "filename": "java/com/google/gerrit/server/restapi/change/SetReadyForReview.java",
         "patchSetId": 1

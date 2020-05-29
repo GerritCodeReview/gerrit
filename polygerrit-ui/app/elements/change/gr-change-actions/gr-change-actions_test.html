@@ -415,6 +415,17 @@ suite('gr-change-actions tests', () => {
       });
     });
 
+    test('rebase change calls navigateToChange', done => {
+      const navigateToChangeStub = sandbox.stub(GerritNav, 'navigateToChange');
+      sandbox.stub(element.$.restAPI, 'getResponseObject').returns(
+          Promise.resolve({}));
+      element._handleResponse({__key: 'rebase'}, {});
+      flush(() => {
+        assert.isTrue(navigateToChangeStub.called);
+        done();
+      });
+    });
+
     test(`rebase dialog gets recent changes each time it's opened`, done => {
       const fetchChangesStub = sandbox.stub(element.$.confirmRebase,
           'fetchRecentChanges').returns(Promise.resolve([]));

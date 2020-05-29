@@ -1515,15 +1515,8 @@ class GrChangeView extends mixinBehaviors( [
     });
   }
 
-  _handleReloadChange(e) {
-    return this._reload().then(() => {
-      // If the change was rebased or submitted, we need to reload the page
-      // with the latest patch.
-      const action = e.detail.action;
-      if (action === 'rebase' || action === 'submit') {
-        GerritNav.navigateToChange(this._change);
-      }
-    });
+  _handleReloadChange() {
+    return this._reload();
   }
 
   _handleGetChangeDetailError(response) {

@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aefbfb35_0bb9a494",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T11:11:04Z",
+      "side": 1,
+      "message": "Classes which contain only static methods should not be instantiable. To disallow instantiation, they need a private constructor.",
+      "revId": "39b4d964d3d8ff258c638403783217c3ffaa4692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "885f2e9e_400cc848",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T11:11:04Z",
+      "side": 1,
+      "message": "It\u0027s generally discouraged to create xxxUtils classes. Most of the time it\u0027s possible to find a more targeted name. Can you find one?",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "39b4d964d3d8ff258c638403783217c3ffaa4692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eebd0ce8_e7db1237",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T11:11:04Z",
+      "side": 1,
+      "message": "As this method is promoted to a general utility function, we need to polish it a bit:\n1) Visibility should be public. If we need to restrict visibility, it should be on the class level.\n2) This method needs a Javadoc description clearly stating an assumptions it makes about the inputs.\n3) The implementation doesn\u0027t depend on \"p\" being a LinkedHashSet. We can use a more general collection type.",
+      "range": {
+        "startLine": 10,
+        "startChar": 2,
+        "endLine": 10,
+        "endChar": 69
+      },
+      "revId": "39b4d964d3d8ff258c638403783217c3ffaa4692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b7651c5_8ed4cde3",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T11:11:04Z",
+      "side": 1,
+      "message": "This is a very specific method only suited to LinkedHashSets. I don\u0027t see a reason to move it outside of SubscriptionGraph, especially as other implementations should ideally choose a data structure which doesn\u0027t need such custom code.",
+      "range": {
+        "startLine": 25,
+        "startChar": 18,
+        "endLine": 25,
+        "endChar": 25
+      },
+      "revId": "39b4d964d3d8ff258c638403783217c3ffaa4692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

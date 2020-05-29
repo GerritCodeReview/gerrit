@@ -94,6 +94,30 @@
       "revId": "8c4f04fa69ed7071240014c44e8460ebe61a5107",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fda9001f_a1a4407c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-29T08:31:34Z",
+      "side": 1,
+      "message": "But that *prevention* is a severe UI regression. What is your answer to the backwards compatibility disaster that the: [1] introduced? In: [1] you have hijacked the existing action name and assigned it a totaly different semantic.\n\nAfter the migration on new gerrit release, with: [1] icnluded, users will open a change in WIP state and would wonder what should they do to flip the WIP state bit? The old button \"Start Review\" moved to be primaty button, and every user (?) would klick that button, and would expect that Reply dialog with Popup-Dialog show up. This is wrpong of coruse, and would fire 42 mail notifications to all reviewers, and spam them, and the change owner would have to send 42 appologize mails, \"Hey dude, please ignore those notications, Gerrit devs screwed it up, again!\"\n\nHave you considered, as intermediate state, for a release or two, to add a confirmation dialog, to prevet the above dscenarios from happening? Submit button has exactly such an confirmation dialog? Then you could even give a hint in the confirmation dialog: \"Are you sure you want to flip WIP bit? For adding reviewers or leaving a comment please use renamed \u0027Reply\u0027 button\", with the button \"Cancel\" | \"OK\"\n\nOf course, if we find a compromise to keep, at least a part of the old name, the confirmation dialog wouldn\u0027t be needed.\n\nGitHub is using \"and\" in button names, e.g. \"Comment and close\", and WIP-Ready  button is called \"Ready fo review\". Next compromise suggestion would be:\n\n1. \"Comment and start review\" or \"Comment | Start Review\" (pipe character was recently introdcued as the delimiter between \"project | branch\" names, so that it is already used on the change screen).\n2. New standalone button is called \"Ready for review\", analog to GitHub\u0027s Draft workflow. If we agree on new for the new standalone button, e.g. \"Ready for review\" we could even keep the existing name for the old button: \"Start Review\".",
+      "parentUuid": "e346c618_1f4efa1c",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "8c4f04fa69ed7071240014c44e8460ebe61a5107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

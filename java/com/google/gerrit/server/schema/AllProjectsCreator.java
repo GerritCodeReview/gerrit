@@ -104,7 +104,7 @@ public class AllProjectsCreator {
       throws ConfigInvalidException, IOException {
     BatchRefUpdate bru = git.getRefDatabase().newBatchUpdate();
     try (MetaDataUpdate md =
-        new MetaDataUpdate(GitReferenceUpdated.DISABLED, allProjectsName, git, bru)) {
+        new MetaDataUpdate(GitReferenceUpdated.DISABLED, null, allProjectsName, git, bru)) {
       md.getCommitBuilder().setAuthor(serverUser);
       md.getCommitBuilder().setCommitter(serverUser);
       md.setMessage(

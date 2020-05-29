@@ -184,6 +184,13 @@ class GrAutocomplete extends mixinBehaviors( [
         type: Boolean,
         value: false,
       },
+      /** Invisible label for input element. This label is exposed to
+       * screen readers by paper-input
+       */
+      label: {
+        type: String,
+        value: "",
+      },
 
       /** The DOM element of the selected suggestion. */
       _selected: Object,

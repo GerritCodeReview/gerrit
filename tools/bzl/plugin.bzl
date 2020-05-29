@@ -53,7 +53,10 @@ def gerrit_plugin(
 
     java_binary(
         name = "%s__non_stamped" % name,
-        deploy_manifest_lines = manifest_entries + ["Gerrit-ApiType: plugin"],
+        deploy_manifest_lines = manifest_entries + [
+            "Gerrit-ApiType: plugin",
+            "Gerrit-ApiVersion: " + GERRIT_VERSION,
+        ],
         main_class = "Dummy",
         runtime_deps = [
             ":%s__plugin" % name,
@@ -104,7 +107,7 @@ def gerrit_plugin(
             "GEN_VERSION=$$(cat bazel-out/stable-status.txt | grep -w STABLE_BUILD_%s_LABEL | cut -d ' ' -f 2)" % dir_name.upper(),
             "cd $$TMP",
             "unzip -q $$ROOT/$<",
-            "echo \"Implementation-Version: $$GEN_VERSION\nGerrit-ApiVersion: " + GERRIT_VERSION + "\n$$(cat META-INF/MANIFEST.MF)\" > META-INF/MANIFEST.MF",
+            "echo \"Implementation-Version: $$GEN_VERSION\n$$(cat META-INF/MANIFEST.MF)\" > META-INF/MANIFEST.MF",
             "find . -exec touch '{}' ';'",
             "zip -Xqr $$ROOT/$@ .",
         ]),

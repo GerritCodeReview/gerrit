@@ -3100,8 +3100,6 @@ class ReceiveCommits {
         tagCache.updateFastForward(project.getNameKey(), refName, cmd.getOldId(), cmd.getNewId());
       }
       if (isConfig(cmd)) {
-        logger.atFine().log("Reloading project in cache");
-        projectCache.evict(project);
         ProjectState ps =
             projectCache.get(project.getNameKey()).orElseThrow(illegalState(project.getNameKey()));
         try {

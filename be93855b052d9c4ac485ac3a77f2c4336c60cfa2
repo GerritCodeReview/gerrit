@@ -46,6 +46,30 @@
       "revId": "be93855b052d9c4ac485ac3a77f2c4336c60cfa2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ecb17ba2_725d2e22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-29T09:59:15Z",
+      "side": 1,
+      "message": "Specified to \"version N+1\". Also, in the documentation of the configuration setting, it is specify to look at the release notes if the N+1 version allows or not rolling upgrades.",
+      "parentUuid": "542c8408_8ccfc398",
+      "range": {
+        "startLine": 22,
+        "startChar": 3,
+        "endLine": 22,
+        "endChar": 31
+      },
+      "revId": "be93855b052d9c4ac485ac3a77f2c4336c60cfa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -145,6 +145,24 @@
       "revId": "9720f23d6b225a98652de89cb28928d08f1b2c2d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da45d97e_8af59184",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-05-29T09:58:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22295c56_72e7656a",
+      "revId": "9720f23d6b225a98652de89cb28928d08f1b2c2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

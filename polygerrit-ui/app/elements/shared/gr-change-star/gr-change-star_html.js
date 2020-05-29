@@ -37,7 +37,11 @@ export const htmlTemplate = html`
       );
     }
   </style>
-  <button aria-label="Change star" on-click="toggleStar">
+  <button
+    role="checkbox"
+    aria-label="[[_computeAriaLabel(change.starred)]]]"
+    on-click="toggleStar"
+  >
     <iron-icon
       class$="[[_computeStarClass(change.starred)]]"
       icon$="[[_computeStarIcon(change.starred)]]"

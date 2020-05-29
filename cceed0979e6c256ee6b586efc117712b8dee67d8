@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8a29ae1d_3507996a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-29T08:02:07Z",
+      "side": 1,
+      "message": "A bar that represents the addition and deletion ratio for the current file",
+      "range": {
+        "startLine": 424,
+        "startChar": 24,
+        "endLine": 424,
+        "endChar": 89
+      },
+      "revId": "cceed0979e6c256ee6b586efc117712b8dee67d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68c82863_edae4803",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-05-29T08:02:07Z",
+      "side": 1,
+      "message": "Is it useful to tab onto the bar?",
+      "revId": "cceed0979e6c256ee6b586efc117712b8dee67d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

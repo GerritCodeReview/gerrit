@@ -836,36 +836,42 @@ suite('gr-file-list tests', () => {
         patchNum: '2',
       };
       element.$.fileCursor.setCursorAtIndex(0);
+      const reviewSpy = sandbox.spy(element, '_reviewFile');
+      const toggleExpandSpy = sandbox.spy(element, '_toggleFileExpanded');
 
       flushAsynchronousOperations();
       const fileRows =
           dom(element.root).querySelectorAll('.row:not(.header-row)');
-      const checkSelector = 'input.reviewed[type="checkbox"]';
+      const checkSelector = 'span.reviewedSwitch[role="switch"]';
       const commitMsg = fileRows[0].querySelector(checkSelector);
       const fileAdded = fileRows[1].querySelector(checkSelector);
       const myFile = fileRows[2].querySelector(checkSelector);
 
-      assert.isTrue(commitMsg.checked);
-      assert.isFalse(fileAdded.checked);
-      assert.isTrue(myFile.checked);
+      assert.equal(commitMsg.getAttribute('aria-checked'), 'true');
+      assert.equal(fileAdded.getAttribute('aria-checked'), 'false');
+      assert.equal(myFile.getAttribute('aria-checked'), 'true');
 
       const commitReviewLabel = fileRows[0].querySelector('.reviewedLabel');
-      const markReviewLabel = commitMsg.nextElementSibling;
+      const markReviewLabel = fileRows[0].querySelector('.markReviewed');
       assert.isTrue(commitReviewLabel.classList.contains('isReviewed'));
       assert.equal(markReviewLabel.textContent, 'MARK UNREVIEWED');
 
-      const clickSpy = sandbox.spy(element, '_handleFileListClick');
+      const clickSpy = sandbox.spy(element, '_reviewedClick');
       MockInteractions.tap(markReviewLabel);
-      assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', false));
-      assert.isFalse(commitReviewLabel.classList.contains('isReviewed'));
+      // assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', false));
+      // assert.isFalse(commitReviewLabel.classList.contains('isReviewed'));
       assert.equal(markReviewLabel.textContent, 'MARK REVIEWED');
       assert.isTrue(clickSpy.lastCall.args[0].defaultPrevented);
+      assert.isTrue(reviewSpy.calledOnce);
 
       MockInteractions.tap(markReviewLabel);
       assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', true));
       assert.isTrue(commitReviewLabel.classList.contains('isReviewed'));
       assert.equal(markReviewLabel.textContent, 'MARK UNREVIEWED');
       assert.isTrue(clickSpy.lastCall.args[0].defaultPrevented);
+      assert.isTrue(reviewSpy.calledTwice);
+
+      assert.isFalse(toggleExpandSpy.called);
     });
 
     test('_computeFileStatusLabel', () => {
@@ -906,13 +912,6 @@ suite('gr-file-list tests', () => {
       assert.isTrue(clickSpy.calledTwice);
       assert.isTrue(toggleExpandSpy.calledOnce);
       assert.isFalse(reviewStub.called);
-
-      // Click the reviewed checkbox, resulting in a call to _reviewFile, but
-      // no additional call to _toggleFileExpanded.
-      row.querySelector('.markReviewed').click();
-      assert.isTrue(clickSpy.calledThrice);
-      assert.isTrue(toggleExpandSpy.calledOnce);
-      assert.isTrue(reviewStub.calledOnce);
     });
 
     test('_handleFileListClick editMode', () => {
@@ -975,12 +974,12 @@ suite('gr-file-list tests', () => {
           dom(element.root).querySelectorAll('.row:not(.header-row)');
       // Because the label surrounds the input, the tap event is triggered
       // there first.
-      const showHideLabel = fileRows[0].querySelector('label.show-hide');
       const showHideCheck = fileRows[0].querySelector(
-          'input.show-hide[type="checkbox"]');
-      assert.isNotOk(showHideCheck.checked);
+          'span.show-hide[role="switch"]');
+      const showHideLabel = showHideCheck.querySelector('.show-hide-icon');
+      assert.equal(showHideCheck.getAttribute('aria-checked'), 'false');
       MockInteractions.tap(showHideLabel);
-      assert.isOk(showHideCheck.checked);
+      assert.equal(showHideCheck.getAttribute('aria-checked'), 'true');
       assert.notEqual(
           element._expandedFiles.findIndex(f => f.path === 'myfile.txt'),
           -1);
@@ -1001,7 +1000,7 @@ suite('gr-file-list tests', () => {
 
       // Tap on a file to generate the diff.
       const row = dom(element.root)
-          .querySelectorAll('.row:not(.header-row) label.show-hide')[0];
+          .querySelectorAll('.row:not(.header-row) span.show-hide')[0];
 
       MockInteractions.tap(row);
       flushAsynchronousOperations();

@@ -28,6 +28,20 @@ export const htmlTemplate = html`
       min-height: calc(var(--line-height-normal) + 2 * var(--spacing-s));
       padding: var(--spacing-xs) var(--spacing-l);
     }
+    /* The class defines a content visible only to screen readers */
+    .noCommentsScreenReaderText {
+      opacity: 0;
+      max-width: 1px;
+      overflow: hidden;
+      display: none;
+    }
+    div[role='gridcell']
+      > div.comments
+      > span:empty
+      + span:empty
+      + span.noCommentsScreenReaderText {
+      display: inline;
+    }
     :host(.loading) .row {
       opacity: 0.5;
     }
@@ -164,6 +178,9 @@ export const htmlTemplate = html`
       color: #c62828;
       font-weight: var(--font-weight-bold);
     }
+    .show-hide-icon:focus {
+      outline: none;
+    }
     .show-hide {
       margin-left: var(--spacing-s);
       width: 1.9em;
@@ -200,26 +217,23 @@ export const htmlTemplate = html`
       margin-left: var(--spacing-xxl);
       width: 15em;
     }
-    .reviewed label {
+    .reviewedSwitch {
       color: var(--link-color);
       opacity: 0;
       justify-content: flex-end;
       width: 100%;
     }
-    .reviewed label:hover {
+    .reviewedSwitch:hover {
       cursor: pointer;
       opacity: 100;
     }
     .row:focus {
       outline: none;
     }
-    .row:hover .reviewed label,
-    .row:focus .reviewed label,
-    .row.expanded .reviewed label {
+    .row:hover .reviewedSwitch,
+    .row:focus-within .reviewedSwitch,
+    .row.expanded .reviewedSwitch {
       opacity: 100;
-    }
-    .reviewed input {
-      display: none;
     }
     .reviewedLabel {
       color: var(--deemphasized-text-color);
@@ -232,6 +246,9 @@ export const htmlTemplate = html`
     }
     .editFileControls {
       width: 7em;
+    }
+    .markReviewed:focus {
+      outline: none;
     }
     .markReviewed,
     .pathLink {
@@ -255,10 +272,8 @@ export const htmlTemplate = html`
         padding: 0px;
       }
     }
-    .pathLink:hover gr-copy-clipboard,
-    .pathLink:focus gr-copy-clipboard,
-    .oldPath:focus gr-copy-clipboard,
-    .oldPath:hover gr-copy-clipboard {
+    .row:focus-within gr-copy-clipboard,
+    .row:hover gr-copy-clipboard {
       visibility: visible;
     }
 
@@ -296,8 +311,13 @@ export const htmlTemplate = html`
       }
     }
   </style>
-  <div id="container" on-click="_handleFileListClick">
-    <div class="header-row row">
+  <div
+    id="container"
+    on-click="_handleFileListClick"
+    role="grid"
+    aria-label="Files list"
+  >
+    <div class="header-row row" role="row">
       <!-- endpoint: change-view-file-list-header-prepend -->
       <template is="dom-if" if="[[_showPrependedDynamicColumns]]">
         <template
@@ -305,14 +325,14 @@ export const htmlTemplate = html`
           items="[[_dynamicPrependedHeaderEndpoints]]"
           as="headerEndpoint"
         >
-          <gr-endpoint-decorator name$="[[headerEndpoint]]">
+          <gr-endpoint-decorator name$="[[headerEndpoint]]" role="columnheader">
           </gr-endpoint-decorator>
         </template>
       </template>
-      <div class="path">File</div>
-      <div class="comments">Comments</div>
-      <div class="sizeBars">Size</div>
-      <div class="header-stats">Delta</div>
+      <div class="path" role="columnheader">File</div>
+      <div class="comments" role="columnheader">Comments</div>
+      <div class="sizeBars" role="columnheader">Size</div>
+      <div class="header-stats" role="columnheader">Delta</div>
       <!-- endpoint: change-view-file-list-header -->
       <template is="dom-if" if="[[_showDynamicColumns]]">
         <template
@@ -320,14 +340,18 @@ export const htmlTemplate = html`
           items="[[_dynamicHeaderEndpoints]]"
           as="headerEndpoint"
         >
-          <gr-endpoint-decorator name$="[[headerEndpoint]]">
+          <gr-endpoint-decorator name$="[[headerEndpoint]]" role="columnheader">
           </gr-endpoint-decorator>
         </template>
       </template>
       <!-- Empty div here exists to keep spacing in sync with file rows. -->
-      <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]"></div>
-      <div class="editFileControls showOnEdit"></div>
-      <div class="show-hide"></div>
+      <div
+        class="reviewed hideOnEdit"
+        hidden$="[[!_loggedIn]]"
+        aria-hidden="true"
+      ></div>
+      <div class="editFileControls showOnEdit" aria-hidden="true"></div>
+      <div class="show-hide" aria-hidden="true"></div>
     </div>
 
     <template
@@ -344,6 +368,7 @@ export const htmlTemplate = html`
           class$="file-row row [[_computePathClass(file.__path, _expandedFiles.*)]]"
           data-file$="[[_computeFileRange(file)]]"
           tabindex="-1"
+          role="row"
         >
           <!-- endpoint: change-view-file-list-content-prepend -->
           <template is="dom-if" if="[[_showPrependedDynamicColumns]]">
@@ -352,7 +377,7 @@ export const htmlTemplate = html`
               items="[[_dynamicPrependedContentEndpoints]]"
               as="contentEndpoint"
             >
-              <gr-endpoint-decorator name="[[contentEndpoint]]">
+              <gr-endpoint-decorator name="[[contentEndpoint]]" role="gridcell">
                 <gr-endpoint-param name="changeNum" value="[[changeNum]]">
                 </gr-endpoint-param>
                 <gr-endpoint-param name="patchRange" value="[[patchRange]]">
@@ -366,6 +391,7 @@ export const htmlTemplate = html`
           <span
             data-url="[[_computeDiffURL(change, patchRange, file.__path, editMode)]]"
             class="path"
+            role="gridcell"
           >
             <a
               class="pathLink"
@@ -406,66 +432,114 @@ export const htmlTemplate = html`
               </div>
             </template>
           </span>
-          <div class="comments desktop">
-            <span class="drafts">
-              [[_computeDraftsString(changeComments, patchRange, file.__path)]]
-            </span>
-            [[_computeCommentsString(changeComments, patchRange, file.__path)]]
+          <div role="gridcell">
+            <div class="comments desktop">
+              <span class="drafts"
+                ><!-- This comments ensure that span is empty when the function
+                returns empty string.                
+              -->[[_computeDraftsString(changeComments, patchRange,
+                file.__path)]]<!-- This comments ensure that span is empty when
+                the function returns empty string.
+           --></span
+              >
+              <span
+                ><!--
+              -->[[_computeCommentsString(changeComments, patchRange,
+                file.__path)]]<!--
+           --></span
+              >
+              <span class="noCommentsScreenReaderText">
+                <!-- Screen readers read the following content only if 2 other
+              spans in the parent div is empty. The content is not visible on
+              the page.
+              Without this span, screen readers don't navigate correctly inside
+              table, because empty div doesn't rendered. For example, VoiceOver
+              jumps back to the whole table.
+              We can use &nbsp instead, but it sounds worse.                            
+              -->
+                No comments
+              </span>
+            </div>
+            <div class="comments mobile">
+              <span class="drafts"
+                ><!-- This comments ensure that span is empty when the function
+                returns empty string.
+              -->[[_computeDraftsStringMobile(changeComments, patchRange,
+                file.__path)]]<!-- This comments ensure that span is empty when
+                the function returns empty string.
+           --></span
+              >
+              <span
+                ><!--
+             -->[[_computeCommentsStringMobile(changeComments, patchRange,
+                file.__path)]]<!--
+           --></span
+              >
+              <span class="noCommentsScreenReaderText">
+                <!-- The same as for desktop comments -->
+                No comments
+              </span>
+            </div>
           </div>
-          <div class="comments mobile">
-            <span class="drafts">
-              [[_computeDraftsStringMobile(changeComments, patchRange,
-              file.__path)]]
-            </span>
-            [[_computeCommentsStringMobile(changeComments, patchRange,
-            file.__path)]]
+          <div role="gridcell">
+            <!-- The content must be in a separate div. It guarantees, that
+              gridcell always visible for screen readers.
+              For example, without a nested div screen readers pronounce the
+              "Commit message" row content with incorrect column headers.          
+            -->
+            <div
+              class$="[[_computeSizeBarsClass(_showSizeBars, file.__path)]]"
+              aria-label="A bar that represents the addition and deletion ratio for the current file"
+            >
+              <svg width="61" height="8">
+                <rect
+                  x$="[[_computeBarAdditionX(file, _sizeBarLayout)]]"
+                  y="0"
+                  height="8"
+                  fill="var(--positive-green-text-color)"
+                  width$="[[_computeBarAdditionWidth(file, _sizeBarLayout)]]"
+                ></rect>
+                <rect
+                  x$="[[_computeBarDeletionX(_sizeBarLayout)]]"
+                  y="0"
+                  height="8"
+                  fill="var(--negative-red-text-color)"
+                  width$="[[_computeBarDeletionWidth(file, _sizeBarLayout)]]"
+                ></rect>
+              </svg>
+            </div>
           </div>
-          <div
-            class$="[[_computeSizeBarsClass(_showSizeBars, file.__path)]]"
-            aria-label="A bar that represents the addition and deletion ratio for the current file"
-            tabindex="0"
-          >
-            <svg width="61" height="8">
-              <rect
-                x$="[[_computeBarAdditionX(file, _sizeBarLayout)]]"
-                y="0"
-                height="8"
-                fill="var(--positive-green-text-color)"
-                width$="[[_computeBarAdditionWidth(file, _sizeBarLayout)]]"
-              ></rect>
-              <rect
-                x$="[[_computeBarDeletionX(_sizeBarLayout)]]"
-                y="0"
-                height="8"
-                fill="var(--negative-red-text-color)"
-                width$="[[_computeBarDeletionWidth(file, _sizeBarLayout)]]"
-              ></rect>
-            </svg>
-          </div>
-          <div class$="[[_computeClass('stats', file.__path)]]">
-            <span
-              class="added"
-              tabindex="0"
-              aria-label$="[[file.lines_inserted]] lines added"
-              hidden$="[[file.binary]]"
-            >
-              +[[file.lines_inserted]]
-            </span>
-            <span
-              class="removed"
-              tabindex="0"
-              aria-label$="[[file.lines_deleted]] lines removed"
-              hidden$="[[file.binary]]"
-            >
-              -[[file.lines_deleted]]
-            </span>
-            <span
-              class$="[[_computeBinaryClass(file.size_delta)]]"
-              hidden$="[[!file.binary]]"
-            >
-              [[_formatBytes(file.size_delta)]] [[_formatPercentage(file.size,
-              file.size_delta)]]
-            </span>
+          <div class="stats" role="gridcell">
+            <!-- The content must be in a separate div. It guarantees, that
+            gridcell always visible for screen readers.
+            For example, without a nested div screen readers pronounce the
+            "Commit message" row content with incorrect column headers.          
+            -->
+            <div class$="[[_computeClass('', file.__path)]]">
+              <span
+                class="added"
+                tabindex="0"
+                aria-label$="[[file.lines_inserted]] lines added"
+                hidden$="[[file.binary]]"
+              >
+                +[[file.lines_inserted]]
+              </span>
+              <span
+                class="removed"
+                tabindex="0"
+                aria-label$="[[file.lines_deleted]] lines removed"
+                hidden$="[[file.binary]]"
+              >
+                -[[file.lines_deleted]]
+              </span>
+              <span
+                class$="[[_computeBinaryClass(file.size_delta)]]"
+                hidden$="[[!file.binary]]"
+              >
+                [[_formatBytes(file.size_delta)]] [[_formatPercentage(file.size,
+                file.size_delta)]]
+              </span>
+            </div>
           </div>
           <!-- endpoint: change-view-file-list-content -->
           <template is="dom-if" if="[[_showDynamicColumns]]">
@@ -474,7 +548,7 @@ export const htmlTemplate = html`
               items="[[_dynamicContentEndpoints]]"
               as="contentEndpoint"
             >
-              <div class$="[[_computeClass('', file.__path)]]">
+              <div class$="[[_computeClass('', file.__path)]]" role="gridcell">
                 <gr-endpoint-decorator name="[[contentEndpoint]]">
                   <gr-endpoint-param name="changeNum" value="[[changeNum]]">
                   </gr-endpoint-param>
@@ -486,25 +560,44 @@ export const htmlTemplate = html`
               </div>
             </template>
           </template>
-          <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]" hidden="">
+          <div
+            class="reviewed hideOnEdit"
+            role="gridcell"
+            hidden$="[[!_loggedIn]]"
+          >
             <span
               class$="reviewedLabel [[_computeReviewedClass(file.isReviewed)]]"
+              aria-hidden$="[[!file.isReviewed]]"
               >Reviewed</span
             >
-            <label>
-              <input
-                class="reviewed"
-                type="checkbox"
-                checked="[[file.isReviewed]]"
-              />
+            <!-- Do not use input type="checkbox" with hidden input and
+                  visible label here. Screen readers don't read/interract
+                  correctly with such input. 
+              -->
+            <span
+              class="reviewedSwitch"
+              role="switch"
+              tabindex="0"
+              on-click="_reviewedClick"
+              on-keydown="_reviewedClick"
+              aria-label="Reviewed"
+              aria-checked$="[[_booleanToString(file.isReviewed)]]"
+            >
+              <!-- Trick with tabindex to avoid outline on mouse focus, but
+                preserve focus outline for keyboard navigation -->
               <span
+                tabindex="-1"
                 class="markReviewed"
                 title$="[[_reviewedTitle(file.isReviewed)]]"
                 >[[_computeReviewedText(file.isReviewed)]]</span
               >
-            </label>
+            </span>
           </div>
-          <div class="editFileControls showOnEdit">
+          <div
+            class="editFileControls showOnEdit"
+            role="gridcell"
+            aria-hidden$="[[!editMode]]"
+          >
             <template is="dom-if" if="[[editMode]]">
               <gr-edit-file-controls
                 class$="[[_computeClass('', file.__path)]]"
@@ -512,25 +605,32 @@ export const htmlTemplate = html`
               ></gr-edit-file-controls>
             </template>
           </div>
-          <div class="show-hide">
-            <label
+          <div class="show-hide" role="gridcell">
+            <!-- Do not use input type="checkbox" with hidden input and
+                visible label here. Screen readers don't read/interract
+                correctly with such input. 
+            -->
+            <span
               class="show-hide"
               data-path$="[[file.__path]]"
               data-expand="true"
+              role="switch"
+              tabindex="0"
+              aria-checked$="[[_isFileExpandedStr(file.__path, _expandedFiles.*)]]"
+              aria-label="Expand file"
+              on-click="_expandedClick"
+              on-keydown="_expandedClick"
             >
-              <input
-                type="checkbox"
-                class="show-hide"
-                checked$="[[_isFileExpanded(file.__path, _expandedFiles.*)]]"
-                data-path$="[[file.__path]]"
-                data-expand="true"
-              />
+              <!-- Trick with tabindex to avoid outline on mouse focus, but
+              preserve focus outline for keyboard navigation -->
               <iron-icon
+                class="show-hide-icon"
+                tabindex="-1"
                 id="icon"
                 icon="[[_computeShowHideIcon(file.__path, _expandedFiles.*)]]"
               >
               </iron-icon>
-            </label>
+            </span>
           </div>
         </div>
         <template
@@ -560,14 +660,14 @@ export const htmlTemplate = html`
       <span
         class="added"
         tabindex="0"
-        aria-label$="[[_patchChange.inserted]] lines added"
+        aria-label$="Total [[_patchChange.inserted]] lines added"
       >
         +[[_patchChange.inserted]]
       </span>
       <span
         class="removed"
         tabindex="0"
-        aria-label$="[[_patchChange.deleted]] lines removed"
+        aria-label$="Total [[_patchChange.deleted]] lines removed"
       >
         -[[_patchChange.deleted]]
       </span>
@@ -590,12 +690,18 @@ export const htmlTemplate = html`
   </div>
   <div class="row totalChanges" hidden$="[[_hideBinaryChangeTotals]]">
     <div class="total-stats">
-      <span class="added" aria-label="Total lines added">
+      <span
+        class="added"
+        aria-label$="Total bytes inserted: [[_formatBytes(_patchChange.size_delta_inserted)]] "
+      >
         [[_formatBytes(_patchChange.size_delta_inserted)]]
         [[_formatPercentage(_patchChange.total_size,
         _patchChange.size_delta_inserted)]]
       </span>
-      <span class="removed" aria-label="Total lines removed">
+      <span
+        class="removed"
+        aria-label$="Total bytes removed: [[_formatBytes(_patchChange.size_delta_deleted)]]"
+      >
         [[_formatBytes(_patchChange.size_delta_deleted)]]
         [[_formatPercentage(_patchChange.total_size,
         _patchChange.size_delta_deleted)]]

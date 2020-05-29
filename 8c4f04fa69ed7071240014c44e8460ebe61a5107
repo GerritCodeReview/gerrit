@@ -142,6 +142,30 @@
       "revId": "8c4f04fa69ed7071240014c44e8460ebe61a5107",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5db3be8_66259f12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-05-29T09:31:26Z",
+      "side": 1,
+      "message": "IMO it\u0027s preferable to the behavior pre-3.2 but one of the initial issues (as far as I\u0027m concerned) with the previous behavior was the renaming of \"Reply\" button when in WIP state.\nIn our UX study all users had severe problems noticing that the button had changed.\n\nOne question, from a UX standpoint, that should be addressed:\nWhat has higher priority?\nNot changing design so that current users doesn\u0027t have to \"relearn\", or making on-boarding of new users smoother?",
+      "parentUuid": "b3916195_c10aebf4",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 34
+      },
+      "revId": "8c4f04fa69ed7071240014c44e8460ebe61a5107",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

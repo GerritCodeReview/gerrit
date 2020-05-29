@@ -103,7 +103,7 @@ public class Schema_184 implements NoteDbSchemaVersion {
       @Nullable BatchRefUpdate batchRefUpdate) {
     MetaDataUpdate metaDataUpdate =
         new MetaDataUpdate(
-            GitReferenceUpdated.DISABLED, allUsersName, allUsersRepo, batchRefUpdate);
+            GitReferenceUpdated.DISABLED, null, allUsersName, allUsersRepo, batchRefUpdate);
     metaDataUpdate.getCommitBuilder().setAuthor(serverUser);
     metaDataUpdate.getCommitBuilder().setCommitter(serverUser);
     return metaDataUpdate;

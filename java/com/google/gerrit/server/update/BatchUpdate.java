@@ -37,6 +37,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSet.Id;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -62,6 +63,7 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.NoSuchRefException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
@@ -150,6 +152,16 @@ public class BatchUpdate implements AutoCloseable {
       } finally {
         for (ChangesHandle h : changesHandles) {
           h.close();
+        }
+      }
+
+      // Evict project cache entries if the config was modified
+      for (BatchUpdate update : updates) {
+        if (update.batchRefUpdate == null) {
+          continue;
+        }
+        if (update.getRefUpdates().keySet().contains(RefNames.REFS_CONFIG)) {
+          update.projectCache.evict(update.project);
         }
       }
 
@@ -332,6 +344,7 @@ public class BatchUpdate implements AutoCloseable {
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final ChangeIndexer indexer;
   private final GitReferenceUpdated gitRefUpdated;
+  private final ProjectCache projectCache;
 
   private final Project.NameKey project;
   private final CurrentUser user;
@@ -360,6 +373,7 @@ public class BatchUpdate implements AutoCloseable {
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeIndexer indexer,
       GitReferenceUpdated gitRefUpdated,
+      ProjectCache projectCache,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
       @Assisted Timestamp when) {
@@ -369,6 +383,7 @@ public class BatchUpdate implements AutoCloseable {
     this.updateManagerFactory = updateManagerFactory;
     this.indexer = indexer;
     this.gitRefUpdated = gitRefUpdated;
+    this.projectCache = projectCache;
     this.project = project;
     this.user = user;
     this.when = when;

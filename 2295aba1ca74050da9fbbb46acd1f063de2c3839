@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c0b375a_51aa05e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T11:06:56Z",
+      "side": 1,
+      "message": "during project deletion. Hence, make",
+      "range": {
+        "startLine": 9,
+        "startChar": 49,
+        "endLine": 10,
+        "endChar": 4
+      },
+      "revId": "2295aba1ca74050da9fbbb46acd1f063de2c3839",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0344628_dbdf916d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-05-29T11:06:56Z",
+      "side": 1,
+      "message": "This part of the sentence is confusing. In general, did you want to express that we can benefit from the introduction of the hasSuperproject() method and can now make this other method private as a result? Or are you referring to another split which happens later in the change series which splits the implementation of SubmoduleOp?",
+      "range": {
+        "startLine": 10,
+        "startChar": 59,
+        "endLine": 11,
+        "endChar": 25
+      },
+      "revId": "2295aba1ca74050da9fbbb46acd1f063de2c3839",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

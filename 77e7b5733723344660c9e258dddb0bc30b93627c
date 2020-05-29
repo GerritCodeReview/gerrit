@@ -46,6 +46,30 @@
       "revId": "77e7b5733723344660c9e258dddb0bc30b93627c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9725a161_62cd2ceb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 2136,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-29T13:24:49Z",
+      "side": 1,
+      "message": "You are right ;-)\n\nStill because it is that convoluted case, please, add number in that statement. because if you just say number I lost you whether you are talking about gerrit release or schema number version. So say this:\n\n  Allow Gerrit v3.1 to start even if the underlying schema version has been bumped to 183,\n  that corresponds to the Gerrit release v3.2\n\n\n\u003e There isn\u0027t any possibility for an on-line upgrade of any kind.\n\nYeah, but would the check detect the problem? I think not, so that gerrit v3.2 node would start even if the underlying schema version would be 190 that correspond gerrit v3.4 (jumping over v3.2 releases). ideally the check would detect it, and reject experimentalRollingUpgrade option. But we don\u0027t know, what gerrit release correpsonds to what schema version number, don\u0027t we?",
+      "parentUuid": "06659dbf_2a71e17b",
+      "range": {
+        "startLine": 2135,
+        "startChar": 0,
+        "endLine": 2136,
+        "endChar": 24
+      },
+      "revId": "77e7b5733723344660c9e258dddb0bc30b93627c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

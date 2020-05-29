@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "74b94bde_26bb2525",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-29T08:08:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a29ae1d_3507996a",
+      "range": {
+        "startLine": 424,
+        "startChar": 24,
+        "endLine": 424,
+        "endChar": 89
+      },
+      "revId": "cceed0979e6c256ee6b586efc117712b8dee67d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68c82863_edae4803",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
         "patchSetId": 2
@@ -36,6 +60,24 @@
       "writtenOn": "2020-05-29T08:02:07Z",
       "side": 1,
       "message": "Is it useful to tab onto the bar?",
+      "revId": "cceed0979e6c256ee6b586efc117712b8dee67d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0768aeb_4e6bea4a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-05-29T08:08:34Z",
+      "side": 1,
+      "message": "not sure actually, I feel like its more for people who have low vision or blurred vision, it might be weird / frustrated to see it but not able to tab to it to know what that is ? functionality wise, i agree that have a tab stop here won\u0027t help anything.",
+      "parentUuid": "68c82863_edae4803",
       "revId": "cceed0979e6c256ee6b586efc117712b8dee67d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

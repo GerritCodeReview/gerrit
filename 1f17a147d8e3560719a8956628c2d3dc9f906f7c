@@ -94,6 +94,30 @@
       "revId": "1f17a147d8e3560719a8956628c2d3dc9f906f7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a511b18_eb4361eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-29T00:18:26Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t believe Gerrit adds these footers during a cherry-pick?\n\nIt does, but only when the source is a merged change.",
+      "parentUuid": "e6a2ee20_50785fa5",
+      "range": {
+        "startLine": 9,
+        "startChar": 30,
+        "endLine": 10,
+        "endChar": 13
+      },
+      "revId": "1f17a147d8e3560719a8956628c2d3dc9f906f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

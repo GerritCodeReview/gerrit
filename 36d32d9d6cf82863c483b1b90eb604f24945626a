@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2a9c6b5_f3cf03aa",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-05-29T08:28:04Z",
+      "side": 1,
+      "message": "This is wrong IMHO. If the name changed in LDAP then we should also update it in Gerrit.\n\nWhat we want to protect is that a user updates his name directly from UI/REST API, but this\nis done in the PutName REST API endpoint. This place here is wrong to enforce this policy.",
+      "revId": "36d32d9d6cf82863c483b1b90eb604f24945626a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

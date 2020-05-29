@@ -94,6 +94,30 @@
       "revId": "52ac1dacc728af2658b9c8cd1a48607956ee9939",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51f4c90f_441729b5",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-29T10:04:01Z",
+      "side": 0,
+      "message": "\u003e Actually we already have a test for updating of the full name and it is in AccountManagerIT.authenticateWithUsernameAndUpdateDisplayName. This test clearly\n\u003e expects that updating of the full name upon user authentication must be accepted\n\u003e in Gerrit which confirms that what I am doing in this change is correct.\n\nBut without this change the test passes as well: that means it isn\u0027t really testing your fix.\n\nYou should pass a non-default realm (you could mock it) that says \"I am not allowing the modification of the full name\" and verify that the full name is still updated.\n\nHow does it sound?",
+      "parentUuid": "f6e06a30_420f1cfe",
+      "range": {
+        "startLine": 241,
+        "startChar": 6,
+        "endLine": 241,
+        "endChar": 55
+      },
+      "revId": "52ac1dacc728af2658b9c8cd1a48607956ee9939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

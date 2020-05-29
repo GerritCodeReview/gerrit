@@ -105,4 +105,15 @@ public class AclUtil {
   public static PermissionRule rule(ProjectConfig config, GroupReference group) {
     return new PermissionRule(config.resolve(group));
   }
+
+  public static void remove(
+      ProjectConfig config, AccessSection section, String permission, GroupReference... groupList) {
+    Permission p = section.getPermission(permission, true);
+    for (GroupReference group : groupList) {
+      if (group != null) {
+        PermissionRule r = rule(config, group);
+        p.remove(r);
+      }
+    }
+  }
 }

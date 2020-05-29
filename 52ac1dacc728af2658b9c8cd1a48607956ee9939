@@ -22,6 +22,30 @@
       "revId": "52ac1dacc728af2658b9c8cd1a48607956ee9939",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4df8fc1f_d60e6915",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-05-29T07:04:32Z",
+      "side": 0,
+      "message": "This particular line was added here:\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/201450/3/gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java\n\nBefore then it was broken because the logic was inverted",
+      "parentUuid": "0fa9e515_0ecf73ad",
+      "range": {
+        "startLine": 241,
+        "startChar": 6,
+        "endLine": 241,
+        "endChar": 55
+      },
+      "revId": "52ac1dacc728af2658b9c8cd1a48607956ee9939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

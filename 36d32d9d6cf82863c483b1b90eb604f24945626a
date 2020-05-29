@@ -34,6 +34,24 @@
       "revId": "36d32d9d6cf82863c483b1b90eb604f24945626a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "569f50b0_1e60f150",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-05-29T09:17:47Z",
+      "side": 1,
+      "message": "Thanks Luca.\n\nChecking the read-only-ness of the FULL_NAME was also present in the base version of this change (albeit as a buggy inverted logic).\n\nI tried tracking that back but this seems to exist since very long time. It may be that, in very old Gerrit versions, this code here was also used to enforce read-only-ness of\nfull name also when user\u0027s tried to update it. Maybe this changed later when REST API was introduced... I didn\u0027t really have time to follow and understand the whole history.\n\nReverting this change will not bring us to cleaner state as it will bring back that\nconfusing inverted check. I propose to submit my change which removes this check (after\nI add a couple of tests).",
+      "parentUuid": "08ec9ef2_9cd52ea0",
+      "revId": "36d32d9d6cf82863c483b1b90eb604f24945626a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

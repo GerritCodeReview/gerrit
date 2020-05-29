@@ -118,6 +118,30 @@
       "revId": "1f17a147d8e3560719a8956628c2d3dc9f906f7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d17a9c76_f81aab3c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-05-29T12:10:28Z",
+      "side": 1,
+      "message": "\u003e change-id across projects\n\nthis is trivially recognizable as not being a cherry-pick, because these have to be within the same repo (ok, i actually did a lot of cross-repo picks due to code having been moved, but this is a bit of a corner case and doesn\u0027t really need to work. also, i marked these with \"(cherry picked from qtbase/1a2a3a4a1a2a34aa12a3a4a2a3)\", so they would be still recognizable).\n\n\u003e submit together\n\nthese would naturally break the condition of the latter change\u0027s upload being subsequent to the integration of the former.\n\n\u003e it does not convey direction\n\nthe sequence requirement above deals with that as well.\n\n\u003e there have been other cherry-picks in the middle\n\none could calculate the git-patch-id to \"down-rank\" modified picks. where ambiguity remains, the earliest committer timestamp should be used.",
+      "parentUuid": "8a511b18_eb4361eb",
+      "range": {
+        "startLine": 9,
+        "startChar": 30,
+        "endLine": 10,
+        "endChar": 13
+      },
+      "revId": "1f17a147d8e3560719a8956628c2d3dc9f906f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

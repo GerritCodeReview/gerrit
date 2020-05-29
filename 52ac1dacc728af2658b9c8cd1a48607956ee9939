@@ -46,6 +46,30 @@
       "revId": "52ac1dacc728af2658b9c8cd1a48607956ee9939",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddc33110_56007492",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-05-29T08:31:29Z",
+      "side": 0,
+      "message": "Will try to add a couple of tests.\n\n\u003e Before then it was broken because the logic was inverted\n\nI commented in that change.... for me this check (for the read-only policy) shouldn\u0027t be done when we authenticate user and get response from LDAP where\nusers\u0027s full name changed. The read-only-ness should only be enforced if a user\ntries to update his full name via UI/REST API.",
+      "parentUuid": "4df8fc1f_d60e6915",
+      "range": {
+        "startLine": 241,
+        "startChar": 6,
+        "endLine": 241,
+        "endChar": 55
+      },
+      "revId": "52ac1dacc728af2658b9c8cd1a48607956ee9939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

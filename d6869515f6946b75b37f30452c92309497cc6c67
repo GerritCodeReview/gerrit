@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a4e5493_c58797cc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-29T09:15:23Z",
+      "side": 1,
+      "message": "I just realized, that this change is included in stable-3.2 branch. We must move that series to stable-3.2 branch and make sure, that final 3.2 release inludes this fix.",
+      "range": {
+        "startLine": 10,
+        "startChar": 47,
+        "endLine": 10,
+        "endChar": 60
+      },
+      "revId": "d6869515f6946b75b37f30452c92309497cc6c67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e7fe87f_9b363458",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-05-29T09:15:23Z",
+      "side": 1,
+      "message": "This is 3.2 release blocker. Can someone increase the priority and add blocker label?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 16
+      },
+      "revId": "d6869515f6946b75b37f30452c92309497cc6c67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -70,6 +70,30 @@
       "revId": "52ac1dacc728af2658b9c8cd1a48607956ee9939",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6e06a30_420f1cfe",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-05-29T09:58:57Z",
+      "side": 0,
+      "message": "Actually we already have a test for updating of the full name and it is in AccountManagerIT.authenticateWithUsernameAndUpdateDisplayName. This test clearly\nexpects that updating of the full name upon user authentication must be accepted\nin Gerrit which confirms that what I am doing in this change is correct.\n\nHowever, the AccountManager.real used in the test is the DefaultRealm and\nthe DefaultRealm allows edit of the FULL_NAME. I don\u0027t have a good idea right\nnow how to quickly add/fix tests. My change basically removes dependency to\nthe current realm when updating the full name upon authentication. Therefore,\nthe existing AccountManagerIT.authenticateWithUsernameAndUpdateDisplayName test\nactually covers what we need.\n\nIt looks like the main issue with testing is that we only test AccountManager\nwith the DefaultRealm. This seems unrelated to the fix here and probably shouldn\u0027t\nblock submission of this change. WDYT?",
+      "parentUuid": "ddc33110_56007492",
+      "range": {
+        "startLine": 241,
+        "startChar": 6,
+        "endLine": 241,
+        "endChar": 55
+      },
+      "revId": "52ac1dacc728af2658b9c8cd1a48607956ee9939",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

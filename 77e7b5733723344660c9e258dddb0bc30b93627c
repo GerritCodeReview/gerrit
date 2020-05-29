@@ -22,6 +22,30 @@
       "revId": "77e7b5733723344660c9e258dddb0bc30b93627c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06659dbf_2a71e17b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 2136,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-05-29T13:15:49Z",
+      "side": 1,
+      "message": "\u003e Is this accurate? \n\nYes, it is.\n\n\u003e I would have expected this statement to be:\n\u003e \n\u003e   Allow Gerrit v3.2 to start even if the underlying schema version\n\u003e   has not been bumped yet, and is still 181 (corresponds to the v3.1)\n\nThat is not accurate: this change allows an earlier version of the code (e.g. v3.1 \u003d refs/meta/version\u003d181) to start if the underlying refs/meta/version has been bumped already (e.g. v3.2 refs/meta/version\u003d183).\n\n\u003e The only problem still remains here is: If someone would jump over the releases. Say we add this experimental option in v3.2 and someone would set it to true, and has gerri site with v3.2 installed and will start the site upgrade to v3.4, jumping over v3.3 without making a stop there. In that case the NoteDb Schem Version check would still accept it, right. That is of course wrong, because online reindex could be unsupported?\n\nIf you jump across releases, you have to perform everything offline:\n- offline upgrade\n- offline reindex\n\nThere isn\u0027t any possibility for an on-line upgrade of any kind.",
+      "parentUuid": "290fc3b4_4ae87436",
+      "range": {
+        "startLine": 2135,
+        "startChar": 0,
+        "endLine": 2136,
+        "endChar": 24
+      },
+      "revId": "77e7b5733723344660c9e258dddb0bc30b93627c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "45f859f6_2a810179",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-29T09:28:43Z",
+      "side": 1,
+      "message": "Please move it to 3.2 and then it will be forward-merged.",
+      "revId": "55164dfd907e0d0b2e62689a0fe20bc68a1d75b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "92ac99ed_3bc4f2a7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -19,6 +36,132 @@
         "endLine": 24,
         "endChar": 33
       },
+      "revId": "55164dfd907e0d0b2e62689a0fe20bc68a1d75b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f011436_1aa41004",
+        "filename": "java/com/google/gerrit/server/schema/GrantRevertPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-29T09:28:43Z",
+      "side": 1,
+      "message": "permissionOnRefsHeads",
+      "range": {
+        "startLine": 68,
+        "startChar": 17,
+        "endLine": 68,
+        "endChar": 27
+      },
+      "revId": "55164dfd907e0d0b2e62689a0fe20bc68a1d75b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c96e6446_cbe95929",
+        "filename": "java/com/google/gerrit/server/schema/GrantRevertPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-29T09:28:43Z",
+      "side": 1,
+      "message": "nit:\n\nif (permissin !\u003d null){\n if(...) \n{return}\nif (getRule ...) \n}",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 78
+      },
+      "revId": "55164dfd907e0d0b2e62689a0fe20bc68a1d75b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17542e47_64ffd4dc",
+        "filename": "java/com/google/gerrit/server/schema/GrantRevertPermission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-29T09:28:43Z",
+      "side": 1,
+      "message": "use a new variable\n\npermissionOnRefsStar",
+      "range": {
+        "startLine": 82,
+        "startChar": 6,
+        "endLine": 82,
+        "endChar": 16
+      },
+      "revId": "55164dfd907e0d0b2e62689a0fe20bc68a1d75b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95b6cf20_2e1da034",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-29T09:28:43Z",
+      "side": 1,
+      "message": "nit: leave hard coded\n\notherwise the test would still pass if we just change the string referenced here because it changes test and prod code, but we actually want the test to fail then to prompt that there was a change",
+      "revId": "55164dfd907e0d0b2e62689a0fe20bc68a1d75b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "251867f9_43285c8e",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-29T09:28:43Z",
+      "side": 1,
+      "message": "Just Registered-Users, no?",
+      "range": {
+        "startLine": 140,
+        "startChar": 41,
+        "endLine": 140,
+        "endChar": 78
+      },
+      "revId": "55164dfd907e0d0b2e62689a0fe20bc68a1d75b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3eafc0ed_f4f25225",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/AccessIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-05-29T09:28:43Z",
+      "side": 1,
+      "message": "Why does this test pass?\n\nThe code seems to bail out if there is more than one rule OR the rule is not exactly what we think it is.",
       "revId": "55164dfd907e0d0b2e62689a0fe20bc68a1d75b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

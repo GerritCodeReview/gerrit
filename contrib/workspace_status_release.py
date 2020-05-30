@@ -101,14 +101,28 @@ def run_plugin_workspace_status():
             if re.search("^STABLE_[a-zA-Z0-9().:@/_ -]*$", line):
                 print(line)
 
+
+# os.chdir is different from plain `cd` in shells in that follows symlinks and does not update the
+# PWD environment. So when using os.chdir into a symlinked plugin directory from gerrit's plugin
+# directory, we cannot recover gerrit's directory. This is prevents plugin `workspace_status.py`
+# scripts to detect the name they were symlinked as (E.g.: it-* plugins sometimes get linked in
+# more than once under different names) and to detect gerrit's root directory. To work around this
+# problem, we mimick the `cd` of ordinary shells. Using this function symlink information is
+# preserved in the `PWD` environment variable (as it is for example also done in bash) and plugin
+# `workspace_status.py` scripts can pick up the needed information from there.
+def cd(absolute_path):
+    os.environ['PWD']=absolute_path
+    os.chdir(absolute_path)
+
+
 def print_stamps():
-    os.chdir(ROOT)
+    cd(ROOT)
     GERRIT_VERSION=revision()
     print("STABLE_BUILD_GERRIT_LABEL %s" % GERRIT_VERSION)
     for d in os.listdir(os.path.join(ROOT, 'plugins')):
         p = os.path.join(ROOT, 'plugins', d)
         if os.path.isdir(p):
-            os.chdir(p)
+            cd(p)
 
             v = revision(GERRIT_VERSION)
             print('STABLE_BUILD_%s_LABEL %s' % (os.path.basename(p).upper(),

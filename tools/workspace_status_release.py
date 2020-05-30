@@ -112,12 +112,17 @@ def print_stamps_for_plugin(name, template):
                                             v if v else 'unknown'))
 
 
-os.chdir(ROOT)
-GERRIT_VERSION=revision()
-print("STABLE_BUILD_GERRIT_LABEL %s" % GERRIT_VERSION)
-for d in os.listdir(os.path.join(ROOT, 'plugins')):
-    p = os.path.join(ROOT, 'plugins', d)
-    if os.path.isdir(p):
-        os.chdir(p)
-        name = os.path.basename(p)
-        print_stamps_for_plugin(name, GERRIT_VERSION)
+def print_stamps():
+    os.chdir(ROOT)
+    GERRIT_VERSION=revision()
+    print("STABLE_BUILD_GERRIT_LABEL %s" % GERRIT_VERSION)
+    for d in os.listdir(os.path.join(ROOT, 'plugins')):
+        p = os.path.join(ROOT, 'plugins', d)
+        if os.path.isdir(p):
+            os.chdir(p)
+            name = os.path.basename(p)
+            print_stamps_for_plugin(name, GERRIT_VERSION)
+
+
+if __name__ == '__main__':
+    print_stamps()

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ed93590_693de10d",
+        "filename": "tools/workspace_status.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-05-30T16:19:23Z",
+      "side": 1,
+      "message": "not that it would matter much, but this seems terribly inefficient. i\u0027d call git name-rev with a suitable ref filter and then match the tags instead of repeatedly calling git.",
+      "revId": "40d63b8fb9f7a5eb31d0d424813a267d878455f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b4f03a7_b9da3e4f",
+        "filename": "tools/workspace_status.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-05-30T16:19:23Z",
+      "side": 1,
+      "message": "a break would be a lot more readable than that.\nin fact, i\u0027d opt for early returns.",
+      "revId": "40d63b8fb9f7a5eb31d0d424813a267d878455f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

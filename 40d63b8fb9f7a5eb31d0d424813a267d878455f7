@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8ff63695_9bedd5a7",
+        "filename": "tools/workspace_status.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-05-30T19:17:24Z",
+      "side": 1,
+      "message": "Not sure `git name-rev` is a good match.\n\nAs far as I know:\n* `git name-rev` does not allow to have `--dirty`,\n* `git name-rev` does not have `--long` (used in follow-up commits),\n* `git name-rev` may use tags that were added on child commits.\n\nSince I might be missing the obvious, could you show me how to\nuse `git name-rev` to get output similar to `git describe`?",
+      "parentUuid": "7ed93590_693de10d",
+      "revId": "40d63b8fb9f7a5eb31d0d424813a267d878455f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b4f03a7_b9da3e4f",
         "filename": "tools/workspace_status.py",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "40d63b8fb9f7a5eb31d0d424813a267d878455f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ab65c1a_1502df48",
+        "filename": "tools/workspace_status.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-05-30T19:17:24Z",
+      "side": 1,
+      "message": "There goes my poor `single-exit` :-D\n\nDone in PS3.",
+      "parentUuid": "1b4f03a7_b9da3e4f",
+      "revId": "40d63b8fb9f7a5eb31d0d424813a267d878455f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

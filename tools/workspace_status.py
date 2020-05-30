@@ -32,10 +32,12 @@ def run(command):
         # ignore "not a git repository error" to report unknown version
         return None
 
-def revision_with_match(match):
+def revision_with_match(match, all_refs=False):
     command = REVISION_CMD[:] # Copying, as adding elements should not change REVISION_CMD
     if match:
         command += ['--match', match + '*']
+    if all_refs:
+        command += ['--all', '--long']
     return run(command)
 
 def revision(template=None):
@@ -45,12 +47,30 @@ def revision(template=None):
         parts = template.split('-')[0].split('.')
         # Then we use that list to match against tags in the current repo, starting with
         # longest matches.
-        for length in range(len(parts),0,-1):
+        #
+        # We do not consider matches of only the first part (E.g.: 'v2') as we'd most
+        # likely get some match on a really old tag, which would prohibit matching on
+        # branches, which would yield better results in this case.
+        for length in range(len(parts),1,-1):
             start = '.'.join(parts[0:length])
             for variant in ['.', '']:
                 if ret is None:
                     ret = revision_with_match(start + variant + '*')
                     if not ret.startswith(start + variant):
+                        ret = None
+
+        if ret is None and template.startswith('v'):
+            # Matching the template against tags did not give anything good, so we try
+            # matching the template against branch names.
+            match = re.match('v([0-9]+\.[0-9]+)\.', template)
+            for ref_kind in ['', 'origin/', 'gerrit/']:
+                if ret is None:
+                    branch = 'stable-' + match.group(1)
+                    ret = revision_with_match(ref_kind + branch, True)
+                    for cutoff in ['heads/', 'remotes/', ref_kind]:
+                        if ret.startswith(cutoff):
+                            ret = ret[len(cutoff):]
+                    if not ret.startswith(branch):
                         ret = None
 
     if ret is None:

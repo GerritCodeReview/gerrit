@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "b03d270a_4b68da08",
+        "filename": "tools/workspace_status.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-05-30T21:24:55Z",
+      "side": 1,
+      "message": "Unfortunately, I think `git tag` is not a good match either. It searches in the\nwrong direction, as `--contain` only looks at tags that contain a certain commit, not\ntags that come before a given commit (as we would need here).\n\nBut `git tag` is of course nice to list tags that follow a given pattern. But from this set of tags, we\u0027d need to derive descriptions of the relevant commits (E.g.: \"3 commits after tag `v1.2.3` and the tree is dirty\"), which `git tag` does not do on\nit\u0027s own. In the end, we\u0027d be re-implementing `git describe`, which really matches\nour needs here.\n\nIdeally, we could do with a single call to `git describe` (as we have in the past).\nBut since we\u0027re all humans and we\u0027re way too busy to properly tag each and every build,\nand since we have to deal with CI, where tagging is infeasible, the single call to\n`git describe` ends up not giving the best among the possible choices to describe\na commit. We have lots of conventions on how we use git. Like tagging versions\nstarting in `v`. Like using `stable-$MAJOR.$MINOR` branches. git does not know about\nthese conventions. So `git describe` cannot use them to refine commit descriptions.\nHence, we have to do it manually ... or rather through this dedicated script.",
+      "parentUuid": "493670f4_bf20ccfc",
+      "revId": "40d63b8fb9f7a5eb31d0d424813a267d878455f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b4f03a7_b9da3e4f",
         "filename": "tools/workspace_status.py",
         "patchSetId": 2

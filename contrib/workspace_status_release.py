@@ -101,15 +101,19 @@ def run_plugin_workspace_status():
             if re.search("^STABLE_[a-zA-Z0-9().:@/_ -]*$", line):
                 print(line)
 
-os.chdir(ROOT)
-GERRIT_VERSION=revision()
-print("STABLE_BUILD_GERRIT_LABEL %s" % GERRIT_VERSION)
-for d in os.listdir(os.path.join(ROOT, 'plugins')):
-    p = os.path.join(ROOT, 'plugins', d)
-    if os.path.isdir(p):
-        os.chdir(p)
+def print_stamps():
+    os.chdir(ROOT)
+    GERRIT_VERSION=revision()
+    print("STABLE_BUILD_GERRIT_LABEL %s" % GERRIT_VERSION)
+    for d in os.listdir(os.path.join(ROOT, 'plugins')):
+        p = os.path.join(ROOT, 'plugins', d)
+        if os.path.isdir(p):
+            os.chdir(p)
 
-        v = revision(GERRIT_VERSION)
-        print('STABLE_BUILD_%s_LABEL %s' % (os.path.basename(p).upper(),
+            v = revision(GERRIT_VERSION)
+            print('STABLE_BUILD_%s_LABEL %s' % (os.path.basename(p).upper(),
                                             v if v else 'unknown'))
-        run_plugin_workspace_status()
+            run_plugin_workspace_status()
+
+if __name__ == '__main__':
+    print_stamps()

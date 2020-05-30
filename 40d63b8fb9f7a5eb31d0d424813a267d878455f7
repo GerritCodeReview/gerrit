@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "493670f4_bf20ccfc",
+        "filename": "tools/workspace_status.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-05-30T20:46:10Z",
+      "side": 1,
+      "message": "that was just an idea. maybe git tag --contains would be a better fit. or maybe git describe is already optimal, but a way to avoid calling it repeatedly can be found. or maybe neither.",
+      "parentUuid": "8ff63695_9bedd5a7",
+      "revId": "40d63b8fb9f7a5eb31d0d424813a267d878455f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b4f03a7_b9da3e4f",
         "filename": "tools/workspace_status.py",
         "patchSetId": 2

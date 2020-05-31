@@ -26,6 +26,8 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.extensions.client.AccountFieldName;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountException;
 import com.google.gerrit.server.account.AccountManager;
@@ -33,12 +35,16 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.account.SetInactiveFlag;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdNotes;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.notedb.Sequences;
+import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.inject.Inject;
+import com.google.inject.util.Providers;
 import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.Repository;
@@ -50,6 +56,12 @@ public class AccountManagerIT extends AbstractDaemonTest {
   @Inject private Sequences seq;
   @Inject @ServerInitiated private AccountsUpdate accountsUpdate;
   @Inject private ExternalIdNotes.Factory extIdNotesFactory;
+
+  @Inject private Sequences sequences;
+  @Inject private IdentifiedUser.GenericFactory userFactory;
+  @Inject private SshKeyCache sshKeyCache;
+  @Inject private GroupsUpdate.Factory groupsUpdateFactory;
+  @Inject private SetInactiveFlag setInactiveFlag;
 
   @Test
   public void authenticateNewAccountWithEmail() throws Exception {
@@ -200,6 +212,31 @@ public class AccountManagerIT extends AbstractDaemonTest {
 
   @Test
   public void authenticateWithUsernameAndUpdateDisplayName() throws Exception {
+    authenticateWithUsernameAndUpdateDisplayName(accountManager);
+  }
+
+  @Test
+  public void readOnlyFullNameField_authenticateWithUsernameAndUpdateDisplayName()
+      throws Exception {
+    TestRealm realm = server.getTestInjector().getInstance(TestRealm.class);
+    realm.denyEdit(AccountFieldName.FULL_NAME);
+    authenticateWithUsernameAndUpdateDisplayName(
+        new AccountManager(
+            sequences,
+            cfg,
+            accounts,
+            Providers.of(accountsUpdate),
+            accountCache,
+            realm,
+            userFactory,
+            sshKeyCache,
+            projectCache,
+            externalIds,
+            groupsUpdateFactory,
+            setInactiveFlag));
+  }
+
+  private void authenticateWithUsernameAndUpdateDisplayName(AccountManager am) throws Exception {
     String username = "foo";
     String email = "foo@example.com";
     Account.Id accountId = Account.id(seq.nextAccountId());
@@ -215,7 +252,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
     AuthRequest who = AuthRequest.forUser(username);
     String newName = "Updated Name";
     who.setDisplayName(newName);
-    AuthResult authResult = accountManager.authenticate(who);
+    AuthResult authResult = am.authenticate(who);
     assertAuthResultForExistingAccount(authResult, accountId, gerritExtIdKey);
 
     Optional<AccountState> accountState = accounts.get(accountId);

@@ -154,6 +154,13 @@ public class ServerPlugin extends Plugin {
   }
 
   @Override
+  @Nullable
+  public String getApiVersion() {
+    Attributes main = manifest.getMainAttributes();
+    return main.getValue("Gerrit-ApiVersion");
+  }
+
+  @Override
   protected boolean canReload() {
     Attributes main = manifest.getMainAttributes();
     String v = main.getValue("Gerrit-ReloadMode");

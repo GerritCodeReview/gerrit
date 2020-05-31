@@ -116,6 +116,11 @@ public abstract class Plugin {
     return apiType;
   }
 
+  @Nullable
+  public String getApiVersion() {
+    return null;
+  }
+
   public Plugin.CacheKey getCacheKey() {
     return cacheKey;
   }

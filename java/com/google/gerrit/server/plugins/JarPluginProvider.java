@@ -110,9 +110,6 @@ public class JarPluginProvider implements ServerPluginProvider {
 
   public static Path storeInTemp(String pluginName, InputStream in, SitePaths sitePaths)
       throws IOException {
-    if (!Files.exists(sitePaths.tmp_dir)) {
-      Files.createDirectories(sitePaths.tmp_dir);
-    }
     return PluginUtil.asTemp(in, tempNameFor(pluginName), ".jar", sitePaths.tmp_dir);
   }
 

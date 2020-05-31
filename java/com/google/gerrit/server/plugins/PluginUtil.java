@@ -53,6 +53,7 @@ public class PluginUtil {
   }
 
   static Path asTemp(InputStream in, String prefix, String suffix, Path dir) throws IOException {
+    Files.createDirectories(dir);
     Path tmp = Files.createTempFile(dir, prefix, suffix);
     boolean keep = false;
     try (OutputStream out = Files.newOutputStream(tmp)) {

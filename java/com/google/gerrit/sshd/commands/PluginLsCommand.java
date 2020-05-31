@@ -49,15 +49,17 @@ public class PluginLsCommand extends SshCommand {
           .toJson(output, new TypeToken<Map<String, PluginInfo>>() {}.getType(), stdout);
       stdout.print('\n');
     } else {
-      stdout.format("%-30s %-10s %-8s %s\n", "Name", "Version", "Status", "File");
+      String template = "%-30s %-10s %-16s %-8s %s\n";
+      stdout.format(template, "Name", "Version", "Api-Version", "Status", "File");
       stdout.print(
           "-------------------------------------------------------------------------------\n");
       for (Map.Entry<String, PluginInfo> p : output.entrySet()) {
         PluginInfo info = p.getValue();
         stdout.format(
-            "%-30s %-10s %-8s %s\n",
+            template,
             p.getKey(),
             Strings.nullToEmpty(info.version),
+            Strings.nullToEmpty(info.apiVersion),
             status(info.disabled),
             Strings.nullToEmpty(info.filename));
       }

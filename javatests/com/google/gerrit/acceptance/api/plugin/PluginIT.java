@@ -35,7 +35,12 @@ import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.inject.Inject;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
+import java.util.jar.Attributes;
+import java.util.jar.JarOutputStream;
+import java.util.jar.Manifest;
 import org.junit.Test;
 
 @NoHttpd
@@ -49,7 +54,14 @@ public class PluginIT extends AbstractDaemonTest {
 
   private static final ImmutableList<String> PLUGINS =
       ImmutableList.of(
-          "plugin-a.js", "plugin-b.html", "plugin-c.js", "plugin-d.html", "plugin_e.js");
+          "plugin-a.js",
+          "plugin-b.html",
+          "plugin-c.js",
+          "plugin-d.html",
+          "plugin-normal.jar",
+          "plugin-empty.jar",
+          "plugin-unset.jar",
+          "plugin_e.js");
 
   @Inject private RequestScopeOperations requestScopeOperations;
 
@@ -64,13 +76,14 @@ public class PluginIT extends AbstractDaemonTest {
     // Install all the plugins
     InstallPluginInput input = new InstallPluginInput();
     for (String plugin : PLUGINS) {
-      input.raw = plugin.endsWith(".js") ? JS_PLUGIN_CONTENT : HTML_PLUGIN_CONTENT;
+      input.raw = pluginContent(plugin);
       api = gApi.plugins().install(plugin, input);
       assertThat(api).isNotNull();
       PluginInfo info = api.get();
       String name = pluginName(plugin);
       assertThat(info.id).isEqualTo(name);
       assertThat(info.version).isEqualTo(pluginVersion(plugin));
+      assertThat(info.apiVersion).isEqualTo(pluginApiVersion(plugin));
       assertThat(info.indexUrl).isEqualTo(String.format("plugins/%s/", name));
       assertThat(info.filename).isEqualTo(plugin);
       assertThat(info.disabled).isNull();
@@ -163,10 +176,50 @@ public class PluginIT extends AbstractDaemonTest {
     return plugin.substring(0, dot);
   }
 
+  private RawInput pluginJarContent(String plugin) throws IOException {
+    ByteArrayOutputStream arrayStream = new ByteArrayOutputStream();
+    Manifest manifest = new Manifest();
+    Attributes attributes = manifest.getMainAttributes();
+    attributes.put(Attributes.Name.MANIFEST_VERSION, "1.0");
+    if (!plugin.endsWith("-unset.jar")) {
+      attributes.put(Attributes.Name.IMPLEMENTATION_VERSION, pluginVersion(plugin));
+      attributes.put(new Attributes.Name("Gerrit-ApiVersion"), pluginApiVersion(plugin));
+    }
+    try (JarOutputStream jarStream = new JarOutputStream(arrayStream, manifest)) {}
+    return RawInputUtil.create(arrayStream.toByteArray());
+  }
+
+  private RawInput pluginContent(String plugin) throws IOException {
+    if (plugin.endsWith(".js")) {
+      return JS_PLUGIN_CONTENT;
+    }
+    if (plugin.endsWith(".html")) {
+      return HTML_PLUGIN_CONTENT;
+    }
+    assertThat(plugin).endsWith(".jar");
+    return pluginJarContent(plugin);
+  }
+
   private String pluginVersion(String plugin) {
     String name = pluginName(plugin);
+    if (name.endsWith("empty")) {
+      return "";
+    }
+    if (name.endsWith("unset")) {
+      return null;
+    }
     int dash = name.lastIndexOf("-");
     return dash > 0 ? name.substring(dash + 1) : "";
+  }
+
+  private String pluginApiVersion(String plugin) {
+    if (plugin.endsWith("normal.jar")) {
+      return "2.16.19-SNAPSHOT";
+    }
+    if (plugin.endsWith("empty.jar")) {
+      return "";
+    }
+    return null;
   }
 
   private void assertBadRequest(ListRequest req) throws Exception {

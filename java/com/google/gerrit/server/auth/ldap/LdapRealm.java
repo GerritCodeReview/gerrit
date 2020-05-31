@@ -218,7 +218,7 @@ class LdapRealm extends AbstractRealm {
       values.put(name, m.get(name));
     }
 
-    String r = p.replace(values);
+    String r = p.replace(values).trim();
     return r.isEmpty() ? null : r;
   }
 

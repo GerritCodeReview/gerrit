@@ -19,11 +19,9 @@ import io.gatling.core.feeder.FeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
 import io.gatling.http.Predef.http
 
-class DeleteChange extends GerritSimulation {
+class ApproveChange extends GerritSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
   private var createChange: Option[CreateChange] = None
-
-  override def relativeRuntimeWeight = 2
 
   def this(createChange: CreateChange) {
     this()
@@ -39,7 +37,9 @@ class DeleteChange extends GerritSimulation {
           session
         }
       })
-      .exec(http(unique).delete("${url}${number}"))
+      .exec(http(unique)
+          .post("${url}${number}/revisions/current/review")
+          .body(ElFileBody(body)).asJson)
 
   setUp(
     test.inject(

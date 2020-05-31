@@ -17,47 +17,41 @@ package com.google.gerrit.scenarios
 import io.gatling.core.Predef.{atOnceUsers, _}
 import io.gatling.core.feeder.FeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
-import io.gatling.http.Predef._
+import io.gatling.http.Predef.http
 
 import scala.concurrent.duration._
 
-class CreateChange extends ProjectSimulation {
+class SubmitChange extends GerritSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
-  private val numberKey = "_number"
-  var number = 0
+  private val default: String = name
 
-  override def relativeRuntimeWeight = 2
-
-  def this(default: String) {
-    this()
-    this.default = default
-  }
-
-  val test: ScenarioBuilder = scenario(unique)
+  private val test: ScenarioBuilder = scenario(unique)
       .feed(data)
-      .exec(httpRequest
-          .body(ElFileBody(body)).asJson
-          .check(regex("\"" + numberKey + "\":(\\d+),").saveAs(numberKey)))
       .exec(session => {
-        number = session(numberKey).as[Int]
-        session
+        session.set("number", createChange.number)
       })
+      .exec(http(unique).post("${url}${number}/submit"))
 
   private val createProject = new CreateProject(default)
+  private val createChange = new CreateChange(default)
+  private val approveChange = new ApproveChange(createChange)
   private val deleteProject = new DeleteProject(default)
-  private val deleteChange = new DeleteChange(this)
 
   setUp(
     createProject.test.inject(
       nothingFor(stepWaitTime(createProject) seconds),
       atOnceUsers(1)
     ),
-    test.inject(
-      nothingFor(stepWaitTime(this) seconds),
+    createChange.test.inject(
+      nothingFor(stepWaitTime(createChange) seconds),
       atOnceUsers(1)
     ),
-    deleteChange.test.inject(
-      nothingFor(stepWaitTime(deleteChange) seconds),
+    approveChange.test.inject(
+      nothingFor(stepWaitTime(approveChange) seconds),
+      atOnceUsers(1)
+    ),
+    test.inject(
+      nothingFor(stepWaitTime(this) seconds),
       atOnceUsers(1)
     ),
     deleteProject.test.inject(

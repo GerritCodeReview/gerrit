@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -77,8 +78,9 @@ public class AccountManager {
   private final boolean autoUpdateAccountActiveStatus;
   private final SetInactiveFlag setInactiveFlag;
 
+  @VisibleForTesting
   @Inject
-  AccountManager(
+  public AccountManager(
       Sequences sequences,
       @GerritServerConfig Config cfg,
       Accounts accounts,
@@ -238,13 +240,7 @@ public class AccountManager {
 
     if (!Strings.isNullOrEmpty(who.getDisplayName())
         && !Objects.equals(user.getAccount().getFullName(), who.getDisplayName())) {
-      if (realm.allowsEdit(AccountFieldName.FULL_NAME)) {
-        accountUpdates.add(a -> a.setFullName(who.getDisplayName()));
-      } else {
-        logger.atWarning().log(
-            "Not changing already set display name '%s' to '%s'",
-            user.getAccount().getFullName(), who.getDisplayName());
-      }
+      accountUpdates.add(a -> a.setFullName(who.getDisplayName()));
     }
 
     if (!realm.allowsEdit(AccountFieldName.USER_NAME)

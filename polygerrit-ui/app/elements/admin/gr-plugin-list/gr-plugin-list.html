@@ -37,6 +37,7 @@ limitations under the License.
         <tr class="headerRow">
           <th class="name topHeader">Plugin Name</th>
           <th class="version topHeader">Version</th>
+          <th class="apiVersion topHeader">API Version</th>
           <th class="status topHeader">Status</th>
         </tr>
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
@@ -54,6 +55,7 @@ limitations under the License.
                 </template>
               </td>
               <td class="version">[[item.version]]</td>
+              <td class="apiVersion">[[item.api_version]]</td>
               <td class="status">[[_status(item)]]</td>
             </tr>
           </template>

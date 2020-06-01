@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fb7c6a25_b6f8d9e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-01T09:07:37Z",
+      "side": 1,
+      "message": "Done in PS5",
+      "parentUuid": "4aed36ac_3f546bab",
+      "range": {
+        "startLine": 11,
+        "startChar": 31,
+        "endLine": 11,
+        "endChar": 37
+      },
+      "revId": "570f24ee1075b85cf19056f5c472ef9c38638a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d450cb8_cbe81b98",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountListenersIT.java",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "570f24ee1075b85cf19056f5c472ef9c38638a45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c291c2cf_9ed6b1ae",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountListenersIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-01T09:07:37Z",
+      "side": 1,
+      "message": "Done in PS5",
+      "parentUuid": "6d450cb8_cbe81b98",
+      "range": {
+        "startLine": 38,
+        "startChar": 29,
+        "endLine": 38,
+        "endChar": 31
+      },
+      "revId": "570f24ee1075b85cf19056f5c472ef9c38638a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "4d562c7b_a6f1dfe1",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountListenersIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-01T09:07:37Z",
+      "side": 1,
+      "message": "Done in PS5.",
+      "parentUuid": "a9742f7e_9e2889e3",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 43,
+        "endChar": 8
+      },
+      "revId": "570f24ee1075b85cf19056f5c472ef9c38638a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1275ad77_61a3815d",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountListenersIT.java",
         "patchSetId": 4
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "1d7f9a46_c0025c79",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountListenersIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-01T09:07:37Z",
+      "side": 1,
+      "message": "Done in PS5.",
+      "parentUuid": "1275ad77_61a3815d",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 8
+      },
+      "revId": "570f24ee1075b85cf19056f5c472ef9c38638a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63bf2daa_7a96d9dc",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountListenersIT.java",
         "patchSetId": 4
@@ -114,6 +210,30 @@
       "revId": "570f24ee1075b85cf19056f5c472ef9c38638a45",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f935e100_d2dde529",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountListenersIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-01T09:07:37Z",
+      "side": 1,
+      "message": "Done in PS5.",
+      "parentUuid": "63bf2daa_7a96d9dc",
+      "range": {
+        "startLine": 54,
+        "startChar": 14,
+        "endLine": 54,
+        "endChar": 26
+      },
+      "revId": "570f24ee1075b85cf19056f5c472ef9c38638a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

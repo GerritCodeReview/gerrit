@@ -21,7 +21,6 @@ import com.google.gerrit.elasticsearch.ElasticVersion;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Injector;
 import org.eclipse.jgit.lib.Config;
-import org.junit.Before;
 
 public class ElasticReindexIT extends AbstractReindexTests {
 
@@ -38,11 +37,5 @@ public class ElasticReindexIT extends AbstractReindexTests {
   @Override
   public void configureIndex(Injector injector) {
     createAllIndexes(injector);
-  }
-
-  @Before
-  public void reindexFirstSinceElastic() throws Exception {
-    assertServerStartupFails();
-    runGerrit("reindex", "-d", sitePaths.site_path.toString(), "--show-stack-trace");
   }
 }

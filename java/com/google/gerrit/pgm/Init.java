@@ -29,9 +29,13 @@ import com.google.gerrit.pgm.init.Browser;
 import com.google.gerrit.pgm.init.InitPlugins;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.util.ErrorLogFile;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.index.GerritIndexStatus;
+import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
+import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
+import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
 import com.google.gerrit.server.ioutil.HostPlatform;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.gerrit.server.util.ReplicaUtil;
@@ -46,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
 /** Initialize a new Gerrit installation. */
@@ -89,8 +94,9 @@ public class Init extends BaseInit {
   private List<String> skippedDownloads;
 
   @Inject Browser browser;
+  @Inject @GerritServerConfig Config config;
 
-  private boolean projectsIndexExists;
+  private SiteInit siteInit;
 
   public Init() {
     super(new WarDistribution(), null);
@@ -104,7 +110,7 @@ public class Init extends BaseInit {
 
   @Override
   protected boolean beforeInit(SiteInit init) throws Exception {
-    projectsIndexExists = new GerritIndexStatus(init.site).exists(ProjectSchemaDefinitions.NAME);
+    this.siteInit = init;
     ErrorLogFile.errorOnlyConsole();
 
     if (!skipPlugins) {
@@ -133,6 +139,12 @@ public class Init extends BaseInit {
 
   @Override
   protected void afterInit(SiteRun run) throws Exception {
+    List<SchemaDefinitions<?>> schemaDefs =
+        ImmutableList.of(
+            GroupSchemaDefinitions.INSTANCE,
+            AccountSchemaDefinitions.INSTANCE,
+            ProjectSchemaDefinitions.INSTANCE,
+            ChangeSchemaDefinitions.INSTANCE);
     List<Module> modules = new ArrayList<>();
     modules.add(
         new AbstractModule() {
@@ -147,8 +159,12 @@ public class Init extends BaseInit {
         });
     modules.add(new GerritServerConfigModule());
     Guice.createInjector(modules).injectMembers(this);
-    if (!ReplicaUtil.isReplica(run.flags.cfg) && !projectsIndexExists) {
-        reindex(ProjectSchemaDefinitions.INSTANCE);
+    if (!ReplicaUtil.isReplica(run.flags.cfg)) {
+      for (SchemaDefinitions<?> schemaDef : schemaDefs) {
+        if (!new GerritIndexStatus(siteInit.site).exists(schemaDef.getName())) {
+          reindex(schemaDef);
+        }
+      }
     }
     start(run);
   }

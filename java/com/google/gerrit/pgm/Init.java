@@ -32,6 +32,9 @@ import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.index.GerritIndexStatus;
+import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
+import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
+import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
 import com.google.gerrit.server.ioutil.HostPlatform;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.inject.AbstractModule;
@@ -89,7 +92,7 @@ public class Init extends BaseInit {
 
   @Inject Browser browser;
 
-  private boolean projectsIndexExists;
+  private GerritIndexStatus indexStatus;
 
   public Init() {
     super(new WarDistribution(), null);
@@ -103,7 +106,7 @@ public class Init extends BaseInit {
 
   @Override
   protected boolean beforeInit(SiteInit init) throws Exception {
-    projectsIndexExists = new GerritIndexStatus(init.site).exists(ProjectSchemaDefinitions.NAME);
+    indexStatus = new GerritIndexStatus(init.site);
     ErrorLogFile.errorOnlyConsole();
 
     if (!skipPlugins) {
@@ -132,6 +135,12 @@ public class Init extends BaseInit {
 
   @Override
   protected void afterInit(SiteRun run) throws Exception {
+    List<SchemaDefinitions<?>> schemaDefs =
+        ImmutableList.of(
+            AccountSchemaDefinitions.INSTANCE,
+            ChangeSchemaDefinitions.INSTANCE,
+            GroupSchemaDefinitions.INSTANCE,
+            ProjectSchemaDefinitions.INSTANCE);
     List<Module> modules = new ArrayList<>();
     modules.add(
         new AbstractModule() {
@@ -146,8 +155,12 @@ public class Init extends BaseInit {
         });
     modules.add(new GerritServerConfigModule());
     Guice.createInjector(modules).injectMembers(this);
-    if (!run.flags.cfg.getBoolean("container", "slave", false) && !projectsIndexExists) {
-      reindex(ProjectSchemaDefinitions.INSTANCE);
+    if (!run.flags.cfg.getBoolean("container", "slave", false)) {
+      for (SchemaDefinitions<?> schemaDef : schemaDefs) {
+        if (!indexStatus.exists(schemaDef.getName())) {
+          reindex(schemaDef);
+        }
+      }
     }
     start(run);
   }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7714903f_ddca390b",
+        "filename": "polygerrit-ui/app/samples/bind-parameters.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-01T11:14:08Z",
+      "side": 1,
+      "message": "Yes, this is examples. I just noticed that typescript can\u0027t process these files and decided to fix it.",
+      "parentUuid": "4f72c3c7_a9a3cd52",
+      "revId": "5cd3935e231f8031d98e9b4b555f3d86cdcb5fde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e337f1af_16cca4b7",
         "filename": "polygerrit-ui/app/samples/bind-parameters.js",
         "patchSetId": 8
@@ -33,6 +51,24 @@
       "revId": "5cd3935e231f8031d98e9b4b555f3d86cdcb5fde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad0be54b_478c2d04",
+        "filename": "polygerrit-ui/app/samples/bind-parameters.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-01T11:14:08Z",
+      "side": 1,
+      "message": "I renamed Element to PolymerElement in destructuring assignment. I think, this is more correct.",
+      "parentUuid": "e337f1af_16cca4b7",
+      "revId": "5cd3935e231f8031d98e9b4b555f3d86cdcb5fde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -29,8 +29,12 @@ import com.google.gerrit.pgm.init.Browser;
 import com.google.gerrit.pgm.init.InitPlugins;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.util.ErrorLogFile;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
+import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
+import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
+import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
 import com.google.gerrit.server.ioutil.HostPlatform;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.inject.AbstractModule;
@@ -44,6 +48,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+
+import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
 /** Initialize a new Gerrit installation. */
@@ -90,6 +96,7 @@ public class Init extends BaseInit {
   private List<String> skippedDownloads;
 
   @Inject Browser browser;
+  @Inject @GerritServerConfig Config config;
 
   public Init() {
     super(new WarDistribution(), null);
@@ -146,6 +153,11 @@ public class Init extends BaseInit {
     modules.add(new GerritServerConfigModule());
     Guice.createInjector(modules).injectMembers(this);
     reindex(ProjectSchemaDefinitions.INSTANCE);
+    if(config.getString("index", null, "type").equals("elasticsearch")) {
+    reindex(GroupSchemaDefinitions.INSTANCE);
+    reindex(AccountSchemaDefinitions.INSTANCE);
+    reindex(ChangeSchemaDefinitions.INSTANCE);
+    }
     start(run);
   }
 

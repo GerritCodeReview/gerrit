@@ -22,6 +22,30 @@
       "revId": "074c539bd7c02599d967bcdc8beaf1b5595f14d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2416f2a9_e2886035",
+        "filename": "polygerrit-ui/app/elements/shared/gr-label-info/gr-label-info.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-01T12:52:56Z",
+      "side": 1,
+      "message": "\u003e Extra indentation.\n\n(Already flagged by the CS check.)",
+      "parentUuid": "0a468be6_f5b131d7",
+      "range": {
+        "startLine": 173,
+        "startChar": 4,
+        "endLine": 178,
+        "endChar": 6
+      },
+      "revId": "074c539bd7c02599d967bcdc8beaf1b5595f14d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

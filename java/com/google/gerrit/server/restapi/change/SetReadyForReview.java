@@ -75,8 +75,8 @@ public class SetReadyForReview
   @Override
   public Description getDescription(ChangeResource rsrc) {
     return new Description()
-        .setLabel("Start Review")
-        .setTitle("Set Ready For Review")
+        .setLabel("Mark as Active")
+        .setTitle("Switch change state from WIP to Active (ready for review)")
         .setVisible(
             and(
                 rsrc.getChange().isNew() && rsrc.getChange().isWorkInProgress(),

@@ -174,11 +174,12 @@ public class AllProjectsCreator {
       AccessSection heads, LabelType codeReviewLabel, ProjectConfig config) {
     AccessSection refsFor = config.getAccessSection("refs/for/*", true);
     AccessSection magic = config.getAccessSection("refs/for/" + AccessSection.ALL, true);
+    AccessSection all = config.getAccessSection("refs/*", true);
 
     grant(config, refsFor, Permission.ADD_PATCH_SET, registered);
     grant(config, heads, codeReviewLabel, -1, 1, registered);
     grant(config, heads, Permission.FORGE_AUTHOR, registered);
-    grant(config, heads, Permission.REVERT, registered);
+    grant(config, all, Permission.REVERT, registered);
     grant(config, magic, Permission.PUSH, registered);
     grant(config, magic, Permission.PUSH_MERGE, registered);
   }

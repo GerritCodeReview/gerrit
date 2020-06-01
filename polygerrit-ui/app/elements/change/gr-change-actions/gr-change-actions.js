@@ -89,6 +89,7 @@ const ChangeActions = {
   PUBLISH_EDIT: 'publishEdit',
   REBASE: 'rebase',
   REBASE_EDIT: 'rebaseEdit',
+  READY: 'ready',
   RESTORE: 'restore',
   REVERT: 'revert',
   REVERT_SUBMISSION: 'revert_submission',
@@ -207,6 +208,7 @@ const ACTIONS_WITH_ICONS = new Set([
   ChangeActions.DELETE_EDIT,
   ChangeActions.EDIT,
   ChangeActions.PUBLISH_EDIT,
+  ChangeActions.READY,
   ChangeActions.REBASE_EDIT,
   ChangeActions.RESTORE,
   ChangeActions.REVERT,
@@ -295,6 +297,7 @@ class GrChangeActions extends mixinBehaviors( [
         type: Array,
         value() {
           return [
+            ChangeActions.READY,
             RevisionActions.SUBMIT,
           ];
         },

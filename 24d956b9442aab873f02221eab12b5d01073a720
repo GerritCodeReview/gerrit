@@ -93,6 +93,30 @@
       "revId": "24d956b9442aab873f02221eab12b5d01073a720",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59aaeffc_284fcc37",
+        "filename": "java/com/google/gerrit/server/account/SetInactiveFlag.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-01T09:27:16Z",
+      "side": 1,
+      "message": "Resolving due to Luca\u0027s comment that he\u0027s fine with the implementation on 2020-05-12",
+      "parentUuid": "bb362ef4_e5ad35d2",
+      "range": {
+        "startLine": 87,
+        "startChar": 40,
+        "endLine": 87,
+        "endChar": 71
+      },
+      "revId": "24d956b9442aab873f02221eab12b5d01073a720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

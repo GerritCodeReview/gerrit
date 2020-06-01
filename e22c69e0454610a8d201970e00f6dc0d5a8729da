@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ed77c677_9e11bba5",
+        "filename": "java/com/google/gerrit/sshd/InactiveAccountDisconnector.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-01T09:49:05Z",
+      "side": 1,
+      "message": "Since it was what other similar code did, I thought it would be the correct thing to do.\nBut since CurrentUser also has `.getLoggableName()`, and `.getAccountId()` we can do without\nrequiring a dedicated variable for it. In PS10, the code is denser.\n\nAnd for whether or not only IdentifiedUsers can reach this point, I\u0027m not sure. I know our\ncode-base too little, but to me it looks like a PeerDaemonUser might reach this point.\nMaybe there are also ways for a PluginUser to get here.\nEither way, I think checking for isIdentifiedUser is worth it and guards access to\n`.getAccountId()`. And in the formulation of PS10, we do not get the extra clutter of having\na dedicated `identifiedUser` variable.",
+      "parentUuid": "83cd05b3_e9490c81",
+      "range": {
+        "startLine": 43,
+        "startChar": 12,
+        "endLine": 43,
+        "endChar": 47
+      },
+      "revId": "e22c69e0454610a8d201970e00f6dc0d5a8729da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1c7783f_80203acf",
         "filename": "java/com/google/gerrit/sshd/InactiveAccountDisconnector.java",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "e22c69e0454610a8d201970e00f6dc0d5a8729da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6679fb0_7d1ee162",
+        "filename": "java/com/google/gerrit/sshd/InactiveAccountDisconnector.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-01T09:49:05Z",
+      "side": 1,
+      "message": "True! Nice. Done in PS10",
+      "parentUuid": "a1c7783f_80203acf",
+      "range": {
+        "startLine": 45,
+        "startChar": 37,
+        "endLine": 45,
+        "endChar": 72
+      },
+      "revId": "e22c69e0454610a8d201970e00f6dc0d5a8729da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +142,54 @@
     },
     {
       "key": {
+        "uuid": "7a57db3f_95e42b26",
+        "filename": "java/com/google/gerrit/sshd/InactiveAccountDisconnector.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-01T09:49:05Z",
+      "side": 1,
+      "message": "Switched to `.getLoggableName()` instead in PS10 as it seems to be a better fit.",
+      "parentUuid": "3b53ffe4_5eb3edba",
+      "range": {
+        "startLine": 49,
+        "startChar": 65,
+        "endLine": 49,
+        "endChar": 76
+      },
+      "revId": "e22c69e0454610a8d201970e00f6dc0d5a8729da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5d4cbd6_8e9871db",
+        "filename": "java/com/google/gerrit/sshd/InactiveAccountDisconnector.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-01T09:49:05Z",
+      "side": 1,
+      "message": "Nice. That helps with avoiding need for `identifiedUserId`. Thanks!",
+      "parentUuid": "a4ef99d3_07c1ae78",
+      "range": {
+        "startLine": 49,
+        "startChar": 78,
+        "endLine": 49,
+        "endChar": 94
+      },
+      "revId": "e22c69e0454610a8d201970e00f6dc0d5a8729da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3cdff96_0691562c",
         "filename": "java/com/google/gerrit/sshd/InactiveAccountDisconnector.java",
         "patchSetId": 8
@@ -108,6 +204,24 @@
       "revId": "e22c69e0454610a8d201970e00f6dc0d5a8729da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fe04dc2_9fee3b76",
+        "filename": "java/com/google/gerrit/sshd/InactiveAccountDisconnector.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-01T09:49:05Z",
+      "side": 1,
+      "message": "Done in PS10",
+      "parentUuid": "e3cdff96_0691562c",
+      "revId": "e22c69e0454610a8d201970e00f6dc0d5a8729da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

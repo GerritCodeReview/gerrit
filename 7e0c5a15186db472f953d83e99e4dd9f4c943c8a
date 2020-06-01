@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66f20827_a32025eb",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-01T23:59:20Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be getEnum?",
+      "range": {
+        "startLine": 155,
+        "startChar": 15,
+        "endLine": 155,
+        "endChar": 24
+      },
+      "revId": "7e0c5a15186db472f953d83e99e4dd9f4c943c8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

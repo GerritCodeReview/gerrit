@@ -70,6 +70,30 @@
       "revId": "77e7b5733723344660c9e258dddb0bc30b93627c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1a8ec2d_1d659879",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 2136,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-01T07:49:14Z",
+      "side": 1,
+      "message": "\u003e \u003e There isn\u0027t any possibility for an on-line upgrade of any kind.\n\u003e \n\u003e Yeah, but would the check detect the problem? I think not, so that gerrit v3.2 node would start even if the underlying schema version would be 190 that correspond gerrit v3.4 (jumping over v3.2 releases). ideally the check would detect it, and reject experimentalRollingUpgrade option. But we don\u0027t know, what gerrit release correpsonds to what schema version number, don\u0027t we?\n\nAt the moment, we do not automatically check the sanity of a Gerrit config before starting, which isn\u0027t good I agree.\n\nWhat I can propose it to display a giant warning when people use this flag, by saying \"You are starting in rolling upgrade mode ...\". I already have that message in the code, but I can make it more prominent. What do you think?",
+      "parentUuid": "9725a161_62cd2ceb",
+      "range": {
+        "startLine": 2135,
+        "startChar": 0,
+        "endLine": 2136,
+        "endChar": 24
+      },
+      "revId": "77e7b5733723344660c9e258dddb0bc30b93627c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

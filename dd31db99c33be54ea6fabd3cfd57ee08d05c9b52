@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "498d694f_f5894b05",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 6023,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-06-01T22:33:06Z",
+      "side": 1,
+      "message": "Since callers must not rely on the format, does that mean a plugin would be free to pick any submission id it likes? For example, the batch plugin submits *surprise* batches of changes. Each batch has a unique UUID. It seems like it would make sense to use that UUID for the submission id. The downside is that batches are ephemeral, and you aren\u0027t guaranteed visibility to them, so you might not be able to query for additional batch info.\n\nThoughts?",
+      "range": {
+        "startLine": 6020,
+        "startChar": 0,
+        "endLine": 6023,
+        "endChar": 61
+      },
+      "revId": "dd31db99c33be54ea6fabd3cfd57ee08d05c9b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

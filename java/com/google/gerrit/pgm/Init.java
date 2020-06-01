@@ -22,6 +22,7 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.common.IoUtil;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.PluginData;
+import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.index.project.ProjectSchemaDefinitions;
 import com.google.gerrit.pgm.init.BaseInit;
 import com.google.gerrit.pgm.init.Browser;
@@ -146,7 +147,7 @@ public class Init extends BaseInit {
     modules.add(new GerritServerConfigModule());
     Guice.createInjector(modules).injectMembers(this);
     if (!run.flags.cfg.getBoolean("container", "slave", false) && !projectsIndexExists) {
-      reindexProjects();
+      reindex(ProjectSchemaDefinitions.INSTANCE);
     }
     start(run);
   }
@@ -259,8 +260,7 @@ public class Init extends BaseInit {
     }
   }
 
-  private void reindexProjects() throws Exception {
-    // Reindex all projects, so that we bootstrap the project index for new installations
+  private void reindex(SchemaDefinitions<?> schemaDef) throws Exception {
     List<String> reindexArgs =
         ImmutableList.of(
             "--site-path",
@@ -268,8 +268,9 @@ public class Init extends BaseInit {
             "--threads",
             Integer.toString(1),
             "--index",
-            ProjectSchemaDefinitions.NAME);
-    getConsoleUI().message("Init complete, reindexing projects with:");
+            schemaDef.getName());
+    getConsoleUI()
+        .message(String.format("Init complete, reindexing %s with:", schemaDef.getName()));
     getConsoleUI().message(" reindex " + reindexArgs.stream().collect(joining(" ")));
     Reindex reindexPgm = new Reindex();
     reindexPgm.main(reindexArgs.stream().toArray(String[]::new));

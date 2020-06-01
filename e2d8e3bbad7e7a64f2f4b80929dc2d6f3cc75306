@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c1f0c39d_2e5999ca",
+        "filename": "java/com/google/gerrit/httpd/InactiveAccountsLogoutFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-01T10:16:11Z",
+      "side": 1,
+      "message": "Done in PS12.",
+      "parentUuid": "079fa5bd_51aa004e",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 98
+      },
+      "revId": "e2d8e3bbad7e7a64f2f4b80929dc2d6f3cc75306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed1bfce2_f6d2d4a1",
         "filename": "java/com/google/gerrit/httpd/InactiveAccountsLogoutFilter.java",
         "patchSetId": 9
@@ -45,6 +69,30 @@
       "revId": "e2d8e3bbad7e7a64f2f4b80929dc2d6f3cc75306",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04057399_934ecee6",
+        "filename": "java/com/google/gerrit/httpd/InactiveAccountsLogoutFilter.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-01T10:16:11Z",
+      "side": 1,
+      "message": "I would not do the logout redirection, as Gerrit can figure things on its own.\n\nIf we do not manage redirection, a user that is reading the Documentation while his/her account gets deactivated can continue to read the Documentation anymously. Same for a user that is looking at public Changes while his/her account gets deactivated can continue to navigate around. But a user that is attempting to do a privileged operation is denied and gets prompted to login again.\n\nIf we manage redirection, each of the above cases take the user to the logoutUrl. It would be counter-intuitive to take someone that is looking at public changes or documentation to the logoutUrl.\n\n\u003e We could also introduce a different logout experience, as the user should be informed why\n\u003e he has been logged out forcibly.\n\nFor that we\u0027d first need to ask for a reason from the admin that deactivated the account. While I like that idea, this would be\na bigger change. So I would kick that down the road a bit and first solve the issue at hand and leave \"collecting a reason for the deactivation\" and \"showing the deactivation reason for HTTP and SSH logouts\" for future commits.",
+      "parentUuid": "ed1bfce2_f6d2d4a1",
+      "range": {
+        "startLine": 75,
+        "startChar": 6,
+        "endLine": 75,
+        "endChar": 23
+      },
+      "revId": "e2d8e3bbad7e7a64f2f4b80929dc2d6f3cc75306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

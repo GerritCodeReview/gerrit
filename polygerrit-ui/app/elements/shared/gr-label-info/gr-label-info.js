@@ -170,6 +170,11 @@ class GrLabelInfo extends GestureEventListeners(
    *    order to trigger computation when a label is removed from the change.
    */
   _computeShowPlaceholder(labelInfo, changeLabelsRecord) {
+    if (labelInfo &&
+        !labelInfo.values && (labelInfo.rejected || labelInfo.approved)) {
+      return 'hidden';
+    }
+
     if (labelInfo && labelInfo.all) {
       for (const label of labelInfo.all) {
         if (label.value && label.value != labelInfo.default_value) {

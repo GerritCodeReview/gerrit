@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cbc2eb57_b53d4a13",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-02T10:03:42Z",
+      "side": 1,
+      "message": "To fix it, the gr-copy-clipboard should be moved out of \u003ca...\u003e...\u003c/a\u003e. The quick fix is not possible, styles needs to be updated.\nI prefer to fix it as a separate bug/change.",
+      "parentUuid": "957ccf57_a0402fe7",
+      "revId": "de79d9c521bbe724c74d191ddd99f8db2d598396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0b8d02f_3f3cdc89",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
         "patchSetId": 6
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "f77ee807_11c9b2bb",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-02T10:03:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0b8d02f_3f3cdc89",
+      "range": {
+        "startLine": 444,
+        "startChar": 17,
+        "endLine": 445,
+        "endChar": 17
+      },
+      "revId": "de79d9c521bbe724c74d191ddd99f8db2d598396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6d2fe3d_1ddb5223",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
         "patchSetId": 6
@@ -62,6 +104,30 @@
       "revId": "de79d9c521bbe724c74d191ddd99f8db2d598396",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfd9d59c_55692e3c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-02T10:03:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6d2fe3d_1ddb5223",
+      "range": {
+        "startLine": 692,
+        "startChar": 39,
+        "endLine": 692,
+        "endChar": 40
+      },
+      "revId": "de79d9c521bbe724c74d191ddd99f8db2d598396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

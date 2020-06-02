@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "09bb2f34_cf56d77c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-02T12:00:33Z",
+      "side": 1,
+      "message": "I think both work here.",
+      "parentUuid": "c7657953_26997904",
+      "range": {
+        "startLine": 9,
+        "startChar": 49,
+        "endLine": 10,
+        "endChar": 4
+      },
+      "revId": "2295aba1ca74050da9fbbb46acd1f063de2c3839",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0344628_dbdf916d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

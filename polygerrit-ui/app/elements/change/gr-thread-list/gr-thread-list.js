@@ -98,13 +98,23 @@ class GrThreadList extends GestureEventListeners(
     // re-rendering on modifications (add new reply / edit draft etc)
     //  https://polymer-library.polymer-project.org/3.0/docs/devguide/observers#array-observation
     let shouldSort = true;
-    if (threads.indexSplices) {
+    if (!this._sortedThreads) {
+      shouldSort = true;
+    } else if (threads.indexSplices) {
       // Array splice mutations
       shouldSort = threads.indexSplices.addedCount !== 0
         || threads.indexSplices.removed.length;
     } else {
       // A replace mutation
-      shouldSort = threads.length !== baseThreads.length;
+      if (!threads.length || !baseThreads.length
+         || threads.length !== baseThreads.length) {
+        shouldSort = true;
+      } else {
+        // Check rootId in case its switching to a different change
+        // with same # of threads, e.g: from relation chain
+        shouldSort = this._sortedThreads
+            .findIndex(t => t.rootId === baseThreads[0].rootId) === -1;
+      }
     }
     this._updateSortedThreads(baseThreads, shouldSort);
   }

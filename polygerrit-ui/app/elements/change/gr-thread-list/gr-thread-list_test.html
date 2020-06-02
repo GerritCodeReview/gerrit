@@ -401,6 +401,40 @@ suite('gr-thread-list tests', () => {
         '09a9fb0a_1484e6cf');
   });
 
+  test('equal length of threads but on a different change (different rootIds)' +
+    ' shold trigger sort again', () => {
+    let autoIncrementIdx = 0;
+    const modifiedThreads = [...element.threads]
+        .map(t => { return {...t, rootId: autoIncrementIdx++}; });
+    element._sortedThreads = [];
+    element.threads = modifiedThreads;
+
+    // exact same order as in _computeSortedThreads
+    assert.equal(element._sortedThreads.length, 7);
+    // Draft and unresolved for commit-msg at line 5
+    assert.equal(element._sortedThreads[0].rootId,
+        '0');
+    // /COMMIT_MSG
+    // unresolved no draft and file level
+    assert.equal(element._sortedThreads[1].rootId,
+        '2');
+    // unresolved no draft at line 4
+    assert.equal(element._sortedThreads[2].rootId,
+        '3');
+    // unresolved no draft at line 5
+    assert.equal(element._sortedThreads[3].rootId,
+        '5');
+    // Unresolved no draft at line 7
+    assert.equal(element._sortedThreads[4].rootId,
+        '6');
+    // resolved and draft on COMMIT_MSG
+    assert.equal(element._sortedThreads[5].rootId,
+        '4');
+    // resolved and on file test.txt
+    assert.equal(element._sortedThreads[6].rootId,
+        '1');
+  });
+
   test('toggle unresolved only shows unresolved comments', () => {
     MockInteractions.tap(element.shadowRoot.querySelector(
         '#unresolvedToggle'));

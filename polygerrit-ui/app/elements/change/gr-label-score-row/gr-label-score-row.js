@@ -148,6 +148,13 @@ class GrLabelScoreRow extends GestureEventListeners(
     // Needed because when the selected item changes, it first changes to
     // nothing and then to the new item.
     if (!e.target.selectedItem) { return; }
+    for (const item of this.$.labelSelector.items) {
+      if (e.target.selectedItem === item) {
+        item.setAttribute('aria-checked', 'true');
+      } else {
+        item.removeAttribute('aria-checked');
+      }
+    }
     this._selectedValueText = e.target.selectedItem.getAttribute('title');
     // Needed to update the style of the selected button.
     this.updateStyles();

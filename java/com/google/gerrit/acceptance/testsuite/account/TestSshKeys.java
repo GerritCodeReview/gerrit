@@ -24,13 +24,19 @@ import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.spec.InvalidKeySpecException;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.sshd.common.cipher.ECCurves;
+import org.apache.sshd.common.config.keys.KeyUtils;
+import org.apache.sshd.common.config.keys.writer.openssh.OpenSSHKeyPairResourceWriter;
+import org.apache.sshd.common.util.io.SecureByteArrayOutputStream;
+import org.apache.sshd.common.util.security.SecurityUtils;
 
 @Singleton
 public class TestSshKeys {
@@ -92,21 +98,39 @@ public class TestSshKeys {
     return keyPair;
   }
 
-  public static KeyPair genSshKey() throws JSchException {
-    JSch jsch = new JSch();
-    return KeyPair.genKeyPair(jsch, KeyPair.ECDSA, 256);
+  public static KeyPair genSshKey() throws GeneralSecurityException {
+    int size = 256;
+    KeyPairGenerator gen = SecurityUtils.getKeyPairGenerator(KeyUtils.EC_ALGORITHM);
+    ECCurves curve = ECCurves.fromCurveSize(size);
+    if (curve == null) {
+      throw new InvalidKeySpecException("Unknown curve for key size=" + size);
+    }
+    gen.initialize(curve.getParameters());
+
+    return gen.generateKeyPair();
   }
 
   public static String publicKey(KeyPair sshKey, @Nullable String comment)
-      throws UnsupportedEncodingException {
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    sshKey.writePublicKey(out, comment);
-    return out.toString(US_ASCII.name()).trim();
+      throws IOException, GeneralSecurityException {
+    return preparePublicKey(sshKey, comment).toString(US_ASCII.name()).trim();
   }
 
-  public static byte[] privateKey(KeyPair keyPair) {
+  public static byte[] publicKeyBlob(KeyPair sshKey) throws IOException, GeneralSecurityException {
+    return preparePublicKey(sshKey, null).toByteArray();
+  }
+
+  private static ByteArrayOutputStream preparePublicKey(KeyPair sshKey, String comment)
+      throws IOException, GeneralSecurityException {
+    OpenSSHKeyPairResourceWriter keyPairWriter = new OpenSSHKeyPairResourceWriter();
     ByteArrayOutputStream out = new ByteArrayOutputStream();
-    keyPair.writePrivateKey(out);
+    keyPairWriter.writePublicKey(sshKey, comment, out);
+    return out;
+  }
+
+  public static byte[] privateKey(KeyPair keyPair) throws IOException, GeneralSecurityException {
+    OpenSSHKeyPairResourceWriter keyPairWriter = new OpenSSHKeyPairResourceWriter();
+    SecureByteArrayOutputStream out = new SecureByteArrayOutputStream();
+    keyPairWriter.writePrivateKey(keyPair, "a comment", null, out);
     return out.toByteArray();
   }
 }

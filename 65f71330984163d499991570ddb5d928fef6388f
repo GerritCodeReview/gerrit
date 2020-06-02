@@ -52,6 +52,24 @@
       "revId": "65f71330984163d499991570ddb5d928fef6388f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d1a3675_ff88f3df",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-02T12:14:31Z",
+      "side": 1,
+      "message": "good catch, ya we probably should reset `_sortedThreads` to `[]` when that happens.",
+      "parentUuid": "4ac974fc_3266e3a1",
+      "revId": "65f71330984163d499991570ddb5d928fef6388f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

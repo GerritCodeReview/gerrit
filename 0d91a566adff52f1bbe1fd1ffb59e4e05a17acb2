@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de091928_bb85d997",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 15
+      },
+      "lineNbr": 842,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-02T08:24:49Z",
+      "side": 0,
+      "message": "This method only affects diff URL. In fact, in Edit mode I can see that the diff URL would be affected:\n\n  https://gerrit-review.googlesource.com/c/gerrit/+/267747/1//COMMIT_MSG,edit\n\nThis is not sufficient, thlough, because the edit action is still missing and therefore commit message can not be changed.",
+      "range": {
+        "startLine": 837,
+        "startChar": 4,
+        "endLine": 842,
+        "endChar": 5
+      },
+      "revId": "0d91a566adff52f1bbe1fd1ffb59e4e05a17acb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

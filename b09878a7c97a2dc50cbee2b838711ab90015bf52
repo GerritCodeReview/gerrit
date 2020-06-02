@@ -17,6 +17,24 @@
       "revId": "b09878a7c97a2dc50cbee2b838711ab90015bf52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da576da8_577fdfbd",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-06-02T11:39:30Z",
+      "side": 1,
+      "message": "\u003e Should we log this?\nDone.\n\n\u003e How does it get to this code path with an invalid change ref?\nI didn\u0027t spend much time investigating this, but from the stacktrace it looks like someone tried to push to \"refs/changes/XX/YYYXX\" (it\u0027s an invalid change ref since the segment with the patch set is missing).",
+      "parentUuid": "d5baa29c_c83f98ca",
+      "revId": "b09878a7c97a2dc50cbee2b838711ab90015bf52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

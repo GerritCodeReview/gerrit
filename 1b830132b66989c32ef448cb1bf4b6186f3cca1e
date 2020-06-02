@@ -46,6 +46,30 @@
       "revId": "1b830132b66989c32ef448cb1bf4b6186f3cca1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa7fe48d_3e9a7de6",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/TestSshKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2020-06-02T23:21:14Z",
+      "side": 1,
+      "message": "\u003e JSch can only read PEM (starting with \"-----BEGIN RSA PRIVATE KEY-----\"\n\nI.e., the PKCS#5 PEM format. JSch also cannot read PKCS#8 (\"-----BEGIN ENCRYPTED PRIVATE KEY-----\").",
+      "parentUuid": "a7624a89_e9af3eb0",
+      "range": {
+        "startLine": 130,
+        "startChar": 2,
+        "endLine": 135,
+        "endChar": 3
+      },
+      "revId": "1b830132b66989c32ef448cb1bf4b6186f3cca1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

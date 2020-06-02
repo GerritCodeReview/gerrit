@@ -22,6 +22,30 @@
       "revId": "1b830132b66989c32ef448cb1bf4b6186f3cca1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7624a89_e9af3eb0",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/TestSshKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2020-06-02T23:13:28Z",
+      "side": 1,
+      "message": "No surprise, actually, though I had forgotten about this.\n\nJSch doesn\u0027t know the modern OpenSSH format (\"-----BEGIN OPENSSH PRIVATE KEY-----\"). JSch can only read PEM (starting with \"-----BEGIN RSA PRIVATE KEY-----\"; it also cannot deal with ed25519 keys, and 0.1.54 had bugs with ECDSA keys -- don\u0027t know if those got fixed in 0.1.55). I don\u0027t think sshd has support for writing that format yet. Unencrypted would be easy to do; encrypted might be more complicated.\n\nSo either the key generation must depend on which SSH client you want to use, or sshd needs to get support to write that old format, and then that must be used. (sshd reads the old format fine.)",
+      "parentUuid": "b8e9877f_c02950fe",
+      "range": {
+        "startLine": 130,
+        "startChar": 2,
+        "endLine": 135,
+        "endChar": 3
+      },
+      "revId": "1b830132b66989c32ef448cb1bf4b6186f3cca1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -52,6 +52,7 @@ DEPLOY_ENV = [
     "//lib/mina:sshd",
     "//lib:guava",
     "//lib/bouncycastle:bcpg",
+    "//lib/bouncycastle:bcpkix",
     "//lib/bouncycastle:bcprov",
     "//prolog:gerrit-prolog-common",
 ]

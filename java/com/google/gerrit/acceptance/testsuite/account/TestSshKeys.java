@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.testsuite.account;
 import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 
+import com.google.gerrit.acceptance.KeyPairResourceWriter;
 import com.google.gerrit.acceptance.SshEnabled;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -24,11 +25,13 @@ import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.KeyPair;
 import java.io.ByteArrayOutputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.security.GeneralSecurityException;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -92,21 +95,34 @@ public class TestSshKeys {
     return keyPair;
   }
 
-  public static KeyPair genSshKey() throws JSchException {
-    JSch jsch = new JSch();
-    return KeyPair.genKeyPair(jsch, KeyPair.ECDSA, 256);
+  public static KeyPair genSshKey() throws GeneralSecurityException {
+    // TODO(davido): Consider to switch to using elliptic curves keys
+    // for generation and export, when new MINA SSHD released with:
+    // https://issues.apache.org/jira/browse/SSHD-984 included.
+    KeyPairGenerator gen = KeyPairGenerator.getInstance("RSA");
+    gen.initialize(1024, new SecureRandom());
+
+    return gen.generateKeyPair();
   }
 
-  public static String publicKey(KeyPair sshKey, @Nullable String comment)
-      throws UnsupportedEncodingException {
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    sshKey.writePublicKey(out, comment);
-    return out.toString(US_ASCII.name()).trim();
+  public static String publicKey(KeyPair sshKey, @Nullable String comment) throws IOException {
+    return preparePublicKey(sshKey, comment).toString(US_ASCII.name()).trim();
   }
 
-  public static byte[] privateKey(KeyPair keyPair) {
+  public static byte[] publicKeyBlob(KeyPair sshKey) throws IOException {
+    return preparePublicKey(sshKey, null).toByteArray();
+  }
+
+  private static ByteArrayOutputStream preparePublicKey(KeyPair sshKey, String comment)
+      throws IOException {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
-    keyPair.writePrivateKey(out);
-    return out.toByteArray();
+    KeyPairResourceWriter.writePublicKey(sshKey.getPublic(), comment, out);
+    return out;
+  }
+
+  public static byte[] privateKey(KeyPair keyPair) throws IOException {
+    StringWriter writer = new StringWriter();
+    KeyPairResourceWriter.writePrivateKeyPKCS8(keyPair.getPrivate(), writer);
+    return writer.getBuffer().toString().getBytes(US_ASCII.name());
   }
 }

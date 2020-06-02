@@ -189,6 +189,30 @@
       "revId": "7e0c5a15186db472f953d83e99e4dd9f4c943c8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9d4c4d7_02deed8d",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-02T21:55:52Z",
+      "side": 1,
+      "message": "Ack. Working on introducing change to master.",
+      "parentUuid": "abfbff39_b903ec80",
+      "range": {
+        "startLine": 155,
+        "startChar": 4,
+        "endLine": 155,
+        "endChar": 74
+      },
+      "revId": "7e0c5a15186db472f953d83e99e4dd9f4c943c8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

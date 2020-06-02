@@ -34,6 +34,24 @@
       "revId": "8bb98cbec53fd085daa1e3a9089027748ffa54e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "353d575a_23f4acc9",
+        "filename": "javatests/com/google/gerrit/acceptance/OutgoingEmailIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-02T21:51:07Z",
+      "side": 1,
+      "message": "\u003e EP wouldn\u0027t complain, but let\u0027s just check that new password is not null instead.\n\nGood idea 👍",
+      "parentUuid": "7eb51210_5194c90e",
+      "revId": "8bb98cbec53fd085daa1e3a9089027748ffa54e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,29 @@
       "revId": "7e0c5a15186db472f953d83e99e4dd9f4c943c8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b858514b_2d73a324",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-02T05:40:07Z",
+      "side": 1,
+      "message": "With improving user experience for site initialization for Elasticsearch index backend, you broke site upgrades. Say a huge gerrit site has 1 million of changes and 50K projects with ES backend. How is this site supposed to upgrade from release N to release N+1, with this change included? Running init command would never end, not within 4 weeks or similar delay.\n\nWhat you probably want is to use exists method: [1] that I added recently to index machinery and just run the reindex command, it it doesn\u0027t exist. That way you even don\u0027t need at all to ask for index backend type, because even for Lucene backend you want to run reindex.\n\nWhat would also help, if you have tried to merge that change up to master to see that this code area was extended.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/265894/28/java/com/google/gerrit/server/index/GerritIndexStatus.java#51",
+      "range": {
+        "startLine": 155,
+        "startChar": 4,
+        "endLine": 155,
+        "endChar": 74
+      },
+      "revId": "7e0c5a15186db472f953d83e99e4dd9f4c943c8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

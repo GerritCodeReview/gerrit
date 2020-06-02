@@ -103,19 +103,19 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
         font-weight: var(--font-weight-normal);
         line-height: var(--line-height-small);
       }
-      h1, .font-h1 {
+      .font-h1 {
         font-family: var(--header-font-family);
         font-size: var(--font-size-h1);
         font-weight: var(--font-weight-h1);
         line-height: var(--line-height-h1);
       }
-      h2, .font-h2 {
+      .font-h2 {
         font-family: var(--header-font-family);
         font-size: var(--font-size-h2);
         font-weight: var(--font-weight-h2);
         line-height: var(--line-height-h2);
       }
-      h3, .font-h3 {
+      .font-h3 {
         font-family: var(--header-font-family);
         font-size: var(--font-size-h3);
         font-weight: var(--font-weight-h3);

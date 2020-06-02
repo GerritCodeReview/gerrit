@@ -37,18 +37,18 @@ export const htmlTemplate = html`
       Loading...
     </div>
     <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
-      <h1 id="Title">[[_groupName]]</h1>
-      <h2 id="configurations">General</h2>
+      <h1 id="Title" class="font-h1">[[_groupName]]</h1>
+      <h2 id="configurations" class="font-h2">General</h2>
       <div id="form">
         <fieldset>
-          <h3 id="groupUUID">Group UUID</h3>
+          <h3 id="groupUUID" class="font-h3">Group UUID</h3>
           <fieldset>
             <gr-copy-clipboard
               id="uuid"
               text="[[_getGroupUUID(_groupConfig.id)]]"
             ></gr-copy-clipboard>
           </fieldset>
-          <h3 id="groupName" class$="[[_computeHeaderClass(_rename)]]">
+          <h3 id="groupName" class$="font-h3 [[_computeHeaderClass(_rename)]]">
             Group Name
           </h3>
           <fieldset>
@@ -72,7 +72,7 @@ export const htmlTemplate = html`
               >
             </span>
           </fieldset>
-          <h3 id="groupOwner" class$="[[_computeHeaderClass(_owner)]]">
+          <h3 id="groupOwner" class$="font-h3 [[_computeHeaderClass(_owner)]]">
             Owners
           </h3>
           <fieldset>
@@ -99,7 +99,7 @@ export const htmlTemplate = html`
               >
             </span>
           </fieldset>
-          <h3 class$="[[_computeHeaderClass(_description)]]">
+          <h3 class$="font-h3 [[_computeHeaderClass(_description)]]">
             Description
           </h3>
           <fieldset>
@@ -123,7 +123,7 @@ export const htmlTemplate = html`
               </gr-button>
             </span>
           </fieldset>
-          <h3 id="options" class$="[[_computeHeaderClass(_options)]]">
+          <h3 id="options" class$="font-h3 [[_computeHeaderClass(_options)]]">
             Group Options
           </h3>
           <fieldset>

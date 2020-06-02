@@ -27,12 +27,12 @@ export const htmlTemplate = html`
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
   </style>
   <main class="gr-form-styles read-only">
-    <h1 id="Title">Repository Commands</h1>
+    <h1 id="Title" class="font-h1">Repository Commands</h1>
     <div id="loading" class$="[[_computeLoadingClass(_loading)]]">
       Loading...
     </div>
     <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
-      <h2 id="options">Command</h2>
+      <h2 id="options" class="font-h2">Command</h2>
       <div id="form">
         <gr-repo-command
           title="Create change"

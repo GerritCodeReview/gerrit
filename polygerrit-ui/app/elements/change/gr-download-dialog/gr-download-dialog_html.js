@@ -56,16 +56,12 @@ export const htmlTemplate = html`
     .archives a:last-of-type {
       margin-right: 0;
     }
-    .title {
-      flex: 1;
-      font-weight: var(--font-weight-bold);
-    }
     .hidden {
       display: none;
     }
   </style>
   <section>
-    <h3 class="title">
+    <h3 class="font-h3">
       Patch set [[patchNum]] of [[_computePatchSetQuantity(change.revisions)]]
     </h3>
   </section>

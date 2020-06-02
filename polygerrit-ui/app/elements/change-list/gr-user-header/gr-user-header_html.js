@@ -21,12 +21,6 @@ export const htmlTemplate = html`
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
   </style>
   <style include="dashboard-header-styles">
-    .name {
-      display: inline-block;
-    }
-    .name hr {
-      width: 100%;
-    }
     .status.hide,
     .name.hide,
     .dashboardLink.hide {
@@ -39,7 +33,7 @@ export const htmlTemplate = html`
     aria-label="Account avatar"
   ></gr-avatar>
   <div class="info">
-    <h1 class="name">
+    <h1 class="font-h1">
       [[_computeDetail(_accountDetails, 'name')]]
     </h1>
     <hr />

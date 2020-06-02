@@ -23,6 +23,6 @@ export const htmlTemplate = html`
       margin-bottom: var(--spacing-xxl);
     }
   </style>
-  <h2 id="[[anchor]]">[[title]]</h2>
+  <h2 id="[[anchor]]" class="font-h2">[[title]]</h2>
   <slot></slot>
 `;

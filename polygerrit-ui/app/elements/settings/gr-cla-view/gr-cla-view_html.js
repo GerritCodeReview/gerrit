@@ -61,8 +61,8 @@ export const htmlTemplate = html`
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
   </style>
   <main>
-    <h1>New Contributor Agreement</h1>
-    <h3>Select an agreement type:</h3>
+    <h1 class="font-h1">New Contributor Agreement</h1>
+    <h3 class="font-h3">Select an agreement type:</h3>
     <template
       is="dom-repeat"
       items="[[_serverConfig.auth.contributor_agreements]]"
@@ -92,7 +92,7 @@ export const htmlTemplate = html`
       id="claNewAgreement"
       class$="[[_computeShowAgreementsClass(_showAgreements)]]"
     >
-      <h3 class="smallHeading">Review the agreement:</h3>
+      <h3 class="font-h3">Review the agreement:</h3>
       <div id="agreementsUrl" class="agreementsUrl">
         <a href$="[[_agreementsUrl]]" target="blank" rel="noopener">
           Please review the agreement.</a
@@ -101,7 +101,7 @@ export const htmlTemplate = html`
       <div
         class$="agreementsTextBox [[_computeHideAgreementClass(_agreementName, _serverConfig.auth.contributor_agreements)]]"
       >
-        <h3 class="smallHeading">Complete the agreement:</h3>
+        <h3 class="font-h3">Complete the agreement:</h3>
         <iron-input
           bind-value="{{_agreementsText}}"
           placeholder="Enter 'I agree' here"

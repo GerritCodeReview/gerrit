@@ -82,7 +82,7 @@ export const htmlTemplate = html`
     <div id="mainContainer">
       <div class="header">
         <div class="name">
-          <h3>[[_computeSectionName(section.id)]]</h3>
+          <h3 class="font-h3">[[_computeSectionName(section.id)]]</h3>
           <gr-button
             id="editBtn"
             link=""

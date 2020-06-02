@@ -70,7 +70,7 @@ export const htmlTemplate = html`
           <gr-avatar account="[[account]]" image-size="56"></gr-avatar>
         </div>
         <div class="account">
-          <h3 class="name">[[account.name]]</h3>
+          <h3 class="name font-h3">[[account.name]]</h3>
           <div class="email">[[account.email]]</div>
         </div>
       </div>

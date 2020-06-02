@@ -24,7 +24,7 @@ export const htmlTemplate = html`
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
   </style>
   <div class="info">
-    <h1 class$="name">
+    <h1 class="font-h1">
       [[repo]]
       <hr />
     </h1>

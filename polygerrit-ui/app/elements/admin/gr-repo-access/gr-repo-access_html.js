@@ -62,7 +62,10 @@ export const htmlTemplate = html`
       Loading...
     </div>
     <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
-      <h3 id="inheritsFrom" class$="[[_computeShowInherit(_inheritsFrom)]]">
+      <h3
+        id="inheritsFrom"
+        class$="font-h3 [[_computeShowInherit(_inheritsFrom)]]"
+      >
         <span class="rightsText">Rights Inherit From</span>
         <a
           href$="[[_computeParentHref(_inheritsFrom.name)]]"

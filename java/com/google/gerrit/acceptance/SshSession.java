@@ -30,14 +30,13 @@ import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.server.config.SshClientImplementation;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.KeyPair;
 import com.jcraft.jsch.Session;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.security.KeyPair;
 import java.util.Arrays;
 import java.util.Scanner;
 import org.eclipse.jgit.transport.URIish;
@@ -150,7 +149,7 @@ public class SshSession {
       KeyPair keyPair = sshKeys.getKeyPair(account);
       JSch jsch = new JSch();
       jsch.addIdentity(
-          "KeyPair", TestSshKeys.privateKey(keyPair), keyPair.getPublicKeyBlob(), null);
+          "KeyPair", TestSshKeys.privateKey(keyPair), TestSshKeys.publicKeyBlob(keyPair), null);
       String username = getUsername();
       jschSession = jsch.getSession(username, addr.getAddress().getHostAddress(), addr.getPort());
       jschSession.setConfig("StrictHostKeyChecking", "no");
@@ -178,9 +177,11 @@ public class SshSession {
       FS fs = FS.DETECTED.setUserHome(userhome);
       File sshDir = new File(userhome, ".ssh");
       sshDir.mkdir();
-      try (OutputStream out = new FileOutputStream(new File(sshDir, "id_ecdsa"))) {
-        sshKeys.getKeyPair(account).writePrivateKey(out);
-      }
+      // StringWriter writer = new StringWriter();
+      // CharSink privateKey = Files.asCharSink(new File(sshDir, "id_rsa"), UTF_8);
+      // privateKey.write(writer.toString());
+      BufferedWriter writer = Files.newWriter(new File(sshDir, "id_rsa"), UTF_8);
+      KeyPairResourceWriter.writePrivateKeyPKCS8(sshKeys.getKeyPair(account).getPrivate(), writer);
 
       // TODO(davido): Disable programmatically host key checking: "StrictHostKeyChecking: no" mode.
       CharSink configFile = Files.asCharSink(new File(sshDir, "config"), UTF_8);

@@ -228,7 +228,6 @@ class GrChangeView extends mixinBehaviors( [
         type: Boolean,
         computed: '_computeCanStartReview(_change)',
       },
-      _comments: Object,
       /** @type {?} */
       _change: {
         type: Object,
@@ -1037,10 +1036,7 @@ class GrChangeView extends mixinBehaviors( [
         (value.patchNum !== undefined && value.basePatchNum !== undefined) &&
         (this._patchRange.patchNum !== value.patchNum ||
         this._patchRange.basePatchNum !== value.basePatchNum);
-
-    if (this._changeNum !== value.changeNum) {
-      this._initialLoadComplete = false;
-    }
+    const changeChanged = this._changeNum !== value.changeNum;
 
     const patchRange = {
       patchNum: value.patchNum,
@@ -1052,7 +1048,7 @@ class GrChangeView extends mixinBehaviors( [
 
     // If the change has already been loaded and the parameter change is only
     // in the patch range, then don't do a full reload.
-    if (this._initialLoadComplete && patchChanged) {
+    if (!changeChanged && patchChanged) {
       if (patchRange.patchNum == null) {
         patchRange.patchNum = this.computeLatestPatchNum(this._allPatchSets);
       }
@@ -1062,6 +1058,7 @@ class GrChangeView extends mixinBehaviors( [
       return;
     }
 
+    this._initialLoadComplete = false;
     this._changeNum = value.changeNum;
     this.$.relatedChanges.clear();
 
@@ -1686,6 +1683,13 @@ class GrChangeView extends mixinBehaviors( [
    * (comments, robot comments, draft comments) is requested.
    */
   _reloadComments() {
+    // We are resetting all comment related properties, because we want to avoid
+    // a new change being loaded and then paired with outdated comments.
+    this._changeComments = undefined;
+    this._commentThreads = undefined;
+    this._diffDrafts = undefined;
+    this._draftCommentThreads = undefined;
+    this._robotCommentThreads = undefined;
     return this.$.commentAPI.loadAll(this._changeNum)
         .then(comments => this._recomputeComments(comments));
   }

@@ -137,8 +137,8 @@ class GrMessage extends GestureEventListeners(
       },
       _commentCountText: {
         type: Number,
-        computed: '_computeCommentCountText(comments, message.commentThreads,'
-            + ' _isCleanerLogExperimentEnabled)',
+        computed: '_computeCommentCountText(comments,'
+            + ' message.commentThreads.length, _isCleanerLogExperimentEnabled)',
       },
       _loggedIn: {
         type: Boolean,
@@ -202,17 +202,16 @@ class GrMessage extends GestureEventListeners(
     }
   }
 
-  _computeCommentCountText(comments, threads, isCleanerLogExperimentEnabled) {
+  _computeCommentCountText(
+      comments, threadsLength, isCleanerLogExperimentEnabled) {
     // TODO(taoalpha): clean up after cleaner-changelog experiment launched
     if (isCleanerLogExperimentEnabled) {
-      if (!threads) return undefined;
-      const count = threads.length;
-      if (count === 0) {
+      if (threadsLength === 0) {
         return undefined;
-      } else if (count === 1) {
+      } else if (threadsLength === 1) {
         return '1 comment';
       } else {
-        return `${count} comments`;
+        return `${threadsLength} comments`;
       }
     } else {
       if (!comments) return undefined;

@@ -74,48 +74,35 @@ class GrThreadList extends GestureEventListeners(
     };
   }
 
-  static get observers() { return ['_computeSortedThreads(threads.*)']; }
+  static get observers() {
+    return ['_updateSortedThreads(threads, threads.splices)'];
+  }
 
   _computeShowDraftToggle(loggedIn) {
     return loggedIn ? 'show' : '';
   }
 
   /**
-   * Order as follows:
-   *  - Unresolved threads with drafts (reverse chronological)
-   *  - Unresolved threads without drafts (reverse chronological)
-   *  - Resolved threads with drafts (reverse chronological)
-   *  - Resolved threads without drafts (reverse chronological)
+   * Observer on threads and update _sortedThreads when needed.
    *
-   * @param {!Object} changeRecord
+   * @param {Array<Object>} threads
+   * @param {!Object} spliceRecord
    */
-  _computeSortedThreads(changeRecord) {
-    const baseThreads = changeRecord.base;
-    const threads = changeRecord.value;
-    if (!baseThreads || !threads) {
+  _updateSortedThreads(threads, spliceRecord) {
+    if (!threads) {
       this._sortedThreads = [];
       return;
     }
-    // TODO: should change how data flows to solve the root cause
     // We only want to sort on thread additions / removals to avoid
     // re-rendering on modifications (add new reply / edit draft etc)
     //  https://polymer-library.polymer-project.org/3.0/docs/devguide/observers#array-observation
-    let shouldSort = true;
-    if (threads.indexSplices) {
-      // Array splice mutations
-      shouldSort = threads.indexSplices.addedCount !== 0
-        || threads.indexSplices.removed.length;
-    } else {
-      // A replace mutation
-      shouldSort = threads.length !== baseThreads.length;
-    }
-    this._updateSortedThreads(baseThreads, shouldSort);
-  }
+    const isArrayMutation = spliceRecord &&
+      (spliceRecord.indexSplices.addedCount !== 0
+        || spliceRecord.indexSplices.removed.length);
 
-  _updateSortedThreads(threads, shouldSort) {
     if (this._sortedThreads
         && this._sortedThreads.length === threads.length
-        && !shouldSort) {
+        && !isArrayMutation) {
       // Instead of replacing the _sortedThreads which will trigger a re-render,
       // we override all threads inside of it
       for (const thread of threads) {

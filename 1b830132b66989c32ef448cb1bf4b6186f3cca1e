@@ -70,6 +70,30 @@
       "revId": "1b830132b66989c32ef448cb1bf4b6186f3cca1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c839c3f_d1201429",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/TestSshKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2020-06-02T23:38:54Z",
+      "side": 1,
+      "message": "Though Dave Thompson mentions at [1] that \"it looks like jsch can read PKCS#8\". And looking at the JSch code in com.jcraft.jsch.Keypair: yes, he\u0027s right. PKCS#8 would be much better because of the better key derivation function.\n\n[1] https://stackoverflow.com/questions/52630701/how-to-encrypt-rsa-private-key-with-pbe-in-pkcs5-format-in-java-with-iaik-jce",
+      "parentUuid": "aa7fe48d_3e9a7de6",
+      "range": {
+        "startLine": 130,
+        "startChar": 2,
+        "endLine": 135,
+        "endChar": 3
+      },
+      "revId": "1b830132b66989c32ef448cb1bf4b6186f3cca1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

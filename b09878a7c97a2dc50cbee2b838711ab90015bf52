@@ -1,4 +1,22 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1591096952 +0200\nnonce ALC2d1/d7EQKEr+Iigt5dDDTXcNN7ORmd/xuH7hI2/QfZPM+hrYUzY0QZAJe/ggzUfpTFPAVIrrg\n\n0000000000000000000000000000000000000000 b09878a7c97a2dc50cbee2b838711ab90015bf52 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJe1jZ4AAoJEHFVO370GiZW1rUH+wWyUklFBYNe7LJG/LRR5eUx\nPscxoXgUbFjhxQAIArNk0MhMwketlbd+I/OnkrrJTRGDVS/vzuv5g5AyFnYWsJB4\nNeU12ObeOt6rx6b9bOLGhQ8TkOH1n034w5Ujz+fL4+aNHv9OV0U6TgUSTIVRiBQ/\nikzb1Tw7EJFLtmJVyXX7DYYYURvVyfjDPR/XytZ9LMNL98znPYBFxsqOR+uEy5KK\n7My8657sHWQ6Dn2yOq66lEt7FsrqoQosiqsNT+/FqAOngdD9QEbliLl8oYO5AMWo\nlYkhzmxlbu8lWH62yz3W6iuB10LUbrKR3bddunhNuBAP2T9dThDTreADLxnJDa0\u003d\n\u003djL/j\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5baa29c_c83f98ca",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-02T11:31:54Z",
+      "side": 1,
+      "message": "Should we log this?\n\nHow does it get to this code path with an invalid change ref?",
+      "revId": "b09878a7c97a2dc50cbee2b838711ab90015bf52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

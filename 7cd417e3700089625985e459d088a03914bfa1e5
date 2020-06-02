@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f52db2b5_a691366a",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-02T22:58:55Z",
+      "side": 1,
+      "message": "Unused?",
+      "range": {
+        "startLine": 97,
+        "startChar": 2,
+        "endLine": 97,
+        "endChar": 44
+      },
+      "revId": "7cd417e3700089625985e459d088a03914bfa1e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

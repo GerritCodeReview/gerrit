@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "60420f53_b82dcb61",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header_html.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-02T09:14:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa3432b7_35b7dfe7",
+      "revId": "b59cb99b7607500419bf1a0a9729bca4363ccb2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d9eea50_dc009b68",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "b59cb99b7607500419bf1a0a9729bca4363ccb2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "948feba7_ff17f7bf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-02T09:14:42Z",
+      "side": 1,
+      "message": "Changed to jsdoc because other comments in this file use this style",
+      "parentUuid": "0d9eea50_dc009b68",
+      "revId": "b59cb99b7607500419bf1a0a9729bca4363ccb2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

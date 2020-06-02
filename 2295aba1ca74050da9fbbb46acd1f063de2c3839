@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c7657953_26997904",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:02:46Z",
+      "side": 1,
+      "message": "It seems that we should use \"making\" here?",
+      "parentUuid": "9c0b375a_51aa05e0",
+      "range": {
+        "startLine": 9,
+        "startChar": 49,
+        "endLine": 10,
+        "endChar": 4
+      },
+      "revId": "2295aba1ca74050da9fbbb46acd1f063de2c3839",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0344628_dbdf916d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "2295aba1ca74050da9fbbb46acd1f063de2c3839",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e68ccb1c_05501c00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:02:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0344628_dbdf916d",
+      "range": {
+        "startLine": 10,
+        "startChar": 59,
+        "endLine": 11,
+        "endChar": 25
+      },
+      "revId": "2295aba1ca74050da9fbbb46acd1f063de2c3839",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

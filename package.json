@@ -4,8 +4,8 @@
   "description": "Gerrit Code Review",
   "dependencies": {},
   "devDependencies": {
-    "@bazel/rollup": "^1.1.0",
-    "@bazel/typescript": "^1.0.1",
+    "@bazel/rollup": "^1.6.1",
+    "@bazel/typescript": "^1.6.1",
     "eslint": "^6.6.0",
     "eslint-config-google": "^0.13.0",
     "eslint-plugin-html": "^6.0.0",
@@ -15,7 +15,7 @@
     "fried-twinkie": "^0.2.2",
     "polymer-cli": "^1.9.11",
     "prettier": "2.0.5",
-    "typescript": "^3.7.4",
+    "typescript": "3.8.2",
     "web-component-tester": "^6.5.1"
   },
   "scripts": {

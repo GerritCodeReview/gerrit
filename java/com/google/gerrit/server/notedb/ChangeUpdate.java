@@ -562,7 +562,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
 
     addPatchSetFooter(msg, ps);
-
+    removedReviewersAreRemovedFromAttentionSet();
     if (currentPatchSet) {
       addFooter(msg, FOOTER_CURRENT, Boolean.TRUE);
     }
@@ -586,10 +586,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (status != null) {
       addFooter(msg, FOOTER_STATUS, status.name().toLowerCase());
       if (status.equals(Change.Status.ABANDONED)) {
-        clearAttentionSet(msg, "Change was abandoned");
+        clearAttentionSet("Change was abandoned");
       }
       if (status.equals(Change.Status.MERGED)) {
-        clearAttentionSet(msg, "Change was submitted");
+        clearAttentionSet("Change was submitted");
       }
     }
 
@@ -599,10 +599,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     if (commit != null) {
       addFooter(msg, FOOTER_COMMIT, commit);
-    }
-
-    if (attentionSetUpdates != null) {
-      updateAttentionSet(msg, attentionSetUpdates);
     }
 
     if (assignee != null) {
@@ -631,7 +627,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, e.getValue().getFooterKey());
       addIdent(msg, e.getKey()).append('\n');
     }
-    addNewReviewersToAttentionSet(msg);
 
     for (Map.Entry<Address, ReviewerStateInternal> e : reviewersByEmail.entrySet()) {
       addFooter(msg, e.getValue().getByEmailFooterKey(), e.getKey().toString());
@@ -694,11 +689,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (workInProgress != null) {
       addFooter(msg, FOOTER_WORK_IN_PROGRESS, workInProgress);
       if (workInProgress) {
-        clearAttentionSet(msg, "Change was marked work in progress");
+        clearAttentionSet("Change was marked work in progress");
       } else {
-        addAllReviewersToAttentionSet(msg);
+        addAllReviewersToAttentionSet();
       }
     }
+    addNewReviewersToAttentionSet();
 
     if (revertOf != null) {
       addFooter(msg, FOOTER_REVERT_OF, revertOf);
@@ -707,6 +703,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (cherryPickOf != null) {
       addFooter(msg, FOOTER_CHERRY_PICK_OF, cherryPickOf);
     }
+
+    updateAttentionSet(msg);
 
     CommitBuilder cb = new CommitBuilder();
     cb.setMessage(msg.toString());
@@ -721,7 +719,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return cb;
   }
 
-  private void clearAttentionSet(StringBuilder msg, String reason) {
+  private void clearAttentionSet(String reason) {
     if (getNotes().getAttentionSet() == null) {
       return;
     }
@@ -733,16 +731,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
                         a.account(), AttentionSetUpdate.Operation.REMOVE, reason))
             .collect(Collectors.toSet());
 
-    updateAttentionSet(msg, toClear);
+    addToAttentionsetUpdates(toClear);
   }
 
-  private void addNewReviewersToAttentionSet(StringBuilder msg) {
+  private void addNewReviewersToAttentionSet() {
     if (workInProgress != null || getNotes().getChange().isWorkInProgress()) {
       // Users shouldn't be added to the attention set if the change is work in progress.
       return;
     }
-    Set<Account.Id> currentReviewers =
-        getNotes().getReviewers().byState(ReviewerStateInternal.REVIEWER);
     Set<AttentionSetUpdate> updates = new HashSet();
     for (Map.Entry<Account.Id, ReviewerStateInternal> reviewer : reviewers.entrySet()) {
       if (reviewer.getValue().equals(ReviewerStateInternal.REVIEWER)) {
@@ -750,6 +746,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
             AttentionSetUpdate.createForWrite(
                 reviewer.getKey(), AttentionSetUpdate.Operation.ADD, "Reviewer was added"));
       }
+    }
+    addToAttentionsetUpdates(updates);
+  }
+
+  private void removedReviewersAreRemovedFromAttentionSet() {
+    Set<Account.Id> currentReviewers =
+        getNotes().getReviewers().byState(ReviewerStateInternal.REVIEWER);
+    Set<AttentionSetUpdate> updates = new HashSet();
+    for (Map.Entry<Account.Id, ReviewerStateInternal> reviewer : reviewers.entrySet()) {
       if (reviewer.getValue().equals(ReviewerStateInternal.REMOVED)
           && currentReviewers.contains(reviewer.getKey())) {
         updates.add(
@@ -757,10 +762,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
                 reviewer.getKey(), AttentionSetUpdate.Operation.REMOVE, "Reviewer was removed"));
       }
     }
-    updateAttentionSet(msg, updates);
+    addToAttentionsetUpdates(updates);
   }
 
-  private void addAllReviewersToAttentionSet(StringBuilder msg) {
+  private void addAllReviewersToAttentionSet() {
     Set<AttentionSetUpdate> updates =
         getNotes().getReviewers().byState(ReviewerStateInternal.REVIEWER).stream()
             .map(
@@ -768,11 +773,51 @@ public class ChangeUpdate extends AbstractChangeUpdate {
                     AttentionSetUpdate.createForWrite(
                         r, AttentionSetUpdate.Operation.ADD, "Change was marked ready for review"))
             .collect(Collectors.toSet());
-    updateAttentionSet(msg, updates);
+    addToAttentionsetUpdates(updates);
   }
 
-  private void updateAttentionSet(StringBuilder msg, Set<AttentionSetUpdate> updates) {
-    for (AttentionSetUpdate attentionSetUpdate : updates) {
+  /**
+   * Doesn't actually update the attention set, but only prepares the updates that will be done in
+   * {@link #updateAttentionSet} If there is already an update for a specific account in this
+   * ChangeUpdate, we will not add any more updates for this account. Assumes that the input doesn't
+   * contain duplicates, or more than one update for an account.
+   *
+   * <p>The current order that updates of the attention set:
+   *
+   * <ul>
+   *   <li>Updates in AttentionSetUpdate that were created beforehand and given as input to
+   *       ChangeUpdate.
+   *   <li>Removing reviewers removes them from the attention set.
+   *   <li>Change abandoned, merged, or work in progress removes all reviewers from the attention
+   *       set.
+   *   <li>Ready for review will add all reviewers.
+   *   <li>Adding reviewers will add them to the attention set.
+   * </ul>
+   */
+  private void addToAttentionsetUpdates(Set<AttentionSetUpdate> updates) {
+    if (updates == null || updates.isEmpty()) {
+      return;
+    }
+    if (attentionSetUpdates == null) {
+      attentionSetUpdates = new HashSet();
+    }
+    Set<Account.Id> currentUpdates =
+        attentionSetUpdates.stream().map(u -> u.account()).collect(Collectors.toSet());
+    attentionSetUpdates.addAll(
+        updates.stream()
+            .filter(u -> !currentUpdates.contains(u.account()))
+            .collect(Collectors.toSet()));
+  }
+
+  /**
+   * Any updates to the attention set must be done in {@link #addToAttentionsetUpdates}. This method
+   * is called after all the updates are finished to do the updates once and for real.
+   */
+  private void updateAttentionSet(StringBuilder msg) {
+    if (attentionSetUpdates == null) {
+      return;
+    }
+    for (AttentionSetUpdate attentionSetUpdate : attentionSetUpdates) {
       addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));
     }
   }

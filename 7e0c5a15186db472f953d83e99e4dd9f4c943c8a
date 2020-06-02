@@ -141,6 +141,30 @@
       "revId": "7e0c5a15186db472f953d83e99e4dd9f4c943c8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a3deeeb_f4b8bf7f",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-02T18:01:13Z",
+      "side": 1,
+      "message": "YEs.  But I would not introduce new login based on deprecated option and would have to completely rewrite it in mege commit to stable-3.2 branch. I would say: you fix that problem on master first. Second step is to think about how to back port it to stable branches.",
+      "parentUuid": "60a8e8fe_cd2e625f",
+      "range": {
+        "startLine": 155,
+        "startChar": 4,
+        "endLine": 155,
+        "endChar": 74
+      },
+      "revId": "7e0c5a15186db472f953d83e99e4dd9f4c943c8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

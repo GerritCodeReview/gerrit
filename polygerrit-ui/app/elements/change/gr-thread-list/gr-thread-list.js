@@ -92,7 +92,10 @@ class GrThreadList extends GestureEventListeners(
   _computeSortedThreads(changeRecord) {
     const baseThreads = changeRecord.base;
     const threads = changeRecord.value;
-    if (!baseThreads) { return []; }
+    if (!baseThreads || !threads) {
+      this._sortedThreads = [];
+      return;
+    }
     // TODO: should change how data flows to solve the root cause
     // We only want to sort on thread additions / removals to avoid
     // re-rendering on modifications (add new reply / edit draft etc)

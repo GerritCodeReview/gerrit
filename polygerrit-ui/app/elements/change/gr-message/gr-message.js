@@ -35,6 +35,7 @@ import {SpecialFilePath} from '../../../constants/constants.js';
 
 const PATCH_SET_PREFIX_PATTERN = /^Patch Set \d+:\s*(.*)/;
 const LABEL_TITLE_SCORE_PATTERN = /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?$/;
+const MSG_PREFIX = '#message-';
 
 /**
  * @extends PolymerElement
@@ -152,6 +153,10 @@ class GrMessage extends GestureEventListeners(
         value: false,
       },
       _isCleanerLogExperimentEnabled: Boolean,
+      _changeMessageUrl: {
+        type: String,
+        computed: '_computeChangeMessageUrl(message)',
+      },
     };
   }
 
@@ -407,13 +412,10 @@ class GrMessage extends GestureEventListeners(
     return classes.join(' ');
   }
 
-  _handleAnchorClick(e) {
-    e.preventDefault();
-    this.dispatchEvent(new CustomEvent('message-anchor-tap', {
-      bubbles: true,
-      composed: true,
-      detail: {id: this.message.id},
-    }));
+  _computeChangeMessageUrl(message) {
+    if (!message) return '';
+    const hash = MSG_PREFIX + message.id;
+    return hash;
   }
 
   _handleReplyTap(e) {

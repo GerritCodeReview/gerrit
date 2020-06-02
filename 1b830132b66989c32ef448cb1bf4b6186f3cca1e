@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8e9877f_c02950fe",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/TestSshKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-02T22:50:59Z",
+      "side": 1,
+      "message": "That way generated private key file is not accepted by JCraft JSch. It\u0027s rejecting this private key file: [1].\n\nTo reproduce switch to using JCraft JSch from the command line, from this change:\n\n  $ bazel test --test_env\u003dSSH_CLIENT_IMPLEMENTATION\u003dJSCH javatests/com/google/gerrit/acceptance/ssh/...\n\nOr, from Eclipse, comment out the switch in SshSession.java, e.g.:\n\n  public void open() throws Exception {\n    //if (client \u003d\u003d JSCH) {\n      getJschSession();\n    //} else {\n    //  getMinaSession();\n    //}\n  }\n\nand run any SSH unit test.\n\n* [1] http://paste.openstack.org/show/794270/",
+      "range": {
+        "startLine": 130,
+        "startChar": 2,
+        "endLine": 135,
+        "endChar": 3
+      },
+      "revId": "1b830132b66989c32ef448cb1bf4b6186f3cca1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

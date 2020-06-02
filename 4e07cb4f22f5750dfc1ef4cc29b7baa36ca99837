@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b435831_63102dc7",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-02T14:57:04Z",
+      "side": 1,
+      "message": "What about concatenating this method with the one above?\n\nAnd then maybe rename `shouldSort` to `isArrayMutation`:\n\n  const isArrayMutation \u003d spliceRecord \u0026\u0026 \n      (spliceRecord.indexSplices.addedCount !\u003d\u003d 0 || \n      spliceRecord.indexSplices.removed.length);\n\n  if (this._sortedThreads\n      \u0026\u0026 this._sortedThreads.length \u003d\u003d\u003d threads.length\n      \u0026\u0026 !isArrayMutation) {\n  ...",
+      "revId": "4e07cb4f22f5750dfc1ef4cc29b7baa36ca99837",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -21,6 +21,12 @@ export const htmlTemplate = html`
     :host {
       color: var(--primary-text-color);
     }
+    h2 {
+      font-family: var(--header-font-family);
+      font-size: var(--font-size-h2);
+      font-weight: var(--font-weight-h2);
+      line-height: var(--line-height-h2);
+    }
     .newEmailInput {
       width: 20em;
     }
@@ -94,7 +100,7 @@ export const htmlTemplate = html`
       </ul>
     </gr-page-nav>
     <main class="gr-form-styles">
-      <h1>User Settings</h1>
+      <h1 class="heading-1">User Settings</h1>
       <section class="darkToggle">
         <div class="toggle">
           <paper-toggle-button

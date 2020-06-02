@@ -23,7 +23,7 @@ export const htmlTemplate = html`
       margin-bottom: var(--spacing-xxl);
     }
   </style>
-  <h3>[[title]]</h3>
+  <h3 class="heading-3">[[title]]</h3>
   <gr-button
     title$="[[tooltip]]"
     disabled$="[[disabled]]"

@@ -48,12 +48,6 @@ export const htmlTemplate = html`
       padding-top: var(--spacing-xl);
       vertical-align: top;
     }
-    #help h1 {
-      font-family: var(--header-font-family);
-      font-size: var(--font-size-h3);
-      font-weight: var(--font-weight-h3);
-      line-height: var(--line-height-h3);
-    }
     #help p {
       margin-bottom: var(--spacing-m);
       max-width: 35em;
@@ -73,7 +67,7 @@ export const htmlTemplate = html`
     </p>
   </div>
   <div id="help">
-    <h1>Push your first change for code review</h1>
+    <h2 class="heading-3">Push your first change for code review</h2>
     <p>
       Pushing a change for review is easy, but a little different from other git
       code review tools. Click on the \`Create Change' button and follow the

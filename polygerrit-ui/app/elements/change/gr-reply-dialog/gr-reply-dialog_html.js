@@ -108,9 +108,6 @@ export const htmlTemplate = html`
       background: var(--table-header-background-color);
       padding: var(--spacing-l);
     }
-    .draftsContainer h3 {
-      margin-top: var(--spacing-xs);
-    }
     #checkingStatusLabel,
     #notLatestLabel {
       margin-left: var(--spacing-l);

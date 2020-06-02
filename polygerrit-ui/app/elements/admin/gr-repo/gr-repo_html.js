@@ -50,7 +50,7 @@ export const htmlTemplate = html`
       /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
     </style>
     <div class="info">
-      <h1 id="Title" class$="name">
+      <h1 id="Title" class="heading-1">
         [[repo]]
         <hr />
       </h1>
@@ -63,7 +63,7 @@ export const htmlTemplate = html`
     </div>
     <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
       <div id="downloadContent" class$="[[_computeHideClass(_schemes)]]">
-        <h2 id="download">Download</h2>
+        <h2 id="download" class="heading-2">Download</h2>
         <fieldset>
           <gr-download-commands
             id="downloadCommands"
@@ -73,12 +73,15 @@ export const htmlTemplate = html`
           ></gr-download-commands>
         </fieldset>
       </div>
-      <h2 id="configurations" class$="[[_computeHeaderClass(_configChanged)]]">
+      <h2
+        id="configurations"
+        class$="heading-2 [[_computeHeaderClass(_configChanged)]]"
+      >
         Configurations
       </h2>
       <div id="form">
         <fieldset>
-          <h3 id="Description">Description</h3>
+          <h3 id="Description" class="heading-3">Description</h3>
           <fieldset>
             <iron-autogrow-textarea
               id="descriptionInput"
@@ -89,7 +92,7 @@ export const htmlTemplate = html`
               disabled$="[[_readOnly]]"
             ></iron-autogrow-textarea>
           </fieldset>
-          <h3 id="Options">Repository Options</h3>
+          <h3 id="Options" class="heading-3">Repository Options</h3>
           <fieldset id="options">
             <section>
               <span class="title">State</span>
@@ -362,7 +365,7 @@ export const htmlTemplate = html`
               </span>
             </section>
           </fieldset>
-          <h3 id="Options">Contributor Agreements</h3>
+          <h3 id="Options" class="heading-3">Contributor Agreements</h3>
           <fieldset id="agreements">
             <section>
               <span class="title">
@@ -407,7 +410,7 @@ export const htmlTemplate = html`
             class$="pluginConfig [[_computeHideClass(_pluginData)]]"
             on-plugin-config-changed="_handlePluginConfigChanged"
           >
-            <h3>Plugins</h3>
+            <h3 class="heading-3">Plugins</h3>
             <template is="dom-repeat" items="[[_pluginData]]" as="data">
               <gr-repo-plugin-config
                 plugin-data="[[data]]"

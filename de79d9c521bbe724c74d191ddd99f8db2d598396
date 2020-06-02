@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "957ccf57_a0402fe7",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-02T08:14:35Z",
+      "side": 1,
+      "message": "i noticed that we currently let tab stop at here which the screenreader will read both the path name and the `click to copy to clipboard` at the same time which might be misleading. Maybe either override the aria-label here or let it tab stop on `spans` inside instead ?",
+      "revId": "de79d9c521bbe724c74d191ddd99f8db2d598396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0b8d02f_3f3cdc89",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-02T08:14:35Z",
+      "side": 1,
+      "message": "maybe add a comment above so people don\u0027t remove these by accident.",
+      "range": {
+        "startLine": 444,
+        "startChar": 17,
+        "endLine": 445,
+        "endChar": 17
+      },
+      "revId": "de79d9c521bbe724c74d191ddd99f8db2d598396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6d2fe3d_1ddb5223",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-02T08:14:35Z",
+      "side": 1,
+      "message": "nit, maybe add a `:`",
+      "range": {
+        "startLine": 692,
+        "startChar": 39,
+        "endLine": 692,
+        "endChar": 40
+      },
+      "revId": "de79d9c521bbe724c74d191ddd99f8db2d598396",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

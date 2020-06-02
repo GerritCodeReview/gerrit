@@ -22,6 +22,30 @@
       "revId": "7cd417e3700089625985e459d088a03914bfa1e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "310d6a61_8ad3e7e3",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-02T23:14:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f52db2b5_a691366a",
+      "range": {
+        "startLine": 97,
+        "startChar": 2,
+        "endLine": 97,
+        "endChar": 44
+      },
+      "revId": "7cd417e3700089625985e459d088a03914bfa1e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

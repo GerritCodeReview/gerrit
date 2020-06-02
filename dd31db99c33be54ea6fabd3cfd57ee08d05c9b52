@@ -22,6 +22,30 @@
       "revId": "dd31db99c33be54ea6fabd3cfd57ee08d05c9b52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4eddc5fa_dee654bb",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 6023,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-02T06:14:37Z",
+      "side": 1,
+      "message": "I don\u0027t currently see a way for a plugin to directly set the submission id: we will need to implement some extension point for this.\nThe submission id values are not important for the functionality; The format changed here to improve the UX as the submission ids are seen directly by the user as part of the topic when creating a \"Revert Submission\", and also they are seen in the subject of those changes.\nAlso, the submission-ids have to be unique per submission, otherwise \"Revert Submission\" will not work.\n\nIf you decide it makes sense for you to anyway set the submission id, please make sure you add some checks to the extension point that ensure that the submission id didn\u0027t exist prior to the current submission. Also, you definitely can\u0027t change the behavior of this field: Changes that were submitted together must have the same submission-id. \n\nBut anyway, even if you add those checks, the UX of Revert Submission will be impacted as this id is user visible, so I\u0027m against it if we can avoid it.\n\nI\u0027d suggest instead just setting the UUID some other way, isn\u0027t the current format actually pretty accurate for your use cases? (id-topic)\n\nDoes that answer your questions?",
+      "parentUuid": "498d694f_f5894b05",
+      "range": {
+        "startLine": 6020,
+        "startChar": 0,
+        "endLine": 6023,
+        "endChar": 61
+      },
+      "revId": "dd31db99c33be54ea6fabd3cfd57ee08d05c9b52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

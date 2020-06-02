@@ -26,9 +26,10 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.config.SshClientImplementation;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.KeyPair;
 import com.jcraft.jsch.Session;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.security.KeyPair;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
@@ -92,8 +93,11 @@ public class GitUtil {
             try {
               JSch jsch = getJSch(hc, FS.DETECTED);
               jsch.addIdentity(
-                  "KeyPair", TestSshKeys.privateKey(keyPair), keyPair.getPublicKeyBlob(), null);
-            } catch (JSchException e) {
+                  "KeyPair",
+                  TestSshKeys.privateKey(keyPair),
+                  TestSshKeys.publicKeyBlob(keyPair),
+                  null);
+            } catch (JSchException | GeneralSecurityException | IOException e) {
               throw new RuntimeException(e);
             }
           }

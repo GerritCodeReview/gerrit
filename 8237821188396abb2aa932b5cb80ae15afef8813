@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fe92223d_63a099ce",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "It\u0027s moved to SubscriptionGraph.",
+      "parentUuid": "929733a2_6888b819",
+      "range": {
+        "startLine": 124,
+        "startChar": 44,
+        "endLine": 124,
+        "endChar": 59
+      },
+      "revId": "8237821188396abb2aa932b5cb80ae15afef8813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d34308c5_b27a66cd",
         "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "33d4b42a_213e82cf",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "Thanks for you comments, I split the creation logic to an inner manually written factory class now.",
+      "parentUuid": "d34308c5_b27a66cd",
+      "range": {
+        "startLine": 37,
+        "startChar": 6,
+        "endLine": 37,
+        "endChar": 23
+      },
+      "revId": "8237821188396abb2aa932b5cb80ae15afef8813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3230de6_b2cb7fcd",
         "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
         "patchSetId": 5
@@ -68,6 +116,30 @@
       "revId": "8237821188396abb2aa932b5cb80ae15afef8813",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35eeaf6f_2ab74f26",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3230de6_b2cb7fcd",
+      "range": {
+        "startLine": 322,
+        "startChar": 0,
+        "endLine": 330,
+        "endChar": 3
+      },
+      "revId": "8237821188396abb2aa932b5cb80ae15afef8813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "38a5c91f_97f8c82c",
+        "filename": "javatests/com/google/gerrit/server/submit/SubscriptionGraphTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "I think we should make sure that the circular path is printed properly, which would help the users to debug possible misconfigurations.",
+      "parentUuid": "f54f4e24_9c11e71a",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 92
+      },
+      "revId": "8237821188396abb2aa932b5cb80ae15afef8813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61fd51b5_d4ba24a0",
         "filename": "javatests/com/google/gerrit/server/submit/SubscriptionGraphTest.java",
         "patchSetId": 5
@@ -137,6 +233,30 @@
       "revId": "8237821188396abb2aa932b5cb80ae15afef8813",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63dc4360_ae73390c",
+        "filename": "javatests/com/google/gerrit/server/submit/SubscriptionGraphTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "Why would you consider it as an error? Actually in my opinion it is very common.\n\nFor example, this repo, Gerrit, is subscribing to multiple plugins. More precisely, the master branch of Gerrit repository is subscribing to the master branches of these plugins.",
+      "parentUuid": "61fd51b5_d4ba24a0",
+      "range": {
+        "startLine": 142,
+        "startChar": 4,
+        "endLine": 144,
+        "endChar": 78
+      },
+      "revId": "8237821188396abb2aa932b5cb80ae15afef8813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "7df0bf02_2b95e4fd",
+        "filename": "javatests/com/google/gerrit/server/submit/SubscriptionGraphTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "This is default behavior, I\u0027ve moved it.",
+      "parentUuid": "62854e17_a87568f9",
+      "range": {
+        "startLine": 145,
+        "startChar": 4,
+        "endLine": 146,
+        "endChar": 54
+      },
+      "revId": "8237821188396abb2aa932b5cb80ae15afef8813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "52574f02_38e65638",
         "filename": "javatests/com/google/gerrit/server/submit/SubscriptionGraphTest.java",
         "patchSetId": 5
@@ -183,6 +327,30 @@
       "revId": "8237821188396abb2aa932b5cb80ae15afef8813",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "227536a0_ad22eb54",
+        "filename": "javatests/com/google/gerrit/server/submit/SubscriptionGraphTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52574f02_38e65638",
+      "range": {
+        "startLine": 164,
+        "startChar": 4,
+        "endLine": 164,
+        "endChar": 57
+      },
+      "revId": "8237821188396abb2aa932b5cb80ae15afef8813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -209,6 +377,30 @@
     },
     {
       "key": {
+        "uuid": "68ae73f1_e8c23b54",
+        "filename": "javatests/com/google/gerrit/server/submit/SubscriptionGraphTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "I\u0027ve split it to createBranch and allowSubscription.",
+      "parentUuid": "814d06e7_0f587962",
+      "range": {
+        "startLine": 167,
+        "startChar": 15,
+        "endLine": 167,
+        "endChar": 27
+      },
+      "revId": "8237821188396abb2aa932b5cb80ae15afef8813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60b940af_4229e02d",
         "filename": "javatests/com/google/gerrit/server/submit/SubscriptionGraphTest.java",
         "patchSetId": 5
@@ -229,6 +421,30 @@
       "revId": "8237821188396abb2aa932b5cb80ae15afef8813",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ef6d623_0d878849",
+        "filename": "javatests/com/google/gerrit/server/submit/SubscriptionGraphTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60b940af_4229e02d",
+      "range": {
+        "startLine": 173,
+        "startChar": 36,
+        "endLine": 173,
+        "endChar": 62
+      },
+      "revId": "8237821188396abb2aa932b5cb80ae15afef8813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -255,6 +471,30 @@
     },
     {
       "key": {
+        "uuid": "ce7fda02_d1e1b065",
+        "filename": "javatests/com/google/gerrit/server/submit/SubscriptionGraphTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc2b84f3_f1f7e049",
+      "range": {
+        "startLine": 176,
+        "startChar": 31,
+        "endLine": 176,
+        "endChar": 90
+      },
+      "revId": "8237821188396abb2aa932b5cb80ae15afef8813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "475dfc59_954f41c3",
         "filename": "javatests/com/google/gerrit/server/submit/SubscriptionGraphTest.java",
         "patchSetId": 5
@@ -278,6 +518,30 @@
     },
     {
       "key": {
+        "uuid": "519c3fc9_7b6530d5",
+        "filename": "javatests/com/google/gerrit/server/submit/SubscriptionGraphTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "475dfc59_954f41c3",
+      "range": {
+        "startLine": 185,
+        "startChar": 20,
+        "endLine": 185,
+        "endChar": 49
+      },
+      "revId": "8237821188396abb2aa932b5cb80ae15afef8813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d282ecc_a1b632e9",
         "filename": "javatests/com/google/gerrit/server/submit/SubscriptionGraphTest.java",
         "patchSetId": 5
@@ -292,6 +556,24 @@
       "revId": "8237821188396abb2aa932b5cb80ae15afef8813",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86953929_8e30d52c",
+        "filename": "javatests/com/google/gerrit/server/submit/SubscriptionGraphTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "I removed the method as the constructor is private now.",
+      "parentUuid": "1d282ecc_a1b632e9",
+      "revId": "8237821188396abb2aa932b5cb80ae15afef8813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "986b7080_c1da5759",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f3c9481_aa6be120",
+      "range": {
+        "startLine": 16,
+        "startChar": 16,
+        "endLine": 16,
+        "endChar": 18
+      },
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c92f562f_5b863844",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ed3a147_dbfa2a61",
+      "range": {
+        "startLine": 16,
+        "startChar": 12,
+        "endLine": 16,
+        "endChar": 15
+      },
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c247671_609fec03",
         "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
         "patchSetId": 4
@@ -88,6 +136,48 @@
     },
     {
       "key": {
+        "uuid": "6d8d0131_6721873a",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c247671_609fec03",
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f48280d_d83e8afc",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28ff2431_c193a5df",
+      "range": {
+        "startLine": 287,
+        "startChar": 36,
+        "endLine": 287,
+        "endChar": 48
+      },
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79cd2502_290ac817",
         "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
         "patchSetId": 4
@@ -108,6 +198,30 @@
       "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94137577_237cbcfa",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79cd2502_290ac817",
+      "range": {
+        "startLine": 291,
+        "startChar": 2,
+        "endLine": 291,
+        "endChar": 55
+      },
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "de4e92bd_00528bd8",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "Actually, as I mentioned below, \"affected\" is a necessary term.",
+      "parentUuid": "683ead7f_8c7496a3",
+      "range": {
+        "startLine": 297,
+        "startChar": 23,
+        "endLine": 297,
+        "endChar": 47
+      },
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd90dd60_889753b0",
         "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
         "patchSetId": 4
@@ -154,6 +292,30 @@
       "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f897fedc_1a5fce76",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "I think the term affected is necessary.\n\nSubmoduleOp is a \"per push\" concept. Think about an example: branch Ba in project Pa is subscribed by branch B1 in P1 and branch Bb in project P2 is subscribed by B2. And if a change only modifies Ba is pushed, while P1 and P2 are both super projects, only P1 is an \"affected\" superproject and we should expect that subscriptionGraph.isAffected(P1) is true and  subscriptionGraph.isAffected(P2) is false.\n\nHow do you think if I rename the method to \"isAffectedSuperproject()\"?",
+      "parentUuid": "dd90dd60_889753b0",
+      "range": {
+        "startLine": 301,
+        "startChar": 2,
+        "endLine": 302,
+        "endChar": 20
+      },
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -197,6 +359,48 @@
     },
     {
       "key": {
+        "uuid": "c3b338cc_68100d61",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3718421d_7a4b64e6",
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "92fae482_dc9f6e34",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "316f87f1_187e15a6",
+      "range": {
+        "startLine": 306,
+        "startChar": 63,
+        "endLine": 306,
+        "endChar": 75
+      },
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0f9dccf_103b9305",
         "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
         "patchSetId": 4
@@ -217,6 +421,30 @@
       "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b346efdf_36171366",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "How do you think about getAffectedSuperBranches()? This method is returning the super branches(subscriber/listener) not the subscribed branches(publisher).",
+      "parentUuid": "f0f9dccf_103b9305",
+      "range": {
+        "startLine": 307,
+        "startChar": 21,
+        "endLine": 307,
+        "endChar": 40
+      },
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -243,6 +471,30 @@
     },
     {
       "key": {
+        "uuid": "30daf659_617b09e5",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ad89466_7f27fa3d",
+      "range": {
+        "startLine": 311,
+        "startChar": 2,
+        "endLine": 312,
+        "endChar": 49
+      },
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fff6596_c7aef92f",
         "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
         "patchSetId": 4
@@ -266,6 +518,30 @@
     },
     {
       "key": {
+        "uuid": "2228001d_abe60850",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fff6596_c7aef92f",
+      "range": {
+        "startLine": 316,
+        "startChar": 5,
+        "endLine": 316,
+        "endChar": 54
+      },
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b0a1872_83ec4c20",
         "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
         "patchSetId": 4
@@ -286,6 +562,30 @@
       "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de2b67ee_967a0c57",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-02T07:06:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b0a1872_83ec4c20",
+      "range": {
+        "startLine": 316,
+        "startChar": 56,
+        "endLine": 317,
+        "endChar": 12
+      },
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

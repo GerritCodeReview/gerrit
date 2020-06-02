@@ -1,0 +1,164 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85c80b66_ad752d48",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-02T16:02:07Z",
+      "side": 1,
+      "message": "Should this maybe take _shouldShowThread() into account?",
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "873cf5b4_cffceaba",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-02T16:02:07Z",
+      "side": 1,
+      "message": "Should this maybe take _shouldShowThread() into account?",
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c90940e_c0ca284c",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-02T16:02:07Z",
+      "side": 1,
+      "message": "border-top only",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 12
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f63bd7a5_92b70a5c",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-02T16:02:07Z",
+      "side": 1,
+      "message": "--border-color",
+      "range": {
+        "startLine": 57,
+        "startChar": 30,
+        "endLine": 57,
+        "endChar": 54
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5dd4aa02_67e3f8cc",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-02T16:02:07Z",
+      "side": 1,
+      "message": "What about adding such a css rule to \u003cgr-comment-thread\u003e:\n\n:host([render-file-name]) { border-top:... }\n\nThen you don\u0027t need this \u003cdiv\u003e at all.",
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72bc3d29_c0f37b92",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-02T16:02:07Z",
+      "side": 1,
+      "message": "Maybe rename to `showFileName`. I think that is more consistent and makes it clearer that this is a show/hide boolean.",
+      "range": {
+        "startLine": 158,
+        "startChar": 6,
+        "endLine": 158,
+        "endChar": 20
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "674b674c_9e7f9e5e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-02T16:02:07Z",
+      "side": 1,
+      "message": "So if \"range\" is set, then the correct return value is \u0027\u0027?",
+      "range": {
+        "startLine": 253,
+        "startChar": 26,
+        "endLine": 253,
+        "endChar": 37
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c8f7688_a9d874ce",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-02T16:02:07Z",
+      "side": 1,
+      "message": "maybe remove comment",
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

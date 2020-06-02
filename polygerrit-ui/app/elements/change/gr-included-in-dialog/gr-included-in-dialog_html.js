@@ -67,7 +67,7 @@ export const htmlTemplate = html`
     }
   </style>
   <header>
-    <h1 id="title">Included In:</h1>
+    <h1 id="title" class="heading-1">Included In:</h1>
     <span class="closeButtonContainer">
       <gr-button id="closeButton" link="" on-click="_handleCloseTap"
         >Close</gr-button

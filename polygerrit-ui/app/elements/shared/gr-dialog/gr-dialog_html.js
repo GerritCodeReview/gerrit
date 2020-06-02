@@ -60,7 +60,7 @@ export const htmlTemplate = html`
     }
   </style>
   <div class="container" on-keydown="_handleKeydown">
-    <header class="font-h3"><slot name="header"></slot></header>
+    <header class="heading-3"><slot name="header"></slot></header>
     <main>
       <div class="overflow-container">
         <slot name="main"></slot>

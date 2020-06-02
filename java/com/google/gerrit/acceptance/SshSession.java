@@ -30,7 +30,6 @@ import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.server.config.SshClientImplementation;
 import com.jcraft.jsch.ChannelExec;
 import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.KeyPair;
 import com.jcraft.jsch.Session;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,8 +37,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.security.KeyPair;
 import java.util.Arrays;
 import java.util.Scanner;
+import org.apache.sshd.common.config.keys.writer.openssh.OpenSSHKeyPairResourceWriter;
 import org.eclipse.jgit.transport.URIish;
 import org.eclipse.jgit.transport.sshd.DefaultProxyDataFactory;
 import org.eclipse.jgit.transport.sshd.JGitKeyCache;
@@ -150,7 +151,7 @@ public class SshSession {
       KeyPair keyPair = sshKeys.getKeyPair(account);
       JSch jsch = new JSch();
       jsch.addIdentity(
-          "KeyPair", TestSshKeys.privateKey(keyPair), keyPair.getPublicKeyBlob(), null);
+          "KeyPair", TestSshKeys.privateKey(keyPair), TestSshKeys.publicKeyBlob(keyPair), null);
       String username = getUsername();
       jschSession = jsch.getSession(username, addr.getAddress().getHostAddress(), addr.getPort());
       jschSession.setConfig("StrictHostKeyChecking", "no");
@@ -178,8 +179,9 @@ public class SshSession {
       FS fs = FS.DETECTED.setUserHome(userhome);
       File sshDir = new File(userhome, ".ssh");
       sshDir.mkdir();
+      OpenSSHKeyPairResourceWriter keyPairWriter = new OpenSSHKeyPairResourceWriter();
       try (OutputStream out = new FileOutputStream(new File(sshDir, "id_ecdsa"))) {
-        sshKeys.getKeyPair(account).writePrivateKey(out);
+        keyPairWriter.writePrivateKey(sshKeys.getKeyPair(account), null, null, out);
       }
 
       // TODO(davido): Disable programmatically host key checking: "StrictHostKeyChecking: no" mode.

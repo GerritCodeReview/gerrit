@@ -602,7 +602,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (assignee != null) {
       if (assignee.isPresent()) {
         addFooter(msg, FOOTER_ASSIGNEE);
-        addIdent(msg, assignee.get()).append('\n');
+        noteUtil.appendAccountIdIdentString(msg, assignee.get()).append('\n');
       } else {
         addFooter(msg, FOOTER_ASSIGNEE).append('\n');
       }
@@ -623,7 +623,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     for (Map.Entry<Account.Id, ReviewerStateInternal> e : reviewers.entrySet()) {
       addFooter(msg, e.getValue().getFooterKey());
-      addIdent(msg, e.getKey()).append('\n');
+      noteUtil.appendAccountIdIdentString(msg, e.getKey()).append('\n');
     }
 
     for (Map.Entry<Address, ReviewerStateInternal> e : reviewersByEmail.entrySet()) {
@@ -640,7 +640,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       }
       Account.Id id = c.getColumnKey();
       if (!id.equals(getAccountId())) {
-        addIdent(msg.append(' '), id);
+        noteUtil.appendAccountIdIdentString(msg.append(' '), id);
       }
       msg.append('\n');
     }
@@ -666,7 +666,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
                 .append(label.label);
             if (label.appliedBy != null) {
               msg.append(": ");
-              addIdent(msg, label.appliedBy);
+              noteUtil.appendAccountIdIdentString(msg, label.appliedBy);
             }
             msg.append('\n');
           }
@@ -677,7 +677,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     if (!Objects.equals(accountId, realAccountId)) {
       addFooter(msg, FOOTER_REAL_USER);
-      addIdent(msg, realAccountId).append('\n');
+      noteUtil.appendAccountIdIdentString(msg, realAccountId).append('\n');
     }
 
     if (isPrivate != null) {
@@ -798,11 +798,5 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   private static boolean isIllegalTopic(String topic) {
     return (topic != null && topic.contains("\""));
-  }
-
-  private StringBuilder addIdent(StringBuilder sb, Account.Id accountId) {
-    PersonIdent ident = noteUtil.newIdent(accountId, when, serverIdent);
-    ChangeNoteUtil.appendIdentString(sb, ident.getName(), ident.getEmailAddress());
-    return sb;
   }
 }

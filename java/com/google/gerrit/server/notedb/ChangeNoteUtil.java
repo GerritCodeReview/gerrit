@@ -69,16 +69,37 @@ public class ChangeNoteUtil {
     return changeNoteJson;
   }
 
-  public PersonIdent newIdent(Account.Id accountId, Date when, PersonIdent serverIdent) {
-    return new PersonIdent(
-        getUsername(accountId), getEmailAddress(accountId), when, serverIdent.getTimeZone());
+  /**
+   * Generates a user identifier that contains the account ID, but not the user's name or email
+   * address.
+   *
+   * @return The passed in {@link StringBuilder} instance to which the identifier has been appended.
+   */
+  StringBuilder appendAccountIdIdentString(StringBuilder stringBuilder, Account.Id accountId) {
+    return stringBuilder
+        .append(getAccountIdAsUsername(accountId))
+        .append(" <")
+        .append(getAccountIdAsEmailAddress(accountId))
+        .append('>');
   }
 
-  private static String getUsername(Account.Id accountId) {
+  /**
+   * Returns a {@link PersonIdent} that contains the account ID, but not the user's name or email
+   * address.
+   */
+  public PersonIdent newAccountIdIdent(Account.Id accountId, Date when, PersonIdent serverIdent) {
+    return new PersonIdent(
+        getAccountIdAsUsername(accountId),
+        getAccountIdAsEmailAddress(accountId),
+        when,
+        serverIdent.getTimeZone());
+  }
+
+  private static String getAccountIdAsUsername(Account.Id accountId) {
     return "Gerrit User " + accountId.toString();
   }
 
-  private String getEmailAddress(Account.Id accountId) {
+  private String getAccountIdAsEmailAddress(Account.Id accountId) {
     return accountId.get() + "@" + serverId;
   }
 
@@ -198,21 +219,10 @@ public class ChangeNoteUtil {
   }
 
   String attentionSetUpdateToJson(AttentionSetUpdate attentionSetUpdate) {
-    PersonIdent personIdent =
-        new PersonIdent(
-            getUsername(attentionSetUpdate.account()),
-            getEmailAddress(attentionSetUpdate.account()));
     StringBuilder stringBuilder = new StringBuilder();
-    appendIdentString(stringBuilder, personIdent.getName(), personIdent.getEmailAddress());
+    appendAccountIdIdentString(stringBuilder, attentionSetUpdate.account());
     return gson.toJson(
         new AttentionStatusInNoteDb(
             stringBuilder.toString(), attentionSetUpdate.operation(), attentionSetUpdate.reason()));
-  }
-
-  static void appendIdentString(StringBuilder stringBuilder, String name, String emailAddress) {
-    PersonIdent.appendSanitized(stringBuilder, name);
-    stringBuilder.append(" <");
-    PersonIdent.appendSanitized(stringBuilder, emailAddress);
-    stringBuilder.append('>');
   }
 }

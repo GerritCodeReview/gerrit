@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28c0a208_18fab5e7",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-02T10:20:10Z",
+      "side": 0,
+      "message": "i added this due to the assumption that:\n\nfor people who have low vision / blur vision (also included in a11y users), they may still want to know what that bar is. So I think it\u0027s still meaningful to have the label there for them",
+      "revId": "b4a29bb6993d232003ac71aa72c42ac7224e9836",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -92,19 +92,32 @@ class GrThreadList extends GestureEventListeners(
   _computeSortedThreads(changeRecord) {
     const baseThreads = changeRecord.base;
     const threads = changeRecord.value;
-    if (!baseThreads) { return []; }
+    if (!baseThreads || !threads) {
+      this._sortedThreads = [];
+      return;
+    }
     // TODO: should change how data flows to solve the root cause
     // We only want to sort on thread additions / removals to avoid
     // re-rendering on modifications (add new reply / edit draft etc)
     //  https://polymer-library.polymer-project.org/3.0/docs/devguide/observers#array-observation
     let shouldSort = true;
-    if (threads.indexSplices) {
+    if (!this._sortedThreads) {
+      shouldSort = true;
+    } else if (threads.indexSplices) {
       // Array splice mutations
       shouldSort = threads.indexSplices.addedCount !== 0
         || threads.indexSplices.removed.length;
     } else {
       // A replace mutation
-      shouldSort = threads.length !== baseThreads.length;
+      if (!threads.length || !baseThreads.length
+         || threads.length !== baseThreads.length) {
+        shouldSort = true;
+      } else {
+        // Check rootId in case its switching to a different change
+        // with same # of threads, e.g: from relation chain
+        shouldSort = this._sortedThreads
+            .findIndex(t => t.rootId === baseThreads[0].rootId) === -1;
+      }
     }
     this._updateSortedThreads(baseThreads, shouldSort);
   }

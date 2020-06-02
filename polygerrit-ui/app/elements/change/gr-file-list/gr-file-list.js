@@ -512,6 +512,9 @@ class GrFileList extends mixinBehaviors( [
    * @return {string}
    */
   _computeCommentsString(changeComments, patchRange, path) {
+    if ([changeComments, patchRange, path].some(arg => arg === undefined)) {
+      return '';
+    }
     const unresolvedCount =
         changeComments.computeUnresolvedNum({
           patchNum: patchRange.basePatchNum,
@@ -551,6 +554,9 @@ class GrFileList extends mixinBehaviors( [
    * @return {string}
    */
   _computeDraftsString(changeComments, patchRange, path) {
+    if ([changeComments, patchRange, path].some(arg => arg === undefined)) {
+      return '';
+    }
     const draftCount =
         changeComments.computeDraftCount({
           patchNum: patchRange.basePatchNum,
@@ -572,6 +578,9 @@ class GrFileList extends mixinBehaviors( [
    * @return {string}
    */
   _computeDraftsStringMobile(changeComments, patchRange, path) {
+    if ([changeComments, patchRange, path].some(arg => arg === undefined)) {
+      return '';
+    }
     const draftCount =
         changeComments.computeDraftCount({
           patchNum: patchRange.basePatchNum,
@@ -593,6 +602,9 @@ class GrFileList extends mixinBehaviors( [
    * @return {string}
    */
   _computeCommentsStringMobile(changeComments, patchRange, path) {
+    if ([changeComments, patchRange, path].some(arg => arg === undefined)) {
+      return '';
+    }
     const commentCount =
         changeComments.computeCommentCount({
           patchNum: patchRange.basePatchNum,

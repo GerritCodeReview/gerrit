@@ -643,11 +643,11 @@ class GrReplyDialog extends mixinBehaviors( [
   }
 
   _computeHideDraftList(draftCommentThreads) {
-    return draftCommentThreads.length === 0;
+    return !draftCommentThreads || draftCommentThreads.length === 0;
   }
 
   _computeDraftsTitle(draftCommentThreads) {
-    const total = draftCommentThreads.length;
+    const total = draftCommentThreads ? draftCommentThreads.length : 0;
     if (total == 0) { return ''; }
     if (total == 1) { return '1 Draft'; }
     if (total > 1) { return total + ' Drafts'; }

@@ -367,6 +367,11 @@ suite('gr-thread-list tests', () => {
         '09a9fb0a_1484e6cf');
   });
 
+  test('reset sortedThreads when threads set to undefiend', () => {
+    element.threads = undefined;
+    assert.deepEqual(element._sortedThreads, []);
+  });
+
   test('non-equal length of sortThreads and threads' +
     ' shold trigger sort again', () => {
     const modifiedThreads = [...element.threads];

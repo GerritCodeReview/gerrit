@@ -45,6 +45,30 @@
       "revId": "7e0c5a15186db472f953d83e99e4dd9f4c943c8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "103d6b40_fec1ece8",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-02T16:18:52Z",
+      "side": 1,
+      "message": "I was under the assumption that if not needed, the user can run init with the --no-reindex operation which saves the time and energy needed for an unnecessary (or too heavy) reindex. Thanks for your pointers though, since this was started on 2.16 I missed the most recent changes. This will move to 3.0 since 2.16 is obsolete.",
+      "parentUuid": "b858514b_2d73a324",
+      "range": {
+        "startLine": 155,
+        "startChar": 4,
+        "endLine": 155,
+        "endChar": 74
+      },
+      "revId": "7e0c5a15186db472f953d83e99e4dd9f4c943c8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

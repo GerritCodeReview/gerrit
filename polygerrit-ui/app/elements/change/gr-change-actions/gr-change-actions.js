@@ -1546,6 +1546,12 @@ class GrChangeActions extends mixinBehaviors( [
           if (ACTIONS_WITH_ICONS.has(action.__key)) {
             action.icon = action.__key;
           }
+          // TODO(brohlfs): Temporary hack until change 269573 is live in all
+          // backends.
+          if (action.__key === ChangeActions.READY) {
+            action.label = 'Mark as Active';
+          }
+          // End of hack
           return action;
         })
         .filter(action => !this._shouldSkipAction(action));

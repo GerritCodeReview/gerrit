@@ -25,7 +25,6 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
-import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.data.ContributorAgreement;
@@ -64,7 +63,6 @@ public class AgreementsIT extends AbstractDaemonTest {
   private ContributorAgreement caNoAutoVerify;
   @Inject private GroupOperations groupOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
-  @Inject private ProjectOperations projectOperations;
 
   protected void setUseContributorAgreements(InheritableBoolean value) throws Exception {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {

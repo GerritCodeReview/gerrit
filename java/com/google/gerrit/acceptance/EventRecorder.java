@@ -70,9 +70,9 @@ public class EventRecorder {
               @Override
               public void onEvent(Event e) {
                 if (e instanceof ReviewerDeletedEvent) {
-                  recordedEvents.put(ReviewerDeletedEvent.TYPE, (ReviewerDeletedEvent) e);
+                  recordedEvents.put(ReviewerDeletedEvent.TYPE, e);
                 } else if (e instanceof ChangeDeletedEvent) {
-                  recordedEvents.put(ChangeDeletedEvent.TYPE, (ChangeDeletedEvent) e);
+                  recordedEvents.put(ChangeDeletedEvent.TYPE, e);
                 } else if (e instanceof RefEvent) {
                   RefEvent event = (RefEvent) e;
                   String key =

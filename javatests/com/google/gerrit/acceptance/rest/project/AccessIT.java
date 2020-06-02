@@ -149,11 +149,8 @@ public class AccessIT extends AbstractDaemonTest {
 
   @Test
   public void grantRevertPermissionDoesntDeleteAdminsPreferences() throws Exception {
-    String refsHeads = "refs/heads/*";
     GroupReference registeredUsers = systemGroupBackend.getGroup(REGISTERED_USERS);
     GroupReference otherGroup = systemGroupBackend.getGroup(ANONYMOUS_USERS);
-    String groupId = "global:Registered-Users";
-    String otherGroupId = "global:Anonymous-Users";
 
     try (Repository repo = repoManager.openRepository(newProjectName)) {
       MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, newProjectName, repo);

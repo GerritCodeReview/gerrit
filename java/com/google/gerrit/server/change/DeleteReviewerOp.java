@@ -218,7 +218,7 @@ public class DeleteReviewerOp implements BatchUpdateOp {
       ChangeMessage changeMessage,
       NotifyResolver.Result notify,
       RepoView repoView)
-      throws EmailException, IOException {
+      throws EmailException {
     Account.Id userId = user.get().getAccountId();
     if (userId.equals(reviewer.account().id())) {
       // The user knows they removed themselves, don't bother emailing them.

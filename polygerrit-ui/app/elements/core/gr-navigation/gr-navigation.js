@@ -136,10 +136,10 @@ const DEFAULT_SECTIONS = [
     suffixForDashboard: 'limit:25',
   },
   {
-    // Open changes the viewed user is CCed on. Changes ignored by the viewing
-    // user are filtered out.
+    // Non-WIP open changes the viewed user is CCed on. Changes ignored by the
+    // viewing user are filtered out.
     name: 'CCed on',
-    query: 'is:open -is:ignored cc:${user}',
+    query: 'is:open -is:wip -is:ignored cc:${user}',
     suffixForDashboard: 'limit:10',
   },
   {

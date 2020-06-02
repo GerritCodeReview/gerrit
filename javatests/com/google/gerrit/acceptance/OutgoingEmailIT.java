@@ -92,6 +92,7 @@ public class OutgoingEmailIT extends AbstractDaemonTest {
   public void messageIdHeaderFromPasswordUpdate() throws Exception {
     sender.clear();
     String newPassword = gApi.accounts().self().generateHttpPassword();
+    assertThat(newPassword).isNotNull();
     assertThat(getMessageId(sender)).contains("HTTP password change-" + admin.id().toString());
   }
 

@@ -151,7 +151,7 @@ public class H2CacheTest {
 
     // This is the loader that we configure for the cache when calling .loader(...)
     @SuppressWarnings("unchecked")
-    CacheLoader<String, String> baseLoader = (CacheLoader<String, String>) mock(CacheLoader.class);
+    CacheLoader<String, String> baseLoader = mock(CacheLoader.class);
     resetLoaderAndAnswerLoadAndRefreshCalls(baseLoader);
 
     // We wrap baseLoader just like H2CacheFactory is wrapping it. The wrapped version will call out

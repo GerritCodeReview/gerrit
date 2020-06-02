@@ -199,6 +199,7 @@ export const htmlTemplate = html`
       ></gr-endpoint-decorator>
       <gr-smart-search
         id="search"
+        label="Search for changes"
         search-query="{{searchQuery}}"
       ></gr-smart-search>
       <gr-endpoint-decorator

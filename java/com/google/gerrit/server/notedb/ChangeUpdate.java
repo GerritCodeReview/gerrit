@@ -602,10 +602,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_COMMIT, commit);
     }
 
-    if (attentionSetUpdates != null) {
-      updateAttentionSet(msg, attentionSetUpdates);
-    }
-
     if (assignee != null) {
       if (assignee.isPresent()) {
         addFooter(msg, FOOTER_ASSIGNEE);
@@ -709,6 +705,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_CHERRY_PICK_OF, cherryPickOf);
     }
 
+    if (attentionSetUpdates != null) {
+      updateAttentionSet(msg);
+    }
+
     CommitBuilder cb = new CommitBuilder();
     cb.setMessage(msg.toString());
     try {
@@ -734,7 +734,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
                         a.account(), AttentionSetUpdate.Operation.REMOVE, reason))
             .collect(Collectors.toSet());
 
-    updateAttentionSet(msg, toClear);
+    addToAttentionsetUpdates(toClear);
   }
 
   private void addNewReviewersToAttentionSet(StringBuilder msg) {
@@ -759,7 +759,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
                 reviewer.getKey(), AttentionSetUpdate.Operation.REMOVE, "Reviewer was removed"));
       }
     }
-    updateAttentionSet(msg, updates);
+    addToAttentionsetUpdates(updates);
   }
 
   private void addAllReviewersToAttentionSet(StringBuilder msg) {
@@ -785,11 +785,33 @@ public class ChangeUpdate extends AbstractChangeUpdate {
                     AttentionSetUpdate.createForWrite(
                         r, AttentionSetUpdate.Operation.ADD, "Change was marked ready for review"))
             .collect(Collectors.toSet());
-    updateAttentionSet(msg, updates);
+    addToAttentionsetUpdates(updates);
   }
 
-  private void updateAttentionSet(StringBuilder msg, Set<AttentionSetUpdate> updates) {
-    for (AttentionSetUpdate attentionSetUpdate : updates) {
+  private void addToAttentionsetUpdates(Set<AttentionSetUpdate> updates) {
+    if (updates == null || updates.isEmpty()) {
+      return;
+    }
+    if (attentionSetUpdates == null) {
+      attentionSetUpdates = new HashSet();
+    }
+    Set<Account.Id> currentUpdates =
+        attentionSetUpdates.stream().map(u -> u.account()).collect(Collectors.toSet());
+    attentionSetUpdates.addAll(
+        updates.stream()
+            .filter(u -> !currentUpdates.contains(u.account()))
+            .collect(Collectors.toSet()));
+  }
+
+  /**
+   * Any updates to the attention set must be done in {@link #addToAttentionsetUpdates}. This method
+   * is called after all the updates are finished to do the updates once and for real.
+   */
+  private void updateAttentionSet(StringBuilder msg) {
+    if (attentionSetUpdates == null) {
+      return;
+    }
+    for (AttentionSetUpdate attentionSetUpdate : attentionSetUpdates) {
       addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));
     }
   }

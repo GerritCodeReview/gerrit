@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "019e5045_c80d80eb",
+        "filename": "java/com/google/gerrit/server/submit/DefaultSubscriptionGraph.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-03T01:13:35Z",
+      "side": 1,
+      "message": "I introduced SubscriptionGraph.createEmptyGraph() in d9853a2cca04acaa0e44fbfc1b5929cc5d3159b3. And thus we don\u0027t need to pass the setting to SubscriptionGraph or SubscriptionGraph.Factory.",
+      "parentUuid": "e6540b91_ddbea273",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 5
+      },
+      "revId": "1fe4e8ddbc3522135966520218cb75a73d46caff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5edd80f6_60afb586",
         "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
         "patchSetId": 6

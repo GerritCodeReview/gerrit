@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "69cf0518_1200b0f2",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-03T10:04:00Z",
+      "side": 1,
+      "message": "\u003e Nope, it is actually a generic exception wrapping a JsonSyntaxException\n\nWow, really? Have you extracted the stack-trace to understand who\u0027s throwing a generic exception?",
+      "parentUuid": "8edf2bf2_5ba879c4",
+      "range": {
+        "startLine": 390,
+        "startChar": 15,
+        "endLine": 390,
+        "endChar": 24
+      },
+      "revId": "22dbde68f01aed66e21c86b64145fef0b949a484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e4e0f738_c67361c8",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 5
@@ -96,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "8d66df8c_97458e2d",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-03T10:04:00Z",
+      "side": 1,
+      "message": "Gotcha, you mean \u0027non-fatal\u0027 means \u0027not enough fatal\u0027 to stop the reindexing. However, here you are in change notes, so it is fatal for the change notes.",
+      "parentUuid": "595eecaf_8d867cb3",
+      "range": {
+        "startLine": 394,
+        "startChar": 15,
+        "endLine": 394,
+        "endChar": 30
+      },
+      "revId": "22dbde68f01aed66e21c86b64145fef0b949a484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0435ca9c_ea7a1da9",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 5
@@ -125,6 +173,24 @@
       "side": 1,
       "message": "Still return a failure, but TBH I didn\u0027t fully understood yet how to mark a step as success or failure.",
       "parentUuid": "0435ca9c_ea7a1da9",
+      "revId": "22dbde68f01aed66e21c86b64145fef0b949a484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6ceb789_0a79be6d",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-03T10:04:00Z",
+      "side": 1,
+      "message": "\u003e Still return a failure, but TBH I didn\u0027t fully understood yet how to mark a step as success or failure.\n\nI don\u0027t think you return a failure here, but a result of empty notes?\nYou should return ChangeNotesResult.error(n.getChangeId(), e) after L394, otherwise you would return an empty success which is misleading.",
+      "parentUuid": "e3e2920c_1fa33397",
       "revId": "22dbde68f01aed66e21c86b64145fef0b949a484",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

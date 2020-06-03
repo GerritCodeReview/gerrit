@@ -94,6 +94,30 @@
       "revId": "1b830132b66989c32ef448cb1bf4b6186f3cca1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cf9957d_e8eb373e",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/TestSshKeys.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-03T05:35:08Z",
+      "side": 1,
+      "message": "Thanks. I switched to using RSA algorithm for JSCH ssh client and exported the private key material in PKCS #8 format using BC.",
+      "parentUuid": "0c839c3f_d1201429",
+      "range": {
+        "startLine": 130,
+        "startChar": 2,
+        "endLine": 135,
+        "endChar": 3
+      },
+      "revId": "1b830132b66989c32ef448cb1bf4b6186f3cca1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

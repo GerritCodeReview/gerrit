@@ -37,6 +37,7 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.ssh.HostKey;
 import com.google.gerrit.server.ssh.SshAdvertisedAddresses;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.server.ssh.SshListenAddresses;
@@ -44,8 +45,6 @@ import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.jcraft.jsch.HostKey;
-import com.jcraft.jsch.JSchException;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -387,12 +386,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       byte[] keyBin = buf.getCompactData();
 
       for (String addr : advertised) {
-        try {
-          r.add(new HostKey(addr, keyBin));
-        } catch (JSchException e) {
-          logger.atWarning().log(
-              "Cannot format SSHD host key [%s]: %s", pub.getAlgorithm(), e.getMessage());
-        }
+        r.add(new HostKey(addr, keyBin));
       }
     }
 

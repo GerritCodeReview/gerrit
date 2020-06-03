@@ -24,8 +24,16 @@ import scala.concurrent.duration._
 class SubmitChange extends GerritSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
   private val default: String = name
+  private var createChange = new CreateChange(default)
 
-  private val test: ScenarioBuilder = scenario(unique)
+  override def relativeRuntimeWeight = 10
+
+  def this(createChange: CreateChange) {
+    this()
+    this.createChange = createChange
+  }
+
+  val test: ScenarioBuilder = scenario(unique)
       .feed(data)
       .exec(session => {
         session.set("number", createChange.number)
@@ -33,7 +41,6 @@ class SubmitChange extends GerritSimulation {
       .exec(http(unique).post("${url}${number}/submit"))
 
   private val createProject = new CreateProject(default)
-  private val createChange = new CreateChange(default)
   private val approveChange = new ApproveChange(createChange)
   private val deleteProject = new DeleteProject(default)
 

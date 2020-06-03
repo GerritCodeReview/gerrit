@@ -39,9 +39,7 @@ DEPLOY_ENV = [
     "//lib:gson",
     "//lib:guava-retrying",
     "//lib:jgit",
-    "//lib:jgit-ssh-jsch",
     "//lib:jgit-ssh-apache",
-    "//lib:jsch",
     "//lib/commons:compress",
     "//lib/commons:lang",
     "//lib/flogger:api",
@@ -52,7 +50,6 @@ DEPLOY_ENV = [
     "//lib/mina:sshd",
     "//lib:guava",
     "//lib/bouncycastle:bcpg",
-    "//lib/bouncycastle:bcpkix",
     "//lib/bouncycastle:bcprov",
     "//prolog:gerrit-prolog-common",
 ]

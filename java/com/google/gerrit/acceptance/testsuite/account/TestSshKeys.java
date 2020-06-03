@@ -15,24 +15,20 @@
 package com.google.gerrit.acceptance.testsuite.account;
 
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.server.config.SshClientImplementation.getFromEnvironment;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 
 import com.google.gerrit.acceptance.SshEnabled;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
-import com.google.gerrit.server.config.SshClientImplementation;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.security.GeneralSecurityException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
-import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,9 +36,6 @@ import org.apache.sshd.common.cipher.ECCurves;
 import org.apache.sshd.common.config.keys.KeyUtils;
 import org.apache.sshd.common.config.keys.writer.openssh.OpenSSHKeyPairResourceWriter;
 import org.apache.sshd.common.util.security.SecurityUtils;
-import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
-import org.bouncycastle.openssl.jcajce.JcaPKCS8Generator;
-import org.bouncycastle.util.io.pem.PemObject;
 
 @Singleton
 public class TestSshKeys {
@@ -105,20 +98,13 @@ public class TestSshKeys {
   }
 
   public static KeyPair genSshKey() throws GeneralSecurityException {
-    SshClientImplementation client = getFromEnvironment();
-    KeyPairGenerator gen;
-    if (client == SshClientImplementation.APACHE) {
-      int size = 256;
-      gen = SecurityUtils.getKeyPairGenerator(KeyUtils.EC_ALGORITHM);
-      ECCurves curve = ECCurves.fromCurveSize(size);
-      if (curve == null) {
-        throw new InvalidKeySpecException("Unknown curve for key size=" + size);
-      }
-      gen.initialize(curve.getParameters());
-    } else {
-      gen = KeyPairGenerator.getInstance("RSA");
-      gen.initialize(1024, new SecureRandom());
+    int size = 256;
+    KeyPairGenerator gen = SecurityUtils.getKeyPairGenerator(KeyUtils.EC_ALGORITHM);
+    ECCurves curve = ECCurves.fromCurveSize(size);
+    if (curve == null) {
+      throw new InvalidKeySpecException("Unknown curve for key size=" + size);
     }
+    gen.initialize(curve.getParameters());
 
     return gen.generateKeyPair();
   }
@@ -141,20 +127,9 @@ public class TestSshKeys {
   }
 
   public static byte[] privateKey(KeyPair keyPair) throws IOException, GeneralSecurityException {
-    SshClientImplementation client = getFromEnvironment();
-    if (client == SshClientImplementation.APACHE) {
-      OpenSSHKeyPairResourceWriter keyPairWriter = new OpenSSHKeyPairResourceWriter();
-      ByteArrayOutputStream out = new ByteArrayOutputStream();
-      keyPairWriter.writePrivateKey(keyPair, null, null, out);
-      return out.toByteArray();
-    }
-    // unencrypted form of PKCS#8 file
-    JcaPKCS8Generator gen1 = new JcaPKCS8Generator(keyPair.getPrivate(), null);
-    PemObject obj1 = gen1.generate();
-    StringWriter sw1 = new StringWriter();
-    try (JcaPEMWriter pw = new JcaPEMWriter(sw1)) {
-      pw.writeObject(obj1);
-    }
-    return sw1.toString().getBytes(US_ASCII.name());
+    OpenSSHKeyPairResourceWriter keyPairWriter = new OpenSSHKeyPairResourceWriter();
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    keyPairWriter.writePrivateKey(keyPair, null, null, out);
+    return out.toByteArray();
   }
 }

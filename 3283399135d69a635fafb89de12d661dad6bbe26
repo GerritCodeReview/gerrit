@@ -45,6 +45,30 @@
       "revId": "3283399135d69a635fafb89de12d661dad6bbe26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3db34c12_4a70abf1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-03T07:41:45Z",
+      "side": 1,
+      "message": "l1 is difficult, because the small char l is often mistaken for 1 and I.\n\nlevel1 does not really convey that this is a header style.\n\nWhat about `header-1` or `heading-1`? I guess we can drop the \"font\" from the rule name.",
+      "parentUuid": "c57c4163_a0f251c3",
+      "range": {
+        "startLine": 68,
+        "startChar": 37,
+        "endLine": 68,
+        "endChar": 39
+      },
+      "revId": "3283399135d69a635fafb89de12d661dad6bbe26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -2968,9 +2968,9 @@ Sample Lucene index configuration:
 [[elasticsearch]]
 === Section elasticsearch
 
-WARNING: Support for Elasticsearch is still experimental and is not recommended
-for production use. For compatibility information, please refer to the
-link:https://www.gerritcodereview.com/elasticsearch.html[project homepage].
+WARNING: Support for Elasticsearch versions might still be experimental or not
+recommended for production use. For compatibility and reliability information, please
+refer to the link:https://www.gerritcodereview.com/elasticsearch.html[project homepage].
 
 In Elasticsearch version 6.2 or later, the open and closed changes are merged
 into the default `_doc` type. The latter is also used for the accounts and groups

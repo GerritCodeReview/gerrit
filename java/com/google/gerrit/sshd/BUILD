@@ -4,6 +4,7 @@ java_library(
     name = "sshd",
     srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
+    runtime_deps = ["//lib:jsch"],
     deps = [
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
@@ -28,7 +29,6 @@ java_library(
         "//lib:guava",
         "//lib:jgit",
         "//lib:jgit-archive",
-        "//lib:jsch",
         "//lib:servlet-api",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",

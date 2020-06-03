@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4cd0610_a09474d4",
+        "filename": "java/com/google/gerrit/acceptance/KeyPairResourceWriter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-03T21:48:04Z",
+      "side": 1,
+      "message": "To not mess around with 2.4.1-SNAPSHOT build for MINA SSHD library, I borrowed this file partly from OpenSSHKeyPairResourceWriter.java, but preserved the license header. The idea is t switch using the original, once new MINA SSHD release is available.",
+      "revId": "1db11aba94b6d89536936aee410a6c1924e09031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

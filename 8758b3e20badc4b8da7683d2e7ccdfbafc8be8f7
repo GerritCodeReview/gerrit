@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ddd6797_29f9e21b",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/TestSshKeys.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2020-06-03T17:11:01Z",
+      "side": 1,
+      "message": "Using a SecureByteArrayOutputStream (\"secure\" in the sense that it clears out any internal buffers) would make sense only if the stream was also closed. Use a try-with-resource, or, if you don\u0027t care since it\u0027s only ephemeral test keys and not encrypted either, a simple ByteArrayOutputStream.\n\nOr, since sshd should also be able to read unencrypted PKCS#8, just use that always. (If it works in sshd. I\u0027ve never tried it. sshd is, however, apparently not able to read encrypted PKCS#8. At least I don\u0027t see any code to do so.)",
+      "revId": "8758b3e20badc4b8da7683d2e7ccdfbafc8be8f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

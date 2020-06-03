@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4d3a420f_082af028",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-03T07:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f2ccfa9_bb0c4d88",
+      "range": {
+        "startLine": 19,
+        "startChar": 42,
+        "endLine": 19,
+        "endChar": 50
+      },
+      "revId": "3283399135d69a635fafb89de12d661dad6bbe26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c57c4163_a0f251c3",
         "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members_html.js",
         "patchSetId": 1
@@ -93,6 +117,30 @@
       "revId": "3283399135d69a635fafb89de12d661dad6bbe26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "517c55c6_66d1b3b0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-03T07:53:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4af622b3_0c3117f4",
+      "range": {
+        "startLine": 68,
+        "startChar": 37,
+        "endLine": 68,
+        "endChar": 39
+      },
+      "revId": "3283399135d69a635fafb89de12d661dad6bbe26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

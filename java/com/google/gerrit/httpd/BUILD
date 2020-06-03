@@ -32,7 +32,6 @@ java_library(
         "//lib:guava",
         "//lib:jgit",
         "//lib:jgit-servlet",
-        "//lib:jsch",
         "//lib:servlet-api",
         "//lib:soy",
         "//lib/auto:auto-value",

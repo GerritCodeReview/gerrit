@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9c7d1fa2_ccceb6d9",
+        "filename": "java/com/google/gerrit/server/submit/DefaultSubscriptionGraph.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-03T01:25:40Z",
+      "side": 1,
+      "message": "Now I am not using assisted inject any more and a manually written factory is introduced in 268173.",
+      "parentUuid": "5df22d6d_bebec194",
+      "range": {
+        "startLine": 85,
+        "startChar": 6,
+        "endLine": 85,
+        "endChar": 15
+      },
+      "revId": "6fef41cf987af2d87d47d55fb42cf334722c59f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76b7c6de_99e722e8",
         "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "6fef41cf987af2d87d47d55fb42cf334722c59f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10f0e187_4d0908d8",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-03T01:25:40Z",
+      "side": 1,
+      "message": "subscriptionGraphFactory.create() need it as a parameter now.",
+      "parentUuid": "76b7c6de_99e722e8",
+      "range": {
+        "startLine": 145,
+        "startChar": 6,
+        "endLine": 145,
+        "endChar": 43
+      },
+      "revId": "6fef41cf987af2d87d47d55fb42cf334722c59f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "f3808127_832ce1af",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-03T01:25:40Z",
+      "side": 1,
+      "message": "subscriptionGraphFactory.create() need it as a parameter now.",
+      "parentUuid": "5ae02b30_cc0a1c30",
+      "range": {
+        "startLine": 148,
+        "startChar": 6,
+        "endLine": 148,
+        "endChar": 32
+      },
+      "revId": "6fef41cf987af2d87d47d55fb42cf334722c59f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "624a7083_5bfb7c95",
         "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
         "patchSetId": 5
@@ -91,6 +163,30 @@
       "revId": "6fef41cf987af2d87d47d55fb42cf334722c59f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a14daff_48ee7799",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-03T01:25:40Z",
+      "side": 1,
+      "message": "After the rework, subscriptionGraphFactory.create() could throw an exception.",
+      "parentUuid": "624a7083_5bfb7c95",
+      "range": {
+        "startLine": 152,
+        "startChar": 6,
+        "endLine": 152,
+        "endChar": 39
+      },
+      "revId": "6fef41cf987af2d87d47d55fb42cf334722c59f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -187,12 +187,6 @@ maven_jar(
 )
 
 maven_jar(
-    name = "jzlib",
-    artifact = "com.jcraft:jzlib:1.1.1",
-    sha1 = "a1551373315ffc2f96130a0e5704f74e151777ba",
-)
-
-maven_jar(
     name = "javaewah",
     artifact = "com.googlecode.javaewah:JavaEWAH:1.1.6",
     attach_source = False,
@@ -251,12 +245,6 @@ maven_jar(
     name = "guava-failureaccess",
     artifact = "com.google.guava:failureaccess:1.0.1",
     sha1 = "1dcf1de382a0bf95a3d8b0849546c88bac1292c9",
-)
-
-maven_jar(
-    name = "jsch",
-    artifact = "com.jcraft:jsch:0.1.54",
-    sha1 = "da3584329a263616e277e15462b387addd1b208d",
 )
 
 maven_jar(

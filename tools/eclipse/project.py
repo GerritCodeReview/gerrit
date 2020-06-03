@@ -181,8 +181,6 @@ def gen_classpath(ext):
         classpathentry('src', 'modules/jgit/org.eclipse.jgit.http.server/src')
         classpathentry('src', 'modules/jgit/org.eclipse.jgit.http.server/resources')
         classpathentry('src', 'modules/jgit/org.eclipse.jgit.junit/src')
-        classpathentry('src', 'modules/jgit/org.eclipse.jgit.ssh.jsch/src')
-        classpathentry('src', 'modules/jgit/org.eclipse.jgit.ssh.jsch/resources')
         classpathentry('src', 'modules/jgit/org.eclipse.jgit.ssh.apache/src')
         classpathentry('src', 'modules/jgit/org.eclipse.jgit.ssh.apache/resources')
 

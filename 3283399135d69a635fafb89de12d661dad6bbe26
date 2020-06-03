@@ -69,6 +69,30 @@
       "revId": "3283399135d69a635fafb89de12d661dad6bbe26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4af622b3_0c3117f4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-03T07:44:35Z",
+      "side": 1,
+      "message": "both work for me, I prefer `heading-1` a bit more, but no strong preference  between. Anything other than `h$n` works better imo.",
+      "parentUuid": "3db34c12_4a70abf1",
+      "range": {
+        "startLine": 68,
+        "startChar": 37,
+        "endLine": 68,
+        "endChar": 39
+      },
+      "revId": "3283399135d69a635fafb89de12d661dad6bbe26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

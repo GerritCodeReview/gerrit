@@ -16,6 +16,29 @@
       "revId": "1db11aba94b6d89536936aee410a6c1924e09031",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80bcf961_fe0dec6d",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-03T21:53:41Z",
+      "side": 1,
+      "message": "Remove commented out code.",
+      "range": {
+        "startLine": 180,
+        "startChar": 6,
+        "endLine": 182,
+        "endChar": 45
+      },
+      "revId": "1db11aba94b6d89536936aee410a6c1924e09031",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

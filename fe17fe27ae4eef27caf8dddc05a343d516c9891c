@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "653c2f3d_ab81c106",
+        "filename": "Documentation/error-no-new-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-06-03T19:02:39Z",
+      "side": 1,
+      "message": "preferred",
+      "range": {
+        "startLine": 55,
+        "startChar": 54,
+        "endLine": 55,
+        "endChar": 63
+      },
+      "revId": "fe17fe27ae4eef27caf8dddc05a343d516c9891c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bc759dc_7cadbb53",
+        "filename": "Documentation/error-no-new-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-06-03T19:02:39Z",
+      "side": 1,
+      "message": "AFAIR moving the change doesn\u0027t rebase it onto the tip of the branch it\u0027s moved to, so the user has to do this after moving the change. Or did this change and I didn\u0027t notice ?",
+      "revId": "fe17fe27ae4eef27caf8dddc05a343d516c9891c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

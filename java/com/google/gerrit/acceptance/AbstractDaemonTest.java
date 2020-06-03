@@ -156,7 +156,6 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.security.KeyPair;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -563,8 +562,7 @@ public abstract class AbstractDaemonTest {
         && SshMode.useSsh()
         && (adminSshSession == null || userSshSession == null)) {
       // Create Ssh sessions
-      KeyPair adminKeyPair = sshKeys.getKeyPair(admin);
-      SshSessionFactory.initSsh(adminKeyPair);
+      SshSessionFactory.initSsh();
       Context ctx = newRequestContext(user);
       atrScope.set(ctx);
       userSshSession = ctx.getSession();

@@ -14,10 +14,7 @@
 
 package com.google.gerrit.acceptance.testsuite.request;
 
-import static com.google.gerrit.server.config.SshClientImplementation.getFromEnvironment;
-
 import com.google.gerrit.acceptance.SshSession;
-import com.google.gerrit.acceptance.SshSessionJsch;
 import com.google.gerrit.acceptance.SshSessionMina;
 import com.google.gerrit.acceptance.testsuite.account.TestAccount;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
@@ -28,25 +25,16 @@ import java.security.KeyPair;
 public class SshSessionFactory {
   public static SshSession createSession(
       TestSshKeys testSshKeys, InetSocketAddress sshAddress, TestAccount testAccount) {
-    return getFromEnvironment().isMina()
-        ? new SshSessionMina(testSshKeys, sshAddress, testAccount)
-        : new SshSessionJsch(testSshKeys, sshAddress, testAccount);
+    return new SshSessionMina(testSshKeys, sshAddress, testAccount);
   }
 
-  public static void initSsh(KeyPair keyPair) {
-    if (getFromEnvironment().isMina()) {
-      SshSessionMina.initClient();
-    } else {
-      SshSessionJsch.initClient(keyPair);
-    }
+  public static void initSsh() {
+    SshSessionMina.initClient();
   }
 
   private SshSessionFactory() {}
 
   public static KeyPair genSshKey() throws GeneralSecurityException {
-    return (getFromEnvironment().isMina()
-            ? SshSessionMina.initKeyPairGenerator()
-            : SshSessionJsch.initKeyPairGenerator())
-        .generateKeyPair();
+    return SshSessionMina.initKeyPairGenerator().generateKeyPair();
   }
 }

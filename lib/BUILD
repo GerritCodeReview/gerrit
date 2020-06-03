@@ -47,13 +47,6 @@ java_library(
 )
 
 java_library(
-    name = "jgit-ssh-jsch",
-    data = ["//lib:LICENSE-jgit"],
-    visibility = ["//visibility:public"],
-    exports = ["@jgit//org.eclipse.jgit.ssh.jsch:ssh-jsch"],
-)
-
-java_library(
     name = "jgit-ssh-apache",
     data = ["//lib:LICENSE-jgit"],
     visibility = ["//visibility:public"],
@@ -150,13 +143,6 @@ java_library(
         "//java/com/google/gerrit/server/cache/mem:__pkg__",
     ],
     exports = [":caffeine-guava-renamed"],
-)
-
-java_library(
-    name = "jsch",
-    data = ["//lib:LICENSE-jsch"],
-    visibility = ["//visibility:public"],
-    exports = ["@jsch//jar"],
 )
 
 java_library(

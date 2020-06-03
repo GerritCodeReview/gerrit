@@ -168,7 +168,7 @@ for both object code and source code.
 Gerrit includes an SSH daemon (Apache SSHD), to support authenticated
 uploads of changes directly from `git push` command line clients.
 
-Gerrit includes an SSH client (JSch), to support authenticated
+Gerrit includes an SSH client (Apache SSHD), to support authenticated
 replication of changes to remote systems, such as for automatic
 updates of mirror servers, or realtime backups.
 

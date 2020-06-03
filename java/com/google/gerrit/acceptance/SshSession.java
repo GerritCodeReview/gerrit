@@ -18,8 +18,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.io.RecursiveDeleteOption.ALLOW_INSECURE;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.gerrit.server.config.SshClientImplementation.JSCH;
-import static com.google.gerrit.server.config.SshClientImplementation.getFromEnvironment;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.io.CharSink;
@@ -27,17 +25,12 @@ import com.google.common.io.Files;
 import com.google.common.io.MoreFiles;
 import com.google.gerrit.acceptance.testsuite.account.TestAccount;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
-import com.google.gerrit.server.config.SshClientImplementation;
-import com.jcraft.jsch.ChannelExec;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Session;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.security.KeyPair;
 import java.util.Arrays;
 import java.util.Scanner;
 import org.apache.sshd.common.config.keys.writer.openssh.OpenSSHKeyPairResourceWriter;
@@ -51,37 +44,26 @@ import org.eclipse.jgit.util.FS;
 public class SshSession {
   private static final int TIMEOUT = 100000;
 
-  private final SshClientImplementation client;
   private final TestSshKeys sshKeys;
   private final InetSocketAddress addr;
   private final TestAccount account;
   private SshdSession sshdSession;
-  private Session jschSession;
   private File userhome;
   private String error;
 
   public SshSession(TestSshKeys sshKeys, InetSocketAddress addr, TestAccount account) {
-    this.client = getFromEnvironment();
     this.sshKeys = sshKeys;
     this.addr = addr;
     this.account = account;
   }
 
   public void open() throws Exception {
-    if (client == JSCH) {
-      getJschSession();
-    } else {
-      getMinaSession();
-    }
-  }
-
-  public String exec(String command) throws Exception {
-    return client == JSCH ? execJsch(command) : execMina(command);
+    getSession();
   }
 
   @SuppressWarnings("resource")
-  private String execMina(String command) throws Exception {
-    Process process = getMinaSession().exec(command, TIMEOUT);
+  public String exec(String command) throws Exception {
+    Process process = getSession().exec(command, TIMEOUT);
     InputStream in = process.getInputStream();
     InputStream err = process.getErrorStream();
 
@@ -90,25 +72,6 @@ public class SshSession {
 
     s = new Scanner(in, UTF_8.name()).useDelimiter("\\A");
     return s.hasNext() ? s.next() : "";
-  }
-
-  @SuppressWarnings("resource")
-  private String execJsch(String command) throws Exception {
-    ChannelExec channel = (ChannelExec) getJschSession().openChannel("exec");
-    try {
-      channel.setCommand(command);
-      InputStream in = channel.getInputStream();
-      InputStream err = channel.getErrStream();
-      channel.connect();
-
-      Scanner s = new Scanner(err, UTF_8.name()).useDelimiter("\\A");
-      error = s.hasNext() ? s.next() : null;
-
-      s = new Scanner(in, UTF_8.name()).useDelimiter("\\A");
-      return s.hasNext() ? s.next() : "";
-    } finally {
-      channel.disconnect();
-    }
   }
 
   private boolean hasError() {
@@ -133,34 +96,13 @@ public class SshSession {
   }
 
   public void close() {
-    if (client == JSCH) {
-      if (jschSession != null) {
-        jschSession.disconnect();
-        jschSession = null;
-      }
-    } else {
-      if (sshdSession != null) {
-        sshdSession.disconnect();
-        sshdSession = null;
-      }
+    if (sshdSession != null) {
+      sshdSession.disconnect();
+      sshdSession = null;
     }
   }
 
-  private Session getJschSession() throws Exception {
-    if (jschSession == null) {
-      KeyPair keyPair = sshKeys.getKeyPair(account);
-      JSch jsch = new JSch();
-      jsch.addIdentity(
-          "KeyPair", TestSshKeys.privateKey(keyPair), TestSshKeys.publicKeyBlob(keyPair), null);
-      String username = getUsername();
-      jschSession = jsch.getSession(username, addr.getAddress().getHostAddress(), addr.getPort());
-      jschSession.setConfig("StrictHostKeyChecking", "no");
-      jschSession.connect();
-    }
-    return jschSession;
-  }
-
-  private SshdSession getMinaSession() throws Exception {
+  private SshdSession getSession() throws Exception {
     if (sshdSession == null) {
       String username = getUsername();
 
@@ -210,7 +152,7 @@ public class SshSession {
   }
 
   public String getUrl() {
-    checkState(sshdSession != null || jschSession != null, "session must be opened");
+    checkState(sshdSession != null, "session must be opened");
     StringBuilder b = new StringBuilder();
     b.append("ssh://");
     b.append(account.username().get());

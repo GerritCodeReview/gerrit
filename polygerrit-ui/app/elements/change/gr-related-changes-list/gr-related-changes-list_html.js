@@ -21,9 +21,6 @@ export const htmlTemplate = html`
     :host {
       display: block;
     }
-    h3 {
-      margin: var(--spacing-m) 0 0;
-    }
     section {
       margin-bottom: 1.4em; /* Same as line height for collapse purposes */
     }

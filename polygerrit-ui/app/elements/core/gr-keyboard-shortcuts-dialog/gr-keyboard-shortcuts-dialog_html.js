@@ -55,7 +55,7 @@ export const htmlTemplate = html`
     }
   </style>
   <header>
-    <h3>Keyboard shortcuts</h3>
+    <h3 class="heading-3">Keyboard shortcuts</h3>
     <gr-button link="" on-click="_handleCloseTap">Close</gr-button>
   </header>
   <main>

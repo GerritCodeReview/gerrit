@@ -63,9 +63,9 @@ export const htmlTemplate = html`
       Loading...
     </div>
     <div id="loadedContent" class$="[[_computeLoadingClass(_loading)]]">
-      <h1 id="Title">[[_groupName]]</h1>
+      <h1 id="Title" class="heading-1">[[_groupName]]</h1>
       <div id="form">
-        <h3 id="members">Members</h3>
+        <h3 id="members" class="heading-3">Members</h3>
         <fieldset>
           <span class="value">
             <gr-autocomplete
@@ -112,7 +112,7 @@ export const htmlTemplate = html`
             </tbody>
           </table>
         </fieldset>
-        <h3 id="includedGroups">Included Groups</h3>
+        <h3 id="includedGroups" class="heading-3">Included Groups</h3>
         <fieldset>
           <span class="value">
             <gr-autocomplete

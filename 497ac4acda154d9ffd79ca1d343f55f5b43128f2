@@ -16,6 +16,24 @@
       "revId": "497ac4acda154d9ffd79ca1d343f55f5b43128f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "512047ae_a6594c63",
+        "filename": "Documentation/error-no-new-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-06-03T18:01:15Z",
+      "side": 1,
+      "message": "\u003e This doc never seems to have gotten updated when this feature was added: https://gerrit-review.googlesource.com/Documentation/user-upload.html#base\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/269994",
+      "parentUuid": "620e5206_6d6192b7",
+      "revId": "497ac4acda154d9ffd79ca1d343f55f5b43128f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

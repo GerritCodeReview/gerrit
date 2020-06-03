@@ -20,19 +20,12 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
-import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.server.config.SshClientImplementation;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.JSchException;
-import com.jcraft.jsch.Session;
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.security.KeyPair;
 import java.util.List;
 import java.util.Optional;
-import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.api.FetchCommand;
@@ -49,8 +42,6 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.FetchResult;
-import org.eclipse.jgit.transport.JschConfigSessionFactory;
-import org.eclipse.jgit.transport.OpenSshConfig.Host;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
@@ -64,47 +55,7 @@ public class GitUtil {
   private static final AtomicInteger testRepoCount = new AtomicInteger();
   private static final int TEST_REPO_WINDOW_DAYS = 2;
 
-  public static void initSsh(KeyPair keyPair) {
-    SshClientImplementation client = SshClientImplementation.getFromEnvironment();
-    switch (client) {
-      case JSCH:
-        initJschClient(keyPair);
-        break;
-      case APACHE:
-        initMinaClient();
-        break;
-      default:
-        throw new IllegalArgumentException("Unknown client type: " + client);
-    }
-  }
-
-  private static void initJschClient(KeyPair keyPair) {
-    Properties config = new Properties();
-    config.put("StrictHostKeyChecking", "no");
-    JSch.setConfig(config);
-
-    // register a JschConfigSessionFactory that adds the private key as identity
-    // to the JSch instance of JGit so that SSH communication via JGit can
-    // succeed
-    SshSessionFactory.setInstance(
-        new JschConfigSessionFactory() {
-          @Override
-          protected void configure(Host hc, Session session) {
-            try {
-              JSch jsch = getJSch(hc, FS.DETECTED);
-              jsch.addIdentity(
-                  "KeyPair",
-                  TestSshKeys.privateKey(keyPair),
-                  TestSshKeys.publicKeyBlob(keyPair),
-                  null);
-            } catch (JSchException | GeneralSecurityException | IOException e) {
-              throw new RuntimeException(e);
-            }
-          }
-        });
-  }
-
-  private static void initMinaClient() {
+  public static void initSsh(@SuppressWarnings("unused") KeyPair keyPair) {
     JGitKeyCache keyCache = new JGitKeyCache();
     SshdSessionFactory factory = new SshdSessionFactory(keyCache, new DefaultProxyDataFactory());
     SshSessionFactory.setInstance(factory);

@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2020 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,12 +14,20 @@
 
 package com.google.gerrit.server.ssh;
 
-import java.util.Collections;
-import java.util.List;
+public class HostKey {
+  private final String host;
+  private final byte[] key;
 
-public class NoSshInfo implements SshInfo {
-  @Override
-  public List<HostKey> getHostKeys() {
-    return Collections.emptyList();
+  public HostKey(String host, byte[] key) {
+    this.host = host;
+    this.key = key;
+  }
+
+  public String getHost() {
+    return host;
+  }
+
+  public byte[] getKey() {
+    return key;
   }
 }

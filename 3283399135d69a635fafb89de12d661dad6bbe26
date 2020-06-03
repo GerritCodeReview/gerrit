@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f2ccfa9_bb0c4d88",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-03T07:31:13Z",
+      "side": 1,
+      "message": "i believe you mean `font-h$n`",
+      "range": {
+        "startLine": 19,
+        "startChar": 42,
+        "endLine": 19,
+        "endChar": 50
+      },
+      "revId": "3283399135d69a635fafb89de12d661dad6bbe26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c57c4163_a0f251c3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group-members/gr-group-members_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-03T07:31:13Z",
+      "side": 1,
+      "message": "not a blocker: part of me think this is a bit misleading, it may look pretty strange to have `\u003ch3 class\u003d\"font-h1\"\u003e`, maybe use `level` instead ? like `font-l1` or `font-level-1` ?",
+      "range": {
+        "startLine": 68,
+        "startChar": 37,
+        "endLine": 68,
+        "endChar": 39
+      },
+      "revId": "3283399135d69a635fafb89de12d661dad6bbe26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

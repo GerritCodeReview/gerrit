@@ -2,6 +2,190 @@
   "comments": [
     {
       "key": {
+        "uuid": "364c5d4e_ecaaa2c5",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-03T10:16:28Z",
+      "side": 1,
+      "message": "The comment and the implementation is different.\nIf both comments has the same thread.path and path is not a patchset level comments, then patchset number are ignored. Instead, the implementation compares dates of comments.",
+      "range": {
+        "startLine": 91,
+        "startChar": 24,
+        "endLine": 91,
+        "endChar": 59
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8623d449_b1ed2677",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-03T10:16:28Z",
+      "side": 1,
+      "message": "The function is very complex. It would be good to test it separately. Probably, it makes sence to extract it to a separte private method and test on different inputs.",
+      "range": {
+        "startLine": 134,
+        "startChar": 47,
+        "endLine": 134,
+        "endChar": 60
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b903af0e_16ba5b16",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-03T10:16:28Z",
+      "side": 1,
+      "message": "nit: you can use shorter code: return c2.thread.patch_set - c1.thread.patch_set",
+      "range": {
+        "startLine": 150,
+        "startChar": 17,
+        "endLine": 150,
+        "endChar": 68
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ac8480a_95e2fee6",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-03T10:16:28Z",
+      "side": 1,
+      "message": "What if both PATCHSET_LEVEL_COMMENTS is unresolved? Do they have a line number?\nI suggest to write some comments about it.",
+      "range": {
+        "startLine": 155,
+        "startChar": 6,
+        "endLine": 155,
+        "endChar": 7
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e006b861_4c38fcc8",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-03T10:16:28Z",
+      "side": 1,
+      "message": "Why !\u003d is used instead of !\u003d\u003d? Are there any special cases when it is required? (Also in 2 other places below)",
+      "range": {
+        "startLine": 157,
+        "startChar": 25,
+        "endLine": 157,
+        "endChar": 27
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b9665a8_e022e724",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-03T10:16:28Z",
+      "side": 1,
+      "message": "The same question about !\u003d\u003d",
+      "range": {
+        "startLine": 165,
+        "startChar": 24,
+        "endLine": 165,
+        "endChar": 26
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8a3f87d_71daf183",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-03T10:16:28Z",
+      "side": 1,
+      "message": "The comment before funnction doesn\u0027t say anything about draft comments. Please make the comment and the code consistent",
+      "range": {
+        "startLine": 170,
+        "startChar": 6,
+        "endLine": 170,
+        "endChar": 8
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48eb806d_8d86f721",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-03T10:16:28Z",
+      "side": 1,
+      "message": "The same question about !\u003d\u003d",
+      "range": {
+        "startLine": 170,
+        "startChar": 22,
+        "endLine": 170,
+        "endChar": 24
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "85c80b66_ad752d48",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 4
@@ -19,6 +203,29 @@
     },
     {
       "key": {
+        "uuid": "a39fd662_58af116c",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-03T10:16:28Z",
+      "side": 1,
+      "message": "The _sortedThreads[i-1] is an object passed from some other place/view and it can be shared in multiple places (and possible cached).\nIt is not safe to assign showBorder and renderFileName (below) directly to the thread.\nAs alternative solution, I can suggest to update template instead:\n\u003ctemplate\n      is\u003d\"dom-repeat\"\n      items\u003d\"[[_sortedThreads]]\"\n      index-as\u003d\"sortedThreadIndex\n      ....\n\u003e\n\n\u003cgr-comment-thread\n    ...\n    render-file-name\u003d\"[[_isThreadForNewFile(_sortedThreads, sortedThreadIndex)]]\"\n    ...\n\u003e\n\u003ctemplate is\u003d\"dom-if\" if\u003d\"[[_shouldShowSeparatorBetweenThreads(_sortedThreads, sortedThreadIndex)]]\"\u003e\n          \u003cdiv class\u003d\"border\"\u003e\u003c/div\u003e\n        \u003c/template\u003e\n\n\n....\nfunction _isThreadForNewFile(threads, index) {\n    return index \u003d\u003d 0 || threads[index - 1].path !\u003d\u003d threads[index].path;\n}\n\nfunction _shouldShowSeparatorBetweenThreads(threads, index) {\n    return index \u003e 0 \u0026\u0026 this._isThreadForNewFile(threads, index);\n}",
+      "range": {
+        "startLine": 195,
+        "startChar": 8,
+        "endLine": 195,
+        "endChar": 45
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "873cf5b4_cffceaba",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 4
@@ -30,6 +237,29 @@
       "writtenOn": "2020-06-02T16:02:07Z",
       "side": 1,
       "message": "Should this maybe take _shouldShowThread() into account?",
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5185ecd4_57db8833",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-03T10:16:28Z",
+      "side": 1,
+      "message": "See comments above about sortedThread",
+      "range": {
+        "startLine": 198,
+        "startChar": 13,
+        "endLine": 198,
+        "endChar": 27
+      },
       "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -93,6 +323,24 @@
       "writtenOn": "2020-06-02T16:02:07Z",
       "side": 1,
       "message": "What about adding such a css rule to \u003cgr-comment-thread\u003e:\n\n:host([render-file-name]) { border-top:... }\n\nThen you don\u0027t need this \u003cdiv\u003e at all.",
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1a1b377_56bdddb1",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-03T10:16:28Z",
+      "side": 1,
+      "message": "I think, border should be added only between threads, but shouldn\u0027t be added before the very first thread. I.e. render-file-name doesn\u0027t is not enough to calculate border visibility.",
+      "parentUuid": "5dd4aa02_67e3f8cc",
       "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

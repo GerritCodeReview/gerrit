@@ -16,6 +16,24 @@
       "revId": "8758b3e20badc4b8da7683d2e7ccdfbafc8be8f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33533f57_bf8c5061",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/TestSshKeys.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-03T18:02:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ddd6797_29f9e21b",
+      "revId": "8758b3e20badc4b8da7683d2e7ccdfbafc8be8f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,11 +16,11 @@ package com.google.gerrit.httpd.raw;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.gerrit.server.ssh.HostKey;
 import com.google.gerrit.server.ssh.SshInfo;
 import com.google.gerrit.util.http.CacheHeaders;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import com.jcraft.jsch.HostKey;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -59,14 +59,14 @@ public class SshInfoServlet extends HttpServlet {
 
   @Override
   protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
-    final List<HostKey> hostKeys = sshd.getHostKeys();
-    final String out;
+    List<HostKey> hostKeys = sshd.getHostKeys();
+    String out;
     if (!hostKeys.isEmpty()) {
       String host = hostKeys.get(0).getHost();
       String port = "22";
 
       if (host.contains(":")) {
-        final int p = host.lastIndexOf(':');
+        int p = host.lastIndexOf(':');
         port = host.substring(p + 1);
         host = host.substring(0, p);
       }

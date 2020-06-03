@@ -98,7 +98,6 @@ java_library(
         "//lib:guava-retrying",
         "//lib:jgit",
         "//lib:jgit-archive",
-        "//lib:jsch",
         "//lib:juniversalchardet",
         "//lib:mime-util",
         "//lib:protobuf",

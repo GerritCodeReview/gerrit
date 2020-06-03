@@ -29,6 +29,7 @@ import com.github.rholder.retry.WaitStrategies;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Runnables;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.RefUpdateUtil;
@@ -63,6 +64,8 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * numbers.
  */
 public class RepoSequence {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   @FunctionalInterface
   public interface Seed {
     int get();
@@ -181,6 +184,7 @@ public class RepoSequence {
     this.afterReadRef = requireNonNull(afterReadRef, "afterReadRef");
     this.retryer = requireNonNull(retryer, "retryer");
 
+    logger.atFine().log("sequence batch size for %s is %s", name, batchSize);
     counterLock = new ReentrantLock(true);
   }
 

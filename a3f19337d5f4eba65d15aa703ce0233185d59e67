@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66a9839e_b01b8c56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-06-03T19:27:33Z",
+      "side": 1,
+      "message": "Bug: Issue 7377?",
+      "revId": "a3f19337d5f4eba65d15aa703ce0233185d59e67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -4,7 +4,6 @@ java_library(
     name = "sshd",
     srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
-    runtime_deps = ["//lib:jsch"],
     deps = [
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",

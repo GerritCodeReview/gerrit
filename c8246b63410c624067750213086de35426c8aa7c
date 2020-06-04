@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f02366d4_93bd1bc8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-04T21:46:09Z",
+      "side": 1,
+      "message": "You\u0027re right, this is not very clear. I rephrased.",
+      "parentUuid": "ff7271d8_ae0ad1d7",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 57
+      },
+      "revId": "c8246b63410c624067750213086de35426c8aa7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3d9260c_6bead3ef",
         "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "c8246b63410c624067750213086de35426c8aa7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ae58912_96b8d6ea",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-04T21:46:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3d9260c_6bead3ef",
+      "range": {
+        "startLine": 766,
+        "startChar": 20,
+        "endLine": 766,
+        "endChar": 32
+      },
+      "revId": "c8246b63410c624067750213086de35426c8aa7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

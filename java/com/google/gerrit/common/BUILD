@@ -26,7 +26,7 @@ java_library(
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gwtorm",
         "//lib:guava",
-        "//lib:servlet-api-3_1",
+        "//lib:servlet-api",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/flogger:api",

@@ -167,6 +167,7 @@ class GrCommentThread extends mixinBehaviors( [
   get keyBindings() {
     return {
       'e shift+e': '_handleEKey',
+      'h': '_handleHKey',
     };
   }
 
@@ -278,6 +279,13 @@ class GrCommentThread extends mixinBehaviors( [
       if (this.modifierPressed(e)) { return; }
       this._expandCollapseComments(false);
     }
+  }
+
+  _handleHKey(e) {
+    if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+    const container =
+        dom(this.root).querySelector('#container');
+    container.hidden = !container.hidden;
   }
 
   _expandCollapseComments(actionIsCollapse) {

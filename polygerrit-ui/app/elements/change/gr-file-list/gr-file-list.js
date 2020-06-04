@@ -291,6 +291,7 @@ class GrFileList extends mixinBehaviors( [
       // Final two are actually handled by gr-comment-thread.
       [this.Shortcut.EXPAND_ALL_COMMENT_THREADS]: null,
       [this.Shortcut.COLLAPSE_ALL_COMMENT_THREADS]: null,
+      [this.Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS]: null,
     };
   }
 

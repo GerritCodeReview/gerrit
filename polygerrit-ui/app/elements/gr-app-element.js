@@ -307,6 +307,8 @@ class GrAppElement extends mixinBehaviors( [
     this.bindShortcut(
         this.Shortcut.EXPAND_ALL_COMMENT_THREADS, this.DOC_ONLY, 'e');
     this.bindShortcut(
+        this.Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, this.DOC_ONLY, 'h');
+    this.bindShortcut(
         this.Shortcut.COLLAPSE_ALL_COMMENT_THREADS,
         this.DOC_ONLY, 'shift+e');
     this.bindShortcut(

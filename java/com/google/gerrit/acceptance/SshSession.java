@@ -20,21 +20,16 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.io.CharSink;
 import com.google.common.io.Files;
 import com.google.common.io.MoreFiles;
 import com.google.gerrit.acceptance.testsuite.account.TestAccount;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
-import java.util.Arrays;
 import java.util.Scanner;
 import org.eclipse.jgit.transport.URIish;
-import org.eclipse.jgit.transport.sshd.DefaultProxyDataFactory;
-import org.eclipse.jgit.transport.sshd.JGitKeyCache;
 import org.eclipse.jgit.transport.sshd.SshdSession;
 import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
 import org.eclipse.jgit.util.FS;
@@ -120,16 +115,8 @@ public class SshSession {
       File sshDir = new File(userhome, ".ssh");
       sshDir.mkdir();
 
-      BufferedWriter writer = Files.newWriter(new File(sshDir, "id_rsa"), UTF_8);
-      KeyPairResourceWriter.writePrivateKeyPKCS8(sshKeys.getKeyPair(account).getPrivate(), writer);
-
-      // TODO(davido): Disable programmatically host key checking: "StrictHostKeyChecking: no" mode.
-      CharSink configFile = Files.asCharSink(new File(sshDir, "config"), UTF_8);
-      configFile.writeLines(Arrays.asList("Host *", "StrictHostKeyChecking no"));
-
-      JGitKeyCache keyCache = new JGitKeyCache();
       try (SshdSessionFactory factory =
-          new SshdSessionFactory(keyCache, new DefaultProxyDataFactory())) {
+          SshSessionFactoryProvider.create(sshKeys.getKeyPair(account), userhome, sshDir)) {
         factory.setHomeDirectory(userhome);
         factory.setSshDirectory(sshDir);
 

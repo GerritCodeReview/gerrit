@@ -19,9 +19,11 @@ import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.io.Files;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.entities.Project;
+import java.io.File;
 import java.io.IOException;
 import java.security.KeyPair;
 import java.util.List;
@@ -46,19 +48,17 @@ import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.transport.SshSessionFactory;
-import org.eclipse.jgit.transport.sshd.DefaultProxyDataFactory;
-import org.eclipse.jgit.transport.sshd.JGitKeyCache;
-import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
 import org.eclipse.jgit.util.FS;
 
 public class GitUtil {
   private static final AtomicInteger testRepoCount = new AtomicInteger();
   private static final int TEST_REPO_WINDOW_DAYS = 2;
 
-  public static void initSsh(@SuppressWarnings("unused") KeyPair keyPair) {
-    JGitKeyCache keyCache = new JGitKeyCache();
-    SshdSessionFactory factory = new SshdSessionFactory(keyCache, new DefaultProxyDataFactory());
-    SshSessionFactory.setInstance(factory);
+  public static void initSsh(KeyPair keyPair) {
+    File userhome = Files.createTempDir();
+    File sshDir = new File(userhome, ".ssh");
+    sshDir.mkdir();
+    SshSessionFactory.setInstance(SshSessionFactoryProvider.create(keyPair, userhome, sshDir));
   }
 
   /**

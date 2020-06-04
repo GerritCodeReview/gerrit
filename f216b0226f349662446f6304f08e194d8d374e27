@@ -166,6 +166,24 @@
     },
     {
       "key": {
+        "uuid": "81e09340_11c5729d",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-04T21:41:45Z",
+      "side": 1,
+      "message": "by \"no\" I mean \"This will not add an existing reviewer to the attention set again\".",
+      "parentUuid": "de8913f6_c6c65a06",
+      "revId": "f216b0226f349662446f6304f08e194d8d374e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f1f08ea_fbef1d18",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
         "patchSetId": 7

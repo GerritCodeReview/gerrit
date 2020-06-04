@@ -47,6 +47,13 @@ java_library(
 )
 
 java_library(
+    name = "jgit-ssh-jsch",
+    data = ["//lib:LICENSE-jgit"],
+    visibility = ["//visibility:public"],
+    exports = ["@jgit//org.eclipse.jgit.ssh.jsch:ssh-jsch"],
+)
+
+java_library(
     name = "jgit-archive",
     data = ["//lib:LICENSE-jgit"],
     visibility = ["//visibility:public"],

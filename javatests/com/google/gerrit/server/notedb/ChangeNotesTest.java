@@ -704,7 +704,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, changeOwner);
     AttentionSetUpdate attentionSetUpdate =
         AttentionSetUpdate.createForWrite(changeOwner.getAccountId(), Operation.ADD, "test");
-    update.setAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate));
+    update.addAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate));
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -717,12 +717,12 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, changeOwner);
     AttentionSetUpdate attentionSetUpdate =
         AttentionSetUpdate.createForWrite(changeOwner.getAccountId(), Operation.ADD, "test");
-    update.setAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate));
+    update.addAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate));
     update.commit();
     update = newUpdate(c, changeOwner);
     attentionSetUpdate =
         AttentionSetUpdate.createForWrite(changeOwner.getAccountId(), Operation.REMOVE, "test");
-    update.setAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate));
+    update.addAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate));
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -739,7 +739,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     IllegalArgumentException thrown =
         assertThrows(
             IllegalArgumentException.class,
-            () -> update.setAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate)));
+            () -> update.addAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate)));
     assertThat(thrown).hasMessageThat().contains("must not specify timestamp for write");
   }
 
@@ -755,7 +755,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
         assertThrows(
             IllegalArgumentException.class,
             () ->
-                update.setAttentionSetUpdates(
+                update.addAttentionSetUpdates(
                     ImmutableSet.of(attentionSetUpdate0, attentionSetUpdate1)));
     assertThat(thrown)
         .hasMessageThat()
@@ -771,7 +771,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     AttentionSetUpdate attentionSetUpdate1 =
         AttentionSetUpdate.createForWrite(otherUser.getAccountId(), Operation.ADD, "test");
 
-    update.setAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate0, attentionSetUpdate1));
+    update.addAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate0, attentionSetUpdate1));
     update.commit();
 
     ChangeNotes notes = newNotes(c);

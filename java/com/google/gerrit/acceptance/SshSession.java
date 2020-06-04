@@ -20,23 +20,33 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-import com.google.common.io.CharSink;
 import com.google.common.io.Files;
 import com.google.common.io.MoreFiles;
 import com.google.gerrit.acceptance.testsuite.account.TestAccount;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
-import java.util.Arrays;
+import java.security.GeneralSecurityException;
+import java.security.KeyPair;
+import java.security.PublicKey;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
+import org.apache.sshd.common.config.keys.KeyUtils;
+import org.apache.sshd.common.keyprovider.KeyIdentityProvider;
+import org.apache.sshd.common.session.SessionContext;
+import org.apache.sshd.common.util.net.SshdSocketAddress;
+import org.eclipse.jgit.transport.CredentialsProvider;
 import org.eclipse.jgit.transport.URIish;
-import org.eclipse.jgit.transport.sshd.DefaultProxyDataFactory;
 import org.eclipse.jgit.transport.sshd.JGitKeyCache;
+import org.eclipse.jgit.transport.sshd.ServerKeyDatabase;
+import org.eclipse.jgit.transport.sshd.ServerKeyDatabase.Configuration;
 import org.eclipse.jgit.transport.sshd.SshdSession;
 import org.eclipse.jgit.transport.sshd.SshdSessionFactory;
+import org.eclipse.jgit.transport.sshd.SshdSessionFactoryBuilder;
 import org.eclipse.jgit.util.FS;
 
 public class SshSession {
@@ -120,16 +130,17 @@ public class SshSession {
       File sshDir = new File(userhome, ".ssh");
       sshDir.mkdir();
 
-      BufferedWriter writer = Files.newWriter(new File(sshDir, "id_rsa"), UTF_8);
-      KeyPairResourceWriter.writePrivateKeyPKCS8(sshKeys.getKeyPair(account).getPrivate(), writer);
+      // BufferedWriter writer = Files.newWriter(new File(sshDir, "id_rsa"), UTF_8);
+      // KeyPairResourceWriter.writePrivateKeyPKCS8(sshKeys.getKeyPair(account).getPrivate(),
+      // writer);
 
       // TODO(davido): Disable programmatically host key checking: "StrictHostKeyChecking: no" mode.
-      CharSink configFile = Files.asCharSink(new File(sshDir, "config"), UTF_8);
-      configFile.writeLines(Arrays.asList("Host *", "StrictHostKeyChecking no"));
+      // CharSink configFile = Files.asCharSink(new File(sshDir, "config"), UTF_8);
+      // configFile.writeLines(Arrays.asList("Host *", "StrictHostKeyChecking no"));
 
-      JGitKeyCache keyCache = new JGitKeyCache();
+      // JGitKeyCache keyCache = new JGitKeyCache();
       try (SshdSessionFactory factory =
-          new SshdSessionFactory(keyCache, new DefaultProxyDataFactory())) {
+          createSessionFactory(sshKeys.getKeyPair(account), userhome, sshDir)) {
         factory.setHomeDirectory(userhome);
         factory.setSshDirectory(sshDir);
 
@@ -145,7 +156,71 @@ public class SshSession {
             });
       }
     }
+
     return sshdSession;
+  }
+
+  private SshdSessionFactory createSessionFactory(KeyPair keyPair, File userhome, File sshDir) {
+    return new SshdSessionFactoryBuilder()
+        .setConfigStoreFactory((h, f, u) -> null)
+        .setDefaultKeysProvider(f -> new KeyAuthenticator(keyPair))
+        .setServerKeyDatabase(
+            (h, s) ->
+                new ServerKeyDatabase() {
+
+                  @Override
+                  public List<PublicKey> lookup(
+                      String connectAddress,
+                      InetSocketAddress remoteAddress,
+                      Configuration config) {
+                    return Collections.singletonList(keyPair.getPublic());
+                  }
+
+                  @Override
+                  public boolean accept(
+                      String connectAddress,
+                      InetSocketAddress remoteAddress,
+                      PublicKey serverKey,
+                      Configuration config,
+                      CredentialsProvider provider) {
+                    return KeyUtils.compareKeys(serverKey, keyPair.getPublic());
+                  }
+                })
+        .setPreferredAuthentications("publickey")
+        .setHomeDirectory(userhome)
+        .setSshDirectory(sshDir)
+        .build(new JGitKeyCache());
+  }
+
+  private class KeyAuthenticator implements KeyIdentityProvider, Iterable<KeyPair> {
+
+    KeyPair keyPair;
+
+    KeyAuthenticator(KeyPair keyPair) {
+      this.keyPair = keyPair;
+    }
+
+    @Override
+    public Iterator<KeyPair> iterator() {
+      throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Iterable<KeyPair> loadKeys(SessionContext session)
+        throws IOException, GeneralSecurityException {
+      //        if (!TEST_USER.equals(session.getUsername())) {
+      //            return Collections.emptyList();
+      //        }
+      SshdSocketAddress remoteAddress =
+          SshdSocketAddress.toSshdSocketAddress(session.getRemoteAddress());
+      switch (remoteAddress.getHostName()) {
+        case "localhost":
+        case "127.0.0.1":
+          return Collections.singletonList(keyPair);
+        default:
+          return Collections.emptyList();
+      }
+    }
   }
 
   public String getUrl() {

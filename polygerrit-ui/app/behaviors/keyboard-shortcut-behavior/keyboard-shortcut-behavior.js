@@ -152,6 +152,7 @@ const Shortcut = {
   PREV_COMMENT_THREAD: 'PREV_COMMENT_THREAD',
   EXPAND_ALL_COMMENT_THREADS: 'EXPAND_ALL_COMMENT_THREADS',
   COLLAPSE_ALL_COMMENT_THREADS: 'COLLAPSE_ALL_COMMENT_THREADS',
+  TOGGLE_HIDE_ALL_COMMENT_THREADS: 'TOGGLE_HIDE_ALL_COMMENT_THREADS',
   LEFT_PANE: 'LEFT_PANE',
   RIGHT_PANE: 'RIGHT_PANE',
   TOGGLE_LEFT_PANE: 'TOGGLE_LEFT_PANE',
@@ -251,6 +252,8 @@ _describe(Shortcut.EXPAND_ALL_COMMENT_THREADS, ShortcutSection.DIFFS,
     'Expand all comment threads');
 _describe(Shortcut.COLLAPSE_ALL_COMMENT_THREADS, ShortcutSection.DIFFS,
     'Collapse all comment threads');
+_describe(Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, ShortcutSection.DIFFS,
+    'Hide/Display all comment threads');
 _describe(Shortcut.LEFT_PANE, ShortcutSection.DIFFS, 'Select left pane');
 _describe(Shortcut.RIGHT_PANE, ShortcutSection.DIFFS, 'Select right pane');
 _describe(Shortcut.TOGGLE_LEFT_PANE, ShortcutSection.DIFFS,

@@ -196,6 +196,12 @@ export const htmlTemplate = html`
         }
       }
     }
+    .show-comments {
+      --gr-comment-thread-display: none;
+    }
+    .hide-comments {
+      --gr-comment-thread-display: unset;
+    }
   </style>
   <gr-fixed-panel
     class$="[[_computeContainerClass(_editMode)]]"

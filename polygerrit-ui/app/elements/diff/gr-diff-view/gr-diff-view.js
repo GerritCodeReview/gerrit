@@ -298,6 +298,8 @@ class GrDiffView extends mixinBehaviors( [
       [this.Shortcut.EXPAND_ALL_DIFF_CONTEXT]: '_handleExpandAllDiffContext',
       [this.Shortcut.NEXT_UNREVIEWED_FILE]: '_handleNextUnreviewedFile',
       [this.Shortcut.TOGGLE_BLAME]: '_handleToggleBlame',
+      [this.Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS]:
+          '_handleToggleHideAllCommentThreads',
 
       // Final two are actually handled by gr-comment-thread.
       [this.Shortcut.EXPAND_ALL_COMMENT_THREADS]: null,
@@ -1270,9 +1272,19 @@ class GrDiffView extends mixinBehaviors( [
   }
 
   _handleToggleBlame(e) {
+    this._toggleBlame();
+  }
+
+  _handleToggleHideAllCommentThreads(e) {
     if (this.shouldSuppressKeyboardShortcut(e) ||
       this.modifierPressed(e)) { return; }
-    this._toggleBlame();
+    if (this.classList.contains('show-comments')) {
+      this.classList.remove('show-comments');
+      this.classList.add('hide-comments');
+    } else {
+      this.classList.add('show-comments');
+      this.classList.remove('hide-comments');
+    }
   }
 
   _computeBlameLoaderClass(isImageDiff, path) {

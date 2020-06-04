@@ -2,6 +2,103 @@
   "comments": [
     {
       "key": {
+        "uuid": "95ece903_84042a97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-04T14:03:37Z",
+      "side": 1,
+      "message": "set",
+      "range": {
+        "startLine": 15,
+        "startChar": 28,
+        "endLine": 15,
+        "endChar": 32
+      },
+      "revId": "f216b0226f349662446f6304f08e194d8d374e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7efd7e46_675b4fbf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-04T14:03:37Z",
+      "side": 1,
+      "message": "duplicate",
+      "range": {
+        "startLine": 21,
+        "startChar": 17,
+        "endLine": 21,
+        "endChar": 30
+      },
+      "revId": "f216b0226f349662446f6304f08e194d8d374e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fc586bf_abf2aa4c",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-04T14:03:37Z",
+      "side": 1,
+      "message": "Is the plan that the FE reloads the change after the request, or that the FE has the same logic and will perform these operations itself w/o going through the backend?",
+      "revId": "f216b0226f349662446f6304f08e194d8d374e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d51b417a_600ad2b5",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-04T14:03:37Z",
+      "side": 1,
+      "message": "It used to be that re-adding an existing reviewer was idempotent (I assume). Now this will add them to the attention set (where they will not be e.g. after sending comments). Is that OK?",
+      "revId": "f216b0226f349662446f6304f08e194d8d374e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f1f08ea_fbef1d18",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-04T14:03:37Z",
+      "side": 1,
+      "message": "TODO uses round parentheses (\"()\").",
+      "revId": "f216b0226f349662446f6304f08e194d8d374e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cb93c93f_ec4a8e49",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
         "patchSetId": 7

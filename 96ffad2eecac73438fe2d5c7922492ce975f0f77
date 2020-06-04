@@ -22,6 +22,30 @@
       "revId": "96ffad2eecac73438fe2d5c7922492ce975f0f77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa58ce62_dfd8d2f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-04T21:26:14Z",
+      "side": 1,
+      "message": "Sure, I rephrased it.",
+      "parentUuid": "4aa14128_cf87c961",
+      "range": {
+        "startLine": 9,
+        "startChar": 29,
+        "endLine": 9,
+        "endChar": 37
+      },
+      "revId": "96ffad2eecac73438fe2d5c7922492ce975f0f77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

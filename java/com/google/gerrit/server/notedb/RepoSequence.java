@@ -227,6 +227,7 @@ public class RepoSequence {
   private void acquire(int count) {
     try (Repository repo = repoManager.openRepository(projectName);
         RevWalk rw = new RevWalk(repo)) {
+      logger.atFine().log("acquire %d ids on %s in %s", count, refName, projectName);
       TryAcquire attempt = new TryAcquire(repo, rw, count);
       RefUpdateUtil.checkResult(retryer.call(attempt));
       counter = attempt.next;

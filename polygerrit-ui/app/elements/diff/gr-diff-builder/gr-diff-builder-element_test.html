@@ -973,22 +973,24 @@ suite('gr-diff-builder tests', () => {
       assert.equal(actual.textContent, diff.content[1].b[0]);
     });
 
-    test('getContentByLineEl works both with button and td', () => {
+    test('getContentTdByLineEl works both with button and td', () => {
       const diffRow = element.diffElement.querySelectorAll('tr.diff-row')[2];
 
       const lineNumTdLeft = diffRow.querySelector('td.lineNum.left');
       const lineNumButtonLeft = lineNumTdLeft.querySelector('button');
-      const contentLeft = diffRow.querySelectorAll('.contentText')[0];
+      const contentTdLeft = diffRow.querySelectorAll('.content')[0];
 
       const lineNumTdRight = diffRow.querySelector('td.lineNum.right');
       const lineNumButtonRight = lineNumTdRight.querySelector('button');
-      const contentRight = diffRow.querySelectorAll('.contentText')[1];
+      const contentTdRight = diffRow.querySelectorAll('.content')[1];
 
-      assert.equal(element.getContentByLineEl(lineNumTdLeft), contentLeft);
-      assert.equal(element.getContentByLineEl(lineNumButtonLeft), contentLeft);
-      assert.equal(element.getContentByLineEl(lineNumTdRight), contentRight);
+      assert.equal(element.getContentTdByLineEl(lineNumTdLeft), contentTdLeft);
       assert.equal(
-          element.getContentByLineEl(lineNumButtonRight), contentRight);
+          element.getContentTdByLineEl(lineNumButtonLeft), contentTdLeft);
+      assert.equal(
+          element.getContentTdByLineEl(lineNumTdRight), contentTdRight);
+      assert.equal(
+          element.getContentTdByLineEl(lineNumButtonRight), contentTdRight);
     });
 
     test('findLinesByRange', () => {

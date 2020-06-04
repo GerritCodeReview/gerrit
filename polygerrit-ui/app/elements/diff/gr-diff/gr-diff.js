@@ -592,11 +592,7 @@ class GrDiff extends mixinBehaviors( [
    * @param {!Object=} range
    */
   _createComment(lineEl, lineNum, side, range) {
-    const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
-    if (!contentText) {
-      return;
-    }
-    const contentEl = contentText.parentElement;
+    const contentEl = this.$.diffBuilder.getContentTdByLineEl(lineEl);
     side = side ||
         this._getCommentSideByLineAndContent(lineEl, contentEl);
     const patchForNewThreads = this._getPatchNumByLineAndContent(
@@ -831,11 +827,7 @@ class GrDiff extends mixinBehaviors( [
         const commentSide = threadEl.getAttribute('comment-side');
         const lineEl = this.$.diffBuilder.getLineElByNumber(
             lineNumString, commentSide);
-        const contentText = this.$.diffBuilder.getContentByLineEl(lineEl);
-        if (!contentText) {
-          continue;
-        }
-        const contentEl = contentText.parentElement;
+        const contentEl = this.$.diffBuilder.getContentTdByLineEl(lineEl);
         const threadGroupEl = this._getOrCreateThreadGroup(
             contentEl, commentSide);
         // Create a slot for the thread and attach it to the thread group.

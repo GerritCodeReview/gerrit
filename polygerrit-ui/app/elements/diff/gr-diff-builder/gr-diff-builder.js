@@ -146,12 +146,18 @@ GrDiffBuilder.prototype.getGroupsByLineRange = function(
   return groups;
 };
 
-GrDiffBuilder.prototype.getContentByLine = function(lineNumber, opt_side,
-    opt_root) {
+GrDiffBuilder.prototype.getContentTdByLine = function(
+    lineNumber, opt_side, opt_root) {
   const root = dom(opt_root || this._outputEl);
   const sideSelector = opt_side ? ('.' + opt_side) : '';
   return root.querySelector('td.lineNum[data-value="' + lineNumber +
-      '"]' + sideSelector + ' ~ td.content .contentText');
+    '"]' + sideSelector + ' ~ td.content');
+};
+
+GrDiffBuilder.prototype.getContentByLine = function(
+    lineNumber, opt_side, opt_root) {
+  return this.getContentTdByLine(lineNumber, opt_side, opt_root)
+      .querySelector('.contentText');
 };
 
 /**

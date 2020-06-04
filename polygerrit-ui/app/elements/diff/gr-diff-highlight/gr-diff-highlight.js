@@ -290,11 +290,8 @@ class GrDiffHighlight extends GestureEventListeners(
     if (!line) {
       return;
     }
-    const contentText = this.diffBuilder.getContentByLineEl(lineEl);
-    if (!contentText) {
-      return;
-    }
-    const contentTd = contentText.parentElement;
+    const contentTd = this.diffBuilder.getContentTdByLineEl(lineEl);
+    const contentText = contentTd.querySelector('.contentText');
     if (!contentTd.contains(node)) {
       node = contentText;
       column = 0;

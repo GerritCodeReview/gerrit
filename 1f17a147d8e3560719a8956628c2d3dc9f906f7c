@@ -189,6 +189,30 @@
       "revId": "1f17a147d8e3560719a8956628c2d3dc9f906f7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d127e444_166372f6",
+        "filename": "java/com/google/gerrit/server/query/change/CherryPickOfRefPredicate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2020-06-04T18:56:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5b48d79_2153912b",
+      "range": {
+        "startLine": 35,
+        "startChar": 29,
+        "endLine": 35,
+        "endChar": 61
+      },
+      "revId": "1f17a147d8e3560719a8956628c2d3dc9f906f7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

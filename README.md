@@ -77,13 +77,13 @@ On Fedora run:
 
 Docker images of Gerrit are available on [DockerHub](https://hub.docker.com/u/gerritforge/)
 
-To run a CentOS 7 based Gerrit image:
+To run a CentOS 8 based Gerrit image:
 
-        docker run -p 8080:8080 gerritforge/gerrit-centos7[:version]
+        docker run -p 8080:8080 gerritcodereview/gerrit[:version]-centos8
 
-To run a Ubuntu 15.04 based Gerrit image:
+To run a Ubuntu 20.04 based Gerrit image:
 
-        docker run -p 8080:8080 gerritforge/gerrit-ubuntu15.04[:version]
+        docker run -p 8080:8080 gerritcodereview/gerrit[:version]-ubuntu20
 
 _NOTE: release is optional. Last released package of the version is installed if the release
 number is omitted._

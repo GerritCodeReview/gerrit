@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3774054_d8e75df7",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-04T01:37:28Z",
+      "side": 1,
+      "message": "This breaks the build when LOCAL_JGIT_REPO is used.  It should be:\n\n  @jgit//\n\nconsistent with the previous lines.  See issue 12865 where this appeared (although this isn\u0027t the cause of that issue).",
+      "range": {
+        "startLine": 82,
+        "startChar": 34,
+        "endLine": 82,
+        "endChar": 38
+      },
+      "revId": "293a9d25cb904d3cddc1bd9d8bd5bbdaa26bffe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

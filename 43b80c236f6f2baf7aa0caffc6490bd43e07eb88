@@ -22,6 +22,30 @@
       "revId": "43b80c236f6f2baf7aa0caffc6490bd43e07eb88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34f8839f_3a9f88da",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-04T12:53:21Z",
+      "side": 1,
+      "message": "The field gets added in the (not yet merged) great-parent change Id0c459dd104b4582fde1846e7710d6ad0ffc2f93 in this topic.\nhttps://gerrit-review.googlesource.com/c/gerrit/+/269697\n\nThe addition is in line 462\nhttps://gerrit-review.googlesource.com/c/gerrit/+/269697/3/Documentation/rest-api-plugins.txt",
+      "parentUuid": "228231f8_f2804c34",
+      "range": {
+        "startLine": 59,
+        "startChar": 41,
+        "endLine": 59,
+        "endChar": 52
+      },
+      "revId": "43b80c236f6f2baf7aa0caffc6490bd43e07eb88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

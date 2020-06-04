@@ -377,15 +377,25 @@ public class ChangeUpdate extends AbstractChangeUpdate {
    * All updates must have a timestamp of null since we use the commit's timestamp. There also must
    * not be multiple updates for a single user.
    */
-  public void setAttentionSetUpdates(Set<AttentionSetUpdate> attentionSetUpdates) {
+  public void addToAttentionsetUpdates(Set<AttentionSetUpdate> updates) {
     checkArgument(
-        attentionSetUpdates.stream().noneMatch(a -> a.timestamp() != null),
+        updates.stream().noneMatch(a -> a.timestamp() != null),
         "must not specify timestamp for write");
-    checkArgument(
-        attentionSetUpdates.stream().map(AttentionSetUpdate::account).distinct().count()
-            == attentionSetUpdates.size(),
-        "must not specify multiple updates for single user");
-    this.attentionSetUpdates = attentionSetUpdates;
+
+    if (updates == null || updates.isEmpty()) {
+      return;
+    }
+    if (attentionSetUpdates == null) {
+      attentionSetUpdates = new HashSet();
+    }
+    Set<Account.Id> currentUpdates =
+        attentionSetUpdates.stream().map(u -> u.account()).collect(Collectors.toSet());
+    attentionSetUpdates.addAll(
+        updates.stream()
+            // ignore updates for accounts that already being updated, as the first update takes
+            // priority.
+            .filter(u -> !currentUpdates.contains(u.account()))
+            .collect(Collectors.toSet()));
   }
 
   public void setAssignee(Account.Id assignee) {
@@ -786,21 +796,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
                         r, AttentionSetUpdate.Operation.ADD, "Change was marked ready for review"))
             .collect(Collectors.toSet());
     addToAttentionsetUpdates(updates);
-  }
-
-  private void addToAttentionsetUpdates(Set<AttentionSetUpdate> updates) {
-    if (updates == null || updates.isEmpty()) {
-      return;
-    }
-    if (attentionSetUpdates == null) {
-      attentionSetUpdates = new HashSet();
-    }
-    Set<Account.Id> currentUpdates =
-        attentionSetUpdates.stream().map(u -> u.account()).collect(Collectors.toSet());
-    attentionSetUpdates.addAll(
-        updates.stream()
-            .filter(u -> !currentUpdates.contains(u.account()))
-            .collect(Collectors.toSet()));
   }
 
   /**

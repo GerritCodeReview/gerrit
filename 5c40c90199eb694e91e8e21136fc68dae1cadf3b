@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cd46264_80a3bbb7",
+        "filename": "java/com/google/gerrit/acceptance/GitUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-04T08:06:35Z",
+      "side": 1,
+      "message": "Remove this if it\u0027s not used?",
+      "range": {
+        "startLine": 58,
+        "startChar": 29,
+        "endLine": 58,
+        "endChar": 72
+      },
+      "revId": "5c40c90199eb694e91e8e21136fc68dae1cadf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

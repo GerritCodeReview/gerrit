@@ -1,0 +1,366 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46b5d2ef_76053d09",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-04T14:27:52Z",
+      "side": 1,
+      "message": "Note for posterity: We don\u0027t need this variable and could also create the factory with Guice. Both is done in  I689998da7 and hence this is just an intermediary version.",
+      "range": {
+        "startLine": 141,
+        "startChar": 4,
+        "endLine": 142,
+        "endChar": 76
+      },
+      "revId": "9177b888b31d62a39881d3cfd5136847cb8f55a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3246b76e_181693ca",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-04T14:27:52Z",
+      "side": 1,
+      "message": "This method is doing quite some work. Doing actual work in Java constructors is discouraged. I know that the SubmoduleOp constructor was triggering the same work prior to this change series. I just had hopes that we could improve it and I think we can if we apply some minor adjustments. Here is my suggestion:\nLet\u0027s move the creation/computation of the SubscriptionGraph to SubmoduleOp.Factory#create and just pass the created SubscriptionGraph as constructor argument to SubmoduleOp.\n\nIf it means too much effort to apply the suggestion within this change due to the rest of this series, I would also be fine with a follow-up change at the end of this series.",
+      "range": {
+        "startLine": 145,
+        "startChar": 10,
+        "endLine": 145,
+        "endChar": 41
+      },
+      "revId": "9177b888b31d62a39881d3cfd5136847cb8f55a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c57cd186_1e601004",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-04T14:27:52Z",
+      "side": 1,
+      "message": "Thanks for adding all the Javadoc descriptions and adjusting the formulations and names. I get a much better understanding of what this class is doing or is meant for from reading the code now.",
+      "revId": "9177b888b31d62a39881d3cfd5136847cb8f55a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "01d860f0_a60fe69e",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-04T14:27:52Z",
+      "side": 1,
+      "message": "Now that this is a simple container class, we could and should convert it to an AutoValue. One prerequisite would be that we convert SubmoduleSubscription to an AutoValue which should be feasible without too much effort. Do you think you could convert both classes to AutoValue in a follow-up change?",
+      "range": {
+        "startLine": 53,
+        "startChar": 13,
+        "endLine": 53,
+        "endChar": 30
+      },
+      "revId": "9177b888b31d62a39881d3cfd5136847cb8f55a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71d15e91_323bf97d",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-04T14:27:52Z",
+      "side": 1,
+      "message": "Should be ImmutableSetMultimap. Reason: This class is just a container which doesn\u0027t and shouldn\u0027t modify any of the collections.\n\nThe conversion from SetMultimap to ImmutableSetMultimap can happen in the constructor of this class. Thus, calling classes don\u0027t need to care about the immutability aspect. (We could even switch the type of updatedBranches back to Set for the constructor parameter and similarly do the conversion in the constructor.)",
+      "range": {
+        "startLine": 71,
+        "startChar": 16,
+        "endLine": 71,
+        "endChar": 27
+      },
+      "revId": "9177b888b31d62a39881d3cfd5136847cb8f55a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3625527_51bea9c4",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-04T14:27:52Z",
+      "side": 1,
+      "message": "Should be ImmutableSetMultimap.",
+      "range": {
+        "startLine": 77,
+        "startChar": 16,
+        "endLine": 77,
+        "endChar": 27
+      },
+      "revId": "9177b888b31d62a39881d3cfd5136847cb8f55a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c66234a6_54713fbd",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-04T14:27:52Z",
+      "side": 1,
+      "message": "Should be ImmutableSet.",
+      "range": {
+        "startLine": 80,
+        "startChar": 16,
+        "endLine": 80,
+        "endChar": 19
+      },
+      "revId": "9177b888b31d62a39881d3cfd5136847cb8f55a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f54e2bf3_7d0c73fe",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-04T14:27:52Z",
+      "side": 1,
+      "message": "After switching to ImmutableSetMultimap, this can simply be ImmutableSetMultimap.of().",
+      "range": {
+        "startLine": 99,
+        "startChar": 8,
+        "endLine": 100,
+        "endChar": 59
+      },
+      "revId": "9177b888b31d62a39881d3cfd5136847cb8f55a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8aa8c87f_4f301a94",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-04T14:27:52Z",
+      "side": 1,
+      "message": "For empty sets which never need to contain items, it\u0027s better to use ImmutableSet.of().",
+      "range": {
+        "startLine": 101,
+        "startChar": 8,
+        "endLine": 101,
+        "endChar": 23
+      },
+      "revId": "9177b888b31d62a39881d3cfd5136847cb8f55a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9fb6718_edf98d5b",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-04T14:27:52Z",
+      "side": 1,
+      "message": "Callers of getSortedSuperprojectAndSubmoduleBranches() might unexpectedly run into a NullPointerException because of this \u0027null\u0027 value. To avoid this, it\u0027s better to use an empty set via ImmutableSet.of().",
+      "range": {
+        "startLine": 102,
+        "startChar": 8,
+        "endLine": 102,
+        "endChar": 12
+      },
+      "revId": "9177b888b31d62a39881d3cfd5136847cb8f55a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7d9a850_095b7096",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-04T14:27:52Z",
+      "side": 1,
+      "message": "Could be Set (or rather ImmutableSet after the switch to ImmutableSetMultimap).",
+      "range": {
+        "startLine": 149,
+        "startChar": 2,
+        "endLine": 149,
+        "endChar": 12
+      },
+      "revId": "9177b888b31d62a39881d3cfd5136847cb8f55a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4e2eb8b_78d8ed6c",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-04T14:27:52Z",
+      "side": 1,
+      "message": "Did you mean \"SubscriptionGraph\"?",
+      "range": {
+        "startLine": 159,
+        "startChar": 45,
+        "endLine": 159,
+        "endChar": 59
+      },
+      "revId": "9177b888b31d62a39881d3cfd5136847cb8f55a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb172545_5aa178cd",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-04T14:27:52Z",
+      "side": 1,
+      "message": "I\u0027m wondering whether we should use a different method name. Even though this class here is a factory, this method is actually doing more than just a basic construction of the object. In fact, it\u0027s doing quite some amount of work because of the call to calculateSubscriptionMaps(..). The method name create(..) can be misleading which might result in callers using this method in constructors, which would be undesired.\nWhat do you think about using a name like compute() or calculate(), which expresses that some actual work is happening?\n\n(Sorry that a previous comment of me pointed to a name like create(..). I hadn\u0027t thought of this additional aspect at that time. We can also do the renaming at the end of this series to avoid additional merge pain.)",
+      "range": {
+        "startLine": 185,
+        "startChar": 22,
+        "endLine": 185,
+        "endChar": 28
+      },
+      "revId": "9177b888b31d62a39881d3cfd5136847cb8f55a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cf4bb20_b65b5002",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-04T14:27:52Z",
+      "side": 1,
+      "message": "Should be ImmutableSet.",
+      "range": {
+        "startLine": 210,
+        "startChar": 8,
+        "endLine": 210,
+        "endChar": 11
+      },
+      "revId": "9177b888b31d62a39881d3cfd5136847cb8f55a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "351fe5e1_235f688a",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-04T14:27:52Z",
+      "side": 1,
+      "message": "This variable refers to the logger of SubscriptionGraph. To have a clear separation of the classes, I would introduce the static variable also to the Factory class. (Additional note: SubscriptionGraph doesn\u0027t even seem to use \u0027logger\u0027. Hence, we can even completely move the variable declaration.)",
+      "range": {
+        "startLine": 211,
+        "startChar": 6,
+        "endLine": 211,
+        "endChar": 12
+      },
+      "revId": "9177b888b31d62a39881d3cfd5136847cb8f55a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07487e93_e0d48d47",
+        "filename": "javatests/com/google/gerrit/server/submit/SubscriptionGraphTest.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-04T14:27:52Z",
+      "side": 1,
+      "message": "Could just be a local variable in the tests.",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 44
+      },
+      "revId": "9177b888b31d62a39881d3cfd5136847cb8f55a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

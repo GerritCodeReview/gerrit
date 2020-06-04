@@ -213,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "42ec5eff_f3d0e6b7",
+        "filename": "javatests/com/google/gerrit/server/submit/SubscriptionGraphTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-04T14:27:52Z",
+      "side": 1,
+      "message": "Sounds reasonable.",
+      "parentUuid": "38a5c91f_97f8c82c",
+      "range": {
+        "startLine": 108,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 92
+      },
+      "revId": "8237821188396abb2aa932b5cb80ae15afef8813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61fd51b5_d4ba24a0",
         "filename": "javatests/com/google/gerrit/server/submit/SubscriptionGraphTest.java",
         "patchSetId": 5
@@ -248,6 +272,30 @@
       "side": 1,
       "message": "Why would you consider it as an error? Actually in my opinion it is very common.\n\nFor example, this repo, Gerrit, is subscribing to multiple plugins. More precisely, the master branch of Gerrit repository is subscribing to the master branches of these plugins.",
       "parentUuid": "61fd51b5_d4ba24a0",
+      "range": {
+        "startLine": 142,
+        "startChar": 4,
+        "endLine": 144,
+        "endChar": 78
+      },
+      "revId": "8237821188396abb2aa932b5cb80ae15afef8813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0514fe2b_62f3fb59",
+        "filename": "javatests/com/google/gerrit/server/submit/SubscriptionGraphTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-04T14:27:52Z",
+      "side": 1,
+      "message": "I see. I think I had a wrong mental model of what the subscriptions actually mean. Thanks for the additional details.\nIt\u0027s still a bit confusing to me that the same path in the super project subscribes to different submodules but I guess that\u0027s just an aspect to simplify the test setup.",
+      "parentUuid": "63dc4360_ae73390c",
       "range": {
         "startLine": 142,
         "startChar": 4,

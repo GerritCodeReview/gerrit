@@ -319,6 +319,30 @@
     },
     {
       "key": {
+        "uuid": "54ca4697_29489252",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-04T14:27:52Z",
+      "side": 1,
+      "message": "With the additional context in this class, I agree that \"affected\" is more precise and helps for understanding. isAffectedSuperproject() sounds good to me.",
+      "parentUuid": "f897fedc_1a5fce76",
+      "range": {
+        "startLine": 301,
+        "startChar": 2,
+        "endLine": 302,
+        "endChar": 20
+      },
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3718421d_7a4b64e6",
         "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
         "patchSetId": 4
@@ -436,6 +460,30 @@
       "side": 1,
       "message": "How do you think about getAffectedSuperBranches()? This method is returning the super branches(subscriber/listener) not the subscribed branches(publisher).",
       "parentUuid": "f0f9dccf_103b9305",
+      "range": {
+        "startLine": 307,
+        "startChar": 21,
+        "endLine": 307,
+        "endChar": 40
+      },
+      "revId": "75a11559ca113b0c949f0525af7163dafd06ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7516a5c2_d4b3d8d8",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-04T14:27:52Z",
+      "side": 1,
+      "message": "True. getAffectedSuperBranches() seems helpful.",
+      "parentUuid": "b346efdf_36171366",
       "range": {
         "startLine": 307,
         "startChar": 21,

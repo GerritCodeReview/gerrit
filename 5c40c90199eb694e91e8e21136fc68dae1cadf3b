@@ -22,6 +22,30 @@
       "revId": "5c40c90199eb694e91e8e21136fc68dae1cadf3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12f5f790_dc6cbdfc",
+        "filename": "java/com/google/gerrit/acceptance/GitUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-04T08:19:58Z",
+      "side": 1,
+      "message": "Right. However, it wasn\u0027t clear to me, if it would be still needed after switch to the \"in memory only keys\", that is WIP in follow up change in this series: [1]. That\u0027s why it is preserved for now, but I will check if it\u0027s really needed and if not, will remove it.\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/270112/2",
+      "parentUuid": "7cd46264_80a3bbb7",
+      "range": {
+        "startLine": 58,
+        "startChar": 29,
+        "endLine": 58,
+        "endChar": 72
+      },
+      "revId": "5c40c90199eb694e91e8e21136fc68dae1cadf3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

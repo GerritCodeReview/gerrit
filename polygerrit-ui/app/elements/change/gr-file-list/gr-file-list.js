@@ -275,6 +275,8 @@ class GrFileList extends mixinBehaviors( [
       [this.Shortcut.RIGHT_PANE]: '_handleRightPane',
       [this.Shortcut.TOGGLE_INLINE_DIFF]: '_handleToggleInlineDiff',
       [this.Shortcut.TOGGLE_ALL_INLINE_DIFFS]: '_handleToggleAllInlineDiffs',
+      [this.Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS]:
+        '_handleToggleHideAllCommentThreads',
       [this.Shortcut.CURSOR_NEXT_FILE]: '_handleCursorNext',
       [this.Shortcut.CURSOR_PREV_FILE]: '_handleCursorPrev',
       [this.Shortcut.NEXT_LINE]: '_handleCursorNext',
@@ -806,6 +808,15 @@ class GrFileList extends mixinBehaviors( [
 
     e.preventDefault();
     this._toggleInlineDiffs();
+  }
+
+  _handleToggleHideAllCommentThreads(e) {
+    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+      return;
+    }
+
+    e.preventDefault();
+    this.toggleClass('hideComments');
   }
 
   _handleCursorNext(e) {

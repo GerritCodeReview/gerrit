@@ -310,6 +310,9 @@ export const htmlTemplate = html`
         display: none;
       }
     }
+    :host(.hideComments) {
+      --gr-comment-thread-display: none;
+    }
   </style>
   <div
     id="container"

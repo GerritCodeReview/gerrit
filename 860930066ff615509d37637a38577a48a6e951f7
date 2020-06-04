@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "848d2692_35211bc7",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 577,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-04T18:12:24Z",
+      "side": 1,
+      "message": "It was not changed in the: \"706d72b078 Move \u0027Start Review\u0027 to primary actions\", but there were always a confusion, how to leave a comment to a WIP change without flipping the WIP bit. It would therefore make sense to document this:\n\n* *Start Review*\n* Add a comment or even vote on a label\n* click *Save* button",
+      "revId": "860930066ff615509d37637a38577a48a6e951f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

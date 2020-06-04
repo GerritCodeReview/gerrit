@@ -957,23 +957,23 @@ suite('gr-diff-builder tests', () => {
           deltaLineNumberButton.getAttribute('aria-label'), '10 removed');
     });
 
-    test('getContentByLine', () => {
+    test('getContentTdByLine', () => {
       let actual;
 
-      actual = builder.getContentByLine(2, 'left');
+      actual = builder.getContentTdByLine(2, 'left');
       assert.equal(actual.textContent, diff.content[0].ab[1]);
 
-      actual = builder.getContentByLine(2, 'right');
+      actual = builder.getContentTdByLine(2, 'right');
       assert.equal(actual.textContent, diff.content[0].ab[1]);
 
-      actual = builder.getContentByLine(5, 'left');
+      actual = builder.getContentTdByLine(5, 'left');
       assert.equal(actual.textContent, diff.content[2].ab[0]);
 
-      actual = builder.getContentByLine(5, 'right');
+      actual = builder.getContentTdByLine(5, 'right');
       assert.equal(actual.textContent, diff.content[1].b[0]);
     });
 
-    test('getContentByLineEl works both with button and td', () => {
+    test('getContentTdByLineEl works both with button and td', () => {
       const diffRow = element.diffElement.querySelectorAll('tr.diff-row')[2];
 
       const lineNumTdLeft = diffRow.querySelector('td.lineNum.left');
@@ -984,11 +984,12 @@ suite('gr-diff-builder tests', () => {
       const lineNumButtonRight = lineNumTdRight.querySelector('button');
       const contentRight = diffRow.querySelectorAll('.contentText')[1];
 
-      assert.equal(element.getContentByLineEl(lineNumTdLeft), contentLeft);
-      assert.equal(element.getContentByLineEl(lineNumButtonLeft), contentLeft);
-      assert.equal(element.getContentByLineEl(lineNumTdRight), contentRight);
+      assert.equal(element.getContentTdByLineEl(lineNumTdLeft), contentLeft);
       assert.equal(
-          element.getContentByLineEl(lineNumButtonRight), contentRight);
+          element.getContentTdByLineEl(lineNumButtonLeft), contentLeft);
+      assert.equal(element.getContentTdByLineEl(lineNumTdRight), contentRight);
+      assert.equal(
+          element.getContentTdByLineEl(lineNumButtonRight), contentRight);
     });
 
     test('findLinesByRange', () => {
@@ -1051,7 +1052,7 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('_getLineNumberEl side-by-side left', () => {
-      const contentEl = builder.getContentByLine(5, 'left',
+      const contentEl = builder.getContentTdByLine(5, 'left',
           element.$.diffTable);
       const lineNumberEl = builder._getLineNumberEl(contentEl, 'left');
       assert.isTrue(lineNumberEl.classList.contains('lineNum'));
@@ -1059,7 +1060,7 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('_getLineNumberEl side-by-side right', () => {
-      const contentEl = builder.getContentByLine(5, 'right',
+      const contentEl = builder.getContentTdByLine(5, 'right',
           element.$.diffTable);
       const lineNumberEl = builder._getLineNumberEl(contentEl, 'right');
       assert.isTrue(lineNumberEl.classList.contains('lineNum'));
@@ -1072,7 +1073,7 @@ suite('gr-diff-builder tests', () => {
       element.render(keyLocations, prefs).then(() => {
         builder = element._builder;
 
-        const contentEl = builder.getContentByLine(5, 'left',
+        const contentEl = builder.getContentTdByLine(5, 'left',
             element.$.diffTable);
         const lineNumberEl = builder._getLineNumberEl(contentEl, 'left');
         assert.isTrue(lineNumberEl.classList.contains('lineNum'));
@@ -1087,7 +1088,7 @@ suite('gr-diff-builder tests', () => {
       element.render(keyLocations, prefs).then(() => {
         builder = element._builder;
 
-        const contentEl = builder.getContentByLine(5, 'right',
+        const contentEl = builder.getContentTdByLine(5, 'right',
             element.$.diffTable);
         const lineNumberEl = builder._getLineNumberEl(contentEl, 'right');
         assert.isTrue(lineNumberEl.classList.contains('lineNum'));
@@ -1097,7 +1098,7 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('_getNextContentOnSide side-by-side left', () => {
-      const startElem = builder.getContentByLine(5, 'left',
+      const startElem = builder.getContentTdByLine(5, 'left',
           element.$.diffTable);
       const expectedStartString = diff.content[2].ab[0];
       const expectedNextString = diff.content[2].ab[1];
@@ -1109,7 +1110,7 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('_getNextContentOnSide side-by-side right', () => {
-      const startElem = builder.getContentByLine(5, 'right',
+      const startElem = builder.getContentTdByLine(5, 'right',
           element.$.diffTable);
       const expectedStartString = diff.content[1].b[0];
       const expectedNextString = diff.content[1].b[1];
@@ -1126,7 +1127,7 @@ suite('gr-diff-builder tests', () => {
       element.render(keyLocations, prefs).then(() => {
         builder = element._builder;
 
-        const startElem = builder.getContentByLine(5, 'left',
+        const startElem = builder.getContentTdByLine(5, 'left',
             element.$.diffTable);
         const expectedStartString = diff.content[2].ab[0];
         const expectedNextString = diff.content[2].ab[1];
@@ -1146,7 +1147,7 @@ suite('gr-diff-builder tests', () => {
       element.render(keyLocations, prefs).then(() => {
         builder = element._builder;
 
-        const startElem = builder.getContentByLine(5, 'right',
+        const startElem = builder.getContentTdByLine(5, 'right',
             element.$.diffTable);
         const expectedStartString = diff.content[1].b[0];
         const expectedNextString = diff.content[1].b[1];

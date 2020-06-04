@@ -267,9 +267,9 @@ suite('gr-diff-highlight', () => {
         contentTd,
         contentText,
       });
-      builder.getContentByLineEl.withArgs(lineEl).returns(contentText);
+      builder.getContentTdByLineEl.withArgs(lineEl).returns(contentTd);
       builder.getLineNumberByChild.withArgs(lineEl).returns(line);
-      builder.getContentByLine.withArgs(line, side).returns(contentText);
+      builder.getContentTdByLine.withArgs(line, side).returns(contentTd);
       builder.getSideByLineEl.withArgs(lineEl).returns(side);
       return contentText;
     };
@@ -296,8 +296,8 @@ suite('gr-diff-highlight', () => {
       });
       diff = element.querySelector('#diffTable');
       builder = {
-        getContentByLine: sandbox.stub(),
-        getContentByLineEl: sandbox.stub(),
+        getContentTdByLine: sandbox.stub(),
+        getContentTdByLineEl: sandbox.stub(),
         getLineElByChild,
         getLineNumberByChild: sandbox.stub(),
         getSideByLineEl: sandbox.stub(),

@@ -4,6 +4,7 @@
 management tool for Git based projects.
 
 [![Build Status](https://gerrit-ci.gerritforge.com/job/Gerrit-bazel-master/badge/icon)](https://gerrit-ci.gerritforge.com/job/Gerrit-bazel-master/)
+![Maven Central](https://img.shields.io/maven-central/v/com.google.gerrit/gerrit-war)
 
 ## Objective
 

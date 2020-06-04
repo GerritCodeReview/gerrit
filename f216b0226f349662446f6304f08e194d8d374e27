@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a1559170_19216a9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-04T21:39:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95ece903_84042a97",
+      "range": {
+        "startLine": 15,
+        "startChar": 28,
+        "endLine": 15,
+        "endChar": 32
+      },
+      "revId": "f216b0226f349662446f6304f08e194d8d374e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7efd7e46_675b4fbf",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "fa09e263_9aee230e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-04T21:39:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7efd7e46_675b4fbf",
+      "range": {
+        "startLine": 21,
+        "startChar": 17,
+        "endLine": 21,
+        "endChar": 30
+      },
+      "revId": "f216b0226f349662446f6304f08e194d8d374e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4fc586bf_abf2aa4c",
         "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 7
@@ -59,6 +107,24 @@
       "writtenOn": "2020-06-04T14:03:37Z",
       "side": 1,
       "message": "Is the plan that the FE reloads the change after the request, or that the FE has the same logic and will perform these operations itself w/o going through the backend?",
+      "revId": "f216b0226f349662446f6304f08e194d8d374e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bca2f400_e12c770d",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-04T21:39:23Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s reasonable for the frontend to have the same logic, I guess it will refresh?\nI\u0027m not the frontend expert though :-)\nCC Ben to answer, is this relevant to this change?",
+      "parentUuid": "4fc586bf_abf2aa4c",
       "revId": "f216b0226f349662446f6304f08e194d8d374e27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "de8913f6_c6c65a06",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-04T21:39:23Z",
+      "side": 1,
+      "message": "Interesting question, I added a test that answer the question as \"no\".",
+      "parentUuid": "d51b417a_600ad2b5",
+      "revId": "f216b0226f349662446f6304f08e194d8d374e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f1f08ea_fbef1d18",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
         "patchSetId": 7
@@ -96,6 +180,24 @@
       "revId": "f216b0226f349662446f6304f08e194d8d374e27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62071c25_7f71e496",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-04T21:39:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f1f08ea_fbef1d18",
+      "revId": "f216b0226f349662446f6304f08e194d8d374e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -119,6 +221,30 @@
       "revId": "f216b0226f349662446f6304f08e194d8d374e27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be0905a1_db213feb",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-04T21:39:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb93c93f_ec4a8e49",
+      "range": {
+        "startLine": 274,
+        "startChar": 45,
+        "endLine": 274,
+        "endChar": 55
+      },
+      "revId": "f216b0226f349662446f6304f08e194d8d374e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

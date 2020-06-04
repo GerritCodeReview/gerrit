@@ -20,6 +20,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.CharMatcher;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
@@ -41,6 +42,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 @AutoValue
 public abstract class IntBlob {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public static Optional<IntBlob> parse(Repository repo, String refName) throws IOException {
     try (ObjectReader or = repo.newObjectReader()) {
       return parse(repo, refName, or);
@@ -84,8 +87,13 @@ public abstract class IntBlob {
       throws IOException {
     ObjectId newId;
     try (ObjectInserter ins = repo.newObjectInserter()) {
+      logger.atFine().log(
+          "storing value %d on %s in %s (oldId: %s)",
+          val, refName, projectName, oldId == null ? "null" : oldId.name());
       newId = ins.insert(OBJ_BLOB, Integer.toString(val).getBytes(UTF_8));
       ins.flush();
+      logger.atFine().log(
+          "successfully stored %d on %s as %s in %s", val, refName, newId.name(), projectName);
     }
     RefUpdate ru = repo.updateRef(refName);
     if (oldId != null) {

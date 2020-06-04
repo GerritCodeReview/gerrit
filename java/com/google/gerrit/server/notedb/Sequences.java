@@ -32,6 +32,11 @@ import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class Sequences {
+  private static final String SECTION_NOTEDB = "noteDb";
+  private static final String KEY_SEQUENCE_BATCH_SIZE = "sequenceBatchSize";
+  private static final int DEFAULT_ACCOUNTS_SEQUENCE_BATCH_SIZE = 1;
+  private static final int DEFAULT_CHANGES_SEQUENCE_BATCH_SIZE = 20;
+
   public static final String NAME_ACCOUNTS = "accounts";
   public static final String NAME_GROUPS = "groups";
   public static final String NAME_CHANGES = "changes";
@@ -60,7 +65,12 @@ public class Sequences {
       AllUsersName allUsers,
       MetricMaker metrics) {
 
-    int accountBatchSize = cfg.getInt("noteDb", "accounts", "sequenceBatchSize", 1);
+    int accountBatchSize =
+        cfg.getInt(
+            SECTION_NOTEDB,
+            NAME_ACCOUNTS,
+            KEY_SEQUENCE_BATCH_SIZE,
+            DEFAULT_ACCOUNTS_SEQUENCE_BATCH_SIZE);
     accountSeq =
         new RepoSequence(
             repoManager,
@@ -70,7 +80,12 @@ public class Sequences {
             () -> FIRST_ACCOUNT_ID,
             accountBatchSize);
 
-    int changeBatchSize = cfg.getInt("noteDb", "changes", "sequenceBatchSize", 20);
+    int changeBatchSize =
+        cfg.getInt(
+            SECTION_NOTEDB,
+            NAME_CHANGES,
+            KEY_SEQUENCE_BATCH_SIZE,
+            DEFAULT_CHANGES_SEQUENCE_BATCH_SIZE);
     changeSeq =
         new RepoSequence(
             repoManager,

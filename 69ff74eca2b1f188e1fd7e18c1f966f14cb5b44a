@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8299971e_5432582a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-04T19:04:04Z",
+      "side": 1,
+      "message": "bound. Here and below.",
+      "range": {
+        "startLine": 19,
+        "startChar": 21,
+        "endLine": 19,
+        "endChar": 27
+      },
+      "revId": "69ff74eca2b1f188e1fd7e18c1f966f14cb5b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9ba3cab_bca6f760",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-04T19:04:04Z",
+      "side": 1,
+      "message": "Is something broken before this change?",
+      "revId": "69ff74eca2b1f188e1fd7e18c1f966f14cb5b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

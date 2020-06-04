@@ -22,6 +22,30 @@
       "revId": "65b7ae8ef23bf9da05c9eff0f90b42215f3b4562",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53c5469e_78eda56c",
+        "filename": "java/com/google/gerrit/pgm/Init.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-04T15:59:19Z",
+      "side": 1,
+      "message": "\u003e Would sort this list alphabetically.\n\nUnless this specific (or another) ordering is required, that is.",
+      "parentUuid": "c5858a35_a443a37f",
+      "range": {
+        "startLine": 141,
+        "startChar": 12,
+        "endLine": 144,
+        "endChar": 44
+      },
+      "revId": "65b7ae8ef23bf9da05c9eff0f90b42215f3b4562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

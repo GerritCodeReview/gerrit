@@ -16,6 +16,24 @@
       "revId": "06bab258ff4bf06d094ec7b13f7d5eea7d66a663",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5019839f_1b5529ee",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-04T11:38:00Z",
+      "side": 1,
+      "message": "This is of course wrong. It is a totally WIP and it shouldn\u0027t have been even uploaded, no wonder that all SSH tests are failing: [1]. What I was after but fail to do, is to programmatically switch off Hostkey verification entirely, as you commented on anothrr change in JGit. So instead of doing this:\n\n  // CharSink configFile \u003d Files.asCharSink(new File(sshDir, \"config\"), UTF_8);\n  // configFile.writeLines(Arrays.asList(\"Host *\", \"StrictHostKeyChecking no\"));\n\nfactory builder could offer a syntactic sugar method, a lá:\n\n   builder.setConfigStoreFactory(new DisableHostKeyVerifierConfigStore())\n\nor similar. The point would be, to do it *without* actually writing any files to the disk.\n\n[1] http://paste.openstack.org/show/794353",
+      "parentUuid": "4c161fe3_cb67965d",
+      "revId": "06bab258ff4bf06d094ec7b13f7d5eea7d66a663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "228231f8_f2804c34",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-04T10:23:05Z",
+      "side": 1,
+      "message": "is this field documented somewhere in gerrit doc ? I could not find it in https://gerrit-review.googlesource.com/Documentation/rest-api-plugins.html#plugin-info",
+      "range": {
+        "startLine": 59,
+        "startChar": 41,
+        "endLine": 59,
+        "endChar": 52
+      },
+      "revId": "43b80c236f6f2baf7aa0caffc6490bd43e07eb88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

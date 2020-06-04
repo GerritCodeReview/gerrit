@@ -34,6 +34,24 @@
       "revId": "06bab258ff4bf06d094ec7b13f7d5eea7d66a663",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f137da3_58b9ac37",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2020-06-04T12:07:15Z",
+      "side": 1,
+      "message": "Yes, I saw it was WIP, and normally I don\u0027t comment on WIP changes, but since it seemed to me that this was the cause of the exception which you mentioned over in the Eclipse Gerrit, I do so all the same.\n\nAs I said, there\u0027s two ways: either set a no-op ServerKeyDatabase always returning true from its accept(), or set an in-memory config store that has the setting. Currently the no-op ServerKeyDatabase is probably easier; for the config store, we\u0027d need to add some default implementation for that SshConfigStore interface to JGit to make it convenient for users.",
+      "parentUuid": "5019839f_1b5529ee",
+      "revId": "06bab258ff4bf06d094ec7b13f7d5eea7d66a663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

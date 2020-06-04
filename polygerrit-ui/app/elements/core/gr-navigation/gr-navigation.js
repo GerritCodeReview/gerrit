@@ -393,13 +393,12 @@ export const GerritNav = {
    * @param {number=} opt_patchNum
    * @return {string}
    */
-  getUrlForChangeById(changeNum, project, opt_patchNum, opt_messageHash) {
+  getUrlForChangeById(changeNum, project, opt_patchNum) {
     return this._getUrlFor({
       view: GerritNav.View.CHANGE,
       changeNum,
       project,
       patchNum: opt_patchNum,
-      messageHash: opt_messageHash,
     });
   },
 

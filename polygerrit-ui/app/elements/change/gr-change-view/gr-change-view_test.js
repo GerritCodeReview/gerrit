@@ -322,6 +322,20 @@ suite('gr-change-view tests', () => {
   const getCustomCssValue =
       cssParam => util.getComputedStyleValue(cssParam, element);
 
+  test('_handleMessageAnchorTap', () => {
+    element._changeNum = '1';
+    element._patchRange = {
+      basePatchNum: 'PARENT',
+      patchNum: 1,
+    };
+    const getUrlStub = sandbox.stub(GerritNav, 'getUrlForChange');
+    const replaceStateStub = sandbox.stub(history, 'replaceState');
+    element._handleMessageAnchorTap({detail: {id: 'a12345'}});
+
+    assert.equal(getUrlStub.lastCall.args[4], '#message-a12345');
+    assert.isTrue(replaceStateStub.called);
+  });
+
   suite('plugins adding to file tab', () => {
     setup(done => {
       // Resolving it here instead of during setup() as other tests depend

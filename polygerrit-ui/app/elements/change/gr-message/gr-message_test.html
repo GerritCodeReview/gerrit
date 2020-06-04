@@ -222,6 +222,26 @@ suite('gr-message tests', () => {
       });
     });
 
+    test('clicking on date link fires event', () => {
+      element.message = {
+        type: 'REVIEWER_UPDATE',
+        updated: '2016-01-12 20:24:49.448000000',
+        reviewer: {},
+        id: '47c43261_55aa2c41',
+        expanded: false,
+      };
+      flushAsynchronousOperations();
+      const stub = sinon.stub();
+      element.addEventListener('message-anchor-tap', stub);
+      const dateEl = element.shadowRoot
+          .querySelector('.date');
+      assert.ok(dateEl);
+      MockInteractions.tap(dateEl);
+
+      assert.isTrue(stub.called);
+      assert.deepEqual(stub.lastCall.args[0].detail, {id: element.message.id});
+    });
+
     suite('compute messages', () => {
       test('empty', () => {
         assert.equal(element._computeMessageContent('', '', true), '');

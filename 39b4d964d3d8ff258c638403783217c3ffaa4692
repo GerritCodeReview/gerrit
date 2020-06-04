@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "3bfe5929_c6d5d3c2",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleUtils.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-04T14:28:25Z",
+      "side": 1,
+      "message": "I like the new name. It\u0027s very accurate in my opinion.",
+      "parentUuid": "1063f75b_d3be91fc",
+      "range": {
+        "startLine": 9,
+        "startChar": 13,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "39b4d964d3d8ff258c638403783217c3ffaa4692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eebd0ce8_e7db1237",
         "filename": "java/com/google/gerrit/server/submit/SubmoduleUtils.java",
         "patchSetId": 5

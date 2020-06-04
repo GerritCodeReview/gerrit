@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8c214657_ce83ee98",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-04T08:53:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea8e68f8_e003cbf3",
+      "range": {
+        "startLine": 228,
+        "startChar": 0,
+        "endLine": 233,
+        "endChar": 3
+      },
+      "revId": "78c1d3d096258f81181a92a30e838803316df5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce4c4c39_bb2cf8a5",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "39e5bf88_ea0d7127",
+        "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-04T08:53:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce4c4c39_bb2cf8a5",
+      "range": {
+        "startLine": 281,
+        "startChar": 0,
+        "endLine": 290,
+        "endChar": 35
+      },
+      "revId": "78c1d3d096258f81181a92a30e838803316df5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6edb03d0_2cfafd2c",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CacheBasedWebSession.java",
         "patchSetId": 5
@@ -68,6 +116,30 @@
       "revId": "78c1d3d096258f81181a92a30e838803316df5d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f12cdc53_305ce151",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-04T08:53:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6edb03d0_2cfafd2c",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 177,
+        "endChar": 5
+      },
+      "revId": "78c1d3d096258f81181a92a30e838803316df5d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

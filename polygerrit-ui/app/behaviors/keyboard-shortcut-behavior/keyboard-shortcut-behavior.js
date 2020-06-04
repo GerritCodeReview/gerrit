@@ -171,6 +171,7 @@ const Shortcut = {
   TOGGLE_FILE_REVIEWED: 'TOGGLE_FILE_REVIEWED',
   TOGGLE_ALL_INLINE_DIFFS: 'TOGGLE_ALL_INLINE_DIFFS',
   TOGGLE_INLINE_DIFF: 'TOGGLE_INLINE_DIFF',
+  TOGGLE_HIDE_ALL_COMMENT_THREADS: 'TOGGLE_HIDE_ALL_COMMENT_THREADS',
 
   OPEN_FIRST_FILE: 'OPEN_FIRST_FILE',
   OPEN_LAST_FILE: 'OPEN_LAST_FILE',
@@ -251,6 +252,8 @@ _describe(Shortcut.EXPAND_ALL_COMMENT_THREADS, ShortcutSection.DIFFS,
     'Expand all comment threads');
 _describe(Shortcut.COLLAPSE_ALL_COMMENT_THREADS, ShortcutSection.DIFFS,
     'Collapse all comment threads');
+_describe(Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, ShortcutSection.DIFFS,
+    'Hide/Display all comment threads');
 _describe(Shortcut.LEFT_PANE, ShortcutSection.DIFFS, 'Select left pane');
 _describe(Shortcut.RIGHT_PANE, ShortcutSection.DIFFS, 'Select right pane');
 _describe(Shortcut.TOGGLE_LEFT_PANE, ShortcutSection.DIFFS,
@@ -290,6 +293,8 @@ _describe(Shortcut.OPEN_FILE, ShortcutSection.FILE_LIST,
     'Go to selected file');
 _describe(Shortcut.TOGGLE_ALL_INLINE_DIFFS, ShortcutSection.FILE_LIST,
     'Show/hide all inline diffs');
+_describe(Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, ShortcutSection.FILE_LIST,
+    'Hide/Display all comment threads');
 _describe(Shortcut.TOGGLE_INLINE_DIFF, ShortcutSection.FILE_LIST,
     'Show/hide selected inline diff');
 

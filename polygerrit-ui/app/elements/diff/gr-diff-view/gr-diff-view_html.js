@@ -196,6 +196,9 @@ export const htmlTemplate = html`
         }
       }
     }
+    :host(.hideComments) {
+      --gr-comment-thread-display: none;
+    }
   </style>
   <gr-fixed-panel
     class$="[[_computeContainerClass(_editMode)]]"

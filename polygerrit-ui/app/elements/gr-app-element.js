@@ -350,6 +350,8 @@ class GrAppElement extends mixinBehaviors( [
         this.Shortcut.TOGGLE_INLINE_DIFF, 'i:keyup');
     this.bindShortcut(
         this.Shortcut.TOGGLE_BLAME, 'b');
+    this.bindShortcut(
+        this.Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, 'h');
 
     this.bindShortcut(
         this.Shortcut.OPEN_FIRST_FILE, ']');

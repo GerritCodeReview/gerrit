@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b5a2cfc_fd19cab2",
+        "filename": "java/com/google/gerrit/acceptance/SshSessionFactoryProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-04T20:33:45Z",
+      "side": 1,
+      "message": "This could be replaced with this two liner:\n\n  CharSink configFile \u003d Files.asCharSink(new File(sshDir, \"config\"), UTF_8);\n  configFile.writeLines(Arrays.asList(\"Host *\", \"StrictHostKeyChecking no\"));\n\nThough, to create ConfigStoreFactory programmatically is not easily doable, as it should include host, port, user and in addition property: \"StrictHostKeyChecking\" with value \"no\".",
+      "range": {
+        "startLine": 40,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 18
+      },
+      "revId": "52a25f13f48733a8a95d5f684658b7233ca6d5c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

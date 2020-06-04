@@ -84,7 +84,7 @@ public class AddToAttentionSet
     try (BatchUpdate bu =
         updateFactory.create(
             changeResource.getChange().getProject(), changeResource.getUser(), TimeUtil.nowTs())) {
-      AddToAttentionSetOp op = opFactory.create(attentionUserId, input.reason);
+      AddToAttentionSetOp op = opFactory.create(attentionUserId, input.reason, true);
       bu.addOp(changeResource.getId(), op);
       bu.execute();
       return Response.ok(accountLoaderFactory.create(true).fillOne(attentionUserId));

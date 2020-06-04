@@ -39,6 +39,24 @@
       "revId": "69ff74eca2b1f188e1fd7e18c1f966f14cb5b44a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f5e4761_365b5c67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-04T20:47:31Z",
+      "side": 1,
+      "message": "ElasticSearch index test was not working since a manual reindex was needed before starting the site on disk; therefore the start step was not completing succesfully as the index was not available. \n\nThe previous change fixed that issue since now we don\u0027t need to manually reindex as it is automatically performed by init when needed and the index will be available when the start method is called.\n\nThis change now has to be reworked a little bit since there are child tests that were newly introduced (after 2.16) that will fail when @UseLocalDisk is used.",
+      "parentUuid": "b9ba3cab_bca6f760",
+      "revId": "69ff74eca2b1f188e1fd7e18c1f966f14cb5b44a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

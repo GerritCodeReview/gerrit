@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "77f8e216_256843a5",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-04T12:34:23Z",
+      "side": 1,
+      "message": "Yeah, nice catch.\nAdded the patchset number comparison before the resolved/draft comparisor.",
+      "parentUuid": "364c5d4e_ecaaa2c5",
+      "range": {
+        "startLine": 91,
+        "startChar": 24,
+        "endLine": 91,
+        "endChar": 59
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8623d449_b1ed2677",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd007e24_b96670c2",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-04T12:34:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8623d449_b1ed2677",
+      "range": {
+        "startLine": 134,
+        "startChar": 47,
+        "endLine": 134,
+        "endChar": 60
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "fd3770a1_acde9e5f",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-04T12:34:23Z",
+      "side": 1,
+      "message": "Readability is better I guess?\nI wrote it like this to make sure I made no bugs.",
+      "parentUuid": "b903af0e_16ba5b16",
+      "range": {
+        "startLine": 150,
+        "startChar": 17,
+        "endLine": 150,
+        "endChar": 68
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ac8480a_95e2fee6",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 4
@@ -91,6 +163,30 @@
       "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d416d5d_301c32a5",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-04T12:34:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ac8480a_95e2fee6",
+      "range": {
+        "startLine": 155,
+        "startChar": 6,
+        "endLine": 155,
+        "endChar": 7
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "54392abf_b6e76624",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-04T12:34:23Z",
+      "side": 1,
+      "message": "Replaced with !\u003d\u003d",
+      "parentUuid": "e006b861_4c38fcc8",
+      "range": {
+        "startLine": 157,
+        "startChar": 25,
+        "endLine": 157,
+        "endChar": 27
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b9665a8_e022e724",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 4
@@ -137,6 +257,30 @@
       "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb4484b5_56bbfa2d",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-04T12:34:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b9665a8_e022e724",
+      "range": {
+        "startLine": 165,
+        "startChar": 24,
+        "endLine": 165,
+        "endChar": 26
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -186,6 +330,54 @@
     },
     {
       "key": {
+        "uuid": "6f983c09_c282254d",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-04T12:34:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48eb806d_8d86f721",
+      "range": {
+        "startLine": 170,
+        "startChar": 22,
+        "endLine": 170,
+        "endChar": 24
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d264bb21_2a7d8775",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-04T12:34:23Z",
+      "side": 1,
+      "message": "Added to the comment",
+      "parentUuid": "a8a3f87d_71daf183",
+      "range": {
+        "startLine": 170,
+        "startChar": 6,
+        "endLine": 170,
+        "endChar": 8
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85c80b66_ad752d48",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 4
@@ -226,6 +418,48 @@
     },
     {
       "key": {
+        "uuid": "422b40b7_73b09255",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-04T12:34:23Z",
+      "side": 1,
+      "message": "Dmitrii\u0027s suggestion should probably take care of this concern I think.",
+      "parentUuid": "85c80b66_ad752d48",
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "422125a1_41d64185",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-04T12:34:23Z",
+      "side": 1,
+      "message": "Great suggestion!",
+      "parentUuid": "a39fd662_58af116c",
+      "range": {
+        "startLine": 195,
+        "startChar": 8,
+        "endLine": 195,
+        "endChar": 45
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "873cf5b4_cffceaba",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 4
@@ -263,6 +497,48 @@
       "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d17b3d70_9855b31f",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-04T12:34:23Z",
+      "side": 1,
+      "message": "same",
+      "parentUuid": "873cf5b4_cffceaba",
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a200b4e_1d1c740d",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-04T12:34:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5185ecd4_57db8833",
+      "range": {
+        "startLine": 198,
+        "startChar": 13,
+        "endLine": 198,
+        "endChar": 27
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -312,6 +588,54 @@
     },
     {
       "key": {
+        "uuid": "6125a0bd_301d7a56",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-04T12:34:23Z",
+      "side": 1,
+      "message": "Based on Delphine\u0027s mocks, it\u0027s actually this color.\nhttps://www.figma.com/file/DDDLYf36FmiGD4cG4oLvi4/Comments-UX?node-id\u003d184%3A5928",
+      "parentUuid": "f63bd7a5_92b70a5c",
+      "range": {
+        "startLine": 57,
+        "startChar": 30,
+        "endLine": 57,
+        "endChar": 54
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6a293cb_dfe507eb",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-04T12:34:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c90940e_c0ca284c",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 12
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5dd4aa02_67e3f8cc",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.js",
         "patchSetId": 4
@@ -347,6 +671,24 @@
     },
     {
       "key": {
+        "uuid": "db0ab5d0_568c037a",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-04T12:34:23Z",
+      "side": 1,
+      "message": "Yeah, Dmitrii pointed out why adding before the file name would not work since we do not want to do it for the very first file name that is being rendered.",
+      "parentUuid": "c1a1b377_56bdddb1",
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72bc3d29_c0f37b92",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 4
@@ -367,6 +709,30 @@
       "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e1889d6_269b1777",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-04T12:34:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72bc3d29_c0f37b92",
+      "range": {
+        "startLine": 158,
+        "startChar": 6,
+        "endLine": 158,
+        "endChar": 20
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -393,6 +759,30 @@
     },
     {
       "key": {
+        "uuid": "ec3fb076_812c9ff0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-04T12:34:23Z",
+      "side": 1,
+      "message": "Quoting from the docs for lineNum.\n\"If range is set, this equals the end line of the range\".\nHence, if range is set then lineNum should also be set.\nAdded this as a comment.\n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-info",
+      "parentUuid": "674b674c_9e7f9e5e",
+      "range": {
+        "startLine": 253,
+        "startChar": 26,
+        "endLine": 253,
+        "endChar": 37
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c8f7688_a9d874ce",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 4
@@ -407,6 +797,24 @@
       "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "641a05c0_0f7776a4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-04T12:34:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c8f7688_a9d874ce",
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

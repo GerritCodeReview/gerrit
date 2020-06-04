@@ -38,7 +38,7 @@ public class MessageIdGeneratorIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       String messageId = messageIdGenerator.fromAccountUpdate(admin.id()).id();
       String sha1 =
-          repo.getRefDatabase().getRef(RefNames.refsUsers(admin.id())).getObjectId().getName();
+          repo.getRefDatabase().findRef(RefNames.refsUsers(admin.id())).getObjectId().getName();
       assertThat(sha1).isEqualTo(messageId);
     }
   }
@@ -51,7 +51,7 @@ public class MessageIdGeneratorIT extends AbstractDaemonTest {
       String messageId = messageIdGenerator.fromChangeUpdate(project, patchsetId).id();
       String sha1 =
           repo.getRefDatabase()
-              .getRef(String.format("%smeta", patchsetId.changeId().toRefPrefix()))
+              .findRef(String.format("%smeta", patchsetId.changeId().toRefPrefix()))
               .getObjectId()
               .getName();
       assertThat(sha1).isEqualTo(messageId);

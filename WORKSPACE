@@ -193,26 +193,6 @@ maven_jar(
     sha1 = "42aa5155a54a87d70af32d4b0d06bf43779de0e2",
 )
 
-FLOGGER_VERS = "0.4"
-
-maven_jar(
-    name = "flogger",
-    artifact = "com.google.flogger:flogger:" + FLOGGER_VERS,
-    sha1 = "9c8863dcc913b56291c0c88e6d4ca9715b43df98",
-)
-
-maven_jar(
-    name = "flogger-log4j-backend",
-    artifact = "com.google.flogger:flogger-log4j-backend:" + FLOGGER_VERS,
-    sha1 = "17aa5e31daa1354187e14b6978597d630391c028",
-)
-
-maven_jar(
-    name = "flogger-system-backend",
-    artifact = "com.google.flogger:flogger-system-backend:" + FLOGGER_VERS,
-    sha1 = "287b569d76abcd82f9de87fe41829fbc7ebd8ac9",
-)
-
 maven_jar(
     name = "gson",
     artifact = "com.google.code.gson:gson:2.8.5",

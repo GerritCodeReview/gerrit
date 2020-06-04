@@ -37,7 +37,7 @@ export const htmlTemplate = html`
     #container {
       background-color: var(--comment-background-color);
       color: var(--comment-text-color);
-      display: block;
+      display: var(--gr-comment-thread-display, block);
       margin: 0 var(--spacing-s) var(--spacing-s);
       white-space: normal;
       box-shadow: var(--elevation-level-2);

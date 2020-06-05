@@ -454,6 +454,7 @@ class GrDiffHost extends mixinBehaviors( [
   /** Cancel any remaining diff builder rendering work. */
   cancel() {
     this.$.diff.cancel();
+    this.$.syntaxLayer.cancel();
   }
 
   /** @return {!Array<!HTMLElement>} */

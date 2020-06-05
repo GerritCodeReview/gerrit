@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12df61a1_3bee3877",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-05T09:44:36Z",
+      "side": 1,
+      "message": "If you handle the key in \u003cgr-comment-thread\u003e, then the shortcut will also apply to the Change Log and Comments tabs.\n\nMaybe handle the shortcut in the diff-view similar to how we are hiding the left side with the Shift-A shortcut (_handleOpenReplyDialogOrToggleLeftPane). So the shortcut would just add a \u0027hideComments\u0027 class to the diff-view, and then you would add auch a css rule:\n\n  .hideComments gr-comment-thread {\n    display: none;\n  }",
+      "revId": "50deb9d740eb2672da30ee57bae5783c3245e037",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

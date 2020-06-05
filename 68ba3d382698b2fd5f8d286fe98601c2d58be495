@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "934fba41_bc7d45f7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-05T08:13:40Z",
+      "side": 1,
+      "message": "no more `side` class on `td` ? this seems inconsistent with what\u0027s in the commit message",
+      "revId": "68ba3d382698b2fd5f8d286fe98601c2d58be495",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

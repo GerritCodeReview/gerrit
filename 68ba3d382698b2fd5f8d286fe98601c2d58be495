@@ -16,6 +16,24 @@
       "revId": "68ba3d382698b2fd5f8d286fe98601c2d58be495",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97a404f2_d6719727",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-05T10:33:43Z",
+      "side": 1,
+      "message": "It was just moved to line 303, so that we *always* have a \u0027side\u0027 class.",
+      "parentUuid": "934fba41_bc7d45f7",
+      "revId": "68ba3d382698b2fd5f8d286fe98601c2d58be495",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

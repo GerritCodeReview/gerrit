@@ -23,13 +23,19 @@ import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.mail.EmailHeader;
+import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.testing.FakeEmailSender;
+import com.google.inject.Inject;
+import java.net.URL;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 
 public class OutgoingEmailIT extends AbstractDaemonTest {
+
+  @Inject private DynamicItem<UrlFormatter> urlFormatter;
 
   @Test
   public void messageIdHeaderFromChangeUpdate() throws Exception {
@@ -97,7 +103,7 @@ public class OutgoingEmailIT extends AbstractDaemonTest {
     String newPassword = gApi.accounts().self().generateHttpPassword();
     assertThat(newPassword).isNotNull();
     assertThat(getMessageId(sender))
-        .containsMatch("<HTTP password change-" + admin.id().toString() + ".*>");
+        .containsMatch("<HTTP_password_change-" + admin.id().toString() + ".*@.*>");
   }
 
   @Test
@@ -129,8 +135,9 @@ public class OutgoingEmailIT extends AbstractDaemonTest {
         .getString();
   }
 
-  // Each message-id must start with < and end with >.
-  private static String withPrefixAndSuffixForMessageId(String id) {
-    return "<" + id + ">";
+  // Each message-id must start with '<' and end with '>'. Also, it must contain no spaces and it
+  // must contain a '@'.
+  private String withPrefixAndSuffixForMessageId(String id) throws Exception {
+    return "<" + id + "@" + new URL(urlFormatter.get().getWebUrl().get()).getHost() + ">";
   }
 }

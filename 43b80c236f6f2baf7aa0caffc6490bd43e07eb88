@@ -117,6 +117,30 @@
       "revId": "43b80c236f6f2baf7aa0caffc6490bd43e07eb88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17699c63_779f8820",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-06-05T14:33:00Z",
+      "side": 1,
+      "message": "I think @Tao means use:\n\n\u003ctemplate is\u003d\"dom-if\" if\u003d\"[[item.api_version]]\"\u003e\n  \u003ctd class\u003d\"version\"\u003e[[item.api_version]]\u003c/td\u003e\n\u003c/template\u003e\n\nlike we do for the other optional fields.",
+      "parentUuid": "55995891_627af4f2",
+      "range": {
+        "startLine": 59,
+        "startChar": 25,
+        "endLine": 59,
+        "endChar": 32
+      },
+      "revId": "43b80c236f6f2baf7aa0caffc6490bd43e07eb88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

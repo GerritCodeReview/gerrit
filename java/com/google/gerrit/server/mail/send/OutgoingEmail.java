@@ -259,11 +259,12 @@ public abstract class OutgoingEmail {
     return true;
   }
 
-  // All message ids must start with < and end with >.
+  // All message ids must start with < and end with >. Also, they must have @domain and no spaces.
   private void addMessageId(OutgoingEmailValidationListener.Args va, String suffix) {
     if (messageId != null) {
-      va.headers.put(
-          FieldName.MESSAGE_ID, new EmailHeader.String("<" + messageId.id() + suffix + ">"));
+      String message = "<" + messageId.id() + suffix + "@" + getGerritHost() + ">";
+      message = message.replaceAll("\\s", "");
+      va.headers.put(FieldName.MESSAGE_ID, new EmailHeader.String(message));
     }
   }
 

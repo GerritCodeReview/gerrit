@@ -48,6 +48,7 @@ import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import java.net.URL;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Collection;
@@ -300,7 +301,7 @@ public class MailProcessorIT extends AbstractMailIT {
 
     // ensure the message header contains a valid message id.
     assertThat(((EmailHeader.String) (message.headers().get("Message-ID"))).getString())
-        .isEqualTo("<some id-REJECTION-HTML>");
+        .containsMatch("<someid-REJECTION-HTML@" + new URL(canonicalWebUrl.get()).getHost() + ">");
   }
 
   @Test

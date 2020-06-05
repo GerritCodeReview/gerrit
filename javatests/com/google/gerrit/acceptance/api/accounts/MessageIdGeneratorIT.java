@@ -24,7 +24,6 @@ import com.google.gerrit.mail.Address;
 import com.google.gerrit.mail.MailMessage;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.util.time.TimeUtil;
-import java.sql.Timestamp;
 import java.time.Instant;
 import javax.inject.Inject;
 import org.eclipse.jgit.lib.Repository;
@@ -74,7 +73,7 @@ public class MessageIdGeneratorIT extends AbstractDaemonTest {
   @Test
   public void fromReasonAccountIdAndTimestamp() throws Exception {
     String reason = "reason";
-    Timestamp timestamp = TimeUtil.nowTs();
+    Instant timestamp = TimeUtil.now();
     assertThat(
             messageIdGenerator.fromReasonAccountIdAndTimestamp(reason, admin.id(), timestamp).id())
         .isEqualTo(reason + "-" + admin.id().toString() + "-" + timestamp.toString());

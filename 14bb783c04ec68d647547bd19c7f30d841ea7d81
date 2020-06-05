@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b18a9637_eab2087a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-05T13:05:30Z",
+      "side": 1,
+      "message": "We could of course also simply throw an exception in the code and trust that our tests catch all regressions. What do you think?",
+      "range": {
+        "startLine": 22,
+        "startChar": 16,
+        "endLine": 24,
+        "endChar": 8
+      },
+      "revId": "14bb783c04ec68d647547bd19c7f30d841ea7d81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

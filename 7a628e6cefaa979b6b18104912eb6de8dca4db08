@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8a77bf5_3d258a47",
+        "filename": "Jenkinsfile",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-05T12:50:40Z",
+      "side": 1,
+      "message": "This seems unrelated to the HTTP auth issue, so it should be a separate change.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 14
+      },
+      "revId": "7a628e6cefaa979b6b18104912eb6de8dca4db08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8732bca8_8af40aaf",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-05T12:50:40Z",
+      "side": 1,
+      "message": "With boolean functions, the name typically describes what to expect from the return value.\n\nWhat about `isAccountStateNullOrActive`, or `isAccountActive`, or `isAccountStillValid` or\nsomething similar. That would help to make intention clearer with the callers of this method.\n\nSince the method\u0027s return value is only used negated, we could also flip the return value\naround if that makes naming easier.",
+      "range": {
+        "startLine": 205,
+        "startChar": 18,
+        "endLine": 205,
+        "endChar": 36
+      },
+      "revId": "7a628e6cefaa979b6b18104912eb6de8dca4db08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "664bab7e_83d0d5d0",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-05T12:50:40Z",
+      "side": 1,
+      "message": "In the current AccountCache implementation it\u0027s stated that accountState will\nnot be null, so I\u0027m not sure if we need to check for null.\n\nBut since there\u0027s an explicit check against null, it looks skew to let `null` pass while\nwe deny inactive accounts.",
+      "range": {
+        "startLine": 210,
+        "startChar": 11,
+        "endLine": 210,
+        "endChar": 15
+      },
+      "revId": "7a628e6cefaa979b6b18104912eb6de8dca4db08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29d26e3f_2b61b84d",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-05T12:50:40Z",
+      "side": 1,
+      "message": "I\u0027d find it clearer if instead of the `return true` and `return false` we\u0027d return the negated\ncondition directly\n\n  return (accountState \u003d\u003d null || accountState.getAccount().isActive());",
+      "revId": "7a628e6cefaa979b6b18104912eb6de8dca4db08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

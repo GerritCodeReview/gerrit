@@ -11,34 +11,27 @@ link:pg-plugin-migration.html#migration[migration guide].
 [[loading]]
 == Plugin loading and initialization
 
-link:js-api.html#_entry_point[Entry point] for the plugin and the loading method
-is based on link:http://w3c.github.io/webcomponents/spec/imports/[HTML Imports,role=external,window=_blank]
-spec.
+link:js-api.html#_entry_point[Entry point] for the plugin.
 
-* The plugin provides pluginname.html, and can be a standalone file or a static
+* The plugin provides pluginname.js, and can be a standalone file or a static
   asset in a jar as a link:dev-plugins.html#deployment[Web UI plugin].
-* pluginname.html contains a `dom-module` tag with a script that uses
-  `Gerrit.install()`. There should only be single `Gerrit.install()` per file.
-* PolyGerrit imports pluginname.html along with all required resources defined in it
-  (fonts, styles, etc).
-* For standalone plugins, the entry point file is a `pluginname.html` file
+* pluginname.js contains a call to `Gerrit.install()`. There should
+  only be single `Gerrit.install()` per file.
+* PolyGerrit imports pluginname.js.
+* For standalone plugins, the entry point file is a `pluginname.js` file
   located in `gerrit-site/plugins` folder, where `pluginname` is an alphanumeric
   plugin name.
 
 Note: Code examples target modern browsers (Chrome, Firefox, Safari, Edge).
 
-Here's a recommended starter `myplugin.html`:
+Here's a recommended starter `myplugin.js`:
 
-``` html
-<dom-module id="my-plugin">
-  <script>
-    Gerrit.install(plugin => {
-      'use strict';
+``` js
+Gerrit.install(plugin => {
+  'use strict';
 
-      // Your code here.
-    });
-  </script>
-</dom-module>
+  // Your code here.
+});
 ```
 
 [[low-level-api-concepts]]
@@ -103,34 +96,31 @@ Gerrit.install(plugin => {
 === Styling DOM Elements
 
 A plugin may provide Polymer's
-https://www.polymer-project.org/2.0/docs/devguide/style-shadow-dom#style-modules[style
+https://polymer-library.polymer-project.org/3.0/docs/devguide/style-shadow-dom[style
 modules,role=external,window=_blank] to style individual endpoints using
 `plugin.registerStyleModule(endpointName, moduleName)`. A style must be defined
-as a standalone `<dom-module>` defined in the same .html file.
+as a standalone `<dom-module>` defined in the same .js file.
+
+See `samples/theme-plugin.js` for examples.
 
 Note: TODO: Insert link to the full styling API.
 
-``` html
-<dom-module id="my-plugin">
-  <script>
-    Gerrit.install(plugin => {
-      plugin.registerStyleModule('change-metadata', 'some-style-module');
-    });
-  </script>
-</dom-module>
-
-<dom-module id="some-style-module">
-  <style>
+``` js
+const styleElement = document.createElement('dom-module');
+styleElement.innerHTML =
+ `<template>
+    <style>
     html {
-      --change-metadata-label-status: {
-        display: none;
-      }
-      --change-metadata-strategy: {
-        display: none;
-      }
+      --primary-text-color: red;
     }
-  </style>
-</dom-module>
+   </style>
+ </template>`;
+
+styleElement.register('some-style-module');
+
+Gerrit.install(plugin => {
+  plugin.registerStyleModule('change-metadata', 'some-style-module');
+});
 ```
 
 [[high-level-api-concepts]]
@@ -152,11 +142,11 @@ The low-level DOM API methods are the base of all UI customization.
 `plugin.attributeHelper(element)`
 
 Alternative for
-link:https://www.polymer-project.org/1.0/docs/devguide/data-binding[Polymer data
+link:https://polymer-library.polymer-project.org/3.0/docs/devguide/data-binding[Polymer data
 binding,role=external,window=_blank] for plugins that don't use Polymer. Can be used to bind element
 attribute changes to callbacks.
 
-See `samples/bind-parameters.html` for examples on both Polymer data bindings
+See `samples/bind-parameters.js` for examples on both Polymer data bindings
 and `attibuteHelper` usage.
 
 === eventHelper
@@ -253,25 +243,28 @@ Gerrit.install(function(self) {
 
 Here's the recommended approach that uses Polymer for generating custom elements:
 
-``` html
-<dom-module id="some-plugin">
-  <script>
-    Gerrit.install(plugin => {
-      plugin.registerCustomComponent(
-        'change-view-integration', 'some-ci-module');
-    });
-  </script>
-</dom-module>
+``` js
+class SomeCiModule extends Polymer.Element {
+  static get is() {
+    return "some-ci-module";
+  }
+  static get template() {
+    return Polymer.html`
+      Sample link: <a href="http://some.com/foo">Foo</a>
+    `;
+  }
+}
 
-<dom-module id="some-ci-module">
-  <template>
-    Sample link: <a href="http://some.com/foo">Foo</a>
-  </template>
-  <script>
-    Polymer({is: 'some-ci-module'});
-  </script>
-</dom-module>
+// Register this element
+customElements.define(SomeCiModule.is, SomeCiModule);
+
+// Install the plugin
+Gerrit.install(plugin => {
+  plugin.registerCustomComponent('change-view-integration', 'some-ci-module');
+});
 ```
+
+See `samples/` for more examples.
 
 Here's a minimal example that uses low-level DOM Hooks API for the same purpose:
 

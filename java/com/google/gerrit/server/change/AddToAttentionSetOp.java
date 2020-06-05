@@ -36,24 +36,34 @@ import java.util.function.Function;
 public class AddToAttentionSetOp implements BatchUpdateOp {
 
   public interface Factory {
-    AddToAttentionSetOp create(Account.Id attentionUserId, String reason);
+    AddToAttentionSetOp create(
+        Account.Id attentionUserId, String reason, boolean withChangeMessage);
   }
 
   private final ChangeData.Factory changeDataFactory;
   private final ChangeMessagesUtil cmUtil;
   private final Account.Id attentionUserId;
   private final String reason;
+  private final boolean withChangeMessage;
 
+  /**
+   * @param attentionUserId the id of the user we want to add to the attention set.
+   * @param reason The reason for adding that user.
+   * @param withChangeMessage Whether or not we wish to add a change message detailing about adding
+   *     that user to the attention set.
+   */
   @Inject
   AddToAttentionSetOp(
       ChangeData.Factory changeDataFactory,
       ChangeMessagesUtil cmUtil,
       @Assisted Account.Id attentionUserId,
-      @Assisted String reason) {
+      @Assisted String reason,
+      @Assisted boolean withChangeMessage) {
     this.changeDataFactory = changeDataFactory;
     this.cmUtil = cmUtil;
     this.attentionUserId = requireNonNull(attentionUserId, "user");
     this.reason = requireNonNull(reason, "reason");
+    this.withChangeMessage = withChangeMessage;
   }
 
   @Override
@@ -68,15 +78,17 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
     }
 
     ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
-    update.setAttentionSetUpdates(
+    update.addToPlannedAttentionSetUpdates(
         ImmutableSet.of(
             AttentionSetUpdate.createForWrite(
                 attentionUserId, AttentionSetUpdate.Operation.ADD, reason)));
-    addMessage(ctx, update);
+    if (withChangeMessage) {
+      addChangeMessage(ctx, update);
+    }
     return true;
   }
 
-  private void addMessage(ChangeContext ctx, ChangeUpdate update) {
+  private void addChangeMessage(ChangeContext ctx, ChangeUpdate update) {
     String message = "Added to attention set: " + attentionUserId;
     cmUtil.addChangeMessage(
         update,

@@ -249,7 +249,7 @@ class GrSyntaxLayer extends GestureEventListeners(
   process() {
     // Cancel any still running process() calls, because they append to the
     // same _baseRanges and _revisionRanges fields.
-    this._cancel();
+    this.cancel();
 
     // Discard existing ranges.
     this._baseRanges = [];
@@ -319,7 +319,7 @@ class GrSyntaxLayer extends GestureEventListeners(
   /**
    * Cancel any asynchronous syntax processing jobs.
    */
-  _cancel() {
+  cancel() {
     if (this._processHandle != null) {
       this.cancelAsync(this._processHandle);
       this._processHandle = null;
@@ -330,7 +330,7 @@ class GrSyntaxLayer extends GestureEventListeners(
   }
 
   _diffChanged() {
-    this._cancel();
+    this.cancel();
     this._baseRanges = [];
     this._revisionRanges = [];
   }

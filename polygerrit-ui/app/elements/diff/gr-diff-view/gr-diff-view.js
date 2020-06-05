@@ -798,6 +798,8 @@ class GrDiffView extends mixinBehaviors( [
 
     promises.push(this._getChangeEdit(this._changeNum));
 
+    this.$.diffHost.cancel();
+    this.$.diffHost.clearDiffContent();
     this._loading = true;
     return Promise.all(promises)
         .then(r => {

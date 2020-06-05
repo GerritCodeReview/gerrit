@@ -131,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "15edeba8_d9b31fb9",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-05T08:35:52Z",
+      "side": 1,
+      "message": "IIRC the plan was actually for the FE to duplicate the logic. I agree it\u0027s not really relevant to this change, because it will either refresh or duplicate :-)",
+      "parentUuid": "bca2f400_e12c770d",
+      "revId": "f216b0226f349662446f6304f08e194d8d374e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d51b417a_600ad2b5",
         "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 7
@@ -181,6 +199,24 @@
       "revId": "f216b0226f349662446f6304f08e194d8d374e27",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9977630c_af95d5c1",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-05T08:35:52Z",
+      "side": 1,
+      "message": "Where is this second update filtered? I\u0027m a bit concerned that this behavior depends on some optimization that detects that the reviewers remain unchanged and skips this code, which only works because that hypothetical optimization isn\u0027t smart enough to know about attention sets yet.",
+      "parentUuid": "81e09340_11c5729d",
+      "revId": "f216b0226f349662446f6304f08e194d8d374e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

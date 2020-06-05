@@ -43,7 +43,7 @@ public class ElasticContainer extends ElasticsearchContainer {
       case V6_7:
         return "blacktop/elasticsearch:6.7.2";
       case V6_8:
-        return "blacktop/elasticsearch:6.8.9";
+        return "blacktop/elasticsearch:6.8.10";
       case V7_0:
         return "blacktop/elasticsearch:7.0.1";
       case V7_1:
@@ -59,7 +59,7 @@ public class ElasticContainer extends ElasticsearchContainer {
       case V7_6:
         return "blacktop/elasticsearch:7.6.2";
       case V7_7:
-        return "blacktop/elasticsearch:7.7.0";
+        return "blacktop/elasticsearch:7.7.1";
     }
     throw new IllegalStateException("No tests for version: " + version.name());
   }

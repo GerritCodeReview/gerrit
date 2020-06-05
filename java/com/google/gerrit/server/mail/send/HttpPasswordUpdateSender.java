@@ -50,7 +50,7 @@ public class HttpPasswordUpdateSender extends OutgoingEmail {
     setHeader("Subject", "[Gerrit Code Review] HTTP password was " + operation);
     setMessageId(
         messageIdGenerator.fromReasonAccountIdAndTimestamp(
-            "HTTP password change", user.getAccountId(), TimeUtil.nowTs()));
+            "HTTP_password_change", user.getAccountId(), TimeUtil.now()));
     add(RecipientType.TO, Address.create(getEmail()));
   }
 

@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "2ae02b86_1b52ae79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-05T12:18:16Z",
+      "side": 1,
+      "message": "Sorry, forgot to mention, we ususally reference changes through abbreviated Change-Id or change number:\n\n* 1. I4d64f9ac18\n* 2. change 270306",
+      "range": {
+        "startLine": 10,
+        "startChar": 22,
+        "endLine": 10,
+        "endChar": 89
+      },
+      "revId": "8b61b0e51e302c859895e3152b31dba8d9a0cd8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "28e06c50_34b2be37",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "06c0b53d_870bd560",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_html.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-05T15:00:30Z",
+      "side": 1,
+      "message": "if class on host, you need `:host.show-comments` instead , otherwise its trying to look for `.show-comments` inside of the `host`",
+      "range": {
+        "startLine": 199,
+        "startChar": 5,
+        "endLine": 199,
+        "endChar": 18
+      },
+      "revId": "59ac3ee4e940b711860061918f0ee222f0745492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "652bb6fe_329c08da",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_html.js",
         "patchSetId": 2
@@ -53,6 +76,46 @@
       "writtenOn": "2020-06-05T14:58:20Z",
       "side": 1,
       "message": "Do you need this second rule? Isn\u0027t one rule with \"none\" enough? If it is not activated, then \"unset\" is the implicit value.",
+      "revId": "59ac3ee4e940b711860061918f0ee222f0745492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f060120e_7bd832f3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_html.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-05T15:00:30Z",
+      "side": 1,
+      "message": "why `unset` ?",
+      "range": {
+        "startLine": 203,
+        "startChar": 35,
+        "endLine": 203,
+        "endChar": 40
+      },
+      "revId": "59ac3ee4e940b711860061918f0ee222f0745492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "831d04ee_63ba1c50",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-05T15:00:30Z",
+      "side": 1,
+      "message": "should not this be added to `:host` instead ?",
       "revId": "59ac3ee4e940b711860061918f0ee222f0745492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

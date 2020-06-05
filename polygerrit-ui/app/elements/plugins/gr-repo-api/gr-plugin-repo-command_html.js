@@ -23,12 +23,6 @@ export const htmlTemplate = html`
       margin-bottom: var(--spacing-xxl);
     }
   </style>
-  <h3 class="heading-3">[[title]]</h3>
-  <gr-button
-    title$="[[tooltip]]"
-    disabled$="[[disabled]]"
-    on-click="_onCommandTap"
-  >
-    [[title]]
-  </gr-button>
+  <h3>[[title]]</h3>
+  <gr-button on-click="_handleClick">[[title]]</gr-button>
 `;

@@ -28,7 +28,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.update.RepoView;
 import com.google.inject.Inject;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -111,7 +111,7 @@ public class MessageIdGenerator {
    * @return MessageId that depends on the reason, accountId, and timestamp.
    */
   public MessageId fromReasonAccountIdAndTimestamp(
-      String reason, Account.Id accountId, Timestamp timestamp) {
+      String reason, Account.Id accountId, Instant timestamp) {
     return new AutoValue_MessageIdGenerator_MessageId(
         reason + "-" + accountId.toString() + "-" + timestamp.toString());
   }

@@ -111,6 +111,7 @@ export const htmlTemplate = html`
     filter="_isMessageVisible"
   >
     <gr-message
+      change="[[change]]"
       change-num="[[changeNum]]"
       message="[[message]]"
       project-name="[[projectName]]"

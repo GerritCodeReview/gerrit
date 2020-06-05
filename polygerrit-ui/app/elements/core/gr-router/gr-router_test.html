@@ -1431,6 +1431,7 @@ suite('gr-router tests', () => {
               7, // 6 Patch number
             ],
             queryMap: new Map(),
+            path,
           };
         }
 
@@ -1450,6 +1451,25 @@ suite('gr-router tests', () => {
           assert.isTrue(redirectStub.calledOnce);
           assert.isTrue(redirectStub.calledWithExactly('foo'));
         });
+
+        test('force reload in url passes forceReload to params', () => {
+          const ctx = makeParams('/c/loadtest/+/38796&reload', '');
+          const redirectOrNavigateStub =
+            sandbox.stub(element, '_redirectOrNavigate');
+          element._handleChangeRoute(ctx);
+          const params = redirectOrNavigateStub.getCall(0).args[0];
+          assert.isOk(params.forceReload);
+        });
+
+        test('force reload not in url does not pass forceReload to params',
+            () => {
+              const ctx = makeParams('/c/loadtest/+/38796', '');
+              const redirectOrNavigateStub =
+            sandbox.stub(element, '_redirectOrNavigate');
+              element._handleChangeRoute(ctx);
+              const params = redirectOrNavigateStub.getCall(0).args[0];
+              assert.isNotOk(params.forceReload);
+            });
 
         test('change view', () => {
           normalizeRangeStub.returns(false);

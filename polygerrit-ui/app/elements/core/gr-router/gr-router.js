@@ -130,7 +130,8 @@ const RoutePattern = {
   // /c/<project>/+/<changeNum>/[<basePatchNum|edit>..][<patchNum|edit>].
   // TODO(kaspern): Migrate completely to project based URLs, with backwards
   // compatibility for change-only.
-  CHANGE: /^\/c\/(.+)\/\+\/(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?))?\/?$/,
+  // eslint-disable-next-line
+  CHANGE: /^\/c\/(.+)\/\+\/(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?))?(&reload)*\/?$/,
 
   // Matches /c/<project>/+/<changeNum>/[<patchNum|edit>],edit
   CHANGE_EDIT: /^\/c\/(.+)\/\+\/(\d+)(\/(\d+))?,edit\/?$/,
@@ -430,6 +431,9 @@ class GrRouter extends mixinBehaviors( [
       suffix += '?' + params.querystring;
     } else if (params.edit) {
       suffix += ',edit';
+    }
+    if (params.forceReload) {
+      suffix += '&reload';
     }
     if (params.messageHash) {
       suffix += params.messageHash;
@@ -1359,7 +1363,7 @@ class GrRouter extends mixinBehaviors( [
       view: GerritNav.View.CHANGE,
       queryMap: ctx.queryMap,
     };
-
+    if (ctx.path && ctx.path.includes('&reload')) params.forceReload = true;
     this.reporting.setRepoName(params.project);
     this._redirectOrNavigate(params);
   }

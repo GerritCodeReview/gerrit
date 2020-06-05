@@ -1019,7 +1019,8 @@ class GrChangeView extends mixinBehaviors( [
     this.$.fileList.collapseAllDiffs();
   }
 
-  _paramsChanged(value) {
+  _paramsChanged(value, oldValue) {
+    if (!value.forceReload && util.deepEqual(value, oldValue)) return;
     if (value.view !== GerritNav.View.CHANGE) {
       this._initialLoadComplete = false;
       return;

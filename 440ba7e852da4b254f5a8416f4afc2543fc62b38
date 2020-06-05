@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "873ae0ac_7b79c3e0",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-05T15:16:25Z",
+      "side": 0,
+      "message": "Was already in through original lines 330-335.",
+      "range": {
+        "startLine": 362,
+        "startChar": 6,
+        "endLine": 367,
+        "endChar": 7
+      },
+      "revId": "440ba7e852da4b254f5a8416f4afc2543fc62b38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -101,6 +101,9 @@ export const htmlTemplate = html`
       display: flex;
       width: 100%;
     }
+    gr-endpoint-decorator[name='reply-reviewers'] {
+      display: block;
+    }
     gr-endpoint-decorator[name='reply-label-scores'] {
       display: block;
     }
@@ -140,20 +143,28 @@ export const htmlTemplate = html`
   </style>
   <div class="container" tabindex="-1">
     <section class="peopleContainer">
-      <div class="peopleList">
-        <div class="peopleListLabel">Reviewers</div>
-        <gr-account-list
-          id="reviewers"
-          accounts="{{_reviewers}}"
-          removable-values="[[change.removable_reviewers]]"
-          filter="[[filterReviewerSuggestion]]"
-          pending-confirmation="{{_reviewerPendingConfirmation}}"
-          placeholder="Add reviewer..."
-          on-account-text-changed="_handleAccountTextEntry"
-          suggestions-provider="[[_getReviewerSuggestionsProvider(change)]]"
-        >
-        </gr-account-list>
-      </div>
+      <gr-endpoint-decorator name="reply-reviewers">
+        <div class="peopleList">
+          <gr-endpoint-param
+            name="change"
+            value="[[change]]"
+          ></gr-endpoint-param>
+          <div class="peopleListLabel">Reviewers</div>
+          <gr-account-list
+            id="reviewers"
+            accounts="{{_reviewers}}"
+            removable-values="[[change.removable_reviewers]]"
+            filter="[[filterReviewerSuggestion]]"
+            pending-confirmation="{{_reviewerPendingConfirmation}}"
+            placeholder="Add reviewer..."
+            on-account-text-changed="_handleAccountTextEntry"
+            suggestions-provider="[[_getReviewerSuggestionsProvider(change)]]"
+          >
+          </gr-account-list>
+          <gr-endpoint-slot name="right"></gr-endpoint-slot>
+        </div>
+        <gr-endpoint-slot name="below"></gr-endpoint-slot>
+      </gr-endpoint-decorator>
       <div class="peopleList">
         <div class="peopleListLabel">CC</div>
         <gr-account-list

@@ -295,6 +295,24 @@ class GrReplyDialog extends mixinBehaviors( [
     this.addEventListener('comment-editing-changed', e => {
       this._commentEditing = e.detail;
     });
+
+    this.addEventListener('add-reviewer', e => {
+      const reviewerToBeAdded = e.detail.reviewer;
+      const idx = this._reviewers
+          .findIndex(r => r._account_id === reviewerToBeAdded._account_id);
+      if (idx === -1) {
+        this.push('_reviewers', {...reviewerToBeAdded, _pendingAdd: true});
+      }
+    });
+
+    this.addEventListener('remove-reviewer', e => {
+      const reviewerToBeRemoved = e.detail.reviewer;
+      const idx = this._reviewers
+          .findIndex(r => r._account_id === reviewerToBeRemoved._account_id);
+      if (idx > -1) {
+        this.splice('_reviewers', idx);
+      }
+    });
   }
 
   /** @override */

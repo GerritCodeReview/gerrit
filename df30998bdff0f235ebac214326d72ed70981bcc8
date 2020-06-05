@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7fb0da6_0d6eb402",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-05T15:35:35Z",
+      "side": 1,
+      "message": "If \"Patchset comments have no line/range associated with them\", then c1.thread.line \u003d\u003d\u003d c2.thread.line is always true. It seems, that in this case you can completly remove the if (...) {...} block without changing the behavior of a method (and avoid duplicated code for patchNum and unresolved comparison)",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 69
+      },
+      "revId": "df30998bdff0f235ebac214326d72ed70981bcc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5529e079_f4196c6a",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-05T15:35:35Z",
+      "side": 1,
+      "message": "Tests don\u0027t check priorities of properties. For example, if patchnum comparison is moved at the start of _compareThreads all tests pass (didn\u0027t try it actually, may be I am wrong).\nUsually, I write such tests in the following way:\n1) In each test - create 2 objects t1 and t2 where ALL properties set and for each property X t1.X \u003e t2.X\n2) For example, you want to test property thread.line. Then:\na) set values thread.line such that t1.thread.line \u003c t2.thread.line\nb) set values for all properties with higher priority to equal values (in this example t1.thread.path \u003d t2.thread.path)\n3) Compare t1 and t2 (expected result -1). If somehow order is changed in _compareThreads function, the method returns +1 instead\n4) Compare t2 and t1 (expected result 1) - just to make sure compare has symmetry",
+      "range": {
+        "startLine": 315,
+        "startChar": 2,
+        "endLine": 315,
+        "endChar": 34
+      },
+      "revId": "df30998bdff0f235ebac214326d72ed70981bcc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "460b9a49_dab46109",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-05T15:35:35Z",
+      "side": 1,
+      "message": "When testing a comparator it is always good to check 2 cases (a, b) and (b, a):\nassert.equal(element._compareThreads(t1, t2), -1)\nassert.equal(element._compareThreads(t2, t1), 1)\n\n(The same in other tests)",
+      "range": {
+        "startLine": 319,
+        "startChar": 6,
+        "endLine": 319,
+        "endChar": 49
+      },
+      "revId": "df30998bdff0f235ebac214326d72ed70981bcc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

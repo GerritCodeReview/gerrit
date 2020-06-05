@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "dd6049d4_8e34cb84",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-05T15:35:35Z",
+      "side": 1,
+      "message": "May be rename parameter from \u0027threads\u0027 to \u0027visibleThreads\u0027\nI think this will provide enough information to a reader about input",
+      "parentUuid": "05b0ce9d_ad4adffe",
+      "range": {
+        "startLine": 195,
+        "startChar": 29,
+        "endLine": 195,
+        "endChar": 36
+      },
+      "revId": "7544db383f1d1776d1282aaaa38f87d7fcdefe07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd945ad0_2cfabca1",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 7

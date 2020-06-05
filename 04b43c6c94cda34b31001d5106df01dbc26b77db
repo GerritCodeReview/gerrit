@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0bd69c3_6c2795a7",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-05T09:38:21Z",
+      "side": 1,
+      "message": "This name sounds like this set itself is to be cleared. Maybe removeAll or something similar?",
+      "revId": "04b43c6c94cda34b31001d5106df01dbc26b77db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f75ceda7_6941d5e4",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-05T09:38:21Z",
+      "side": 1,
+      "message": "nit: capital S",
+      "range": {
+        "startLine": 791,
+        "startChar": 29,
+        "endLine": 791,
+        "endChar": 30
+      },
+      "revId": "04b43c6c94cda34b31001d5106df01dbc26b77db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82767ca3_c9894195",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 791,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-05T09:38:21Z",
+      "side": 1,
+      "message": "This reads a bit as if you\u0027re adding to the \"updates\" argument, especially since it\u0027s a mutable set.",
+      "revId": "04b43c6c94cda34b31001d5106df01dbc26b77db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddc60bbd_cdd6a160",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-05T09:38:21Z",
+      "side": 1,
+      "message": "Maybe plannedAttentionSetUpdates?",
+      "revId": "04b43c6c94cda34b31001d5106df01dbc26b77db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97738187_fc13ab36",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 798,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-05T09:38:21Z",
+      "side": 1,
+      "message": "This should be called affectedAccounts or uniqueAccounts or beautifulSet or something like that.",
+      "revId": "04b43c6c94cda34b31001d5106df01dbc26b77db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13d818c6_f3d7b3fc",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-05T09:38:21Z",
+      "side": 1,
+      "message": "Add a comment to explain why it\u0027s OK to pick the first one in case there are duplicates.",
+      "revId": "04b43c6c94cda34b31001d5106df01dbc26b77db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

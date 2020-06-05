@@ -132,7 +132,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String submissionId;
   private String topic;
   private String commit;
-  private Set<AttentionSetUpdate> attentionSetUpdates;
+  private Set<AttentionSetUpdate> plannedAttentionSetUpdates;
   private Optional<Account.Id> assignee;
   private Set<String> hashtags;
   private String changeMessage;
@@ -377,15 +377,28 @@ public class ChangeUpdate extends AbstractChangeUpdate {
    * All updates must have a timestamp of null since we use the commit's timestamp. There also must
    * not be multiple updates for a single user.
    */
-  public void setAttentionSetUpdates(Set<AttentionSetUpdate> attentionSetUpdates) {
+  public void addToPlannedAttentionSetUpdates(Set<AttentionSetUpdate> updates) {
     checkArgument(
-        attentionSetUpdates.stream().noneMatch(a -> a.timestamp() != null),
+        updates.stream().noneMatch(a -> a.timestamp() != null),
         "must not specify timestamp for write");
-    checkArgument(
-        attentionSetUpdates.stream().map(AttentionSetUpdate::account).distinct().count()
-            == attentionSetUpdates.size(),
-        "must not specify multiple updates for single user");
-    this.attentionSetUpdates = attentionSetUpdates;
+
+    if (updates == null || updates.isEmpty()) {
+      return;
+    }
+    if (plannedAttentionSetUpdates == null) {
+      plannedAttentionSetUpdates = new HashSet();
+    }
+    Set<Account.Id> currentAccountUpdates =
+        plannedAttentionSetUpdates.stream().map(u -> u.account()).collect(Collectors.toSet());
+    plannedAttentionSetUpdates.addAll(
+        updates.stream()
+            // Only the first update takes place because of the different priorities: e.g, if we
+            // want to add someone to the attention set but also want to remove someone from the
+            // attention set, we should ensure to add/remove that user based on the priority of the
+            // addition and removal. If most importantly we want to remove the user, then we must
+            // first create the removal, and the addition will not take effect.
+            .filter(u -> !currentAccountUpdates.contains(u.account()))
+            .collect(Collectors.toSet()));
   }
 
   public void setAssignee(Account.Id assignee) {
@@ -602,10 +615,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_COMMIT, commit);
     }
 
-    if (attentionSetUpdates != null) {
-      updateAttentionSet(msg, attentionSetUpdates);
-    }
-
     if (assignee != null) {
       if (assignee.isPresent()) {
         addFooter(msg, FOOTER_ASSIGNEE);
@@ -709,6 +718,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_CHERRY_PICK_OF, cherryPickOf);
     }
 
+    if (plannedAttentionSetUpdates != null) {
+      updateAttentionSet(msg);
+    }
+
     CommitBuilder cb = new CommitBuilder();
     cb.setMessage(msg.toString());
     try {
@@ -726,7 +739,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (getNotes().getAttentionSet() == null) {
       return;
     }
-    Set<AttentionSetUpdate> toClear =
+    Set<AttentionSetUpdate> removeAll =
         AttentionSetUtil.additionsOnly(getNotes().getAttentionSet()).stream()
             .map(
                 a ->
@@ -734,7 +747,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
                         a.account(), AttentionSetUpdate.Operation.REMOVE, reason))
             .collect(Collectors.toSet());
 
-    updateAttentionSet(msg, toClear);
+    addToPlannedAttentionSetUpdates(removeAll);
   }
 
   private void addNewReviewersToAttentionSet(StringBuilder msg) {
@@ -761,7 +774,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
                 reviewer.getKey(), AttentionSetUpdate.Operation.REMOVE, "Reviewer was removed"));
       }
     }
-    updateAttentionSet(msg, updates);
+    addToPlannedAttentionSetUpdates(updates);
   }
 
   private void addAllReviewersToAttentionSet(StringBuilder msg) {
@@ -787,11 +800,18 @@ public class ChangeUpdate extends AbstractChangeUpdate {
                     AttentionSetUpdate.createForWrite(
                         r, AttentionSetUpdate.Operation.ADD, "Change was marked ready for review"))
             .collect(Collectors.toSet());
-    updateAttentionSet(msg, updates);
+    addToPlannedAttentionSetUpdates(updates);
   }
 
-  private void updateAttentionSet(StringBuilder msg, Set<AttentionSetUpdate> updates) {
-    for (AttentionSetUpdate attentionSetUpdate : updates) {
+  /**
+   * Any updates to the attention set must be done in {@link #addToPlannedAttentionSetUpdates}. This
+   * method is called after all the updates are finished to do the updates once and for real.
+   */
+  private void updateAttentionSet(StringBuilder msg) {
+    if (plannedAttentionSetUpdates == null) {
+      return;
+    }
+    for (AttentionSetUpdate attentionSetUpdate : plannedAttentionSetUpdates) {
       addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));
     }
   }
@@ -822,7 +842,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && status == null
         && submissionId == null
         && submitRecords == null
-        && attentionSetUpdates == null
+        && plannedAttentionSetUpdates == null
         && assignee == null
         && hashtags == null
         && topic == null

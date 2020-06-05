@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dcb7ada1_e8043af1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-05T20:49:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8522124c_d2e4cf1b",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "2dff5ea397f80dc69b36db215c79769d657e6e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90007291_d87bda0d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -36,6 +60,30 @@
       "writtenOn": "2020-06-05T19:53:12Z",
       "side": 1,
       "message": "Wouldn\u0027t penultimate work as well? I think, that we have already somewhere tests for that.",
+      "range": {
+        "startLine": 25,
+        "startChar": 25,
+        "endLine": 25,
+        "endChar": 46
+      },
+      "revId": "2dff5ea397f80dc69b36db215c79769d657e6e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c960d8aa_13c17f81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-05T20:49:17Z",
+      "side": 1,
+      "message": "It would. Last version was the fastest available solution with the API and I thought it would be good to test the \"worst case\" i.e. upgrading from least recent to most recent.\n\nTests for upgrading index through the index start command?",
+      "parentUuid": "90007291_d87bda0d",
       "range": {
         "startLine": 25,
         "startChar": 25,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "52717f12_78c5831c",
+        "filename": "java/com/google/gerrit/server/index/VersionManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-05T20:49:17Z",
+      "side": 1,
+      "message": "Done. Answered above.\n\nWill that change (if applied in the future) remove the need for the start command for Account and Changes Index?",
+      "parentUuid": "8eca8dbb_f73ffbbb",
+      "range": {
+        "startLine": 238,
+        "startChar": 2,
+        "endLine": 245,
+        "endChar": 3
+      },
+      "revId": "2dff5ea397f80dc69b36db215c79769d657e6e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d8450d31_a5e437e9",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
         "patchSetId": 10
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "0304acb7_3d361f50",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-05T20:49:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8450d31_a5e437e9",
+      "range": {
+        "startLine": 68,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 38
+      },
+      "revId": "2dff5ea397f80dc69b36db215c79769d657e6e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10051762_76af8531",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
         "patchSetId": 10
@@ -114,6 +210,30 @@
       "revId": "2dff5ea397f80dc69b36db215c79769d657e6e65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7798d887_f8953405",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-05T20:49:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10051762_76af8531",
+      "range": {
+        "startLine": 83,
+        "startChar": 6,
+        "endLine": 84,
+        "endChar": 38
+      },
+      "revId": "2dff5ea397f80dc69b36db215c79769d657e6e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -660,6 +660,30 @@
     },
     {
       "key": {
+        "uuid": "27723328_e3dd85fe",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-05T12:07:39Z",
+      "side": 1,
+      "message": "Replaced with border-color",
+      "parentUuid": "d10c89d4_a7b73dd3",
+      "range": {
+        "startLine": 57,
+        "startChar": 30,
+        "endLine": 57,
+        "endChar": 54
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5dd4aa02_67e3f8cc",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.js",
         "patchSetId": 4

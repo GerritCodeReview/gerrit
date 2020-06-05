@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "05b0ce9d_ad4adffe",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-05T12:07:39Z",
+      "side": 1,
+      "message": "The function is only called if thread passes the _shouldShowThread function.\nThe html template runs the check for this.\nSame for _shouldRenderBorder.\nSo these functions are only called for visible threads.",
+      "parentUuid": "0b472d93_4f879dbe",
+      "range": {
+        "startLine": 195,
+        "startChar": 29,
+        "endLine": 195,
+        "endChar": 36
+      },
+      "revId": "7544db383f1d1776d1282aaaa38f87d7fcdefe07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd945ad0_2cfabca1",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 7
@@ -39,6 +63,24 @@
       "revId": "7544db383f1d1776d1282aaaa38f87d7fcdefe07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b143f118_4cb01746",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-05T12:07:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd945ad0_2cfabca1",
+      "revId": "7544db383f1d1776d1282aaaa38f87d7fcdefe07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "390e7ce2_9eea13c8",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-05T12:07:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "568e5d74_8dfc41db",
+      "range": {
+        "startLine": 200,
+        "startChar": 17,
+        "endLine": 200,
+        "endChar": 20
+      },
+      "revId": "7544db383f1d1776d1282aaaa38f87d7fcdefe07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86fb3fe7_0f15bd91",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 7
@@ -85,6 +151,30 @@
       "revId": "7544db383f1d1776d1282aaaa38f87d7fcdefe07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a21c3936_284bcdbb",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-05T12:07:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86fb3fe7_0f15bd91",
+      "range": {
+        "startLine": 206,
+        "startChar": 6,
+        "endLine": 206,
+        "endChar": 12
+      },
+      "revId": "7544db383f1d1776d1282aaaa38f87d7fcdefe07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "8c2bc2b4_4b2bf1c0",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-05T12:07:39Z",
+      "side": 1,
+      "message": "I tried it but it was only taking the width of the comment instead of the entire width available to it.\nhttps://screenshot.googleplex.com/8s439jnRBdJ\nhttps://screenshot.googleplex.com/yyhdh6dnpJZ",
+      "parentUuid": "599fbf44_98ce52af",
+      "range": {
+        "startLine": 96,
+        "startChar": 15,
+        "endLine": 96,
+        "endChar": 29
+      },
+      "revId": "7544db383f1d1776d1282aaaa38f87d7fcdefe07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f3fd9da4_5d070eb8",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 7
@@ -122,6 +236,24 @@
       "writtenOn": "2020-06-05T10:40:15Z",
       "side": 1,
       "message": "So this happens when? If !lineNum \u0026\u0026 range? I thought that cannot happen? So maybe just drop the !range clause?",
+      "revId": "7544db383f1d1776d1282aaaa38f87d7fcdefe07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0712963_b39676e8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-05T12:07:39Z",
+      "side": 1,
+      "message": "There is a possibility that even though line is set, we do not request for it(in the future maybe?).\nHence, I added an explicit check for range.\nIdeally setting range sets lineNum and we always request for lineNum(it\u0027s an optional property).",
+      "parentUuid": "f3fd9da4_5d070eb8",
       "revId": "7544db383f1d1776d1282aaaa38f87d7fcdefe07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

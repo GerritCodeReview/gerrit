@@ -141,6 +141,54 @@
       "revId": "43b80c236f6f2baf7aa0caffc6490bd43e07eb88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78b31ff3_41bad60e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-05T20:35:24Z",
+      "side": 1,
+      "message": "Since the `version` column does not have it either, I figured it\u0027s best to add the column it without,\nand afterwards add it to both in an follow-up commit (see I22789452dccafe05bf6c6b1606023b937be6690f).\nThat way, the two columns are always alike, and we get the placeholders eventually.",
+      "parentUuid": "9420dfa9_7459e66d",
+      "range": {
+        "startLine": 59,
+        "startChar": 41,
+        "endLine": 59,
+        "endChar": 52
+      },
+      "revId": "43b80c236f6f2baf7aa0caffc6490bd43e07eb88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab8df19c_f5d5a7e0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-05T20:35:24Z",
+      "side": 1,
+      "message": "\u003e I think @Tao means use: [...]\n\nThanks!\n\n\u003e The class is a copy/paste error. It should be apiVersion.\n\nDone in PS4.",
+      "parentUuid": "17699c63_779f8820",
+      "range": {
+        "startLine": 59,
+        "startChar": 25,
+        "endLine": 59,
+        "endChar": 32
+      },
+      "revId": "43b80c236f6f2baf7aa0caffc6490bd43e07eb88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

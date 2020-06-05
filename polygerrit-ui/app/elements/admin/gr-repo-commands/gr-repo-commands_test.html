@@ -99,8 +99,8 @@ suite('gr-repo-commands tests', () => {
     test('successful creation of change', () => {
       const change = {_number: '1'};
       createChangeStub.returns(Promise.resolve(change));
-      MockInteractions.tap(element.$.editRepoConfig.shadowRoot
-          .querySelector('gr-button'));
+      MockInteractions.tap(element.$.editRepoConfig);
+      assert.isTrue(element.$.editRepoConfig.loading);
       return handleSpy.lastCall.returnValue.then(() => {
         flushAsynchronousOperations();
 
@@ -110,13 +110,14 @@ suite('gr-repo-commands tests', () => {
         assert.isTrue(urlStub.called);
         assert.deepEqual(urlStub.lastCall.args,
             [change, 'project.config', 1]);
+        assert.isFalse(element.$.editRepoConfig.loading);
       });
     });
 
     test('unsuccessful creation of change', () => {
       createChangeStub.returns(Promise.resolve(null));
-      MockInteractions.tap(element.$.editRepoConfig.shadowRoot
-          .querySelector('gr-button'));
+      MockInteractions.tap(element.$.editRepoConfig);
+      assert.isTrue(element.$.editRepoConfig.loading);
       return handleSpy.lastCall.returnValue.then(() => {
         flushAsynchronousOperations();
 
@@ -124,6 +125,7 @@ suite('gr-repo-commands tests', () => {
         assert.equal(alertStub.lastCall.args[0].detail.message,
             'Failed to create change.');
         assert.isFalse(urlStub.called);
+        assert.isFalse(element.$.editRepoConfig.loading);
       });
     });
   });

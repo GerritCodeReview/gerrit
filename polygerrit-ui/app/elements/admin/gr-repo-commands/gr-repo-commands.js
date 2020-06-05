@@ -60,6 +60,10 @@ class GrRepoCommands extends GestureEventListeners(
       /** @type {?} */
       _repoConfig: Object,
       _canCreate: Boolean,
+      // states
+      _creatingChange: Boolean,
+      _editingConfig: Boolean,
+      _runningGC: Boolean,
     };
   }
 
@@ -102,13 +106,17 @@ class GrRepoCommands extends GestureEventListeners(
   }
 
   _handleRunningGC() {
+    this._runningGC = true;
     return this.$.restAPI.runRepoGC(this.repo).then(response => {
       if (response.status === 200) {
         this.dispatchEvent(new CustomEvent(
             'show-alert',
             {detail: {message: GC_MESSAGE}, bubbles: true, composed: true}));
       }
-    });
+    })
+        .finally(() => {
+          this._runningGC = false;
+        });
   }
 
   _createNewChange() {
@@ -116,7 +124,11 @@ class GrRepoCommands extends GestureEventListeners(
   }
 
   _handleCreateChange() {
-    this.$.createNewChangeModal.handleCreateChange();
+    this._creatingChange = true;
+    this.$.createNewChangeModal.handleCreateChange()
+        .finally(() => {
+          this._creatingChange = false;
+        });
     this._handleCloseCreateChange();
   }
 
@@ -125,6 +137,7 @@ class GrRepoCommands extends GestureEventListeners(
   }
 
   _handleEditRepoConfig() {
+    this._editingConfig = true;
     return this.$.restAPI.createChange(this.repo, CONFIG_BRANCH,
         EDIT_CONFIG_SUBJECT, undefined, false, true).then(change => {
       const message = change ?
@@ -136,7 +149,10 @@ class GrRepoCommands extends GestureEventListeners(
 
       GerritNav.navigateToRelativeUrl(GerritNav.getEditUrlForDiff(
           change, CONFIG_PATH, INITIAL_PATCHSET));
-    });
+    })
+        .finally(() => {
+          this._editingConfig = false;
+        });
   }
 }
 

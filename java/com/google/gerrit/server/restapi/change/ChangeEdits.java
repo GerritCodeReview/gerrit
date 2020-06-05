@@ -310,9 +310,15 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     public Response<Object> apply(ChangeResource rsrc, String path, FileContentInput input)
         throws AuthException, BadRequestException, ResourceConflictException, IOException,
             PermissionBackendException {
-
       if (input.content == null && input.binary_content == null) {
         throw new BadRequestException("either content or binary_content is required");
+      }
+
+      if (Patch.COMMIT_MSG.equals(path)) {
+        EditMessage.Input editCommitMessageInput = new EditMessage.Input();
+        editCommitMessageInput.message =
+            new String(ByteStreams.toByteArray(input.content.getInputStream()), UTF_8);
+        return Response.ok(editMessage.apply(rsrc, editCommitMessageInput));
       }
 
       RawInput newContent;

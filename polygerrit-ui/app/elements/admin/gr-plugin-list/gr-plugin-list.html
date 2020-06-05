@@ -25,7 +25,11 @@ limitations under the License.
 <dom-module id="gr-plugin-list">
   <template>
     <style include="shared-styles"></style>
-    <style include="gr-table-styles"></style>
+    <style include="gr-table-styles">
+      .placeholder {
+        color: var(--deemphasized-text-color);
+      }
+    </style>
     <gr-list-view
         filter="[[_filter]]"
         items-per-page="[[_pluginsPerPage]]"
@@ -54,8 +58,22 @@ limitations under the License.
                   [[item.id]]
                 </template>
               </td>
-              <td class="version">[[item.version]]</td>
-              <td class="apiVersion">[[item.api_version]]</td>
+              <td class="version">
+                <template is="dom-if" if="[[item.version]]">
+                  [[item.version]]
+                </template>
+                <template is="dom-if" if="[[!item.version]]">
+                  <span class="placeholder">--</span>
+                </template>
+              </td>
+              <td class="apiVersion">
+                <template is="dom-if" if="[[item.api_version]]">
+                  [[item.api_version]]
+                </template>
+                <template is="dom-if" if="[[!item.api_version]]">
+                  <span class="placeholder">--</span>
+                </template>
+              </td>
               <td class="status">[[_status(item)]]</td>
             </tr>
           </template>

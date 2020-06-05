@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1da8684f_f8e4a9bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-05T12:36:16Z",
+      "side": 1,
+      "message": "Nit: Point at the end of the statement.",
+      "revId": "36e053eae660f3dd0e94c8318d416daf5b7de75b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70405137_ce453588",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountListenersIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-05T23:08:41Z",
+      "side": 1,
+      "message": "This is already called when the instance is created by the injector: what\u0027s the purpose of calling this again?",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 22
+      },
+      "revId": "e3404238f27dbe15fcade5b406ce304a3b044b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6432954a_4d09a66d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountListenersIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-05T23:08:41Z",
+      "side": 1,
+      "message": "This is called only when the instance is constructed and the instance variables are already initialised: no need to reset anything.",
+      "range": {
+        "startLine": 126,
+        "startChar": 6,
+        "endLine": 126,
+        "endChar": 14
+      },
+      "revId": "e3404238f27dbe15fcade5b406ce304a3b044b85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

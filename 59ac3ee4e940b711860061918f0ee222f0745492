@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a7df86dc_8aeb125e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-05T19:46:39Z",
+      "side": 1,
+      "message": "https://screencast.googleplex.com/cast/NjExMzI1MzQ4ODg1Mjk5Mnw2MTQ5NWFiNy0wMw",
+      "parentUuid": "0773088e_df44cd95",
+      "revId": "59ac3ee4e940b711860061918f0ee222f0745492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "296d1367_95d87762",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 2

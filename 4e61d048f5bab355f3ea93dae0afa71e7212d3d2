@@ -16,6 +16,24 @@
       "revId": "4e61d048f5bab355f3ea93dae0afa71e7212d3d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b085c22_a182bea9",
+        "filename": "javatests/com/google/gerrit/acceptance/OutgoingEmailIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-05T11:38:09Z",
+      "side": 1,
+      "message": "Sorry - too many restrictions requires to be compliant. Will add this and another requirement in a follow-up.",
+      "parentUuid": "35794d51_5451c979",
+      "revId": "4e61d048f5bab355f3ea93dae0afa71e7212d3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

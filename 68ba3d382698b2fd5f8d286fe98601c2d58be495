@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "78b5d0f4_423c2490",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-05T10:44:12Z",
+      "side": 1,
+      "message": "i guess you mean side class, not particularly `left`",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "68ba3d382698b2fd5f8d286fe98601c2d58be495",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "934fba41_bc7d45f7",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 1
@@ -31,6 +54,24 @@
       "side": 1,
       "message": "It was just moved to line 303, so that we *always* have a \u0027side\u0027 class.",
       "parentUuid": "934fba41_bc7d45f7",
+      "revId": "68ba3d382698b2fd5f8d286fe98601c2d58be495",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c401a65a_e37270ec",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-05T10:44:12Z",
+      "side": 1,
+      "message": "ah somehow I overlooked the L303.",
+      "parentUuid": "97a404f2_d6719727",
       "revId": "68ba3d382698b2fd5f8d286fe98601c2d58be495",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

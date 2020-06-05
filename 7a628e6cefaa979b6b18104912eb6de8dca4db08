@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2e8f86b7_fbd2adea",
+        "filename": "Jenkinsfile",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-05T13:19:41Z",
+      "side": 1,
+      "message": "I need to enable validation of this change with a secure/private CI validation pipeline.\nOnce this is validated, I\u0027ll remove and merge the change.",
+      "parentUuid": "f8a77bf5_3d258a47",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 14
+      },
+      "revId": "7a628e6cefaa979b6b18104912eb6de8dca4db08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8732bca8_8af40aaf",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CacheBasedWebSession.java",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "7a628e6cefaa979b6b18104912eb6de8dca4db08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4755a6ec_dcc0e283",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-05T13:19:41Z",
+      "side": 1,
+      "message": "If this was a getter, then I agree with you it should be named isAccountActive.\nHowever, this is a bit more than a getter as it is performing a check against the account status.\n\nThat\u0027s the reason why I gave an \u0027action\u0027 verb.\n\nHope that makes sense.",
+      "parentUuid": "8732bca8_8af40aaf",
+      "range": {
+        "startLine": 205,
+        "startChar": 18,
+        "endLine": 205,
+        "endChar": 36
+      },
+      "revId": "7a628e6cefaa979b6b18104912eb6de8dca4db08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "5ee24f43_98efb597",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-05T13:19:41Z",
+      "side": 1,
+      "message": "\u003e In the current AccountCache implementation it\u0027s stated that accountState will\n\u003e not be null, so I\u0027m not sure if we need to check for null.\n\u003e \n\u003e But since there\u0027s an explicit check against null, it looks skew to let `null` pass while\n\u003e we deny inactive accounts.\n\nGood catch: should the account not exist for any reason, we should not return true at all.",
+      "parentUuid": "664bab7e_83d0d5d0",
+      "range": {
+        "startLine": 210,
+        "startChar": 11,
+        "endLine": 210,
+        "endChar": 15
+      },
+      "revId": "7a628e6cefaa979b6b18104912eb6de8dca4db08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "29d26e3f_2b61b84d",
         "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CacheBasedWebSession.java",
         "patchSetId": 8
@@ -85,6 +157,24 @@
       "revId": "7a628e6cefaa979b6b18104912eb6de8dca4db08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06ba5f15_f9f75a15",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-05T13:19:41Z",
+      "side": 1,
+      "message": "Good idea, let me express this with a straight return.",
+      "parentUuid": "29d26e3f_2b61b84d",
+      "revId": "7a628e6cefaa979b6b18104912eb6de8dca4db08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

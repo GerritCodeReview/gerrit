@@ -17,6 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.server.logging.TraceContext.newTimer;
 
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
@@ -31,6 +32,8 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -307,8 +310,15 @@ public class NoteDbUpdateManager implements AutoCloseable {
       // we may have stale draft comments. Doing it in this order allows stale
       // comments to be filtered out by ChangeNotes, reflecting the fact that
       // comments can only go from DRAFT to PUBLISHED, not vice versa.
-      BatchRefUpdate result = execute(changeRepo, dryrun, pushCert);
-      execute(allUsersRepo, dryrun, null);
+      BatchRefUpdate result;
+      try (TraceContext.TraceTimer ignored =
+          newTimer("NoteDbUpdateManager#updateRepo", Metadata.empty())) {
+        result = execute(changeRepo, dryrun, pushCert);
+      }
+      try (TraceContext.TraceTimer ignored =
+          newTimer("NoteDbUpdateManager#updateAllUsersSync", Metadata.empty())) {
+        execute(allUsersRepo, dryrun, null);
+      }
       if (!dryrun) {
         // Only execute the asynchronous operation if we are not in dry-run mode: The dry run would
         // have to run synchronous to be of any value at all. For the removal of draft comments from

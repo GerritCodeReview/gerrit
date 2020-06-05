@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "186f61bb_a3db36cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-05T16:05:53Z",
+      "side": 1,
+      "message": "Could you please point to a bug or write a steps when this fix is required?\nFrom the code I realised, that you want to reload the page if change is explicitly clicked.\nBut I can\u0027t find a scenario when the same parameters are assigned and we don\u0027t want to reload page.\n\nAdding \u0027\u0026reload\u0027 looks hackish for me without this information.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 70
+      },
+      "revId": "13a7e02996eec9e47ac4a24adb68980b790e2101",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0150cb82_44bd1750",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 2

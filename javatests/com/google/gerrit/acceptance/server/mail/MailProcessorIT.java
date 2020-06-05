@@ -300,7 +300,7 @@ public class MailProcessorIT extends AbstractMailIT {
 
     // ensure the message header contains a valid message id.
     assertThat(((EmailHeader.String) (message.headers().get("Message-ID"))).getString())
-        .isEqualTo("some id-REJECTION-HTML");
+        .isEqualTo("<some id-REJECTION-HTML>");
   }
 
   @Test

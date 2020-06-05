@@ -259,9 +259,11 @@ public abstract class OutgoingEmail {
     return true;
   }
 
+  // All message ids must start with < and end with >.
   private void addMessageId(OutgoingEmailValidationListener.Args va, String suffix) {
     if (messageId != null) {
-      va.headers.put(FieldName.MESSAGE_ID, new EmailHeader.String(messageId.id() + suffix));
+      va.headers.put(
+          FieldName.MESSAGE_ID, new EmailHeader.String("<" + messageId.id() + suffix + ">"));
     }
   }
 

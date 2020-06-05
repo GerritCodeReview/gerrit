@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ef8ae525_ae0e1162",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-06-05T00:03:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62ee9002_eef4cc81",
+      "range": {
+        "startLine": 15,
+        "startChar": 3,
+        "endLine": 15,
+        "endChar": 9
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18e964b6_582febf7",
         "filename": "java/com/google/gerrit/server/submit/SubmoduleCommitHelper.java",
         "patchSetId": 5
@@ -65,6 +89,48 @@
     },
     {
       "key": {
+        "uuid": "3bb59561_26d34016",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleCommitHelper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-06-05T00:03:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "310e0836_8e711fda",
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75dfa155_a5fc1876",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleCommitHelper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-06-05T00:03:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18e964b6_582febf7",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 27
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54ee228f_9a6832ab",
         "filename": "java/com/google/gerrit/server/submit/SubmoduleCommitHelper.java",
         "patchSetId": 5
@@ -85,6 +151,30 @@
       "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ab085d0_65dffc6e",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleCommitHelper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-06-05T00:03:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54ee228f_9a6832ab",
+      "range": {
+        "startLine": 50,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 38
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "51fbad57_4363b21c",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleCommitHelper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-06-05T00:03:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b72b680f_d19b1ca5",
+      "range": {
+        "startLine": 78,
+        "startChar": 2,
+        "endLine": 78,
+        "endChar": 11
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "820e8ce6_c2680f9f",
         "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
         "patchSetId": 5
@@ -122,6 +236,30 @@
       "writtenOn": "2020-05-28T16:35:04Z",
       "side": 1,
       "message": "This class is written to by GitlinkOp/SubmoduleOp and read from SubmoduleCommitHelper. I\u0027m wondering whether it wouldn\u0027t be better to move CachedBranchTips as a field to SubmoduleCommitHelper and limit reading/writing to SubmoduleCommitHelper. What do you think?",
+      "range": {
+        "startLine": 71,
+        "startChar": 18,
+        "endLine": 71,
+        "endChar": 50
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e48936f3_dfa4ef16",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-06-05T00:03:36Z",
+      "side": 1,
+      "message": "I see SubmoduleCommits just as a plain helper, stateless, that creates/amends commits. This helper needs the tips of the branches to do its job, but it is not the \"owner\" of them.\n\nbranchTips (IIUC!) is state of the submission and as such doesn\u0027t fit in SubmoduleCommits. Note that it is also written to by SubmitStrategyOp [1].\n\nSubmoduleOp holding submission-wide state  only to instantiate GitlinkOps smells like further refactoring, but at the moment I would keep that state (branchTips) here. Does it make sense?\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/changes/33/267133/5/java/com/google/gerrit/server/submit/SubmitStrategyOp.java#138",
+      "parentUuid": "820e8ce6_c2680f9f",
       "range": {
         "startLine": 71,
         "startChar": 18,
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "07e723d9_a817c8b0",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-06-05T00:03:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15187937_c70f0a55",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 39
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "189e59f1_f0aabdb7",
         "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
         "patchSetId": 5
@@ -180,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "d2e31bc5_2375829f",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-06-05T00:03:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "189e59f1_f0aabdb7",
+      "range": {
+        "startLine": 469,
+        "startChar": 4,
+        "endLine": 472,
+        "endChar": 31
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2023af9a_1fec1b1d",
         "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
         "patchSetId": 5
@@ -200,6 +386,30 @@
       "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8f5323e_db5a6279",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-06-05T00:03:36Z",
+      "side": 1,
+      "message": "Just an oversight while moving code around.",
+      "parentUuid": "2023af9a_1fec1b1d",
+      "range": {
+        "startLine": 476,
+        "startChar": 2,
+        "endLine": 476,
+        "endChar": 8
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

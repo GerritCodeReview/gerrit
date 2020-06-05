@@ -205,4 +205,20 @@ export const util = {
       return domPath ? `${pathForEl}>${domPath}` : pathForEl;
     }, '');
   },
+
+  deepEqual(a, b) {
+    if (typeof a !== typeof b) {
+      return false;
+    }
+    if (typeof a === 'object') {
+      if (Object.keys(a).length !== Object.keys(b).length) return false;
+      const keys = Object.keys(a);
+      for (let i = 0; i < keys.length; i++) {
+        if (!this.deepEqual(a[keys[i]], b[keys[i]])) return false;
+      }
+      return true;
+    }
+    return a === b;
+  },
+
 };

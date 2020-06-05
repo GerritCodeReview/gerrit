@@ -366,10 +366,11 @@ export const GerritNav = {
    *     used for none.
    * @param {boolean=} opt_isEdit
    * @param {string=} opt_messageHash
+   * @param {boolean=} opt_forceReload
    * @return {string}
    */
   getUrlForChange(change, opt_patchNum, opt_basePatchNum, opt_isEdit,
-      opt_messageHash) {
+      opt_messageHash, opt_forceReload) {
     if (opt_basePatchNum === PARENT_PATCHNUM) {
       opt_basePatchNum = undefined;
     }
@@ -384,6 +385,7 @@ export const GerritNav = {
       edit: opt_isEdit,
       host: change.internalHost || undefined,
       messageHash: opt_messageHash,
+      forceReload: opt_forceReload,
     });
   },
 
@@ -411,7 +413,7 @@ export const GerritNav = {
    */
   navigateToChange(change, opt_patchNum, opt_basePatchNum, opt_isEdit) {
     this._navigate(this.getUrlForChange(change, opt_patchNum,
-        opt_basePatchNum, opt_isEdit));
+        opt_basePatchNum, opt_isEdit, undefined, true));
   },
 
   /**

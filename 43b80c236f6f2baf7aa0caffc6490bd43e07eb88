@@ -46,6 +46,30 @@
       "revId": "43b80c236f6f2baf7aa0caffc6490bd43e07eb88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65db2999_4dcf6a99",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-05T08:21:29Z",
+      "side": 1,
+      "message": "ah I see, thanks! forgot about the relation chain.\n\nSince its an optional field, maybe should fallback to some placeholder value like `null` ? I sometime did not realize that there is a column if nothing in any of the rows. Like the existing `version` column, we may also want to fallback to something other than empty string, I did not know we had that column unless this change :(",
+      "parentUuid": "34f8839f_3a9f88da",
+      "range": {
+        "startLine": 59,
+        "startChar": 41,
+        "endLine": 59,
+        "endChar": 52
+      },
+      "revId": "43b80c236f6f2baf7aa0caffc6490bd43e07eb88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

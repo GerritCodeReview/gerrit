@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62bebcda_733d4f08",
+        "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-05T08:19:54Z",
+      "side": 1,
+      "message": "This class does not compile. Please adjust. (It\u0027s the reason Verified got a -1 vote from our tests.)",
+      "range": {
+        "startLine": 58,
+        "startChar": 13,
+        "endLine": 58,
+        "endChar": 33
+      },
+      "revId": "07fbe13c0a589a0fbd631a311bac43f8a457ea58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

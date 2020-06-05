@@ -482,6 +482,30 @@
     },
     {
       "key": {
+        "uuid": "3ce81045_d5f5b1e7",
+        "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitHelperTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-05T08:19:54Z",
+      "side": 1,
+      "message": "Please remove.",
+      "parentUuid": "76518eab_1bccde8f",
+      "range": {
+        "startLine": 144,
+        "startChar": 8,
+        "endLine": 144,
+        "endChar": 60
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "377ce293_f1db8736",
         "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitHelperTest.java",
         "patchSetId": 5
@@ -505,6 +529,30 @@
     },
     {
       "key": {
+        "uuid": "1ee6c8c4_078b7bf3",
+        "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitHelperTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-05T08:19:54Z",
+      "side": 1,
+      "message": "Can you please answer the question? I\u0027m currently not sure of the exact purpose of this TODO, whether it was just a reminder for you to check while you were working on the implementation or whether it\u0027s meant as a TODO for you for the future to add an API for gitlink manipulation.",
+      "parentUuid": "377ce293_f1db8736",
+      "range": {
+        "startLine": 158,
+        "startChar": 2,
+        "endLine": 158,
+        "endChar": 78
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7f007850_da85d200",
         "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitHelperTest.java",
         "patchSetId": 5
@@ -516,6 +564,30 @@
       "writtenOn": "2020-05-28T16:35:04Z",
       "side": 1,
       "message": "Should be private.",
+      "range": {
+        "startLine": 159,
+        "startChar": 2,
+        "endLine": 159,
+        "endChar": 11
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "378ff9f1_c7c46d12",
+        "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitHelperTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-05T08:19:54Z",
+      "side": 1,
+      "message": "Please adjust.",
+      "parentUuid": "7f007850_da85d200",
       "range": {
         "startLine": 159,
         "startChar": 2,

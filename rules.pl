@@ -42,3 +42,14 @@ base(CR, CS, V) :-
 needs_library_compliance :- gerrit:commit_delta('^lib/'), !.
 needs_library_compliance :- gerrit:commit_delta('^WORKSPACE$'), !.
 needs_library_compliance :- gerrit:commit_delta('^.gitmodules$'), !.
+
+% Require a 'Release-Notes' footer.
+release_notes(U1, U2) :-
+  gerrit:commit_message_matches(
+      '^Release-Notes:.*),
+    !,
+    gerrit:commit_author(A),
+    U2 = [label(‘Contains-Release-Notes-Footer, ok(A)) | U1].
+release_notes(U1, U2) :-
+    U2 = [label('Contains-Release-Notes-Footer', need(_)) | U1].
+

@@ -25,6 +25,46 @@
     },
     {
       "key": {
+        "uuid": "415af202_9504a884",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1281,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-05T15:04:51Z",
+      "side": 1,
+      "message": "There is also a this.toggleClass() method.",
+      "revId": "59ac3ee4e940b711860061918f0ee222f0745492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e121c2e0_db2c6786",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1281,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-05T15:04:51Z",
+      "side": 1,
+      "message": "This should be showComments for consistency with other classes, e.g. showBlame.",
+      "range": {
+        "startLine": 1281,
+        "startChar": 33,
+        "endLine": 1281,
+        "endChar": 46
+      },
+      "revId": "59ac3ee4e940b711860061918f0ee222f0745492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "06c0b53d_870bd560",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_html.js",
         "patchSetId": 2

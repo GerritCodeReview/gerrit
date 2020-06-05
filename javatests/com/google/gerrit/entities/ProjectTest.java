@@ -21,11 +21,11 @@ import org.junit.Test;
 public class ProjectTest {
   @Test
   public void parseId() {
-    assertThat(Project.NameKey.parse("foo")).isEqualTo(new Project.NameKey("foo"));
-    assertThat(Project.NameKey.parse("foo%20bar")).isEqualTo(new Project.NameKey("foo bar"));
-    assertThat(Project.NameKey.parse("foo+bar")).isEqualTo(new Project.NameKey("foo bar"));
-    assertThat(Project.NameKey.parse("foo%2fbar")).isEqualTo(new Project.NameKey("foo/bar"));
-    assertThat(Project.NameKey.parse("foo%2Fbar")).isEqualTo(new Project.NameKey("foo/bar"));
+    assertThat(Project.NameKey.parse("foo")).isEqualTo(Project.nameKey("foo"));
+    assertThat(Project.NameKey.parse("foo%20bar")).isEqualTo(Project.nameKey("foo bar"));
+    assertThat(Project.NameKey.parse("foo+bar")).isEqualTo(Project.nameKey("foo bar"));
+    assertThat(Project.NameKey.parse("foo%2fbar")).isEqualTo(Project.nameKey("foo/bar"));
+    assertThat(Project.NameKey.parse("foo%2Fbar")).isEqualTo(Project.nameKey("foo/bar"));
   }
 
   @Test

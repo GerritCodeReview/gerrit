@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.common.data.Permission.isPermission;
@@ -251,6 +252,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private boolean hasLegacyPermissions;
   private Map<String, List<String>> extensionPanelSections;
   private Map<String, GroupReference> groupsByName;
+  private Optional<ProjectConfigUpdate> projectConfigUpdate;
 
   public static CommentLinkInfoImpl buildCommentLink(Config cfg, String name, boolean allowRaw)
       throws IllegalArgumentException {
@@ -295,12 +297,19 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   public void removeCommentLinkSection(String name) {
     requireNonNull(name);
-    requireNonNull(commentLinkSections.remove(name));
+
+    update()
+        .updateCommentLinkSections(
+            commentLinkSections -> {
+              requireNonNull(commentLinkSections.remove(name));
+              return commentLinkSections;
+            });
   }
 
   private ProjectConfig(Project.NameKey projectName, @Nullable StoredConfig baseConfig) {
     this.projectName = projectName;
     this.baseConfig = baseConfig;
+    this.projectConfigUpdate = Optional.empty();
   }
 
   public void load(Repository repo) throws IOException, ConfigInvalidException {
@@ -373,30 +382,40 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   public void addSubscribeSection(SubscribeSection s) {
-    subscribeSections.put(s.getProject(), s);
+    update()
+        .updateSubscribeSection(
+            subscribeSections -> {
+              subscribeSections.put(s.getProject(), s);
+              return subscribeSections;
+            });
   }
 
   public void remove(AccessSection section) {
-    if (section != null) {
-      String name = section.getName();
-      if (sectionsWithUnknownPermissions.contains(name)) {
-        AccessSection a = accessSections.get(name);
-        a.setPermissions(new ArrayList<>());
-      } else {
-        accessSections.remove(name);
-      }
-    }
+    update()
+        .updateAccessSections(
+            (accessSections, sectionsWithUnknownPermissions) -> {
+              if (section == null) {
+                return accessSections;
+              }
+              removeAccessSection(section, accessSections, sectionsWithUnknownPermissions);
+              return accessSections;
+            });
   }
 
   public void remove(AccessSection section, Permission permission) {
     if (permission == null) {
       remove(section);
     } else if (section != null) {
-      AccessSection a = accessSections.get(section.getName());
-      a.remove(permission);
-      if (a.getPermissions().isEmpty()) {
-        remove(a);
-      }
+      update()
+          .updateAccessSections(
+              ((accessSections, sectionsWithUnknownPermissions) -> {
+                AccessSection a = accessSections.get(section.getName());
+                a.remove(permission);
+                if (a.getPermissions().isEmpty()) {
+                  removeAccessSection(a, accessSections, sectionsWithUnknownPermissions);
+                }
+                return accessSections;
+              }));
     }
   }
 
@@ -404,21 +423,39 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     if (rule == null) {
       remove(section, permission);
     } else if (section != null && permission != null) {
-      AccessSection a = accessSections.get(section.getName());
-      if (a == null) {
-        return;
-      }
-      Permission p = a.getPermission(permission.getName());
-      if (p == null) {
-        return;
-      }
-      p.remove(rule);
-      if (p.getRules().isEmpty()) {
-        a.remove(permission);
-      }
-      if (a.getPermissions().isEmpty()) {
-        remove(a);
-      }
+      update()
+          .updateAccessSections(
+              (accessSections, sectionsWithUnknownPermissions) -> {
+                AccessSection a = accessSections.get(section.getName());
+                if (a == null) {
+                  return accessSections;
+                }
+                Permission p = a.getPermission(permission.getName());
+                if (p == null) {
+                  return accessSections;
+                }
+                p.remove(rule);
+                if (p.getRules().isEmpty()) {
+                  a.remove(permission);
+                }
+                if (a.getPermissions().isEmpty()) {
+                  removeAccessSection(a, accessSections, sectionsWithUnknownPermissions);
+                }
+                return accessSections;
+              });
+    }
+  }
+
+  private static void removeAccessSection(
+      AccessSection section,
+      Map<String, AccessSection> accessSections,
+      Set<String> sectionsWithUnknownPermissions) {
+    String name = section.getName();
+    if (sectionsWithUnknownPermissions.contains(name)) {
+      AccessSection a = accessSections.get(name);
+      a.setPermissions(new ArrayList<>());
+    } else {
+      accessSections.remove(name);
     }
   }
 
@@ -429,20 +466,40 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       }
     }
 
-    accessSections.put(section.getName(), section);
+    update()
+        .updateAccessSections(
+            (accessSections, sectionsWithUnknownPermissions) -> {
+              accessSections.put(section.getName(), section);
+              return accessSections;
+            });
+  }
+
+  private ProjectConfigUpdate update() {
+    if (!projectConfigUpdate.isPresent()) {
+      projectConfigUpdate = Optional.of(new ProjectConfigUpdate());
+    }
+
+    return projectConfigUpdate.get();
   }
 
   public ContributorAgreement getContributorAgreement(String name) {
-    return getContributorAgreement(name, false);
+    return contributorAgreement(name, false);
   }
 
-  public ContributorAgreement getContributorAgreement(String name, boolean create) {
+  private ContributorAgreement contributorAgreement(String name, boolean create) {
     ContributorAgreement ca = contributorAgreements.get(name);
-    if (ca == null && create) {
-      ca = new ContributorAgreement(name);
-      contributorAgreements.put(name, ca);
+    if (ca != null || !create) {
+      return ca;
     }
-    return ca;
+
+    ContributorAgreement newCa = new ContributorAgreement(name);
+    update()
+        .updateContributorAgreements(
+            (contributorAgreements -> {
+              contributorAgreements.put(name, newCa);
+              return contributorAgreements;
+            }));
+    return newCa;
   }
 
   public Collection<ContributorAgreement> getContributorAgreements() {
@@ -450,9 +507,16 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   public void remove(ContributorAgreement section) {
-    if (section != null) {
-      accessSections.remove(section.getName());
+    if (section == null) {
+      return;
     }
+
+    update()
+        .updateAccessSections(
+            (accessSections, sectionsWithUnknownPermissions) -> {
+              accessSections.remove(section.getName());
+              return accessSections;
+            });
   }
 
   public void replace(ContributorAgreement section) {
@@ -461,7 +525,12 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       rule.setGroup(resolve(rule.getGroup()));
     }
 
-    contributorAgreements.put(section.getName(), section);
+    update()
+        .updateContributorAgreements(
+            (contributorAgreements -> {
+              contributorAgreements.put(section.getName(), section);
+              return contributorAgreements;
+            }));
   }
 
   public Collection<NotifyConfig> getNotifyConfigs() {
@@ -469,7 +538,12 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   public void putNotifyConfig(String name, NotifyConfig nc) {
-    notifySections.put(name, nc);
+    update()
+        .updateNotifyConfig(
+            (notifySections -> {
+              notifySections.put(name, nc);
+              return notifySections;
+            }));
   }
 
   public Map<String, LabelType> getLabelSections() {
@@ -485,6 +559,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   public GroupReference resolve(GroupReference group) {
+    // TODO(hiesel): Populate this eagerly instead of lazily
     GroupReference groupRef = groupList.resolve(group);
     if (groupRef != null
         && groupRef.getUUID() != null
@@ -536,6 +611,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
    * @return true if one or more group names was stale.
    */
   public boolean updateGroupNames(GroupBackend groupBackend) {
+    // TODO(hiesel): Migrate callers
     boolean dirty = false;
     for (GroupReference ref : groupList.references()) {
       GroupDescription.Basic g = groupBackend.get(ref.getUUID());
@@ -653,7 +729,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private void loadContributorAgreements(Config rc) {
     contributorAgreements = new HashMap<>();
     for (String name : rc.getSubsections(CONTRIBUTOR_AGREEMENT)) {
-      ContributorAgreement ca = getContributorAgreement(name, true);
+      ContributorAgreement ca = contributorAgreement(name, true);
       ca.setDescription(rc.getString(CONTRIBUTOR_AGREEMENT, name, KEY_DESCRIPTION));
       ca.setAgreementUrl(rc.getString(CONTRIBUTOR_AGREEMENT, name, KEY_AGREEMENT_URL));
       ca.setAccepted(
@@ -1156,6 +1232,12 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   @Override
   protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
+    // TODO(hiesel): Needs to take mutations in nested objects into account. Example: Project. When
+    // that is done, we can bail out early here.
+    //    if (!projectConfigUpdate.isPresent()) {
+    //      return false;
+    //    }
+
     if (commit.getMessage() == null || "".equals(commit.getMessage())) {
       commit.setMessage("Updated project configuration\n");
     }
@@ -1251,24 +1333,31 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private void saveCommentLinkSections(Config rc) {
     unsetSection(rc, COMMENTLINK);
-    if (commentLinkSections != null) {
-      for (CommentLinkInfoImpl cm : commentLinkSections.values()) {
-        rc.setString(COMMENTLINK, cm.name, KEY_MATCH, cm.match);
-        if (!Strings.isNullOrEmpty(cm.html)) {
-          rc.setString(COMMENTLINK, cm.name, KEY_HTML, cm.html);
-        }
-        if (!Strings.isNullOrEmpty(cm.link)) {
-          rc.setString(COMMENTLINK, cm.name, KEY_LINK, cm.link);
-        }
-        if (cm.enabled != null && !cm.enabled) {
-          rc.setBoolean(COMMENTLINK, cm.name, KEY_ENABLED, cm.enabled);
-        }
+    update()
+        .update(
+            firstNonNull(this.commentLinkSections, new HashMap<>()), update().commentLinkSections);
+
+    for (CommentLinkInfoImpl cm : commentLinkSections.values()) {
+      rc.setString(COMMENTLINK, cm.name, KEY_MATCH, cm.match);
+      if (!Strings.isNullOrEmpty(cm.html)) {
+        rc.setString(COMMENTLINK, cm.name, KEY_HTML, cm.html);
+      }
+      if (!Strings.isNullOrEmpty(cm.link)) {
+        rc.setString(COMMENTLINK, cm.name, KEY_LINK, cm.link);
+      }
+      if (cm.enabled != null && !cm.enabled) {
+        rc.setBoolean(COMMENTLINK, cm.name, KEY_ENABLED, cm.enabled);
       }
     }
   }
 
   private void saveContributorAgreements(Config rc, Set<AccountGroup.UUID> keepGroups) {
     unsetSection(rc, CONTRIBUTOR_AGREEMENT);
+    update()
+        .update(
+            firstNonNull(this.contributorAgreements, new HashMap<>()),
+            update().contributorAgreements);
+
     for (ContributorAgreement ca : sort(contributorAgreements.values())) {
       set(rc, CONTRIBUTOR_AGREEMENT, ca.getName(), KEY_DESCRIPTION, ca.getDescription());
       set(rc, CONTRIBUTOR_AGREEMENT, ca.getName(), KEY_AGREEMENT_URL, ca.getAgreementUrl());
@@ -1303,6 +1392,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private void saveNotifySections(Config rc, Set<AccountGroup.UUID> keepGroups) {
     unsetSection(rc, NOTIFY);
+    update().update(firstNonNull(this.notifySections, new HashMap<>()), update().notifySections);
+
     for (NotifyConfig nc : sort(notifySections.values())) {
       nc.getGroups().stream()
           .map(GroupReference::getUUID)

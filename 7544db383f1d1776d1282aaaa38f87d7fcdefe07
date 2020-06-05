@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "44cbd69b_9f4eda1c",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-05T17:25:28Z",
+      "side": 1,
+      "message": "thread has passed the _shouldShowThread check, but threads have not, but they must. Otherwise this won\u0027t work. Maybe first write some tests that expose this problem.\n\n@Dmitrii: threads are not visibleThreads, they are allThreads.",
+      "parentUuid": "dd6049d4_8e34cb84",
+      "range": {
+        "startLine": 195,
+        "startChar": 29,
+        "endLine": 195,
+        "endChar": 36
+      },
+      "revId": "7544db383f1d1776d1282aaaa38f87d7fcdefe07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd945ad0_2cfabca1",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 7
@@ -249,6 +273,30 @@
     },
     {
       "key": {
+        "uuid": "aac3bf97_7d9744ab",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-05T17:25:28Z",
+      "side": 1,
+      "message": "That makes sense. Can you maybe rename `border` into `separator` then?",
+      "parentUuid": "8c2bc2b4_4b2bf1c0",
+      "range": {
+        "startLine": 96,
+        "startChar": 15,
+        "endLine": 96,
+        "endChar": 29
+      },
+      "revId": "7544db383f1d1776d1282aaaa38f87d7fcdefe07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f3fd9da4_5d070eb8",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 7
@@ -278,6 +326,24 @@
       "side": 1,
       "message": "There is a possibility that even though line is set, we do not request for it(in the future maybe?).\nHence, I added an explicit check for range.\nIdeally setting range sets lineNum and we always request for lineNum(it\u0027s an optional property).",
       "parentUuid": "f3fd9da4_5d070eb8",
+      "revId": "7544db383f1d1776d1282aaaa38f87d7fcdefe07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "120258be_fafd9667",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-05T17:25:28Z",
+      "side": 1,
+      "message": "If `!lineNum \u0026\u0026 range` is possible, then is returning \u0027\u0027 correct?",
+      "parentUuid": "a0712963_b39676e8",
       "revId": "7544db383f1d1776d1282aaaa38f87d7fcdefe07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -33,11 +33,19 @@ class RepoCommandLow extends PolymerElement {
 
   static get template() {
     return html`
-    <gr-repo-command
-      title="Low-level bork"
-      on-command-tap="_handleCommandTap">
-    </gr-repo-command>
-    `;
+    <style include="shared-styles">
+    :host {
+      display: block;
+      margin-bottom: var(--spacing-xxl);
+    }
+    </style>
+    <h3>Low-level bork</h3>
+    <gr-button
+      on-click="_handleCommandTap"
+    >
+      Low-level bork
+    </gr-button>
+   `;
   }
 
   connectedCallback() {

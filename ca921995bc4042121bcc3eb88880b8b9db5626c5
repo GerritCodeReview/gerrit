@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8e806cf3_20c2eea6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-05T10:34:31Z",
+      "side": 1,
+      "message": "It\u0027s an RFC standard, actually: https://tools.ietf.org/html/rfc2392\n\n\"Notes: In Internet mail messages, the addr-spec in a Content-ID\n     [MIME] or Message-ID [822] header is enclosed in angle brackets\n     (\u003c\u003e)\"",
+      "parentUuid": "6afbc685_40dfc817",
+      "range": {
+        "startLine": 9,
+        "startChar": 32,
+        "endLine": 9,
+        "endChar": 36
+      },
+      "revId": "ca921995bc4042121bcc3eb88880b8b9db5626c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "224ca7d1_acaebae0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

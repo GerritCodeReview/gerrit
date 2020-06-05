@@ -300,6 +300,7 @@ GrDiffBuilder.prototype._createContextButton = function(type, section, line,
 GrDiffBuilder.prototype._createLineEl = function(
     line, number, type, side) {
   const td = this._createElement('td');
+  td.classList.add(side);
   if (line.type === GrDiffLine.Type.BLANK) {
     return td;
   }
@@ -313,12 +314,11 @@ GrDiffBuilder.prototype._createLineEl = function(
     button.tabIndex = -1;
     td.appendChild(button);
 
-    // Both td and button need a number of classes/attributes for various
-    // selectors to work.
-    this._decorateLineEl(td, number, side);
     td.classList.add('lineNum');
-    this._decorateLineEl(button, number, side);
+    td.dataset.value = number;
+    button.classList.add(side);
     button.classList.add('lineNumButton');
+    button.dataset.value = number;
 
     button.textContent = number === 'FILE' ? 'File' : number;
 
@@ -336,11 +336,6 @@ GrDiffBuilder.prototype._createLineEl = function(
   }
 
   return td;
-};
-
-GrDiffBuilder.prototype._decorateLineEl = function(el, number, side) {
-  el.classList.add(side);
-  el.dataset.value = number;
 };
 
 GrDiffBuilder.prototype._createTextEl = function(

@@ -315,6 +315,13 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
         throw new BadRequestException("either content or binary_content is required");
       }
 
+      if (Patch.COMMIT_MSG.equals(path)) {
+        EditMessage.Input editCommitMessageInput = new EditMessage.Input();
+        editCommitMessageInput.message =
+            new String(ByteStreams.toByteArray(input.content.getInputStream()), UTF_8);
+        return Response.ok(editMessage.apply(rsrc, editCommitMessageInput));
+      }
+
       RawInput newContent;
       if (input.binary_content != null) {
         Matcher m = BINARY_DATA_PATTERN.matcher(input.binary_content);

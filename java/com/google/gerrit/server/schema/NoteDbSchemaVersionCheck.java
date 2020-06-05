@@ -14,15 +14,20 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.ProvisionException;
+import org.eclipse.jgit.lib.Config;
 
 public class NoteDbSchemaVersionCheck implements LifecycleListener {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public static Module module() {
     return new LifecycleModule() {
       @Override
@@ -34,11 +39,16 @@ public class NoteDbSchemaVersionCheck implements LifecycleListener {
 
   private final NoteDbSchemaVersionManager versionManager;
   private final SitePaths sitePaths;
+  private Config gerritConfig;
 
   @Inject
-  NoteDbSchemaVersionCheck(NoteDbSchemaVersionManager versionManager, SitePaths sitePaths) {
+  NoteDbSchemaVersionCheck(
+      NoteDbSchemaVersionManager versionManager,
+      SitePaths sitePaths,
+      @GerritServerConfig Config gerritConfig) {
     this.versionManager = versionManager;
     this.sitePaths = sitePaths;
+    this.gerritConfig = gerritConfig;
   }
 
   @Override
@@ -53,7 +63,18 @@ public class NoteDbSchemaVersionCheck implements LifecycleListener {
                 sitePaths.site_path.toAbsolutePath()));
       }
       int expected = NoteDbSchemaVersions.LATEST;
-      if (current != expected) {
+
+      if (current > expected
+          && gerritConfig.getBoolean("gerrit", "experimentalRollingUpgrade", false)) {
+        logger.atWarning().log(
+            "Gerrit has detected refs/meta/version %d different than the expected %d."
+                + "Bear in mind that this is supported ONLY for rolling upgrades to immediate next "
+                + "Gerrit version (e.g. v3.1 to v3.2). If this is not expected, remove gerrit.experimentalRollingUpgrade "
+                + "from $GERRIT_SITE/etc/gerrit.config and restart Gerrit."
+                + "Please note that gerrit.experimentalRollingUpgrade is intended to be used "
+                + "for the rolling upgrade phase only and should be disabled afterwards.",
+            current, expected);
+      } else if (current != expected) {
         String advice =
             current > expected
                 ? "Downgrade is not supported"

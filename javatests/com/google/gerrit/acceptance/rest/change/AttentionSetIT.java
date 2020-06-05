@@ -134,6 +134,18 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void changeMessageWhenAddedAndRemovedExplicitly() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r).addToAttentionSet(new AddToAttentionSetInput(user.email(), "user"));
+    assertThat(Iterables.getLast(r.getChange().messages()).getMessage())
+        .contains("Added to attention set");
+
+    change(r).attention(user.id().toString()).remove(new RemoveFromAttentionSetInput("foo"));
+    assertThat(Iterables.getLast(r.getChange().messages()).getMessage())
+        .contains("Removed from attention set");
+  }
+
+  @Test
   public void removeUnrelatedUser() throws Exception {
     PushOneCommit.Result r = createChange();
     change(r).attention(user.id().toString()).remove(new RemoveFromAttentionSetInput("foo"));
@@ -217,6 +229,23 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet.account()).isEqualTo(user.id());
     assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
     assertThat(attentionSet.reason()).isEqualTo("Reviewer was removed");
+  }
+
+  @Test
+  public void noChangeMessagesWhenAddedOrRemovedImplictly() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    change(r).addReviewer(user.id().toString());
+    change(r).reviewer(user.email()).remove();
+
+    assertThat(
+            r.getChange().messages().stream()
+                .noneMatch(u -> u.getMessage().contains("Added to attention set")))
+        .isTrue();
+    assertThat(
+            r.getChange().messages().stream()
+                .noneMatch(u -> u.getMessage().contains("Removed from attention set")))
+        .isTrue();
   }
 
   @Test

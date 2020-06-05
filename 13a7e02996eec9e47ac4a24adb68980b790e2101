@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "0150cb82_44bd1750",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1366,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-05T15:11:13Z",
+      "side": 1,
+      "message": "When the router handles this it should also remove the \"reload\" from the URL, probably using https://developer.mozilla.org/en-US/docs/Web/API/History/replaceState",
+      "revId": "13a7e02996eec9e47ac4a24adb68980b790e2101",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a3ca6da_a6e2307d",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1366,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-05T15:11:13Z",
+      "side": 1,
+      "message": "reload should be part of the query, not the path",
+      "range": {
+        "startLine": 1366,
+        "startChar": 40,
+        "endLine": 1366,
+        "endChar": 46
+      },
+      "revId": "13a7e02996eec9e47ac4a24adb68980b790e2101",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7b6bad4c_f24bc8d0",
         "filename": "polygerrit-ui/app/scripts/util.js",
         "patchSetId": 2

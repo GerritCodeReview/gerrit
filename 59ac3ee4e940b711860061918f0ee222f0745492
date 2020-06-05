@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "73786987_8eb050df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-05T17:30:19Z",
+      "side": 1,
+      "message": "Looks great, but it does not actually work. :-)\n\nI have downloaded ps3 and used the frontend dev extension, but pressing \u0027h\u0027 does not do anything. Did you try it yourself? Does it work for you?",
+      "revId": "59ac3ee4e940b711860061918f0ee222f0745492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "296d1367_95d87762",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 2

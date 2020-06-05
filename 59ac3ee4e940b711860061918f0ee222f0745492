@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "296d1367_95d87762",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1274,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-05T14:58:20Z",
+      "side": 1,
+      "message": "Why were these two lines removed from this method?\n\n  if (this.shouldSuppressKeyboardShortcut(e) ||\n      this.modifierPressed(e)) { return; }",
+      "range": {
+        "startLine": 1274,
+        "startChar": 2,
+        "endLine": 1274,
+        "endChar": 20
+      },
+      "revId": "59ac3ee4e940b711860061918f0ee222f0745492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "652bb6fe_329c08da",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_html.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-05T14:58:20Z",
+      "side": 1,
+      "message": "I would expect display:none for \"hide\", not for \"show\". :-)",
+      "revId": "59ac3ee4e940b711860061918f0ee222f0745492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1c9c9f8_4bb296ec",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_html.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-05T14:58:20Z",
+      "side": 1,
+      "message": "Do you need this second rule? Isn\u0027t one rule with \"none\" enough? If it is not activated, then \"unset\" is the implicit value.",
+      "revId": "59ac3ee4e940b711860061918f0ee222f0745492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -220,6 +220,24 @@
     },
     {
       "key": {
+        "uuid": "ad974dcb_014fa579",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-05T10:48:13Z",
+      "side": 1,
+      "message": "Why do you think it is a problem that such optimisation exists? Essentially, in AddReviewersOp, reviewers are not added to the ChangeUpdate if they already exist. A pointer would be AddReviewersOp#UpdateChange around the end of the method there is \"if(addedReviewers.isEmpty() -\u003e skip update\".\n\nThat sounds good to me, since this optimization doesn\u0027t need to know about the attention set: users are added to the attention set when reviewers are *really* added (\u003d\u003d they were not reviewers before the update).",
+      "parentUuid": "9977630c_af95d5c1",
+      "revId": "f216b0226f349662446f6304f08e194d8d374e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0f1f08ea_fbef1d18",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
         "patchSetId": 7

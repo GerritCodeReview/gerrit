@@ -39,12 +39,13 @@ GrPluginEndpoints.prototype.onDetachedEndpoint = function(endpoint,
   }
 };
 
-GrPluginEndpoints.prototype._getOrCreateModuleInfo = function(plugin,
-    endpoint, type, moduleName, domHook) {
+GrPluginEndpoints.prototype._getOrCreateModuleInfo = function(plugin, opts) {
+  const {endpoint, slot, type, moduleName, domHook} = opts;
   const existingModule = this._endpoints[endpoint].find(info =>
     info.plugin === plugin &&
       info.moduleName === moduleName &&
-      info.domHook === domHook
+      info.domHook === domHook &&
+      info.slot === slot
   );
   if (existingModule) {
     return existingModule;
@@ -55,6 +56,7 @@ GrPluginEndpoints.prototype._getOrCreateModuleInfo = function(plugin,
       pluginUrl: plugin._url,
       type,
       domHook,
+      slot,
     };
     this._endpoints[endpoint].push(newModule);
     return newModule;
@@ -67,9 +69,12 @@ GrPluginEndpoints.prototype._getOrCreateModuleInfo = function(plugin,
  * Dynamic plugins are registered to a specific prefix, such as
  * 'change-list-header'. These plugins are then fetched by prefix to determine
  * which endpoints to dynamically add to the page.
+ *
+ * @param {Object} plugin
+ * @param {Object} opts
  */
-GrPluginEndpoints.prototype.registerModule = function(plugin, endpoint, type,
-    moduleName, domHook, dynamicEndpoint) {
+GrPluginEndpoints.prototype.registerModule = function(plugin, opts) {
+  const {endpoint, dynamicEndpoint} = opts;
   if (dynamicEndpoint) {
     if (!this._dynamicPlugins[dynamicEndpoint]) {
       this._dynamicPlugins[dynamicEndpoint] = new Set();
@@ -79,8 +84,7 @@ GrPluginEndpoints.prototype.registerModule = function(plugin, endpoint, type,
   if (!this._endpoints[endpoint]) {
     this._endpoints[endpoint] = [];
   }
-  const moduleInfo = this._getOrCreateModuleInfo(plugin, endpoint, type,
-      moduleName, domHook);
+  const moduleInfo = this._getOrCreateModuleInfo(plugin, opts);
   if (pluginLoader.arePluginsLoaded() && this._callbacks[endpoint]) {
     this._callbacks[endpoint].forEach(callback => callback(moduleInfo));
   }

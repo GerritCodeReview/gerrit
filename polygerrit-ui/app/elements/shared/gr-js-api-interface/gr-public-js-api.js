@@ -94,9 +94,9 @@ import {deprecatedDelete} from './gr-gerrit.js';
     return this._name;
   };
 
-  Plugin.prototype.registerStyleModule = function(endpointName, moduleName) {
+  Plugin.prototype.registerStyleModule = function(endpoint, moduleName) {
     pluginEndpoints.registerModule(
-        this, endpointName, EndpointType.STYLE, moduleName);
+        this, {endpoint, type: EndpointType.STYLE, moduleName});
   };
 
   /**
@@ -122,14 +122,15 @@ import {deprecatedDelete} from './gr-gerrit.js';
   };
 
   Plugin.prototype._registerCustomComponent = function(
-      endpointName, opt_moduleName, opt_options, dynamicEndpoint) {
+      endpoint, opt_moduleName, opt_options, dynamicEndpoint) {
     const type = opt_options && opt_options.replace ?
       EndpointType.REPLACE : EndpointType.DECORATE;
-    const hook = this._domHooks.getDomHook(endpointName, opt_moduleName);
-    const moduleName = opt_moduleName || hook.getModuleName();
+    const slot = opt_options && opt_options.slot || '';
+    const domHook = this._domHooks.getDomHook(endpoint, opt_moduleName);
+    const moduleName = opt_moduleName || domHook.getModuleName();
     pluginEndpoints.registerModule(
-        this, endpointName, type, moduleName, hook, dynamicEndpoint);
-    return hook.getPublicAPI();
+        this, {slot, endpoint, type, moduleName, domHook, dynamicEndpoint});
+    return domHook.getPublicAPI();
   };
 
   /**

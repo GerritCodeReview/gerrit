@@ -76,12 +76,22 @@ class GrEndpointDecorator extends GestureEventListeners(
     });
   }
 
-  _initDecoration(name, plugin) {
+  _initDecoration(name, plugin, slot) {
     const el = document.createElement(name);
     return this._initProperties(el, plugin,
         this.getContentChildren().find(
             el => el.nodeName !== 'GR-ENDPOINT-PARAM'))
-        .then(el => this._appendChild(el));
+        .then(el => {
+          const slotEl = slot ?
+            dom(this).querySelector(`gr-endpoint-slot[name=${slot}]`) :
+            null;
+          if (slot && slotEl) {
+            slotEl.parentNode.insertBefore(el, slotEl.nextSibling);
+          } else {
+            this._appendChild(el);
+          }
+          return el;
+        });
   }
 
   _initReplacement(name, plugin) {
@@ -135,7 +145,7 @@ class GrEndpointDecorator extends GestureEventListeners(
     return dom(this.root).appendChild(el);
   }
 
-  _initModule({moduleName, plugin, type, domHook}) {
+  _initModule({moduleName, plugin, type, domHook, slot}) {
     const name = plugin.getPluginName() + '.' + moduleName;
     if (this._initializedPlugins.get(name)) {
       return;
@@ -143,7 +153,7 @@ class GrEndpointDecorator extends GestureEventListeners(
     let initPromise;
     switch (type) {
       case 'decorate':
-        initPromise = this._initDecoration(moduleName, plugin);
+        initPromise = this._initDecoration(moduleName, plugin, slot);
         break;
       case 'replace':
         initPromise = this._initReplacement(moduleName, plugin);
@@ -164,16 +174,18 @@ class GrEndpointDecorator extends GestureEventListeners(
     super.ready();
     this._endpointCallBack = this._initModule.bind(this);
     pluginEndpoints.onNewEndpoint(this.name, this._endpointCallBack);
-    pluginLoader.awaitPluginsLoaded()
-        .then(() => Promise.all(
-            pluginEndpoints.getPlugins(this.name).map(
-                pluginUrl => this._import(pluginUrl)))
-        )
-        .then(() =>
-          pluginEndpoints
-              .getDetails(this.name)
-              .forEach(this._initModule, this)
-        );
+    if (this.name) {
+      pluginLoader.awaitPluginsLoaded()
+          .then(() => Promise.all(
+              pluginEndpoints.getPlugins(this.name).map(
+                  pluginUrl => this._import(pluginUrl)))
+          )
+          .then(() =>
+            pluginEndpoints
+                .getDetails(this.name)
+                .forEach(this._initModule, this)
+          );
+    }
   }
 }
 

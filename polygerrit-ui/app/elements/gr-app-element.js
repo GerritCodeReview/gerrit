@@ -32,6 +32,7 @@ import './diff/gr-diff-view/gr-diff-view.js';
 import './edit/gr-editor-view/gr-editor-view.js';
 import './plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
 import './plugins/gr-endpoint-param/gr-endpoint-param.js';
+import './plugins/gr-endpoint-slot/gr-endpoint-slot.js';
 import './plugins/gr-external-style/gr-external-style.js';
 import './plugins/gr-plugin-host/gr-plugin-host.js';
 import './settings/gr-cla-view/gr-cla-view.js';

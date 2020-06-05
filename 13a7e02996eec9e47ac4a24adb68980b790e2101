@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b6bad4c_f24bc8d0",
+        "filename": "polygerrit-ui/app/scripts/util.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-05T14:33:38Z",
+      "side": 1,
+      "message": "Add tests to this function, it has some bugs.\nFor example:\nWrong:\n1. deepEqual({x:undefined}, {y:3}) returns true\n\nQuestionable:\n2. deepEqual({x:undefined}, {y:undefined}) returns true;\n3. deepEqual({x:undefined}, {}) returns false;\n\nExamples 2 and 3 are inconsistent. If non-existing property and undefined property are equals, then both cases must return true.\nIf undefined value is different from non-existing property, then both cases must return false (i would prefer this behavior, but in some situation this is not what we want).",
+      "range": {
+        "startLine": 209,
+        "startChar": 2,
+        "endLine": 209,
+        "endChar": 11
+      },
+      "revId": "13a7e02996eec9e47ac4a24adb68980b790e2101",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

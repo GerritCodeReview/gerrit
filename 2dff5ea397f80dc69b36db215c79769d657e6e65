@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8522124c_d2e4cf1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-05T19:53:12Z",
+      "side": 1,
+      "message": "lowcase.",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 15
+      },
+      "revId": "2dff5ea397f80dc69b36db215c79769d657e6e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90007291_d87bda0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-05T19:53:12Z",
+      "side": 1,
+      "message": "Wouldn\u0027t penultimate work as well? I think, that we have already somewhere tests for that.",
+      "range": {
+        "startLine": 25,
+        "startChar": 25,
+        "endLine": 25,
+        "endChar": 46
+      },
+      "revId": "2dff5ea397f80dc69b36db215c79769d657e6e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8eca8dbb_f73ffbbb",
+        "filename": "java/com/google/gerrit/server/index/VersionManager.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-05T19:53:12Z",
+      "side": 1,
+      "message": "Mark the code as VisibleForTesting? Why we have to that far in the past? Can\u0027t we just take the previous version?\n\nAlso note, that in some changes, we removed all index schema version, so that we would only have one single version, see for example: [1].\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/239832/15/java/com/google/gerrit/server/index/account/AccountSchemaDefinitions.java",
+      "range": {
+        "startLine": 238,
+        "startChar": 2,
+        "endLine": 245,
+        "endChar": 3
+      },
+      "revId": "2dff5ea397f80dc69b36db215c79769d657e6e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8450d31_a5e437e9",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-05T19:53:12Z",
+      "side": 1,
+      "message": "Why is this needed? You are testing start and active not SSH transport?",
+      "range": {
+        "startLine": 68,
+        "startChar": 6,
+        "endLine": 69,
+        "endChar": 38
+      },
+      "revId": "2dff5ea397f80dc69b36db215c79769d657e6e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10051762_76af8531",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-05T19:53:12Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 83,
+        "startChar": 6,
+        "endLine": 84,
+        "endChar": 38
+      },
+      "revId": "2dff5ea397f80dc69b36db215c79769d657e6e65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "6a150a72_83f20039",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-05T14:21:32Z",
+      "side": 1,
+      "message": "nit: this const is used inside if only - may be move it there.",
+      "range": {
+        "startLine": 366,
+        "startChar": 2,
+        "endLine": 368,
+        "endChar": 0
+      },
+      "revId": "69ed74205416fce1f25c192402c057fb750e8dc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a54aa798_64004bef",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 2

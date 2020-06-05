@@ -43,23 +43,25 @@ public class OutgoingEmailIT extends AbstractDaemonTest {
     gApi.changes().id(result.getChangeId()).abandon();
     assertThat(getMessageId(sender))
         .isEqualTo(
-            repository
-                    .getRefDatabase()
-                    .exactRef(result.getChange().getId().toRefPrefix() + "meta")
-                    .getObjectId()
-                    .getName()
-                + "-HTML");
+            withPrefixAndSuffixForMessageId(
+                repository
+                        .getRefDatabase()
+                        .exactRef(result.getChange().getId().toRefPrefix() + "meta")
+                        .getObjectId()
+                        .getName()
+                    + "-HTML"));
     sender.clear();
 
     gApi.changes().id(result.getChangeId()).restore();
     assertThat(getMessageId(sender))
         .isEqualTo(
-            repository
-                    .getRefDatabase()
-                    .exactRef(result.getChange().getId().toRefPrefix() + "meta")
-                    .getObjectId()
-                    .getName()
-                + "-HTML");
+            withPrefixAndSuffixForMessageId(
+                repository
+                        .getRefDatabase()
+                        .exactRef(result.getChange().getId().toRefPrefix() + "meta")
+                        .getObjectId()
+                        .getName()
+                    + "-HTML"));
   }
 
   @Test
@@ -80,12 +82,13 @@ public class OutgoingEmailIT extends AbstractDaemonTest {
 
     assertThat(getMessageId(sender))
         .isEqualTo(
-            allUsersRepo
-                    .getRefDatabase()
-                    .exactRef(RefNames.refsUsers(admin.id()))
-                    .getObjectId()
-                    .getName()
-                + "-HTML");
+            withPrefixAndSuffixForMessageId(
+                allUsersRepo
+                        .getRefDatabase()
+                        .exactRef(RefNames.refsUsers(admin.id()))
+                        .getObjectId()
+                        .getName()
+                    + "-HTML"));
   }
 
   @Test
@@ -93,7 +96,8 @@ public class OutgoingEmailIT extends AbstractDaemonTest {
     sender.clear();
     String newPassword = gApi.accounts().self().generateHttpPassword();
     assertThat(newPassword).isNotNull();
-    assertThat(getMessageId(sender)).contains("HTTP password change-" + admin.id().toString());
+    assertThat(getMessageId(sender))
+        .containsMatch("<HTTP password change-" + admin.id().toString() + ".*>");
   }
 
   @Test
@@ -123,5 +127,10 @@ public class OutgoingEmailIT extends AbstractDaemonTest {
     return ((EmailHeader.String)
             (Iterables.getOnlyElement(sender.getMessages()).headers().get("Message-ID")))
         .getString();
+  }
+
+  // Each message-id must start with < and end with >.
+  private static String withPrefixAndSuffixForMessageId(String id) {
+    return "<" + id + ">";
   }
 }

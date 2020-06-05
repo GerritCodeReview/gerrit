@@ -74,6 +74,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -131,7 +132,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String submissionId;
   private String topic;
   private String commit;
-  private Set<AttentionSetUpdate> attentionSetUpdates;
+  private Map<Account.Id, AttentionSetUpdate> plannedAttentionSetUpdates;
   private Optional<Account.Id> assignee;
   private Set<String> hashtags;
   private String changeMessage;
@@ -374,17 +375,35 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   /**
    * All updates must have a timestamp of null since we use the commit's timestamp. There also must
-   * not be multiple updates for a single user.
+   * not be multiple updates for a single user. Only the first update takes place because of the
+   * different priorities: e.g, if we want to add someone to the attention set but also want to
+   * remove someone from the attention set, we should ensure to add/remove that user based on the
+   * priority of the addition and removal. If most importantly we want to remove the user, then we
+   * must first create the removal, and the addition will not take effect.
    */
-  public void setAttentionSetUpdates(Set<AttentionSetUpdate> attentionSetUpdates) {
+  public void addToPlannedAttentionSetUpdates(Set<AttentionSetUpdate> updates) {
+    if (updates == null || updates.isEmpty()) {
+      return;
+    }
     checkArgument(
-        attentionSetUpdates.stream().noneMatch(a -> a.timestamp() != null),
+        updates.stream().noneMatch(a -> a.timestamp() != null),
         "must not specify timestamp for write");
+
     checkArgument(
-        attentionSetUpdates.stream().map(AttentionSetUpdate::account).distinct().count()
-            == attentionSetUpdates.size(),
+        updates.stream().map(AttentionSetUpdate::account).distinct().count() == updates.size(),
         "must not specify multiple updates for single user");
-    this.attentionSetUpdates = attentionSetUpdates;
+
+    if (plannedAttentionSetUpdates == null) {
+      plannedAttentionSetUpdates = new HashMap();
+    }
+
+    Set<Account.Id> currentAccountUpdates =
+        plannedAttentionSetUpdates.values().stream()
+            .map(u -> u.account())
+            .collect(Collectors.toSet());
+    updates.stream()
+        .filter(u -> !currentAccountUpdates.contains(u.account()))
+        .forEach(u -> plannedAttentionSetUpdates.putIfAbsent(u.account(), u));
   }
 
   public void setAssignee(Account.Id assignee) {
@@ -586,10 +605,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (status != null) {
       addFooter(msg, FOOTER_STATUS, status.name().toLowerCase());
       if (status.equals(Change.Status.ABANDONED)) {
-        clearAttentionSet(msg, "Change was abandoned");
+        clearAttentionSet("Change was abandoned");
       }
       if (status.equals(Change.Status.MERGED)) {
-        clearAttentionSet(msg, "Change was submitted");
+        clearAttentionSet("Change was submitted");
       }
     }
 
@@ -599,10 +618,6 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     if (commit != null) {
       addFooter(msg, FOOTER_COMMIT, commit);
-    }
-
-    if (attentionSetUpdates != null) {
-      updateAttentionSet(msg, attentionSetUpdates);
     }
 
     if (assignee != null) {
@@ -631,7 +646,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, e.getValue().getFooterKey());
       addIdent(msg, e.getKey()).append('\n');
     }
-    applyReviewerUpdatesToAttentionSet(msg);
+    applyReviewerUpdatesToAttentionSet();
 
     for (Map.Entry<Address, ReviewerStateInternal> e : reviewersByEmail.entrySet()) {
       addFooter(msg, e.getValue().getByEmailFooterKey(), e.getKey().toString());
@@ -694,7 +709,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (workInProgress != null) {
       addFooter(msg, FOOTER_WORK_IN_PROGRESS, workInProgress);
       if (workInProgress) {
-        clearAttentionSet(msg, "Change was marked work in progress");
+        clearAttentionSet("Change was marked work in progress");
       }
     }
 
@@ -704,6 +719,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     if (cherryPickOf != null) {
       addFooter(msg, FOOTER_CHERRY_PICK_OF, cherryPickOf);
+    }
+
+    if (plannedAttentionSetUpdates != null) {
+      updateAttentionSet(msg);
     }
 
     CommitBuilder cb = new CommitBuilder();
@@ -719,11 +738,11 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return cb;
   }
 
-  private void clearAttentionSet(StringBuilder msg, String reason) {
+  private void clearAttentionSet(String reason) {
     if (getNotes().getAttentionSet() == null) {
       return;
     }
-    Set<AttentionSetUpdate> toClear =
+    Set<AttentionSetUpdate> removeAll =
         AttentionSetUtil.additionsOnly(getNotes().getAttentionSet()).stream()
             .map(
                 a ->
@@ -731,10 +750,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
                         a.account(), AttentionSetUpdate.Operation.REMOVE, reason))
             .collect(Collectors.toSet());
 
-    updateAttentionSet(msg, toClear);
+    addToPlannedAttentionSetUpdates(removeAll);
   }
 
-  private void applyReviewerUpdatesToAttentionSet(StringBuilder msg) {
+  private void applyReviewerUpdatesToAttentionSet() {
     if (workInProgress != null || getNotes().getChange().isWorkInProgress()) {
       // Users shouldn't be added to the attention set if the change is work in progress.
       return;
@@ -759,11 +778,18 @@ public class ChangeUpdate extends AbstractChangeUpdate {
                 reviewer.getKey(), AttentionSetUpdate.Operation.REMOVE, "Reviewer was removed"));
       }
     }
-    updateAttentionSet(msg, updates);
+    addToPlannedAttentionSetUpdates(updates);
   }
 
-  private void updateAttentionSet(StringBuilder msg, Set<AttentionSetUpdate> updates) {
-    for (AttentionSetUpdate attentionSetUpdate : updates) {
+  /**
+   * Any updates to the attention set must be done in {@link #addToPlannedAttentionSetUpdates}. This
+   * method is called after all the updates are finished to do the updates once and for real.
+   */
+  private void updateAttentionSet(StringBuilder msg) {
+    if (plannedAttentionSetUpdates == null) {
+      return;
+    }
+    for (AttentionSetUpdate attentionSetUpdate : plannedAttentionSetUpdates.values()) {
       addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));
     }
   }
@@ -794,7 +820,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && status == null
         && submissionId == null
         && submitRecords == null
-        && attentionSetUpdates == null
+        && plannedAttentionSetUpdates == null
         && assignee == null
         && hashtags == null
         && topic == null

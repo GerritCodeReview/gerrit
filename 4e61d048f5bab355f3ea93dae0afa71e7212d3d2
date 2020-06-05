@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35794d51_5451c979",
+        "filename": "javatests/com/google/gerrit/acceptance/OutgoingEmailIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-06-05T10:42:46Z",
+      "side": 1,
+      "message": "i don\u0027t think that spaces are valid in message-ids ...",
+      "revId": "4e61d048f5bab355f3ea93dae0afa71e7212d3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

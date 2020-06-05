@@ -14,20 +14,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../admin/gr-repo-command/gr-repo-command.js';
-import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-Polymer({
-  _template: html`
-    <gr-repo-command title="[[title]]">
-    </gr-repo-command>
-`,
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {htmlTemplate} from './gr-plugin-repo-command_html.js';
 
-  is: 'gr-plugin-repo-command',
+class GrPluginRepoCommand extends PolymerElement {
+  static get is() {
+    return 'gr-plugin-repo-command';
+  }
 
-  properties: {
-    title: String,
-    repoName: String,
-    config: Object,
-  },
-});
+  static get properties() {
+    return {
+      title: String,
+      repoName: String,
+      config: Object,
+    };
+  }
+
+  static get template() {
+    return htmlTemplate;
+  }
+
+  _handleClick() {
+    this.dispatchEvent(
+        new CustomEvent('command-tap', {composed: true, bubbles: true})
+    );
+  }
+}
+
+customElements.define(GrPluginRepoCommand.is, GrPluginRepoCommand);

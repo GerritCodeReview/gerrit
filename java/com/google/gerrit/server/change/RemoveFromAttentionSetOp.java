@@ -14,9 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.collect.ImmutableMap.toImmutableMap;
-import static java.util.Objects.requireNonNull;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
@@ -29,31 +26,45 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+
 import java.util.Map;
 import java.util.function.Function;
+
+import static com.google.common.collect.ImmutableMap.toImmutableMap;
+import static java.util.Objects.requireNonNull;
 
 /** Remove a specified user from the attention set. */
 public class RemoveFromAttentionSetOp implements BatchUpdateOp {
 
   public interface Factory {
-    RemoveFromAttentionSetOp create(Account.Id attentionUserId, String reason);
+    RemoveFromAttentionSetOp create(
+        Account.Id attentionUserId, String reason, boolean withChangeMessage);
   }
 
   private final ChangeData.Factory changeDataFactory;
   private final ChangeMessagesUtil cmUtil;
   private final Account.Id attentionUserId;
   private final String reason;
+  private final boolean withChangeMessage;
 
+  /**
+   * @param attentionUserId the id of the user we want to add to the attention set.
+   * @param reason The reason for adding that user.
+   * @param withChangeMessage Whether or not we wish to add a change message detailing about adding
+   *     that user to the attention set.
+   */
   @Inject
   RemoveFromAttentionSetOp(
       ChangeData.Factory changeDataFactory,
       ChangeMessagesUtil cmUtil,
       @Assisted Account.Id attentionUserId,
-      @Assisted String reason) {
+      @Assisted String reason,
+      @Assisted boolean withChangeMessage) {
     this.changeDataFactory = changeDataFactory;
     this.cmUtil = cmUtil;
     this.attentionUserId = requireNonNull(attentionUserId, "user");
     this.reason = requireNonNull(reason, "reason");
+    this.withChangeMessage = withChangeMessage;
   }
 
   @Override
@@ -68,14 +79,16 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
     }
 
     ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
-    update.setAttentionSetUpdates(
+    update.addToPlannedAttentionSetUpdates(
         ImmutableSet.of(
             AttentionSetUpdate.createForWrite(attentionUserId, Operation.REMOVE, reason)));
-    addMessage(ctx, update);
+    if (withChangeMessage) {
+      addChangeMessage(ctx, update);
+    }
     return true;
   }
 
-  private void addMessage(ChangeContext ctx, ChangeUpdate update) {
+  private void addChangeMessage(ChangeContext ctx, ChangeUpdate update) {
     String message = "Removed from attention set: " + attentionUserId;
     cmUtil.addChangeMessage(
         update,

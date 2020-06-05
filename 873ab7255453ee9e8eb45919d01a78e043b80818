@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8558ebb_25b6f8df",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-06-05T20:04:50Z",
+      "side": 1,
+      "message": "that\u0027s ugly. it would be better to assert that there are no spaces in the first place, at the locations where the id can be set.",
+      "revId": "873ab7255453ee9e8eb45919d01a78e043b80818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

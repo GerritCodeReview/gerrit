@@ -36,3 +36,5 @@ nodejs_binary(
     # ts service in background). It works without any workaround.
     entry_point = "@tools_npm//:node_modules/@bazel/typescript/internal/tsc_wrapped/tsc_wrapped.js",
 )
+
+exports_files(["plugin.rollup.config.js"])

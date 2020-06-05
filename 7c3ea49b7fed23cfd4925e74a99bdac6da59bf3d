@@ -636,6 +636,30 @@
     },
     {
       "key": {
+        "uuid": "d10c89d4_a7b73dd3",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-05T10:40:15Z",
+      "side": 1,
+      "message": "But it is not consistent with our UI. We use border-color everywhere for all borders. We should do the same here.",
+      "parentUuid": "6125a0bd_301d7a56",
+      "range": {
+        "startLine": 57,
+        "startChar": 30,
+        "endLine": 57,
+        "endChar": 54
+      },
+      "revId": "7c3ea49b7fed23cfd4925e74a99bdac6da59bf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5dd4aa02_67e3f8cc",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.js",
         "patchSetId": 4

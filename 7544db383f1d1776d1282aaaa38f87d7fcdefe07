@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b472d93_4f879dbe",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-05T10:40:15Z",
+      "side": 1,
+      "message": "These are all threads, but I think you only want to take visible threads into account, right? So maybe this should be filtered by _shouldShowThread? Same in _shouldRenderBorder().",
+      "range": {
+        "startLine": 195,
+        "startChar": 29,
+        "endLine": 195,
+        "endChar": 36
+      },
+      "revId": "7544db383f1d1776d1282aaaa38f87d7fcdefe07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd945ad0_2cfabca1",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-05T10:40:15Z",
+      "side": 1,
+      "message": "return false",
+      "revId": "7544db383f1d1776d1282aaaa38f87d7fcdefe07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "568e5d74_8dfc41db",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-05T10:40:15Z",
+      "side": 1,
+      "message": "\u003d\u003d\u003d",
+      "range": {
+        "startLine": 200,
+        "startChar": 17,
+        "endLine": 200,
+        "endChar": 20
+      },
+      "revId": "7544db383f1d1776d1282aaaa38f87d7fcdefe07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86fb3fe7_0f15bd91",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-05T10:40:15Z",
+      "side": 1,
+      "message": "return false",
+      "range": {
+        "startLine": 206,
+        "startChar": 6,
+        "endLine": 206,
+        "endChar": 12
+      },
+      "revId": "7544db383f1d1776d1282aaaa38f87d7fcdefe07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "599fbf44_98ce52af",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-05T10:40:15Z",
+      "side": 1,
+      "message": "Move the border onto the gr-comment-thread instead of creating a separate div.",
+      "range": {
+        "startLine": 96,
+        "startChar": 15,
+        "endLine": 96,
+        "endChar": 29
+      },
+      "revId": "7544db383f1d1776d1282aaaa38f87d7fcdefe07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3fd9da4_5d070eb8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-05T10:40:15Z",
+      "side": 1,
+      "message": "So this happens when? If !lineNum \u0026\u0026 range? I thought that cannot happen? So maybe just drop the !range clause?",
+      "revId": "7544db383f1d1776d1282aaaa38f87d7fcdefe07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

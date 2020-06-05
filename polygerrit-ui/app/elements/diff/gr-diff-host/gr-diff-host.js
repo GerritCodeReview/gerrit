@@ -367,7 +367,7 @@ class GrDiffHost extends mixinBehaviors( [
                     event.detail.contentRendered;
               if (needsSyntaxHighlighting) {
                 this.reporting.time(TimingLabel.SYNTAX);
-                this.$.syntaxLayer.process().then(() => {
+                this.$.syntaxLayer.process().finally(() => {
                   this.reporting.timeEnd(TimingLabel.SYNTAX);
                   this.reporting.timeEnd(TimingLabel.TOTAL);
                   resolve();
@@ -454,6 +454,7 @@ class GrDiffHost extends mixinBehaviors( [
   /** Cancel any remaining diff builder rendering work. */
   cancel() {
     this.$.diff.cancel();
+    this.$.syntaxLayer.cancel();
   }
 
   /** @return {!Array<!HTMLElement>} */

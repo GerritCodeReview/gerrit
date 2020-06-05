@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5550c5b_ad7918f1",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-05T20:42:08Z",
+      "side": 1,
+      "message": "Since this is essentially twice the same code with different fields, I tried\nto put it in a function. But when I return \u0027\u003cspan class\u003d\"placeholder\"\u003e--\u003c/span\u003e\u0027\nit gets escaped automatically, and ends up literally on screen in the version\ncolumns. Is there a way to return HTML text? Or would one have to create the\nHTML objects in code within the function?\n\nAlthough I discussed with paladox in IRC an I said I\u0027ll try a function, I now\nleft it as is due to the escaping issue above, and because other list handling\nfiles in PolyGerrit seem to also copy/paste this placeholder handling for columns.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 19
+      },
+      "revId": "d53ce898def7d06e9d5d6732de0ba23bee02acf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -605,8 +605,7 @@ In that case, care should be taken to prevent the CI system from
 exposing secret details.
 
 [[private-changes-pitfalls]]
-Pitfalls
-===
+=== Pitfalls
 
 If private changes are used, be aware of the following pitfalls:
 

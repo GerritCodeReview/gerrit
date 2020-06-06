@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c299ced_4643bf39",
+        "filename": "java/com/google/gerrit/sshd/SshUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-06T00:42:37Z",
+      "side": 1,
+      "message": "The CloseConnection has no test coverage: as a result then also this forEachSshSession() loop won\u0027t be covered by tests.\n\nBecause this method is intended to be reused, a unit-test would be needed for making sure that this interface isn\u0027t breaking its contract.",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 180,
+        "endChar": 3
+      },
+      "revId": "25feb9f5895e990858e80719999ab2015074d48d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14f1be9a_3717c970",
+        "filename": "java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-06T00:42:37Z",
+      "side": 1,
+      "message": "Unnecessary warning suppression, because the cast isn\u0027t needed after all",
+      "range": {
+        "startLine": 63,
+        "startChar": 10,
+        "endLine": 63,
+        "endChar": 35
+      },
+      "revId": "25feb9f5895e990858e80719999ab2015074d48d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "727a3ca8_f6a428d8",
+        "filename": "java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-06T00:42:37Z",
+      "side": 1,
+      "message": "Unnecessary cast",
+      "range": {
+        "startLine": 64,
+        "startChar": 51,
+        "endLine": 64,
+        "endChar": 56
+      },
+      "revId": "25feb9f5895e990858e80719999ab2015074d48d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc42cc1a_22e7a951",
+        "filename": "java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-06T00:42:37Z",
+      "side": 1,
+      "message": "For better clarity of the change, I would keep the other way around: parsing the incoming session ids parameter with Long.parseLong(sessionId, 16).",
+      "range": {
+        "startLine": 64,
+        "startChar": 10,
+        "endLine": 64,
+        "endChar": 84
+      },
+      "revId": "25feb9f5895e990858e80719999ab2015074d48d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

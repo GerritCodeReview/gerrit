@@ -68,7 +68,7 @@ public abstract class CacheBasedWebSession implements WebSession {
       AuthConfig authConfig,
       Provider<AnonymousUser> anonymousProvider,
       IdentifiedUser.RequestFactory identified,
-      final AccountCache byIdCache) {
+      AccountCache byIdCache) {
     this.request = request;
     this.response = response;
     this.manager = manager;

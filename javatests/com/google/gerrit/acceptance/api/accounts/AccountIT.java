@@ -3418,7 +3418,7 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   private AccountApi accountIdApi() throws RestApiException {
-    return gApi.accounts().id("user");
+    return gApi.accounts().id(user.id.get());
   }
 
   private Set<String> getCookiesNames() {

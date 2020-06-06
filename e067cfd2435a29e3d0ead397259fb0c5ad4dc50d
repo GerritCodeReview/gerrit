@@ -22,6 +22,29 @@
       "revId": "e067cfd2435a29e3d0ead397259fb0c5ad4dc50d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f82e0d86_88e30ba4",
+        "filename": "java/com/google/gerrit/sshd/InactiveAccountDisconnector.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-06T02:12:18Z",
+      "side": 1,
+      "message": "This must be a warning",
+      "range": {
+        "startLine": 57,
+        "startChar": 13,
+        "endLine": 57,
+        "endChar": 19
+      },
+      "revId": "e067cfd2435a29e3d0ead397259fb0c5ad4dc50d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

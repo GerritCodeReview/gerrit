@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "4c609a6f_c3ed17bc",
+        "filename": "java/com/google/gerrit/sshd/SshUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-06T01:53:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa2cee9a_593e253d",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 180,
+        "endChar": 3
+      },
+      "revId": "25feb9f5895e990858e80719999ab2015074d48d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14f1be9a_3717c970",
         "filename": "java/com/google/gerrit/sshd/commands/CloseConnection.java",
         "patchSetId": 6

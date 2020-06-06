@@ -22,6 +22,30 @@
       "revId": "4b123e5c7d0c53d587b262a99299c5e3b28c883f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "315aa91a_7a05fd48",
+        "filename": "java/com/google/gerrit/server/BUILD",
+        "patchSetId": 23
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-06-06T08:19:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7af154d9_d914c79c",
+      "range": {
+        "startLine": 151,
+        "startChar": 8,
+        "endLine": 151,
+        "endChar": 32
+      },
+      "revId": "4b123e5c7d0c53d587b262a99299c5e3b28c883f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

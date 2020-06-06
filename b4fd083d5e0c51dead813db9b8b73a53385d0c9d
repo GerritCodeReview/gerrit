@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8334a411_26944560",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountListenersIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-06T02:07:40Z",
+      "side": 1,
+      "message": "Not needed.",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 21
+      },
+      "revId": "b4fd083d5e0c51dead813db9b8b73a53385d0c9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17b12889_ed4e1cec",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountListenersIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-06T02:07:40Z",
+      "side": 1,
+      "message": "This is redundant, as it is called only after the instantiation and the fields are null anyway.",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 201,
+        "endChar": 5
+      },
+      "revId": "b4fd083d5e0c51dead813db9b8b73a53385d0c9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

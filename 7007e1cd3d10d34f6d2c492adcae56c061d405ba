@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d34b2248_dadf548f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-06T22:21:40Z",
+      "side": 1,
+      "message": "@Test missing",
+      "revId": "7007e1cd3d10d34f6d2c492adcae56c061d405ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac8d5078_37c8521b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3129,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-06T22:21:40Z",
+      "side": 1,
+      "message": "This is unused",
+      "range": {
+        "startLine": 3089,
+        "startChar": 0,
+        "endLine": 3129,
+        "endChar": 0
+      },
+      "revId": "7007e1cd3d10d34f6d2c492adcae56c061d405ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

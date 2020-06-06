@@ -91,6 +91,30 @@
       "revId": "25feb9f5895e990858e80719999ab2015074d48d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a10cd87e_a9f6676e",
+        "filename": "java/com/google/gerrit/sshd/commands/CloseConnection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-06T01:01:03Z",
+      "side": 1,
+      "message": "Because we need to display the hex value anyway at L66, it\u0027s best to leave it as-is.",
+      "parentUuid": "cc42cc1a_22e7a951",
+      "range": {
+        "startLine": 64,
+        "startChar": 10,
+        "endLine": 64,
+        "endChar": 84
+      },
+      "revId": "25feb9f5895e990858e80719999ab2015074d48d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

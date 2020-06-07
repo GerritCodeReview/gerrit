@@ -165,6 +165,27 @@ public class Schema<T> {
     return true;
   }
 
+  private Values<T> fieldValues(T obj, FieldDef<T, ?> f, ImmutableSet<String> skipFields) {
+    if (skipFields.contains(f.getName())) {
+      return null;
+    }
+
+    Object v;
+    try {
+      v = f.get(obj);
+    } catch (RuntimeException e) {
+      logger.atSevere().withCause(e).log("error getting field %s of %s", f.getName(), obj);
+      return null;
+    }
+    if (v == null) {
+      return null;
+    } else if (f.isRepeatable()) {
+      return new Values<>(f, (Iterable<?>) v);
+    } else {
+      return new Values<>(f, Collections.singleton(v));
+    }
+  }
+
   /**
    * Build all fields in the schema from an input object.
    *
@@ -173,6 +194,7 @@ public class Schema<T> {
    * @param obj input object.
    * @return all non-null field values from the object.
    */
+<<<<<<< HEAD   (22a46e Merge "ProjectJson: Use merge function for label value rende)
   public final Iterable<Values<T>> buildFields(T obj) {
     return FluentIterable.from(fields.values())
         .transform(
@@ -197,6 +219,13 @@ public class Schema<T> {
               }
             })
         .filter(Predicates.notNull());
+=======
+  public final Iterable<Values<T>> buildFields(T obj, ImmutableSet<String> skipFields) {
+    return fields.values().stream()
+        .map(f -> fieldValues(obj, f, skipFields))
+        .filter(Objects::nonNull)
+        .collect(toImmutableList());
+>>>>>>> CHANGE (2ba815 Schema: Refactor lambda in buildFields to a separate functio)
   }
 
   @Override

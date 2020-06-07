@@ -185,6 +185,12 @@ public class Schema<T> {
     Object v;
     try {
       v = f.get(obj);
+    } catch (StorageException e) {
+      // StorageException is thrown when the object is not found. On this case,
+      // it is pointless to make further attempts for each field, so propagate
+      // the exception to return an empty list.
+      logger.atSevere().withCause(e).log("error getting field %s of %s", f.getName(), obj);
+      throw e;
     } catch (RuntimeException e) {
       logger.atSevere().withCause(e).log("error getting field %s of %s", f.getName(), obj);
       return null;

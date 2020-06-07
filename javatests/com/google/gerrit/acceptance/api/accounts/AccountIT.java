@@ -45,6 +45,10 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.verifyZeroInteractions;
 
 import com.github.rholder.retry.StopStrategies;
 import com.google.common.collect.FluentIterable;
@@ -84,6 +88,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.accounts.AccountInput;
 import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
 import com.google.gerrit.extensions.api.accounts.DeletedDraftCommentInfo;
@@ -104,6 +109,7 @@ import com.google.gerrit.extensions.common.EmailInfo;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
+import com.google.gerrit.extensions.events.AccountActivationListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -115,6 +121,7 @@ import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.gpg.Fingerprint;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.testing.TestKey;
+import com.google.gerrit.httpd.CacheBasedWebSession;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.ServerInitiated;
@@ -159,6 +166,14 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicCookieStore;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.bouncycastle.bcpg.ArmoredOutputStream;
 import org.bouncycastle.openpgp.PGPPublicKey;
 import org.bouncycastle.openpgp.PGPPublicKeyRing;
@@ -183,6 +198,7 @@ import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 public class AccountIT extends AbstractDaemonTest {
@@ -221,6 +237,9 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Inject protected GroupOperations groupOperations;
 
+  private BasicCookieStore httpCookieStore;
+  private CloseableHttpClient httpclient;
+
   @After
   public void clearPublicKeyStore() throws Exception {
     try (Repository repo = repoManager.openRepository(allUsers)) {
@@ -245,6 +264,16 @@ public class AccountIT extends AbstractDaemonTest {
             .isEqualTo(RefUpdate.Result.FORCED);
       }
     }
+  }
+
+  @Before
+  public void createHttpClient() {
+    httpCookieStore = new BasicCookieStore();
+    httpclient =
+        HttpClientBuilder.create()
+            .disableRedirectHandling()
+            .setDefaultCookieStore(httpCookieStore)
+            .build();
   }
 
   protected void assertLabelPermission(
@@ -577,13 +606,50 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "auth.type", value = "DEVELOPMENT_BECOME_ANY_ACCOUNT")
+  public void activeUserGetSessionCookieOnLogin() throws Exception {
+    Integer accountId = accountIdApi().get()._accountId;
+    assertThat(accountIdApi().getActive()).isTrue();
+
+    webLogin(accountId);
+    assertThat(getCookiesNames()).contains(CacheBasedWebSession.ACCOUNT_COOKIE);
+  }
+
+  @Test
+  @GerritConfig(name = "auth.type", value = "DEVELOPMENT_BECOME_ANY_ACCOUNT")
+  public void inactiveUserDoesNotGetCookieOnLogin() throws Exception {
+    Integer accountId = accountIdApi().get()._accountId;
+    accountIdApi().setActive(false);
+    assertThat(accountIdApi().getActive()).isFalse();
+
+    webLogin(accountId);
+    assertThat(getCookiesNames()).isEmpty();
+  }
+
+  @Test
+  @GerritConfig(name = "auth.type", value = "DEVELOPMENT_BECOME_ANY_ACCOUNT")
+  public void userDeactivatedAfterLoginDoesNotGetCookie() throws Exception {
+    Integer accountId = accountIdApi().get()._accountId;
+    assertThat(accountIdApi().getActive()).isTrue();
+
+    webLogin(accountId);
+    assertThat(getCookiesNames()).contains(CacheBasedWebSession.ACCOUNT_COOKIE);
+    httpGetAndAssertStatus("accounts/self/detail", HttpServletResponse.SC_OK);
+
+    accountIdApi().setActive(false);
+    assertThat(accountIdApi().getActive()).isFalse();
+
+    httpGetAndAssertStatus("accounts/self/detail", HttpServletResponse.SC_FORBIDDEN);
+  }
+
+  @Test
   public void validateAccountActivation() throws Exception {
     Account.Id activatableAccountId =
         accountOperations.newAccount().inactive().preferredEmail("foo@activatable.com").create();
     Account.Id deactivatableAccountId =
         accountOperations.newAccount().preferredEmail("foo@deactivatable.com").create();
 
-    AccountActivationValidationListener listener =
+    AccountActivationValidationListener validationListener =
         new AccountActivationValidationListener() {
           @Override
           public void validateActivation(AccountState account) throws ValidationException {
@@ -601,7 +667,11 @@ public class AccountIT extends AbstractDaemonTest {
             }
           }
         };
-    try (Registration registration = extensionRegistry.newRegistration().add(listener)) {
+
+    AccountActivationListener listener = mock(AccountActivationListener.class);
+
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(validationListener).add(listener)) {
       /* Test account that can be activated, but not deactivated */
       // Deactivate account that is already inactive
       ResourceConflictException thrown =
@@ -610,14 +680,18 @@ public class AccountIT extends AbstractDaemonTest {
               () -> gApi.accounts().id(activatableAccountId.get()).setActive(false));
       assertThat(thrown).hasMessageThat().isEqualTo("account not active");
       assertThat(accountOperations.account(activatableAccountId).get().active()).isFalse();
+      verifyZeroInteractions(listener);
 
       // Activate account that can be activated
       gApi.accounts().id(activatableAccountId.get()).setActive(true);
       assertThat(accountOperations.account(activatableAccountId).get().active()).isTrue();
+      verify(listener).onAccountActivated(activatableAccountId.get());
+      verifyNoMoreInteractions(listener);
 
       // Activate account that is already active
       gApi.accounts().id(activatableAccountId.get()).setActive(true);
       assertThat(accountOperations.account(activatableAccountId).get().active()).isTrue();
+      verifyZeroInteractions(listener);
 
       // Try deactivating account that cannot be deactivated
       thrown =
@@ -626,15 +700,19 @@ public class AccountIT extends AbstractDaemonTest {
               () -> gApi.accounts().id(activatableAccountId.get()).setActive(false));
       assertThat(thrown).hasMessageThat().isEqualTo("not allowed to deactive account");
       assertThat(accountOperations.account(activatableAccountId).get().active()).isTrue();
+      verifyZeroInteractions(listener);
 
       /* Test account that can be deactivated, but not activated */
       // Activate account that is already inactive
       gApi.accounts().id(deactivatableAccountId.get()).setActive(true);
       assertThat(accountOperations.account(deactivatableAccountId).get().active()).isTrue();
+      verifyZeroInteractions(listener);
 
       // Deactivate account that can be deactivated
       gApi.accounts().id(deactivatableAccountId.get()).setActive(false);
       assertThat(accountOperations.account(deactivatableAccountId).get().active()).isFalse();
+      verify(listener).onAccountDeactivated(deactivatableAccountId.get());
+      verifyNoMoreInteractions(listener);
 
       // Deactivate account that is already inactive
       thrown =
@@ -643,6 +721,7 @@ public class AccountIT extends AbstractDaemonTest {
               () -> gApi.accounts().id(deactivatableAccountId.get()).setActive(false));
       assertThat(thrown).hasMessageThat().isEqualTo("account not active");
       assertThat(accountOperations.account(deactivatableAccountId).get().active()).isFalse();
+      verifyZeroInteractions(listener);
 
       // Try activating account that cannot be activated
       thrown =
@@ -651,6 +730,7 @@ public class AccountIT extends AbstractDaemonTest {
               () -> gApi.accounts().id(deactivatableAccountId.get()).setActive(true));
       assertThat(thrown).hasMessageThat().isEqualTo("not allowed to active account");
       assertThat(accountOperations.account(deactivatableAccountId).get().active()).isFalse();
+      verifyZeroInteractions(listener);
     }
   }
 
@@ -2979,6 +3059,30 @@ public class AccountIT extends AbstractDaemonTest {
   private void assertEmail(Set<Account.Id> accounts, TestAccount expectedAccount) {
     assertThat(accounts).hasSize(1);
     assertThat(Iterables.getOnlyElement(accounts)).isEqualTo(expectedAccount.id());
+  }
+
+  private AccountApi accountIdApi() throws RestApiException {
+    return gApi.accounts().id(user.id().get());
+  }
+
+  private Set<String> getCookiesNames() {
+    Set<String> cookieNames =
+        httpCookieStore.getCookies().stream()
+            .map(cookie -> cookie.getName())
+            .collect(Collectors.toSet());
+    return cookieNames;
+  }
+
+  private void webLogin(Integer accountId) throws IOException, ClientProtocolException {
+    httpGetAndAssertStatus(
+        "login?account_id=" + accountId, HttpServletResponse.SC_MOVED_TEMPORARILY);
+  }
+
+  private void httpGetAndAssertStatus(String urlPath, int expectedHttpStatus)
+      throws ClientProtocolException, IOException {
+    HttpGet httpGet = new HttpGet(canonicalWebUrl.get() + urlPath);
+    HttpResponse loginResponse = httpclient.execute(httpGet);
+    assertThat(loginResponse.getStatusLine().getStatusCode()).isEqualTo(expectedHttpStatus);
   }
 
   private static class RefUpdateCounter implements GitReferenceUpdatedListener {

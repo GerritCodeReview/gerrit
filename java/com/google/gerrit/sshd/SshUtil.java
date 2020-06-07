@@ -19,6 +19,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountSshKey;
+import com.google.gerrit.sshd.BaseCommand.Failure;
 import com.google.gerrit.sshd.SshScope.Context;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,7 +31,10 @@ import java.security.interfaces.DSAPublicKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import org.apache.sshd.common.SshException;
+import org.apache.sshd.common.io.IoAcceptor;
+import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
+import org.apache.sshd.common.session.helpers.AbstractSession;
 import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
 import org.apache.sshd.server.session.ServerSession;
 
@@ -151,5 +155,31 @@ public class SshUtil {
       final IdentifiedUser.GenericFactory userFactory,
       final Account.Id account) {
     return userFactory.create(sd.getRemoteAddress(), account);
+  }
+
+  public static void forEachSshSession(SshDaemon sshDaemon, SessionConsumer consumer)
+      throws Failure {
+    IoAcceptor ioAcceptor = sshDaemon.getIoAcceptor();
+    if (ioAcceptor == null) {
+      throw new Failure(1, "fatal: sshd no longer running");
+    }
+    ioAcceptor
+        .getManagedSessions()
+        .forEach(
+            (id, ioSession) -> {
+              AbstractSession abstractSession = AbstractSession.getSession(ioSession, true);
+              if (abstractSession != null) {
+                SshSession sshSession = abstractSession.getAttribute(SshSession.KEY);
+                if (sshSession != null) {
+                  consumer.accept(id, sshSession, abstractSession, ioSession);
+                }
+              }
+            });
+  }
+
+  @FunctionalInterface
+  public interface SessionConsumer {
+    public void accept(
+        Long id, SshSession sshSession, AbstractSession abstractSession, IoSession ioSession);
   }
 }

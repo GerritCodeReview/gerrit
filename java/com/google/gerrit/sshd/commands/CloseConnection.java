@@ -23,15 +23,12 @@ import com.google.gerrit.sshd.AdminHighPriorityCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.gerrit.sshd.SshDaemon;
-import com.google.gerrit.sshd.SshSession;
+import com.google.gerrit.sshd.SshUtil;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.sshd.common.future.CloseFuture;
-import org.apache.sshd.common.io.IoAcceptor;
-import org.apache.sshd.common.io.IoSession;
-import org.apache.sshd.common.session.helpers.AbstractSession;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
@@ -60,36 +57,26 @@ final class CloseConnection extends SshCommand {
 
   @Override
   protected void run() throws Failure {
-    IoAcceptor acceptor = sshDaemon.getIoAcceptor();
-    if (acceptor == null) {
-      throw new Failure(1, "fatal: sshd no longer running");
-    }
-    for (String sessionId : sessionIds) {
-      boolean connectionFound = false;
-      int id = (int) Long.parseLong(sessionId, 16);
-      for (IoSession io : acceptor.getManagedSessions().values()) {
-        AbstractSession serverSession = AbstractSession.getSession(io, true);
-        SshSession sshSession =
-            serverSession != null ? serverSession.getAttribute(SshSession.KEY) : null;
-        if (sshSession != null && sshSession.getSessionId() == id) {
-          connectionFound = true;
-          stdout.println("closing connection " + sessionId + "...");
-          CloseFuture future = io.close(true);
-          if (wait) {
-            try {
-              future.await();
-              stdout.println("closed connection " + sessionId);
-            } catch (IOException e) {
-              logger.atWarning().log(
-                  "Wait for connection to close interrupted: %s", e.getMessage());
+    SshUtil.forEachSshSession(
+        sshDaemon,
+        (k, sshSession, abstractSession, ioSession) -> {
+          String sessionId = String.format("%08x", sshSession.getSessionId());
+          if (sessionIds.remove(sessionId)) {
+            stdout.println("closing connection " + sessionId + "...");
+            CloseFuture future = ioSession.close(true);
+            if (wait) {
+              try {
+                future.await();
+                stdout.println("closed connection " + sessionId);
+              } catch (IOException e) {
+                logger.atWarning().log(
+                    "Wait for connection to close interrupted: %s", e.getMessage());
+              }
             }
           }
-          break;
-        }
-      }
-      if (!connectionFound) {
-        stderr.print("close connection " + sessionId + ": no such connection\n");
-      }
+        });
+    for (String sessionId : sessionIds) {
+      stderr.print("close connection " + sessionId + ": no such connection\n");
     }
   }
 }

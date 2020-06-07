@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.httpd.WebSessionManager.Val;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.IdentifiedUser.RequestFactory;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
@@ -59,8 +60,15 @@ public class H2CacheBasedWebSession extends CacheBasedWebSession {
       @Named(WebSessionManager.CACHE_NAME) Cache<String, Val> cache,
       AuthConfig authConfig,
       Provider<AnonymousUser> anonymousProvider,
-      RequestFactory identified) {
+      RequestFactory identified,
+      AccountCache byIdCache) {
     super(
-        request, response, managerFactory.create(cache), authConfig, anonymousProvider, identified);
+        request,
+        response,
+        managerFactory.create(cache),
+        authConfig,
+        anonymousProvider,
+        identified,
+        byIdCache);
   }
 }

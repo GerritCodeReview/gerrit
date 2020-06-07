@@ -2265,6 +2265,36 @@ A good name should be short but precise enough so that users can identify the in
 +
 Defaults to the full hostname of the Gerrit server.
 
+[[gerrit.experimentalRollingUpgrade]]gerrit.experimentalRollingUpgrade::
++
+Enable Gerrit rolling upgrade to the next version.
+For example if Gerrit v3.1 is version N (All-Projects:refs/meta/version=181)
+then its next version N+1 is v3.2 (All-Projects:refs/meta/version=183).
+Allow Gerrit to start even if the underlying schema version has been bumped to
+the next Gerrit version.
++
+Set to true if Gerrit is installed in
+[high-availability configuration](https://gerrit.googlesource.com/plugins/high-availability/+/refs/heads/master/README.md)
+during the rolling upgrade to the next version.
++
+By default false.
++
+The rolling upgrade process, at high level, assumes that Gerrit is installed
+on two or more nodes sharing the repositories over NFS. The upgrade is composed
+of the following steps:
++
+1. Set gerrit.experimentalRollingUpgrade to true on all Gerrit masters
+2. Set the first master unhealthy
+3. Shutdown the first master and [upgrade](install.html#init) to the next version
+4. Startup the first master, wait for the online reindex to complete
+5. Verify the the first master upgrade is successful and online reindex is complete
+6. Set the first master healthy
+7. Repeat steps 2. to 6. for all the other Gerrit nodes
++
+[WARNING]
+Rolling upgrade may or may not be possible depending on the changes introduced
+by the target version of the upgrade. Refer to the release notes and check whether
+the rolling upgrade is possible or not and the associated constraints.
 
 [[gerrit.serverId]]gerrit.serverId::
 +
@@ -3763,6 +3793,18 @@ each process retrieves at once.
 +
 By default, 1.
 
+[[notedb.changes.sequenceBatchSize]]notedb.changes.sequenceBatchSize::
++
+The next available change sequence number is stored as UTF-8 text in a
+blob pointed to by the `refs/sequences/changes` ref in the `All-Projects`
+repository. Multiple processes share the same sequence by incrementing
+the counter using normal git ref updates. To amortize the cost of these
+ref updates, processes increment the counter by a larger number and
+hand out numbers from that range in memory until they run out. This
+configuration parameter controls the size of the change ID batch that
+each process retrieves at once.
++
+By default, 20.
 
 [[oauth]]
 === Section oauth

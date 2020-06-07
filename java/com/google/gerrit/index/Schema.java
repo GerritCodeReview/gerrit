@@ -176,6 +176,27 @@ public class Schema<T> {
     return true;
   }
 
+  private Values<T> fieldValues(T obj, FieldDef<T, ?> f, ImmutableSet<String> skipFields) {
+    if (skipFields.contains(f.getName())) {
+      return null;
+    }
+
+    Object v;
+    try {
+      v = f.get(obj);
+    } catch (RuntimeException e) {
+      logger.atSevere().withCause(e).log("error getting field %s of %s", f.getName(), obj);
+      return null;
+    }
+    if (v == null) {
+      return null;
+    } else if (f.isRepeatable()) {
+      return new Values<>(f, (Iterable<?>) v);
+    } else {
+      return new Values<>(f, Collections.singleton(v));
+    }
+  }
+
   /**
    * Build all fields in the schema from an input object.
    *
@@ -187,28 +208,7 @@ public class Schema<T> {
    */
   public final Iterable<Values<T>> buildFields(T obj, ImmutableSet<String> skipFields) {
     return fields.values().stream()
-        .map(
-            f -> {
-              if (skipFields.contains(f.getName())) {
-                return null;
-              }
-
-              Object v;
-              try {
-                v = f.get(obj);
-              } catch (RuntimeException e) {
-                logger.atSevere().withCause(e).log(
-                    "error getting field %s of %s", f.getName(), obj);
-                return null;
-              }
-              if (v == null) {
-                return null;
-              } else if (f.isRepeatable()) {
-                return new Values<>(f, (Iterable<?>) v);
-              } else {
-                return new Values<>(f, Collections.singleton(v));
-              }
-            })
+        .map(f -> fieldValues(obj, f, skipFields))
         .filter(Objects::nonNull)
         .collect(toImmutableList());
   }

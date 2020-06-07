@@ -15,11 +15,9 @@
 package com.google.gerrit.index;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 
-import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Predicates;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
@@ -28,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /** Specific version of a secondary index schema. */
@@ -165,6 +164,23 @@ public class Schema<T> {
     return true;
   }
 
+  private Values<T> fieldValues(T obj, FieldDef<T, ?> f) {
+    Object v;
+    try {
+      v = f.get(obj);
+    } catch (OrmException e) {
+      logger.atSevere().withCause(e).log("error getting field %s of %s", f.getName(), obj);
+      return null;
+    }
+    if (v == null) {
+      return null;
+    } else if (f.isRepeatable()) {
+      return new Values<>(f, (Iterable<?>) v);
+    } else {
+      return new Values<>(f, Collections.singleton(v));
+    }
+  }
+
   /**
    * Build all fields in the schema from an input object.
    *
@@ -174,29 +190,10 @@ public class Schema<T> {
    * @return all non-null field values from the object.
    */
   public final Iterable<Values<T>> buildFields(T obj) {
-    return FluentIterable.from(fields.values())
-        .transform(
-            new Function<FieldDef<T, ?>, Values<T>>() {
-              @Override
-              public Values<T> apply(FieldDef<T, ?> f) {
-                Object v;
-                try {
-                  v = f.get(obj);
-                } catch (OrmException e) {
-                  logger.atSevere().withCause(e).log(
-                      "error getting field %s of %s", f.getName(), obj);
-                  return null;
-                }
-                if (v == null) {
-                  return null;
-                } else if (f.isRepeatable()) {
-                  return new Values<>(f, (Iterable<?>) v);
-                } else {
-                  return new Values<>(f, Collections.singleton(v));
-                }
-              }
-            })
-        .filter(Predicates.notNull());
+    return fields.values().stream()
+        .map(f -> fieldValues(obj, f))
+        .filter(Objects::nonNull)
+        .collect(toImmutableList());
   }
 
   @Override

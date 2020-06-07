@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.config.PluginProjectPermissionDefinition;
+import com.google.gerrit.extensions.events.AccountActivationListener;
 import com.google.gerrit.extensions.events.AccountIndexedListener;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.events.CommentAddedListener;
@@ -73,6 +74,7 @@ public class ExtensionRegistry {
   private final DynamicSet<GroupBackend> groupBackends;
   private final DynamicSet<AccountActivationValidationListener>
       accountActivationValidationListeners;
+  private final DynamicSet<AccountActivationListener> accountActivationListeners;
   private final DynamicSet<OnSubmitValidationListener> onSubmitValidationListeners;
   private final DynamicSet<WorkInProgressStateChangedListener> workInProgressStateChangedListeners;
   private final DynamicMap<CapabilityDefinition> capabilityDefinitions;
@@ -101,6 +103,7 @@ public class ExtensionRegistry {
       DynamicSet<RevisionCreatedListener> revisionCreatedListeners,
       DynamicSet<GroupBackend> groupBackends,
       DynamicSet<AccountActivationValidationListener> accountActivationValidationListeners,
+      DynamicSet<AccountActivationListener> accountActivationListeners,
       DynamicSet<OnSubmitValidationListener> onSubmitValidationListeners,
       DynamicSet<WorkInProgressStateChangedListener> workInProgressStateChangedListeners,
       DynamicMap<CapabilityDefinition> capabilityDefinitions,
@@ -126,6 +129,7 @@ public class ExtensionRegistry {
     this.revisionCreatedListeners = revisionCreatedListeners;
     this.groupBackends = groupBackends;
     this.accountActivationValidationListeners = accountActivationValidationListeners;
+    this.accountActivationListeners = accountActivationListeners;
     this.onSubmitValidationListeners = onSubmitValidationListeners;
     this.workInProgressStateChangedListeners = workInProgressStateChangedListeners;
     this.capabilityDefinitions = capabilityDefinitions;
@@ -227,6 +231,10 @@ public class ExtensionRegistry {
     public Registration add(
         AccountActivationValidationListener accountActivationValidationListener) {
       return add(accountActivationValidationListeners, accountActivationValidationListener);
+    }
+
+    public Registration add(AccountActivationListener accountDeactivatedListener) {
+      return add(accountActivationListeners, accountDeactivatedListener);
     }
 
     public Registration add(OnSubmitValidationListener onSubmitValidationListener) {

@@ -23,7 +23,11 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
+<<<<<<< HEAD   (ec44e5 Schema: Refactor lambda in buildFields to a separate functio)
 import com.google.gwtorm.server.OrmException;
+=======
+import com.google.gerrit.exceptions.StorageException;
+>>>>>>> CHANGE (7c7b8d Schema: Show only a single log for inexistent commits)
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -173,6 +177,12 @@ public class Schema<T> {
     Object v;
     try {
       v = f.get(obj);
+    } catch (StorageException e) {
+      // StorageException is thrown when the object is not found. On this case,
+      // it is pointless to make further attempts for each field, so propagate
+      // the exception to return an empty list.
+      logger.atSevere().withCause(e).log("error getting field %s of %s", f.getName(), obj);
+      throw e;
     } catch (RuntimeException e) {
       logger.atSevere().withCause(e).log("error getting field %s of %s", f.getName(), obj);
       return null;
@@ -221,11 +231,22 @@ public class Schema<T> {
         .filter(Predicates.notNull());
 =======
   public final Iterable<Values<T>> buildFields(T obj, ImmutableSet<String> skipFields) {
+<<<<<<< HEAD   (ec44e5 Schema: Refactor lambda in buildFields to a separate functio)
     return fields.values().stream()
         .map(f -> fieldValues(obj, f, skipFields))
         .filter(Objects::nonNull)
         .collect(toImmutableList());
 >>>>>>> CHANGE (2ba815 Schema: Refactor lambda in buildFields to a separate functio)
+=======
+    try {
+      return fields.values().stream()
+          .map(f -> fieldValues(obj, f, skipFields))
+          .filter(Objects::nonNull)
+          .collect(toImmutableList());
+    } catch (StorageException e) {
+      return ImmutableList.of();
+    }
+>>>>>>> CHANGE (7c7b8d Schema: Show only a single log for inexistent commits)
   }
 
   @Override

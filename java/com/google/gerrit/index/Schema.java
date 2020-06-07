@@ -169,6 +169,13 @@ public class Schema<T> {
     try {
       v = f.get(obj);
     } catch (OrmException e) {
+      // OrmException is thrown when the object is not found. On this case,
+      // it is pointless to make further attempts for each field, so propagate
+      // the exception to return an empty list.
+      logger.atSevere().withCause(e).log("error getting field %s of %s", f.getName(), obj);
+      throw new RuntimeException(
+          e); // work around throwing checked exceptions from methods used in Streams
+    } catch (RuntimeException e) {
       logger.atSevere().withCause(e).log("error getting field %s of %s", f.getName(), obj);
       return null;
     }
@@ -190,10 +197,17 @@ public class Schema<T> {
    * @return all non-null field values from the object.
    */
   public final Iterable<Values<T>> buildFields(T obj) {
-    return fields.values().stream()
-        .map(f -> fieldValues(obj, f))
-        .filter(Objects::nonNull)
-        .collect(toImmutableList());
+    try {
+      return fields.values().stream()
+          .map(f -> fieldValues(obj, f))
+          .filter(Objects::nonNull)
+          .collect(toImmutableList());
+    } catch (RuntimeException e) {
+      if (e.getCause().getClass().equals(OrmException.class)) {
+        return ImmutableList.of();
+      }
+      throw e;
+    }
   }
 
   @Override

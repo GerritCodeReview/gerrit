@@ -282,6 +282,8 @@ public abstract class Metadata {
 
     public abstract Builder cause(@Nullable String cause);
 
+    public abstract Builder commit(@Nullable String commit);
+
     public abstract Builder eventType(@Nullable String eventType);
 
     public abstract Builder exportValue(@Nullable String exportValue);

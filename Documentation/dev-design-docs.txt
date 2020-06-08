@@ -132,7 +132,7 @@ link:#collaboration[above]).
 
 For proposed features the contributor should hear back from the
 link:dev-processes.html#steering-committee[engineering steering
-committee] within 14 calendar days whether the proposed feature is in
+committee] within 30 calendar days whether the proposed feature is in
 scope of the project and if it can be accepted.
 
 [[watch-designs]]

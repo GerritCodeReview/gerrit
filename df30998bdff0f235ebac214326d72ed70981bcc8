@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "7c69bf82_3685ed95",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-08T15:53:53Z",
+      "side": 1,
+      "message": "Try to reorder conditions in the _compareThreads method. For example, if patchNum comparison is moved at the top of the method, all tests pass.\nI.e. existing tests don\u0027t check the priority of properties.\nMy suggestion was is to have:\n\ntest(\u0027patchset comes before any other file\u0027, () \u003d\u003e {\n      const t1 \u003d {\n        thread: {\n          path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,\n          patchNum: 1,\n        },\n        hasDraft: false,\n        unresolved: false,\n      };\n      const t2 \u003d {\n        thread: {\n          path: SpecialFilePath.COMMIT_MESSAGE,\n          patchNum: 2,\n        },\n        hasDraft: true,\n        unresolved: true,\n      };\n      assert.equal(element._compareThreads(t1, t2), -1);\n      assert.equal(element._compareThreads(t2, t1), 1);\n    });\n\nAs you can see, here all properties, except thread.path, are specified in opposite order. So, if you move any other if(...) at the top of the method, test fails.\n\nFor the test \u0027patchset comments sorted by reverse patchset\u0027 the following data checks that priority is correct:\n      const t1 \u003d {\n        thread: {\n          path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,\n          patchNum: 2,\n        },\n        hasDraft: false,\n        unresolved: false,\n      };\n      const t2 \u003d {\n        thread: {\n          path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,\n          patchNum: 1,\n        },\n        hasDraft: true,\n        unresolved: true,\n      };\n      assert.equal(element._compareThreads(t1, t2), -1);\n      assert.equal(element._compareThreads(t2, t1), 1);\n    });\n\netc...\n\nYou can write tests in a different way. The only thing I would like to have is some check/checks for priorities.",
+      "parentUuid": "4994c422_61b9c84b",
+      "range": {
+        "startLine": 315,
+        "startChar": 2,
+        "endLine": 315,
+        "endChar": 34
+      },
+      "revId": "df30998bdff0f235ebac214326d72ed70981bcc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "460b9a49_dab46109",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_test.html",
         "patchSetId": 8

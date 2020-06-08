@@ -90,6 +90,16 @@ export const htmlTemplate = html`
     .content {
       background-color: var(--diff-blank-background-color);
     }
+    /*
+      The file line, which has no contentText, add some margin before the first
+      comment. We cannot add padding the container because we only want it if
+      there is at least one comment thread, and the slotting makes :empty not
+      work as expected.
+     */
+    .content.file slot:first-child::slotted(.comment-thread) {
+      display: block;
+      margin-top: var(--spacing-xs);
+    }
     .contentText {
       background-color: var(--view-background-color);
     }

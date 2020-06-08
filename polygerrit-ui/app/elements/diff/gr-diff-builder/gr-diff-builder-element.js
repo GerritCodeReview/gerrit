@@ -211,8 +211,8 @@ class GrDiffBuilderElement extends GestureEventListeners(
       null;
   }
 
-  getContentByLine(lineNumber, opt_side, opt_root) {
-    return this._builder.getContentByLine(lineNumber, opt_side, opt_root);
+  getContentTdByLine(lineNumber, opt_side, opt_root) {
+    return this._builder.getContentTdByLine(lineNumber, opt_side, opt_root);
   }
 
   _getDiffRowByChild(child) {
@@ -222,14 +222,14 @@ class GrDiffBuilderElement extends GestureEventListeners(
     return child;
   }
 
-  getContentByLineEl(lineEl) {
+  getContentTdByLineEl(lineEl) {
     if (!lineEl) return;
     const line = lineEl.getAttribute('data-value');
     const side = this.getSideByLineEl(lineEl);
     // Performance optimization because we already have an element in the
     // correct row
     const row = dom(this._getDiffRowByChild(lineEl));
-    return this.getContentByLine(line, side, row);
+    return this.getContentTdByLine(line, side, row);
   }
 
   getLineElByNumber(lineNumber, opt_side) {

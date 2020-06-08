@@ -146,12 +146,18 @@ GrDiffBuilder.prototype.getGroupsByLineRange = function(
   return groups;
 };
 
-GrDiffBuilder.prototype.getContentByLine = function(lineNumber, opt_side,
-    opt_root) {
+GrDiffBuilder.prototype.getContentTdByLine = function(
+    lineNumber, opt_side, opt_root) {
   const root = dom(opt_root || this._outputEl);
   const sideSelector = opt_side ? ('.' + opt_side) : '';
   return root.querySelector('td.lineNum[data-value="' + lineNumber +
-      '"]' + sideSelector + ' ~ td.content .contentText');
+    '"]' + sideSelector + ' ~ td.content');
+};
+
+GrDiffBuilder.prototype.getContentByLine = function(
+    lineNumber, opt_side, opt_root) {
+  return this.getContentTdByLine(lineNumber, opt_side, opt_root)
+      .querySelector('.contentText');
 };
 
 /**
@@ -357,22 +363,26 @@ GrDiffBuilder.prototype._createTextEl = function(
   }
   td.classList.add(line.type);
 
-  const lineLimit =
-      !this._prefs.line_wrapping ? this._prefs.line_length : Infinity;
+  if (line.beforeNumber !== 'FILE') {
+    const lineLimit =
+        !this._prefs.line_wrapping ? this._prefs.line_length : Infinity;
+    const contentText =
+        this._formatText(line.text, this._prefs.tab_size, lineLimit);
 
-  const contentText =
-      this._formatText(line.text, this._prefs.tab_size, lineLimit);
-  if (opt_side) {
-    contentText.setAttribute('data-side', opt_side);
-  }
-
-  for (const layer of this.layers) {
-    if (typeof layer.annotate == 'function') {
-      layer.annotate(contentText, lineNumberEl, line);
+    if (opt_side) {
+      contentText.setAttribute('data-side', opt_side);
     }
-  }
 
-  td.appendChild(contentText);
+    for (const layer of this.layers) {
+      if (typeof layer.annotate == 'function') {
+        layer.annotate(contentText, lineNumberEl, line);
+      }
+    }
+
+    td.appendChild(contentText);
+  } else {
+    td.classList.add('file');
+  }
 
   return td;
 };

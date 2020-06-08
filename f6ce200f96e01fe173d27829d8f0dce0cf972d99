@@ -22,6 +22,30 @@
       "revId": "f6ce200f96e01fe173d27829d8f0dce0cf972d99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da466b15_27caaf33",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-08T15:38:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad60392d_c9906022",
+      "range": {
+        "startLine": 84,
+        "startChar": 24,
+        "endLine": 84,
+        "endChar": 30
+      },
+      "revId": "f6ce200f96e01fe173d27829d8f0dce0cf972d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

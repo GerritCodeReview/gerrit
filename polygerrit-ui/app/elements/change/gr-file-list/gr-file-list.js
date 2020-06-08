@@ -1244,7 +1244,7 @@ class GrFileList extends mixinBehaviors( [
     }
 
     this._updateDiffCursor();
-    this.$.diffCursor.handleDiffUpdate();
+    this.$.diffCursor.reInitAndUpdateStops();
   }
 
   _clearCollapsedDiffs(collapsedDiffs) {
@@ -1305,6 +1305,10 @@ class GrFileList extends mixinBehaviors( [
        * This also however results in the fact that the cursor does not auto
        * focus on the first diff chunk on a small screen. This is however, a use
        * case we are willing to not support for now.
+
+       * Using handleDiffUpdate resulted in diffCursor.row being set which
+       * prevented the issue of scrolling to top when we expand the second
+       * file individually.
        */
       this.$.diffCursor.reInitAndUpdateStops();
     }));

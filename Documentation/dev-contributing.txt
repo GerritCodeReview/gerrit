@@ -144,7 +144,7 @@ The design-driven contribution process has the following steps:
   and everyone can comment and raise concerns.
 * Design docs should stay open for a minimum of 10 calendar days so
   that everyone has a fair chance to join the review.
-* Within 14 calendar days the contributor should hear back from the
+* Within 30 calendar days the contributor should hear back from the
   link:dev-processes.html#steering-committee[steering committee,role=external,window=_blank]
   whether the proposed feature is in scope of the project and if it can
   be accepted.

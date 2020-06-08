@@ -15,7 +15,7 @@ in charge of:
 * ensuring timely design reviews
 * ensuring that new features are compatible with the project vision and
   are well aligned with other features (give feedback on new
-  link:dev-design-docs.html[design docs] within 14 calendar days)
+  link:dev-design-docs.html[design docs] within 30 calendar days)
 * approving/rejecting link:dev-design-docs.html[designs], vetoing new
   features
 * assigning link:dev-roles.html#mentor[mentors] for approved features

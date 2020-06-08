@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 const customTheme = document.createElement('dom-module');
-customTheme.id = 'theme-plugin';
 customTheme.innerHTML = `
   <template>
     <style>
@@ -25,9 +24,9 @@ customTheme.innerHTML = `
     </style>
   </template>
 `;
+customTheme.register('theme-plugin');
 
 const darkCustomTheme = document.createElement('dom-module');
-darkCustomTheme.id = 'dark-theme-plugin';
 darkCustomTheme.innerHTML = `
   <template>
     <style>
@@ -37,6 +36,7 @@ darkCustomTheme.innerHTML = `
     </style>
   </template>
 `;
+darkCustomTheme.register('dark-theme-plugin');
 
 /**
  * This plugin will change the primary text color to red.

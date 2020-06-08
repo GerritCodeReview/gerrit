@@ -45,6 +45,9 @@ import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.validators.ValidationMessage.Type;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
@@ -230,7 +233,17 @@ public class CommitValidators {
     List<CommitValidationMessage> messages = new ArrayList<>();
     try {
       for (CommitValidationListener commitValidator : validators) {
-        messages.addAll(commitValidator.onCommitReceived(receiveEvent));
+        try (TraceTimer traceTimer =
+            TraceContext.newTimer(
+                "Running CommitValidationListener",
+                Metadata.builder()
+                    .className(commitValidator.getClass().getSimpleName())
+                    .projectName(receiveEvent.getProjectNameKey().get())
+                    .branchName(receiveEvent.getBranchNameKey().branch())
+                    .commit(receiveEvent.commit.name())
+                    .build())) {
+          messages.addAll(commitValidator.onCommitReceived(receiveEvent));
+        }
       }
     } catch (CommitValidationException e) {
       logger.atFine().withCause(e).log(

@@ -66,6 +66,9 @@ public abstract class Metadata {
   /** The cause of an error. */
   public abstract Optional<String> cause();
 
+  /** The SHA1 of a commit. */
+  public abstract Optional<String> commit();
+
   /** The type of an event. */
   public abstract Optional<String> eventType();
 
@@ -281,6 +284,8 @@ public abstract class Metadata {
     public abstract Builder changeIdType(@Nullable String changeIdType);
 
     public abstract Builder cause(@Nullable String cause);
+
+    public abstract Builder commit(@Nullable String commit);
 
     public abstract Builder eventType(@Nullable String eventType);
 

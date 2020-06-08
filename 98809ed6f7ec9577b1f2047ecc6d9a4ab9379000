@@ -22,6 +22,30 @@
       "revId": "98809ed6f7ec9577b1f2047ecc6d9a4ab9379000",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1af20577_b89beb8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-08T12:40:45Z",
+      "side": 1,
+      "message": "We could, but I would rather not spend time manually filtering this list, and also I think it\u0027s better to include the entire true log of what is added.\n\nActually, it would be a good feature for Gerrit if it showed the list of commits in a submodule update, similar to the MERGE_LIST for merge commits.",
+      "parentUuid": "c0c7492f_c61a8346",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 63
+      },
+      "revId": "98809ed6f7ec9577b1f2047ecc6d9a4ab9379000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

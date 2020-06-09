@@ -34,6 +34,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
@@ -1425,16 +1426,16 @@ public class CommentsIT extends AbstractDaemonTest {
         RevCommit commitBefore = beforeDelete.get(i);
         RevCommit commitAfter = afterDelete.get(i);
 
-        Map<String, com.google.gerrit.entities.Comment> commentMapBefore =
+        Map<String, HumanComment> commentMapBefore =
             DeleteCommentRewriter.getPublishedComments(
                 noteUtil, reader, NoteMap.read(reader, commitBefore));
-        Map<String, com.google.gerrit.entities.Comment> commentMapAfter =
+        Map<String, HumanComment> commentMapAfter =
             DeleteCommentRewriter.getPublishedComments(
                 noteUtil, reader, NoteMap.read(reader, commitAfter));
 
         if (commentMapBefore.containsKey(targetCommentUuid)) {
           assertThat(commentMapAfter).containsKey(targetCommentUuid);
-          com.google.gerrit.entities.Comment comment = commentMapAfter.get(targetCommentUuid);
+          HumanComment comment = commentMapAfter.get(targetCommentUuid);
           assertThat(comment.message).isEqualTo(expectedMessage);
           comment.message = commentMapBefore.get(targetCommentUuid).message;
           commentMapAfter.put(targetCommentUuid, comment);

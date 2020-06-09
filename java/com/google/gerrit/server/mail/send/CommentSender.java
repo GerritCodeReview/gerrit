@@ -114,7 +114,7 @@ public class CommentSender extends ReplyToChangeSender {
     }
   }
 
-  private List<Comment> inlineComments = Collections.emptyList();
+  private List<? extends Comment> inlineComments = Collections.emptyList();
   private String patchSetComment;
   private List<LabelVote> labels = Collections.emptyList();
   private final CommentsUtil commentsUtil;
@@ -136,7 +136,7 @@ public class CommentSender extends ReplyToChangeSender {
     this.replyToAddress = cfg.getString("sendemail", null, "replyToAddress");
   }
 
-  public void setComments(List<Comment> comments) {
+  public void setComments(List<? extends Comment> comments) {
     inlineComments = comments;
   }
 
@@ -244,13 +244,11 @@ public class CommentSender extends ReplyToChangeSender {
   /** Get the set of accounts whose comments have been replied to in this email. */
   private HashSet<Account.Id> getReplyAccounts() {
     HashSet<Account.Id> replyAccounts = new HashSet<>();
-
     // Track visited parent UUIDs to avoid cycles.
     HashSet<String> visitedUuids = new HashSet<>();
 
     for (Comment comment : inlineComments) {
       visitedUuids.add(comment.key.uuid);
-
       // Traverse the parent relation to the top of the comment thread.
       Comment current = comment;
       while (current.parentUuid != null && !visitedUuids.contains(current.parentUuid)) {
@@ -311,10 +309,9 @@ public class CommentSender extends ReplyToChangeSender {
     if (child.parentUuid == null) {
       return Optional.empty();
     }
-
     Comment.Key key = new Comment.Key(child.parentUuid, child.key.filename, child.key.patchSetId);
     try {
-      return commentsUtil.getPublished(changeData.notes(), key);
+      return commentsUtil.getPublishedComment(changeData.notes(), key);
     } catch (StorageException e) {
       logger.atWarning().log("Could not find the parent of this comment: %s", child);
       return Optional.empty();

@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.api.changes.CommentApi;
 import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.change.CommentResource;
+import com.google.gerrit.server.change.HumanCommentResource;
 import com.google.gerrit.server.restapi.change.DeleteComment;
 import com.google.gerrit.server.restapi.change.GetComment;
 import com.google.inject.Inject;
@@ -28,16 +28,16 @@ import com.google.inject.assistedinject.Assisted;
 
 class CommentApiImpl implements CommentApi {
   interface Factory {
-    CommentApiImpl create(CommentResource c);
+    CommentApiImpl create(HumanCommentResource c);
   }
 
   private final GetComment getComment;
   private final DeleteComment deleteComment;
-  private final CommentResource comment;
+  private final HumanCommentResource comment;
 
   @Inject
   CommentApiImpl(
-      GetComment getComment, DeleteComment deleteComment, @Assisted CommentResource comment) {
+      GetComment getComment, DeleteComment deleteComment, @Assisted HumanCommentResource comment) {
     this.getComment = getComment;
     this.deleteComment = deleteComment;
     this.comment = comment;

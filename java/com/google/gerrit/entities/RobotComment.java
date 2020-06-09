@@ -42,7 +42,8 @@ public final class RobotComment extends Comment {
 
   @Override
   public int getApproximateSize() {
-    int approximateSize = super.getApproximateSize() + nullableLength(robotId, robotRunId, url);
+    int approximateSize =
+        super.getCommentFieldApproximateSize() + nullableLength(robotId, robotRunId, url);
     approximateSize +=
         properties != null
             ? properties.entrySet().stream()
@@ -65,5 +66,24 @@ public final class RobotComment extends Comment {
         .add("properties", Objects.toString(properties, ""))
         .add("fixSuggestions", Objects.toString(fixSuggestions, ""))
         .toString();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof RobotComment)) {
+      return false;
+    }
+    RobotComment c = (RobotComment) o;
+    return super.equals(o)
+        && Objects.equals(robotId, c.robotId)
+        && Objects.equals(robotRunId, c.robotRunId)
+        && Objects.equals(url, c.url)
+        && Objects.equals(properties, c.properties)
+        && Objects.equals(fixSuggestions, c.fixSuggestions);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(super.hashCode(), robotId, robotRunId, url, properties, fixSuggestions);
   }
 }

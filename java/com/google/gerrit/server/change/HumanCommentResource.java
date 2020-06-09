@@ -15,20 +15,20 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.inject.TypeLiteral;
 
-public class CommentResource implements RestResource {
-  public static final TypeLiteral<RestView<CommentResource>> COMMENT_KIND =
-      new TypeLiteral<RestView<CommentResource>>() {};
+public class HumanCommentResource implements RestResource {
+  public static final TypeLiteral<RestView<HumanCommentResource>> COMMENT_KIND =
+      new TypeLiteral<RestView<HumanCommentResource>>() {};
 
   private final RevisionResource rev;
-  private final Comment comment;
+  private final HumanComment comment;
 
-  public CommentResource(RevisionResource rev, Comment c) {
+  public HumanCommentResource(RevisionResource rev, HumanComment c) {
     this.rev = rev;
     this.comment = c;
   }
@@ -37,7 +37,7 @@ public class CommentResource implements RestResource {
     return rev.getPatchSet();
   }
 
-  public Comment getComment() {
+  public HumanComment getComment() {
     return comment;
   }
 

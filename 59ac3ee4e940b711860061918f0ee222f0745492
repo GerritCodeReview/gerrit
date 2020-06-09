@@ -55,6 +55,23 @@
     },
     {
       "key": {
+        "uuid": "e4d00d29_ce8ff822",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-09T11:44:46Z",
+      "side": 1,
+      "message": "Maybe reset the diff view to show comments here.\n\nI am afraid that the user can end up (even by accident) in a state where the comments do not show up. I think \u0027h\u0027 should always just be temporary.",
+      "revId": "59ac3ee4e940b711860061918f0ee222f0745492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "296d1367_95d87762",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 2
@@ -345,6 +362,23 @@
       "revId": "59ac3ee4e940b711860061918f0ee222f0745492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d93feb23_25ddf91f",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-09T11:44:46Z",
+      "side": 1,
+      "message": "I think it would be really helpful, if the shortcut would also work on the change page for the inline diffs. Would that be difficult to do?",
+      "revId": "59ac3ee4e940b711860061918f0ee222f0745492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

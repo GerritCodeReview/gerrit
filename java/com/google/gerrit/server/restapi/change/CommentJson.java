@@ -143,7 +143,7 @@ public class CommentJson {
       r.range = toRange(c.range);
       r.tag = c.tag;
       r.unresolved = c.unresolved;
-      if (loader != null) {
+      if (loader != null && c.author != null) {
         r.author = loader.get(c.author.getId());
       }
     }

@@ -70,6 +70,30 @@
       "revId": "e195dcb079dbee99ad2c8da45aeda4500d4d27fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "868b5e2c_3224f82a",
+        "filename": "java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-09T06:57:12Z",
+      "side": 1,
+      "message": "Because this is fixing an issue that was specifically reported here. We don\u0027t know if the other place is broken.",
+      "parentUuid": "bfadfd7b_259a3084",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 46
+      },
+      "revId": "e195dcb079dbee99ad2c8da45aeda4500d4d27fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

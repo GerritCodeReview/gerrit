@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "967414f3_532de519",
+        "filename": "java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-09T20:44:29Z",
+      "side": 1,
+      "message": "keys?",
+      "range": {
+        "startLine": 205,
+        "startChar": 30,
+        "endLine": 205,
+        "endChar": 33
+      },
+      "revId": "90bed3f2432b243a3f19c3570c05feac38e954b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9620aba2_937e9661",
+        "filename": "java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-09T20:44:29Z",
+      "side": 1,
+      "message": "also is it clear that brackets in \"[comment]\" should denote optional part of the line?",
+      "range": {
+        "startLine": 205,
+        "startChar": 0,
+        "endLine": 205,
+        "endChar": 66
+      },
+      "revId": "90bed3f2432b243a3f19c3570c05feac38e954b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

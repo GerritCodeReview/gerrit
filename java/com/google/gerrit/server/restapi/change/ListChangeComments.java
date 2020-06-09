@@ -24,6 +24,8 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class ListChangeComments extends ListChangeDrafts {
+  public static final int MAX_COMMENTS_IN_LIST = 1000;
+
   @Inject
   ListChangeComments(
       ChangeData.Factory changeDataFactory,
@@ -35,7 +37,7 @@ public class ListChangeComments extends ListChangeDrafts {
   @Override
   protected Iterable<Comment> listComments(ChangeResource rsrc) {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
-    return commentsUtil.publishedByChange(cd.notes());
+    return commentsUtil.publishedByChange(cd.notes(), MAX_COMMENTS_IN_LIST);
   }
 
   @Override

@@ -238,6 +238,24 @@
     },
     {
       "key": {
+        "uuid": "20bda60d_33edb322",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-09T11:26:31Z",
+      "side": 1,
+      "message": "When AddReviewersOp is changed, or we intentionally want to perform another write, or there\u0027s a case where we can\u0027t easily tell whether the write is idempotent, then this will cause undesired behavior in a seemingly unrelated area of the code. So now, in order to understand AddReviewersOp, the reader also needs to understand this part of ChangeUpdate, and vice versa.\n\nI\u0027d feel better if we defensively filter by currentReviewer right here, or else at least add comments here and in AddReviewersOp to point out this implicit interdependency.",
+      "parentUuid": "ad974dcb_014fa579",
+      "revId": "f216b0226f349662446f6304f08e194d8d374e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0f1f08ea_fbef1d18",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
         "patchSetId": 7

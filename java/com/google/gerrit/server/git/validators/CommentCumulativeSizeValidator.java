@@ -51,7 +51,7 @@ public class CommentCumulativeSizeValidator implements CommentValidator {
         notesFactory.createChecked(Project.nameKey(ctx.getProject()), Change.id(ctx.getChangeId()));
     int existingCumulativeSize =
         Stream.concat(
-                    notes.getComments().values().stream(),
+                    notes.getHumanComments().values().stream(),
                     notes.getRobotComments().values().stream())
                 .mapToInt(Comment::getApproximateSize)
                 .sum()

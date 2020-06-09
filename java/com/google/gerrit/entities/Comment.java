@@ -24,15 +24,15 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
- * This class represents inline comments in NoteDb. This means it determines the JSON format for
- * inline comments in the revision notes that NoteDb uses to persist inline comments.
+ * This class is a base class that can be extended by the different types of inline comment
+ * entities.
  *
  * <p>Changing fields in this class changes the storage format of inline comments in NoteDb and may
  * require a corresponding data migration (adding new optional fields is generally okay).
  *
- * <p>Consider updating {@link #getApproximateSize()} when adding/changing fields.
+ * <p>Consider updating {@link #getCommentFieldApproximateSize()} when adding/changing fields.
  */
-public class Comment {
+public abstract class Comment {
   public enum Status {
     DRAFT('d'),
 
@@ -301,10 +301,12 @@ public class Comment {
    * Returns the comment's approximate size. This is used to enforce size limits and should
    * therefore include all unbounded fields (e.g. String-s).
    */
-  public int getApproximateSize() {
+  protected int getCommentFieldApproximateSize() {
     return nullableLength(message, parentUuid, tag, revId, serverId)
         + (key != null ? nullableLength(key.filename, key.uuid) : 0);
   }
+
+  public abstract int getApproximateSize();
 
   static int nullableLength(String... strings) {
     int length = 0;

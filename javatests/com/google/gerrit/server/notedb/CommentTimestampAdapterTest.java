@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.sql.Timestamp;
@@ -151,7 +152,7 @@ public class CommentTimestampAdapterTest {
   @Test
   public void newAdapterRoundTripOfWholeComment() {
     Comment c =
-        new Comment(
+        new HumanComment(
             new Comment.Key("uuid", "filename", 1),
             Account.id(100),
             NON_DST_TS,
@@ -165,7 +166,7 @@ public class CommentTimestampAdapterTest {
     String json = gson.toJson(c);
     assertThat(json).contains("\"writtenOn\": \"" + NON_DST_STR_TRUNC + "\",");
 
-    Comment result = gson.fromJson(json, Comment.class);
+    Comment result = gson.fromJson(json, HumanComment.class);
     // Round-trip lossily truncates ms, but that's ok.
     assertThat(result.writtenOn).isEqualTo(NON_DST_TS_TRUNC);
     result.writtenOn = NON_DST_TS;

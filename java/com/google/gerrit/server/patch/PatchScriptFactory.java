@@ -24,7 +24,7 @@ import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -381,13 +381,13 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     }
 
     private void loadPublished(String file) {
-      for (Comment c : commentsUtil.publishedByChangeFile(notes, file)) {
+      for (HumanComment c : commentsUtil.publishedByChangeFile(notes, file)) {
         comments.include(notes.getChangeId(), c);
       }
     }
 
     private void loadDrafts(Account.Id me, String file) {
-      for (Comment c : commentsUtil.draftByChangeFileAuthor(notes, file, me)) {
+      for (HumanComment c : commentsUtil.draftByChangeFileAuthor(notes, file, me)) {
         comments.include(notes.getChangeId(), c);
       }
     }

@@ -16,7 +16,7 @@ package com.google.gerrit.server;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.ChangeMessage;
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
@@ -58,7 +58,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
   private final PatchSet.Id psId;
   private final PublishCommentUtil publishCommentUtil;
 
-  private List<Comment> comments = new ArrayList<>();
+  private List<HumanComment> comments = new ArrayList<>();
   private ChangeMessage message;
   private IdentifiedUser user;
 

@@ -15,7 +15,7 @@
 package com.google.gerrit.server.change;
 
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -27,9 +27,9 @@ public class DraftCommentResource implements RestResource {
       new TypeLiteral<RestView<DraftCommentResource>>() {};
 
   private final RevisionResource rev;
-  private final Comment comment;
+  private final HumanComment comment;
 
-  public DraftCommentResource(RevisionResource rev, Comment c) {
+  public DraftCommentResource(RevisionResource rev, HumanComment c) {
     this.rev = rev;
     this.comment = c;
   }
@@ -46,7 +46,7 @@ public class DraftCommentResource implements RestResource {
     return rev.getPatchSet();
   }
 
-  public Comment getComment() {
+  public HumanComment getComment() {
     return comment;
   }
 

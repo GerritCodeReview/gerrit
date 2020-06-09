@@ -104,8 +104,15 @@ public class SubmoduleOp {
 
     public SubmoduleOp create(Set<BranchNameKey> updatedBranches, MergeOpRepoManager orm)
         throws SubmoduleConflictException {
-      return new SubmoduleOp(
-          subscriptionGraphFactory, serverIdent.get(), cfg, updatedBranches, orm);
+      SubscriptionGraph subscriptionGraph;
+      if (cfg.getBoolean("submodule", "enableSuperProjectSubscriptions", true)) {
+        subscriptionGraph = subscriptionGraphFactory.compute(updatedBranches, orm);
+      } else {
+        logger.atFine().log("Updating superprojects disabled");
+        subscriptionGraph =
+            SubscriptionGraph.createEmptyGraph(ImmutableSet.copyOf(updatedBranches));
+      }
+      return new SubmoduleOp(serverIdent.get(), cfg, orm, subscriptionGraph);
     }
   }
 
@@ -119,12 +126,10 @@ public class SubmoduleOp {
   private final BranchTips branchTips = new BranchTips();
 
   private SubmoduleOp(
-      SubscriptionGraph.Factory subscriptionGraphFactory,
       PersonIdent myIdent,
       Config cfg,
-      Set<BranchNameKey> updatedBranches,
-      MergeOpRepoManager orm)
-      throws SubmoduleConflictException {
+      MergeOpRepoManager orm,
+      SubscriptionGraph subscriptionGraph) {
     this.myIdent = myIdent;
     this.verboseSuperProject =
         cfg.getEnum("submodule", null, "verboseSuperprojectUpdate", VerboseSuperprojectUpdate.TRUE);
@@ -132,13 +137,7 @@ public class SubmoduleOp {
         cfg.getLong("submodule", "maxCombinedCommitMessageSize", 256 << 10);
     this.maxCommitMessages = cfg.getLong("submodule", "maxCommitMessages", 1000);
     this.orm = orm;
-    if (cfg.getBoolean("submodule", "enableSuperProjectSubscriptions", true)) {
-      this.subscriptionGraph = subscriptionGraphFactory.compute(updatedBranches, orm);
-    } else {
-      logger.atFine().log("Updating superprojects disabled");
-      this.subscriptionGraph =
-          SubscriptionGraph.createEmptyGraph(ImmutableSet.copyOf(updatedBranches));
-    }
+    this.subscriptionGraph = subscriptionGraph;
   }
 
   @UsedAt(UsedAt.Project.PLUGIN_DELETE_PROJECT)

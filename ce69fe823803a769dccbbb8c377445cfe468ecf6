@@ -22,6 +22,30 @@
       "revId": "ce69fe823803a769dccbbb8c377445cfe468ecf6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acb2e44c_a3784126",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-09T13:58:52Z",
+      "side": 1,
+      "message": "Neat! I overlooked that part from where I copy/pasted the `\u003cspan\u003e`. Thank you!\n\nAdded requested style in PS3.",
+      "parentUuid": "5ae28901_8847863a",
+      "range": {
+        "startLine": 63,
+        "startChar": 17,
+        "endLine": 63,
+        "endChar": 44
+      },
+      "revId": "ce69fe823803a769dccbbb8c377445cfe468ecf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

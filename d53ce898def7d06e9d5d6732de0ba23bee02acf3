@@ -22,6 +22,30 @@
       "revId": "d53ce898def7d06e9d5d6732de0ba23bee02acf3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0436365f_8539a725",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-09T13:58:52Z",
+      "side": 1,
+      "message": "It seems what I did received CR+1s, so it cannot be totally wrong. So resolving this part.",
+      "parentUuid": "a5550c5b_ad7918f1",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 19
+      },
+      "revId": "d53ce898def7d06e9d5d6732de0ba23bee02acf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

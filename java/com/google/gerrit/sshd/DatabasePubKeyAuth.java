@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.base.Splitter;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.FileUtil;
@@ -38,6 +39,7 @@ import java.security.PublicKey;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import org.apache.sshd.common.SshException;
@@ -197,9 +199,15 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
             continue;
           }
 
+          List<String> parts = Splitter.on(' ').splitToList(line);
+          if (parts.size() > 2) {
+            throw new IllegalArgumentException(
+                "Invalid peer key file format, only <key [comment]> lines supported");
+          }
           try {
             byte[] bin =
-                BaseEncoding.base64().decode(new String(line.getBytes(ISO_8859_1), ISO_8859_1));
+                BaseEncoding.base64()
+                    .decode(new String(parts.get(0).getBytes(ISO_8859_1), ISO_8859_1));
             keys.add(new ByteArrayBuffer(bin).getRawPublicKey());
           } catch (RuntimeException | SshException e) {
             logBadKey(path, line, e);

@@ -5389,7 +5389,13 @@ The optional file `'$site_path'/etc/peer_keys` controls who can
 login as the 'Gerrit Code Review' user, required for the link:cmd-suexec.html[suexec]
 command.
 
-The format is one Base-64 encoded public key per line.
+The format is one Base-64 encoded public key per line with optional comment, e.g.:
+----
+# Comments allowed at start of line
+AAAAC3...51R== john@example.net
+# Another comment
+AAAAB5...21S== jane@example.net
+----
 
 === Configurable Parameters
 

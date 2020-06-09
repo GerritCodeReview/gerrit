@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "3531da50_b675fb52",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-09T16:43:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4d00d29_ce8ff822",
+      "revId": "59ac3ee4e940b711860061918f0ee222f0745492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "296d1367_95d87762",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 2
@@ -198,6 +216,30 @@
       "revId": "59ac3ee4e940b711860061918f0ee222f0745492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b22987d4_de755bd9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1281,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-09T16:43:50Z",
+      "side": 1,
+      "message": "Sorry, we want to set the variable upon clicking. How do I set the variable to none when class is not applied (if I do implement showComments?).",
+      "parentUuid": "5b1466ef_8d311dfb",
+      "range": {
+        "startLine": 1281,
+        "startChar": 33,
+        "endLine": 1281,
+        "endChar": 46
+      },
+      "revId": "59ac3ee4e940b711860061918f0ee222f0745492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {
@@ -379,6 +421,24 @@
       "revId": "59ac3ee4e940b711860061918f0ee222f0745492",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3140802d_8cfda8b0",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-09T16:43:50Z",
+      "side": 1,
+      "message": "Not difficult at all. Done.\nAlthough we have to explain to the users that this shortcut then works on both Files section and the Diff section.\nI decided to show this keyboard shortcut in both sections File \u0026 Diff. The downside is the shortcut shows up twice(which I think is fine).",
+      "parentUuid": "d93feb23_25ddf91f",
+      "revId": "59ac3ee4e940b711860061918f0ee222f0745492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

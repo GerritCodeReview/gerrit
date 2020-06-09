@@ -22,6 +22,30 @@
       "revId": "e195dcb079dbee99ad2c8da45aeda4500d4d27fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a174a735_78323b17",
+        "filename": "java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-09T06:47:24Z",
+      "side": 1,
+      "message": "This is reverting back to a known working version, as it was before the change that broke it.\n\nIf you want to try using Java\u0027s base64, that\u0027s fine, please go ahead and upload an alternative change.",
+      "parentUuid": "a69bc48f_cbbff2d7",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 46
+      },
+      "revId": "e195dcb079dbee99ad2c8da45aeda4500d4d27fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

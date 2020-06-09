@@ -433,7 +433,8 @@ class GrDiff extends mixinBehaviors( [
     }
 
     return Array.from(
-        dom(this.root).querySelectorAll(':not(.contextControl) > .diff-row'));
+        dom(this.root).querySelectorAll(':not(.contextControl) > .diff-row'))
+        .filter(tr => tr.querySelector('button'));
   }
 
   /** @return {boolean} */

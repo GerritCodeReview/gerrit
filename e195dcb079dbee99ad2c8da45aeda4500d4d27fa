@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a69bc48f_cbbff2d7",
+        "filename": "java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-09T06:44:18Z",
+      "side": 1,
+      "message": "This is changing from using Guava to commons-codec. Why don\u0027t we use Java 8\u0027s Base64 facility? It outperforms both implementataions, see: [1].\n\n* [1] https://github.com/apache/druid/pull/6913#issuecomment-457785634",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 46
+      },
+      "revId": "e195dcb079dbee99ad2c8da45aeda4500d4d27fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

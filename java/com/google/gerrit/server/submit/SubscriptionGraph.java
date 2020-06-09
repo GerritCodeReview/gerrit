@@ -16,6 +16,7 @@ package com.google.gerrit.server.submit;
 
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.MultimapBuilder;
@@ -52,9 +53,10 @@ import org.eclipse.jgit.transport.RefSpec;
  * subscribed by other projects, SubscriptionGraph would record information about these updated
  * branches and branches/projects affected.
  */
-public class SubscriptionGraph {
+@AutoValue
+public abstract class SubscriptionGraph {
   /** Branches updated as part of the enclosing submit or push batch. */
-  private final ImmutableSet<BranchNameKey> updatedBranches;
+  abstract ImmutableSet<BranchNameKey> updatedBranches();
 
   /**
    * All branches affected, including those in superprojects and submodules, sorted by submodule
@@ -65,36 +67,37 @@ public class SubscriptionGraph {
    * to bottom level project p3. When submit a change for p3. We need update both p2 and p1. To be
    * more precise, we need update p2 first and then update p1.
    */
-  private final ImmutableSet<BranchNameKey> sortedBranches;
+  abstract ImmutableSet<BranchNameKey> sortedBranches();
 
   /** Multimap of superproject branch to submodule subscriptions contained in that branch. */
-  private final ImmutableSetMultimap<BranchNameKey, SubmoduleSubscription> targets;
+  abstract ImmutableSetMultimap<BranchNameKey, SubmoduleSubscription> targets();
 
   /**
    * Multimap of superproject name to all branch names within that superproject which have submodule
    * subscriptions.
    */
-  private final ImmutableSetMultimap<Project.NameKey, BranchNameKey> branchesByProject;
+  abstract ImmutableSetMultimap<Project.NameKey, BranchNameKey> branchesByProject();
 
   /** All branches subscribed by other projects. */
-  private final ImmutableSet<BranchNameKey> subscribedBranches;
+  abstract ImmutableSet<BranchNameKey> subscribedBranches();
 
-  public SubscriptionGraph(
+  static SubscriptionGraph create(
       Set<BranchNameKey> updatedBranches,
       SetMultimap<BranchNameKey, SubmoduleSubscription> targets,
       SetMultimap<Project.NameKey, BranchNameKey> branchesByProject,
       Set<BranchNameKey> subscribedBranches,
       Set<BranchNameKey> sortedBranches) {
-    this.updatedBranches = ImmutableSet.copyOf(updatedBranches);
-    this.targets = ImmutableSetMultimap.copyOf(targets);
-    this.branchesByProject = ImmutableSetMultimap.copyOf(branchesByProject);
-    this.subscribedBranches = ImmutableSet.copyOf(subscribedBranches);
-    this.sortedBranches = ImmutableSet.copyOf(sortedBranches);
+    return new AutoValue_SubscriptionGraph(
+        ImmutableSet.copyOf(updatedBranches),
+        ImmutableSet.copyOf(sortedBranches),
+        ImmutableSetMultimap.copyOf(targets),
+        ImmutableSetMultimap.copyOf(branchesByProject),
+        ImmutableSet.copyOf(subscribedBranches));
   }
 
   /** Returns an empty {@code SubscriptionGraph}. */
   static SubscriptionGraph createEmptyGraph(Set<BranchNameKey> updatedBranches) {
-    return new SubscriptionGraph(
+    return create(
         updatedBranches,
         ImmutableSetMultimap.of(),
         ImmutableSetMultimap.of(),
@@ -102,19 +105,14 @@ public class SubscriptionGraph {
         ImmutableSet.of());
   }
 
-  /** Get branches updated as part of the enclosing submit or push batch. */
-  ImmutableSet<BranchNameKey> getUpdatedBranches() {
-    return updatedBranches;
-  }
-
   /** Get all superprojects affected. */
   ImmutableSet<Project.NameKey> getAffectedSuperProjects() {
-    return branchesByProject.keySet();
+    return branchesByProject().keySet();
   }
 
   /** See if a {@code project} is a superproject affected. */
   boolean isAffectedSuperProject(Project.NameKey project) {
-    return branchesByProject.containsKey(project);
+    return branchesByProject().containsKey(project);
   }
 
   /**
@@ -122,7 +120,7 @@ public class SubscriptionGraph {
    * subscriptions.
    */
   ImmutableSet<BranchNameKey> getAffectedSuperBranches(Project.NameKey project) {
-    return branchesByProject.get(project);
+    return branchesByProject().get(project);
   }
 
   /**
@@ -132,22 +130,22 @@ public class SubscriptionGraph {
    * @see SubscriptionGraph#sortedBranches
    */
   ImmutableSet<BranchNameKey> getSortedSuperprojectAndSubmoduleBranches() {
-    return sortedBranches;
+    return sortedBranches();
   }
 
   /** Check if a {@code branch} is a submodule of a superproject. */
   boolean hasSuperproject(BranchNameKey branch) {
-    return subscribedBranches.contains(branch);
+    return subscribedBranches().contains(branch);
   }
 
   /** See if a {@code branch} is a superproject branch affected. */
   boolean hasSubscription(BranchNameKey branch) {
-    return targets.containsKey(branch);
+    return targets().containsKey(branch);
   }
 
   /** Get all related {@code SubmoduleSubscription}s whose super branch is {@code branch}. */
   ImmutableSet<SubmoduleSubscription> getSubscriptions(BranchNameKey branch) {
-    return targets.get(branch);
+    return targets().get(branch);
   }
 
   public interface Factory {
@@ -203,7 +201,7 @@ public class SubscriptionGraph {
       targets.clear();
       branchesByProject.clear();
       subscribedBranches.clear();
-      return new SubscriptionGraph(
+      return create(
           updatedBranches,
           targets,
           branchesByProject,

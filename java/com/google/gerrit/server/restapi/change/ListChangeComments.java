@@ -14,6 +14,10 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
@@ -24,6 +28,9 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class ListChangeComments extends ListChangeDrafts {
+	public static int MAX_COMMENTS_IN_LIST = 1000;
+	public static int MAX_COMMENT_SIZE = 32;
+	
   @Inject
   ListChangeComments(
       ChangeData.Factory changeDataFactory,
@@ -35,7 +42,16 @@ public class ListChangeComments extends ListChangeDrafts {
   @Override
   protected Iterable<Comment> listComments(ChangeResource rsrc) {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
-    return commentsUtil.publishedByChange(cd.notes());
+    List<Comment> publishedComments = commentsUtil.publishedByChange(cd.notes());
+    return publishedComments.stream().map(ListChangeComments::clearComment).collect(Collectors.toList());
+    
+  }
+  
+  private static Comment clearComment(Comment comment) {
+	  if(comment.message != null && comment.message.length() > MAX_COMMENT_SIZE) { 
+		  comment.message = comment.message.substring(0, MAX_COMMENT_SIZE - 3) + "...";
+	  }
+	  return comment;
   }
 
   @Override

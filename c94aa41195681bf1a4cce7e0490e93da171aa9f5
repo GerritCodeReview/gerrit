@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "532b1e1e_73ef185e",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-09T09:49:44Z",
+      "side": 1,
+      "message": "Pass _sortedThreads as a parameter (because the method must be evaluated every time when _sortedThreads is changed).\nThe same in _shouldRenderSeparator\n(Initially, this method receives a threads as an argument, didn\u0027t notice that you changed it in)\n\nThe same in _shouldRenderSeparator",
+      "range": {
+        "startLine": 187,
+        "startChar": 25,
+        "endLine": 187,
+        "endChar": 39
+      },
+      "revId": "c94aa41195681bf1a4cce7e0490e93da171aa9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

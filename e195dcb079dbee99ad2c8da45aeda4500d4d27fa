@@ -142,6 +142,30 @@
       "revId": "e195dcb079dbee99ad2c8da45aeda4500d4d27fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3412b116_f666f08e",
+        "filename": "java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-09T08:07:40Z",
+      "side": 1,
+      "message": "\u003e But it is useful for tracking the keys.\n\nI totally agreed. So the plan would be:\n\n* 1. Add a unit test: PeerKeyParseTest\n* 2. Preserve the Guava decoding, but cut off everything after the blank: \" user@host\" suffix must be cut off.\n* 3. Extend the documentation and mention that suffix with \" user@host\" is supported per peer key line in peer_keys file.",
+      "parentUuid": "adcaa3dd_e420fe65",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 46
+      },
+      "revId": "e195dcb079dbee99ad2c8da45aeda4500d4d27fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

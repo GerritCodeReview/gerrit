@@ -41,7 +41,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.ChangeMessage;
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RobotComment;
@@ -225,7 +225,8 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(psa.realAccountId()).isEqualTo(admin.id());
 
     ChangeData cd = r.getChange();
-    Comment c = Iterables.getOnlyElement(commentsUtil.publishedByChange(cd.notes()));
+    HumanComment c =
+        Iterables.getOnlyElement(commentsUtil.publishedHumanCommentsByChange(cd.notes()));
     assertThat(c.message).isEqualTo(ci.message);
     assertThat(c.author.getId()).isEqualTo(user.id());
     assertThat(c.getRealAuthor().getId()).isEqualTo(admin.id());

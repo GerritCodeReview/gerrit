@@ -41,6 +41,7 @@ import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Project;
@@ -277,7 +278,7 @@ public class ChangeData {
   private List<PatchSetApproval> currentApprovals;
   private List<String> currentFiles;
   private Optional<DiffSummary> diffSummary;
-  private Collection<Comment> publishedComments;
+  private Collection<HumanComment> publishedComments;
   private Collection<RobotComment> robotComments;
   private CurrentUser visibleTo;
   private List<ChangeMessage> messages;
@@ -760,12 +761,12 @@ public class ChangeData {
     return reviewerUpdates;
   }
 
-  public Collection<Comment> publishedComments() {
+  public Collection<HumanComment> publishedComments() {
     if (publishedComments == null) {
       if (!lazyLoad) {
         return Collections.emptyList();
       }
-      publishedComments = commentsUtil.publishedByChange(notes());
+      publishedComments = commentsUtil.publishedHumanCommentsByChange(notes());
     }
     return publishedComments;
   }

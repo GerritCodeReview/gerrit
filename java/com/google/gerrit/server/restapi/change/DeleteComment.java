@@ -15,7 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -26,7 +26,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.change.CommentResource;
+import com.google.gerrit.server.change.HumanCommentResource;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -45,7 +45,7 @@ import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
-public class DeleteComment implements RestModifyView<CommentResource, DeleteCommentInput> {
+public class DeleteComment implements RestModifyView<HumanCommentResource, DeleteCommentInput> {
 
   private final Provider<CurrentUser> userProvider;
   private final PermissionBackend permissionBackend;
@@ -71,7 +71,7 @@ public class DeleteComment implements RestModifyView<CommentResource, DeleteComm
   }
 
   @Override
-  public Response<CommentInfo> apply(CommentResource rsrc, DeleteCommentInput input)
+  public Response<CommentInfo> apply(HumanCommentResource rsrc, DeleteCommentInput input)
       throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException,
           UpdateException {
     CurrentUser user = userProvider.get();
@@ -90,15 +90,15 @@ public class DeleteComment implements RestModifyView<CommentResource, DeleteComm
 
     ChangeNotes updatedNotes =
         notesFactory.createChecked(rsrc.getRevisionResource().getChange().getId());
-    List<Comment> changeComments = commentsUtil.publishedByChange(updatedNotes);
-    Optional<Comment> updatedComment =
+    List<HumanComment> changeComments = commentsUtil.publishedHumanCommentsByChange(updatedNotes);
+    Optional<HumanComment> updatedComment =
         changeComments.stream().filter(c -> c.key.equals(rsrc.getComment().key)).findFirst();
     if (!updatedComment.isPresent()) {
       // This should not happen as this endpoint should not remove the whole comment.
       throw new ResourceNotFoundException("comment not found: " + rsrc.getComment().key);
     }
 
-    return Response.ok(commentJson.get().newCommentFormatter().format(updatedComment.get()));
+    return Response.ok(commentJson.get().newHumanCommentFormatter().format(updatedComment.get()));
   }
 
   private static String getCommentNewMessage(String name, String reason) {
@@ -110,10 +110,10 @@ public class DeleteComment implements RestModifyView<CommentResource, DeleteComm
   }
 
   private class DeleteCommentOp implements BatchUpdateOp {
-    private final CommentResource rsrc;
+    private final HumanCommentResource rsrc;
     private final String newMessage;
 
-    DeleteCommentOp(CommentResource rsrc, String newMessage) {
+    DeleteCommentOp(HumanCommentResource rsrc, String newMessage) {
       this.rsrc = rsrc;
       this.newMessage = newMessage;
     }

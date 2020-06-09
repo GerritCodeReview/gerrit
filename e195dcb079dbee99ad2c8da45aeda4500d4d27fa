@@ -46,6 +46,30 @@
       "revId": "e195dcb079dbee99ad2c8da45aeda4500d4d27fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfadfd7b_259a3084",
+        "filename": "java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-09T06:50:01Z",
+      "side": 1,
+      "message": "\u003e This is reverting back to a known working version, as it was before the change that broke it.\n\nWhy some other occurences of SSH key material decoding weren\u0027t revert, but not only changes done in this file? What about this: [1].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/231872/11/java/com/google/gerrit/sshd/SshUtil.java",
+      "parentUuid": "a174a735_78323b17",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 46
+      },
+      "revId": "e195dcb079dbee99ad2c8da45aeda4500d4d27fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

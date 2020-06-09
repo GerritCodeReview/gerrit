@@ -135,6 +135,30 @@
     },
     {
       "key": {
+        "uuid": "679a7ce3_1a12a300",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-06-09T08:12:06Z",
+      "side": 1,
+      "message": "I appended a commit which modified the SubscriptionGraph to an AutoValue class.\n\nIt seems hard to modify SubmoduleSubscription because it has too many references.",
+      "parentUuid": "01d860f0_a60fe69e",
+      "range": {
+        "startLine": 53,
+        "startChar": 13,
+        "endLine": 53,
+        "endChar": 30
+      },
+      "revId": "9177b888b31d62a39881d3cfd5136847cb8f55a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71d15e91_323bf97d",
         "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
         "patchSetId": 12

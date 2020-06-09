@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "d5f83de1_9418555f",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_test.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-09T08:08:23Z",
+      "side": 1,
+      "message": "Okay I understood now.\nI added other properties specifically to change the compare result and verified it did not actually change.",
+      "parentUuid": "7c69bf82_3685ed95",
+      "range": {
+        "startLine": 315,
+        "startChar": 2,
+        "endLine": 315,
+        "endChar": 34
+      },
+      "revId": "df30998bdff0f235ebac214326d72ed70981bcc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "460b9a49_dab46109",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_test.html",
         "patchSetId": 8

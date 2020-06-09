@@ -343,6 +343,30 @@
     },
     {
       "key": {
+        "uuid": "e5379891_9a78805c",
+        "filename": "java/com/google/gerrit/entities/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-09T07:56:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb9e55d5_84d4d964",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 12
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a59ac84_fd4f89a1",
         "filename": "java/com/google/gerrit/entities/Comment.java",
         "patchSetId": 2
@@ -534,6 +558,24 @@
       "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85303394_7de8f10d",
+        "filename": "java/com/google/gerrit/entities/HumanComment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-09T07:56:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d92ef940_03d6e247",
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -920,6 +962,30 @@
     },
     {
       "key": {
+        "uuid": "4bf40823_218be368",
+        "filename": "java/com/google/gerrit/server/notedb/HumanCommentsRevisionNoteData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-09T07:56:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "609e39c2_30c986b3",
+      "range": {
+        "startLine": 20,
+        "startChar": 6,
+        "endLine": 20,
+        "endChar": 35
+      },
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4507829_bc726d51",
         "filename": "java/com/google/gerrit/server/notedb/RobotCommentUpdate.java",
         "patchSetId": 2
@@ -1087,6 +1153,24 @@
       "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edac2de9_51ff030e",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-09T07:56:47Z",
+      "side": 1,
+      "message": "Done\nActually reverted this entire file since it\u0027s only necessary when only human comments have a parent uuid.",
+      "parentUuid": "05bf13ae_14b2fe18",
+      "revId": "69735855d3d6fe1e4b7c71c2572735503b430749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

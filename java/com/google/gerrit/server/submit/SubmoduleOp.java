@@ -415,7 +415,7 @@ public class SubmoduleOp {
       addAllSubmoduleProjects(project, new LinkedHashSet<>(), projects);
     }
 
-    for (BranchNameKey branch : subscriptionGraph.getUpdatedBranches()) {
+    for (BranchNameKey branch : subscriptionGraph.updatedBranches()) {
       projects.add(branch.project());
     }
     return ImmutableSet.copyOf(projects);
@@ -456,7 +456,7 @@ public class SubmoduleOp {
   ImmutableSet<BranchNameKey> getBranchesInOrder() {
     LinkedHashSet<BranchNameKey> branches = new LinkedHashSet<>();
     branches.addAll(subscriptionGraph.getSortedSuperprojectAndSubmoduleBranches());
-    branches.addAll(subscriptionGraph.getUpdatedBranches());
+    branches.addAll(subscriptionGraph.updatedBranches());
     return ImmutableSet.copyOf(branches);
   }
 

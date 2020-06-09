@@ -16,7 +16,7 @@ package com.google.gerrit.mail;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import java.util.List;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -31,7 +31,7 @@ public abstract class HtmlParserTest extends AbstractParserTest {
     MailMessage.Builder b = newMailMessageBuilder();
     b.htmlContent(newHtmlBody("Looks good to me", null, null, null, null, null, null));
 
-    List<Comment> comments = defaultComments();
+    List<HumanComment> comments = defaultComments();
     List<MailComment> parsedComments = HtmlParser.parse(b.build(), comments, "");
 
     assertThat(parsedComments).hasSize(1);
@@ -52,7 +52,7 @@ public abstract class HtmlParserTest extends AbstractParserTest {
             null,
             null));
 
-    List<Comment> comments = defaultComments();
+    List<HumanComment> comments = defaultComments();
     List<MailComment> parsedComments = HtmlParser.parse(b.build(), comments, "");
 
     assertThat(parsedComments).hasSize(1);
@@ -73,7 +73,7 @@ public abstract class HtmlParserTest extends AbstractParserTest {
             null,
             null));
 
-    List<Comment> comments = defaultComments();
+    List<HumanComment> comments = defaultComments();
     List<MailComment> parsedComments = HtmlParser.parse(b.build(), comments, CHANGE_URL);
 
     assertThat(parsedComments).hasSize(3);
@@ -96,7 +96,7 @@ public abstract class HtmlParserTest extends AbstractParserTest {
             null,
             null));
 
-    List<Comment> comments = defaultComments();
+    List<HumanComment> comments = defaultComments();
     List<MailComment> parsedComments = HtmlParser.parse(b.build(), comments, CHANGE_URL);
 
     assertThat(parsedComments).hasSize(3);
@@ -121,7 +121,7 @@ public abstract class HtmlParserTest extends AbstractParserTest {
             null,
             null));
 
-    List<Comment> comments = defaultComments();
+    List<HumanComment> comments = defaultComments();
     List<MailComment> parsedComments = HtmlParser.parse(b.build(), comments, CHANGE_URL);
 
     assertThat(parsedComments).hasSize(3);
@@ -135,7 +135,7 @@ public abstract class HtmlParserTest extends AbstractParserTest {
     MailMessage.Builder b = newMailMessageBuilder();
     b.htmlContent(newHtmlBody(null, null, null, null, null, null, null));
 
-    List<Comment> comments = defaultComments();
+    List<HumanComment> comments = defaultComments();
     List<MailComment> parsedComments = HtmlParser.parse(b.build(), comments, CHANGE_URL);
 
     assertThat(parsedComments).isEmpty();
@@ -148,7 +148,7 @@ public abstract class HtmlParserTest extends AbstractParserTest {
         newHtmlBody(
             null, null, null, "Also have a comment here.", "This is a nice file", null, null));
 
-    List<Comment> comments = defaultComments();
+    List<HumanComment> comments = defaultComments();
     List<MailComment> parsedComments = HtmlParser.parse(b.build(), comments, CHANGE_URL);
 
     assertThat(parsedComments).hasSize(2);
@@ -164,7 +164,7 @@ public abstract class HtmlParserTest extends AbstractParserTest {
     MailMessage.Builder b = newMailMessageBuilder();
     b.htmlContent(newHtmlBody(htmlMessage, null, null, htmlMessage, htmlMessage, null, null));
 
-    List<Comment> comments = defaultComments();
+    List<HumanComment> comments = defaultComments();
     List<MailComment> parsedComments = HtmlParser.parse(b.build(), comments, CHANGE_URL);
 
     assertThat(parsedComments).hasSize(3);

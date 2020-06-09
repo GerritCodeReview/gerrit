@@ -57,6 +57,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmissionId;
@@ -118,7 +119,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final Table<String, Account.Id, Optional<Short>> approvals;
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
   private final Map<Address, ReviewerStateInternal> reviewersByEmail = new LinkedHashMap<>();
-  private final List<Comment> comments = new ArrayList<>();
+  private final List<HumanComment> comments = new ArrayList<>();
 
   private String commitSubject;
   private String subject;
@@ -285,10 +286,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.psDescription = psDescription;
   }
 
-  public void putComment(Comment.Status status, Comment c) {
+  public void putComment(HumanComment.Status status, HumanComment c) {
     verifyComment(c);
     createDraftUpdateIfNull();
-    if (status == Comment.Status.DRAFT) {
+    if (status == HumanComment.Status.DRAFT) {
       draftUpdate.putComment(c);
     } else {
       comments.add(c);
@@ -302,7 +303,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     robotCommentUpdate.putComment(c);
   }
 
-  public void deleteComment(Comment c) {
+  public void deleteComment(HumanComment c) {
     verifyComment(c);
     createDraftUpdateIfNull().deleteComment(c);
   }
@@ -449,7 +450,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     RevisionNoteMap<ChangeRevisionNote> rnm = getRevisionNoteMap(rw, curr);
 
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
-    for (Comment c : comments) {
+    for (HumanComment c : comments) {
       c.tag = tag;
       cache.get(c.getCommitId()).putComment(c);
     }
@@ -486,7 +487,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     // Even though reading from changes might not be enabled, we need to
     // parse any existing revision notes so we can merge them.
     return RevisionNoteMap.parse(
-        noteUtil.getChangeNoteJson(), rw.getObjectReader(), noteMap, Comment.Status.PUBLISHED);
+        noteUtil.getChangeNoteJson(), rw.getObjectReader(), noteMap, HumanComment.Status.PUBLISHED);
   }
 
   private void checkComments(

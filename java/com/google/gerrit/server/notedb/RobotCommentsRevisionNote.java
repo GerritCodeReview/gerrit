@@ -26,7 +26,11 @@ import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 
-/** Like {@link RevisionNote} but for robot comments. */
+/**
+ * Holds the raw data of a RevisionNote.
+ *
+ * <p>It is intended for deserialization from JSON only. It is used for robot comments only.
+ */
 public class RobotCommentsRevisionNote extends RevisionNote<RobotComment> {
   private final ChangeNoteJson noteUtil;
 

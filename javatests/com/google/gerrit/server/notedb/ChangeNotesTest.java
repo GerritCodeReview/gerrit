@@ -43,8 +43,8 @@ import com.google.gerrit.entities.AttentionSetUpdate.Operation;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
-import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.CommentRange;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.SubmissionId;
@@ -123,7 +123,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     RevCommit commit = tr.commit().message("PS2").create();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.putComment(
-        Comment.Status.PUBLISHED,
+        HumanComment.Status.PUBLISHED,
         newComment(
             c.currentPatchSetId(),
             "a.txt",
@@ -142,7 +142,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
 
-    ImmutableListMultimap<ObjectId, Comment> comments = notes.getComments();
+    ImmutableListMultimap<ObjectId, HumanComment> comments = notes.getHumanComments();
     assertThat(comments).hasSize(1);
     assertThat(comments.entries().asList().get(0).getValue().tag).isEqualTo(tag);
   }
@@ -185,7 +185,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     RevCommit commit = tr.commit().message("PS2").create();
     update = newUpdate(c, changeOwner);
     update.putComment(
-        Comment.Status.PUBLISHED,
+        HumanComment.Status.PUBLISHED,
         newComment(
             c.currentPatchSetId(),
             "a.txt",
@@ -216,7 +216,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(approval.tag()).hasValue(integrationTag);
     assertThat(approval.value()).isEqualTo(-1);
 
-    ImmutableListMultimap<ObjectId, Comment> comments = notes.getComments();
+    ImmutableListMultimap<ObjectId, HumanComment> comments = notes.getHumanComments();
     assertThat(comments).hasSize(1);
     assertThat(comments.entries().asList().get(0).getValue().tag).isEqualTo(coverageTag);
 
@@ -1186,7 +1186,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.putApproval("Code-Review", (short) 1);
     update.setChangeMessage("This is a message");
     update.putComment(
-        Comment.Status.PUBLISHED,
+        HumanComment.Status.PUBLISHED,
         newComment(
             c.currentPatchSetId(),
             "a.txt",
@@ -1206,7 +1206,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(notes.getPatchSets().keySet()).containsExactly(psId1, psId2);
     assertThat(notes.getApprovals()).isNotEmpty();
     assertThat(notes.getChangeMessages()).isNotEmpty();
-    assertThat(notes.getComments()).isNotEmpty();
+    assertThat(notes.getHumanComments()).isNotEmpty();
 
     // publish ps2
     update = newUpdate(c, changeOwner);
@@ -1222,7 +1222,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(notes.getPatchSets().keySet()).containsExactly(psId1);
     assertThat(notes.getApprovals()).isEmpty();
     assertThat(notes.getChangeMessages()).isEmpty();
-    assertThat(notes.getComments()).isEmpty();
+    assertThat(notes.getHumanComments()).isEmpty();
   }
 
   @Test
@@ -1279,14 +1279,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Map<PatchSet.Id, PatchSet> patchSets = notes.getPatchSets();
     assertThat(patchSets.get(psId1).pushCertificate()).isEmpty();
     assertThat(patchSets.get(psId2).pushCertificate()).hasValue(pushCert);
-    assertThat(notes.getComments()).isEmpty();
+    assertThat(notes.getHumanComments()).isEmpty();
 
     // comment on ps2
     update = newUpdate(c, changeOwner);
     update.setPatchSetId(psId2);
     Timestamp ts = TimeUtil.nowTs();
     update.putComment(
-        Comment.Status.PUBLISHED,
+        HumanComment.Status.PUBLISHED,
         newComment(
             psId2,
             "a.txt",
@@ -1307,7 +1307,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     patchSets = notes.getPatchSets();
     assertThat(patchSets.get(psId1).pushCertificate()).isEmpty();
     assertThat(patchSets.get(psId2).pushCertificate()).hasValue(pushCert);
-    assertThat(notes.getComments()).isNotEmpty();
+    assertThat(notes.getHumanComments()).isNotEmpty();
   }
 
   @Test
@@ -1356,7 +1356,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     PatchSet.Id psId = c.currentPatchSetId();
     RevCommit tipCommit;
     try (NoteDbUpdateManager updateManager = updateManagerFactory.create(project)) {
-      Comment comment1 =
+      HumanComment comment1 =
           newComment(
               psId,
               "file1",
@@ -1371,7 +1371,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
               ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234"),
               false);
       update1.setPatchSetId(psId);
-      update1.putComment(Comment.Status.PUBLISHED, comment1);
+      update1.putComment(HumanComment.Status.PUBLISHED, comment1);
       updateManager.add(update1);
 
       ChangeUpdate update2 = newUpdate(c, otherUser);
@@ -1570,7 +1570,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     PatchSet.Id psId = c.currentPatchSetId();
     ObjectId commitId = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 
-    Comment comment =
+    HumanComment comment =
         newComment(
             psId,
             "file1",
@@ -1585,11 +1585,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Comment.Status.PUBLISHED, comment);
+    update.putComment(HumanComment.Status.PUBLISHED, comment);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getComments()).isEqualTo(ImmutableListMultimap.of(commitId, comment));
+    assertThat(notes.getHumanComments()).isEqualTo(ImmutableListMultimap.of(commitId, comment));
   }
 
   @Test
@@ -1600,7 +1600,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ObjectId commitId = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
     CommentRange range = new CommentRange(1, 0, 2, 0);
 
-    Comment comment =
+    HumanComment comment =
         newComment(
             psId,
             "file1",
@@ -1615,11 +1615,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Comment.Status.PUBLISHED, comment);
+    update.putComment(HumanComment.Status.PUBLISHED, comment);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getComments()).isEqualTo(ImmutableListMultimap.of(commitId, comment));
+    assertThat(notes.getHumanComments()).isEqualTo(ImmutableListMultimap.of(commitId, comment));
   }
 
   @Test
@@ -1630,7 +1630,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ObjectId commitId = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
     CommentRange range = new CommentRange(0, 0, 0, 0);
 
-    Comment comment =
+    HumanComment comment =
         newComment(
             psId,
             "file",
@@ -1645,11 +1645,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Comment.Status.PUBLISHED, comment);
+    update.putComment(HumanComment.Status.PUBLISHED, comment);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getComments()).isEqualTo(ImmutableListMultimap.of(commitId, comment));
+    assertThat(notes.getHumanComments()).isEqualTo(ImmutableListMultimap.of(commitId, comment));
   }
 
   @Test
@@ -1660,7 +1660,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ObjectId commitId = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
     CommentRange range = new CommentRange(1, 2, 3, 4);
 
-    Comment comment =
+    HumanComment comment =
         newComment(
             psId,
             "",
@@ -1675,11 +1675,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Comment.Status.PUBLISHED, comment);
+    update.putComment(HumanComment.Status.PUBLISHED, comment);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getComments()).isEqualTo(ImmutableListMultimap.of(commitId, comment));
+    assertThat(notes.getHumanComments()).isEqualTo(ImmutableListMultimap.of(commitId, comment));
   }
 
   @Test
@@ -1699,7 +1699,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Timestamp time = TimeUtil.nowTs();
     ObjectId commitId = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 
-    Comment comment1 =
+    HumanComment comment1 =
         newComment(
             psId1,
             "file1",
@@ -1713,7 +1713,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             (short) 0,
             commitId,
             false);
-    Comment comment2 =
+    HumanComment comment2 =
         newComment(
             psId1,
             "file1",
@@ -1727,7 +1727,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             (short) 0,
             commitId,
             false);
-    Comment comment3 =
+    HumanComment comment3 =
         newComment(
             psId2,
             "file1",
@@ -1744,13 +1744,13 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeUpdate update = newUpdate(c, otherUser);
     update.setPatchSetId(psId2);
-    update.putComment(Comment.Status.PUBLISHED, comment3);
-    update.putComment(Comment.Status.PUBLISHED, comment2);
-    update.putComment(Comment.Status.PUBLISHED, comment1);
+    update.putComment(HumanComment.Status.PUBLISHED, comment3);
+    update.putComment(HumanComment.Status.PUBLISHED, comment2);
+    update.putComment(HumanComment.Status.PUBLISHED, comment1);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
-    assertThat(notes.getComments())
+    assertThat(notes.getHumanComments())
         .isEqualTo(
             ImmutableListMultimap.of(
                 commitId, comment1,
@@ -1770,7 +1770,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     PatchSet.Id psId = c.currentPatchSetId();
     ObjectId commitId = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 
-    Comment comment =
+    HumanComment comment =
         newComment(
             psId,
             "file",
@@ -1786,12 +1786,12 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             false);
     comment.setRealAuthor(changeOwner.getAccountId());
     update.setPatchSetId(psId);
-    update.putComment(Comment.Status.PUBLISHED, comment);
+    update.putComment(HumanComment.Status.PUBLISHED, comment);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
 
-    assertThat(notes.getComments()).isEqualTo(ImmutableListMultimap.of(commitId, comment));
+    assertThat(notes.getHumanComments()).isEqualTo(ImmutableListMultimap.of(commitId, comment));
   }
 
   @Test
@@ -1809,7 +1809,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Timestamp time = TimeUtil.nowTs();
     PatchSet.Id psId = c.currentPatchSetId();
 
-    Comment comment =
+    HumanComment comment =
         newComment(
             psId,
             "file1",
@@ -1824,12 +1824,12 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234"),
             false);
     update.setPatchSetId(psId);
-    update.putComment(Comment.Status.PUBLISHED, comment);
+    update.putComment(HumanComment.Status.PUBLISHED, comment);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
 
-    assertThat(notes.getComments())
+    assertThat(notes.getHumanComments())
         .isEqualTo(ImmutableListMultimap.of(comment.getCommitId(), comment));
   }
 
@@ -1847,7 +1847,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Timestamp now = TimeUtil.nowTs();
     PatchSet.Id psId = c.currentPatchSetId();
 
-    Comment commentForBase =
+    HumanComment commentForBase =
         newComment(
             psId,
             "filename",
@@ -1862,11 +1862,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId1,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Comment.Status.PUBLISHED, commentForBase);
+    update.putComment(HumanComment.Status.PUBLISHED, commentForBase);
     update.commit();
 
     update = newUpdate(c, otherUser);
-    Comment commentForPS =
+    HumanComment commentForPS =
         newComment(
             psId,
             "filename",
@@ -1881,10 +1881,10 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId2,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Comment.Status.PUBLISHED, commentForPS);
+    update.putComment(HumanComment.Status.PUBLISHED, commentForPS);
     update.commit();
 
-    assertThat(newNotes(c).getComments())
+    assertThat(newNotes(c).getHumanComments())
         .containsExactlyEntriesIn(
             ImmutableListMultimap.of(
                 commitId1, commentForBase,
@@ -1905,7 +1905,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, otherUser);
     Timestamp timeForComment1 = TimeUtil.nowTs();
     Timestamp timeForComment2 = TimeUtil.nowTs();
-    Comment comment1 =
+    HumanComment comment1 =
         newComment(
             psId,
             filename,
@@ -1920,11 +1920,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Comment.Status.PUBLISHED, comment1);
+    update.putComment(HumanComment.Status.PUBLISHED, comment1);
     update.commit();
 
     update = newUpdate(c, otherUser);
-    Comment comment2 =
+    HumanComment comment2 =
         newComment(
             psId,
             filename,
@@ -1939,10 +1939,10 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Comment.Status.PUBLISHED, comment2);
+    update.putComment(HumanComment.Status.PUBLISHED, comment2);
     update.commit();
 
-    assertThat(newNotes(c).getComments())
+    assertThat(newNotes(c).getHumanComments())
         .containsExactlyEntriesIn(
             ImmutableListMultimap.of(
                 commitId, comment1,
@@ -1963,7 +1963,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeUpdate update = newUpdate(c, otherUser);
     Timestamp now = TimeUtil.nowTs();
-    Comment comment1 =
+    HumanComment comment1 =
         newComment(
             psId,
             filename1,
@@ -1978,11 +1978,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Comment.Status.PUBLISHED, comment1);
+    update.putComment(HumanComment.Status.PUBLISHED, comment1);
     update.commit();
 
     update = newUpdate(c, otherUser);
-    Comment comment2 =
+    HumanComment comment2 =
         newComment(
             psId,
             filename2,
@@ -1997,10 +1997,10 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Comment.Status.PUBLISHED, comment2);
+    update.putComment(HumanComment.Status.PUBLISHED, comment2);
     update.commit();
 
-    assertThat(newNotes(c).getComments())
+    assertThat(newNotes(c).getHumanComments())
         .containsExactlyEntriesIn(
             ImmutableListMultimap.of(
                 commitId, comment1,
@@ -2021,7 +2021,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeUpdate update = newUpdate(c, otherUser);
     Timestamp now = TimeUtil.nowTs();
-    Comment comment1 =
+    HumanComment comment1 =
         newComment(
             ps1,
             filename,
@@ -2036,7 +2036,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId1,
             false);
     update.setPatchSetId(ps1);
-    update.putComment(Comment.Status.PUBLISHED, comment1);
+    update.putComment(HumanComment.Status.PUBLISHED, comment1);
     update.commit();
 
     incrementPatchSet(c);
@@ -2044,7 +2044,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     update = newUpdate(c, otherUser);
     now = TimeUtil.nowTs();
-    Comment comment2 =
+    HumanComment comment2 =
         newComment(
             ps2,
             filename,
@@ -2059,10 +2059,10 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId2,
             false);
     update.setPatchSetId(ps2);
-    update.putComment(Comment.Status.PUBLISHED, comment2);
+    update.putComment(HumanComment.Status.PUBLISHED, comment2);
     update.commit();
 
-    assertThat(newNotes(c).getComments())
+    assertThat(newNotes(c).getHumanComments())
         .containsExactlyEntriesIn(
             ImmutableListMultimap.of(
                 commitId1, comment1,
@@ -2081,7 +2081,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeUpdate update = newUpdate(c, otherUser);
     Timestamp now = TimeUtil.nowTs();
-    Comment comment1 =
+    HumanComment comment1 =
         newComment(
             ps1,
             filename,
@@ -2096,22 +2096,22 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId,
             false);
     update.setPatchSetId(ps1);
-    update.putComment(Comment.Status.DRAFT, comment1);
+    update.putComment(HumanComment.Status.DRAFT, comment1);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
     assertThat(notes.getDraftComments(otherUserId))
         .containsExactlyEntriesIn(ImmutableListMultimap.of(commitId, comment1));
-    assertThat(notes.getComments()).isEmpty();
+    assertThat(notes.getHumanComments()).isEmpty();
 
     update = newUpdate(c, otherUser);
     update.setPatchSetId(ps1);
-    update.putComment(Comment.Status.PUBLISHED, comment1);
+    update.putComment(HumanComment.Status.PUBLISHED, comment1);
     update.commit();
 
     notes = newNotes(c);
     assertThat(notes.getDraftComments(otherUserId)).isEmpty();
-    assertThat(notes.getComments())
+    assertThat(notes.getHumanComments())
         .containsExactlyEntriesIn(ImmutableListMultimap.of(commitId, comment1));
   }
 
@@ -2131,7 +2131,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     // Write two drafts on the same side of one patch set.
     ChangeUpdate update = newUpdate(c, otherUser);
     update.setPatchSetId(psId);
-    Comment comment1 =
+    HumanComment comment1 =
         newComment(
             psId,
             filename,
@@ -2145,7 +2145,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             side,
             commitId,
             false);
-    Comment comment2 =
+    HumanComment comment2 =
         newComment(
             psId,
             filename,
@@ -2159,8 +2159,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             side,
             commitId,
             false);
-    update.putComment(Comment.Status.DRAFT, comment1);
-    update.putComment(Comment.Status.DRAFT, comment2);
+    update.putComment(HumanComment.Status.DRAFT, comment1);
+    update.putComment(HumanComment.Status.DRAFT, comment2);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -2170,18 +2170,18 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                 commitId, comment1,
                 commitId, comment2))
         .inOrder();
-    assertThat(notes.getComments()).isEmpty();
+    assertThat(notes.getHumanComments()).isEmpty();
 
     // Publish first draft.
     update = newUpdate(c, otherUser);
     update.setPatchSetId(psId);
-    update.putComment(Comment.Status.PUBLISHED, comment1);
+    update.putComment(HumanComment.Status.PUBLISHED, comment1);
     update.commit();
 
     notes = newNotes(c);
     assertThat(notes.getDraftComments(otherUserId))
         .containsExactlyEntriesIn(ImmutableListMultimap.of(commitId, comment2));
-    assertThat(notes.getComments())
+    assertThat(notes.getHumanComments())
         .containsExactlyEntriesIn(ImmutableListMultimap.of(commitId, comment1));
   }
 
@@ -2201,7 +2201,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     // Write two drafts, one on each side of the patchset.
     ChangeUpdate update = newUpdate(c, otherUser);
     update.setPatchSetId(psId);
-    Comment baseComment =
+    HumanComment baseComment =
         newComment(
             psId,
             filename,
@@ -2215,7 +2215,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             (short) 0,
             commitId1,
             false);
-    Comment psComment =
+    HumanComment psComment =
         newComment(
             psId,
             filename,
@@ -2230,8 +2230,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId2,
             false);
 
-    update.putComment(Comment.Status.DRAFT, baseComment);
-    update.putComment(Comment.Status.DRAFT, psComment);
+    update.putComment(HumanComment.Status.DRAFT, baseComment);
+    update.putComment(HumanComment.Status.DRAFT, psComment);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -2240,19 +2240,19 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             ImmutableListMultimap.of(
                 commitId1, baseComment,
                 commitId2, psComment));
-    assertThat(notes.getComments()).isEmpty();
+    assertThat(notes.getHumanComments()).isEmpty();
 
     // Publish both comments.
     update = newUpdate(c, otherUser);
     update.setPatchSetId(psId);
 
-    update.putComment(Comment.Status.PUBLISHED, baseComment);
-    update.putComment(Comment.Status.PUBLISHED, psComment);
+    update.putComment(HumanComment.Status.PUBLISHED, baseComment);
+    update.putComment(HumanComment.Status.PUBLISHED, psComment);
     update.commit();
 
     notes = newNotes(c);
     assertThat(notes.getDraftComments(otherUserId)).isEmpty();
-    assertThat(notes.getComments())
+    assertThat(notes.getHumanComments())
         .containsExactlyEntriesIn(
             ImmutableListMultimap.of(
                 commitId1, baseComment,
@@ -2271,7 +2271,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeUpdate update = newUpdate(c, otherUser);
     Timestamp now = TimeUtil.nowTs();
-    Comment comment =
+    HumanComment comment =
         newComment(
             psId,
             filename,
@@ -2286,7 +2286,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Comment.Status.DRAFT, comment);
+    update.putComment(HumanComment.Status.DRAFT, comment);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -2316,7 +2316,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeUpdate update = newUpdate(c, otherUser);
     Timestamp now = TimeUtil.nowTs();
-    Comment comment1 =
+    HumanComment comment1 =
         newComment(
             ps1,
             filename,
@@ -2331,7 +2331,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId1,
             false);
     update.setPatchSetId(ps1);
-    update.putComment(Comment.Status.DRAFT, comment1);
+    update.putComment(HumanComment.Status.DRAFT, comment1);
     update.commit();
 
     incrementPatchSet(c);
@@ -2339,7 +2339,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     update = newUpdate(c, otherUser);
     now = TimeUtil.nowTs();
-    Comment comment2 =
+    HumanComment comment2 =
         newComment(
             ps2,
             filename,
@@ -2354,7 +2354,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId2,
             false);
     update.setPatchSetId(ps2);
-    update.putComment(Comment.Status.DRAFT, comment2);
+    update.putComment(HumanComment.Status.DRAFT, comment2);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -2384,7 +2384,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeUpdate update = newUpdate(c, otherUser);
     Timestamp now = TimeUtil.nowTs();
-    Comment comment =
+    HumanComment comment =
         newComment(
             ps1,
             filename,
@@ -2398,7 +2398,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             side,
             commitId,
             false);
-    update.putComment(Comment.Status.PUBLISHED, comment);
+    update.putComment(HumanComment.Status.PUBLISHED, comment);
     update.commit();
 
     assertThat(repo.exactRef(changeMetaRef(c.getId()))).isNotNull();
@@ -2417,7 +2417,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeUpdate update = newUpdate(c, otherUser);
     Timestamp now = TimeUtil.nowTs();
-    Comment draft =
+    HumanComment draft =
         newComment(
             ps1,
             filename,
@@ -2431,7 +2431,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             side,
             commitId,
             false);
-    update.putComment(Comment.Status.DRAFT, draft);
+    update.putComment(HumanComment.Status.DRAFT, draft);
     update.commit();
 
     String draftRef = refsDraftComments(c.getId(), otherUser.getAccountId());
@@ -2439,7 +2439,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(old).isNotNull();
 
     update = newUpdate(c, otherUser);
-    Comment pub =
+    HumanComment pub =
         newComment(
             ps1,
             filename,
@@ -2453,7 +2453,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             side,
             commitId,
             false);
-    update.putComment(Comment.Status.PUBLISHED, pub);
+    update.putComment(HumanComment.Status.PUBLISHED, pub);
     update.commit();
 
     assertThat(exactRefAllUsers(draftRef)).isEqualTo(old);
@@ -2469,7 +2469,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Timestamp now = TimeUtil.nowTs();
     PatchSet.Id psId = c.currentPatchSetId();
 
-    Comment comment =
+    HumanComment comment =
         newComment(
             psId,
             "filename",
@@ -2484,10 +2484,10 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Comment.Status.PUBLISHED, comment);
+    update.putComment(HumanComment.Status.PUBLISHED, comment);
     update.commit();
 
-    assertThat(newNotes(c).getComments())
+    assertThat(newNotes(c).getHumanComments())
         .containsExactlyEntriesIn(ImmutableListMultimap.of(commitId, comment));
   }
 
@@ -2501,7 +2501,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     Timestamp now = TimeUtil.nowTs();
     PatchSet.Id psId = c.currentPatchSetId();
 
-    Comment comment =
+    HumanComment comment =
         newComment(
             psId,
             "filename",
@@ -2516,10 +2516,10 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Comment.Status.PUBLISHED, comment);
+    update.putComment(HumanComment.Status.PUBLISHED, comment);
     update.commit();
 
-    assertThat(newNotes(c).getComments())
+    assertThat(newNotes(c).getHumanComments())
         .containsExactlyEntriesIn(ImmutableListMultimap.of(commitId, comment));
   }
 
@@ -2540,7 +2540,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, otherUser);
     update.setPatchSetId(ps2);
     Timestamp now = TimeUtil.nowTs();
-    Comment comment1 =
+    HumanComment comment1 =
         newComment(
             ps1,
             filename,
@@ -2554,7 +2554,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             side,
             commitId1,
             false);
-    Comment comment2 =
+    HumanComment comment2 =
         newComment(
             ps2,
             filename,
@@ -2568,23 +2568,23 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             side,
             commitId2,
             false);
-    update.putComment(Comment.Status.DRAFT, comment1);
-    update.putComment(Comment.Status.DRAFT, comment2);
+    update.putComment(HumanComment.Status.DRAFT, comment1);
+    update.putComment(HumanComment.Status.DRAFT, comment2);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
     assertThat(notes.getDraftComments(otherUserId)).hasSize(2);
-    assertThat(notes.getComments()).isEmpty();
+    assertThat(notes.getHumanComments()).isEmpty();
 
     update = newUpdate(c, otherUser);
     update.setPatchSetId(ps2);
-    update.putComment(Comment.Status.PUBLISHED, comment1);
-    update.putComment(Comment.Status.PUBLISHED, comment2);
+    update.putComment(HumanComment.Status.PUBLISHED, comment1);
+    update.putComment(HumanComment.Status.PUBLISHED, comment2);
     update.commit();
 
     notes = newNotes(c);
     assertThat(notes.getDraftComments(otherUserId)).isEmpty();
-    assertThat(notes.getComments()).hasSize(2);
+    assertThat(notes.getHumanComments()).hasSize(2);
   }
 
   @Test
@@ -2598,7 +2598,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, otherUser);
     update.setPatchSetId(ps1);
     Timestamp now = TimeUtil.nowTs();
-    Comment comment1 =
+    HumanComment comment1 =
         newComment(
             ps1,
             "file1",
@@ -2612,7 +2612,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             side,
             commitId1,
             false);
-    Comment comment2 =
+    HumanComment comment2 =
         newComment(
             ps1,
             "file2",
@@ -2626,23 +2626,23 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             side,
             commitId1,
             false);
-    update.putComment(Comment.Status.DRAFT, comment1);
-    update.putComment(Comment.Status.DRAFT, comment2);
+    update.putComment(HumanComment.Status.DRAFT, comment1);
+    update.putComment(HumanComment.Status.DRAFT, comment2);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
     assertThat(notes.getDraftComments(otherUserId).get(commitId1))
         .containsExactly(comment1, comment2);
-    assertThat(notes.getComments()).isEmpty();
+    assertThat(notes.getHumanComments()).isEmpty();
 
     update = newUpdate(c, otherUser);
     update.setPatchSetId(ps1);
-    update.putComment(Comment.Status.PUBLISHED, comment2);
+    update.putComment(HumanComment.Status.PUBLISHED, comment2);
     update.commit();
 
     notes = newNotes(c);
     assertThat(notes.getDraftComments(otherUserId).get(commitId1)).containsExactly(comment1);
-    assertThat(notes.getComments().get(commitId1)).containsExactly(comment2);
+    assertThat(notes.getHumanComments().get(commitId1)).containsExactly(comment2);
   }
 
   @Test
@@ -2671,7 +2671,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeUpdate update = newUpdate(c, otherUser);
     Timestamp now = TimeUtil.nowTs();
-    Comment comment1 =
+    HumanComment comment1 =
         newComment(
             ps1,
             "file1",
@@ -2685,7 +2685,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             side,
             commitId1,
             false);
-    Comment comment2 =
+    HumanComment comment2 =
         newComment(
             ps1,
             "file2",
@@ -2699,8 +2699,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             side,
             commitId1,
             false);
-    update.putComment(Comment.Status.DRAFT, comment1);
-    update.putComment(Comment.Status.DRAFT, comment2);
+    update.putComment(HumanComment.Status.DRAFT, comment1);
+    update.putComment(HumanComment.Status.DRAFT, comment2);
     update.commit();
 
     String refName = refsDraftComments(c.getId(), otherUserId);
@@ -2708,7 +2708,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     update = newUpdate(c, otherUser);
     update.setPatchSetId(ps1);
-    update.putComment(Comment.Status.PUBLISHED, comment2);
+    update.putComment(HumanComment.Status.PUBLISHED, comment2);
     update.commit();
     assertThat(exactRefAllUsers(refName)).isNotNull();
     assertThat(exactRefAllUsers(refName)).isNotEqualTo(oldDraftId);
@@ -2730,11 +2730,11 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     // Zombie comment is filtered out of drafts via ChangeNotes.
     ChangeNotes notes = newNotes(c);
     assertThat(notes.getDraftComments(otherUserId).get(commitId1)).containsExactly(comment1);
-    assertThat(notes.getComments().get(commitId1)).containsExactly(comment2);
+    assertThat(notes.getHumanComments().get(commitId1)).containsExactly(comment2);
 
     update = newUpdate(c, otherUser);
     update.setPatchSetId(ps1);
-    update.putComment(Comment.Status.PUBLISHED, comment1);
+    update.putComment(HumanComment.Status.PUBLISHED, comment1);
     update.commit();
 
     // Updating an unrelated comment causes the zombie comment to get fixed up.
@@ -2748,7 +2748,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     ObjectId commitId = ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234");
 
     ChangeUpdate update1 = newUpdate(c, otherUser);
-    Comment comment1 =
+    HumanComment comment1 =
         newComment(
             c.currentPatchSetId(),
             "filename",
@@ -2762,10 +2762,10 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             (short) 1,
             commitId,
             false);
-    update1.putComment(Comment.Status.PUBLISHED, comment1);
+    update1.putComment(HumanComment.Status.PUBLISHED, comment1);
 
     ChangeUpdate update2 = newUpdate(c, otherUser);
-    Comment comment2 =
+    HumanComment comment2 =
         newComment(
             c.currentPatchSetId(),
             "filename",
@@ -2779,7 +2779,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             (short) 1,
             commitId,
             false);
-    update2.putComment(Comment.Status.PUBLISHED, comment2);
+    update2.putComment(HumanComment.Status.PUBLISHED, comment2);
 
     try (NoteDbUpdateManager manager = updateManagerFactory.create(project)) {
       manager.add(update1);
@@ -2788,7 +2788,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     }
 
     ChangeNotes notes = newNotes(c);
-    List<Comment> comments = notes.getComments().get(commitId);
+    List<HumanComment> comments = notes.getHumanComments().get(commitId);
     assertThat(comments).hasSize(2);
     assertThat(comments.get(0).message).isEqualTo("comment 1");
     assertThat(comments.get(1).message).isEqualTo("comment 2");
@@ -2815,14 +2815,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     int numMessages = notes.getChangeMessages().size();
     int numPatchSets = notes.getPatchSets().size();
     int numApprovals = notes.getApprovals().size();
-    int numComments = notes.getComments().size();
+    int numComments = notes.getHumanComments().size();
 
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setPatchSetId(PatchSet.id(c.getId(), c.currentPatchSetId().get() + 1));
     update.setChangeMessage("Should be ignored");
     update.putApproval("Code-Review", (short) 2);
     CommentRange range = new CommentRange(1, 1, 2, 1);
-    Comment comment =
+    HumanComment comment =
         newComment(
             update.getPatchSetId(),
             "filename",
@@ -2836,14 +2836,14 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             (short) 1,
             ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234"),
             false);
-    update.putComment(Comment.Status.PUBLISHED, comment);
+    update.putComment(HumanComment.Status.PUBLISHED, comment);
     update.commit();
 
     notes = newNotes(c);
     assertThat(notes.getChangeMessages()).hasSize(numMessages);
     assertThat(notes.getPatchSets()).hasSize(numPatchSets);
     assertThat(notes.getApprovals()).hasSize(numApprovals);
-    assertThat(notes.getComments()).hasSize(numComments);
+    assertThat(notes.getHumanComments()).hasSize(numComments);
   }
 
   @Test

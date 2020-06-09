@@ -35,6 +35,6 @@ public class GetDraftComment implements RestReadView<DraftCommentResource> {
 
   @Override
   public Response<CommentInfo> apply(DraftCommentResource rsrc) throws PermissionBackendException {
-    return Response.ok(commentJson.get().newCommentFormatter().format(rsrc.getComment()));
+    return Response.ok(commentJson.get().newHumanCommentFormatter().format(rsrc.getComment()));
   }
 }

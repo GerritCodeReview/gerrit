@@ -39,7 +39,7 @@ import java.util.Optional;
  *          |
  *          +- {@link PatchSetApproval}: a +/- vote on the change's current state.
  *          |
- *          +- {@link Comment}: comment about a specific line
+ *          +- {@link HumanComment}: comment about a specific line
  * </pre>
  *
  * <p>

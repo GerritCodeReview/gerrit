@@ -18,7 +18,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.ChangeMessage;
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -28,7 +28,6 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.restapi.change.CommentJson.CommentFormatter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -64,12 +63,12 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
     return getAsList(listComments(rsrc), rsrc);
   }
 
-  private Iterable<Comment> listComments(ChangeResource rsrc) {
+  private Iterable<HumanComment> listComments(ChangeResource rsrc) {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
-    return commentsUtil.publishedByChange(cd.notes());
+    return commentsUtil.publishedHumanCommentsByChange(cd.notes());
   }
 
-  private ImmutableList<CommentInfo> getAsList(Iterable<Comment> comments, ChangeResource rsrc)
+  private ImmutableList<CommentInfo> getAsList(Iterable<HumanComment> comments, ChangeResource rsrc)
       throws PermissionBackendException {
     ImmutableList<CommentInfo> commentInfos = getCommentFormatter().formatAsList(comments);
     List<ChangeMessage> changeMessages = changeMessagesUtil.byChange(rsrc.getNotes());
@@ -77,8 +76,8 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
     return commentInfos;
   }
 
-  private Map<String, List<CommentInfo>> getAsMap(Iterable<Comment> comments, ChangeResource rsrc)
-      throws PermissionBackendException {
+  private Map<String, List<CommentInfo>> getAsMap(
+      Iterable<HumanComment> comments, ChangeResource rsrc) throws PermissionBackendException {
     Map<String, List<CommentInfo>> commentInfosMap = getCommentFormatter().format(comments);
     List<CommentInfo> commentInfos =
         commentInfosMap.values().stream().flatMap(List::stream).collect(toList());
@@ -87,7 +86,7 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
     return commentInfosMap;
   }
 
-  private CommentFormatter getCommentFormatter() {
-    return commentJson.get().setFillAccounts(true).setFillPatchSet(true).newCommentFormatter();
+  private CommentJson.HumanCommentFormatter getCommentFormatter() {
+    return commentJson.get().setFillAccounts(true).setFillPatchSet(true).newHumanCommentFormatter();
   }
 }

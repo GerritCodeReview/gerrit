@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class AbstractParserTest {
   }
 
   protected static void assertInlineComment(
-      String message, MailComment comment, Comment inReplyTo) {
+      String message, MailComment comment, HumanComment inReplyTo) {
     assertThat(comment.fileName).isNull();
     assertThat(comment.message).isEqualTo(message);
     assertThat(comment.inReplyTo.key).isEqualTo(inReplyTo.key);
@@ -51,9 +52,9 @@ public class AbstractParserTest {
     assertThat(comment.type).isEqualTo(MailComment.CommentType.FILE_COMMENT);
   }
 
-  protected static Comment newComment(String uuid, String file, String message, int line) {
-    Comment c =
-        new Comment(
+  protected static HumanComment newComment(String uuid, String file, String message, int line) {
+    HumanComment c =
+        new HumanComment(
             new Comment.Key(uuid, file, 1),
             Account.id(0),
             new Timestamp(0L),
@@ -65,9 +66,10 @@ public class AbstractParserTest {
     return c;
   }
 
-  protected static Comment newRangeComment(String uuid, String file, String message, int line) {
-    Comment c =
-        new Comment(
+  protected static HumanComment newRangeComment(
+      String uuid, String file, String message, int line) {
+    HumanComment c =
+        new HumanComment(
             new Comment.Key(uuid, file, 1),
             Account.id(0),
             new Timestamp(0L),
@@ -91,8 +93,8 @@ public class AbstractParserTest {
   }
 
   /** Returns a List of default comments for testing. */
-  protected static List<Comment> defaultComments() {
-    List<Comment> comments = new ArrayList<>();
+  protected static List<HumanComment> defaultComments() {
+    List<HumanComment> comments = new ArrayList<>();
     comments.add(newComment("c1", "gerrit-server/test.txt", "comment", 0));
     comments.add(newComment("c2", "gerrit-server/test.txt", "comment", 2));
     comments.add(newComment("c3", "gerrit-server/test.txt", "comment", 3));

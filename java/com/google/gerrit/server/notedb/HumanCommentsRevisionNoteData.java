@@ -1,4 +1,4 @@
-// Copyright (C) 2016 The Android Open Source Project
+// Copyright (C) 2020 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,16 +14,15 @@
 
 package com.google.gerrit.server.notedb;
 
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import java.util.List;
 
 /**
  * Holds the raw data of a RevisionNote.
  *
- * <p>It is intended for serialization to JSON only. It is used for human comments and robot
- * comments.
+ * <p>It is intended for deserialization from JSON only. It is used for human comments only.
  */
-class RevisionNoteData {
+class HumanCommentsRevisionNoteData {
   String pushCert;
-  List<Comment> comments;
+  List<HumanComment> comments;
 }

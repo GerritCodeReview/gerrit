@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c161a693_da38401f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-09T07:56:47Z",
+      "side": 1,
+      "message": "I reverted all the changes about parentUuid. However, now the change is not very significant, but it does allow to remove/add anything you\u0027d like later (unresolved).",
+      "parentUuid": "464dc179_4122e550",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 57
+      },
+      "revId": "7516cd4704ef80ca0e06f5acbae182f3ae3d9e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c90badba_36c7463b",
         "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7ea3051b_1e93769b",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-09T07:56:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c90badba_36c7463b",
+      "range": {
+        "startLine": 118,
+        "startChar": 6,
+        "endLine": 118,
+        "endChar": 57
+      },
+      "revId": "7516cd4704ef80ca0e06f5acbae182f3ae3d9e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51343fe4_672ff1ae",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 3
@@ -68,6 +116,30 @@
       "revId": "7516cd4704ef80ca0e06f5acbae182f3ae3d9e97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1f5c946_37e5c101",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 813,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-09T07:56:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51343fe4_672ff1ae",
+      "range": {
+        "startLine": 812,
+        "startChar": 2,
+        "endLine": 813,
+        "endChar": 4
+      },
+      "revId": "7516cd4704ef80ca0e06f5acbae182f3ae3d9e97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -94,6 +94,30 @@
       "revId": "e195dcb079dbee99ad2c8da45aeda4500d4d27fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "968307e7_003dae28",
+        "filename": "java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-09T07:53:41Z",
+      "side": 1,
+      "message": "A test would be great. The problem can be easily reproduced with the string that provided in the issue description. But I think it works as expected, and the C:\\Projects\\gerrit\\etc\\peer_keys file is invalid: \" user@host\" suffix part is not a valid base 64 encoded string. Both characters: blank and \"@\" are not allowed. According to gerrit documentation: [1]\n\n  The format is one Base-64 encoded public key per line.\n\n@Orgad, if you remove \" user@host\" suffix from your peer_keys file it would work also without this change?\n\n* [1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#_file_code_etc_peer_keys_code",
+      "parentUuid": "868b5e2c_3224f82a",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 46
+      },
+      "revId": "e195dcb079dbee99ad2c8da45aeda4500d4d27fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

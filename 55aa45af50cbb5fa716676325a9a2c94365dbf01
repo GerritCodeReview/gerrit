@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4286fe06_1d29ccb9",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-06-10T23:38:21Z",
+      "side": 1,
+      "message": "Can we always assume that if getCherryPickOf() is non-null then the Optional\u003cBranchNameKey\u003e will always be present? I\u0027m worried if we\u0027re not directly checking presence.",
+      "range": {
+        "startLine": 299,
+        "startChar": 47,
+        "endLine": 299,
+        "endChar": 62
+      },
+      "revId": "55aa45af50cbb5fa716676325a9a2c94365dbf01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88db6218_a0488d56",
+        "filename": "java/com/google/gerrit/server/query/change/CherryPickOfRefPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-06-10T23:38:21Z",
+      "side": 1,
+      "message": "Same concern with not checking presence",
+      "range": {
+        "startLine": 35,
+        "startChar": 35,
+        "endLine": 35,
+        "endChar": 49
+      },
+      "revId": "55aa45af50cbb5fa716676325a9a2c94365dbf01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fbd467bf_f11c7a52",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-10T08:48:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec417b7b_06d80cd7",
+      "revId": "58cecc762c1ff7d4862f1d88d3c22ec7082beaa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9cfac85_34315b46",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2020-06-10T08:17:41Z",
       "side": 1,
       "message": "Add a comment that these events are expected to originate from the plugin endpoints.",
+      "revId": "58cecc762c1ff7d4862f1d88d3c22ec7082beaa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81265891_3d084190",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-10T08:48:47Z",
+      "side": 1,
+      "message": "hmm does it have to ? I actually thought the other way: core supports adding reviewer with event, and plugin can use it if they want, just like any other events",
+      "parentUuid": "d9cfac85_34315b46",
       "revId": "58cecc762c1ff7d4862f1d88d3c22ec7082beaa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "7bafe23d_ce90b6da",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-10T08:48:47Z",
+      "side": 1,
+      "message": "those two methods rely on a lot of `this.xxx`, but maybe I can abstract some basic logic and make them public. Actually this is a very good point, since owners should probably still fall into the same sanity checks as we have in gr-account-list, like `removable` etc",
+      "parentUuid": "05d07ea1_cb1d2775",
+      "revId": "58cecc762c1ff7d4862f1d88d3c22ec7082beaa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f6a2039_5616b17e",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.js",
         "patchSetId": 4
@@ -67,6 +121,24 @@
       "revId": "58cecc762c1ff7d4862f1d88d3c22ec7082beaa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4eda99f7_a7a697ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-10T08:48:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f6a2039_5616b17e",
+      "revId": "58cecc762c1ff7d4862f1d88d3c22ec7082beaa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

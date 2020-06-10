@@ -218,6 +218,11 @@ class GrDiffHost extends mixinBehaviors( [
         notify: true,
       },
 
+      _preFetchDiffPromise: {
+        type: Object,
+        value: null,
+      },
+
       /** @type {?Object} */
       _blame: {
         type: Object,
@@ -334,6 +339,7 @@ class GrDiffHost extends mixinBehaviors( [
 
     this._coverageRanges = [];
     this._getCoverageData();
+
     const diffRequest = this._getDiff()
         .then(diff => {
           this._loadedWhitespaceLevel = whitespaceLevel;
@@ -535,11 +541,23 @@ class GrDiffHost extends mixinBehaviors( [
         !this.noAutoRender;
   }
 
+  prefetchDiff() {
+    if (!!this.changeNum && !!this.patchRange && !!this.path) {
+      this._preFetchDiffPromise = null;
+      this._preFetchDiffPromise = this._getDiff();
+    }
+  }
+
   /** @return {!Promise<!Object>} */
   _getDiff() {
+    if (this._preFetchDiffPromise !== null) {
+      const getDiffPromise = this._preFetchDiffPromise;
+      this._preFetchDiffPromise = null;
+      return getDiffPromise;
+    }
     // Wrap the diff request in a new promise so that the error handler
     // rejects the promise, allowing the error to be handled in the .catch.
-    return new Promise((resolve, reject) => {
+    const getDiffPromise = new Promise((resolve, reject) => {
       this.$.restAPI.getDiff(
           this.changeNum,
           this.patchRange.basePatchNum,
@@ -549,6 +567,7 @@ class GrDiffHost extends mixinBehaviors( [
           reject)
           .then(resolve);
     });
+    return getDiffPromise;
   }
 
   _handleGetDiffError(response) {

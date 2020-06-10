@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ef5b24fe_cef0b74d",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-06-10T09:57:40Z",
+      "side": 1,
+      "message": "Thanks Ben for catching this. I found a very small bug in the test method (cmIgnore had a wrong key \"cm2Key\") that I fixed and rewrote this part to become more clear.\nI also added a 2nd test to differentiate between generic autogen tags vs. Gerrit\u0027s autogen tags.",
+      "parentUuid": "faa43a2c_13492929",
+      "revId": "78864c19d3f2933a8568dd01217a9171f6aef0ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "021e969d_54f3a93c",
         "filename": "java/com/google/gerrit/server/CommentsUtil.java",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "78864c19d3f2933a8568dd01217a9171f6aef0ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ea80bc9_e74358c6",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-06-10T09:57:40Z",
+      "side": 1,
+      "message": "Yes I think it makes more sense. Although the new patchset (and WIP) is the only use case that we need to ignore, I think it\u0027s better to exclude all Gerrit auto-generated tags.\nI modified the change accordingly.",
+      "parentUuid": "021e969d_54f3a93c",
+      "revId": "78864c19d3f2933a8568dd01217a9171f6aef0ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

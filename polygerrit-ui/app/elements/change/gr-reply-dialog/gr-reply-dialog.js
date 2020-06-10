@@ -295,6 +295,15 @@ class GrReplyDialog extends mixinBehaviors( [
     this.addEventListener('comment-editing-changed', e => {
       this._commentEditing = e.detail;
     });
+
+    this.addEventListener('add-reviewer', e => {
+      // Only support account type
+      this.$.reviewers.addAccountItem({account: e.detail.reviewer});
+    });
+
+    this.addEventListener('remove-reviewer', e => {
+      this.$.reviewers.removeAccount(e.detail.reviewer);
+    });
   }
 
   /** @override */

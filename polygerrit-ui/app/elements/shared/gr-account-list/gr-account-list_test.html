@@ -351,7 +351,7 @@ suite('gr-account-list tests', () => {
     element.readonly = true;
     const acct = makeAccount();
     element.accounts = [acct];
-    element._removeAccount(acct);
+    element.removeAccount(acct);
     assert.equal(element.accounts.length, 1);
   });
 
@@ -537,7 +537,7 @@ suite('gr-account-list tests', () => {
       element.accounts = [makeAccount(), makeAccount()];
       flush(() => {
         const focusSpy = sandbox.spy(element.accountChips[1], 'focus');
-        const removeSpy = sandbox.spy(element, '_removeAccount');
+        const removeSpy = sandbox.spy(element, 'removeAccount');
         MockInteractions.pressAndReleaseKeyOn(
             element.accountChips[0], 8); // Backspace
         assert.isTrue(focusSpy.called);

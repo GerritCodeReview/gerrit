@@ -108,6 +108,23 @@
     },
     {
       "key": {
+        "uuid": "dd0e67b2_c174bf0b",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersionCheck.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-06-10T20:21:01Z",
+      "side": 1,
+      "message": "This indeed takes the value of refs/meta/version if I understand the code in the\nNoteDbSchemaVersionManager.read well.",
+      "revId": "1a3d84f44416d75db30e6b075aa9792c2dfa5ec9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d3bdf5df_fa58302a",
         "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersionCheck.java",
         "patchSetId": 25

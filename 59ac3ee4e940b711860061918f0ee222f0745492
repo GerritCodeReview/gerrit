@@ -315,6 +315,30 @@
     },
     {
       "key": {
+        "uuid": "5e0d1cfa_854f1744",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1281,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-10T08:26:51Z",
+      "side": 1,
+      "message": "Note that my original comment referred to using camel case instead of hyphen notation. I don\u0027t want you to change from hideComments to showComments. That would be a misunderstanding.",
+      "parentUuid": "4b8832fb_c931e231",
+      "range": {
+        "startLine": 1281,
+        "startChar": 33,
+        "endLine": 1281,
+        "endChar": 46
+      },
+      "revId": "59ac3ee4e940b711860061918f0ee222f0745492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "06c0b53d_870bd560",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_html.js",
         "patchSetId": 2

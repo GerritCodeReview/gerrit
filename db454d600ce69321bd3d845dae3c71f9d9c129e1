@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87115911_8ee86d99",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2272,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-10T19:12:22Z",
+      "side": 1,
+      "message": "What Gerrit version has schema 182? Schema versions steps are not incremented by Gerrit version by one.",
+      "range": {
+        "startLine": 2272,
+        "startChar": 68,
+        "endLine": 2272,
+        "endChar": 69
+      },
+      "revId": "db454d600ce69321bd3d845dae3c71f9d9c129e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

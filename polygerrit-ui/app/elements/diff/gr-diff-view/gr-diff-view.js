@@ -1025,6 +1025,14 @@ class GrDiffView extends mixinBehaviors( [
     const {basePatchNum, patchNum} = e.detail;
     if (this.patchNumEquals(basePatchNum, this._patchRange.basePatchNum) &&
         this.patchNumEquals(patchNum, this._patchRange.patchNum)) { return; }
+    if (!this.patchNumEquals(basePatchNum, this._patchRange.basePatchNum)) {
+      this.reporting.reportInteraction('left-patchset-changed',
+          {previous: this._patchRange.basePatchNum, current: basePatchNum});
+    }
+    if (!this.patchNumEquals(patchNum, this._patchRange.patchNum)) {
+      this.reporting.reportInteraction('right-patchset-changed',
+          {previous: this._patchRange.patchNum, current: patchNum});
+    }
     GerritNav.navigateToDiff(
         this._change, this._path, patchNum, basePatchNum);
   }

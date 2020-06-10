@@ -35,6 +35,7 @@ import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patc
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {GrFileListConstants} from '../gr-file-list-constants.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {appContext} from '../../../services/app-context.js';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -116,6 +117,11 @@ class GrFileListHeader extends mixinBehaviors( [
       },
       revisionInfo: Object,
     };
+  }
+
+  constructor() {
+    super();
+    this.reporting = appContext.reportingService;
   }
 
   static get observers() {
@@ -240,6 +246,14 @@ class GrFileListHeader extends mixinBehaviors( [
     const {basePatchNum, patchNum} = e.detail;
     if (this.patchNumEquals(basePatchNum, this.basePatchNum) &&
         this.patchNumEquals(patchNum, this.patchNum)) { return; }
+    if (!this.patchNumEquals(basePatchNum, this.basePatchNum)) {
+      this.reporting.reportInteraction('left-patchset-changed',
+          {previous: this.basePatchNum, current: basePatchNum});
+    }
+    if (!this.patchNumEquals(patchNum, this.patchNum)) {
+      this.reporting.reportInteraction('right-patchset-changed',
+          {previous: this.patchNum, current: patchNum});
+    }
     GerritNav.navigateToChange(this.change, patchNum, basePatchNum);
   }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6262ad06_a4a16aca",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/ListChangeCommentsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-10T13:33:15Z",
+      "side": 1,
+      "message": "This decreases readability in the test.\n\nThe idea of central places for static string variables like this is that you can change only one place and all the logic will be adapted at once. That makes sense for production code sometimes, even when it comes at the cost of decreased readability (as in ChangeMessageUtil), but the same argument doesn\u0027t hold true for tests.\n\nFor a test, one wants to quickly understand why it\u0027s failing. To aid that, it\u0027s better to duplicate strings or logic sometimes to increase readability. As a general guide, most tests should be readable on their own without following many references.\n\nI would just inline it. If you choose a date that is easier readably by humans, that\u0027d be even better:\n\nExample:\n\n1970-01-01 00:00\n1970-01-01 00:01\n\nand so on.",
+      "revId": "8a26cf50a46a8d198c8b45c70614800ff4d7a466",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

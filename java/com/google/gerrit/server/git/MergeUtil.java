@@ -568,10 +568,8 @@ public class MergeUtil {
       final Account acc = identifiedUserFactory.create(a.accountId()).getAccount();
       final StringBuilder identbuf = new StringBuilder();
       if (acc.fullName() != null && acc.fullName().length() > 0) {
-        if (identbuf.length() > 0) {
-          identbuf.append(' ');
-        }
-        identbuf.append(acc.fullName());
+        identbuf.append(acc.fullName());  // ö what about this?
+        // if (true) throw new RuntimeException("foo");
       }
       if (acc.preferredEmail() != null && acc.preferredEmail().length() > 0) {
         if (isSignedOffBy(footers, acc.preferredEmail())) {
@@ -581,7 +579,7 @@ public class MergeUtil {
           identbuf.append(' ');
         }
         identbuf.append('<');
-        identbuf.append(acc.preferredEmail());
+        identbuf.append(acc.preferredEmail());  // ö and this!?
         identbuf.append('>');
       }
       if (identbuf.length() == 0) {

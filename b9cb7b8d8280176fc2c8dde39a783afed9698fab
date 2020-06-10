@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7f80a38_be7ebcad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-06-10T14:56:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13f1b35d_dd7e7b30",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 70
+      },
+      "revId": "b9cb7b8d8280176fc2c8dde39a783afed9698fab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36942214_1fc7e850",
         "filename": "java/com/google/gerrit/server/ChangeMessagesUtil.java",
         "patchSetId": 3

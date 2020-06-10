@@ -267,6 +267,30 @@
     },
     {
       "key": {
+        "uuid": "e1fc6bd5_d073ce62",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1281,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-10T08:10:32Z",
+      "side": 1,
+      "message": "Blame is different since we want to hide it by default.\n\nIf I implement showComments class, then I must add it by default to the diff-view.js and then in comment-threads check if this css variable is set or not.\n\nI assume the showComments css class will be implemented as\n\nshowComments : {\n    --gr-comment-thread-display: block;\n}\nWhat I don\u0027t understand is how I can set it to \"none\" once I remove this class.\nProbably the css in comment-threads is display: var(--gr-comment-thread-display, none);\n\nThis means anyone else using gr-comment-threads must remember to set this css-variable or else they will not see the comments.\nWe probably want developers to explicitly hide comments vs setting them to visible by default IIUC.\n\nI might be wrong in this.",
+      "parentUuid": "71f0dd10_7839d386",
+      "range": {
+        "startLine": 1281,
+        "startChar": 33,
+        "endLine": 1281,
+        "endChar": 46
+      },
+      "revId": "59ac3ee4e940b711860061918f0ee222f0745492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "06c0b53d_870bd560",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_html.js",
         "patchSetId": 2

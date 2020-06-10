@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "88a388ab_7537d5fc",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 2134,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-10T19:19:06Z",
+      "side": 1,
+      "message": "That\u0027s the wrong assumption: in the above example N was the Gerrit version.\nWith regards to schemas, they don\u0027t exist anymore since we migrated to NoteDb. We have the refs/meta/version that doesn\u0027t correspond to the Gerrit version.",
+      "parentUuid": "5d8dd096_93d57733",
+      "range": {
+        "startLine": 2134,
+        "startChar": 66,
+        "endLine": 2134,
+        "endChar": 69
+      },
+      "revId": "1a3d84f44416d75db30e6b075aa9792c2dfa5ec9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "921b9d2f_6be2d1d1",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 25
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "78a2a114_7d0a1fd7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 2136,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-10T19:19:06Z",
+      "side": 1,
+      "message": "No, N was the Gerrit version (not the refs/meta/version value).\nI would rather propose to remove the refs/meta/version reference in the documentation, as it is misleading.\n\nIt was added after the reviews, but I see that confuses the message even more.",
+      "parentUuid": "921b9d2f_6be2d1d1",
+      "revId": "1a3d84f44416d75db30e6b075aa9792c2dfa5ec9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d3bdf5df_fa58302a",
         "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersionCheck.java",
         "patchSetId": 25
@@ -53,6 +95,30 @@
       "writtenOn": "2020-06-10T15:48:33Z",
       "side": 1,
       "message": "This is true also when current - expected \u003e 1 i.e. this allows jumps from schema version\nN to schema version N + k, where k \u003e 1.",
+      "range": {
+        "startLine": 67,
+        "startChar": 10,
+        "endLine": 67,
+        "endChar": 28
+      },
+      "revId": "1a3d84f44416d75db30e6b075aa9792c2dfa5ec9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7b717b7_a445ab34",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersionCheck.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-10T19:19:06Z",
+      "side": 1,
+      "message": "No, the next Gerrit version *IS NOT* the current refs/meta/version + 1.",
+      "parentUuid": "d3bdf5df_fa58302a",
       "range": {
         "startLine": 67,
         "startChar": 10,

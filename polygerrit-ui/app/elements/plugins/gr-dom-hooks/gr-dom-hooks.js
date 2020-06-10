@@ -14,12 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 const $_documentContainer = document.createElement('template');
 
-$_documentContainer.innerHTML = `<dom-module id="gr-dom-hooks">
-  
-</dom-module>`;
+$_documentContainer.innerHTML = `<dom-module id="gr-dom-hooks"></dom-module>`;
 
 document.head.appendChild($_documentContainer.content);
 
@@ -61,13 +59,18 @@ export function GrDomHook(hookName, opt_moduleName) {
 }
 
 GrDomHook.prototype._createPlaceholder = function(hookName) {
-  Polymer({
-    is: hookName,
-    properties: {
-      plugin: Object,
-      content: Object,
-    },
-  });
+  class HookPlaceholder extends PolymerElement {
+    static get is() { return hookName; }
+
+    static get properties() {
+      return {
+        plugin: Object,
+        content: Object,
+      };
+    }
+  }
+
+  customElements.define(HookPlaceholder.is, HookPlaceholder);
 };
 
 GrDomHook.prototype.handleInstanceDetached = function(instance) {

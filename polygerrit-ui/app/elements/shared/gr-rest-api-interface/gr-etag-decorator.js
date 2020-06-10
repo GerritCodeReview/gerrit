@@ -14,13 +14,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-const $_documentContainer = document.createElement('template');
-
-$_documentContainer.innerHTML = `<dom-module id="gr-etag-decorator">
-  
-</dom-module>`;
-
-document.head.appendChild($_documentContainer.content);
 
 // Limit cache size because /change/detail responses may be large.
 const MAX_CACHE_SIZE = 30;

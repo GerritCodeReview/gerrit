@@ -16,13 +16,6 @@
  */
 import '../../settings/gr-settings-view/gr-settings-item.js';
 import '../../settings/gr-settings-view/gr-settings-menu-item.js';
-const $_documentContainer = document.createElement('template');
-
-$_documentContainer.innerHTML = `<dom-module id="gr-settings-api">
-  
-</dom-module>`;
-
-document.head.appendChild($_documentContainer.content);
 
 /** @constructor */
 export function GrSettingsApi(plugin) {

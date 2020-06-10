@@ -14,10 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-Polymer({
-  _template: html`
+
+class CustomPluginHeader extends PolymerElement {
+  static get is() {
+    return 'gr-custom-plugin-header';
+  }
+
+  static get properties() {
+    return {
+      logoUrl: String,
+      title: String,
+    };
+  }
+
+  static get template() {
+    return html`
     <style>
       img {
         width: 1em;
@@ -32,12 +45,8 @@ Polymer({
       <img src="[[logoUrl]]" hidden\$="[[!logoUrl]]">
       <span class="title">[[title]]</span>
     </span>
-`,
+`;
+  }
+}
 
-  is: 'gr-custom-plugin-header',
-
-  properties: {
-    logoUrl: String,
-    title: String,
-  },
-});
+customElements.define(CustomPluginHeader.is, CustomPluginHeader);

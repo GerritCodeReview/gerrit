@@ -15,13 +15,6 @@
  * limitations under the License.
  */
 import './gr-plugin-repo-command.js';
-const $_documentContainer = document.createElement('template');
-
-$_documentContainer.innerHTML = `<dom-module id="gr-repo-api">
-  
-</dom-module>`;
-
-document.head.appendChild($_documentContainer.content);
 
 /** @constructor */
 export function GrRepoApi(plugin) {

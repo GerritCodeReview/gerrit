@@ -16,13 +16,6 @@
  */
 import './gr-plugin-popup.js';
 import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-const $_documentContainer = document.createElement('template');
-
-$_documentContainer.innerHTML = `<dom-module id="gr-popup-interface">
-  
-</dom-module>`;
-
-document.head.appendChild($_documentContainer.content);
 
 /**
  * Plugin popup API.

@@ -95,6 +95,7 @@ suite('gr-file-list tests', () => {
       });
       stub('gr-diff-host', {
         reload() { return Promise.resolve(); },
+        prefetchDiff() {},
       });
 
       // Element must be wrapped in an element with direct access to the

@@ -218,6 +218,11 @@ class GrDiffHost extends mixinBehaviors( [
         notify: true,
       },
 
+      _xhrDiffPromise: {
+        type: Object,
+        value: null,
+      },
+
       /** @type {?Object} */
       _blame: {
         type: Object,
@@ -309,6 +314,10 @@ class GrDiffHost extends mixinBehaviors( [
     });
   }
 
+  prefetchDiff() {
+    this._xhrDiffPromise = this._getDiff();
+  }
+
   /**
    * @param {boolean=} shouldReportMetric indicate a new Diff Page. This is a
    * signal to report metrics event that started on location change.
@@ -334,7 +343,11 @@ class GrDiffHost extends mixinBehaviors( [
 
     this._coverageRanges = [];
     this._getCoverageData();
-    const diffRequest = this._getDiff()
+
+    const diffPromise = this._xhrDiffPromise !== null ? this._xhrDiffPromise :
+      this._getDiff();
+    this._xhrDiffPromise = null;
+    const diffRequest = diffPromise
         .then(diff => {
           this._loadedWhitespaceLevel = whitespaceLevel;
           this._reportDiff(diff);

@@ -46,6 +46,30 @@
       "revId": "0f42dde4c5f45b5077516fe488823c3bae2cd5fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb82b37e_08bc924a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1255,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-10T08:48:25Z",
+      "side": 1,
+      "message": "oh my bad. somehow I read it as `this fix` :( . I think its just not very clear to me how that relates to the line below. If i read the code without this change as the context, if we need some comment, I would expect it to be something relate to why we need to call `reInitAndUpdateStops` here. And if you really need to refer to this change or some issue, maybe just use either `@see Issue xx` or `@see Change xxx` for more context. Just don\u0027t see why you need to repeat the commit message here.",
+      "parentUuid": "d9be8f69_4f38b7cb",
+      "range": {
+        "startLine": 1248,
+        "startChar": 0,
+        "endLine": 1255,
+        "endChar": 68
+      },
+      "revId": "0f42dde4c5f45b5077516fe488823c3bae2cd5fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

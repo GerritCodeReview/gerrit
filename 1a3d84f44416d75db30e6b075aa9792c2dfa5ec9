@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "7701b633_ad2b8fbc",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 2134,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-10T21:51:57Z",
+      "side": 1,
+      "message": "The \"N\" and \"N+1\" is misleading. I would just say \"Gerrit version\" and \"next minor Gerrit version\". E\u0027g\u0027 3.N and 3.N+1",
+      "parentUuid": "4f588c4c_c5dcb778",
+      "range": {
+        "startLine": 2134,
+        "startChar": 66,
+        "endLine": 2134,
+        "endChar": 69
+      },
+      "revId": "1a3d84f44416d75db30e6b075aa9792c2dfa5ec9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "921b9d2f_6be2d1d1",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 25
@@ -119,6 +143,24 @@
       "writtenOn": "2020-06-10T20:21:01Z",
       "side": 1,
       "message": "This indeed takes the value of refs/meta/version if I understand the code in the\nNoteDbSchemaVersionManager.read well.",
+      "revId": "1a3d84f44416d75db30e6b075aa9792c2dfa5ec9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8edb7679_623b3a29",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersionCheck.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-10T21:51:57Z",
+      "side": 1,
+      "message": "Yes, that\u0027s why we can only check \u0027\u003e\u0027 and not \u0027\u003d\u0027: we don\u0027t know what will be the refs/meta/version of the next version.",
+      "parentUuid": "dd0e67b2_c174bf0b",
       "revId": "1a3d84f44416d75db30e6b075aa9792c2dfa5ec9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -184,6 +226,30 @@
       "side": 1,
       "message": "What is the next version and how do you make sure that it is only increment by one\nfrom the current version?",
       "parentUuid": "e7b717b7_a445ab34",
+      "range": {
+        "startLine": 67,
+        "startChar": 10,
+        "endLine": 67,
+        "endChar": 28
+      },
+      "revId": "1a3d84f44416d75db30e6b075aa9792c2dfa5ec9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef762562_af31f084",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersionCheck.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-10T21:51:57Z",
+      "side": 1,
+      "message": "You are never sure of what is the next version: do you know what will be the next refs/meta/version number of 3.3? I do not have the crystal ball and therefore I don\u0027t know. You do not even know if rolling upgrade will be possible or not: that is why the documentation says to check the release notes of the next Gerrit version on the \"Rolling upgrade\" section.",
+      "parentUuid": "e4ba8806_5909e708",
       "range": {
         "startLine": 67,
         "startChar": 10,

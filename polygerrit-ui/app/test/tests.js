@@ -245,7 +245,6 @@ const scripts = [
   'gr-group-suggestions-provider/gr-group-suggestions-provider_test.html',
   'gr-display-name-utils/gr-display-name-utils_test.html',
   'gr-email-suggestions-provider/gr-email-suggestions-provider_test.html',
-  'util_test.html',
 ];
 /* eslint-enable max-len */
 for (let file of scripts) {

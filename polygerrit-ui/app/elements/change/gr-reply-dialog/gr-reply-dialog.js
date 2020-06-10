@@ -295,6 +295,19 @@ class GrReplyDialog extends mixinBehaviors( [
     this.addEventListener('comment-editing-changed', e => {
       this._commentEditing = e.detail;
     });
+
+    // Plugins on reply-reviewers endpoint can take advantage of these
+    // events to add / remove reviewers
+
+    this.addEventListener('add-reviewer', e => {
+      // Only support account type, see more from:
+      // elements/shared/gr-account-list/gr-account-list.js#addAccountItem
+      this.$.reviewers.addAccountItem({account: e.detail.reviewer});
+    });
+
+    this.addEventListener('remove-reviewer', e => {
+      this.$.reviewers.removeAccount(e.detail.reviewer);
+    });
   }
 
   /** @override */

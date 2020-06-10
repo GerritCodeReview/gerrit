@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "0f53b7e0_7ca95c5c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-10T18:37:40Z",
+      "side": 1,
+      "message": "Thanks for checking, I didn\u0027t tried it. But I will see it in logs once this is deployed and it is triggered 😊",
+      "parentUuid": "26840882_f5cdfef9",
+      "range": {
+        "startLine": 1030,
+        "startChar": 26,
+        "endLine": 1030,
+        "endChar": 37
+      },
+      "revId": "c6f4aa27c25882aca340d2defadb995c84c18dec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ee0021f_d04265c3",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 1
@@ -93,6 +117,30 @@
       "revId": "c6f4aa27c25882aca340d2defadb995c84c18dec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "acbfdf07_a3ab2fe3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1034,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-10T18:37:40Z",
+      "side": 1,
+      "message": "Probably they cannot be changed at once now, but you never know when this will be changed. Also yours else expected that either left or right was changed, but that also can be changed. \n\nI think my suggestion will make this more general and robust.",
+      "parentUuid": "1e83625f_af63295e",
+      "range": {
+        "startLine": 1028,
+        "startChar": 4,
+        "endLine": 1034,
+        "endChar": 5
+      },
+      "revId": "c6f4aa27c25882aca340d2defadb995c84c18dec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

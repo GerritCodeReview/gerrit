@@ -25,6 +25,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-patch-range-select_html.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
+import {appContext} from '../../../services/app-context.js';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -76,6 +77,11 @@ class GrPatchRangeSelect extends mixinBehaviors( [
     return [
       '_updateSortedRevisions(revisions.*)',
     ];
+  }
+
+  constructor() {
+    super();
+    this.reporting = appContext.reportingService;
   }
 
   _getShaForPatch(patch) {
@@ -285,8 +291,14 @@ class GrPatchRangeSelect extends mixinBehaviors( [
     const target = dom(e).localTarget;
 
     if (target === this.$.patchNumDropdown) {
+      if (detail.patchNum === e.detail.value) return;
+      this.reporting.reportInteraction('right-patchset-changed',
+          {previous: detail.patchNum, current: e.detail.value});
       detail.patchNum = e.detail.value;
     } else {
+      if (detail.basePatchNum === e.detail.value) return;
+      this.reporting.reportInteraction('left-patchset-changed',
+          {previous: detail.basePatchNum, current: e.detail.value});
       detail.basePatchNum = e.detail.value;
     }
 

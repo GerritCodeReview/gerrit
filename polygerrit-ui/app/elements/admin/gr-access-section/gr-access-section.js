@@ -83,7 +83,15 @@
     },
 
     _updateSection(section) {
-      this._permissions = this.toSortedArray(section.value.permissions);
+      let permissions = this.toSortedArray(section.value.permissions);
+      // We do not care about permissions for global capabilities that are not
+      // currently supported by the server (f.i. capabilities provided by
+      // plugins that are no longer installed).
+      if (section.id === GLOBAL_NAME) {
+        permissions = permissions.filter(
+            p => this.capabilities.hasOwnProperty(p.id));
+      }
+      this._permissions = permissions;
       this._originalId = section.id;
     },
 

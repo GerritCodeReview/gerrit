@@ -329,6 +329,24 @@ limitations under the License.
             default_value: 0,
           },
         };
+        element.capabilities = {
+          accessDatabase: {
+            id: 'accessDatabase',
+            name: 'Access Database',
+          },
+          administrateServer: {
+            id: 'administrateServer',
+            name: 'Administrate Server',
+          },
+          batchChangesLimit: {
+            id: 'batchChangesLimit',
+            name: 'Batch Changes Limit',
+          },
+          createAccount: {
+            id: 'createAccount',
+            name: 'Create Account',
+          },
+        };
       });
       suite('Global section', () => {
         setup(() => {
@@ -340,24 +358,6 @@ limitations under the License.
                   rules: {},
                 },
               },
-            },
-          };
-          element.capabilities = {
-            accessDatabase: {
-              id: 'accessDatabase',
-              name: 'Access Database',
-            },
-            administrateServer: {
-              id: 'administrateServer',
-              name: 'Administrate Server',
-            },
-            batchChangesLimit: {
-              id: 'batchChangesLimit',
-              name: 'Batch Changes Limit',
-            },
-            createAccount: {
-              id: 'createAccount',
-              name: 'Create Account',
             },
           };
           element._updateSection(element.section);
@@ -387,7 +387,6 @@ limitations under the License.
               },
             },
           };
-          element.capabilities = {};
           element._updateSection(element.section);
           flushAsynchronousOperations();
         });

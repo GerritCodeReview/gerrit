@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47a5c5c4_e96983a5",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-10T08:08:27Z",
+      "side": 1,
+      "message": "just saw this when import, its not recommended to use `this._compareThreads` directly in function callback as it may change the context when its invoked, so the code may break if you have `this` used in the `_compareThreads` now or future. Its recommended to use `(thread1, thread2) \u003d\u003e this._compareThreads(thread1, thread2)` instead to keep the reference of `this`",
+      "range": {
+        "startLine": 181,
+        "startChar": 47,
+        "endLine": 181,
+        "endChar": 67
+      },
+      "revId": "03b28ae63bbfa5a04e5846648f60c781a2f2d5f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

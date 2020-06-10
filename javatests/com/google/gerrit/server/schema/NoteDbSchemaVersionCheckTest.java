@@ -76,4 +76,23 @@ public class NoteDbSchemaVersionCheckTest {
     versionCheck.start();
     // No exceptions should be thrown
   }
+
+  @Test
+  public void
+      shouldFailWithExperimentalRollingUpgradeEnabledAndCurrentVersionIsTwoMoreThanExpected()
+          throws IOException {
+    Config gerritConfig = new Config();
+    gerritConfig.setBoolean("gerrit", null, "experimentalRollingUpgrade", true);
+    versionManager.increment(NoteDbSchemaVersions.LATEST);
+    versionManager.increment(NoteDbSchemaVersions.LATEST + 1);
+
+    ProvisionException e =
+        assertThrows(
+            ProvisionException.class,
+            () -> new NoteDbSchemaVersionCheck(versionManager, sitePaths, gerritConfig).start());
+
+    assertThat(e)
+        .hasMessageThat()
+        .contains("Unsupported schema version " + (NoteDbSchemaVersions.LATEST + 2));
+  }
 }

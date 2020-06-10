@@ -64,7 +64,7 @@ public class NoteDbSchemaVersionCheck implements LifecycleListener {
       }
       int expected = NoteDbSchemaVersions.LATEST;
 
-      if (current > expected
+      if (current == expected + 1
           && gerritConfig.getBoolean("gerrit", "experimentalRollingUpgrade", false)) {
         logger.atWarning().log(
             "Gerrit has detected refs/meta/version %d different than the expected %d."

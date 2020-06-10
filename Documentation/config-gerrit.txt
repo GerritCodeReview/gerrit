@@ -2269,7 +2269,7 @@ Defaults to the full hostname of the Gerrit server.
 +
 Enable Gerrit rolling upgrade to the next version.
 For example if Gerrit v3.1 is version N (All-Projects:refs/meta/version=181)
-then its next version N+1 is v3.2 (All-Projects:refs/meta/version=183).
+then its next version N+1 is v3.2 (All-Projects:refs/meta/version=182).
 Allow Gerrit to start even if the underlying schema version has been bumped to
 the next Gerrit version.
 +

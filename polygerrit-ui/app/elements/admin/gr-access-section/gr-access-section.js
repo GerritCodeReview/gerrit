@@ -83,7 +83,11 @@
     },
 
     _updateSection(section) {
-      this._permissions = this.toSortedArray(section.value.permissions);
+      let permissions = this.toSortedArray(section.value.permissions);
+      if (section.id === GLOBAL_NAME) {
+        permissions = permissions.filter(p => p.id in this.capabilities);
+      }
+      this._permissions = permissions;
       this._originalId = section.id;
     },
 

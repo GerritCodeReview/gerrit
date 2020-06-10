@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6df0ea6_ad90fcdc",
+        "filename": "javatests/com/google/gerrit/server/cache/h2/H2CacheTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-10T08:39:14Z",
+      "side": 1,
+      "message": "This causes a warning:\n\n  Type safety: A generic array of CacheLoader\u003cString,String\u003e is created for a varargs parameter\n\nIs this line actually needed?  The test still seems to pass if I remove it.",
+      "range": {
+        "startLine": 193,
+        "startChar": 4,
+        "endLine": 193,
+        "endChar": 18
+      },
+      "revId": "ef9fafd8f911114dfe102bb446a4d7c3b0c3edfc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

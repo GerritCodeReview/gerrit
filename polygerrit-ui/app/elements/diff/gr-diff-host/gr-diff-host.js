@@ -218,6 +218,11 @@ class GrDiffHost extends mixinBehaviors( [
         notify: true,
       },
 
+      _fetchDiffPromise: {
+        type: Object,
+        value: null,
+      },
+
       /** @type {?Object} */
       _blame: {
         type: Object,
@@ -535,8 +540,21 @@ class GrDiffHost extends mixinBehaviors( [
         !this.noAutoRender;
   }
 
+  // TODO(milutin): Use rest-api with fetchCacheURL instead of this.
+  prefetchDiff() {
+    if (!!this.changeNum && !!this.patchRange && !!this.path
+        && this._fetchDiffPromise === null) {
+      this._fetchDiffPromise = this._getDiff();
+    }
+  }
+
   /** @return {!Promise<!Object>} */
   _getDiff() {
+    if (this._fetchDiffPromise !== null) {
+      const fetchDiffPromise = this._fetchDiffPromise;
+      this._fetchDiffPromise = null;
+      return fetchDiffPromise;
+    }
     // Wrap the diff request in a new promise so that the error handler
     // rejects the promise, allowing the error to be handled in the .catch.
     return new Promise((resolve, reject) => {
@@ -906,6 +924,7 @@ class GrDiffHost extends mixinBehaviors( [
       return;
     }
 
+    this._fetchDiffPromise = null;
     if (preferredWhitespaceLevel !== loadedWhitespaceLevel &&
         !noRenderOnPrefsChange) {
       this.reload();

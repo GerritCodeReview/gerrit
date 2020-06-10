@@ -178,8 +178,8 @@ class GrThreadList extends GestureEventListeners(
 
     const threadsWithInfo = threads
         .map(thread => this._getThreadWithStatusInfo(thread));
-    this._sortedThreads = threadsWithInfo.sort(this._compareThreads).map(
-        threadInfo => threadInfo.thread);
+    this._sortedThreads = threadsWithInfo.sort((t1, t2) =>
+      this._compareThreads(t1, t2)).map(threadInfo => threadInfo.thread);
   }
 
   _isFirstThreadWithFileName(sortedThreads, thread, unresolvedOnly, draftsOnly,

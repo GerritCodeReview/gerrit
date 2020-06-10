@@ -291,6 +291,30 @@
     },
     {
       "key": {
+        "uuid": "4b8832fb_c931e231",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1281,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-10T08:24:45Z",
+      "side": 1,
+      "message": "\u003ccomment-thread\u003e has currently in the latest patchset:\n\n  display: var(--gr-comment-thread-display, block);\n\nDo you want to change that?\n\nIt looks like everything is working fine at the moment. What is the problem that you are trying to solve? Why do you want to implement \"showComments\"? Does \"hideComments\" not work?",
+      "parentUuid": "e1fc6bd5_d073ce62",
+      "range": {
+        "startLine": 1281,
+        "startChar": 33,
+        "endLine": 1281,
+        "endChar": 46
+      },
+      "revId": "59ac3ee4e940b711860061918f0ee222f0745492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "06c0b53d_870bd560",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_html.js",
         "patchSetId": 2

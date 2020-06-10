@@ -158,10 +158,10 @@ class GrAccountList extends GestureEventListeners(
   }
 
   _handleAdd(e) {
-    this._addAccountItem(e.detail.value);
+    this.addAccountItem(e.detail.value);
   }
 
-  _addAccountItem(item) {
+  addAccountItem(item) {
     // Append new account or group to the accounts property. We add our own
     // internal properties to the account/group here, so we clone the object
     // to avoid cluttering up the shared change object.
@@ -248,11 +248,11 @@ class GrAccountList extends GestureEventListeners(
 
   _handleRemove(e) {
     const toRemove = e.detail.account;
-    this._removeAccount(toRemove);
+    this.removeAccount(toRemove);
     this.$.entry.focus();
   }
 
-  _removeAccount(toRemove) {
+  removeAccount(toRemove) {
     if (!toRemove || !this._computeRemovable(toRemove, this.readonly)) {
       return;
     }
@@ -286,7 +286,7 @@ class GrAccountList extends GestureEventListeners(
     }
     switch (e.detail.keyCode) {
       case 8: // Backspace
-        this._removeAccount(this.accounts[this.accounts.length - 1]);
+        this.removeAccount(this.accounts[this.accounts.length - 1]);
         break;
       case 37: // Left arrow
         if (this.accountChips[this.accountChips.length - 1]) {
@@ -305,7 +305,7 @@ class GrAccountList extends GestureEventListeners(
       case 13: // Enter
       case 32: // Spacebar
       case 46: // Delete
-        this._removeAccount(chip.account);
+        this.removeAccount(chip.account);
         // Splice from this array to avoid inconsistent ordering of
         // event handling.
         chips.splice(index, 1);
@@ -345,7 +345,7 @@ class GrAccountList extends GestureEventListeners(
   submitEntryText() {
     const text = this.$.entry.getText();
     if (!text.length) { return true; }
-    const wasSubmitted = this._addAccountItem(text);
+    const wasSubmitted = this.addAccountItem(text);
     if (wasSubmitted) { this.$.entry.clear(); }
     return wasSubmitted;
   }

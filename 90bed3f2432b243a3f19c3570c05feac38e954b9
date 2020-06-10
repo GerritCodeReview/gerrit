@@ -45,6 +45,30 @@
       "revId": "90bed3f2432b243a3f19c3570c05feac38e954b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a59efc1d_96697ff3",
+        "filename": "java/com/google/gerrit/sshd/DatabasePubKeyAuth.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-10T00:33:03Z",
+      "side": 1,
+      "message": "I think it\u0027s OK like this.",
+      "parentUuid": "967414f3_532de519",
+      "range": {
+        "startLine": 205,
+        "startChar": 30,
+        "endLine": 205,
+        "endChar": 33
+      },
+      "revId": "90bed3f2432b243a3f19c3570c05feac38e954b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

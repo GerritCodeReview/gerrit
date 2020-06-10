@@ -16,6 +16,24 @@
       "revId": "8a26cf50a46a8d198c8b45c70614800ff4d7a466",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d41a84f_60c49461",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/ListChangeCommentsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-06-10T14:18:51Z",
+      "side": 1,
+      "message": "Done. Thanks a lot for your detailed explanation.\n\nI preferred to keep the tests with the short seconds \"ss\" value for more readability, also to reduce the statement lengths. The base prefix of the date does not influence the test correctness.",
+      "parentUuid": "6262ad06_a4a16aca",
+      "revId": "8a26cf50a46a8d198c8b45c70614800ff4d7a466",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

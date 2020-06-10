@@ -49,7 +49,6 @@
       },
       comments: {
         type: Object,
-        observer: '_commentsChanged',
       },
       config: Object,
       hideAutomated: {
@@ -149,17 +148,6 @@
 
     _computeExpanded(expanded) {
       return expanded;
-    },
-
-    /**
-     * If there is no value set on the message object as to whether _expanded
-     * should be true or not, then _expanded is set to true if there are
-     * inline comments (otherwise false).
-     */
-    _commentsChanged(value) {
-      if (this.message && this.message.expanded === undefined) {
-        this.set('message.expanded', Object.keys(value || {}).length > 0);
-      }
     },
 
     _handleClick(e) {

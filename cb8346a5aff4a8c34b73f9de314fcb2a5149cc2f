@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3876f86e_40214e49",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-06-10T21:38:06Z",
+      "side": 1,
+      "message": "Since StorageException wasn\u0027t previously handled differently from other RuntimeExceptions, I wouldn\u0027t modify its behavior in this change. If you think it should be handled differently, maybe upload a new change explaining that?",
+      "range": {
+        "startLine": 188,
+        "startChar": 6,
+        "endLine": 191,
+        "endChar": 5
+      },
+      "revId": "cb8346a5aff4a8c34b73f9de314fcb2a5149cc2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

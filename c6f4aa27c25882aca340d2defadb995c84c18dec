@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "26840882_f5cdfef9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-10T16:33:10Z",
+      "side": 1,
+      "message": "I did test it by refreshing and it\u0027s not triggered.\nWas it triggered for you during the initial load?",
+      "parentUuid": "efc699ca_4f3eec0a",
+      "range": {
+        "startLine": 1030,
+        "startChar": 26,
+        "endLine": 1030,
+        "endChar": 37
+      },
+      "revId": "c6f4aa27c25882aca340d2defadb995c84c18dec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ee0021f_d04265c3",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "c6f4aa27c25882aca340d2defadb995c84c18dec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e83625f_af63295e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1034,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-10T16:33:10Z",
+      "side": 1,
+      "message": "Both cannot be changed at once right?\nAs soon as you change one, the page reloads and the event is fired.",
+      "parentUuid": "3ee0021f_d04265c3",
+      "range": {
+        "startLine": 1028,
+        "startChar": 4,
+        "endLine": 1034,
+        "endChar": 5
+      },
+      "revId": "c6f4aa27c25882aca340d2defadb995c84c18dec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

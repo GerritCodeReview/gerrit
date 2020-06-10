@@ -1348,7 +1348,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     } else if (getSubmitType() == SubmitType.REBASE_ALWAYS) {
       assertThat(last).startsWith("Change has been successfully rebased and submitted as");
     } else {
-      assertThat(last).isEqualTo("Change has been successfully merged by Administrator");
+      assertThat(last).isEqualTo("Change has been successfully merged by Gerrit User 1000000");
     }
   }
 

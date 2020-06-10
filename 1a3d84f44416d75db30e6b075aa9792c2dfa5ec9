@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "4f588c4c_c5dcb778",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 2134,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-06-10T20:10:51Z",
+      "side": 1,
+      "message": "\u003e That\u0027s the wrong assumption: in the above example N was the Gerrit version.\nIf N represents a Gerrit version then how do we compute N+1?\nAnd what is N+2? How do we ensure that rolling update is only possible from\nN to N+1 but not from N to N+2?",
+      "parentUuid": "88a388ab_7537d5fc",
+      "range": {
+        "startLine": 2134,
+        "startChar": 66,
+        "endLine": 2134,
+        "endChar": 69
+      },
+      "revId": "1a3d84f44416d75db30e6b075aa9792c2dfa5ec9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "921b9d2f_6be2d1d1",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 25
@@ -119,6 +143,30 @@
       "side": 1,
       "message": "No, the next Gerrit version *IS NOT* the current refs/meta/version + 1.",
       "parentUuid": "d3bdf5df_fa58302a",
+      "range": {
+        "startLine": 67,
+        "startChar": 10,
+        "endLine": 67,
+        "endChar": 28
+      },
+      "revId": "1a3d84f44416d75db30e6b075aa9792c2dfa5ec9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4ba8806_5909e708",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersionCheck.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-06-10T20:10:51Z",
+      "side": 1,
+      "message": "What is the next version and how do you make sure that it is only increment by one\nfrom the current version?",
+      "parentUuid": "e7b717b7_a445ab34",
       "range": {
         "startLine": 67,
         "startChar": 10,

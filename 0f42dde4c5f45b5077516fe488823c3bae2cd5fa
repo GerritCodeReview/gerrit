@@ -22,6 +22,30 @@
       "revId": "0f42dde4c5f45b5077516fe488823c3bae2cd5fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9be8f69_4f38b7cb",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1255,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-10T08:35:29Z",
+      "side": 1,
+      "message": "There is actually no reference to `this fix`.\nInstead the wording is `the fix` which is a nice and subtle difference. 😊\n\nI described the bug and the reason why we are doing this. Code comment is explaining the code itself.\nIs there any part of the comment that is not relevant to why we are using reInitAndUpdateStops?",
+      "parentUuid": "7d1d8560_727a7113",
+      "range": {
+        "startLine": 1248,
+        "startChar": 0,
+        "endLine": 1255,
+        "endChar": 68
+      },
+      "revId": "0f42dde4c5f45b5077516fe488823c3bae2cd5fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

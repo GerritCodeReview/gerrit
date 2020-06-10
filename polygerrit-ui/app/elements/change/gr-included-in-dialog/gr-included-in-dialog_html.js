@@ -73,12 +73,15 @@ export const htmlTemplate = html`
         >Close</gr-button
       >
     </span>
-    <iron-input placeholder="Filter" on-bind-value-changed="_onFilterChanged">
+    <iron-input
+      id="filterInput"
+      placeholder="Filter"
+      bind-value="{{_filterText}}"
+    >
       <input
-        id="filterInput"
         is="iron-input"
         placeholder="Filter"
-        on-bind-value-changed="_onFilterChanged"
+        bind-value="{{_filterText}}"
       />
     </iron-input>
   </header>

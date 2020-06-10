@@ -76,7 +76,9 @@ class GrIncludedInDialog extends GestureEventListeners(
   }
 
   _computeGroups(includedIn, filterText) {
-    if (!includedIn) { return []; }
+    if (!includedIn || filterText === undefined) {
+      return [];
+    }
 
     const filter = item => !filterText.length ||
         item.toLowerCase().indexOf(filterText.toLowerCase()) !== -1;
@@ -106,12 +108,6 @@ class GrIncludedInDialog extends GestureEventListeners(
 
   _computeLoadingClass(loaded) {
     return loaded ? 'loading loaded' : 'loading';
-  }
-
-  _onFilterChanged() {
-    this.debounce('filter-change', () => {
-      this._filterText = this.$.filterInput.bindValue;
-    }, 100);
   }
 }
 

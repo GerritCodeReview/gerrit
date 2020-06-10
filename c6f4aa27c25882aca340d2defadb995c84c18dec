@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "efc699ca_4f3eec0a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-10T15:36:28Z",
+      "side": 1,
+      "message": "Can you make sure this is send only if there is user interaction? So it\u0027s not triggered when element is created and it moves from null to something?\n\nPlease just test it by refreshing page, if it is triggered.",
+      "range": {
+        "startLine": 1030,
+        "startChar": 26,
+        "endLine": 1030,
+        "endChar": 37
+      },
+      "revId": "c6f4aa27c25882aca340d2defadb995c84c18dec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ee0021f_d04265c3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1034,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-10T15:36:28Z",
+      "side": 1,
+      "message": "I would rather do it in case both are changed:\n`\nif (!this.patchNumEquals(basePatchNum, this._patchRange.basePatchNum)) {\n      this.reporting.reportInteraction(\u0027left-patchset-changed\u0027,\n          {previous: this._patchRange.basePatchNum, current: basePatchNum});\n    } \n\nif (!this.patchNumEquals(patchNum, this._patchRange.patchNum)) {\n      this.reporting.reportInteraction(\u0027right-patchset-changed\u0027,\n          {previous: this._patchRange.patchNum, current: patchNum});\n    }\n`",
+      "range": {
+        "startLine": 1028,
+        "startChar": 4,
+        "endLine": 1034,
+        "endChar": 5
+      },
+      "revId": "c6f4aa27c25882aca340d2defadb995c84c18dec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

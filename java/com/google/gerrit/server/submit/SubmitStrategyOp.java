@@ -42,6 +42,7 @@ import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.MergeUtil;
+import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
@@ -398,7 +399,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     Optional<Account> account =
         args.accountCache.get(submitter.accountId()).map(AccountState::account);
     if (account.isPresent() && account.get().fullName() != null) {
-      return " by " + account.get().fullName();
+      return " by " + ChangeNoteUtil.getAccountIdAsUsername(account.get().id());
     }
     return "";
   }

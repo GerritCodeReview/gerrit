@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+import {descendedFromClass} from '../../utils/dom-util.js';
+
 export const DomUtilBehavior = {
   /**
    * Are any ancestors of the element (or the element itself) members of the
@@ -28,13 +30,9 @@ export const DomUtilBehavior = {
    * @return {boolean}
    */
   descendedFromClass(element, className, opt_stopElement) {
-    let isDescendant = element.classList.contains(className);
-    while (!isDescendant && element.parentElement &&
-        (!opt_stopElement || element.parentElement !== opt_stopElement)) {
-      isDescendant = element.classList.contains(className);
-      element = element.parentElement;
-    }
-    return isDescendant;
+    console.warn('DomUtilBehavior is deprecated.' +
+     'Use descendedFromClass from utils directly.');
+    return descendedFromClass(element, className, opt_stopElement);
   },
 };
 

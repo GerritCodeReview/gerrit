@@ -23,7 +23,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-button_html.js';
 import {TooltipBehavior} from '../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
-import {util} from '../../../scripts/util.js';
+import {getEventPath} from '../../../utils/dom-util.js';
 import {appContext} from '../../../services/app-context.js';
 
 /**
@@ -113,7 +113,7 @@ class GrButton extends mixinBehaviors( [
     }
 
     this.reporting.reportInteraction('button-click',
-        {path: util.getEventPath(e)});
+        {path: getEventPath(e)});
   }
 
   _disabledChanged(disabled) {

@@ -967,7 +967,8 @@
     },
 
     _loadComments() {
-      return this.$.commentAPI.loadAll(this._changeNum).then(comments => {
+      return this.$.commentAPI.loadForPath(
+          this._changeNum, this._path).then(comments => {
         this._changeComments = comments;
         this._commentMap = this._getPaths(this._patchRange);
 

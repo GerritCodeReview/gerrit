@@ -25,11 +25,20 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.List;
 import java.util.Map;
+import org.kohsuke.args4j.Option;
 
 public class ListChangeRobotComments implements RestReadView<ChangeResource> {
   private final ChangeData.Factory changeDataFactory;
   private final Provider<CommentJson> commentJson;
   private final CommentsUtil commentsUtil;
+
+  @Option(
+      name = "--path",
+      aliases = {"-p"},
+      metaVar = "PATH",
+      usage = "Path associated with the messages",
+      required = false)
+  private String path;
 
   @Inject
   ListChangeRobotComments(

@@ -444,6 +444,23 @@ that there is still an interest in this change.
 [NOTE]
 Never rebase commits that are already part of a central branch.
 
+[[move]]
+== Move a Change
+
+Changes can be link:rest-api-changes.html#move-change[moved] to a desired
+destination branch in the same project. This is useful in cases where
+development activity switches from one branch to another and there is a
+need to move open changes on the inactive branch to the new active one.
+Another useful case is to move changes from a newer branch back to an older
+bugfix branch where an issue first appeared.
+
+Users can move a change only if they have link:access-control.html#category_abandon[
+abandon permission] on the change and link:access-control.html#category_push[
+push permission] on the destination branch.
+
+The move operation will not update the change's parent and users will have
+to link:#rebase[rebase] the change. Also, merge commits cannot be moved.
+
 [[abandon]]
 [[restore]]
 == Abandon/Restore a Change

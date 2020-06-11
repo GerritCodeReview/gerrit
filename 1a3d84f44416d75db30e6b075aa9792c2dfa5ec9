@@ -286,6 +286,30 @@
     },
     {
       "key": {
+        "uuid": "0eeeb89a_e0693ff3",
+        "filename": "java/com/google/gerrit/server/schema/NoteDbSchemaVersionCheck.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-11T13:32:01Z",
+      "side": 1,
+      "message": "\u003e \u003e You are never sure of what is the next version: do you know what will be the next refs/meta/version number of 3.3? I do not have the crystal ball and therefore I don\u0027t know.\n\u003e \n\u003e Well, this is exactly what I assumed when asking the questions. Just the commit\n\u003e message and the documentation gave a pretty much different impression. N and N+1\n\u003e means really nothing in this context and is just plain misleading.\n\nAgreed, it is misleading and should amended to make it clearer and unambiguous.",
+      "parentUuid": "76d5efa1_84b82d17",
+      "range": {
+        "startLine": 67,
+        "startChar": 10,
+        "endLine": 67,
+        "endChar": 28
+      },
+      "revId": "1a3d84f44416d75db30e6b075aa9792c2dfa5ec9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5c31ff3f_282f1e23",
         "filename": "javatests/com/google/gerrit/server/schema/NoteDbSchemaVersionCheckTest.java",
         "patchSetId": 25

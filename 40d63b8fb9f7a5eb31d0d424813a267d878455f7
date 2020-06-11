@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "90610adb_3810f63b",
+        "filename": "tools/workspace_status.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-11T06:04:27Z",
+      "side": 1,
+      "message": "\u003e not that it would matter much, [...]\n\nIt matters a lot to me. Performance is a feature, in your application and in your build. On my main gerrit tree I have 35 plugins. The way how stamping works in Bazel: it will always stamp, if then you wouldn\u0027t actually build any plugin at .\n\nSo even if I run: `bazel build :headless` that would create headless.war artifact without the UI and without the plugin, it would stamp all 35 plugins: [1].\n\nThat why, I would strongly object to any heuristic, that exceed max(2) of bash command issued per plugin directory.\n\nMoreover, we are trying to improve something that we don\u0027t control. I will never tag my plugins. In fact, for many of my plugins, I wouldn\u0027t even create a stable branch. Consider saml plugin (may be a bad example, while it doesn\u0027t touch a lot of plugin API surface, but still). You upgrade gerrit from foo to bar? Fine. Go to the CI and pick up the right version, e.g. 3.2 is here: [2]. With new extension to API version in tree build I could check now, that the plugin was built against the right plugin API version. Done.\n\nAnyway, were I see place for improvement, if one single commit, like in commit-message-length-validator, is tagged with 100 tags, and we are building on stable-3.0 but get v2.16.10 as result.\n\nFor that specific use case, I would probably agree to issue one single additional command in the standard workspace_status.py file:\n\n  $ git tag --points-at HEAD | grep v3.0.9\n  v3.0.9\n\nAnd if it\u0027s found, I would get v3.0.9 instead of v2.16.10. If not found/no tags on the latest commit we are building from, fall back to git describe.\n\nAlso note, that workspace_status.py is used for developers daily work, and thus must be performance optimized. Nevertheless we could add another workspace status command, say workspace_status_release.py and use it on the CI and/or release build. You could probably even suggest to add workspace_status_release.py to contribs directory.\n\nThat way you wouldn\u0027t even need to fork gerrit for Wikimedia, but would just say:\n\n  $ bazel build --workspace_status_command\u003d\"python ./contribs/heuristic_based_plugin_tags_detection.py\"\n\n* [1] http://paste.openstack.org/show/794618\n* [2] https://gerrit-ci.gerritforge.com/view/Plugins-stable-3.2/job/plugin-saml-bazel-master-stable-3.2",
+      "parentUuid": "b03d270a_4b68da08",
+      "revId": "40d63b8fb9f7a5eb31d0d424813a267d878455f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b4f03a7_b9da3e4f",
         "filename": "tools/workspace_status.py",
         "patchSetId": 2

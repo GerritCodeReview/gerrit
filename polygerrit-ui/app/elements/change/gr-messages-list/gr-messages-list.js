@@ -220,6 +220,10 @@
      * @return {!Object} Hash of arrays of comments, filename as key.
      */
     _computeCommentsForMessage(changeComments, message) {
+      if (changeComments.computeCommentCount() > 1000) {
+        return [];
+      }
+
       const comments = changeComments.getAllPublishedComments();
       if (message._index === undefined || !comments || !this.messages) {
         return [];

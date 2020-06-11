@@ -46,6 +46,30 @@
       "revId": "cb8346a5aff4a8c34b73f9de314fcb2a5149cc2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a3746b6_8b2c923d",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-06-11T05:45:46Z",
+      "side": 1,
+      "message": "Whoops. Thanks for explaining that. I came to this late and mostly saw the refactoring. Maybe explain that intent with StorageExceptions in the commit message? Something like \"Finding a StorageException means we\u0027re going to hit exceptions again and again for each field, so bubble them up and return an empty list when we find one\"?",
+      "parentUuid": "cfceaed0_496aaeaa",
+      "range": {
+        "startLine": 188,
+        "startChar": 6,
+        "endLine": 191,
+        "endChar": 5
+      },
+      "revId": "cb8346a5aff4a8c34b73f9de314fcb2a5149cc2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

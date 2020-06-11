@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "8dc71b90_865eb27e",
+        "filename": "tools/workspace_status.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-11T10:12:05Z",
+      "side": 1,
+      "message": "\u003e \u003e [...] we could add another workspace status command, say workspace_status_release.py and use it on the CI and/or release build. You could probably even suggest to add workspace_status_release.py to contribs directory. That way you wouldn\u0027t even need to fork gerrit for Wikimedia\n\u003e \n\u003e That\u0027s a great suggestion on how to move forward. I\u0027ll re-do this topic with a dedicated workspace_status file in the contribs directory.\n\nAdded the suggested `contribs/workspace_status_release.py` in I7e2253745283bbfff86614ff5ad87d652e68de66 and updated this topic to work on that file instead of messing with the default `tools/workspace_status.py`",
+      "parentUuid": "a3ee1228_14b063cb",
+      "revId": "40d63b8fb9f7a5eb31d0d424813a267d878455f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b4f03a7_b9da3e4f",
         "filename": "tools/workspace_status.py",
         "patchSetId": 2

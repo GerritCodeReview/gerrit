@@ -521,6 +521,38 @@
     },
 
     /**
+     * Load all comments (with drafts and robot comments) for the given change
+     * number and a specific path. The returned promise resolves when the comments
+     * have loaded, but does not yield the comment data.
+     *
+     * @param {number} changeNum
+     * @param {string} path
+     * @return {!Promise<!Object>}
+     */
+    loadForPath(changeNum, path) {
+      const promises = [];
+      promises.push(this.$.restAPI.getDiffComments(
+          changeNum, null, null, path));
+      promises.push(this.$.restAPI.getDiffRobotComments(
+          changeNum, null, null, path));
+      promises.push(this.$.restAPI.getDiffDrafts(
+          changeNum, null, null, path));
+
+      return Promise.all(promises).then(([comments, robotComments, drafts]) => {
+        const pathComments = {};
+        const pathRobotComments = {};
+        const pathDrafts = {};
+
+        pathComments[path] = comments.comments || [];
+        pathRobotComments[path] = robotComments.comments || [];
+        pathDrafts[path] = drafts.comments || [];
+        this._changeComments = new ChangeComments(pathComments,
+            pathRobotComments, pathDrafts, changeNum);
+        return this._changeComments;
+      });
+    },
+
+    /**
      * Re-initialize _changeComments with a new ChangeComments object, that
      * uses the previous values for comments and robot comments, but fetches
      * updated draft comments.

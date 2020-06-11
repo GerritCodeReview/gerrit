@@ -23,11 +23,9 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.util.List;
 import java.util.Map;
 
-@Singleton
 public class ListRobotComments implements RestReadView<RevisionResource> {
   protected final Provider<CommentJson> commentJson;
   protected final CommentsUtil commentsUtil;

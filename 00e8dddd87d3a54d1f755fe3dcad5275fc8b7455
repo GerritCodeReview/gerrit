@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b234a77_b00067f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-11T20:49:11Z",
+      "side": 1,
+      "message": "I\u0027d move this line up before the previous (addendum) paragraph, to preserve the bulk of the cherry-picked /original commit message text flow.",
+      "revId": "00e8dddd87d3a54d1f755fe3dcad5275fc8b7455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa6226c5_d706861a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-11T20:49:11Z",
+      "side": 1,
+      "message": "Similarly here, I would switch these two issue# lines.",
+      "revId": "00e8dddd87d3a54d1f755fe3dcad5275fc8b7455",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

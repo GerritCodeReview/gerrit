@@ -22,6 +22,30 @@
       "revId": "e2972ad8b484d754b62218e3d14c05291d6e992e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48d330d1_dbf13012",
+        "filename": "contrib/workspace_status_release.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-11T20:36:38Z",
+      "side": 1,
+      "message": "You\u0027re right. Now that the script ends in `_release.py` in Gerrit core, it should also end it\nthe same things for the plugins.\n\nIt\u0027s a bit awkward to have it underneath `contrib` in Gerrit core and underneath `tools` for plugins.\nBut `tools` is better than `contrib`. Meh :-)\n\nDone in PS5.",
+      "parentUuid": "f09349b1_ca971238",
+      "range": {
+        "startLine": 59,
+        "startChar": 43,
+        "endLine": 59,
+        "endChar": 73
+      },
+      "revId": "e2972ad8b484d754b62218e3d14c05291d6e992e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

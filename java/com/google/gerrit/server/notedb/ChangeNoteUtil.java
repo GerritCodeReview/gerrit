@@ -95,7 +95,8 @@ public class ChangeNoteUtil {
         serverIdent.getTimeZone());
   }
 
-  private static String getAccountIdAsUsername(Account.Id accountId) {
+  /** Returns the string {@code "Gerrit User " + accountId}, to pseudonymize user names. */
+  public static String getAccountIdAsUsername(Account.Id accountId) {
     return "Gerrit User " + accountId.toString();
   }
 

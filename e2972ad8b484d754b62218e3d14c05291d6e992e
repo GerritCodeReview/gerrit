@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f09349b1_ca971238",
+        "filename": "contrib/workspace_status_release.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-11T14:14:13Z",
+      "side": 1,
+      "message": "This is standard tools/workspace_status.py for plugins that support standalone build mode e.g.: [1]. But it\u0027s pointless to call this scripts, because it will do the same as vanilla gerrit own workspace_status.py would do: just call git describe: `v \u003d revision(p, ROOT)`.\n\nTo avoid that we could choose the same naming convention: contrib/workspace_status_release.py would call workspace_status_release.py om plugin directory. That way we wouldn\u0027t mix it. WDYT? It could be in tools directiory of the plugin. Theretically, plugin could have both: standard workspace_status.py and more smart workspace_status_release.py command.\n\n[1] https://gerrit.googlesource.com/plugins/reviewers/+/refs/heads/stable-3.0/tools/workspace_status.py",
+      "range": {
+        "startLine": 59,
+        "startChar": 43,
+        "endLine": 59,
+        "endChar": 73
+      },
+      "revId": "e2972ad8b484d754b62218e3d14c05291d6e992e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

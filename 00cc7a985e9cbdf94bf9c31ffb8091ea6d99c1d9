@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "32ad8fe5_30888912",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-11T14:16:13Z",
+      "side": 1,
+      "message": "Yes, the reason I have kept it is because although the commit addresses both Lucene and Elasticsearch, the main target of the change is Elasticsearch.",
+      "parentUuid": "cd5be38f_a5eac9a9",
+      "range": {
+        "startLine": 9,
+        "startChar": 54,
+        "endLine": 9,
+        "endChar": 67
+      },
+      "revId": "00cc7a985e9cbdf94bf9c31ffb8091ea6d99c1d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a315fa15_6c6deb95",
         "filename": "/COMMIT_MSG",
         "patchSetId": 11
@@ -36,6 +60,30 @@
       "writtenOn": "2020-06-11T08:50:00Z",
       "side": 1,
       "message": "This is stale as well: I believe this fixes a real issue with all index types. Do we have a bug raised for that? Shall this fix be moved to the earliest supported stable branch? (i.e. stable-3.0)",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 20
+      },
+      "revId": "00cc7a985e9cbdf94bf9c31ffb8091ea6d99c1d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "446d46b1_c2b647d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-11T14:16:13Z",
+      "side": 1,
+      "message": "It does, but the main target of this change is Elasticsearch, and even though this change does not exclusively implement the feature, it fully achieves the functionality desired by the feature request. I will make a relevant issue in monorail and work on back-porting this task.",
+      "parentUuid": "a315fa15_6c6deb95",
       "range": {
         "startLine": 18,
         "startChar": 0,

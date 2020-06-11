@@ -22,6 +22,30 @@
       "revId": "428c6e6cb9cc88062e659e7d0da54bac1920d104",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2974edaa_bd657594",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-11T13:58:42Z",
+      "side": 1,
+      "message": "Done in PS4.",
+      "parentUuid": "e7d42363_c75ddf22",
+      "range": {
+        "startLine": 17,
+        "startChar": 15,
+        "endLine": 17,
+        "endChar": 25
+      },
+      "revId": "428c6e6cb9cc88062e659e7d0da54bac1920d104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

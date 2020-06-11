@@ -22,6 +22,29 @@
       "revId": "00cc7a985e9cbdf94bf9c31ffb8091ea6d99c1d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a315fa15_6c6deb95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-11T08:50:00Z",
+      "side": 1,
+      "message": "This is stale as well: I believe this fixes a real issue with all index types. Do we have a bug raised for that? Shall this fix be moved to the earliest supported stable branch? (i.e. stable-3.0)",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 20
+      },
+      "revId": "00cc7a985e9cbdf94bf9c31ffb8091ea6d99c1d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

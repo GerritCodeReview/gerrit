@@ -22,6 +22,30 @@
       "revId": "d103ce086427f33e65996293f45a02d687283eaf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a7b930d_a75e5952",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-11T22:57:12Z",
+      "side": 1,
+      "message": "Yes, good catch. Done.",
+      "parentUuid": "4f34c7c7_a202477a",
+      "range": {
+        "startLine": 224,
+        "startChar": 9,
+        "endLine": 224,
+        "endChar": 11
+      },
+      "revId": "d103ce086427f33e65996293f45a02d687283eaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

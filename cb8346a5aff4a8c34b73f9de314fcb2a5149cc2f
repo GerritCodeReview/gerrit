@@ -22,6 +22,30 @@
       "revId": "cb8346a5aff4a8c34b73f9de314fcb2a5149cc2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfceaed0_496aaeaa",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2020-06-11T02:37:58Z",
+      "side": 1,
+      "message": "That\u0027s the whole point of this commit... All the rest is just refactoring.",
+      "parentUuid": "3876f86e_40214e49",
+      "range": {
+        "startLine": 188,
+        "startChar": 6,
+        "endLine": 191,
+        "endChar": 5
+      },
+      "revId": "cb8346a5aff4a8c34b73f9de314fcb2a5149cc2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

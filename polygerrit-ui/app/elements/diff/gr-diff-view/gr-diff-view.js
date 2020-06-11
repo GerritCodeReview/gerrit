@@ -967,12 +967,13 @@
     },
 
     _loadComments() {
-      return this.$.commentAPI.loadAll(this._changeNum).then(comments => {
-        this._changeComments = comments;
-        this._commentMap = this._getPaths(this._patchRange);
+      return this.$.commentAPI.loadForPath(
+          this._changeNum, this._path).then(comments => {
+            this._changeComments = comments;
+            this._commentMap = this._getPaths(this._patchRange);
 
-        this._commentsForDiff = this._getCommentsForPath(this._path,
-            this._patchRange, this._projectConfig);
+            this._commentsForDiff = this._getCommentsForPath(this._path,
+              this._patchRange, this._projectConfig);
       });
     },
 

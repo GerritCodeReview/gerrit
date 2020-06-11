@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "754a286e_89811983",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-11T10:23:51Z",
+      "side": 1,
+      "message": "Remove this?",
+      "range": {
+        "startLine": 14,
+        "startChar": 26,
+        "endLine": 14,
+        "endChar": 30
+      },
+      "revId": "132a2833f4db649c0eff01286cc60c1067e063a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcf30d91_dc8da0d1",
+        "filename": "contrib/workspace_status_release.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-11T10:23:51Z",
+      "side": 1,
+      "message": "Not needed point?",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 22,
+        "endChar": 3
+      },
+      "revId": "132a2833f4db649c0eff01286cc60c1067e063a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0860321a_102014be",
+        "filename": "contrib/workspace_status_release.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-11T10:23:51Z",
+      "side": 1,
+      "message": "Mention, that it can be overridden in users\u0027 own ~/.bazelrc file? So that nmobody would have to amend \".bazelrc\" in gerrit tree?",
+      "range": {
+        "startLine": 22,
+        "startChar": 4,
+        "endLine": 22,
+        "endChar": 57
+      },
+      "revId": "132a2833f4db649c0eff01286cc60c1067e063a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

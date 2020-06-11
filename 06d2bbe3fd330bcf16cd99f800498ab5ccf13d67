@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d64573cd_65dbb3a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-11T14:02:50Z",
+      "side": 1,
+      "message": "Done in PS3.",
+      "parentUuid": "2885c593_02fd0c1c",
+      "revId": "06d2bbe3fd330bcf16cd99f800498ab5ccf13d67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "69eb1a3c_8cab9706",
         "filename": "contrib/workspace_status_release.py",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "06d2bbe3fd330bcf16cd99f800498ab5ccf13d67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "623b4068_9297ff10",
+        "filename": "contrib/workspace_status_release.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-11T14:02:50Z",
+      "side": 1,
+      "message": "Done in PS3",
+      "parentUuid": "69eb1a3c_8cab9706",
+      "range": {
+        "startLine": 107,
+        "startChar": 51,
+        "endLine": 107,
+        "endChar": 67
+      },
+      "revId": "06d2bbe3fd330bcf16cd99f800498ab5ccf13d67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

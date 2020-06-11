@@ -1235,6 +1235,17 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
       filesShown.length - previousNumFilesShown
     );
 
+    if (filesShown.length > 0 && navigator.serviceWorker.controller)
+      navigator.serviceWorker.controller.postMessage(
+        {
+          type: "Files",
+          files: filesShown.map(file => file.__path),
+          changeId: this.changeNum,
+          project: this.change?.project,
+          revision: this.patchRange?.patchNum,
+        }
+      );
+
     return filesShown;
   }
 

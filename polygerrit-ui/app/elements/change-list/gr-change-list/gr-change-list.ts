@@ -314,6 +314,15 @@ export class GrChangeList extends ChangeTableMixin(
 
   _changesChanged(changes: ChangeInfo[]) {
     this.sections = changes ? [{results: changes}] : [];
+    if (changes.length > 0 && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage(
+        {
+          type: "Changes",
+          changes: changes.slice(0,3).map(change => ({changeId: change._number, project: change.project})
+          ),
+        }
+      );
+    }
   }
 
   _processQuery(query: string) {

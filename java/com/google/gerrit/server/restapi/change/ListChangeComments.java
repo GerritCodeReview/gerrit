@@ -22,10 +22,19 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.kohsuke.args4j.Option;
 
 public class ListChangeComments extends ListChangeDrafts {
   public static int MAX_COMMENTS_IN_LIST = 1000;
   public static int MAX_COMMENT_SIZE = 32;
+
+  @Option(
+      name = "--path",
+      aliases = {"-p"},
+      metaVar = "PATH",
+      usage = "Path associated with the messages",
+      required = false)
+  private String path;
 
   @Inject
   ListChangeComments(
@@ -38,7 +47,7 @@ public class ListChangeComments extends ListChangeDrafts {
   @Override
   protected Iterable<Comment> listComments(ChangeResource rsrc) {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
-    List<Comment> publishedComments = commentsUtil.publishedByChange(cd.notes());
+    List<Comment> publishedComments = commentsUtil.publishedByChange(cd.notes(), path);
 
     if (publishedComments.size() < MAX_COMMENTS_IN_LIST) {
       return publishedComments;

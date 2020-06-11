@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -186,8 +187,22 @@ public class CommentsUtil {
   }
 
   public List<Comment> publishedByChange(ChangeNotes notes) {
+    return publishedByChange(notes, null);
+  }
+
+  public List<Comment> publishedByChange(ChangeNotes notes, String path) {
     notes.load();
-    return sort(Lists.newArrayList(notes.getComments().values()));
+    return sort(
+        Lists.newArrayList(
+            notes.getComments().values().stream()
+                .filter(c -> path == null || c.key.filename.equals(path))
+                .collect(Collectors.toList())));
+  }
+
+  public List<Comment> publishedByChange(ChangeNotes notes, int limit) {
+    notes.load();
+    List<Comment> allComments = sort(Lists.newArrayList(notes.getComments().values()));
+    return allComments.stream().limit(limit).collect(Collectors.toList());
   }
 
   public List<RobotComment> robotCommentsByChange(ChangeNotes notes) {

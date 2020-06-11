@@ -38,7 +38,7 @@ public class ListChangeComments extends ListChangeDrafts {
   @Override
   protected Iterable<Comment> listComments(ChangeResource rsrc) {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
-    List<Comment> publishedComments = commentsUtil.publishedByChange(cd.notes());
+    List<Comment> publishedComments = commentsUtil.publishedByChange(cd.notes(), path);
 
     if (publishedComments.size() < MAX_COMMENTS_IN_LIST) {
       return publishedComments;

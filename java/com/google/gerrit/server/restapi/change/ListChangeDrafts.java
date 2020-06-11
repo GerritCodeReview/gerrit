@@ -25,15 +25,22 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.CommentJson.CommentFormatter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.util.List;
 import java.util.Map;
+import org.kohsuke.args4j.Option;
 
-@Singleton
 public class ListChangeDrafts implements RestReadView<ChangeResource> {
   protected final ChangeData.Factory changeDataFactory;
   protected final Provider<CommentJson> commentJson;
   protected final CommentsUtil commentsUtil;
+
+  @Option(
+      name = "--path",
+      aliases = {"-p"},
+      metaVar = "PATH",
+      usage = "Path associated with the messages",
+      required = false)
+  protected String path;
 
   @Inject
   ListChangeDrafts(

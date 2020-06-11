@@ -2399,6 +2399,7 @@
           changeNum,
           endpoint,
           patchNum: opt_patchNum,
+          params: opt_path ? {path: opt_path} : undefined,
           reportEndpointAsIs: true,
         });
       };

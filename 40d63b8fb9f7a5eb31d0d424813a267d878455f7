@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "856b3017_373629d4",
+        "filename": "tools/workspace_status.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-11T06:11:45Z",
+      "side": 1,
+      "message": "\u003e In fact, for many of my plugins, I wouldn\u0027t even create a stable branch. [...]\n\u003e Go to the CI and pick up the right version, e.g. 3.2 is here: [2].\n\nIn case you are not aware of that feature of GerritForge-CI, \"build plugin from master branch against permutations of stable branches\" was added here: [3].\n\n[3] https://gerrit-review.googlesource.com/c/gerrit-ci-scripts/+/268640",
+      "parentUuid": "90610adb_3810f63b",
+      "revId": "40d63b8fb9f7a5eb31d0d424813a267d878455f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b4f03a7_b9da3e4f",
         "filename": "tools/workspace_status.py",
         "patchSetId": 2

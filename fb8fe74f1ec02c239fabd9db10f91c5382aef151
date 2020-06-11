@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d402337_7aa8096a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-06-11T07:53:20Z",
+      "side": 1,
+      "message": "It looks to me like there is something fishy with the test-setup.\n\nDon\u0027t know why this doesn\u0027t seem to have any effect.\nIn ps 1 capabilities was Undefined in test(s) in Non-global section despite it being set to an empty object.\nIn ps 2 it seems to work but IIUC this statement should override the capabilites set in the setup for \"interactive tests\" (L 332).\n\nFurthermore since the section.id !\u003d\u003d \u0027GLOBAL_CAPABILITIES\u0027 it shouldn\u0027t try to enumerate element.capabilities at all...",
+      "range": {
+        "startLine": 390,
+        "startChar": 10,
+        "endLine": 390,
+        "endChar": 36
+      },
+      "revId": "fb8fe74f1ec02c239fabd9db10f91c5382aef151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

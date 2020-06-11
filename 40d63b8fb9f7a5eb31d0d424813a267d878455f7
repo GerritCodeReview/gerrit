@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "a3ee1228_14b063cb",
+        "filename": "tools/workspace_status.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-11T06:55:58Z",
+      "side": 1,
+      "message": "\u003e [...] we could add another workspace status command, say workspace_status_release.py and use it on the CI and/or release build. You could probably even suggest to add workspace_status_release.py to contribs directory. That way you wouldn\u0027t even need to fork gerrit for Wikimedia\n\nThat\u0027s a great suggestion on how to move forward. I\u0027ll re-do this topic with a dedicated workspace_status file in the contribs directory.\n\n\n\u003e Anyway, were I see place for improvement, if one single commit, like in commit-message-length-validator, is tagged with 100 tags, and we are building on stable-3.0 but get v2.16.10 as result.\n\nI\u0027ll upload a change for that.",
+      "parentUuid": "856b3017_373629d4",
+      "revId": "40d63b8fb9f7a5eb31d0d424813a267d878455f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b4f03a7_b9da3e4f",
         "filename": "tools/workspace_status.py",
         "patchSetId": 2

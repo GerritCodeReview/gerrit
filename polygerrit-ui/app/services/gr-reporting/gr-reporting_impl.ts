@@ -509,11 +509,16 @@ export class GrReporting implements ReportingService {
   }
 
   changeDisplayed() {
+    let timePassed = undefined;
     if (hasOwnProperty(this._baselines, Timing.STARTUP_CHANGE_DISPLAYED)) {
-      this.timeEnd(Timing.STARTUP_CHANGE_DISPLAYED, this._pageLoadDetails());
+      timePassed = this.timeEnd(Timing.STARTUP_CHANGE_DISPLAYED, this._pageLoadDetails());
     } else {
-      this.timeEnd(Timing.CHANGE_DISPLAYED, this._pageLoadDetails());
+      timePassed = this.timeEnd(Timing.CHANGE_DISPLAYED, this._pageLoadDetails());
     }
+    const helperTip = document.createElement('span'); 
+    helperTip.innerHTML = `Change Displayed ${timePassed}`; 
+    helperTip.style = 'color: white;font-weight:bold;padding:10px;z-index:10000;display:block;position:fixed;bottom:0;right:0;background-color:red;'; 
+    document.body.appendChild(helperTip);
   }
 
   changeFullyLoaded() {
@@ -630,7 +635,7 @@ export class GrReporting implements ReportingService {
   /**
    * Finish named timer and report it to server.
    */
-  timeEnd(name: Timing, eventDetails?: EventDetails) {
+  timeEnd(name: Timing, eventDetails?: EventDetails): number | undefined{
     if (!hasOwnProperty(this._baselines, name)) {
       return;
     }
@@ -647,6 +652,7 @@ export class GrReporting implements ReportingService {
       // (if undefined).
       window.performance.measure(name);
     }
+    return now() - baseTime;
   }
 
   /**

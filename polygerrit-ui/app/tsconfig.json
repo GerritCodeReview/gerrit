@@ -62,5 +62,5 @@
     "types/**/*",
     "utils/**/*",
     "test/**/*"
-  ]
+, "service-worker.js"  ]
 }

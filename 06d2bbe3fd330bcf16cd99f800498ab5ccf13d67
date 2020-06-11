@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2885c593_02fd0c1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-11T10:26:49Z",
+      "side": 1,
+      "message": "Can you add Test Plan section here?\n\nBuild it-phabricator/it-base on stable-2.16.20? Before/After stamp with this series?",
+      "revId": "06d2bbe3fd330bcf16cd99f800498ab5ccf13d67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69eb1a3c_8cab9706",
+        "filename": "contrib/workspace_status_release.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-11T10:26:49Z",
+      "side": 1,
+      "message": "This prevents",
+      "range": {
+        "startLine": 107,
+        "startChar": 51,
+        "endLine": 107,
+        "endChar": 67
+      },
+      "revId": "06d2bbe3fd330bcf16cd99f800498ab5ccf13d67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

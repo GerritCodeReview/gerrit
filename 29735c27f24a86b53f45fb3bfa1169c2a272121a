@@ -34,6 +34,24 @@
       "revId": "29735c27f24a86b53f45fb3bfa1169c2a272121a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da71fafc_8afe0837",
+        "filename": "java/com/google/gerrit/server/project/ProjectJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-12T05:00:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63cdec9b_7103c3f9",
+      "revId": "29735c27f24a86b53f45fb3bfa1169c2a272121a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

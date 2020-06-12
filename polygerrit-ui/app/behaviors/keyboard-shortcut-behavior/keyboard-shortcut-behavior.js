@@ -141,6 +141,10 @@ const Shortcut = {
   TOGGLE_DIFF_MODE: 'TOGGLE_DIFF_MODE',
   REFRESH_CHANGE: 'REFRESH_CHANGE',
   EDIT_TOPIC: 'EDIT_TOPIC',
+  DIFF_AGAINST_BASE: 'DIFF_AGAINST_BASE',
+  DIFF_AGAINST_LATEST: 'DIFF_AGAINST_LATEST',
+  DIFF_BASE_AGAINST_LEFT: 'DIFF_BASE_AGAINST_LEFT',
+  DIFF_RIGHT_AGAINST_LATEST: 'DIFF_RIGHT_AGAINST_LATEST',
 
   NEXT_LINE: 'NEXT_LINE',
   PREV_LINE: 'PREV_LINE',
@@ -233,9 +237,25 @@ _describe(Shortcut.TOGGLE_CHANGE_STAR, ShortcutSection.ACTIONS,
     'Star/unstar change');
 _describe(Shortcut.EDIT_TOPIC, ShortcutSection.ACTIONS,
     'Add a change topic');
+_describe(Shortcut.DIFF_AGAINST_BASE, ShortcutSection.ACTIONS,
+    'Diff against base');
+_describe(Shortcut.DIFF_AGAINST_LATEST, ShortcutSection.ACTIONS,
+    'Diff against latest patchset');
+_describe(Shortcut.DIFF_BASE_AGAINST_LEFT, ShortcutSection.ACTIONS,
+    'Diff base against left');
+_describe(Shortcut.DIFF_RIGHT_AGAINST_LATEST, ShortcutSection.ACTIONS,
+    'Diff right against latest');
 
 _describe(Shortcut.NEXT_LINE, ShortcutSection.DIFFS, 'Go to next line');
 _describe(Shortcut.PREV_LINE, ShortcutSection.DIFFS, 'Go to previous line');
+_describe(Shortcut.DIFF_AGAINST_BASE, ShortcutSection.DIFFS,
+    'Diff against base');
+_describe(Shortcut.DIFF_AGAINST_LATEST, ShortcutSection.DIFFS,
+    'Diff against latest patchset');
+_describe(Shortcut.DIFF_BASE_AGAINST_LEFT, ShortcutSection.DIFFS,
+    'Diff base against left');
+_describe(Shortcut.DIFF_RIGHT_AGAINST_LATEST, ShortcutSection.DIFFS,
+    'Diff right against latest');
 _describe(Shortcut.VISIBLE_LINE, ShortcutSection.DIFFS,
     'Move cursor to currently visible code');
 _describe(Shortcut.NEXT_CHUNK, ShortcutSection.DIFFS,

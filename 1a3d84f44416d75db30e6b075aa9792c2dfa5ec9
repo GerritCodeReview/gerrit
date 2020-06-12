@@ -310,6 +310,52 @@
     },
     {
       "key": {
+        "uuid": "181ebe36_37c4e89f",
+        "filename": "javatests/com/google/gerrit/server/schema/NoteDbSchemaVersionCheckTest.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-06-12T08:21:54Z",
+      "side": 1,
+      "message": "See the next comment",
+      "range": {
+        "startLine": 53,
+        "startChar": 42,
+        "endLine": 53,
+        "endChar": 49
+      },
+      "revId": "1a3d84f44416d75db30e6b075aa9792c2dfa5ec9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05ec436e_890eb895",
+        "filename": "javatests/com/google/gerrit/server/schema/NoteDbSchemaVersionCheckTest.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-06-12T08:21:54Z",
+      "side": 1,
+      "message": "This is a misleading naming, as we (currently) cannot check for \"one more\".\nThe code in the NoteDbSchemaVersionCheck only checks that \"current \u003e expected\".",
+      "range": {
+        "startLine": 68,
+        "startChar": 75,
+        "endLine": 68,
+        "endChar": 82
+      },
+      "revId": "1a3d84f44416d75db30e6b075aa9792c2dfa5ec9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5c31ff3f_282f1e23",
         "filename": "javatests/com/google/gerrit/server/schema/NoteDbSchemaVersionCheckTest.java",
         "patchSetId": 25

@@ -256,6 +256,24 @@
     },
     {
       "key": {
+        "uuid": "7f0482f6_3068787b",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-12T08:48:57Z",
+      "side": 1,
+      "message": "I\u0027m still unsure if this is helpful, but since the cost is just writing another simple condition, I\u0027m ok with going with the idea.",
+      "parentUuid": "20bda60d_33edb322",
+      "revId": "f216b0226f349662446f6304f08e194d8d374e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f1f08ea_fbef1d18",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
         "patchSetId": 7

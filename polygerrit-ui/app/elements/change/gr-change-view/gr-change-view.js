@@ -441,6 +441,8 @@ class GrChangeView extends mixinBehaviors( [
       [this.Shortcut.COLLAPSE_ALL_MESSAGES]: '_handleCollapseAllMessages',
       [this.Shortcut.OPEN_DIFF_PREFS]: '_handleOpenDiffPrefsShortcut',
       [this.Shortcut.EDIT_TOPIC]: '_handleEditTopic',
+      [this.Shortcut.DIFF_AGAINST_BASE]: '_handleDiffAgainstBase',
+      [this.Shortcut.DIFF_AGAINST_LATEST]: '_handleDiffAgainstLatest',
     };
   }
 
@@ -1402,6 +1404,20 @@ class GrChangeView extends mixinBehaviors( [
 
     e.preventDefault();
     this.$.metadata.editTopic();
+  }
+
+  _handleDiffAgainstBase(e) {
+    if (this.shouldSuppressKeyboardShortcut(e) ||
+        this.modifierPressed(e)) { return; }
+    GerritNav.navigateToChange(this._change, this._patchRange.patchNum);
+  }
+
+  _handleDiffAgainstLatest(e) {
+    if (this.shouldSuppressKeyboardShortcut(e) ||
+        this.modifierPressed(e)) { return; }
+    GerritNav.navigateToChange(this._change,
+        this.computeLatestPatchNum(this._allPatchSets),
+        this._patchRange.basePatchNum);
   }
 
   _handleRefreshChange(e) {

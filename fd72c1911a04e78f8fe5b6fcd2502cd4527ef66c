@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d1eb142f_f277b0fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-12T09:23:46Z",
+      "side": 1,
+      "message": "It is a little too much to always add this change message when adding or removing implicitly. I don\u0027t think the users want to have change messages like this:\nadd reviewers: X\nadd attention set: X.",
+      "parentUuid": "6d4cc411_3ad45f45",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 24
+      },
+      "revId": "fd72c1911a04e78f8fe5b6fcd2502cd4527ef66c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb26f51d_21f8f5ed",
         "filename": "java/com/google/gerrit/server/change/AddToAttentionSetOp.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "1f0814af_29e80c83",
+        "filename": "java/com/google/gerrit/server/change/AddToAttentionSetOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-12T09:23:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb26f51d_21f8f5ed",
+      "range": {
+        "startLine": 55,
+        "startChar": 24,
+        "endLine": 55,
+        "endChar": 41
+      },
+      "revId": "fd72c1911a04e78f8fe5b6fcd2502cd4527ef66c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "607d9ae2_bc7bc657",
         "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 3
@@ -68,6 +116,30 @@
       "revId": "fd72c1911a04e78f8fe5b6fcd2502cd4527ef66c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f752dcb4_d71a6606",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-12T09:23:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "607d9ae2_bc7bc657",
+      "range": {
+        "startLine": 395,
+        "startChar": 73,
+        "endLine": 396,
+        "endChar": 24
+      },
+      "revId": "fd72c1911a04e78f8fe5b6fcd2502cd4527ef66c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

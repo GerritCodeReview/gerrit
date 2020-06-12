@@ -44,6 +44,10 @@ public class GerritIndexStatus {
     return cfg.getBoolean(SECTION, indexDirName(indexName, version), KEY_READY, false);
   }
 
+  public boolean exists(String indexName) {
+    return cfg.getSubsections(SECTION).stream().anyMatch(n -> n.startsWith(indexName));
+  }
+
   public void save() throws IOException {
     cfg.save();
   }

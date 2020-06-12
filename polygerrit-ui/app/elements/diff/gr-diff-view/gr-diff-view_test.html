@@ -287,6 +287,65 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(expandStub.called);
     });
 
+    test('diff against base', () => {
+      element._patchRange = {
+        basePatchNum: '5',
+        patchNum: '10',
+      };
+      sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+      const diffNavStub = sandbox.stub(GerritNav, 'navigateToDiff');
+      element._handleDiffAgainstBase(new CustomEvent(''));
+      const args = diffNavStub.getCall(0).args;
+      assert.equal(args[2], 10);
+      assert.isNotOk(args[3]);
+    });
+
+    test('diff against latest', () => {
+      element._patchRange = {
+        basePatchNum: '5',
+        patchNum: '10',
+      };
+      sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+      sandbox.stub(element, 'computeLatestPatchNum').returns(12);
+      const diffNavStub = sandbox.stub(GerritNav, 'navigateToDiff');
+      element._handleDiffAgainstLatest(new CustomEvent(''));
+      const args = diffNavStub.getCall(0).args;
+      assert.equal(args[2], 12);
+      assert.equal(args[3], 5);
+    });
+
+    test('_handleDiffBaseAgainstLeft', () => {
+      element._changeNum = '1';
+      element._patchRange = {
+        patchNum: 3,
+        basePatchNum: 1,
+      };
+      sandbox.stub(element, 'computeLatestPatchNum').returns(10);
+      sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+      const diffNavStub = sandbox.stub(GerritNav, 'navigateToDiff');
+      element._handleDiffBaseAgainstLeft(new CustomEvent(''));
+      assert(diffNavStub.called);
+      const args = diffNavStub.getCall(0).args;
+      assert.equal(args[2], 1);
+      assert.isNotOk(args[3]);
+    });
+
+    test('_handleDiffRightAgainstLatest', () => {
+      element._changeNum = '1';
+      element._patchRange = {
+        basePatchNum: 1,
+        patchNum: 3,
+      };
+      sandbox.stub(element, 'computeLatestPatchNum').returns(10);
+      sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+      const diffNavStub = sandbox.stub(GerritNav, 'navigateToDiff');
+      element._handleDiffRightAgainstLatest(new CustomEvent(''));
+      assert(diffNavStub.called);
+      const args = diffNavStub.getCall(0).args;
+      assert.equal(args[2], 10);
+      assert.equal(args[3], 3);
+    });
+
     test('keyboard shortcuts with patch range', () => {
       element._changeNum = '42';
       element._patchRange = {

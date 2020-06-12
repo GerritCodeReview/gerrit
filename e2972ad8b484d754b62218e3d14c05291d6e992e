@@ -46,6 +46,53 @@
       "revId": "e2972ad8b484d754b62218e3d14c05291d6e992e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dfe6ad77_f16c58df",
+        "filename": "contrib/workspace_status_release.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-12T06:06:42Z",
+      "side": 1,
+      "message": "\u003e It\u0027s a bit awkward to have it underneath `contrib` in Gerrit core and underneath `tools` for plugins.\n\nShould we move the new workspace_status_release.py from contrib to tools? It\u0027s optional anyway, that way this would be symmetric in core and plugins.",
+      "parentUuid": "48d330d1_dbf13012",
+      "range": {
+        "startLine": 59,
+        "startChar": 43,
+        "endLine": 59,
+        "endChar": 73
+      },
+      "revId": "e2972ad8b484d754b62218e3d14c05291d6e992e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0be17022_154b4eff",
+        "filename": "contrib/workspace_status_release.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-12T06:06:42Z",
+      "side": 1,
+      "message": "Why we call both scripts for the same plugin? We could check in advance, where or not plugin specific script exists, and prevent the standard git describe from calling.\n\nSomething like:\n\n  plugin_workspace_status_command \u003d os.path.join(\u0027tools\u0027, \u0027workspace_status.py\u0027)\n  if os.path.isfile(plugin_command):\n      run_plugin_workspace_status_command(plugin_workspace_status_command)\n  else:\n      # We are on our own\n      v \u003d revision()\n      print(\u0027STABLE_BUILD_%s_LABEL %s\u0027 % (os.path.basename(p).upper(),\n                                          v if v else \u0027unknown\u0027))\n\nOr, what am I missing?",
+      "range": {
+        "startLine": 72,
+        "startChar": 8,
+        "endLine": 72,
+        "endChar": 22
+      },
+      "revId": "e2972ad8b484d754b62218e3d14c05291d6e992e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

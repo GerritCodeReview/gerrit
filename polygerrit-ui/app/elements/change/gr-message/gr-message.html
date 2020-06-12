@@ -196,15 +196,17 @@ limitations under the License.
                 class="message hideOnCollapsed"
                 content="[[message.message]]"
                 config="[[_projectConfig.commentlinks]]"></gr-formatted-text>
-            <div class="replyContainer" hidden$="[[!showReplyButton]]" hidden>
-              <gr-button link small on-tap="_handleReplyTap">Reply</gr-button>
-            </div>
-            <gr-comment-list
-                comments="[[comments]]"
-                change-num="[[changeNum]]"
-                patch-num="[[message._revision_number]]"
-                project-name="[[projectName]]"
-                project-config="[[_projectConfig]]"></gr-comment-list>
+            <template is="dom-if" if="[[_expanded]]">
+              <div class="replyContainer" hidden$="[[!showReplyButton]]" hidden>
+                <gr-button link small on-tap="_handleReplyTap">Reply</gr-button>
+              </div>
+              <gr-comment-list
+                  comments="[[comments]]"
+                  change-num="[[changeNum]]"
+                  patch-num="[[message._revision_number]]"
+                  project-name="[[projectName]]"
+                  project-config="[[_projectConfig]]"></gr-comment-list>
+            </template>
           </div>
         </template>
         <template is="dom-if" if="[[_computeIsReviewerUpdate(message)]]">

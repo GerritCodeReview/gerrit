@@ -336,6 +336,66 @@ suite('gr-change-view tests', () => {
     assert.isTrue(replaceStateStub.called);
   });
 
+  test('_handleDiffAgainstBase', () => {
+    element._changeNum = '1';
+    element._patchRange = {
+      patchNum: 3,
+      basePatchNum: 1,
+    };
+    sandbox.stub(element, 'computeLatestPatchNum').returns(10);
+    sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+    element._handleDiffAgainstBase(new CustomEvent(''));
+    assert(navigateToChangeStub.called);
+    const args = navigateToChangeStub.getCall(0).args;
+    assert.equal(args[1], 3);
+    assert.isNotOk(args[0]);
+  });
+
+  test('_handleDiffAgainstLatest', () => {
+    element._changeNum = '1';
+    element._patchRange = {
+      basePatchNum: 1,
+      patchNum: 3,
+    };
+    sandbox.stub(element, 'computeLatestPatchNum').returns(10);
+    sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+    element._handleDiffAgainstLatest(new CustomEvent(''));
+    assert(navigateToChangeStub.called);
+    const args = navigateToChangeStub.getCall(0).args;
+    assert.equal(args[1], 10);
+    assert.equal(args[2], 1);
+  });
+
+  test('_handleDiffBaseAgainstLeft', () => {
+    element._changeNum = '1';
+    element._patchRange = {
+      patchNum: 3,
+      basePatchNum: 1,
+    };
+    sandbox.stub(element, 'computeLatestPatchNum').returns(10);
+    sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+    element._handleDiffBaseAgainstLeft(new CustomEvent(''));
+    assert(navigateToChangeStub.called);
+    const args = navigateToChangeStub.getCall(0).args;
+    assert.equal(args[1], 1);
+    assert.isNotOk(args[0]);
+  });
+
+  test('_handleDiffRightAgainstLatest', () => {
+    element._changeNum = '1';
+    element._patchRange = {
+      basePatchNum: 1,
+      patchNum: 3,
+    };
+    sandbox.stub(element, 'computeLatestPatchNum').returns(10);
+    sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+    element._handleDiffRightAgainstLatest(new CustomEvent(''));
+    assert(navigateToChangeStub.called);
+    const args = navigateToChangeStub.getCall(0).args;
+    assert.equal(args[1], 10);
+    assert.equal(args[2], 3);
+  });
+
   suite('plugins adding to file tab', () => {
     setup(done => {
       // Resolving it here instead of during setup() as other tests depend

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f49d7ac_52225f30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-06-12T14:24:47Z",
+      "side": 1,
+      "message": "You note this affects versions (at least) back to 2.16. Can you move to an earlier branch?",
+      "revId": "4875b9a2c9da911758330056f65ec348a4d6c493",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

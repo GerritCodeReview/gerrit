@@ -21,7 +21,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import 'ba-linkify/ba-linkify.js';
 import {htmlTemplate} from './gr-linked-text_html.js';
-import {GrLinkTextParser} from './link-text-parser.js';
+// import {GrLinkTextParser} from './link-text-parser.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 /** @extends PolymerElement */
@@ -78,6 +78,9 @@ class GrLinkedText extends GestureEventListeners(
    */
   _contentOrConfigChanged(content, config) {
     if (!GerritNav.mapCommentlinks) return;
+    return;
+
+    /*
     config = GerritNav.mapCommentlinks(config);
     const output = dom(this.$.output);
     output.textContent = '';
@@ -98,6 +101,7 @@ class GrLinkedText extends GestureEventListeners(
       }
       anchor.setAttribute('rel', 'noopener');
     });
+    */
   }
 
   /**

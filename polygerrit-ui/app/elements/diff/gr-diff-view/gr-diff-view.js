@@ -300,6 +300,8 @@ class GrDiffView extends mixinBehaviors( [
       [this.Shortcut.TOGGLE_BLAME]: '_handleToggleBlame',
       [this.Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS]:
           '_handleToggleHideAllCommentThreads',
+      [this.Shortcut.DIFF_AGAINST_BASE]: '_handleDiffAgainstBase',
+      [this.Shortcut.DIFF_AGAINST_LATEST]: '_handleDiffAgainstLatest',
 
       // Final two are actually handled by gr-comment-thread.
       [this.Shortcut.EXPAND_ALL_COMMENT_THREADS]: null,
@@ -1284,6 +1286,18 @@ class GrDiffView extends mixinBehaviors( [
     if (this.shouldSuppressKeyboardShortcut(e) ||
       this.modifierPressed(e)) { return; }
     this.toggleClass('hideComments');
+  }
+
+  _handleDiffAgainstBase(e) {
+    if (this.shouldSuppressKeyboardShortcut(e) ||
+        this.modifierPressed(e)) { return; }
+    console.log('diffing against base');
+  }
+
+  _handleDiffAgainstLatest(e) {
+    if (this.shouldSuppressKeyboardShortcut(e) ||
+        this.modifierPressed(e)) { return; }
+    console.log('diffing against latest');
   }
 
   _computeBlameLoaderClass(isImageDiff, path) {

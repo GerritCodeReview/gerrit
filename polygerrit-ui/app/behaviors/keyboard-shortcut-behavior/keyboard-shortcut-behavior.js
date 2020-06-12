@@ -101,10 +101,13 @@ import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
 const DOC_ONLY = 'DOC_ONLY';
 const GO_KEY = 'GO_KEY';
+const V_KEY = 'V_KEY';
 
 // The maximum age of a keydown event to be used in a jump navigation. This
 // is only for cases when the keyup event is lost.
 const GO_KEY_TIMEOUT_MS = 1000;
+
+const V_KEY_TIMEOUT_MS = 3000;
 
 const ShortcutSection = {
   ACTIONS: 'Actions',
@@ -141,6 +144,10 @@ const Shortcut = {
   TOGGLE_DIFF_MODE: 'TOGGLE_DIFF_MODE',
   REFRESH_CHANGE: 'REFRESH_CHANGE',
   EDIT_TOPIC: 'EDIT_TOPIC',
+  DIFF_AGAINST_BASE: 'DIFF_AGAINST_BASE',
+  DIFF_AGAINST_LATEST: 'DIFF_AGAINST_LATEST',
+  DIFF_BASE_AGAINST_LEFT: 'DIFF_BASE_AGAINST_LEFT',
+  DIFF_RIGHT_AGAINST_LATEST: 'DIFF_RIGHT_AGAINST_LATEST',
 
   NEXT_LINE: 'NEXT_LINE',
   PREV_LINE: 'PREV_LINE',
@@ -233,9 +240,25 @@ _describe(Shortcut.TOGGLE_CHANGE_STAR, ShortcutSection.ACTIONS,
     'Star/unstar change');
 _describe(Shortcut.EDIT_TOPIC, ShortcutSection.ACTIONS,
     'Add a change topic');
+_describe(Shortcut.DIFF_AGAINST_BASE, ShortcutSection.ACTIONS,
+    'Diff against base');
+_describe(Shortcut.DIFF_AGAINST_LATEST, ShortcutSection.ACTIONS,
+    'Diff against latest patchset');
+_describe(Shortcut.DIFF_BASE_AGAINST_LEFT, ShortcutSection.ACTIONS,
+    'Diff base against left');
+_describe(Shortcut.DIFF_RIGHT_AGAINST_LATEST, ShortcutSection.ACTIONS,
+    'Diff right against latest');
 
 _describe(Shortcut.NEXT_LINE, ShortcutSection.DIFFS, 'Go to next line');
 _describe(Shortcut.PREV_LINE, ShortcutSection.DIFFS, 'Go to previous line');
+_describe(Shortcut.DIFF_AGAINST_BASE, ShortcutSection.DIFFS,
+    'Diff against base');
+_describe(Shortcut.DIFF_AGAINST_LATEST, ShortcutSection.DIFFS,
+    'Diff against latest patchset');
+_describe(Shortcut.DIFF_BASE_AGAINST_LEFT, ShortcutSection.DIFFS,
+    'Diff base against left');
+_describe(Shortcut.DIFF_RIGHT_AGAINST_LATEST, ShortcutSection.DIFFS,
+    'Diff right against latest');
 _describe(Shortcut.VISIBLE_LINE, ShortcutSection.DIFFS,
     'Move cursor to currently visible code');
 _describe(Shortcut.NEXT_CHUNK, ShortcutSection.DIFFS,
@@ -437,6 +460,9 @@ class ShortcutManager {
     if (bindings[0] === GO_KEY) {
       return [['g'].concat(bindings.slice(1))];
     }
+    if (bindings[0] === V_KEY) {
+      return [['v'].concat(bindings.slice(1))];
+    }
     return bindings
         .filter(binding => binding !== DOC_ONLY)
         .map(binding => this.describeBinding(binding));
@@ -489,6 +515,8 @@ export const KeyboardShortcutBehavior = [
     // eslint-disable-next-line object-shorthand
     GO_KEY: GO_KEY,
     // eslint-disable-next-line object-shorthand
+    V_KEY: V_KEY,
+    // eslint-disable-next-line object-shorthand
     Shortcut: Shortcut,
     // eslint-disable-next-line object-shorthand
     ShortcutSection: ShortcutSection,
@@ -498,8 +526,11 @@ export const KeyboardShortcutBehavior = [
         type: Number,
         value: null,
       },
-
       _shortcut_go_table: {
+        type: Array,
+        value() { return new Map(); },
+      },
+      _shortcut_v_table: {
         type: Array,
         value() { return new Map(); },
       },
@@ -507,7 +538,8 @@ export const KeyboardShortcutBehavior = [
 
     modifierPressed(e) {
       e = getKeyboardEvent(e);
-      return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
+      return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey ||
+        this._inVKeyMode();
     },
 
     isModifierPressed(e, modifier) {
@@ -566,6 +598,8 @@ export const KeyboardShortcutBehavior = [
       }
       if (bindings[0] === GO_KEY) {
         this._shortcut_go_table.set(bindings[1], handler);
+      } else if (bindings[0] === V_KEY) {
+        this._shortcut_v_table.set(bindings[1], handler);
       } else {
         this.addOwnKeyBinding(bindings.join(' '), handler);
       }
@@ -589,6 +623,14 @@ export const KeyboardShortcutBehavior = [
           this.addOwnKeyBinding(key, '_handleGoAction');
         });
       }
+
+      if (this._shortcut_v_table.size > 0) {
+        this.addOwnKeyBinding('v:keydown', '_handleVKeyDown');
+        this.addOwnKeyBinding('v:keyup', '_handleVKeyUp');
+        this._shortcut_v_table.forEach((handler, key) => {
+          this.addOwnKeyBinding(key, '_handleVAction');
+        });
+      }
     },
 
     /** @override */
@@ -608,6 +650,31 @@ export const KeyboardShortcutBehavior = [
 
     removeKeyboardShortcutDirectoryListener(listener) {
       shortcutManager.removeListener(listener);
+    },
+
+    _handleVKeyDown(e) {
+      this._shortcut_v_key_last_pressed = Date.now();
+    },
+
+    _handleVKeyUp(e) {
+      this._shortcut_v_key_last_pressed = null;
+    },
+
+    _inVKeyMode() {
+      return this._shortcut_v_key_last_pressed &&
+          (Date.now() - this._shortcut_v_key_last_pressed <=
+              V_KEY_TIMEOUT_MS);
+    },
+
+    _handleVAction(e) {
+      if (!this._inVKeyMode() ||
+          !this._shortcut_v_table.has(e.detail.key) ||
+          this.shouldSuppressKeyboardShortcut(e)) {
+        return;
+      }
+      e.preventDefault();
+      const handler = this._shortcut_v_table.get(e.detail.key);
+      this[handler](e);
     },
 
     _handleGoKeyDown(e) {
@@ -641,6 +708,7 @@ export const KeyboardShortcutBehavior = [
 export const KeyboardShortcutBinder = {
   DOC_ONLY,
   GO_KEY,
+  V_KEY,
   Shortcut,
   ShortcutManager,
   ShortcutSection,

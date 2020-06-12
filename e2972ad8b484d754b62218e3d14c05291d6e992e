@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "689f9f2d_5085d37e",
+        "filename": "contrib/workspace_status_release.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-12T08:36:34Z",
+      "side": 1,
+      "message": "Actually, that would be great. I\u0027ve adapted I7e2253745283bbfff86614ff5ad87d652e68de66 accordingly. Now things look way more consistent.",
+      "parentUuid": "dfe6ad77_f16c58df",
+      "range": {
+        "startLine": 59,
+        "startChar": 43,
+        "endLine": 59,
+        "endChar": 73
+      },
+      "revId": "e2972ad8b484d754b62218e3d14c05291d6e992e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0be17022_154b4eff",
         "filename": "contrib/workspace_status_release.py",
         "patchSetId": 4
@@ -93,6 +117,30 @@
       "revId": "e2972ad8b484d754b62218e3d14c05291d6e992e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c2c9339_190fc04f",
+        "filename": "contrib/workspace_status_release.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-12T08:36:34Z",
+      "side": 1,
+      "message": "It was meant as a fallback, in case the plugin has a workspace_status script\nbut if fails to provide a proper stamp. Bazel is smart enough to pick the last\nof the stamps.\n\nBut I guess you\u0027re right. That fallback is not needed right now. Maybe it never\nwill. So let\u0027s drop it.\n\nDone in PS6.",
+      "parentUuid": "0be17022_154b4eff",
+      "range": {
+        "startLine": 72,
+        "startChar": 8,
+        "endLine": 72,
+        "endChar": 22
+      },
+      "revId": "e2972ad8b484d754b62218e3d14c05291d6e992e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

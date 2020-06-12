@@ -441,6 +441,8 @@ class GrChangeView extends mixinBehaviors( [
       [this.Shortcut.COLLAPSE_ALL_MESSAGES]: '_handleCollapseAllMessages',
       [this.Shortcut.OPEN_DIFF_PREFS]: '_handleOpenDiffPrefsShortcut',
       [this.Shortcut.EDIT_TOPIC]: '_handleEditTopic',
+      [this.Shortcut.DIFF_AGAINST_BASE]: '_handleDiffAgainstBase',
+      [this.Shortcut.DIFF_AGAINST_LATEST]: '_handleDiffAgainstLatest',
     };
   }
 
@@ -1402,6 +1404,38 @@ class GrChangeView extends mixinBehaviors( [
 
     e.preventDefault();
     this.$.metadata.editTopic();
+  }
+
+  _handleDiffAgainstBase(e) {
+    if (this.shouldSuppressKeyboardShortcut(e) ||
+        this.modifierPressed(e)) { return; }
+    if (this.patchNumEquals(this._patchRange.basePatchNum, 'PARENT')) {
+      this.dispatchEvent(new CustomEvent('show-alert', {
+        detail: {
+          message: 'Base already selected',
+        },
+        composed: true, bubbles: true,
+      }));
+      return;
+    }
+    GerritNav.navigateToChange(this._change, this._patchRange.patchNum);
+  }
+
+  _handleDiffAgainstLatest(e) {
+    if (this.shouldSuppressKeyboardShortcut(e) ||
+        this.modifierPressed(e)) { return; }
+    const latestPatchNum = this.computeLatestPatchNum(this._allPatchSets);
+    if (this.patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
+      this.dispatchEvent(new CustomEvent('show-alert', {
+        detail: {
+          message: 'Latest already selected',
+        },
+        composed: true, bubbles: true,
+      }));
+      return;
+    }
+    GerritNav.navigateToChange(this._change, latestPatchNum,
+        this._patchRange.basePatchNum);
   }
 
   _handleRefreshChange(e) {

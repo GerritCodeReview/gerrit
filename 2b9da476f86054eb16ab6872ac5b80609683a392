@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d39a0cc5_248fbde2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-12T21:33:28Z",
+      "side": 1,
+      "message": "Done. Removed.",
+      "parentUuid": "3eebc7c7_2b4251cf",
+      "range": {
+        "startLine": 25,
+        "startChar": 24,
+        "endLine": 29,
+        "endChar": 6
+      },
+      "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbfedb7d_b8b779a2",
         "filename": "java/com/google/gerrit/server/index/OnlineReindexer.java",
         "patchSetId": 12
@@ -36,6 +60,24 @@
       "writtenOn": "2020-06-10T14:58:19Z",
       "side": 1,
       "message": "Public method javadoc missing, similar to activateIndex() above. Unless this added method should be package-private instead of public.",
+      "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62a58c85_4f02ab88",
+        "filename": "java/com/google/gerrit/server/index/OnlineReindexer.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-12T21:33:28Z",
+      "side": 1,
+      "message": "If activateIndex is public, then I think this method should be too to be paired with it. The problem before adding this method was that activating index without it being initialized (this method does that) will throw an NPE. Done for Javadoc.",
+      "parentUuid": "cbfedb7d_b8b779a2",
       "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "d5399aa8_08c79a1f",
+        "filename": "java/com/google/gerrit/server/index/OnlineReindexer.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-12T21:33:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff6be327_d3b22c69",
+      "range": {
+        "startLine": 143,
+        "startChar": 14,
+        "endLine": 143,
+        "endChar": 24
+      },
+      "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "826f19ad_e69c1566",
         "filename": "java/com/google/gerrit/server/index/VersionManager.java",
         "patchSetId": 12
@@ -79,6 +145,24 @@
       "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77bb6e7c_b93ca137",
+        "filename": "java/com/google/gerrit/server/index/VersionManager.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-12T21:33:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "826f19ad_e69c1566",
+      "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "43c43eaf_dbbf9c9f",
+        "filename": "java/com/google/gerrit/server/index/VersionManager.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-12T21:33:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6469be73_eccf4685",
+      "range": {
+        "startLine": 152,
+        "startChar": 27,
+        "endLine": 152,
+        "endChar": 37
+      },
+      "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be378feb_3a65f58a",
         "filename": "java/com/google/gerrit/server/index/VersionManager.java",
         "patchSetId": 12
@@ -122,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "a4d234ed_9d5c4594",
+        "filename": "java/com/google/gerrit/server/index/VersionManager.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-12T21:33:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be378feb_3a65f58a",
+      "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8034f13d_3b80eab0",
         "filename": "java/com/google/gerrit/server/index/VersionManager.java",
         "patchSetId": 12
@@ -133,6 +259,30 @@
       "writtenOn": "2020-06-10T14:58:19Z",
       "side": 1,
       "message": "Should be merged into setLowestIndex above.\n\nThen I think some method javadoc would help justify this method as well.",
+      "range": {
+        "startLine": 240,
+        "startChar": 58,
+        "endLine": 240,
+        "endChar": 79
+      },
+      "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b40a4366_22cec897",
+        "filename": "java/com/google/gerrit/server/index/VersionManager.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-12T21:33:28Z",
+      "side": 1,
+      "message": "I seperated them since this is a generic method, and if the parameter is the index name passed as a String, we would need to write:\n\nIndexDefinition\u003cK, V, I\u003e def \u003d (IndexDefinition\u003cK, V, I\u003e) defs.get(index);\n\nwhich will give the type cast safety warning on Eclipse, since defs is initialized with IndexDefinition\u003c?,?,?\u003e (lacking the generic arguments). \nThis way of writing this piece of code prevents that from happening.\n\nDone for Javadoc.",
+      "parentUuid": "8034f13d_3b80eab0",
       "range": {
         "startLine": 240,
         "startChar": 58,
@@ -168,6 +318,30 @@
     },
     {
       "key": {
+        "uuid": "80a401ea_1da2d6a5",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-12T21:33:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae2339da_45443a9c",
+      "range": {
+        "startLine": 32,
+        "startChar": 14,
+        "endLine": 32,
+        "endChar": 24
+      },
+      "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2393e331_3cefa99a",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
         "patchSetId": 12
@@ -179,6 +353,30 @@
       "writtenOn": "2020-06-10T14:58:19Z",
       "side": 1,
       "message": "Sort this list alphabetically? Also wondering if these constants could not be obtained from elsewhere as opposed to coding them here.",
+      "range": {
+        "startLine": 35,
+        "startChar": 24,
+        "endLine": 35,
+        "endChar": 67
+      },
+      "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2932dd81_d72bfac8",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-12T21:33:28Z",
+      "side": 1,
+      "message": "I checked what I can access from this class and there does not seem a straightforward way to access them from what\u0027s available as opposed to just hardcoding them.",
+      "parentUuid": "2393e331_3cefa99a",
       "range": {
         "startLine": 35,
         "startChar": 24,
@@ -214,6 +412,30 @@
     },
     {
       "key": {
+        "uuid": "c56cadda_b8b8338b",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-12T21:33:28Z",
+      "side": 1,
+      "message": "I will remove it as it does not need to be there.",
+      "parentUuid": "e83b53e7_6a8e6ad7",
+      "range": {
+        "startLine": 42,
+        "startChar": 11,
+        "endLine": 42,
+        "endChar": 19
+      },
+      "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f68caaaa_eb0da4e4",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
         "patchSetId": 12
@@ -225,6 +447,30 @@
       "writtenOn": "2020-06-10T14:58:19Z",
       "side": 1,
       "message": "Wouldn\u0027t this always be true? Why do we need to assert on the site path here in this test?",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 51
+      },
+      "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "220fc65a_ccaf0146",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-12T21:33:28Z",
+      "side": 1,
+      "message": "I did it to test the \"This command allows restarting the online indexer without having to restart Gerrit\" from [2] to test that Gerrit does not get restarted following the command. However, after second thought, I don\u0027t think that really tests it so I will remove it.",
+      "parentUuid": "f68caaaa_eb0da4e4",
       "range": {
         "startLine": 46,
         "startChar": 6,
@@ -260,6 +506,30 @@
     },
     {
       "key": {
+        "uuid": "58591503_2ab403c9",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-12T21:33:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c1e46f1_259d8536",
+      "range": {
+        "startLine": 47,
+        "startChar": 6,
+        "endLine": 47,
+        "endChar": 55
+      },
+      "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19c00d98_acb628ac",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
         "patchSetId": 12
@@ -280,6 +550,30 @@
       "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0403a76a_208695d5",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-12T21:33:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19c00d98_acb628ac",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 65,
+        "endChar": 38
+      },
+      "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -306,6 +600,30 @@
     },
     {
       "key": {
+        "uuid": "0b664a8d_b795181b",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-12T21:33:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e29780af_8174a4c0",
+      "range": {
+        "startLine": 71,
+        "startChar": 14,
+        "endLine": 71,
+        "endChar": 27
+      },
+      "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21992b60_dfd30015",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
         "patchSetId": 12
@@ -329,6 +647,30 @@
     },
     {
       "key": {
+        "uuid": "3555bf03_27d95e49",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-12T21:33:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21992b60_dfd30015",
+      "range": {
+        "startLine": 74,
+        "startChar": 24,
+        "endLine": 74,
+        "endChar": 55
+      },
+      "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c0d2421_80d211e9",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
         "patchSetId": 12
@@ -340,6 +682,30 @@
       "writtenOn": "2020-06-10T14:58:19Z",
       "side": 1,
       "message": "The previous test method doesn\u0027t have this call in its flow. Why should it be used here, as opposed to running the corresponding ssh command instead? Not sure I understand the so differing test case flows (comparing start and activate).",
+      "range": {
+        "startLine": 81,
+        "startChar": 21,
+        "endLine": 81,
+        "endChar": 31
+      },
+      "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5057bb6_51035d9a",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-12T21:33:28Z",
+      "side": 1,
+      "message": "The start ssh command both starts and activates the index, therefore not allowing for the activate method to be tested. This test allows for the index to be started without being activated, to test whether or not the activate command works as expected.",
+      "parentUuid": "4c0d2421_80d211e9",
       "range": {
         "startLine": 81,
         "startChar": 21,

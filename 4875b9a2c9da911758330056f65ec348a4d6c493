@@ -16,6 +16,24 @@
       "revId": "4875b9a2c9da911758330056f65ec348a4d6c493",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c3dc0ac_4af15330",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-06-12T15:33:34Z",
+      "side": 1,
+      "message": "Yes, will do... now that I collected a couple of positive comments :-)",
+      "parentUuid": "1f49d7ac_52225f30",
+      "revId": "4875b9a2c9da911758330056f65ec348a4d6c493",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

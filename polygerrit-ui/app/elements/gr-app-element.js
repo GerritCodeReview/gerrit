@@ -286,6 +286,10 @@ class GrAppElement extends mixinBehaviors( [
         this.Shortcut.UP_TO_CHANGE, 'u');
     this.bindShortcut(
         this.Shortcut.TOGGLE_DIFF_MODE, 'm:keyup');
+    this.bindShortcut(
+        this.Shortcut.DIFF_AGAINST_BASE, this.GO_KEY, 'b');
+    this.bindShortcut(
+        this.Shortcut.DIFF_AGAINST_LATEST, this.GO_KEY, 'l');
 
     this.bindShortcut(
         this.Shortcut.NEXT_LINE, 'j', 'down');

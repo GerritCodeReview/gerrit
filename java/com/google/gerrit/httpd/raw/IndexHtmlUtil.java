@@ -83,8 +83,7 @@ public class IndexHtmlUtil {
           "\"/accounts/self/preferences.edit\"",
           serializeObject(gson, accountApi.getEditPreferences()));
     } catch (AuthException e) {
-      logger.atFine().withCause(e).log(
-          "Can't inline account-related data because user is unauthenticated");
+      logger.atFine().log("Can't inline account-related data because user is unauthenticated");
       // Don't render data
       // TODO(hiesel): Tell the client that the user is not authenticated so that it doesn't have to
       // fetch anyway. This requires more client side modifications.

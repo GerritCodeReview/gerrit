@@ -20,7 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.util.BatchProgramModule;
@@ -103,6 +103,9 @@ public class MigrateToNoteDb extends SiteProgram {
       handler = ExplicitBooleanOptionHandler.class)
   private Boolean reindex;
 
+  @Option(name = "--verbose", usage = "Output debug information when reindexing")
+  private boolean verbose;
+
   private Injector dbInjector;
   private Injector sysInjector;
   private LifecycleManager dbManager;
@@ -167,13 +170,16 @@ public class MigrateToNoteDb extends SiteProgram {
     // Reindex all indices, to save the user from having to run yet another program by hand while
     // their server is offline.
     List<String> reindexArgs =
-        ImmutableList.of(
+        Lists.newArrayList(
             "--site-path",
             getSitePath().toString(),
             "--threads",
             Integer.toString(threads),
             "--index",
             ChangeSchemaDefinitions.NAME);
+    if (verbose) {
+      reindexArgs.add("--verbose");
+    }
     System.out.println("Migration complete, reindexing changes with:");
     System.out.println("  reindex " + reindexArgs.stream().collect(joining(" ")));
     Reindex reindexPgm = new Reindex();

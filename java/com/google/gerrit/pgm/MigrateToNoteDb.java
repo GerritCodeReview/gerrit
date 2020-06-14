@@ -103,6 +103,9 @@ public class MigrateToNoteDb extends SiteProgram {
       handler = ExplicitBooleanOptionHandler.class)
   private Boolean reindex;
 
+  @Option(name = "--verbose", usage = "Output debug information when reindexing")
+  private boolean verbose;
+
   private Injector dbInjector;
   private Injector sysInjector;
   private LifecycleManager dbManager;
@@ -166,14 +169,18 @@ public class MigrateToNoteDb extends SiteProgram {
     }
     // Reindex all indices, to save the user from having to run yet another program by hand while
     // their server is offline.
-    List<String> reindexArgs =
-        ImmutableList.of(
-            "--site-path",
-            getSitePath().toString(),
-            "--threads",
-            Integer.toString(threads),
-            "--index",
-            ChangeSchemaDefinitions.NAME);
+    ImmutableList.Builder<String> reindexArgsBuilder = ImmutableList.builder();
+    reindexArgsBuilder.add(
+        "--site-path",
+        getSitePath().toString(),
+        "--threads",
+        Integer.toString(threads),
+        "--index",
+        ChangeSchemaDefinitions.NAME);
+    if (verbose) {
+      reindexArgsBuilder.add("--verbose");
+    }
+    List<String> reindexArgs = reindexArgsBuilder.build();
     System.out.println("Migration complete, reindexing changes with:");
     System.out.println("  reindex " + reindexArgs.stream().collect(joining(" ")));
     Reindex reindexPgm = new Reindex();

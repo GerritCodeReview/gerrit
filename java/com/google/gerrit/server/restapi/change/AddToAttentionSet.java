@@ -16,7 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.extensions.api.changes.AddToAttentionSetInput;
+import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -38,7 +38,7 @@ import com.google.inject.Singleton;
 @Singleton
 public class AddToAttentionSet
     implements RestCollectionModifyView<
-        ChangeResource, AttentionSetEntryResource, AddToAttentionSetInput> {
+        ChangeResource, AttentionSetEntryResource, AttentionSetInput> {
   private final BatchUpdate.Factory updateFactory;
   private final AccountResolver accountResolver;
   private final AddToAttentionSetOp.Factory opFactory;
@@ -60,7 +60,7 @@ public class AddToAttentionSet
   }
 
   @Override
-  public Response<AccountInfo> apply(ChangeResource changeResource, AddToAttentionSetInput input)
+  public Response<AccountInfo> apply(ChangeResource changeResource, AttentionSetInput input)
       throws Exception {
     input.user = Strings.nullToEmpty(input.user).trim();
     if (input.user.isEmpty()) {

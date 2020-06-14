@@ -19,7 +19,7 @@ import com.google.gerrit.extensions.restapi.DefaultInput;
 /**
  * Input at API level to remove a user from the attention set.
  *
- * @see AddToAttentionSetInput
+ * @see AttentionSetInput
  * @see com.google.gerrit.extensions.common.AttentionSetEntry
  */
 public class RemoveFromAttentionSetInput {

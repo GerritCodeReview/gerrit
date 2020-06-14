@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b07b32b_284a6325",
+        "filename": "java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-14T23:16:03Z",
+      "side": 1,
+      "message": "This can still be an ImmutableList if we use the builder to create it rather than the of(...) helper.",
+      "range": {
+        "startLine": 173,
+        "startChar": 8,
+        "endLine": 173,
+        "endChar": 27
+      },
+      "revId": "34f7f5640f54953cff77eb01bab1a889f9c6a511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -20,14 +20,14 @@ package com.google.gerrit.extensions.api.changes;
  * @see RemoveFromAttentionSetInput
  * @see com.google.gerrit.extensions.common.AttentionSetEntry
  */
-public class AddToAttentionSetInput {
+public class AttentionSetInput {
   public String user;
   public String reason;
 
-  public AddToAttentionSetInput(String user, String reason) {
+  public AttentionSetInput(String user, String reason) {
     this.user = user;
     this.reason = reason;
   }
 
-  public AddToAttentionSetInput() {}
+  public AttentionSetInput() {}
 }

@@ -34,6 +34,24 @@
       "revId": "c4f87beb67c1795ec3b0dd6b700857115d61281b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f3ea193_d751d279",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-14T23:45:22Z",
+      "side": 1,
+      "message": "I\u0027ve fixed it. We need to change this to use Java 8\u0027s stream API rather than Guava.",
+      "parentUuid": "92a30f3c_c235de95",
+      "revId": "c4f87beb67c1795ec3b0dd6b700857115d61281b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

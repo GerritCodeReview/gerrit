@@ -40,6 +40,8 @@ import com.google.gerrit.server.schema.DataSourceType;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -149,7 +151,9 @@ public class MigrateToNoteDb extends SiteProgram {
           migrator.migrate();
         }
       }
-      try (PrintWriter w = new PrintWriter(new OutputStreamWriter(System.out, UTF_8), true)) {
+      try (PrintWriter w =
+          new PrintWriter(
+              new OutputStreamWriter(new CloseSkippingOutputStream(System.out), UTF_8), true)) {
         gcAllUsers.run(w);
       }
     } finally {
@@ -223,6 +227,41 @@ public class MigrateToNoteDb extends SiteProgram {
       if (m != null) {
         m.stop();
       }
+    }
+  }
+
+  /**
+   * An OutputStream wrapper that skips closing.
+   *
+   * <p>When using auto-closing wrappers around {@code System.out}, they typically close {@code
+   * System.out} when they auto-close. This essentially bars further output through {@code
+   * System.out}. By wrapping {@code System.out} in CloseSkippingOutputStream, {@code System.out} is
+   * not closed when the outer auto-closing wrappers close. And hence, {@code System.out} stays
+   * usable.
+   */
+  public static class CloseSkippingOutputStream extends OutputStream implements AutoCloseable {
+    private OutputStream out;
+
+    CloseSkippingOutputStream(OutputStream out) {
+      this.out = out;
+    }
+
+    @Override
+    public void write(int b) throws IOException {
+      out.write(b);
+    }
+
+    @Override
+    public void flush() throws IOException {
+      out.flush();
+    }
+
+    @Override
+    public void close() throws IOException {
+      // On purpose not closing the wrapped stream, as we skip the closing.
+      //
+      // (This behavior is the default of OutputStream, we override nonetheless to to make our
+      // intention explicit)
     }
   }
 }

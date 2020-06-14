@@ -16,6 +16,7 @@ package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import java.time.Instant;
 
 /**
@@ -23,7 +24,7 @@ import java.time.Instant;
  * in reverse chronological order. Since each update contains all required information and
  * invalidates all previous state, only the most recent record is relevant for each user.
  *
- * <p>See {@link com.google.gerrit.extensions.api.changes.AddToAttentionSetInput} and {@link
+ * <p>See {@link AttentionSetInput} and {@link
  * com.google.gerrit.extensions.api.changes.RemoveFromAttentionSetInput} for the representation in
  * the API.
  */

@@ -305,19 +305,35 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     public Stream<ChangeNotesResult> scan(Repository repo, ReviewDb db, Project.NameKey project)
         throws IOException {
-      return args.migration.readChanges() ? scanNoteDb(repo, db, project) : scanReviewDb(repo, db);
+      return scan(repo, db, project, null);
     }
 
-    private Stream<ChangeNotesResult> scanReviewDb(Repository repo, ReviewDb db)
+    public Stream<ChangeNotesResult> scan(
+        Repository repo,
+        ReviewDb db,
+        Project.NameKey project,
+        Predicate<Change.Id> changeIdPredicate)
         throws IOException {
+      return args.migration.readChanges()
+          ? scanNoteDb(repo, db, project, changeIdPredicate)
+          : scanReviewDb(repo, db, changeIdPredicate);
+    }
+
+    private Stream<ChangeNotesResult> scanReviewDb(
+        Repository repo, ReviewDb db, Predicate<Change.Id> changeIdPredicate) throws IOException {
       // Scan IDs that might exist in ReviewDb, assuming that each change has at least one patch set
       // ref. Not all changes might exist: some patch set refs might have been written where the
       // corresponding ReviewDb write failed. These will be silently filtered out by the batch get
       // call below, which is intended.
       Set<Change.Id> ids = scanChangeIds(repo).fromPatchSetRefs();
 
+      Stream<Change.Id> idStream = ids.stream();
+      if (changeIdPredicate != null) {
+        idStream = idStream.filter(changeIdPredicate);
+      }
+
       // A batch size of N may overload get(Iterable), so use something smaller, but still >1.
-      return Streams.stream(Iterators.partition(ids.iterator(), 30))
+      return Streams.stream(Iterators.partition(idStream.iterator(), 30))
           .flatMap(
               batch -> {
                 try {
@@ -333,10 +349,23 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     private Stream<ChangeNotesResult> scanNoteDb(
         Repository repo, ReviewDb db, Project.NameKey project) throws IOException {
+      return scanNoteDb(repo, db, project, null);
+    }
+
+    private Stream<ChangeNotesResult> scanNoteDb(
+        Repository repo,
+        ReviewDb db,
+        Project.NameKey project,
+        Predicate<Change.Id> changeIdPredicate)
+        throws IOException {
       ScanResult sr = scanChangeIds(repo);
       PrimaryStorage defaultStorage = args.migration.changePrimaryStorage();
 
-      return sr.all().stream()
+      Stream<Change.Id> idStream = sr.all().stream();
+      if (changeIdPredicate != null) {
+        idStream = idStream.filter(changeIdPredicate);
+      }
+      return idStream
           .map(id -> scanOneNoteDbChange(db, project, sr, defaultStorage, id))
           .filter(Objects::nonNull);
     }

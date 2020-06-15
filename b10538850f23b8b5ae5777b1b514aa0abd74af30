@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "581c6eed_ceb8fd68",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2089,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-06-15T22:41:48Z",
+      "side": 1,
+      "message": "I was checking that one but it\u0027s not supported by Internet Explorer https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors",
+      "parentUuid": "48dd0798_f461773f",
+      "range": {
+        "startLine": 2089,
+        "startChar": 9,
+        "endLine": 2089,
+        "endChar": 10
+      },
+      "revId": "b10538850f23b8b5ae5777b1b514aa0abd74af30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c3cc26bd_b1c94f04",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2
@@ -59,6 +83,30 @@
       "writtenOn": "2020-06-15T17:38:36Z",
       "side": 1,
       "message": "This is equivalent to having gerrit.canLoadInIFrame \u003d false, correct? Why then allowing this as a value?",
+      "range": {
+        "startLine": 2099,
+        "startChar": 0,
+        "endLine": 2099,
+        "endChar": 94
+      },
+      "revId": "b10538850f23b8b5ae5777b1b514aa0abd74af30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8bada4d_a1b639c1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2099,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-06-15T22:41:48Z",
+      "side": 1,
+      "message": "Yes, the only reason why I\u0027ve added DENY is to be more explicit and if someone is blocking he can keep both variables. It looks over-engineered I will remove DENY then",
+      "parentUuid": "c3cc26bd_b1c94f04",
       "range": {
         "startLine": 2099,
         "startChar": 0,

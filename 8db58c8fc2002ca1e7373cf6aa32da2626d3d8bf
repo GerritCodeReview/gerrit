@@ -70,6 +70,30 @@
       "revId": "8db58c8fc2002ca1e7373cf6aa32da2626d3d8bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c425017e_28361874",
+        "filename": "java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-15T22:32:51Z",
+      "side": 0,
+      "message": "Done in PS3.\n\n(errorprone did not flag the missing `close` as an issue)",
+      "parentUuid": "49f755e4_2f7a2dc6",
+      "range": {
+        "startLine": 152,
+        "startChar": 11,
+        "endLine": 152,
+        "endChar": 91
+      },
+      "revId": "8db58c8fc2002ca1e7373cf6aa32da2626d3d8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

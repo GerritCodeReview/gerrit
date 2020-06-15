@@ -28,7 +28,6 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-error-manager_html.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {authService} from '../../shared/gr-rest-api-interface/gr-auth.js';
-import {gerritEventEmitter} from '../../shared/gr-event-emitter/gr-event-emitter.js';
 import {appContext} from '../../../services/app-context.js';
 
 const HIDE_ALERT_TIMEOUT_MS = 5000;
@@ -93,6 +92,7 @@ class GrErrorManager extends mixinBehaviors( [
     this._authErrorHandlerDeregistrationHook;
 
     this.reporting = appContext.reportingService;
+    this.gerritEventEmitter = appContext.gerritEventEmitter;
   }
 
   /** @override */
@@ -106,7 +106,7 @@ class GrErrorManager extends mixinBehaviors( [
     this.listen(document, 'show-auth-required', '_handleAuthRequired');
 
     this._authErrorHandlerDeregistrationHook =
-      gerritEventEmitter.on('auth-error',
+      this.gerritEventEmitter.on('auth-error',
           event => {
             this._handleAuthError(event.message, event.action);
           });

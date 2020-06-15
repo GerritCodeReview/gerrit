@@ -38,6 +38,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-app_html.js';
 import {SafeTypes} from '../behaviors/safe-types-behavior/safe-types-behavior.js';
 import {initGerritPluginApi} from './shared/gr-js-api-interface/gr-gerrit.js';
+import {appContext} from '../services/app-context.js';
 
 security.polymer_resin.install({
   allowedIdentifierPrefixes: [''],
@@ -57,4 +58,4 @@ class GrApp extends GestureEventListeners(
 customElements.define(GrApp.is, GrApp);
 
 initGlobalVariables();
-initGerritPluginApi();
+initGerritPluginApi(appContext);

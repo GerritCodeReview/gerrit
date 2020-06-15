@@ -30,10 +30,10 @@ limitations under the License.
 </test-fixture>
 
 <script type="module">
-import '../../../test/common-test-setup.js';
-import '../gr-js-api-interface/gr-js-api-interface.js';
+import '../../test/common-test-setup.js';
+import '../../elements/shared/gr-js-api-interface/gr-js-api-interface.js';
 import {EventEmitter} from './gr-event-interface.js';
-import {_testOnly_initGerritPluginApi} from '../gr-js-api-interface/gr-gerrit.js';
+import {_testOnly_initGerritPluginApi} from '../../elements/shared/gr-js-api-interface/gr-gerrit.js';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 

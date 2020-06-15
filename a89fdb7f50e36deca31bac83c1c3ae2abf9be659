@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ee2c6c4_4d545b11",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1282,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-15T08:59:25Z",
+      "side": 1,
+      "message": "Would you also want to do this for 100+ files? Or should we only prefetch the first 20 files here?",
+      "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15f55f64_32b7be3a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1286,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-15T08:59:25Z",
+      "side": 1,
+      "message": "I am ok with doing this here for now, but maybe we want to do the prefetching even earlier, e.g. when the change page has finished loading?",
+      "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a036a606_5d6e0210",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-15T08:59:25Z",
+      "side": 1,
+      "message": "maybe rename to _fetchDiffPromise",
+      "range": {
+        "startLine": 221,
+        "startChar": 6,
+        "endLine": 221,
+        "endChar": 26
+      },
+      "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ca44c04_e5e150c8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-15T08:59:25Z",
+      "side": 1,
+      "message": "Maybe check whether _preFetchDiffPromise is still null to avoid kicking this off twice.",
+      "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b51d729b_9481e6c6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-15T08:59:25Z",
+      "side": 1,
+      "message": "maybe rename to _fetchDiff",
+      "range": {
+        "startLine": 552,
+        "startChar": 2,
+        "endLine": 552,
+        "endChar": 10
+      },
+      "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c6fca46_a6be99cf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-15T08:59:25Z",
+      "side": 1,
+      "message": "I think I would move this to line 342:\n\n  const fetchDiffPromise \u003d this._fetchDiffPromise ?\n                           this._fetchDiffPromise : this._fetchDiff();\n  this._fetchDiffPromise \u003d null;",
+      "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

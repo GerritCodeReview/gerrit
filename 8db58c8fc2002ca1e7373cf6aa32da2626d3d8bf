@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "513e79cf_c756bc4e",
+        "filename": "java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-15T15:47:39Z",
+      "side": 0,
+      "message": "Why not simply putting this out of the try then? With a comment explaining that we don\u0027t want to close System.out.\n\nPutting the System.out inside an auto-close and then giving it to a wrapper that ignores the close() looks over-engineering, what do you think?",
+      "range": {
+        "startLine": 152,
+        "startChar": 11,
+        "endLine": 152,
+        "endChar": 91
+      },
+      "revId": "8db58c8fc2002ca1e7373cf6aa32da2626d3d8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

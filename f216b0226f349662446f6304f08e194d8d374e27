@@ -274,6 +274,24 @@
     },
     {
       "key": {
+        "uuid": "3ca6e6bd_06c1c31f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-15T07:55:35Z",
+      "side": 1,
+      "message": "Thanks. Maybe some more explanation at the risk of oversimplification: I feel that many parts in Gerrit are hard to understand because architecturally different parts are semantically closely connected. This is one such case where I read the code and wonder \"Why does this do A and not B?\" and then find the explanation in a very different place of the codebase. So while the additional condition is technically redundant, it means that this part of the code can be read on its own.",
+      "parentUuid": "7f0482f6_3068787b",
+      "revId": "f216b0226f349662446f6304f08e194d8d374e27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f1f08ea_fbef1d18",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
         "patchSetId": 7

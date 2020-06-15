@@ -59,6 +59,52 @@
     },
     {
       "key": {
+        "uuid": "86cbbe25_8ca66588",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-15T09:11:15Z",
+      "side": 1,
+      "message": "nit: prefetch (to make it consistent with other places)",
+      "range": {
+        "startLine": 221,
+        "startChar": 10,
+        "endLine": 221,
+        "endChar": 11
+      },
+      "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64a1a867_80c4ae99",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-15T09:11:15Z",
+      "side": 1,
+      "message": "It seems, that every call to prefetch starts a new requests, i.e. it is not recommended to call prefetchDiff multiple times. Do we really need this limitation?",
+      "range": {
+        "startLine": 544,
+        "startChar": 2,
+        "endLine": 544,
+        "endChar": 14
+      },
+      "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4ca44c04_e5e150c8",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
         "patchSetId": 6
@@ -110,6 +156,52 @@
       "writtenOn": "2020-06-15T08:59:25Z",
       "side": 1,
       "message": "I think I would move this to line 342:\n\n  const fetchDiffPromise \u003d this._fetchDiffPromise ?\n                           this._fetchDiffPromise : this._fetchDiff();\n  this._fetchDiffPromise \u003d null;",
+      "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be5d7be0_3ef9a1e1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-15T09:11:15Z",
+      "side": 1,
+      "message": "Why the _preFetchDiffPromise is resetted on each call? Is it possible to return it without reset?",
+      "range": {
+        "startLine": 555,
+        "startChar": 11,
+        "endLine": 555,
+        "endChar": 31
+      },
+      "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d5b36ac_df6ee03c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-15T09:11:15Z",
+      "side": 1,
+      "message": "The changeNum, patchRange and path are binded. The _getIgnoreWhitespace can be changed.\nIt seems, the _preFetchDiffPromise must be reset every time when one of the parameter for getDiff is changed.\nAnd probably, it should be rejected, so other code doesn\u0027t get old data (not sure about this part)\n\nP.S. As an alternative solution, can we cache diff content in the restAPI instead (like we do with some other data?)\nFor example, we can keep last 100 requests for diff. Then we can get performance improvements also in a separate diff view.",
+      "range": {
+        "startLine": 562,
+        "startChar": 10,
+        "endLine": 566,
+        "endChar": 38
+      },
       "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

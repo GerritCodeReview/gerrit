@@ -26,6 +26,7 @@ import com.google.gerrit.elasticsearch.ElasticIndexModule;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.gpg.GpgModule;
 import com.google.gerrit.httpd.AllRequestFilter;
+import com.google.gerrit.httpd.AllowRenderInFrameFilter;
 import com.google.gerrit.httpd.GerritAuthModule;
 import com.google.gerrit.httpd.GetUserFilter;
 import com.google.gerrit.httpd.GitOverHttpModule;
@@ -557,6 +558,7 @@ public class Daemon extends SiteProgram {
     modules.add(RequestCleanupFilter.module());
     modules.add(AllRequestFilter.module());
     modules.add(SetThreadNameFilter.module());
+    modules.add(AllowRenderInFrameFilter.module());
     modules.add(sysInjector.getInstance(WebModule.class));
     modules.add(sysInjector.getInstance(RequireSslFilter.Module.class));
     modules.add(new HttpPluginModule());

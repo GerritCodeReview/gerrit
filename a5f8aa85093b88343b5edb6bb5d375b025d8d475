@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bc0f455_bd30e989",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 385,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-15T12:47:02Z",
+      "side": 1,
+      "message": "Can we extract this to a constant with a meaningful name? (it would be easier to find it)\nShould this new hard limit be documented somewhere?\n\nWhat if the receive commit doesn\u0027t complete in 5 seconds?",
+      "range": {
+        "startLine": 385,
+        "startChar": 26,
+        "endLine": 385,
+        "endChar": 27
+      },
+      "revId": "a5f8aa85093b88343b5edb6bb5d375b025d8d475",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

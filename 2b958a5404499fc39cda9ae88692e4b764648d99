@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5457692_ec93bd0f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-15T21:07:21Z",
+      "side": 1,
+      "message": "Maybe report when the event is fired in gr-patch-range-select.js and not when it is handled in two different places?",
+      "revId": "2b958a5404499fc39cda9ae88692e4b764648d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

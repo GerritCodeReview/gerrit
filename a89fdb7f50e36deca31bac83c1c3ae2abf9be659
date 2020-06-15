@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6df37d44_83be1422",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1282,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-15T13:57:56Z",
+      "side": 1,
+      "message": "It\u0027s limited by number of files shown - which by default is 200. I don\u0027t think we need another limit, but if you do, please reopen this comment.\n\nAlso this is run only when user press expand all.",
+      "parentUuid": "8ee2c6c4_4d545b11",
+      "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15f55f64_32b7be3a",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 6
@@ -33,6 +51,24 @@
       "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63db0a3b_e9017157",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1286,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-15T13:57:56Z",
+      "side": 1,
+      "message": "Yes, that will be prefetched by service worker. But until then this is quick solution for this pain point.",
+      "parentUuid": "15f55f64_32b7be3a",
+      "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +118,54 @@
     },
     {
       "key": {
+        "uuid": "483fd6dd_6dc62aad",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-15T13:57:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "86cbbe25_8ca66588",
+      "range": {
+        "startLine": 221,
+        "startChar": 10,
+        "endLine": 221,
+        "endChar": 11
+      },
+      "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a032ff62_7c551d61",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-15T13:57:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a036a606_5d6e0210",
+      "range": {
+        "startLine": 221,
+        "startChar": 6,
+        "endLine": 221,
+        "endChar": 26
+      },
+      "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64a1a867_80c4ae99",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
         "patchSetId": 6
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "ed0b4688_0f185ac2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-15T13:57:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64a1a867_80c4ae99",
+      "range": {
+        "startLine": 544,
+        "startChar": 2,
+        "endLine": 544,
+        "endChar": 14
+      },
+      "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ca44c04_e5e150c8",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
         "patchSetId": 6
@@ -119,6 +227,24 @@
       "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b9fe2e7_c79b3642",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-15T13:57:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ca44c04_e5e150c8",
+      "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -145,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "7ec50553_254eced7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-15T13:57:56Z",
+      "side": 1,
+      "message": "I don\u0027t plan to change more than necessary.",
+      "parentUuid": "b51d729b_9481e6c6",
+      "range": {
+        "startLine": 552,
+        "startChar": 2,
+        "endLine": 552,
+        "endChar": 10
+      },
+      "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8c6fca46_a6be99cf",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
         "patchSetId": 6
@@ -159,6 +309,24 @@
       "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80fcea2f_d96a9cf8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-15T13:57:56Z",
+      "side": 1,
+      "message": "I actually had it like that in first patchset. Then I moved it here, so\n\n1, the logic is in this part only. \n2, reload is much simpler\n\nIf you disagree, please reopen this.",
+      "parentUuid": "8c6fca46_a6be99cf",
+      "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -185,6 +353,30 @@
     },
     {
       "key": {
+        "uuid": "1c36eb0f_18b5cf15",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-15T13:57:56Z",
+      "side": 1,
+      "message": "This is simple invalidation. I will do this better, once I will move this caching to rest-api-interface",
+      "parentUuid": "be5d7be0_3ef9a1e1",
+      "range": {
+        "startLine": 555,
+        "startChar": 11,
+        "endLine": 555,
+        "endChar": 31
+      },
+      "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0d5b36ac_df6ee03c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
         "patchSetId": 6
@@ -205,6 +397,30 @@
       "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fdcb726_d7c1751c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-15T13:57:56Z",
+      "side": 1,
+      "message": "1. I added reset on whitespace change\n\nYes, I plan to cache in rest api in future, so then I will not need to cache promise here. I will just call _getDiff. I will do this as follow-up this change. But I need to clean up cache to be used for more complex request than it is now.",
+      "parentUuid": "0d5b36ac_df6ee03c",
+      "range": {
+        "startLine": 562,
+        "startChar": 10,
+        "endLine": 566,
+        "endChar": 38
+      },
+      "revId": "a89fdb7f50e36deca31bac83c1c3ae2abf9be659",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

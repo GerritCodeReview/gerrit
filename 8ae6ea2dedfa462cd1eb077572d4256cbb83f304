@@ -22,6 +22,30 @@
       "revId": "8ae6ea2dedfa462cd1eb077572d4256cbb83f304",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0df8a9e1_65c82181",
+        "filename": "java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-15T22:39:33Z",
+      "side": 1,
+      "message": "Done in PS3.",
+      "parentUuid": "13177565_c9c8bea3",
+      "range": {
+        "startLine": 106,
+        "startChar": 46,
+        "endLine": 106,
+        "endChar": 51
+      },
+      "revId": "8ae6ea2dedfa462cd1eb077572d4256cbb83f304",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

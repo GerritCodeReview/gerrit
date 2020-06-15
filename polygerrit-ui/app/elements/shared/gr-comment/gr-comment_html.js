@@ -231,6 +231,10 @@ export const htmlTemplate = html`
     .pointer {
       cursor: pointer;
     }
+    .patchset-text {
+      color: var(--deemphasized-text-color);
+      margin-left: var(--spacing-s);
+    }
   </style>
   <div id="container" class="container">
     <div class="header" id="header" on-click="_handleToggleCollapsed">
@@ -269,7 +273,9 @@ export const htmlTemplate = html`
       >
         <iron-icon id="icon" icon="gr-icons:delete"></iron-icon>
       </gr-button>
-      <span> Patchset [[patchNum]]</span>
+      <template is="dom-if" if="[[showPatchset]]">
+        <span class="patchset-text"> Patchset [[patchNum]]</span>
+      </template>
       <span class="separator"></span>
       <span class="date" tabindex="0" on-click="_handleAnchorClick">
         <gr-date-formatter

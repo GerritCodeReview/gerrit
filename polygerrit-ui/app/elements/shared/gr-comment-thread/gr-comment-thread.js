@@ -159,6 +159,10 @@ class GrCommentThread extends mixinBehaviors( [
         type: Boolean,
         value: true,
       },
+      showPatchset: {
+        type: Boolean,
+        value: true,
+      },
     };
   }
 

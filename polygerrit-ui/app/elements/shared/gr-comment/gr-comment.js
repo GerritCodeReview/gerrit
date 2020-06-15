@@ -213,6 +213,10 @@ class GrComment extends mixinBehaviors( [
         type: Boolean,
         value: false,
       },
+      showPatchset: {
+        type: Boolean,
+        value: true,
+      },
       _respectfulReviewTip: String,
       _respectfulTipDismissed: {
         type: Boolean,

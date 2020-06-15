@@ -116,6 +116,7 @@ export const htmlTemplate = html`
         patch-num="[[patchNum]]"
         draft="[[_isDraft(comment)]]"
         show-actions="[[_showActions]]"
+        show-patchset="[[showPatchset]]"
         comment-side="[[comment.__commentSide]]"
         side="[[comment.side]]"
         project-config="[[_projectConfig]]"

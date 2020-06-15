@@ -793,6 +793,7 @@ class GrDiffHost extends mixinBehaviors( [
     }
     threadEl.changeNum = this.changeNum;
     threadEl.patchNum = thread.patchNum;
+    threadEl.showPatchset = false;
     threadEl.lineNum = thread.lineNum;
     const rootIdChangedListener = changeEvent => {
       thread.rootId = changeEvent.detail.value;

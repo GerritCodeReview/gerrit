@@ -14,13 +14,11 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
-import com.google.gerrit.entities.AttentionSetUpdate.Operation;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -29,8 +27,6 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.util.Map;
-import java.util.function.Function;
 
 /** Add a specified user to the attention set. */
 public class AddToAttentionSetOp implements BatchUpdateOp {
@@ -68,15 +64,6 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx) throws RestApiException {
-    ChangeData changeData = changeDataFactory.create(ctx.getNotes());
-    Map<Account.Id, AttentionSetUpdate> attentionMap =
-        changeData.attentionSet().stream()
-            .collect(toImmutableMap(AttentionSetUpdate::account, Function.identity()));
-    AttentionSetUpdate existingEntry = attentionMap.get(attentionUserId);
-    if (existingEntry != null && existingEntry.operation() == Operation.ADD) {
-      return false;
-    }
-
     ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
     update.addToPlannedAttentionSetUpdates(
         ImmutableSet.of(

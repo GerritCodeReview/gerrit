@@ -56,6 +56,7 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
+import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
@@ -93,9 +94,11 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.AddReviewersEmail;
 import com.google.gerrit.server.change.AddReviewersOp.Result;
+import com.google.gerrit.server.change.AddToAttentionSetOp;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.change.NotifyResolver;
+import com.google.gerrit.server.change.RemoveFromAttentionSetOp;
 import com.google.gerrit.server.change.ReviewerAdder;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
 import com.google.gerrit.server.change.RevisionResource;
@@ -125,6 +128,7 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.CommentsRejectedException;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.util.AttentionSetUtil;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -177,6 +181,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
   private final PluginSetContext<CommentValidator> commentValidators;
+  private final AddToAttentionSetOp.Factory addToAttentionSetOpFactory;
+  private final RemoveFromAttentionSetOp.Factory removeFromAttentionSetOpFactory;
   private final boolean strictLabels;
 
   @Inject
@@ -200,7 +206,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       WorkInProgressOp.Factory workInProgressOpFactory,
       ProjectCache projectCache,
       PermissionBackend permissionBackend,
-      PluginSetContext<CommentValidator> commentValidators) {
+      PluginSetContext<CommentValidator> commentValidators,
+      AddToAttentionSetOp.Factory addToAttentionSetOpFactory,
+      RemoveFromAttentionSetOp.Factory removeFromAttentionSetOpFactory) {
     this.updateFactory = updateFactory;
     this.changeResourceFactory = changeResourceFactory;
     this.changeDataFactory = changeDataFactory;
@@ -220,6 +228,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
     this.commentValidators = commentValidators;
+    this.addToAttentionSetOpFactory = addToAttentionSetOpFactory;
+    this.removeFromAttentionSetOpFactory = removeFromAttentionSetOpFactory;
     this.strictLabels = gerritConfig.getBoolean("change", "strictLabels", false);
   }
 
@@ -378,6 +388,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       NotifyResolver.Result notify = notifyResolver.resolve(input.notify, input.notifyDetails);
       bu.setNotify(notify);
 
+      // Adjust the attention set based on the input
+      attentionSet(bu, revision, input, reviewerResults);
       bu.execute();
 
       // Re-read change to take into account results of the update.
@@ -808,6 +820,126 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       previousEndLine = range.endLine;
       previousOffset = range.endCharacter;
     }
+  }
+
+  /**
+   * This method adjusts the attention set by adding and removing users. If the same user should be
+   * added and removed or added/removed twice, the user will only be added/removed once, based on
+   * first addition/removal.
+   */
+  private void attentionSet(
+      BatchUpdate bu,
+      RevisionResource revision,
+      ReviewInput input,
+      List<ReviewerAddition> reviewerResults)
+      throws BadRequestException, IOException, PermissionBackendException, AuthException,
+          ConfigInvalidException, AccountResolver.UnresolvableAccountException {
+    // If we specify a user to remove, we remove it.
+    if (input.removeFromAttentionSet != null) {
+      for (AttentionSetInput remove : input.removeFromAttentionSet) {
+        removeFromAttentionSet(bu, revision, remove);
+      }
+    }
+
+    // If we don't specify a user to remove, the user will be added here.
+    if (input.addToAttentionSet != null) {
+      for (AttentionSetInput add : input.addToAttentionSet) {
+        addToAttentionSet(bu, revision, add);
+      }
+    }
+
+    // Replying removes the publishing user from the attention set.
+    RemoveFromAttentionSetOp removeFromAttentionSetOp =
+        removeFromAttentionSetOpFactory.create(revision.getAccountId(), "removed on reply", false);
+    bu.addOp(revision.getChange().getId(), removeFromAttentionSetOp);
+
+    // The rest of the conditions only apply if the change is ready for review
+    if (isReadyForReview(revision, input)) {
+      Account.Id uploader = revision.getPatchSet().uploader();
+      Account.Id owner = revision.getChange().getOwner();
+      Account.Id currentUser = revision.getAccountId();
+      if (currentUser.get() == uploader.get() && uploader.get() != owner.get()) {
+        // When the uploader replies, add the owner to the attention set.
+        AddToAttentionSetOp addToAttentionSetOp =
+            addToAttentionSetOpFactory.create(owner, "uploader replied", false);
+        bu.addOp(revision.getChange().getId(), addToAttentionSetOp);
+      }
+      if (currentUser.get() == uploader.get() || currentUser.get() == owner.get()) {
+        // When the owner or uploader replies, add the reviewers to the attention set.
+        // Filter by users that are currently reviewers.
+        Set<Account.Id> finalCCs =
+            reviewerResults.stream()
+                .filter(r -> r.result.ccs == null)
+                .map(r -> r.reviewers)
+                .flatMap(x -> x.stream())
+                .collect(toSet());
+        for (Account.Id reviewer :
+            approvalsUtil.getReviewers(revision.getChangeResource().getNotes()).byState(REVIEWER)
+                .stream()
+                .filter(r -> !finalCCs.contains(r))
+                .collect(toList())) {
+          AddToAttentionSetOp addToAttentionSetOp =
+              addToAttentionSetOpFactory.create(reviewer, "owner or uploader replied", false);
+          bu.addOp(revision.getChange().getId(), addToAttentionSetOp);
+        }
+      }
+      if (currentUser.get() != uploader.get() && currentUser.get() != owner.get()) {
+        // When neither the uploader nor the owner (reviewer or cc) replies, add the owner and the
+        // uploader to the attention set.
+        AddToAttentionSetOp addToAttentionSetOp =
+            addToAttentionSetOpFactory.create(owner, "reviewer or cc replied", false);
+        bu.addOp(revision.getChange().getId(), addToAttentionSetOp);
+
+        if (owner.get() != uploader.get()) {
+          addToAttentionSetOp =
+              addToAttentionSetOpFactory.create(uploader, "reviewer or cc replied", false);
+          bu.addOp(revision.getChange().getId(), addToAttentionSetOp);
+        }
+      }
+    }
+  }
+
+  private boolean isReadyForReview(RevisionResource revision, ReviewInput input) {
+    return (!revision.getChange().isWorkInProgress() && !input.workInProgress) || (input.ready);
+  }
+
+  private void addToAttentionSet(BatchUpdate bu, RevisionResource revision, AttentionSetInput add)
+      throws BadRequestException, IOException, PermissionBackendException, AuthException,
+          ConfigInvalidException, AccountResolver.UnresolvableAccountException {
+    AttentionSetUtil.validateInput(add);
+    Account.Id attentionUserId = getAccountIdAndValidateUser(revision, add.user);
+
+    AddToAttentionSetOp addToAttentionSetOp =
+        addToAttentionSetOpFactory.create(attentionUserId, add.reason, false);
+    bu.addOp(revision.getChange().getId(), addToAttentionSetOp);
+  }
+
+  private void removeFromAttentionSet(
+      BatchUpdate bu, RevisionResource revision, AttentionSetInput remove)
+      throws BadRequestException, IOException, PermissionBackendException, AuthException,
+          ConfigInvalidException, AccountResolver.UnresolvableAccountException {
+    AttentionSetUtil.validateInput(remove);
+    Account.Id attentionUserId = getAccountIdAndValidateUser(revision, remove.user);
+
+    RemoveFromAttentionSetOp removeFromAttentionSetOp =
+        removeFromAttentionSetOpFactory.create(attentionUserId, remove.reason, false);
+    bu.addOp(revision.getChange().getId(), removeFromAttentionSetOp);
+  }
+
+  private Account.Id getAccountIdAndValidateUser(RevisionResource revision, String user)
+      throws AccountResolver.UnresolvableAccountException, ConfigInvalidException, IOException,
+          PermissionBackendException, AuthException {
+    Account.Id attentionUserId = accountResolver.resolve(user).asUnique().account().id();
+    try {
+      permissionBackend
+          .absentUser(attentionUserId)
+          .change(revision.getNotes())
+          .check(ChangePermission.READ);
+    } catch (AuthException e) {
+      throw new AuthException(
+          "Can't add to attention set: Read not permitted for " + attentionUserId, e);
+    }
+    return attentionUserId;
   }
 
   /**

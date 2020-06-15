@@ -14,9 +14,12 @@
 
 package com.google.gerrit.server.util;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.AttentionSetUpdate.Operation;
+import com.google.gerrit.extensions.api.changes.AttentionSetInput;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import java.util.Collection;
 
 /** Common helpers for dealing with attention set data structures. */
@@ -27,6 +30,17 @@ public class AttentionSetUtil {
     return updates.stream()
         .filter(u -> u.operation() == Operation.ADD)
         .collect(ImmutableSet.toImmutableSet());
+  }
+
+  public static void validateInput(AttentionSetInput input) throws BadRequestException {
+    input.user = Strings.nullToEmpty(input.user).trim();
+    if (input.user.isEmpty()) {
+      throw new BadRequestException("missing field: user");
+    }
+    input.reason = Strings.nullToEmpty(input.reason).trim();
+    if (input.reason.isEmpty()) {
+      throw new BadRequestException("missing field: reason");
+    }
   }
 
   private AttentionSetUtil() {}

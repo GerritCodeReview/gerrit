@@ -52,6 +52,24 @@
       "revId": "c4f87beb67c1795ec3b0dd6b700857115d61281b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20e34a0a_c83d7751",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-15T00:18:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f3ea193_d751d279",
+      "revId": "c4f87beb67c1795ec3b0dd6b700857115d61281b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

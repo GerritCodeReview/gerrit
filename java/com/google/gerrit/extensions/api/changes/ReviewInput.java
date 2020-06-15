@@ -75,6 +75,12 @@ public class ReviewInput {
    */
   public boolean ready;
 
+  /** Users that should be added to the attention set of this change. */
+  public List<AttentionSetInput> addToAttentionSet;
+
+  /** Users that should be removed to the attention set of this change. */
+  public List<AttentionSetInput> removeFromAttentionSet;
+
   public enum DraftHandling {
     /** Leave pending drafts alone. */
     KEEP,
@@ -136,6 +142,28 @@ public class ReviewInput {
       reviewers = new ArrayList<>();
     }
     reviewers.add(input);
+    return this;
+  }
+
+  public ReviewInput addToAttentionSet(String user, String reason) {
+    AttentionSetInput input = new AttentionSetInput();
+    input.user = user;
+    input.reason = reason;
+    if (addToAttentionSet == null) {
+      addToAttentionSet = new ArrayList<>();
+    }
+    addToAttentionSet.add(input);
+    return this;
+  }
+
+  public ReviewInput removeFromAttentionSet(String user, String reason) {
+    AttentionSetInput input = new AttentionSetInput();
+    input.user = user;
+    input.reason = reason;
+    if (removeFromAttentionSet == null) {
+      removeFromAttentionSet = new ArrayList<>();
+    }
+    removeFromAttentionSet.add(input);
     return this;
   }
 

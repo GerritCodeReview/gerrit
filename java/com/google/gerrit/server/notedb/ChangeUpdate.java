@@ -801,7 +801,22 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (plannedAttentionSetUpdates == null) {
       return;
     }
+    Set<Account.Id> currentUsersInAttentionSet =
+        AttentionSetUtil.additionsOnly(getNotes().getAttentionSet()).stream()
+            .map(AttentionSetUpdate::account)
+            .collect(Collectors.toSet());
     for (AttentionSetUpdate attentionSetUpdate : plannedAttentionSetUpdates.values()) {
+      if (currentUsersInAttentionSet.contains(attentionSetUpdate.account())
+          && attentionSetUpdate.operation() == AttentionSetUpdate.Operation.ADD) {
+        // Skip users that are already in the attention set: no need to re-add them.
+        continue;
+      }
+
+      if (!currentUsersInAttentionSet.contains(attentionSetUpdate.account())
+          && attentionSetUpdate.operation() == AttentionSetUpdate.Operation.REMOVE) {
+        // Skip users that are not in the attention set: no need to remove them.
+        continue;
+      }
       addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));
     }
   }

@@ -188,6 +188,30 @@
       "revId": "fd72c1911a04e78f8fe5b6fcd2502cd4527ef66c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9742e9b_d9454622",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-15T14:21:12Z",
+      "side": 1,
+      "message": "Done.\nAlso, to clarify, some examples for automatic updates and their conflicts are in the commit message (quote):\"E.g, if a reviewer replies then he should be removed from the\nattention set, but if he replies on his own comment maybe he should\nalso be added to the attention set? Technically yes, and in this\ncase the second update will be ignored.\"\n\nI don\u0027t think it\u0027s a great idea to document that in the code (because there are so many cases.. I can think of 10~): We may change it later, and I think it\u0027s better to just have the code document itself in the current priorities, as I\u0027ve made sure to document: first updates take effect, the rest get ignored.",
+      "parentUuid": "4447c0c2_024a9e28",
+      "range": {
+        "startLine": 395,
+        "startChar": 73,
+        "endLine": 396,
+        "endChar": 24
+      },
+      "revId": "fd72c1911a04e78f8fe5b6fcd2502cd4527ef66c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

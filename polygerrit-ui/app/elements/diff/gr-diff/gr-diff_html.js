@@ -309,7 +309,7 @@ export const htmlTemplate = html`
       display: none;
     }
     .lineNum.COVERED .lineNumButton {
-      background-color: var(--coverage-covered, #e0f2f1);
+      background-color: var(--coverage-covered, #c0c0c0);
     }
     .lineNum.NOT_COVERED .lineNumButton {
       background-color: var(--coverage-not-covered, #ffd1a4);
@@ -319,8 +319,8 @@ export const htmlTemplate = html`
         to right bottom,
         var(--coverage-not-covered, #ffd1a4) 0%,
         var(--coverage-not-covered, #ffd1a4) 50%,
-        var(--coverage-covered, #e0f2f1) 50%,
-        var(--coverage-covered, #e0f2f1) 100%
+        var(--coverage-covered, #c0c0c0) 50%,
+        var(--coverage-covered, #c0c0c0) 100%
       );
     }
 

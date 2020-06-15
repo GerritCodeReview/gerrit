@@ -160,7 +160,7 @@ html {
   --light-rebased-add-highlight-color: #eef;
   --light-remove-add-highlight-color: #fff8dc;
   --light-remove-highlight-color: #ffebee;
-  --coverage-covered: #e0f2f1;
+  --coverage-covered: #C0C0C0;
   --coverage-not-covered: #ffd1a4;
 
   /* syntax colors */

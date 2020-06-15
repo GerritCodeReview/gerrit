@@ -34,6 +34,24 @@
       "revId": "4875b9a2c9da911758330056f65ec348a4d6c493",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afa878df_5b03018f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-15T06:46:01Z",
+      "side": 1,
+      "message": "\u003e Can you move to an earlier branch?\n\n+1.",
+      "parentUuid": "2c3dc0ac_4af15330",
+      "revId": "4875b9a2c9da911758330056f65ec348a4d6c493",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

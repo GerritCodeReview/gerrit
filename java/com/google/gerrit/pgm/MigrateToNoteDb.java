@@ -161,8 +161,11 @@ public class MigrateToNoteDb extends SiteProgram {
       stop();
     }
 
+    System.out.println("NoteDB Migration complete.");
     boolean reindex = firstNonNull(this.reindex, !trial);
     if (!reindex) {
+      System.out.println("Reindexing changes is skipped (either because of trial mode, or ");
+      System.out.println("because you requested so). If needed, reindex changes manually.");
       return 0;
     }
     // Reindex all indices, to save the user from having to run yet another program by hand while
@@ -179,7 +182,7 @@ public class MigrateToNoteDb extends SiteProgram {
       reindexArgsBuilder.add("--verbose");
     }
     List<String> reindexArgs = reindexArgsBuilder.build();
-    System.out.println("Migration complete, reindexing changes with:");
+    System.out.println("Reindexing changes with:");
     System.out.println("  reindex " + reindexArgs.stream().collect(joining(" ")));
     Reindex reindexPgm = new Reindex();
     return reindexPgm.main(reindexArgs.stream().toArray(String[]::new));

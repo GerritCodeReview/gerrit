@@ -499,6 +499,10 @@ class GrAppElement extends mixinBehaviors( [
     }
   }
 
+  handleShowKeyboardShortcuts() {
+    this.$.keyboardShortcuts.open();
+  }
+
   _showKeyboardShortcuts(e) {
     // same shortcut should close the dialog if pressed again
     // when dialog is open

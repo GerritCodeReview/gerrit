@@ -84,12 +84,12 @@ suite('gr-account-dropdown tests', () => {
     assert.isUndefined(element._getLinks(null));
 
     // No switch account link.
-    assert.equal(element._getLinks(null, '').length, 2);
+    assert.equal(element._getLinks(null, '').length, 3);
 
     // Unparameterized switch account link.
     let links = element._getLinks('/switch-account', '');
-    assert.equal(links.length, 3);
-    assert.deepEqual(links[1], {
+    assert.equal(links.length, 4);
+    assert.deepEqual(links[2], {
       name: 'Switch account',
       url: '/switch-account',
       external: true,
@@ -97,8 +97,8 @@ suite('gr-account-dropdown tests', () => {
 
     // Parameterized switch account link.
     links = element._getLinks('/switch-account${path}', '/c/123');
-    assert.equal(links.length, 3);
-    assert.deepEqual(links[1], {
+    assert.equal(links.length, 4);
+    assert.deepEqual(links[2], {
       name: 'Switch account',
       url: '/switch-account/c/123',
       external: true,

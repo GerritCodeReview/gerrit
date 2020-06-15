@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a351b833_489557ef",
+        "filename": "polygerrit-ui/app/elements/shared/gr-icons/gr-icons.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-15T09:23:19Z",
+      "side": 1,
+      "message": "Maybe remove this, because it is not used anymore.",
+      "revId": "ea79b6d86df1e400075f14506d35b91e212e7770",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

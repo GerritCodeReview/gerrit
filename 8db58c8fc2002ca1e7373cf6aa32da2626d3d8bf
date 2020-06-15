@@ -22,6 +22,30 @@
       "revId": "8db58c8fc2002ca1e7373cf6aa32da2626d3d8bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf89d864_8ca2a499",
+        "filename": "java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-15T20:37:12Z",
+      "side": 0,
+      "message": "I might miss the obvious thing, but how would I close the `OutputStreamWriter` and\navoid calling the `close` of `System.out`?\n\nOne thing one could do is to not close the outer PrintWriter at all and document\nwhy we\u0027re not closing it. Maybe that\u0027s what your comment is about?\nThat would work, but it would (hopefully) annoy static code analyzers.\nAnd all the needed documentation up here would deter focus from what\u0027s\nactually happening here (gcAllUsers).\n\nBy having NonClosingOutputStream, we can move all the discussion about closing\ninto that class and away from the main flow of action.\n\nIf you feel strongly about it, just say so, and I\u0027ll of course implement it.\nBut I think the current implementation deters less from the main flow of\naction.",
+      "parentUuid": "513e79cf_c756bc4e",
+      "range": {
+        "startLine": 152,
+        "startChar": 11,
+        "endLine": 152,
+        "endChar": 91
+      },
+      "revId": "8db58c8fc2002ca1e7373cf6aa32da2626d3d8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

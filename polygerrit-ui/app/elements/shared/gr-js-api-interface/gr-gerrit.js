@@ -21,7 +21,6 @@
  */
 
 import {pluginLoader} from './gr-plugin-loader.js';
-import {gerritEventEmitter} from '../gr-event-emitter/gr-event-emitter.js';
 import {getRestAPI, send} from './gr-api-utils.js';
 
 /**
@@ -35,10 +34,10 @@ function flushPreinstalls() {
 }
 export const _testOnly_flushPreinstalls = flushPreinstalls;
 
-export function initGerritPluginApi() {
+export function initGerritPluginApi(appContext) {
   window.Gerrit = window.Gerrit || {};
   flushPreinstalls();
-  initGerritPluginsMethods(window.Gerrit);
+  initGerritPluginsMethods(window.Gerrit, appContext);
   // Preloaded plugins should be installed after Gerrit.install() is set,
   // since plugin preloader substitutes Gerrit.install() temporarily.
   // (Gerrit.install() is set in initGerritPluginsMethods)
@@ -70,7 +69,7 @@ export function deprecatedDelete(url, opt_callback) {
       });
 }
 
-function initGerritPluginsMethods(globalGerritObj) {
+function initGerritPluginsMethods(globalGerritObj, appContext) {
   /**
    * @deprecated Use plugin.styles().css(rulesStr) instead. Please, consult
    * the documentation how to replace it accordingly.
@@ -145,6 +144,8 @@ function initGerritPluginsMethods(globalGerritObj) {
   globalGerritObj._isPluginLoaded = function(pathOrUrl) {
     return pluginLoader.isPluginLoaded(pathOrUrl);
   };
+
+  const gerritEventEmitter = appContext.gerritEventEmitter;
 
   // TODO(taoalpha): List all internal supported event names.
   // Also convert this to inherited class once we move Gerrit to class.

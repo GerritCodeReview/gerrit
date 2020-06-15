@@ -91,6 +91,7 @@ class GrAccountDropdown extends mixinBehaviors( [
     }
 
     const links = [{name: 'Settings', url: '/settings/'}];
+    links.push({name: 'Keyboard Shortcuts', id: 'shortcuts'});
     if (switchAccountUrl) {
       const replacements = {path};
       const url = this._interpolateUrl(switchAccountUrl, replacements);
@@ -105,6 +106,11 @@ class GrAccountDropdown extends mixinBehaviors( [
       {text: this._accountName(account), bold: true},
       {text: account.email ? account.email : ''},
     ];
+  }
+
+  _handleTapItem(e) {
+    const item = e.detail.item;
+    console.log(item);
   }
 
   _handleLocationChange() {

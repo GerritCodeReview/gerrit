@@ -37,6 +37,8 @@ export const htmlTemplate = html`
     link=""
     items="[[links]]"
     top-content="[[topContent]]"
+    on-tap-item-shortcuts="[[_handleTapItem]]"
+    on-tap-item="[[_handleTapItem]]"
     horizontal-align="right"
   >
     <span hidden$="[[_hasAvatars]]" hidden="">[[_accountName(account)]]</span>

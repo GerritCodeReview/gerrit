@@ -104,7 +104,7 @@ class GrChangeRequirements extends mixinBehaviors( [
   }
 
   _computeRequirementIcon(requirementStatus) {
-    return requirementStatus ? 'gr-icons:check' : 'gr-icons:hourglass';
+    return requirementStatus ? 'gr-icons:check' : 'gr-icons:schedule';
   }
 
   _computeLabels(labelsRecord) {
@@ -132,7 +132,7 @@ class GrChangeRequirements extends mixinBehaviors( [
   _computeLabelIcon(labelInfo) {
     if (labelInfo.approved) { return 'gr-icons:check'; }
     if (labelInfo.rejected) { return 'gr-icons:close'; }
-    return 'gr-icons:hourglass';
+    return 'gr-icons:schedule';
   }
 
   /**

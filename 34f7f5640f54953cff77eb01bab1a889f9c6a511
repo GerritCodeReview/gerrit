@@ -22,6 +22,30 @@
       "revId": "34f7f5640f54953cff77eb01bab1a889f9c6a511",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91faf8d7_af2a37ab",
+        "filename": "java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-15T14:44:08Z",
+      "side": 1,
+      "message": "Done in PS2.",
+      "parentUuid": "4b07b32b_284a6325",
+      "range": {
+        "startLine": 173,
+        "startChar": 8,
+        "endLine": 173,
+        "endChar": 27
+      },
+      "revId": "34f7f5640f54953cff77eb01bab1a889f9c6a511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

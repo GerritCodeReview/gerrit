@@ -46,6 +46,30 @@
       "revId": "8db58c8fc2002ca1e7373cf6aa32da2626d3d8bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49f755e4_2f7a2dc6",
+        "filename": "java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-15T21:25:52Z",
+      "side": 0,
+      "message": "\u003e I might miss the obvious thing, but how would I close the `OutputStreamWriter` and\n\u003e avoid calling the `close` of `System.out`?\n\nYou don\u0027t close it, as it is just a wrapper and you want to keep the stream opened anyway.\n\nJust put the annotation to silent the static code analyser and it becomes a one-liner.\n\n\u003e One thing one could do is to not close the outer PrintWriter at all and document\n\u003e why we\u0027re not closing it. Maybe that\u0027s what your comment is about?\n\nYep.\n\n\u003e That would work, but it would (hopefully) annoy static code analyzers.\n\nJust silent this with an annotation.\n\n\u003e And all the needed documentation up here would deter focus from what\u0027s\n\u003e actually happening here (gcAllUsers).\n\nWhat do you mean by \"all needed documentation\"?\n\n\u003e By having NonClosingOutputStream, we can move all the discussion about closing\n\u003e into that class and away from the main flow of action.\n\nAdding an entire class (not united tested though, are going to add tests as well?) just for not adding a one-liner looked a bit overkill to me. WDYT?\n\n\u003e If you feel strongly about it, just say so, and I\u0027ll of course implement it.\n\u003e But I think the current implementation deters less from the main flow of\n\u003e action.\n\nI don\u0027t have strong feelings about it: I just believe that adding one class for silenting the static analyser is a bit overkill.",
+      "parentUuid": "bf89d864_8ca2a499",
+      "range": {
+        "startLine": 152,
+        "startChar": 11,
+        "endLine": 152,
+        "endChar": 91
+      },
+      "revId": "8db58c8fc2002ca1e7373cf6aa32da2626d3d8bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

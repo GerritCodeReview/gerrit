@@ -18,6 +18,7 @@ import static java.util.stream.Collectors.toMap;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.entities.Project;
@@ -33,6 +34,7 @@ import java.util.HashMap;
 
 @Singleton
 public class ProjectJson {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final AllProjectsName allProjects;
   private final WebLinks webLinks;
@@ -49,7 +51,17 @@ public class ProjectJson {
     for (LabelType t : projectState.getLabelTypes().getLabelTypes()) {
       LabelTypeInfo labelInfo = new LabelTypeInfo();
       labelInfo.values =
-          t.getValues().stream().collect(toMap(LabelValue::formatValue, LabelValue::getText));
+          t.getValues().stream()
+              .collect(
+                  toMap(
+                      LabelValue::formatValue,
+                      LabelValue::getText,
+                      (v1, v2) -> {
+                        logger.atSevere().log(
+                            "Duplicate values for project: %s, label: %s found: '%s':'%s'",
+                            projectState.getName(), t.getName(), v1, v2);
+                        return v1;
+                      }));
       labelInfo.defaultValue = t.getDefaultValue();
       info.labels.put(t.getName(), labelInfo);
     }

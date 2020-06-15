@@ -15,12 +15,13 @@
 package com.google.gerrit.index;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.exceptions.StorageException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -175,6 +176,29 @@ public class Schema<T> {
     return true;
   }
 
+  private Values<T> fieldValues(T obj, FieldDef<T, ?> f) {
+    Object v;
+    try {
+      v = f.get(obj);
+    } catch (StorageException e) {
+      // StorageException is thrown when the object is not found. On this case,
+      // it is pointless to make further attempts for each field, so propagate
+      // the exception to return an empty list.
+      logger.atSevere().withCause(e).log("error getting field %s of %s", f.getName(), obj);
+      throw e;
+    } catch (RuntimeException e) {
+      logger.atSevere().withCause(e).log("error getting field %s of %s", f.getName(), obj);
+      return null;
+    }
+    if (v == null) {
+      return null;
+    } else if (f.isRepeatable()) {
+      return new Values<>(f, (Iterable<?>) v);
+    } else {
+      return new Values<>(f, Collections.singleton(v));
+    }
+  }
+
   /**
    * Build all fields in the schema from an input object.
    *
@@ -184,26 +208,14 @@ public class Schema<T> {
    * @return all non-null field values from the object.
    */
   public final Iterable<Values<T>> buildFields(T obj) {
-    return FluentIterable.from(fields.values())
-        .transform(
-            f -> {
-              Object v;
-              try {
-                v = f.get(obj);
-              } catch (RuntimeException e) {
-                logger.atSevere().withCause(e).log(
-                    "error getting field %s of %s", f.getName(), obj);
-                return null;
-              }
-              if (v == null) {
-                return null;
-              } else if (f.isRepeatable()) {
-                return new Values<>(f, (Iterable<?>) v);
-              } else {
-                return new Values<>(f, Collections.singleton(v));
-              }
-            })
-        .filter(Objects::nonNull);
+    try {
+      return fields.values().stream()
+          .map(f -> fieldValues(obj, f))
+          .filter(Objects::nonNull)
+          .collect(toImmutableList());
+    } catch (StorageException e) {
+      return ImmutableList.of();
+    }
   }
 
   @Override

@@ -99,11 +99,13 @@ export const htmlTemplate = html`
     }
   </style>
   <gr-endpoint-decorator name="banner"></gr-endpoint-decorator>
-  <gr-fixed-panel id="header">
+  <gr-fixed-panel
+    id="header">
     <gr-main-header
       id="mainHeader"
       search-query="{{params.query}}"
       on-mobile-search="_mobileSearchToggle"
+      on-show-keyboard-shortcuts="handleShowKeyboardShortcut"
       login-url="[[_loginUrl]]"
     >
     </gr-main-header>

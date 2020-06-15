@@ -52,6 +52,24 @@
       "revId": "4875b9a2c9da911758330056f65ec348a4d6c493",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8efa4d2d_3d5082aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-06-15T15:01:15Z",
+      "side": 1,
+      "message": "Moved to stable-2.16 in [1]. Will abandon this change now.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/271652",
+      "parentUuid": "afa878df_5b03018f",
+      "revId": "4875b9a2c9da911758330056f65ec348a4d6c493",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

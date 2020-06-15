@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.entities.Account;
@@ -28,8 +27,6 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.util.Map;
-import java.util.function.Function;
 
 /** Remove a specified user from the attention set. */
 public class RemoveFromAttentionSetOp implements BatchUpdateOp {
@@ -69,15 +66,6 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx) throws RestApiException {
-    ChangeData changeData = changeDataFactory.create(ctx.getNotes());
-    Map<Account.Id, AttentionSetUpdate> attentionMap =
-        changeData.attentionSet().stream()
-            .collect(toImmutableMap(AttentionSetUpdate::account, Function.identity()));
-    AttentionSetUpdate existingEntry = attentionMap.get(attentionUserId);
-    if (existingEntry == null || existingEntry.operation() == Operation.REMOVE) {
-      return false;
-    }
-
     ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
     update.addToPlannedAttentionSetUpdates(
         AttentionSetUpdate.createForWrite(attentionUserId, Operation.REMOVE, reason));

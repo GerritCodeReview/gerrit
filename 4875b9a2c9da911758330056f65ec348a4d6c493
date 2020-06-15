@@ -70,6 +70,24 @@
       "revId": "4875b9a2c9da911758330056f65ec348a4d6c493",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "440aefab_26e5125e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-15T15:09:07Z",
+      "side": 1,
+      "message": "Why abandon? Are you aware of \"Move Change\" feature, that was even documented recently: [1] ;)\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/271312",
+      "parentUuid": "8efa4d2d_3d5082aa",
+      "revId": "4875b9a2c9da911758330056f65ec348a4d6c493",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

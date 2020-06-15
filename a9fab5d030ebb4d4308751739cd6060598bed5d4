@@ -39,6 +39,24 @@
       "revId": "a9fab5d030ebb4d4308751739cd6060598bed5d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcc06b1f_8f70215b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-06-15T10:54:41Z",
+      "side": 1,
+      "message": "See my comment on ps2\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/271172/2/polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section_test.html#390",
+      "parentUuid": "e314c7e4_6f0820c5",
+      "revId": "a9fab5d030ebb4d4308751739cd6060598bed5d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

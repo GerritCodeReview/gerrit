@@ -380,11 +380,9 @@ public class AsyncReceiveCommits {
               callable, receiveCommits.getProject().getNameKey(), "receive-commits", null, false);
       monitor.waitFor(
           executor.submit(scopePropagator.wrap(runnable)), timeoutMillis, TimeUnit.MILLISECONDS);
-      if (!runnable.isDone()) {
-        // At this point we are either done or have thrown a TimeoutException and bailed out.
-        throw new IllegalStateException("unable to get receive commits result");
-      }
-      return runnable.get();
+      // Allow for a short grace period between when the thread called #end() on
+      // MultiProgressMonitor and the result being returned by the future.
+      return runnable.get(5, TimeUnit.SECONDS);
     } catch (InterruptedException | ExecutionException e) {
       throw new UncheckedExecutionException(e);
     }

@@ -17,6 +17,7 @@
 import {appContext} from './app-context.js';
 import {FlagsService} from './flags.js';
 import {GrReporting} from './gr-reporting/gr-reporting.js';
+import {EventEmitter} from './gr-event-interface/gr-event-interface.js';
 
 const initializedServices = new Map();
 
@@ -46,6 +47,6 @@ export function initAppContext() {
   addService('flagsService', () => new FlagsService());
   addService('reportingService',
       () => new GrReporting(appContext.flagsService));
-
+  addService('gerritEventEmitter', () => new EventEmitter());
   Object.defineProperties(appContext, registeredServices);
 }

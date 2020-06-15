@@ -18,6 +18,8 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.plugins.Plugin;
 import com.google.gerrit.server.plugins.StopPluginListener;
 import com.google.inject.Inject;
+import com.google.inject.Module;
+import com.google.inject.Scopes;
 import com.google.inject.Singleton;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.ServletModule;
@@ -32,11 +34,15 @@ import javax.servlet.ServletResponse;
 
 /** Filters all HTTP requests passing through the server. */
 public abstract class AllRequestFilter implements Filter {
-  public static ServletModule module() {
+  public static Module module() {
     return new ServletModule() {
       @Override
       protected void configureServlets() {
         DynamicSet.setOf(binder(), AllRequestFilter.class);
+        DynamicSet.bind(binder(), AllRequestFilter.class)
+            .to(AllowRenderInFrameFilter.class)
+            .in(Scopes.SINGLETON);
+
         filter("/*").through(FilterProxy.class);
 
         bind(StopPluginListener.class)

@@ -99,7 +99,10 @@ export const htmlTemplate = html`
     }
   </style>
   <gr-endpoint-decorator name="banner"></gr-endpoint-decorator>
-  <gr-fixed-panel id="header">
+  <gr-fixed-panel
+    id="header"
+    on-show-keyboard-shortcuts="handleShowKeyboardShortcut"
+  >
     <gr-main-header
       id="mainHeader"
       search-query="{{params.query}}"

@@ -2086,6 +2086,25 @@ Setting this option to true will prevent this behavior.
 +
 By default false.
 
+[[gerrit.xframeOption]]gerrit.xframeOption::
++
+Add link:https://tools.ietf.org/html/rfc7034[X-Frame-Options] header to all HTTP
+responses. The X-Frame-Options HTTP response header can be used to indicate
+whether or not a browser should be allowed to render a page in a
+<frame>, <iframe>, <embed> or <object>.
++
+Available values:
++
+1. ALLOW - The page can be displayed in a frame.
+2. SAMEORIGIN - The page can only be displayed in a frame on the same origin as the page itself.
++
+If link:#gerrit.canLoadInIFrame is set to false this option is ignored and
+X-Frame-Options header is always set to DENY.
+Setting this option to ALLOW will cause X-Frame-Options header to be skipped so
+the the page can be displayed in a frame.
++
+By default SAMEORIGIN.
+
 [[gerrit.cdnPath]]gerrit.cdnPath::
 +
 Path prefix for PolyGerrit's static resources if using a CDN.

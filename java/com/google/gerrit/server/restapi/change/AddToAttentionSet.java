@@ -14,12 +14,10 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.common.base.Strings;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.server.account.AccountLoader;
@@ -30,6 +28,7 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.util.AttentionSetUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -62,14 +61,7 @@ public class AddToAttentionSet
   @Override
   public Response<AccountInfo> apply(ChangeResource changeResource, AttentionSetInput input)
       throws Exception {
-    input.user = Strings.nullToEmpty(input.user).trim();
-    if (input.user.isEmpty()) {
-      throw new BadRequestException("missing field: user");
-    }
-    input.reason = Strings.nullToEmpty(input.reason).trim();
-    if (input.reason.isEmpty()) {
-      throw new BadRequestException("missing field: reason");
-    }
+    AttentionSetUtil.validateInput(input);
 
     Account.Id attentionUserId = accountResolver.resolve(input.user).asUnique().account().id();
     try {

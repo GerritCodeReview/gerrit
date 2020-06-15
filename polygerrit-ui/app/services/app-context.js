@@ -24,4 +24,5 @@
 export const appContext = {
   flagsService: null,
   reportingService: null,
+  eventEmitter: null,
 };

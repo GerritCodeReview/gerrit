@@ -91,16 +91,6 @@ setup(() => {
   assert.equal(cleanups.length, 0);
 
   _testOnly_resetPluginLoader();
-
-  initAppContext();
-  function setMock(serviceName, setupMock) {
-    Object.defineProperty(appContext, serviceName, {
-      get() {
-        return setupMock;
-      },
-    });
-  }
-  setMock('reportingService', grReportingMock);
 });
 
 if (isKarmaTest() || window.stub) {
@@ -124,6 +114,16 @@ if (isKarmaTest() || window.stub) {
   // It allows to catch performance problems earlier.
   throw new Error('window.stub must be set after wct sets it');
 }
+
+initAppContext();
+function setMock(serviceName, setupMock) {
+  Object.defineProperty(appContext, serviceName, {
+    get() {
+      return setupMock;
+    },
+  });
+}
+setMock('reportingService', grReportingMock);
 
 teardown(() => {
   // WCT incorrectly uses teardown method in the 'fixture' and 'stub'

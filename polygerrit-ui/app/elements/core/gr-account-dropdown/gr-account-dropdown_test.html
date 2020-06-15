@@ -84,7 +84,7 @@ suite('gr-account-dropdown tests', () => {
     assert.isUndefined(element._getLinks(null));
 
     // No switch account link.
-    assert.equal(element._getLinks(null, '').length, 2);
+    assert.equal(element._getLinks(null, '').length, 3);
 
     // Unparameterized switch account link.
     let links = element._getLinks('/switch-account', '');

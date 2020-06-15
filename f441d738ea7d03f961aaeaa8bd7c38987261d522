@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1de289cc_f7242bb8",
+        "filename": "java/com/google/gerrit/server/index/VersionManager.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-15T18:40:35Z",
+      "side": 1,
+      "message": "Should be removed.",
+      "range": {
+        "startLine": 252,
+        "startChar": 2,
+        "endLine": 252,
+        "endChar": 20
+      },
+      "revId": "f441d738ea7d03f961aaeaa8bd7c38987261d522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42ef2beb_8e681e05",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-15T18:40:35Z",
+      "side": 1,
+      "message": "Documentation [1] doesn\u0027t list \u0027projects\u0027 as a supported index for this command. Should we add a test method to assert around that unsupported case?\n\n[1] https://gerrit-review.googlesource.com/Documentation/cmd-index-activate.html#_options",
+      "range": {
+        "startLine": 67,
+        "startChar": 13,
+        "endLine": 67,
+        "endChar": 20
+      },
+      "revId": "f441d738ea7d03f961aaeaa8bd7c38987261d522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

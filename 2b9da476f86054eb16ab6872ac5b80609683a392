@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "61c39999_9ec1c2e5",
+        "filename": "java/com/google/gerrit/server/index/OnlineReindexer.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-15T18:40:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "62a58c85_4f02ab88",
+      "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff6be327_d3b22c69",
         "filename": "java/com/google/gerrit/server/index/OnlineReindexer.java",
         "patchSetId": 12
@@ -295,6 +313,30 @@
     },
     {
       "key": {
+        "uuid": "da40225b_006a16da",
+        "filename": "java/com/google/gerrit/server/index/VersionManager.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-15T18:40:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b40a4366_22cec897",
+      "range": {
+        "startLine": 240,
+        "startChar": 58,
+        "endLine": 240,
+        "endChar": 79
+      },
+      "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae2339da_45443a9c",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
         "patchSetId": 12
@@ -389,6 +431,30 @@
     },
     {
       "key": {
+        "uuid": "e8c4f3cd_78743316",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-15T18:40:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2932dd81_d72bfac8",
+      "range": {
+        "startLine": 35,
+        "startChar": 24,
+        "endLine": 35,
+        "endChar": 67
+      },
+      "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e83b53e7_6a8e6ad7",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
         "patchSetId": 12
@@ -436,6 +502,30 @@
     },
     {
       "key": {
+        "uuid": "63a45eea_da07d19f",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-15T18:40:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c56cadda_b8b8338b",
+      "range": {
+        "startLine": 42,
+        "startChar": 11,
+        "endLine": 42,
+        "endChar": 19
+      },
+      "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f68caaaa_eb0da4e4",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
         "patchSetId": 12
@@ -480,6 +570,30 @@
       "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08da61db_23b8e81b",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-15T18:40:35Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "220fc65a_ccaf0146",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 51
+      },
+      "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -706,6 +820,30 @@
       "side": 1,
       "message": "The start ssh command both starts and activates the index, therefore not allowing for the activate method to be tested. This test allows for the index to be started without being activated, to test whether or not the activate command works as expected.",
       "parentUuid": "4c0d2421_80d211e9",
+      "range": {
+        "startLine": 81,
+        "startChar": 21,
+        "endLine": 81,
+        "endChar": 31
+      },
+      "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32778780_9597bb7a",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-15T18:40:35Z",
+      "side": 1,
+      "message": "\u003e  This test allows for the index to be started without being activated\n\nThis might not be a natural test case. I wonder if this method could just be a non-IT backdoor. The activate command unlikely depends on its user to also have to do something like this. And this test would have to behave from that user\u0027s standpoint I think. Can an index be started without being activated within that starting of it (at all)?",
+      "parentUuid": "f5057bb6_51035d9a",
       "range": {
         "startLine": 81,
         "startChar": 21,

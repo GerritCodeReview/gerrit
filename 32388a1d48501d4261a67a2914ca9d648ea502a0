@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e6bb9f24_3be3f293",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-15T14:47:49Z",
+      "side": 1,
+      "message": "Done in PS2.",
+      "parentUuid": "a50ce653_a796ce91",
+      "range": {
+        "startLine": 11,
+        "startChar": 7,
+        "endLine": 11,
+        "endChar": 16
+      },
+      "revId": "32388a1d48501d4261a67a2914ca9d648ea502a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "00691c00_f7538a77",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a72aea47_9d4004ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-15T14:47:49Z",
+      "side": 1,
+      "message": "Done in PS2.",
+      "parentUuid": "00691c00_f7538a77",
+      "range": {
+        "startLine": 12,
+        "startChar": 7,
+        "endLine": 13,
+        "endChar": 13
+      },
+      "revId": "32388a1d48501d4261a67a2914ca9d648ea502a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3fadbca_cb04ea4e",
         "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
         "patchSetId": 1
@@ -62,6 +110,24 @@
       "revId": "32388a1d48501d4261a67a2914ca9d648ea502a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7451bb1b_4b920897",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-15T14:47:49Z",
+      "side": 1,
+      "message": "That\u0027s acutally how I implementied it first.\nBut since I\u0027ve I received a pushback around performance on some other unrelated\nchange, I performance tested this. And `format` was considerably slower for me,\nso I went with concatenation.\n\nBut I\u0027m glad you asked for it. I think the (slower) `format` is much more readable.\n\nDone in PS2.",
+      "parentUuid": "c3fadbca_cb04ea4e",
+      "revId": "32388a1d48501d4261a67a2914ca9d648ea502a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

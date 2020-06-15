@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2a9937c0_ca8f0183",
+        "filename": "java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-15T14:43:20Z",
+      "side": 1,
+      "message": "Done in PS2",
+      "parentUuid": "86306db2_128c07b9",
+      "range": {
+        "startLine": 242,
+        "startChar": 22,
+        "endLine": 242,
+        "endChar": 47
+      },
+      "revId": "56f5e6193274e7413bd064b48ea791980eebe539",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a84bb01f_8087c03b",
         "filename": "java/com/google/gerrit/pgm/MigrateToNoteDb.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "56f5e6193274e7413bd064b48ea791980eebe539",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90b6eb39_f34d8fc0",
+        "filename": "java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-15T14:43:20Z",
+      "side": 1,
+      "message": "Done in PS2",
+      "parentUuid": "a84bb01f_8087c03b",
+      "range": {
+        "startLine": 263,
+        "startChar": 80,
+        "endLine": 263,
+        "endChar": 85
+      },
+      "revId": "56f5e6193274e7413bd064b48ea791980eebe539",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

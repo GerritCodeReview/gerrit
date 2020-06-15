@@ -164,6 +164,30 @@
       "revId": "fd72c1911a04e78f8fe5b6fcd2502cd4527ef66c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4447c0c2_024a9e28",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 396,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-15T08:02:22Z",
+      "side": 1,
+      "message": "There are more than 2 different priorities, it\u0027s not just automatic and explicit, it\u0027s also 5 different types of automatic updates ;)\n\nYou\u0027re right though, the check for duplicates is still relevant.",
+      "parentUuid": "76be02fc_992fb705",
+      "range": {
+        "startLine": 395,
+        "startChar": 73,
+        "endLine": 396,
+        "endChar": 24
+      },
+      "revId": "fd72c1911a04e78f8fe5b6fcd2502cd4527ef66c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

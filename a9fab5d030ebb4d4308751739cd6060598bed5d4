@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d10a574_5aed575f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-15T10:33:48Z",
+      "side": 1,
+      "message": "maybe use `hasOwnProperty` to exclude inherited properties",
+      "range": {
+        "startLine": 88,
+        "startChar": 51,
+        "endLine": 88,
+        "endChar": 53
+      },
+      "revId": "a9fab5d030ebb4d4308751739cd6060598bed5d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e314c7e4_6f0820c5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-15T10:33:48Z",
+      "side": 1,
+      "message": "why move it here ?",
+      "revId": "a9fab5d030ebb4d4308751739cd6060598bed5d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

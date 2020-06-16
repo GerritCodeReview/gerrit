@@ -1,0 +1,10 @@
+{
+    "name": "polygerrit-plugin-dependencies",
+    "description": "Gerrit Code Review - Polygerrit plugin dependencies",
+    "browser": true,
+    "dependencies": {
+        "resemblejs": "^3.2.4"
+    },
+    "license": "Apache-2.0",
+    "private": true
+}

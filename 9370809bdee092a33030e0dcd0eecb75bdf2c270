@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "0ea85075_41101ec4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-16T07:51:53Z",
+      "side": 1,
+      "message": "I don\u0027t know a thing about Gerrit permissions, but looking at an example (https://gerrit-review.googlesource.com/admin/repos/gerrit,access) I am seeing a \"push\" permission without a matching capability: https://imgur.com/a/8zmuyGI\n\nWould that be filtered? Is that the intended behavior?",
+      "revId": "9370809bdee092a33030e0dcd0eecb75bdf2c270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c6a96604_eb26ca00",
         "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section_test.html",
         "patchSetId": 5

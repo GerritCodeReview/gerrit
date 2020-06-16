@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "510c9bb3_bd2c1f49",
+        "filename": "java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-16T23:50:06Z",
+      "side": 0,
+      "message": "Why is this changed?",
+      "range": {
+        "startLine": 35,
+        "startChar": 16,
+        "endLine": 35,
+        "endChar": 29
+      },
+      "revId": "56918394544b6207a626cb0938d0bba4927a9fa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

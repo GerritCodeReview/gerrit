@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "037007c8_4b042173",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-16T23:38:17Z",
+      "side": 1,
+      "message": "This is not needed, because the singleton scope is enforced at L62.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 10
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85629639_679d697a",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-16T23:38:17Z",
+      "side": 1,
+      "message": "Is this still used?",
+      "range": {
+        "startLine": 44,
+        "startChar": 14,
+        "endLine": 45,
+        "endChar": 8
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b69076bb_78bc81cb",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-16T23:38:17Z",
+      "side": 1,
+      "message": "\"DENY\" is enough, as we don\u0027t allow anymore to specify the value in the config.",
+      "range": {
+        "startLine": 73,
+        "startChar": 21,
+        "endLine": 73,
+        "endChar": 42
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06e218ac_28e321e3",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-16T23:38:17Z",
+      "side": 1,
+      "message": "Do we really want to ignore? An invalid security setting should be a fatal error IMHO. We should raise a Guice provision exception.",
+      "range": {
+        "startLine": 82,
+        "startChar": 76,
+        "endLine": 82,
+        "endChar": 105
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9aaf3393_a28c54a6",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-16T23:38:17Z",
+      "side": 1,
+      "message": "X_FRAME_OPTIONS.names() should be enough, as a List().toString() value is typically clear enough to read.",
+      "range": {
+        "startLine": 83,
+        "startChar": 12,
+        "endLine": 83,
+        "endChar": 52
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b0159f0_c07b6a75",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-16T23:38:17Z",
+      "side": 1,
+      "message": "Best to throw an exception in this case.",
+      "range": {
+        "startLine": 84,
+        "startChar": 8,
+        "endLine": 84,
+        "endChar": 49
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fac67d7_3482e33a",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-16T23:38:17Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this done *after* the doFilter, so that we add the extra header after the response has been created?",
+      "range": {
+        "startLine": 94,
+        "startChar": 6,
+        "endLine": 94,
+        "endChar": 79
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

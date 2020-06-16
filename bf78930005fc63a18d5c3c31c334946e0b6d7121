@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9d6a795_0119f561",
+        "filename": "plugins/yarn.lock",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-16T10:50:47Z",
+      "side": 1,
+      "message": "Should we generate a license file with all licenses for the plugin?",
+      "range": {
+        "startLine": 1,
+        "startChar": 2,
+        "endLine": 1,
+        "endChar": 63
+      },
+      "revId": "bf78930005fc63a18d5c3c31c334946e0b6d7121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

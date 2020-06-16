@@ -51,13 +51,13 @@ suite('gr-change-metadata tests', () => {
 
     assert.equal(element._computeRequirementIcon(true), 'gr-icons:check');
     assert.equal(element._computeRequirementIcon(false),
-        'gr-icons:hourglass');
+        'gr-icons:schedule');
   });
 
   test('label computed fields', () => {
     assert.equal(element._computeLabelIcon({approved: []}), 'gr-icons:check');
     assert.equal(element._computeLabelIcon({rejected: []}), 'gr-icons:close');
-    assert.equal(element._computeLabelIcon({}), 'gr-icons:hourglass');
+    assert.equal(element._computeLabelIcon({}), 'gr-icons:schedule');
 
     assert.equal(element._computeLabelClass({approved: []}), 'approved');
     assert.equal(element._computeLabelClass({rejected: []}), 'rejected');
@@ -90,7 +90,7 @@ suite('gr-change-metadata tests', () => {
     assert.equal(element._requiredLabels.length, 1);
 
     assert.equal(element._optionalLabels[0].label, 'opt_test');
-    assert.equal(element._optionalLabels[0].icon, 'gr-icons:hourglass');
+    assert.equal(element._optionalLabels[0].icon, 'gr-icons:schedule');
     assert.equal(element._optionalLabels[0].style, '');
     assert.ok(element._optionalLabels[0].labelInfo);
   });

@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "cb522214_0a70c558",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2089,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-16T23:50:06Z",
+      "side": 1,
+      "message": "xframeOption",
+      "range": {
+        "startLine": 2089,
+        "startChar": 9,
+        "endLine": 2089,
+        "endChar": 10
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2578b983_98db1a79",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2091,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-16T23:50:06Z",
+      "side": 1,
+      "message": "Wrap this long line.",
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "037007c8_4b042173",
         "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
         "patchSetId": 6
@@ -18,6 +58,29 @@
         "startChar": 0,
         "endLine": 37,
         "endChar": 10
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb1ae057_9aa1cbf8",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-16T23:50:06Z",
+      "side": 1,
+      "message": "X_FRAME_OPTION (singular)",
+      "range": {
+        "startLine": 42,
+        "startChar": 7,
+        "endLine": 42,
+        "endChar": 22
       },
       "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -48,6 +111,52 @@
     },
     {
       "key": {
+        "uuid": "b8bf51fd_4d70b249",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-16T23:50:06Z",
+      "side": 1,
+      "message": "This can be a static final immutable list, defined and initialized in the class scope (i.e. not as a method on the enum)",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 5
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1b9b58b_206dd395",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-16T23:50:06Z",
+      "side": 1,
+      "message": "this can be moved into the block at L75",
+      "range": {
+        "startLine": 70,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 76
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b69076bb_78bc81cb",
         "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
         "patchSetId": 6
@@ -59,6 +168,30 @@
       "writtenOn": "2020-06-16T23:38:17Z",
       "side": 1,
       "message": "\"DENY\" is enough, as we don\u0027t allow anymore to specify the value in the config.",
+      "range": {
+        "startLine": 73,
+        "startChar": 21,
+        "endLine": 73,
+        "endChar": 42
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2e79d3f_e32bf7b1",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-16T23:50:06Z",
+      "side": 1,
+      "message": "It can\u0027t be set to a literal string \"DENY\" because the type is an enum.",
+      "parentUuid": "b69076bb_78bc81cb",
       "range": {
         "startLine": 73,
         "startChar": 21,

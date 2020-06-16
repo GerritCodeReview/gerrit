@@ -111,10 +111,10 @@ tool as well.
 
 [NOTE]
 Note that by appending `--reindex false` to the above command, you can skip the
-lenghty, implicit reindexing step of the migration. This is useful if you plan
+lengthy, implicit reindexing step of the migration. This is useful if you plan
 to perform further Gerrit upgrades while the server is offline and have to
-reindex later anyways (E.g.: a follow-up upgrade to Gerrit 3.2 or newer, which
-requires to reindex changes anyways).
+reindex later anyway (E.g.: a follow-up upgrade to Gerrit 3.2 or newer, which
+requires to reindex changes anyway).
 
 *Advantages*
 

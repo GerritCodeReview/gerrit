@@ -32,7 +32,6 @@ import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
-import com.google.gerrit.extensions.api.changes.RemoveFromAttentionSetInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -137,7 +136,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     change(r).addToAttentionSet(new AttentionSetInput(user.email(), "added"));
     fakeClock.advance(Duration.ofSeconds(42));
-    change(r).attention(user.id().toString()).remove(new RemoveFromAttentionSetInput("removed"));
+    change(r).attention(user.id().toString()).remove(new AttentionSetInput("removed"));
     AttentionSetUpdate expectedAttentionSetUpdate =
         AttentionSetUpdate.createFromRead(
             fakeClock.now(), user.id(), AttentionSetUpdate.Operation.REMOVE, "removed");
@@ -145,13 +144,37 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     // Second removal overrides the first removal.
     fakeClock.advance(Duration.ofSeconds(42));
-    change(r)
-        .attention(user.id().toString())
-        .remove(new RemoveFromAttentionSetInput("removed again"));
+    change(r).attention(user.id().toString()).remove(new AttentionSetInput("removed again"));
     expectedAttentionSetUpdate =
         AttentionSetUpdate.createFromRead(
             fakeClock.now(), user.id(), AttentionSetUpdate.Operation.REMOVE, "removed again");
     assertThat(r.getChange().attentionSet()).containsExactly(expectedAttentionSetUpdate);
+  }
+
+  @Test
+  public void removeUserWithInvalidUserInput() throws Exception {
+    PushOneCommit.Result r = createChange();
+    BadRequestException exception =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                change(r)
+                    .attention(user.id().toString())
+                    .remove(new AttentionSetInput("invalid user", "reason")));
+    assertThat(exception.getMessage())
+        .isEqualTo(
+            "The field \"user\" should be empty, or not conflict with the user in the request.");
+
+    exception =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                change(r)
+                    .attention(user.id().toString())
+                    .remove(new AttentionSetInput(admin.email(), "reason")));
+    assertThat(exception.getMessage())
+        .isEqualTo(
+            "The field \"user\" should be empty, or not conflict with the user in the request.");
   }
 
   @Test
@@ -161,7 +184,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(Iterables.getLast(r.getChange().messages()).getMessage())
         .contains("Added to attention set");
 
-    change(r).attention(user.id().toString()).remove(new RemoveFromAttentionSetInput("foo"));
+    change(r).attention(user.id().toString()).remove(new AttentionSetInput("foo"));
     assertThat(Iterables.getLast(r.getChange().messages()).getMessage())
         .contains("Removed from attention set");
   }
@@ -169,7 +192,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void removeUnrelatedUser() throws Exception {
     PushOneCommit.Result r = createChange();
-    change(r).attention(user.id().toString()).remove(new RemoveFromAttentionSetInput("foo"));
+    change(r).attention(user.id().toString()).remove(new AttentionSetInput("foo"));
 
     AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
     assertThat(attentionSet.account()).isEqualTo(user.id());
@@ -321,8 +344,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
     change(r).addReviewer(user.id().toString());
     change(r)
         .attention(user.id().toString())
-        .remove(
-            new RemoveFromAttentionSetInput("removed and not re-added when re-adding as reviewer"));
+        .remove(new AttentionSetInput("removed and not re-added when re-adding as reviewer"));
 
     change(r).addReviewer(user.id().toString());
 
@@ -409,7 +431,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   public void reviewersAreNotAddedForNoReasonBecauseOfAnUpdate() throws Exception {
     PushOneCommit.Result r = createChange();
     change(r).addToAttentionSet(new AttentionSetInput(user.email(), "user"));
-    change(r).attention(user.id().toString()).remove(new RemoveFromAttentionSetInput("removed"));
+    change(r).attention(user.id().toString()).remove(new AttentionSetInput("removed"));
 
     HashtagsInput hashtagsInput = new HashtagsInput();
     hashtagsInput.add = ImmutableSet.of("tag");

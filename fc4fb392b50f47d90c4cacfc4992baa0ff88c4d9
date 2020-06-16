@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2cafe9f_fb88ffad",
+        "filename": "polygerrit-ui/Polymer3.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-16T14:56:09Z",
+      "side": 1,
+      "message": "We would need to extend gerrit-ci-script to check and link plugin\u0027s own package.json file in gerrit core, similarly, to what Luca did with externapl_plugins_deps.bzl in this CL: [1].\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit-ci-scripts/+/95451",
+      "range": {
+        "startLine": 19,
+        "startChar": 340,
+        "endLine": 19,
+        "endChar": 399
+      },
+      "revId": "fc4fb392b50f47d90c4cacfc4992baa0ff88c4d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

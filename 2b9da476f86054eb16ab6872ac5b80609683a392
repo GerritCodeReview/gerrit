@@ -853,6 +853,30 @@
       "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cc930d3_2f78ea21",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-06-16T17:26:27Z",
+      "side": 1,
+      "message": "I added the setIndex step as part of the OnlineReindexer constructor, so everytime OnlineReindexer object is created the index is initialized for that object.",
+      "parentUuid": "32778780_9597bb7a",
+      "range": {
+        "startLine": 81,
+        "startChar": 21,
+        "endLine": 81,
+        "endChar": 31
+      },
+      "revId": "2b9da476f86054eb16ab6872ac5b80609683a392",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

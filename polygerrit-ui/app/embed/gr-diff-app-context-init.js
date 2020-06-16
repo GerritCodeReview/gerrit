@@ -24,7 +24,7 @@ class MockFlagsService {
   }
 
   /**
-   * @returns {string[]} array of all enabled experiments.
+   * @returns {!Array<string>} array of all enabled experiments.
    */
   get enabledExperiments() {
     return [];

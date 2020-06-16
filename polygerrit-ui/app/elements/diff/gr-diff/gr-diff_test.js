@@ -21,7 +21,7 @@ import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-diff.js';
 import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
-import {util} from '../../../scripts/util.js';
+import {getComputedStyleValue} from '../../../utils/dom-util.js';
 import {_setHiddenScroll} from '../../../scripts/hiddenscroll.js';
 import {runA11yAudit} from '../../../test/a11y-test-utils.js';
 import '@polymer/paper-button/paper-button.js';
@@ -82,14 +82,14 @@ suite('gr-diff tests', () => {
     element = basicFixture.instantiate();
     element.prefs = Object.assign({}, MINIMAL_PREFS, {line_wrapping: true});
     flushAsynchronousOperations();
-    assert.equal(util.getComputedStyleValue('--line-limit', element), '80ch');
+    assert.equal(getComputedStyleValue('--line-limit', element), '80ch');
   });
 
   test('line limit without line_wrapping', () => {
     element = basicFixture.instantiate();
     element.prefs = Object.assign({}, MINIMAL_PREFS, {line_wrapping: false});
     flushAsynchronousOperations();
-    assert.isNotOk(util.getComputedStyleValue('--line-limit', element));
+    assert.isNotOk(getComputedStyleValue('--line-limit', element));
   });
 
   suite('_get{PatchNum|IsParentComment}ByLineAndContent', () => {

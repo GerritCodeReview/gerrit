@@ -24,7 +24,7 @@ import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {GrEditConstants} from '../../edit/gr-edit-constants.js';
 import {_testOnly_resetEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
-import {util} from '../../../scripts/util.js';
+import {getComputedStyleValue} from '../../../utils/dom-util.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
@@ -320,7 +320,7 @@ suite('gr-change-view tests', () => {
   });
 
   const getCustomCssValue =
-      cssParam => util.getComputedStyleValue(cssParam, element);
+      cssParam => getComputedStyleValue(cssParam, element);
 
   test('_handleMessageAnchorTap', () => {
     element._changeNum = '1';

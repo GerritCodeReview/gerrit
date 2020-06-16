@@ -24,7 +24,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-diff-selection_html.js';
 import {DomUtilBehavior} from '../../../behaviors/dom-util-behavior/dom-util-behavior.js';
 import {GrRangeNormalizer} from '../gr-diff-highlight/gr-range-normalizer.js';
-import {util} from '../../../scripts/util.js';
+import {querySelectorAll} from '../../../utils/dom-util.js';
 
 /**
  * Possible CSS classes indicating the state of selection. Dynamically added/
@@ -203,7 +203,7 @@ class GrDiffSelection extends mixinBehaviors( [
   }
 
   _getSelection() {
-    const diffHosts = util.querySelectorAll(document.body, 'gr-diff');
+    const diffHosts = querySelectorAll(document.body, 'gr-diff');
     if (!diffHosts.length) return window.getSelection();
 
     const curDiffHost = diffHosts.find(diffHost => {

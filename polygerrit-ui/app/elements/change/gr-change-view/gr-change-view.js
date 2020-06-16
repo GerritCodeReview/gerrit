@@ -57,7 +57,7 @@ import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-beh
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GrEditConstants} from '../../edit/gr-edit-constants.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
-import {util} from '../../../scripts/util.js';
+import {getComputedStyleValue} from '../../../utils/dom-util.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
@@ -2003,7 +2003,7 @@ class GrChangeView extends mixinBehaviors( [
   _computeShowRelatedToggle() {
     // Make sure the max height has been applied, since there is now content
     // to populate.
-    if (!util.getComputedStyleValue('--relation-chain-max-height', this)) {
+    if (!getComputedStyleValue('--relation-chain-max-height', this)) {
       this._updateRelatedChangeMaxHeight();
     }
     // Prevents showMore from showing when click on related change, since the

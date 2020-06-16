@@ -10,6 +10,8 @@
 #    @ui_npm folder must not have devDependencies. All dev dependencies must be placed in @ui_dev_npm
 # 4. @ui_dev_npm (polygerrit-ui/node_modules) - devDependencies for polygerrit. The packages from these
 #    folder can be used for testing, but must not be included in the final bundle.
+# 5. @plugins_npm (plugins/node_modules) - plugin dependencies for polygerrit plugins.
+#    The packages here are expected to be used in plugins.
 # Note: separation between @ui_npm and @ui_dev_npm is necessary because with bazel we can't generate
 #    two managed directories from the same package.json. At the same time we want to avoid accidental
 #    usages of code from devDependencies in polygerrit bundle.
@@ -20,6 +22,7 @@ workspace(
         "@ui_npm": ["polygerrit-ui/app/node_modules"],
         "@ui_dev_npm": ["polygerrit-ui/node_modules"],
         "@tools_npm": ["tools/node_tools/node_modules"],
+        "@plugins_npm": ["plugins/node_modules"],
     },
 )
 
@@ -1206,6 +1209,12 @@ yarn_install(
     name = "tools_npm",
     package_json = "//:tools/node_tools/package.json",
     yarn_lock = "//:tools/node_tools/yarn.lock",
+)
+
+yarn_install(
+    name = "plugins_npm",
+    package_json = "//:plugins/package.json",
+    yarn_lock = "//:plugins/yarn.lock",
 )
 
 # Install all Bazel dependencies needed for npm packages that supply Bazel rules

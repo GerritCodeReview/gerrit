@@ -14,18 +14,23 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import com.google.gerrit.extensions.restapi.DefaultInput;
+
 /**
  * Input at API level to add a user to the attention set.
  *
- * @see RemoveFromAttentionSetInput
  * @see com.google.gerrit.extensions.common.AttentionSetEntry
  */
 public class AttentionSetInput {
   public String user;
-  public String reason;
+  @DefaultInput public String reason;
 
   public AttentionSetInput(String user, String reason) {
     this.user = user;
+    this.reason = reason;
+  }
+
+  public AttentionSetInput(String reason) {
     this.reason = reason;
   }
 

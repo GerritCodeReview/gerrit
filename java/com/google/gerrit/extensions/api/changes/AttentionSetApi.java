@@ -20,7 +20,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 /** API for managing the attention set of a change. */
 public interface AttentionSetApi {
 
-  void remove(RemoveFromAttentionSetInput input) throws RestApiException;
+  void remove(AttentionSetInput input) throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility when adding new methods to the
@@ -28,7 +28,7 @@ public interface AttentionSetApi {
    */
   class NotImplemented implements AttentionSetApi {
     @Override
-    public void remove(RemoveFromAttentionSetInput input) throws RestApiException {
+    public void remove(AttentionSetInput input) throws RestApiException {
       throw new NotImplementedException();
     }
   }

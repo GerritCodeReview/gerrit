@@ -52,6 +52,24 @@
       "revId": "2b958a5404499fc39cda9ae88692e4b764648d99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39355e91_886c670d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-16T12:52:19Z",
+      "side": 1,
+      "message": "Yeah the event is fired when the page is initially loaded(even if the user has not actually made any selection at all).\n\nTherefore, we would get extra events in our metric if we do the reporting here.",
+      "parentUuid": "5ea78263_371a23bc",
+      "revId": "2b958a5404499fc39cda9ae88692e4b764648d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "bf78930005fc63a18d5c3c31c334946e0b6d7121",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d37efc4d_b9b319dc",
+        "filename": "plugins/yarn.lock",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-16T11:22:07Z",
+      "side": 1,
+      "message": "not sure, tho we do have resemblejs license in `lib/js` and only that before for the bower_archives. If we need to list all licenses in transitive dependencies, that maybe too much consider how npm package linked :( I added David for reviewing as well, lets see if we need that or not @David",
+      "parentUuid": "a9d6a795_0119f561",
+      "range": {
+        "startLine": 1,
+        "startChar": 2,
+        "endLine": 1,
+        "endChar": 63
+      },
+      "revId": "bf78930005fc63a18d5c3c31c334946e0b6d7121",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

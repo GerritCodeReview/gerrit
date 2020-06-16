@@ -2103,6 +2103,13 @@ file containing the class must be placed in the `$site_path/lib` folder.
 +
 If not specified, the default no-op implementation is used.
 
+[[gerrit.canLoadInIFrame]]gerrit.canLoadInIFrame::
++
+For security reasons Gerrit will always jump out of iframe.
+Setting this option to true will prevent this behavior.
++
+By default false.
+
 [[gerrit.cdnPath]]gerrit.cdnPath::
 +
 Path prefix for PolyGerrit's static resources if using a CDN.
@@ -2775,7 +2782,7 @@ by the JVM. If set to a negative value, defaults to a direct executor.
 [[index.batchThreads]]index.batchThreads::
 +
 Number of threads to use for indexing in background operations, such as
-online schema upgrades.
+online schema upgrades, and also for offline reindexing.
 +
 If not set or set to a zero, defaults to the number of logical CPUs as returned
 by the JVM. If set to a negative value, defaults to a direct executor.

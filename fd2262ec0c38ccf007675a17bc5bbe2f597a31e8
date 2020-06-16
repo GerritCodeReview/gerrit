@@ -6,12 +6,9 @@
       "updated": "2020-06-16T14:18:52Z"
     },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "FAILED",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/87946/console",
-      "started": "2020-06-16T08:55:37Z",
-      "finished": "2020-06-16T08:58:35Z",
+      "state": "NOT_STARTED",
       "created": "2020-06-16T08:55:19Z",
-      "updated": "2020-06-16T08:58:35Z"
+      "updated": "2020-06-16T14:18:53Z"
     }
   }
 }

@@ -34,6 +34,24 @@
       "revId": "2b958a5404499fc39cda9ae88692e4b764648d99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ea78263_371a23bc",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-16T12:50:31Z",
+      "side": 1,
+      "message": "Sorry, I don\u0027t understand this reply.\n\nI am recommending to call reportInteraction() here: https://gerrit.googlesource.com/gerrit/+/e1f4fee1f3ce674f44cb9788e6798ff8522bb876/polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js#293\n\nAre you saying that this does not work, because it would be triggered more often or less often?",
+      "parentUuid": "440f6b72_1514b032",
+      "revId": "2b958a5404499fc39cda9ae88692e4b764648d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

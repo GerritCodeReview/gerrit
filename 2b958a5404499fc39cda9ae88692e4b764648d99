@@ -70,6 +70,24 @@
       "revId": "2b958a5404499fc39cda9ae88692e4b764648d99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11cf7e5c_e6378a86",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-16T13:49:48Z",
+      "side": 1,
+      "message": "The event is fired and processed the same amount of times. If it is fired, then it is also caught and processed in two places.\n\nThe only reason why this leads to different behavior is that gr-patch-range-select.js fires an event even if the patch range does not actually change. I would consider that a bug. This should fix it:\n\n    if (target \u003d\u003d\u003d this.$.patchNumDropdown) {\n      if (detail.patchNum \u003d\u003d\u003d e.detail.value) return;\n      detail.patchNum \u003d e.detail.value;\n    } else {\n      if (detail.basePatchNum \u003d\u003d\u003d e.detail.value) return;\n      detail.basePatchNum \u003d e.detail.value;\n    }\n\nAnd then you can also move the reporting to when the event is fired.",
+      "parentUuid": "39355e91_886c670d",
+      "revId": "2b958a5404499fc39cda9ae88692e4b764648d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

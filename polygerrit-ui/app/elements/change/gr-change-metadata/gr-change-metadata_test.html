@@ -429,20 +429,14 @@ limitations under the License.
     });
 
     test('_computeParents', () => {
-      const revision = {commit: {parents: [{commit: '123', subject: 'abc'}]}};
-      assert.isUndefined(element._computeParents({}));
-      assert.equal(element._computeParents(revision), revision.commit.parents);
-    });
-
-    test('_currentParents', () => {
-      element.revision = {
-        commit: {parents: [{commit: '123', subject: 'abc'}]},
-      };
-      assert.equal(element._currentParents[0].commit, '123');
-      element.revision = {
-        commit: {parents: [{commit: '12345', subject: 'abc'}]},
-      };
-      assert.equal(element._currentParents[0].commit, '12345');
+      const parents = [{commit: '123', subject: 'abc'}];
+      assert.isUndefined(element._computeParents(
+          {revisions: {456: {commit: {parents}}}}));
+      assert.isUndefined(element._computeParents(
+          {current_revision: '789', revisions: {456: {commit: {parents}}}}));
+      assert.equal(element._computeParents(
+          {current_revision: '456', revisions: {456: {commit: {parents}}}}),
+      parents);
     });
 
     test('_computeParentsLabel', () => {

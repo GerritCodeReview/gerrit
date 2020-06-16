@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "953aeaab_115effe4",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-16T09:56:21Z",
+      "side": 1,
+      "message": "Any chance that a change gets abandoned and marked WiP at the same time?\n\nIt seems like this would make us add the footers twice here.\n\nCan we protect against these kinds of issues using a local member variable (attentionSetCleared?) that we set and check upon in clearAttentionSet (if set, we return).",
+      "range": {
+        "startLine": 698,
+        "startChar": 8,
+        "endLine": 698,
+        "endChar": 25
+      },
+      "revId": "cecfa724aa2a2a0cf17c8b1538b2c6645d331f6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

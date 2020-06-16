@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "492a2cb3_5fe68c6d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-16T09:10:43Z",
+      "side": 1,
+      "message": "Ok, makes sense.\n\nCan you add a comment before the if-block explaining why this filtering needs to be done?\n\n(Yes, I have read access to the All-Projects access page. I have verified that on gerrit-review there is nothing that would have been filtered.)",
+      "parentUuid": "cbfa1718_c3344ad8",
+      "revId": "9370809bdee092a33030e0dcd0eecb75bdf2c270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c6a96604_eb26ca00",
         "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section_test.html",
         "patchSetId": 5

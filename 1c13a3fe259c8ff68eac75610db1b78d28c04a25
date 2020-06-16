@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "872e09f1_c169ef93",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-16T21:04:59Z",
+      "side": 1,
+      "message": "Would it be a crazy idea to fire a KeyPressEvent of \u0027?\u0027 instead?",
+      "revId": "1c13a3fe259c8ff68eac75610db1b78d28c04a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94d10e39_ea4da476",
+        "filename": "polygerrit-ui/app/elements/gr-app-element_html.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-16T21:04:59Z",
+      "side": 1,
+      "message": "Maybe better move this to \u003cgr-main-header\u003e a few lines down.",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 59
+      },
+      "revId": "1c13a3fe259c8ff68eac75610db1b78d28c04a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

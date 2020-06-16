@@ -73,13 +73,12 @@ suite('gr-repo-api tests', () => {
       const pluginCommand = element.shadowRoot
           .querySelector('gr-plugin-repo-command');
       assert.isOk(pluginCommand);
-      const command = pluginCommand.shadowRoot
-          .querySelector('gr-repo-command');
-      assert.isOk(command);
-      assert.equal(command.title, 'foo');
+      const btn = pluginCommand.shadowRoot
+          .querySelector('gr-button');
+      assert.isOk(btn);
+      assert.equal(btn.textContent, 'foo');
       assert.isFalse(tapStub.called);
-      MockInteractions.tap(command.shadowRoot
-          .querySelector('gr-button'));
+      MockInteractions.tap(btn);
       assert.isTrue(tapStub.called);
       done();
     });

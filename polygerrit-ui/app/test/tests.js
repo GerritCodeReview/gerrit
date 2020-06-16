@@ -41,7 +41,6 @@ const elements = [
   'admin/gr-plugin-config-array-editor/gr-plugin-config-array-editor_test.html',
   'admin/gr-plugin-list/gr-plugin-list_test.html',
   'admin/gr-repo-access/gr-repo-access_test.html',
-  'admin/gr-repo-command/gr-repo-command_test.html',
   'admin/gr-repo-commands/gr-repo-commands_test.html',
   'admin/gr-repo-dashboards/gr-repo-dashboards_test.html',
   'admin/gr-repo-detail-list/gr-repo-detail-list_test.html',

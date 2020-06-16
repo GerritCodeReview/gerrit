@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cbfa1718_c3344ad8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-06-16T08:00:20Z",
+      "side": 1,
+      "message": "capabilities are \"Global Capabilities\" [1] that can only be set on \"All-Projects\", (administrateServer, accessDatabase ...). \nThe filtering doesn\u0027t affect any other access-right.\nIIRC plugins can only provide Global Capabilities and not other access-categories (equivalent to push, read, submit...).\n\n(I don\u0027t have read access to All-Projects on gerrit-review [2] perhaps you do.)\n\n[1] https://gerrit-review.googlesource.com/Documentation/access-control.html#global_capabilities\n[2] https://gerrit-review.googlesource.com/admin/repos/All-Projects,access",
+      "parentUuid": "0ea85075_41101ec4",
+      "revId": "9370809bdee092a33030e0dcd0eecb75bdf2c270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c6a96604_eb26ca00",
         "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section_test.html",
         "patchSetId": 5

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "980e5fb4_74354344",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-06-16T18:48:31Z",
+      "side": 1,
+      "message": "It would be better if we didn\u0027t assume here that it\u0027s in the same project. I realize that the current mechanism will never populate this if it\u0027s in a different project, but if we don\u0027t assume this, then we allow plugins to populate this from other projects (we have real data in our dataset from other projects).",
+      "range": {
+        "startLine": 977,
+        "startChar": 46,
+        "endLine": 977,
+        "endChar": 56
+      },
+      "revId": "5b05db9b98564814ce21addfe5b9422e9afb41fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -445,6 +445,19 @@ suite('gr-diff-host tests', () => {
       });
     });
 
+    test('prefetch getDiff', done => {
+      const diffRestApiStub = sandbox.stub(element.$.restAPI, 'getDiff')
+          .returns(Promise.resolve({content: []}));
+      element.changeNum = 123;
+      element.patchRange = {basePatchNum: 1, patchNum: 2};
+      element.path = 'file.txt';
+      element.prefetchDiff();
+      element._getDiff().then(() =>{
+        assert.isTrue(diffRestApiStub.calledOnce);
+        done();
+      });
+    });
+
     test('_getDiff handles null diff responses', done => {
       stub('gr-rest-api-interface', {
         getDiff() { return Promise.resolve(null); },

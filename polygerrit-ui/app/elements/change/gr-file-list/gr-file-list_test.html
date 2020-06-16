@@ -95,6 +95,7 @@ suite('gr-file-list tests', () => {
       });
       stub('gr-diff-host', {
         reload() { return Promise.resolve(); },
+        prefetchDiff() {},
       });
 
       // Element must be wrapped in an element with direct access to the
@@ -1106,6 +1107,7 @@ suite('gr-file-list tests', () => {
         reload() {
           done();
         },
+        prefetchDiff() {},
         cancel() {},
         getCursorStops() { return []; },
         addEventListener(eventName, callback) {
@@ -1163,6 +1165,7 @@ suite('gr-file-list tests', () => {
       const diffs = [{
         path: 'p0',
         style: {},
+        prefetchDiff() {},
         reload() {
           assert.equal(callCount++, 2);
           return Promise.resolve();
@@ -1170,6 +1173,7 @@ suite('gr-file-list tests', () => {
       }, {
         path: 'p1',
         style: {},
+        prefetchDiff() {},
         reload() {
           assert.equal(callCount++, 1);
           return Promise.resolve();
@@ -1177,6 +1181,7 @@ suite('gr-file-list tests', () => {
       }, {
         path: 'p2',
         style: {},
+        prefetchDiff() {},
         reload() {
           assert.equal(callCount++, 0);
           return Promise.resolve();
@@ -1199,6 +1204,7 @@ suite('gr-file-list tests', () => {
       const diffs = [{
         path: 'p0',
         style: {},
+        prefetchDiff() {},
         reload() {
           assert.equal(reviewStub.callCount, 2);
           assert.equal(callCount++, 2);
@@ -1207,6 +1213,7 @@ suite('gr-file-list tests', () => {
       }, {
         path: 'p1',
         style: {},
+        prefetchDiff() {},
         reload() {
           assert.equal(reviewStub.callCount, 1);
           assert.equal(callCount++, 1);
@@ -1215,6 +1222,7 @@ suite('gr-file-list tests', () => {
       }, {
         path: 'p2',
         style: {},
+        prefetchDiff() {},
         reload() {
           assert.equal(reviewStub.callCount, 0);
           assert.equal(callCount++, 0);
@@ -1237,6 +1245,7 @@ suite('gr-file-list tests', () => {
       const diffs = [{
         path: 'p',
         style: {},
+        prefetchDiff() {},
         reload() { return Promise.resolve(); },
       }];
 
@@ -1566,6 +1575,7 @@ suite('gr-file-list tests', () => {
       });
       stub('gr-diff-host', {
         reload() { return Promise.resolve(); },
+        prefetchDiff() {},
       });
 
       // Element must be wrapped in an element with direct access to the

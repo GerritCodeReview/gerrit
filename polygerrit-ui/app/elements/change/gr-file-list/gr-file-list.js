@@ -1279,6 +1279,14 @@ class GrFileList extends mixinBehaviors( [
   _renderInOrder(files, diffElements, initialCount) {
     let iter = 0;
 
+    for (const file of files) {
+      const path = file.path;
+      const diffElem = this._findDiffByPath(path, diffElements);
+      if (diffElem) {
+        diffElem.prefetchDiff();
+      }
+    }
+
     return (new Promise(resolve => {
       this.dispatchEvent(new CustomEvent('reload-drafts', {
         detail: {resolve},

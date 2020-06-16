@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "42e82cb7_211a7a87",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 973,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-06-16T18:52:49Z",
+      "side": 1,
+      "message": "This optimization will not be valid if the change has been move since the cherry-pick.",
+      "range": {
+        "startLine": 973,
+        "startChar": 27,
+        "endLine": 973,
+        "endChar": 33
+      },
+      "revId": "5b05db9b98564814ce21addfe5b9422e9afb41fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "980e5fb4_74354344",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 8

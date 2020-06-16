@@ -15,11 +15,13 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.extensions.api.changes.RemoveFromAttentionSetInput;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.AttentionSetEntryResource;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.RemoveFromAttentionSetOp;
@@ -33,20 +35,24 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /** Removes a single user from the attention set. */
 public class RemoveFromAttentionSet
-    implements RestModifyView<AttentionSetEntryResource, RemoveFromAttentionSetInput> {
+    implements RestModifyView<AttentionSetEntryResource, AttentionSetInput> {
   private final BatchUpdate.Factory updateFactory;
   private final RemoveFromAttentionSetOp.Factory opFactory;
+  private final AccountResolver accountResolver;
 
   @Inject
   RemoveFromAttentionSet(
-      BatchUpdate.Factory updateFactory, RemoveFromAttentionSetOp.Factory opFactory) {
+      BatchUpdate.Factory updateFactory,
+      RemoveFromAttentionSetOp.Factory opFactory,
+      AccountResolver accountResolver) {
     this.updateFactory = updateFactory;
     this.opFactory = opFactory;
+    this.accountResolver = accountResolver;
   }
 
   @Override
   public Response<Object> apply(
-      AttentionSetEntryResource attentionResource, RemoveFromAttentionSetInput input)
+      AttentionSetEntryResource attentionResource, AttentionSetInput input)
       throws RestApiException, PermissionBackendException, IOException, ConfigInvalidException,
           UpdateException {
     if (input == null) {
@@ -55,6 +61,21 @@ public class RemoveFromAttentionSet
     input.reason = Strings.nullToEmpty(input.reason).trim();
     if (input.reason.isEmpty()) {
       throw new BadRequestException("missing field: reason");
+    }
+    input.user = Strings.nullToEmpty(input.user).trim();
+    if (!input.user.isEmpty()) {
+      Account.Id attentionUserId = null;
+      try {
+        attentionUserId = accountResolver.resolve(input.user).asUnique().account().id();
+      } catch (AccountResolver.UnresolvableAccountException ex) {
+        throw new BadRequestException(
+            "The user specified in the input body couldn't be found.", ex);
+      }
+      if (attentionUserId == null
+          || attentionUserId.get() != attentionResource.getAccountId().get()) {
+        throw new BadRequestException(
+            "The field \"user\" should be empty, or not conflict with the user in the request.");
+      }
     }
     ChangeResource changeResource = attentionResource.getChangeResource();
     try (BatchUpdate bu =

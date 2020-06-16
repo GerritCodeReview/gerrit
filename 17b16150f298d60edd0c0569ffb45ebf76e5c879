@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d52e4116_b7dd4f78",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2091,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-16T08:18:51Z",
+      "side": 1,
+      "message": "Can we link to the documentation of this header? (outside Gerrit documentation set)",
+      "range": {
+        "startLine": 2091,
+        "startChar": 54,
+        "endLine": 2091,
+        "endChar": 90
+      },
+      "revId": "17b16150f298d60edd0c0569ffb45ebf76e5c879",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17f30acf_e34325b0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2105,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-16T08:18:51Z",
+      "side": 1,
+      "message": "I believe SAMEORIGIN would be a safer default IMHO. People should use the ALLOW *only* if they are really aware of the clickjacking weakness and the site is therefore completely internal to the company.",
+      "range": {
+        "startLine": 2105,
+        "startChar": 11,
+        "endLine": 2105,
+        "endChar": 16
+      },
+      "revId": "17b16150f298d60edd0c0569ffb45ebf76e5c879",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0544360b_3b9118b0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2087,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-06-16T08:01:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2542d3f8_60d81bf8",
+      "range": {
+        "startLine": 2082,
+        "startChar": 0,
+        "endLine": 2087,
+        "endChar": 17
+      },
+      "revId": "b10538850f23b8b5ae5777b1b514aa0abd74af30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "48dd0798_f461773f",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2
@@ -116,6 +140,30 @@
       "revId": "b10538850f23b8b5ae5777b1b514aa0abd74af30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6beadbd0_fa44d2b6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2099,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-06-16T08:01:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8bada4d_a1b639c1",
+      "range": {
+        "startLine": 2099,
+        "startChar": 0,
+        "endLine": 2099,
+        "endChar": 94
+      },
+      "revId": "b10538850f23b8b5ae5777b1b514aa0abd74af30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

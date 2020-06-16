@@ -17,7 +17,7 @@ package com.google.gerrit.server.api.changes;
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.extensions.api.changes.AttentionSetApi;
-import com.google.gerrit.extensions.api.changes.RemoveFromAttentionSetInput;
+import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.AttentionSetEntryResource;
 import com.google.gerrit.server.restapi.change.RemoveFromAttentionSet;
@@ -41,7 +41,7 @@ public class AttentionSetApiImpl implements AttentionSetApi {
   }
 
   @Override
-  public void remove(RemoveFromAttentionSetInput input) throws RestApiException {
+  public void remove(AttentionSetInput input) throws RestApiException {
     try {
       removeFromAttentionSet.apply(attentionSetEntryResource, input);
     } catch (Exception e) {

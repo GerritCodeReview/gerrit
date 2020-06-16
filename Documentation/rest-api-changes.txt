@@ -5985,7 +5985,7 @@ Number of the parent relative to which the cherry-pick should be considered.
 Notify handling that defines to whom email notifications should be sent
 after the cherry-pick. +
 Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
-If not set, the default is `NONE`.
+If not set, the default is `ALL`.
 |`notify_details`   |optional|
 Additional information about whom to notify about the update as a map
 of recipient type to link:#notify-info[NotifyInfo] entity.

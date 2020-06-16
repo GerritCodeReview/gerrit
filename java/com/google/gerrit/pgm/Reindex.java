@@ -203,6 +203,9 @@ public class Reindex extends SiteProgram {
     if (result.success()) {
       index.markReady(true);
     }
+    System.out.format(
+        "Index %s in version %d is %sready\n",
+        def.getName(), index.getSchema().getVersion(), result.success() ? "" : "NOT ");
     return result.success();
   }
 }

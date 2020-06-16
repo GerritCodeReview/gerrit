@@ -236,7 +236,8 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       try {
         indexer.index(changeDataFactory.create(r.notes()));
         done.update(1);
-        verboseWriter.println("Reindexed change " + r.id());
+        verboseWriter.format(
+            "Reindexed change %d (project: %s)\n", r.id().get(), r.notes().getProjectName().get());
       } catch (RejectedExecutionException e) {
         // Server shutdown, don't spam the logs.
         failSilently();

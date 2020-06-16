@@ -42,7 +42,7 @@ public class ChangeInfo {
    * for this change. Keyed by account ID. We don't use {@link
    * com.google.gerrit.entities.Account.Id} to avoid a circular dependency.
    */
-  public Map<Integer, AttentionSetEntry> attentionSet;
+  public Map<Integer, AttentionSetInfo> attentionSet;
 
   public AccountInfo assignee;
   public Collection<String> hashtags;

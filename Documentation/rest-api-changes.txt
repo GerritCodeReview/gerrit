@@ -100,6 +100,15 @@ Query for open changes of watched projects:
       "id": "demo~master~Idaf5e098d70898b7119f6f4af5a6c13343d64b57",
       "project": "demo",
       "branch": "master",
+      "attention_set": [
+        {
+          "account": {
+            "name": "John Doe"
+          },
+         "last_update": "2012-07-17 07:19:27.766000000",
+         "reason": "reason"
+        }
+      ]
       "change_id": "Idaf5e098d70898b7119f6f4af5a6c13343d64b57",
       "subject": "One change",
       "status": "NEW",
@@ -519,6 +528,15 @@ describes the change.
     "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
     "project": "myProject",
     "branch": "master",
+    "attention_set": [
+      {
+        "account": {
+          "name": "John Doe"
+        },
+       "last_update": "2013-02-21 11:16:36.775000000",
+       "reason": "reason"
+      }
+    ]
     "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
     "subject": "Implementing Feature X",
     "status": "NEW",
@@ -571,6 +589,18 @@ REJECTED > APPROVED > DISLIKED > RECOMMENDED.
     "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
     "project": "myProject",
     "branch": "master",
+    "attention_set": [
+      {
+        "account": {
+          "_account_id": 1000096,
+          "name": "John Doe",
+          "email": "john.doe@example.com",
+          "username": "jdoe"
+        },
+       "last_update": "2013-02-21 11:16:36.775000000",
+       "reason": "reason"
+      }
+    ]
     "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
     "subject": "Implementing Feature X",
     "status": "NEW",
@@ -1128,6 +1158,8 @@ Abandons a change.
 The request body does not need to include a link:#abandon-input[
 AbandonInput] entity if no review comment is added.
 
+Abandoning a change also removes all users from the attention set.
+
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/abandon HTTP/1.0
@@ -1615,6 +1647,8 @@ Submits a change.
 
 The request body only needs to include a link:#submit-input[
 SubmitInput] entity if submitting on behalf of another user.
+
+Submitting a change also removes all users from the attention set.
 
 .Request
 ----
@@ -2274,6 +2308,8 @@ link:#work-in-progress-input[WorkInProgressInput] entity if no review comment
 is added. Actions that create a new patch set in a WIP change default to
 notifying *OWNER* instead of *ALL*.
 
+Marking a change work in progress also removes all users from the attention set.
+
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/wip HTTP/1.0
@@ -2301,6 +2337,9 @@ only be marked ready by the owner, project owners or site administrators.
 Activates notifications of reviewer. The request body does not need
 to include a link:#work-in-progress-input[WorkInProgressInput] entity
 if no review comment is added.
+
+Marking a change ready for review also adds all of the reviewers of the change
+to the attention set.
 
 .Request
 ----
@@ -2660,6 +2699,98 @@ describes the updated change message.
      "date": "2013-03-23 21:34:02.419000000",
      "message": "Change message removed by: Administrator\nReason: spam",
      "_revision_number": 1
+  }
+----
+
+[[get-attention-set]]
+=== Get Attention Set
+--
+'GET /changes/link:#change-id[\{change-id\}]/attention'
+--
+
+Returns all users that are currently in the attention set.
+As response a list of link:#attention-set-info[AttentionSetInfo]
+entity is returned.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/attention HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "account": {
+        "_account_id": 1000096,
+        "name": "John Doe",
+        "email": "john.doe@example.com",
+        "username": "jdoe"
+      },
+      "last_update": "2013-02-01 09:59:32.126000000",
+      "reason": "reason"
+    },
+      {
+        "account": {
+          "_account_id": 1000097,
+          "name": "Jane Doe",
+          "email": "jane.doe@example.com",
+          "username": "janedoe"
+        },
+        "last_update": "2013-02-01 09:59:32.126000000",
+        "reason": "reason"
+      }
+  ]
+----
+
+[[add-to-attention-set]]
+=== Add To Attention Set
+--
+'POST /changes/link:#change-id[\{change-id\}]/attention'
+--
+
+Adds a single user to the attention set of a change.
+
+A user can be added even if the user is already in the
+attention set. It will update the reason for addition
+and the timestamp.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/attention HTTP/1.0
+----
+
+Details should be provided in the request body as a
+link:#attention-set-input[AttentionSetInput] entity.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/attention HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "user": "John%20Doe",
+    "reason": "reason"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "_account_id": 1000096,
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "username": "jdoe"
   }
 ----
 
@@ -3220,6 +3351,10 @@ reviewer state of that user is updated to CC. If a user that is already
 a CC on the change is added as reviewer, the reviewer state of that
 user is updated to reviewer.
 
+Adding a new reviewer also adds that reviewer to the attention set, unless
+the change is work in progress.
+Also, moving a reviewer to CC removes that user from the attention set.
+
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers HTTP/1.0
@@ -3361,6 +3496,7 @@ An email will be sent using the "newchange" template.
 --
 
 Deletes a reviewer from a change.
+Deleting a reviewer also removes that user from the attention set.
 
 .Request
 ----
@@ -3918,6 +4054,30 @@ link:#review-input[ReviewInput] entity.
 If the labels are set, the user sending the request will automatically be
 added as a reviewer, otherwise (if they only commented) they are added to
 the CC list.
+
+Some updates to the attention set occur here. If more than one update should
+occur, only the first update in the order of the below documentation occurs:
+
+If a user is part of remove_from_attention_set, the user will be explicitly
+removed from the attention set.
+
+If a user is part of add_to_attention_set, the user will be explicitly
+added to the attention set.
+
+The user who created the review is removed from the attention set.
+
+If the change is ready for review, the followings also apply:
+
+When the uploader replies, the owner is added to the attention set.
+
+When the owner or uploader replies, all the reviewers are added to
+the attention set.
+
+When neither the owner nor the uploader replies, all the owner and the
+uploader to the attention set.
+
+Then, new reviewers are added to the attention set, and removed reviewers
+(by becoming CC) are removed from the attention set.
 
 A review cannot be set on a change edit. Trying to post a review for a
 change edit fails with `409 Conflict`.
@@ -5677,6 +5837,50 @@ In this case, use a POST request instead:
   HTTP/1.1 204 No Content
 ----
 
+[[attention-set-endpoints]]
+== Attention Set Endpoints
+
+[[remove-from-attention-set]]
+=== Remove from Attention Set
+--
+'DELETE /changes/link:#change-id[\{change-id\}]/attention/link:rest-api-accounts.html#account-id[\{account-id\}]' +
+'POST /changes/link:#change-id[\{change-id\}]/attention/link:rest-api-accounts.html#account-id[\{account-id\}]/delete'
+--
+
+Deletes a single user from the attention set of a change.
+
+A user can be removed even if the user is not in the
+attention set. Also, if a user was already removed, that
+user can be removed again which updates the reason for
+removal and the timestamp.
+
+.Request
+----
+  DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/attention/John%20Doe HTTP/1.0
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/attention/John%20Doe/delete HTTP/1.0
+----
+
+Reason can be provided in the request body as a
+link:#attention-set-input[AttentionSetInput] entity.
+
+User must be left empty, or the user must be exactly
+the same user as in the request header.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/attention/John%20Doe/delete HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "reason": "reason"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[ids]]
 == IDs
 
@@ -5874,6 +6078,34 @@ The link:rest-api-accounts.html#account-id[ID] of one account that
 should be added as assignee.
 |===========================
 
+[[attention-set-info]]
+=== AttentionSetInfo
+The `AttentionSetInfo` entity contains details of users that are in
+the attention set.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`account`     || link:rest-api-accounts.html#account-info[AccountInfo] entity.
+|`last_update` || The link:rest-api.html#timestamp[timestamp] of when the last
+ update for this account was created.
+|`reason`      | The reason of for adding or removing the user.
+
+|===========================
+[[attention-set-input]]
+=== AttentionSetInput
+The `AttentionSetInput` entity contains details for adding users to the attention
+set and removing them from it.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`user`        |optional| link:rest-api-accounts.html#account-id[ID]
+of the account that should be added to the attention set. For removals,
+this field should be empty or the same as the field in the request header.
+|`reason`      | The reason of for adding or removing the user.
+|===========================
+
 [[blame-info]]
 === BlameInfo
 The `BlameInfo` entity stores the commit metadata with the row coordinates where
@@ -5930,6 +6162,9 @@ where 'project', 'branch' and 'Change-Id' are URL encoded. For 'branch' the
 The name of the target branch. +
 The `refs/heads/` prefix is omitted.
 |`topic`              |optional|The topic to which this change belongs.
+|`attention_set`      |optional|
+The map that maps link:rest-api-accounts.html#account-id[account IDs]
+to link:#attention-set-info[AttentionSetInfo] of that account.
 |`assignee`           |optional|
 The assignee of the change as an link:rest-api-accounts.html#account-info[
 AccountInfo] entity.
@@ -7167,24 +7402,24 @@ revision.
 
 [options="header",cols="1,^1,5"]
 |============================
-|Field Name               ||Description
-|`message`                |optional|
+|Field Name                 ||Description
+|`message`                  |optional|
 The message to be added as review comment.
-|`tag`                    |optional|
+|`tag`                      |optional|
 Apply this tag to the review comment message, votes, and inline
 comments. Tags may be used by CI or other automated systems to
 distinguish them from human reviews. Votes/comments that contain `tag` with
 'autogenerated:' prefix can be filtered out in the web UI.
-|`labels`                 |optional|
+|`labels`                   |optional|
 The votes that should be added to the revision as a map that maps the
 label names to the voting values.
-|`comments`               |optional|
+|`comments`                 |optional|
 The comments that should be added as a map that maps a file path to a
 list of link:#comment-input[CommentInput] entities.
-|`robot_comments`         |optional|
+|`robot_comments`           |optional|
 The robot comments that should be added as a map that maps a file path
 to a list of link:#robot-comment-input[RobotCommentInput] entities.
-|`drafts`                 |optional|
+|`drafts`                   |optional|
 Draft handling that defines how draft comments are handled that are
 already in the database but that were not also described in this
 input. +
@@ -7193,29 +7428,35 @@ except `PUBLISH_ALL_REVISIONS` operate only on drafts for a single revision. +
 Only `KEEP` is allowed when used in conjunction with `on_behalf_of`. +
 If not set, the default is `KEEP`. If `on_behalf_of` is set, then no other value
 besides `KEEP` is allowed.
-|`notify`                 |optional|
+|`notify`                   |optional|
 Notify handling that defines to whom email notifications should be sent
 after the review is stored. +
 Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
 If not set, the default is `ALL`.
-|`notify_details`         |optional|
+|`notify_details`           |optional|
 Additional information about whom to notify about the update as a map
 of recipient type to link:#notify-info[NotifyInfo] entity.
-|`omit_duplicate_comments`|optional|
+|`omit_duplicate_comments`  |optional|
 If `true`, comments with the same content at the same place will be omitted.
-|`on_behalf_of`           |optional|
+|`on_behalf_of`             |optional|
 link:rest-api-accounts.html#account-id[\{account-id\}] the review
 should be posted on behalf of. To use this option the caller must
 have been granted `labelAs-NAME` permission for all keys of labels.
-|`reviewers`              |optional|
+|`reviewers`                |optional|
 A list of link:rest-api-changes.html#reviewer-input[ReviewerInput]
 representing reviewers that should be added to the change.
-|`ready`                  |optional|
+|`ready`                    |optional|
 If true, and if the change is work in progress, then start review.
 It is an error for both `ready` and `work_in_progress` to be true.
 |`work_in_progress`         |optional|
 If true, mark the change as work in progress. It is an error for both
 `ready` and `work_in_progress` to be true.
+|`add_to_attention_set`     |optional|
+list of link:#attention-set-input[AttentionSetInput] entities to add
+to the attention set.
+|`remove_from_attention_set`|optional|
+list of link:#attention-set-input[AttentionSetInput] entities to remove
+from the attention set.
 |============================
 
 [[review-result]]

@@ -23,16 +23,16 @@ import java.sql.Timestamp;
  * <p>See <a href="https://www.gerritcodereview.com/design-docs/attention-set.html">here</a> for
  * background.
  */
-public class AttentionSetEntry {
+public class AttentionSetInfo {
   /** The user included in the attention set. */
-  public AccountInfo accountInfo;
+  public AccountInfo account;
   /** The timestamp of the last update. */
   public Timestamp lastUpdate;
   /** The human readable reason why the user was added. */
   public String reason;
 
-  public AttentionSetEntry(AccountInfo accountInfo, Timestamp lastUpdate, String reason) {
-    this.accountInfo = accountInfo;
+  public AttentionSetInfo(AccountInfo account, Timestamp lastUpdate, String reason) {
+    this.account = account;
     this.lastUpdate = lastUpdate;
     this.reason = reason;
   }

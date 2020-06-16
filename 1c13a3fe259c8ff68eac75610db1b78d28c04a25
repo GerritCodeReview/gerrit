@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "680eb2c9_0cf4bf1f",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-16T21:14:46Z",
+      "side": 1,
+      "message": "Haha, I thought of that too but then immediately discarded it because I thought you would call it crazy.\nI guess this is more robust and clear.",
+      "parentUuid": "872e09f1_c169ef93",
+      "revId": "1c13a3fe259c8ff68eac75610db1b78d28c04a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "94d10e39_ea4da476",
         "filename": "polygerrit-ui/app/elements/gr-app-element_html.js",
         "patchSetId": 4
@@ -39,6 +57,30 @@
       "revId": "1c13a3fe259c8ff68eac75610db1b78d28c04a25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76b9704e_86cc961d",
+        "filename": "polygerrit-ui/app/elements/gr-app-element_html.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-16T21:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94d10e39_ea4da476",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 59
+      },
+      "revId": "1c13a3fe259c8ff68eac75610db1b78d28c04a25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

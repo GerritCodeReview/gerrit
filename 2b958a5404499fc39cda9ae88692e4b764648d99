@@ -16,6 +16,24 @@
       "revId": "2b958a5404499fc39cda9ae88692e4b764648d99",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "440f6b72_1514b032",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-16T12:20:21Z",
+      "side": 1,
+      "message": "the event is unfortunately fired when the page is loading which is why I could not add it to gr-patch-range-select.",
+      "parentUuid": "d5457692_ec93bd0f",
+      "revId": "2b958a5404499fc39cda9ae88692e4b764648d99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

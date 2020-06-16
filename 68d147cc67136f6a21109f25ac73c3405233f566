@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "de26ef83_cea02bf9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-16T20:27:54Z",
+      "side": 1,
+      "message": "Will need clarification once the related code gets amended.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 24
+      },
+      "revId": "68d147cc67136f6a21109f25ac73c3405233f566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a09ce8d6_286814d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-16T20:27:54Z",
+      "side": 1,
+      "message": "Would move to another change, as per related comments. Then the message will also need more precisions.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 0
+      },
+      "revId": "68d147cc67136f6a21109f25ac73c3405233f566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdb361a8_b4971f94",
+        "filename": "Documentation/cmd-index-activate.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-16T20:27:54Z",
+      "side": 1,
+      "message": "How about the below added \u0027projects\u0027 case if failing? -Would pertain to a follow-up change.",
+      "range": {
+        "startLine": 16,
+        "startChar": 14,
+        "endLine": 17,
+        "endChar": 45
+      },
+      "revId": "68d147cc67136f6a21109f25ac73c3405233f566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4a677a5_522fa038",
+        "filename": "Documentation/cmd-index-activate.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-16T20:27:54Z",
+      "side": 1,
+      "message": "Should be done in its own change, along with the corresponding test amend.",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 14
+      },
+      "revId": "68d147cc67136f6a21109f25ac73c3405233f566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99a9fa4f_604562fa",
+        "filename": "java/com/google/gerrit/server/index/OnlineReindexer.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-16T20:27:54Z",
+      "side": 1,
+      "message": "This call may be premature at runtime, as the background process below didn\u0027t start executing yet.",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 15
+      },
+      "revId": "68d147cc67136f6a21109f25ac73c3405233f566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da9f3957_ba4c31f8",
+        "filename": "java/com/google/gerrit/server/index/VersionManager.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-16T20:27:54Z",
+      "side": 1,
+      "message": "This method is no longer called or used by any test, not anymore.",
+      "range": {
+        "startLine": 157,
+        "startChar": 2,
+        "endLine": 158,
+        "endChar": 35
+      },
+      "revId": "68d147cc67136f6a21109f25ac73c3405233f566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9a60d6a_1b7fa82e",
+        "filename": "java/com/google/gerrit/server/index/VersionManager.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-16T20:27:54Z",
+      "side": 1,
+      "message": "Hence the introduction of this method is no longer exercised.",
+      "range": {
+        "startLine": 160,
+        "startChar": 14,
+        "endLine": 160,
+        "endChar": 22
+      },
+      "revId": "68d147cc67136f6a21109f25ac73c3405233f566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

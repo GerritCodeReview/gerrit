@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a33e482_0d300b60",
+        "filename": "java/com/google/gerrit/server/index/OnlineReindexer.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-16T20:27:54Z",
+      "side": 0,
+      "message": "Shouldn\u0027t reindex() call setIndex or so as before? So that the index gets re-set for every run of the background process as before.",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 104,
+        "endChar": 96
+      },
+      "revId": "d14f0bc01eb4e86112801d73121fcb97d9ee3c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

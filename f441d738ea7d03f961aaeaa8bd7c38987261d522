@@ -93,6 +93,30 @@
       "revId": "f441d738ea7d03f961aaeaa8bd7c38987261d522",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c01eaa6f_856049a9",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/AbstractOnDiskIndexTests.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-16T20:27:54Z",
+      "side": 1,
+      "message": "Then let\u0027s not do this in this very change, as per my other related comment.",
+      "parentUuid": "6bf2162d_4106fa76",
+      "range": {
+        "startLine": 67,
+        "startChar": 13,
+        "endLine": 67,
+        "endChar": 20
+      },
+      "revId": "f441d738ea7d03f961aaeaa8bd7c38987261d522",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

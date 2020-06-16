@@ -315,15 +315,20 @@ GrDiffBuilder.prototype._createLineEl = function(
   }
 
   if (line.type === GrDiffLine.Type.BOTH || line.type === type) {
-    const button = this._createElement('button');
-    button.tabIndex = -1;
-    td.appendChild(button);
-
     // Both td and button need a number of classes/attributes for various
     // selectors to work.
     this._decorateLineEl(td, number, side);
-    td.classList.add('lineNum');
+
+    if (this._prefs.show_file_comment_button === false && number === 'FILE') {
+      return td;
+    }
+
+    const button = this._createElement('button');
+    td.appendChild(button);
+    button.tabIndex = -1;
     this._decorateLineEl(button, number, side);
+
+    td.classList.add('lineNum');
     button.classList.add('lineNumButton');
 
     button.textContent = number === 'FILE' ? 'File' : number;

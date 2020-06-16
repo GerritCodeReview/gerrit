@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a1b5db5_14a6e8d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-16T13:05:47Z",
+      "side": 1,
+      "message": "I would prefer to use \"g +\" shortcuts for this, because those are reserved for \"go to\" actions, and the new keyboard shortcuts are not going to a different page, they just change the patchset choice.",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 8
+      },
+      "revId": "1f98627311b14f1aea85143719d816c966472b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "815d3eec_70b2f7b5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-16T13:05:47Z",
+      "side": 1,
+      "message": "What is basePatchNum is already \u0027base\u0027?\nShould this be checked here?\nShould we show a toast then?",
+      "revId": "1f98627311b14f1aea85143719d816c966472b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1d44a82_2dc039ee",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1295,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-16T13:05:47Z",
+      "side": 1,
+      "message": "At the moment what users are missing is a way to switch from \"base vs 3\" to \"3 vs latest\" and back. So maybe we should be using `this._patchRange.basePatchNum` for the left side here? Or at least do that, if basePatchNum is not \u0027base\u0027?\n\nOr have two different shortcuts?",
+      "range": {
+        "startLine": 1295,
+        "startChar": 34,
+        "endLine": 1295,
+        "endChar": 59
+      },
+      "revId": "1f98627311b14f1aea85143719d816c966472b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bd21f47_47e3d770",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1301,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-16T13:05:47Z",
+      "side": 1,
+      "message": "What is patchNum is already \u0027latest\u0027?\nShould this be checked here?\nShould we show a toast then?",
+      "revId": "1f98627311b14f1aea85143719d816c966472b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69faa2ff_3e9a302c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1304,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-16T13:05:47Z",
+      "side": 1,
+      "message": "At the moment what users are missing is a way to switch from \"base vs 3\" to \"3 vs latest\" and back. So maybe we should be using `this._patchRange.patchNum` on the left side?\n\nOr have two different shortcuts?",
+      "revId": "1f98627311b14f1aea85143719d816c966472b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

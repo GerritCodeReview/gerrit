@@ -65,6 +65,30 @@
     },
     {
       "key": {
+        "uuid": "5eeb4f90_cb28306c",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-16T23:52:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "037007c8_4b042173",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 10
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb1ae057_9aa1cbf8",
         "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
         "patchSetId": 6
@@ -150,6 +174,29 @@
         "startChar": 4,
         "endLine": 70,
         "endChar": 76
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68c15ec2_5afbc5b6",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-16T23:52:26Z",
+      "side": 1,
+      "message": "Just use getEnum() so that it is checked already if the value is within the allowed range.",
+      "range": {
+        "startLine": 70,
+        "startChar": 34,
+        "endLine": 70,
+        "endChar": 43
       },
       "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

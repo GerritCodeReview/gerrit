@@ -14,10 +14,12 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import com.google.gerrit.extensions.common.AttentionSetInfo;
+
 /**
  * Input at API level to add a user to the attention set.
  *
- * @see com.google.gerrit.extensions.common.AttentionSetEntry
+ * @see AttentionSetInfo
  */
 public class AttentionSetInput {
   public String user;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6a96604_eb26ca00",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-06-16T05:57:55Z",
+      "side": 1,
+      "message": "Should remove this.",
+      "range": {
+        "startLine": 390,
+        "startChar": 0,
+        "endLine": 390,
+        "endChar": 36
+      },
+      "revId": "9370809bdee092a33030e0dcd0eecb75bdf2c270",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

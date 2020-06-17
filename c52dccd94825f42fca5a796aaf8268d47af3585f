@@ -34,6 +34,24 @@
       "revId": "c52dccd94825f42fca5a796aaf8268d47af3585f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08f255f1_c25f203a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-06-17T19:38:34Z",
+      "side": 1,
+      "message": "Yes https://github.com/GerritCodeReview/gerrit/commit/a37843174cbd1aca972b9dda871953bd76dd6588",
+      "parentUuid": "c367d24e_8573ddb4",
+      "revId": "c52dccd94825f42fca5a796aaf8268d47af3585f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

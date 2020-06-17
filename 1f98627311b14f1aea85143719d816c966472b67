@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "82c33fad_9900552b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1295,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-17T14:53:18Z",
+      "side": 1,
+      "message": "Added 2 new shortcuts for the cases.",
+      "parentUuid": "c77a9bdd_d1a1e81f",
+      "range": {
+        "startLine": 1295,
+        "startChar": 34,
+        "endLine": 1295,
+        "endChar": 59
+      },
+      "revId": "1f98627311b14f1aea85143719d816c966472b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2bd21f47_47e3d770",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 4

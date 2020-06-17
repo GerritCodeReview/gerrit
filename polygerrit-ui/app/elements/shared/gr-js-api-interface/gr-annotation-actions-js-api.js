@@ -159,6 +159,11 @@ GrAnnotationActionsInterface.prototype.notify = function(
  */
 GrAnnotationActionsInterface.prototype.getLayer = function(
     path, changeNum, patchNum) {
+  const layer = this._annotationLayers.find(layer =>
+    layer._path == path);
+  if (layer) {
+    return layer;
+  }
   const annotationLayer = new AnnotationLayer(path, changeNum, patchNum,
       this._addLayerFunc);
   this._annotationLayers.push(annotationLayer);
@@ -193,6 +198,10 @@ function AnnotationLayer(path, changeNum, patchNum, addLayerFunc) {
  */
 AnnotationLayer.prototype.addListener = function(fn) {
   this._listeners.push(fn);
+};
+
+AnnotationLayer.prototype.removeListener = function(fn) {
+  this._listeners = this._listeners.filter(f => f != fn);
 };
 
 /**

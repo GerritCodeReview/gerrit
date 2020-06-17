@@ -144,6 +144,9 @@ class GrDiffBuilderElement extends GestureEventListeners(
     // Stop the processor if it's running.
     this.cancel();
 
+    if (this._builder) {
+      this._builder.clear();
+    }
     this._builder = this._getDiffBuilder(this.diff, prefs);
 
     this.$.processor.context = prefs.context;

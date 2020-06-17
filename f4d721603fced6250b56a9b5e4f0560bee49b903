@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "afdab75a_a0f0f9c0",
+        "filename": "javatests/com/google/gerrit/httpd/AllowRenderInFrameFilterTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T09:08:14Z",
+      "side": 1,
+      "message": "Either this is not needed in the test or the test name does not reflect what the tests does",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 73
+      },
+      "revId": "f4d721603fced6250b56a9b5e4f0560bee49b903",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f59c0993_29160aae",
+        "filename": "javatests/com/google/gerrit/httpd/AllowRenderInFrameFilterTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T09:08:14Z",
+      "side": 1,
+      "message": "Not needed",
+      "range": {
+        "startLine": 73,
+        "startChar": 48,
+        "endLine": 73,
+        "endChar": 73
+      },
+      "revId": "f4d721603fced6250b56a9b5e4f0560bee49b903",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1480095c_76991870",
+        "filename": "javatests/com/google/gerrit/httpd/AllowRenderInFrameFilterTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T09:08:14Z",
+      "side": 1,
+      "message": "Not needed.",
+      "range": {
+        "startLine": 89,
+        "startChar": 48,
+        "endLine": 89,
+        "endChar": 73
+      },
+      "revId": "f4d721603fced6250b56a9b5e4f0560bee49b903",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16293a31_3022be53",
+        "filename": "javatests/com/google/gerrit/httpd/AllowRenderInFrameFilterTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T09:08:14Z",
+      "side": 1,
+      "message": "RestrictToSAMEORIGIN",
+      "range": {
+        "startLine": 102,
+        "startChar": 19,
+        "endLine": 102,
+        "endChar": 28
+      },
+      "revId": "f4d721603fced6250b56a9b5e4f0560bee49b903",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0908e436_5b7075d2",
+        "filename": "javatests/com/google/gerrit/httpd/AllowRenderInFrameFilterTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T09:08:14Z",
+      "side": 1,
+      "message": "Not needed",
+      "range": {
+        "startLine": 120,
+        "startChar": 48,
+        "endLine": 120,
+        "endChar": 73
+      },
+      "revId": "f4d721603fced6250b56a9b5e4f0560bee49b903",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fecc58b0_a6aed874",
+        "filename": "javatests/com/google/gerrit/httpd/AllowRenderInFrameFilterTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T09:08:14Z",
+      "side": 1,
+      "message": "Not needed.",
+      "range": {
+        "startLine": 133,
+        "startChar": 48,
+        "endLine": 133,
+        "endChar": 73
+      },
+      "revId": "f4d721603fced6250b56a9b5e4f0560bee49b903",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18f23329_2dc1acff",
+        "filename": "javatests/com/google/gerrit/httpd/AllowRenderInFrameFilterTest.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T09:08:14Z",
+      "side": 1,
+      "message": "XFrameOriginCaseSensitivity",
+      "range": {
+        "startLine": 146,
+        "startChar": 26,
+        "endLine": 146,
+        "endChar": 39
+      },
+      "revId": "f4d721603fced6250b56a9b5e4f0560bee49b903",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

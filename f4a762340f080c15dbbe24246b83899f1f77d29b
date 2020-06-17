@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cee4dfd_3465816f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-17T11:00:52Z",
+      "side": 1,
+      "message": "nit: the formatting is inconsistent with other places. May be make it consistent. The same in summaryEndpoint",
+      "range": {
+        "startLine": 332,
+        "startChar": 11,
+        "endLine": 335,
+        "endChar": 33
+      },
+      "revId": "f4a762340f080c15dbbe24246b83899f1f77d29b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

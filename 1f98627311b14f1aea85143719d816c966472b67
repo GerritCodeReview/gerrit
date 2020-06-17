@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e7ca4474_0a12a488",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-17T11:08:06Z",
+      "side": 1,
+      "message": "There is no explicit reason as to why \"g\" should always change the page. \"g\" is the go key and we are taking the users to a new patchset choice.\nAlways selecting one go key makes our keyboard shortcuts consistent and simpler.\n\nAnother side benefit is that the codebase is actually written in the way that it mostly only supports keyboard combinations with modifiers(shift, ctrl, \"g\"). \"g\" was specially added as a modifier.\nAdding another key as a modifier would take some effort and I do not think it is worth it, adding the extra code to handle this use case.",
+      "parentUuid": "5a1b5db5_14a6e8d3",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 8
+      },
+      "revId": "1f98627311b14f1aea85143719d816c966472b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "815d3eec_70b2f7b5",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 4
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "aeeab490_517e281f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-17T11:08:06Z",
+      "side": 1,
+      "message": "Showing a toast.",
+      "parentUuid": "815d3eec_70b2f7b5",
+      "revId": "1f98627311b14f1aea85143719d816c966472b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b1d44a82_2dc039ee",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 4
@@ -53,6 +95,30 @@
       "writtenOn": "2020-06-16T13:05:47Z",
       "side": 1,
       "message": "At the moment what users are missing is a way to switch from \"base vs 3\" to \"3 vs latest\" and back. So maybe we should be using `this._patchRange.basePatchNum` for the left side here? Or at least do that, if basePatchNum is not \u0027base\u0027?\n\nOr have two different shortcuts?",
+      "range": {
+        "startLine": 1295,
+        "startChar": 34,
+        "endLine": 1295,
+        "endChar": 59
+      },
+      "revId": "1f98627311b14f1aea85143719d816c966472b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c77a9bdd_d1a1e81f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1295,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-17T11:08:06Z",
+      "side": 1,
+      "message": "I chose this because I was thinking if user is at X vs Y, only left side can be base so we always go to base vs Y.\nSimilarly only right can be Latest so go to X vs Latest.\nI would prefer to add different shortcuts instead of changing the behaviour of the current shortcut.\nWDYT?",
+      "parentUuid": "b1d44a82_2dc039ee",
       "range": {
         "startLine": 1295,
         "startChar": 34,
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "95231647_427f27cc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1301,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-17T11:08:06Z",
+      "side": 1,
+      "message": "Showing a toast.",
+      "parentUuid": "2bd21f47_47e3d770",
+      "revId": "1f98627311b14f1aea85143719d816c966472b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "69faa2ff_3e9a302c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 4
@@ -96,6 +180,24 @@
       "revId": "1f98627311b14f1aea85143719d816c966472b67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "962065f7_7ef123cf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1304,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-17T11:08:06Z",
+      "side": 1,
+      "message": "Continued in above comments",
+      "parentUuid": "69faa2ff_3e9a302c",
+      "revId": "1f98627311b14f1aea85143719d816c966472b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

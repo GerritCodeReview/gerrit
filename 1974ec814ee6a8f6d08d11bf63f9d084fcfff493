@@ -16,6 +16,24 @@
       "revId": "1974ec814ee6a8f6d08d11bf63f9d084fcfff493",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06f25456_8fcd289e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T01:54:39Z",
+      "side": 1,
+      "message": "True, the headline should be all one line, not split into multiple.",
+      "parentUuid": "10b3343a_3f670896",
+      "revId": "1974ec814ee6a8f6d08d11bf63f9d084fcfff493",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

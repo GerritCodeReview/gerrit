@@ -94,6 +94,30 @@
       "revId": "2cb33aa4bf174b117f446bc3dcbdb133ae2ef636",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5190c0c_6838f50d",
+        "filename": "javatests/com/google/gerrit/httpd/AllowRenderInFrameFilterTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T13:33:59Z",
+      "side": 0,
+      "message": "If there isn\u0027t a specific reason, then yes, it would be helpful to minimise the moving parts.",
+      "parentUuid": "fa9a1d00_a831b977",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 3
+      },
+      "revId": "2cb33aa4bf174b117f446bc3dcbdb133ae2ef636",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

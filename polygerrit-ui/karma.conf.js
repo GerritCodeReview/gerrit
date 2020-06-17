@@ -44,8 +44,10 @@ function getUiDevNpmFilePath(importPath) {
 }
 
 module.exports = function(config) {
+  const rootDir = runUnderBazel ?
+      'polygerrit-ui/app/ts_test_out/' : 'polygerrit-ui/app/';
   const testFilesLocationPattern =
-      'polygerrit-ui/app/**/!(template_test_srcs)/';
+      `${rootDir}**/!(template_test_srcs)/`;
   // Use --test-files to specify pattern for a test files.
   // It can be just a file name, without a path:
   // --test-files async-foreach-behavior_test.js

@@ -43,6 +43,7 @@ def compile_ts(name, srcs, ts_outdir):
         ],
         outs = generated_js,
         cmd = " && ".join([
+            "$(location //tools/node_tools:tsc-bin) --version",
             "$(location //tools/node_tools:tsc-bin) --project $(location :tsconfig.json) --outdir $(RULEDIR)/" + ts_outdir + " --baseUrl ./external/ui_npm/node_modules",
         ]),
         tools = ["//tools/node_tools:tsc-bin"],

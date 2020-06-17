@@ -28,20 +28,8 @@ def _get_ts_output_files(outdir, srcs):
         result.append(_get_ts_compiled_path(outdir, f))
     return result
 
-def polygerrit_bundle(name, srcs, outs, entry_point):
-    """Build .zip bundle from source code
-
-    Args:
-        name: rule name
-        srcs: source files
-        outs: array with a single item - the output file name
-        entry_point: application entry-point
-    """
-
+def compile_ts(name, srcs, ts_outdir):
     ts_rule_name = name + "_ts_compiled"
-
-    # Output directory for compiled files
-    ts_outdir = "__ts__out__" + name
 
     # List of files produced by the typescript compiler
     generated_js = _get_ts_output_files(ts_outdir, srcs)
@@ -55,16 +43,34 @@ def polygerrit_bundle(name, srcs, outs, entry_point):
         ],
         outs = generated_js,
         cmd = " && ".join([
+            "$(location //tools/node_tools:tsc-bin) --version",
             "$(location //tools/node_tools:tsc-bin) --project $(location :tsconfig.json) --outdir $(RULEDIR)/" + ts_outdir + " --baseUrl ./external/ui_npm/node_modules",
         ]),
         tools = ["//tools/node_tools:tsc-bin"],
     )
 
+    return generated_js
+
+
+def polygerrit_bundle(name, srcs, outs, entry_point):
+    """Build .zip bundle from source code
+
+    Args:
+        name: rule name
+        srcs: source files
+        outs: array with a single item - the output file name
+        entry_point: application entry-point
+    """
+
+    # Output directory for compiled files
+    ts_outdir = "__ts__out__" + name
+    js_srcs = compile_ts(name, srcs, ts_outdir)
+
     app_name = entry_point.split(".html")[0].split("/").pop()  # eg: gr-app
 
     native.filegroup(
         name = app_name + "-full-src",
-        srcs = generated_js + [
+        srcs = js_srcs + [
             "@ui_npm//:node_modules",
         ],
     )

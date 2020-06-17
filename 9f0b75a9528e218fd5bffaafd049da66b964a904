@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a6fb5fd_1dabe372",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 737,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T16:43:31Z",
+      "side": 1,
+      "message": "nit: addReviewers suggests that they\u0027d only get added, but they also get removed.\n\nmaybe: applyReviewerUpdatesToAttentionSet",
+      "range": {
+        "startLine": 737,
+        "startChar": 15,
+        "endLine": 737,
+        "endChar": 41
+      },
+      "revId": "9f0b75a9528e218fd5bffaafd049da66b964a904",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69da05b2_972cd16e",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T16:43:31Z",
+      "side": 1,
+      "message": "At some point, we need a deduplication here that checks that if we were to add someone to the AS who is already a member, the footer doesn\u0027t get added. Deduping the footers is unfortunately not enough, because the footer applies only to the currently created commit. But we should be able to check against the current attention set using change notes.",
+      "revId": "9f0b75a9528e218fd5bffaafd049da66b964a904",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

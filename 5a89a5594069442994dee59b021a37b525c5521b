@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69ec82c3_627e5201",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-17T02:29:57Z",
+      "side": 1,
+      "message": "Which plugin was meant here?  There are two similar plugins: \"motd\" and \"messageoftheday\".",
+      "range": {
+        "startLine": 14,
+        "startChar": 43,
+        "endLine": 15,
+        "endChar": 38
+      },
+      "revId": "5a89a5594069442994dee59b021a37b525c5521b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

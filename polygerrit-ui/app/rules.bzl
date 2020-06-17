@@ -159,6 +159,8 @@ def polygerrit_bundle(name, srcs, outs, entry_point):
         ]),
     )
 
+    return js_srcs
+
 def _wct_test(name, srcs, split_index, split_count):
     """Macro to define single WCT suite
 

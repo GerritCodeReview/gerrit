@@ -22,6 +22,30 @@
       "revId": "f4a762340f080c15dbbe24246b83899f1f77d29b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45237ad6_f46aaea2",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-17T11:07:09Z",
+      "side": 1,
+      "message": "oh you mean indentation / multi-line thing ? its done by eslintfix (prettier plugin), i originally have it in a whole line and its reformatted to this.",
+      "parentUuid": "9cee4dfd_3465816f",
+      "range": {
+        "startLine": 332,
+        "startChar": 11,
+        "endLine": 335,
+        "endChar": 33
+      },
+      "revId": "f4a762340f080c15dbbe24246b83899f1f77d29b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -217,7 +217,6 @@ for (let file of elements) {
 // Behaviors tests.
 /* eslint-disable max-len */
 const behaviors = [
-  'base-url-behavior/base-url-behavior_test.html',
   'docs-url-behavior/docs-url-behavior_test.html',
   'dom-util-behavior/dom-util-behavior_test.html',
   'keyboard-shortcut-behavior/keyboard-shortcut-behavior_test.html',

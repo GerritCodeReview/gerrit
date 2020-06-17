@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bed2cde0_21a9203c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T16:59:04Z",
+      "side": 1,
+      "message": "they (here and below)",
+      "range": {
+        "startLine": 20,
+        "startChar": 32,
+        "endLine": 20,
+        "endChar": 34
+      },
+      "revId": "cfb149f1b8f5c8ee260681451a2945f9c3155359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f55be7b_7f4bec64",
+        "filename": "java/com/google/gerrit/server/change/AddToAttentionSetOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T16:59:04Z",
+      "side": 1,
+      "message": "nit: missing mandatory summary fragment",
+      "revId": "cfb149f1b8f5c8ee260681451a2945f9c3155359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ebce720_0eb8ea27",
+        "filename": "java/com/google/gerrit/server/change/RemoveFromAttentionSetOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T16:59:04Z",
+      "side": 1,
+      "message": "nit: missing mandatory summary fragment",
+      "revId": "cfb149f1b8f5c8ee260681451a2945f9c3155359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fd6afb8_de5369ce",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T16:59:04Z",
+      "side": 1,
+      "message": "Make plannedUpdates a Map\u003cAccount.Id, AttentionSetUpdate\u003e\n\nthen just use #putIfAbsent\n\nWe do this for reviewers here, too, which is a very similar use case.",
+      "range": {
+        "startLine": 399,
+        "startChar": 0,
+        "endLine": 405,
+        "endChar": 42
+      },
+      "revId": "cfb149f1b8f5c8ee260681451a2945f9c3155359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6d763d2_e183b1e9",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T16:59:04Z",
+      "side": 1,
+      "message": "Is this now obsolete?",
+      "range": {
+        "startLine": 798,
+        "startChar": 19,
+        "endLine": 801,
+        "endChar": 43
+      },
+      "revId": "cfb149f1b8f5c8ee260681451a2945f9c3155359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

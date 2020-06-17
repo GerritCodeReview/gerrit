@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c788677_37bf0b7e",
+        "filename": "javatests/com/google/gerrit/httpd/AllowRenderInFrameFilterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T01:21:57Z",
+      "side": 1,
+      "message": "Would this be simpler by just adding the config value instead of mocking it?",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 79
+      },
+      "revId": "052955d38009a9afb9494bce966e8884d64b0897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5d21a75_b94d4468",
+        "filename": "javatests/com/google/gerrit/httpd/AllowRenderInFrameFilterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T01:21:57Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 80
+      },
+      "revId": "052955d38009a9afb9494bce966e8884d64b0897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0969e9bc_c0621294",
+        "filename": "javatests/com/google/gerrit/httpd/AllowRenderInFrameFilterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T01:21:57Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 75
+      },
+      "revId": "052955d38009a9afb9494bce966e8884d64b0897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5c5ae40_63744aba",
+        "filename": "javatests/com/google/gerrit/httpd/AllowRenderInFrameFilterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T01:21:57Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 78
+      },
+      "revId": "052955d38009a9afb9494bce966e8884d64b0897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a8608dd_1eed5f94",
+        "filename": "javatests/com/google/gerrit/httpd/AllowRenderInFrameFilterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T01:21:57Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 75
+      },
+      "revId": "052955d38009a9afb9494bce966e8884d64b0897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90c9f0c0_c243fe94",
+        "filename": "javatests/com/google/gerrit/httpd/AllowRenderInFrameFilterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T01:21:57Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 80
+      },
+      "revId": "052955d38009a9afb9494bce966e8884d64b0897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c49e9af_47f908f5",
+        "filename": "javatests/com/google/gerrit/httpd/AllowRenderInFrameFilterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T01:21:57Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 81
+      },
+      "revId": "052955d38009a9afb9494bce966e8884d64b0897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3f05085_975f8618",
+        "filename": "javatests/com/google/gerrit/httpd/AllowRenderInFrameFilterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T01:21:57Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 139,
+        "endChar": 88
+      },
+      "revId": "052955d38009a9afb9494bce966e8884d64b0897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

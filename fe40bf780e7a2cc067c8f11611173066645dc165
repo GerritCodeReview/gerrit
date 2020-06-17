@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6397e5ff_6088cae5",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-17T07:17:41Z",
+      "side": 1,
+      "message": "Nit: Be consistent. Either\n\n  const links \u003d [\n    {name: \u0027Settings\u0027, url: \u0027/settings/\u0027},\n    {name: \u0027Keyboard Shortcuts\u0027, id: \u0027shortcuts\u0027}\n  ];\n\nor\n\n  const links \u003d [];\n  links.push({name: \u0027Settings\u0027, url: \u0027/settings/\u0027}];\n  links.push({name: \u0027Keyboard Shortcuts\u0027, id: \u0027shortcuts\u0027});",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 62
+      },
+      "revId": "fe40bf780e7a2cc067c8f11611173066645dc165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ecfa9ca_85a25d70",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-17T07:17:41Z",
+      "side": 1,
+      "message": "Nit: handleShowKeyboardShortcuts",
+      "range": {
+        "startLine": 502,
+        "startChar": 2,
+        "endLine": 502,
+        "endChar": 28
+      },
+      "revId": "fe40bf780e7a2cc067c8f11611173066645dc165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e2df67e_9cd2bce7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-17T07:17:41Z",
+      "side": 1,
+      "message": "You are adding the item to the event, but you are not using it. :-)\n\nI am fine with that, but then maybe move into the `if (item)` clause.",
+      "range": {
+        "startLine": 299,
+        "startChar": 11,
+        "endLine": 299,
+        "endChar": 24
+      },
+      "revId": "fe40bf780e7a2cc067c8f11611173066645dc165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

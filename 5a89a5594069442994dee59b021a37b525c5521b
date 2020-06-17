@@ -22,6 +22,30 @@
       "revId": "5a89a5594069442994dee59b021a37b525c5521b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37ce75f3_aad59f4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-06-17T11:51:47Z",
+      "side": 1,
+      "message": "In meant messageoftheday. I didn\u0027t even know that motd is a plugin that does the same thing. In what way is it different? Does it make sense to have both plugins?\n\nI hope I didn\u0027t break the other plugin.",
+      "parentUuid": "69ec82c3_627e5201",
+      "range": {
+        "startLine": 14,
+        "startChar": 43,
+        "endLine": 15,
+        "endChar": 38
+      },
+      "revId": "5a89a5594069442994dee59b021a37b525c5521b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dce181f4_2353f767",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2091,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-17T00:14:42Z",
+      "side": 1,
+      "message": "add backticks",
+      "range": {
+        "startLine": 2091,
+        "startChar": 45,
+        "endLine": 2091,
+        "endChar": 60
+      },
+      "revId": "d291d756d026da8577c803268bdb3a636334ba8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62c85c04_dd6d6e19",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2092,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-17T00:14:42Z",
+      "side": 1,
+      "message": "add backticks",
+      "range": {
+        "startLine": 2092,
+        "startChar": 15,
+        "endLine": 2092,
+        "endChar": 30
+      },
+      "revId": "d291d756d026da8577c803268bdb3a636334ba8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e79bbf7e_4b9ece81",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2094,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-17T00:14:42Z",
+      "side": 1,
+      "message": "add backticks\n\nalso on the other html tags in this line",
+      "range": {
+        "startLine": 2094,
+        "startChar": 0,
+        "endLine": 2094,
+        "endChar": 7
+      },
+      "revId": "d291d756d026da8577c803268bdb3a636334ba8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2f07021_ef934912",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2101,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-17T00:14:42Z",
+      "side": 1,
+      "message": "and the",
+      "range": {
+        "startLine": 2101,
+        "startChar": 71,
+        "endLine": 2101,
+        "endChar": 74
+      },
+      "revId": "d291d756d026da8577c803268bdb3a636334ba8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e23da79b_8cebebae",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2102,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-17T00:14:42Z",
+      "side": 1,
+      "message": "add backticks",
+      "range": {
+        "startLine": 2102,
+        "startChar": 40,
+        "endLine": 2102,
+        "endChar": 44
+      },
+      "revId": "d291d756d026da8577c803268bdb3a636334ba8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac37a13d_c24c39b8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2102,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-17T00:14:42Z",
+      "side": 1,
+      "message": "add backticks",
+      "range": {
+        "startLine": 2102,
+        "startChar": 0,
+        "endLine": 2102,
+        "endChar": 15
+      },
+      "revId": "d291d756d026da8577c803268bdb3a636334ba8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8db1e04b_3331a8b7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2103,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-17T00:14:42Z",
+      "side": 1,
+      "message": "omitted",
+      "range": {
+        "startLine": 2103,
+        "startChar": 69,
+        "endLine": 2103,
+        "endChar": 76
+      },
+      "revId": "d291d756d026da8577c803268bdb3a636334ba8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "597025a0_11ff5ee4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2103,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-17T00:14:42Z",
+      "side": 1,
+      "message": "cause the",
+      "range": {
+        "startLine": 2103,
+        "startChar": 34,
+        "endLine": 2103,
+        "endChar": 39
+      },
+      "revId": "d291d756d026da8577c803268bdb3a636334ba8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad64a909_7eeae9fb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2103,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-17T00:14:42Z",
+      "side": 1,
+      "message": "add backticks",
+      "range": {
+        "startLine": 2103,
+        "startChar": 40,
+        "endLine": 2103,
+        "endChar": 55
+      },
+      "revId": "d291d756d026da8577c803268bdb3a636334ba8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b71dc783_c84cec77",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-17T00:14:42Z",
+      "side": 1,
+      "message": "private?",
+      "revId": "d291d756d026da8577c803268bdb3a636334ba8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

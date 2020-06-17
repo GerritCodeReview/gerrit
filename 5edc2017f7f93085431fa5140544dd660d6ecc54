@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7b9b713b_b3c064b0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2089,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T00:07:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb522214_0a70c558",
+      "range": {
+        "startLine": 2089,
+        "startChar": 9,
+        "endLine": 2089,
+        "endChar": 10
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2578b983_98db1a79",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 6
@@ -39,6 +63,24 @@
       "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a4e1035_2c2a9b88",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2091,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T00:07:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2578b983_98db1a79",
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -100,6 +142,30 @@
       "writtenOn": "2020-06-16T23:50:06Z",
       "side": 1,
       "message": "X_FRAME_OPTION (singular)",
+      "range": {
+        "startLine": 42,
+        "startChar": 7,
+        "endLine": 42,
+        "endChar": 22
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eae9c3a1_973fcd96",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T00:07:53Z",
+      "side": 1,
+      "message": "Also, enum declarations should be camel-case: XFrameOption",
+      "parentUuid": "cb1ae057_9aa1cbf8",
       "range": {
         "startLine": 42,
         "startChar": 7,
@@ -344,6 +410,29 @@
     },
     {
       "key": {
+        "uuid": "6a585bd4_b3470417",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T00:07:53Z",
+      "side": 1,
+      "message": "This should be instead !canLoadInIFrame, that means that there are i-frame restrictions.",
+      "range": {
+        "startLine": 92,
+        "startChar": 51,
+        "endLine": 92,
+        "endChar": 94
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8fac67d7_3482e33a",
         "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
         "patchSetId": 6
@@ -364,6 +453,30 @@
       "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95ecb14a_3d099bf4",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T00:07:53Z",
+      "side": 1,
+      "message": "I believe I am wrong: if we set the header at the end, the response could have been already processed and closed, that means the additional header could not be added.",
+      "parentUuid": "8fac67d7_3482e33a",
+      "range": {
+        "startLine": 94,
+        "startChar": 6,
+        "endLine": 94,
+        "endChar": 79
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

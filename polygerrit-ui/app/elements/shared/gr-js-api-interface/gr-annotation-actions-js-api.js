@@ -144,7 +144,6 @@ GrAnnotationActionsInterface.prototype.notify = function(
     // path.
     if (annotationLayer._path === path) {
       annotationLayer.notifyListeners(startRange, endRange, side);
-      break;
     }
   }
 };
@@ -152,6 +151,8 @@ GrAnnotationActionsInterface.prototype.notify = function(
 /**
  * Should be called to register annotation layers by the framework. Not
  * intended to be called by plugins.
+ *
+ * Don't forget to dispose layer.
  *
  * @param {string} path The file path (eg: /COMMIT_MSG').
  * @param {string} changeNum The Gerrit change number.
@@ -163,6 +164,11 @@ GrAnnotationActionsInterface.prototype.getLayer = function(
       this._addLayerFunc);
   this._annotationLayers.push(annotationLayer);
   return annotationLayer;
+};
+
+GrAnnotationActionsInterface.prototype.disposeLayer = function(path) {
+  this._annotationLayers = this._annotationLayers
+      .filter(annotationLayer => annotationLayer._path !== path);
 };
 
 /**
@@ -186,6 +192,7 @@ function AnnotationLayer(path, changeNum, patchNum, addLayerFunc) {
 
 /**
  * Register a listener for layer updates.
+ * Don't forget to removeListener when you stop using layer.
  *
  * @param {Function} fn The update handler function.
  *     Should accept as arguments the line numbers for the start and end of
@@ -193,6 +200,10 @@ function AnnotationLayer(path, changeNum, patchNum, addLayerFunc) {
  */
 AnnotationLayer.prototype.addListener = function(fn) {
   this._listeners.push(fn);
+};
+
+AnnotationLayer.prototype.removeListener = function(fn) {
+  this._listeners = this._listeners.filter(f => f != fn);
 };
 
 /**

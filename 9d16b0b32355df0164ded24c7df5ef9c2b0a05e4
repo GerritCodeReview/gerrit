@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7cfa97f_66acbce1",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T16:48:57Z",
+      "side": 1,
+      "message": "Can this go into its own method? That would make the code easier to understand:\n\n/** Returns all reviewers (users whose reviewer state is {@link State.REVIEWER} after applying the current mutation. */\nSet\u003cAccount.Id\u003e getReviewersAfterCurrentMutation() {\n// return existing + new - removed\n}",
+      "range": {
+        "startLine": 768,
+        "startChar": 1,
+        "endLine": 784,
+        "endChar": 43
+      },
+      "revId": "9d16b0b32355df0164ded24c7df5ef9c2b0a05e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b8ce7fb_72a8aab4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T17:27:07Z",
+      "side": 1,
+      "message": "Is removing someone else not a feature that we want to support?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 24
+      },
+      "revId": "a3828dd82b01796cff95d1879e231fea30227a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "100dc4ca_de8de930",
+        "filename": "java/com/google/gerrit/server/restapi/change/RemoveFromAttentionSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T17:27:07Z",
+      "side": 1,
+      "message": "Please throw a BRE here that is different from the one below. These are two failure cases:\n1) The user can\u0027t be found and we should tell that (likely a typo\n2) The provided user must match the calling user (though, does it?)",
+      "range": {
+        "startLine": 71,
+        "startChar": 10,
+        "endLine": 71,
+        "endChar": 15
+      },
+      "revId": "a3828dd82b01796cff95d1879e231fea30227a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

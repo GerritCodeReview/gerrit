@@ -529,7 +529,7 @@ suite('gr-access-section tests', () => {
         assert.isFalse(element._deleted);
         assert.isNotOk(element.section.value.deleted);
       });
-
+      
       test('removing an added permission', () => {
         element.editing = true;
         assert.equal(element._permissions.length, 1);

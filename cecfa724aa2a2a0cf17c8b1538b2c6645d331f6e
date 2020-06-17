@@ -46,6 +46,30 @@
       "revId": "cecfa724aa2a2a0cf17c8b1538b2c6645d331f6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "185f650a_4065e9b1",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T16:36:07Z",
+      "side": 1,
+      "message": "OK, I think the tests from I33caf0574 are good and they would have fitted here quite well. I would have expected the logic for deduplicating updates and ensuring that we just write a single footer at maximum to be added in this change as a basic building block. You could squash the first 4 changes of your series into a single change or move test and deduplication to the first change. I think it would make reviewing easier because one doesn\u0027t have to worry about edge cases so much.\n\nNo need to bother now, though, but please group the series in a topic so that the logic here and the tests over in I33caf0574 get submitted together.\n\nWhen working on the database layer it\u0027s always good to have tests that assert the exact state in the database instead of checking the behavior from the outside with an integration test. For example: If the parsing logic ignores duplicate Git commit footers, we would never know with integration tests.",
+      "parentUuid": "503a8729_942567b0",
+      "range": {
+        "startLine": 698,
+        "startChar": 8,
+        "endLine": 698,
+        "endChar": 25
+      },
+      "revId": "cecfa724aa2a2a0cf17c8b1538b2c6645d331f6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

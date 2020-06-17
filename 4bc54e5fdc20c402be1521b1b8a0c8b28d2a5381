@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a7e9eb0_874b4867",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-17T12:17:14Z",
+      "side": 1,
+      "message": "The documentation of the test submit rule endpoint [1] says:\n\n Tests the submit_rule Prolog rule in the project, or the one given\n\nand the documentation of the rule field of the input [2] says:\n\n Prolog code to execute instead of the code in refs/meta/config.\n\nboth of which seem to be contradicting this statement.\n\n\n[1] http://gerrit-documentation.storage.googleapis.com/Documentation/3.1.6/rest-api-changes.html#test-submit-rule\n\n[2] http://gerrit-documentation.storage.googleapis.com/Documentation/3.1.6/rest-api-changes.html#rule-input",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 34
+      },
+      "revId": "4bc54e5fdc20c402be1521b1b8a0c8b28d2a5381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

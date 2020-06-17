@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43d51041_86c8db33",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-06-17T13:45:02Z",
+      "side": 1,
+      "message": "i think this should be without the {} since it already has it.",
+      "range": {
+        "startLine": 437,
+        "startChar": 53,
+        "endLine": 437,
+        "endChar": 63
+      },
+      "revId": "f7673f73777131548b541979c9e7263ba5c04f84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -206,6 +206,7 @@ module.exports = {
         "stub": "readonly",
         "suite": "readonly",
         "suiteSetup": "readonly",
+        "suiteTeardown": "readonly",
         "teardown": "readonly",
         "test": "readonly",
         "fixtureFromElement": "readonly",

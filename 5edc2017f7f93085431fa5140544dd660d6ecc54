@@ -178,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "360e4593_ab36987b",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T00:11:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eae9c3a1_973fcd96",
+      "range": {
+        "startLine": 42,
+        "startChar": 7,
+        "endLine": 42,
+        "endChar": 22
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "85629639_679d697a",
         "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
         "patchSetId": 6
@@ -201,6 +225,30 @@
     },
     {
       "key": {
+        "uuid": "37252059_885f2d87",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T00:11:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85629639_679d697a",
+      "range": {
+        "startLine": 44,
+        "startChar": 14,
+        "endLine": 45,
+        "endChar": 8
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8bf51fd_4d70b249",
         "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
         "patchSetId": 6
@@ -221,6 +269,30 @@
       "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21adce3f_5082b59f",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T00:11:12Z",
+      "side": 1,
+      "message": "\u003e This can be a static final immutable list, defined and initialized in the class scope (i.e. not as a method on the enum)\n\nThe whole list of names isn\u0027t actually needed at all.",
+      "parentUuid": "b8bf51fd_4d70b249",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 5
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -267,6 +339,54 @@
       "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32f6f58e_80aaff94",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T00:11:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1b9b58b_206dd395",
+      "range": {
+        "startLine": 70,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 76
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ffe573dd_7ac782f6",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T00:11:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68c15ec2_5afbc5b6",
+      "range": {
+        "startLine": 70,
+        "startChar": 34,
+        "endLine": 70,
+        "endChar": 43
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -341,6 +461,30 @@
     },
     {
       "key": {
+        "uuid": "9ccdf11b_28c000b2",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T00:11:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31952f65_c0740699",
+      "range": {
+        "startLine": 73,
+        "startChar": 21,
+        "endLine": 73,
+        "endChar": 42
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "06e218ac_28e321e3",
         "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
         "patchSetId": 6
@@ -361,6 +505,30 @@
       "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1316b05_64bd32e0",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T00:11:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06e218ac_28e321e3",
+      "range": {
+        "startLine": 82,
+        "startChar": 76,
+        "endLine": 82,
+        "endChar": 105
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -387,6 +555,30 @@
     },
     {
       "key": {
+        "uuid": "d6441fb6_b8fe6b18",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T00:11:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9aaf3393_a28c54a6",
+      "range": {
+        "startLine": 83,
+        "startChar": 12,
+        "endLine": 83,
+        "endChar": 52
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b0159f0_c07b6a75",
         "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
         "patchSetId": 6
@@ -410,6 +602,30 @@
     },
     {
       "key": {
+        "uuid": "2a381d73_a767eb5a",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T00:11:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b0159f0_c07b6a75",
+      "range": {
+        "startLine": 84,
+        "startChar": 8,
+        "endLine": 84,
+        "endChar": 49
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a585bd4_b3470417",
         "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
         "patchSetId": 6
@@ -430,6 +646,30 @@
       "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72132b8b_2497df6a",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-17T00:11:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a585bd4_b3470417",
+      "range": {
+        "startLine": 92,
+        "startChar": 51,
+        "endLine": 92,
+        "endChar": 94
+      },
+      "revId": "5edc2017f7f93085431fa5140544dd660d6ecc54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

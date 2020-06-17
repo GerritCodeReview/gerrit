@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b57483c9_586d972a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-17T09:31:42Z",
+      "side": 1,
+      "message": "Maybe something more colorful, like \"added as reviewer\" or sth?",
+      "range": {
+        "startLine": 109,
+        "startChar": 20,
+        "endLine": 109,
+        "endChar": 26
+      },
+      "revId": "9671820358af640aee72144ad7f5970e00ccd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c80b26de_c06bd216",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2739,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-17T09:31:42Z",
+      "side": 1,
+      "message": "Indent?",
+      "revId": "9671820358af640aee72144ad7f5970e00ccd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f7ed02c_48012be7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2768,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-17T09:31:42Z",
+      "side": 1,
+      "message": "nit: an",
+      "range": {
+        "startLine": 2768,
+        "startChar": 50,
+        "endLine": 2768,
+        "endChar": 51
+      },
+      "revId": "9671820358af640aee72144ad7f5970e00ccd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb8c6e34_45d38d66",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2777,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-17T09:31:42Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be just \" \"?",
+      "range": {
+        "startLine": 2777,
+        "startChar": 17,
+        "endLine": 2777,
+        "endChar": 20
+      },
+      "revId": "9671820358af640aee72144ad7f5970e00ccd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4550f54f_d94a9e7b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4069,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-17T09:31:42Z",
+      "side": 1,
+      "message": "nit: remove",
+      "range": {
+        "startLine": 4069,
+        "startChar": 48,
+        "endLine": 4069,
+        "endChar": 49
+      },
+      "revId": "9671820358af640aee72144ad7f5970e00ccd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2a78fc4_0f0909df",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4076,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-17T09:31:42Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 4076,
+        "startChar": 49,
+        "endLine": 4076,
+        "endChar": 52
+      },
+      "revId": "9671820358af640aee72144ad7f5970e00ccd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e2e796_ad072117",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5853,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-17T09:31:42Z",
+      "side": 1,
+      "message": "This sounds like this might be a meaningful operation, but IIUC it\u0027s not (it\u0027s just not an error).",
+      "range": {
+        "startLine": 5852,
+        "startChar": 0,
+        "endLine": 5853,
+        "endChar": 14
+      },
+      "revId": "9671820358af640aee72144ad7f5970e00ccd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0ab4909_cc50a77d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5856,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-17T09:31:42Z",
+      "side": 1,
+      "message": "I wonder if this behavior is good. We\u0027re keeping track of the reason for removal to answer the question \"Why was this user removed?\". Assume the user is removed because of reason A, and then an explicit request is made with reason B. Now it looks like B was the reason for removal when in fact it was A. A newer timestamp will also be confusing.\n\n(The same goes for adding, I guess.)\n\nWould it be better to ignore the 2nd update in both cases?",
+      "range": {
+        "startLine": 5853,
+        "startChar": 15,
+        "endLine": 5856,
+        "endChar": 0
+      },
+      "revId": "9671820358af640aee72144ad7f5970e00ccd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5667696a_9b5ba9d6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5863,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-17T09:31:42Z",
+      "side": 1,
+      "message": "nit: an",
+      "range": {
+        "startLine": 5863,
+        "startChar": 46,
+        "endLine": 5863,
+        "endChar": 47
+      },
+      "revId": "9671820358af640aee72144ad7f5970e00ccd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2668cb4b_8e1cc18f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6091,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-17T09:31:42Z",
+      "side": 1,
+      "message": "I think it\u0027s clearer and simpler to just say \"The link:...timestamp of the last update\".",
+      "range": {
+        "startLine": 6090,
+        "startChar": 18,
+        "endLine": 6091,
+        "endChar": 37
+      },
+      "revId": "9671820358af640aee72144ad7f5970e00ccd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -70,6 +70,30 @@
       "revId": "5a89a5594069442994dee59b021a37b525c5521b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62766fea_80e0a015",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-17T11:57:23Z",
+      "side": 1,
+      "message": "I\u0027m not sure what the difference is because I don\u0027t use either.  I was just looking for how this had been solved in the plugin without using this extension.\n\nIt turns out that we (collabnet) use the extension, and this removal causes a build break.  Not a huge issue - I\u0027ve just reverted this internally for now - but in the long term I will need to make a polygerrit fix.",
+      "parentUuid": "37ce75f3_aad59f4d",
+      "range": {
+        "startLine": 14,
+        "startChar": 43,
+        "endLine": 15,
+        "endChar": 38
+      },
+      "revId": "5a89a5594069442994dee59b021a37b525c5521b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -83,7 +83,7 @@ public abstract class SiteIndexer<K, V, I extends Index<K, V>> {
   }
 
   protected PrintWriter newPrintWriter(OutputStream out) {
-    return new PrintWriter(new OutputStreamWriter(out, UTF_8));
+    return new PrintWriter(new OutputStreamWriter(out, UTF_8), true);
   }
 
   private static class ErrorListener implements Runnable {

@@ -153,8 +153,7 @@ public class IndexHtmlUtil {
           serializeObject(GSON, accountApi.getEditPreferences()));
       data.put("userIsAuthenticated", true);
     } catch (AuthException e) {
-      logger.atFine().withCause(e).log(
-          "Can't inline account-related data because user is unauthenticated");
+      logger.atFine().log("Can't inline account-related data because user is unauthenticated");
       // Don't render data
     }
 

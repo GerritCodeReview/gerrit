@@ -22,6 +22,20 @@ cp -R -L ./polygerrit-ui/app/* $t/
 export PATH="$(dirname $NPM):$PATH"
 
 cd $t
+# The ts_test_out contains js files produced by typescript compiler
+# Copy it to the parent folder to get correct directory layout
+# The total size of files is quite small, so using cp instead of mv shouldn't
+# be a problem.
+# Using mv directly is not possible here (it can't merge directories).
+# Other solutions are possible, but require additional efforts to make them
+# work on Mac and Linux. Since we are going to convert WCT tests to Karma tests
+# soon, we will use the simplest solution here.
+cp -R ./ts_test_out/* ./
+rm -rf ./ts_test_out
+# Without the follwoing removing, recreating the suite_conf.js fails with the
+# "Permission denied" error
+rm ./test/suite_conf.js
+
 echo "export const config=$JSON_CONFIG;" > ./test/suite_conf.js
 echo "export const testsPerFileString=\`" >> ./test/suite_conf.js
 # Count number of tests in each file.

@@ -144,7 +144,6 @@ GrAnnotationActionsInterface.prototype.notify = function(
     // path.
     if (annotationLayer._path === path) {
       annotationLayer.notifyListeners(startRange, endRange, side);
-      break;
     }
   }
 };
@@ -163,6 +162,11 @@ GrAnnotationActionsInterface.prototype.getLayer = function(
       this._addLayerFunc);
   this._annotationLayers.push(annotationLayer);
   return annotationLayer;
+};
+
+GrAnnotationActionsInterface.prototype.disposeLayer = function(path) {
+  this._annotationLayers = this._annotationLayers
+      .filter(annotationLayer => annotationLayer._path !== path);
 };
 
 /**
@@ -193,6 +197,10 @@ function AnnotationLayer(path, changeNum, patchNum, addLayerFunc) {
  */
 AnnotationLayer.prototype.addListener = function(fn) {
   this._listeners.push(fn);
+};
+
+AnnotationLayer.prototype.removeListener = function(fn) {
+  this._listeners = this._listeners.filter(f => f != fn);
 };
 
 /**

@@ -1,4 +1,4 @@
-load(":rules.bzl", "polygerrit_bundle", "wct_suite")
+load(":rules.bzl", "polygerrit_bundle", "wct_suite", "compile_ts")
 load("//tools/js:eslint.bzl", "eslint")
 
 package(default_visibility = ["//visibility:public"])
@@ -32,18 +32,36 @@ polygerrit_bundle(
     entry_point = "elements/gr-app.html",
 )
 
+compiled_js_srcs_with_tests = compile_ts(
+    name = "compiled_ts_with_tests",
+    srcs =glob(
+                  [
+                      "**/*.js",
+                      "**/*.ts",
+                  ],
+                  exclude = [
+                      "node_modules/**",
+                      "node_modules_licenses/**",
+                      "template_test_srcs/**",
+                      "wct.conf.js",
+                      "rollup.config.js"
+                  ],
+              ),
+    ts_outdir="ts_test_out",
+)
+
+
 filegroup(
     name = "pg_code",
     srcs = glob(
         [
             "**/*.html",
-            "**/*.js",
         ],
         exclude = [
             "node_modules/**",
             "node_modules_licenses/**",
         ],
-    ),
+    ) + compiled_js_srcs_with_tests,
 )
 
 filegroup(
@@ -68,9 +86,6 @@ filegroup(
 filegroup(
     name = "test-srcs-fg",
     srcs = [
-        "test/common-test-setup.js",
-        "test/common-test-setup-karma.js",
-        "test/index.html",
         ":pg_code",
         "@ui_dev_npm//:node_modules",
         "@ui_npm//:node_modules",

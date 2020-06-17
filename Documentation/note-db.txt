@@ -110,6 +110,13 @@ Migration requires a heap size comparable to running a Gerrit server. If you
 normally run `gerrit.war daemon` with an `-Xmx` flag, pass that to the migration
 tool as well.
 
+[NOTE]
+Note that by appending `--reindex false` to the above command, you can skip the
+lengthy, implicit reindexing step of the migration. This is useful if you plan
+to perform further Gerrit upgrades while the server is offline and have to
+reindex later anyway (E.g.: a follow-up upgrade to Gerrit 3.2 or newer, which
+requires to reindex changes anyway).
+
 *Advantages*
 
 * Much faster than online; can use all available CPUs, since no live traffic

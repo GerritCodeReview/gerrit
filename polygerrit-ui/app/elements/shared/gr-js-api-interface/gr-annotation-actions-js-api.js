@@ -160,9 +160,13 @@ GrAnnotationActionsInterface.prototype.notify = function(
 GrAnnotationActionsInterface.prototype.getLayer = function(
     path, changeNum, patchNum) {
   const annotationLayer = new AnnotationLayer(path, changeNum, patchNum,
-      this._addLayerFunc);
+      this._addLayerFunc, this.unregisterLayer.bind(this));
   this._annotationLayers.push(annotationLayer);
   return annotationLayer;
+};
+
+GrAnnotationActionsInterface.prototype.unregisterLayer = function(layer) {
+  this._annotationLayers = this._annotationLayers.filter(l => l != layer);
 };
 
 /**
@@ -174,12 +178,15 @@ GrAnnotationActionsInterface.prototype.getLayer = function(
  * @param {string} patchNum The Gerrit patch number.
  * @param {function(GrAnnotationActionsContext)} addLayerFunc The function
  *     that will be called when the AnnotationLayer is ready to annotate.
+ * @param {function()} unregister Callback to unregister this layer, when
+ * nobody is listening to this layer.
  */
-function AnnotationLayer(path, changeNum, patchNum, addLayerFunc) {
+function AnnotationLayer(path, changeNum, patchNum, addLayerFunc, unregister) {
   this._path = path;
   this._changeNum = changeNum;
   this._patchNum = patchNum;
   this._addLayerFunc = addLayerFunc;
+  this._unregister = unregister;
 
   this._listeners = [];
 }
@@ -193,6 +200,13 @@ function AnnotationLayer(path, changeNum, patchNum, addLayerFunc) {
  */
 AnnotationLayer.prototype.addListener = function(fn) {
   this._listeners.push(fn);
+};
+
+AnnotationLayer.prototype.removeListener = function(fn) {
+  this._listeners = this._listeners.filter(f => f != fn);
+  if (this._listeners.length === 0) {
+    this._unregister(this);
+  }
 };
 
 /**

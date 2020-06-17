@@ -106,6 +106,15 @@ GrPluginRestApi.prototype.send = function(method, url, opt_payload,
  * @return {!Promise} resolves on success, rejects on error.
  */
 GrPluginRestApi.prototype.get = function(url) {
+  if (url.includes('plugin.js/zosscoverage')) {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        this.send('GET', url).then(t => {
+          resolve(t);
+        });
+      }, 1000);
+    });
+  }
   return this.send('GET', url);
 };
 

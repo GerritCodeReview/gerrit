@@ -195,6 +195,10 @@ class GrSyntaxLayer extends GestureEventListeners(
     this._listeners = this._listeners.filter(f => f != fn);
   }
 
+  removeAllListeners() {
+    this._listeners = [];
+  }
+
   /**
    * Annotation layer method to add syntax annotations to the given element
    * for the given line.

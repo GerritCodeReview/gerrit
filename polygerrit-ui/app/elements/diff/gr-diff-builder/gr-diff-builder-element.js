@@ -265,6 +265,7 @@ class GrDiffBuilderElement extends GestureEventListeners(
     for (const newGroup of newGroups) {
       this._builder.emitGroup(newGroup, sectionEl);
     }
+    // Why is child removed?
     sectionEl.parentNode.removeChild(sectionEl);
 
     this.async(() => this.dispatchEvent(new CustomEvent('render-content', {

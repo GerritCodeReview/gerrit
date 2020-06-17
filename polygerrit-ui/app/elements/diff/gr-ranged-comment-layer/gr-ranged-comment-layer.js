@@ -107,6 +107,10 @@ class GrRangedCommentLayer extends GestureEventListeners(
     this._listeners.push(fn);
   }
 
+  removeAllListeners() {
+    this._listeners = [];
+  }
+
   /**
    * Notify Layer listeners of changes to annotations.
    *

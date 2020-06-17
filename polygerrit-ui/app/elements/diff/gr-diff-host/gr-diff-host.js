@@ -324,6 +324,7 @@ class GrDiffHost extends mixinBehaviors( [
     this._errorMessage = null;
     const whitespaceLevel = this._getIgnoreWhitespace();
 
+    this.$.syntaxLayer.removeAllListeners();
     const layers = [this.$.syntaxLayer];
     // Get layers from plugins (if any).
     for (const pluginLayer of this.$.jsAPI.getDiffLayers(

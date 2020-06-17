@@ -63,6 +63,9 @@ export function GrDiffBuilder(diff, prefs, outputEl, layers) {
   }
 
   for (const layer of this.layers) {
+    if (layer.removeAllListeners) {
+      layer.removeAllListeners();
+    }
     if (layer.addListener) {
       layer.addListener(this._handleLayerUpdate.bind(this));
     }
@@ -118,6 +121,7 @@ GrDiffBuilder.prototype.emitGroup = function(group, opt_beforeSection) {
   group.element = element;
 };
 
+// this is different builder than emit group
 GrDiffBuilder.prototype.getGroupsByLineRange = function(
     startLine, endLine, opt_side) {
   const groups = [];

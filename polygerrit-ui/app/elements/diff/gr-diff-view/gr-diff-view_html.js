@@ -283,6 +283,8 @@ export const htmlTemplate = html`
           revisions="[[_change.revisions]]"
           revision-info="[[_revisionInfo]]"
           on-patch-range-change="_handlePatchChange"
+          on-down-arrow-clicked="_handleDiffAgainstBase"
+          on-up-arrow-clicked="_handleDiffAgainstLatest"
         >
         </gr-patch-range-select>
         <span class="download desktop">

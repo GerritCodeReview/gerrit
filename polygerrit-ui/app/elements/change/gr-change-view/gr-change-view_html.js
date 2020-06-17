@@ -600,6 +600,8 @@ export const htmlTemplate = html`
           on-open-included-in-dialog="_handleOpenIncludedInDialog"
           on-expand-diffs="_expandAllDiffs"
           on-collapse-diffs="_collapseAllDiffs"
+          on-down-arrow-clicked="_handleDiffAgainstBase"
+          on-up-arrow-clicked="_handleDiffAgainstLatest"
         >
         </gr-file-list-header>
         <gr-file-list

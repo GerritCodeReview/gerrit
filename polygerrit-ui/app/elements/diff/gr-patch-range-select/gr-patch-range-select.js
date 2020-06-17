@@ -211,6 +211,15 @@ class GrPatchRangeSelect extends mixinBehaviors( [
         this.findSortedIndex(patchNum, sortedRevisions);
   }
 
+  _showDownArrow(basePatchNum) {
+    return !this.patchNumEquals(basePatchNum, 'PARENT');
+  }
+
+  _showUpArrow(patchNum, sortedRevisions) {
+    if (!sortedRevisions) return false;
+    return !this.patchNumEquals(patchNum, sortedRevisions[0]._number);
+  }
+
   /**
    * The basePatchNum should always be <= patchNum -- because sortedRevisions
    * is sorted in reverse order (higher patchset nums first), invalid patch
@@ -304,6 +313,16 @@ class GrPatchRangeSelect extends mixinBehaviors( [
 
     this.dispatchEvent(
         new CustomEvent('patch-range-change', {detail, bubbles: false}));
+  }
+
+  _handleDownArrowClicked() {
+    this.dispatchEvent(
+        new CustomEvent('down-arrow-clicked', {bubbles: true, composed: true}));
+  }
+
+  _handleUpArrowClicked() {
+    this.dispatchEvent(
+        new CustomEvent('up-arrow-clicked', {bubbles: true, composed: true}));
   }
 }
 

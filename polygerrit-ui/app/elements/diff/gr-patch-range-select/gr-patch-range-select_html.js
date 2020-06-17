@@ -50,8 +50,36 @@ export const htmlTemplate = html`
         }
       }
     }
+    /*
+    * Typically icons are 20px, which is the normal line-height.
+    * The copy icon is too prominent at 20px, so we choose 16px
+    * here, but add 2x2px padding below, so the entire
+    * component should still fit nicely into a normal inline
+    * layout flow.
+    */
+    iron-icon {
+      height: 16px;
+      width: 16px;
+      position: relative;
+      top: 3px;
+    }
+    gr-button {
+      --gr-button: {
+        padding: 2px;
+      }
+    }
   </style>
   <span class="patchRange" aria-label="patch range starts with">
+    <template is="dom-if" if="[[_showDownArrow(basePatchNum)]]">
+      <gr-button
+        link=""
+        on-click="_handleDownArrowClicked"
+        has-tooltip
+        title="Change to Base"
+      >
+        <iron-icon icon="gr-icons:downArrow"></iron-icon>
+      </gr-button>
+    </template>
     <gr-dropdown-list
       id="basePatchDropdown"
       value="[[basePatchNum]]"
@@ -76,6 +104,16 @@ export const htmlTemplate = html`
       items="[[_patchDropdownContent]]"
     >
     </gr-dropdown-list>
+    <template is="dom-if" if="[[_showUpArrow(patchNum, _sortedRevisions)]]">
+      <gr-button
+        link=""
+        on-click="_handleUpArrowClicked"
+        has-tooltip
+        title="Change to latest"
+      >
+        <iron-icon icon="gr-icons:upArrow"></iron-icon>
+      </gr-button>
+    </template>
     <span is="dom-if" if="[[filesWeblinks.meta_b]]" class="filesWeblinks">
       <template is="dom-repeat" items="[[filesWeblinks.meta_b]]" as="weblink">
         <a target="_blank" href$="[[weblink.url]]">[[weblink.name]]</a>

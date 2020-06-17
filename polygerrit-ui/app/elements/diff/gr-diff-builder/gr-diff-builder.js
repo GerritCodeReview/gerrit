@@ -62,12 +62,21 @@ export function GrDiffBuilder(diff, prefs, outputEl, layers) {
     throw Error('Invalid line length from preferences.');
   }
 
+  this._layerUpdateListener = this._handleLayerUpdate.bind(this);
   for (const layer of this.layers) {
     if (layer.addListener) {
-      layer.addListener(this._handleLayerUpdate.bind(this));
+      layer.addListener(this._layerUpdateListener);
     }
   }
 }
+
+GrDiffBuilder.prototype.clear = function() {
+  for (const layer of this.layers) {
+    if (layer.removeListener) {
+      layer.removeListener(this._layerUpdateListener);
+    }
+  }
+};
 
 GrDiffBuilder.GroupType = {
   ADDED: 'b',

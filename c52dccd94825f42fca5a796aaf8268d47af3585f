@@ -70,6 +70,24 @@
       "revId": "c52dccd94825f42fca5a796aaf8268d47af3585f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "350ad61f_6bdf3b91",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-06-17T19:42:50Z",
+      "side": 1,
+      "message": "I think this was done there (master) and not in 2.16 because under 2.16 you didn\u0027t really need an undefined check like you do under Polymer 2.",
+      "parentUuid": "65072c57_bb1ac8fd",
+      "revId": "c52dccd94825f42fca5a796aaf8268d47af3585f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

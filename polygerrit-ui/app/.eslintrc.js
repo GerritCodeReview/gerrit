@@ -17,6 +17,7 @@
 
 // Do not add any bazel-specific properties in this file to keep it clean.
 // Please add such properties to the .eslintrc-bazel.js file
+const path = require('path');
 
 module.exports = {
   "extends": ["eslint:recommended", "google"],
@@ -269,6 +270,10 @@ module.exports = {
     "prettier"
   ],
   "settings": {
-    "html/report-bad-indent": "error"
+    "html/report-bad-indent": "error",
+    "import/resolver": {
+      "node": {},
+      [path.resolve(__dirname, './.eslint-ts-resolver.js')]: {},
+    },
   },
 };

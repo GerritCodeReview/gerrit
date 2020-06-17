@@ -429,20 +429,38 @@ limitations under the License.
     });
 
     test('_computeParents', () => {
-      const revision = {commit: {parents: [{commit: '123', subject: 'abc'}]}};
-      assert.isUndefined(element._computeParents({}));
-      assert.equal(element._computeParents(revision), revision.commit.parents);
+      const parents = [{commit: '123', subject: 'abc'}];
+      const revision = {commit: {parents}};
+      assert.equal(element._computeParents({}, {}), []);
+      assert.equal(element._computeParents(null, revision), parents);
+      const change = current_revision => {
+        return {current_revision, revisions: {456: revision}};
+      };
+      assert.equal(element._computeParents(change(null), null), []);
+      const change_bad_revision = change('789');
+      assert.equal(element._computeParents(change_bad_revision, {}), []);
+      const change_no_commit = {current_revision: '456', revisions: {456: {}}};
+      assert.equal(element._computeParents(change_no_commit, null), []);
+      const change_good = change('456');
+      assert.equal(element._computeParents(change_good, null), parents);
     });
 
     test('_currentParents', () => {
-      element.revision = {
-        commit: {parents: [{commit: '123', subject: 'abc'}]},
+      const revision = parent => {
+        return {commit: {parents: [{commit: parent, subject: 'abc'}]}};
       };
-      assert.equal(element._currentParents[0].commit, '123');
-      element.revision = {
-        commit: {parents: [{commit: '12345', subject: 'abc'}]},
+      element.change = {
+        current_revision: '456',
+        revisions: {456: revision('111')},
       };
-      assert.equal(element._currentParents[0].commit, '12345');
+      element.revision = revision('222');
+      assert.equal(element._currentParents[0].commit, '222');
+      element.revision = revision('333');
+      assert.equal(element._currentParents[0].commit, '333');
+      element.revision = null;
+      assert.equal(element._currentParents[0].commit, '111');
+      element.change = {current_revision: null};
+      assert.equal(element._currentParents, []);
     });
 
     test('_computeParentsLabel', () => {

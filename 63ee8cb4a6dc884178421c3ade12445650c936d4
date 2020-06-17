@@ -22,6 +22,310 @@
       "revId": "63ee8cb4a6dc884178421c3ade12445650c936d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2893bf3e_f2f26dde",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T17:23:29Z",
+      "side": 1,
+      "message": "As for the public facing API, this sounds more like a bad request to me. Can we throw a BadRequestException instead?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 67
+      },
+      "revId": "63ee8cb4a6dc884178421c3ade12445650c936d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ccd229d_2ac95331",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T17:23:29Z",
+      "side": 1,
+      "message": "nit: line too long",
+      "range": {
+        "startLine": 22,
+        "startChar": 72,
+        "endLine": 22,
+        "endChar": 73
+      },
+      "revId": "63ee8cb4a6dc884178421c3ade12445650c936d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e28847a2_0225724e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T17:23:29Z",
+      "side": 1,
+      "message": "Sounds like a bad request to me as well. Is there a real-world use case where we expect this to happen?",
+      "range": {
+        "startLine": 34,
+        "startChar": 60,
+        "endLine": 36,
+        "endChar": 8
+      },
+      "revId": "63ee8cb4a6dc884178421c3ade12445650c936d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6e1a339_a10e38dc",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ReviewInput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T17:23:29Z",
+      "side": 1,
+      "message": "@Nullable (same below)",
+      "range": {
+        "startLine": 148,
+        "startChar": 52,
+        "endLine": 148,
+        "endChar": 54
+      },
+      "revId": "63ee8cb4a6dc884178421c3ade12445650c936d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44b0bfa8_13acb37e",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 826,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T17:23:29Z",
+      "side": 1,
+      "message": "This class is already quite long and complex. Please factor this logic out into a separate class and just call it from PostReview.",
+      "revId": "63ee8cb4a6dc884178421c3ade12445650c936d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fe74c4b_34906d48",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 861,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T17:23:29Z",
+      "side": 1,
+      "message": "nit: Use #euquals instead on the Account.Id\n\nThis allows us to refactor Account.Id in the future (e.g. use something other than an int) without the need to touch this code.\n\nHere and below.",
+      "range": {
+        "startLine": 861,
+        "startChar": 28,
+        "endLine": 861,
+        "endChar": 30
+      },
+      "revId": "63ee8cb4a6dc884178421c3ade12445650c936d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1c90dc4_8dff151a",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 903,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T17:23:29Z",
+      "side": 1,
+      "message": "nit: unnecessary parentheses",
+      "range": {
+        "startLine": 903,
+        "startChar": 82,
+        "endLine": 903,
+        "endChar": 83
+      },
+      "revId": "63ee8cb4a6dc884178421c3ade12445650c936d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d744806_a03fd810",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 940,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T17:23:29Z",
+      "side": 1,
+      "message": "This isn\u0027t the correct exception here because it will turn into an HTTP 403/404. That usually indicates that the caller doesn\u0027t have access which isn\u0027t the case here. Someone they wanted to add doesn\u0027t have access.\n\nWe can throw a BadRequestException here instead. IIRC PostReview had some custom error handling code for adding reviewers. Can you check if that\u0027s true and if we should rather hook into that?",
+      "range": {
+        "startLine": 939,
+        "startChar": 6,
+        "endLine": 940,
+        "endChar": 86
+      },
+      "revId": "63ee8cb4a6dc884178421c3ade12445650c936d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5666c3b5_fa190d10",
+        "filename": "java/com/google/gerrit/server/util/AttentionSetUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T17:23:29Z",
+      "side": 1,
+      "message": "nit: missing JavaDoc",
+      "revId": "63ee8cb4a6dc884178421c3ade12445650c936d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ffe6a79_934e4760",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T17:23:29Z",
+      "side": 1,
+      "message": "reviewAddsManuallyAddedUserToAttentionSet",
+      "range": {
+        "startLine": 425,
+        "startChar": 18,
+        "endLine": 425,
+        "endChar": 20
+      },
+      "revId": "63ee8cb4a6dc884178421c3ade12445650c936d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "780c810d_c3e5865a",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T17:23:29Z",
+      "side": 1,
+      "message": "tiny nit: I think this is a strange syntax. When using a fluent API, I prefer\n\nstatic ReviewInput create() {\n  return new ReviewInput();\n}\n\nand here:\nReviewInput.create().addTo...\n\nbecause it gives a nice flow, but I think this is a purely personal pet peeve :-)",
+      "range": {
+        "startLine": 427,
+        "startChar": 30,
+        "endLine": 427,
+        "endChar": 47
+      },
+      "revId": "63ee8cb4a6dc884178421c3ade12445650c936d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28fb8d8f_2fc4c72f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T17:23:29Z",
+      "side": 1,
+      "message": "nit: make the removal a separate test",
+      "revId": "63ee8cb4a6dc884178421c3ade12445650c936d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d74e54fc_30eb2300",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T17:23:29Z",
+      "side": 1,
+      "message": "nit: reviewWithManualAdditionToAttentionSetFailsWithoutReason\n\nIt\u0027s good if test names are specific, because you can tell directly from the run which functionality is broken.\n\nHere and below :-)",
+      "range": {
+        "startLine": 447,
+        "startChar": 21,
+        "endLine": 447,
+        "endChar": 26
+      },
+      "revId": "63ee8cb4a6dc884178421c3ade12445650c936d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2125c436_03e152dd",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-17T17:23:29Z",
+      "side": 1,
+      "message": "nit: omit (here and below)",
+      "range": {
+        "startLine": 503,
+        "startChar": 79,
+        "endLine": 503,
+        "endChar": 82
+      },
+      "revId": "63ee8cb4a6dc884178421c3ade12445650c936d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

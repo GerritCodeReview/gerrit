@@ -329,6 +329,10 @@ export const htmlTemplate = html`
           as="headerEndpoint"
         >
           <gr-endpoint-decorator name$="[[headerEndpoint]]" role="columnheader">
+            <gr-endpoint-param
+              name="change"
+              value="[[change]]"
+            ></gr-endpoint-param>
           </gr-endpoint-decorator>
         </template>
       </template>
@@ -381,6 +385,8 @@ export const htmlTemplate = html`
               as="contentEndpoint"
             >
               <gr-endpoint-decorator name="[[contentEndpoint]]" role="gridcell">
+                <gr-endpoint-param name="change" value="[[change]]">
+                </gr-endpoint-param>
                 <gr-endpoint-param name="changeNum" value="[[changeNum]]">
                 </gr-endpoint-param>
                 <gr-endpoint-param name="patchRange" value="[[patchRange]]">
@@ -439,7 +445,7 @@ export const htmlTemplate = html`
             <div class="comments desktop">
               <span class="drafts"
                 ><!-- This comments ensure that span is empty when the function
-                returns empty string.                
+                returns empty string.
               -->[[_computeDraftsString(changeComments, patchRange,
                 file.__path)]]<!-- This comments ensure that span is empty when
                 the function returns empty string.
@@ -458,7 +464,7 @@ export const htmlTemplate = html`
               Without this span, screen readers don't navigate correctly inside
               table, because empty div doesn't rendered. For example, VoiceOver
               jumps back to the whole table.
-              We can use &nbsp instead, but it sounds worse.                            
+              We can use &nbsp instead, but it sounds worse.
               -->
                 No comments
               </span>
@@ -553,6 +559,8 @@ export const htmlTemplate = html`
             >
               <div class$="[[_computeClass('', file.__path)]]" role="gridcell">
                 <gr-endpoint-decorator name="[[contentEndpoint]]">
+                  <gr-endpoint-param name="change" value="[[change]]">
+                  </gr-endpoint-param>
                   <gr-endpoint-param name="changeNum" value="[[changeNum]]">
                   </gr-endpoint-param>
                   <gr-endpoint-param name="patchRange" value="[[patchRange]]">
@@ -575,7 +583,7 @@ export const htmlTemplate = html`
             >
             <!-- Do not use input type="checkbox" with hidden input and
                   visible label here. Screen readers don't read/interract
-                  correctly with such input. 
+                  correctly with such input.
               -->
             <span
               class="reviewedSwitch"
@@ -611,7 +619,7 @@ export const htmlTemplate = html`
           <div class="show-hide" role="gridcell">
             <!-- Do not use input type="checkbox" with hidden input and
                 visible label here. Screen readers don't read/interract
-                correctly with such input. 
+                correctly with such input.
             -->
             <span
               class="show-hide"
@@ -683,6 +691,10 @@ export const htmlTemplate = html`
         as="summaryEndpoint"
       >
         <gr-endpoint-decorator name="[[summaryEndpoint]]">
+          <gr-endpoint-param
+            name="change"
+            value="[[change]]"
+          ></gr-endpoint-param>
         </gr-endpoint-decorator>
       </template>
     </template>

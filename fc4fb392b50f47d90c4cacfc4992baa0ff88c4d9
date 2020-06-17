@@ -22,6 +22,30 @@
       "revId": "fc4fb392b50f47d90c4cacfc4992baa0ff88c4d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5014436_46caef80",
+        "filename": "polygerrit-ui/Polymer3.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-17T11:53:41Z",
+      "side": 1,
+      "message": "Thanks! Also addressed the issue with devDependencies by always run `yarn_install` with `--prod` for @plugins_npm so it will only install `dependencies`",
+      "parentUuid": "e2cafe9f_fb88ffad",
+      "range": {
+        "startLine": 19,
+        "startChar": 340,
+        "endLine": 19,
+        "endChar": 399
+      },
+      "revId": "fc4fb392b50f47d90c4cacfc4992baa0ff88c4d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

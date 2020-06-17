@@ -113,6 +113,14 @@ class GrDiffBuilderElement extends GestureEventListeners(
     };
   }
 
+  /** @override */
+  detached() {
+    super.detached();
+    if (this._builder) {
+      this._builder.clear();
+    }
+  }
+
   get diffElement() {
     return this.queryEffectiveChildren('#diffTable');
   }
@@ -144,6 +152,9 @@ class GrDiffBuilderElement extends GestureEventListeners(
     // Stop the processor if it's running.
     this.cancel();
 
+    if (this._builder) {
+      this._builder.clear();
+    }
     this._builder = this._getDiffBuilder(this.diff, prefs);
 
     this.$.processor.context = prefs.context;

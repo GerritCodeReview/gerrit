@@ -314,12 +314,19 @@ class GrDiffHost extends mixinBehaviors( [
     });
   }
 
+  /** @override */
+  detached() {
+    super.detached();
+    this.clear();
+  }
+
   /**
    * @param {boolean=} shouldReportMetric indicate a new Diff Page. This is a
    * signal to report metrics event that started on location change.
    * @return {!Promise}
    **/
   reload(shouldReportMetric) {
+    this.clear();
     this._loading = true;
     this._errorMessage = null;
     const whitespaceLevel = this._getIgnoreWhitespace();
@@ -396,6 +403,14 @@ class GrDiffHost extends mixinBehaviors( [
           console.warn('Error encountered loading diff:', err);
         })
         .then(() => { this._loading = false; });
+  }
+
+  clear() {
+    for (const layer of this._layers) {
+      if (layer.destroy) {
+        layer.destroy();
+      }
+    }
   }
 
   _getCoverageData() {

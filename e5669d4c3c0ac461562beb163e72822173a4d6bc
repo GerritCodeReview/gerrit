@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93c6df9d_dbaff9b3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-17T17:40:19Z",
+      "side": 1,
+      "message": "Maybe you know, why it notifies only the first layer for a specific path? Looks suspicious, it can also cause some bugs.",
+      "range": {
+        "startLine": 147,
+        "startChar": 6,
+        "endLine": 147,
+        "endChar": 12
+      },
+      "revId": "e5669d4c3c0ac461562beb163e72822173a4d6bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97ca5c2e_0bc31841",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-17T17:40:19Z",
+      "side": 1,
+      "message": "It seems, this implementation assumes, that:\n1) After layer is created, the addListener method is always called\n2) After the last removeListener is called, the AnnotationLayer object can\u0027t be used again.\n\nWhile this assumptions are true now, they can change in the future. This can lead to some unexpected errors, for example:\nconst layer \u003d GrAnnotationActionsInterface.getLayer(...);\nlayer.addListener(handlerX);\nlayer.removeListener(handlerX);\nlayer.addListener(handlerY); // handlerY will be never called\n(and swapping last 2 lines makes code working).\n\nAs an alternative solution, I can suggest to use WeakMap and store _annotationLayers in a WeakList instead of array:\n\nthis._annotationLayers \u003d new WeakList();\n...\nGrAnnotationActionsInterface.prototype.notify \u003d function(...) {\n  for (const annotationLayer of this._annotationLayers.getItems())... \n\nclass WeakList {\n    constructor() {\n        this.maxIndex \u003d 0;\n        this.items \u003d new WeakMap();\n    } \n    getItems() {\n        const result \u003d [];\n        int skipCount \u003d 0;\n        for(int i \u003d 0; i \u003c maxIndex; i++) {\n            const reference \u003d this.items.get(i);\n            if(!reference) {\n                skipCount++;            \n            } else {\n               result.push(reference);\n               if(emptyCount \u003e 0) {\n                   this.items.set(i - skipCount, reference);\n                   this.items.delete(i);\n               }\n            }\n        }\n        this.maxIndex -\u003d emptyCount;\n        return result;\n    }\n    add(item) {\n        this.items.set(this.maxIndex, item);\n        this.maxIndex++;\n    }\n    // remove and clear methods can be added later\n}\n\nWith this solution, GrAnnotationActionsInterface doesn\u0027t prevent GC from collecting annotationLayer when other code doesn\u0027t store a reference to it.\n\nAlso, with WeakList you can remove .clean method from gr-diff-builder-element (not sure in this part)",
+      "range": {
+        "startLine": 207,
+        "startChar": 2,
+        "endLine": 210,
+        "endChar": 0
+      },
+      "revId": "e5669d4c3c0ac461562beb163e72822173a4d6bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

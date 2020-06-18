@@ -70,6 +70,30 @@
       "revId": "99d4162d4884bf34796f641b4f4fbf28589fc559",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57a46238_459ca34b",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1272,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-18T23:21:20Z",
+      "side": 1,
+      "message": "It turns out it was already done with the if-check in stable-3.1:\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/272215/-1..1/java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+      "parentUuid": "f1aca41c_ae4cfeba",
+      "range": {
+        "startLine": 1271,
+        "startChar": 4,
+        "endLine": 1272,
+        "endChar": 49
+      },
+      "revId": "99d4162d4884bf34796f641b4f4fbf28589fc559",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

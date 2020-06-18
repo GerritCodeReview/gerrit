@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "61cca6e3_8394f7e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2020-06-18T07:32:23Z",
+      "side": 1,
+      "message": "Done. Why not linkify also commit hashes?",
+      "parentUuid": "8f8371c2_0ec6dcc3",
+      "range": {
+        "startLine": 14,
+        "startChar": 14,
+        "endLine": 14,
+        "endChar": 54
+      },
+      "revId": "2e79a14a0c0736eba582d46001e1435f9c847be9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7379893e_fa9eeb9b",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.html",
         "patchSetId": 7

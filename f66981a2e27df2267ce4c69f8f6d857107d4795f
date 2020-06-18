@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fc110526_2319ed4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-18T21:19:28Z",
+      "side": 1,
+      "message": "Wouldn\u0027t matter in this case, but I tested with 8081 being master (non-slave). Note: we should start no longer using such terms; cf. Issue 12945.",
+      "parentUuid": "ff960353_fa84254a",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 17
+      },
+      "revId": "f66981a2e27df2267ce4c69f8f6d857107d4795f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7312f22c_ac4ccceb",
         "filename": "e2e-tests/src/test/resources/data/com/google/gerrit/scenarios/CheckMasterBranchReplica1.json",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2020-06-18T20:14:36Z",
       "side": 1,
       "message": "HOSTNAME1?",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 27
+      },
+      "revId": "f66981a2e27df2267ce4c69f8f6d857107d4795f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eadeef79_9bebd5e1",
+        "filename": "e2e-tests/src/test/resources/data/com/google/gerrit/scenarios/CheckMasterBranchReplica1.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-18T21:19:28Z",
+      "side": 1,
+      "message": "No, as this specific test is based on a locahost-only setup. The port is 8081 though. Such tests can be used as examples to come up with other test cases or scenarios, as usual with these.",
+      "parentUuid": "7312f22c_ac4ccceb",
       "range": {
         "startLine": 3,
         "startChar": 19,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0fa4b039_c0018631",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-18T21:19:28Z",
+      "side": 1,
+      "message": "No, as the core framework (super-parent GerritSimulation) converts these terms to properties internally.",
+      "parentUuid": "aca9ae75_cc07232f",
+      "range": {
+        "startLine": 29,
+        "startChar": 32,
+        "endLine": 29,
+        "endChar": 42
+      },
+      "revId": "f66981a2e27df2267ce4c69f8f6d857107d4795f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ea5f3c55_8b249c05",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
         "patchSetId": 2
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "f80f7a0b_72d02756",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-18T21:19:28Z",
+      "side": 1,
+      "message": "This gets the replica\u0027s master branch revision [5] as per CheckMasterBranchReplica1.json. The lines below compare that revision with the one from the replication-initiating node. If they match, then the test passes, as the expected commit was actually replicated.\n\n[5] https://gerrit-documentation.storage.googleapis.com/Documentation/3.0.11/rest-api-projects.html#get-branch",
+      "parentUuid": "ea5f3c55_8b249c05",
+      "range": {
+        "startLine": 47,
+        "startChar": 12,
+        "endLine": 47,
+        "endChar": 37
+      },
+      "revId": "f66981a2e27df2267ce4c69f8f6d857107d4795f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "865051b3_8f371e24",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
         "patchSetId": 2
@@ -105,6 +201,30 @@
       "writtenOn": "2020-06-18T20:14:36Z",
       "side": 1,
       "message": "Should this be set as a variable? So that it can be then executed with more users and test the performance of the replication?",
+      "range": {
+        "startLine": 54,
+        "startChar": 18,
+        "endLine": 54,
+        "endChar": 19
+      },
+      "revId": "f66981a2e27df2267ce4c69f8f6d857107d4795f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "031ab661_067d84d2",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-18T21:19:28Z",
+      "side": 1,
+      "message": "Not in this specific test case, but it could be done to come up with another test or scenario. This kind of e2e scenario is more functional than load or performance. But it does reuse the same Gatling core framework in Gerrit. This approach has been introduced at the beginning of [6] (below).\n\nBeside core, the high-availability and multi-site plugins started having such scenarios too. And gc-conductor (more recently) started having hybrid scenarios, i.e., testing e2e functionality using some load ([7]\u0027s topmost commits). Functional e2e then met load, hence this vision of reusing the same Gatling framework in Gerrit.\n\n[6] https://gerrit-documentation.storage.googleapis.com/Documentation/3.0.11/dev-e2e-tests.html\n[7] https://gerrit.googlesource.com/plugins/gc-conductor/+log/refs/heads/stable-3.0",
+      "parentUuid": "865051b3_8f371e24",
       "range": {
         "startLine": 54,
         "startChar": 18,

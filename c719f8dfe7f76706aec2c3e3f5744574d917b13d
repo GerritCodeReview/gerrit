@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d3c69325_8f56a384",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-18T19:21:37Z",
+      "side": 1,
+      "message": "frequent (\u0027often\u0027 here is I think a misuse of the word.)",
+      "range": {
+        "startLine": 9,
+        "startChar": 61,
+        "endLine": 9,
+        "endChar": 66
+      },
+      "revId": "c719f8dfe7f76706aec2c3e3f5744574d917b13d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6c87694_743980d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-18T19:21:37Z",
+      "side": 1,
+      "message": "Blank line above or join sentences in the same paragraph?",
+      "revId": "c719f8dfe7f76706aec2c3e3f5744574d917b13d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8b34eb1_9f7b6e0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-18T19:21:37Z",
+      "side": 1,
+      "message": "Oops; sorry.",
+      "range": {
+        "startLine": 12,
+        "startChar": 15,
+        "endLine": 12,
+        "endChar": 41
+      },
+      "revId": "c719f8dfe7f76706aec2c3e3f5744574d917b13d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e709784_f645f846",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-18T19:21:37Z",
+      "side": 1,
+      "message": "[1]",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 2
+      },
+      "revId": "c719f8dfe7f76706aec2c3e3f5744574d917b13d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b9de84f_abc41f84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-18T19:21:37Z",
+      "side": 1,
+      "message": "[2]",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 2
+      },
+      "revId": "c719f8dfe7f76706aec2c3e3f5744574d917b13d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

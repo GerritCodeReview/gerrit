@@ -46,6 +46,30 @@
       "revId": "99d4162d4884bf34796f641b4f4fbf28589fc559",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1aca41c_ae4cfeba",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1272,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-18T19:21:37Z",
+      "side": 1,
+      "message": "I\u0027m for including the AuthException type and naming the argument \u0027err\u0027, for balanced enough explicitness, yes.",
+      "parentUuid": "528d96aa_d2491f50",
+      "range": {
+        "startLine": 1271,
+        "startChar": 4,
+        "endLine": 1272,
+        "endChar": 49
+      },
+      "revId": "99d4162d4884bf34796f641b4f4fbf28589fc559",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

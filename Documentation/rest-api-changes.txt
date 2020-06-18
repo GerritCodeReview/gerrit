@@ -4349,7 +4349,7 @@ a project-specific rule.
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/current/test.submit_type HTTP/1.0
-  Content-Type: text/plain; charset-UTF-8
+  Content-Type: text/plain; charset=UTF-8
 
   submit_type(cherry_pick).
 ----
@@ -4380,7 +4380,7 @@ a project-specific rule.
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/current/test.submit_rule?filters=SKIP HTTP/1.0
-  Content-Type: text/plain; charset-UTF-8
+  Content-Type: text/plain; charset=UTF-8
 
   submit_rule(submit(R)) :-
     R = label('Any-Label-Name', reject(_)).

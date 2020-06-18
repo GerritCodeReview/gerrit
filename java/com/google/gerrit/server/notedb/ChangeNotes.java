@@ -207,9 +207,19 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
     public Stream<ChangeNotesResult> scan(Repository repo, Project.NameKey project)
         throws IOException {
+      return scan(repo, project, null);
+    }
+
+    public Stream<ChangeNotesResult> scan(
+        Repository repo, Project.NameKey project, Predicate<Change.Id> changeIdPredicate)
+        throws IOException {
       ScanResult sr = scanChangeIds(repo);
 
-      return sr.all().stream().map(id -> scanOneChange(project, sr, id)).filter(Objects::nonNull);
+      Stream<Change.Id> idStream = sr.all().stream();
+      if (changeIdPredicate != null) {
+        idStream = idStream.filter(changeIdPredicate);
+      }
+      return idStream.map(id -> scanOneChange(project, sr, id)).filter(Objects::nonNull);
     }
 
     @Nullable

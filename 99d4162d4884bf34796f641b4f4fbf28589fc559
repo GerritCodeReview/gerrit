@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07abe53b_d3c36ccd",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1272,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-18T13:02:17Z",
+      "side": 1,
+      "message": "this could be inlined to a single statement.\n\n checkRefPermission(cmd, RefPermission.FORCE_UPDATE).ifPresent(e -\u003e rejectProhibited(cmd, e);\n\nbut I\u0027m not sure if that makes it a bit less readable.",
+      "range": {
+        "startLine": 1271,
+        "startChar": 4,
+        "endLine": 1272,
+        "endChar": 49
+      },
+      "revId": "99d4162d4884bf34796f641b4f4fbf28589fc559",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

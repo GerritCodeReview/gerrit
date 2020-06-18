@@ -23,20 +23,29 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.server.project.SubmitRuleEvaluator;
+import com.google.gerrit.server.project.SubmitRuleOptions;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
+import java.util.Collection;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Test;
 
 @NoHttpd
@@ -105,6 +114,8 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
 
     expectToHaveSubmoduleState(superRepo, "master", subKey, subHEAD);
     assertThat(hasSubmodule(superRepo, "branch", subKey)).isFalse();
+    modifySubmitRules("gerrit:file_names([regular_file('a.txt'),regular_file('/COMMIT_MSG')])");
+    assertThat(statusForRule()).isEqualTo(SubmitRecord.Status.OK);
   }
 
   @Test
@@ -368,6 +379,8 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     assertThat(hasSubmodule(subRepo, "dev", superKey)).isTrue();
     expectToHaveSubmoduleState(superRepo, "master", subKey, subMasterHead);
     expectToHaveSubmoduleState(subRepo, "dev", superKey, superDevHead);
+    modifySubmitRules("gerrit:file_names([regular_file('a.txt'),regular_file('/COMMIT_MSG')])");
+    assertThat(statusForRule()).isEqualTo(SubmitRecord.Status.OK);
   }
 
   @Test
@@ -609,6 +622,8 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
 
     expectToHaveSubmoduleState(superRepo, "master", subkey1, subTip1);
     expectToHaveSubmoduleState(superRepo, "master", subkey2, subTip2);
+    modifySubmitRules("gerrit:file_names([regular_file('a.txt'),regular_file('/COMMIT_MSG')])");
+    assertThat(statusForRule()).isEqualTo(SubmitRecord.Status.OK);
   }
 
   @Test
@@ -629,6 +644,87 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     // Push succeeds, but gitlink update is skipped.
     pushChangeTo(subRepo, "master");
     expectToHaveSubmoduleState(superRepo, "master", subKey, badId);
+  }
+
+  @Test
+  public void test() throws Exception {
+    //
+    // modifySubmitRules(String.format("gerrit:file_names([regular_file('%s'),regular_file('/COMMIT_MSG')])", subKey.get()));
+    modifySubmitRules("gerrit:file_names([regular_file('a.txt'),regular_file('/COMMIT_MSG')])");
+    assertThat(statusForRule()).isEqualTo(SubmitRecord.Status.OK);
+  }
+
+  private static final String RULE_TEMPLATE =
+      "submit_rule(submit(W)) :- \n" + "%s,\n" + "W = label('OK', ok(user(1000000))).";
+
+  @Inject private SubmitRuleEvaluator.Factory evaluatorFactory;
+
+  private SubmitRecord.Status statusForRule() throws Exception {
+    String oldHead = projectOperations.project(superKey).getHead("master").name();
+    get(projectOperations.project(superKey).getHead("master"));
+
+    PushOneCommit.Result result1 =
+        pushFactory.create(user.newIdent(), superRepo, "subject", "b", "sdd").to("refs/for/master");
+    //    PushOneCommit.Result result1 =
+    //            pushFactory.create(user.newIdent(), superRepo, "subject", subKey.get(), "change
+    // submodule file").to("refs/for/master");
+    get(result1.getCommit());
+    PushOneCommit.Result result2 =
+        pushFactory.create(user.newIdent(), superRepo, "subject", "c", "sdd").to("refs/for/master");
+    get(result2.getCommit());
+
+    superRepo.reset(oldHead);
+    ChangeData cd = result1.getChange();
+    Collection<SubmitRecord> records;
+    try (AutoCloseable changeIndex = disableChangeIndex()) {
+      try (AutoCloseable accountIndex = disableAccountIndex()) {
+        SubmitRuleEvaluator ruleEvaluator = evaluatorFactory.create(SubmitRuleOptions.defaults());
+        records = ruleEvaluator.evaluate(cd);
+      }
+    }
+
+    assertThat(records).hasSize(1);
+    SubmitRecord record = records.iterator().next();
+    return record.status;
+  }
+
+  private void modifySubmitRules(String ruleTested) throws Exception {
+    String newContent = String.format(RULE_TEMPLATE, ruleTested);
+
+    try (Repository repo = repoManager.openRepository(superKey);
+        TestRepository<Repository> testRepo = new TestRepository<>(repo)) {
+      testRepo
+          .branch(RefNames.REFS_CONFIG)
+          .commit()
+          .author(admin.newIdent())
+          .committer(admin.newIdent())
+          .add("rules.pl", newContent)
+          .message("Modify rules.pl")
+          .create();
+    }
+    projectCache.evict(superKey);
+  }
+
+  private void get(RevCommit revCommit) throws Exception {
+    Repository repository = superRepo.getRepository();
+    try (RevWalk revWalk = new RevWalk(repository)) {
+      RevTree tree = revCommit.getTree();
+      try (TreeWalk treeWalk = new TreeWalk(repository)) {
+        treeWalk.addTree(tree);
+        treeWalk.setRecursive(true);
+        // treeWalk.setFilter(PathFilter.create("a.txt")); // TODO add all modified files, so that
+        // we don't inspect the entire repo
+        while (treeWalk.next()) {
+          if (treeWalk.getFileMode() == FileMode.GITLINK) {
+            // this is a submodule
+          } else {
+            // this is not
+          }
+        }
+      }
+    } catch (Exception ex) {
+      // do nothing
+    }
   }
 
   private ObjectId directUpdateRef(Project.NameKey project, String ref) throws Exception {

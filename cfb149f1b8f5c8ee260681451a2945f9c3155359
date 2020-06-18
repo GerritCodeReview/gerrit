@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "59ec1d92_50550025",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-18T12:39:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bed2cde0_21a9203c",
+      "range": {
+        "startLine": 20,
+        "startChar": 32,
+        "endLine": 20,
+        "endChar": 34
+      },
+      "revId": "cfb149f1b8f5c8ee260681451a2945f9c3155359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f55be7b_7f4bec64",
         "filename": "java/com/google/gerrit/server/change/AddToAttentionSetOp.java",
         "patchSetId": 7
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "a64ab698_c1b0941e",
+        "filename": "java/com/google/gerrit/server/change/AddToAttentionSetOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-18T12:39:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f55be7b_7f4bec64",
+      "revId": "cfb149f1b8f5c8ee260681451a2945f9c3155359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ebce720_0eb8ea27",
         "filename": "java/com/google/gerrit/server/change/RemoveFromAttentionSetOp.java",
         "patchSetId": 7
@@ -56,6 +98,24 @@
       "revId": "cfb149f1b8f5c8ee260681451a2945f9c3155359",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3b80d1f_7fb7586f",
+        "filename": "java/com/google/gerrit/server/change/RemoveFromAttentionSetOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-18T12:39:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ebce720_0eb8ea27",
+      "revId": "cfb149f1b8f5c8ee260681451a2945f9c3155359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "524f3dc0_4e3c50ab",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-18T12:39:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7fd6afb8_de5369ce",
+      "range": {
+        "startLine": 399,
+        "startChar": 0,
+        "endLine": 405,
+        "endChar": 42
+      },
+      "revId": "cfb149f1b8f5c8ee260681451a2945f9c3155359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6d763d2_e183b1e9",
         "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 7
@@ -102,6 +186,30 @@
       "revId": "cfb149f1b8f5c8ee260681451a2945f9c3155359",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eecce565_5bc1f20e",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-18T12:39:10Z",
+      "side": 1,
+      "message": "You\u0027re right.\nI performed a switcheroo between this change and I2442f167b. This way, this filtering of reviewers that are being added and removed is not necessary.\nI really hope this makes it more clear and not more confusing.",
+      "parentUuid": "b6d763d2_e183b1e9",
+      "range": {
+        "startLine": 798,
+        "startChar": 19,
+        "endLine": 801,
+        "endChar": 43
+      },
+      "revId": "cfb149f1b8f5c8ee260681451a2945f9c3155359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -133,10 +133,11 @@ class GrRangedCommentLayer extends GestureEventListeners(
     if (record.path === 'commentRanges') {
       this._rangesMap = {left: {}, right: {}};
       for (const {side, range, hovering} of record.value) {
-        this._updateRangesMap(
-            side, range, hovering, (forLine, start, end, hovering) => {
-              forLine.push({start, end, hovering});
-            });
+        this._updateRangesMap({
+          side, range, hovering,
+          operation: (forLine, start, end, hovering) => {
+            forLine.push({start, end, hovering});
+          }});
       }
     }
 
@@ -147,12 +148,13 @@ class GrRangedCommentLayer extends GestureEventListeners(
       // not the index, especially in polymer 1.
       const {side, range, hovering} = this.get(match[1]);
 
-      this._updateRangesMap(
-          side, range, hovering, (forLine, start, end, hovering) => {
-            const index = forLine.findIndex(lineRange =>
-              lineRange.start === start && lineRange.end === end);
-            forLine[index].hovering = hovering;
-          });
+      this._updateRangesMap({
+        side, range, hovering, skipLayerUpdate: true,
+        operation: (forLine, start, end, hovering) => {
+          const index = forLine.findIndex(lineRange =>
+            lineRange.start === start && lineRange.end === end);
+          forLine[index].hovering = hovering;
+        }});
     }
 
     // If comments were spliced in or out.
@@ -160,26 +162,31 @@ class GrRangedCommentLayer extends GestureEventListeners(
       for (const indexSplice of record.value.indexSplices) {
         const removed = indexSplice.removed;
         for (const {side, range, hovering} of removed) {
-          this._updateRangesMap(
-              side, range, hovering, (forLine, start, end) => {
-                const index = forLine.findIndex(lineRange =>
-                  lineRange.start === start && lineRange.end === end);
-                forLine.splice(index, 1);
-              });
+          this._updateRangesMap({
+            side, range, hovering, operation: (forLine, start, end) => {
+              const index = forLine.findIndex(lineRange =>
+                lineRange.start === start && lineRange.end === end);
+              forLine.splice(index, 1);
+            }});
         }
         const added = indexSplice.object.slice(
             indexSplice.index, indexSplice.index + indexSplice.addedCount);
         for (const {side, range, hovering} of added) {
-          this._updateRangesMap(
-              side, range, hovering, (forLine, start, end, hovering) => {
-                forLine.push({start, end, hovering});
-              });
+          this._updateRangesMap({
+            side, range, hovering,
+            operation: (forLine, start, end, hovering) => {
+              forLine.push({start, end, hovering});
+            }});
         }
       }
     }
   }
 
-  _updateRangesMap(side, range, hovering, operation) {
+  /**
+   * @param {Object} options
+   */
+  _updateRangesMap(options) {
+    const {side, range, hovering, operation, skipLayerUpdate} = options;
     const forSide = this._rangesMap[side] || (this._rangesMap[side] = {});
     for (let line = range.start_line; line <= range.end_line; line++) {
       const forLine = forSide[line] || (forSide[line] = []);
@@ -187,7 +194,9 @@ class GrRangedCommentLayer extends GestureEventListeners(
       const end = line === range.end_line ? range.end_character : -1;
       operation(forLine, start, end, hovering);
     }
-    this._notifyUpdateRange(range.start_line, range.end_line, side);
+    if (!skipLayerUpdate) {
+      this._notifyUpdateRange(range.start_line, range.end_line, side);
+    }
   }
 
   _getRangesForLine(line, side) {

@@ -126,6 +126,16 @@ class GrDiffHighlight extends GestureEventListeners(
     if (index !== undefined) {
       this.set(['commentRanges', index, 'hovering'], true);
     }
+
+    // update range class for styling
+    const currentLine = threadEl.assignedSlot.parentElement.previousSibling;
+    if (currentLine && currentLine.querySelector) {
+      const rangeNode = currentLine.querySelector('.range');
+      if (rangeNode) {
+        rangeNode.classList.add('rangeHighlight');
+        rangeNode.classList.remove('range');
+      }
+    }
   }
 
   _handleCommentThreadMouseleave(e) {
@@ -134,6 +144,16 @@ class GrDiffHighlight extends GestureEventListeners(
 
     if (index !== undefined) {
       this.set(['commentRanges', index, 'hovering'], false);
+    }
+
+    // update range class for styling
+    const currentLine = threadEl.assignedSlot.parentElement.previousSibling;
+    if (currentLine && currentLine.querySelector) {
+      const rangeNode = currentLine.querySelector('.rangeHighlight');
+      if (rangeNode) {
+        rangeNode.classList.remove('rangeHighlight');
+        rangeNode.classList.add('range');
+      }
     }
   }
 

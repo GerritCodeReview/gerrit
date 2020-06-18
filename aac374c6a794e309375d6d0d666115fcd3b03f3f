@@ -16,6 +16,24 @@
       "revId": "aac374c6a794e309375d6d0d666115fcd3b03f3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c7fa9e8_3f6571a8",
+        "filename": ".zuul.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-18T22:27:07Z",
+      "side": 1,
+      "message": "\u003e So, this change is on stable-2.16 branch. On this branch plugin-manager was not added as core plugin. So why is this needed now? As Luca pointed out, there is no other cross-core-plugin-dependencies. No core plugins depend on other core plugins. So we do it only to potentially test plugin-manager as non-core plugin?\n\u003e \n\u003e But why I cannot add this required-projects section in ansible playbook recipe in plugin-manger itself?\n\nOr can this be done in the project definition of the plugin-manager?\nAt the end of the day it is a pre-requisite so the other plugins should be there listed.",
+      "parentUuid": "06dfb665_80e66109",
+      "revId": "aac374c6a794e309375d6d0d666115fcd3b03f3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

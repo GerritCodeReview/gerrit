@@ -316,27 +316,35 @@ the parent project.
 The submit section includes configuration of project-specific
 submit settings:
 
-[[content_merge]]
-- 'mergeContent': Defines whether Gerrit will try to
+[[content_merge]]submit.mergeContent::
++
+Defines whether Gerrit will try to
 do a content merge when a path conflict occurs. Valid values are
 'true', 'false', or 'INHERIT'.  Default is 'INHERIT'. This option can
 be modified by any project owner through the project console, `Browse`
 > `Repositories` > my/project > `Allow content merges`.
 
-- 'action': Defines the link:#submit-type[submit type].  Valid
+[[submit.action]]submit.action::
++
+Defines the link:#submit-type[submit type].  Valid
 values are 'fast forward only', 'merge if necessary', 'rebase if necessary',
 'rebase always', 'merge always' and 'cherry pick'.  The default is 'merge if necessary'.
 
-- 'matchAuthorToCommitterDate': Defines whether to the author date will be changed to match the
-submitter date upon submit, so that git log shows when the change was submitted instead of when the
-author last committed. Valid values are 'true', 'false', or 'INHERIT'. The default is 'INHERIT'.
-This option only takes effect in submit strategies which already modify the commit, i.e.
-Cherry Pick, Rebase Always, and (perhaps) Rebase If Necessary.
+[[submit.matchAuthorToCommitterDate]]submit.matchAuthorToCommitterDate::
++
+Defines whether the author date will be changed to match the submitter date upon submit, so that
+git log shows when the change was submitted instead of when the author last committed. Valid
+values are 'true', 'false', or 'INHERIT'. The default is 'INHERIT'. This option only takes effect
+in submit strategies which already modify the commit, i.e. Cherry Pick, Rebase Always, and
+(when rebase is necessary) Rebase If Necessary.
 
-- 'rejectEmptyCommit': Defines whether empty commits should be rejected when a change is merged.
-Changes might not seem empty at first but when attempting to merge, rebasing can lead to an empty
-commit. If this option is set to 'true' the merge would fail. An empty commit is still allowed as
-the initial commit on a branch.
+[[submit.rejectEmptyCommit]]submit.rejectEmptyCommit::
++
+Defines whether empty commits should be rejected when a change is merged. When using
+link:#submit.action[submit action] Cherry Pick, Rebase If Necessary or Rebase Always changes may
+become empty upon submit, since the rebase|cherry-pick can lead to an empty commit. If this option
+is set to 'true' the merge would fail in such a case. An empty commit is still allowed as the
+initial commit on a branch.
 
 [[submit-type]]
 ==== Submit Type

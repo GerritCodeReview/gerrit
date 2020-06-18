@@ -15,18 +15,21 @@
 package com.google.gerrit.server.rules;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import java.util.Optional;
 
 @AutoValue
 public abstract class PrologOptions {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public static PrologOptions defaultOptions() {
     return new AutoValue_PrologOptions.Builder().logErrors(true).skipFilters(false).build();
   }
 
   public static PrologOptions dryRunOptions(String ruleToTest, boolean skipFilters) {
     return new AutoValue_PrologOptions.Builder()
-        .logErrors(false)
+        .logErrors(logger.atFine().isEnabled())
         .skipFilters(skipFilters)
         .rule(ruleToTest)
         .build();

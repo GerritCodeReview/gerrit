@@ -601,6 +601,7 @@ public class RestApiServlet extends HttpServlet {
         }
       } catch (MalformedJsonException | JsonParseException e) {
         cause = Optional.of(e);
+        logger.atFine().withCause(e).log("REST call failed on JSON parsing");
         responseBytes =
             replyError(
                 req, res, statusCode = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request", e);

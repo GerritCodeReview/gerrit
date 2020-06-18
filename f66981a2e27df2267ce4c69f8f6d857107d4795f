@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "598c39fb_7afdbcf1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-18T21:57:14Z",
+      "side": 1,
+      "message": "Yes, I am following the Git community discussion.\nThanks for the pointer: I\u0027ve added my comments there.",
+      "parentUuid": "fc110526_2319ed4a",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 17
+      },
+      "revId": "f66981a2e27df2267ce4c69f8f6d857107d4795f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7312f22c_ac4ccceb",
         "filename": "e2e-tests/src/test/resources/data/com/google/gerrit/scenarios/CheckMasterBranchReplica1.json",
         "patchSetId": 2
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "No, as this specific test is based on a locahost-only setup. The port is 8081 though. Such tests can be used as examples to come up with other test cases or scenarios, as usual with these.",
       "parentUuid": "7312f22c_ac4ccceb",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 27
+      },
+      "revId": "f66981a2e27df2267ce4c69f8f6d857107d4795f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e972d0e_3e8fdad4",
+        "filename": "e2e-tests/src/test/resources/data/com/google/gerrit/scenarios/CheckMasterBranchReplica1.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-18T21:57:14Z",
+      "side": 1,
+      "message": "One Gerrit server with two listeners then?",
+      "parentUuid": "eadeef79_9bebd5e1",
       "range": {
         "startLine": 3,
         "startChar": 19,
@@ -143,6 +191,30 @@
     },
     {
       "key": {
+        "uuid": "ff7f68b7_792b37c3",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-18T21:57:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0fa4b039_c0018631",
+      "range": {
+        "startLine": 29,
+        "startChar": 32,
+        "endLine": 29,
+        "endChar": 42
+      },
+      "revId": "f66981a2e27df2267ce4c69f8f6d857107d4795f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea5f3c55_8b249c05",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
         "patchSetId": 2
@@ -190,6 +262,30 @@
     },
     {
       "key": {
+        "uuid": "a6d8f0a6_e69c1b05",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-18T21:57:14Z",
+      "side": 1,
+      "message": "Gotcha, my question was on the timing that Gatling reports as the performance of the execution. Gatling is a tool per measuring performance and scalability: knowing that the replication works for sure but also if it is fast or slow, scalable or not scalable.",
+      "parentUuid": "f80f7a0b_72d02756",
+      "range": {
+        "startLine": 47,
+        "startChar": 12,
+        "endLine": 47,
+        "endChar": 37
+      },
+      "revId": "f66981a2e27df2267ce4c69f8f6d857107d4795f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "865051b3_8f371e24",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
         "patchSetId": 2
@@ -225,6 +321,30 @@
       "side": 1,
       "message": "Not in this specific test case, but it could be done to come up with another test or scenario. This kind of e2e scenario is more functional than load or performance. But it does reuse the same Gatling core framework in Gerrit. This approach has been introduced at the beginning of [6] (below).\n\nBeside core, the high-availability and multi-site plugins started having such scenarios too. And gc-conductor (more recently) started having hybrid scenarios, i.e., testing e2e functionality using some load ([7]\u0027s topmost commits). Functional e2e then met load, hence this vision of reusing the same Gatling framework in Gerrit.\n\n[6] https://gerrit-documentation.storage.googleapis.com/Documentation/3.0.11/dev-e2e-tests.html\n[7] https://gerrit.googlesource.com/plugins/gc-conductor/+log/refs/heads/stable-3.0",
       "parentUuid": "865051b3_8f371e24",
+      "range": {
+        "startLine": 54,
+        "startChar": 18,
+        "endLine": 54,
+        "endChar": 19
+      },
+      "revId": "f66981a2e27df2267ce4c69f8f6d857107d4795f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6999d1e5_7b6ae463",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-18T21:57:14Z",
+      "side": 1,
+      "message": "I am wondering if then the test could be rewritten simpler without Gatling then? If we are not using Gatling for load testing, I am not sure is the right tool.\n\nE2E testing is cool and Gatling allows you to create scenarios. But the scenarios should be parametrised with variables to scale up users and demonstrate that the scenarios are scalable.\n\nIn the home page of Gatling you see \"load test as code\", where \"load\" is important.\n\nWe can definitely start with E2E tests but the \"load\" factor should be parametrised so that the scenarios can be replicated for load.\n\nExample: introduce variables for the number of users, for the project names, etc.\n\nHaving more users on different projects, each scenarios can work in isolation and not interfere between each other.  That allows later on to scale the users and projects and make sure that the timings are flat and the system is scalable.",
+      "parentUuid": "031ab661_067d84d2",
       "range": {
         "startLine": 54,
         "startChar": 18,

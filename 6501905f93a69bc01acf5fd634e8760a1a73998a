@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "13b722fd_44157c27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-18T14:11:07Z",
+      "side": 1,
+      "message": "There are some tests already. I will check as well after merge.",
+      "parentUuid": "0de6f050_0863ff6e",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "6501905f93a69bc01acf5fd634e8760a1a73998a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c43fe6f_22f188e4",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-gerrit.js",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "cedabd2d_730a0087",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-gerrit.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-18T14:11:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c43fe6f_22f188e4",
+      "range": {
+        "startLine": 38,
+        "startChar": 36,
+        "endLine": 38,
+        "endChar": 46
+      },
+      "revId": "6501905f93a69bc01acf5fd634e8760a1a73998a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f31d769c_2adfc639",
         "filename": "polygerrit-ui/app/services/app-context.js",
         "patchSetId": 6
@@ -68,6 +116,30 @@
       "revId": "6501905f93a69bc01acf5fd634e8760a1a73998a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fef50f35_23344fa6",
+        "filename": "polygerrit-ui/app/services/app-context.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-18T14:11:07Z",
+      "side": 1,
+      "message": "I renamed to event emitter. I think event emitter is well known term and developer immediately understands what such service does.",
+      "parentUuid": "f31d769c_2adfc639",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 20
+      },
+      "revId": "6501905f93a69bc01acf5fd634e8760a1a73998a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

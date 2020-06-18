@@ -1269,11 +1269,7 @@ class ReceiveCommits {
     }
 
     Optional<AuthException> err = checkRefPermission(cmd, RefPermission.FORCE_UPDATE);
-    if (!err.isPresent()) {
-      validRefOperation(cmd);
-    } else {
-      rejectProhibited(cmd, err.get());
-    }
+    err.ifPresent(e -> rejectProhibited(cmd, e));
   }
 
   private Optional<AuthException> checkRefPermission(ReceiveCommand cmd, RefPermission perm)

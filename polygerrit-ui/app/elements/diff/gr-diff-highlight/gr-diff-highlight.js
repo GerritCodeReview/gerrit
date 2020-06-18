@@ -126,6 +126,20 @@ class GrDiffHighlight extends GestureEventListeners(
     if (index !== undefined) {
       this.set(['commentRanges', index, 'hovering'], true);
     }
+
+    // We don't want to re-create the line just for highlighting the range which
+    // is creating annoying bugs: @see Issue 12934
+    // As gr-ranged-comment-layer now does not notify the layer re-render and
+    // lack of access to the thread or the lineEl from the ranged-comment-layer,
+    // need to update range class for styles here.
+    const currentLine = threadEl.assignedSlot.parentElement.previousSibling;
+    if (currentLine && currentLine.querySelector) {
+      const rangeNode = currentLine.querySelector('.range');
+      if (rangeNode) {
+        rangeNode.classList.add('rangeHighlight');
+        rangeNode.classList.remove('range');
+      }
+    }
   }
 
   _handleCommentThreadMouseleave(e) {
@@ -134,6 +148,16 @@ class GrDiffHighlight extends GestureEventListeners(
 
     if (index !== undefined) {
       this.set(['commentRanges', index, 'hovering'], false);
+    }
+
+    // Same as in mouseenter above
+    const currentLine = threadEl.assignedSlot.parentElement.previousSibling;
+    if (currentLine && currentLine.querySelector) {
+      const rangeNode = currentLine.querySelector('.rangeHighlight');
+      if (rangeNode) {
+        rangeNode.classList.remove('rangeHighlight');
+        rangeNode.classList.add('range');
+      }
     }
   }
 

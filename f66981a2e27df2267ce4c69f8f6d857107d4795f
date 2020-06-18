@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "8c7a6995_83140d82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-18T22:25:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "598c39fb_7afdbcf1",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 17
+      },
+      "revId": "f66981a2e27df2267ce4c69f8f6d857107d4795f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7312f22c_ac4ccceb",
         "filename": "e2e-tests/src/test/resources/data/com/google/gerrit/scenarios/CheckMasterBranchReplica1.json",
         "patchSetId": 2

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33aa2f0a_a9d96abd",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-18T13:18:27Z",
+      "side": 1,
+      "message": "In all other catch blocks, case assignment is the first statement. See line 663:\n\n  cause \u003d Optional.of(e);\n  logger.atSevere()...\n\nSwap the order here too to be consistent?",
+      "range": {
+        "startLine": 604,
+        "startChar": 8,
+        "endLine": 604,
+        "endChar": 31
+      },
+      "revId": "d66895c1ecfca59f2c4ba2f90300a3371e766c72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

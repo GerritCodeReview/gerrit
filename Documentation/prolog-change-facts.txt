@@ -63,6 +63,8 @@ of them we must use a qualified name like `gerrit:change_branch(X)`.
 
 |`unresolved_comments_count/1`     |`unresolved_comments_count(0).`
     |The number of unresolved comments as an integer atom
+|`file_names/1`     |`files_names("file_name").`
+    |A list of file names of the current patchset.
 |=============================================================================
 
 In addition Gerrit provides a set of built-in helper predicates that can be used

@@ -22,6 +22,30 @@
       "revId": "99d4162d4884bf34796f641b4f4fbf28589fc559",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "528d96aa_d2491f50",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1272,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-06-18T13:35:28Z",
+      "side": 1,
+      "message": "mixed feelings ;) I\u0027m always for making things more compact but in this case it is not that obvious that `checkRefPermission` returns an error in case it fails, IMHO local variable does the job of explaining why we are actually rejecting it in the first place... Having said that I believe that one can achieve it by adding the type to the lambda ;)",
+      "parentUuid": "07abe53b_d3c36ccd",
+      "range": {
+        "startLine": 1271,
+        "startChar": 4,
+        "endLine": 1272,
+        "endChar": 49
+      },
+      "revId": "99d4162d4884bf34796f641b4f4fbf28589fc559",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

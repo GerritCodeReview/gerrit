@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;
@@ -35,6 +36,8 @@ import com.google.inject.Provider;
 import org.kohsuke.args4j.Option;
 
 public class TestSubmitType implements RestModifyView<RevisionResource, TestSubmitRuleInput> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final Provider<ReviewDb> db;
   private final ChangeData.Factory changeDataFactory;
   private final RulesCache rules;
@@ -68,7 +71,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
 
     SubmitRuleOptions opts =
         SubmitRuleOptions.builder()
-            .logErrors(false)
+            .logErrors(logger.atFine().isEnabled())
             .skipFilters(input.filters == Filters.SKIP)
             .rule(input.rule)
             .build();

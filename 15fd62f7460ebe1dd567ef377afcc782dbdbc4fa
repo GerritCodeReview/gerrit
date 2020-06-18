@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c6fb21f_6f009ba4",
+        "filename": "java/com/google/gerrit/server/restapi/change/TestSubmitRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-18T10:57:39Z",
+      "side": 0,
+      "message": "So this change desn\u0027t have any effect any more?",
+      "range": {
+        "startLine": 92,
+        "startChar": 12,
+        "endLine": 92,
+        "endChar": 51
+      },
+      "revId": "15fd62f7460ebe1dd567ef377afcc782dbdbc4fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -76,6 +76,12 @@ public class RulesIT extends AbstractDaemonTest {
     assertThat(statusForRule()).isEqualTo(SubmitRecord.Status.OK);
   }
 
+  @Test
+  public void testFileNamesPredicate() throws Exception {
+    modifySubmitRules("gerrit:file_names(['a.txt','/COMMIT_MSG'])");
+    assertThat(statusForRule()).isEqualTo(SubmitRecord.Status.OK);
+  }
+
   private SubmitRecord.Status statusForRule() throws Exception {
     String oldHead = projectOperations.project(project).getHead("master").name();
     PushOneCommit.Result result1 =

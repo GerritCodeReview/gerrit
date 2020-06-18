@@ -600,6 +600,7 @@ public class RestApiServlet extends HttpServlet {
           }
         }
       } catch (MalformedJsonException | JsonParseException e) {
+        logger.atFine().withCause(e).log("REST call failed on JSON parsing");
         cause = Optional.of(e);
         responseBytes =
             replyError(

@@ -70,6 +70,30 @@
       "revId": "ae3c6a031a98278b3c9b8f9262d374df324f9553",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7f02c72_d913ca13",
+        "filename": "java/com/google/gerrit/httpd/WebSessionManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-19T08:52:04Z",
+      "side": 1,
+      "message": "\u003e Sure, that will work.\n\u003e \n\u003e But that reverse-lookup is another cache that we need to persist and manage.\n\nPersist? Manage? It will be automatic, I don\u0027t expect the Gerrit admin to do anything with it. I won\u0027t even persist it anyway: it\u0027s a cache.\n\nIf a session hasn\u0027t been used for days, it would be possibly already expired, isn\u0027t it?\n\n\u003e We have tooling for that. Agreed. But it increases complexity of our code-base\n\u003e and for admins.\n\nLet me try that path and see what\u0027s the complexity associated with it.\n\n\u003e Is all that really worth it?\n\nI don\u0027t know, it depends how critical is the problem of keeping a session associated to a disabled account?\n\n\u003e I mean: Your commit fixed the issue. Why fix it twice?\n\nI leave to you to decide, it depends on your policies at Wikimedia Foundation. I don\u0027t believe anyone else raised this problem / concern.",
+      "parentUuid": "aaf352a7_1ddfe638",
+      "range": {
+        "startLine": 334,
+        "startChar": 16,
+        "endLine": 334,
+        "endChar": 23
+      },
+      "revId": "ae3c6a031a98278b3c9b8f9262d374df324f9553",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

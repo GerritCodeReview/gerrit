@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "fd83cc0a_1191853f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-19T09:25:04Z",
+      "side": 1,
+      "message": "I looked at [1] and though there was special handling for the Go key. I was wrong. There was no effort to change the modifier.\nSorry for the incorrect comment above.\nUpdated to use \u0027v\u0027.\n\nhttps://source.corp.google.com/piper///depot/google3/third_party/javascript/polygerrit/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js;l\u003d499;bpv\u003d0;bpt\u003d1",
+      "parentUuid": "e7ca4474_0a12a488",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 8
+      },
+      "revId": "1f98627311b14f1aea85143719d816c966472b67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "815d3eec_70b2f7b5",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 4

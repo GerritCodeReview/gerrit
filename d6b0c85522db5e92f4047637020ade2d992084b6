@@ -34,6 +34,24 @@
       "revId": "d6b0c85522db5e92f4047637020ade2d992084b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f7d8924_e1bbda71",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-19T10:50:08Z",
+      "side": 1,
+      "message": "The idea of the ranged-comment-layer is to have 100% of the code in that layer file. Are you sure it is not possible to somehow deal with this in gr-ranged-comment-layer itself? Don\u0027t you see my design concern?\n\nIf you think this is the best way to achieve this, then I would spend 30 minutes looking deeper, but I would also try to avoid it. :-D",
+      "parentUuid": "1b705e98_61208c80",
+      "revId": "d6b0c85522db5e92f4047637020ade2d992084b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

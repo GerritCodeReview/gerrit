@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e1aea77_a7e7e658",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-19T15:44:32Z",
+      "side": 1,
+      "message": "Did you check that \n1) all REST APIs still work without any changes to callers (both for input + output)?\n2) no plugin/extension breaks (except for the adjusted simple-submit-rules plugin in Ifdffc5b3d)? (I\u0027m a bit surprised that no other plugin/extension uses any of the internal comment APIs which were based on CommentInfo or CommentInput.)",
+      "range": {
+        "startLine": 10,
+        "startChar": 29,
+        "endLine": 11,
+        "endChar": 20
+      },
+      "revId": "82437334b11fc165b14ad05c0e4670c0b4e177f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1f6efac_6f44460b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-19T15:44:32Z",
+      "side": 1,
+      "message": "Seeing the adjustments in this change and also the renaming you suggested in Ia5653a5eb due to having two classes named Comment, I would suggest a slightly different approach: What if we introduced CommentInfo and CommentInput as super classes of RobotCommentInfo/HumanCommentInfo and RobotCommentInput/HumanCommentInput? CommentInfo and CommentInput would contain all necessary fields and not inherit from Comment anymore. Comment.Range could be transformed to CommentRange as we wouldn\u0027t need the outer class anymore.\n\nThus, we wouldn\u0027t need to remember to add the author and tag field both to RobotCommentInfo and HumanCommentInfo, could avoid having to switch to Comment from CommentInfo in quite some classes (which requires a full path specification due to clashes with the other Comment class), and would not have two classes named Comment anymore. What do you think?",
+      "range": {
+        "startLine": 13,
+        "startChar": 29,
+        "endLine": 14,
+        "endChar": 60
+      },
+      "revId": "82437334b11fc165b14ad05c0e4670c0b4e177f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d801c2c8_ec344c87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-19T15:44:32Z",
+      "side": 1,
+      "message": "Please revert that part as we did in change 252993.",
+      "range": {
+        "startLine": 14,
+        "startChar": 62,
+        "endLine": 16,
+        "endChar": 25
+      },
+      "revId": "82437334b11fc165b14ad05c0e4670c0b4e177f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7771594_91c043b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-19T15:44:32Z",
+      "side": 1,
+      "message": "Nice that you noticed this and fixed the documentation.",
+      "range": {
+        "startLine": 25,
+        "startChar": 23,
+        "endLine": 27,
+        "endChar": 9
+      },
+      "revId": "82437334b11fc165b14ad05c0e4670c0b4e177f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ba6875ad_bf45ce31",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7342,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-19T15:44:32Z",
+      "side": 1,
+      "message": "Drafts for robot comments don\u0027t exist.",
+      "range": {
+        "startLine": 7342,
+        "startChar": 0,
+        "endLine": 7342,
+        "endChar": 57
+      },
+      "revId": "82437334b11fc165b14ad05c0e4670c0b4e177f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3549aaf7_b0e57524",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7351,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-19T15:44:32Z",
+      "side": 1,
+      "message": "Even though robot comments have the \u0027unresolved\u0027 input field, it currently doesn\u0027t do anything. If we explicitly promise in the documentation that this field would do something, users will file bugs against us. Let\u0027s rather use a description which matches reality.",
+      "range": {
+        "startLine": 7349,
+        "startChar": 0,
+        "endLine": 7351,
+        "endChar": 16
+      },
+      "revId": "82437334b11fc165b14ad05c0e4670c0b4e177f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b0f8dcd_3b20ff1e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7397,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-19T15:44:32Z",
+      "side": 1,
+      "message": "See my other comment above.",
+      "range": {
+        "startLine": 7395,
+        "startChar": 0,
+        "endLine": 7397,
+        "endChar": 16
+      },
+      "revId": "82437334b11fc165b14ad05c0e4670c0b4e177f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

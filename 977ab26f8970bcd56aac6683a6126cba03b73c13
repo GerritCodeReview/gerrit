@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "231e8a35_7a297153",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-19T07:49:55Z",
+      "side": 1,
+      "message": "The changeIdPredicate is not used in the case of ReviewDB,\nSo each ProjectSlice (when on ReviewDB) indexes the _whole_ project.\nThis amplifies the total workload and slows down reindexing a lot.\n\nSo let\u0027s assume you have a project that\u0027s split into 2 ProjectSlices.\n\nOn NoteDB, one thread comes around and indexes the first ProjectSlice.\nThen a second thread comes around and indexes the second ProjectSlice.\nReindexing done.\n\nNow for on ReviewDB. There also a thread comes around and tries to index the\nfirst ProjectSlice. But due to the missing filtering by changeIdPredicate,\nthe first ProjectSlice actually indexes the whole project.\nThen another thread comes around and indexes the second ProjectSlice. Again,\ndue to the missing filtering, this second thread also reindexes the whole project.\n\nSo on ReviewDB, if a project is split into 2 slices, the whole project gets\nreindexed twice.\n\nThis gets worse for bigger projects. Say a project that gets split into 100\nslices, gets fully reindexed 100 times for one index run. (Once for each slice)\n\nReviewDB is probably not the relevant case here, but just to avoid\nthe above amplification, one could check in the AllChangeIndexer if the user\nis on ReviewDB. And if the user is, one could force to 1 slice per project.\n\nThat way, NoteDB users get the benefit. And ReviewDB at least do not get a\npenalty.\n\n(Of course the other option is to bring the changeIdPredicate to ReviewDB as\nwell. Not sure though if we want to spend time on ReviewDB.)\n\nEither way, this issue should also be called out in the commit message.",
+      "revId": "977ab26f8970bcd56aac6683a6126cba03b73c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

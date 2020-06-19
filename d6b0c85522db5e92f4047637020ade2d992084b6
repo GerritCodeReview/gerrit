@@ -52,6 +52,24 @@
       "revId": "d6b0c85522db5e92f4047637020ade2d992084b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb57c14b_13b5a36d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-19T10:54:29Z",
+      "side": 1,
+      "message": "I agree with your concern, but I did not find other way to do it in the ranged-comment-layer, the layer does not really hold any info and the `annotate` is used when recreate the line, but we want to avoid that. Feel free to try, I would be more than happy to see an alternative come up for this annoying issue.",
+      "parentUuid": "1f7d8924_e1bbda71",
+      "revId": "d6b0c85522db5e92f4047637020ade2d992084b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -118,6 +118,30 @@
       "revId": "ae3c6a031a98278b3c9b8f9262d374df324f9553",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4dd5c1f1_b9c4c28e",
+        "filename": "java/com/google/gerrit/httpd/WebSessionManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-19T10:08:30Z",
+      "side": 1,
+      "message": "\u003e \u003e I won\u0027t even persist it anyway: it\u0027s a cache.\n\u003e \n\u003e If you don\u0027t persist it, you create a loop-hole. Because a server restart would remove the association between session and user, yet the session (as it\u0027s persistent) survives a restart.\n\nThis cleanup is not about security, as that user won\u0027t be able to use the session anyway. It\u0027s more about your due diligence at Wikimedia, of course, rather than a security problem.\n\nBear in mind that if you use a different session implementation (e.g. websession-flatfile) we could implement the cleanup more thoroughly.\n\nBecause I don\u0027t know the details of your due-diligence I cannot say how serious would be the problem or not.\n\n\u003e \u003e \u003e I mean: Your commit fixed the issue. Why fix it twice?\n\u003e \u003e\n\u003e \u003e I leave to you to decide, it depends on your policies at Wikimedia Foundation.\n\u003e \n\u003e The issue we had, was that an inactive user could continue to use it\u0027s session.\n\u003e Your merged commit fixed that issue.\n\nYes, the security issue is definitely fixed. This is more as I said a help for your cleanup exercise.\n\n\u003e It would of course be nice to also evict affected sessions right when the\n\u003e deactivation occurs. Unfortunately, it\u0027s not easily possible with the current machinery. But that would have just been the icing on the cake anyways.\n\nAs I said, if you move to a different session backend it possible and easy to implement.\n\n\u003e Your fix is perfectly effective without that.\n\u003e So as I said before, I\u0027d stop at this point.\n\u003e No need to fix the issue twice.\n\u003e \n\u003e I\u0027d just abandon this and my corresponding change I0b09bbf96dcad2c5d13f7faa07bcf69212355918.\n\u003e \n\u003e What do you think?\n\nSGTM, I will post anyway the associated change for review on the websession-flatfile, where this is possible and easy to implement.\n\nWDYT?",
+      "parentUuid": "1c0f6814_9b4a2e2d",
+      "range": {
+        "startLine": 334,
+        "startChar": 16,
+        "endLine": 334,
+        "endChar": 23
+      },
+      "revId": "ae3c6a031a98278b3c9b8f9262d374df324f9553",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

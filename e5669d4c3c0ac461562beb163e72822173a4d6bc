@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "c6893ad4_4eb410ef",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-19T07:39:36Z",
+      "side": 1,
+      "message": "Can you put the burden of calling this on the caller of getLayer?\n\nI think plugin layers are created in gr-diff-host when jsAPI.getDiffLayers() is called. Then I think it should also be the duty of gr-diff-host to destroy all layers and listeners. Then you don\u0027t need the magic in the AnnotationLayer itself and this will also address Dmitrii\u0027s concern.",
+      "revId": "e5669d4c3c0ac461562beb163e72822173a4d6bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "97ca5c2e_0bc31841",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
         "patchSetId": 5

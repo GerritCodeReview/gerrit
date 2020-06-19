@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cce15dc4_84b3d7b4",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-19T11:01:33Z",
+      "side": 1,
+      "message": "This is a mutable property. See https://gerrit-review.googlesource.com/c/gerrit/+/268173/12/java/com/google/gerrit/server/submit/SubscriptionGraph.java#53 for more context. As I wrote in that other comment, if we can\u0027t make SubmoduleSubscription an AutoValue, it\u0027s better to keep SubscriptionGraph as non-AutoValue.",
+      "range": {
+        "startLine": 73,
+        "startChar": 47,
+        "endLine": 73,
+        "endChar": 68
+      },
+      "revId": "087809802893317d70b6a6b2701978a15bc143d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aedacf5d_e46fa4c6",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-19T08:45:21Z",
+      "side": 1,
+      "message": "nit: here and in other places: you could spare the collection if addToPlannedASU would accept single elements because then you can do .forEach(this::addTOPASU)",
+      "range": {
+        "startLine": 792,
+        "startChar": 6,
+        "endLine": 793,
+        "endChar": 45
+      },
+      "revId": "09fc9598ecc56699cbc857105c8795a1542667bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

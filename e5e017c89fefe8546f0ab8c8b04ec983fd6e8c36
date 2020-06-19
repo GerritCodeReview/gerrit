@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2dc855d_e34ee948",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-19T14:53:28Z",
+      "side": 1,
+      "message": "There\u0027s nothing like a published robot comment as robot comments don\u0027t have the draft state. Using the terminology in this method\u0027s name and including it now in getPublishedComment() can now be confusing.",
+      "range": {
+        "startLine": 185,
+        "startChar": 32,
+        "endLine": 185,
+        "endChar": 56
+      },
+      "revId": "e5e017c89fefe8546f0ab8c8b04ec983fd6e8c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2aa04f9e_910de570",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-19T14:53:28Z",
+      "side": 1,
+      "message": "I see that this new method is now used in CommentSender#getParent. Is this a \"fix\" so that human/robot comments made in reply to a robot comment also get the robot comment\u0027s message as parentMessage? If so, please create a separate change with a commit message which explains the situation. We\u0027ll need to consider whether that\u0027s even desired behavior.\n\n(I added some comments on this new code which become obsolete for this change when you move the code. Just ack those comments then.)",
+      "range": {
+        "startLine": 189,
+        "startChar": 27,
+        "endLine": 189,
+        "endChar": 46
+      },
+      "revId": "e5e017c89fefe8546f0ab8c8b04ec983fd6e8c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a218fe4_861a98de",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-19T14:53:28Z",
+      "side": 1,
+      "message": "If we change this to Optional\u003c? extends Comment\u003e, we can save some wrapping/unwrapping of the optionals.",
+      "range": {
+        "startLine": 189,
+        "startChar": 9,
+        "endLine": 189,
+        "endChar": 26
+      },
+      "revId": "e5e017c89fefe8546f0ab8c8b04ec983fd6e8c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "241cbe9c_071c1f13",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-19T14:53:28Z",
+      "side": 1,
+      "message": "I would only ask for robot comments after the conditional check on \u0027humanComment\u0027 to save an unnecessary search for a non-existent robot comment.",
+      "range": {
+        "startLine": 191,
+        "startChar": 4,
+        "endLine": 191,
+        "endChar": 79
+      },
+      "revId": "e5e017c89fefe8546f0ab8c8b04ec983fd6e8c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f540dd2b_10dedbab",
+        "filename": "java/com/google/gerrit/server/notedb/HumanCommentsRevisionNoteData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-19T14:53:28Z",
+      "side": 1,
+      "message": "Typo: from",
+      "range": {
+        "startLine": 23,
+        "startChar": 41,
+        "endLine": 23,
+        "endChar": 43
+      },
+      "revId": "e5e017c89fefe8546f0ab8c8b04ec983fd6e8c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e2d4e9e_dfdc3143",
+        "filename": "java/com/google/gerrit/server/notedb/HumanCommentsRevisionNoteData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-19T14:53:28Z",
+      "side": 1,
+      "message": "Nit: Duplicate \"only\".",
+      "range": {
+        "startLine": 23,
+        "startChar": 61,
+        "endLine": 23,
+        "endChar": 65
+      },
+      "revId": "e5e017c89fefe8546f0ab8c8b04ec983fd6e8c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9ce5b61_77cfd6cf",
+        "filename": "java/com/google/gerrit/server/notedb/RevisionNoteData.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-19T14:53:28Z",
+      "side": 1,
+      "message": "Nit: I would leave out the \"only\" here as the point of this sentence is that this class is for both comment types.",
+      "range": {
+        "startLine": 23,
+        "startChar": 59,
+        "endLine": 23,
+        "endChar": 63
+      },
+      "revId": "e5e017c89fefe8546f0ab8c8b04ec983fd6e8c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f18cb45_6b0ba8af",
+        "filename": "java/com/google/gerrit/server/notedb/RobotCommentsRevisionNote.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-19T14:53:28Z",
+      "side": 1,
+      "message": "Nit: Duplicate \"only\".",
+      "range": {
+        "startLine": 32,
+        "startChar": 61,
+        "endLine": 32,
+        "endChar": 65
+      },
+      "revId": "e5e017c89fefe8546f0ab8c8b04ec983fd6e8c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7922b023_a551b840",
+        "filename": "java/com/google/gerrit/server/notedb/RobotCommentsRevisionNote.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-19T14:53:28Z",
+      "side": 1,
+      "message": "Typo: from",
+      "range": {
+        "startLine": 32,
+        "startChar": 41,
+        "endLine": 32,
+        "endChar": 43
+      },
+      "revId": "e5e017c89fefe8546f0ab8c8b04ec983fd6e8c36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

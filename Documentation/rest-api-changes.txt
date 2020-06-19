@@ -4079,7 +4079,6 @@ Submits a revision.
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/submit HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
 ----
 
 As response a link:#submit-info[SubmitInfo] entity is returned that

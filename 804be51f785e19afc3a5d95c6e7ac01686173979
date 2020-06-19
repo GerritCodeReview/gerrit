@@ -22,6 +22,30 @@
       "revId": "804be51f785e19afc3a5d95c6e7ac01686173979",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6532a9d1_ea75264c",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1375,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-19T01:00:11Z",
+      "side": 1,
+      "message": "This is an adaptation to the stable-3.1 version. See L1377 on the left.\n\nAnyway, this resolution was removed in PS2 in favor of just taking the existing stable-3.1 version.",
+      "parentUuid": "38e4527d_40ec1666",
+      "range": {
+        "startLine": 1375,
+        "startChar": 67,
+        "endLine": 1375,
+        "endChar": 73
+      },
+      "revId": "804be51f785e19afc3a5d95c6e7ac01686173979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

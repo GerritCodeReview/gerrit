@@ -629,6 +629,30 @@
     },
     {
       "key": {
+        "uuid": "2efeff00_03aa1deb",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-19T10:13:29Z",
+      "side": 1,
+      "message": "Okay.",
+      "parentUuid": "be95e1d6_cd317c5f",
+      "range": {
+        "startLine": 210,
+        "startChar": 8,
+        "endLine": 210,
+        "endChar": 11
+      },
+      "revId": "9177b888b31d62a39881d3cfd5136847cb8f55a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "351fe5e1_235f688a",
         "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
         "patchSetId": 12

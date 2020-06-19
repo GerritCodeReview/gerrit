@@ -318,6 +318,7 @@ GrDiffBuilder.prototype._createLineEl = function(
     // Both td and button need a number of classes/attributes for various
     // selectors to work.
     this._decorateLineEl(td, number, side);
+    td.classList.add('lineNum');
 
     if (this._prefs.show_file_comment_button === false && number === 'FILE') {
       return td;
@@ -328,7 +329,6 @@ GrDiffBuilder.prototype._createLineEl = function(
     button.tabIndex = -1;
     this._decorateLineEl(button, number, side);
 
-    td.classList.add('lineNum');
     button.classList.add('lineNumButton');
 
     button.textContent = number === 'FILE' ? 'File' : number;

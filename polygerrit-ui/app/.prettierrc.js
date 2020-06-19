@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright (C) 2017 The Android Open Source Project
+ * Copyright (C) 2020 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,13 @@
  * limitations under the License.
  */
 
-/** @polymerBehavior BaseUrlBehavior */
-export const BaseUrlBehavior = {
-  /** @return {string} */
-  getBaseUrl() {
-    return window.CANONICAL_PATH || '';
-  },
+module.exports = {
+  "overrides": [
+    {
+      "files": ["**/*.ts"],
+      "options": {
+          ...require('gts/.prettierrc.json')
+      }
+    }
+  ]
 };
-
-// TODO(dmfilippov) Remove the following lines with assignments
-// Plugins can use the behavior because it was accessible with
-// the global Gerrit... variable. To avoid breaking changes in plugins
-// temporary assign global variables.
-window.Gerrit = window.Gerrit || {};
-window.Gerrit.BaseUrlBehavior = BaseUrlBehavior;

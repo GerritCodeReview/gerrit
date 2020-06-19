@@ -206,8 +206,10 @@ npm run test:karma async-foreach-behavior_test.js
 npm run test:karma:debug async-foreach-behavior_test.js
 ```
 
-* You can run tests in IDE:
+* You can run tests in IDE. :
   - [IntelliJ: running unit tests on Karma](https://www.jetbrains.com/help/idea/running-unit-tests-on-karma.html#ws_karma_running)
+  - You should configure IDE to compile typescript before running tests.
+    
 
 ### Running WCT tests
 

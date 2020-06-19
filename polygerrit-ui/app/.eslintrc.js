@@ -175,6 +175,10 @@ module.exports = {
   },
   "overrides": [
     {
+      "files": ["**/*.ts"],
+      "extends": [require.resolve("gts/.eslintrc.json")],
+    },
+    {
       "files": ["*.html", "test.js", "test-infra.js", "template_test.js"],
       "rules": {
         "jsdoc/require-file-overview": "off"

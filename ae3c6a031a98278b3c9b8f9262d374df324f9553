@@ -94,6 +94,30 @@
       "revId": "ae3c6a031a98278b3c9b8f9262d374df324f9553",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c0f6814_9b4a2e2d",
+        "filename": "java/com/google/gerrit/httpd/WebSessionManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-19T09:16:26Z",
+      "side": 1,
+      "message": "\u003e I won\u0027t even persist it anyway: it\u0027s a cache.\n\nIf you don\u0027t persist it, you create a loop-hole. Because a server restart would remove the association between session and user, yet the session (as it\u0027s persistent) survives a restart.\n\n\u003e \u003e I mean: Your commit fixed the issue. Why fix it twice?\n\u003e\n\u003e I leave to you to decide, it depends on your policies at Wikimedia Foundation.\n\nThe issue we had, was that an inactive user could continue to use it\u0027s session.\nYour merged commit fixed that issue.\n\nIt would of course be nice to also evict affected sessions right when the\ndeactivation occurs. Unfortunately, it\u0027s not easily possible with the current machinery. But that would have just been the icing on the cake anyways.\n\nYour fix is perfectly effective without that.\nSo as I said before, I\u0027d stop at this point.\nNo need to fix the issue twice.\n\nI\u0027d just abandon this and my corresponding change I0b09bbf96dcad2c5d13f7faa07bcf69212355918.\n\nWhat do you think?",
+      "parentUuid": "b7f02c72_d913ca13",
+      "range": {
+        "startLine": 334,
+        "startChar": 16,
+        "endLine": 334,
+        "endChar": 23
+      },
+      "revId": "ae3c6a031a98278b3c9b8f9262d374df324f9553",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

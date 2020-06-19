@@ -46,6 +46,30 @@
       "revId": "ae3c6a031a98278b3c9b8f9262d374df324f9553",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aaf352a7_1ddfe638",
+        "filename": "java/com/google/gerrit/httpd/WebSessionManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-19T08:45:49Z",
+      "side": 1,
+      "message": "Sure, that will work.\n\nBut that reverse-lookup is another cache that we need to persist and manage.\nWe have tooling for that. Agreed. But it increases complexity of our code-base\nand for admins.\n\nIs all that really worth it?\n\nI mean: Your commit fixed the issue. Why fix it twice?",
+      "parentUuid": "7eb3ccae_5e8e523d",
+      "range": {
+        "startLine": 334,
+        "startChar": 16,
+        "endLine": 334,
+        "endChar": 23
+      },
+      "revId": "ae3c6a031a98278b3c9b8f9262d374df324f9553",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

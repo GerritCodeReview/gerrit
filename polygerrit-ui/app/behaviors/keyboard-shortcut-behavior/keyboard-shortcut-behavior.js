@@ -507,7 +507,8 @@ export const KeyboardShortcutBehavior = [
 
     modifierPressed(e) {
       e = getKeyboardEvent(e);
-      return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
+      return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey ||
+        this._inGoKeyMode();
     },
 
     isModifierPressed(e, modifier) {
@@ -580,11 +581,14 @@ export const KeyboardShortcutBehavior = [
         this._addOwnKeyBindings(key, shortcuts[key]);
       }
 
+      // each component that uses this behaviour must be aware if go key is
+      // pressed or not, since it needs to check it as a modifier
+      this.addOwnKeyBinding('g:keydown', '_handleGoKeyDown');
+      this.addOwnKeyBinding('g:keyup', '_handleGoKeyUp');
+
       // If any of the shortcuts utilized GO_KEY, then they are handled
       // directly by this behavior.
       if (this._shortcut_go_table.size > 0) {
-        this.addOwnKeyBinding('g:keydown', '_handleGoKeyDown');
-        this.addOwnKeyBinding('g:keyup', '_handleGoKeyUp');
         this._shortcut_go_table.forEach((handler, key) => {
           this.addOwnKeyBinding(key, '_handleGoAction');
         });
@@ -611,12 +615,16 @@ export const KeyboardShortcutBehavior = [
     },
 
     _handleGoKeyDown(e) {
-      if (this.modifierPressed(e)) { return; }
       this._shortcut_go_key_last_pressed = Date.now();
     },
 
     _handleGoKeyUp(e) {
-      this._shortcut_go_key_last_pressed = null;
+      // _handleGoKeyUp is triggered before the isModifierPressed check is
+      // done sometimes, resulting in incorrectly checking go key was pressed
+      // or not
+      setTimeout(() => {
+        this._shortcut_go_key_last_pressed = null;
+      }, 100);
     },
 
     _inGoKeyMode() {

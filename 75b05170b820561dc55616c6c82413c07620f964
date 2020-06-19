@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58ec584e_96648436",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-19T11:13:22Z",
+      "side": 1,
+      "message": "This field is now unused and should be removed.",
+      "range": {
+        "startLine": 95,
+        "startChar": 4,
+        "endLine": 95,
+        "endChar": 44
+      },
+      "revId": "75b05170b820561dc55616c6c82413c07620f964",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ae6602e_4097436d",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-19T11:13:22Z",
+      "side": 1,
+      "message": "Seeing this, I thought of another aspect: After this method, the state of theses fields will be kept. This factory is referenced from SubmoduleOp.Factory which is marked as singleton and hence won\u0027t be garbage collected. So, we unnecessarily always keep the state of these fields here. I guess it\u0027s not a lot of data in total but we should try to avoid it if we can. Do you have an idea for improvement?",
+      "range": {
+        "startLine": 199,
+        "startChar": 6,
+        "endLine": 199,
+        "endChar": 73
+      },
+      "revId": "75b05170b820561dc55616c6c82413c07620f964",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

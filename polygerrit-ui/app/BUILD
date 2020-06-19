@@ -121,11 +121,13 @@ eslint(
     data = [
         # The .eslintrc-bazel.js extends the .eslintrc.js config, pass it as a dependency
         ".eslintrc.js",
+        ".prettierrc.js",
         ".eslint-ts-resolver.js",
     ],
     extensions = [
         ".html",
         ".js",
+        ".ts",
     ],
     ignore = ".eslintignore",
     plugins = [
@@ -134,6 +136,7 @@ eslint(
         "@npm//eslint-plugin-import",
         "@npm//eslint-plugin-jsdoc",
         "@npm//eslint-plugin-prettier",
+        "@npm//gts",
     ],
 )
 

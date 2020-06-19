@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.AddToAttentionSetOp;
+import com.google.gerrit.server.change.AttentionSetUnchangedOp;
 import com.google.gerrit.server.change.RemoveFromAttentionSetOp;
 import com.google.gerrit.server.change.ReviewerAdder;
 import com.google.gerrit.server.change.RevisionResource;
@@ -92,6 +93,16 @@ public class PostReviewAttentionSet {
       for (AttentionSetInput add : input.addToAttentionSet) {
         addToAttentionSet(bu, revision, add, accountsChangedInCommit);
       }
+    }
+
+    if (input.ignoreDefaultAttentionSetRules) {
+      /**
+       * If We ignore default attention set rules it means we need to pass this information to
+       * {@link ChangeUpdate}. Also, we should stop all other attention set update that are part of
+       * this method (that happen in {@link PostReview}.
+       */
+      bu.addOp(revision.getChange().getId(), new AttentionSetUnchangedOp());
+      return;
     }
 
     // Replying removes the publishing user from the attention set.

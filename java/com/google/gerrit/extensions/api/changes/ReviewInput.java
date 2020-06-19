@@ -81,6 +81,14 @@ public class ReviewInput {
   /** Users that should be removed to the attention set of this change. */
   public List<AttentionSetInput> removeFromAttentionSet;
 
+  /**
+   * Users in the attention set will only be added and removed based on {@link #addToAttentionSet}
+   * and {@link #removeFromAttentionSet}. Normally, they are also added and removed when some events
+   * occur. E.g, adding/removing reviewers, marking a change ready for review or work in progress,
+   * and replying on changes.
+   */
+  public boolean ignoreDefaultAttentionSetRules;
+
   public enum DraftHandling {
     /** Leave pending drafts alone. */
     KEEP,
@@ -164,6 +172,11 @@ public class ReviewInput {
       removeFromAttentionSet = new ArrayList<>();
     }
     removeFromAttentionSet.add(input);
+    return this;
+  }
+
+  public ReviewInput blockDefaultAttentionSetRules() {
+    ignoreDefaultAttentionSetRules = true;
     return this;
   }
 

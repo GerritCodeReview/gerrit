@@ -45,13 +45,6 @@ export const htmlTemplate = html`
       white-space: nowrap;
       width: 100%;
     }
-    .content a {
-      display: block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      width: 100%;
-    }
     .comments,
     .reviewers {
       white-space: nowrap;

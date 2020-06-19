@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "46293b72_014c3aaa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-19T13:32:18Z",
+      "side": 1,
+      "message": "Yes, this is reason why coverage doesn\u0027t load. Because it loads on leaked layers only. I removed it.",
+      "parentUuid": "93c6df9d_dbaff9b3",
+      "range": {
+        "startLine": 147,
+        "startChar": 6,
+        "endLine": 147,
+        "endChar": 12
+      },
+      "revId": "e5669d4c3c0ac461562beb163e72822173a4d6bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6893ad4_4eb410ef",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
         "patchSetId": 5
@@ -39,6 +63,24 @@
       "revId": "e5669d4c3c0ac461562beb163e72822173a4d6bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fa53be7_c49524a5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-19T13:32:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6893ad4_4eb410ef",
+      "revId": "e5669d4c3c0ac461562beb163e72822173a4d6bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "e5669d4c3c0ac461562beb163e72822173a4d6bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03d046fe_0f45f9e1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-19T13:32:18Z",
+      "side": 1,
+      "message": "Discussed offline. I am destroying layers in gr-diff-host.",
+      "parentUuid": "97ca5c2e_0bc31841",
+      "range": {
+        "startLine": 207,
+        "startChar": 2,
+        "endLine": 210,
+        "endChar": 0
+      },
+      "revId": "e5669d4c3c0ac461562beb163e72822173a4d6bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

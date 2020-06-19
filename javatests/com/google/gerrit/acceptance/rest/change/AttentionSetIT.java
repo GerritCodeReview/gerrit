@@ -824,6 +824,19 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet.reason()).isEqualTo("removed on reply");
   }
 
+  @Test
+  public void attentionSetUnchangedWithEmptyInputLists() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r).addToAttentionSet(new AttentionSetInput(admin.email(), "reason"));
+    change(r).current().review(ReviewInput.create().blockAttentionSetUpdates());
+
+    // admin is still in the attention set, although replies remove from attention set.
+    AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
+    assertThat(attentionSet.account()).isEqualTo(admin.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet.reason()).isEqualTo("reason");
+  }
+
   private List<AttentionSetUpdate> getAttentionSetUpdatesForUser(
       PushOneCommit.Result r, TestAccount account) {
     return r.getChange().attentionSet().stream()

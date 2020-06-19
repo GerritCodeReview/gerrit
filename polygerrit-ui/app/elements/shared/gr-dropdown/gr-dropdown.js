@@ -292,7 +292,8 @@ class GrDropdown extends mixinBehaviors( [
     const item = this.items.find(item => item.id === id);
     if (id && !this.disabledIds.includes(id)) {
       if (item) {
-        this.dispatchEvent(new CustomEvent('tap-item', {detail: item}));
+        this.dispatchEvent(new CustomEvent('tap-item',
+            {detail: item, bubbles: true, composed: true}));
       }
       this.dispatchEvent(new CustomEvent('tap-item-' + id));
     }

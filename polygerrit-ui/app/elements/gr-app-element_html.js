@@ -104,6 +104,7 @@ export const htmlTemplate = html`
       id="mainHeader"
       search-query="{{params.query}}"
       on-mobile-search="_mobileSearchToggle"
+      on-show-keyboard-shortcuts="handleShowKeyboardShortcuts"
       login-url="[[_loginUrl]]"
     >
     </gr-main-header>

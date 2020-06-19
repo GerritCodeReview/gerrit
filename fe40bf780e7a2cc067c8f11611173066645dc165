@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "237694a2_b37fd94f",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-19T10:32:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6397e5ff_6088cae5",
+      "range": {
+        "startLine": 93,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 62
+      },
+      "revId": "fe40bf780e7a2cc067c8f11611173066645dc165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ecfa9ca_85a25d70",
         "filename": "polygerrit-ui/app/elements/gr-app-element.js",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e37095a8_f018ec0e",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-19T10:32:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ecfa9ca_85a25d70",
+      "range": {
+        "startLine": 502,
+        "startChar": 2,
+        "endLine": 502,
+        "endChar": 28
+      },
+      "revId": "fe40bf780e7a2cc067c8f11611173066645dc165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e2df67e_9cd2bce7",
         "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
         "patchSetId": 5
@@ -68,6 +116,30 @@
       "revId": "fe40bf780e7a2cc067c8f11611173066645dc165",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f628cf6_2dcff841",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-19T10:32:18Z",
+      "side": 1,
+      "message": "This change is not necessary.\nReverted.",
+      "parentUuid": "1e2df67e_9cd2bce7",
+      "range": {
+        "startLine": 299,
+        "startChar": 11,
+        "endLine": 299,
+        "endChar": 24
+      },
+      "revId": "fe40bf780e7a2cc067c8f11611173066645dc165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

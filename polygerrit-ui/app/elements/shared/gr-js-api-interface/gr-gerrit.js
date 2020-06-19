@@ -21,8 +21,8 @@
  */
 
 import {pluginLoader} from './gr-plugin-loader.js';
-import {gerritEventEmitter} from '../gr-event-emitter/gr-event-emitter.js';
 import {getRestAPI, send} from './gr-api-utils.js';
+import {appContext} from '../../../services/app-context.js';
 
 /**
  * Trigger the preinstalls for bundled plugins.
@@ -146,9 +146,11 @@ function initGerritPluginsMethods(globalGerritObj) {
     return pluginLoader.isPluginLoaded(pathOrUrl);
   };
 
+  const eventEmitter = appContext.eventEmitter;
+
   // TODO(taoalpha): List all internal supported event names.
   // Also convert this to inherited class once we move Gerrit to class.
-  globalGerritObj._eventEmitter = gerritEventEmitter;
+  globalGerritObj._eventEmitter = eventEmitter;
   ['addListener',
     'dispatch',
     'emit',
@@ -180,7 +182,7 @@ function initGerritPluginsMethods(globalGerritObj) {
      *   });
      * });
      */
-    globalGerritObj[method] = gerritEventEmitter[method]
-        .bind(gerritEventEmitter);
+    globalGerritObj[method] = eventEmitter[method]
+        .bind(eventEmitter);
   });
 }

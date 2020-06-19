@@ -146,7 +146,6 @@ const elements = [
   'settings/gr-settings-view/gr-settings-view_test.html',
   'settings/gr-ssh-editor/gr-ssh-editor_test.html',
   'settings/gr-watched-projects-editor/gr-watched-projects-editor_test.html',
-  'shared/gr-event-interface/gr-event-interface_test.html',
   'shared/gr-account-entry/gr-account-entry_test.html',
   'shared/gr-account-label/gr-account-label_test.html',
   'shared/gr-account-list/gr-account-list_test.html',
@@ -256,6 +255,7 @@ const services = [
   'flags_test.html',
   'gr-reporting/gr-reporting_test.html',
   'gr-reporting/gr-reporting_mock_test.html',
+  'gr-event-interface/gr-event-interface_test.html',
 ];
 for (let file of services) {
   file = servicesPath + file;

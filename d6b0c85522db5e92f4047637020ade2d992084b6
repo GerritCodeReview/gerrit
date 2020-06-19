@@ -16,6 +16,24 @@
       "revId": "d6b0c85522db5e92f4047637020ade2d992084b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b705e98_61208c80",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-19T10:35:50Z",
+      "side": 1,
+      "message": "I think, the layer does not really know the element until `annotate` is called, thats why I have it here.",
+      "parentUuid": "7949cdea_7abb2031",
+      "revId": "d6b0c85522db5e92f4047637020ade2d992084b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

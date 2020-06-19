@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2d021aaf_1c699d69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-19T13:01:11Z",
+      "side": 1,
+      "message": "I actually check gr-diff code and there is no reference to eventEmitter. So we should be fine.",
+      "parentUuid": "13b722fd_44157c27",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "6501905f93a69bc01acf5fd634e8760a1a73998a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c43fe6f_22f188e4",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-gerrit.js",
         "patchSetId": 6

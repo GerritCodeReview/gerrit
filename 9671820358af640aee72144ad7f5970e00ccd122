@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1acd4724_3d712092",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-19T14:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "040dc508_e2f46abd",
+      "range": {
+        "startLine": 109,
+        "startChar": 20,
+        "endLine": 109,
+        "endChar": 26
+      },
+      "revId": "9671820358af640aee72144ad7f5970e00ccd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e038dded_747e988e",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "93c43e5e_cd4447c5",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1651,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-19T14:35:47Z",
+      "side": 1,
+      "message": "I had no idea where to put this, so I hope I chose an appropriate location.",
+      "parentUuid": "e038dded_747e988e",
+      "range": {
+        "startLine": 1651,
+        "startChar": 52,
+        "endLine": 1651,
+        "endChar": 66
+      },
+      "revId": "9671820358af640aee72144ad7f5970e00ccd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c80b26de_c06bd216",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -86,6 +134,24 @@
       "revId": "9671820358af640aee72144ad7f5970e00ccd122",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c2a9318_dd5a37d7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2739,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-19T14:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c80b26de_c06bd216",
+      "revId": "9671820358af640aee72144ad7f5970e00ccd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -112,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "6836c4b4_e0b55b90",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2768,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-19T14:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f7ed02c_48012be7",
+      "range": {
+        "startLine": 2768,
+        "startChar": 50,
+        "endLine": 2768,
+        "endChar": 51
+      },
+      "revId": "9671820358af640aee72144ad7f5970e00ccd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb8c6e34_45d38d66",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -132,6 +222,30 @@
       "revId": "9671820358af640aee72144ad7f5970e00ccd122",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c06681d_b30a1bda",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2777,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-19T14:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb8c6e34_45d38d66",
+      "range": {
+        "startLine": 2777,
+        "startChar": 17,
+        "endLine": 2777,
+        "endChar": 20
+      },
+      "revId": "9671820358af640aee72144ad7f5970e00ccd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -158,6 +272,30 @@
     },
     {
       "key": {
+        "uuid": "e8478c8c_6cb98f02",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4069,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-19T14:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4550f54f_d94a9e7b",
+      "range": {
+        "startLine": 4069,
+        "startChar": 48,
+        "endLine": 4069,
+        "endChar": 49
+      },
+      "revId": "9671820358af640aee72144ad7f5970e00ccd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a2a78fc4_0f0909df",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -181,6 +319,30 @@
     },
     {
       "key": {
+        "uuid": "f6a24948_b997936f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4076,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-19T14:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2a78fc4_0f0909df",
+      "range": {
+        "startLine": 4076,
+        "startChar": 49,
+        "endLine": 4076,
+        "endChar": 52
+      },
+      "revId": "9671820358af640aee72144ad7f5970e00ccd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8e2e796_ad072117",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -192,6 +354,30 @@
       "writtenOn": "2020-06-17T09:31:42Z",
       "side": 1,
       "message": "This sounds like this might be a meaningful operation, but IIUC it\u0027s not (it\u0027s just not an error).",
+      "range": {
+        "startLine": 5852,
+        "startChar": 0,
+        "endLine": 5853,
+        "endChar": 14
+      },
+      "revId": "9671820358af640aee72144ad7f5970e00ccd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b50eef36_1a5ca1d2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5853,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-19T14:35:47Z",
+      "side": 1,
+      "message": "It\u0027s not meaningless since it updates the timestamp and reason.\nWhat would you suggest? I think it should still be documented.",
+      "parentUuid": "e8e2e796_ad072117",
       "range": {
         "startLine": 5852,
         "startChar": 0,
@@ -227,6 +413,30 @@
     },
     {
       "key": {
+        "uuid": "86d310fe_680cfc89",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5856,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-19T14:35:47Z",
+      "side": 1,
+      "message": "I think I mostly agree that it would be better.\nIf you\u0027re okay with that, I\u0027ll discuss with Ben to figure out if this is necessary and if it is I can do that in a follow-up change. I initially thought it\u0027s more complicated than what it is; now I realize it\u0027s quite simply to implement.\nFor now, this is actually not something that blocks us from doing the initial dogfooding.",
+      "parentUuid": "e0ab4909_cc50a77d",
+      "range": {
+        "startLine": 5853,
+        "startChar": 15,
+        "endLine": 5856,
+        "endChar": 0
+      },
+      "revId": "9671820358af640aee72144ad7f5970e00ccd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5667696a_9b5ba9d6",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -250,6 +460,30 @@
     },
     {
       "key": {
+        "uuid": "6d15c98e_b576a111",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5863,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-19T14:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5667696a_9b5ba9d6",
+      "range": {
+        "startLine": 5863,
+        "startChar": 46,
+        "endLine": 5863,
+        "endChar": 47
+      },
+      "revId": "9671820358af640aee72144ad7f5970e00ccd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2668cb4b_8e1cc18f",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -270,6 +504,30 @@
       "revId": "9671820358af640aee72144ad7f5970e00ccd122",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c824962b_e3b2bbd9",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6091,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-19T14:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2668cb4b_8e1cc18f",
+      "range": {
+        "startLine": 6090,
+        "startChar": 18,
+        "endLine": 6091,
+        "endChar": 37
+      },
+      "revId": "9671820358af640aee72144ad7f5970e00ccd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

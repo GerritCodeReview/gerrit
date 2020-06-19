@@ -164,6 +164,30 @@
       "revId": "1fe4e8ddbc3522135966520218cb75a73d46caff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6748920_a0a94e28",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-19T11:15:55Z",
+      "side": 1,
+      "message": "Thanks for the additional description in change 268173. It\u0027s much better than anything we had before and I also don\u0027t have more knowledge about that part of the code.",
+      "parentUuid": "fa2bc621_f543b9e5",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 28,
+        "endChar": 57
+      },
+      "revId": "1fe4e8ddbc3522135966520218cb75a73d46caff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

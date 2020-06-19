@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "7be63b51_0668cdf9",
+        "filename": "e2e-tests/src/test/resources/data/com/google/gerrit/scenarios/CheckMasterBranchReplica1.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-19T01:15:29Z",
+      "side": 1,
+      "message": "Two gerrit server instances. One listening on port 8080 or default (the \"replicator\"), and the other operating on port 8081 (the replica). Both also have differing ssh ports of course.",
+      "parentUuid": "0e972d0e_3e8fdad4",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 27
+      },
+      "revId": "f66981a2e27df2267ce4c69f8f6d857107d4795f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aca9ae75_cc07232f",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
         "patchSetId": 2
@@ -310,6 +334,30 @@
     },
     {
       "key": {
+        "uuid": "b700e64d_7f50c699",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-19T01:15:29Z",
+      "side": 1,
+      "message": "However the scope of this showcase test scenario is simpler. This is just the beginning, a basic replication e2e test scenario for a simple localhost setup. And again, functional and not load or performance oriented. But it may serve as an example to help develop more complex or intense scenarios.\n\nWe need to start somewhere I think. This should feed the cause of iteratively sharing otherwise internal (duplicated, expensive) smoke and load test suites. Automating those e2e suites come with the price of repeating frameworks over and over. Plus, a second level of reuse is reached when the same framework resources get used not only for functional but also load purposes (and vice-versa). The gc-conductor case I previously mentioned is a good example of doing just that.",
+      "parentUuid": "a6d8f0a6_e69c1b05",
+      "range": {
+        "startLine": 47,
+        "startChar": 12,
+        "endLine": 47,
+        "endChar": 37
+      },
+      "revId": "f66981a2e27df2267ce4c69f8f6d857107d4795f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "865051b3_8f371e24",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
         "patchSetId": 2
@@ -369,6 +417,30 @@
       "side": 1,
       "message": "I am wondering if then the test could be rewritten simpler without Gatling then? If we are not using Gatling for load testing, I am not sure is the right tool.\n\nE2E testing is cool and Gatling allows you to create scenarios. But the scenarios should be parametrised with variables to scale up users and demonstrate that the scenarios are scalable.\n\nIn the home page of Gatling you see \"load test as code\", where \"load\" is important.\n\nWe can definitely start with E2E tests but the \"load\" factor should be parametrised so that the scenarios can be replicated for load.\n\nExample: introduce variables for the number of users, for the project names, etc.\n\nHaving more users on different projects, each scenarios can work in isolation and not interfere between each other.  That allows later on to scale the users and projects and make sure that the timings are flat and the system is scalable.",
       "parentUuid": "031ab661_067d84d2",
+      "range": {
+        "startLine": 54,
+        "startChar": 18,
+        "endLine": 54,
+        "endChar": 19
+      },
+      "revId": "f66981a2e27df2267ce4c69f8f6d857107d4795f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "711c8f46_8dafdde3",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-19T01:15:29Z",
+      "side": 1,
+      "message": "Agree. Now, that is not exactly the scope or goal of this specific change, as previously discussed. But we should definitely continue growing the core framework and surrounding core or plugin scenarios, for load yes but also functional e2e reuse. That goal is why I\u0027ve been spending a lot of Ericsson\u0027s time (and my own), on iterating over humble steps that way.",
+      "parentUuid": "6999d1e5_7b6ae463",
       "range": {
         "startLine": 54,
         "startChar": 18,

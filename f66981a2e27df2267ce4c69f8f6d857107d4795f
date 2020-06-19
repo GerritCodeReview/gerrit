@@ -192,6 +192,30 @@
     },
     {
       "key": {
+        "uuid": "09392677_3a77d34c",
+        "filename": "e2e-tests/src/test/resources/data/com/google/gerrit/scenarios/CheckMasterBranchReplica1.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-19T22:04:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7be63b51_0668cdf9",
+      "range": {
+        "startLine": 3,
+        "startChar": 19,
+        "endLine": 3,
+        "endChar": 27
+      },
+      "revId": "f66981a2e27df2267ce4c69f8f6d857107d4795f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aca9ae75_cc07232f",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
         "patchSetId": 2
@@ -358,6 +382,30 @@
     },
     {
       "key": {
+        "uuid": "def7a85e_03ad6b30",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-19T22:04:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b700e64d_7f50c699",
+      "range": {
+        "startLine": 47,
+        "startChar": 12,
+        "endLine": 47,
+        "endChar": 37
+      },
+      "revId": "f66981a2e27df2267ce4c69f8f6d857107d4795f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "865051b3_8f371e24",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
         "patchSetId": 2
@@ -441,6 +489,30 @@
       "side": 1,
       "message": "Agree. Now, that is not exactly the scope or goal of this specific change, as previously discussed. But we should definitely continue growing the core framework and surrounding core or plugin scenarios, for load yes but also functional e2e reuse. That goal is why I\u0027ve been spending a lot of Ericsson\u0027s time (and my own), on iterating over humble steps that way.",
       "parentUuid": "6999d1e5_7b6ae463",
+      "range": {
+        "startLine": 54,
+        "startChar": 18,
+        "endLine": 54,
+        "endChar": 19
+      },
+      "revId": "f66981a2e27df2267ce4c69f8f6d857107d4795f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70330cd0_007c6443",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-19T22:04:56Z",
+      "side": 1,
+      "message": "Gotcha, however, replacing a \"magic value\" of 1 with a variable doesn\u0027t look like a big effort and could be included in this change.\n\nAlso, this part of the setup should be part of the scenario IMHO: setup is typically preparing more the environment while the scenario is executing the actions of the test case.",
+      "parentUuid": "711c8f46_8dafdde3",
       "range": {
         "startLine": 54,
         "startChar": 18,

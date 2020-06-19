@@ -22,6 +22,30 @@
       "revId": "ae3c6a031a98278b3c9b8f9262d374df324f9553",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7eb3ccae_5e8e523d",
+        "filename": "java/com/google/gerrit/httpd/WebSessionManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-19T08:39:23Z",
+      "side": 1,
+      "message": "\u003e Does this `asMap()` really work for you?\n\u003e \n\u003e For me, it fails with an `UnsupportedOperationException`.\n\u003e \n\u003e As I said before on I0b09bbf96dcad2c5d13f7faa07bcf69212355918:\n\u003e \n\u003e \u003e [...] But I tried back then, and the Cache\u0027s `asMap` method is not implemented for persistent Caches\n\u003e \u003e (See `H2CacheImpl`, whose `asMap` implementation is taken from `AbstractCache`, which just\n\u003e \u003e throws an `UnsupportedOperationException`. And the corresponding H2-backed persistence does\n\u003e \u003e not offer a nice and easy way to iterate over values either).\n\nIn that case you could just keep a reverse lookup between the account-id and the associated sessions, and that would work.\nLet me change it in that direction, just as an example.",
+      "parentUuid": "583ac546_d106a259",
+      "range": {
+        "startLine": 334,
+        "startChar": 16,
+        "endLine": 334,
+        "endChar": 23
+      },
+      "revId": "ae3c6a031a98278b3c9b8f9262d374df324f9553",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

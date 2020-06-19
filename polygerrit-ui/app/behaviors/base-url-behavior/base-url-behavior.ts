@@ -29,4 +29,3 @@ export const BaseUrlBehavior = {
 // temporary assign global variables.
 window.Gerrit = window.Gerrit || {};
 window.Gerrit.BaseUrlBehavior = BaseUrlBehavior;
-

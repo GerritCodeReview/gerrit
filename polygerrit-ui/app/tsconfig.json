@@ -7,7 +7,7 @@
     "checkJs": false, /* Report errors in .js files. */
     "declaration": false, /* Generates corresponding '.d.ts' file. */
     "declarationMap": false, /* Generates a sourcemap for each corresponding '.d.ts' file. */
-    "sourceMap": true, /* Generates corresponding '.map' file. */
+    "inlineSourceMap": true,
     "outDir": "../_ts-app-out", /* Redirect output structure to the directory. */
     "rootDir": ".", /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
     "removeComments": false, /* Emit comments to output*/

@@ -81,6 +81,24 @@
       "revId": "9f0b75a9528e218fd5bffaafd049da66b964a904",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "348d2439_8c3edfa9",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 766,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-19T08:36:07Z",
+      "side": 1,
+      "message": "As discussed in chat, what we need in the end is some guarantee that in the same update (\u003dsame commit) we only ever add a single footer for a single person. It would work otherwise as well if the parser is smart enough, but duplicate footers in the same commit message leave a bad taste as the data looks like there is a programmer error.",
+      "parentUuid": "b40c3e98_5f98174f",
+      "revId": "9f0b75a9528e218fd5bffaafd049da66b964a904",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

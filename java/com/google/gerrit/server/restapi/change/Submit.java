@@ -215,7 +215,7 @@ public class Submit
       }
 
       if (updatedChange.isMerged()) {
-        return Response.ok(new Output(change));
+        return Response.ok(new Output(updatedChange));
       }
 
       String msg =

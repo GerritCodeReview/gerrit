@@ -134,6 +134,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String topic;
   private String commit;
   private Map<Account.Id, AttentionSetUpdate> plannedAttentionSetUpdates;
+  private boolean ignoreDefaultAttentionSetRules;
   private Optional<Account.Id> assignee;
   private Set<String> hashtags;
   private String changeMessage;
@@ -407,7 +408,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         .forEach(u -> plannedAttentionSetUpdates.putIfAbsent(u.account(), u));
   }
 
+  /**
+   * If we need to ignore default attention set rules, no need to add any new updates in this class.
+   */
   public void addToPlannedAttentionSetUpdates(AttentionSetUpdate update) {
+    if (ignoreDefaultAttentionSetRules) {
+      return;
+    }
     addToPlannedAttentionSetUpdates(ImmutableSet.of(update));
   }
 
@@ -819,6 +826,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       }
       addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));
     }
+  }
+
+  /**
+   * When set, default attention set rules are ignored (E.g, adding reviewers -> adds to attention
+   * set, etc).
+   */
+  public void ignoreDefaultAttentionSetRules() {
+    ignoreDefaultAttentionSetRules = true;
   }
 
   private void addPatchSetFooter(StringBuilder sb, int ps) {

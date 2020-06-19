@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.AddToAttentionSetOp;
+import com.google.gerrit.server.change.AttentionSetUnchangedOp;
 import com.google.gerrit.server.change.RemoveFromAttentionSetOp;
 import com.google.gerrit.server.change.ReviewerAdder;
 import com.google.gerrit.server.change.RevisionResource;
@@ -79,6 +80,16 @@ public class PostReviewAttentionSet {
       List<ReviewerAdder.ReviewerAddition> reviewerResults)
       throws BadRequestException, IOException, PermissionBackendException,
           UnprocessableEntityException, ConfigInvalidException {
+
+    if (input.removeFromAttentionSet != null
+        && input.addToAttentionSet != null
+        && input.removeFromAttentionSet.isEmpty()
+        && input.addToAttentionSet.isEmpty()) {
+      // If both lists are empty (and not null), it means that the attention set must not change.
+      bu.addOp(revision.getChange().getId(), new AttentionSetUnchangedOp());
+      return;
+    }
+
     Set<Account.Id> accountsChangedInCommit = new HashSet();
     // If we specify a user to remove, we remove it.
     if (input.removeFromAttentionSet != null) {

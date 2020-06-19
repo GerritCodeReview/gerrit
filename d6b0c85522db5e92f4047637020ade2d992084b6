@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7949cdea_7abb2031",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-19T10:33:01Z",
+      "side": 1,
+      "message": "I am not really happy with gr-diff-highlight dealing with aspects that should be dealt with by the ranged-comment-layer. \u0027rangeHighlight\u0027 is a class that should not be known or used outside of it.\n\nCan this logic be moved to line 150 of the layer where hover-changes are handled?",
+      "revId": "d6b0c85522db5e92f4047637020ade2d992084b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

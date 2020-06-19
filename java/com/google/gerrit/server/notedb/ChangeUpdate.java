@@ -134,6 +134,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String topic;
   private String commit;
   private Map<Account.Id, AttentionSetUpdate> plannedAttentionSetUpdates;
+  private boolean blockAttentionSetUpdates;
   private Optional<Account.Id> assignee;
   private Set<String> hashtags;
   private String changeMessage;
@@ -798,12 +799,16 @@ public class ChangeUpdate extends AbstractChangeUpdate {
    * method is called after all the updates are finished to do the updates once and for real.
    */
   private void updateAttentionSet(StringBuilder msg) {
-    if (plannedAttentionSetUpdates == null) {
+    if (plannedAttentionSetUpdates == null || blockAttentionSetUpdates == true) {
       return;
     }
     for (AttentionSetUpdate attentionSetUpdate : plannedAttentionSetUpdates.values()) {
       addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));
     }
+  }
+
+  public void doNotPerformAttentionSetUpdates() {
+    blockAttentionSetUpdates = true;
   }
 
   private void addPatchSetFooter(StringBuilder sb, int ps) {

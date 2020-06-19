@@ -75,6 +75,10 @@ public class ReviewInput {
    */
   public boolean ready;
 
+  /**
+   * If both addToAttentionSet and removeFromAttentionSet are empty, and not null, the attention set
+   * will not change
+   */
   /** Users that should be added to the attention set of this change. */
   public List<AttentionSetInput> addToAttentionSet;
 
@@ -164,6 +168,12 @@ public class ReviewInput {
       removeFromAttentionSet = new ArrayList<>();
     }
     removeFromAttentionSet.add(input);
+    return this;
+  }
+
+  public ReviewInput blockAttentionSetUpdates() {
+    removeFromAttentionSet = new ArrayList<>();
+    addToAttentionSet = new ArrayList<>();
     return this;
   }
 

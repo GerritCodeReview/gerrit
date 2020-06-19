@@ -150,7 +150,6 @@ module.exports = {
       }
     }],
     "import/named": 2,
-    "import/no-unresolved": 2,
     "import/no-self-import": 2,
     // The no-cycle rule is slow, because it doesn't cache dependencies.
     // Disable it.
@@ -174,6 +173,19 @@ module.exports = {
     "security": "readonly",
   },
   "overrides": [
+    {
+      // .js-only rules
+      "files": ["**/*.js"],
+      "rules": {
+        // The rule is required for .js files only, because typescript compiler
+        // always checks import.
+        "import/no-unresolved": 2,
+      }
+    },
+    {
+      "files": ["**/*.ts"],
+      "extends": [require.resolve("gts/.eslintrc.json")],
+    },
     {
       "files": ["*.html", "test.js", "test-infra.js", "template_test.js"],
       "rules": {

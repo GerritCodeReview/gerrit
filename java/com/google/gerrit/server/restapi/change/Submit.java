@@ -214,7 +214,7 @@ public class Submit
 
       updatedChange = op.merge(change, submitter, true, input, false);
       if (updatedChange.isMerged()) {
-        return Response.ok(new Output(change));
+        return Response.ok(new Output(updatedChange));
       }
 
       throw new IllegalStateException(

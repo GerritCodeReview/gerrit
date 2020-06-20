@@ -129,6 +129,7 @@ import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.transport.UserAgent;
 import org.kohsuke.args4j.Option;
 
 /** Run SSH daemon portions of Gerrit. */
@@ -359,6 +360,8 @@ public class Daemon extends SiteProgram {
       initHttpd();
     }
 
+    initGit();
+
     manager.start();
   }
 
@@ -516,6 +519,10 @@ public class Daemon extends SiteProgram {
     sshInjector = createSshInjector();
     sysInjector.getInstance(PluginGuiceEnvironment.class).setSshInjector(sshInjector);
     manager.add(sshInjector);
+  }
+
+  private void initGit() {
+    UserAgent.set("JGit/Gerrit-" + com.google.gerrit.common.Version.getVersion());
   }
 
   private Injector createSshInjector() {

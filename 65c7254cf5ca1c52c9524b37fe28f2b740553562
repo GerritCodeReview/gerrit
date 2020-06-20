@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1a10c2d_c2d6ba40",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 525,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-20T14:50:15Z",
+      "side": 1,
+      "message": "Not sure what format we should choose.\n\n* `Gerrit/$VERSION`\n* `Gerrit-JGit/$VERSION`\n* `Gerrit/JGit/$VERSION`\n* `JGit/Gerrit-$VERSION`\n* Something else\n\nI started off with `JGit/Gerrit-$VERSION` as JGit asks for starting the user agent in JGit. See\n\nhttps://github.com/eclipse/jgit/blob/master/org.eclipse.jgit/src/org/eclipse/jgit/transport/UserAgent.java#L77",
+      "range": {
+        "startLine": 525,
+        "startChar": 19,
+        "endLine": 525,
+        "endChar": 31
+      },
+      "revId": "65c7254cf5ca1c52c9524b37fe28f2b740553562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

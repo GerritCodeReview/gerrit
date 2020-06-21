@@ -9,6 +9,46 @@ problems are often highlighted and we find it hard to look
 beyond simple spacing issues.  Blame it on our short attention
 spans, we really do want your code.
 
+[[branch]]
+== Branch
+
+When preparing a change, it helps to choose the correct branch right
+from the start to avoid having to rebase your work late in the
+process. Regardless of the branch your changes land in: Older branches
+are regularly (about every other day) merged into newer branches. So
+if your commit lands in `stable-3.0`, it will soon get merged into
+`stable-3.1`, from there into `stable-3.2`, and so on until it lands
+in `master`. Here are some general guidelines on which branch to start
+your work:
+
+* Fresh, new features should go into the newest branch that you can
+  run (or `master` branch, if you don't run a Gerrit).
+* Improvements of existing features should go into the oldest branch
+  that will allow an easy merge to master.
+* Bug fixes should go into the oldest affected and still supported
+  stable branch.
+
+For the following examples, let's assume `stable-3.0` is the oldest
+support branch.
+
+If you want to develop a fresh, new feature and you do not care about
+the Gerrit version, start on `master`.
+
+If you want to develop a fresh, new feature and are currently running
+Gerrit v3.1, start on `stable-3.1` (i.e.: freshest branch that you
+benefit from).
+
+If you want to improve on a feature that got introduced in
+`stable-2.16`, start on `stable-3.0`. But if you realize that you'll
+have to implement tests that would be hard to translate from EasyMock
+(which is used in `stable-3.0`) to Mockito (available since
+`stable-3.1`), start on (or move on to) `stable-3.1` to lessen the
+merge burden for maintainers (i.e.: oldest branch that allows easy
+merge to master).
+
+If you want to fix a bug that got introduced in `stable-2.16`, start
+on `stable-3.0` (i.e.: oldest supported and affected branch).
+
 [[commit-message]]
 == Commit Message
 

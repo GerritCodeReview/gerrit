@@ -2,7 +2,7 @@
 
 # This is a variant of the `workspace_status.py` script that in addition to
 # plain `git describe` implements a few heuristics to arrive at more to the
-# point stamps for plugins. But due to the implemented heuristics, it will
+# point stamps for directories. But due to the implemented heuristics, it will
 # typically take longer to run (especially if you use lots of plugins that
 # come without tags) and might slow down your development cycle when used
 # as default.
@@ -98,28 +98,30 @@ def revision(template=None):
     return revision_with_match(None)
 
 
-def print_stamps_for_plugin(name, template):
+# prints the stamps for the current working directory
+def print_stamps_for_cwd(name, template):
     workspace_status_script = os.path.join('tools', 'workspace_status_release.py')
     if os.path.isfile(workspace_status_script):
-        # plugin has own workspace_status_command, so we use stamps from that
+        # directory has own workspace_status_command, so we use stamps from that
         for line in run(["python", workspace_status_script]).split('\n'):
             if re.search("^STABLE_[a-zA-Z0-9().:@/_ -]*$", line):
                 print(line)
     else:
-        # plugin lacks own workspace_status_command no we create default stamp
+        # directory lacks own workspace_status_command no we create default stamp
         v = revision(template)
         print('STABLE_BUILD_%s_LABEL %s' % (name.upper(),
                                             v if v else 'unknown'))
 
 
 # os.chdir is different from plain `cd` in shells in that follows symlinks and does not update the
-# PWD environment. So when using os.chdir into a symlinked plugin directory from gerrit's plugin
-# directory, we cannot recover gerrit's directory. This prevents plugin `workspace_status.py`
-# scripts to detect the name they were symlinked as (E.g.: it-* plugins sometimes get linked in
-# more than once under different names) and to detect gerrit's root directory. To work around this
-# problem, we mimick the `cd` of ordinary shells. Using this function symlink information is
-# preserved in the `PWD` environment variable (as it is for example also done in bash) and plugin
-# `workspace_status.py` scripts can pick up the needed information from there.
+# PWD environment. So when using os.chdir change into a symlinked directory from gerrit's
+# `plugins` or `modules` directory, we cannot recover gerrit's directory. This prevents the
+# plugin's/module's `workspace_status.py` scripts to detect the name they were symlinked as
+# (E.g.: it-* plugins sometimes get linked in more than once under different names) and to detect
+# gerrit's root directory. To work around this problem, we mimick the `cd` of ordinary shells.
+# Using this function, symlink information is preserved in the `PWD` environment variable (as it
+# is for example also done in bash) and plugin/module `workspace_status.py` scripts can pick up
+# the needed information from there.
 def cd(absolute_path):
     os.environ['PWD']=absolute_path
     os.chdir(absolute_path)
@@ -129,12 +131,14 @@ def print_stamps():
     cd(ROOT)
     GERRIT_VERSION=revision()
     print("STABLE_BUILD_GERRIT_LABEL %s" % GERRIT_VERSION)
-    for d in os.listdir(os.path.join(ROOT, 'plugins')):
-        p = os.path.join(ROOT, 'plugins', d)
-        if os.path.isdir(p):
-            cd(p)
-            name = os.path.basename(p)
-            print_stamps_for_plugin(name, GERRIT_VERSION)
+    for kind in ['modules', 'plugins']:
+        kind_dir = os.path.join(ROOT, kind)
+        for d in os.listdir(kind_dir) if os.path.isdir(kind_dir) else []:
+            p = os.path.join(kind_dir, d)
+            if os.path.isdir(p):
+                cd(p)
+                name = os.path.basename(p)
+                print_stamps_for_cwd(name, GERRIT_VERSION)
 
 
 if __name__ == '__main__':

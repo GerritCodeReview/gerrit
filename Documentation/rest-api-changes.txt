@@ -2757,9 +2757,9 @@ entity is returned.
 
 Adds a single user to the attention set of a change.
 
-A user can be added even if the user is already in the
-attention set. It will update the reason for addition
-and the timestamp.
+A user can only be added if they are not in the attention set.
+If a user is added while already in the attention set, the
+request is silently ignored.
 
 .Request
 ----
@@ -5850,10 +5850,9 @@ In this case, use a POST request instead:
 
 Deletes a single user from the attention set of a change.
 
-A user can be removed even if the user is not in the
-attention set. Also, if a user was already removed, that
-user can be removed again which updates the reason for
-removal and the timestamp.
+A user can only be removed from the attention set if they
+are currently in the attention set. Otherwise, the request
+is silently ignored.
 
 .Request
 ----

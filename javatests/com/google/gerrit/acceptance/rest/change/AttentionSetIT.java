@@ -96,13 +96,8 @@ public class AttentionSetIT extends AbstractDaemonTest {
             fakeClock.now(), user.id(), AttentionSetUpdate.Operation.ADD, "first");
     assertThat(r.getChange().attentionSet()).containsExactly(expectedAttentionSetUpdate);
 
-    // Second add overrides the first add.
-    accountId =
-        change(r).addToAttentionSet(new AttentionSetInput(user.email(), "second"))._accountId;
-    assertThat(accountId).isEqualTo(user.id().get());
-    expectedAttentionSetUpdate =
-        AttentionSetUpdate.createFromRead(
-            fakeClock.now(), user.id(), AttentionSetUpdate.Operation.ADD, "second");
+    // Second addition is ignored.
+    change(r).addToAttentionSet(new AttentionSetInput(user.email(), "second"));
     assertThat(r.getChange().attentionSet()).containsExactly(expectedAttentionSetUpdate);
   }
 
@@ -142,12 +137,8 @@ public class AttentionSetIT extends AbstractDaemonTest {
             fakeClock.now(), user.id(), AttentionSetUpdate.Operation.REMOVE, "removed");
     assertThat(r.getChange().attentionSet()).containsExactly(expectedAttentionSetUpdate);
 
-    // Second removal overrides the first removal.
+    // Second removal is ignored the first removal.
     fakeClock.advance(Duration.ofSeconds(42));
-    change(r).attention(user.id().toString()).remove(new AttentionSetInput("removed again"));
-    expectedAttentionSetUpdate =
-        AttentionSetUpdate.createFromRead(
-            fakeClock.now(), user.id(), AttentionSetUpdate.Operation.REMOVE, "removed again");
     assertThat(r.getChange().attentionSet()).containsExactly(expectedAttentionSetUpdate);
   }
 
@@ -189,14 +180,11 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void removeUnrelatedUser() throws Exception {
+  public void removeUnrelatedUserIsNoOp() throws Exception {
     PushOneCommit.Result r = createChange();
     change(r).attention(user.id().toString()).remove(new AttentionSetInput("foo"));
 
-    AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
-    assertThat(attentionSet.reason()).isEqualTo("foo");
+    assertThat(r.getChange().attentionSet()).isEmpty();
   }
 
   @Test
@@ -396,7 +384,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void readyForReviewWhileRemovingReviewerDoesntAddThemToAttentionSet() throws Exception {
+  public void readyForReviewWhileRemovingReviewerRemovesThemFromAttentionSet() throws Exception {
     PushOneCommit.Result r = createChange();
     change(r).setWorkInProgress();
     change(r).addReviewer(user.email());
@@ -406,6 +394,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
     addReviewerInput.state = ReviewerState.CC;
     addReviewerInput.reviewer = user.email();
     reviewInput.reviewers = ImmutableList.of(addReviewerInput);
+    change(r).addToAttentionSet(new AttentionSetInput(user.email(), "reason"));
     change(r).current().review(reviewInput);
 
     AttentionSetUpdate attentionSet =
@@ -463,6 +452,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void reviewRemovesManuallyRemovedUserFromAttentionSet() throws Exception {
     PushOneCommit.Result r = createChange();
+    change(r).addToAttentionSet(new AttentionSetInput(user.email(), "reason"));
 
     ReviewInput reviewInput = ReviewInput.create().removeFromAttentionSet(user.email(), "reason");
     change(r).current().review(reviewInput);
@@ -499,6 +489,8 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void reviewAddReviewerWhileRemovingFromAttentionSetJustRemovesUser() throws Exception {
     PushOneCommit.Result r = createChange();
+    change(r).addToAttentionSet(new AttentionSetInput(user.email(), "addition"));
+
     ReviewInput reviewInput =
         ReviewInput.create().reviewer(user.email()).removeFromAttentionSet(user.email(), "reason");
 
@@ -566,6 +558,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     change(r).setWorkInProgress();
     change(r).addReviewer(user.email());
+    change(r).addToAttentionSet(new AttentionSetInput(user.email(), "reason"));
 
     ReviewInput reviewInput =
         ReviewInput.create().setReady(true).removeFromAttentionSet(user.email(), "reason");
@@ -588,6 +581,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
     ReviewInput reviewInput =
         ReviewInput.create().setWorkInProgress(true).addToAttentionSet(user.email(), "reason");
 
+    change(r).attention(user.email()).remove(new AttentionSetInput("removal"));
     change(r).current().review(reviewInput);
 
     // Attention set updates that relate to the admin (the person who replied) are filtered out.
@@ -601,7 +595,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void reviewRemovesUserFromAttentionSet() throws Exception {
     PushOneCommit.Result r = createChange();
-
+    change(r).addToAttentionSet(new AttentionSetInput(admin.email(), "reason"));
     ReviewInput reviewInput = new ReviewInput();
     change(r).current().review(reviewInput);
 
@@ -630,6 +624,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     requestScopeOperations.setApiUser(user.id());
 
+    change(r).addToAttentionSet(new AttentionSetInput(user.email(), "reason"));
     ReviewInput reviewInput = ReviewInput.create().reviewer(user.email());
     change(r).current().review(reviewInput);
 
@@ -638,6 +633,18 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet.account()).isEqualTo(user.id());
     assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
     assertThat(attentionSet.reason()).isEqualTo("removed on reply");
+  }
+
+  @Test
+  public void reviewWhileAddingThemselvesAsReviewerDoesNotAddThem() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    ReviewInput reviewInput = ReviewInput.create().reviewer(user.email());
+    change(r).current().review(reviewInput);
+
+    assertThat(getAttentionSetUpdatesForUser(r, user)).isEmpty();
   }
 
   @Test
@@ -720,6 +727,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
     ReviewInput reviewInput = new ReviewInput();
     change(r).current().review(reviewInput);
 
+    change(r).attention(user.email()).remove(new AttentionSetInput("reason"));
     reviewInput = new ReviewInput();
     change(r).current().review(reviewInput);
 
@@ -742,6 +750,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     // add reviewer and cc
     change(r).addReviewer(user.email());
+    change(r)
+        .attention(user.email())
+        .remove(new AttentionSetInput("Reviewer is not in attention-set"));
     TestAccount cc = accountCreator.admin2();
     AddReviewerInput input = new AddReviewerInput();
     input.state = ReviewerState.CC;
@@ -806,10 +817,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
     change(r).addReviewer(input);
 
     requestScopeOperations.setApiUser(user.id());
-    ReviewInput reviewInput = new ReviewInput();
-    change(r).current().review(reviewInput);
+    change(r).attention(reviewer.email()).remove(new AttentionSetInput("reason"));
 
-    reviewInput = new ReviewInput();
+    ReviewInput reviewInput = new ReviewInput();
     change(r).current().review(reviewInput);
 
     // cc not added
@@ -832,6 +842,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void repliesWhileAddingAsReviewerStillRemovesUser() throws Exception {
     PushOneCommit.Result r = createChange();
+    change(r).addToAttentionSet(new AttentionSetInput(user.email(), "remove"));
 
     requestScopeOperations.setApiUser(user.id());
     ReviewInput reviewInput = ReviewInput.create().recommend();

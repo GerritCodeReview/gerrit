@@ -42,3 +42,9 @@ for d in os.listdir(os.path.join(ROOT, 'plugins')):
         v = revision(p, ROOT)
         print('STABLE_BUILD_%s_LABEL %s' % (os.path.basename(p).upper(),
                                             v if v else 'unknown'))
+for d in os.listdir(os.path.join(ROOT, 'modules')):
+    p = os.path.join('modules', d)
+    if os.path.isdir(p):
+        v = revision(p, ROOT)
+        print('STABLE_BUILD_%s_LABEL %s' % (os.path.basename(p).upper(),
+                                            v if v else 'unknown'))

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6c7e90c_9c8358a7",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-21T12:46:07Z",
+      "side": 1,
+      "message": "Totally not sure if these 3 items are remotely what we want to employ.\nBut I obviously failed to hit the correct branch for quite a few\nchanges lately, so I figured it\u0027s better to start discussing what is\nexpected.",
+      "revId": "6ea27651ebd243494b80cd33b7d9d966dff06512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

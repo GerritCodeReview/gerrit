@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79401e26_a492c456",
+        "filename": "tools/workspace_status.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-21T18:16:22Z",
+      "side": 1,
+      "message": "Not sure if we want to, but the duplication of the whole block can be omitted\nby wrapping it in a\n\n  for kind [\u0027plugins\u0027, \u0027modules\u0027]:\n\nloop and using `kind` instead of \u0027plugins\u0027/\u0027modules\u0027 within the loop.\n\nI\u0027ve implemented it like that for workspace_status_release.py in\nIeffd7009f2eb009333e9afcdcc4fff3b12b0e3a0",
+      "revId": "781304548df96b4ba040787e04141a43dd2a6089",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

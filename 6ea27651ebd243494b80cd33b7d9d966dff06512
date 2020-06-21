@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "cd5922a8_bb1df3fa",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-21T14:50:43Z",
+      "side": 1,
+      "message": "I know there are no hard and fast rules for this, but having some guidelines\nwould certainly help.\n\nBut I can see that writing it down might be hurtful as it removes part of a\ngrey area. So if you prefer to not have this section at all, it\u0027s more than\nunderstandable and I\u0027ll easily abandon this change :-)",
+      "parentUuid": "86983464_3de4f227",
+      "revId": "6ea27651ebd243494b80cd33b7d9d966dff06512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e64c735f_b16fb71e",
         "filename": "Documentation/dev-crafting-changes.txt",
         "patchSetId": 2
@@ -48,6 +66,30 @@
       "writtenOn": "2020-06-21T12:52:08Z",
       "side": 1,
       "message": "Typically a completely new feature should be done on master.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 14
+      },
+      "revId": "6ea27651ebd243494b80cd33b7d9d966dff06512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb3ccffa_d03d1597",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-21T14:50:43Z",
+      "side": 1,
+      "message": "I can see that. And I know that a few years back it was far more strict\n\"develop features on master and have bugfixes on all supported, affected\nbranches.\"\n\nThat made it hard to contribute from/for sites that ran an old version.\n\nI see that the rule is no longer that strict as it once was. And I like\nthat, because it makes contributing so much easier. WMF is on 2.15 and we\nfirst targeted to upgrade to 3.1 and changed into upgrading straight to\n3.2 next Saturday. Being able to upload changes on stable-3.1 and\nstable-3.2 helps us scratch our itches while it brings new features to\nevery user.\n\nBut I struggle to find out on which branch to best submit things, so I\u0027m\ntrying to distill some guidelines.\n\nFor example, one thing I struggled with when getting back to WMFs Gerrit was\nthat I did not know which plugn ran in which version and how they got built etc.\nSome relevant people were no longer around and it seems artifacts got deployed\nfrom private commits that cannot be recreated.\nSo I worked on that a bit. And for example getting the API version into the plugin\njars\u0027 manifests is a new feature, so it should go into master. That means,\nWMF does not get to use that in the upcoming 3.2 upgrade (unless we fork).\nSince I find the version that useful, I instead of master uploaded for\nstable-2.16 and it landed fine. I think that is a good violation of the old,\nstrict rule.\nSo even 2.16 users can now check if all plugins they run got build with the\ncorrect API with a few lines of shell code.\n\nShowing this API version in the UI is also a new, but separate feature. So it\nshould go into master as well. I instead uploaded for stable-3.1 as that\u0027s\nwhere we\u0027d thought we\u0027d like to use it. And I was told to move it onto an\neven older branch.\n\nThe reindex speedup that you recently reviewed for me (Thanks again!) should\nhave been uploaded for master, as it\u0027s not a bug fix, but an improvement.\nIf uploading for master is required for such things, it limits the value\nusers con get out of it. And it might be cheaper for WMFs to keep such\ncode unpublished instead of having it to develop for a version they cannot use.\n\nAnd since some time, WMF had a plugin called barricade that mitigated\nthe \"HTTP session use of inactive users\" issue. It was the quickest and\ncheapest way to get their code running. They only need to develop for their running\nGerrit and do not need to pass reviews (aka great quality control) etc.\nWMF was fully supportive of me trying to get that upstream, and it is now merged\nin a completely different form for the benefit of everyone.\nIf we had to submit for master, it would probably have gotten green light only\nbecause WMF is awesome around Open Source, but their (immediate) benefit would\nvanish completely. It would have only cost them.\n\nI\u0027m sure other organizations/cooperations are in a similar position. So there is real\nvalue in allowing new features older branches.\n\nAs you see above, there are plenty of examples of new features landing in older\nbranches. It it provides value. Having that written down in a guideline document\nwould help me to feel more confident when uploading changes.",
+      "parentUuid": "e64c735f_b16fb71e",
       "range": {
         "startLine": 38,
         "startChar": 0,

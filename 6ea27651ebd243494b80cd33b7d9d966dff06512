@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "86983464_3de4f227",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-21T12:53:55Z",
+      "side": 1,
+      "message": "TBH there\u0027s no hard and fast rule for this.  Often a fix will get accepted on the branch it was originally pushed for, and then get cherry picked by one of the maintainers (or someone else) back to an earlier branch.",
+      "parentUuid": "e6c7e90c_9c8358a7",
+      "revId": "6ea27651ebd243494b80cd33b7d9d966dff06512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e64c735f_b16fb71e",
         "filename": "Documentation/dev-crafting-changes.txt",
         "patchSetId": 2

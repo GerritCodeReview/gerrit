@@ -258,7 +258,6 @@ public class AccountIT extends AbstractDaemonTest {
     ProjectConfig cfg = projectCache.get(project).orElseThrow(illegalState(project)).getConfig();
     AccessSection accessSection = cfg.getAccessSection(ref);
     assertThat(accessSection).isNotNull();
-
     String permissionName = Permission.LABEL + labelName;
     Permission permission = accessSection.getPermission(permissionName);
     assertPermission(permission, permissionName, exclusive, labelName);

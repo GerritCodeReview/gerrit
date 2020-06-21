@@ -244,7 +244,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
                 + " return new patch set instance",
             oldPsId,
             newPsId);
-        // Ok to use stale notes to get the old patch set, which didn't change
+        // Ok to use stale notes to get the old patch set, which didn't change``
         // during the submit strategy.
         mergedPatchSet =
             requireNonNull(

@@ -142,6 +142,30 @@
       "revId": "ae3c6a031a98278b3c9b8f9262d374df324f9553",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4cb30cb_21ba5296",
+        "filename": "java/com/google/gerrit/httpd/WebSessionManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-21T14:58:10Z",
+      "side": 1,
+      "message": "Looks good to me as well. I\u0027ll abandon then.\n\nThanks for your improved formulation of this fix and getting the security issue\naddressed!",
+      "parentUuid": "4dd5c1f1_b9c4c28e",
+      "range": {
+        "startLine": 334,
+        "startChar": 16,
+        "endLine": 334,
+        "endChar": 23
+      },
+      "revId": "ae3c6a031a98278b3c9b8f9262d374df324f9553",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

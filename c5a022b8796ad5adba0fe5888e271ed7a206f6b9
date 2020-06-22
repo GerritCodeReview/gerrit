@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d131567e_6b5925f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-22T20:41:25Z",
+      "side": 1,
+      "message": "I thought we had discussed that we want both? wasd, but also arrows",
+      "parentUuid": "4a835f9a_2304d14a",
+      "revId": "c5a022b8796ad5adba0fe5888e271ed7a206f6b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "56edd37b_5871504f",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 8

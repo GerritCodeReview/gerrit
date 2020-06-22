@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c96f2d17_9805e1aa",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-22T20:41:25Z",
+      "side": 1,
+      "message": "accident?",
+      "revId": "3457964a4c601b6475d5203bc20ea68063e41089",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

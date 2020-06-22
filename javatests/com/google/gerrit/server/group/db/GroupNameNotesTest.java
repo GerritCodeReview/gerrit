@@ -393,8 +393,8 @@ public class GroupNameNotesTest {
 
     ImmutableList<GroupReference> allGroups = GroupNameNotes.loadAllGroups(repo);
 
-    GroupReference group1 = new GroupReference(groupUuid1, groupName1.get());
-    GroupReference group2 = new GroupReference(groupUuid2, groupName2.get());
+    GroupReference group1 = GroupReference.create(groupUuid1, groupName1.get());
+    GroupReference group2 = GroupReference.create(groupUuid2, groupName2.get());
     assertThat(allGroups).containsExactly(group1, group2);
   }
 
@@ -406,8 +406,8 @@ public class GroupNameNotesTest {
 
     ImmutableList<GroupReference> allGroups = GroupNameNotes.loadAllGroups(repo);
 
-    GroupReference group1 = new GroupReference(groupUuid, groupName.get());
-    GroupReference group2 = new GroupReference(groupUuid, anotherGroupName.get());
+    GroupReference group1 = GroupReference.create(groupUuid, groupName.get());
+    GroupReference group2 = GroupReference.create(groupUuid, anotherGroupName.get());
     assertThat(allGroups).containsExactly(group1, group2);
   }
 
@@ -498,14 +498,14 @@ public class GroupNameNotesTest {
   @Test
   public void updateGroupNamesRejectsNonOneToOneGroupReferences() throws Exception {
     assertIllegalArgument(
-        new GroupReference(AccountGroup.uuid("uuid1"), "name1"),
-        new GroupReference(AccountGroup.uuid("uuid1"), "name2"));
+        GroupReference.create(AccountGroup.uuid("uuid1"), "name1"),
+        GroupReference.create(AccountGroup.uuid("uuid1"), "name2"));
     assertIllegalArgument(
-        new GroupReference(AccountGroup.uuid("uuid1"), "name1"),
-        new GroupReference(AccountGroup.uuid("uuid2"), "name1"));
+        GroupReference.create(AccountGroup.uuid("uuid1"), "name1"),
+        GroupReference.create(AccountGroup.uuid("uuid2"), "name1"));
     assertIllegalArgument(
-        new GroupReference(AccountGroup.uuid("uuid1"), "name1"),
-        new GroupReference(AccountGroup.uuid("uuid1"), "name1"));
+        GroupReference.create(AccountGroup.uuid("uuid1"), "name1"),
+        GroupReference.create(AccountGroup.uuid("uuid1"), "name1"));
   }
 
   @Test
@@ -554,7 +554,7 @@ public class GroupNameNotesTest {
 
   private GroupReference newGroup(String name) {
     int id = idCounter.incrementAndGet();
-    return new GroupReference(AccountGroup.uuid(name + "-" + id), name);
+    return GroupReference.create(AccountGroup.uuid(name + "-" + id), name);
   }
 
   private static PersonIdent newPersonIdent() {

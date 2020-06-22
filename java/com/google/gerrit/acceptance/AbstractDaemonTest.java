@@ -1257,7 +1257,7 @@ public abstract class AbstractDaemonTest {
 
   protected GroupReference groupRef(AccountGroup.UUID groupUuid) {
     GroupDescription.Basic groupDescription = groupBackend.get(groupUuid);
-    return new GroupReference(groupDescription.getGroupUUID(), groupDescription.getName());
+    return GroupReference.create(groupDescription.getGroupUUID(), groupDescription.getName());
   }
 
   protected InternalGroup group(String groupName) {
@@ -1269,7 +1269,7 @@ public abstract class AbstractDaemonTest {
   protected GroupReference groupRef(String groupName) {
     InternalGroup group = groupCache.get(AccountGroup.nameKey(groupName)).orElse(null);
     assertThat(group).isNotNull();
-    return new GroupReference(group.getGroupUUID(), group.getName());
+    return GroupReference.create(group.getGroupUUID(), group.getName());
   }
 
   protected AccountGroup.UUID groupUuid(String groupName) {

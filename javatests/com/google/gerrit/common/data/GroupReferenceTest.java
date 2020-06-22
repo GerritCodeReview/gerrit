@@ -58,7 +58,7 @@ public class GroupReferenceTest {
   public void create() {
     AccountGroup.UUID uuid = AccountGroup.uuid("uuid");
     String name = "foo";
-    GroupReference groupReference = new GroupReference(uuid, name);
+    GroupReference groupReference = GroupReference.create(uuid, name);
     assertThat(groupReference.getUUID()).isEqualTo(uuid);
     assertThat(groupReference.getName()).isEqualTo(name);
   }
@@ -68,7 +68,7 @@ public class GroupReferenceTest {
     // GroupReferences where the UUID is null are used to represent groups from project.config that
     // cannot be resolved.
     String name = "foo";
-    GroupReference groupReference = new GroupReference(name);
+    GroupReference groupReference = GroupReference.create(name);
     assertThat(groupReference.getUUID()).isNull();
     assertThat(groupReference.getName()).isEqualTo(name);
   }
@@ -76,7 +76,7 @@ public class GroupReferenceTest {
   @Test
   public void cannotCreateWithoutName() {
     assertThrows(
-        NullPointerException.class, () -> new GroupReference(AccountGroup.uuid("uuid"), null));
+        NullPointerException.class, () -> GroupReference.create(AccountGroup.uuid("uuid"), null));
   }
 
   @Test
@@ -98,40 +98,9 @@ public class GroupReferenceTest {
   }
 
   @Test
-  public void getAndSetUuid() {
-    AccountGroup.UUID uuid = AccountGroup.uuid("uuid-foo");
-    String name = "foo";
-    GroupReference groupReference = new GroupReference(uuid, name);
-    assertThat(groupReference.getUUID()).isEqualTo(uuid);
-
-    AccountGroup.UUID uuid2 = AccountGroup.uuid("uuid-bar");
-    groupReference.setUUID(uuid2);
-    assertThat(groupReference.getUUID()).isEqualTo(uuid2);
-
-    // GroupReferences where the UUID is null are used to represent groups from project.config that
-    // cannot be resolved.
-    groupReference.setUUID(null);
-    assertThat(groupReference.getUUID()).isNull();
-  }
-
-  @Test
-  public void getAndSetName() {
-    AccountGroup.UUID uuid = AccountGroup.uuid("uuid-foo");
-    String name = "foo";
-    GroupReference groupReference = new GroupReference(uuid, name);
-    assertThat(groupReference.getName()).isEqualTo(name);
-
-    String name2 = "bar";
-    groupReference.setName(name2);
-    assertThat(groupReference.getName()).isEqualTo(name2);
-
-    assertThrows(NullPointerException.class, () -> groupReference.setName(null));
-  }
-
-  @Test
   public void toConfigValue() {
     String name = "foo";
-    GroupReference groupReference = new GroupReference(AccountGroup.uuid("uuid-foo"), name);
+    GroupReference groupReference = GroupReference.create(AccountGroup.uuid("uuid-foo"), name);
     assertThat(groupReference.toConfigValue()).isEqualTo("group " + name);
   }
 
@@ -142,9 +111,9 @@ public class GroupReferenceTest {
     String name1 = "foo";
     String name2 = "bar";
 
-    GroupReference groupReference1 = new GroupReference(uuid1, name1);
-    GroupReference groupReference2 = new GroupReference(uuid1, name2);
-    GroupReference groupReference3 = new GroupReference(uuid2, name1);
+    GroupReference groupReference1 = GroupReference.create(uuid1, name1);
+    GroupReference groupReference2 = GroupReference.create(uuid1, name2);
+    GroupReference groupReference3 = GroupReference.create(uuid2, name1);
 
     assertThat(groupReference1.equals(groupReference2)).isTrue();
     assertThat(groupReference1.equals(groupReference3)).isFalse();
@@ -154,10 +123,10 @@ public class GroupReferenceTest {
   @Test
   public void testHashcode() {
     AccountGroup.UUID uuid1 = AccountGroup.uuid("uuid1");
-    assertThat(new GroupReference(uuid1, "foo").hashCode())
-        .isEqualTo(new GroupReference(uuid1, "bar").hashCode());
+    assertThat(GroupReference.create(uuid1, "foo").hashCode())
+        .isEqualTo(GroupReference.create(uuid1, "bar").hashCode());
 
     // Check that the following calls don't fail with an exception.
-    new GroupReference("bar").hashCode();
+    GroupReference.create("bar").hashCode();
   }
 }

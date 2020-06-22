@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.eclipse.jgit.annotations.Nullable;
 
 /**
  * File format for group name aliases.
@@ -56,7 +57,7 @@ public class GroupList extends TabFile {
       }
       AccountGroup.UUID uuid = AccountGroup.uuid(row.left);
       String name = row.right;
-      GroupReference ref = new GroupReference(uuid, name);
+      GroupReference ref = GroupReference.create(uuid, name);
 
       groupsByUUID.put(uuid, ref);
     }
@@ -64,10 +65,25 @@ public class GroupList extends TabFile {
     return new GroupList(groupsByUUID);
   }
 
+  @Nullable
   public GroupReference byUUID(AccountGroup.UUID uuid) {
     return byUUID.get(uuid);
   }
 
+  @Nullable
+  public GroupReference byName(String name) {
+    return byUUID.entrySet().stream()
+        .filter(e -> name.equals(e.getValue().getName()))
+        .map(Map.Entry::getValue)
+        .findAny()
+        .orElse(null);
+  }
+
+  /**
+   * Returns the {@link GroupReference} instance that {@link GroupList} holds on to that has the
+   * same {@link AccountGroup.UUID} as the argument. Will store the argument internally, if no group
+   * with this {@link AccountGroup.UUID} was stored previously.
+   */
   public GroupReference resolve(GroupReference group) {
     if (group != null) {
       if (group.getUUID() == null || group.getUUID().get() == null) {
@@ -84,6 +100,10 @@ public class GroupList extends TabFile {
       byUUID.put(group.getUUID(), group);
     }
     return group;
+  }
+
+  public void renameGroup(AccountGroup.UUID uuid, String name) {
+    byUUID.replace(uuid, GroupReference.create(uuid, name));
   }
 
   public Collection<GroupReference> references() {

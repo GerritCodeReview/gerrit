@@ -16,16 +16,18 @@ package com.google.gerrit.common.data;
 
 import static java.util.Objects.requireNonNull;
 
+import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
 
 /** Describes a group within a projects {@link AccessSection}s. */
-public class GroupReference implements Comparable<GroupReference> {
+@AutoValue
+public abstract class GroupReference implements Comparable<GroupReference> {
 
   private static final String PREFIX = "group ";
 
   public static GroupReference forGroup(GroupDescription.Basic group) {
-    return new GroupReference(group.getGroupUUID(), group.getName());
+    return GroupReference.create(group.getGroupUUID(), group.getName());
   }
 
   public static boolean isGroupReference(String configValue) {
@@ -40,10 +42,10 @@ public class GroupReference implements Comparable<GroupReference> {
     return configValue.substring(PREFIX.length()).trim();
   }
 
-  protected String uuid;
-  protected String name;
+  @Nullable
+  public abstract AccountGroup.UUID getUUID();
 
-  protected GroupReference() {}
+  public abstract String getName();
 
   /**
    * Create a group reference.
@@ -51,9 +53,8 @@ public class GroupReference implements Comparable<GroupReference> {
    * @param uuid UUID of the group, must not be {@code null}
    * @param name the group name, must not be {@code null}
    */
-  public GroupReference(AccountGroup.UUID uuid, String name) {
-    setUUID(requireNonNull(uuid));
-    setName(name);
+  public static GroupReference create(AccountGroup.UUID uuid, String name) {
+    return new AutoValue_GroupReference(requireNonNull(uuid), name);
   }
 
   /**
@@ -61,33 +62,12 @@ public class GroupReference implements Comparable<GroupReference> {
    *
    * @param name the group name, must not be {@code null}
    */
-  public GroupReference(String name) {
-    setUUID(null);
-    setName(name);
-  }
-
-  @Nullable
-  public AccountGroup.UUID getUUID() {
-    return uuid != null ? AccountGroup.uuid(uuid) : null;
-  }
-
-  public void setUUID(@Nullable AccountGroup.UUID newUUID) {
-    uuid = newUUID != null ? newUUID.get() : null;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String newName) {
-    if (newName == null) {
-      throw new NullPointerException();
-    }
-    this.name = newName;
+  public static GroupReference create(String name) {
+    return new AutoValue_GroupReference(null, name);
   }
 
   @Override
-  public int compareTo(GroupReference o) {
+  public final int compareTo(GroupReference o) {
     return uuid(this).compareTo(uuid(o));
   }
 
@@ -100,21 +80,21 @@ public class GroupReference implements Comparable<GroupReference> {
   }
 
   @Override
-  public int hashCode() {
+  public final int hashCode() {
     return uuid(this).hashCode();
   }
 
   @Override
-  public boolean equals(Object o) {
+  public final boolean equals(Object o) {
     return o instanceof GroupReference && compareTo((GroupReference) o) == 0;
   }
 
-  public String toConfigValue() {
-    return PREFIX + name;
+  @Override
+  public final String toString() {
+    return "Group[" + getName() + " / " + getUUID() + "]";
   }
 
-  @Override
-  public String toString() {
-    return "Group[" + getName() + " / " + getUUID() + "]";
+  public String toConfigValue() {
+    return PREFIX + getName();
   }
 }

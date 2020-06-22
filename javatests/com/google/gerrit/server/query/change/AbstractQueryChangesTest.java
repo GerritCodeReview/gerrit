@@ -1861,7 +1861,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       ProjectConfig config = projectConfigFactory.read(md);
       AccessSection s = config.getAccessSection(ref, true);
       Permission p = s.getPermission(permission, true);
-      PermissionRule rule = new PermissionRule(new GroupReference(groupUUID, groupUUID.get()));
+      PermissionRule rule = new PermissionRule(GroupReference.create(groupUUID, groupUUID.get()));
       rule.setForce(force);
       p.add(rule);
       config.commit(md);

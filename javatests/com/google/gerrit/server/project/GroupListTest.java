@@ -63,7 +63,7 @@ public class GroupListTest {
   @Test
   public void put() {
     AccountGroup.UUID uuid = AccountGroup.uuid("abc");
-    GroupReference groupReference = new GroupReference(uuid, "Hutzliputz");
+    GroupReference groupReference = GroupReference.create(uuid, "Hutzliputz");
 
     groupList.put(uuid, groupReference);
 
@@ -78,7 +78,7 @@ public class GroupListTest {
 
     assertEquals(2, result.size());
     AccountGroup.UUID uuid = AccountGroup.uuid("ebe31c01aec2c9ac3b3c03e87a47450829ff4310");
-    GroupReference expected = new GroupReference(uuid, "Administrators");
+    GroupReference expected = GroupReference.create(uuid, "Administrators");
 
     assertTrue(result.contains(expected));
   }

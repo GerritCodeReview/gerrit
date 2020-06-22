@@ -101,7 +101,8 @@ public class QueryListTest {
   public void testParseBad() throws Exception {
     List<ValidationError> errors = new ArrayList<>();
     assertThat(QueryList.parse(L_BAD, errors::add).asText()).isNull();
-    assertThat(errors).containsExactly(new ValidationError("queries", 1, "missing tab delimiter"));
+    assertThat(errors)
+        .containsExactly(ValidationError.create("queries", 1, "missing tab delimiter"));
   }
 
   @Test

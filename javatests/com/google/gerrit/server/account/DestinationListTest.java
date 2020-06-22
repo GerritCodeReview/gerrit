@@ -132,7 +132,7 @@ public class DestinationListTest {
     List<ValidationError> errors = new ArrayList<>();
     new DestinationList().parseLabel(LABEL, L_BAD, errors::add);
     assertThat(errors)
-        .containsExactly(new ValidationError("destinationslabel", 1, "missing tab delimiter"));
+        .containsExactly(ValidationError.create("destinationslabel", 1, "missing tab delimiter"));
   }
 
   @Test

@@ -16,6 +16,24 @@
       "revId": "cac2cc9b5f6941d9ff5dee277183e4fef636a787",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab8d5fe5_a57f19f3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-06-22T15:47:55Z",
+      "side": 1,
+      "message": "Can you please give an example?\n\nThis should not normally happen, but if you have a system like robot comments, where someone might be able to post a \"comment\" on a line that does not exist, or in any other way invalid data gets into the system, it\u0027s probably better to render all the other comments and not crash all comment rendering.",
+      "parentUuid": "6a25dacd_1056556a",
+      "revId": "cac2cc9b5f6941d9ff5dee277183e4fef636a787",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -8,7 +8,7 @@
     "declaration": false, /* Temporary disabled - generates corresponding '.d.ts' file. */
     "declarationMap": false, /* Generates a sourcemap for each corresponding '.d.ts' file. */
     "inlineSourceMap": true, /* We are using inlineSourceMap because it works better with the IDE test runner. */
-    "outDir": "../_ts-app-out", /* Redirect output structure to the directory. */
+    "outDir": "../../.ts-out/pg/", /* Redirect output structure to the directory. */
     "rootDir": ".", /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
     "removeComments": false, /* Emit comments to output*/
 
@@ -35,7 +35,9 @@
     "preserveSymlinks": true, /* Do not resolve the real path of symlinks. */
 
     /* Advanced Options */
-    "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
+    "forceConsistentCasingInFileNames": true, /* Disallow inconsistently-cased references to the same file. */
+
+    "incremental": true
 
   },
   // With the * pattern (without an extension), only supported files

@@ -237,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "3ab013fb_86e39af8",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-22T19:07:42Z",
+      "side": 1,
+      "message": "I personally tried convince a dev from gerrit stakeholder company to move a fix from master to stable-2.16 branch  (year ago or something as stable-2.16 was still active), but got the answer: Why would I invest my time, and spent the effort? Then I gave up and it was merged to master only. So, let\u0027s face it: it is not just a rule but someone would have to invest time and resources to back port something to older releases.\n\nVery good example is: [1] and temporary fix: [2] and then it was realized that the problem was already investigated and partly fixed: [3] but unfortunately only on master. Now it was cherry-picked to earlier releases: [4], and even this issue was created: [5], but only because someone complained about it...\n\nBottom line: there cannot be any rule. If you ask a dev to move a fix from master to stable-3.0, but if she doesn\u0027t care about stable-3.0 she would not. If you do care about it, feel free to spend *your* time and resource to back port that change, now, or later, or never.\n\n[1] https://groups.google.com/d/topic/repo-discuss/4hvo-mw4vxA/discussion\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/271174\n[3] https://gerrit-review.googlesource.com/c/gerrit/+/246835\n[4] https://gerrit-review.googlesource.com/c/gerrit/+/272580\n[5] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d12952",
+      "parentUuid": "e5924822_2bc486aa",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 14
+      },
+      "revId": "6ea27651ebd243494b80cd33b7d9d966dff06512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "da9c7fb7_613632cf",
         "filename": "Documentation/dev-crafting-changes.txt",
         "patchSetId": 2

@@ -571,7 +571,7 @@ public class ProjectConfigTest {
     assertThat(cfg.getCommentLinkSections()).isEmpty();
     assertThat(cfg.getValidationErrors())
         .containsExactly(
-            new ValidationError(
+            ValidationError.create(
                 "project.config: Invalid pattern \"(bugs{+#?)(d+)\" in commentlink.bugzilla.match: "
                     + "Illegal repetition near index 4\n"
                     + "(bugs{+#?)(d+)\n"
@@ -592,7 +592,7 @@ public class ProjectConfigTest {
     assertThat(cfg.getCommentLinkSections()).isEmpty();
     assertThat(cfg.getValidationErrors())
         .containsExactly(
-            new ValidationError(
+            ValidationError.create(
                 "project.config: Error in pattern \"(bugs#?)(d+)\" in commentlink.bugzilla.match: "
                     + "Raw html replacement not allowed"));
   }
@@ -607,7 +607,7 @@ public class ProjectConfigTest {
     assertThat(cfg.getCommentLinkSections()).isEmpty();
     assertThat(cfg.getValidationErrors())
         .containsExactly(
-            new ValidationError(
+            ValidationError.create(
                 "project.config: Error in pattern \"(bugs#?)(d+)\" in commentlink.bugzilla.match: "
                     + "commentlink.bugzilla must have either link or html"));
   }

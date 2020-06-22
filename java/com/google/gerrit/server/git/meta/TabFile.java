@@ -59,7 +59,7 @@ public class TabFile {
 
       int tab = s.indexOf('\t');
       if (tab < 0) {
-        errors.error(new ValidationError(filename, lineNumber, "missing tab delimiter"));
+        errors.error(ValidationError.create(filename, lineNumber, "missing tab delimiter"));
         continue;
       }
 

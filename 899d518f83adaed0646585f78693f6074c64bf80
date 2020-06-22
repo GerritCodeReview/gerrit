@@ -16,6 +16,24 @@
       "revId": "899d518f83adaed0646585f78693f6074c64bf80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02dc1a5e_eff1d93b",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-22T08:17:01Z",
+      "side": 1,
+      "message": "I guess we are still benefiting from a bigger timeout.\nI updated the comment.",
+      "parentUuid": "2c524af1_f3732eb6",
+      "revId": "899d518f83adaed0646585f78693f6074c64bf80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

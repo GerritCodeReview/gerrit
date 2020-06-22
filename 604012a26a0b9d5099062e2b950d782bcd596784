@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c653ce40_54a4bee3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-22T04:16:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "670966a2_6849d8d7",
+      "revId": "604012a26a0b9d5099062e2b950d782bcd596784",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "92ff5e98_f4496a30",
         "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
         "patchSetId": 1

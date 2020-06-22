@@ -28,7 +28,7 @@
 /** @externs */
 // @unused
 
-var Gerrit;
+var Gerrit: any;
 var GrAnnotation;
 var GrAttributeHelper;
 var GrChangeActionsInterface;

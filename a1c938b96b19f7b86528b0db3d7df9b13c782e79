@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca38753e_c28d1082",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-22T20:47:54Z",
+      "side": 1,
+      "message": "I think the rule is to not have non-opt parameters after opt parameters.\n\nAlso above.",
+      "range": {
+        "startLine": 272,
+        "startChar": 6,
+        "endLine": 272,
+        "endChar": 24
+      },
+      "revId": "a1c938b96b19f7b86528b0db3d7df9b13c782e79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07c17031_23ec92df",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-22T20:47:54Z",
+      "side": 1,
+      "message": "Add jsdoc for the new parameter.",
+      "revId": "a1c938b96b19f7b86528b0db3d7df9b13c782e79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e809f658_4329924b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-22T20:47:54Z",
+      "side": 1,
+      "message": "Add a comment describing what the UX is for the user that this code is trying to achieve.",
+      "revId": "a1c938b96b19f7b86528b0db3d7df9b13c782e79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

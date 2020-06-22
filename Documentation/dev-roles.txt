@@ -213,10 +213,10 @@ In addition, maintainers from Google can:
 [[maintainer-election]]
 Maintainers can nominate new maintainers by posting a nomination on the
 non-public maintainers mailing list. Nominations should stay open for
-at least 14 calendar days so that all maintainers have a chance to
+at least 10 calendar days so that all maintainers have a chance to
 vote. To be approved as maintainer a minimum of 5 positive votes and no
 negative votes is required. This means if 5 positive votes without
-negative votes have been reached and 14 calendar days have passed, any
+negative votes have been reached and 10 calendar days have passed, any
 maintainer can close the vote and welcome the new maintainer. Extending
 the voting period during holiday season or if there are not enough
 votes is possible, but the voting period should not exceed 1 month. If

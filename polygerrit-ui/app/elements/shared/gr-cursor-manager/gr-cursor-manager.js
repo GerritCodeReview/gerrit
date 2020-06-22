@@ -119,11 +119,15 @@ class GrCursorManager extends GestureEventListeners(
    *    sometimes different, used by the diff cursor.
    * @param {boolean=} opt_clipToTop When none of the next indices match, move
    *     back to first instead of to last.
+   * @param {boolean=} opt_navigateToNextFile Navigate to next unreviewed file
+   *     if user presses next on the last diff chunk
    * @private
    */
 
-  next(opt_condition, opt_getTargetHeight, opt_clipToTop) {
-    this._moveCursor(1, opt_condition, opt_getTargetHeight, opt_clipToTop);
+  next(opt_condition, opt_getTargetHeight, opt_clipToTop,
+      opt_navigateToNextFile) {
+    this._moveCursor(1, opt_condition, opt_getTargetHeight, opt_clipToTop,
+        opt_navigateToNextFile);
   }
 
   previous(opt_condition) {
@@ -265,9 +269,12 @@ class GrCursorManager extends GestureEventListeners(
    *    sometimes different, used by the diff cursor.
    * @param {boolean=} opt_clipToTop When none of the next indices match, move
    *     back to first instead of to last.
+   * @param {boolean=} opt_navigateToNextFile Navigate to next unreviewed file
+   *     if user presses next on the last diff chunk
    * @private
    */
-  _moveCursor(delta, opt_condition, opt_getTargetHeight, opt_clipToTop) {
+  _moveCursor(delta, opt_condition, opt_getTargetHeight, opt_clipToTop,
+      opt_navigateToNextFile) {
     if (!this.stops.length) {
       this.unsetCursor();
       return;
@@ -280,6 +287,32 @@ class GrCursorManager extends GestureEventListeners(
     let newTarget = null;
     if (newIndex !== -1) {
       newTarget = this.stops[newIndex];
+    }
+
+    /*
+     * If user presses n on the last diff chunk, show a toast informing user
+     * that pressing n again will navigate them to next unreviewed file
+     */
+    if (opt_navigateToNextFile && this.index === newIndex) {
+      if (newIndex === this.stops.length - 1) {
+        if (this._displayedNavigateToNextFileToast) {
+          // reset for next file
+          this._displayedNavigateToNextFileToast = false;
+          this.dispatchEvent(new CustomEvent(
+              'navigate-to-next-unreviewed-file', {
+                composed: true, bubbles: true,
+              }));
+          return;
+        }
+        this._displayedNavigateToNextFileToast = true;
+        this.dispatchEvent(new CustomEvent('show-alert', {
+          detail: {
+            message: 'Press n again to navigate to next unreviewed file',
+          },
+          composed: true, bubbles: true,
+        }));
+        return;
+      }
     }
 
     this.index = newIndex;

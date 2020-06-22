@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fc5352ae_f604b4e1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-22T12:49:13Z",
+      "side": 1,
+      "message": "since its pretty tied with the threadEl which is created in gr-diff-highlight, maybe for consistency ? I will move them into a separate function to make the code more readable.",
+      "parentUuid": "6474a514_8caf05e4",
+      "range": {
+        "startLine": 135,
+        "startChar": 32,
+        "endLine": 135,
+        "endChar": 75
+      },
+      "revId": "93e3196034320c8c3c3ef988d2a79746705c22b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9fa2fcc8_f42d9019",
         "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-layer/gr-ranged-comment-layer.js",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "93e3196034320c8c3c3ef988d2a79746705c22b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08c267a2_f98a356d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-layer/gr-ranged-comment-layer.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-22T12:49:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fa2fcc8_f42d9019",
+      "range": {
+        "startLine": 186,
+        "startChar": 13,
+        "endLine": 186,
+        "endChar": 19
+      },
+      "revId": "93e3196034320c8c3c3ef988d2a79746705c22b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

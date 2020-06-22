@@ -19,6 +19,7 @@ import static com.google.gerrit.server.project.ProjectState.INHERITED_FROM_GLOBA
 import static com.google.gerrit.server.project.ProjectState.INHERITED_FROM_PARENT;
 import static com.google.gerrit.server.project.ProjectState.OVERRIDDEN_BY_GLOBAL;
 import static com.google.gerrit.server.project.ProjectState.OVERRIDDEN_BY_PARENT;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.ImmutableList;
@@ -56,12 +57,21 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.CommentLinkInfoImpl;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import java.util.HashMap;
 import java.util.Map;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectLoader;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.revwalk.RevTree;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
 import org.junit.After;
@@ -655,6 +665,70 @@ public class ProjectIT extends AbstractDaemonTest {
     expected.put(BUGZILLA, commentLinkInfo(BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK));
     expected.put(JIRA, commentLinkInfo(JIRA, JIRA_MATCH, JIRA_LINK));
     assertCommentLinks(getConfig(), expected);
+  }
+
+  @Test
+  public void cannotPushLabelDefinitionWithDuplicateValues() throws Exception {
+    Config cfg = readAllProjectsConfig();
+    cfg.setStringList(
+        "label",
+        "Code-Review",
+        "value",
+        ImmutableList.of("+1 LGTM", "1 LGTM", "0 No Value", "-1 Looks Bad"));
+
+    TestRepository<InMemoryRepository> repo = cloneProject(allProjects);
+    GitUtil.fetch(repo, RefNames.REFS_CONFIG + ":" + RefNames.REFS_CONFIG);
+    repo.reset(RefNames.REFS_CONFIG);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(admin.newIdent(), repo, "Subject", "project.config", cfg.toText())
+            .to(RefNames.REFS_CONFIG);
+    r.assertErrorStatus("invalid project configuration");
+    r.assertMessage("project.config: duplicate value \"1 lgtm\" for label \"code-review\"");
+  }
+
+  @Test
+  public void getProjectThatHasLabelDefinitionWithDuplicateValues() throws Exception {
+    // Update the definition of the Code-Review label so that it has the value "+1 LGTM" twice.
+    // This update bypasses all validation checks so that the duplicate label value doesn't get
+    // rejected.
+    Config cfg = readAllProjectsConfig();
+    cfg.setStringList(
+        "label",
+        "Code-Review",
+        "value",
+        ImmutableList.of("+1 LGTM", "1 LGTM", "0 No Value", "-1 Looks Bad"));
+
+    try (TestRepository<Repository> repo =
+        new TestRepository<>(repoManager.openRepository(allProjects))) {
+      repo.update(
+          RefNames.REFS_CONFIG,
+          repo.commit()
+              .message("Set label with duplicate value")
+              .parent(getHead(repo.getRepository(), RefNames.REFS_CONFIG))
+              .add(ProjectConfig.PROJECT_CONFIG, cfg.toText()));
+    }
+
+    // Verify that project info can be retrieved and that the label value "+1 LGTM" appears only
+    // once.
+    ProjectInfo projectInfo = gApi.projects().name(allProjects.get()).get();
+    assertThat(projectInfo.labels.keySet()).containsExactly("Code-Review");
+    assertThat(projectInfo.labels.get("Code-Review").values)
+        .containsExactly("+1", "LGTM", " 0", "No Value", "-1", "Looks Bad");
+  }
+
+  private Config readAllProjectsConfig() throws Exception {
+    try (TestRepository<Repository> repo =
+        new TestRepository<>(repoManager.openRepository(allProjects))) {
+      RevWalk rw = repo.getRevWalk();
+      RevTree tree = rw.parseTree(repo.getRepository().resolve("HEAD"));
+      RevObject obj = rw.parseAny(repo.get(tree, "project.config"));
+      ObjectLoader loader = rw.getObjectReader().open(obj);
+      String text = new String(loader.getCachedBytes(), UTF_8);
+      Config cfg = new Config();
+      cfg.fromText(text);
+      return cfg;
+    }
   }
 
   private CommentLinkInfo commentLinkInfo(String name, String match, String link) {

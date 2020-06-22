@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70f3261b_df130132",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-22T08:19:46Z",
+      "side": 1,
+      "message": "I was rather thinking of calling\n\n  this.$.jsAPI.disposeOfAllDiffLayers();\n\nhere. And implementing disposeOfAllDiffLayers in gr-js-api-interface-element.js:\n\n   for (const annotationApi of\n      this._getEventCallbacks(EventType.ANNOTATE_DIFF)) {\n      annotationApi.removeLayers();\n   }\n\nAnd implementing removeLayers() in gr-annotation-actions-js-api.js:\n\n  this._annotationLayers \u003d [];\n\nNot sure whether you would also want to call destroy() on all layers?",
+      "revId": "9b70f6eda0f0785184f0e89a16cf64fdcc9f91a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "406ccc6a_5db86530",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-22T08:19:46Z",
+      "side": 1,
+      "message": "Maybe add this here?\n\n  this._layers \u003d [];",
+      "revId": "9b70f6eda0f0785184f0e89a16cf64fdcc9f91a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

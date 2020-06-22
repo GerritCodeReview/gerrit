@@ -16,7 +16,11 @@ package com.google.gerrit.server.config;
 
 import com.google.gerrit.entities.Project;
 
-/** Special name of the project that all projects derive from. */
+/**
+ * Special name of the project that all projects derive from.
+ *
+ * <p>This class is immutable and thread safe.
+ */
 public class AllProjectsName extends Project.NameKey {
   private static final long serialVersionUID = 1L;
 

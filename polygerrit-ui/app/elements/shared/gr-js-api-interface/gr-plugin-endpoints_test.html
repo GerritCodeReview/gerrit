@@ -68,6 +68,7 @@ suite('gr-plugin-endpoints tests', () => {
         }
     );
     sandbox.stub(pluginLoader, 'arePluginsLoaded').returns(true);
+    sandbox.spy(instance, 'import');
   });
 
   teardown(() => {
@@ -131,6 +132,11 @@ suite('gr-plugin-endpoints tests', () => {
   test('getPlugins', () => {
     assert.deepEqual(
         instance.getPlugins('a-place'), [pluginFoo._url]);
+  });
+
+  test('getAndImportPlugins', () => {
+    instance.getAndImportPlugins('a-place');
+    assert.isTrue(instance.import.called);
   });
 
   test('onNewEndpoint', () => {

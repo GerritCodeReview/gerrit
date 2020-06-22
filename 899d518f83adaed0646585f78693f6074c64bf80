@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c524af1_f3732eb6",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-22T08:10:13Z",
+      "side": 1,
+      "message": "I think I would remove the comment. Not sure whether it is still helpful given the new timeout value that serves a different purpose than just waiting for isModifierPressed being processed.",
+      "revId": "899d518f83adaed0646585f78693f6074c64bf80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

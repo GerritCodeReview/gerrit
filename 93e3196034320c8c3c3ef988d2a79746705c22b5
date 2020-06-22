@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c431d906_35a87217",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-06-22T12:52:07Z",
+      "side": 1,
+      "message": "Thanks. That\u0027s better.\n\nI specifically meant the fact that the comment is slotted into an element whose parent\u0027s sibling is the content element. That seems like it\u0027s really dependent on how gr-diff renders threads, not to gr-diff-highlight.",
+      "parentUuid": "fc5352ae_f604b4e1",
+      "range": {
+        "startLine": 135,
+        "startChar": 32,
+        "endLine": 135,
+        "endChar": 75
+      },
+      "revId": "93e3196034320c8c3c3ef988d2a79746705c22b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9fa2fcc8_f42d9019",
         "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-layer/gr-ranged-comment-layer.js",
         "patchSetId": 2
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "9fa2fcc8_f42d9019",
+      "range": {
+        "startLine": 186,
+        "startChar": 13,
+        "endLine": 186,
+        "endChar": 19
+      },
+      "revId": "93e3196034320c8c3c3ef988d2a79746705c22b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5b31b6c_192343db",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-layer/gr-ranged-comment-layer.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-06-22T12:52:07Z",
+      "side": 1,
+      "message": "Wow, I did not know that notation. Nice!",
+      "parentUuid": "08c267a2_f98a356d",
       "range": {
         "startLine": 186,
         "startChar": 13,

@@ -52,6 +52,24 @@
       "revId": "cac2cc9b5f6941d9ff5dee277183e4fef636a787",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70bbe6cd_98db51bb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 831,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-06-22T16:36:53Z",
+      "side": 1,
+      "message": "I was unsure in what detail you thought it made sense explaining this. I gave it a shot, let me know if this is not clear enough.",
+      "parentUuid": "b2f0b136_c9691a49",
+      "revId": "cac2cc9b5f6941d9ff5dee277183e4fef636a787",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2aba891d_3bf58e69",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 1219,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-22T20:50:37Z",
+      "side": 0,
+      "message": "Note to the reviewers: this block wasn\u0027t changed at all, but only move earlier in WORKSPACE file. The rules_nodejs machinery must be known prior to including js.bzl online 1029, because it\u0027s loading now @npm_bazel_terser repository to expose terser_minified rule:\n\n  load(\"@npm_bazel_terser//:index.bzl\", \"terser_minified\")",
+      "revId": "36b6a8c140b3e45cf39f03fb0ad248d809bb47a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

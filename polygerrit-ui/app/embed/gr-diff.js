@@ -16,6 +16,7 @@
  */
 
 window.Gerrit = window.Gerrit || {};
+window.goog = window.goog || {declareModuleId(name) {}};
 // TODO(dmfilippov): remove bundled-polymer.js imports when the following issue
 // https://github.com/Polymer/polymer-resin/issues/9 is resolved.
 // Because gr-diff.js is a shared component, it shouldn' pollute global

@@ -219,7 +219,7 @@ public class ProjectWatches {
       int i = notifyValue.lastIndexOf('[');
       if (i < 0 || notifyValue.charAt(notifyValue.length() - 1) != ']') {
         validationErrorSink.error(
-            new ValidationError(
+            ValidationError.create(
                 WATCH_CONFIG,
                 String.format(
                     "Invalid project watch of account %d for project %s: %s",
@@ -240,7 +240,7 @@ public class ProjectWatches {
           NotifyType notifyType = Enums.getIfPresent(NotifyType.class, nt).orNull();
           if (notifyType == null) {
             validationErrorSink.error(
-                new ValidationError(
+                ValidationError.create(
                     WATCH_CONFIG,
                     String.format(
                         "Invalid notify type %s in project watch "

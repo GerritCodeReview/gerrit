@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+window.goog = window.goog || {declareModuleId(name) {}};
 import './gr-app-init.js';
 import './font-roboto-local-loader.js';
 // Sets up global Polymer variable, because plugins requires it.

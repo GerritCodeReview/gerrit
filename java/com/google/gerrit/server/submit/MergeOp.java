@@ -635,13 +635,13 @@ public class MergeOp implements AutoCloseable {
         throw e;
       }
 
-      // BatchUpdate may have inadvertently wrapped an IntegrationException
+      // BatchUpdate may have inadvertently wrapped an IntegrationConflictException
       // thrown by some legacy SubmitStrategyOp code that intended the error
       // message to be user-visible. Copy the message from the wrapped
       // exception.
       //
       // If you happen across one of these, the correct fix is to convert the
-      // inner IntegrationException to a ResourceConflictException.
+      // inner IntegrationConflictException to a ResourceConflictException.
       if (e.getCause() instanceof IntegrationConflictException) {
         throw (IntegrationConflictException) e.getCause();
       }

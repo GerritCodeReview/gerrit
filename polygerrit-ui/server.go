@@ -123,35 +123,57 @@ func handleSrcRequest(dirListingMux *http.ServeMux, writer http.ResponseWriter, 
 	}
 
 	isJsFile := strings.HasSuffix(normalizedContentPath, ".js") || strings.HasSuffix(normalizedContentPath, ".mjs")
-	data, err := getContent(normalizedContentPath)
-	if err != nil {
-		data, err = getContent(normalizedContentPath + ".js")
-		if err != nil {
-			writer.WriteHeader(404)
-			return
-		}
-		isJsFile = true
-	}
-	if isJsFile {
-		moduleImportRegexp := regexp.MustCompile("(?m)^(import.*)'([^/.].*)';$")
-		data = moduleImportRegexp.ReplaceAll(data, []byte("$1 '/node_modules/$2';"))
-		writer.Header().Set("Content-Type", "application/javascript")
-	} else if strings.HasSuffix(normalizedContentPath, ".css") {
-		writer.Header().Set("Content-Type", "text/css")
-	} else if strings.HasSuffix(normalizedContentPath, "_test.html") {
-		moduleImportRegexp := regexp.MustCompile("(?m)^(import.*)'([^/.].*)';$")
-		data = moduleImportRegexp.ReplaceAll(data, []byte("$1 '/node_modules/$2';"))
-		writer.Header().Set("Content-Type", "text/html")
-	} else if strings.HasSuffix(normalizedContentPath, ".html") {
-		writer.Header().Set("Content-Type", "text/html")
-	}
+	isTsFile := strings.HasSuffix(normalizedContentPath, ".ts")
+
+	// Source map in a compiled js file point to a file inside /app/... directory
+	// Browser tries to load original file from the directory when debugger is
+	// activated. In this case we return original content without any processing
+  isOriginalFileRequest := strings.HasPrefix(normalizedContentPath, "/app/") && (isTsFile || isJsFile);
+
+  data, err := getContent(normalizedContentPath, isOriginalFileRequest)
+  if err != nil {
+    if !isOriginalFileRequest {
+      data, err = getContent(normalizedContentPath + ".js", false)
+    }
+    if err != nil {
+      writer.WriteHeader(404)
+      return
+    }
+    isJsFile = true
+  }
+  if isOriginalFileRequest {
+    // Explicitly set text/html Content-Type. If live code tries
+    // to import javascript from the /app/ folder accidentally, browser fails
+    // with the import error, so we can catch this problem easily.
+    writer.Header().Set("Content-Type", "text/html");
+  } else if isJsFile {
+    moduleImportRegexp := regexp.MustCompile("(?m)^(import.*)'([^/.].*)';$")
+    data = moduleImportRegexp.ReplaceAll(data, []byte("$1 '/node_modules/$2';"))
+    writer.Header().Set("Content-Type", "application/javascript")
+  } else if strings.HasSuffix(normalizedContentPath, ".css") {
+    writer.Header().Set("Content-Type", "text/css")
+  } else if strings.HasSuffix(normalizedContentPath, "_test.html") {
+    moduleImportRegexp := regexp.MustCompile("(?m)^(import.*)'([^/.].*)';$")
+    data = moduleImportRegexp.ReplaceAll(data, []byte("$1 '/node_modules/$2';"))
+    writer.Header().Set("Content-Type", "text/html")
+  } else if strings.HasSuffix(normalizedContentPath, ".html") {
+    writer.Header().Set("Content-Type", "text/html")
+  }
 	writer.WriteHeader(200)
 	addDevHeaders(writer)
 	writer.Write(data)
 }
 
-func getContent(normalizedContentPath string) ([]byte, error) {
+func getContent(normalizedContentPath string, isOriginalFileRequest bool) ([]byte, error) {
 	// normalizedContentPath must always starts with '/'
+
+	if isOriginalFileRequest {
+    data, err := ioutil.ReadFile(normalizedContentPath[1:])
+    if err != nil {
+      return nil, errors.New("File not found")
+    }
+    return data, nil
+  }
 
 	// gerrit loads gr-app.js as an ordinary script, without type="module" attribute.
 	// If server.go serves this file as is, browser shows the error:
@@ -173,7 +195,7 @@ func getContent(normalizedContentPath string) ([]byte, error) {
 		normalizedContentPath = "/elements/gr-app.js"
 	}
 
-	pathsToTry := []string{"app" + normalizedContentPath}
+	pathsToTry := []string{"_ts-app-out" + normalizedContentPath, "app" + normalizedContentPath}
 	bowerComponentsSuffix := "/bower_components/"
 	nodeModulesPrefix := "/node_modules/"
 	testComponentsPrefix := "/components/"

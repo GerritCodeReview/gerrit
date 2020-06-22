@@ -285,6 +285,30 @@
     },
     {
       "key": {
+        "uuid": "9183b1f9_9d4eb7c9",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-22T20:11:36Z",
+      "side": 1,
+      "message": "The risks with developing brand-new features on stable branches are twofold:\n\n1) Difficulty in merging the feature up to master: that is high as the stable branch is far away from master. E.g. A brand new feature on stable-2.16 would require significant effort in merging it up to master. Also, post-merge, would create a lot more maintenance and conflicts on the subsequent merges.\n\n2) Instability: a brand-new feature would potentially require some refactoring and could introduce regressions on a stable branch, which could be highly problematic for all those users that don\u0027t need that new feature and just wanted to get the latest fixes on a stable branch.\n\nIf a stable-N branch was named \"stable\" and not \"fork\", it\u0027s because they are supposed to keep a stable API and a stable set of features. Minor backward compatible improvements are always welcomed, however, major refactoring and brand-new features could be risky.",
+      "parentUuid": "76b1b765_96fc9a2a",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 14
+      },
+      "revId": "6ea27651ebd243494b80cd33b7d9d966dff06512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "da9c7fb7_613632cf",
         "filename": "Documentation/dev-crafting-changes.txt",
         "patchSetId": 2
@@ -319,6 +343,30 @@
       "writtenOn": "2020-06-22T18:07:20Z",
       "side": 1,
       "message": "I don\u0027t think we want to discourage people from fixing bugs on the version in which they were introduced. Just because a new release might not be made on that old version, doesn\u0027t mean folks aren\u0027t running it and wouldn\u0027t benefit from a bug fix on a stable branch.",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 61
+      },
+      "revId": "6ea27651ebd243494b80cd33b7d9d966dff06512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d932e05_08c39bdf",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-22T20:11:36Z",
+      "side": 1,
+      "message": "I recently fixed a security problem on stable-2.14 :-) and I am happy to do it on stable-2.13 or earlier if anyone requests it.\n\nI don\u0027t believe we never said \"do not fix bugs\", but rather we \"actively support from version X onwards\". Also, we do release earlier EOL versions (e.g. see the recent security fixes on v2.14.21, released on the 9th of June), but not on a regular basis.",
+      "parentUuid": "cf586576_daf9a918",
       "range": {
         "startLine": 50,
         "startChar": 0,

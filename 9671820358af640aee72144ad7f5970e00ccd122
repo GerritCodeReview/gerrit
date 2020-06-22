@@ -390,6 +390,30 @@
     },
     {
       "key": {
+        "uuid": "b9e25ec6_0fc23bd6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5853,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-22T06:49:37Z",
+      "side": 1,
+      "message": "I\u0027m sorry about the mess.\nThe follow-up change fixes this, hope it\u0027s okay.",
+      "parentUuid": "b50eef36_1a5ca1d2",
+      "range": {
+        "startLine": 5852,
+        "startChar": 0,
+        "endLine": 5853,
+        "endChar": 14
+      },
+      "revId": "9671820358af640aee72144ad7f5970e00ccd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0ab4909_cc50a77d",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -425,6 +449,30 @@
       "side": 1,
       "message": "I think I mostly agree that it would be better.\nIf you\u0027re okay with that, I\u0027ll discuss with Ben to figure out if this is necessary and if it is I can do that in a follow-up change. I initially thought it\u0027s more complicated than what it is; now I realize it\u0027s quite simply to implement.\nFor now, this is actually not something that blocks us from doing the initial dogfooding.",
       "parentUuid": "e0ab4909_cc50a77d",
+      "range": {
+        "startLine": 5853,
+        "startChar": 15,
+        "endLine": 5856,
+        "endChar": 0
+      },
+      "revId": "9671820358af640aee72144ad7f5970e00ccd122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4497a651_6f8fa7f8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5856,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-22T06:49:37Z",
+      "side": 1,
+      "message": "Fixed in the follow-up.",
+      "parentUuid": "86d310fe_680cfc89",
       "range": {
         "startLine": 5853,
         "startChar": 15,

@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4c25e9c_92f9999a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 807,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-22T13:33:16Z",
+      "side": 1,
+      "message": "AttentionSetUpdate::account()?",
+      "range": {
+        "startLine": 807,
+        "startChar": 17,
+        "endLine": 807,
+        "endChar": 33
+      },
+      "revId": "351dfed63da5ec16a8bd58c7826be697efd66504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdbc1ffc_c407b061",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-22T13:33:16Z",
+      "side": 1,
+      "message": "nit: stale comment",
+      "range": {
+        "startLine": 140,
+        "startChar": 33,
+        "endLine": 140,
+        "endChar": 51
+      },
+      "revId": "351dfed63da5ec16a8bd58c7826be697efd66504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3686938a_3893b438",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-22T13:33:16Z",
+      "side": 1,
+      "message": "Shouldn\u0027t you still remove a second time?",
+      "revId": "351dfed63da5ec16a8bd58c7826be697efd66504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97d53d2f_2326f525",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-22T13:33:16Z",
+      "side": 1,
+      "message": "Added?",
+      "range": {
+        "startLine": 453,
+        "startChar": 35,
+        "endLine": 453,
+        "endChar": 42
+      },
+      "revId": "351dfed63da5ec16a8bd58c7826be697efd66504",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

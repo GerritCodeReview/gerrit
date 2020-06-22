@@ -14,51 +14,26 @@
 
 package com.google.gerrit.server.git;
 
-import java.util.Objects;
+import com.google.auto.value.AutoValue;
 
 /** Indicates a problem with Git based data. */
-public class ValidationError {
-  private final String message;
+@AutoValue
+public abstract class ValidationError {
+  public abstract String getMessage();
 
-  public ValidationError(String file, String message) {
-    this(file + ": " + message);
+  public static ValidationError create(String file, String message) {
+    return create(file + ": " + message);
   }
 
-  public ValidationError(String file, int line, String message) {
-    this(file + ":" + line + ": " + message);
+  public static ValidationError create(String file, int line, String message) {
+    return create(file + ":" + line + ": " + message);
   }
 
-  public ValidationError(String message) {
-    this.message = message;
-  }
-
-  public String getMessage() {
-    return message;
-  }
-
-  @Override
-  public String toString() {
-    return "ValidationError[" + message + "]";
+  public static ValidationError create(String message) {
+    return new AutoValue_ValidationError(message);
   }
 
   public interface Sink {
     void error(ValidationError error);
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (o == this) {
-      return true;
-    }
-    if (o instanceof ValidationError) {
-      ValidationError that = (ValidationError) o;
-      return Objects.equals(this.message, that.message);
-    }
-    return false;
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hashCode(message);
   }
 }

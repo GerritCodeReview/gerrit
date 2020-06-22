@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+goog.declareModuleId('polygerrit.constants.constants.js');
+
 /**
  * @enum
  * @desc Tab names for primary tabs on change view page.

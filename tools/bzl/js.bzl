@@ -1,4 +1,4 @@
-load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_binary", "closure_js_library")
+load("@npm_bazel_terser//:index.bzl", "terser_minified")
 load("//lib/js:npm.bzl", "NPM_SHA1S", "NPM_VERSIONS")
 
 NPMJS = "NPMJS"
@@ -439,7 +439,7 @@ def bundle_assets(*args, **kwargs):
     """Combine html, js, css files and optionally split into js and html bundles."""
     _bundle_rule(pkg = native.package_name(), *args, **kwargs)
 
-def polygerrit_plugin(name, app, srcs = [], deps = [], externs = [], assets = None, plugin_name = None, **kwargs):
+def polygerrit_plugin(name, app, srcs = [], deps = [], assets = None, plugin_name = None, **kwargs):
     """Bundles plugin dependencies for deployment.
 
     This rule bundles all Polymer elements and JS dependencies into .html and .js files.
@@ -449,7 +449,6 @@ def polygerrit_plugin(name, app, srcs = [], deps = [], externs = [], assets = No
     Args:
       name: String, rule name.
       app: String, the main or root source file.
-      externs: Fileset, external definitions that should not be bundled.
       assets: Fileset, additional files to be used by plugin in runtime, exported to "plugins/${name}/static".
       plugin_name: String, plugin name. ${name} is used if not provided.
     """
@@ -473,29 +472,15 @@ def polygerrit_plugin(name, app, srcs = [], deps = [], externs = [], assets = No
     else:
         js_srcs = srcs
 
-    closure_js_library(
-        name = name + "_closure_lib",
-        srcs = js_srcs + externs,
-        convention = "GOOGLE",
-        no_closure_library = True,
-        deps = [
-            "//lib/polymer_externs:polymer_closure",
-            "//polygerrit-ui/app/externs:plugin",
-        ],
+    native.filegroup(
+        name = name + "-src-fg",
+        srcs = js_srcs,
     )
 
-    closure_js_binary(
-        name = name + "_bin",
-        compilation_level = "WHITESPACE_ONLY",
-        defs = [
-            "--polymer_version=2",
-            "--language_out=ECMASCRIPT_2017",
-            "--rewrite_polyfills=false",
-        ],
-        deps = [
-            name + "_closure_lib",
-        ],
-        dependency_mode = "PRUNE_LEGACY",
+    terser_minified(
+        name = name + ".min",
+        sourcemap = False,
+        src = ":" + name + "-src-fg",
     )
 
     if html_plugin:
@@ -519,7 +504,7 @@ def polygerrit_plugin(name, app, srcs = [], deps = [], externs = [], assets = No
 
     native.genrule(
         name = name + "_rename_js",
-        srcs = [name + "_bin.js"],
+        srcs = [name + ".min"],
         outs = [plugin_name + ".js"],
         cmd = "cp $< $@",
         output_to_bindir = True,

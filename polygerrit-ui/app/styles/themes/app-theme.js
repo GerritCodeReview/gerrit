@@ -89,6 +89,8 @@ html {
   --monospace-font-family: 'Roboto Mono', 'SF Mono', 'Lucida Console', Monaco, monospace;
   --font-size-code: 12px;     /* 12px mono */
   --font-size-mono: .929rem;  /* 13px mono */
+  --font-size-tick-green:: 16px; /* 16px /*
+  --font-size-tick-red: 16px; /* 16px /*
   --font-size-small: .857rem; /* 12px */
   --font-size-normal: 1rem;   /* 14px */
   --font-size-h3: 1.143rem;   /* 16px */

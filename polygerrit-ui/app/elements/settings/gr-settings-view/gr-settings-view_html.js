@@ -109,6 +109,23 @@ export const htmlTemplate = html`
           via the link in the app footer is strongly encouraged!
         </p>
       </section>
+      <section>
+        <span
+          class="title"
+          title="This will increase the size of some UI elements(such as ✓ and ✕ on the
+          dashboard) to aid those with visual impairments."
+          >Visually Impaired</span
+        >
+        <span class="value">
+          <input
+            id="checkVisuallyImpaired"
+            type="checkbox"
+            checked="[[_visually_impaired]]"
+            on-change="_handleToggleVisuallyImpaired"
+          />
+        </span>
+        <p></p>
+      </section>
       <h2 id="Profile" class$="[[_computeHeaderClass(_accountInfoChanged)]]">
         Profile
       </h2>

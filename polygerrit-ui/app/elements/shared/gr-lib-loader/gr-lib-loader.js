@@ -26,6 +26,7 @@ import {htmlTemplate} from './gr-lib-loader_html.js';
 
 const HLJS_PATH = 'bower_components/highlightjs/highlight.min.js';
 const DARK_THEME_PATH = 'styles/themes/dark-theme.html';
+const VIS_IMP_THEME_PATH = 'styles/themes/visually-impaired.html';
 
 /** @extends Polymer.Element */
 class GrLibLoader extends GestureEventListeners(
@@ -90,6 +91,28 @@ class GrLibLoader extends GestureEventListeners(
           this._getLibRoot() + DARK_THEME_PATH, () => {
             const module = document.createElement('style');
             module.setAttribute('include', 'dark-theme');
+            const cs = document.createElement('custom-style');
+            cs.appendChild(module);
+
+            resolve(cs);
+          },
+          reject);
+    });
+  }
+
+  /**
+   * Loads the visually-impaired theme document. Returns a promise that resolves with a
+   * custom-style DOM element.
+   *
+   * @return {!Promise<Element>}
+   * @suppress {checkTypes}
+   */
+  getVisImpTheme() {
+    return new Promise((resolve, reject) => {
+      importHref(
+          this._getLibRoot() + VIS_IMP_THEME_PATH, () => {
+            const module = document.createElement('style');
+            module.setAttribute('include', 'visually-impaired');
             const cs = document.createElement('custom-style');
             cs.appendChild(module);
 

@@ -200,6 +200,10 @@ class GrAppElement extends mixinBehaviors( [
       this.$.libLoader.getDarkTheme();
     }
 
+    if (window.localStorage.getItem('visually-impaired')) {
+      this.$.libLoader.getVisImpTheme();
+    }
+
     // Note: this is evaluated here to ensure that it only happens after the
     // router has been initialized. @see Issue 7837
     this._settingsUrl = GerritNav.getUrlForSettings();

@@ -91,9 +91,11 @@ export const htmlTemplate = html`
     }
     .u-green {
       color: var(--vote-text-color-recommended);
+      font-size: var(--font-size-tick-green);
     }
     .u-red {
       color: var(--vote-text-color-disliked);
+      font-size: var(--font-size-tick-red);
     }
     .u-gray-background {
       background-color: var(--table-header-background-color);

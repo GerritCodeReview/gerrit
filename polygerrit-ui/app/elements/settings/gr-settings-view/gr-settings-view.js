@@ -180,6 +180,11 @@ class GrSettingsView extends mixinBehaviors( [
 
       _showNumber: Boolean,
 
+      _visually_impaired: {
+        type: Boolean,
+        value: false,
+      },
+
       _isDark: {
         type: Boolean,
         value: false,
@@ -207,6 +212,8 @@ class GrSettingsView extends mixinBehaviors( [
     }));
 
     this._isDark = !!window.localStorage.getItem('dark-theme');
+    this._visually_impaired = !!window.localStorage.getItem(
+        'visually-impaired');
 
     const promises = [
       this.$.accountInfo.loadData(),
@@ -479,6 +486,22 @@ class GrSettingsView extends mixinBehaviors( [
       window.localStorage.removeItem('dark-theme');
     } else {
       window.localStorage.setItem('dark-theme', 'true');
+    }
+    this.dispatchEvent(new CustomEvent('show-alert', {
+      detail: {message: RELOAD_MESSAGE},
+      bubbles: true,
+      composed: true,
+    }));
+    this.async(() => {
+      window.location.reload();
+    }, 1);
+  }
+
+  _handleToggleVisuallyImpaired() {
+    if (this._visually_impaired) {
+      window.localStorage.removeItem('visually-impaired');
+    } else {
+      window.localStorage.setItem('visually-impaired', 'true');
     }
     this.dispatchEvent(new CustomEvent('show-alert', {
       detail: {message: RELOAD_MESSAGE},

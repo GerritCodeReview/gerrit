@@ -16,7 +16,11 @@ package com.google.gerrit.server.config;
 
 import com.google.gerrit.entities.Project;
 
-/** Special name of the project in which meta data for all users is stored. */
+/**
+ * Special name of the project in which meta data for all users is stored.
+ *
+ * <p>This class is immutable and thread safe.
+ */
 public class AllUsersName extends Project.NameKey {
   private static final long serialVersionUID = 1L;
 

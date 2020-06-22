@@ -122,8 +122,9 @@ class GrCursorManager extends GestureEventListeners(
    * @private
    */
 
-  next(opt_condition, opt_getTargetHeight, opt_clipToTop) {
-    this._moveCursor(1, opt_condition, opt_getTargetHeight, opt_clipToTop);
+  next(opt_condition, opt_getTargetHeight, opt_clipToTop, navigateToNextFile) {
+    this._moveCursor(1, opt_condition, opt_getTargetHeight, opt_clipToTop,
+        navigateToNextFile);
   }
 
   previous(opt_condition) {
@@ -267,7 +268,8 @@ class GrCursorManager extends GestureEventListeners(
    *     back to first instead of to last.
    * @private
    */
-  _moveCursor(delta, opt_condition, opt_getTargetHeight, opt_clipToTop) {
+  _moveCursor(delta, opt_condition, opt_getTargetHeight, opt_clipToTop,
+      navigateToNextFile) {
     if (!this.stops.length) {
       this.unsetCursor();
       return;
@@ -280,6 +282,28 @@ class GrCursorManager extends GestureEventListeners(
     let newTarget = null;
     if (newIndex !== -1) {
       newTarget = this.stops[newIndex];
+    }
+
+    if (navigateToNextFile && this.index === newIndex) {
+      if (newIndex === this.stops.length - 1) {
+        if (this._displayedNavigateToNextFileToast) {
+          // reset for next file
+          this._displayedNavigateToNextFileToast = false;
+          this.dispatchEvent(new CustomEvent(
+              'navigate-to-next-unreviewed-file', {
+                composed: true, bubbles: true,
+              }));
+          return;
+        }
+        this._displayedNavigateToNextFileToast = true;
+        this.dispatchEvent(new CustomEvent('show-alert', {
+          detail: {
+            message: 'Press n again to navigate to next unreviewed file',
+          },
+          composed: true, bubbles: true,
+        }));
+        return;
+      }
     }
 
     this.index = newIndex;

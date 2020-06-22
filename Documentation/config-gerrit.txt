@@ -1703,7 +1703,8 @@ operations.
 
 [[container.slave]]container.slave::
 +
-Backward compatibility for 'container.slave' config setting.
+Backward compatibility for link:#container.replica[`container.replica`]
+config setting.
 
 [[container.startupTimeout]]container.startupTimeout::
 +

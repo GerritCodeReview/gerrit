@@ -16,6 +16,24 @@
       "revId": "9df99085057b630fe8197416994e42dc9e34edf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3051e050_30916bbb",
+        "filename": "README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-22T22:28:33Z",
+      "side": 1,
+      "message": "You can\u0027t at the moment: we have only the Java11 distribution on Docker at the moment.\nWe would first need a change in docker-gerrit to make it parametric and start distributing for Java8 as well.\n\nIMHO, we shouldn\u0027t do it, unless people explicitly requests to have it on Java8.\n\nFrom the first 3 weeks of running it on GerritHub.io, I did not see any problems in running Gerrit on Java11 ... but we don\u0027t use LDAPS.",
+      "parentUuid": "cf6f12fd_1ade4d81",
+      "revId": "9df99085057b630fe8197416994e42dc9e34edf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

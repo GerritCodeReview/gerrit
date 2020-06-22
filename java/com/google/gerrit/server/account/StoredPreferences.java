@@ -183,7 +183,7 @@ public class StoredPreferences {
       return PreferencesParserUtil.parseGeneralPreferences(cfg, defaultCfg, input);
     } catch (ConfigInvalidException e) {
       validationErrorSink.error(
-          new ValidationError(
+          ValidationError.create(
               PREFERENCES_CONFIG,
               String.format(
                   "Invalid general preferences for account %d: %s",
@@ -197,7 +197,7 @@ public class StoredPreferences {
       return PreferencesParserUtil.parseDiffPreferences(cfg, defaultCfg, input);
     } catch (ConfigInvalidException e) {
       validationErrorSink.error(
-          new ValidationError(
+          ValidationError.create(
               PREFERENCES_CONFIG,
               String.format(
                   "Invalid diff preferences for account %d: %s", accountId.get(), e.getMessage())));
@@ -210,7 +210,7 @@ public class StoredPreferences {
       return PreferencesParserUtil.parseEditPreferences(cfg, defaultCfg, input);
     } catch (ConfigInvalidException e) {
       validationErrorSink.error(
-          new ValidationError(
+          ValidationError.create(
               PREFERENCES_CONFIG,
               String.format(
                   "Invalid edit preferences for account %d: %s", accountId.get(), e.getMessage())));

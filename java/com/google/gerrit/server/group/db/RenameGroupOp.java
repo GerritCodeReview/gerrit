@@ -125,7 +125,7 @@ class RenameGroupOp extends DefaultQueueOp {
         return;
       }
 
-      ref.setName(newName);
+      config.renameGroup(uuid, newName);
       md.getCommitBuilder().setAuthor(author);
       md.setMessage("Rename group " + oldName + " to " + newName + "\n");
       try {

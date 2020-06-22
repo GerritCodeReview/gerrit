@@ -212,7 +212,7 @@ public class SchemaCreatorImpl implements SchemaCreator {
 
   private GroupReference createGroupReference(String name) {
     AccountGroup.UUID groupUuid = GroupUuid.make(name, serverUser);
-    return new GroupReference(groupUuid, name);
+    return GroupReference.create(groupUuid, name);
   }
 
   private InternalGroupCreation getGroupCreation(Sequences seqs, GroupReference groupReference) {

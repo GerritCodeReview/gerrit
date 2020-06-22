@@ -443,7 +443,7 @@ public class GroupNameNotes extends VersionedMetaData {
       throw new ConfigInvalidException(String.format("UUID for group '%s' must be defined", name));
     }
 
-    return new GroupReference(AccountGroup.uuid(uuid), name);
+    return GroupReference.create(AccountGroup.uuid(uuid), name);
   }
 
   private String getCommitMessage() {

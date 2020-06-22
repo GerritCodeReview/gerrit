@@ -104,7 +104,7 @@ public class SystemGroupBackend extends AbstractGroupBackend {
       reservedNamesBuilder.add(defaultName);
       String configuredName = cfg.getString("groups", uuid.get(), "name");
       GroupReference ref =
-          new GroupReference(uuid, MoreObjects.firstNonNull(configuredName, defaultName));
+          GroupReference.create(uuid, MoreObjects.firstNonNull(configuredName, defaultName));
       n.put(ref.getName().toLowerCase(Locale.US), ref);
       u.put(ref.getUUID(), ref);
     }

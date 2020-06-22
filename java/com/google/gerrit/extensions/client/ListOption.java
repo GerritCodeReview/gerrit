@@ -48,9 +48,9 @@ public interface ListOption {
     return r;
   }
 
-  static String toHex(Set<ListChangesOption> options) {
+  static <T extends Enum<T> & ListOption> String toHex(Set<T> options) {
     int v = 0;
-    for (ListChangesOption option : options) {
+    for (T option : options) {
       v |= 1 << option.getValue();
     }
 

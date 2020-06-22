@@ -22,6 +22,30 @@
       "revId": "f089b7b8610dfa32b9beb8c167515fa44fae5301",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "948ef71f_a2869f20",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-22T08:06:36Z",
+      "side": 1,
+      "message": "I like the suggestion. I just hope this does not lead to bug reports. Using GO_KEY_TIMEOUT_MS means that we are in Go_key_mode 1 second after keyup, so after this new interval, pressing g and then i quickly triggers g + i.",
+      "parentUuid": "c2e81be9_fa6ff45f",
+      "range": {
+        "startLine": 627,
+        "startChar": 9,
+        "endLine": 627,
+        "endChar": 12
+      },
+      "revId": "f089b7b8610dfa32b9beb8c167515fa44fae5301",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

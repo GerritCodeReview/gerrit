@@ -917,9 +917,18 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       lowerNames.put(lower, name);
 
       List<LabelValue> values = new ArrayList<>();
+      Set<Short> allValues = new HashSet<>();
       for (String value : rc.getStringList(LABEL, name, KEY_VALUE)) {
         try {
-          values.add(parseLabelValue(value));
+          LabelValue labelValue = parseLabelValue(value);
+          if (allValues.add(labelValue.getValue())) {
+            values.add(labelValue);
+          } else {
+            error(
+                new ValidationError(
+                    PROJECT_CONFIG,
+                    String.format("Duplicate %s \"%s\" for label \"%s\"", KEY_VALUE, value, name)));
+          }
         } catch (IllegalArgumentException notValue) {
           error(
               new ValidationError(

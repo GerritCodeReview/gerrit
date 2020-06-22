@@ -828,6 +828,15 @@ class GrDiff extends mixinBehaviors( [
         const commentSide = threadEl.getAttribute('comment-side');
         const lineEl = this.$.diffBuilder.getLineElByNumber(
             lineNumString, commentSide);
+        // When the line the comment refers to does not exist, log an error
+        // but don't crash. This can happen e.g. if the API does not fully
+        // validate e.g. (robot) comments
+        if (lineEl == undefined) {
+          console.error(
+              'thread attached to line ', commentSide, lineNumString,
+              ' which does not exist.');
+          continue;
+        }
         const contentEl = this.$.diffBuilder.getContentTdByLineEl(lineEl);
         const threadGroupEl = this._getOrCreateThreadGroup(
             contentEl, commentSide);

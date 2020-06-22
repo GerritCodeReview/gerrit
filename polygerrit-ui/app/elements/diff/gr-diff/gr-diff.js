@@ -828,6 +828,12 @@ class GrDiff extends mixinBehaviors( [
         const commentSide = threadEl.getAttribute('comment-side');
         const lineEl = this.$.diffBuilder.getLineElByNumber(
             lineNumString, commentSide);
+        if (lineEl == undefined) {
+          console.error(
+              'thread attached to line ', commentSide, lineNumString,
+              ' which does not exist.');
+          continue;
+        }
         const contentEl = this.$.diffBuilder.getContentTdByLineEl(lineEl);
         const threadGroupEl = this._getOrCreateThreadGroup(
             contentEl, commentSide);

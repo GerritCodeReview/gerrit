@@ -1344,11 +1344,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     assertThat(messages).hasSize(3);
     String last = Iterables.getLast(messages);
     if (getSubmitType() == SubmitType.CHERRY_PICK) {
-      assertThat(last).startsWith("Change has been successfully cherry-picked as ");
+      assertThat(last).startsWith("Change has been successfully cherry-picked as");
     } else if (getSubmitType() == SubmitType.REBASE_ALWAYS) {
       assertThat(last).startsWith("Change has been successfully rebased and submitted as");
     } else {
-      assertThat(last).isEqualTo("Change has been successfully merged by Gerrit User 1000000");
+      assertThat(last).isEqualTo("Change has been successfully merged");
     }
   }
 

@@ -23,7 +23,6 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.SubmitRecord;
-import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
@@ -36,13 +35,11 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.LabelNormalizer;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.MergeUtil;
-import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
@@ -394,24 +391,13 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     }
   }
 
-  private String getByAccountName() {
-    requireNonNull(submitter, "getByAccountName called before submitter populated");
-    Optional<Account> account =
-        args.accountCache.get(submitter.accountId()).map(AccountState::account);
-    if (account.isPresent() && account.get().fullName() != null) {
-      return " by " + ChangeNoteUtil.getAccountIdAsUsername(account.get().id());
-    }
-    return "";
-  }
-
   private ChangeMessage message(ChangeContext ctx, CodeReviewCommit commit, CommitMergeStatus s) {
     requireNonNull(s, "CommitMergeStatus may not be null");
     String txt = s.getDescription();
     if (s == CommitMergeStatus.CLEAN_MERGE) {
-      return message(ctx, commit.getPatchsetId(), txt + getByAccountName());
+      return message(ctx, commit.getPatchsetId(), txt);
     } else if (s == CommitMergeStatus.CLEAN_REBASE || s == CommitMergeStatus.CLEAN_PICK) {
-      return message(
-          ctx, commit.getPatchsetId(), txt + " as " + commit.name() + getByAccountName());
+      return message(ctx, commit.getPatchsetId(), txt + " as " + commit.name());
     } else if (s == CommitMergeStatus.SKIPPED_IDENTICAL_TREE) {
       return message(ctx, commit.getPatchsetId(), txt);
     } else if (s == CommitMergeStatus.ALREADY_MERGED) {

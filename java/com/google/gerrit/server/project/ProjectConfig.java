@@ -250,7 +250,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private Set<String> sectionsWithUnknownPermissions;
   private boolean hasLegacyPermissions;
   private Map<String, List<String>> extensionPanelSections;
-  private Map<String, GroupReference> groupsByName;
 
   public static CommentLinkInfoImpl buildCommentLink(Config cfg, String name, boolean allowRaw)
       throws IllegalArgumentException {
@@ -485,13 +484,11 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   public GroupReference resolve(GroupReference group) {
-    GroupReference groupRef = groupList.resolve(group);
-    if (groupRef != null
-        && groupRef.getUUID() != null
-        && !groupsByName.containsKey(groupRef.getName())) {
-      groupsByName.put(groupRef.getName(), groupRef);
-    }
-    return groupRef;
+    return groupList.resolve(group);
+  }
+
+  public void renameGroup(AccountGroup.UUID uuid, String newName) {
+    groupList.renameGroup(uuid, newName);
   }
 
   /** @return the group reference, if the group is used by at least one rule. */
@@ -504,7 +501,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
    *     at least one rule or plugin value.
    */
   public GroupReference getGroup(String groupName) {
-    return groupsByName.get(groupName);
+    return groupList.byName(groupName);
   }
 
   /** @return set of all groups used by this configuration. */
@@ -541,7 +538,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       GroupDescription.Basic g = groupBackend.get(ref.getUUID());
       if (g != null && !g.getName().equals(ref.getName())) {
         dirty = true;
-        ref.setName(g.getName());
+        groupList.renameGroup(ref.getUUID(), g.getName());
       }
     }
     return dirty;
@@ -570,7 +567,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       baseConfig.load();
     }
     readGroupList();
-    groupsByName = mapGroupReferences();
 
     rulesId = getObjectId("rules.pl");
     Config rc = readConfig(PROJECT_CONFIG, baseConfig);
@@ -628,7 +624,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private void loadAccountsSection(Config rc) {
     accountsSection = new AccountsSection();
     accountsSection.setSameGroupVisibility(
-        loadPermissionRules(rc, ACCOUNTS, null, KEY_SAME_GROUP_VISIBILITY, groupsByName, false));
+        loadPermissionRules(rc, ACCOUNTS, null, KEY_SAME_GROUP_VISIBILITY, false));
   }
 
   private void loadExtensionPanelSections(Config rc) {
@@ -656,15 +652,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       ContributorAgreement ca = getContributorAgreement(name, true);
       ca.setDescription(rc.getString(CONTRIBUTOR_AGREEMENT, name, KEY_DESCRIPTION));
       ca.setAgreementUrl(rc.getString(CONTRIBUTOR_AGREEMENT, name, KEY_AGREEMENT_URL));
-      ca.setAccepted(
-          loadPermissionRules(rc, CONTRIBUTOR_AGREEMENT, name, KEY_ACCEPTED, groupsByName, false));
+      ca.setAccepted(loadPermissionRules(rc, CONTRIBUTOR_AGREEMENT, name, KEY_ACCEPTED, false));
       ca.setExcludeProjectsRegexes(
           loadPatterns(rc, CONTRIBUTOR_AGREEMENT, name, KEY_EXCLUDE_PROJECTS));
       ca.setMatchProjectsRegexes(loadPatterns(rc, CONTRIBUTOR_AGREEMENT, name, KEY_MATCH_PROJECTS));
 
       List<PermissionRule> rules =
-          loadPermissionRules(
-              rc, CONTRIBUTOR_AGREEMENT, name, KEY_AUTO_VERIFY, groupsByName, false);
+          loadPermissionRules(rc, CONTRIBUTOR_AGREEMENT, name, KEY_AUTO_VERIFY, false);
       if (rules.isEmpty()) {
         ca.setAutoVerify(null);
       } else if (rules.size() > 1) {
@@ -728,10 +722,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       for (String dst : rc.getStringList(NOTIFY, sectionName, KEY_EMAIL)) {
         String groupName = GroupReference.extractGroupName(dst);
         if (groupName != null) {
-          GroupReference ref = groupsByName.get(groupName);
+          GroupReference ref = groupList.byName(groupName);
           if (ref == null) {
-            ref = new GroupReference(groupName);
-            groupsByName.put(ref.getName(), ref);
+            ref = groupList.resolve(GroupReference.create(groupName));
           }
           if (ref.getUUID() != null) {
             n.addEmail(ref);
@@ -779,13 +772,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           if (isCoreOrPluginPermission(convertedName)) {
             Permission perm = as.getPermission(convertedName, true);
             loadPermissionRules(
-                rc,
-                ACCESS,
-                refName,
-                varName,
-                groupsByName,
-                perm,
-                Permission.hasRange(convertedName));
+                rc, ACCESS, refName, varName, perm, Permission.hasRange(convertedName));
           } else {
             sectionsWithUnknownPermissions.add(as.getName());
           }
@@ -800,8 +787,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         accessSections.put(AccessSection.GLOBAL_CAPABILITIES, capability);
       }
       Permission perm = capability.getPermission(varName, true);
-      loadPermissionRules(
-          rc, CAPABILITY, null, varName, groupsByName, perm, GlobalCapability.hasRange(varName));
+      loadPermissionRules(rc, CAPABILITY, null, varName, perm, GlobalCapability.hasRange(varName));
     }
   }
 
@@ -844,14 +830,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   private ImmutableList<PermissionRule> loadPermissionRules(
-      Config rc,
-      String section,
-      String subsection,
-      String varName,
-      Map<String, GroupReference> groupsByName,
-      boolean useRange) {
+      Config rc, String section, String subsection, String varName, boolean useRange) {
     Permission perm = new Permission(varName);
-    loadPermissionRules(rc, section, subsection, varName, groupsByName, perm, useRange);
+    loadPermissionRules(rc, section, subsection, varName, perm, useRange);
     return ImmutableList.copyOf(perm.getRules());
   }
 
@@ -860,7 +841,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       String section,
       String subsection,
       String varName,
-      Map<String, GroupReference> groupsByName,
       Permission perm,
       boolean useRange) {
     for (String ruleString : rc.getStringList(section, subsection, varName)) {
@@ -881,14 +861,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         continue;
       }
 
-      GroupReference ref = groupsByName.get(rule.getGroup().getName());
+      GroupReference ref = groupList.byName(rule.getGroup().getName());
       if (ref == null) {
         // The group wasn't mentioned in the groups table, so there is
         // no valid UUID for it. Pool the reference anyway so at least
         // all rules in the same file share the same GroupReference.
         //
-        ref = rule.getGroup();
-        groupsByName.put(ref.getName(), ref);
+        ref = groupList.resolve(rule.getGroup());
         error(
             new ValidationError(
                 PROJECT_CONFIG, "group \"" + ref.getName() + "\" not in " + GroupList.FILE_NAME));
@@ -1117,7 +1096,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         String value = rc.getString(PLUGIN, plugin, name);
         String groupName = GroupReference.extractGroupName(value);
         if (groupName != null) {
-          GroupReference ref = groupsByName.get(groupName);
+          GroupReference ref = groupList.byName(groupName);
           if (ref == null) {
             error(
                 new ValidationError(
@@ -1142,16 +1121,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private void readGroupList() throws IOException {
     groupList = GroupList.parse(projectName, readUTF8(GroupList.FILE_NAME), this);
-  }
-
-  private Map<String, GroupReference> mapGroupReferences() {
-    Collection<GroupReference> references = groupList.references();
-    Map<String, GroupReference> result = new HashMap<>(references.size());
-    for (GroupReference ref : references) {
-      result.put(ref.getName(), ref);
-    }
-
-    return result;
   }
 
   @Override
@@ -1558,7 +1527,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         String value = pluginConfig.getString(PLUGIN, plugin, name);
         String groupName = GroupReference.extractGroupName(value);
         if (groupName != null) {
-          GroupReference ref = groupsByName.get(groupName);
+          GroupReference ref = groupList.byName(groupName);
           if (ref != null && ref.getUUID() != null) {
             keepGroups.add(ref.getUUID());
             pluginConfig.setString(PLUGIN, plugin, name, "group " + ref.getName());

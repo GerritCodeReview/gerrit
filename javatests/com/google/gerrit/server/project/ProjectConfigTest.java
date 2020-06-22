@@ -90,8 +90,8 @@ public class ProjectConfigTest {
   @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
   private final GroupReference developers =
-      new GroupReference(AccountGroup.uuid("X"), "Developers");
-  private final GroupReference staff = new GroupReference(AccountGroup.uuid("Y"), "Staff");
+      GroupReference.create(AccountGroup.uuid("X"), "Developers");
+  private final GroupReference staff = GroupReference.create(AccountGroup.uuid("Y"), "Staff");
 
   private SitePaths sitePaths;
   private ProjectConfig.Factory factory;

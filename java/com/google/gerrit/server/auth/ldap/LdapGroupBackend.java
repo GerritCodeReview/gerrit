@@ -91,7 +91,7 @@ public class LdapGroupBackend implements GroupBackend {
 
   private static GroupReference groupReference(ParameterizedString p, LdapQuery.Result res)
       throws NamingException {
-    return new GroupReference(
+    return GroupReference.create(
         AccountGroup.uuid(LDAP_UUID + res.getDN()), LDAP_NAME + LdapRealm.apply(p, res));
   }
 

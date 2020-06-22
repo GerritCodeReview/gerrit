@@ -154,7 +154,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
         Permission permission =
             projectConfig.getAccessSection(p.section(), true).getPermission(p.name(), true);
         if (p.group().isPresent()) {
-          GroupReference group = new GroupReference(p.group().get(), p.group().get().get());
+          GroupReference group = GroupReference.create(p.group().get(), p.group().get().get());
           group = projectConfig.resolve(group);
           permission.removeRule(group);
         } else {
@@ -325,7 +325,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
   }
 
   private static PermissionRule newRule(ProjectConfig project, AccountGroup.UUID groupUUID) {
-    GroupReference group = new GroupReference(groupUUID, groupUUID.get());
+    GroupReference group = GroupReference.create(groupUUID, groupUUID.get());
     group = project.resolve(group);
     return new PermissionRule(group);
   }

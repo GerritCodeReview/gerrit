@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c41c3df1_7181b5ed",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-22T13:39:50Z",
+      "side": 1,
+      "message": "Have you tested tabbing. I remember I removed it for some reason.",
+      "revId": "12e11d8d9a335234a945da827449f9e3807af587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

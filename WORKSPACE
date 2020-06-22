@@ -993,6 +993,49 @@ maven_jar(
     sha1 = "639033469776fd37c08358c6b92a4761feb2af4b",
 )
 
+load("@build_bazel_rules_nodejs//:index.bzl", "yarn_install")
+
+yarn_install(
+    name = "npm",
+    package_json = "//:package.json",
+    yarn_lock = "//:yarn.lock",
+)
+
+yarn_install(
+    name = "ui_npm",
+    args = ["--prod"],
+    package_json = "//:polygerrit-ui/app/package.json",
+    yarn_lock = "//:polygerrit-ui/app/yarn.lock",
+)
+
+yarn_install(
+    name = "ui_dev_npm",
+    package_json = "//:polygerrit-ui/package.json",
+    yarn_lock = "//:polygerrit-ui/yarn.lock",
+)
+
+yarn_install(
+    name = "tools_npm",
+    package_json = "//:tools/node_tools/package.json",
+    yarn_lock = "//:tools/node_tools/yarn.lock",
+)
+
+yarn_install(
+    name = "plugins_npm",
+    args = ["--prod"],
+    package_json = "//:plugins/package.json",
+    yarn_lock = "//:plugins/yarn.lock",
+)
+
+# Install all Bazel dependencies needed for npm packages that supply Bazel rules
+load("@npm//:install_bazel_dependencies.bzl", "install_bazel_dependencies")
+
+install_bazel_dependencies()
+
+load("@npm_bazel_typescript//:index.bzl", "ts_setup_workspace")
+
+ts_setup_workspace()
+
 load("//tools/bzl:js.bzl", "bower_archive", "npm_binary")
 
 # NPM binaries bundled along with their dependencies.
@@ -1183,48 +1226,5 @@ bower_archive(
     sha1 = "d84f6a13bde5f8fd39ee208d43f33925410530d7",
     version = "6.5.1",
 )
-
-load("@build_bazel_rules_nodejs//:index.bzl", "yarn_install")
-
-yarn_install(
-    name = "npm",
-    package_json = "//:package.json",
-    yarn_lock = "//:yarn.lock",
-)
-
-yarn_install(
-    name = "ui_npm",
-    args = ["--prod"],
-    package_json = "//:polygerrit-ui/app/package.json",
-    yarn_lock = "//:polygerrit-ui/app/yarn.lock",
-)
-
-yarn_install(
-    name = "ui_dev_npm",
-    package_json = "//:polygerrit-ui/package.json",
-    yarn_lock = "//:polygerrit-ui/yarn.lock",
-)
-
-yarn_install(
-    name = "tools_npm",
-    package_json = "//:tools/node_tools/package.json",
-    yarn_lock = "//:tools/node_tools/yarn.lock",
-)
-
-yarn_install(
-    name = "plugins_npm",
-    args = ["--prod"],
-    package_json = "//:plugins/package.json",
-    yarn_lock = "//:plugins/yarn.lock",
-)
-
-# Install all Bazel dependencies needed for npm packages that supply Bazel rules
-load("@npm//:install_bazel_dependencies.bzl", "install_bazel_dependencies")
-
-install_bazel_dependencies()
-
-load("@npm_bazel_typescript//:index.bzl", "ts_setup_workspace")
-
-ts_setup_workspace()
 
 external_plugin_deps()

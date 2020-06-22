@@ -16,6 +16,7 @@ package com.google.gerrit.entities;
 
 import static java.util.Objects.requireNonNull;
 
+import com.google.errorprone.annotations.Immutable;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -47,7 +48,10 @@ public final class Project {
    * <p>Because of this unusual subclassing behavior, this class is not an {@code @AutoValue},
    * unlike other key types in this package. However, this is strictly an implementation detail; its
    * interface and semantics are otherwise analogous to the {@code @AutoValue} types.
+   *
+   * <p>This class is immutable and thread safe.
    */
+  @Immutable
   public static class NameKey implements Serializable, Comparable<NameKey> {
     private static final long serialVersionUID = 1L;
 
@@ -72,25 +76,25 @@ public final class Project {
 
     @Override
     public final int hashCode() {
-      return get().hashCode();
+      return name.hashCode();
     }
 
     @Override
     public final boolean equals(Object b) {
       if (b instanceof NameKey) {
-        return get().equals(((NameKey) b).get());
+        return name.equals(((NameKey) b).get());
       }
       return false;
     }
 
     @Override
     public final int compareTo(NameKey o) {
-      return get().compareTo(o.get());
+      return name.compareTo(o.get());
     }
 
     @Override
     public final String toString() {
-      return KeyUtil.encode(get());
+      return KeyUtil.encode(name);
     }
   }
 

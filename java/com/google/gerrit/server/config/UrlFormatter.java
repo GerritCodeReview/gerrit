@@ -60,7 +60,15 @@ public interface UrlFormatter {
   /** Returns the URL for viewing a file in a given patch set of a change. */
   default Optional<String> getPatchFileView(Change change, int patchsetId, String filename) {
     return getChangeViewUrl(change.getProject(), change.getId())
-        .map(url -> url + "/" + patchsetId + "/" + filename);
+        .map(
+            url ->
+                url
+                    + "/"
+                    + patchsetId
+                    + ".."
+                    + change.currentPatchSetId().getId()
+                    + "/"
+                    + filename);
   }
 
   /** Returns the URL for viewing a comment in a file in a given patch set of a change. */

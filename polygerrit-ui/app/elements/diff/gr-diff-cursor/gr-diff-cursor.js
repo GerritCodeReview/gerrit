@@ -202,9 +202,10 @@ class GrDiffCursor extends GestureEventListeners(
     }
   }
 
-  moveToNextChunk(opt_clipToTop) {
+  moveToNextChunk(opt_clipToTop, navigateToNextFile) {
     this.$.cursorManager.next(this._isFirstRowOfChunk.bind(this),
-        target => target.parentNode.scrollHeight, opt_clipToTop);
+        target => target.parentNode.scrollHeight, opt_clipToTop,
+        navigateToNextFile);
     this._fixSide();
   }
 

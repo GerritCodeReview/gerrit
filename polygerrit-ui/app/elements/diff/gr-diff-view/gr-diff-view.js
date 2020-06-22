@@ -556,7 +556,8 @@ class GrDiffView extends mixinBehaviors( [
       this.$.cursor.moveToNextCommentThread();
     } else {
       if (this.modifierPressed(e)) { return; }
-      this.$.cursor.moveToNextChunk();
+      this.$.cursor.moveToNextChunk(/* opt_clipToTop = */false,
+          /* navigateToNextFile = */true);
     }
   }
 

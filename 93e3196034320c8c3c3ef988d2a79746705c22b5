@@ -141,6 +141,30 @@
       "revId": "93e3196034320c8c3c3ef988d2a79746705c22b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3e23486_2c5250d0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-layer/gr-ranged-comment-layer.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-22T12:52:46Z",
+      "side": 1,
+      "message": "ah actually, gerrit turned off the type checking after the polymer 3, the js closure types are not used at all now :( but fore sure it should improve the readability with it\\ still",
+      "parentUuid": "08c267a2_f98a356d",
+      "range": {
+        "startLine": 186,
+        "startChar": 13,
+        "endLine": 186,
+        "endChar": 19
+      },
+      "revId": "93e3196034320c8c3c3ef988d2a79746705c22b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

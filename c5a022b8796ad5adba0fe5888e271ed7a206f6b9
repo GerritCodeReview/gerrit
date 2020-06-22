@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4a835f9a_2304d14a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-22T12:16:05Z",
+      "side": 1,
+      "message": "Changing to v + w,a,s,d as discussed on chat.",
+      "parentUuid": "b4c6ee5a_aa4d62ee",
+      "revId": "c5a022b8796ad5adba0fe5888e271ed7a206f6b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56edd37b_5871504f",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 8
@@ -33,6 +51,24 @@
       "revId": "c5a022b8796ad5adba0fe5888e271ed7a206f6b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b8bdad9_c6ff4c12",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 1418,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-22T12:16:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56edd37b_5871504f",
+      "revId": "c5a022b8796ad5adba0fe5888e271ed7a206f6b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

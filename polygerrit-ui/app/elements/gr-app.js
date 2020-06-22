@@ -15,6 +15,10 @@
  * limitations under the License.
  */
 
+// We need to use goog.declareModuleId internally in google for TS-imports-JS
+// case. To avoid errors when goog is not available, the empty implementation is
+// added.
+window.goog = window.goog || {declareModuleId(name) {}};
 import './gr-app-init.js';
 import './font-roboto-local-loader.js';
 // Sets up global Polymer variable, because plugins requires it.

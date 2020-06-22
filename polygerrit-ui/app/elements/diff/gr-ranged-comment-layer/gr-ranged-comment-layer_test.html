@@ -214,11 +214,8 @@ suite('gr-ranged-comment-layer', () => {
 
     element.set(['commentRanges', 1, 'hovering'], true);
 
-    assert.isTrue(notifyStub.called);
-    const lastCall = notifyStub.lastCall;
-    assert.equal(lastCall.args[0], 10);
-    assert.equal(lastCall.args[1], 12);
-    assert.equal(lastCall.args[2], 'right');
+    // notify will be skipped for hovering
+    assert.isFalse(notifyStub.called);
 
     assert.isTrue(updateRangesMapSpy.called);
   });

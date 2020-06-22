@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "29fa20a6_4fa5b7fb",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-22T11:10:20Z",
+      "side": 1,
+      "message": "New features should go to the master branch.",
+      "range": {
+        "startLine": 24,
+        "startChar": 41,
+        "endLine": 25,
+        "endChar": 5
+      },
+      "revId": "6ea27651ebd243494b80cd33b7d9d966dff06512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f43f405_04700ebc",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-22T11:10:20Z",
+      "side": 1,
+      "message": "Improvement of existing features should go into one of the supported (non-EOL) branches, assuming they do not break any existing configuration or functionality and do not require data migration steps.",
+      "range": {
+        "startLine": 26,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 19
+      },
+      "revId": "6ea27651ebd243494b80cd33b7d9d966dff06512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e6c7e90c_9c8358a7",
         "filename": "Documentation/dev-crafting-changes.txt",
         "patchSetId": 2
@@ -55,6 +101,47 @@
     },
     {
       "key": {
+        "uuid": "c7adf8c9_5138499a",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-22T11:10:20Z",
+      "side": 1,
+      "message": "I believe this point is correct, I would leave it with one addition:\n\"Should the merged fix to be applicable to another supported branch, it can be cherry-picked and re-merged afterwards\"",
+      "parentUuid": "cd5922a8_bb1df3fa",
+      "revId": "6ea27651ebd243494b80cd33b7d9d966dff06512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f9ad452_2e49e997",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-22T11:10:20Z",
+      "side": 1,
+      "message": "New features should go to master as a norm. I do not understand the statement \"caring about the Gerrit version\".",
+      "range": {
+        "startLine": 35,
+        "startChar": 44,
+        "endLine": 36,
+        "endChar": 18
+      },
+      "revId": "6ea27651ebd243494b80cd33b7d9d966dff06512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e64c735f_b16fb71e",
         "filename": "Documentation/dev-crafting-changes.txt",
         "patchSetId": 2
@@ -90,6 +177,30 @@
       "side": 1,
       "message": "I can see that. And I know that a few years back it was far more strict\n\"develop features on master and have bugfixes on all supported, affected\nbranches.\"\n\nThat made it hard to contribute from/for sites that ran an old version.\n\nI see that the rule is no longer that strict as it once was. And I like\nthat, because it makes contributing so much easier. WMF is on 2.15 and we\nfirst targeted to upgrade to 3.1 and changed into upgrading straight to\n3.2 next Saturday. Being able to upload changes on stable-3.1 and\nstable-3.2 helps us scratch our itches while it brings new features to\nevery user.\n\nBut I struggle to find out on which branch to best submit things, so I\u0027m\ntrying to distill some guidelines.\n\nFor example, one thing I struggled with when getting back to WMFs Gerrit was\nthat I did not know which plugn ran in which version and how they got built etc.\nSome relevant people were no longer around and it seems artifacts got deployed\nfrom private commits that cannot be recreated.\nSo I worked on that a bit. And for example getting the API version into the plugin\njars\u0027 manifests is a new feature, so it should go into master. That means,\nWMF does not get to use that in the upcoming 3.2 upgrade (unless we fork).\nSince I find the version that useful, I instead of master uploaded for\nstable-2.16 and it landed fine. I think that is a good violation of the old,\nstrict rule.\nSo even 2.16 users can now check if all plugins they run got build with the\ncorrect API with a few lines of shell code.\n\nShowing this API version in the UI is also a new, but separate feature. So it\nshould go into master as well. I instead uploaded for stable-3.1 as that\u0027s\nwhere we\u0027d thought we\u0027d like to use it. And I was told to move it onto an\neven older branch.\n\nThe reindex speedup that you recently reviewed for me (Thanks again!) should\nhave been uploaded for master, as it\u0027s not a bug fix, but an improvement.\nIf uploading for master is required for such things, it limits the value\nusers con get out of it. And it might be cheaper for WMFs to keep such\ncode unpublished instead of having it to develop for a version they cannot use.\n\nAnd since some time, WMF had a plugin called barricade that mitigated\nthe \"HTTP session use of inactive users\" issue. It was the quickest and\ncheapest way to get their code running. They only need to develop for their running\nGerrit and do not need to pass reviews (aka great quality control) etc.\nWMF was fully supportive of me trying to get that upstream, and it is now merged\nin a completely different form for the benefit of everyone.\nIf we had to submit for master, it would probably have gotten green light only\nbecause WMF is awesome around Open Source, but their (immediate) benefit would\nvanish completely. It would have only cost them.\n\nI\u0027m sure other organizations/cooperations are in a similar position. So there is real\nvalue in allowing new features older branches.\n\nAs you see above, there are plenty of examples of new features landing in older\nbranches. It it provides value. Having that written down in a guideline document\nwould help me to feel more confident when uploading changes.",
       "parentUuid": "e64c735f_b16fb71e",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 14
+      },
+      "revId": "6ea27651ebd243494b80cd33b7d9d966dff06512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ac89594_2962be31",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-22T11:10:20Z",
+      "side": 1,
+      "message": "I believe the problem is the \"new feature\" vs. \"improvement of existing feature\".\nAdding more details to the plugin version API is an \"improvement of existing feature\" whilst developing a clustering of the replication mechanism or the attention set is a \"new feature\".\n\nBear in mind that developing a \"new feature\" requires now a design document which needs to be submitted for approval beforehand. In the design document you specify also what is the target branch that you would like the feature to land and the ESC and the community will discuss that.\n\nI don\u0027t see anyone starting a \"brand new feature\" in a stable branch without any design document, unless it is an improvement of an existing feature.\n\nThe exception to the norm is your account deactivation listener, which was done in stable-3.1 and did not go through the design document process. That is because it was part of the solution of a security bug fix.",
+      "parentUuid": "bb3ccffa_d03d1597",
       "range": {
         "startLine": 38,
         "startChar": 0,

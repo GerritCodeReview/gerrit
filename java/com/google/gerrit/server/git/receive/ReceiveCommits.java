@@ -2144,9 +2144,10 @@ class ReceiveCommits {
             //      A's group.
             // C) Commit is a PatchSet of a pre-existing change uploaded with a
             //    different target branch.
-            for (Ref ref : existingRefs) {
-              updateGroups.add(new UpdateGroupsRequest(ref, c));
-            }
+            existingRefs.stream()
+                .map(r -> PatchSet.Id.fromRef(r.getName()))
+                .filter(i -> i != null)
+                .forEach(i -> updateGroups.add(new UpdateGroupsRequest(i, c)));
             if (!(newChangeForAllNotInTarget || magicBranch.base != null)) {
               continue;
             }
@@ -3019,8 +3020,8 @@ class ReceiveCommits {
     final RevCommit commit;
     List<String> groups = ImmutableList.of();
 
-    UpdateGroupsRequest(Ref ref, RevCommit commit) {
-      this.psId = requireNonNull(PatchSet.Id.fromRef(ref.getName()));
+    UpdateGroupsRequest(PatchSet.Id psId, RevCommit commit) {
+      this.psId = psId;
       this.commit = commit;
     }
 

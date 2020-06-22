@@ -210,6 +210,76 @@
       "revId": "6ea27651ebd243494b80cd33b7d9d966dff06512",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5924822_2bc486aa",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-06-22T18:07:20Z",
+      "side": 1,
+      "message": "I think the conclusion here is few things are really \"brand new features\". Often we\u0027re improving something existing, the difference is to what extent a given improvement is risky or disruptive to the code base.\n\nAlso a nit Luca:\n\n\u003e Bear in mind that developing a \"new feature\" requires now a design document which needs to be submitted for approval beforehand.\n\nThis is not strictly true if you read the contribution process. Design docs are recommended, but not required.\n\nI personally would be happy to see small features / improvements developed on stable branches because it gets them used faster. I think an alternative to that if we want to strongly discourage features on stable branches would be to find some collaborative way to make more releases. I can see it being a hard sell for organizations to put effort into developing a feature that won\u0027t be in a release for 3+ months on average.",
+      "parentUuid": "8ac89594_2962be31",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 14
+      },
+      "revId": "6ea27651ebd243494b80cd33b7d9d966dff06512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da9c7fb7_613632cf",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-06-22T18:07:20Z",
+      "side": 1,
+      "message": "This feels a bit out of place with the specific version recommendations. I\u0027m sure it\u0027s accurate, but it probably doesn\u0027t age well as an example of what to do in the future.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 17
+      },
+      "revId": "6ea27651ebd243494b80cd33b7d9d966dff06512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf586576_daf9a918",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-06-22T18:07:20Z",
+      "side": 1,
+      "message": "I don\u0027t think we want to discourage people from fixing bugs on the version in which they were introduced. Just because a new release might not be made on that old version, doesn\u0027t mean folks aren\u0027t running it and wouldn\u0027t benefit from a bug fix on a stable branch.",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 61
+      },
+      "revId": "6ea27651ebd243494b80cd33b7d9d966dff06512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

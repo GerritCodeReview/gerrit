@@ -45,6 +45,10 @@ export const htmlTemplate = html`
       white-space: nowrap;
       width: 100%;
     }
+    .content a {
+      width: 100%;
+      display: inline-block;
+    }
     .comments,
     .reviewers {
       white-space: nowrap;

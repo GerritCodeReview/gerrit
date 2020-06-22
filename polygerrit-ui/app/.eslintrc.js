@@ -183,6 +183,9 @@ module.exports = {
         // The rule is required for .js files only, because typescript compiler
         // always checks import.
         "import/no-unresolved": 2,
+      },
+      "globals": {
+        "goog": "readonly",
       }
     },
     {

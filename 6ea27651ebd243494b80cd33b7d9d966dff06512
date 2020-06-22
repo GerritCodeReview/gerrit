@@ -261,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "76b1b765_96fc9a2a",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-06-22T19:44:58Z",
+      "side": 1,
+      "message": "\u003e Bottom line: there cannot be any rule. If you ask a dev to move a fix from master to stable-3.0, but if she doesn\u0027t care about stable-3.0 she would not. If you do care about it, feel free to spend *your* time and resource to back port that change, now, or later, or never.\n\nI agree with this. We can always ask and see if someone wishes to take on that work, but I don\u0027t think we should reject a fix because it could be applied to an earlier branch.",
+      "parentUuid": "3ab013fb_86e39af8",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 14
+      },
+      "revId": "6ea27651ebd243494b80cd33b7d9d966dff06512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "da9c7fb7_613632cf",
         "filename": "Documentation/dev-crafting-changes.txt",
         "patchSetId": 2

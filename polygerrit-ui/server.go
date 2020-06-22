@@ -29,9 +29,12 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"regexp"
 	"strings"
+	"sync"
+	"time"
 
 	"golang.org/x/tools/godoc/vfs/httpfs"
 	"golang.org/x/tools/godoc/vfs/zipfs"
@@ -59,13 +62,30 @@ func main() {
 		log.Fatal(err)
 	}
 
+	compiledSrcPath := filepath.Join(workspace, "./.ts-out/server-go")
+
+	tsInstance := newTypescriptInstance(
+		filepath.Join(workspace, "./node_modules/.bin/tsc"),
+		filepath.Join(workspace, "./polygerrit-ui/app/tsconfig.json"),
+    compiledSrcPath,
+	)
+
+	if err := tsInstance.StartWatch(); err != nil {
+		log.Fatal(err)
+	}
+
 	dirListingMux := http.NewServeMux()
 	dirListingMux.Handle("/styles/", http.StripPrefix("/styles/", http.FileServer(http.Dir("app/styles"))))
 	dirListingMux.Handle("/samples/", http.StripPrefix("/samples/", http.FileServer(http.Dir("app/samples"))))
 	dirListingMux.Handle("/elements/", http.StripPrefix("/elements/", http.FileServer(http.Dir("app/elements"))))
 	dirListingMux.Handle("/behaviors/", http.StripPrefix("/behaviors/", http.FileServer(http.Dir("app/behaviors"))))
 
-	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) { handleSrcRequest(dirListingMux, w, req) })
+	http.HandleFunc("/",
+		func(w http.ResponseWriter, req *http.Request) {
+			// If typescript compiler hasn't finished yet, wait for it
+			tsInstance.WaitForCompilationComplete()
+			handleSrcRequest(compiledSrcPath, dirListingMux, w, req)
+		})
 
 	http.Handle("/fonts/",
 		addDevHeadersMiddleware(http.FileServer(httpfs.New(zipfs.New(fontsArchive, "fonts")))))
@@ -105,7 +125,7 @@ func addDevHeaders(writer http.ResponseWriter) {
 
 }
 
-func handleSrcRequest(dirListingMux *http.ServeMux, writer http.ResponseWriter, originalRequest *http.Request) {
+func handleSrcRequest(compiledSrcPath string, dirListingMux *http.ServeMux, writer http.ResponseWriter, originalRequest *http.Request) {
 	parsedUrl, err := url.Parse(originalRequest.RequestURI)
 	if err != nil {
 		writer.WriteHeader(500)
@@ -123,16 +143,30 @@ func handleSrcRequest(dirListingMux *http.ServeMux, writer http.ResponseWriter, 
 	}
 
 	isJsFile := strings.HasSuffix(normalizedContentPath, ".js") || strings.HasSuffix(normalizedContentPath, ".mjs")
-	data, err := getContent(normalizedContentPath)
+	isTsFile := strings.HasSuffix(normalizedContentPath, ".ts")
+
+	// Source map in a compiled js file point to a file inside /app/... directory
+	// Browser tries to load original file from the directory when debugger is
+	// activated. In this case we return original content without any processing
+	isOriginalFileRequest := strings.HasPrefix(normalizedContentPath, "/polygerrit-ui/app/") && (isTsFile || isJsFile)
+
+	data, err := getContent(compiledSrcPath, normalizedContentPath, isOriginalFileRequest)
 	if err != nil {
-		data, err = getContent(normalizedContentPath + ".js")
+		if !isOriginalFileRequest {
+			data, err = getContent(compiledSrcPath, normalizedContentPath+".js", false)
+		}
 		if err != nil {
 			writer.WriteHeader(404)
 			return
 		}
 		isJsFile = true
 	}
-	if isJsFile {
+	if isOriginalFileRequest {
+		// Explicitly set text/html Content-Type. If live code tries
+		// to import javascript from the /app/ folder accidentally, browser fails
+		// with the import error, so we can catch this problem easily.
+		writer.Header().Set("Content-Type", "text/html")
+	} else if isJsFile {
 		moduleImportRegexp := regexp.MustCompile("(?m)^(import.*)'([^/.].*)';$")
 		data = moduleImportRegexp.ReplaceAll(data, []byte("$1 '/node_modules/$2';"))
 		writer.Header().Set("Content-Type", "application/javascript")
@@ -150,8 +184,16 @@ func handleSrcRequest(dirListingMux *http.ServeMux, writer http.ResponseWriter, 
 	writer.Write(data)
 }
 
-func getContent(normalizedContentPath string) ([]byte, error) {
+func getContent(compiledSrcPath string, normalizedContentPath string, isOriginalFileRequest bool) ([]byte, error) {
 	// normalizedContentPath must always starts with '/'
+
+	if isOriginalFileRequest {
+		data, err := ioutil.ReadFile(normalizedContentPath[len("/polygerrit-ui/"):])
+		if err != nil {
+			return nil, errors.New("File not found")
+		}
+		return data, nil
+	}
 
 	// gerrit loads gr-app.js as an ordinary script, without type="module" attribute.
 	// If server.go serves this file as is, browser shows the error:
@@ -173,7 +215,7 @@ func getContent(normalizedContentPath string) ([]byte, error) {
 		normalizedContentPath = "/elements/gr-app.js"
 	}
 
-	pathsToTry := []string{"app" + normalizedContentPath}
+	pathsToTry := []string{compiledSrcPath + normalizedContentPath, "app" + normalizedContentPath}
 	bowerComponentsSuffix := "/bower_components/"
 	nodeModulesPrefix := "/node_modules/"
 	testComponentsPrefix := "/components/"
@@ -431,4 +473,94 @@ func (_ *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	gzw := newGzipResponseWriter(w)
 	defer gzw.Close()
 	http.DefaultServeMux.ServeHTTP(gzw, r)
+}
+
+// Typescript compiler support
+// The code below runs typescript compiler in watch mode and redirect
+// all output from the compiler to the standard logger with the prefix "TSC -"
+// Additionally, the code analyzes messages produced by the typescript compiler
+// and allows to wait until compilation is finished.
+var (
+	tsStartingCompilation     = "- Starting compilation in watch mode..."
+	tsFileChangeDetectedMsg   = "- File change detected. Starting incremental compilation..."
+	tsStartWatchingMsg        = regexp.MustCompile(`^.* - Found \d errors\. Watching for file changes\.$`)
+	waitForNextChangeInterval = 1 * time.Second
+)
+
+type typescriptLogWriter struct {
+	logger *log.Logger
+	// when WaitGroup counter is 0 the compilation is complete
+	compilationDoneWaiter *sync.WaitGroup
+}
+
+func newTypescriptLogWriter(compilationCompleteWaiter *sync.WaitGroup) *typescriptLogWriter {
+	return &typescriptLogWriter{
+		logger:                log.New(log.Writer(), "TSC - ", log.Flags()),
+		compilationDoneWaiter: compilationCompleteWaiter,
+	}
+}
+
+func (lw typescriptLogWriter) Write(p []byte) (n int, err error) {
+	text := strings.TrimSpace(string(p))
+	if strings.HasSuffix(text, tsFileChangeDetectedMsg) ||
+		strings.HasSuffix(text, tsStartingCompilation) {
+		lw.compilationDoneWaiter.Add(1)
+	}
+	if tsStartWatchingMsg.MatchString(text) {
+		// A source code can be changed while previous compiler run is in progress.
+		// In this case typescript reruns compilation again almost immediately
+		// after the previous run finishes. To detect this situation, we are
+		// waiting waitForNextChangeInterval before decreasing the counter.
+		// If another compiler run is started in this interval, we will wait
+		// again until it finishes.
+		go func() {
+			time.Sleep(waitForNextChangeInterval)
+			lw.compilationDoneWaiter.Add(-1)
+		}()
+
+	}
+	lw.logger.Print(text)
+	return len(p), nil
+}
+
+type typescriptInstance struct {
+	cmd                       *exec.Cmd
+	compilationCompleteWaiter *sync.WaitGroup
+}
+
+func newTypescriptInstance(tscBinaryPath string, projectPath string, outdir string) *typescriptInstance {
+	cmd := exec.Command(tscBinaryPath,
+		"--watch",
+		"--preserveWatchOutput",
+		"--project",
+		projectPath,
+		"--outDir",
+		outdir)
+
+	compilationCompleteWaiter := &sync.WaitGroup{}
+	logWriter := newTypescriptLogWriter(compilationCompleteWaiter)
+	cmd.Stdout = logWriter
+	cmd.Stderr = logWriter
+
+	return &typescriptInstance{
+		cmd:                       cmd,
+		compilationCompleteWaiter: compilationCompleteWaiter,
+	}
+}
+
+func (ts *typescriptInstance) StartWatch() error {
+	err := ts.cmd.Start()
+	if err != nil {
+		return err
+	}
+	go func() {
+		ts.cmd.Wait()
+		log.Fatal("Typescript exits unexpected")
+	}()
+
+	return nil
+}
+
+func (ts *typescriptInstance) WaitForCompilationComplete() {
+	ts.compilationCompleteWaiter.Wait()
 }

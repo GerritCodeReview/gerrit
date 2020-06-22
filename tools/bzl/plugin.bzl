@@ -2,6 +2,8 @@ load("@rules_java//java:defs.bzl", "java_binary", "java_library")
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//:version.bzl", "GERRIT_VERSION")
 
+IN_TREE_BUILD_MODE = True
+
 PLUGIN_DEPS = ["//plugins:plugin-lib"]
 
 PLUGIN_DEPS_NEVERLINK = ["//plugins:plugin-lib-neverlink"]

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2e81be9_fa6ff45f",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-22T08:00:03Z",
+      "side": 1,
+      "message": "Maybe use GO_KEY_TIMEOUT_MS here?\n\nI think it would be nice to also allow users pressing the two keys in quick succession. WDYT?",
+      "range": {
+        "startLine": 627,
+        "startChar": 9,
+        "endLine": 627,
+        "endChar": 12
+      },
+      "revId": "f089b7b8610dfa32b9beb8c167515fa44fae5301",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

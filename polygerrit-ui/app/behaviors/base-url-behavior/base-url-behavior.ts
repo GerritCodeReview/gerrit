@@ -15,6 +15,13 @@
  * limitations under the License.
  */
 
+// This is a temporary interface. Must be removed when base-url-behavior
+// is converted to a mixin or an util class. See:
+// https://polymer-library.polymer-project.org/3.0/docs/devguide/custom-elements#mixins
+export interface BaseUrlBehaviorInterface {
+  getBaseUrl(): string;
+}
+
 /** @polymerBehavior BaseUrlBehavior */
 export const BaseUrlBehavior = {
   /** @return {string} */

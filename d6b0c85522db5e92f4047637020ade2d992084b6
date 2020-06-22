@@ -70,6 +70,24 @@
       "revId": "d6b0c85522db5e92f4047637020ade2d992084b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9edefcf6_7ffcb264",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-22T14:53:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb57c14b_13b5a36d",
+      "revId": "d6b0c85522db5e92f4047637020ade2d992084b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

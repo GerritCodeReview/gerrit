@@ -40,6 +40,7 @@ export const htmlTemplate = html`
     gr-avatar {
       height: var(--line-height-normal);
       width: var(--line-height-normal);
+      margin-right: var(--spacing-xs);
       vertical-align: top;
     }
     .text {
@@ -49,7 +50,13 @@ export const htmlTemplate = html`
       @apply --gr-account-label-text-hover-style;
     }
     iron-icon.attention {
+      width: 14px;
+      height: 14px;
       vertical-align: top;
+      position: relative;
+      top: 3px;
+      --iron-icon-height: 24px;
+      --iron-icon-width: 24px;
     }
     iron-icon.status {
       width: 14px;
@@ -68,16 +75,13 @@ export const htmlTemplate = html`
     >
     </gr-hovercard-account>
     <template is="dom-if" if="[[showAttention]]">
-      <iron-icon class="attention" icon="gr-icons:attention"></iron-icon
-      ><!--
-   --></template
-    ><!--
-   --><template is="dom-if" if="[[!hideAvatar]]"
-      ><!--
-     --><gr-avatar account="[[account]]" image-size="32"></gr-avatar>
+      <iron-icon class="attention" icon="gr-icons:attention"></iron-icon>
+    </template>
+    <template is="dom-if" if="[[!hideAvatar]]">
+      <gr-avatar account="[[account]]" image-size="32"></gr-avatar>
     </template>
     <span class="text">
-      <span class="name"> [[_computeName(account, _serverConfig)]]</span>
+      <span class="name">[[_computeName(account, _serverConfig)]]</span>
       <template is="dom-if" if="[[!hideStatus]]">
         <template is="dom-if" if="[[account.status]]">
           <iron-icon class="status" icon="gr-icons:calendar"></iron-icon>

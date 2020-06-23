@@ -52,6 +52,24 @@
       "revId": "9d6b2e758034197feed357b4e75a905bb87d918d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6883a6f3_a10a791c",
+        "filename": "java/com/google/gerrit/extensions/events/LifecycleListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-23T04:40:29Z",
+      "side": 1,
+      "message": "I was just wondering if there is a use case to have a plugin that would implement stop() but not start().  In that case it would make more sense to allow start() to have a default implementation.",
+      "parentUuid": "617d2ffa_a807b566",
+      "revId": "9d6b2e758034197feed357b4e75a905bb87d918d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

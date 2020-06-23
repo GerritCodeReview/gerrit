@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.testsuite.account;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.google.gerrit.entities.Account;
 import java.util.Optional;
 
@@ -32,6 +33,14 @@ public abstract class TestAccount {
   public abstract boolean active();
 
   public abstract ImmutableSet<String> emails();
+
+  public ImmutableSet<String> secondaryEmails() {
+    if (!preferredEmail().isPresent()) {
+      return emails();
+    }
+
+    return ImmutableSet.copyOf(Sets.difference(emails(), ImmutableSet.of(preferredEmail().get())));
+  }
 
   static Builder builder() {
     return new AutoValue_TestAccount.Builder();

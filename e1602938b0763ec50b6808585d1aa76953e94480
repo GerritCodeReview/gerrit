@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6384d25c_2bf1177b",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/AccountOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-23T10:01:16Z",
+      "side": 1,
+      "message": "Nit (adjustable in the future): The next time we touch this code, we should extract some of it to separate methods.",
+      "revId": "e1602938b0763ec50b6808585d1aa76953e94480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c72e6cf_2d7f8cb3",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/AccountOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-23T10:01:16Z",
+      "side": 1,
+      "message": "FYI: I would have expected that we determine which emails were added and which ones removed. This solution seems to work as well, though. :-)",
+      "range": {
+        "startLine": 198,
+        "startChar": 8,
+        "endLine": 199,
+        "endChar": 63
+      },
+      "revId": "e1602938b0763ec50b6808585d1aa76953e94480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

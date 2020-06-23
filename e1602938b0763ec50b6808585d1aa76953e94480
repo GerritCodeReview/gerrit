@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0e5fca75_5f16b1bc",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/AccountOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-06-23T10:18:52Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/272822",
+      "parentUuid": "6384d25c_2bf1177b",
+      "revId": "e1602938b0763ec50b6808585d1aa76953e94480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c72e6cf_2d7f8cb3",
         "filename": "java/com/google/gerrit/acceptance/testsuite/account/AccountOperationsImpl.java",
         "patchSetId": 1

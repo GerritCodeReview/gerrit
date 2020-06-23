@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e6749e5_2c6b452e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-23T15:08:53Z",
+      "side": 1,
+      "message": "threading",
+      "range": {
+        "startLine": 10,
+        "startChar": 44,
+        "endLine": 10,
+        "endChar": 54
+      },
+      "revId": "b1b5a69fc745570934ac4294bc3894a106d4da55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffd39a11_c962b7b1",
+        "filename": "java/com/google/gerrit/server/project/GroupList.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-23T15:08:53Z",
+      "side": 1,
+      "message": "I think we should be using com.google.gerrit.common.Nullable",
+      "revId": "b1b5a69fc745570934ac4294bc3894a106d4da55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

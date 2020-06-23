@@ -46,6 +46,30 @@
       "revId": "7160c9174b2b11e625abbf4b9449afaccf2046b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cbad587_1049114e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-23T21:22:04Z",
+      "side": 1,
+      "message": "Ahh I understood the problem with comment posted on Base. I was incorrect on my previous comment.\u0027\nYes, this case is handled in the Frontend and not in the email threads.",
+      "parentUuid": "5f523d5b_ec5e18c8",
+      "range": {
+        "startLine": 9,
+        "startChar": 34,
+        "endLine": 10,
+        "endChar": 36
+      },
+      "revId": "7160c9174b2b11e625abbf4b9449afaccf2046b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

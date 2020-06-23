@@ -151,11 +151,8 @@ suite('gr-reply-dialog tests', () => {
     };
     element = fixture('basic');
     setupElement(element);
-    const importSpy =
-        sandbox.spy(element.shadowRoot
-            .querySelector('gr-endpoint-decorator'), '_import');
     pluginLoader.awaitPluginsLoaded().then(() => {
-      Promise.all(importSpy.returnValues).then(() => {
+      Promise.all([]).then(() => {
         flush(() => {
           const textarea = element.$.textarea.getNativeTextarea();
           textarea.value = 'LGTM';

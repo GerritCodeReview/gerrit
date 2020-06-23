@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
-import {importHref} from '../../../scripts/import-href.js';
 import {updateStyles} from '@polymer/polymer/lib/mixins/element-mixin.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
@@ -35,32 +34,11 @@ class GrExternalStyle extends GestureEventListeners(
   static get properties() {
     return {
       name: String,
-      _urlsImported: {
-        type: Array,
-        value() { return []; },
-      },
       _stylesApplied: {
         type: Array,
         value() { return []; },
       },
     };
-  }
-
-  _importHref(url, resolve, reject) {
-    // It is impossible to mock es6-module imported function.
-    // The _importHref function is mocked in test.
-    importHref(url, resolve, reject);
-  }
-
-  /**
-   * @suppress {checkTypes}
-   */
-  _import(url) {
-    if (this._urlsImported.includes(url)) { return Promise.resolve(); }
-    this._urlsImported.push(url);
-    return new Promise((resolve, reject) => {
-      this._importHref(url, resolve, reject);
-    });
   }
 
   _applyStyle(name) {
@@ -79,14 +57,13 @@ class GrExternalStyle extends GestureEventListeners(
   }
 
   _importAndApply() {
-    Promise.all(pluginEndpoints.getPlugins(this.name).map(
-        pluginUrl => this._import(pluginUrl))
-    ).then(() => {
-      const moduleNames = pluginEndpoints.getModules(this.name);
-      for (const name of moduleNames) {
-        this._applyStyle(name);
-      }
-    });
+    pluginEndpoints.getAndImportPlugins(this.name)
+        .then(() => {
+          const moduleNames = pluginEndpoints.getModules(this.name);
+          for (const name of moduleNames) {
+            this._applyStyle(name);
+          }
+        });
   }
 
   /** @override */

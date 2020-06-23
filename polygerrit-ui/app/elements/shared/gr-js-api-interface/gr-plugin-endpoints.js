@@ -16,151 +16,196 @@
  */
 
 import {pluginLoader} from './gr-plugin-loader.js';
+import {importHref} from '../../../scripts/import-href.js';
 
 /** @constructor */
-export function GrPluginEndpoints() {
-  this._endpoints = {};
-  this._callbacks = {};
-  this._dynamicPlugins = {};
-}
-
-GrPluginEndpoints.prototype.onNewEndpoint = function(endpoint, callback) {
-  if (!this._callbacks[endpoint]) {
-    this._callbacks[endpoint] = [];
+export class GrPluginEndpoints {
+  constructor() {
+    this._endpoints = {};
+    this._callbacks = {};
+    this._dynamicPlugins = {};
+    this._importedUrls = new Set();
   }
-  this._callbacks[endpoint].push(callback);
-};
 
-GrPluginEndpoints.prototype.onDetachedEndpoint = function(endpoint,
-    callback) {
-  if (this._callbacks[endpoint]) {
-    this._callbacks[endpoint] = this._callbacks[endpoint]
-        .filter(cb => cb !== callback);
-  }
-};
-
-GrPluginEndpoints.prototype._getOrCreateModuleInfo = function(plugin, opts) {
-  const {endpoint, slot, type, moduleName, domHook} = opts;
-  const existingModule = this._endpoints[endpoint].find(info =>
-    info.plugin === plugin &&
-      info.moduleName === moduleName &&
-      info.domHook === domHook &&
-      info.slot === slot
-  );
-  if (existingModule) {
-    return existingModule;
-  } else {
-    const newModule = {
-      moduleName,
-      plugin,
-      pluginUrl: plugin._url,
-      type,
-      domHook,
-      slot,
-    };
-    this._endpoints[endpoint].push(newModule);
-    return newModule;
-  }
-};
-
-/**
- * Register a plugin to an endpoint.
- *
- * Dynamic plugins are registered to a specific prefix, such as
- * 'change-list-header'. These plugins are then fetched by prefix to determine
- * which endpoints to dynamically add to the page.
- *
- * @param {Object} plugin
- * @param {Object} opts
- */
-GrPluginEndpoints.prototype.registerModule = function(plugin, opts) {
-  const {endpoint, dynamicEndpoint} = opts;
-  if (dynamicEndpoint) {
-    if (!this._dynamicPlugins[dynamicEndpoint]) {
-      this._dynamicPlugins[dynamicEndpoint] = new Set();
+  onNewEndpoint(endpoint, callback) {
+    if (!this._callbacks[endpoint]) {
+      this._callbacks[endpoint] = [];
     }
-    this._dynamicPlugins[dynamicEndpoint].add(endpoint);
+    this._callbacks[endpoint].push(callback);
   }
-  if (!this._endpoints[endpoint]) {
-    this._endpoints[endpoint] = [];
-  }
-  const moduleInfo = this._getOrCreateModuleInfo(plugin, opts);
-  if (pluginLoader.arePluginsLoaded() && this._callbacks[endpoint]) {
-    this._callbacks[endpoint].forEach(callback => callback(moduleInfo));
-  }
-};
 
-GrPluginEndpoints.prototype.getDynamicEndpoints = function(dynamicEndpoint) {
-  const plugins = this._dynamicPlugins[dynamicEndpoint];
-  if (!plugins) return [];
-  return Array.from(plugins);
-};
-
-/**
- * Get detailed information about modules registered with an extension
- * endpoint.
- *
- * @param {string} name Endpoint name.
- * @param {?{
- *   type: (string|undefined),
- *   moduleName: (string|undefined)
- * }} opt_options
- * @return {!Array<{
- *   moduleName: string,
- *   plugin: Plugin,
- *   pluginUrl: String,
- *   type: EndpointType,
- *   domHook: !Object
- * }>}
- */
-GrPluginEndpoints.prototype.getDetails = function(name, opt_options) {
-  const type = opt_options && opt_options.type;
-  const moduleName = opt_options && opt_options.moduleName;
-  if (!this._endpoints[name]) {
-    return [];
+  onDetachedEndpoint(endpoint, callback) {
+    if (this._callbacks[endpoint]) {
+      this._callbacks[endpoint] = this._callbacks[endpoint].filter(
+          cb => cb !== callback
+      );
+    }
   }
-  return this._endpoints[name]
-      .filter(item => (!type || item.type === type) &&
-                  (!moduleName || moduleName == item.moduleName));
-};
 
-/**
- * Get detailed module names for instantiating at the endpoint.
- *
- * @param {string} name Endpoint name.
- * @param {?{
- *   type: (string|undefined),
- *   moduleName: (string|undefined)
- * }} opt_options
- * @return {!Array<string>}
- */
-GrPluginEndpoints.prototype.getModules = function(name, opt_options) {
-  const modulesData = this.getDetails(name, opt_options);
-  if (!modulesData.length) {
-    return [];
+  _getOrCreateModuleInfo(plugin, opts) {
+    const {endpoint, slot, type, moduleName, domHook} = opts;
+    const existingModule = this._endpoints[endpoint].find(
+        info =>
+          info.plugin === plugin &&
+        info.moduleName === moduleName &&
+        info.domHook === domHook &&
+        info.slot === slot
+    );
+    if (existingModule) {
+      return existingModule;
+    } else {
+      const newModule = {
+        moduleName,
+        plugin,
+        pluginUrl: plugin._url,
+        type,
+        domHook,
+        slot,
+      };
+      this._endpoints[endpoint].push(newModule);
+      return newModule;
+    }
   }
-  return modulesData.map(m => m.moduleName);
-};
 
-/**
- * Get .html plugin URLs with element and module definitions.
- *
- * @param {string} name Endpoint name.
- * @param {?{
- *   type: (string|undefined),
- *   moduleName: (string|undefined)
- * }} opt_options
- * @return {!Array<!URL>}
- */
-GrPluginEndpoints.prototype.getPlugins = function(name, opt_options) {
-  const modulesData =
-        this.getDetails(name, opt_options).filter(
-            data => data.pluginUrl.pathname.includes('.html'));
-  if (!modulesData.length) {
-    return [];
+  /**
+   * Register a plugin to an endpoint.
+   *
+   * Dynamic plugins are registered to a specific prefix, such as
+   * 'change-list-header'. These plugins are then fetched by prefix to determine
+   * which endpoints to dynamically add to the page.
+   *
+   * @param {Object} plugin
+   * @param {Object} opts
+   */
+  registerModule(plugin, opts) {
+    const {endpoint, dynamicEndpoint} = opts;
+    if (dynamicEndpoint) {
+      if (!this._dynamicPlugins[dynamicEndpoint]) {
+        this._dynamicPlugins[dynamicEndpoint] = new Set();
+      }
+      this._dynamicPlugins[dynamicEndpoint].add(endpoint);
+    }
+    if (!this._endpoints[endpoint]) {
+      this._endpoints[endpoint] = [];
+    }
+    const moduleInfo = this._getOrCreateModuleInfo(plugin, opts);
+    if (pluginLoader.arePluginsLoaded() && this._callbacks[endpoint]) {
+      this._callbacks[endpoint].forEach(callback => callback(moduleInfo));
+    }
   }
-  return Array.from(new Set(modulesData.map(m => m.pluginUrl)));
-};
+
+  getDynamicEndpoints(dynamicEndpoint) {
+    const plugins = this._dynamicPlugins[dynamicEndpoint];
+    if (!plugins) return [];
+    return Array.from(plugins);
+  }
+
+  /**
+   * Get detailed information about modules registered with an extension
+   * endpoint.
+   *
+   * @param {string} name Endpoint name.
+   * @param {?{
+   *   type: (string|undefined),
+   *   moduleName: (string|undefined)
+   * }} opt_options
+   * @return {!Array<{
+   *   moduleName: string,
+   *   plugin: Plugin,
+   *   pluginUrl: String,
+   *   type: EndpointType,
+   *   domHook: !Object
+   * }>}
+   */
+  getDetails(name, opt_options) {
+    const type = opt_options && opt_options.type;
+    const moduleName = opt_options && opt_options.moduleName;
+    if (!this._endpoints[name]) {
+      return [];
+    }
+    return this._endpoints[name].filter(
+        item =>
+          (!type || item.type === type) &&
+        (!moduleName || moduleName == item.moduleName)
+    );
+  }
+
+  /**
+   * Get detailed module names for instantiating at the endpoint.
+   *
+   * @param {string} name Endpoint name.
+   * @param {?{
+   *   type: (string|undefined),
+   *   moduleName: (string|undefined)
+   * }} opt_options
+   * @return {!Array<string>}
+   */
+  getModules(name, opt_options) {
+    const modulesData = this.getDetails(name, opt_options);
+    if (!modulesData.length) {
+      return [];
+    }
+    return modulesData.map(m => m.moduleName);
+  }
+
+  /**
+   * Get plugin URLs with element and module definitions.
+   *
+   * @param {string} name Endpoint name.
+   * @param {?{
+   *   type: (string|undefined),
+   *   moduleName: (string|undefined)
+   * }} opt_options
+   * @return {!Array<!URL>}
+   */
+  getPlugins(name, opt_options) {
+    const modulesData = this.getDetails(name, opt_options);
+    if (!modulesData.length) {
+      return [];
+    }
+    return Array.from(new Set(modulesData.map(m => m.pluginUrl)));
+  }
+
+  import(pluginUrl) {
+    return Promise.race([
+      new Promise((resolve, reject) => {
+        this._importedUrls.add(pluginUrl.href);
+        importHref(pluginUrl, resolve, reject);
+      }),
+      // Timeout after 3s
+      new Promise(r => setTimeout(r, 3000)),
+    ]);
+  }
+
+  /**
+   * Get plugin URLs with element and module definitions.
+   *
+   * @param {string} name Endpoint name.
+   * @param {?{
+   *   type: (string|undefined),
+   *   moduleName: (string|undefined)
+   * }} opt_options
+   * @return {!Array<!Promise<void>>}
+   */
+  getAndImportPlugins(name, opt_options) {
+    return Promise.all(
+        this.getPlugins(name, opt_options).map(pluginUrl => {
+          if (this._importedUrls.has(pluginUrl.href)) {
+            return Promise.resolve();
+          }
+
+          // TODO: we will deprecate html plugins entirely
+          // for now, keep the original behavior and import
+          // only for html ones
+          if (pluginUrl && pluginUrl.pathname.endsWith('.html')) {
+            return this.import(pluginUrl);
+          } else {
+            return Promise.resolve();
+          }
+        })
+    );
+  }
+}
 
 // TODO(dmfilippov): Convert to service and add to appContext
 export let pluginEndpoints = new GrPluginEndpoints();

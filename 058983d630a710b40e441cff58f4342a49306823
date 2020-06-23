@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64ce9b78_64be3c86",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-23T08:04:50Z",
+      "side": 1,
+      "message": "This could be omitted?",
+      "range": {
+        "startLine": 483,
+        "startChar": 14,
+        "endLine": 483,
+        "endChar": 19
+      },
+      "revId": "058983d630a710b40e441cff58f4342a49306823",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

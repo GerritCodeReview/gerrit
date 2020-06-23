@@ -42,6 +42,48 @@
     },
     {
       "key": {
+        "uuid": "d740b3da_f7c3857c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-23T12:56:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07c17031_23ec92df",
+      "revId": "a1c938b96b19f7b86528b0db3d7df9b13c782e79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e828518_4401d7cb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-23T12:56:32Z",
+      "side": 1,
+      "message": "It is an opt parameter since we don\u0027t want to do this in gr-file-list.\nUpdated the name to reflect opt status.",
+      "parentUuid": "ca38753e_c28d1082",
+      "range": {
+        "startLine": 272,
+        "startChar": 6,
+        "endLine": 272,
+        "endChar": 24
+      },
+      "revId": "a1c938b96b19f7b86528b0db3d7df9b13c782e79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e809f658_4329924b",
         "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
         "patchSetId": 2
@@ -56,6 +98,24 @@
       "revId": "a1c938b96b19f7b86528b0db3d7df9b13c782e79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0397832_104f8fe5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-23T12:56:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e809f658_4329924b",
+      "revId": "a1c938b96b19f7b86528b0db3d7df9b13c782e79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

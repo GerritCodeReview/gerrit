@@ -100,6 +100,7 @@ export const htmlTemplate = html`
           <paper-toggle-button
             checked="[[_isDark]]"
             on-change="_handleToggleDark"
+            on-tap="_onTapDarkToggle"
           ></paper-toggle-button>
           <div>Dark theme (alpha)</div>
         </div>

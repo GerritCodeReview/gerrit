@@ -316,6 +316,13 @@ class GrPermission extends mixinBehaviors( [
 
     return RANGE_NAMES.includes(name.toUpperCase());
   }
+
+  /**
+   * Work around a issue on iOS when clicking turns into double tap
+   */
+  _onTapExclusiveToggle(e) {
+    e.preventDefault();
+  }
 }
 
 customElements.define(GrPermission.is, GrPermission);

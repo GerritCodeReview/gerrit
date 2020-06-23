@@ -79,8 +79,9 @@ export const htmlTemplate = html`
       <paper-toggle-button
         id="automatedMessageToggle"
         checked="{{_hideAutomated}}"
-      ></paper-toggle-button
-      >Only comments
+        on-tap="_onTapHideAutomated"
+      ></paper-toggle-button>
+      Only comments
       <span class="transparent separator"></span>
     </span>
     <gr-button

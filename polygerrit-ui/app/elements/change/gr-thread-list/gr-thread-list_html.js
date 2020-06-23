@@ -60,6 +60,7 @@ export const htmlTemplate = html`
         <paper-toggle-button
           id="unresolvedToggle"
           checked="{{_unresolvedOnly}}"
+          on-tap="_onTapUnresolvedToggle"
         ></paper-toggle-button>
         Only unresolved threads
       </div>
@@ -69,6 +70,7 @@ export const htmlTemplate = html`
         <paper-toggle-button
           id="draftToggle"
           checked="{{_draftsOnly}}"
+          on-tap="_onTapUnresolvedToggle"
         ></paper-toggle-button>
         Only threads with drafts
       </div>

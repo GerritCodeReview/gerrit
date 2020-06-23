@@ -499,6 +499,13 @@ class GrSettingsView extends mixinBehaviors( [
 
     return false;
   }
+
+  /**
+   * Work around a issue on iOS when clicking turns into double tap
+   */
+  _onTapDarkToggle(e) {
+    e.preventDefault();
+  }
 }
 
 customElements.define(GrSettingsView.is, GrSettingsView);

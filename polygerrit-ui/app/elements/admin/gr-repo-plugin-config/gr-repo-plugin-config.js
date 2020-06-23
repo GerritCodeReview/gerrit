@@ -150,6 +150,13 @@ class GrRepoPluginConfig extends mixinBehaviors( [
     this.dispatchEvent(new CustomEvent(
         this.PLUGIN_CONFIG_CHANGED, {detail, bubbles: true, composed: true}));
   }
+
+  /**
+   * Work around a issue on iOS when clicking turns into double tap
+   */
+  _onTapPluginBoolean(e) {
+    e.preventDefault();
+  }
 }
 
 customElements.define(GrRepoPluginConfig.is, GrRepoPluginConfig);

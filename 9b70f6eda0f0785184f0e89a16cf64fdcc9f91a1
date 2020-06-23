@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e4632c0c_efbdf072",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-23T12:40:47Z",
+      "side": 1,
+      "message": "The problem is that `annotationApi` holds layers for all opened files and all gr-diff-host. Closing one diff in change page - I don\u0027t want to remove layers for all other diffs. I would need to implement `removeLayers(path, changeNum, patchNum)` with new `equal` method on `AnnotationLayer`.\n\nI don\u0027t see any benefit for this complexity. We might consider to rewrite whole annotationAPI but I don\u0027t have such intention in this memory leaks fix.\n\nFor destroy - I call destroy only on layers that implements destroy.",
+      "parentUuid": "70f3261b_df130132",
+      "revId": "9b70f6eda0f0785184f0e89a16cf64fdcc9f91a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "406ccc6a_5db86530",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
         "patchSetId": 6
@@ -33,6 +51,24 @@
       "revId": "9b70f6eda0f0785184f0e89a16cf64fdcc9f91a1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aac413ae_b5a4d045",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-23T12:40:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "406ccc6a_5db86530",
+      "revId": "9b70f6eda0f0785184f0e89a16cf64fdcc9f91a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

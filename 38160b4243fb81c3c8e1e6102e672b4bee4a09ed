@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c1d448c_5b5e5f09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-23T12:20:18Z",
+      "side": 1,
+      "message": "URL (here and below)",
+      "range": {
+        "startLine": 15,
+        "startChar": 17,
+        "endLine": 15,
+        "endChar": 31
+      },
+      "revId": "38160b4243fb81c3c8e1e6102e672b4bee4a09ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "839f5b1c_d0849468",
+        "filename": "java/com/google/gerrit/server/restapi/change/RemoveFromAttentionSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-23T12:20:18Z",
+      "side": 1,
+      "message": "this can\u0027t be null at this point. if the account can\u0027t be resolved that would trigger an UnresolvableAccountE in l.71",
+      "range": {
+        "startLine": 74,
+        "startChar": 10,
+        "endLine": 74,
+        "endChar": 33
+      },
+      "revId": "38160b4243fb81c3c8e1e6102e672b4bee4a09ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ef4d1b0_b59a34a0",
+        "filename": "java/com/google/gerrit/server/restapi/change/RemoveFromAttentionSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-23T12:20:18Z",
+      "side": 1,
+      "message": "must not be different from the user specified in the URL.",
+      "range": {
+        "startLine": 77,
+        "startChar": 32,
+        "endLine": 77,
+        "endChar": 93
+      },
+      "revId": "38160b4243fb81c3c8e1e6102e672b4bee4a09ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

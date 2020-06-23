@@ -117,7 +117,12 @@ export const htmlTemplate = html`
       </gr-button>
     </span>
   </span>
-  <template is="dom-repeat" items="[[_visibleMessages]]" as="message">
+  <template
+    id="messageRepeat"
+    is="dom-repeat"
+    items="[[_visibleMessages]]"
+    as="message"
+  >
     <gr-message
       change-num="[[changeNum]]"
       message="[[message]]"

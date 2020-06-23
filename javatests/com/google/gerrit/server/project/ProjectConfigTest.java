@@ -392,7 +392,13 @@ public class ProjectConfigTest {
     update(rev);
 
     ProjectConfig cfg = read(rev);
-    CommentLinkInfoImpl cm = new CommentLinkInfoImpl("Test", "abc.*", null, "<a>link</a>", true);
+    StoredCommentLinkInfo cm =
+        StoredCommentLinkInfo.builder("Test")
+            .setMatch("abc.*")
+            .setHtml("<a>link</a>")
+            .setEnabled(true)
+            .setOverrideOnly(false)
+            .build();
     cfg.addCommentLinkSection(cm);
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))
@@ -555,12 +561,11 @@ public class ProjectConfigTest {
     ProjectConfig cfg = read(rev);
     assertThat(cfg.getCommentLinkSections())
         .containsExactly(
-            new CommentLinkInfoImpl(
-                "bugzilla",
-                "(bug\\s+#?)(\\d+)",
-                "http://bugs.example.com/show_bug.cgi?id=$2",
-                null,
-                null));
+            StoredCommentLinkInfo.builder("bugzilla")
+                .setMatch("(bug\\s+#?)(\\d+)")
+                .setLink("http://bugs.example.com/show_bug.cgi?id=$2")
+                .setOverrideOnly(false)
+                .build());
   }
 
   @Test
@@ -569,7 +574,7 @@ public class ProjectConfigTest {
         tr.commit().add("project.config", "[commentlink \"bugzilla\"]\n \tenabled = true").create();
     ProjectConfig cfg = read(rev);
     assertThat(cfg.getCommentLinkSections())
-        .containsExactly(new CommentLinkInfoImpl.Enabled("bugzilla"));
+        .containsExactly(StoredCommentLinkInfo.enabled("bugzilla"));
   }
 
   @Test
@@ -580,7 +585,7 @@ public class ProjectConfigTest {
             .create();
     ProjectConfig cfg = read(rev);
     assertThat(cfg.getCommentLinkSections())
-        .containsExactly(new CommentLinkInfoImpl.Disabled("bugzilla"));
+        .containsExactly(StoredCommentLinkInfo.disabled("bugzilla"));
   }
 
   @Test

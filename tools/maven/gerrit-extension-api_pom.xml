@@ -29,9 +29,6 @@
       <name>Ben Rohlfs</name>
     </developer>
     <developer>
-      <name>Dave Borowitz</name>
-    </developer>
-    <developer>
       <name>David Ostrovsky</name>
     </developer>
     <developer>
@@ -53,6 +50,9 @@
       <name>Martin Fick</name>
     </developer>
     <developer>
+      <name>Matthias Sohn</name>
+    </developer>
+    <developer>
       <name>Ole Rehmsen</name>
     </developer>
     <developer>
@@ -60,6 +60,9 @@
     </developer>
     <developer>
       <name>Saša Živkov</name>
+    </developer>
+    <developer>
+      <name>Sven Selberg</name>
     </developer>
   </developers>
 

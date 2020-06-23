@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea9b429d_07feaea5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-23T22:09:00Z",
+      "side": 1,
+      "message": "I may have missed the discussion: you just raised it to ERROR, why are we lowering it back to WARN?",
+      "revId": "cc19a5a57a95322d0a1ee8e507ea5f1ab629a7c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

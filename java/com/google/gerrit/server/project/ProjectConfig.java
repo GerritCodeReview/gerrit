@@ -809,7 +809,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private void loadBranchOrderSection(Config rc) {
     if (rc.getSections().contains(BRANCH_ORDER)) {
-      branchOrderSection = new BranchOrderSection(rc.getStringList(BRANCH_ORDER, null, BRANCH));
+      branchOrderSection =
+          BranchOrderSection.create(Arrays.asList(rc.getStringList(BRANCH_ORDER, null, BRANCH)));
     }
   }
 

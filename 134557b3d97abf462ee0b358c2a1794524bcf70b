@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d49673d3_b52cf158",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-23T09:11:04Z",
+      "side": 1,
+      "message": "you might want to stopPropagation as well",
+      "revId": "134557b3d97abf462ee0b358c2a1794524bcf70b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

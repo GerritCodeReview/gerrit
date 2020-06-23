@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "66a39d2a_16f61de8",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewAttentionSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-23T16:39:09Z",
+      "side": 1,
+      "message": "In this case it\u0027s not true, because of\nhttps://gerrit-review.googlesource.com/c/gerrit/+/270134/9/java/com/google/gerrit/server/notedb/ChangeUpdate.java#405\n\nAnyway, I changed the model such that second write doesn\u0027t override first.",
+      "parentUuid": "74113384_11431f3a",
+      "revId": "4f3162b8784b0bf45b47e057fff9048252689ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba4420ec_23cb2f73",
         "filename": "java/com/google/gerrit/server/restapi/change/PostReviewAttentionSet.java",
         "patchSetId": 5
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "0abff560_7bb0577f",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewAttentionSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-23T16:39:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba4420ec_23cb2f73",
+      "range": {
+        "startLine": 102,
+        "startChar": 44,
+        "endLine": 103,
+        "endChar": 19
+      },
+      "revId": "4f3162b8784b0bf45b47e057fff9048252689ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5eedabb_a4c85a68",
         "filename": "java/com/google/gerrit/server/restapi/change/PostReviewAttentionSet.java",
         "patchSetId": 5
@@ -62,6 +104,30 @@
       "revId": "4f3162b8784b0bf45b47e057fff9048252689ed3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c23b2df_d064a0c8",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewAttentionSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-23T16:39:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5eedabb_a4c85a68",
+      "range": {
+        "startLine": 148,
+        "startChar": 8,
+        "endLine": 149,
+        "endChar": 10
+      },
+      "revId": "4f3162b8784b0bf45b47e057fff9048252689ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

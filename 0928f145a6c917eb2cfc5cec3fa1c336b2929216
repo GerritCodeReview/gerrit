@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc20f8b7_3753e619",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2762,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-23T12:30:39Z",
+      "side": 1,
+      "message": "Wasn\u0027t one of the features that you can always change the reason?",
+      "range": {
+        "startLine": 2761,
+        "startChar": 55,
+        "endLine": 2762,
+        "endChar": 28
+      },
+      "revId": "0928f145a6c917eb2cfc5cec3fa1c336b2929216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bca731a_67fb9eda",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-23T12:30:39Z",
+      "side": 1,
+      "message": "You changed this in an earlier commit and now it gets changed back to the original behavior. Can you squash this commit into your earlier to avoid changing something twice?",
+      "revId": "0928f145a6c917eb2cfc5cec3fa1c336b2929216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

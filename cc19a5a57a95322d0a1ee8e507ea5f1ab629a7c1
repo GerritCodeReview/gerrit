@@ -16,6 +16,24 @@
       "revId": "cc19a5a57a95322d0a1ee8e507ea5f1ab629a7c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79901322_843df999",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-23T22:26:01Z",
+      "side": 1,
+      "message": "See https://gerrit-review.googlesource.com/c/gerrit/+/272833 and https://github.com/google/error-prone/issues/1697\n\nThe options are:\n\n1. Reduce to WARN\n2. Suppress the error in that case where it\u0027s occurring\n3. Revert the change that causes it\n\nI\u0027m not sure that suppressing it makes sense. Then there\u0027s no point even having the check, and we should just set it to WARN or OFF. Note we already suppress another instance of it.\n\nWhat about reverting that change?  AFAICT it doesn\u0027t add a huge benefit, it\u0027s just a \"nice to have\".",
+      "parentUuid": "ea9b429d_07feaea5",
+      "revId": "cc19a5a57a95322d0a1ee8e507ea5f1ab629a7c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

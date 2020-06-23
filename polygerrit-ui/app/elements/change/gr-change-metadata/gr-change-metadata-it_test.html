@@ -44,6 +44,7 @@ import './gr-change-metadata.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 
 const pluginApi = _testOnly_initGerritPluginApi();
@@ -116,24 +117,22 @@ suite('gr-change-metadata integration tests', () => {
       const pluginHost = fixture('plugin-host');
       pluginHost.config = {
         plugin: {
-          js_resource_paths: [],
-          html_resource_paths: [
-            new URL('test/plugin.html?' + Math.random(),
+          js_resource_paths: [
+            new URL('test/plugin.js?' + Math.random(),
                 window.location.href).toString(),
           ],
+          html_resource_paths: [],
         },
       };
       element = createElement();
-      const importSpy = sandbox.spy(element.$.externalStyle, '_import');
+      sandbox.stub(pluginEndpoints, 'import', url => Promise.resolve());
       pluginLoader.awaitPluginsLoaded().then(() => {
-        Promise.all(importSpy.returnValues).then(() => {
-          flush(done);
-        });
+        flush(done);
       });
     });
 
     for (const sectionSelector of sectionSelectors) {
-      test(sectionSelector + ' may have display: none', () => {
+      test('section.strategy may have display: none', () => {
         assert.equal(getStyle(sectionSelector, 'display'), 'none');
       });
     }
@@ -144,7 +143,7 @@ suite('gr-change-metadata integration tests', () => {
 
     setup(() => {
       pluginApi.install(p => plugin = p, '0.1',
-          new URL('test/plugin.html?' + Math.random(),
+          new URL('test/plugin.js?' + Math.random(),
               window.location.href).toString());
       sandbox.stub(pluginLoader, 'arePluginsLoaded').returns(true);
       pluginLoader.loadPlugins([]);

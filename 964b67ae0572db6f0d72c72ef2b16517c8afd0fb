@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a19e2c8_4c11cd22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-23T13:45:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e77ee25_191ddcec",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "964b67ae0572db6f0d72c72ef2b16517c8afd0fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7fca387e_ca017a84",
         "filename": "java/com/google/gerrit/server/git/BranchOrderSection.java",
         "patchSetId": 1

@@ -1,60 +1,50 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2017 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>gr-endpoint-decorator</title>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
-
-<test-fixture id="basic">
-  <template>
-    <div>
-      <gr-endpoint-decorator name="first">
-        <gr-endpoint-param name="someparam" value="barbar"></gr-endpoint-param>
-        <p>
-          <span>test slot</span>
-          <gr-endpoint-slot name="test"></gr-endpoint-slot>
-        </p>
-      </gr-endpoint-decorator>
-      <gr-endpoint-decorator name="second">
-        <gr-endpoint-param name="someparam" value="foofoo"></gr-endpoint-param>
-      </gr-endpoint-decorator>
-      <gr-endpoint-decorator name="banana">
-        <gr-endpoint-param name="someParam" value="yes"></gr-endpoint-param>
-      </gr-endpoint-decorator>
-    </div>
-  </template>
-</test-fixture>
-
-<script type="module">
-import '../../../test/common-test-setup.js';
+import '../../../test/common-test-setup-karma.js';
 import './gr-endpoint-decorator.js';
 import '../gr-endpoint-param/gr-endpoint-param.js';
 import '../gr-endpoint-slot/gr-endpoint-slot.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 
 const pluginApi = _testOnly_initGerritPluginApi();
+
+const basicFixture = fixtureFromTemplate(
+    html`<div>
+  <gr-endpoint-decorator name="first">
+    <gr-endpoint-param name="someparam" value="barbar"></gr-endpoint-param>
+    <p>
+      <span>test slot</span>
+      <gr-endpoint-slot name="test"></gr-endpoint-slot>
+    </p>
+  </gr-endpoint-decorator>
+  <gr-endpoint-decorator name="second">
+    <gr-endpoint-param name="someparam" value="foofoo"></gr-endpoint-param>
+  </gr-endpoint-decorator>
+  <gr-endpoint-decorator name="banana">
+    <gr-endpoint-param name="someParam" value="yes"></gr-endpoint-param>
+  </gr-endpoint-decorator>
+</div>`
+);
 
 suite('gr-endpoint-decorator', () => {
   let container;
@@ -66,11 +56,9 @@ suite('gr-endpoint-decorator', () => {
 
   setup(done => {
     sandbox = sinon.sandbox.create();
-    stub('gr-endpoint-decorator', {
-      _import: sandbox.stub().returns(Promise.resolve()),
-    });
     resetPlugins();
-    container = fixture('basic');
+    container = basicFixture.instantiate();
+    sandbox.stub(pluginEndpoints, 'import', url => Promise.resolve());
     pluginApi.install(p => plugin = p, '0.1',
         'http://some/plugin/url.html');
     // Decoration
@@ -90,16 +78,16 @@ suite('gr-endpoint-decorator', () => {
 
   teardown(() => {
     sandbox.restore();
+    resetPlugins();
   });
 
   test('imports plugin-provided modules into endpoints', () => {
     const endpoints =
         Array.from(container.querySelectorAll('gr-endpoint-decorator'));
     assert.equal(endpoints.length, 3);
-    endpoints.forEach(element => {
-      assert.isTrue(
-          element._import.calledWith(new URL('http://some/plugin/url.html')));
-    });
+    assert.isTrue(pluginEndpoints.import.calledWith(
+        new URL('http://some/plugin/url.html')
+    ));
   });
 
   test('decoration', () => {
@@ -124,7 +112,7 @@ suite('gr-endpoint-decorator', () => {
   test('decoration with slot', () => {
     const element =
         container.querySelector('gr-endpoint-decorator[name="first"]');
-    const modules = [...dom(element).querySelectorAll('p > some-module-2')];
+    const modules = [...dom(element).querySelectorAll('some-module-2')];
     assert.equal(modules.length, 1);
     const [module] = modules;
     assert.isOk(module);
@@ -225,4 +213,3 @@ suite('gr-endpoint-decorator', () => {
     });
   });
 });
-</script>

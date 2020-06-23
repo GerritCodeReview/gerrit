@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
-import {importHref} from '../../../scripts/import-href.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
@@ -63,15 +62,6 @@ class GrEndpointDecorator extends GestureEventListeners(
       domHook.handleInstanceDetached(el);
     }
     pluginEndpoints.onDetachedEndpoint(this.name, this._endpointCallBack);
-  }
-
-  /**
-   * @suppress {checkTypes}
-   */
-  _import(url) {
-    return new Promise((resolve, reject) => {
-      importHref(url, resolve, reject);
-    });
   }
 
   _initDecoration(name, plugin, slot) {
@@ -174,10 +164,7 @@ class GrEndpointDecorator extends GestureEventListeners(
     pluginEndpoints.onNewEndpoint(this.name, this._endpointCallBack);
     if (this.name) {
       pluginLoader.awaitPluginsLoaded()
-          .then(() => Promise.all(
-              pluginEndpoints.getPlugins(this.name).map(
-                  pluginUrl => this._import(pluginUrl)))
-          )
+          .then(() => pluginEndpoints.getAndImportPlugins(this.name))
           .then(() =>
             pluginEndpoints
                 .getDetails(this.name)

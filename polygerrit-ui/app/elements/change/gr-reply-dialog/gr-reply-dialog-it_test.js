@@ -1,52 +1,29 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2015 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<meta charset="utf-8">
-<title>gr-reply-dialog</title>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
-
-<test-fixture id="basic">
-  <template>
-    <gr-reply-dialog></gr-reply-dialog>
-  </template>
-</test-fixture>
-
-<test-fixture id="plugin-host">
-  <template>
-    <gr-plugin-host></gr-plugin-host>
-  </template>
-</test-fixture>
-
-<script type="module">
-import '../../../test/common-test-setup.js';
-import '../../plugins/gr-plugin-host/gr-plugin-host.js';
+import '../../../test/common-test-setup-karma.js';
+import {resetPlugins} from '../../../test/test-utils.js';
 import './gr-reply-dialog.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {resetPlugins} from '../../../test/test-utils.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
-
-_testOnly_initGerritPluginApi();
+const basicFixture = fixtureFromElement('gr-reply-dialog');
+const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-reply-dialog tests', () => {
   let element;
@@ -108,7 +85,7 @@ suite('gr-reply-dialog tests', () => {
       getAccount() { return Promise.resolve({_account_id: 42}); },
     });
 
-    element = fixture('basic');
+    element = basicFixture.instantiate();
     setupElement(element);
 
     // Allow the elements created by dom-repeat to be stamped.
@@ -117,6 +94,7 @@ suite('gr-reply-dialog tests', () => {
 
   teardown(() => {
     sandbox.restore();
+    resetPlugins();
   });
 
   test('_submit blocked when invalid email is supplied to ccs', () => {
@@ -139,37 +117,35 @@ suite('gr-reply-dialog tests', () => {
 
   test('lgtm plugin', done => {
     resetPlugins();
-    const pluginHost = fixture('plugin-host');
-    pluginHost.config = {
-      plugin: {
-        js_resource_paths: [],
-        html_resource_paths: [
-          new URL('test/plugin.html?' + Math.random(),
-              window.location.href).toString(),
-        ],
-      },
-    };
-    element = fixture('basic');
+    pluginApi.install(plugin => {
+      const replyApi = plugin.changeReply();
+      replyApi.addReplyTextChangedCallback(text => {
+        const label = 'Code-Review';
+        const labelValue = replyApi.getLabelValue(label);
+        if (labelValue &&
+            labelValue === ' 0' &&
+            text.indexOf('LGTM') === 0) {
+          replyApi.setLabelValue(label, '+1');
+        }
+      });
+    }, null, 'http://test.com/lgtm.js');
+    element = basicFixture.instantiate();
     setupElement(element);
-    const importSpy =
-        sandbox.spy(element.shadowRoot
-            .querySelector('gr-endpoint-decorator'), '_import');
+    sandbox.stub(pluginEndpoints, 'import', url => Promise.resolve());
+    pluginLoader.loadPlugins([]);
     pluginLoader.awaitPluginsLoaded().then(() => {
-      Promise.all(importSpy.returnValues).then(() => {
-        flush(() => {
-          const textarea = element.$.textarea.getNativeTextarea();
-          textarea.value = 'LGTM';
-          textarea.dispatchEvent(new CustomEvent(
-              'input', {bubbles: true, composed: true}));
-          const labelScoreRows = dom(element.$.labelScores.root)
-              .querySelector('gr-label-score-row[name="Code-Review"]');
-          const selectedBtn = dom(labelScoreRows.root)
-              .querySelector('gr-button[data-value="+1"].iron-selected');
-          assert.isOk(selectedBtn);
-          done();
-        });
+      flush(() => {
+        const textarea = element.$.textarea.getNativeTextarea();
+        textarea.value = 'LGTM';
+        textarea.dispatchEvent(new CustomEvent(
+            'input', {bubbles: true, composed: true}));
+        const labelScoreRows = dom(element.$.labelScores.root)
+            .querySelector('gr-label-score-row[name="Code-Review"]');
+        const selectedBtn = dom(labelScoreRows.root)
+            .querySelector('gr-button[data-value="+1"].iron-selected');
+        assert.isOk(selectedBtn);
+        done();
       });
     });
   });
 });
-</script>

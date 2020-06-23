@@ -279,9 +279,6 @@ suite('gr-change-view tests', () => {
 
   setup(() => {
     sandbox = sinon.sandbox.create();
-    stub('gr-endpoint-decorator', {
-      _import: sandbox.stub().returns(Promise.resolve()),
-    });
     // Since pluginEndpoints are global, must reset state.
     _testOnly_resetEndpoints();
     navigateToChangeStub = sandbox.stub(GerritNav, 'navigateToChange');

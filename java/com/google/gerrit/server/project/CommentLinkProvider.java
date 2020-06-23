@@ -47,12 +47,12 @@ public class CommentLinkProvider implements Provider<List<CommentLinkInfo>>, Ger
     List<CommentLinkInfo> cls = Lists.newArrayListWithCapacity(subsections.size());
     for (String name : subsections) {
       try {
-        CommentLinkInfoImpl cl = ProjectConfig.buildCommentLink(cfg, name, true);
-        if (cl.isOverrideOnly()) {
+        StoredCommentLinkInfo cl = ProjectConfig.buildCommentLink(cfg, name, true);
+        if (cl.overrideOnly()) {
           logger.atWarning().log("commentlink %s empty except for \"enabled\"", name);
           continue;
         }
-        cls.add(cl);
+        cls.add(cl.toInfo());
       } catch (IllegalArgumentException e) {
         logger.atWarning().log("invalid commentlink: %s", e.getMessage());
       }

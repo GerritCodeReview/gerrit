@@ -457,16 +457,16 @@ public class ProjectState {
       cls.put(cl.name.toLowerCase(), cl);
     }
     for (ProjectState s : treeInOrder()) {
-      for (CommentLinkInfoImpl cl : s.getConfig().getCommentLinkSections()) {
-        String name = cl.name.toLowerCase();
-        if (cl.isOverrideOnly()) {
+      for (StoredCommentLinkInfo cl : s.getConfig().getCommentLinkSections()) {
+        String name = cl.name().toLowerCase();
+        if (cl.overrideOnly()) {
           CommentLinkInfo parent = cls.get(name);
           if (parent == null) {
             continue; // Ignore invalid overrides.
           }
-          cls.put(name, cl.inherit(parent));
+          cls.put(name, StoredCommentLinkInfo.fromInfo(parent, cl.enabled()).toInfo());
         } else {
-          cls.put(name, cl);
+          cls.put(name, cl.toInfo());
         }
       }
     }

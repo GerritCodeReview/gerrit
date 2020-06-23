@@ -64,7 +64,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.group.SystemGroupBackend;
-import com.google.gerrit.server.project.CommentLinkInfoImpl;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
@@ -916,7 +915,11 @@ public class ProjectIT extends AbstractDaemonTest {
   }
 
   private CommentLinkInfo commentLinkInfo(String name, String match, String link) {
-    return new CommentLinkInfoImpl(name, match, link, null /*html*/, null /*enabled*/);
+    CommentLinkInfo info = new CommentLinkInfo();
+    info.name = name;
+    info.match = match;
+    info.link = link;
+    return info;
   }
 
   private void assertCommentLinks(ConfigInfo actual, Map<String, CommentLinkInfo> expected) {

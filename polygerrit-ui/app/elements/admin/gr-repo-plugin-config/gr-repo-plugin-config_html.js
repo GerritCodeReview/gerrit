@@ -63,6 +63,7 @@ export const htmlTemplate = html`
                 on-change="_handleBooleanChange"
                 data-option-key$="[[option._key]]"
                 disabled$="[[_computeDisabled(option.info.editable)]]"
+                on-tap="_onTapPluginBoolean"
               ></paper-toggle-button>
             </template>
             <template is="dom-if" if="[[_isList(option.info.type)]]">

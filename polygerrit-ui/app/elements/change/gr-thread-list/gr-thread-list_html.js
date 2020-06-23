@@ -61,15 +61,21 @@ export const htmlTemplate = html`
   <template is="dom-if" if="[[!hideToggleButtons]]">
     <div class="header">
       <div class="toggleItem">
-        <paper-toggle-button id="unresolvedToggle" checked="{{_unresolvedOnly}}"
+        <paper-toggle-button
+          id="unresolvedToggle"
+          checked="{{_unresolvedOnly}}"
+          on-tap="_onTapUnresolvedToggle"
           >Only unresolved threads</paper-toggle-button
         >
       </div>
       <div
         class$="toggleItem draftToggle [[_computeShowDraftToggle(loggedIn)]]"
       >
-        <paper-toggle-button id="draftToggle" checked="{{_draftsOnly}}"
-          >Only threads with drafts</paper-toggle-button
+        <paper-toggle-button
+          id="draftToggle"
+          checked="{{_draftsOnly}}"
+          on-tap="_onTapUnresolvedToggle"
+        >Only threads with drafts</paper-toggle-button
         >
       </div>
     </div>

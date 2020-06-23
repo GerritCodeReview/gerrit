@@ -22,6 +22,30 @@
       "revId": "a4c41c01be72d8840a8765b0ac2d26432dee47bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71002c14_2ed030a8",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2149,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-06-23T13:30:25Z",
+      "side": 1,
+      "message": "Yes but since isChangeRef checks if it can parse the ref:\n\n      /** Is the reference name a change reference? */\n      public static boolean isChangeRef(String name) {\n        return Id.fromRef(name) !\u003d null;\n      }\n\nthat\u0027s more or less equivalent to:\n\n    existingRefs.stream()\n        .filter(r -\u003e PatchSet.Id.fromRef(r.getName()) !\u003d null)\n        .map(r -\u003e PatchSet.Id.fromRef(r.getName()))\n\nIt would be more clear and it shouldn\u0027t make that big of a difference performance-wise, but it seemed like a waste to me to parse the ref twice.\n\nEither way is fine with me.",
+      "parentUuid": "727bad26_1be8b93b",
+      "range": {
+        "startLine": 2148,
+        "startChar": 23,
+        "endLine": 2149,
+        "endChar": 41
+      },
+      "revId": "a4c41c01be72d8840a8765b0ac2d26432dee47bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

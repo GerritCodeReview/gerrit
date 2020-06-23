@@ -1,0 +1,8 @@
+{
+    "name": "polygerrit-plugin-dependencies-placeholder",
+    "description": "Gerrit Code Review - Polygerrit plugin dependencies placeholder, expected to be overriden by plugins",
+    "browser": true,
+    "dependencies": {},
+    "license": "Apache-2.0",
+    "private": true
+}

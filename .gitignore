@@ -31,6 +31,8 @@
 /node_modules/
 /package-lock.json
 /plugins/*
+!/plugins/package.json
+!/plugins/yarn.lock
 !/plugins/BUILD
 !/plugins/codemirror-editor
 !/plugins/commit-message-length-validator

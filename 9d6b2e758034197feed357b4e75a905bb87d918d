@@ -34,6 +34,24 @@
       "revId": "9d6b2e758034197feed357b4e75a905bb87d918d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "617d2ffa_a807b566",
+        "filename": "java/com/google/gerrit/extensions/events/LifecycleListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-23T04:30:33Z",
+      "side": 1,
+      "message": "Right, like with the InitStep class: if you wouldn\u0027t have run() method you just wouldn\u0027t implement InitStep at all.",
+      "parentUuid": "a2c455c1_a92c0be0",
+      "revId": "9d6b2e758034197feed357b4e75a905bb87d918d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

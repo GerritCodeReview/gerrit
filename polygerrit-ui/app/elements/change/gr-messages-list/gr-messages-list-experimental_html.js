@@ -56,6 +56,7 @@ export const htmlTemplate = html`
     }
   </style>
   <div class="header">
+<<<<<<< HEAD   (fbe441 Merge branch 'stable-3.1' into stable-3.2)
     <span
       id="automatedMessageToggleContainer"
       class="container"
@@ -68,6 +69,29 @@ export const htmlTemplate = html`
       >Only comments
       <span class="transparent separator"></span>
     </span>
+=======
+    <div id="showAllActivityToggleContainer" class="container">
+      <template
+        is="dom-if"
+        if="[[_isVisibleShowAllActivityToggle(_combinedMessages)]]"
+      >
+        <paper-toggle-button
+          class="showAllActivityToggle"
+          checked="{{_showAllActivity}}"
+          aria-labelledby="showAllEntriesLabel"
+          role="switch"
+          on-tap="_onTapShowAllActivityToggle"
+        ></paper-toggle-button>
+        <div id="showAllEntriesLabel">
+          <span>Show all entries</span>
+          <span class="hiddenEntries" hidden$="[[_showAllActivity]]">
+            ([[_computeHiddenEntriesCount(_combinedMessages)]] hidden)
+          </span>
+        </div>
+        <span class="transparent separator"></span>
+      </template>
+    </div>
+>>>>>>> CHANGE (6b774b Fix toggle on iOS)
     <gr-button
       id="collapse-messages"
       link=""

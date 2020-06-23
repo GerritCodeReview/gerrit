@@ -60,8 +60,14 @@ export const htmlTemplate = html`
         <paper-toggle-button
           id="unresolvedToggle"
           checked="{{_unresolvedOnly}}"
+<<<<<<< HEAD   (fbe441 Merge branch 'stable-3.1' into stable-3.2)
         ></paper-toggle-button>
         Only unresolved threads
+=======
+          on-tap="_onTapUnresolvedToggle"
+          >Only unresolved threads</paper-toggle-button
+        >
+>>>>>>> CHANGE (6b774b Fix toggle on iOS)
       </div>
       <div
         class$="toggleItem draftToggle [[_computeShowDraftToggle(loggedIn)]]"
@@ -69,8 +75,14 @@ export const htmlTemplate = html`
         <paper-toggle-button
           id="draftToggle"
           checked="{{_draftsOnly}}"
+<<<<<<< HEAD   (fbe441 Merge branch 'stable-3.1' into stable-3.2)
         ></paper-toggle-button>
         Only threads with drafts
+=======
+          on-tap="_onTapUnresolvedToggle"
+          >Only threads with drafts</paper-toggle-button
+        >
+>>>>>>> CHANGE (6b774b Fix toggle on iOS)
       </div>
     </div>
   </template>

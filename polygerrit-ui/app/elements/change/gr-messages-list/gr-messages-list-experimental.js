@@ -333,6 +333,13 @@ class GrMessagesListExperimental extends mixinBehaviors( [
     }
     return extremes;
   }
+
+  /**
+   * Work around a issue on iOS when clicking turns into double tap
+   */
+  _onTapShowAllActivityToggle(e) {
+    e.preventDefault();
+  }
 }
 
 customElements.define(GrMessagesListExperimental.is,

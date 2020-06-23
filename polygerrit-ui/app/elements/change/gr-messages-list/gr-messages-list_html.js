@@ -79,8 +79,16 @@ export const htmlTemplate = html`
       <paper-toggle-button
         id="automatedMessageToggle"
         checked="{{_hideAutomated}}"
+<<<<<<< HEAD   (fbe441 Merge branch 'stable-3.1' into stable-3.2)
       ></paper-toggle-button
       >Only comments
+=======
+        aria-labelledby="onlyCommentsLabel"
+        role="switch"
+        on-tap="_onTapHideAutomated"
+      ></paper-toggle-button>
+      <span id="onlyCommentsLabel">Only comments</span>
+>>>>>>> CHANGE (6b774b Fix toggle on iOS)
       <span class="transparent separator"></span>
     </span>
     <gr-button

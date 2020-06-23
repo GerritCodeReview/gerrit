@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.testsuite.account;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.ServerInitiated;
@@ -136,6 +137,7 @@ public class AccountOperationsImpl implements AccountOperations {
           .fullname(Optional.ofNullable(account.fullName()))
           .username(accountState.userName())
           .active(accountState.account().isActive())
+          .emails(ExternalId.getEmails(accountState.externalIds()).collect(toImmutableSet()))
           .build();
     }
 

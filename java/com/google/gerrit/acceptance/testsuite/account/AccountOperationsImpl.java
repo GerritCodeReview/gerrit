@@ -83,6 +83,11 @@ public class AccountOperationsImpl implements AccountOperations {
     accountCreation.username().ifPresent(u -> setUsername(builder, accountId, u, httpPassword));
     accountCreation.status().ifPresent(builder::setStatus);
     accountCreation.active().ifPresent(builder::setActive);
+    accountCreation
+        .secondaryEmails()
+        .forEach(
+            secondaryEmail ->
+                builder.addExternalId(ExternalId.createEmail(accountId, secondaryEmail)));
   }
 
   private static InternalAccountUpdate.Builder setPreferredEmail(

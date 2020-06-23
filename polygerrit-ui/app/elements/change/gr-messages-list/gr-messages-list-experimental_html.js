@@ -84,16 +84,6 @@ export const htmlTemplate = html`
         <span class="transparent separator"></span>
       </template>
     </div>
-    <div class="experimentMessage">
-      <iron-icon icon="gr-icons:pets"></iron-icon>
-      <span>You're currently viewing an experimental Change Log view.</span>
-      <a
-        target="_blank"
-        href="https://www.gerritcodereview.com/2020-05-06-change-log-experiment.html"
-      >
-        Learn more
-      </a>
-    </div>
     <gr-button
       id="collapse-messages"
       link=""

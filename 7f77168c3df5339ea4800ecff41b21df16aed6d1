@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1f133e5_cbb6faa0",
+        "filename": "polygerrit-ui/app/styles/fonts.css",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1019802
+      },
+      "writtenOn": "2020-06-23T18:04:54Z",
+      "side": 1,
+      "message": "This seems like a regression, shouldn\u0027t use fonts.g.com.",
+      "revId": "7f77168c3df5339ea4800ecff41b21df16aed6d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

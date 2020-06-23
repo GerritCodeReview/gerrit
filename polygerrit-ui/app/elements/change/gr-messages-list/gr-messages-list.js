@@ -464,6 +464,13 @@ class GrMessagesList extends mixinBehaviors( [
     }
     return extremes;
   }
+
+  /**
+   * Work around a issue on iOS when clicking turns into double tap
+   */
+  _onTapHideAutomated(e) {
+    e.preventDefault();
+  }
 }
 
 customElements.define(GrMessagesList.is, GrMessagesList);

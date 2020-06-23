@@ -107,6 +107,7 @@ export const htmlTemplate = html`
             aria-labelledby="darkThemeToggleLabel"
             checked="[[_isDark]]"
             on-change="_handleToggleDark"
+            on-tap="_onTapDarkToggle"
           ></paper-toggle-button>
           <div id="darkThemeToggleLabel">Dark theme (alpha)</div>
         </div>

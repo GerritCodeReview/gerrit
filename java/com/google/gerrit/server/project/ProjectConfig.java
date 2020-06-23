@@ -241,7 +241,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private Map<String, LabelType> labelSections;
   private ConfiguredMimeTypes mimeTypes;
   private Map<Project.NameKey, SubscribeSection> subscribeSections;
-  private Map<String, CommentLinkInfoImpl> commentLinkSections;
+  private Map<String, StoredCommentLinkInfo> commentLinkSections;
   private List<ValidationError> validationErrors;
   private ObjectId rulesId;
   private long maxObjectSizeLimit;
@@ -251,7 +251,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private boolean hasLegacyPermissions;
   private Map<String, List<String>> extensionPanelSections;
 
-  public static CommentLinkInfoImpl buildCommentLink(Config cfg, String name, boolean allowRaw)
+  public static StoredCommentLinkInfo buildCommentLink(Config cfg, String name, boolean allowRaw)
       throws IllegalArgumentException {
     String match = cfg.getString(COMMENTLINK, name, KEY_MATCH);
     if (match != null) {
@@ -281,15 +281,15 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         && !hasHtml
         && enabled != null) {
       if (enabled) {
-        return new CommentLinkInfoImpl.Enabled(name);
+        return StoredCommentLinkInfo.enabled(name);
       }
-      return new CommentLinkInfoImpl.Disabled(name);
+      return StoredCommentLinkInfo.disabled(name);
     }
-    return new CommentLinkInfoImpl(name, match, link, html, enabled);
+    return StoredCommentLinkInfo.create(name, match, link, html, enabled, false);
   }
 
-  public void addCommentLinkSection(CommentLinkInfoImpl commentLink) {
-    commentLinkSections.put(commentLink.name, commentLink);
+  public void addCommentLinkSection(StoredCommentLinkInfo commentLink) {
+    commentLinkSections.put(commentLink.name(), commentLink);
   }
 
   public void removeCommentLinkSection(String name) {
@@ -479,7 +479,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return labelSections;
   }
 
-  public Collection<CommentLinkInfoImpl> getCommentLinkSections() {
+  public Collection<StoredCommentLinkInfo> getCommentLinkSections() {
     return commentLinkSections.values();
   }
 
@@ -1235,16 +1235,16 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private void saveCommentLinkSections(Config rc) {
     unsetSection(rc, COMMENTLINK);
     if (commentLinkSections != null) {
-      for (CommentLinkInfoImpl cm : commentLinkSections.values()) {
-        rc.setString(COMMENTLINK, cm.name, KEY_MATCH, cm.match);
-        if (!Strings.isNullOrEmpty(cm.html)) {
-          rc.setString(COMMENTLINK, cm.name, KEY_HTML, cm.html);
+      for (StoredCommentLinkInfo cm : commentLinkSections.values()) {
+        rc.setString(COMMENTLINK, cm.name(), KEY_MATCH, cm.match());
+        if (!Strings.isNullOrEmpty(cm.html())) {
+          rc.setString(COMMENTLINK, cm.name(), KEY_HTML, cm.html());
         }
-        if (!Strings.isNullOrEmpty(cm.link)) {
-          rc.setString(COMMENTLINK, cm.name, KEY_LINK, cm.link);
+        if (!Strings.isNullOrEmpty(cm.link())) {
+          rc.setString(COMMENTLINK, cm.name(), KEY_LINK, cm.link());
         }
-        if (cm.enabled != null && !cm.enabled) {
-          rc.setBoolean(COMMENTLINK, cm.name, KEY_ENABLED, cm.enabled);
+        if (cm.enabled() != null && !cm.enabled()) {
+          rc.setBoolean(COMMENTLINK, cm.name(), KEY_ENABLED, cm.enabled());
         }
       }
     }

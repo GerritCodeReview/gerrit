@@ -70,6 +70,29 @@
       "revId": "9d6b2e758034197feed357b4e75a905bb87d918d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79bee595_e7b566fc",
+        "filename": "java/com/google/gerrit/extensions/events/LifecycleListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-23T06:07:33Z",
+      "side": 1,
+      "message": "Is this mentioned in the documentation? If yes, should it be updated too?",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 24
+      },
+      "revId": "9d6b2e758034197feed357b4e75a905bb87d918d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

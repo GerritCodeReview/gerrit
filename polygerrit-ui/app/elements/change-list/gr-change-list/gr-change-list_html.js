@@ -41,6 +41,9 @@ export const htmlTemplate = html`
     a.section-title:hover .section-name {
       text-decoration: underline;
     }
+    .change-row {
+      cursor: pointer;
+    }
   </style>
   <table id="changeList">
     <template
@@ -140,6 +143,8 @@ export const htmlTemplate = html`
             show-star="[[showStar]]"
             tabindex$="[[_computeTabIndex(sectionIndex, index, selectedIndex)]]"
             label-names="[[labelNames]]"
+            on-click="_handleChangeListItemClick"
+            class="change-row"
           ></gr-change-list-item>
         </template>
       </tbody>

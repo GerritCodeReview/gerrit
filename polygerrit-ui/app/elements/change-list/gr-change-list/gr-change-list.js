@@ -182,6 +182,17 @@ class GrChangeList extends mixinBehaviors( [
     });
   }
 
+  _handleChangeListItemClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    const changeItemRow = this._getChangeItemRowFromEvent(e);
+    if (!changeItemRow) {
+      return;
+    }
+    this.$.cursor.setCursor(changeItemRow);
+    GerritNav.navigateToChange(this._changeForIndex(this.selectedIndex));
+  }
+
   /**
    * Iron-a11y-keys-behavior catches keyboard events globally. Some keyboard
    * events must be scoped to a component level (e.g. `enter`) in order to not
@@ -272,6 +283,16 @@ class GrChangeList extends mixinBehaviors( [
 
   _sectionHref(query) {
     return GerritNav.getUrlForSearchQuery(this._processQuery(query));
+  }
+
+  _getChangeItemRowFromEvent(e) {
+    // Traverse upwards to find the row element if the target is not the row.
+    let row = e.target;
+    while (!row.classList.contains('change-row') && row.parentElement) {
+      row = row.parentElement;
+    }
+
+    return row.classList.contains('change-row') ? row : null;
   }
 
   /**

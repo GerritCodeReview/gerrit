@@ -34,50 +34,22 @@ limitations under the License.
 <script type="module">
 import '../test/common-test-setup.js';
 import './gr-app.js';
-import {util} from '../scripts/util.js';
+import {getComputedStyleValue} from '../utils/dom-util.js';
 import {pluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader.js';
+import {pluginEndpoints} from './shared/gr-js-api-interface/gr-plugin-endpoints.js';
 
 suite('gr-app custom light theme tests', () => {
   let sandbox;
   let element;
-
   setup(done => {
     sandbox = sinon.sandbox.create();
-    stub('gr-reporting', {
-      appStarted: sandbox.stub(),
-    });
-    stub('gr-account-dropdown', {
-      _getTopContent: sinon.stub(),
-    });
-    stub('gr-rest-api-interface', {
-      getAccount() { return Promise.resolve(null); },
-      getAccountCapabilities() { return Promise.resolve({}); },
-      getConfig() {
-        return Promise.resolve({
-          plugin: {
-            js_resource_paths: [],
-            html_resource_paths: [
-              new URL('test/plugin.html', window.location.href).toString(),
-            ],
-          },
-        });
-      },
-      getVersion() { return Promise.resolve(42); },
-      getLoggedIn() { return Promise.resolve(false); },
-    });
-
     window.localStorage.removeItem('dark-theme');
 
     element = fixture('element');
 
-    const importSpy = sandbox.spy(
-        element.$['app-element'].$.externalStyleForAll,
-        '_import');
-    const importForThemeSpy = sandbox.spy(
-        element.$['app-element'].$.externalStyleForTheme,
-        '_import');
+    const importSpy = sandbox.spy(pluginEndpoints, 'import');
     pluginLoader.awaitPluginsLoaded().then(() => {
-      Promise.all(importSpy.returnValues.concat(importForThemeSpy.returnValues))
+      Promise.all([importSpy.returnValues])
           .then(() => {
             flush(done);
           });
@@ -90,14 +62,17 @@ suite('gr-app custom light theme tests', () => {
 
   test('applies the right theme', () => {
     assert.equal(
-        util.getComputedStyleValue('--primary-text-color', element),
-        '#F00BAA');
+        getComputedStyleValue('--primary-text-color', element)
+            .toLowerCase(),
+        '#212121');
     assert.equal(
-        util.getComputedStyleValue('--header-background-color', element),
-        '#F01BAA');
+        getComputedStyleValue('--header-background-color', element)
+            .toLowerCase(),
+        '#347dbe');
     assert.equal(
-        util.getComputedStyleValue('--footer-background-color', element),
-        '#F02BAA');
+        getComputedStyleValue('--footer-background-color', element)
+            .toLowerCase(),
+        'transparent');
   });
 });
 </script>

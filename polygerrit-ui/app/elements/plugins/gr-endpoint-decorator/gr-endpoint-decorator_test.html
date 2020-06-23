@@ -52,6 +52,7 @@ import '../gr-endpoint-slot/gr-endpoint-slot.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 
 const pluginApi = _testOnly_initGerritPluginApi();
@@ -66,11 +67,9 @@ suite('gr-endpoint-decorator', () => {
 
   setup(done => {
     sandbox = sinon.sandbox.create();
-    stub('gr-endpoint-decorator', {
-      _import: sandbox.stub().returns(Promise.resolve()),
-    });
     resetPlugins();
     container = fixture('basic');
+    sandbox.stub(pluginEndpoints, 'import', url => Promise.resolve());
     pluginApi.install(p => plugin = p, '0.1',
         'http://some/plugin/url.html');
     // Decoration
@@ -96,10 +95,9 @@ suite('gr-endpoint-decorator', () => {
     const endpoints =
         Array.from(container.querySelectorAll('gr-endpoint-decorator'));
     assert.equal(endpoints.length, 3);
-    endpoints.forEach(element => {
-      assert.isTrue(
-          element._import.calledWith(new URL('http://some/plugin/url.html')));
-    });
+    assert.isTrue(pluginEndpoints.import.calledWith(
+        new URL('http://some/plugin/url.html')
+    ));
   });
 
   test('decoration', () => {
@@ -124,7 +122,7 @@ suite('gr-endpoint-decorator', () => {
   test('decoration with slot', () => {
     const element =
         container.querySelector('gr-endpoint-decorator[name="first"]');
-    const modules = [...dom(element).querySelectorAll('p > some-module-2')];
+    const modules = [...dom(element).querySelectorAll('some-module-2')];
     assert.equal(modules.length, 1);
     const [module] = modules;
     assert.isOk(module);

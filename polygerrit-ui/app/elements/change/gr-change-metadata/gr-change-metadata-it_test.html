@@ -124,9 +124,8 @@ suite('gr-change-metadata integration tests', () => {
         },
       };
       element = createElement();
-      const importSpy = sandbox.spy(element.$.externalStyle, '_import');
       pluginLoader.awaitPluginsLoaded().then(() => {
-        Promise.all(importSpy.returnValues).then(() => {
+        Promise.all([]).then(() => {
           flush(done);
         });
       });

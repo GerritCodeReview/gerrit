@@ -57,6 +57,7 @@ junit_tests(
         "//java/com/google/gerrit/server/util/time",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//java/com/google/gerrit/truth",
+        "//java/com/google/gerrit/sshd",
         "//java/org/eclipse/jgit:server",
         "//lib:gson",
         "//lib:guava",

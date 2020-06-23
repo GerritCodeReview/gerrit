@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "429948f9_be7ba005",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-23T13:13:59Z",
+      "side": 1,
+      "message": "I thought we agreed to use a bit more sophisticated logic on the frontend. Only if there\u0027s a newer patchset and only if the comment is not on base/parent, Gerrit would point the user to the diff against the latest patchset. The frontend seems to automatically send diff requests for patchset X against patchset X to a diff of patchset X against base, so that case might still work (at least at the moment as long as we have the frontend magic). The links for comments on base/parents would point users to pages on which they can\u0027t see the comments, though.\n\nIn general, I think we are missing the actual intention of this change. When people add comments, they typically do so on the latest patchset. Gerrit generates and sends the emails at that point in time and hence can\u0027t include links to diffs against patchsets which will be uploaded later. Those diffs are the ones users would want to see, though.",
+      "range": {
+        "startLine": 9,
+        "startChar": 34,
+        "endLine": 10,
+        "endChar": 36
+      },
+      "revId": "7160c9174b2b11e625abbf4b9449afaccf2046b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

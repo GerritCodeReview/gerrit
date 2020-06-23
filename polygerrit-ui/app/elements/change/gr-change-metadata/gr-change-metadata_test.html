@@ -37,6 +37,7 @@ import '../../core/gr-router/gr-router.js';
 import './gr-change-metadata.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 
 const pluginApi = _testOnly_initGerritPluginApi();
@@ -47,15 +48,13 @@ suite('gr-change-metadata tests', () => {
 
   setup(() => {
     sandbox = sinon.sandbox.create();
-    stub('gr-endpoint-decorator', {
-      _import: sandbox.stub().returns(Promise.resolve()),
-    });
     stub('gr-rest-api-interface', {
       getConfig() { return Promise.resolve({}); },
       getLoggedIn() { return Promise.resolve(false); },
     });
 
     element = fixture('basic');
+    sandbox.stub(pluginEndpoints, 'import', url => Promise.resolve());
   });
 
   teardown(() => {

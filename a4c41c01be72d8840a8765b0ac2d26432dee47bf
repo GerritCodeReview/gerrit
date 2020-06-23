@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "727bad26_1be8b93b",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 2149,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-23T13:00:40Z",
+      "side": 1,
+      "message": "nit: PatchSet.isChangeRef(r.getName)",
+      "range": {
+        "startLine": 2148,
+        "startChar": 23,
+        "endLine": 2149,
+        "endChar": 41
+      },
+      "revId": "a4c41c01be72d8840a8765b0ac2d26432dee47bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

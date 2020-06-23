@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74113384_11431f3a",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewAttentionSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-23T12:12:53Z",
+      "side": 1,
+      "message": "You now follow the model of \"second write overrides first\". Here, you are processing the manual additions which should always override any default rule IMO. I think these have to be added last, to make it so.",
+      "revId": "4f3162b8784b0bf45b47e057fff9048252689ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba4420ec_23cb2f73",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewAttentionSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-23T12:12:53Z",
+      "side": 1,
+      "message": "nit: it\u0027s better to write this as\n\nif (!isReadyForReview()){\n  return;\n}\n\n// other logic.\n\nbecause it spares the indentation and indentation over large blocks makes the code harder to read.",
+      "range": {
+        "startLine": 102,
+        "startChar": 44,
+        "endLine": 103,
+        "endChar": 19
+      },
+      "revId": "4f3162b8784b0bf45b47e057fff9048252689ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5eedabb_a4c85a68",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewAttentionSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-23T12:12:53Z",
+      "side": 1,
+      "message": "nit: can be static",
+      "range": {
+        "startLine": 148,
+        "startChar": 8,
+        "endLine": 149,
+        "endChar": 10
+      },
+      "revId": "4f3162b8784b0bf45b47e057fff9048252689ed3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

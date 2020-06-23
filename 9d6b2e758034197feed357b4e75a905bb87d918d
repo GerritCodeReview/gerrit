@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76a832e8_ef4f951f",
+        "filename": "java/com/google/gerrit/extensions/events/LifecycleListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-23T04:21:38Z",
+      "side": 1,
+      "message": "is there use case to make this default empty too?",
+      "revId": "9d6b2e758034197feed357b4e75a905bb87d918d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

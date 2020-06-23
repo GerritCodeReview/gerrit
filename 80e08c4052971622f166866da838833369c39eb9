@@ -68,6 +68,30 @@
       "revId": "80e08c4052971622f166866da838833369c39eb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a1027f2_d6edc871",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewAttentionSet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-23T13:15:01Z",
+      "side": 1,
+      "message": "We need this because even if the inputs are empty, review endpoint still propagate new attention set updates to ChangeUpdate (e.g, a user that replies is removed from the attention set).\n\nI agree that it\u0027s not great. Do you think a boolean is better? (keep_attention_set_unchanged?)",
+      "parentUuid": "596f41ff_5ff75895",
+      "range": {
+        "startLine": 89,
+        "startChar": 6,
+        "endLine": 89,
+        "endChar": 76
+      },
+      "revId": "80e08c4052971622f166866da838833369c39eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

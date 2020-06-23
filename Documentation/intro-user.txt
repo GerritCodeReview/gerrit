@@ -527,9 +527,6 @@ topics, a change can have multiple hashtags, and they are only used for
 informational grouping; changes with the same hashtags are not necessarily
 submitted together.
 
-The hashtag feature is only available when running under
-link:note-db.html[NoteDb].
-
 .Set Hashtag on Push
 ----
   $ git push origin HEAD:refs/for/master%t=stable-bugfix

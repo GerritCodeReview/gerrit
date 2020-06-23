@@ -69,6 +69,24 @@
       "revId": "134557b3d97abf462ee0b358c2a1794524bcf70b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5de2c12_7c83bdac",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-23T10:26:27Z",
+      "side": 1,
+      "message": "The row is highlighting, so that should be enough as a clue for user what change it will open.",
+      "parentUuid": "f019be60_0bd2450a",
+      "revId": "134557b3d97abf462ee0b358c2a1794524bcf70b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

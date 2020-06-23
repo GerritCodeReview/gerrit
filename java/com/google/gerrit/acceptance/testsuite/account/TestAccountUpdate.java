@@ -15,8 +15,12 @@
 package com.google.gerrit.acceptance.testsuite.account;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.testsuite.ThrowingConsumer;
 import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
 
 @AutoValue
 public abstract class TestAccountUpdate {
@@ -32,11 +36,14 @@ public abstract class TestAccountUpdate {
 
   public abstract Optional<Boolean> active();
 
+  public abstract Function<ImmutableSet<String>, Set<String>> secondaryEmailsModification();
+
   abstract ThrowingConsumer<TestAccountUpdate> accountUpdater();
 
   public static Builder builder(ThrowingConsumer<TestAccountUpdate> accountUpdater) {
     return new AutoValue_TestAccountUpdate.Builder()
         .accountUpdater(accountUpdater)
+        .secondaryEmailsModification(in -> in)
         .httpPassword("http-pass");
   }
 
@@ -80,6 +87,37 @@ public abstract class TestAccountUpdate {
 
     public Builder inactive() {
       return active(false);
+    }
+
+    abstract Builder secondaryEmailsModification(
+        Function<ImmutableSet<String>, Set<String>> secondaryEmailsModification);
+
+    abstract Function<ImmutableSet<String>, Set<String>> secondaryEmailsModification();
+
+    public Builder clearSecondaryEmails() {
+      return secondaryEmailsModification(originalSecondaryEmail -> ImmutableSet.of());
+    }
+
+    public Builder addSecondaryEmail(String secondaryEmail) {
+      Function<ImmutableSet<String>, Set<String>> secondaryEmailsModification =
+          secondaryEmailsModification();
+      secondaryEmailsModification(
+          originalSecondaryEmails ->
+              Sets.union(
+                  secondaryEmailsModification.apply(originalSecondaryEmails),
+                  ImmutableSet.of(secondaryEmail)));
+      return this;
+    }
+
+    public Builder removeSecondaryEmail(String secondaryEmail) {
+      Function<ImmutableSet<String>, Set<String>> previousModification =
+          secondaryEmailsModification();
+      secondaryEmailsModification(
+          originalSecondaryEmails ->
+              Sets.difference(
+                  previousModification.apply(originalSecondaryEmails),
+                  ImmutableSet.of(secondaryEmail)));
+      return this;
     }
 
     abstract Builder accountUpdater(ThrowingConsumer<TestAccountUpdate> accountUpdater);

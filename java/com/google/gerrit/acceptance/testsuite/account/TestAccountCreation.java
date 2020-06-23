@@ -14,7 +14,10 @@
 
 package com.google.gerrit.acceptance.testsuite.account;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.testsuite.ThrowingFunction;
 import com.google.gerrit.entities.Account;
 import java.util.Optional;
@@ -32,6 +35,8 @@ public abstract class TestAccountCreation {
   public abstract Optional<String> status();
 
   public abstract Optional<Boolean> active();
+
+  public abstract ImmutableSet<String> secondaryEmails();
 
   abstract ThrowingFunction<TestAccountCreation, Account.Id> accountCreator();
 
@@ -83,14 +88,29 @@ public abstract class TestAccountCreation {
       return active(false);
     }
 
+    public abstract Builder secondaryEmails(ImmutableSet<String> secondaryEmails);
+
+    abstract ImmutableSet.Builder<String> secondaryEmailsBuilder();
+
+    public Builder addSecondaryEmail(String secondaryEmail) {
+      secondaryEmailsBuilder().add(secondaryEmail);
+      return this;
+    }
+
     abstract Builder accountCreator(
         ThrowingFunction<TestAccountCreation, Account.Id> accountCreator);
 
     abstract TestAccountCreation autoBuild();
 
     public Account.Id create() {
-      TestAccountCreation accountUpdate = autoBuild();
-      return accountUpdate.accountCreator().applyAndThrowSilently(accountUpdate);
+      TestAccountCreation accountCreation = autoBuild();
+      if (accountCreation.preferredEmail().isPresent()) {
+        checkState(
+            !accountCreation.secondaryEmails().contains(accountCreation.preferredEmail().get()),
+            "preferred email %s cannot be secondary email at the same time",
+            accountCreation.preferredEmail().get());
+      }
+      return accountCreation.accountCreator().applyAndThrowSilently(accountCreation);
     }
   }
 }

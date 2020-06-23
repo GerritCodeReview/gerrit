@@ -15,7 +15,10 @@
 package com.google.gerrit.acceptance.testsuite.account;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountState;
@@ -60,8 +63,8 @@ public class AccountOperationsImpl implements AccountOperations {
 
   private Account.Id createAccount(TestAccountCreation accountCreation) throws Exception {
     AccountsUpdate.AccountUpdater accountUpdater =
-        (account, updateBuilder) ->
-            fillBuilder(updateBuilder, accountCreation, account.account().id());
+        (accountState, updateBuilder) ->
+            fillBuilder(updateBuilder, accountCreation, accountState.account().id());
     AccountState createdAccount = createAccount(accountUpdater);
     return createdAccount.account().id();
   }
@@ -82,6 +85,11 @@ public class AccountOperationsImpl implements AccountOperations {
     accountCreation.username().ifPresent(u -> setUsername(builder, accountId, u, httpPassword));
     accountCreation.status().ifPresent(builder::setStatus);
     accountCreation.active().ifPresent(builder::setActive);
+    accountCreation
+        .secondaryEmails()
+        .forEach(
+            secondaryEmail ->
+                builder.addExternalId(ExternalId.createEmail(accountId, secondaryEmail)));
   }
 
   private static InternalAccountUpdate.Builder setPreferredEmail(
@@ -136,6 +144,7 @@ public class AccountOperationsImpl implements AccountOperations {
           .fullname(Optional.ofNullable(account.fullName()))
           .username(accountState.userName())
           .active(accountState.account().isActive())
+          .emails(ExternalId.getEmails(accountState.externalIds()).collect(toImmutableSet()))
           .build();
     }
 
@@ -147,7 +156,7 @@ public class AccountOperationsImpl implements AccountOperations {
     private void updateAccount(TestAccountUpdate accountUpdate)
         throws IOException, ConfigInvalidException {
       AccountsUpdate.AccountUpdater accountUpdater =
-          (account, updateBuilder) -> fillBuilder(updateBuilder, accountUpdate, accountId);
+          (accountState, updateBuilder) -> fillBuilder(updateBuilder, accountUpdate, accountState);
       Optional<AccountState> updatedAccount = updateAccount(accountUpdater);
       checkState(updatedAccount.isPresent(), "Tried to update non-existing test account");
     }
@@ -160,13 +169,50 @@ public class AccountOperationsImpl implements AccountOperations {
     private void fillBuilder(
         InternalAccountUpdate.Builder builder,
         TestAccountUpdate accountUpdate,
-        Account.Id accountId) {
+        AccountState accountState) {
       accountUpdate.fullname().ifPresent(builder::setFullName);
       accountUpdate.preferredEmail().ifPresent(e -> setPreferredEmail(builder, accountId, e));
       String httpPassword = accountUpdate.httpPassword().orElse(null);
       accountUpdate.username().ifPresent(u -> setUsername(builder, accountId, u, httpPassword));
       accountUpdate.status().ifPresent(builder::setStatus);
       accountUpdate.active().ifPresent(builder::setActive);
+
+      ImmutableSet<String> secondaryEmails;
+      ImmutableSet<String> allEmails =
+          ExternalId.getEmails(accountState.externalIds()).collect(toImmutableSet());
+      if (accountUpdate.preferredEmail().isPresent()) {
+        secondaryEmails =
+            ImmutableSet.copyOf(
+                Sets.difference(allEmails, ImmutableSet.of(accountUpdate.preferredEmail().get())));
+      } else if (accountState.account().preferredEmail() != null) {
+        secondaryEmails =
+            ImmutableSet.copyOf(
+                Sets.difference(
+                    allEmails, ImmutableSet.of(accountState.account().preferredEmail())));
+      } else {
+        secondaryEmails = allEmails;
+      }
+      ImmutableSet<String> newSecondaryEmails =
+          ImmutableSet.copyOf(accountUpdate.secondaryEmailsModification().apply(secondaryEmails));
+      if (!secondaryEmails.equals(newSecondaryEmails)) {
+        // delete all external IDs of SCHEME_MAILTO scheme, then add back SCHEME_MAILTO external IDs
+        // for the new secondary emails and the preferred email
+        builder.deleteExternalIds(
+            accountState.externalIds().stream()
+                .filter(e -> e.isScheme(ExternalId.SCHEME_MAILTO))
+                .collect(toImmutableSet()));
+        builder.addExternalIds(
+            newSecondaryEmails.stream()
+                .map(secondaryEmail -> ExternalId.createEmail(accountId, secondaryEmail))
+                .collect(toImmutableSet()));
+        if (accountUpdate.preferredEmail().isPresent()) {
+          builder.addExternalId(
+              ExternalId.createEmail(accountId, accountUpdate.preferredEmail().get()));
+        } else if (accountState.account().preferredEmail() != null) {
+          builder.addExternalId(
+              ExternalId.createEmail(accountId, accountState.account().preferredEmail()));
+        }
+      }
     }
 
     @Override

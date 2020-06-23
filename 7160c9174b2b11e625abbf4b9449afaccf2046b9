@@ -22,6 +22,30 @@
       "revId": "7160c9174b2b11e625abbf4b9449afaccf2046b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f523d5b_ec5e18c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-23T13:23:25Z",
+      "side": 1,
+      "message": "On the frontend side yes, if comment is on Base/Latest then the user will see Base vs X which is the current behaviour.\nHowever if it\u0027s on any other patchset X, they see X vs Latest and a toast to go to Base vs X via keyboard shortcuts.\n\nIf user commented on Base on patchset X, then the email will take the users to the diff of Base vs Patchset X right?\nSo the user should be able to see the comment on the left side.\nWe can take them after that via a toast to Base vs Latest, but users won\u0027t be able to see the comment then, so not sure if that makes a lot of sense. \n\nWe don\u0027t really need to diff against future patchsets in the emails for now(although it would be a really nice to have feature). It\u0027s probably not even possible to know since the latest patchset will be created in the future.",
+      "parentUuid": "429948f9_be7ba005",
+      "range": {
+        "startLine": 9,
+        "startChar": 34,
+        "endLine": 10,
+        "endChar": 36
+      },
+      "revId": "7160c9174b2b11e625abbf4b9449afaccf2046b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

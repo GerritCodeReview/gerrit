@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.testsuite.ThrowingFunction;
 import com.google.gerrit.entities.Account;
 import java.util.Optional;
+import java.util.Set;
 
 @AutoValue
 public abstract class TestAccountCreation {
@@ -88,7 +89,7 @@ public abstract class TestAccountCreation {
       return active(false);
     }
 
-    public abstract Builder secondaryEmails(ImmutableSet<String> secondaryEmails);
+    public abstract Builder secondaryEmails(Set<String> secondaryEmails);
 
     abstract ImmutableSet.Builder<String> secondaryEmailsBuilder();
 

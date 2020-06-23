@@ -177,41 +177,49 @@ public class AccountOperationsImpl implements AccountOperations {
       accountUpdate.status().ifPresent(builder::setStatus);
       accountUpdate.active().ifPresent(builder::setActive);
 
-      ImmutableSet<String> secondaryEmails;
-      ImmutableSet<String> allEmails =
-          ExternalId.getEmails(accountState.externalIds()).collect(toImmutableSet());
-      if (accountUpdate.preferredEmail().isPresent()) {
-        secondaryEmails =
-            ImmutableSet.copyOf(
-                Sets.difference(allEmails, ImmutableSet.of(accountUpdate.preferredEmail().get())));
-      } else if (accountState.account().preferredEmail() != null) {
-        secondaryEmails =
-            ImmutableSet.copyOf(
-                Sets.difference(
-                    allEmails, ImmutableSet.of(accountState.account().preferredEmail())));
-      } else {
-        secondaryEmails = allEmails;
-      }
+      ImmutableSet<String> secondaryEmails = getSecondaryEmails(accountUpdate, accountState);
       ImmutableSet<String> newSecondaryEmails =
           ImmutableSet.copyOf(accountUpdate.secondaryEmailsModification().apply(secondaryEmails));
       if (!secondaryEmails.equals(newSecondaryEmails)) {
-        // delete all external IDs of SCHEME_MAILTO scheme, then add back SCHEME_MAILTO external IDs
-        // for the new secondary emails and the preferred email
-        builder.deleteExternalIds(
-            accountState.externalIds().stream()
-                .filter(e -> e.isScheme(ExternalId.SCHEME_MAILTO))
-                .collect(toImmutableSet()));
-        builder.addExternalIds(
-            newSecondaryEmails.stream()
-                .map(secondaryEmail -> ExternalId.createEmail(accountId, secondaryEmail))
-                .collect(toImmutableSet()));
-        if (accountUpdate.preferredEmail().isPresent()) {
-          builder.addExternalId(
-              ExternalId.createEmail(accountId, accountUpdate.preferredEmail().get()));
-        } else if (accountState.account().preferredEmail() != null) {
-          builder.addExternalId(
-              ExternalId.createEmail(accountId, accountState.account().preferredEmail()));
-        }
+        setSecondaryEmails(builder, accountUpdate, accountState, newSecondaryEmails);
+      }
+    }
+
+    private ImmutableSet<String> getSecondaryEmails(
+        TestAccountUpdate accountUpdate, AccountState accountState) {
+      ImmutableSet<String> allEmails =
+          ExternalId.getEmails(accountState.externalIds()).collect(toImmutableSet());
+      if (accountUpdate.preferredEmail().isPresent()) {
+        return ImmutableSet.copyOf(
+            Sets.difference(allEmails, ImmutableSet.of(accountUpdate.preferredEmail().get())));
+      } else if (accountState.account().preferredEmail() != null) {
+        return ImmutableSet.copyOf(
+            Sets.difference(allEmails, ImmutableSet.of(accountState.account().preferredEmail())));
+      }
+      return allEmails;
+    }
+
+    private void setSecondaryEmails(
+        InternalAccountUpdate.Builder builder,
+        TestAccountUpdate accountUpdate,
+        AccountState accountState,
+        ImmutableSet<String> newSecondaryEmails) {
+      // delete all external IDs of SCHEME_MAILTO scheme, then add back SCHEME_MAILTO external IDs
+      // for the new secondary emails and the preferred email
+      builder.deleteExternalIds(
+          accountState.externalIds().stream()
+              .filter(e -> e.isScheme(ExternalId.SCHEME_MAILTO))
+              .collect(toImmutableSet()));
+      builder.addExternalIds(
+          newSecondaryEmails.stream()
+              .map(secondaryEmail -> ExternalId.createEmail(accountId, secondaryEmail))
+              .collect(toImmutableSet()));
+      if (accountUpdate.preferredEmail().isPresent()) {
+        builder.addExternalId(
+            ExternalId.createEmail(accountId, accountUpdate.preferredEmail().get()));
+      } else if (accountState.account().preferredEmail() != null) {
+        builder.addExternalId(
+            ExternalId.createEmail(accountId, accountState.account().preferredEmail()));
       }
     }
 

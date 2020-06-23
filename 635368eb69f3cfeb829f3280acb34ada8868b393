@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c876401_016adaa4",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-23T09:29:36Z",
+      "side": 1,
+      "message": "Is that part true?\n\nThere were comments saying that we should allow feature improvements on stable\nbranches to let users benefit early.\n\nIf we `should` allow it, it kind of implies that it\u0027s not the norm. So I\nfigured that even feature improvements should go to `master` per default.\n\nBut I added the \"if you cannot run `master`\" part to capture the \"we should\nallow them to stable\" comment from the previous PS.",
+      "range": {
+        "startLine": 24,
+        "startChar": 36,
+        "endLine": 25,
+        "endChar": 11
+      },
+      "revId": "635368eb69f3cfeb829f3280acb34ada8868b393",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

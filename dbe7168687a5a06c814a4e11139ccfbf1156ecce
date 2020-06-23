@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b938985_b2256c31",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/TestAccountCreation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-23T09:49:23Z",
+      "side": 1,
+      "message": "Nit (adjustable in the future): Could just be Set.",
+      "range": {
+        "startLine": 91,
+        "startChar": 44,
+        "endLine": 91,
+        "endChar": 56
+      },
+      "revId": "dbe7168687a5a06c814a4e11139ccfbf1156ecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

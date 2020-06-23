@@ -16,6 +16,23 @@
       "revId": "134557b3d97abf462ee0b358c2a1794524bcf70b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6feecf8_aeccefaa",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-23T09:11:40Z",
+      "side": 1,
+      "message": "should this also show the `underline` of the `a` inside as well when hover ?",
+      "revId": "134557b3d97abf462ee0b358c2a1794524bcf70b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

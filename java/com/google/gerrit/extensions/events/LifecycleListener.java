@@ -24,5 +24,5 @@ public interface LifecycleListener extends EventListener {
   void start();
 
   /** Invoked when the server is stopping. */
-  default void stop() {}
+  void stop();
 }

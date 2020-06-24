@@ -22,6 +22,29 @@
       "revId": "fc050554b4b15f158bed8dc19bc975928857778a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77cf421a_f8adf03f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-24T15:01:11Z",
+      "side": 1,
+      "message": "We usually call the footer:\n\n  Bug: Issue 12997",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 11
+      },
+      "revId": "fc050554b4b15f158bed8dc19bc975928857778a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

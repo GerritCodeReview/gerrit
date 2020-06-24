@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f66d02bc_a0bbb4df",
+        "filename": "javatests/com/google/gerrit/server/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-06-24T20:47:37Z",
+      "side": 1,
+      "message": "TestSshCommand extends SshCommand which comes from that module",
+      "parentUuid": "7087aa60_03014813",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 40
+      },
+      "revId": "a106877f7b5a0e323d1972f5c0014ebb2edd2167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b641d0e5_72113da5",
         "filename": "javatests/com/google/gerrit/server/plugins/AutoRegisterModulesTest.java",
         "patchSetId": 7
@@ -36,6 +60,30 @@
       "writtenOn": "2020-06-24T20:31:04Z",
       "side": 1,
       "message": "Why private? I guess Gerrit should be able to discover this class. Also, SshCommands are typically public classes.",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 10
+      },
+      "revId": "a106877f7b5a0e323d1972f5c0014ebb2edd2167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44605db1_3ffc0183",
+        "filename": "javatests/com/google/gerrit/server/plugins/AutoRegisterModulesTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-06-24T20:47:37Z",
+      "side": 1,
+      "message": "I can make it public it\u0027s not a problem but it\u0027s not needed for that test. PluginContextScanner discovers the commands and in our case we are always returning this class see line 87. And then code is not instantiating it, just checking if this class implements Command interface.",
+      "parentUuid": "b641d0e5_72113da5",
       "range": {
         "startLine": 66,
         "startChar": 2,

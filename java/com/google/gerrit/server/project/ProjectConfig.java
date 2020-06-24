@@ -91,7 +91,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
-import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.util.FS;
 
 public class ProjectConfig extends VersionedMetaData implements ValidationError.Sink {
@@ -376,7 +375,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   public void addSubscribeSection(SubscribeSection s) {
-    subscribeSections.put(s.getProject(), s);
+    subscribeSections.put(s.project(), s);
   }
 
   public void remove(AccessSection section) {
@@ -1080,7 +1079,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     try {
       for (String projectName : subsections) {
         Project.NameKey p = Project.nameKey(projectName);
-        SubscribeSection ss = new SubscribeSection(p);
+        SubscribeSection.Builder ss = SubscribeSection.builder(p);
         for (String s :
             rc.getStringList(SUBSCRIBE_SECTION, projectName, SUBSCRIBE_MULTI_MATCH_REFS)) {
           ss.addMultiMatchRefSpec(s);
@@ -1088,7 +1087,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         for (String s : rc.getStringList(SUBSCRIBE_SECTION, projectName, SUBSCRIBE_MATCH_REFS)) {
           ss.addMatchingRefSpec(s);
         }
-        subscribeSections.put(p, ss);
+        subscribeSections.put(p, ss.build());
       }
     } catch (IllegalArgumentException e) {
       throw new ConfigInvalidException(e.getMessage());
@@ -1561,14 +1560,14 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     for (Project.NameKey p : subscribeSections.keySet()) {
       SubscribeSection s = subscribeSections.get(p);
       List<String> matchings = new ArrayList<>();
-      for (RefSpec r : s.getMatchingRefSpecs()) {
-        matchings.add(r.toString());
+      for (String r : s.matchingRefSpecsAsString()) {
+        matchings.add(r);
       }
       rc.setStringList(SUBSCRIBE_SECTION, p.get(), SUBSCRIBE_MATCH_REFS, matchings);
 
       List<String> multimatchs = new ArrayList<>();
-      for (RefSpec r : s.getMultiMatchRefSpecs()) {
-        multimatchs.add(r.toString());
+      for (String r : s.multiMatchRefSpecsAsString()) {
+        multimatchs.add(r);
       }
       rc.setStringList(SUBSCRIBE_SECTION, p.get(), SUBSCRIBE_MULTI_MATCH_REFS, multimatchs);
     }

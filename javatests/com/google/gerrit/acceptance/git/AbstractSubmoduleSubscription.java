@@ -204,12 +204,12 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
       throws Exception {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(submodule)) {
       md.setMessage("Added superproject subscription");
-      SubscribeSection s;
+      SubscribeSection.Builder s;
       ProjectConfig pc = projectConfigFactory.read(md);
       if (pc.getSubscribeSections().containsKey(superproject)) {
-        s = pc.getSubscribeSections().get(superproject);
+        s = pc.getSubscribeSections().get(superproject).toBuilder();
       } else {
-        s = new SubscribeSection(superproject);
+        s = SubscribeSection.builder(superproject);
       }
       String refspec;
       if (superBranch == null) {
@@ -222,7 +222,7 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
       } else {
         s.addMultiMatchRefSpec(refspec);
       }
-      pc.addSubscribeSection(s);
+      pc.addSubscribeSection(s.build());
       ObjectId oldId = pc.getRevision();
       ObjectId newId = pc.commit(md);
       assertThat(newId).isNotEqualTo(oldId);

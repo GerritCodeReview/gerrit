@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee3c4866_18e5f2a9",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-24T15:32:09Z",
+      "side": 1,
+      "message": "why we even need this if we already have _owner in this component and account in account-label ?\n\nya its existing code, so I am fine if you want to keep it.",
+      "revId": "5868eca0cc82a94cf7c8f9a74528c1ca4eae466e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53ae0cbc_fa496c42",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-24T15:32:09Z",
+      "side": 1,
+      "message": "it seems quite a lot effort just to pass change down, i knew an idea solution would be to get the state management, but even before that, maybe just use the restApi and call getChangeDetail again ? we have proper cache there so it should not be that bad ?",
+      "revId": "5868eca0cc82a94cf7c8f9a74528c1ca4eae466e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65ebb854_2d4e9fa9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-24T15:32:09Z",
+      "side": 1,
+      "message": "after reading the comment above, I have to say the name is very misleading, it feels like this attribute is to show the attention..\n\nI understand why you need to pass this attribute all the way down, but it really feels very bad lol, I don\u0027t really have a better idea for this one right now either.",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 70,
+        "endChar": 19
+      },
+      "revId": "5868eca0cc82a94cf7c8f9a74528c1ca4eae466e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b32354f8_09ea4473",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-24T15:32:09Z",
+      "side": 1,
+      "message": "similar to how we get the config here, maybe just get the change here as well, the restApi has proper cache and should not be that much a burden and way better compare to pass it all the way down.. once the state management is there, we can replace pretty easily as well",
+      "revId": "5868eca0cc82a94cf7c8f9a74528c1ca4eae466e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc9abbc3_c9d1d8b3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-24T15:32:09Z",
+      "side": 1,
+      "message": "maybe just make it a getter on the class, so you can just use as `this.enabled` as they are relying on properties of this component anyway",
+      "range": {
+        "startLine": 91,
+        "startChar": 20,
+        "endLine": 91,
+        "endChar": 41
+      },
+      "revId": "5868eca0cc82a94cf7c8f9a74528c1ca4eae466e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e8688d6_b26d8c17",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-24T15:32:09Z",
+      "side": 1,
+      "message": "also this",
+      "range": {
+        "startLine": 93,
+        "startChar": 22,
+        "endLine": 93,
+        "endChar": 34
+      },
+      "revId": "5868eca0cc82a94cf7c8f9a74528c1ca4eae466e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bacbf84_ab798465",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-24T15:32:09Z",
+      "side": 1,
+      "message": "why we need a reload ? can not we just update the style ? seems pretty expensive action lol",
+      "revId": "5868eca0cc82a94cf7c8f9a74528c1ca4eae466e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

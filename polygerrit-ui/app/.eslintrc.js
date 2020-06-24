@@ -157,6 +157,8 @@ module.exports = {
     "import/no-useless-path-segments": 2,
     "import/no-unused-modules": 2,
     "import/no-default-export": 2,
+
+    "goog-module-id": 2,
   },
 
   // List of allowed globals in all files
@@ -191,6 +193,13 @@ module.exports = {
       },
       "parserOptions": {
         "project": path.resolve(__dirname, "./tsconfig.json"),
+      }
+    },
+    {
+      "files": ["**/*.ts"],
+      "excludedFiles": "*.d.ts",
+      "rules": {
+        "ts-imports-js": 2,
       }
     },
     {

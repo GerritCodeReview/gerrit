@@ -111,7 +111,9 @@
     {for $group in $commentFiles}
       <li style="{$fileLiStyle}">
         <p>
-          <a href="{$group.link}">{$group.title}:</a>
+          {if $group.link}<a href="{$group.link}">{/if}
+          {$group.title}:
+          {if $group.link}</a>{/if}
         </p>
 
         <ul style="{$ulStyle}">

@@ -618,7 +618,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     loadLabelSections(rc);
     loadCommentLinkSections(rc);
     loadSubscribeSections(rc);
-    mimeTypes = new ConfiguredMimeTypes(projectName.get(), rc);
+    mimeTypes = ConfiguredMimeTypes.create(projectName.get(), rc);
     loadPluginSections(rc);
     loadReceiveSection(rc);
     loadExtensionPanelSections(rc);

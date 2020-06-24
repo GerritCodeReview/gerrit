@@ -16,6 +16,7 @@ package com.google.gerrit.server.submit;
 
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.MultimapBuilder;
@@ -38,11 +39,11 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
-import org.eclipse.jgit.transport.RefSpec;
 
 /**
  * A container which stores subscription relationship. A SubscriptionGraph is calculated every time
@@ -270,55 +271,18 @@ public class SubscriptionGraph {
 
     private Collection<BranchNameKey> getDestinationBranches(BranchNameKey src, SubscribeSection s)
         throws IOException {
-      Collection<BranchNameKey> ret = new HashSet<>();
-      logger.atFine().log("Inspecting SubscribeSection %s", s);
-      for (RefSpec r : s.getMatchingRefSpecs()) {
-        logger.atFine().log("Inspecting [matching] ref %s", r);
-        if (!r.matchSource(src.branch())) {
-          continue;
-        }
-        if (r.isWildcard()) {
-          // refs/heads/*[:refs/somewhere/*]
-          ret.add(
-              BranchNameKey.create(
-                  s.getProject(), r.expandFromSource(src.branch()).getDestination()));
-        } else {
-          // e.g. refs/heads/master[:refs/heads/stable]
-          String dest = r.getDestination();
-          if (dest == null) {
-            dest = r.getSource();
-          }
-          ret.add(BranchNameKey.create(s.getProject(), dest));
-        }
+      OpenRepo or;
+      try {
+        or = orm.getRepo(s.project());
+      } catch (NoSuchProjectException e) {
+        // A project listed a non existent project to be allowed
+        // to subscribe to it. Allow this for now, i.e. no exception is
+        // thrown.
+        return s.getDestinationBranches(src, ImmutableList.of());
       }
 
-      for (RefSpec r : s.getMultiMatchRefSpecs()) {
-        logger.atFine().log("Inspecting [all] ref %s", r);
-        if (!r.matchSource(src.branch())) {
-          continue;
-        }
-        OpenRepo or;
-        try {
-          or = orm.getRepo(s.getProject());
-        } catch (NoSuchProjectException e) {
-          // A project listed a non existent project to be allowed
-          // to subscribe to it. Allow this for now, i.e. no exception is
-          // thrown.
-          continue;
-        }
-
-        for (Ref ref : or.repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_HEADS)) {
-          if (r.getDestination() != null && !r.matchDestination(ref.getName())) {
-            continue;
-          }
-          BranchNameKey b = BranchNameKey.create(s.getProject(), ref.getName());
-          if (!ret.contains(b)) {
-            ret.add(b);
-          }
-        }
-      }
-      logger.atFine().log("Returning possible branches: %s for project %s", ret, s.getProject());
-      return ret;
+      List<Ref> refs = or.repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_HEADS);
+      return s.getDestinationBranches(src, refs);
     }
 
     private Collection<SubmoduleSubscription> superProjectSubscriptionsForSubmoduleBranch(

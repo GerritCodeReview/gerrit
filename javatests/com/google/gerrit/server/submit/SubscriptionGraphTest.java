@@ -193,9 +193,9 @@ public class SubscriptionGraphTest {
   }
 
   private void allowSubscription(BranchNameKey branch) {
-    SubscribeSection s = new SubscribeSection(branch.project());
+    SubscribeSection.Builder s = SubscribeSection.builder(branch.project());
     s.addMultiMatchRefSpec("refs/heads/*:refs/heads/*");
-    when(mockProjectState.getSubscribeSections(branch)).thenReturn(ImmutableSet.of(s));
+    when(mockProjectState.getSubscribeSections(branch)).thenReturn(ImmutableSet.of(s.build()));
   }
 
   private void setSubscription(

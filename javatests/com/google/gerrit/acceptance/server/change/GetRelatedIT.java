@@ -58,7 +58,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -636,10 +635,8 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
   private static Correspondence<RelatedChangeAndCommitInfo, String>
       getRelatedChangeToStatusCorrespondence() {
-    return Correspondence.from(
-        (relatedChangeAndCommitInfo, status) ->
-            Objects.equals(relatedChangeAndCommitInfo.status, status),
-        "has status");
+    return Correspondence.transforming(
+        relatedChangeAndCommitInfo -> relatedChangeAndCommitInfo.status, "has status");
   }
 
   private RevCommit parseBody(RevCommit c) throws Exception {

@@ -16,6 +16,7 @@
  */
 import '../styles/shared-styles.js';
 import '../styles/themes/app-theme.js';
+import {applyTheme as applyDarkTheme} from '../styles/themes/dark-theme.js';
 import './admin/gr-admin-view/gr-admin-view.js';
 import './documentation/gr-documentation-search/gr-documentation-search.js';
 import './change-list/gr-change-list-view/gr-change-list-view.js';
@@ -202,9 +203,7 @@ class GrAppElement extends mixinBehaviors( [
     });
 
     if (window.localStorage.getItem('dark-theme')) {
-      // No need to add the style module to element again as it's imported
-      // by importHref already
-      this.$.libLoader.getDarkTheme();
+      applyDarkTheme();
     }
 
     // Note: this is evaluated here to ensure that it only happens after the

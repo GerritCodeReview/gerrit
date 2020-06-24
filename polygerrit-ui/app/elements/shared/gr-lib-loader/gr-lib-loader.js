@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import '../gr-js-api-interface/gr-js-api-interface.js';
-import {importHref} from '../../../scripts/import-href.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
@@ -23,7 +22,6 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-lib-loader_html.js';
 
 const HLJS_PATH = 'bower_components/highlightjs/highlight.min.js';
-const DARK_THEME_PATH = 'styles/themes/dark-theme.html';
 
 /** @extends PolymerElement */
 class GrLibLoader extends GestureEventListeners(
@@ -72,28 +70,6 @@ class GrLibLoader extends GestureEventListeners(
       }
 
       this._hljsState.callbacks.push(resolve);
-    });
-  }
-
-  /**
-   * Loads the dark theme document. Returns a promise that resolves with a
-   * custom-style DOM element.
-   *
-   * @return {!Promise<Element>}
-   * @suppress {checkTypes}
-   */
-  getDarkTheme() {
-    return new Promise((resolve, reject) => {
-      importHref(
-          this._getLibRoot() + DARK_THEME_PATH, () => {
-            const module = document.createElement('style');
-            module.setAttribute('include', 'dark-theme');
-            const cs = document.createElement('custom-style');
-            cs.appendChild(module);
-
-            resolve(cs);
-          },
-          reject);
     });
   }
 

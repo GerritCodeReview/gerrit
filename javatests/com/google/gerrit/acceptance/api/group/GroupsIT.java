@@ -100,6 +100,7 @@ import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.GerritJUnit.ThrowingRunnable;
+import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -111,7 +112,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -1517,12 +1517,8 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   private static Correspondence<AccountInfo, String> getAccountToUsernameCorrespondence() {
-    return Correspondence.from(
-        (actualAccount, expectedName) -> {
-          String username = actualAccount == null ? null : actualAccount.username;
-          return Objects.equals(username, expectedName);
-        },
-        "has username");
+    return NullAwareCorrespondence.transforming(
+        accountInfo -> accountInfo.username, "has username");
   }
 
   private void assertStaleGroupAndReindex(AccountGroup.UUID groupUuid) throws IOException {

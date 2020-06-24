@@ -148,6 +148,7 @@ import com.google.gerrit.server.validators.AccountActivationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeEmailSender.Message;
+import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.jcraft.jsch.KeyPair;
@@ -161,7 +162,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -2901,12 +2901,7 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   private static Correspondence<GroupInfo, String> getGroupToNameCorrespondence() {
-    return Correspondence.from(
-        (actualGroup, expectedName) -> {
-          String groupName = actualGroup == null ? null : actualGroup.name;
-          return Objects.equals(groupName, expectedName);
-        },
-        "has name");
+    return NullAwareCorrespondence.transforming(groupInfo -> groupInfo.name, "has name");
   }
 
   private void assertSequenceNumbers(List<SshKeyInfo> sshKeys) {

@@ -22,7 +22,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
@@ -48,7 +48,7 @@ import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.HasDraftByPredicate;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.CommentJson;
-import com.google.gerrit.server.restapi.change.CommentJson.CommentFormatter;
+import com.google.gerrit.server.restapi.change.CommentJson.HumanCommentFormatter;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdate.Factory;
 import com.google.gerrit.server.update.BatchUpdateListener;
@@ -123,7 +123,8 @@ public class DeleteDraftComments
       throw new AuthException("Cannot delete drafts of other user");
     }
 
-    CommentFormatter commentFormatter = commentJsonProvider.get().newCommentFormatter();
+    HumanCommentFormatter humanCommentFormatter =
+        commentJsonProvider.get().newHumanCommentFormatter();
     Account.Id accountId = rsrc.getUser().getAccountId();
     Timestamp now = TimeUtil.nowTs();
     Map<Project.NameKey, BatchUpdate> updates = new LinkedHashMap<>();
@@ -137,7 +138,7 @@ public class DeleteDraftComments
       BatchUpdate update =
           updates.computeIfAbsent(
               cd.project(), p -> batchUpdateFactory.create(p, rsrc.getUser(), now));
-      Op op = new Op(commentFormatter, accountId);
+      Op op = new Op(humanCommentFormatter, accountId);
       update.addOp(cd.getId(), op);
       ops.add(op);
     }
@@ -165,12 +166,12 @@ public class DeleteDraftComments
   }
 
   private class Op implements BatchUpdateOp {
-    private final CommentFormatter commentFormatter;
+    private final HumanCommentFormatter humanCommentFormatter;
     private final Account.Id accountId;
     private DeletedDraftCommentInfo result;
 
-    Op(CommentFormatter commentFormatter, Account.Id accountId) {
-      this.commentFormatter = commentFormatter;
+    Op(HumanCommentFormatter humanCommentFormatter, Account.Id accountId) {
+      this.humanCommentFormatter = humanCommentFormatter;
       this.accountId = accountId;
     }
 
@@ -179,12 +180,12 @@ public class DeleteDraftComments
         throws PatchListNotAvailableException, PermissionBackendException {
       ImmutableList.Builder<CommentInfo> comments = ImmutableList.builder();
       boolean dirty = false;
-      for (Comment c : commentsUtil.draftByChangeAuthor(ctx.getNotes(), accountId)) {
+      for (HumanComment c : commentsUtil.draftByChangeAuthor(ctx.getNotes(), accountId)) {
         dirty = true;
         PatchSet.Id psId = PatchSet.id(ctx.getChange().getId(), c.key.patchSetId);
         setCommentCommitId(c, patchListCache, ctx.getChange(), psUtil.get(ctx.getNotes(), psId));
-        commentsUtil.deleteComments(ctx.getUpdate(psId), Collections.singleton(c));
-        comments.add(commentFormatter.format(c));
+        commentsUtil.deleteHumanComments(ctx.getUpdate(psId), Collections.singleton(c));
+        comments.add(humanCommentFormatter.format(c));
       }
       if (dirty) {
         result = new DeletedDraftCommentInfo();

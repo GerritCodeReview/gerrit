@@ -28,7 +28,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.UserIdentity;
@@ -380,8 +380,8 @@ public class EventFactory {
   }
 
   public void addPatchSetComments(
-      PatchSetAttribute patchSetAttribute, Collection<Comment> comments) {
-    for (Comment comment : comments) {
+      PatchSetAttribute patchSetAttribute, Collection<HumanComment> comments) {
+    for (HumanComment comment : comments) {
       if (comment.key.patchSetId == patchSetAttribute.number) {
         if (patchSetAttribute.comments == null) {
           patchSetAttribute.comments = new ArrayList<>();
@@ -547,7 +547,7 @@ public class EventFactory {
     return a;
   }
 
-  public PatchSetCommentAttribute asPatchSetLineAttribute(Comment c) {
+  public PatchSetCommentAttribute asPatchSetLineAttribute(HumanComment c) {
     PatchSetCommentAttribute a = new PatchSetCommentAttribute();
     a.reviewer = asAccountAttribute(c.author.getId());
     a.file = c.key.filename;

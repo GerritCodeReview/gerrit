@@ -18,10 +18,10 @@ import static com.google.gerrit.server.change.AttentionSetEntryResource.ATTENTIO
 import static com.google.gerrit.server.change.ChangeEditResource.CHANGE_EDIT_KIND;
 import static com.google.gerrit.server.change.ChangeMessageResource.CHANGE_MESSAGE_KIND;
 import static com.google.gerrit.server.change.ChangeResource.CHANGE_KIND;
-import static com.google.gerrit.server.change.CommentResource.COMMENT_KIND;
 import static com.google.gerrit.server.change.DraftCommentResource.DRAFT_COMMENT_KIND;
 import static com.google.gerrit.server.change.FileResource.FILE_KIND;
 import static com.google.gerrit.server.change.FixResource.FIX_KIND;
+import static com.google.gerrit.server.change.HumanCommentResource.COMMENT_KIND;
 import static com.google.gerrit.server.change.ReviewerResource.REVIEWER_KIND;
 import static com.google.gerrit.server.change.RevisionResource.REVISION_KIND;
 import static com.google.gerrit.server.change.RobotCommentResource.ROBOT_COMMENT_KIND;

@@ -983,7 +983,7 @@ public abstract class AbstractDaemonTest {
   protected void setUseSignedOffBy(InheritableBoolean value) throws Exception {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       ProjectConfig config = projectConfigFactory.read(md);
-      config.getProject().setBooleanConfig(BooleanProjectConfig.USE_SIGNED_OFF_BY, value);
+      config.updateProject(p -> p.setBooleanConfig(BooleanProjectConfig.USE_SIGNED_OFF_BY, value));
       config.commit(md);
       projectCache.evict(config.getProject());
     }
@@ -992,7 +992,7 @@ public abstract class AbstractDaemonTest {
   protected void setRequireChangeId(InheritableBoolean value) throws Exception {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       ProjectConfig config = projectConfigFactory.read(md);
-      config.getProject().setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, value);
+      config.updateProject(p -> p.setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, value));
       config.commit(md);
       projectCache.evict(config.getProject());
     }
@@ -1453,10 +1453,11 @@ public abstract class AbstractDaemonTest {
   protected void enableCreateNewChangeForAllNotInTarget() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig()
-          .getProject()
-          .setBooleanConfig(
-              BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,
-              InheritableBoolean.TRUE);
+          .updateProject(
+              p ->
+                  p.setBooleanConfig(
+                      BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,
+                      InheritableBoolean.TRUE));
       u.save();
     }
   }

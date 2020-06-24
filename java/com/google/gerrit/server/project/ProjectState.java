@@ -501,7 +501,7 @@ public class ProjectState {
 
   public SubmitType getSubmitType() {
     for (ProjectState s : tree()) {
-      SubmitType t = s.getProject().getConfiguredSubmitType();
+      SubmitType t = s.getProject().getSubmitType();
       if (t != SubmitType.INHERIT) {
         return t;
       }

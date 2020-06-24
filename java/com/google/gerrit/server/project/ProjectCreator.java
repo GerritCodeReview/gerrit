@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupDescription;
@@ -150,8 +151,8 @@ public class ProjectCreator {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(args.getProject())) {
       ProjectConfig config = projectConfigFactory.read(md);
 
-      Project newProject = config.getProject();
-      newProject.setDescription(args.projectDescription);
+      Project.Builder newProject = config.getProject().toBuilder();
+      newProject.setDescription(Strings.nullToEmpty(args.projectDescription));
       newProject.setSubmitType(
           MoreObjects.firstNonNull(
               args.submitType, repositoryCfg.getDefaultSubmitType(args.getProject())));
@@ -168,8 +169,9 @@ public class ProjectCreator {
       newProject.setBooleanConfig(BooleanProjectConfig.ENABLE_SIGNED_PUSH, args.enableSignedPush);
       newProject.setBooleanConfig(BooleanProjectConfig.REQUIRE_SIGNED_PUSH, args.requireSignedPush);
       if (args.newParent != null) {
-        newProject.setParentName(args.newParent);
+        newProject.setParent(args.newParent);
       }
+      config.setProject(newProject);
 
       if (!args.ownerIds.isEmpty()) {
         AccessSection all = config.getAccessSection(AccessSection.ALL, true);

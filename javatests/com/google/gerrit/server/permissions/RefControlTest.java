@@ -217,7 +217,7 @@ public class RefControlTest {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(localKey)) {
       ProjectConfig newLocal = projectConfigFactory.create(localKey);
       newLocal.load(md);
-      newLocal.getProject().setParentName(parentKey);
+      newLocal.updateProject(p -> p.setParent(parentKey));
       newLocal.commit(md);
     }
 

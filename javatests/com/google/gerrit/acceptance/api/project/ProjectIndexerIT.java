@@ -104,18 +104,18 @@ public class ProjectIndexerIT extends AbstractDaemonTest {
     Project.NameKey p1 = projectOperations.newProject().create();
     Project.NameKey p2 = projectOperations.newProject().create();
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().getProject().setParentName(p1);
+      u.getConfig().updateProject(p -> p.setParent(p1));
       u.save();
     }
     assertThat(stalenessChecker.check(project).isStale()).isFalse();
 
-    updateProjectConfigWithoutIndexUpdate(p1, c -> c.getProject().setParentName(p2));
+    updateProjectConfigWithoutIndexUpdate(p1, c -> c.updateProject(p -> p.setParent(p2)));
     assertThat(stalenessChecker.check(project).isStale()).isTrue();
   }
 
   private void updateProjectConfigWithoutIndexUpdate(Project.NameKey project) throws Exception {
     updateProjectConfigWithoutIndexUpdate(
-        project, c -> c.getProject().setDescription("making it stale"));
+        project, c -> c.updateProject(p -> p.setDescription("making it stale")));
   }
 
   private void updateProjectConfigWithoutIndexUpdate(

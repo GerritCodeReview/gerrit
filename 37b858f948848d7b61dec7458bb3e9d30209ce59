@@ -184,6 +184,30 @@
     },
     {
       "key": {
+        "uuid": "d45d6f29_e341bb7d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-24T13:27:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53ccee79_f2a41fd0",
+      "range": {
+        "startLine": 225,
+        "startChar": 28,
+        "endLine": 225,
+        "endChar": 34
+      },
+      "revId": "37b858f948848d7b61dec7458bb3e9d30209ce59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c8cfe5c_d17c90fb",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
         "patchSetId": 42

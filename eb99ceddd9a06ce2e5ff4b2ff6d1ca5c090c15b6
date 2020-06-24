@@ -16,6 +16,24 @@
       "revId": "eb99ceddd9a06ce2e5ff4b2ff6d1ca5c090c15b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "489a147e_8cbbb6a2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-24T08:02:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7a563b4_9d689dc3",
+      "revId": "eb99ceddd9a06ce2e5ff4b2ff6d1ca5c090c15b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2aeed764_dca3b11f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-24T11:45:51Z",
+      "side": 1,
+      "message": "switch to dark screenshot: https://imgur.com/tWknyR5\nswitch to light screenshot: https://imgur.com/75cQgv3",
+      "revId": "3a547629b21a73268ef1f853854e6cb86525f3c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

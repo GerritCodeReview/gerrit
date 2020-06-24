@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7a563b4_9d689dc3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-24T07:30:57Z",
+      "side": 1,
+      "message": "comment formatting: https://google.github.io/styleguide/jsguide.html#formatting-block-comment-style",
+      "revId": "eb99ceddd9a06ce2e5ff4b2ff6d1ca5c090c15b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

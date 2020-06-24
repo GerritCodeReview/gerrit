@@ -16,6 +16,24 @@
       "revId": "9399a6626ffb7c5c844060b60e7b7173c5c9e829",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5902a2ec_2ba1383c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2753,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-24T08:20:51Z",
+      "side": 1,
+      "message": "The logic is to group them by the way they are grouped in the API, and \"remove\" is grouped in \"../attention/ID/remove\", while all the others are just \"../attention\".\n\nHowever, I just looked at the way the reviewer endpoints are grouped, and it\u0027s not really like that. I\u0027m good with merging them together, then.",
+      "parentUuid": "baf6a99e_475c5d02",
+      "revId": "9399a6626ffb7c5c844060b60e7b7173c5c9e829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

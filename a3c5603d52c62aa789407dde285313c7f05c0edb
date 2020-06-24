@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1fb0612_f5c0970b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-24T07:44:00Z",
+      "side": 1,
+      "message": "Also add the arrow shortcuts.",
+      "revId": "a3c5603d52c62aa789407dde285313c7f05c0edb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28d7e1f0_64c527c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-24T07:44:00Z",
+      "side": 1,
+      "message": "I would love to also have v+v for \"diff base against latest\". WDYT?",
+      "revId": "a3c5603d52c62aa789407dde285313c7f05c0edb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0cb3081_2d29ba8c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-24T07:44:00Z",
+      "side": 1,
+      "message": "I have downloaded the change and v+arrow works great, but v+wasd does not work.",
+      "revId": "a3c5603d52c62aa789407dde285313c7f05c0edb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

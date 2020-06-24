@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26fb7273_688f18ec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-24T08:54:47Z",
+      "side": 1,
+      "message": "NIT:\nset is weird name for variable. \n\nWhy not just: \n`change.attention_set \u0026\u0026 change.attention_set.hasOwnProperty(account._account_id)`",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 35,
+        "endChar": 11
+      },
+      "revId": "5caa9b3cb80d40695388a5f1aa62ad611198f7c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34680025_d0d4952c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-24T08:54:47Z",
+      "side": 1,
+      "message": "This are as well in gr-account-label\n\nCould we extract them to some util js for attention set, or to attentionSet service?",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 2
+      },
+      "revId": "5caa9b3cb80d40695388a5f1aa62ad611198f7c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

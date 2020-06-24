@@ -16,6 +16,29 @@
       "revId": "134ada782bf78360c9119771d960c722350db8eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97504bf2_1af35691",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-24T08:13:27Z",
+      "side": 1,
+      "message": "This could be simplified to:\n```\nif (pluginUrl \u0026\u0026 pluginUrl.pathname.endsWith(\u0027.html\u0027)) {\nreturn this.import(pluginUrl);\n}\nreturn Promise.resolve();\n```\n\nAnd maybe it could be fully rewritten to\n```\nPromise.all(this.getPlugins(name, opt_options).filter(pluginUrl \u003d\u003e pluginUrl \u0026\u0026 pluginUrl.pathname.endsWith(\u0027.html\u0027)).map(pluginUrl \u003d\u003e this.import(pluginUrl))\n```",
+      "range": {
+        "startLine": 193,
+        "startChar": 4,
+        "endLine": 206,
+        "endChar": 6
+      },
+      "revId": "134ada782bf78360c9119771d960c722350db8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

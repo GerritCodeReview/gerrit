@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6aaa07a6_36b7e56b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-24T08:23:13Z",
+      "side": 1,
+      "message": "notify() just does a path check. So yes, my suggested methods would need to get a `path` parameter and only remove those.\n\nI would hope that this will be much *less* complex, because:\n- No change required in gr-diff-builder.js\n- No change required in gr-diff-builder-element.js\n- No change required in gr-ranged-comment-layer.js\n- No change required to AnnotationLayer.\n- More symmetry with who calls getLayer() and removeLayers().\n\nWDYT?",
+      "parentUuid": "e4632c0c_efbdf072",
+      "revId": "9b70f6eda0f0785184f0e89a16cf64fdcc9f91a1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "406ccc6a_5db86530",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
         "patchSetId": 6

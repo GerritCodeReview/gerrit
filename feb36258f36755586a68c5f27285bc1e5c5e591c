@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c06b6aa_33fc721c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-24T21:24:28Z",
+      "side": 1,
+      "message": "Thanks again, Marcin, for fixing this regression in v2.16. Can you please also merge this up to master? (I suspect some reworking on the tests would be needed, as we moved to Mockito in v3.1)",
+      "revId": "feb36258f36755586a68c5f27285bc1e5c5e591c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

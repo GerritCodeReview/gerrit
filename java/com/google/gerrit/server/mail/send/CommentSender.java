@@ -99,6 +99,14 @@ public class CommentSender extends ReplyToChangeSender {
       return args.urlFormatter.get().getFindingsTabView(change).orElse(null);
     }
 
+    /** Returns the web link for viewing a change. */
+    public String getChangeViewLink() {
+      return args.urlFormatter
+          .get()
+          .getChangeViewUrl(change.getProject(), change.getId())
+          .orElse(null);
+    }
+
     /**
      * @return A title for the group, i.e. "Commit Message", "Merge List", or "File [[filename]]".
      */
@@ -391,6 +399,8 @@ public class CommentSender extends ReplyToChangeSender {
       Map<String, Object> groupData = new HashMap<>();
       if (!group.filename.equals(Patch.PATCHSET_LEVEL)) {
         groupData.put("link", group.getFileLink());
+      } else {
+        groupData.put("link", group.getChangeViewLink());
       }
       groupData.put("title", group.getTitle());
       groupData.put("patchSetId", group.patchSetId);

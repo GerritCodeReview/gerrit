@@ -42,7 +42,7 @@ public class LifecycleManager {
    *
    * @param handle the handle to add.
    */
-  public void add(RegistrationHandle handle) {
+  public void addRegistrationHandle(RegistrationHandle handle) {
     handles.add(handle);
   }
 

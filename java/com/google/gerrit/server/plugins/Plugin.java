@@ -146,7 +146,7 @@ public abstract class Plugin {
         }
         reloadableHandles.add((ReloadableRegistrationHandle<?>) handle);
       }
-      manager.add(handle);
+      manager.addRegistrationHandle(handle);
     }
   }
 

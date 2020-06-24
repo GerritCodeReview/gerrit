@@ -297,7 +297,7 @@ public class ServerPlugin extends Plugin {
         }
         reloadableHandles.add((ReloadableRegistrationHandle<?>) handle);
       }
-      serverManager.add(handle);
+      serverManager.addRegistrationHandle(handle);
     }
   }
 

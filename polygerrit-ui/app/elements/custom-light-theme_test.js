@@ -20,6 +20,7 @@ import {getComputedStyleValue} from '../utils/dom-util.js';
 import './shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import './gr-app.js';
 import {pluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader.js';
+
 const basicFixture = fixtureFromElement('gr-app');
 
 suite('gr-app custom light theme tests', () => {
@@ -45,16 +46,11 @@ suite('gr-app custom light theme tests', () => {
   });
 
   test('should not load dark theme', () => {
-    assert.isFalse(
-        !!document.querySelector('link[href="/styles/themes/dark-theme.html"]')
-    );
+    assert.isFalse(!!document.head.querySelector('#dark-theme'));
+    assert.isTrue(!!document.head.querySelector('#light-theme'));
   });
 
   test('applies the right theme', () => {
-    assert.equal(
-        getComputedStyleValue('--primary-text-color', element)
-            .toLowerCase(),
-        'black');
     assert.equal(
         getComputedStyleValue('--header-background-color', element)
             .toLowerCase(),

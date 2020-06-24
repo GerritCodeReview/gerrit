@@ -16,32 +16,45 @@
  */
 
 import '../test/common-test-setup-karma.js';
+import {getComputedStyleValue} from '../utils/dom-util.js';
 import './shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import './gr-app.js';
 import {pluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader.js';
+import {removeTheme} from '../styles/themes/dark-theme.js';
+
 const basicFixture = fixtureFromElement('gr-app');
+
 suite('gr-app custom dark theme tests', () => {
   let sandbox;
+  let element;
   setup(done => {
     window.localStorage.setItem('dark-theme', 'true');
     sandbox = sinon.sandbox.create();
-    basicFixture.instantiate();
+    element = basicFixture.instantiate();
     pluginLoader.loadPlugins([]);
     pluginLoader.awaitPluginsLoaded().then(() => flush(done));
   });
+
   teardown(() => {
     sandbox.restore();
     window.localStorage.removeItem('dark-theme');
-    const addedTheme = document
-        .querySelector('link[href="/styles/themes/dark-theme.html"]');
-    if (addedTheme) {
-      addedTheme.remove();
-    }
+    removeTheme();
   });
 
   test('should tried to load dark theme', () => {
     assert.isTrue(
-        !!document.querySelector('link[href="/styles/themes/dark-theme.html"]')
+        !!document.head.querySelector('#dark-theme')
     );
+  });
+
+  test('applies the right theme', () => {
+    assert.equal(
+        getComputedStyleValue('--header-background-color', element)
+            .toLowerCase(),
+        '#3b3d3f');
+    assert.equal(
+        getComputedStyleValue('--footer-background-color', element)
+            .toLowerCase(),
+        '#3b3d3f');
   });
 });

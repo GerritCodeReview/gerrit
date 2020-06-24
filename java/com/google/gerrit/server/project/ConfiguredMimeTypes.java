@@ -14,35 +14,38 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.InvalidPatternException;
 import org.eclipse.jgit.fnmatch.FileNameMatcher;
 import org.eclipse.jgit.lib.Config;
 
-public class ConfiguredMimeTypes {
+@AutoValue
+public abstract class ConfiguredMimeTypes {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String MIMETYPE = "mimetype";
   private static final String KEY_PATH = "path";
 
-  private final List<TypeMatcher> matchers;
+  protected abstract ImmutableList<TypeMatcher> matchers();
 
-  ConfiguredMimeTypes(String projectName, Config rc) {
+  static ConfiguredMimeTypes create(String projectName, Config rc) {
     Set<String> types = rc.getSubsections(MIMETYPE);
-    if (types.isEmpty()) {
-      matchers = Collections.emptyList();
-    } else {
-      matchers = new ArrayList<>();
+    ImmutableList.Builder<TypeMatcher> matchers = ImmutableList.builder();
+    if (!types.isEmpty()) {
       for (String typeName : types) {
         for (String path : rc.getStringList(MIMETYPE, typeName, KEY_PATH)) {
           try {
-            add(typeName, path);
+            if (path.startsWith("^")) {
+              matchers.add(new ReType(typeName, path));
+            } else {
+              matchers.add(new FnType(typeName, path));
+            }
           } catch (PatternSyntaxException | InvalidPatternException e) {
             logger.atWarning().log(
                 "Ignoring invalid %s.%s.%s = %s in project %s: %s",
@@ -51,19 +54,12 @@ public class ConfiguredMimeTypes {
         }
       }
     }
+    return new AutoValue_ConfiguredMimeTypes(matchers.build());
   }
 
-  private void add(String typeName, String path)
-      throws PatternSyntaxException, InvalidPatternException {
-    if (path.startsWith("^")) {
-      matchers.add(new ReType(typeName, path));
-    } else {
-      matchers.add(new FnType(typeName, path));
-    }
-  }
-
+  @Nullable
   public String getMimeType(String path) {
-    for (TypeMatcher m : matchers) {
+    for (TypeMatcher m : matchers()) {
       if (m.matches(path)) {
         return m.type;
       }
@@ -71,42 +67,42 @@ public class ConfiguredMimeTypes {
     return null;
   }
 
-  private abstract static class TypeMatcher {
-    final String type;
+  protected abstract static class TypeMatcher {
+    private final String type;
 
-    TypeMatcher(String type) {
+    private TypeMatcher(String type) {
       this.type = type;
     }
 
-    abstract boolean matches(String path);
+    protected abstract boolean matches(String path);
   }
 
-  private static class FnType extends TypeMatcher {
+  protected static class FnType extends TypeMatcher {
     private final FileNameMatcher matcher;
 
-    FnType(String type, String pattern) throws InvalidPatternException {
+    private FnType(String type, String pattern) throws InvalidPatternException {
       super(type);
       this.matcher = new FileNameMatcher(pattern, null);
     }
 
     @Override
-    boolean matches(String input) {
+    protected boolean matches(String input) {
       FileNameMatcher m = new FileNameMatcher(matcher);
       m.append(input);
       return m.isMatch();
     }
   }
 
-  private static class ReType extends TypeMatcher {
+  protected static class ReType extends TypeMatcher {
     private final Pattern re;
 
-    ReType(String type, String pattern) throws PatternSyntaxException {
+    private ReType(String type, String pattern) throws PatternSyntaxException {
       super(type);
       this.re = Pattern.compile(pattern);
     }
 
     @Override
-    boolean matches(String input) {
+    protected boolean matches(String input) {
       return re.matcher(input).matches();
     }
   }

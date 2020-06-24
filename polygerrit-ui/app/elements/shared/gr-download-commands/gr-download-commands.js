@@ -24,12 +24,14 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-download-commands_html.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
+import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 
 /**
  * @extends PolymerElement
  */
 class GrDownloadCommands extends mixinBehaviors( [
   RESTClientBehavior,
+  KeyboardShortcutBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {
@@ -59,6 +61,10 @@ class GrDownloadCommands extends mixinBehaviors( [
     this._getLoggedIn().then(loggedIn => {
       this._loggedIn = loggedIn;
     });
+  }
+
+  _handleNumericKeyPressed(e) {
+    console.log('handle numeric key', e);
   }
 
   focusOnCopy() {

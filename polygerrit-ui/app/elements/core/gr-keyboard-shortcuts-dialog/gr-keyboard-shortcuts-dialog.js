@@ -58,6 +58,7 @@ class GrKeyboardShortcutsDialog extends mixinBehaviors( [
             [ShortcutSection.CHANGE_LIST]: '_changeList',
             [ShortcutSection.ACTIONS]: '_actions',
             [ShortcutSection.REPLY_DIALOG]: '_replyDialog',
+            [ShortcutSection.DOWNLOAD_DIALOG]: '_downloadDialog',
             [ShortcutSection.FILE_LIST]: '_fileList',
             [ShortcutSection.DIFFS]: '_diffs',
           };
@@ -123,6 +124,13 @@ class GrKeyboardShortcutsDialog extends mixinBehaviors( [
       right.push({
         section: ShortcutSection.REPLY_DIALOG,
         shortcuts: directory.get(ShortcutSection.REPLY_DIALOG),
+      });
+    }
+
+    if (directory.has(ShortcutSection.DOWNLOAD_DIALOG)) {
+      right.push({
+        section: ShortcutSection.DOWNLOAD_DIALOG,
+        shortcuts: directory.get(ShortcutSection.DOWNLOAD_DIALOG),
       });
     }
 

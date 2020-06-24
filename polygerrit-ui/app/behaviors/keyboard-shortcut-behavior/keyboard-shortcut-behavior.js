@@ -113,6 +113,7 @@ const ShortcutSection = {
   FILE_LIST: 'File list',
   NAVIGATION: 'Navigation',
   REPLY_DIALOG: 'Reply dialog',
+  DOWNLOAD_DIALOG: 'Download dialog',
 };
 
 const Shortcut = {
@@ -180,6 +181,7 @@ const Shortcut = {
   SEND_REPLY: 'SEND_REPLY',
   EMOJI_DROPDOWN: 'EMOJI_DROPDOWN',
   TOGGLE_BLAME: 'TOGGLE_BLAME',
+
 };
 
 const _help = new Map();
@@ -329,6 +331,7 @@ class ShortcutManager {
   }
 
   attachHost(host) {
+    console.log('node name ', host.nodeName);
     if (!host.keyboardShortcuts) { return; }
     const shortcuts = host.keyboardShortcuts();
     this.activeHosts.set(host, new Map(Object.entries(shortcuts)));
@@ -338,6 +341,7 @@ class ShortcutManager {
 
   detachHost(host) {
     if (this.activeHosts.delete(host)) {
+      console.log('deleting node name ', host.nodeName);
       this.notifyListeners();
       return true;
     }

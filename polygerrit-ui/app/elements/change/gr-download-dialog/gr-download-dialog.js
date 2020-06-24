@@ -60,6 +60,12 @@ class GrDownloadDialog extends mixinBehaviors( [
     };
   }
 
+  get keyBindings() {
+    return {
+      up: '_handleNumericKeyPressed',
+    };
+  }
+
   /** @override */
   ready() {
     super.ready();
@@ -74,13 +80,18 @@ class GrDownloadDialog extends mixinBehaviors( [
     }
   }
 
+  _handleNumericKeyPressed(e) {
+    console.log('dd numeric key pressed', e);
+  }
+
   getFocusStops() {
     const links = this.shadowRoot
         .querySelector('#archives').querySelectorAll('a');
     return {
       start: this.$.closeButton,
       end: links[links.length - 1],
-    };
+    }
+    ;
   }
 
   _computeDownloadCommands(change, patchNum, _selectedScheme) {

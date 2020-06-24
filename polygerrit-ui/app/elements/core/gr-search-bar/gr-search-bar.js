@@ -336,6 +336,7 @@ class GrSearchBar extends mixinBehaviors( [
   }
 
   _handleSearch(e) {
+    console.log('search');
     const keyboardEvent = this.getKeyboardEvent(e);
     if (this.shouldSuppressKeyboardShortcut(e) ||
         (this.modifierPressed(e) && !keyboardEvent.shiftKey)) { return; }

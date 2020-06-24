@@ -37,9 +37,10 @@ class GrPluginHost extends GestureEventListeners(
 
   _configChanged(config) {
     const plugins = config.plugin;
-    const htmlPlugins = (plugins.html_resource_paths || []);
-    const jsPlugins =
-        this._handleMigrations(plugins.js_resource_paths || [], htmlPlugins);
+    const htmlPlugins = (plugins && plugins.html_resource_paths || []);
+    const jsPlugins = this._handleMigrations(
+        plugins && plugins.js_resource_paths || [], htmlPlugins
+    );
     const shouldLoadTheme = config.default_theme &&
           !pluginLoader.isPluginPreloaded('preloaded:gerrit-theme');
     const themeToLoad =

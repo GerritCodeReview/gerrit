@@ -157,6 +157,8 @@ module.exports = {
     "import/no-useless-path-segments": 2,
     "import/no-unused-modules": 2,
     "import/no-default-export": 2,
+
+    "goog-module-id": 2,
   },
 
   // List of allowed globals in all files
@@ -185,6 +187,13 @@ module.exports = {
     {
       "files": ["**/*.ts"],
       "extends": [require.resolve("gts/.eslintrc.json")],
+    },
+    {
+      "files": ["**/*.ts"],
+      "excludedFiles": "*.d.ts",
+      "rules": {
+        "ts-imports-js": 2,
+      }
     },
     {
       "files": ["*.html", "test.js", "test-infra.js", "template_test.js"],

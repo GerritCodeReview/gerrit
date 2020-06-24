@@ -16,6 +16,24 @@
       "revId": "1fe4fb16adc109f3f50278238325a93e5183250f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8bb5ad14_9a5679b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-24T06:44:08Z",
+      "side": 1,
+      "message": "We could check during the CI the errors raised and if that number is higher than before, flag it.\nAlso, we could report as robot comment in the change, so that the developer is warned of the problem.\n\nBuild logs are huge, and sometimes these error can be missed.",
+      "parentUuid": "194a2765_f4631977",
+      "revId": "1fe4fb16adc109f3f50278238325a93e5183250f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

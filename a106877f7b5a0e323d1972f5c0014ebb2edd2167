@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7087aa60_03014813",
+        "filename": "javatests/com/google/gerrit/server/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-24T20:31:04Z",
+      "side": 1,
+      "message": "Why is this dependency change needed?",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 40
+      },
+      "revId": "a106877f7b5a0e323d1972f5c0014ebb2edd2167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b641d0e5_72113da5",
+        "filename": "javatests/com/google/gerrit/server/plugins/AutoRegisterModulesTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-24T20:31:04Z",
+      "side": 1,
+      "message": "Why private? I guess Gerrit should be able to discover this class. Also, SshCommands are typically public classes.",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 10
+      },
+      "revId": "a106877f7b5a0e323d1972f5c0014ebb2edd2167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

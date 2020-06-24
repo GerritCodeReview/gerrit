@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baf6a99e_475c5d02",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2753,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-24T07:28:00Z",
+      "side": 1,
+      "message": "Why is \"Remove from Attention Set\" documented 3,000 lines below and not here? :-)",
+      "revId": "9399a6626ffb7c5c844060b60e7b7173c5c9e829",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

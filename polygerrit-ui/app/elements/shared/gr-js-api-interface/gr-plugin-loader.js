@@ -416,7 +416,7 @@ export class PluginLoader {
               () => {
                 reject(new Error(this._timeout()));
               }, PLUGIN_LOADING_TIMEOUT_MS)),
-        ]).then(() => {
+        ]).finally(() => {
           if (timerId) clearTimeout(timerId);
         });
     }

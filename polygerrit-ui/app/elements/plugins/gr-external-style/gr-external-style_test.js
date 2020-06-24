@@ -1,41 +1,32 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2017 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>gr-external-style</title>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
-<test-fixture id="basic">
-  <template>
-    <gr-external-style name="foo"></gr-external-style>
-  </template>
-</test-fixture>
-
-<script type="module">
-import '../../../test/common-test-setup.js';
+import '../../../test/common-test-setup-karma.js';
+import {resetPlugins} from '../../../test/test-utils.js';
 import './gr-external-style.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
-
 const pluginApi = _testOnly_initGerritPluginApi();
+
+const basicFixture = fixtureFromTemplate(
+    html`<gr-external-style name="foo"></gr-external-style>`
+);
 
 suite('gr-external-style integration tests', () => {
   const TEST_URL = 'http://some/plugin/url.html';
@@ -43,7 +34,6 @@ suite('gr-external-style integration tests', () => {
   let sandbox;
   let element;
   let plugin;
-  let importHrefStub;
 
   const installPlugin = () => {
     if (plugin) { return; }
@@ -53,7 +43,7 @@ suite('gr-external-style integration tests', () => {
   };
 
   const createElement = () => {
-    element = fixture('basic');
+    element = basicFixture.instantiate();
     sandbox.spy(element, '_applyStyle');
   };
 
@@ -77,24 +67,20 @@ suite('gr-external-style integration tests', () => {
 
   setup(() => {
     sandbox = sinon.sandbox.create();
-    importHrefStub = sandbox.stub().callsArg(1);
-    stub('gr-external-style', {
-      _importHref: (url, resolve, reject) => {
-        importHrefStub(url, resolve, reject);
-      },
-    });
+    sandbox.stub(pluginEndpoints, 'importUrl', url => Promise.resolve());
     sandbox.stub(pluginLoader, 'awaitPluginsLoaded')
         .returns(Promise.resolve());
   });
 
   teardown(() => {
     sandbox.restore();
+    resetPlugins();
   });
 
   test('imports plugin-provided module', async () => {
     lateRegister();
     await new Promise(flush);
-    assert.isTrue(importHrefStub.calledWith(new URL(TEST_URL)));
+    assert.isTrue(pluginEndpoints.importUrl.calledWith(new URL(TEST_URL)));
   });
 
   test('applies plugin-provided styles', async () => {
@@ -108,9 +94,8 @@ suite('gr-external-style integration tests', () => {
     await new Promise(flush);
     plugin.registerStyleModule('foo', 'some-module');
     await new Promise(flush);
-    const urlsImported =
-        element._urlsImported.filter(url => url.toString() === TEST_URL);
-    assert.strictEqual(urlsImported.length, 1);
+    // since loaded, should not call again
+    assert.isFalse(pluginEndpoints.importUrl.calledOnce);
   });
 
   test('does not double apply', async () => {
@@ -126,8 +111,6 @@ suite('gr-external-style integration tests', () => {
   test('loads and applies preloaded modules', async () => {
     earlyRegister();
     await new Promise(flush);
-    assert.isTrue(importHrefStub.calledWith(new URL(TEST_URL)));
     assert.isTrue(element._applyStyle.calledWith('some-module'));
   });
 });
-</script>

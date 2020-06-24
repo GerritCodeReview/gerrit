@@ -1,50 +1,55 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2017 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<meta charset="utf-8">
-<title>gr-change-metadata</title>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
-
-<test-fixture id="element">
-  <template>
-    <gr-change-metadata mutable="true"></gr-change-metadata>
-  </template>
-</test-fixture>
-
-<test-fixture id="plugin-host">
-  <template>
-    <gr-plugin-host></gr-plugin-host>
-  </template>
-</test-fixture>
-
-<script type="module">
-import '../../../test/common-test-setup.js';
-import '../../plugins/gr-plugin-host/gr-plugin-host.js';
+import '../../../test/common-test-setup-karma.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import './gr-change-metadata.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+
+const testHtmlPlugin = document.createElement('dom-module');
+testHtmlPlugin.innerHTML = `
+    <template>
+      <style>
+        html {
+          --change-metadata-assignee: {
+            display: none;
+          }
+          --change-metadata-label-status: {
+            display: none;
+          }
+          --change-metadata-strategy: {
+            display: none;
+          }
+          --change-metadata-topic: {
+            display: none;
+          }
+        }
+      </style>
+    </template>
+  `;
+testHtmlPlugin.register('my-plugin-style');
+
+const basicFixture = fixtureFromTemplate(
+    html`<gr-change-metadata mutable="true"></gr-change-metadata>`
+);
 
 const pluginApi = _testOnly_initGerritPluginApi();
 
@@ -77,7 +82,7 @@ suite('gr-change-metadata integration tests', () => {
   };
 
   function createElement() {
-    const element = fixture('element');
+    const element = basicFixture.instantiate();
     element.change = {labels, status: 'NEW'};
     element.revision = {};
     return element;
@@ -113,27 +118,19 @@ suite('gr-change-metadata integration tests', () => {
   suite('with plugin style', () => {
     setup(done => {
       resetPlugins();
-      const pluginHost = fixture('plugin-host');
-      pluginHost.config = {
-        plugin: {
-          js_resource_paths: [],
-          html_resource_paths: [
-            new URL('test/plugin.html?' + Math.random(),
-                window.location.href).toString(),
-          ],
-        },
-      };
+      pluginApi.install(plugin => {
+        plugin.registerStyleModule('change-metadata', 'my-plugin-style');
+      }, undefined, 'http://test.com/style.js');
       element = createElement();
-      const importSpy = sandbox.spy(element.$.externalStyle, '_import');
+      sandbox.stub(pluginEndpoints, 'importUrl', url => Promise.resolve());
+      pluginLoader.loadPlugins([]);
       pluginLoader.awaitPluginsLoaded().then(() => {
-        Promise.all(importSpy.returnValues).then(() => {
-          flush(done);
-        });
+        flush(done);
       });
     });
 
     for (const sectionSelector of sectionSelectors) {
-      test(sectionSelector + ' may have display: none', () => {
+      test('section.strategy may have display: none', () => {
         assert.equal(getStyle(sectionSelector, 'display'), 'none');
       });
     }
@@ -143,9 +140,10 @@ suite('gr-change-metadata integration tests', () => {
     let plugin;
 
     setup(() => {
-      pluginApi.install(p => plugin = p, '0.1',
-          new URL('test/plugin.html?' + Math.random(),
-              window.location.href).toString());
+      pluginApi.install(p => {
+        plugin = p;
+        plugin.registerStyleModule('change-metadata', 'my-plugin-style');
+      }, undefined, 'http://test.com/style.js');
       sandbox.stub(pluginLoader, 'arePluginsLoaded').returns(true);
       pluginLoader.loadPlugins([]);
       element = createElement();
@@ -180,4 +178,3 @@ suite('gr-change-metadata integration tests', () => {
     });
   });
 });
-</script>

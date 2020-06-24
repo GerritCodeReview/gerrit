@@ -147,6 +147,13 @@ export const htmlTemplate = html`
         >
         <template is="dom-if" if="[[unresolved]]">
           <gr-button
+            id="EditBtn"
+            link=""
+            class="action ack"
+            on-click="_handleCommentEdit"
+            >Edit</gr-button
+          >
+          <gr-button
             id="ackBtn"
             link=""
             class="action ack"

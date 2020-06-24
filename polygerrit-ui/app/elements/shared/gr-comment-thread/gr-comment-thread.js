@@ -412,6 +412,27 @@ class GrCommentThread extends mixinBehaviors( [
     this._processCommentReply(true);
   }
 
+  _handleCommentEdit() {
+    // TODO(davido): Hide the button in this case
+    if (this._isPatchsetLevelComment(this.path)
+        || this.path === SpecialFilePath.COMMIT_MESSAGE) {
+      return;
+    }
+
+    let editUrl = GerritNav.getEditUrlForDiffById(
+        this.changeNum,
+        this.projectName,
+        this.path,
+        this.patchNum
+    );
+
+    if (this.lineNum) {
+      editUrl += `#${this.lineNum}`;
+    }
+
+    return GerritNav.navigateToRelativeUrl(editUrl);
+  }
+
   _handleCommentAck() {
     this._createReplyComment('Ack', false, false);
   }

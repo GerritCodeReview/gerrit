@@ -44,7 +44,7 @@ java_package_configuration(
         "-Xep:FloatingPointLiteralPrecision:WARN",
         "-Xep:FragmentInjection:WARN",
         "-Xep:FragmentNotInstantiable:WARN",
-        "-Xep:FunctionalInterfaceClash:WARN",
+        "-Xep:FunctionalInterfaceClash:ERROR",
         "-Xep:FutureReturnValueIgnored:WARN",
         "-Xep:GetClassOnEnum:WARN",
         "-Xep:ImmutableAnnotationChecker:WARN",

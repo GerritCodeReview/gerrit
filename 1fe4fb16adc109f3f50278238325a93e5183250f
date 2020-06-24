@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "194a2765_f4631977",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-24T06:42:49Z",
+      "side": 1,
+      "message": "Shall we start introducing an \"Error prone\" label to a change, if the change has actually increased the number of errors compared to his baseline?",
+      "revId": "1fe4fb16adc109f3f50278238325a93e5183250f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

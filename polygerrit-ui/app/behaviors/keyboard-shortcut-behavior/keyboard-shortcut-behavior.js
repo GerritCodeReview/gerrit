@@ -113,6 +113,7 @@ const ShortcutSection = {
   FILE_LIST: 'File list',
   NAVIGATION: 'Navigation',
   REPLY_DIALOG: 'Reply dialog',
+  DOWNLOAD_DIALOG: 'Download dialog',
 };
 
 const Shortcut = {
@@ -180,6 +181,8 @@ const Shortcut = {
   SEND_REPLY: 'SEND_REPLY',
   EMOJI_DROPDOWN: 'EMOJI_DROPDOWN',
   TOGGLE_BLAME: 'TOGGLE_BLAME',
+
+  NUMERIC_KEY_PRESSED: 'NUMERIC_KEY_PRESSED',
 };
 
 const _help = new Map();
@@ -302,6 +305,9 @@ _describe(Shortcut.SEND_REPLY, ShortcutSection.REPLY_DIALOG, 'Send reply');
 _describe(Shortcut.EMOJI_DROPDOWN, ShortcutSection.REPLY_DIALOG,
     'Emoji dropdown');
 
+_describe(Shortcut.NUMERIC_KEY_PRESSED, ShortcutSection.DOWNLOAD_DIALOG,
+    'NUMERIC_KEY_PRESSED');
+
 // Must be declared outside behavior implementation to be accessed inside
 // behavior functions.
 
@@ -329,6 +335,7 @@ class ShortcutManager {
   }
 
   attachHost(host) {
+    console.log('node name ', host.nodeName);
     if (!host.keyboardShortcuts) { return; }
     const shortcuts = host.keyboardShortcuts();
     this.activeHosts.set(host, new Map(Object.entries(shortcuts)));

@@ -22,6 +22,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-download-dialog_html.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
+import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 
 /**
@@ -30,6 +31,7 @@ import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-c
 class GrDownloadDialog extends mixinBehaviors( [
   PatchSetBehavior,
   RESTClientBehavior,
+  KeyboardShortcutBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {
@@ -60,10 +62,20 @@ class GrDownloadDialog extends mixinBehaviors( [
     };
   }
 
+  keyboardShortcuts() {
+    return {
+      [this.Shortcut.NUMERIC_KEY_PRESSED]: '_handleNumericKeyPressed',
+    };
+  }
+
   /** @override */
   ready() {
     super.ready();
     this._ensureAttribute('role', 'dialog');
+  }
+
+  _handleNumericKeyPressed(e) {
+    console.log('handle numeric key', e);
   }
 
   focus() {

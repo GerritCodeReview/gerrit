@@ -358,6 +358,8 @@ class GrAppElement extends mixinBehaviors( [
     this.bindShortcut(
         this.Shortcut.OPEN_LAST_FILE, '[');
 
+    this.bindShortcut(this.Shortcut.NUMERIC_KEY_PRESSED, '1');
+
     this.bindShortcut(
         this.Shortcut.SEARCH, '/');
   }

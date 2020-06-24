@@ -441,7 +441,12 @@ class GrChangeView extends mixinBehaviors( [
       [this.Shortcut.COLLAPSE_ALL_MESSAGES]: '_handleCollapseAllMessages',
       [this.Shortcut.OPEN_DIFF_PREFS]: '_handleOpenDiffPrefsShortcut',
       [this.Shortcut.EDIT_TOPIC]: '_handleEditTopic',
+      // [this.Shortcut.NUMERIC_KEY_PRESSED]: '_handleNumericKeyPressed',
     };
+  }
+
+  _handleNumericKeyPressed(e) {
+    console.log('handle numeric key', e);
   }
 
   constructor() {

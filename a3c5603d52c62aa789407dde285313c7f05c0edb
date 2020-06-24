@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6c17a232_fef00710",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-24T08:49:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1fb0612_f5c0970b",
+      "revId": "a3c5603d52c62aa789407dde285313c7f05c0edb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28d7e1f0_64c527c3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 14
@@ -30,6 +48,24 @@
       "writtenOn": "2020-06-24T07:44:00Z",
       "side": 1,
       "message": "I would love to also have v+v for \"diff base against latest\". WDYT?",
+      "revId": "a3c5603d52c62aa789407dde285313c7f05c0edb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf510acf_5a2174a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-24T08:49:15Z",
+      "side": 1,
+      "message": "V + V would require listening to a keyup event and then another keydown event.\nThe two problems are that\n\nWe delay the keyup event to allow quickly pressing v + w/a/s/d, so users would have to wait a long time to press v + v. \n\nWithout keyup event, we can listen for two handle keypress events but holding the v key fires this event constantly constantly.",
+      "parentUuid": "28d7e1f0_64c527c3",
       "revId": "a3c5603d52c62aa789407dde285313c7f05c0edb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -50,6 +86,24 @@
       "revId": "a3c5603d52c62aa789407dde285313c7f05c0edb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef743ce2_c21a9ac2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-24T08:49:15Z",
+      "side": 1,
+      "message": "Thanks for catching.",
+      "parentUuid": "a0cb3081_2d29ba8c",
+      "revId": "a3c5603d52c62aa789407dde285313c7f05c0edb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

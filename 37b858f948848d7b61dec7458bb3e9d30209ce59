@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "a745be39_51b2ac9b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 42
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-24T12:53:18Z",
+      "side": 1,
+      "message": "PTAL",
+      "revId": "37b858f948848d7b61dec7458bb3e9d30209ce59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da6330f0_112900fb",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
         "patchSetId": 42
@@ -22,6 +39,30 @@
       "revId": "37b858f948848d7b61dec7458bb3e9d30209ce59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5be66fc8_14d3e111",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-24T12:53:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da6330f0_112900fb",
+      "range": {
+        "startLine": 52,
+        "startChar": 8,
+        "endLine": 52,
+        "endChar": 11
+      },
+      "revId": "37b858f948848d7b61dec7458bb3e9d30209ce59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -48,6 +89,30 @@
     },
     {
       "key": {
+        "uuid": "71a85656_fb2c731d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-24T12:53:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69fa8607_82a3a621",
+      "range": {
+        "startLine": 224,
+        "startChar": 38,
+        "endLine": 224,
+        "endChar": 50
+      },
+      "revId": "37b858f948848d7b61dec7458bb3e9d30209ce59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d500d80_d38769e0",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
         "patchSetId": 42
@@ -59,6 +124,30 @@
       "writtenOn": "2020-06-24T09:12:05Z",
       "side": 1,
       "message": "nit: these two filters seem can fit into one loop",
+      "range": {
+        "startLine": 225,
+        "startChar": 28,
+        "endLine": 225,
+        "endChar": 34
+      },
+      "revId": "37b858f948848d7b61dec7458bb3e9d30209ce59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbac95da_d160e71c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-24T12:53:18Z",
+      "side": 1,
+      "message": "Which loop?",
+      "parentUuid": "4d500d80_d38769e0",
       "range": {
         "startLine": 225,
         "startChar": 28,
@@ -85,6 +174,24 @@
       "revId": "37b858f948848d7b61dec7458bb3e9d30209ce59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a64bff98_bae7d54f",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-24T12:53:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c8cfe5c_d17c90fb",
+      "revId": "37b858f948848d7b61dec7458bb3e9d30209ce59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -123,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "48561ceb_76b14d0c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-24T12:53:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05641d53_39f3cebf",
+      "revId": "37b858f948848d7b61dec7458bb3e9d30209ce59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f8ef5ee_1120542d",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
         "patchSetId": 42
@@ -146,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "87d1f17a_69db13ee",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-24T12:53:18Z",
+      "side": 1,
+      "message": "I tend to prefer code that derives data directly from its sources. Introducing a property is basically a cache micro-optimizing performance at the expense of readability. What we ultimately want to have are (rxjs) selectors that combine the best of both these worlds.",
+      "parentUuid": "2f8ef5ee_1120542d",
+      "range": {
+        "startLine": 236,
+        "startChar": 16,
+        "endLine": 236,
+        "endChar": 51
+      },
+      "revId": "37b858f948848d7b61dec7458bb3e9d30209ce59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42616554_80b13db0",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.js",
         "patchSetId": 42
@@ -166,6 +315,30 @@
       "revId": "37b858f948848d7b61dec7458bb3e9d30209ce59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96ca26a3_3679f2ce",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-24T12:53:18Z",
+      "side": 1,
+      "message": "\"show-attention\" does not mean that an attention icon is shown. Whether the feature is enabled and whether the user is actually a member of the attention set, both is checked further down in \u003cgr-account-label\u003e.\n\n\"show-attention\" just means that this widget in the UI generally is an account widget where it makes sense to show the attention status. For example we would not want to show an attention icon on comments or in the Change Log.\n\nMakes sense?",
+      "parentUuid": "42616554_80b13db0",
+      "range": {
+        "startLine": 156,
+        "startChar": 6,
+        "endLine": 156,
+        "endChar": 20
+      },
+      "revId": "37b858f948848d7b61dec7458bb3e9d30209ce59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

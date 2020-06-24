@@ -17,7 +17,6 @@ package com.google.gerrit.server.change;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.AttentionSetUpdate.Operation;
@@ -36,24 +35,36 @@ import java.util.function.Function;
 public class AddToAttentionSetOp implements BatchUpdateOp {
 
   public interface Factory {
-    AddToAttentionSetOp create(Account.Id attentionUserId, String reason);
+    AddToAttentionSetOp create(
+        Account.Id attentionUserId, String reason, boolean withChangeMessage);
   }
 
   private final ChangeData.Factory changeDataFactory;
   private final ChangeMessagesUtil cmUtil;
   private final Account.Id attentionUserId;
   private final String reason;
+  private final boolean withChangeMessage;
 
+  /**
+   * Add a specified user to the attention set.
+   *
+   * @param attentionUserId the id of the user we want to add to the attention set.
+   * @param reason The reason for adding that user.
+   * @param withChangeMessage Whether or not we wish to add a change message detailing about adding
+   *     that user to the attention set.
+   */
   @Inject
   AddToAttentionSetOp(
       ChangeData.Factory changeDataFactory,
       ChangeMessagesUtil cmUtil,
       @Assisted Account.Id attentionUserId,
-      @Assisted String reason) {
+      @Assisted String reason,
+      @Assisted boolean withChangeMessage) {
     this.changeDataFactory = changeDataFactory;
     this.cmUtil = cmUtil;
     this.attentionUserId = requireNonNull(attentionUserId, "user");
     this.reason = requireNonNull(reason, "reason");
+    this.withChangeMessage = withChangeMessage;
   }
 
   @Override
@@ -68,15 +79,16 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
     }
 
     ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
-    update.setAttentionSetUpdates(
-        ImmutableSet.of(
-            AttentionSetUpdate.createForWrite(
-                attentionUserId, AttentionSetUpdate.Operation.ADD, reason)));
-    addMessage(ctx, update);
+    update.addToPlannedAttentionSetUpdates(
+        AttentionSetUpdate.createForWrite(
+            attentionUserId, AttentionSetUpdate.Operation.ADD, reason));
+    if (withChangeMessage) {
+      addChangeMessage(ctx, update);
+    }
     return true;
   }
 
-  private void addMessage(ChangeContext ctx, ChangeUpdate update) {
+  private void addChangeMessage(ChangeContext ctx, ChangeUpdate update) {
     String message = "Added to attention set: " + attentionUserId;
     cmUtil.addChangeMessage(
         update,

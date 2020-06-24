@@ -26,8 +26,9 @@ import '../scripts/bundled-polymer.js';
  * on older touch device.
  * See https://github.com/Polymer/polymer/issues/5289
  */
-import {setCancelSyntheticClickEvents} from '@polymer/polymer/lib/utils/settings.js';
+import {setPassiveTouchGestures, setCancelSyntheticClickEvents} from '@polymer/polymer/lib/utils/settings.js';
 setCancelSyntheticClickEvents(false);
+setPassiveTouchGestures(true);
 
 import 'polymer-resin/standalone/polymer-resin.js';
 import {initGlobalVariables} from './gr-app-global-var-init.js';

@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "470b64de_e04225f2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-24T08:36:22Z",
+      "side": 1,
+      "message": "Fine with me 😊",
+      "parentUuid": "f6819966_4b870f51",
+      "range": {
+        "startLine": 169,
+        "startChar": 2,
+        "endLine": 169,
+        "endChar": 8
+      },
+      "revId": "134ada782bf78360c9119771d960c722350db8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a38abded_e85b158d",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.js",
         "patchSetId": 7
@@ -110,6 +134,30 @@
       "revId": "134ada782bf78360c9119771d960c722350db8eb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8559dc5e_a434476d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-24T08:36:22Z",
+      "side": 1,
+      "message": "When clean-up was added - it was added to not have warning - https://gerrit-review.googlesource.com/c/gerrit/+/147310\n\nI don\u0027t have details, I am just thinking there must be reason why it was added there.",
+      "parentUuid": "e5e093d5_2eba3a39",
+      "range": {
+        "startLine": 176,
+        "startChar": 23,
+        "endLine": 176,
+        "endChar": 33
+      },
+      "revId": "134ada782bf78360c9119771d960c722350db8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

@@ -70,6 +70,30 @@
       "revId": "7160c9174b2b11e625abbf4b9449afaccf2046b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ed3b1b9_8e719300",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-06-24T10:27:29Z",
+      "side": 1,
+      "message": "is there a plan of how all these pieces fit together? a short (1-2 pages) doc would be useful to get the entire picture.",
+      "parentUuid": "5cbad587_1049114e",
+      "range": {
+        "startLine": 9,
+        "startChar": 34,
+        "endLine": 10,
+        "endChar": 36
+      },
+      "revId": "7160c9174b2b11e625abbf4b9449afaccf2046b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

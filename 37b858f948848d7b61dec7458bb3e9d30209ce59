@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da6330f0_112900fb",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-24T09:12:05Z",
+      "side": 1,
+      "message": "maybe `attentionSet` ? `set` is too generic as a name, and can easily mess up the syntax highlighting as well :)",
+      "range": {
+        "startLine": 52,
+        "startChar": 8,
+        "endLine": 52,
+        "endChar": 11
+      },
+      "revId": "37b858f948848d7b61dec7458bb3e9d30209ce59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69fa8607_82a3a621",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-24T09:12:05Z",
+      "side": 1,
+      "message": "just curious, why have it as a util function instead of a method in the class ? then you don\u0027t need to pass in `change` ?",
+      "range": {
+        "startLine": 224,
+        "startChar": 38,
+        "endLine": 224,
+        "endChar": 50
+      },
+      "revId": "37b858f948848d7b61dec7458bb3e9d30209ce59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d500d80_d38769e0",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-24T09:12:05Z",
+      "side": 1,
+      "message": "nit: these two filters seem can fit into one loop",
+      "range": {
+        "startLine": 225,
+        "startChar": 28,
+        "endLine": 225,
+        "endChar": 34
+      },
+      "revId": "37b858f948848d7b61dec7458bb3e9d30209ce59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "187a1650_7e629b3e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-24T09:12:05Z",
+      "side": 1,
+      "message": "why not have `_computeReviewers` done the concatenation logic and then you can just `slice(0,2)` for primary and the rest for additional ? It just feels a bit awkward to use `primary` to determine the additional while you have all the info in the `_computePrimaryReviewers` :)",
+      "revId": "37b858f948848d7b61dec7458bb3e9d30209ce59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f8ef5ee_1120542d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-24T09:12:05Z",
+      "side": 1,
+      "message": "nit: i may just store them as a property to avoid all the computations all over again in these methods. Ya ideally a `change` won\u0027t have that many reviewers so the computation should be fairly easy, nit as it is",
+      "range": {
+        "startLine": 236,
+        "startChar": 16,
+        "endLine": 236,
+        "endChar": 51
+      },
+      "revId": "37b858f948848d7b61dec7458bb3e9d30209ce59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42616554_80b13db0",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-24T09:12:05Z",
+      "side": 1,
+      "message": "is it ok to enable this now ? or you already handled it inside of the account-link ? and other places as well",
+      "range": {
+        "startLine": 156,
+        "startChar": 6,
+        "endLine": 156,
+        "endChar": 20
+      },
+      "revId": "37b858f948848d7b61dec7458bb3e9d30209ce59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

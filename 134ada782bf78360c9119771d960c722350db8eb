@@ -90,6 +90,30 @@
     },
     {
       "key": {
+        "uuid": "c3ba8629_d28ad20f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-24T15:42:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "470b64de_e04225f2",
+      "range": {
+        "startLine": 169,
+        "startChar": 2,
+        "endLine": 169,
+        "endChar": 8
+      },
+      "revId": "134ada782bf78360c9119771d960c722350db8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a38abded_e85b158d",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.js",
         "patchSetId": 7

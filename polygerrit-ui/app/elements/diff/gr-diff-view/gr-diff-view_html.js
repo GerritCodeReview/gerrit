@@ -422,6 +422,7 @@ export const htmlTemplate = html`
   <gr-diff-cursor
     id="cursor"
     scroll-top-margin="[[_scrollTopMargin]]"
+    on-navigate-to-next-unreviewed-file="_handleNextUnreviewedFile"
   ></gr-diff-cursor>
   <gr-comment-api id="commentAPI"></gr-comment-api>
 `;

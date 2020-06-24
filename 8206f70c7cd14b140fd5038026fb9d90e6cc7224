@@ -22,6 +22,47 @@
       "revId": "8206f70c7cd14b140fd5038026fb9d90e6cc7224",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc78d693_b4b12cae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-24T17:21:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "154977fd_f797cd03",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 1
+      },
+      "revId": "8206f70c7cd14b140fd5038026fb9d90e6cc7224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a79cdaa1_6027051c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-24T17:21:20Z",
+      "side": 1,
+      "message": "\u003e Patch Set 1: Code-Review-1\n\u003e \n\u003e (1 comment)\n\u003e \n\u003e Needs a test that shows that this predicate works and can be used to block submission:\n\u003e 1) Based on the existence or absence of a file\n\u003e 2) Based on the existence of a submodule commit\n\u003e \n\u003e RulesIT seems like a place that we can piggy bank on\n\nI\u0027m not sure I understand what you meant.\nTo resolve this comment, I added a test that ensures correctness when exporting a generic change\u0027s file names. The callers can use these file names to block submission, if I understand correctly. They can block submission based on the existence/absence of a file (say, a.txt), and also for submodule commits, since submodule commits are just file names in some format, right? I confirmed that when I committed the submodule commit or a plugin it just adds a file called plugin/X or modules/X. Those file names will be shown as part of file_names.",
+      "revId": "8206f70c7cd14b140fd5038026fb9d90e6cc7224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

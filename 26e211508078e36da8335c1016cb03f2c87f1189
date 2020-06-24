@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7116cb3_42887eb1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2020-06-24T12:06:00Z",
+      "side": 1,
+      "message": "I don\u0027t know if this is the best way to introduce something like this, but\nI feel like Gerrit needs to get some options to handle things like\nsettings for visually impaired.\n\nPerhaps a section called \"Accessibility\" should be introduced and\nhandle this differently.\n\nPerhaps Ben has some ideas on how this could be done?",
+      "revId": "26e211508078e36da8335c1016cb03f2c87f1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

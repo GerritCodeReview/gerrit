@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6c5190fb_4441bbdc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-24T15:41:46Z",
+      "side": 1,
+      "message": "good idea!",
+      "parentUuid": "c8f0324e_b2c4578a",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 65
+      },
+      "revId": "fc050554b4b15f158bed8dc19bc975928857778a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9ce1cd8_7ec1a3e2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "898134dd_c85213cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-24T15:41:46Z",
+      "side": 1,
+      "message": "Not relevant because I\u0027ve just removed the link now.",
+      "parentUuid": "2ab634d5_c106ee9e",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 64
+      },
+      "revId": "fc050554b4b15f158bed8dc19bc975928857778a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77cf421a_f8adf03f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -116,6 +164,30 @@
       "revId": "fc050554b4b15f158bed8dc19bc975928857778a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a07e5163_a36bcf0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-24T15:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ac5c654_81315b05",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 11
+      },
+      "revId": "fc050554b4b15f158bed8dc19bc975928857778a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

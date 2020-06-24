@@ -63,12 +63,12 @@ public class AutoRegisterModulesTest {
   }
 
   @Export(value = "test")
-  public class TestSshCommand extends SshCommand {
+  public static class TestSshCommand extends SshCommand {
     @Override
     protected void run() throws UnloggedFailure, Failure, Exception {}
   }
 
-  private class TestPluginContextScanner implements PluginContentScanner {
+  private static class TestPluginContextScanner implements PluginContentScanner {
 
     @Override
     public Manifest getManifest() throws IOException {

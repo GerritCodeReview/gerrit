@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "59e86a3c_241edade",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-24T15:23:42Z",
+      "side": 1,
+      "message": "Can we then have a different v+ shortcut for \"diff base against latest\"?\n\nv+b\nv+c\nv+x\nv+f\nv+space\n\nWDYT?",
+      "parentUuid": "cf510acf_5a2174a1",
+      "revId": "a3c5603d52c62aa789407dde285313c7f05c0edb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a0cb3081_2d29ba8c",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 14

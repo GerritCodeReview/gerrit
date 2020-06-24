@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9ce1cd8_7ec1a3e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-24T15:00:31Z",
+      "side": 1,
+      "message": "Why would we have two identical links: called differently, once for View Change and once Patchset?\n\n  Link:\"View Change\" (Reference to: https://gerrit-review.googlesource.com/c/gerrit/+/272815)\n  1 comment:\n  Link:\"Patchset:\" (Reference to: https://gerrit-review.googlesource.com/c/gerrit/+/272815)\n\nI don\u0027t know what you are trying to achieve, but either your feature is broken, or this commit message is wrong. It makes no sense to me to provide two links to the same thing and call them differently.\n\nHave you considered to provide patch set link, e.g. to link to patch set 2 of this change you could add this link:\n\n  Patchset: https://gerrit-review.googlesource.com/c/gerrit/+/273052/2",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 64
+      },
+      "revId": "fc050554b4b15f158bed8dc19bc975928857778a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

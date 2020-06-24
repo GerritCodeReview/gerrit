@@ -40,10 +40,16 @@ def eslint(name, plugins, srcs, config, ignore, extensions = [".js"], data = [])
             bazel run {name}_test -- --fix $(pwd)/polygerrit-ui/app
     """
     entry_point = "@npm//:node_modules/eslint/bin/eslint.js"
+
+    # Any file located in the same directory with rules.
+    # README.md is the most "stable" file (i.e. it is unlikely will be removed)
+    eslint_rules_toplevel_file = "//tools/js/eslint-rules:README.md"
     bin_data = [
         "@npm//eslint:eslint",
         config,
         ignore,
+        "//tools/js/eslint-rules:eslint-rules-srcs",
+        eslint_rules_toplevel_file,
     ] + plugins + data
     common_templated_args = [
         "--ext",
@@ -55,6 +61,9 @@ def eslint(name, plugins, srcs, config, ignore, extensions = [".js"], data = [])
         "$$(rlocation $(rootpath {}))".format(config),
         "--ignore-path",
         "$$(rlocation $(rootpath {}))".format(ignore),
+        # Load custom rules from eslint-rules directory
+        "--rulesdir",
+        "$$(dirname $$(rlocation $(rootpath {})))".format(eslint_rules_toplevel_file),
     ]
     nodejs_test(
         name = name + "_test",

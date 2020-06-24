@@ -387,6 +387,30 @@
       "revId": "37b858f948848d7b61dec7458bb3e9d30209ce59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3362bf74_35dc8b07",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-24T13:30:50Z",
+      "side": 1,
+      "message": "I guess the name is a bit misleading, but I am fine with that.",
+      "parentUuid": "96ca26a3_3679f2ce",
+      "range": {
+        "startLine": 156,
+        "startChar": 6,
+        "endLine": 156,
+        "endChar": 20
+      },
+      "revId": "37b858f948848d7b61dec7458bb3e9d30209ce59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -77,8 +77,7 @@ public class ConfigInfoImpl extends ConfigInfo {
     this.defaultSubmitType.value = projectState.getSubmitType();
     this.defaultSubmitType.configuredValue =
         MoreObjects.firstNonNull(
-            projectState.getConfig().getProject().getConfiguredSubmitType(),
-            Project.DEFAULT_SUBMIT_TYPE);
+            projectState.getConfig().getProject().getSubmitType(), Project.DEFAULT_SUBMIT_TYPE);
     ProjectState parent =
         projectState.isAllProjects() ? projectState : projectState.parents().get(0);
     this.defaultSubmitType.inheritedValue = parent.getSubmitType();

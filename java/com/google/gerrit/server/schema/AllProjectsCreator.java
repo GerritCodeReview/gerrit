@@ -30,7 +30,6 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -116,12 +115,13 @@ public class AllProjectsCreator {
 
       // init basic project configs.
       ProjectConfig config = projectConfigFactory.read(md);
-      Project p = config.getProject();
-      p.setDescription(
-          input.projectDescription().orElse("Access inherited by all other projects."));
-
-      // init boolean project configs.
-      input.booleanProjectConfigs().forEach(p::setBooleanConfig);
+      config.updateProject(
+          p -> {
+            p.setDescription(
+                input.projectDescription().orElse("Access inherited by all other projects."));
+            // init boolean project configs.
+            input.booleanProjectConfigs().forEach(p::setBooleanConfig);
+          });
 
       // init labels.
       input

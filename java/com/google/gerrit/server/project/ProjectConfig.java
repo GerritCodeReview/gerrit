@@ -81,6 +81,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -321,6 +322,16 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   public Project getProject() {
     return project;
+  }
+
+  public void setProject(Project.Builder project) {
+    this.project = project.build();
+  }
+
+  public void updateProject(Consumer<Project.Builder> update) {
+    Project.Builder builder = project.toBuilder();
+    update.accept(builder);
+    project = builder.build();
   }
 
   public AccountsSection getAccountsSection() {
@@ -573,13 +584,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
     rulesId = getObjectId("rules.pl");
     Config rc = readConfig(PROJECT_CONFIG, baseConfig);
-    project = new Project(projectName);
-
-    Project p = project;
-    p.setDescription(rc.getString(PROJECT, null, KEY_DESCRIPTION));
-    if (p.getDescription() == null) {
-      p.setDescription("");
-    }
+    Project.Builder p = Project.builder(projectName);
+    p.setDescription(Strings.nullToEmpty(rc.getString(PROJECT, null, KEY_DESCRIPTION)));
     if (revision != null) {
       p.setConfigRefState(revision.toObjectId().name());
     }
@@ -589,7 +595,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       // as there is no guarantee which of the parents would be used then.
       error(ValidationError.create(PROJECT_CONFIG, "Cannot inherit from multiple projects"));
     }
-    p.setParentName(rc.getString(ACCESS, null, KEY_INHERIT_FROM));
+    p.setParent(rc.getString(ACCESS, null, KEY_INHERIT_FROM));
 
     for (BooleanProjectConfig config : BooleanProjectConfig.values()) {
       p.setBooleanConfig(
@@ -609,6 +615,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
     p.setDefaultDashboard(rc.getString(DASHBOARD, null, KEY_DEFAULT));
     p.setLocalDefaultDashboard(rc.getString(DASHBOARD, null, KEY_LOCAL_DEFAULT));
+    this.project = p.build();
 
     loadAccountsSection(rc);
     loadContributorAgreements(rc);
@@ -1168,7 +1175,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         KEY_MAX_OBJECT_SIZE_LIMIT,
         validMaxObjectSizeLimit(p.getMaxObjectSizeLimit()));
 
-    set(rc, SUBMIT, null, KEY_ACTION, p.getConfiguredSubmitType(), DEFAULT_SUBMIT_TYPE);
+    set(rc, SUBMIT, null, KEY_ACTION, p.getSubmitType(), DEFAULT_SUBMIT_TYPE);
 
     set(rc, PROJECT, null, KEY_STATE, p.getState(), DEFAULT_STATE_VALUE);
 

@@ -85,8 +85,10 @@ public class ImplicitMergeCheckIT extends AbstractDaemonTest {
   private void setRejectImplicitMerges() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig()
-          .getProject()
-          .setBooleanConfig(BooleanProjectConfig.REJECT_IMPLICIT_MERGES, InheritableBoolean.TRUE);
+          .updateProject(
+              p ->
+                  p.setBooleanConfig(
+                      BooleanProjectConfig.REJECT_IMPLICIT_MERGES, InheritableBoolean.TRUE));
       u.save();
     }
   }

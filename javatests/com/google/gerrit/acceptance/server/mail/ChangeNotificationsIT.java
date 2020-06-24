@@ -1500,7 +1500,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
       throws Exception {
     for (SubmitType submitType : SubmitType.values()) {
       try (ProjectConfigUpdate u = updateProject(project)) {
-        u.getConfig().getProject().setSubmitType(submitType);
+        u.getConfig().updateProject(p -> p.setSubmitType(submitType));
         u.save();
       }
 

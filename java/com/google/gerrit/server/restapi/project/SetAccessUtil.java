@@ -243,7 +243,7 @@ public class SetAccessUtil {
       } catch (UnprocessableEntityException e) {
         throw new ResourceConflictException(e.getMessage(), e);
       }
-      config.getProject().setParentName(newParentProjectName);
+      config.updateProject(p -> p.setParent(newParentProjectName));
     }
   }
 

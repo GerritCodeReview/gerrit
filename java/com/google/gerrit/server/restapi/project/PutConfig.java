@@ -134,7 +134,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
 
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(projectName)) {
       ProjectConfig projectConfig = projectConfigFactory.read(md);
-      Project p = projectConfig.getProject();
+      Project.Builder p = projectConfig.getProject().toBuilder();
 
       p.setDescription(Strings.emptyToNull(input.description));
 
@@ -165,11 +165,12 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
         updateCommentLinks(projectConfig, input.commentLinks);
       }
 
+      projectConfig.setProject(p);
       md.setMessage("Modified project settings\n");
       try {
         projectConfig.commit(md);
         projectCache.evict(projectConfig.getProject());
-        md.getRepository().setGitwebDescription(p.getDescription());
+        md.getRepository().setGitwebDescription(projectConfig.getProject().getDescription());
       } catch (IOException e) {
         if (e.getCause() instanceof ConfigInvalidException) {
           throw new ResourceConflictException(

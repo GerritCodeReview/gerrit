@@ -103,8 +103,7 @@ public class SetParent
     validateParentUpdate(rsrc.getProjectState().getNameKey(), user, parentName, checkIfAdmin);
     try (MetaDataUpdate md = updateFactory.get().create(rsrc.getNameKey())) {
       ProjectConfig config = projectConfigFactory.read(md);
-      Project project = config.getProject();
-      project.setParentName(parentName);
+      config.updateProject(p -> p.setParent(parentName));
 
       String msg = Strings.emptyToNull(input.commitMessage);
       if (msg == null) {
@@ -117,7 +116,7 @@ public class SetParent
       config.commit(md);
       cache.evict(rsrc.getProjectState().getProject());
 
-      Project.NameKey parent = project.getParent(allProjects);
+      Project.NameKey parent = config.getProject().getParent(allProjects);
       requireNonNull(parent);
       return parent.get();
     } catch (RepositoryNotFoundException notFound) {

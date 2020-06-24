@@ -16,6 +16,9 @@ package com.google.gerrit.entities;
 
 import static java.util.Objects.requireNonNull;
 
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -26,7 +29,8 @@ import java.util.Map;
 import java.util.Optional;
 
 /** Projects match a source code repository managed by Gerrit */
-public final class Project {
+@AutoValue
+public abstract class Project {
   /** Default submit type for new projects. */
   public static final SubmitType DEFAULT_SUBMIT_TYPE = SubmitType.MERGE_IF_NECESSARY;
 
@@ -96,118 +100,64 @@ public final class Project {
     }
   }
 
-  protected NameKey name;
+  public abstract NameKey getNameKey();
 
-  protected String description;
+  @Nullable
+  public abstract String getDescription();
 
-  protected Map<BooleanProjectConfig, InheritableBoolean> booleanConfigs;
-
-  protected SubmitType submitType;
-
-  protected ProjectState state;
-
-  protected NameKey parent;
-
-  protected String maxObjectSizeLimit;
-
-  protected String defaultDashboardId;
-
-  protected String localDefaultDashboardId;
-
-  protected String configRefState;
-
-  protected Project() {}
-
-  public Project(Project.NameKey nameKey) {
-    name = nameKey;
-    submitType = SubmitType.MERGE_IF_NECESSARY;
-    state = ProjectState.ACTIVE;
-
-    booleanConfigs = new HashMap<>();
-    Arrays.stream(BooleanProjectConfig.values())
-        .forEach(c -> booleanConfigs.put(c, InheritableBoolean.INHERIT));
-  }
-
-  public Project.NameKey getNameKey() {
-    return name;
-  }
-
-  public String getName() {
-    return name != null ? name.get() : null;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String d) {
-    description = d;
-  }
-
-  public String getMaxObjectSizeLimit() {
-    return maxObjectSizeLimit;
-  }
-
-  public InheritableBoolean getBooleanConfig(BooleanProjectConfig config) {
-    return booleanConfigs.get(config);
-  }
-
-  public void setBooleanConfig(BooleanProjectConfig config, InheritableBoolean val) {
-    booleanConfigs.replace(config, val);
-  }
-
-  public void setMaxObjectSizeLimit(String limit) {
-    maxObjectSizeLimit = limit;
-  }
+  protected abstract ImmutableMap<BooleanProjectConfig, InheritableBoolean> getBooleanConfigs();
 
   /**
    * Submit type as configured in {@code project.config}.
    *
    * <p>Does not take inheritance into account, i.e. may return {@link SubmitType#INHERIT}.
-   *
-   * @return submit type.
    */
-  public SubmitType getConfiguredSubmitType() {
-    return submitType;
-  }
+  public abstract SubmitType getSubmitType();
 
-  public void setSubmitType(SubmitType type) {
-    submitType = type;
-  }
-
-  public ProjectState getState() {
-    return state;
-  }
-
-  public void setState(ProjectState newState) {
-    state = newState;
-  }
-
-  public String getDefaultDashboard() {
-    return defaultDashboardId;
-  }
-
-  public void setDefaultDashboard(String defaultDashboardId) {
-    this.defaultDashboardId = defaultDashboardId;
-  }
-
-  public String getLocalDefaultDashboard() {
-    return localDefaultDashboardId;
-  }
-
-  public void setLocalDefaultDashboard(String localDefaultDashboardId) {
-    this.localDefaultDashboardId = localDefaultDashboardId;
-  }
+  public abstract ProjectState getState();
 
   /**
-   * Returns the name key of the parent project.
+   * Name key of the parent project.
    *
-   * @return name key of the parent project, {@code null} if this project is the wild project,
-   *     {@code null} or the name key of the wild project if this project is a direct child of the
-   *     wild project
+   * <p>{@code null} if this project is the wild project, {@code null} or the name key of the wild
+   * project if this project is a direct child of the wild project.
    */
-  public Project.NameKey getParent() {
-    return parent;
+  @Nullable
+  public abstract NameKey getParent();
+
+  @Nullable
+  public abstract String getMaxObjectSizeLimit();
+
+  @Nullable
+  public abstract String getDefaultDashboard();
+
+  @Nullable
+  public abstract String getLocalDefaultDashboard();
+
+  /** The {@code ObjectId} as 40 digit hex of {@code refs/meta/config}'s HEAD. */
+  @Nullable
+  public abstract String getConfigRefState();
+
+  public static Builder builder(Project.NameKey nameKey) {
+    Builder builder =
+        new AutoValue_Project.Builder()
+            .setNameKey(nameKey)
+            .setSubmitType(SubmitType.MERGE_IF_NECESSARY)
+            .setState(ProjectState.ACTIVE);
+    ImmutableMap.Builder<BooleanProjectConfig, InheritableBoolean> booleans =
+        ImmutableMap.builder();
+    Arrays.stream(BooleanProjectConfig.values())
+        .forEach(b -> booleans.put(b, InheritableBoolean.INHERIT));
+    builder.setBooleanConfigs(booleans.build());
+    return builder;
+  }
+
+  public String getName() {
+    return getNameKey() != null ? getNameKey().get() : null;
+  }
+
+  public InheritableBoolean getBooleanConfig(BooleanProjectConfig config) {
+    return getBooleanConfigs().get(config);
   }
 
   /**
@@ -218,11 +168,11 @@ public final class Project {
    *     project
    */
   public Project.NameKey getParent(Project.NameKey allProjectsName) {
-    if (parent != null) {
-      return parent;
+    if (getParent() != null) {
+      return getParent();
     }
 
-    if (name.equals(allProjectsName)) {
+    if (getNameKey().equals(allProjectsName)) {
       return null;
     }
 
@@ -230,29 +180,53 @@ public final class Project {
   }
 
   public String getParentName() {
-    return parent != null ? parent.get() : null;
-  }
-
-  public void setParentName(String n) {
-    parent = n != null ? nameKey(n) : null;
-  }
-
-  public void setParentName(NameKey n) {
-    parent = n;
-  }
-
-  /** Returns the {@code ObjectId} as 40 digit hex of {@code refs/meta/config}'s HEAD. */
-  public String getConfigRefState() {
-    return configRefState;
-  }
-
-  /** Sets the {@code ObjectId} as 40 digit hex of {@code refs/meta/config}'s HEAD. */
-  public void setConfigRefState(String state) {
-    configRefState = state;
+    return getParent() != null ? getParent().get() : null;
   }
 
   @Override
-  public String toString() {
+  public final String toString() {
     return Optional.of(getName()).orElse("<null>");
+  }
+
+  public abstract Builder toBuilder();
+
+  @AutoValue.Builder
+  public abstract static class Builder {
+    public abstract Builder setDescription(String d);
+
+    public Builder setBooleanConfig(BooleanProjectConfig config, InheritableBoolean val) {
+      Map<BooleanProjectConfig, InheritableBoolean> map = new HashMap<>(getBooleanConfigs());
+      map.replace(config, val);
+      setBooleanConfigs(ImmutableMap.copyOf(map));
+      return this;
+    }
+
+    public abstract Builder setMaxObjectSizeLimit(String limit);
+
+    public abstract Builder setSubmitType(SubmitType type);
+
+    public abstract Builder setState(ProjectState newState);
+
+    public abstract Builder setDefaultDashboard(String defaultDashboardId);
+
+    public abstract Builder setLocalDefaultDashboard(String localDefaultDashboard);
+
+    public abstract Builder setParent(NameKey n);
+
+    public Builder setParent(String n) {
+      return setParent(n != null ? nameKey(n) : null);
+    }
+
+    /** Sets the {@code ObjectId} as 40 digit hex of {@code refs/meta/config}'s HEAD. */
+    public abstract Builder setConfigRefState(String state);
+
+    public abstract Project build();
+
+    protected abstract Builder setNameKey(Project.NameKey nameKey);
+
+    protected abstract ImmutableMap<BooleanProjectConfig, InheritableBoolean> getBooleanConfigs();
+
+    protected abstract Builder setBooleanConfigs(
+        ImmutableMap<BooleanProjectConfig, InheritableBoolean> booleanConfigs);
   }
 }

@@ -224,7 +224,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     Project project = projectCache.get(Project.nameKey(newProjectName)).get().getProject();
     assertProjectInfo(project, p);
     assertThat(project.getDescription()).isEqualTo(in.description);
-    assertThat(project.getConfiguredSubmitType()).isEqualTo(in.submitType);
+    assertThat(project.getSubmitType()).isEqualTo(in.submitType);
     assertThat(project.getBooleanConfig(BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS))
         .isEqualTo(in.useContributorAgreements);
     assertThat(project.getBooleanConfig(BooleanProjectConfig.USE_SIGNED_OFF_BY))
@@ -368,8 +368,11 @@ public class CreateProjectIT extends AbstractDaemonTest {
 
   @Test
   public void createProjectWithCreateProjectCapabilityAndParentNotVisible() throws Exception {
-    Project parent = projectCache.get(allProjects).get().getProject();
-    parent.setState(com.google.gerrit.extensions.client.ProjectState.HIDDEN);
+    try (ProjectConfigUpdate u = updateProject(allProjects)) {
+      u.getConfig()
+          .updateProject(p -> p.setState(com.google.gerrit.extensions.client.ProjectState.HIDDEN));
+      u.save();
+    }
     projectOperations
         .allProjectsForUpdate()
         .add(
@@ -383,7 +386,12 @@ public class CreateProjectIT extends AbstractDaemonTest {
       ProjectInfo p = gApi.projects().create(in).get();
       assertThat(p.name).isEqualTo(in.name);
     } finally {
-      parent.setState(com.google.gerrit.extensions.client.ProjectState.ACTIVE);
+      try (ProjectConfigUpdate u = updateProject(allProjects)) {
+        u.getConfig()
+            .updateProject(
+                p -> p.setState(com.google.gerrit.extensions.client.ProjectState.ACTIVE));
+        u.save();
+      }
       projectOperations
           .allProjectsForUpdate()
           .remove(

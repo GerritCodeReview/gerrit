@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "599dbf6e_40f6e5e0",
+        "filename": "javatests/com/google/gerrit/server/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-24T20:52:16Z",
+      "side": 1,
+      "message": "Oh yes, makes perfect sense, I did not see that was in the test-deps.",
+      "parentUuid": "f66d02bc_a0bbb4df",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 40
+      },
+      "revId": "a106877f7b5a0e323d1972f5c0014ebb2edd2167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b641d0e5_72113da5",
         "filename": "javatests/com/google/gerrit/server/plugins/AutoRegisterModulesTest.java",
         "patchSetId": 7

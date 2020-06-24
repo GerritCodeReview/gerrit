@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 import '@polymer/iron-input/iron-input.js';
 import '../../shared/gr-autocomplete/gr-autocomplete.js';
 import '../../shared/gr-button/gr-button.js';
@@ -31,6 +32,15 @@ import {htmlTemplate} from './gr-edit-controls_html.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {GrEditConstants} from '../gr-edit-constants.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+
+/**
+ * setCancelSyntheticClickEvents is set to true by
+ * default which will cancel synthetic click events
+ * on older touch device.
+ * See https://github.com/Polymer/polymer/issues/5289
+ */
+import {setCancelSyntheticClickEvents} from '@polymer/polymer/lib/utils/settings.js';
+setCancelSyntheticClickEvents(false);
 
 /**
  * @extends PolymerElement

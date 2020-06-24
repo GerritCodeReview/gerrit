@@ -20,15 +20,6 @@ import './font-roboto-local-loader.js';
 // Sets up global Polymer variable, because plugins requires it.
 import '../scripts/bundled-polymer.js';
 
-/**
- * setCancelSyntheticClickEvents is set to true by
- * default which will cancel synthetic click events
- * on older touch device.
- * See https://github.com/Polymer/polymer/issues/5289
- */
-import {setCancelSyntheticClickEvents} from '@polymer/polymer/lib/utils/settings.js';
-setCancelSyntheticClickEvents(false);
-
 import 'polymer-resin/standalone/polymer-resin.js';
 import {initGlobalVariables} from './gr-app-global-var-init.js';
 import './gr-app-element.js';

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "c8f0324e_b2c4578a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-24T15:23:17Z",
+      "side": 1,
+      "message": "What if we fixed that line to:\n\n  {if $group.link}\u003ca href\u003d\"{$group.link}\"\u003e{/if}\n  {$group.title}:\n  {if $group.link}\u003c/a\u003e{/if}",
+      "range": {
+        "startLine": 9,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 65
+      },
+      "revId": "fc050554b4b15f158bed8dc19bc975928857778a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d9ce1cd8_7ec1a3e2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -25,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "2ab634d5_c106ee9e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-24T15:23:17Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t know what you are trying to achieve, but either your feature is broken, or this commit message is wrong.\n\nNeither of this. There\u0027s no feature which is broken, just older code which was written with some assumptions in mind. Gal is trying to find a solution which doesn\u0027t involve rewriting all of our email code.\n\nOriginally, we decided that not having a link on \"Patchset\" would be best. We did consider a patchset link as you suggested. Users can add comments on several patchsets, though, and send them within one reply. Hence, there wouldn\u0027t be exactly one patchset we could link to.\n\nThe best alternative we could think of was linking to the \"Comments\" tab. However, robot comments and human comments can be mixed (same as with the example of different patchsets above).",
+      "parentUuid": "d9ce1cd8_7ec1a3e2",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 64
+      },
+      "revId": "fc050554b4b15f158bed8dc19bc975928857778a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "77cf421a_f8adf03f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -36,6 +83,30 @@
       "writtenOn": "2020-06-24T15:01:11Z",
       "side": 1,
       "message": "We usually call the footer:\n\n  Bug: Issue 12997",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 11
+      },
+      "revId": "fc050554b4b15f158bed8dc19bc975928857778a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ac5c654_81315b05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-24T15:23:17Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "77cf421a_f8adf03f",
       "range": {
         "startLine": 18,
         "startChar": 0,

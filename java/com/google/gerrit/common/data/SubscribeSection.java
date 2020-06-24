@@ -14,43 +14,58 @@
 
 package com.google.gerrit.common.data;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.RefSpec;
 
 /** Portion of a {@link Project} describing superproject subscription rules. */
-public class SubscribeSection {
+@AutoValue
+public abstract class SubscribeSection {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final List<RefSpec> multiMatchRefSpecs;
-  private final List<RefSpec> matchingRefSpecs;
-  private final Project.NameKey project;
+  public abstract Project.NameKey project();
 
-  public SubscribeSection(Project.NameKey p) {
-    project = p;
-    matchingRefSpecs = new ArrayList<>();
-    multiMatchRefSpecs = new ArrayList<>();
+  protected abstract ImmutableList<RefSpec> matchingRefSpecs();
+
+  protected abstract ImmutableList<RefSpec> multiMatchRefSpecs();
+
+  public static Builder builder(Project.NameKey project) {
+    return new AutoValue_SubscribeSection.Builder().project(project);
   }
 
-  public void addMatchingRefSpec(RefSpec spec) {
-    matchingRefSpecs.add(spec);
-  }
+  public abstract Builder toBuilder();
 
-  public void addMatchingRefSpec(String spec) {
-    RefSpec r = new RefSpec(spec);
-    matchingRefSpecs.add(r);
-  }
+  @AutoValue.Builder
+  public abstract static class Builder {
+    public abstract Builder project(Project.NameKey project);
 
-  public void addMultiMatchRefSpec(String spec) {
-    RefSpec r = new RefSpec(spec, RefSpec.WildcardMode.ALLOW_MISMATCH);
-    multiMatchRefSpecs.add(r);
-  }
+    abstract ImmutableList.Builder<RefSpec> matchingRefSpecsBuilder();
 
-  public Project.NameKey getProject() {
-    return project;
+    abstract ImmutableList.Builder<RefSpec> multiMatchRefSpecsBuilder();
+
+    public Builder addMatchingRefSpec(String matchingRefSpec) {
+      matchingRefSpecsBuilder()
+          .add(new RefSpec(matchingRefSpec, RefSpec.WildcardMode.REQUIRE_MATCH));
+      return this;
+    }
+
+    public Builder addMultiMatchRefSpec(String multiMatchRefSpec) {
+      multiMatchRefSpecsBuilder()
+          .add(new RefSpec(multiMatchRefSpec, RefSpec.WildcardMode.ALLOW_MISMATCH));
+      return this;
+    }
+
+    public abstract SubscribeSection build();
   }
 
   /**
@@ -61,12 +76,12 @@ public class SubscribeSection {
    * @return if the branch could trigger a superproject update
    */
   public boolean appliesTo(BranchNameKey branch) {
-    for (RefSpec r : matchingRefSpecs) {
+    for (RefSpec r : matchingRefSpecs()) {
       if (r.matchSource(branch.branch())) {
         return true;
       }
     }
-    for (RefSpec r : multiMatchRefSpecs) {
+    for (RefSpec r : multiMatchRefSpecs()) {
       if (r.matchSource(branch.branch())) {
         return true;
       }
@@ -74,29 +89,71 @@ public class SubscribeSection {
     return false;
   }
 
-  public Collection<RefSpec> getMatchingRefSpecs() {
-    return Collections.unmodifiableCollection(matchingRefSpecs);
+  public Collection<String> matchingRefSpecsAsString() {
+    return matchingRefSpecs().stream().map(RefSpec::toString).collect(toImmutableList());
   }
 
-  public Collection<RefSpec> getMultiMatchRefSpecs() {
-    return Collections.unmodifiableCollection(multiMatchRefSpecs);
+  public Collection<String> multiMatchRefSpecsAsString() {
+    return multiMatchRefSpecs().stream().map(RefSpec::toString).collect(toImmutableList());
+  }
+
+  /** Evaluates what the destination branches for the subscription are. */
+  public ImmutableSet<BranchNameKey> getDestinationBranches(
+      BranchNameKey src, Collection<Ref> allRefsInRefsHeads) {
+    Set<BranchNameKey> ret = new HashSet<>();
+    logger.atFine().log("Inspecting SubscribeSection %s", this);
+    for (RefSpec r : matchingRefSpecs()) {
+      logger.atFine().log("Inspecting [matching] ref %s", r);
+      if (!r.matchSource(src.branch())) {
+        continue;
+      }
+      if (r.isWildcard()) {
+        // refs/heads/*[:refs/somewhere/*]
+        ret.add(BranchNameKey.create(project(), r.expandFromSource(src.branch()).getDestination()));
+      } else {
+        // e.g. refs/heads/master[:refs/heads/stable]
+        String dest = r.getDestination();
+        if (dest == null) {
+          dest = r.getSource();
+        }
+        ret.add(BranchNameKey.create(project(), dest));
+      }
+    }
+
+    for (RefSpec r : multiMatchRefSpecs()) {
+      logger.atFine().log("Inspecting [all] ref %s", r);
+      if (!r.matchSource(src.branch())) {
+        continue;
+      }
+      for (Ref ref : allRefsInRefsHeads) {
+        if (r.getDestination() != null && !r.matchDestination(ref.getName())) {
+          continue;
+        }
+        BranchNameKey b = BranchNameKey.create(project(), ref.getName());
+        if (!ret.contains(b)) {
+          ret.add(b);
+        }
+      }
+    }
+    logger.atFine().log("Returning possible branches: %s for project %s", ret, project());
+    return ImmutableSet.copyOf(ret);
   }
 
   @Override
-  public String toString() {
+  public final String toString() {
     StringBuilder ret = new StringBuilder();
     ret.append("[SubscribeSection, project=");
-    ret.append(project);
-    if (!matchingRefSpecs.isEmpty()) {
+    ret.append(project());
+    if (!matchingRefSpecs().isEmpty()) {
       ret.append(", matching=[");
-      for (RefSpec r : matchingRefSpecs) {
+      for (RefSpec r : matchingRefSpecs()) {
         ret.append(r.toString());
         ret.append(", ");
       }
     }
-    if (!multiMatchRefSpecs.isEmpty()) {
+    if (!multiMatchRefSpecs().isEmpty()) {
       ret.append(", all=[");
-      for (RefSpec r : multiMatchRefSpecs) {
+      for (RefSpec r : multiMatchRefSpecs()) {
         ret.append(r.toString());
         ret.append(", ");
       }

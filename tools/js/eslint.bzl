@@ -40,10 +40,24 @@ def eslint(name, plugins, srcs, config, ignore, extensions = [".js"], data = [])
             bazel run {name}_test -- --fix $(pwd)/polygerrit-ui/app
     """
     entry_point = "@npm//:node_modules/eslint/bin/eslint.js"
+
+    # There are custom eslint rules in eslint-rules directory. Eslint loads
+    # custom rules from a directory specified with the --rulesdir argument.
+    # When bazel runs eslint, it places the eslint-rules directory into
+    # some location in the filesystem, and the location is not known in advance.
+    # It is not possible to get the directory location in bazel directly.
+    # Instead, we can use dirname to get a directory for a file in the
+    # eslint-rules directory.
+    # README.md is the most "stable" file in the eslint-rules directory
+    # (i.e. it is unlikely will be removed), and we are using it to calculate
+    # exact directory path in bazel.
+    eslint_rules_toplevel_file = "//tools/js/eslint-rules:README.md"
     bin_data = [
         "@npm//eslint:eslint",
         config,
         ignore,
+        "//tools/js/eslint-rules:eslint-rules-srcs",
+        eslint_rules_toplevel_file,
     ] + plugins + data
     common_templated_args = [
         "--ext",
@@ -55,6 +69,9 @@ def eslint(name, plugins, srcs, config, ignore, extensions = [".js"], data = [])
         "$$(rlocation $(rootpath {}))".format(config),
         "--ignore-path",
         "$$(rlocation $(rootpath {}))".format(ignore),
+        # Load custom rules from eslint-rules directory
+        "--rulesdir",
+        "$$(dirname $$(rlocation $(rootpath {})))".format(eslint_rules_toplevel_file),
     ]
     nodejs_test(
         name = name + "_test",

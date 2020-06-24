@@ -157,6 +157,9 @@ module.exports = {
     "import/no-useless-path-segments": 2,
     "import/no-unused-modules": 2,
     "import/no-default-export": 2,
+    // Custom rule from the //tools/js/eslint-rules directory.
+    // See //tools/js/eslint-rules/README.md for details
+    "goog-module-id": 2,
   },
 
   // List of allowed globals in all files
@@ -191,6 +194,15 @@ module.exports = {
       },
       "parserOptions": {
         "project": path.resolve(__dirname, "./tsconfig.json"),
+      }
+    },
+    {
+      "files": ["**/*.ts"],
+      "excludedFiles": "*.d.ts",
+      "rules": {
+        // Custom rule from the //tools/js/eslint-rules directory.
+        // See //tools/js/eslint-rules/README.md for details
+        "ts-imports-js": 2,
       }
     },
     {

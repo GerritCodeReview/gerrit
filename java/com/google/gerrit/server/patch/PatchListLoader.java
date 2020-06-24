@@ -26,10 +26,12 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Multimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -41,6 +43,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -59,6 +62,7 @@ import org.eclipse.jgit.diff.EditList;
 import org.eclipse.jgit.diff.HistogramDiff;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RawTextComparator;
+import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
@@ -383,8 +387,20 @@ public class PatchListLoader implements Callable<PatchList> {
       Set<ContextAwareEdit> editsDueToRebase)
       throws IOException {
     FileHeader fileHeader = toFileHeader(key.getNewId(), diffFormatter, diffEntry);
-    long oldSize = getFileSize(objectReader, diffEntry.getOldMode(), diffEntry.getOldPath(), treeA);
-    long newSize = getFileSize(objectReader, diffEntry.getNewMode(), diffEntry.getNewPath(), treeB);
+    long oldSize =
+        getFileSize(
+            objectReader,
+            diffEntry.getOldId(),
+            diffEntry.getOldMode(),
+            diffEntry.getOldPath(),
+            treeA);
+    long newSize =
+        getFileSize(
+            objectReader,
+            diffEntry.getNewId(),
+            diffEntry.getNewMode(),
+            diffEntry.getNewPath(),
+            treeB);
     Set<Edit> contentEditsDueToRebase = getContentEdits(editsDueToRebase);
     PatchListEntry patchListEntry =
         newEntry(treeA, fileHeader, contentEditsDueToRebase, newSize, newSize - oldSize);
@@ -417,19 +433,54 @@ public class PatchListLoader implements Callable<PatchList> {
     return ComparisonType.againstOtherPatchSet();
   }
 
-  private static long getFileSize(ObjectReader reader, FileMode mode, String path, RevTree t)
+  private static long getFileSize(
+      ObjectReader reader, AbbreviatedObjectId abbreviatedId, FileMode mode, String path, RevTree t)
       throws IOException {
     if (!isBlob(mode)) {
       return 0;
     }
-    try (TreeWalk tw = TreeWalk.forPath(reader, path, t)) {
-      return tw != null ? reader.open(tw.getObjectId(0), OBJ_BLOB).getSize() : 0;
+    ObjectId fileId =
+        toObjectId(reader, abbreviatedId).orElseGet(() -> lookupObjectId(reader, path, t));
+    if (ObjectId.zeroId().equals(fileId)) {
+      return 0;
     }
+    return reader.getObjectSize(fileId, OBJ_BLOB);
   }
 
   private static boolean isBlob(FileMode mode) {
     int t = mode.getBits() & FileMode.TYPE_MASK;
     return t == FileMode.TYPE_FILE || t == FileMode.TYPE_SYMLINK;
+  }
+
+  private static Optional<ObjectId> toObjectId(
+      ObjectReader reader, AbbreviatedObjectId abbreviatedId) throws IOException {
+    if (abbreviatedId == null) {
+      // In theory, DiffEntry#getOldId or DiffEntry#getNewId can be null for pure renames or pure
+      // mode changes (e.g. DiffEntry#modify doesn't set the IDs). However, the method we call
+      // for diffs (DiffFormatter#scan) seems to always produce DiffEntries with set IDs, even for
+      // pure renames.
+      return Optional.empty();
+    }
+    if (abbreviatedId.isComplete()) {
+      // With the current JGit version and the method we call for diffs (DiffFormatter#scan), this
+      // is the only code path taken right now.
+      return Optional.ofNullable(abbreviatedId.toObjectId());
+    }
+    Collection<ObjectId> objectIds = reader.resolve(abbreviatedId);
+    // It seems very unlikely that an ObjectId which was just abbreviated by the diff computation
+    // now can't be resolved to exactly one ObjectId. The API allows this possibility, though.
+    return objectIds.size() == 1
+        ? Optional.of(Iterables.getOnlyElement(objectIds))
+        : Optional.empty();
+  }
+
+  private static ObjectId lookupObjectId(ObjectReader reader, String path, RevTree tree) {
+    // This variant is very expensive.
+    try (TreeWalk treeWalk = TreeWalk.forPath(reader, path, tree)) {
+      return treeWalk != null ? treeWalk.getObjectId(0) : ObjectId.zeroId();
+    } catch (IOException e) {
+      throw new StorageException(e);
+    }
   }
 
   private FileHeader toFileHeader(

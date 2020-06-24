@@ -34,6 +34,24 @@
       "revId": "1fe4fb16adc109f3f50278238325a93e5183250f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2259c07d_eefe5144",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-24T07:14:29Z",
+      "side": 1,
+      "message": "+1 for this suggestion, can you file issue and reference this breakage, that could have been avoided if CI would have this facility? But let\u0027s face it: nobody there to implement them. The same is producing converage report that I filed recently.",
+      "parentUuid": "8bb5ad14_9a5679b4",
+      "revId": "1fe4fb16adc109f3f50278238325a93e5183250f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

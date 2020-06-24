@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9063119c_0d0ac51d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-24T21:12:47Z",
+      "side": 1,
+      "message": "The visibility condition (hidden) should be implemented in the view instead, in: gr-comment-thread_html.js.",
+      "range": {
+        "startLine": 416,
+        "startChar": 4,
+        "endLine": 420,
+        "endChar": 5
+      },
+      "revId": "0a0339c473842dd618216c93319da768d6cab2d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

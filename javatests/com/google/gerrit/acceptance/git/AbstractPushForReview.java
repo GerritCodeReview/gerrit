@@ -1686,8 +1686,10 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig()
-          .getProject()
-          .setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE);
+          .updateProject(
+              p ->
+                  p.setBooleanConfig(
+                      BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE));
       u.save();
     }
 
@@ -1712,8 +1714,10 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig()
-          .getProject()
-          .setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE);
+          .updateProject(
+              p ->
+                  p.setBooleanConfig(
+                      BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE));
       u.save();
     }
 

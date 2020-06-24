@@ -134,28 +134,25 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
 
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(projectName)) {
       ProjectConfig projectConfig = projectConfigFactory.read(md);
-      Project p = projectConfig.getProject();
-
-      p.setDescription(Strings.emptyToNull(input.description));
-
-      for (BooleanProjectConfig cfg : BooleanProjectConfig.values()) {
-        InheritableBoolean val = BooleanProjectConfigTransformations.get(cfg, input);
-        if (val != null) {
-          p.setBooleanConfig(cfg, val);
-        }
-      }
-
-      if (input.maxObjectSizeLimit != null) {
-        p.setMaxObjectSizeLimit(input.maxObjectSizeLimit);
-      }
-
-      if (input.submitType != null) {
-        p.setSubmitType(input.submitType);
-      }
-
-      if (input.state != null) {
-        p.setState(input.state);
-      }
+      projectConfig.updateProject(
+          p -> {
+            p.setDescription(Strings.emptyToNull(input.description));
+            for (BooleanProjectConfig cfg : BooleanProjectConfig.values()) {
+              InheritableBoolean val = BooleanProjectConfigTransformations.get(cfg, input);
+              if (val != null) {
+                p.setBooleanConfig(cfg, val);
+              }
+            }
+            if (input.maxObjectSizeLimit != null) {
+              p.setMaxObjectSizeLimit(input.maxObjectSizeLimit);
+            }
+            if (input.submitType != null) {
+              p.setSubmitType(input.submitType);
+            }
+            if (input.state != null) {
+              p.setState(input.state);
+            }
+          });
 
       if (input.pluginConfigValues != null) {
         setPluginConfigValues(projectState, projectConfig, input.pluginConfigValues);
@@ -169,7 +166,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       try {
         projectConfig.commit(md);
         projectCache.evict(projectConfig.getProject());
-        md.getRepository().setGitwebDescription(p.getDescription());
+        md.getRepository().setGitwebDescription(projectConfig.getProject().getDescription());
       } catch (IOException e) {
         if (e.getCause() instanceof ConfigInvalidException) {
           throw new ResourceConflictException(

@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupDescription;
@@ -150,26 +151,32 @@ public class ProjectCreator {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(args.getProject())) {
       ProjectConfig config = projectConfigFactory.read(md);
 
-      Project newProject = config.getProject();
-      newProject.setDescription(args.projectDescription);
-      newProject.setSubmitType(
-          MoreObjects.firstNonNull(
-              args.submitType, repositoryCfg.getDefaultSubmitType(args.getProject())));
-      newProject.setBooleanConfig(
-          BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS, args.contributorAgreements);
-      newProject.setBooleanConfig(BooleanProjectConfig.USE_SIGNED_OFF_BY, args.signedOffBy);
-      newProject.setBooleanConfig(BooleanProjectConfig.USE_CONTENT_MERGE, args.contentMerge);
-      newProject.setBooleanConfig(
-          BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,
-          args.newChangeForAllNotInTarget);
-      newProject.setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, args.changeIdRequired);
-      newProject.setBooleanConfig(BooleanProjectConfig.REJECT_EMPTY_COMMIT, args.rejectEmptyCommit);
-      newProject.setMaxObjectSizeLimit(args.maxObjectSizeLimit);
-      newProject.setBooleanConfig(BooleanProjectConfig.ENABLE_SIGNED_PUSH, args.enableSignedPush);
-      newProject.setBooleanConfig(BooleanProjectConfig.REQUIRE_SIGNED_PUSH, args.requireSignedPush);
-      if (args.newParent != null) {
-        newProject.setParentName(args.newParent);
-      }
+      config.updateProject(
+          newProject -> {
+            newProject.setDescription(Strings.nullToEmpty(args.projectDescription));
+            newProject.setSubmitType(
+                MoreObjects.firstNonNull(
+                    args.submitType, repositoryCfg.getDefaultSubmitType(args.getProject())));
+            newProject.setBooleanConfig(
+                BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS, args.contributorAgreements);
+            newProject.setBooleanConfig(BooleanProjectConfig.USE_SIGNED_OFF_BY, args.signedOffBy);
+            newProject.setBooleanConfig(BooleanProjectConfig.USE_CONTENT_MERGE, args.contentMerge);
+            newProject.setBooleanConfig(
+                BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,
+                args.newChangeForAllNotInTarget);
+            newProject.setBooleanConfig(
+                BooleanProjectConfig.REQUIRE_CHANGE_ID, args.changeIdRequired);
+            newProject.setBooleanConfig(
+                BooleanProjectConfig.REJECT_EMPTY_COMMIT, args.rejectEmptyCommit);
+            newProject.setMaxObjectSizeLimit(args.maxObjectSizeLimit);
+            newProject.setBooleanConfig(
+                BooleanProjectConfig.ENABLE_SIGNED_PUSH, args.enableSignedPush);
+            newProject.setBooleanConfig(
+                BooleanProjectConfig.REQUIRE_SIGNED_PUSH, args.requireSignedPush);
+            if (args.newParent != null) {
+              newProject.setParent(args.newParent);
+            }
+          });
 
       if (!args.ownerIds.isEmpty()) {
         AccessSection all = config.getAccessSection(AccessSection.ALL, true);

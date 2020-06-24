@@ -39,6 +39,30 @@
       "revId": "feb36258f36755586a68c5f27285bc1e5c5e591c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b68107c_a20d39fb",
+        "filename": "javatests/com/google/gerrit/server/plugins/AutoRegisterModulesTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-24T23:37:06Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/27311",
+      "parentUuid": "dd38eeba_ebdbdd42",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 74
+      },
+      "revId": "feb36258f36755586a68c5f27285bc1e5c5e591c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

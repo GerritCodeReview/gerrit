@@ -23,9 +23,9 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.AbandonInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
-import com.google.gerrit.extensions.api.changes.AddToAttentionSetInput;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
 import com.google.gerrit.extensions.api.changes.AttentionSetApi;
+import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ChangeEditApi;
 import com.google.gerrit.extensions.api.changes.ChangeMessageApi;
@@ -543,7 +543,7 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
-  public AccountInfo addToAttentionSet(AddToAttentionSetInput input) throws RestApiException {
+  public AccountInfo addToAttentionSet(AttentionSetInput input) throws RestApiException {
     try {
       return addToAttentionSet.apply(change, input).value();
     } catch (Exception e) {

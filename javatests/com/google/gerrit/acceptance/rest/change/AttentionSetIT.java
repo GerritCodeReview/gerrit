@@ -26,7 +26,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
-import com.google.gerrit.extensions.api.changes.AddToAttentionSetInput;
+import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.RemoveFromAttentionSetInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -77,7 +77,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   public void addUser() throws Exception {
     PushOneCommit.Result r = createChange();
     int accountId =
-        change(r).addToAttentionSet(new AddToAttentionSetInput(user.email(), "first"))._accountId;
+        change(r).addToAttentionSet(new AttentionSetInput(user.email(), "first"))._accountId;
     assertThat(accountId).isEqualTo(user.id().get());
     AttentionSetUpdate expectedAttentionSetUpdate =
         AttentionSetUpdate.createFromRead(
@@ -86,7 +86,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     // Second add is ignored.
     accountId =
-        change(r).addToAttentionSet(new AddToAttentionSetInput(user.email(), "second"))._accountId;
+        change(r).addToAttentionSet(new AttentionSetInput(user.email(), "second"))._accountId;
     assertThat(accountId).isEqualTo(user.id().get());
     assertThat(r.getChange().attentionSet()).containsExactly(expectedAttentionSetUpdate);
   }
@@ -96,13 +96,13 @@ public class AttentionSetIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     Instant timestamp1 = fakeClock.now();
     int accountId1 =
-        change(r).addToAttentionSet(new AddToAttentionSetInput(user.email(), "user"))._accountId;
+        change(r).addToAttentionSet(new AttentionSetInput(user.email(), "user"))._accountId;
     assertThat(accountId1).isEqualTo(user.id().get());
     fakeClock.advance(Duration.ofSeconds(42));
     Instant timestamp2 = fakeClock.now();
     int accountId2 =
         change(r)
-            .addToAttentionSet(new AddToAttentionSetInput(admin.id().toString(), "admin"))
+            .addToAttentionSet(new AttentionSetInput(admin.id().toString(), "admin"))
             ._accountId;
     assertThat(accountId2).isEqualTo(admin.id().get());
 
@@ -119,7 +119,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void removeUser() throws Exception {
     PushOneCommit.Result r = createChange();
-    change(r).addToAttentionSet(new AddToAttentionSetInput(user.email(), "added"));
+    change(r).addToAttentionSet(new AttentionSetInput(user.email(), "added"));
     fakeClock.advance(Duration.ofSeconds(42));
     change(r).attention(user.id().toString()).remove(new RemoveFromAttentionSetInput("removed"));
     AttentionSetUpdate expectedAttentionSetUpdate =
@@ -138,7 +138,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void changeMessageWhenAddedAndRemovedExplicitly() throws Exception {
     PushOneCommit.Result r = createChange();
-    change(r).addToAttentionSet(new AddToAttentionSetInput(user.email(), "user"));
+    change(r).addToAttentionSet(new AttentionSetInput(user.email(), "user"));
     assertThat(Iterables.getLast(r.getChange().messages()).getMessage())
         .contains("Added to attention set");
 
@@ -157,8 +157,8 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void abandonRemovesUsers() throws Exception {
     PushOneCommit.Result r = createChange();
-    change(r).addToAttentionSet(new AddToAttentionSetInput(user.email(), "user"));
-    change(r).addToAttentionSet(new AddToAttentionSetInput(admin.email(), "admin"));
+    change(r).addToAttentionSet(new AttentionSetInput(user.email(), "user"));
+    change(r).addToAttentionSet(new AttentionSetInput(admin.email(), "admin"));
 
     change(r).abandon();
 
@@ -178,7 +178,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void workInProgressRemovesUsers() throws Exception {
     PushOneCommit.Result r = createChange();
-    change(r).addToAttentionSet(new AddToAttentionSetInput(user.email(), "reason"));
+    change(r).addToAttentionSet(new AttentionSetInput(user.email(), "reason"));
 
     change(r).setWorkInProgress();
 
@@ -392,7 +392,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void reviewersAreNotAddedForNoReasonBecauseOfAnUpdate() throws Exception {
     PushOneCommit.Result r = createChange();
-    change(r).addToAttentionSet(new AddToAttentionSetInput(user.email(), "user"));
+    change(r).addToAttentionSet(new AttentionSetInput(user.email(), "user"));
     change(r).attention(user.id().toString()).remove(new RemoveFromAttentionSetInput("removed"));
 
     HashtagsInput hashtagsInput = new HashtagsInput();

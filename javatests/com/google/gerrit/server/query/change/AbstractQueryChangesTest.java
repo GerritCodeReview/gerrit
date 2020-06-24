@@ -59,8 +59,8 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
-import com.google.gerrit.extensions.api.changes.AddToAttentionSetInput;
 import com.google.gerrit.extensions.api.changes.AssigneeInput;
+import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.Changes.QueryRequest;
 import com.google.gerrit.extensions.api.changes.DraftInput;
@@ -3016,7 +3016,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change1 = insert(repo, newChange(repo));
     Change change2 = insert(repo, newChange(repo));
 
-    AddToAttentionSetInput input = new AddToAttentionSetInput(userId.toString(), "some reason");
+    AttentionSetInput input = new AttentionSetInput(userId.toString(), "some reason");
     gApi.changes().id(change1.getChangeId()).addToAttentionSet(input);
 
     assertQuery("attention:" + user.getUserName().get(), change1);
@@ -3029,11 +3029,11 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     TestRepository<Repo> repo = createProject("repo");
     Change change = insert(repo, newChange(repo));
 
-    AddToAttentionSetInput input = new AddToAttentionSetInput(userId.toString(), "reason 1");
+    AttentionSetInput input = new AttentionSetInput(userId.toString(), "reason 1");
     gApi.changes().id(change.getChangeId()).addToAttentionSet(input);
     Account.Id user2Id =
         accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
-    input = new AddToAttentionSetInput(user2Id.toString(), "reason 2");
+    input = new AttentionSetInput(user2Id.toString(), "reason 2");
     gApi.changes().id(change.getChangeId()).addToAttentionSet(input);
 
     List<ChangeInfo> result = newQuery("attention:" + user2Id.toString()).get();

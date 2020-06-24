@@ -71,6 +71,23 @@
     },
     {
       "key": {
+        "uuid": "6c8cfe5c_d17c90fb",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-24T11:06:24Z",
+      "side": 1,
+      "message": "Maybe create a variable for 2, say PRIMARY_REVIEWERS_COUNT.\nWill make it more readable and easy to change if we want to increase the count.",
+      "revId": "37b858f948848d7b61dec7458bb3e9d30209ce59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "187a1650_7e629b3e",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
         "patchSetId": 42
@@ -82,6 +99,24 @@
       "writtenOn": "2020-06-24T09:12:05Z",
       "side": 1,
       "message": "why not have `_computeReviewers` done the concatenation logic and then you can just `slice(0,2)` for primary and the rest for additional ? It just feels a bit awkward to use `primary` to determine the additional while you have all the info in the `_computePrimaryReviewers` :)",
+      "revId": "37b858f948848d7b61dec7458bb3e9d30209ce59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05641d53_39f3cebf",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 42
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-24T11:06:24Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "187a1650_7e629b3e",
       "revId": "37b858f948848d7b61dec7458bb3e9d30209ce59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

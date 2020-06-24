@@ -161,6 +161,30 @@
     },
     {
       "key": {
+        "uuid": "59559def_e62c2dfb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-24T08:37:21Z",
+      "side": 1,
+      "message": "I can add the clean up if you want it, and just be clear, the examples in given url have it wrong, clean up should happen in `finally` not in the `then` in case rejected",
+      "parentUuid": "e5e093d5_2eba3a39",
+      "range": {
+        "startLine": 176,
+        "startChar": 23,
+        "endLine": 176,
+        "endChar": 33
+      },
+      "revId": "134ada782bf78360c9119771d960c722350db8eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97504bf2_1af35691",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.js",
         "patchSetId": 7

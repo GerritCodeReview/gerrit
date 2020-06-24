@@ -16,6 +16,24 @@
       "revId": "208fd9f5b7b159d150a4d0b0f233dbd840f1dfe5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed417d5e_d18a6c66",
+        "filename": "polygerrit-ui/app/behaviors/base-url-behavior/base-url-behavior_test.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-24T14:51:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5351a53_d04e5a04",
+      "revId": "208fd9f5b7b159d150a4d0b0f233dbd840f1dfe5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -224,6 +224,7 @@ public class CommentsIT extends AbstractDaemonTest {
     String emailBody = Iterables.getOnlyElement(email.getMessages()).body();
     assertThat(emailBody).contains("Patchset");
     assertThat(emailBody).doesNotContain("/PATCHSET_LEVEL");
+    assertThat(emailBody).doesNotContain("null");
   }
 
   @Test

@@ -29,9 +29,9 @@ import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.inject.Inject;
 import java.sql.Timestamp;
-import java.util.Objects;
 import java.util.Optional;
 import org.junit.Test;
 
@@ -616,28 +616,11 @@ public class GroupOperationsImplTest extends AbstractDaemonTest {
   }
 
   private static Correspondence<AccountInfo, Account.Id> getAccountToIdCorrespondence() {
-    return Correspondence.from(
-        (actualAccount, expectedId) -> {
-          Account.Id accountId =
-              Optional.ofNullable(actualAccount)
-                  .map(account -> account._accountId)
-                  .map(Account::id)
-                  .orElse(null);
-          return Objects.equals(accountId, expectedId);
-        },
-        "has ID");
+    return NullAwareCorrespondence.transforming(
+        account -> Account.id(account._accountId), "has ID");
   }
 
   private static Correspondence<GroupInfo, AccountGroup.UUID> getGroupToUuidCorrespondence() {
-    return Correspondence.from(
-        (actualGroup, expectedUuid) -> {
-          AccountGroup.UUID groupUuid =
-              Optional.ofNullable(actualGroup)
-                  .map(group -> group.id)
-                  .map(AccountGroup::uuid)
-                  .orElse(null);
-          return Objects.equals(groupUuid, expectedUuid);
-        },
-        "has UUID");
+    return NullAwareCorrespondence.transforming(group -> AccountGroup.uuid(group.id), "has UUID");
   }
 }

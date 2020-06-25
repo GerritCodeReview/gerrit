@@ -563,6 +563,30 @@
       "revId": "f66981a2e27df2267ce4c69f8f6d857107d4795f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a0cab8c_f211a8e2",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-25T23:21:31Z",
+      "side": 1,
+      "message": "\u003e \u003e Gotcha, however, replacing a \"magic value\" of 1 with a variable doesn\u0027t look like a big effort and could be included in this change.\n\u003e \n\u003e Replacing this constant (not a typical magic value) with a variable would mean, allowing this scenario to potentially create multiple changes. \n\nTypo? You mean \"multiple users\"?\n\n\u003e This would require the below approveChange and other steps to scale accordingly.\n\nYeah, I believe because you have put the test code in the setup(), which is the source of the problems. Have you tried moving the steps into the scenario itself?\n\nWhen adding steps to the scenario you can use the session variables so that every \"user flow\" can get its values and therefore can be isolated form the others. In that way we can build scenarios that, in the future, can be scaled up.\n\nPutting the scenario in the setup isn\u0027t going in that direction, unfortunately :-(\n\n\u003e Now, ApproveChange is not tailored to scale that way, at least not yet. -And so on for other reused scenarios herein.\n\nGotcha, but with a simple change in the approach, not expensive at all, we can open the door to go there in the next follow-up changes. Keeping all the logic in the setup, instead, isn\u0027t open to follow-ups :-(\n\nHave you tried moving the logic into the scenario instead of the setup?\n\n\u003e So that goes beyond the simpler scope of this change. Now, using \u00271\u0027 (constant) here and below should suffice, for the purpose of this current set of scenarios.\n\nYou can also make it constant (a predefined val at the beginning) and reuse it throughout the test, without repeating \u00271\u0027 hardcoded everywhere.\n\nE.g: val numUsers \u003d 1\n\n\u003e \u003e Also, this part of the setup should be part of the scenario IMHO: setup is typically preparing more the environment while the scenario is executing the actions of the test case.\n\u003e \n\u003e With Gatling and this growing framework so far, the setUp part is the one calling the traffic generation shots. Meaning, setUp is mixing the scenario\u0027s traffic. The scenario then gets the fed data to use it within the requests it generates. Every core and plugin scenario has been built that way, up until now.\n\nSetting up the data for the tests is 100% fine, putting the logic of the scenario is a bit too much IMHO. The problem is that Gatling won\u0027t consider it as part of your test code and won\u0027t give you the metrics associated with it.\n\n\u003e More scenarios can come out of these eventually; existing ones can be amended in follow-ups. Here and through the core framework so far, the emerging scenarios and examples happen to reuse each other. (Some plugins also started doing so.)\n\nI would recommend to evolve the \"template\" on how we build Gatling tests moving forward, otherwise we\u0027ll end up creating a lot of code that won\u0027t be able to scale and benefit from the Gatling framework.",
+      "parentUuid": "15ae74d9_77473ab4",
+      "range": {
+        "startLine": 54,
+        "startChar": 18,
+        "endLine": 54,
+        "endChar": 19
+      },
+      "revId": "f66981a2e27df2267ce4c69f8f6d857107d4795f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

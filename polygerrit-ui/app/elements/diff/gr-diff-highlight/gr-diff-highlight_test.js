@@ -1,37 +1,34 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2016 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+import '../../../test/common-test-setup-karma.js';
+import './gr-diff-highlight.js';
+import {GrRangeNormalizer} from './gr-range-normalizer.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<meta charset="utf-8">
-<title>gr-diff-highlight</title>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
-
-<test-fixture id="basic">
-  <template>
-    <style>
+// Splitting long lines in html into shorter rows breaks tests:
+// zero-length text nodes and new lines are not expected in some places
+/* eslint-disable max-len */
+const basicFixture = fixtureFromTemplate(html`
+<style>
       .tab-indicator:before {
         color: #C62828;
         /* >> character */
-        content: '\00BB';
+        content: '\\00BB';
       }
     </style>
     <gr-diff-highlight>
@@ -50,10 +47,10 @@ limitations under the License.
           <tr class="diff-row side-by-side" left-type="remove" right-type="add">
             <td class="left lineNum" data-value="2"></td>
             <!-- Next tag is formatted to eliminate zero-length text nodes. -->
-            <td class="content remove"><div class="contentText">na💢ti <hl class="foo">te, inquit</hl>, sumus <hl class="bar">aliquando</hl> otiosum, <hl>certe</hl> a <hl><span class="tab-indicator" style="tab-size:8;">	</span></hl>udiam, <hl>quid</hl> sit, <span class="tab-indicator" style="tab-size:8;">	</span>quod <hl>Epicurum</hl></div></td>
+            <td class="content remove"><div class="contentText">na💢ti <hl class="foo">te, inquit</hl>, sumus <hl class="bar">aliquando</hl> otiosum, <hl>certe</hl> a <hl><span class="tab-indicator" style="tab-size:8;">\\u0009</span></hl>udiam, <hl>quid</hl> sit, <span class="tab-indicator" style="tab-size:8;">\\u0009</span>quod <hl>Epicurum</hl></div></td>
             <td class="right lineNum" data-value="2"></td>
             <!-- Next tag is formatted to eliminate zero-length text nodes. -->
-            <td class="content add"><div class="contentText">nacti , <hl>,</hl> sumus <hl><span class="tab-indicator" style="tab-size:8;">	</span></hl> otiosum,  <span class="tab-indicator" style="tab-size:8;">	</span> audiam,  sit, quod</div></td>
+            <td class="content add"><div class="contentText">nacti , <hl>,</hl> sumus <hl><span class="tab-indicator" style="tab-size:8;">\\u0009</span></hl> otiosum,  <span class="tab-indicator" style="tab-size:8;">\\u0009</span> audiam,  sit, quod</div></td>
           </tr>
         </tbody>
 
@@ -70,19 +67,19 @@ limitations under the License.
           <tr class="diff-row side-by-side" left-type="remove" right-type="add">
             <td class="left lineNum" data-value="140"></td>
             <!-- Next tag is formatted to eliminate zero-length text nodes. -->
-            <td class="content remove"><div class="contentText">na💢ti <hl class="foo">te, inquit</hl>, sumus <hl class="bar">aliquando</hl> otiosum, <hl>certe</hl> a <hl><span class="tab-indicator" style="tab-size:8;">	</span></hl>udiam, <hl>quid</hl> sit, <span class="tab-indicator" style="tab-size:8;">	</span>quod <hl>Epicurum</hl></div><div class="comment-thread">
+            <td class="content remove"><div class="contentText">na💢ti <hl class="foo">te, inquit</hl>, sumus <hl class="bar">aliquando</hl> otiosum, <hl>certe</hl> a <hl><span class="tab-indicator" style="tab-size:8;">\\u0009</span></hl>udiam, <hl>quid</hl> sit, <span class="tab-indicator" style="tab-size:8;">\\u0009</span>quod <hl>Epicurum</hl></div><div class="comment-thread">
                 [Yet another random diff thread content here]
             </div></td>
             <td class="right lineNum" data-value="120"></td>
             <!-- Next tag is formatted to eliminate zero-length text nodes. -->
-            <td class="content add"><div class="contentText">nacti , <hl>,</hl> sumus <hl><span class="tab-indicator" style="tab-size:8;">	</span></hl> otiosum,  <span class="tab-indicator" style="tab-size:8;">	</span> audiam,  sit, quod</div></td>
+            <td class="content add"><div class="contentText">nacti , <hl>,</hl> sumus <hl><span class="tab-indicator" style="tab-size:8;">\\u0009</span></hl> otiosum,  <span class="tab-indicator" style="tab-size:8;">\\u0009</span> audiam,  sit, quod</div></td>
           </tr>
         </tbody>
 
         <tbody class="section both">
           <tr class="diff-row side-by-side" left-type="both" right-type="both">
             <td class="left lineNum" data-value="141"></td>
-            <td class="content both"><div class="contentText">nam et<hl><span class="tab-indicator" style="tab-size:8;">	</span></hl>complectitur<span class="tab-indicator" style="tab-size:8;">	</span>verbis, quod vult, et dicit plane, quod intellegam;</div></td>
+            <td class="content both"><div class="contentText">nam et<hl><span class="tab-indicator" style="tab-size:8;">\\u0009</span></hl>complectitur<span class="tab-indicator" style="tab-size:8;">\\u0009</span>verbis, quod vult, et dicit plane, quod intellegam;</div></td>
             <td class="right lineNum" data-value="130"></td>
             <td class="content both"><div class="contentText">nam et complectitur verbis, quod vult, et dicit plane, quod intellegam;</div></td>
           </tr>
@@ -123,29 +120,14 @@ limitations under the License.
             <td class="left lineNum" data-value="165"></td>
             <td class="content both"><div class="contentText"></div></td>
             <td class="right lineNum" data-value="147"></td>
-            <td class="content both"><div class="contentText">in physicis, <hl><span class="tab-indicator" style="tab-size:8;">	</span></hl> quibus maxime gloriatur, primum totus est alienus. Democritea dicit</div></td>
+            <td class="content both"><div class="contentText">in physicis, <hl><span class="tab-indicator" style="tab-size:8;">\\u0009</span></hl> quibus maxime gloriatur, primum totus est alienus. Democritea dicit</div></td>
           </tr>
         </tbody>
 
       </table>
     </gr-diff-highlight>
-  </template>
-</test-fixture>
-
-<test-fixture id="highlighted">
-  <template>
-    <div>
-      <hl class="rangeHighlight">foo</hl>
-      bar
-      <hl class="rangeHighlight">baz</hl>
-    </div>
-  </template>
-</test-fixture>
-
-<script type="module">
-import '../../../test/common-test-setup.js';
-import './gr-diff-highlight.js';
-import {GrRangeNormalizer} from './gr-range-normalizer.js';
+`);
+/* eslint-enable max-len */
 
 suite('gr-diff-highlight', () => {
   let element;
@@ -153,7 +135,7 @@ suite('gr-diff-highlight', () => {
 
   setup(() => {
     sandbox = sinon.sandbox.create();
-    element = fixture('basic')[1];
+    element = basicFixture.instantiate()[1];
   });
 
   teardown(() => {
@@ -627,4 +609,4 @@ suite('gr-diff-highlight', () => {
     });
   });
 });
-</script>
+

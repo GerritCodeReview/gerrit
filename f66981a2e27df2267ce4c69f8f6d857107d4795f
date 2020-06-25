@@ -97,6 +97,23 @@
     },
     {
       "key": {
+        "uuid": "2daed1f9_0f34c296",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-25T22:39:41Z",
+      "side": 1,
+      "message": "Marking the left thread below as resolved, based on my answers. The discussion can of course unfold a bit more if more questions arise.",
+      "revId": "f66981a2e27df2267ce4c69f8f6d857107d4795f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7312f22c_ac4ccceb",
         "filename": "e2e-tests/src/test/resources/data/com/google/gerrit/scenarios/CheckMasterBranchReplica1.json",
         "patchSetId": 2
@@ -522,6 +539,30 @@
       "revId": "f66981a2e27df2267ce4c69f8f6d857107d4795f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15ae74d9_77473ab4",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckMasterBranchReplica1.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-25T22:39:41Z",
+      "side": 1,
+      "message": "\u003e Gotcha, however, replacing a \"magic value\" of 1 with a variable doesn\u0027t look like a big effort and could be included in this change.\n\nReplacing this constant (not a typical magic value) with a variable would mean, allowing this scenario to potentially create multiple changes. This would require the below approveChange and other steps to scale accordingly. Now, ApproveChange is not tailored to scale that way, at least not yet. -And so on for other reused scenarios herein.\n\nSo that goes beyond the simpler scope of this change. Now, using \u00271\u0027 (constant) here and below should suffice, for the purpose of this current set of scenarios.\n\n\u003e Also, this part of the setup should be part of the scenario IMHO: setup is typically preparing more the environment while the scenario is executing the actions of the test case.\n\nWith Gatling and this growing framework so far, the setUp part is the one calling the traffic generation shots. Meaning, setUp is mixing the scenario\u0027s traffic. The scenario then gets the fed data to use it within the requests it generates. Every core and plugin scenario has been built that way, up until now.\n\nMore scenarios can come out of these eventually; existing ones can be amended in follow-ups. Here and through the core framework so far, the emerging scenarios and examples happen to reuse each other. (Some plugins also started doing so.)",
+      "parentUuid": "70330cd0_007c6443",
+      "range": {
+        "startLine": 54,
+        "startChar": 18,
+        "endLine": 54,
+        "endChar": 19
+      },
+      "revId": "f66981a2e27df2267ce4c69f8f6d857107d4795f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

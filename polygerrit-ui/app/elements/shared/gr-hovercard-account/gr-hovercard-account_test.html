@@ -39,6 +39,7 @@ limitations under the License.
 
   suite('gr-hovercard-account tests', () => {
     let element;
+    let sandbox;
     const ACCOUNT = {
       email: 'kermit@gmail.com',
       username: 'kermit',
@@ -47,7 +48,11 @@ limitations under the License.
     };
 
     setup(() => {
+      sandbox = sinon.sandbox.create();
       element = fixture('basic');
+      sandbox.stub(element.$.restAPI, 'getAccount').returns(
+          new Promise(resolve => { '2'; })
+      );
       element.account = Object.assign({}, ACCOUNT);
       element.show({});
       flushAsynchronousOperations();
@@ -56,6 +61,14 @@ limitations under the License.
     test('account name is shown', () => {
       assert.equal(element.shadowRoot.querySelector('.name').innerText,
           'Kermit The Frog');
+    });
+
+    test('_computeText', () => {
+      let account = {_account_id: '1'};
+      const selfAccount = {_account_id: '1'};
+      assert.equal(element._computeText(account, selfAccount), 'Your');
+      account = {_account_id: '2'};
+      assert.equal(element._computeText(account, selfAccount), 'Their');
     });
 
     test('account status is not shown if the property is not set', () => {

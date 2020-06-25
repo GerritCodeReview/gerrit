@@ -104,6 +104,24 @@
       "revId": "fd0953ed2f18d9909d1de71b81b712efd77e7e6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6664be2e_173129f9",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T20:22:32Z",
+      "side": 1,
+      "message": "Why does every component have to listen to \u0027g\u0027, but not to \u0027v\u0027?",
+      "parentUuid": "4f8dd710_9484ad21",
+      "revId": "fd0953ed2f18d9909d1de71b81b712efd77e7e6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

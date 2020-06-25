@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "658064c7_6ab12585",
+        "filename": "package.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-25T19:09:40Z",
+      "side": 1,
+      "message": "I tried it as you suggested and it doesn\u0027t work. The error message is: [1]. I\u0027ve isolated the reproducer: [2].\n\n[1] http://paste.openstack.org/show/795226\n[2] https://github.com/davido/bazel_nodejs_terser_minifed",
+      "parentUuid": "7cffbcc2_d2b4d847",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 22
+      },
+      "revId": "058983d630a710b40e441cff58f4342a49306823",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8df0fcdb_9eb469c1",
         "filename": "tools/bzl/js.bzl",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "058983d630a710b40e441cff58f4342a49306823",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "805d4f4c_fd955c1c",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-25T19:09:40Z",
+      "side": 1,
+      "message": "I tried to build some gerrit plugins like reviewers and checks that were migrated to Polymer 3, and build was successful. My understanding is, that JavaScript minification for PolyGerrit itself is done using rollup_bundle with terser plugin. That why my first attempt to replace rules_closure was trying to activate terser plugin in rollup_bundle already used by some plugins. But, it turned out to be intrusive change.",
+      "parentUuid": "8df0fcdb_9eb469c1",
+      "range": {
+        "startLine": 480,
+        "startChar": 4,
+        "endLine": 480,
+        "endChar": 19
+      },
+      "revId": "058983d630a710b40e441cff58f4342a49306823",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -92,6 +140,30 @@
       "revId": "058983d630a710b40e441cff58f4342a49306823",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08e9ac75_45e33b7d",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-25T19:09:40Z",
+      "side": 1,
+      "message": "OK, let it as is.",
+      "parentUuid": "426cd3f7_308de278",
+      "range": {
+        "startLine": 483,
+        "startChar": 14,
+        "endLine": 483,
+        "endChar": 19
+      },
+      "revId": "058983d630a710b40e441cff58f4342a49306823",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

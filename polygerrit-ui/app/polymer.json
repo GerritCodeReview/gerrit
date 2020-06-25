@@ -1,5 +1,5 @@
 {
-  "entrypoint": "elements/gr-app.html",
+  "shell": "elements/gr-app.js",
   "sources": [
     "behaviors/**/*",
     "elements/**/*",

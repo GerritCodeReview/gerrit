@@ -18,7 +18,7 @@ polygerrit_bundle(
         ],
     ),
     outs = ["polygerrit_ui.zip"],
-    entry_point = "elements/gr-app.html",
+    entry_point = "elements/gr-app.js",
 )
 
 filegroup(

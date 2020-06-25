@@ -122,6 +122,24 @@
       "revId": "fd0953ed2f18d9909d1de71b81b712efd77e7e6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ef9099e_1e486213",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-25T20:36:27Z",
+      "side": 1,
+      "message": "Currently any component listening for (w,a,s,d,b,arrow keys) is also listening for the \u0027v\u0027 key(This is not by design). So their isModifierPressed() is returning the correct value.\n\nSo if we want to be extra safe, then we would have each component add a listener for \u0027v\u0027 key(for now it\u0027s not needed).\nElse we add all the extra listeners later.\n\nLet me know what you prefer.",
+      "parentUuid": "6664be2e_173129f9",
+      "revId": "fd0953ed2f18d9909d1de71b81b712efd77e7e6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

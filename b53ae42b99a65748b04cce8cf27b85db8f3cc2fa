@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d25ce6dd_e5a80832",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-25T11:01:16Z",
+      "side": 1,
+      "message": "Reverting https://gerrit-review.googlesource.com/c/gerrit/+/269045/2/polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.js\n\nI will fix A11y later in another fix.",
+      "revId": "b53ae42b99a65748b04cce8cf27b85db8f3cc2fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

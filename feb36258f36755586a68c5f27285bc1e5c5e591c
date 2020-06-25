@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f1e90033_89f5d4af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-25T00:00:54Z",
+      "side": 1,
+      "message": "Merged to stable-3.1 and adjusted to mockito in https://gerrit-review.googlesource.com/c/gerrit/+/273115",
+      "parentUuid": "1c06b6aa_33fc721c",
+      "revId": "feb36258f36755586a68c5f27285bc1e5c5e591c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd38eeba_ebdbdd42",
         "filename": "javatests/com/google/gerrit/server/plugins/AutoRegisterModulesTest.java",
         "patchSetId": 8

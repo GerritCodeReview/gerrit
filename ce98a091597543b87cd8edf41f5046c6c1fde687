@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77f6211b_46868734",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-25T14:29:13Z",
+      "side": 1,
+      "message": "Just comment nits.",
+      "revId": "ce98a091597543b87cd8edf41f5046c6c1fde687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56bc97ca_ba247234",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-25T14:29:13Z",
+      "side": 1,
+      "message": "I think this comment is worthy of being included in the public API (i.e. javadoc).",
+      "revId": "ce98a091597543b87cd8edf41f5046c6c1fde687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9eed99fb_53cf2257",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-25T14:29:13Z",
+      "side": 1,
+      "message": "Add javadoc.",
+      "revId": "ce98a091597543b87cd8edf41f5046c6c1fde687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ada16328_44f56510",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewAttentionSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-25T14:29:13Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be javadoc. I don\u0027t know if we have a style for this, but ISTM // is more common than /* */.",
+      "revId": "ce98a091597543b87cd8edf41f5046c6c1fde687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3811e9b2_27bddcd5",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-25T14:29:13Z",
+      "side": 1,
+      "message": "Comment is from the previous test.",
+      "revId": "ce98a091597543b87cd8edf41f5046c6c1fde687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

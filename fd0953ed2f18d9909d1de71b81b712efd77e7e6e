@@ -140,6 +140,24 @@
       "revId": "fd0953ed2f18d9909d1de71b81b712efd77e7e6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39cf308a_dcb00d20",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T21:06:21Z",
+      "side": 1,
+      "message": "My concern is that in one year someone will want to add a \u0027a\u0027 shortcut to some other component. And then that poor engineer will spend a day debugging why it does not work. So I think I do prefer the extra listeners to be sure that we don\u0027t set traps for future developers.\n\nIf at some point you can come up with a solution that does not need all these listeners, then let me know. :-)",
+      "parentUuid": "6ef9099e_1e486213",
+      "revId": "fd0953ed2f18d9909d1de71b81b712efd77e7e6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

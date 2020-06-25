@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5c2c92fb_ec63662e",
+        "filename": "polygerrit-ui/app/.eslintrc.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-25T11:50:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b159100a_9b60f5d7",
+      "revId": "948804e831722ae004780a8dc93c419d15f82184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d9766c5_3cdaffbe",
         "filename": "tools/js/eslint-rules/README.md",
         "patchSetId": 5
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "7dc28125_4c54ce45",
+        "filename": "tools/js/eslint-rules/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-25T11:50:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d9766c5_3cdaffbe",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 1
+      },
+      "revId": "948804e831722ae004780a8dc93c419d15f82184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b66e14a_08bfed86",
         "filename": "tools/js/eslint.bzl",
         "patchSetId": 5
@@ -56,6 +98,24 @@
       "revId": "948804e831722ae004780a8dc93c419d15f82184",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "094d221d_a07b2629",
+        "filename": "tools/js/eslint.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-25T11:50:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b66e14a_08bfed86",
+      "revId": "948804e831722ae004780a8dc93c419d15f82184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -79,6 +139,30 @@
       "revId": "948804e831722ae004780a8dc93c419d15f82184",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e62056b_17fd1138",
+        "filename": "tools/js/eslint.bzl",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-25T11:50:59Z",
+      "side": 1,
+      "message": "Exact directory is not known in bazel and we can get it only from some file. I updated comment above.",
+      "parentUuid": "e608b96a_9d848287",
+      "range": {
+        "startLine": 66,
+        "startChar": 58,
+        "endLine": 66,
+        "endChar": 84
+      },
+      "revId": "948804e831722ae004780a8dc93c419d15f82184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

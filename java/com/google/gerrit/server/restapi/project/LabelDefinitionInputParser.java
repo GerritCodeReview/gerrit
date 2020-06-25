@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Shorts;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
@@ -56,21 +57,22 @@ public class LabelDefinitionInputParser {
       if (valueDescription.isEmpty()) {
         throw new BadRequestException("description for value '" + e.getKey() + "' cannot be empty");
       }
-      valueList.add(new LabelValue(value, valueDescription));
+      valueList.add(LabelValue.create(value, valueDescription));
     }
     return valueList;
   }
 
-  public static short parseDefaultValue(LabelType labelType, short defaultValue)
+  public static short parseDefaultValue(LabelType.Builder labelType, short defaultValue)
       throws BadRequestException {
-    if (labelType.getValue(defaultValue) == null) {
+    if (!labelType.getValues().stream().anyMatch(v -> v.getValue() == defaultValue)) {
       throw new BadRequestException("invalid default value: " + defaultValue);
     }
     return defaultValue;
   }
 
-  public static List<String> parseBranches(List<String> branches) throws BadRequestException {
-    List<String> validBranches = new ArrayList<>();
+  public static ImmutableList<String> parseBranches(List<String> branches)
+      throws BadRequestException {
+    ImmutableList.Builder<String> validBranches = ImmutableList.builder();
     for (String branch : branches) {
       String newBranch = branch.trim();
       if (newBranch.isEmpty()) {
@@ -86,7 +88,7 @@ public class LabelDefinitionInputParser {
       }
       validBranches.add(newBranch);
     }
-    return validBranches;
+    return validBranches.build();
   }
 
   private LabelDefinitionInputParser() {}

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.common.data.Permission.isPermission;
 import static com.google.gerrit.entities.Project.DEFAULT_SUBMIT_TYPE;
@@ -495,6 +496,20 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return labelSections;
   }
 
+  /** Adds or replaces the given {@link LabelType} in this config. */
+  public void upsertLabelType(LabelType labelType) {
+    labelSections.put(labelType.getName(), labelType);
+  }
+
+  /** Allows a mutation of an existing {@link LabelType}. */
+  public void updateLabelType(String name, Consumer<LabelType.Builder> update) {
+    LabelType labelType = labelSections.get(name);
+    checkState(labelType != null, "labelType must not be null");
+    LabelType.Builder builder = labelSections.get(name).toBuilder();
+    update.accept(builder);
+    upsertLabelType(builder.build());
+  }
+
   public Collection<StoredCommentLinkInfo> getCommentLinkSections() {
     return commentLinkSections.values();
   }
@@ -911,7 +926,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       throw new IllegalArgumentException("empty value");
     }
     String valueText = parts.size() > 1 ? parts.get(1) : "";
-    return new LabelValue(Shorts.checkedCast(PermissionRule.parseInt(parts.get(0))), valueText);
+    return LabelValue.create(Shorts.checkedCast(PermissionRule.parseInt(parts.get(0))), valueText);
   }
 
   private void loadLabelSections(Config rc) {
@@ -950,9 +965,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         }
       }
 
-      LabelType label;
+      LabelType.Builder label;
       try {
-        label = new LabelType(name, values);
+        label = LabelType.builder(name, values);
       } catch (IllegalArgumentException badName) {
         error(ValidationError.create(PROJECT_CONFIG, String.format("Invalid label \"%s\"", name)));
         continue;
@@ -1042,8 +1057,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       label.setCopyValues(copyValues);
       label.setCanOverride(
           rc.getBoolean(LABEL, name, KEY_CAN_OVERRIDE, LabelType.DEF_CAN_OVERRIDE));
-      label.setRefPatterns(getStringListOrNull(rc, LABEL, name, KEY_BRANCH));
-      labelSections.put(name, label);
+      List<String> refPatterns = getStringListOrNull(rc, LABEL, name, KEY_BRANCH);
+      label.setRefPatterns(refPatterns == null ? null : ImmutableList.copyOf(refPatterns));
+      labelSections.put(name, label.build());
     }
   }
 
@@ -1451,14 +1467,14 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           LABEL,
           name,
           KEY_ALLOW_POST_SUBMIT,
-          label.allowPostSubmit(),
+          label.isAllowPostSubmit(),
           LabelType.DEF_ALLOW_POST_SUBMIT);
       setBooleanConfigKey(
           rc,
           LABEL,
           name,
           KEY_IGNORE_SELF_APPROVAL,
-          label.ignoreSelfApproval(),
+          label.isIgnoreSelfApproval(),
           LabelType.DEF_IGNORE_SELF_APPROVAL);
       setBooleanConfigKey(
           rc,
@@ -1515,7 +1531,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           KEY_COPY_VALUE,
           label.getCopyValues().stream().map(LabelValue::formatValue).collect(toList()));
       setBooleanConfigKey(
-          rc, LABEL, name, KEY_CAN_OVERRIDE, label.canOverride(), LabelType.DEF_CAN_OVERRIDE);
+          rc, LABEL, name, KEY_CAN_OVERRIDE, label.isCanOverride(), LabelType.DEF_CAN_OVERRIDE);
       List<String> values = new ArrayList<>(label.getValues().size());
       for (LabelValue value : label.getValues()) {
         values.add(value.format().trim());

@@ -245,7 +245,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
 
     LabelType patchSetLock = TestLabels.patchSetLock();
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().getLabelSections().put(patchSetLock.getName(), patchSetLock);
+      u.getConfig().upsertLabelType(patchSetLock);
       u.save();
     }
     projectOperations

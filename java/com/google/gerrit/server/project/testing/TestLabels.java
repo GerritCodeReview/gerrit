@@ -35,18 +35,23 @@ public class TestLabels {
   }
 
   public static LabelType patchSetLock() {
-    LabelType label =
-        label("Patch-Set-Lock", value(1, "Patch Set Locked"), value(0, "Patch Set Unlocked"));
+    LabelType.Builder label =
+        labelBuilder(
+            "Patch-Set-Lock", value(1, "Patch Set Locked"), value(0, "Patch Set Unlocked"));
     label.setFunction(LabelFunction.PATCH_SET_LOCK);
-    return label;
+    return label.build();
   }
 
   public static LabelValue value(int value, String text) {
-    return new LabelValue((short) value, text);
+    return LabelValue.create((short) value, text);
   }
 
   public static LabelType label(String name, LabelValue... values) {
-    return new LabelType(name, Arrays.asList(values));
+    return labelBuilder(name, values).build();
+  }
+
+  public static LabelType.Builder labelBuilder(String name, LabelValue... values) {
+    return LabelType.builder(name, Arrays.asList(values));
   }
 
   private TestLabels() {}

@@ -1,57 +1,56 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2015 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2015 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
 
-http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
 
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<meta charset="utf-8">
-<title>gr-file-list</title>
 
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
-<script src="/components/web-component-tester/data/a11ySuite.js"></script>
-<script src="/node_modules/page/page.js"></script>
 
-<dom-module id="comment-api-mock">
-  <template>
-    <gr-file-list id="fileList"
-        change-comments="[[_changeComments]]"
-        on-reload-drafts="_reloadDraftsWithCallback"></gr-file-list>
-    <gr-comment-api id="commentAPI"></gr-comment-api>
-  </template>
-  </dom-module>
 
-<test-fixture id="basic">
-  <template>
-    <comment-api-mock></comment-api-mock>
-  </template>
-</test-fixture>
 
-<script type="module">
-import '../../../test/common-test-setup.js';
+
+import '../../../test/common-test-setup-karma.js';
 import '../../diff/gr-comment-api/gr-comment-api.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-file-list.js';
-import '../../../test/mocks/comment-api.js';
+import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {GrFileListConstants} from '../gr-file-list-constants.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {runA11yAudit} from '../../../test/a11y-test-utils.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
+const commentApiMock = createCommentApiMockWithTemplateElement(
+    'gr-file-list-comment-api-mock', html`
+    <gr-file-list id="fileList"
+        change-comments="[[_changeComments]]"
+        on-reload-drafts="_reloadDraftsWithCallback"></gr-file-list>
+    <gr-comment-api id="commentAPI"></gr-comment-api>
+`);
+
+const basicFixture = fixtureFromElement(commentApiMock.is);
+
+suite('gr-diff a11y test', () => {
+  test('audit', async () => {
+    await runA11yAudit(basicFixture);
+  });
+});
 
 suite('gr-file-list tests', () => {
   const kb = KeyboardShortcutBinder;
@@ -100,7 +99,7 @@ suite('gr-file-list tests', () => {
 
       // Element must be wrapped in an element with direct access to the
       // comment API.
-      commentApiWrapper = fixture('basic');
+      commentApiWrapper = basicFixture.instantiate();
       element = commentApiWrapper.$.fileList;
       loadCommentSpy = sandbox.spy(commentApiWrapper.$.commentAPI, 'loadAll');
 
@@ -129,9 +128,9 @@ suite('gr-file-list tests', () => {
 
     test('correct number of files are shown', () => {
       element.fileListIncrement = 300;
-      element._filesByPath = _.range(500)
-          .reduce((_filesByPath, i) => {
-            _filesByPath['/file' + i] = {lines_inserted: 9};
+      element._filesByPath = Array(500).fill(0)
+          .reduce((_filesByPath, _, idx) => {
+            _filesByPath['/file' + idx] = {lines_inserted: 9};
             return _filesByPath;
           }, {});
 
@@ -157,9 +156,9 @@ suite('gr-file-list tests', () => {
 
     test('rendering each row calls the _reportRenderedRow method', () => {
       const renderedStub = sandbox.stub(element, '_reportRenderedRow');
-      element._filesByPath = _.range(10)
-          .reduce((_filesByPath, i) => {
-            _filesByPath['/file' + i] = {lines_inserted: 9};
+      element._filesByPath = Array(10).fill(0)
+          .reduce((_filesByPath, _, idx) => {
+            _filesByPath['/file' + idx] = {lines_inserted: 9};
             return _filesByPath;
           }, {});
       flushAsynchronousOperations();
@@ -1580,7 +1579,7 @@ suite('gr-file-list tests', () => {
 
       // Element must be wrapped in an element with direct access to the
       // comment API.
-      commentApiWrapper = fixture('basic');
+      commentApiWrapper = basicFixture.instantiate();
       element = commentApiWrapper.$.fileList;
       loadCommentSpy = sandbox.spy(commentApiWrapper.$.commentAPI, 'loadAll');
       element.diffPrefs = {};
@@ -1947,6 +1946,5 @@ suite('gr-file-list tests', () => {
       assert.equal(commentStubCount, commentStub.callCount);
     });
   });
-  a11ySuite('basic');
 });
-</script>
+

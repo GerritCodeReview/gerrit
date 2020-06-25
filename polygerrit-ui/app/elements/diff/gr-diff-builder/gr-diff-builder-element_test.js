@@ -1,54 +1,21 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2016 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<meta charset="utf-8">
-<title>gr-diff-builder</title>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
-
-<test-fixture id="basic">
-  <template is="dom-template">
-    <gr-diff-builder>
-      <table id="diffTable"></table>
-    </gr-diff-builder>
-  </template>
-</test-fixture>
-
-<test-fixture id="div-with-text">
-  <template>
-    <div>Lorem ipsum dolor sit amet, suspendisse inceptos vehicula</div>
-  </template>
-</test-fixture>
-
-<test-fixture id="mock-diff">
-  <template>
-    <gr-diff-builder view-mode="SIDE_BY_SIDE">
-      <table id="diffTable"></table>
-    </gr-diff-builder>
-  </template>
-</test-fixture>
-
-<script type="module">
-import '../../../test/common-test-setup.js';
+import '../../../test/common-test-setup-karma.js';
 import '../gr-diff/gr-diff-group.js';
 import './gr-diff-builder.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
@@ -59,6 +26,23 @@ import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
 import {GrDiffLine} from '../gr-diff/gr-diff-line.js';
 import {GrDiffGroup} from '../gr-diff/gr-diff-group.js';
 import {GrDiffBuilder} from './gr-diff-builder.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
+const basicFixture = fixtureFromTemplate(html`
+    <gr-diff-builder>
+      <table id="diffTable"></table>
+    </gr-diff-builder>
+`);
+
+const divWithTextFixture = fixtureFromTemplate(html`
+<div>Lorem ipsum dolor sit amet, suspendisse inceptos vehicula</div>
+`);
+
+const mockDiffFixture = fixtureFromTemplate(html`
+<gr-diff-builder view-mode="SIDE_BY_SIDE">
+      <table id="diffTable"></table>
+    </gr-diff-builder>
+`);
 
 const DiffViewMode = {
   SIDE_BY_SIDE: 'SIDE_BY_SIDE',
@@ -74,7 +58,7 @@ suite('gr-diff-builder tests', () => {
 
   setup(() => {
     sandbox = sinon.sandbox.create();
-    element = fixture('basic');
+    element = basicFixture.instantiate();
     stub('gr-rest-api-interface', {
       getLoggedIn() { return Promise.resolve(false); },
       getProjectConfig() { return Promise.resolve({}); },
@@ -379,7 +363,7 @@ suite('gr-diff-builder tests', () => {
     }
 
     setup(() => {
-      el = fixture('div-with-text');
+      el = divWithTextFixture.instantiate();
       str = el.textContent;
       annotateElementSpy = sandbox.spy(GrAnnotation, 'annotateElement');
       layer = document.createElement('gr-diff-builder')
@@ -537,7 +521,7 @@ suite('gr-diff-builder tests', () => {
     const lineNumberEl = document.createElement('td');
 
     setup(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       element._showTabs = true;
       layer = element._createTabIndicatorLayer();
     });
@@ -649,7 +633,7 @@ suite('gr-diff-builder tests', () => {
     let withLayerCount;
     setup(() => {
       const layers = [];
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       element.layers = layers;
       element._showTrailingWhitespace = true;
       element._setupAnnotationLayers();
@@ -664,7 +648,7 @@ suite('gr-diff-builder tests', () => {
     suite('with layers', () => {
       const layers = [{}, {}];
       setup(() => {
-        element = fixture('basic');
+        element = basicFixture.instantiate();
         element.layers = layers;
         element._showTrailingWhitespace = true;
         element._setupAnnotationLayers();
@@ -685,7 +669,7 @@ suite('gr-diff-builder tests', () => {
     const lineNumberEl = document.createElement('td');
 
     setup(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       element._showTrailingWhitespace = true;
       layer = element._createTrailingWhitespaceLayer();
     });
@@ -782,7 +766,7 @@ suite('gr-diff-builder tests', () => {
     let content;
 
     setup(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       element.viewMode = 'SIDE_BY_SIDE';
       processStub = sandbox.stub(element.$.processor, 'process')
           .returns(Promise.resolve());
@@ -856,7 +840,7 @@ suite('gr-diff-builder tests', () => {
           ],
         },
       ];
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       outputEl = element.queryEffectiveChildren('#diffTable');
       keyLocations = {left: {}, right: {}};
       sandbox.stub(element, '_getDiffBuilder', () => {
@@ -923,7 +907,7 @@ suite('gr-diff-builder tests', () => {
     let keyLocations;
 
     setup(done => {
-      element = fixture('mock-diff');
+      element = mockDiffFixture.instantiate();
       diff = getMockDiffResponse();
       element.diff = diff;
 
@@ -1252,4 +1236,4 @@ suite('gr-diff-builder tests', () => {
     });
   });
 });
-</script>
+

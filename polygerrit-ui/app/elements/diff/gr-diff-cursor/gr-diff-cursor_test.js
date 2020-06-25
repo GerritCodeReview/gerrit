@@ -1,46 +1,25 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2016 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+const basicFixture = fixtureFromElement('gr-diff');
 
-http://www.apache.org/licenses/LICENSE-2.0
+const emptyFixture = fixtureFromElement('div');
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<meta charset="utf-8">
-<title>gr-diff-cursor</title>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
-
-<test-fixture id="basic">
-  <template>
-    <gr-diff></gr-diff>
-    <gr-diff-cursor></gr-diff-cursor>
-    <gr-rest-api-interface></gr-rest-api-interface>
-  </template>
-</test-fixture>
-
-<test-fixture id="empty">
-  <template>
-    <div></div>
-  </template>
-</test-fixture>
-
-<script type="module">
-import '../../../test/common-test-setup.js';
+import '../../../test/common-test-setup-karma.js';
 import '../gr-diff/gr-diff.js';
 import './gr-diff-cursor.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
@@ -54,7 +33,7 @@ suite('gr-diff-cursor tests', () => {
   setup(done => {
     sandbox = sinon.sandbox.create();
 
-    const fixtureElems = fixture('basic');
+    const fixtureElems = basicFixture.instantiate();
     diffElement = fixtureElems[0];
     cursorElement = fixtureElems[1];
     const restAPI = fixtureElems[2];
@@ -428,7 +407,7 @@ suite('gr-diff-cursor tests', () => {
 
     setup(() => {
       sandbox = sinon.sandbox.create();
-      someEmptyDiv = fixture('empty');
+      someEmptyDiv = emptyFixture.instantiate();
     });
 
     teardown(() => sandbox.restore());
@@ -442,4 +421,4 @@ suite('gr-diff-cursor tests', () => {
     });
   });
 });
-</script>
+

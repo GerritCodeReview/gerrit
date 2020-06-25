@@ -589,7 +589,7 @@ public class PluginGuiceEnvironment {
       return false;
     }
 
-    if (is("org.apache.sshd.server.Command", type)) {
+    if (is("org.apache.sshd.server.command.Command", type)) {
       return false;
     }
 

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5263880_0fd1ecb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-06-25T18:35:21Z",
+      "side": 1,
+      "message": "Would it make sense to take a more proactive approach to this first? The script that generates https://www.gerritcodereview.com/plugins.html also outputs a list of all plugin maintainer email addresses. Maybe email them and ask up front if this will cause a problem? Or do an audit of existing upstream plugins to see which ones even make use of plugin config options?",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 27
+      },
+      "revId": "01825ad84d0d764852c0a9691551b7644966089a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bf217fa_ef30c60d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-06-25T18:35:21Z",
+      "side": 1,
+      "message": "Code looks good",
+      "revId": "01825ad84d0d764852c0a9691551b7644966089a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -697,6 +697,31 @@ public class ProjectIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void pluginConfigsReturnedWhenRefsMetaConfigReadable() throws Exception {
+    ProjectConfigEntry entry = new ProjectConfigEntry("enabled", "true");
+    try (Registration ignored =
+        extensionRegistry.newRegistration().add(entry, "test-config-entry")) {
+      // The admin can see refs/meta/config and hence has the READ_CONFIG permission.
+      requestScopeOperations.setApiUser(admin.id());
+      ConfigInfo configInfo = getConfig();
+      assertThat(configInfo.pluginConfig).isNotNull();
+      assertThat(configInfo.pluginConfig).isNotEmpty();
+    }
+  }
+
+  @Test
+  public void pluginConfigsNotReturnedWhenRefsMetaConfigNotReadable() throws Exception {
+    ProjectConfigEntry entry = new ProjectConfigEntry("enabled", "true");
+    try (Registration ignored =
+        extensionRegistry.newRegistration().add(entry, "test-config-entry")) {
+      // This user cannot see refs/meta/config and hence does not have the READ_CONFIG permission.
+      requestScopeOperations.setApiUser(user.id());
+      ConfigInfo configInfo = getConfig();
+      assertThat(configInfo.pluginConfig).isNull();
+    }
+  }
+
+  @Test
   public void noCommentlinksByDefault() throws Exception {
     assertThat(getConfig().commentlinks).isEmpty();
   }

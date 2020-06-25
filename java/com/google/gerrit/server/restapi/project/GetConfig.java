@@ -24,6 +24,9 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.extensions.webui.UiActions;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -34,6 +37,7 @@ public class GetConfig implements RestReadView<ProjectResource> {
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
   private final PluginConfigFactory cfgFactory;
   private final AllProjectsName allProjects;
+  private final PermissionBackend permissionBackend;
   private final UiActions uiActions;
   private final DynamicMap<RestView<ProjectResource>> views;
 
@@ -43,24 +47,31 @@ public class GetConfig implements RestReadView<ProjectResource> {
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,
       AllProjectsName allProjects,
+      PermissionBackend permissionBackend,
       UiActions uiActions,
       DynamicMap<RestView<ProjectResource>> views) {
     this.serverEnableSignedPush = serverEnableSignedPush;
     this.pluginConfigEntries = pluginConfigEntries;
     this.allProjects = allProjects;
     this.cfgFactory = cfgFactory;
+    this.permissionBackend = permissionBackend;
     this.uiActions = uiActions;
     this.views = views;
   }
 
   @Override
-  public Response<ConfigInfo> apply(ProjectResource resource) {
+  public Response<ConfigInfo> apply(ProjectResource resource) throws PermissionBackendException {
+    boolean readConfigAllowed =
+        permissionBackend
+            .currentUser()
+            .project(resource.getNameKey())
+            .test(ProjectPermission.READ_CONFIG);
     return Response.ok(
         new ConfigInfoImpl(
             serverEnableSignedPush,
             resource.getProjectState(),
             resource.getUser(),
-            pluginConfigEntries,
+            readConfigAllowed ? pluginConfigEntries : DynamicMap.emptyMap(),
             cfgFactory,
             allProjects,
             uiActions,

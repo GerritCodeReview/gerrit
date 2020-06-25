@@ -3586,7 +3586,7 @@ CommentlinkInfo] entity.
 |`plugin_config`                           |optional|
 Plugin configuration as map which maps the plugin name to a map of
 parameter names to link:#config-parameter-info[ConfigParameterInfo]
-entities.
+entities. Only filled for users who have read access to `refs/meta/config`.
 |`actions`                                 |optional|
 Actions the caller might be able to perform on this project. The
 information is a map of view names to

@@ -15,18 +15,18 @@
  * limitations under the License.
  */
 
-import '../../test/common-test-setup-karma.js';
-import {GrReporting} from './gr-reporting.js';
-import {grReportingMock} from './gr-reporting_mock.js';
-suite('gr-reporting_mock tests', () => {
-  test('mocks all public methods', () => {
-    const methods = Object.getOwnPropertyNames(GrReporting.prototype)
-        .filter(name => typeof GrReporting.prototype[name] === 'function')
-        .filter(name => !name.startsWith('_') && name !== 'constructor')
-        .sort();
-    const mockMethods = Object.getOwnPropertyNames(grReportingMock)
-        .sort();
-    assert.deepEqual(methods, mockMethods);
-  });
-});
+// Init app context before any other imports
+import {initAppContext} from '../services/app-context-init.js';
+import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock';
+import {appContext} from '../services/app-context.js';
 
+initAppContext();
+
+function setMock(serviceName, setupMock) {
+  Object.defineProperty(appContext, serviceName, {
+    get() {
+      return setupMock;
+    },
+  });
+}
+setMock('reportingService', grReportingMock);

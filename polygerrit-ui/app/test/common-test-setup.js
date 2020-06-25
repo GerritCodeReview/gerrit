@@ -18,15 +18,15 @@
 // TODO(dmfilippov): remove bundled-polymer.js imports when the following issue
 // https://github.com/Polymer/polymer-resin/issues/9 is resolved.
 import '../scripts/bundled-polymer.js';
-
+import './test-app-context-init.js';
 import 'polymer-resin/standalone/polymer-resin.js';
 import '@polymer/iron-test-helpers/iron-test-helpers.js';
 import './test-router.js';
 import {SafeTypes} from '../behaviors/safe-types-behavior/safe-types-behavior.js';
-import {appContext} from '../services/app-context.js';
-import {initAppContext} from '../services/app-context-init.js';
 import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader.js';
-import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock.js';
+import {_testOnlyResetRestApi} from '../elements/shared/gr-js-api-interface/gr-plugin-rest-api.js';
+import {_testOnlyResetGrRestApiSharedObjects} from '../elements/shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import {TestKeyboardShortcutBinder} from './test-utils';
 
 // Returns true if tests run under the Karma
 function isKarmaTest() {
@@ -89,8 +89,10 @@ setup(() => {
   // If the following asserts fails - then window.stub is
   // overwritten by some other code.
   assert.equal(cleanups.length, 0);
-
+  TestKeyboardShortcutBinder.push();
   _testOnly_resetPluginLoader();
+  _testOnlyResetGrRestApiSharedObjects();
+  _testOnlyResetRestApi();
 });
 
 if (isKarmaTest() || window.stub) {
@@ -115,15 +117,42 @@ if (isKarmaTest() || window.stub) {
   throw new Error('window.stub must be set after wct sets it');
 }
 
-initAppContext();
-function setMock(serviceName, setupMock) {
-  Object.defineProperty(appContext, serviceName, {
-    get() {
-      return setupMock;
-    },
-  });
+function checkChildAllowed(element) {
+  const allowedTags = ['SCRIPT', 'IRON-A11Y-ANNOUNCER'];
+  if (allowedTags.includes(element.tagName)) {
+    return;
+  }
+  if (element.tagName === 'TEST-FIXTURE') {
+    if (element.children.length == 0 ||
+        (element.children.length == 1 &&
+        element.children[0].tagName === 'TEMPLATE')) {
+      return;
+    }
+    assert.fail(`Test fixture
+        ${element.outerHTML}` +
+        `isn't resotred after the test is finished. Please ensure that ` +
+        `restore() method is called for this test-fixture. Usually the call` +
+        `happens automatically.`);
+    return;
+  }
+  if (element.tagName === 'DIV' && element.id === 'gr-hovercard-container' &&
+      element.childNodes.length === 0) {
+    return;
+  }
+  assert.fail(
+      `The following node remains in document after the test:
+      ${element.tagName}
+      Outer HTML:
+      ${element.outerHTML},
+      Stack trace:
+      ${element.stackTrace}`);
 }
-setMock('reportingService', grReportingMock);
+function checkGlobalSpace() {
+  for (const child of document.body.children) {
+    checkChildAllowed(child);
+  }
+
+}
 
 teardown(() => {
   // WCT incorrectly uses teardown method in the 'fixture' and 'stub'
@@ -133,4 +162,6 @@ teardown(() => {
   // a fix and 10 seconds with our implementation of fixture and stub.
   cleanups.forEach(cleanup => cleanup());
   cleanups.splice(0);
+  TestKeyboardShortcutBinder.pop();
+  checkGlobalSpace();
 });

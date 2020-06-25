@@ -188,6 +188,7 @@ public class H2CacheTest {
     assertThat(h2Cache.getIfPresent("foo")).isEqualTo("reload:foo");
   }
 
+  @SuppressWarnings("unchecked")
   private static void resetLoaderAndAnswerLoadAndRefreshCalls(CacheLoader<String, String> loader)
       throws Exception {
     reset(loader);

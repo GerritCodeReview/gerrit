@@ -44,7 +44,13 @@ export const htmlTemplate = html`
       text-overflow: ellipsis;
       white-space: nowrap;
       width: 100%;
-      cursor: pointer;
+      display: flex;
+    }
+    .content .change-name {
+      margin: 1px;
+    }
+    .content .column-clickable {
+      flex-grow: 1;
     }
     .comments,
     .reviewers {
@@ -126,10 +132,20 @@ export const htmlTemplate = html`
     hidden$="[[isColumnHidden('Subject', visibleChangeTableColumns)]]"
   >
     <div class="container">
-      <div class="content" on-click="_handleContentClick">
-        <a title$="[[change.subject]]" href$="[[changeURL]]">
+      <div class="content">
+        <a
+          class="change-name"
+          title$="[[change.subject]]"
+          href$="[[changeURL]]"
+        >
           [[change.subject]]
         </a>
+        <a
+          class="column-clickable"
+          href$="[[changeURL]]"
+          aria-hidden="true"
+          tabindex="-1"
+        ></a>
       </div>
       <div class="spacer">
         [[change.subject]]

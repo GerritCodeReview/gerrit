@@ -145,6 +145,24 @@
     },
     {
       "key": {
+        "uuid": "a7bc17d9_ee0f0b25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-25T19:49:18Z",
+      "side": 1,
+      "message": "\u003e Some decent pencil icon would do it.\n\nOf course the new pencil icon would conflict with ACTIONS Dropdown, when EDIT mode is activated on the change screen. So we would need to hide the new pencil icon in edit mode. And re-enable the icon in non edit mode again. State management is always hard.",
+      "parentUuid": "b5bd684e_986a54ed",
+      "revId": "66ed21a73a7e0db5c689544964905c5041c0fa63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d829fd1f_812f0d27",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 2

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "16d5d4ee_bb78bd8f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T10:40:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26fb7273_688f18ec",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 35,
+        "endChar": 11
+      },
+      "revId": "5caa9b3cb80d40695388a5f1aa62ad611198f7c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34680025_d0d4952c",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "5caa9b3cb80d40695388a5f1aa62ad611198f7c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f55f3f7b_092d0d28",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T10:40:39Z",
+      "side": 1,
+      "message": "Yeah, I have thought about it, but \"showAttention\" is not really generic and checking for `change` and `account` to be defined is also not generic. I think I will move this to class methods.",
+      "parentUuid": "34680025_d0d4952c",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 2
+      },
+      "revId": "5caa9b3cb80d40695388a5f1aa62ad611198f7c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f1e73f01_b9f18aac",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T10:40:39Z",
+      "side": 1,
+      "message": "I have no idea, but yeah, I would prefer not to be distracted at the moment, so leaving as is. :-/",
+      "parentUuid": "ee3c4866_18e5f2a9",
+      "revId": "5868eca0cc82a94cf7c8f9a74528c1ca4eae466e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "53ae0cbc_fa496c42",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.js",
         "patchSetId": 10
@@ -33,6 +51,24 @@
       "revId": "5868eca0cc82a94cf7c8f9a74528c1ca4eae466e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45f3a49b_92005887",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T10:40:39Z",
+      "side": 1,
+      "message": "I would prefer to stick to a common pattern.\n\nI agree that this is terrible and a state management solution is much better.\n\nFor \"config\" I think it is a common pattern to fetch it from rest-api, but for change I think that is not so common.\n\nAlso we would at least need to hand down the change number.\n\nAlso I have just checked rest-api, and I *think* change detail is not cached!",
+      "parentUuid": "53ae0cbc_fa496c42",
+      "revId": "5868eca0cc82a94cf7c8f9a74528c1ca4eae466e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "1c664553_d3638cd5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T10:40:39Z",
+      "side": 1,
+      "message": "Renamed to `highlightAttention`. Better?",
+      "parentUuid": "65ebb854_2d4e9fa9",
+      "range": {
+        "startLine": 70,
+        "startChar": 6,
+        "endLine": 70,
+        "endChar": 19
+      },
+      "revId": "5868eca0cc82a94cf7c8f9a74528c1ca4eae466e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b32354f8_09ea4473",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
         "patchSetId": 10
@@ -73,6 +133,24 @@
       "revId": "5868eca0cc82a94cf7c8f9a74528c1ca4eae466e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be173d12_b30d99ec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T10:40:39Z",
+      "side": 1,
+      "message": "see other comment",
+      "parentUuid": "b32354f8_09ea4473",
+      "revId": "5868eca0cc82a94cf7c8f9a74528c1ca4eae466e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -99,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "4bb9a6b3_4be59b07",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T10:40:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc9abbc3_c9d1d8b3",
+      "range": {
+        "startLine": 91,
+        "startChar": 20,
+        "endLine": 91,
+        "endChar": 41
+      },
+      "revId": "5868eca0cc82a94cf7c8f9a74528c1ca4eae466e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e8688d6_b26d8c17",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
         "patchSetId": 10
@@ -122,6 +224,30 @@
     },
     {
       "key": {
+        "uuid": "563caf53_b87c5a4d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T10:40:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e8688d6_b26d8c17",
+      "range": {
+        "startLine": 93,
+        "startChar": 22,
+        "endLine": 93,
+        "endChar": 34
+      },
+      "revId": "5868eca0cc82a94cf7c8f9a74528c1ca4eae466e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bacbf84_ab798465",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
         "patchSetId": 10
@@ -136,6 +262,24 @@
       "revId": "5868eca0cc82a94cf7c8f9a74528c1ca4eae466e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9338cbc2_96c02c10",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T10:40:39Z",
+      "side": 1,
+      "message": "I think it is not *that* expensive. :-)\n\nAnd we would potentially also need to update the style in other places. So we would have to modify change.attention_set and hope that changes to that would actually propagate to all relevant places, which I think we cannot really rely on. In the absence of proper state management I would prefer to be on the safe side, and I find it acceptable to do a refresh.",
+      "parentUuid": "4bacbf84_ab798465",
+      "revId": "5868eca0cc82a94cf7c8f9a74528c1ca4eae466e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

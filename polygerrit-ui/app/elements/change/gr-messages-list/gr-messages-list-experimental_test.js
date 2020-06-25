@@ -1,55 +1,42 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2020 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2020 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<meta charset="utf-8">
-<title>gr-messages-list-experimental</title>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
-
-<dom-module id="comment-api-mock">
-  <template>
-    <gr-messages-list-experimental
-        id="messagesList"
-        change-comments="[[_changeComments]]"></gr-messages-list-experimental>
-    <gr-comment-api id="commentAPI"></gr-comment-api>
-  </template>
-  </dom-module>
-
-<test-fixture id="basic">
-  <template>
-    <comment-api-mock>
-      <gr-messages-list-experimental></gr-messages-list-experimental>
-    </comment-api-mock>
-  </template>
-</test-fixture>
-
-<script type="module">
-import '../../../test/common-test-setup.js';
+import '../../../test/common-test-setup-karma.js';
 import '../../diff/gr-comment-api/gr-comment-api.js';
 import './gr-messages-list-experimental.js';
-import '../../../test/mocks/comment-api.js';
+import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {TEST_ONLY} from './gr-messages-list-experimental.js';
 import {MessageTag} from '../../../constants/constants.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
+createCommentApiMockWithTemplateElement(
+    'gr-messages-list-experimental-comment-mock-api', html`
+     <gr-messages-list-experimental
+         id="messagesList"
+         change-comments="[[_changeComments]]"></gr-messages-list-experimental>
+     <gr-comment-api id="commentAPI"></gr-comment-api>
+`);
+
+const basicFixture = fixtureFromTemplate(html`
+<gr-messages-list-experimental-comment-mock-api>
+  <gr-messages-list-experimental></gr-messages-list-experimental>
+</gr-messages-list-experimental-comment-mock-api>
+`);
 
 const randomMessage = function(opt_params) {
   const params = opt_params || {};
@@ -67,6 +54,11 @@ const randomMessage = function(opt_params) {
     tag: params.tag,
   };
 };
+
+function generateRandomMessages(count) {
+  return new Array(count).fill()
+      .map(() => randomMessage());
+}
 
 suite('gr-messages-list-experimental tests', () => {
   let element;
@@ -149,10 +141,10 @@ suite('gr-messages-list-experimental tests', () => {
         getDiffDrafts() { return Promise.resolve({}); },
       });
       sandbox = sinon.sandbox.create();
-      messages = _.times(3, randomMessage);
+      messages = generateRandomMessages(3);
       // Element must be wrapped in an element with direct access to the
       // comment API.
-      commentApiWrapper = fixture('basic');
+      commentApiWrapper = basicFixture.instantiate();
       element = commentApiWrapper.$.messagesList;
       element.messages = messages;
 
@@ -243,7 +235,7 @@ suite('gr-messages-list-experimental tests', () => {
     test('scroll to message offscreen', () => {
       const scrollToStub = sandbox.stub(window, 'scrollTo');
       const highlightStub = sandbox.stub(element, '_highlightEl');
-      element.messages = _.times(25, randomMessage);
+      element.messages = generateRandomMessages(25);
       flushAsynchronousOperations();
       assert.isFalse(scrollToStub.called);
       assert.isFalse(highlightStub.called);
@@ -471,7 +463,7 @@ suite('gr-messages-list-experimental tests', () => {
 
       // Element must be wrapped in an element with direct access to the
       // comment API.
-      commentApiWrapper = fixture('basic');
+      commentApiWrapper = basicFixture.instantiate();
       element = commentApiWrapper.$.messagesList;
       sandbox.spy(commentApiWrapper.$.commentAPI, 'loadAll');
       element.messages = messages;
@@ -558,4 +550,4 @@ suite('gr-messages-list-experimental tests', () => {
     });
   });
 });
-</script>
+

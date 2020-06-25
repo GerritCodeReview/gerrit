@@ -118,9 +118,10 @@ class GrErrorManager extends mixinBehaviors( [
     this._clearHideAlertHandle();
     this.unlisten(document, 'server-error', '_handleServerError');
     this.unlisten(document, 'network-error', '_handleNetworkError');
-    this.unlisten(document, 'show-auth-required', '_handleAuthRequired');
-    this.unlisten(document, 'visibilitychange', '_handleVisibilityChange');
+    this.unlisten(document, 'show-alert', '_handleShowAlert');
     this.unlisten(document, 'show-error', '_handleShowErrorDialog');
+    this.unlisten(document, 'visibilitychange', '_handleVisibilityChange');
+    this.unlisten(document, 'show-auth-required', '_handleAuthRequired');
 
     this._authErrorHandlerDeregistrationHook();
   }

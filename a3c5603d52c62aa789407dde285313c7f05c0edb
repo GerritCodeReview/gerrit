@@ -126,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "92e76109_c267a6af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-25T09:51:46Z",
+      "side": 1,
+      "message": "v + b seems intuitive for me.\nImplemented that.",
+      "parentUuid": "544b93c3_7e122a14",
+      "revId": "a3c5603d52c62aa789407dde285313c7f05c0edb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0cb3081_2d29ba8c",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 14

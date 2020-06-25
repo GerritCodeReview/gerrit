@@ -81,7 +81,7 @@ public class RemoveFromAttentionSet
         updateFactory.create(
             changeResource.getProject(), changeResource.getUser(), TimeUtil.nowTs())) {
       RemoveFromAttentionSetOp op =
-          opFactory.create(attentionResource.getAccountId(), input.reason, true);
+          opFactory.create(attentionResource.getAccountId(), input.reason);
       bu.addOp(changeResource.getId(), op);
       bu.execute();
     }

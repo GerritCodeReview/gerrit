@@ -19,9 +19,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.inject.Inject;
@@ -31,36 +29,22 @@ import com.google.inject.assistedinject.Assisted;
 public class AddToAttentionSetOp implements BatchUpdateOp {
 
   public interface Factory {
-    AddToAttentionSetOp create(
-        Account.Id attentionUserId, String reason, boolean withChangeMessage);
+    AddToAttentionSetOp create(Account.Id attentionUserId, String reason);
   }
 
-  private final ChangeData.Factory changeDataFactory;
-  private final ChangeMessagesUtil cmUtil;
   private final Account.Id attentionUserId;
   private final String reason;
-  private final boolean withChangeMessage;
 
   /**
    * Add a specified user to the attention set.
    *
    * @param attentionUserId the id of the user we want to add to the attention set.
    * @param reason The reason for adding that user.
-   * @param withChangeMessage Whether or not we wish to add a change message detailing about adding
-   *     that user to the attention set.
    */
   @Inject
-  AddToAttentionSetOp(
-      ChangeData.Factory changeDataFactory,
-      ChangeMessagesUtil cmUtil,
-      @Assisted Account.Id attentionUserId,
-      @Assisted String reason,
-      @Assisted boolean withChangeMessage) {
-    this.changeDataFactory = changeDataFactory;
-    this.cmUtil = cmUtil;
+  AddToAttentionSetOp(@Assisted Account.Id attentionUserId, @Assisted String reason) {
     this.attentionUserId = requireNonNull(attentionUserId, "user");
     this.reason = requireNonNull(reason, "reason");
-    this.withChangeMessage = withChangeMessage;
   }
 
   @Override
@@ -69,16 +53,6 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
     update.addToPlannedAttentionSetUpdates(
         AttentionSetUpdate.createForWrite(
             attentionUserId, AttentionSetUpdate.Operation.ADD, reason));
-    if (withChangeMessage) {
-      addChangeMessage(ctx, update);
-    }
     return true;
-  }
-
-  private void addChangeMessage(ChangeContext ctx, ChangeUpdate update) {
-    String message = "Added to attention set: " + attentionUserId;
-    cmUtil.addChangeMessage(
-        update,
-        ChangeMessagesUtil.newMessage(ctx, message, ChangeMessagesUtil.TAG_UPDATE_ATTENTION_SET));
   }
 }

@@ -19,6 +19,52 @@
     },
     {
       "key": {
+        "uuid": "6123ed8f_e3720e5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-25T10:29:28Z",
+      "side": 1,
+      "message": "What if X \u003d\u003d\u003d Latest ?",
+      "range": {
+        "startLine": 11,
+        "startChar": 24,
+        "endLine": 11,
+        "endChar": 35
+      },
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09ba6e26_5cd78537",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-25T10:29:28Z",
+      "side": 1,
+      "message": "Not sure, that it is expected behavior in all cases.\nI can imagine at least 2 different cases:\n1) I am an author and I see a new comment: I want to see Base vs X\n2) I am a reviewer and I see Done on my comment: I want to see X vs Latest\nOther cases are also possible, but I think this is the main 2.\n\nChanging in defaults behavior can be unexpected in the scenario 1. Do you have numbers how often people switch from Base vs X to X vs latest?\nCan we instead add a second link (\"Compare with latest\") near comment? WDYT?\n\nShortcuts and toasts are great idea.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "30d274a8_8158e707",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.js",
         "patchSetId": 26
@@ -53,6 +99,29 @@
     },
     {
       "key": {
+        "uuid": "44c14a70_c8acc723",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_test.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-25T10:29:28Z",
+      "side": 1,
+      "message": "May be add a test (or modify existing one) where this number is important/used?\nI.e. I don\u0027t see why do you stub _computeLatestPatchNum in setup and all tests remains uncanged.",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 0
+      },
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5eca6696_b2d8fe42",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 26
@@ -64,6 +133,29 @@
       "writtenOn": "2020-06-25T07:31:23Z",
       "side": 1,
       "message": "I am sure I understand the indented logic for when the toasts should be shown or not, but here are two scenarios that I *think* may not be handled as I would expect at the moment:\n\n1. The user navigates directly to patchset X of a change page (e.g. by using a relation chain link), then clicks on a file name to go to the diff page. Expected: No toast. Actual: Toast appears.\n\n2. The user clicks on a comment in the Comments tab, lands on a diff page, sees a toast. Then goes back to the change page, clicks on another comment in the Comments tab. Expected: Toast appears. Actual: No toast.",
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fc06479_552a1115",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-25T10:29:28Z",
+      "side": 1,
+      "message": "The name (_hasShownDiffBaseAgainstLeftToast) assumes that it reflects current state of the toast (visible\\invisible). However, there is no binding to this value; instead the event is fired and gr-diff-view only assumes that toast is shown. This creates a hidden dependency between different elements in gerrit and assumes specific behavior in the event handler.\n\nI can suggest several options here:\n1) Make _hasShownDiffBaseAgainstLeftToast public and bind to its value directly (not very like it, actually)\n2) Fire an event when a special key combination is available. Listener then can decide, should it show the message or not\n3) Write a special service, which displays toast with useful shortcuts based on the current view state (too complex to implement, just an idea).\n\nThe same for _hasShownDiffAgainstLatestToast",
+      "range": {
+        "startLine": 253,
+        "startChar": 6,
+        "endLine": 253,
+        "endChar": 39
+      },
       "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -87,6 +179,52 @@
     },
     {
       "key": {
+        "uuid": "b8542308_cbd4b814",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 753,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-25T10:29:28Z",
+      "side": 1,
+      "message": "Please, use \\u... instead and put the ← in the comment (the same in _displayDiffAgainstLatestToast)",
+      "range": {
+        "startLine": 753,
+        "startChar": 60,
+        "endLine": 753,
+        "endChar": 61
+      },
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a2829da_66e7b964",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 753,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-25T10:29:28Z",
+      "side": 1,
+      "message": "Can we generate this text (v + ←) automatically? If it is not possible, maybe add a comment to the code where this combination defined. I.e. if the key combination is changed, we don\u0027t forget to update the message here.",
+      "range": {
+        "startLine": 753,
+        "startChar": 56,
+        "endLine": 753,
+        "endChar": 61
+      },
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f3c773b1_e3e0e98b",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 26
@@ -98,6 +236,52 @@
       "writtenOn": "2020-06-25T07:31:23Z",
       "side": 1,
       "message": "Maybe move this line into the _display... method as you did with the other one.",
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe0409da_0434a619",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-25T10:29:28Z",
+      "side": 1,
+      "message": "You have a return in both if ... statements - it is better to move both if into a separate method (like displayToasts). With a separate method it is easy to add another non-toast related code at the end in the future.",
+      "range": {
+        "startLine": 873,
+        "startChar": 9,
+        "endLine": 884,
+        "endChar": 11
+      },
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffc54308_6c2de932",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-25T10:29:28Z",
+      "side": 1,
+      "message": "Here the actual link is not X vs Latest, but X vs Y\u003dmax(patchests).\nWhat about the following scenario?\n1. Reviewer opens link (Y is the latest)\n2. Author uploads a new patchest\n3. Reviewer reloads page: page still display X vs Y, not X vs latest.\nIs it expected behavior?",
+      "range": {
+        "startLine": 234,
+        "startChar": 4,
+        "endLine": 236,
+        "endChar": 0
+      },
       "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

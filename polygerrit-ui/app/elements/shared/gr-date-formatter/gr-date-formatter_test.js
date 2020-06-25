@@ -1,40 +1,29 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2015 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2015 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<meta charset="utf-8">
-<title>gr-date-formatter</title>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
-
-<test-fixture id="basic">
-  <template>
-    <gr-date-formatter date-str="2015-09-24 23:30:17.033000000"></gr-date-formatter>
-  </template>
-</test-fixture>
-
-<script type="module">
-import '../../../test/common-test-setup.js';
+import '../../../test/common-test-setup-karma.js';
 import './gr-date-formatter.js';
 import {parseDate} from '../../../utils/date-util.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
+const basicFixture = fixtureFromTemplate(html`
+<gr-date-formatter date-str="2015-09-24 23:30:17.033000000"></gr-date-formatter>
+`);
+
 suite('gr-date-formatter tests', () => {
   let element;
   let sandbox;
@@ -93,7 +82,7 @@ suite('gr-date-formatter tests', () => {
       date_format: 'STD',
       relative_date_in_change_table: false,
     }).then(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       sandbox.stub(element, '_getUtcOffsetString').returns('');
       return element._loadPreferences();
     }));
@@ -142,7 +131,7 @@ suite('gr-date-formatter tests', () => {
       date_format: 'US',
       relative_date_in_change_table: false,
     }).then(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       sandbox.stub(element, '_getUtcOffsetString').returns('');
       return element._loadPreferences();
     }));
@@ -178,7 +167,7 @@ suite('gr-date-formatter tests', () => {
       date_format: 'ISO',
       relative_date_in_change_table: false,
     }).then(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       sandbox.stub(element, '_getUtcOffsetString').returns('');
       return element._loadPreferences();
     }));
@@ -214,7 +203,7 @@ suite('gr-date-formatter tests', () => {
       date_format: 'EURO',
       relative_date_in_change_table: false,
     }).then(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       sandbox.stub(element, '_getUtcOffsetString').returns('');
       return element._loadPreferences();
     }));
@@ -250,7 +239,7 @@ suite('gr-date-formatter tests', () => {
       date_format: 'UK',
       relative_date_in_change_table: false,
     }).then(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       sandbox.stub(element, '_getUtcOffsetString').returns('');
       return element._loadPreferences();
     }));
@@ -286,7 +275,7 @@ suite('gr-date-formatter tests', () => {
       stubRestAPI(
           {time_format: 'HHMM_12', date_format: 'STD'}
       ).then(() => {
-        element = fixture('basic');
+        element = basicFixture.instantiate();
         sandbox.stub(element, '_getUtcOffsetString').returns('');
         return element._loadPreferences();
       })
@@ -307,7 +296,7 @@ suite('gr-date-formatter tests', () => {
       stubRestAPI(
           {time_format: 'HHMM_12', date_format: 'US'}
       ).then(() => {
-        element = fixture('basic');
+        element = basicFixture.instantiate();
         sandbox.stub(element, '_getUtcOffsetString').returns('');
         return element._loadPreferences();
       })
@@ -328,7 +317,7 @@ suite('gr-date-formatter tests', () => {
       stubRestAPI(
           {time_format: 'HHMM_12', date_format: 'ISO'}
       ).then(() => {
-        element = fixture('basic');
+        element = basicFixture.instantiate();
         sandbox.stub(element, '_getUtcOffsetString').returns('');
         return element._loadPreferences();
       })
@@ -349,7 +338,7 @@ suite('gr-date-formatter tests', () => {
       stubRestAPI(
           {time_format: 'HHMM_12', date_format: 'EURO'}
       ).then(() => {
-        element = fixture('basic');
+        element = basicFixture.instantiate();
         sandbox.stub(element, '_getUtcOffsetString').returns('');
         return element._loadPreferences();
       })
@@ -370,7 +359,7 @@ suite('gr-date-formatter tests', () => {
       stubRestAPI(
           {time_format: 'HHMM_12', date_format: 'UK'}
       ).then(() => {
-        element = fixture('basic');
+        element = basicFixture.instantiate();
         sandbox.stub(element, '_getUtcOffsetString').returns('');
         return element._loadPreferences();
       })
@@ -391,7 +380,7 @@ suite('gr-date-formatter tests', () => {
       date_format: 'STD',
       relative_date_in_change_table: true,
     }).then(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       sandbox.stub(element, '_getUtcOffsetString').returns('');
       return element._loadPreferences();
     }));
@@ -419,7 +408,7 @@ suite('gr-date-formatter tests', () => {
       date_format: 'US',
       relative_date_in_change_table: true,
     }).then(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       return element._loadPreferences();
     }));
 
@@ -433,7 +422,7 @@ suite('gr-date-formatter tests', () => {
 
   suite('logged out', () => {
     setup(() => stubRestAPI(null).then(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       return element._loadPreferences();
     }));
 
@@ -445,4 +434,4 @@ suite('gr-date-formatter tests', () => {
     });
   });
 });
-</script>
+

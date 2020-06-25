@@ -1,55 +1,48 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2018 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2018 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<meta charset="utf-8">
-<title>gr-hovercard</title>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
-<!-- Can't use absolute path below for mock-interaction.js.
-Web component tester(wct) has a built-in http server and it serves "/components" directory (which is
-actually /node_modules directory). Also, wct patches some files to load modules from /components.
-With the absolute path, browser tries to load dom-module from 2 different places (/component/... and
-/node_modules/...) though this is actually the same file. This leads to a run-time error.
--->
-<script src="../../../node_modules/iron-test-helpers/mock-interactions.js"></script>
-
-<button id="foo">Hello</button>
-<test-fixture id="basic">
-  <template>
-    <gr-hovercard for="foo" id="bar"></gr-hovercard>
-  </template>
-</test-fixture>
-
-<script type="module">
-import '../../../test/common-test-setup.js';
+import '../../../test/common-test-setup-karma.js';
 import './gr-hovercard.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
+//
+
+const basicFixture = fixtureFromTemplate(html`
+<gr-hovercard for="foo" id="bar"></gr-hovercard>
+`);
+
 suite('gr-hovercard tests', () => {
   let element;
   let sandbox;
+  let button;
+  suiteSetup(() => {
+    button = document.createElement('button');
+    button.innerHTML = 'Hello';
+    button.setAttribute('id', 'foo');
+    document.body.appendChild(button);
+  });
+  suiteTeardown(() => {
+    button.remove();
+  });
 
   setup(() => {
     sandbox = sinon.sandbox.create();
-    element = fixture('basic');
+    element = basicFixture.instantiate();
   });
 
   teardown(() => { sandbox.restore(); });
@@ -156,4 +149,4 @@ suite('gr-hovercard tests', () => {
     button.dispatchEvent(new CustomEvent('mouseenter'));
   });
 });
-</script>
+

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "15569767_707f659f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2020-06-25T03:01:43Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "0a0339c473842dd618216c93319da768d6cab2d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9063119c_0d0ac51d",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 1
@@ -19,6 +36,23 @@
         "endLine": 420,
         "endChar": 5
       },
+      "revId": "0a0339c473842dd618216c93319da768d6cab2d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b090ab48_cd10cb22",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2020-06-25T03:01:43Z",
+      "side": 1,
+      "message": "The label Edit is confusing. It can be interpreted as \"edit the comment\".\n\nI prefer Fix, as it was in the old UI.",
       "revId": "0a0339c473842dd618216c93319da768d6cab2d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

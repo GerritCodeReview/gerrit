@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2d785776_3df63180",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-25T20:21:58Z",
+      "side": 1,
+      "message": "Added information. However this is tool to not leak object, not to prevent leaks. We report memory size in each page load, so for big leak, we should see increase in graph. I am checking this graph regularly.",
+      "parentUuid": "f58fcfbf_6f8bf947",
+      "revId": "bd94ad5aaec5cdcbe3d62d24e8d64765bdee11af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83797d9b_37e4f2ca",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
         "patchSetId": 9
@@ -33,6 +51,24 @@
       "revId": "bd94ad5aaec5cdcbe3d62d24e8d64765bdee11af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a280f9d_a8b44965",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-25T20:21:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83797d9b_37e4f2ca",
+      "revId": "bd94ad5aaec5cdcbe3d62d24e8d64765bdee11af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "73f0c4b8_a5bdc768",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-25T10:38:43Z",
+      "side": 1,
+      "message": "Is this worth it to add one more button when you can go to diff and start edit there? Is this just shorting user path by 1 click? Do you have some data how much it was used? I saw only reason in bug that it should be added because there was this, which feels not enough for such functionality. ",
+      "revId": "66ed21a73a7e0db5c689544964905c5041c0fa63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d829fd1f_812f0d27",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 2
@@ -17,6 +34,53 @@
         "startLine": 416,
         "startChar": 4,
         "endLine": 420,
+        "endChar": 5
+      },
+      "revId": "66ed21a73a7e0db5c689544964905c5041c0fa63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee1c3141_8fc96a4f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-25T10:38:43Z",
+      "side": 1,
+      "message": "+1 you should enable when button is hidden - not just do nothing when clicked.",
+      "parentUuid": "d829fd1f_812f0d27",
+      "range": {
+        "startLine": 416,
+        "startChar": 4,
+        "endLine": 420,
+        "endChar": 5
+      },
+      "revId": "66ed21a73a7e0db5c689544964905c5041c0fa63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6d65212_04439219",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-25T10:38:43Z",
+      "side": 1,
+      "message": "I would add optional parameter with linenum to getEditUrl",
+      "range": {
+        "startLine": 429,
+        "startChar": 4,
+        "endLine": 431,
         "endChar": 5
       },
       "revId": "66ed21a73a7e0db5c689544964905c5041c0fa63",

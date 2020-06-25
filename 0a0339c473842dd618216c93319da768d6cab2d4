@@ -74,6 +74,24 @@
       "revId": "0a0339c473842dd618216c93319da768d6cab2d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4ccb1c1_9423ea3b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-25T10:38:43Z",
+      "side": 1,
+      "message": "+1 Edit sounds like comment edit",
+      "parentUuid": "a0b0fef2_8ba5b2a6",
+      "revId": "0a0339c473842dd618216c93319da768d6cab2d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

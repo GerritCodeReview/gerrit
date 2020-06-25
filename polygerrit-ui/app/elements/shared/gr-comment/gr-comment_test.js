@@ -1,46 +1,30 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2015 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2015 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+const basicFixture = fixtureFromElement('gr-comment');
 
-http://www.apache.org/licenses/LICENSE-2.0
+const draftFixture = fixtureFromTemplate(html`
+<gr-comment draft="true"></gr-comment>
+`);
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<meta charset="utf-8">
-<title>gr-comment</title>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
-<script src="/node_modules/page/page.js"></script>
-
-<test-fixture id="basic">
-  <template>
-    <gr-comment></gr-comment>
-  </template>
-</test-fixture>
-
-<test-fixture id="draft">
-  <template>
-    <gr-comment draft="true"></gr-comment>
-  </template>
-</test-fixture>
-
-<script type="module">
-import '../../../test/common-test-setup.js';
+import '../../../test/common-test-setup-karma.js';
 import './gr-comment.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
 function isVisible(el) {
   assert.ok(el);
   return getComputedStyle(el).getPropertyValue('display') !== 'none';
@@ -54,7 +38,7 @@ suite('gr-comment tests', () => {
       stub('gr-rest-api-interface', {
         getAccount() { return Promise.resolve(null); },
       });
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       element.comment = {
         author: {
           name: 'Mr. Peanutbutter',
@@ -397,7 +381,7 @@ suite('gr-comment tests', () => {
       stub('gr-storage', {
         getDraftComment() { return null; },
       });
-      element = fixture('draft');
+      element = draftFixture.instantiate();
       element.changeNum = 42;
       element.patchNum = 1;
       element.editing = false;
@@ -1174,7 +1158,7 @@ suite('gr-comment tests', () => {
         setRespectfulTipVisibility() { return respectfulSetStub(); },
       });
       respectfulGetStub.returns(null);
-      element = fixture('draft');
+      element = draftFixture.instantiate();
       // fake random
       element.getRandomNum = () => 0;
       element.comment = {__editing: true};
@@ -1197,7 +1181,7 @@ suite('gr-comment tests', () => {
         setRespectfulTipVisibility(days) { return respectfulSetStub(days); },
       });
       respectfulGetStub.returns(null);
-      element = fixture('draft');
+      element = draftFixture.instantiate();
       // fake random
       element.getRandomNum = () => 0;
       element.comment = {__editing: true};
@@ -1226,7 +1210,7 @@ suite('gr-comment tests', () => {
         setRespectfulTipVisibility() { return respectfulSetStub(); },
       });
       respectfulGetStub.returns(null);
-      element = fixture('draft');
+      element = draftFixture.instantiate();
       // fake random
       element.getRandomNum = () => 3;
       element.comment = {__editing: true};
@@ -1249,7 +1233,7 @@ suite('gr-comment tests', () => {
         setRespectfulTipVisibility() { return respectfulSetStub(); },
       });
       respectfulGetStub.returns(null);
-      element = fixture('draft');
+      element = draftFixture.instantiate();
       // fake random
       element.getRandomNum = () => 0;
       element.comment = {__editing: false};
@@ -1281,7 +1265,7 @@ suite('gr-comment tests', () => {
         setRespectfulTipVisibility() { return respectfulSetStub(); },
       });
       respectfulGetStub.returns({});
-      element = fixture('draft');
+      element = draftFixture.instantiate();
       // fake random
       element.getRandomNum = () => 0;
       element.comment = {__editing: true};
@@ -1296,4 +1280,4 @@ suite('gr-comment tests', () => {
     });
   });
 });
-</script>
+

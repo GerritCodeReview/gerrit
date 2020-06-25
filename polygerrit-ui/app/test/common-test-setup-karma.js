@@ -19,6 +19,11 @@ import './common-test-setup.js';
 import '@polymer/test-fixture/test-fixture.js';
 import 'chai/chai.js';
 self.assert = window.chai.assert;
+self.expect = window.chai.expect;
+
+// Tests can use fake timers (sandbox.useFakeTimers)
+// Keep the original one for use in test utils methods.
+const nativeSetTimeout = window.setTimeout;
 
 /**
  * Triggers a flush of any pending events, observations, etc and calls you back
@@ -33,10 +38,10 @@ function flush(callback) {
   // (https://github.com/Polymer/polymer-dev/issues/851)
   window.Polymer.dom.flush();
   if (callback) {
-    window.setTimeout(callback, 0);
+    nativeSetTimeout(callback, 0);
   } else {
     return new Promise(resolve => {
-      window.setTimeout(resolve, 0);
+      nativeSetTimeout(resolve, 0);
     });
   }
 }

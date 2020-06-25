@@ -1,38 +1,26 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2017 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2017 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<title>tooltip-behavior</title>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
-
-<test-fixture id="basic">
-  <template>
-    <tooltip-behavior-element></tooltip-behavior-element>
-  </template>
-</test-fixture>
-
-<script type="module">
-import '../../test/common-test-setup.js';
+import '../../test/common-test-setup-karma.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import {TooltipBehavior} from './gr-tooltip-behavior.js';
+
+const basicFixture = fixtureFromElement('tooltip-behavior-element');
+
 suite('gr-tooltip-behavior tests', () => {
   let element;
   let sandbox;
@@ -58,7 +46,7 @@ suite('gr-tooltip-behavior tests', () => {
 
   setup(() => {
     sandbox = sinon.sandbox.create();
-    element = fixture('basic');
+    element = basicFixture.instantiate();
   });
 
   teardown(() => {
@@ -151,4 +139,4 @@ suite('gr-tooltip-behavior tests', () => {
     assert.isTrue(removeListenerStub.called);
   });
 });
-</script>
+

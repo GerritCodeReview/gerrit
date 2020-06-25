@@ -96,107 +96,112 @@ export const htmlTemplate = html`
     }
   </style>
   <div>
-    <section
-      class="relatedChanges"
-      hidden$="[[!_relatedResponse.changes.length]]"
-      hidden=""
-    >
-      <h4>Relation chain</h4>
-      <template
-        is="dom-repeat"
-        items="[[_relatedResponse.changes]]"
-        as="related"
+    <gr-endpoint-decorator name="related-changes-section">
+      <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
+      <gr-endpoint-slot name="above"></gr-endpoint-slot>
+      <section
+        class="relatedChanges"
+        hidden$="[[!_relatedResponse.changes.length]]"
+        hidden=""
       >
-        <div
-          class$="rightIndent [[_computeChangeContainerClass(change, related)]]"
+        <h4>Relation chain</h4>
+        <template
+          is="dom-repeat"
+          items="[[_relatedResponse.changes]]"
+          as="related"
         >
-          <a
-            href$="[[_computeChangeURL(related._change_number, related.project, related._revision_number)]]"
-            class$="[[_computeLinkClass(related)]]"
-            title$="[[related.commit.subject]]"
+          <div
+            class$="rightIndent [[_computeChangeContainerClass(change, related)]]"
           >
-            [[related.commit.subject]]
-          </a>
-          <span class$="[[_computeChangeStatusClass(related)]]">
-            ([[_computeChangeStatus(related)]])
-          </span>
-        </div>
-      </template>
-    </section>
-    <section
-      id="submittedTogether"
-      class$="[[_computeSubmittedTogetherClass(_submittedTogether)]]"
-    >
-      <h4>Submitted together</h4>
-      <template
-        is="dom-repeat"
-        items="[[_submittedTogether.changes]]"
-        as="related"
+            <a
+              href$="[[_computeChangeURL(related._change_number, related.project, related._revision_number)]]"
+              class$="[[_computeLinkClass(related)]]"
+              title$="[[related.commit.subject]]"
+            >
+              [[related.commit.subject]]
+            </a>
+            <span class$="[[_computeChangeStatusClass(related)]]">
+              ([[_computeChangeStatus(related)]])
+            </span>
+          </div>
+        </template>
+      </section>
+      <section
+        id="submittedTogether"
+        class$="[[_computeSubmittedTogetherClass(_submittedTogether)]]"
       >
-        <div class$="[[_computeChangeContainerClass(change, related)]]">
-          <a
-            href$="[[_computeChangeURL(related._number, related.project)]]"
-            class$="[[_computeLinkClass(related)]]"
-            title$="[[related.project]]: [[related.branch]]: [[related.subject]]"
-          >
-            [[related.project]]: [[related.branch]]: [[related.subject]]
-          </a>
-          <span
-            tabindex="-1"
-            title="Submittable"
-            class$="submittableCheck [[_computeLinkClass(related)]]"
-            >✓</span
-          >
-        </div>
-      </template>
-      <template is="dom-if" if="[[_submittedTogether.non_visible_changes]]">
-        <div class="note">
-          [[_computeNonVisibleChangesNote(_submittedTogether.non_visible_changes)]]
-        </div>
-      </template>
-    </section>
-    <section hidden$="[[!_sameTopic.length]]" hidden="">
-      <h4>Same topic</h4>
-      <template is="dom-repeat" items="[[_sameTopic]]" as="change">
-        <div>
-          <a
-            href$="[[_computeChangeURL(change._number, change.project)]]"
-            class$="[[_computeLinkClass(change)]]"
-            title$="[[change.project]]: [[change.branch]]: [[change.subject]]"
-          >
-            [[change.project]]: [[change.branch]]: [[change.subject]]
-          </a>
-        </div>
-      </template>
-    </section>
-    <section hidden$="[[!_conflicts.length]]" hidden="">
-      <h4>Merge conflicts</h4>
-      <template is="dom-repeat" items="[[_conflicts]]" as="change">
-        <div>
-          <a
-            href$="[[_computeChangeURL(change._number, change.project)]]"
-            class$="[[_computeLinkClass(change)]]"
-            title$="[[change.subject]]"
-          >
-            [[change.subject]]
-          </a>
-        </div>
-      </template>
-    </section>
-    <section hidden$="[[!_cherryPicks.length]]" hidden="">
-      <h4>Cherry picks</h4>
-      <template is="dom-repeat" items="[[_cherryPicks]]" as="change">
-        <div>
-          <a
-            href$="[[_computeChangeURL(change._number, change.project)]]"
-            class$="[[_computeLinkClass(change)]]"
-            title$="[[change.branch]]: [[change.subject]]"
-          >
-            [[change.branch]]: [[change.subject]]
-          </a>
-        </div>
-      </template>
-    </section>
+        <h4>Submitted together</h4>
+        <template
+          is="dom-repeat"
+          items="[[_submittedTogether.changes]]"
+          as="related"
+        >
+          <div class$="[[_computeChangeContainerClass(change, related)]]">
+            <a
+              href$="[[_computeChangeURL(related._number, related.project)]]"
+              class$="[[_computeLinkClass(related)]]"
+              title$="[[related.project]]: [[related.branch]]: [[related.subject]]"
+            >
+              [[related.project]]: [[related.branch]]: [[related.subject]]
+            </a>
+            <span
+              tabindex="-1"
+              title="Submittable"
+              class$="submittableCheck [[_computeLinkClass(related)]]"
+              >✓</span
+            >
+          </div>
+        </template>
+        <template is="dom-if" if="[[_submittedTogether.non_visible_changes]]">
+          <div class="note">
+            [[_computeNonVisibleChangesNote(_submittedTogether.non_visible_changes)]]
+          </div>
+        </template>
+      </section>
+      <section hidden$="[[!_sameTopic.length]]" hidden="">
+        <h4>Same topic</h4>
+        <template is="dom-repeat" items="[[_sameTopic]]" as="change">
+          <div>
+            <a
+              href$="[[_computeChangeURL(change._number, change.project)]]"
+              class$="[[_computeLinkClass(change)]]"
+              title$="[[change.project]]: [[change.branch]]: [[change.subject]]"
+            >
+              [[change.project]]: [[change.branch]]: [[change.subject]]
+            </a>
+          </div>
+        </template>
+      </section>
+      <section hidden$="[[!_conflicts.length]]" hidden="">
+        <h4>Merge conflicts</h4>
+        <template is="dom-repeat" items="[[_conflicts]]" as="change">
+          <div>
+            <a
+              href$="[[_computeChangeURL(change._number, change.project)]]"
+              class$="[[_computeLinkClass(change)]]"
+              title$="[[change.subject]]"
+            >
+              [[change.subject]]
+            </a>
+          </div>
+        </template>
+      </section>
+      <section hidden$="[[!_cherryPicks.length]]" hidden="">
+        <h4>Cherry picks</h4>
+        <template is="dom-repeat" items="[[_cherryPicks]]" as="change">
+          <div>
+            <a
+              href$="[[_computeChangeURL(change._number, change.project)]]"
+              class$="[[_computeLinkClass(change)]]"
+              title$="[[change.branch]]: [[change.subject]]"
+            >
+              [[change.branch]]: [[change.subject]]
+            </a>
+          </div>
+        </template>
+      </section>
+      <gr-endpoint-slot name="below"></gr-endpoint-slot>
+    </gr-endpoint-decorator>
   </div>
   <div hidden$="[[!loading]]">Loading...</div>
   <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

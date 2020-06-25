@@ -39,6 +39,11 @@ suite('gr-app custom dark theme tests', () => {
     sandbox.restore();
     window.localStorage.removeItem('dark-theme');
     removeTheme();
+    // The app sends requests to server. This can lead to
+    // unexpected gr-alert elements in document.body
+    document.body.querySelectorAll('gr-alert').forEach(grAlert => {
+      grAlert.remove();
+    });
   });
 
   test('should tried to load dark theme', () => {

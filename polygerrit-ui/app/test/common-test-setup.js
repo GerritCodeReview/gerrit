@@ -125,6 +125,43 @@ function setMock(serviceName, setupMock) {
 }
 setMock('reportingService', grReportingMock);
 
+function checkChildAllowed(element) {
+  const allowedTags = ['SCRIPT', 'IRON-A11Y-ANNOUNCER'];
+  if (allowedTags.includes(element.tagName)) {
+    return;
+  }
+  if (element.tagName === 'TEST-FIXTURE') {
+    if (element.children.length == 0 ||
+        (element.children.length == 1 &&
+        element.children[0].tagName === 'TEMPLATE')) {
+      return;
+    }
+    assert.fail(`Test fixture
+        ${element.outerHTML}` +
+        `isn't resotred after the test is finished. Please ensure that ` +
+        `restore() method is called for this test-fixture. Usually the call` +
+        `happens automatically.`);
+    return;
+  }
+  if (element.tagName === 'DIV' && element.id === 'gr-hovercard-container' &&
+      element.childNodes.length === 0) {
+    return;
+  }
+  assert.fail(
+      `The following node remains in document after the test:
+      ${element.tagName}
+      Outer HTML:
+      ${element.outerHTML},
+      Stack trace:
+      ${element.stackTrace}`);
+}
+function checkGlobalSpace() {
+  for (const child of document.body.children) {
+    checkChildAllowed(child);
+  }
+
+}
+
 teardown(() => {
   // WCT incorrectly uses teardown method in the 'fixture' and 'stub'
   // implementations. This leads to slowdown WCT tests after each tests.
@@ -133,4 +170,5 @@ teardown(() => {
   // a fix and 10 seconds with our implementation of fixture and stub.
   cleanups.forEach(cleanup => cleanup());
   cleanups.splice(0);
+  checkGlobalSpace();
 });

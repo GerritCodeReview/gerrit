@@ -1,64 +1,42 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2016 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+import '../../../test/common-test-setup-karma.js';
+import './gr-editable-label.js';
+import {flush as flush$0} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<meta charset="utf-8">
-<title>gr-editable-label</title>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
-<!-- Can't use absolute path below for mock-interaction.js.
-Web component tester(wct) has a built-in http server and it serves "/components" directory (which is
-actually /node_modules directory). Also, wct patches some files to load modules from /components.
-With the absolute path, browser tries to load dom-module from 2 different places (/component/... and
-/node_modules/...) though this is actually the same file. This leads to a run-time error.
--->
-<script src="../../../node_modules/iron-test-helpers/mock-interactions.js"></script>
-
-<test-fixture id="basic">
-  <template>
-    <gr-editable-label
+const basicFixture = fixtureFromTemplate(html`
+<gr-editable-label
         value="value text"
         placeholder="label text"></gr-editable-label>
-  </template>
-</test-fixture>
+`);
 
-<test-fixture id="no-placeholder">
-  <template>
-    <gr-editable-label value=""></gr-editable-label>
-  </template>
-</test-fixture>
+const noPlaceholderFixture = fixtureFromTemplate(html`
+<gr-editable-label value=""></gr-editable-label>
+`);
 
-<test-fixture id="read-only">
-  <template>
-    <gr-editable-label
+const readOnlyFixture = fixtureFromTemplate(html`
+<gr-editable-label
         read-only
         value="value text"
         placeholder="label text"></gr-editable-label>
-  </template>
-</test-fixture>
+`);
 
-<script type="module">
-import '../../../test/common-test-setup.js';
-import './gr-editable-label.js';
-import {flush as flush$0} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 suite('gr-editable-label tests', () => {
   let element;
   let elementNoPlaceholder;
@@ -67,8 +45,8 @@ suite('gr-editable-label tests', () => {
   let sandbox;
 
   setup(done => {
-    element = fixture('basic');
-    elementNoPlaceholder = fixture('no-placeholder');
+    element = basicFixture.instantiate();
+    elementNoPlaceholder = noPlaceholderFixture.instantiate();
 
     label = element.shadowRoot
         .querySelector('label');
@@ -229,7 +207,7 @@ suite('gr-editable-label tests', () => {
     let label;
 
     setup(() => {
-      element = fixture('read-only');
+      element = readOnlyFixture.instantiate();
       label = element.shadowRoot
           .querySelector('label');
     });
@@ -250,4 +228,4 @@ suite('gr-editable-label tests', () => {
     });
   });
 });
-</script>
+

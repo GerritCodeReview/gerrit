@@ -296,6 +296,13 @@ class GrThreadList extends GestureEventListeners(
   _isOnParent(side) {
     return !!side;
   }
+
+  /**
+   * Work around a issue on iOS when clicking turns into double tap
+   */
+  _onTapUnresolvedToggle(e) {
+    e.preventDefault();
+  }
 }
 
 customElements.define(GrThreadList.is, GrThreadList);

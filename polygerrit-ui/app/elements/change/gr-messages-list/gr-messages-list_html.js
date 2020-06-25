@@ -81,8 +81,9 @@ export const htmlTemplate = html`
         checked="{{_hideAutomated}}"
         aria-labelledby="onlyCommentsLabel"
         role="switch"
-      ></paper-toggle-button
-      ><span id="onlyCommentsLabel">Only comments</span>
+        on-tap="_onTapHideAutomated"
+      ></paper-toggle-button>
+      <span id="onlyCommentsLabel">Only comments</span>
       <span class="transparent separator"></span>
     </span>
     <gr-button

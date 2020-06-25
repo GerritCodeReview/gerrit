@@ -51,6 +51,21 @@ const ANONYMIZED_CHANGE_BASE_URL = '/changes/*~*';
 const ANONYMIZED_REVISION_BASE_URL = ANONYMIZED_CHANGE_BASE_URL +
     '/revisions/*';
 
+let siteBasedCache = new SiteBasedCache(); // Shared across instances.
+let fetchPromisesCache = new FetchPromisesCache(); // Shared across instances.
+let pendingRequest = {}; // Shared across instances.
+let grEtagDecorator = new GrEtagDecorator; // Shared across instances.
+let projectLookup = {}; // Shared across instances.
+
+export function _testOnlyResetGrRestApiSharedObjects() {
+  siteBasedCache = new SiteBasedCache();
+  fetchPromisesCache = new FetchPromisesCache();
+  pendingRequest = {};
+  grEtagDecorator = new GrEtagDecorator;
+  projectLookup = {};
+  authService.clearCache();
+}
+
 /**
  * @extends PolymerElement
  */
@@ -89,26 +104,26 @@ class GrRestApiInterface extends mixinBehaviors( [
     return {
       _cache: {
         type: Object,
-        value: new SiteBasedCache(), // Shared across instances.
+        value: siteBasedCache, // Shared across instances.
       },
       _sharedFetchPromises: {
         type: Object,
-        value: new FetchPromisesCache(), // Shared across instances.
+        value: fetchPromisesCache, // Shared across instances.
       },
       _pendingRequests: {
         type: Object,
-        value: {}, // Intentional to share the object across instances.
+        value: pendingRequest, // Intentional to share the object across instances.
       },
       _etags: {
         type: Object,
-        value: new GrEtagDecorator(), // Share across instances.
+        value: grEtagDecorator, // Share across instances.
       },
       /**
        * Used to maintain a mapping of changeNums to project names.
        */
       _projectLookup: {
         type: Object,
-        value: {}, // Intentional to share the object across instances.
+        value: projectLookup, // Intentional to share the object across instances.
       },
     };
   }

@@ -8,10 +8,10 @@ def polygerrit_bundle(name, srcs, outs, entry_point):
         name: rule name
         srcs: source files
         outs: array with a single item - the output file name
-        entry_point: application entry-point
+        entry_point: application js entry-point
     """
 
-    app_name = entry_point.split(".html")[0].split("/").pop()  # eg: gr-app
+    app_name = entry_point.split(".js")[0].split("/").pop()  # eg: gr-app
 
     native.filegroup(
         name = app_name + "-full-src",
@@ -24,7 +24,7 @@ def polygerrit_bundle(name, srcs, outs, entry_point):
         name = app_name + "-bundle-js",
         srcs = [app_name + "-full-src"],
         config_file = ":rollup.config.js",
-        entry_point = "elements/" + app_name + ".js",
+        entry_point = entry_point,
         rollup_bin = "//tools/node_tools:rollup-bin",
         sourcemap = "hidden",
         deps = [
@@ -36,7 +36,6 @@ def polygerrit_bundle(name, srcs, outs, entry_point):
         name = name + "_app_sources",
         srcs = [
             app_name + "-bundle-js.js",
-            entry_point,
         ],
     )
 

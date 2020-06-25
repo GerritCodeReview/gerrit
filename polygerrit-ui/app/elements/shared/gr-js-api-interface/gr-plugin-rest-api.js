@@ -17,6 +17,10 @@
 
 let restApi;
 
+export function _testOnlyResetRestApi() {
+  restApi = null;
+}
+
 function getRestApi() {
   if (!restApi) {
     restApi = document.createElement('gr-rest-api-interface');

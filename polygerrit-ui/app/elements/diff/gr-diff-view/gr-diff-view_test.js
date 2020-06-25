@@ -1,83 +1,69 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2015 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2015 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<meta charset="utf-8">
-<title>gr-diff-view</title>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
-<script src="/node_modules/page/page.js"></script>
-
-<test-fixture id="basic">
-  <template>
-    <gr-diff-view></gr-diff-view>
-  </template>
-</test-fixture>
-
-<test-fixture id="blank">
-  <template>
-    <div></div>
-  </template>
-</test-fixture>
-
-<script type="module">
-import '../../../test/common-test-setup.js';
+import '../../../test/common-test-setup-karma.js';
 import './gr-diff-view.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {ChangeStatus} from '../../../constants/constants.js';
+import {TestKeyboardShortcutBinder} from '../../../test/test-utils';
+
+const basicFixture = fixtureFromElement('gr-diff-view');
+
+const blankFixture = fixtureFromElement('div');
 
 suite('gr-diff-view tests', () => {
   suite('basic tests', () => {
-    const kb = KeyboardShortcutBinder;
-    kb.bindShortcut(kb.Shortcut.LEFT_PANE, 'shift+left');
-    kb.bindShortcut(kb.Shortcut.RIGHT_PANE, 'shift+right');
-    kb.bindShortcut(kb.Shortcut.NEXT_LINE, 'j', 'down');
-    kb.bindShortcut(kb.Shortcut.PREV_LINE, 'k', 'up');
-    kb.bindShortcut(kb.Shortcut.NEXT_FILE_WITH_COMMENTS, 'shift+j');
-    kb.bindShortcut(kb.Shortcut.PREV_FILE_WITH_COMMENTS, 'shift+k');
-    kb.bindShortcut(kb.Shortcut.NEW_COMMENT, 'c');
-    kb.bindShortcut(kb.Shortcut.SAVE_COMMENT, 'ctrl+s');
-    kb.bindShortcut(kb.Shortcut.NEXT_FILE, ']');
-    kb.bindShortcut(kb.Shortcut.PREV_FILE, '[');
-    kb.bindShortcut(kb.Shortcut.NEXT_CHUNK, 'n');
-    kb.bindShortcut(kb.Shortcut.NEXT_COMMENT_THREAD, 'shift+n');
-    kb.bindShortcut(kb.Shortcut.PREV_CHUNK, 'p');
-    kb.bindShortcut(kb.Shortcut.PREV_COMMENT_THREAD, 'shift+p');
-    kb.bindShortcut(kb.Shortcut.OPEN_REPLY_DIALOG, 'a');
-    kb.bindShortcut(kb.Shortcut.TOGGLE_LEFT_PANE, 'shift+a');
-    kb.bindShortcut(kb.Shortcut.UP_TO_CHANGE, 'u');
-    kb.bindShortcut(kb.Shortcut.OPEN_DIFF_PREFS, ',');
-    kb.bindShortcut(kb.Shortcut.TOGGLE_DIFF_MODE, 'm');
-    kb.bindShortcut(kb.Shortcut.TOGGLE_FILE_REVIEWED, 'r');
-    kb.bindShortcut(kb.Shortcut.EXPAND_ALL_DIFF_CONTEXT, 'shift+x');
-    kb.bindShortcut(kb.Shortcut.EXPAND_ALL_COMMENT_THREADS, 'e');
-    kb.bindShortcut(kb.Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, 'h');
-    kb.bindShortcut(kb.Shortcut.COLLAPSE_ALL_COMMENT_THREADS, 'shift+e');
-    kb.bindShortcut(kb.Shortcut.NEXT_UNREVIEWED_FILE, 'shift+m');
-    kb.bindShortcut(kb.Shortcut.TOGGLE_BLAME, 'b');
-
     let element;
     let sandbox;
+
+    suiteSetup(() => {
+      const kb = TestKeyboardShortcutBinder.push();
+      kb.bindShortcut(kb.Shortcut.LEFT_PANE, 'shift+left');
+      kb.bindShortcut(kb.Shortcut.RIGHT_PANE, 'shift+right');
+      kb.bindShortcut(kb.Shortcut.NEXT_LINE, 'j', 'down');
+      kb.bindShortcut(kb.Shortcut.PREV_LINE, 'k', 'up');
+      kb.bindShortcut(kb.Shortcut.NEXT_FILE_WITH_COMMENTS, 'shift+j');
+      kb.bindShortcut(kb.Shortcut.PREV_FILE_WITH_COMMENTS, 'shift+k');
+      kb.bindShortcut(kb.Shortcut.NEW_COMMENT, 'c');
+      kb.bindShortcut(kb.Shortcut.SAVE_COMMENT, 'ctrl+s');
+      kb.bindShortcut(kb.Shortcut.NEXT_FILE, ']');
+      kb.bindShortcut(kb.Shortcut.PREV_FILE, '[');
+      kb.bindShortcut(kb.Shortcut.NEXT_CHUNK, 'n');
+      kb.bindShortcut(kb.Shortcut.NEXT_COMMENT_THREAD, 'shift+n');
+      kb.bindShortcut(kb.Shortcut.PREV_CHUNK, 'p');
+      kb.bindShortcut(kb.Shortcut.PREV_COMMENT_THREAD, 'shift+p');
+      kb.bindShortcut(kb.Shortcut.OPEN_REPLY_DIALOG, 'a');
+      kb.bindShortcut(kb.Shortcut.TOGGLE_LEFT_PANE, 'shift+a');
+      kb.bindShortcut(kb.Shortcut.UP_TO_CHANGE, 'u');
+      kb.bindShortcut(kb.Shortcut.OPEN_DIFF_PREFS, ',');
+      kb.bindShortcut(kb.Shortcut.TOGGLE_DIFF_MODE, 'm');
+      kb.bindShortcut(kb.Shortcut.TOGGLE_FILE_REVIEWED, 'r');
+      kb.bindShortcut(kb.Shortcut.EXPAND_ALL_DIFF_CONTEXT, 'shift+x');
+      kb.bindShortcut(kb.Shortcut.EXPAND_ALL_COMMENT_THREADS, 'e');
+      kb.bindShortcut(kb.Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, 'h');
+      kb.bindShortcut(kb.Shortcut.COLLAPSE_ALL_COMMENT_THREADS, 'shift+e');
+      kb.bindShortcut(kb.Shortcut.NEXT_UNREVIEWED_FILE, 'shift+m');
+      kb.bindShortcut(kb.Shortcut.TOGGLE_BLAME, 'b');
+    });
+
+    suiteTeardown(() => {
+      TestKeyboardShortcutBinder.pop();
+    });
 
     const PARENT = 'PARENT';
 
@@ -127,7 +113,7 @@ suite('gr-diff-view tests', () => {
           return Promise.resolve([]);
         },
       });
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       return element._loadComments();
     });
 
@@ -271,11 +257,14 @@ suite('gr-diff-view tests', () => {
           false, 'SIDE_BY_SIDE', false));
 
       sandbox.stub(element, '_setReviewed');
+      sandbox.spy(element, '_handleToggleFileReviewed');
       element.$.reviewed.checked = false;
       MockInteractions.pressAndReleaseKeyOn(element, 82, 'shift', 'r');
       assert.isFalse(element._setReviewed.called);
+      assert.isTrue(element._handleToggleFileReviewed.calledOnce);
 
       MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
+      assert.isTrue(element._handleToggleFileReviewed.calledTwice);
       assert.isTrue(element._setReviewed.called);
       assert.equal(element._setReviewed.lastCall.args[0], true);
     });
@@ -954,7 +943,7 @@ suite('gr-diff-view tests', () => {
 
       // Attach a new gr-diff-view so we can intercept the preferences fetch.
       const view = document.createElement('gr-diff-view');
-      fixture('blank').appendChild(view);
+      blankFixture.instantiate().appendChild(view);
       flushAsynchronousOperations();
 
       // At this point the diff mode doesn't yet have the user's preference.
@@ -1549,7 +1538,7 @@ suite('gr-diff-view tests', () => {
         getDiffDrafts() { return Promise.resolve({}); },
         getReviewedFiles() { return Promise.resolve([]); },
       });
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       return element._loadComments();
     });
 
@@ -1584,4 +1573,4 @@ suite('gr-diff-view tests', () => {
     });
   });
 });
-</script>
+

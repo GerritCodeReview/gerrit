@@ -746,6 +746,10 @@ export const KeyboardShortcutBinder = {
   },
 };
 
+export function _testOnly_getShortcutManagerInstance() {
+  return shortcutManager;
+}
+
 // TODO(dmfilippov) Remove the following lines with assignments
 // Plugins can use the behavior because it was accessible with
 // the global Gerrit... variable. To avoid breaking changes in plugins

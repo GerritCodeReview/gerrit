@@ -19,7 +19,7 @@ import '../../test/common-test-setup-karma.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import {BaseUrlBehavior} from './base-url-behavior.js';
 
-const basicFixture = fixtureFromElement('test-element');
+const basicFixture = fixtureFromElement('base-url-behavior-test-element');
 
 suite('base-url-behavior tests', () => {
   let element;
@@ -30,7 +30,7 @@ suite('base-url-behavior tests', () => {
     window.CANONICAL_PATH = '/r';
     // Define a Polymer element that uses this behavior.
     Polymer({
-      is: 'test-element',
+      is: 'base-url-behavior-test-element',
       behaviors: [
         BaseUrlBehavior,
       ],

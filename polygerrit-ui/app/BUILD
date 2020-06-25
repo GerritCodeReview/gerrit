@@ -1,4 +1,4 @@
-load(":rules.bzl", "polygerrit_bundle", "wct_suite")
+load(":rules.bzl", "polygerrit_bundle")
 load("//tools/js:eslint.bzl", "eslint")
 
 package(default_visibility = ["//visibility:public"])
@@ -64,12 +64,6 @@ filegroup(
         "@ui_dev_npm//:node_modules",
         "@ui_npm//:node_modules",
     ],
-)
-
-wct_suite(
-    name = "wct",
-    srcs = [":test-srcs-fg"],
-    split_count = 4,
 )
 
 # Define the eslinter for polygerrit-ui app

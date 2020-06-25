@@ -396,7 +396,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         "must not specify multiple updates for single user");
 
     if (plannedAttentionSetUpdates == null) {
-      plannedAttentionSetUpdates = new HashMap();
+      plannedAttentionSetUpdates = new HashMap<>();
     }
 
     Set<Account.Id> currentAccountUpdates =
@@ -765,7 +765,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
     Set<Account.Id> currentReviewers =
         getNotes().getReviewers().byState(ReviewerStateInternal.REVIEWER);
-    Set<AttentionSetUpdate> updates = new HashSet();
+    Set<AttentionSetUpdate> updates = new HashSet<>();
     for (Map.Entry<Account.Id, ReviewerStateInternal> reviewer : reviewers.entrySet()) {
       // Only add new reviewers to the attention set.
       if (reviewer.getValue().equals(ReviewerStateInternal.REVIEWER)

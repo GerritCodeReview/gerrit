@@ -1,21 +1,24 @@
-<!--
-@license
-Copyright (C) 2019 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2015 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-<dom-module id="dark-theme">
-  <custom-style><style is="custom-style">
+function getStyleEl() {
+  const $_documentContainer = document.createElement('template');
+  $_documentContainer.innerHTML = `
+  <custom-style id="dark-theme"><style is="custom-style">
     html {
       /**
        * Sections and variables must stay consistent with app-theme.html.
@@ -153,5 +156,18 @@ limitations under the License.
       /* rules applied to <html> */
       background-color: var(--view-background-color);
     }
-  </style></custom-style>
-</dom-module>
+  </style></custom-style>`;
+
+  return $_documentContainer;
+}
+
+export function applyTheme() {
+  document.head.appendChild(getStyleEl().content);
+}
+
+export function removeTheme() {
+  const darkThemeEls = document.head.querySelectorAll('#dark-theme');
+  if (darkThemeEls.length) {
+    darkThemeEls.forEach(darkThemeEl => darkThemeEl.remove());
+  }
+}

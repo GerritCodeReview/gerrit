@@ -20,6 +20,7 @@ import '../../../styles/gr-form-styles.js';
 import '../../../styles/gr-menu-page-styles.js';
 import '../../../styles/gr-page-nav-styles.js';
 import '../../../styles/shared-styles.js';
+import {applyTheme as applyDarkTheme, removeTheme as removeDarkTheme} from '../../../styles/themes/dark-theme.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
 import '../gr-change-table-editor/gr-change-table-editor.js';
 import '../../shared/gr-button/gr-button.js';
@@ -67,8 +68,6 @@ const GERRIT_DOCS_BASE_URL = 'https://gerrit-review.googlesource.com/' +
 const GERRIT_DOCS_FILTER_PATH = '/user-notify.html';
 const ABSOLUTE_URL_PATTERN = /^https?:/;
 const TRAILING_SLASH_PATTERN = /\/$/;
-
-const RELOAD_MESSAGE = 'Reloading...';
 
 const HTTP_AUTH = [
   'HTTP',
@@ -475,17 +474,19 @@ class GrSettingsView extends mixinBehaviors( [
   _handleToggleDark() {
     if (this._isDark) {
       window.localStorage.removeItem('dark-theme');
+      removeDarkTheme();
     } else {
       window.localStorage.setItem('dark-theme', 'true');
+      applyDarkTheme();
     }
+    this._isDark = !!window.localStorage.getItem('dark-theme');
     this.dispatchEvent(new CustomEvent('show-alert', {
-      detail: {message: RELOAD_MESSAGE},
+      detail: {
+        message: `Theme changed to ${this._isDark ? 'dark' : 'light'}.`,
+      },
       bubbles: true,
       composed: true,
     }));
-    this.async(() => {
-      window.location.reload();
-    }, 1);
   }
 
   _showHttpAuth(config) {

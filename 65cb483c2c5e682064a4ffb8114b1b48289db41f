@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c009346_5f45a4f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-06-25T11:27:20Z",
+      "side": 1,
+      "message": "i\u0027m the first to admit that i have no clue about the implementation, but this explanation reads like a non-sequitur to me - some non-obvious key relationships are missing. also, the removed function certainly served a purpose, so mentioning what you (will) do instead or why not doing it is ok seems in order.",
+      "revId": "65cb483c2c5e682064a4ffb8114b1b48289db41f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

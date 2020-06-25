@@ -335,16 +335,19 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   }
 
   private static final String DEFAULT_THEME = "/static/" + SitePaths.THEME_FILENAME;
+  private static final String DEFAULT_THEME_JS = "/static/" + SitePaths.THEME_JS_FILENAME;
 
   private String getDefaultTheme() {
     if (config.getString("theme", null, "enableDefault") == null) {
       // If not explicitly enabled or disabled, check for the existence of the theme file.
-      return Files.exists(sitePaths.site_theme) ? DEFAULT_THEME : null;
+      return Files.exists(sitePaths.site_theme_js) ? DEFAULT_THEME_JS
+          : Files.exists(sitePaths.site_theme) ? DEFAULT_THEME : null;
     }
     if (config.getBoolean("theme", null, "enableDefault", true)) {
       // Return non-null theme path without checking for file existence. Even if the file doesn't
       // exist under the site path, it may be served from a CDN (in which case it's up to the admin
       // to also pass a proper asset path to the index Soy template).
+      // TODO(taoalpha): Should switch this to JS once migration finished
       return DEFAULT_THEME;
     }
     return null;

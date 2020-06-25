@@ -401,7 +401,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
     Set<Account.Id> currentAccountUpdates =
         plannedAttentionSetUpdates.values().stream()
-            .map(u -> u.account())
+            .map(AttentionSetUpdate::account)
             .collect(Collectors.toSet());
     updates.stream()
         .filter(u -> !currentAccountUpdates.contains(u.account()))
@@ -754,7 +754,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
             a ->
                 AttentionSetUpdate.createForWrite(
                     a.account(), AttentionSetUpdate.Operation.REMOVE, reason))
-        .forEach(a -> addToPlannedAttentionSetUpdates(a));
+        .forEach(this::addToPlannedAttentionSetUpdates);
   }
 
   private void applyReviewerUpdatesToAttentionSet() {
@@ -791,7 +791,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
             r ->
                 AttentionSetUpdate.createForWrite(
                     r, AttentionSetUpdate.Operation.ADD, "Change was marked ready for review"))
-        .forEach(a -> addToPlannedAttentionSetUpdates(a));
+        .forEach(this::addToPlannedAttentionSetUpdates);
   }
 
   /**

@@ -56,7 +56,10 @@ export function getPluginNameFromUrl(url) {
     pathname = url.href.replace(window.ASSETS_PATH, '');
   }
   // Site theme is server from predefined path.
-  if (pathname === '/static/gerrit-theme.html') {
+  if ([
+    '/static/gerrit-theme.html',
+    '/static/gerrit-theme.js',
+  ].includes(pathname)) {
     return 'gerrit-theme';
   } else if (!pathname.startsWith('/plugins')) {
     console.warn('Plugin not being loaded from /plugins base path:',

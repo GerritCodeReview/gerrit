@@ -58,6 +58,14 @@ limitations under the License.
           'Kermit The Frog');
     });
 
+    test('_computeText', () => {
+      let account = {_account_id: '1'};
+      const selfAccount = {_account_id: '1'};
+      assert.equal(element._computeText(account, selfAccount), 'Your');
+      account = {_account_id: '2'};
+      assert.equal(element._computeText(account, selfAccount), 'Their');
+    });
+
     test('account status is not shown if the property is not set', () => {
       assert.isNull(element.shadowRoot.querySelector('.status'));
     });

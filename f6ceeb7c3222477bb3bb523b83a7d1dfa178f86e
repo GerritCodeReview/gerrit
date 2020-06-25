@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0606e45d_585a04e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T07:31:23Z",
+      "side": 1,
+      "message": "Nit: I find the formatting a bit difficult to read. I would move this sentence to the paragraph above. And I would add empty lines between paragraphs, otherwise it is difficult to judge whether a new paragraph begins when the last line of a paragraph is long.",
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30d274a8_8158e707",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T07:31:23Z",
+      "side": 1,
+      "message": "Are these changes still required if you use PatchSetBehavior as recommended below?",
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "207328e3_40918a5b",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T07:31:23Z",
+      "side": 1,
+      "message": "Maybe use PatchSetBehavior:\n\n  this.computeLatestPatchNum(this.computeAllPatchSets(change));",
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5eca6696_b2d8fe42",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T07:31:23Z",
+      "side": 1,
+      "message": "I am sure I understand the indented logic for when the toasts should be shown or not, but here are two scenarios that I *think* may not be handled as I would expect at the moment:\n\n1. The user navigates directly to patchset X of a change page (e.g. by using a relation chain link), then clicks on a file name to go to the diff page. Expected: No toast. Actual: Toast appears.\n\n2. The user clicks on a comment in the Comments tab, lands on a diff page, sees a toast. Then goes back to the change page, clicks on another comment in the Comments tab. Expected: Toast appears. Actual: No toast.",
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61e06bfe_379eee7c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T07:31:23Z",
+      "side": 1,
+      "message": "Would it be an option to fire these events directly from \u003cgr-comment-thread\u003e?",
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3c773b1_e3e0e98b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T07:31:23Z",
+      "side": 1,
+      "message": "Maybe move this line into the _display... method as you did with the other one.",
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34235b3a_d8cbd6be",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T07:31:23Z",
+      "side": 1,
+      "message": "Are you comfortable changing this without using an experimental flag? I leave it up you whether you prefer to add an experiment or to risk dealing with rollbacks. :-)",
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f021cb28_64c26e08",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T07:31:23Z",
+      "side": 1,
+      "message": "Maybe remove the comment. I think the code speaks for itself and is maybe even more precise. \"left\" can easily be read as opposed to \"right\".",
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

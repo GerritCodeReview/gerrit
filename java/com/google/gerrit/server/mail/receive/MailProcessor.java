@@ -24,6 +24,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
+import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -350,9 +351,7 @@ public class MailProcessor {
             persistentCommentFromMailComment(ctx, c, targetPatchSetForComment(ctx, c, patchSet)));
       }
       commentsUtil.putHumanComments(
-          ctx.getUpdate(ctx.getChange().currentPatchSetId()),
-          HumanComment.Status.PUBLISHED,
-          comments);
+          ctx.getUpdate(ctx.getChange().currentPatchSetId()), Comment.Status.PUBLISHED, comments);
 
       return true;
     }

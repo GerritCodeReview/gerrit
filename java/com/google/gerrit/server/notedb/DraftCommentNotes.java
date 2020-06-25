@@ -26,6 +26,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Project;
 import com.google.inject.assistedinject.Assisted;
@@ -120,10 +121,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     ObjectReader reader = handle.walk().getObjectReader();
     revisionNoteMap =
         RevisionNoteMap.parse(
-            args.changeNoteJson,
-            reader,
-            NoteMap.read(reader, tipCommit),
-            HumanComment.Status.DRAFT);
+            args.changeNoteJson, reader, NoteMap.read(reader, tipCommit), Comment.Status.DRAFT);
     ListMultimap<ObjectId, HumanComment> cs = MultimapBuilder.hashKeys().arrayListValues().build();
     for (ChangeRevisionNote rn : revisionNoteMap.revisionNotes.values()) {
       for (HumanComment c : rn.getEntities()) {

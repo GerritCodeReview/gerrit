@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toSet;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.exceptions.StorageException;
@@ -108,7 +109,7 @@ public class PublishCommentUtil {
       }
       commentsToPublish.add(draftComment);
     }
-    commentsUtil.putHumanComments(changeUpdate, HumanComment.Status.PUBLISHED, commentsToPublish);
+    commentsUtil.putHumanComments(changeUpdate, Comment.Status.PUBLISHED, commentsToPublish);
   }
 
   private static PatchSet.Id psId(ChangeNotes notes, HumanComment c) {

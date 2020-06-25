@@ -141,9 +141,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
       }
       setCommentCommitId(comment, patchListCache, ctx.getChange(), ps);
       commentsUtil.putHumanComments(
-          update,
-          HumanComment.Status.DRAFT,
-          Collections.singleton(update(comment, in, ctx.getWhen())));
+          update, Comment.Status.DRAFT, Collections.singleton(update(comment, in, ctx.getWhen())));
       return true;
     }
   }

@@ -16,6 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -31,11 +32,11 @@ import org.eclipse.jgit.util.MutableInteger;
 /** Implements the parsing of comment data, handling JSON decoding and push certificates. */
 class ChangeRevisionNote extends RevisionNote<HumanComment> {
   private final ChangeNoteJson noteJson;
-  private final HumanComment.Status status;
+  private final Comment.Status status;
   private String pushCert;
 
   ChangeRevisionNote(
-      ChangeNoteJson noteJson, ObjectReader reader, ObjectId noteId, HumanComment.Status status) {
+      ChangeNoteJson noteJson, ObjectReader reader, ObjectId noteId, Comment.Status status) {
     super(reader, noteId);
     this.noteJson = noteJson;
     this.status = status;
@@ -53,7 +54,7 @@ class ChangeRevisionNote extends RevisionNote<HumanComment> {
     p.value = offset;
 
     HumanCommentsRevisionNoteData data = parseJson(noteJson, raw, p.value);
-    if (status == HumanComment.Status.PUBLISHED) {
+    if (status == Comment.Status.PUBLISHED) {
       pushCert = data.pushCert;
     } else {
       pushCert = null;

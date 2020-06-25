@@ -1015,7 +1015,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           break;
       }
       ChangeUpdate changeUpdate = ctx.getUpdate(psId);
-      commentsUtil.putHumanComments(changeUpdate, HumanComment.Status.PUBLISHED, toPublish);
+      commentsUtil.putHumanComments(changeUpdate, Comment.Status.PUBLISHED, toPublish);
       comments.addAll(toPublish);
       return !toPublish.isEmpty();
     }

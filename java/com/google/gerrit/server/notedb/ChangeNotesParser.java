@@ -61,6 +61,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
+import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
@@ -735,7 +736,7 @@ class ChangeNotesParser {
     ChangeNotesCommit tipCommit = walk.parseCommit(tip);
     revisionNoteMap =
         RevisionNoteMap.parse(
-            changeNoteJson, reader, NoteMap.read(reader, tipCommit), HumanComment.Status.PUBLISHED);
+            changeNoteJson, reader, NoteMap.read(reader, tipCommit), Comment.Status.PUBLISHED);
     Map<ObjectId, ChangeRevisionNote> rns = revisionNoteMap.revisionNotes;
 
     for (Map.Entry<ObjectId, ChangeRevisionNote> e : rns.entrySet()) {

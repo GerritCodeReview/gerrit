@@ -18,6 +18,7 @@ import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.DraftInput;
@@ -123,7 +124,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
       setCommentCommitId(comment, patchListCache, ctx.getChange(), ps);
 
       commentsUtil.putHumanComments(
-          ctx.getUpdate(psId), HumanComment.Status.DRAFT, Collections.singleton(comment));
+          ctx.getUpdate(psId), Comment.Status.DRAFT, Collections.singleton(comment));
       return true;
     }
   }

@@ -290,10 +290,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.psDescription = psDescription;
   }
 
-  public void putComment(HumanComment.Status status, HumanComment c) {
+  public void putComment(Comment.Status status, HumanComment c) {
     verifyComment(c);
     createDraftUpdateIfNull();
-    if (status == HumanComment.Status.DRAFT) {
+    if (status == Comment.Status.DRAFT) {
       draftUpdate.putComment(c);
     } else {
       comments.add(c);
@@ -513,7 +513,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     // Even though reading from changes might not be enabled, we need to
     // parse any existing revision notes so we can merge them.
     return RevisionNoteMap.parse(
-        noteUtil.getChangeNoteJson(), rw.getObjectReader(), noteMap, HumanComment.Status.PUBLISHED);
+        noteUtil.getChangeNoteJson(), rw.getObjectReader(), noteMap, Comment.Status.PUBLISHED);
   }
 
   private void checkComments(

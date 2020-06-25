@@ -21,6 +21,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.RefNames;
 import com.google.inject.Inject;
@@ -132,7 +133,7 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
   public static Map<String, HumanComment> getPublishedComments(
       ChangeNoteJson changeNoteJson, ObjectReader reader, NoteMap noteMap)
       throws IOException, ConfigInvalidException {
-    return RevisionNoteMap.parse(changeNoteJson, reader, noteMap, HumanComment.Status.PUBLISHED)
+    return RevisionNoteMap.parse(changeNoteJson, reader, noteMap, Comment.Status.PUBLISHED)
         .revisionNotes.values().stream()
         .flatMap(n -> n.getEntities().stream())
         .collect(toMap(c -> c.key.uuid, Function.identity()));
@@ -207,7 +208,7 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
             noteUtil.getChangeNoteJson(),
             reader,
             NoteMap.read(reader, parentCommit),
-            HumanComment.Status.PUBLISHED);
+            Comment.Status.PUBLISHED);
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(revNotesMap);
 
     for (HumanComment c : putInComments) {

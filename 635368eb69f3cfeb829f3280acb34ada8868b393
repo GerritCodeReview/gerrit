@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "2e1fdd7a_ae47c78b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-06-25T03:55:58Z",
+      "side": 1,
+      "message": "Just the nits really, I like the content. Thank you for taking the initiative to add this to the docs!",
+      "revId": "635368eb69f3cfeb829f3280acb34ada8868b393",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c876401_016adaa4",
         "filename": "Documentation/dev-crafting-changes.txt",
         "patchSetId": 3
@@ -18,6 +35,76 @@
         "startChar": 36,
         "endLine": 25,
         "endChar": 11
+      },
+      "revId": "635368eb69f3cfeb829f3280acb34ada8868b393",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce399cc4_a05dcf22",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-06-25T03:55:58Z",
+      "side": 1,
+      "message": "This might be a good compromise. I think providing reasonable expectations for defaults here (like you do) is a good goal and an improvement over what we have without this change.",
+      "parentUuid": "6c876401_016adaa4",
+      "range": {
+        "startLine": 24,
+        "startChar": 36,
+        "endLine": 25,
+        "endChar": 11
+      },
+      "revId": "635368eb69f3cfeb829f3280acb34ada8868b393",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ed3b47e_7b00461a",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-06-25T03:55:58Z",
+      "side": 1,
+      "message": "nit: s/no/not/\n\ns/more/more like/ ?",
+      "range": {
+        "startLine": 36,
+        "startChar": 30,
+        "endLine": 36,
+        "endChar": 32
+      },
+      "revId": "635368eb69f3cfeb829f3280acb34ada8868b393",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "797a2525_5a932805",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-06-25T03:55:58Z",
+      "side": 1,
+      "message": "I like this, thanks for adding it.",
+      "range": {
+        "startLine": 38,
+        "startChar": 29,
+        "endLine": 39,
+        "endChar": 37
       },
       "revId": "635368eb69f3cfeb829f3280acb34ada8868b393",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -22,6 +22,30 @@
       "revId": "aff729e8ba56f392612753ba8d8ce5f3e1b5af39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "162c8b92_1f0288da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-25T06:45:06Z",
+      "side": 1,
+      "message": "Yeah, you are right, it should be in its own change.",
+      "parentUuid": "e058e3ec_e6c466ac",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 40
+      },
+      "revId": "aff729e8ba56f392612753ba8d8ce5f3e1b5af39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f58fcfbf_6f8bf947",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T19:52:26Z",
+      "side": 1,
+      "message": "Would it make sense to add a fat WARNING that disposeLayer() must be called. Otherwise memory leaks will be expected?",
+      "revId": "bd94ad5aaec5cdcbe3d62d24e8d64765bdee11af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83797d9b_37e4f2ca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-annotation-actions-js-api.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T19:52:26Z",
+      "side": 1,
+      "message": "Would it make sense to add a fat WARNING that removeListener() must be called. Otherwise memory leaks will be expected?",
+      "revId": "bd94ad5aaec5cdcbe3d62d24e8d64765bdee11af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

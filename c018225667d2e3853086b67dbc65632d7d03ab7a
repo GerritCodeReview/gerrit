@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "080ece87_11aac110",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-06-25T21:22:43Z",
+      "side": 1,
+      "message": "I wonder if we should have a related-changes-section-top and related-changes-section-bottom?",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 28
+      },
+      "revId": "c018225667d2e3853086b67dbc65632d7d03ab7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

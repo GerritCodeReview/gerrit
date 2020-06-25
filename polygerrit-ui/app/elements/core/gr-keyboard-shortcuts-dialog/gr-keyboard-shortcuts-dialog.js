@@ -47,22 +47,6 @@ class GrKeyboardShortcutsDialog extends mixinBehaviors( [
     return {
       _left: Array,
       _right: Array,
-
-      _propertyBySection: {
-        type: Object,
-        value() {
-          return {
-            [ShortcutSection.EVERYWHERE]: '_everywhere',
-            [ShortcutSection.NAVIGATION]: '_navigation',
-            [ShortcutSection.DASHBOARD]: '_dashboard',
-            [ShortcutSection.CHANGE_LIST]: '_changeList',
-            [ShortcutSection.ACTIONS]: '_actions',
-            [ShortcutSection.REPLY_DIALOG]: '_replyDialog',
-            [ShortcutSection.FILE_LIST]: '_fileList',
-            [ShortcutSection.DIFFS]: '_diffs',
-          };
-        },
-      },
     };
   }
 

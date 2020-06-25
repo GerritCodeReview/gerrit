@@ -219,7 +219,7 @@ module.exports = {
       }
     },
     {
-      "files": ["samples/**/*.js", "**/test/plugin.html"],
+      "files": ["samples/**/*.js"],
       "globals": {
         // Settings for samples. You can add globals here if you want to use it
         "Gerrit": "readonly",

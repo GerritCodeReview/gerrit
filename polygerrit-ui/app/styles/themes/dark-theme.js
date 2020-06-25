@@ -21,7 +21,7 @@ function getStyleEl() {
   <custom-style id="dark-theme"><style is="custom-style">
     html {
       /**
-       * Sections and variables must stay consistent with app-theme.html.
+       * Sections and variables must stay consistent with app-theme.js.
        *
        * Only modify color variables in this theme file. dark-theme extends
        * app-theme, so there is no need to repeat all variables, but for colors

@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61eecd64_c6918b85",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-25T12:59:28Z",
+      "side": 1,
+      "message": "Please remove the manual change message currently added in the attention set in a separate change.",
+      "revId": "044edfceb9d42a63237f8110d277ed6504aed0ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71b5a6d2_3b2078b5",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-25T12:59:28Z",
+      "side": 1,
+      "message": "Can users change the reason?",
+      "revId": "044edfceb9d42a63237f8110d277ed6504aed0ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f3b6372_e9e1d1b6",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewAttentionSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-25T12:59:28Z",
+      "side": 1,
+      "message": "and the user should be added",
+      "range": {
+        "startLine": 90,
+        "startChar": 44,
+        "endLine": 90,
+        "endChar": 47
+      },
+      "revId": "044edfceb9d42a63237f8110d277ed6504aed0ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "138aac3d_a338a9ee",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewAttentionSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-25T12:59:28Z",
+      "side": 1,
+      "message": "nit: split this method into two:\n\nprocessManualUpdates\nprocessRules\n\nThat allows you to skip the latter when the API later on carries a the \u0027suppress\u0027 boolean that we discussed about.",
+      "revId": "044edfceb9d42a63237f8110d277ed6504aed0ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

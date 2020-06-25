@@ -100,8 +100,8 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "jackson-core",
-        artifact = "com.fasterxml.jackson.core:jackson-core:2.11.0",
-        sha1 = "f84302e14648f9f63c0c73951054aeb2ff0b810a",
+        artifact = "com.fasterxml.jackson.core:jackson-core:2.11.1",
+        sha1 = "8b02908d53183fdf9758e7e20f2fdee87613a962",
     )
 
     # Google internal dependencies: these are developed at Google, so there is

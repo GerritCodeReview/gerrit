@@ -277,6 +277,17 @@ class GrJsApiInterface extends mixinBehaviors( [
     return layers;
   }
 
+  disposeDiffLayers(path) {
+    for (const annotationApi of
+      this._getEventCallbacks(EventType.ANNOTATE_DIFF)) {
+      try {
+        annotationApi.disposeLayer(path);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  }
+
   /**
    * Retrieves coverage data possibly provided by a plugin.
    *

@@ -22,6 +22,30 @@
       "revId": "923a3dad5871f0c265cdafdfaffdc6b700995cbd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48d203e7_6a242c40",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-25T09:04:16Z",
+      "side": 1,
+      "message": "I\u0027ll let Edwin and Gal decide if this is needed, but it should be done in a separate change because it\u0027s not in the scope of what I am fixing here.",
+      "parentUuid": "66fd1aca_dc623fd1",
+      "range": {
+        "startLine": 402,
+        "startChar": 3,
+        "endLine": 408,
+        "endChar": 78
+      },
+      "revId": "923a3dad5871f0c265cdafdfaffdc6b700995cbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

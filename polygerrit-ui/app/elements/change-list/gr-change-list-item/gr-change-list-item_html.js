@@ -44,7 +44,13 @@ export const htmlTemplate = html`
       text-overflow: ellipsis;
       white-space: nowrap;
       width: 100%;
-      cursor: pointer;
+    }
+    .content a {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      width: 100%;
     }
     .comments,
     .reviewers {
@@ -123,7 +129,7 @@ export const htmlTemplate = html`
     hidden$="[[isColumnHidden('Subject', visibleChangeTableColumns)]]"
   >
     <div class="container">
-      <div class="content" on-click="_handleContentClick">
+      <div class="content">
         <a title$="[[change.subject]]" href$="[[changeURL]]">
           [[change.subject]]
         </a>

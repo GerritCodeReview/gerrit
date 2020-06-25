@@ -105,12 +105,6 @@ class GrChangeListItem extends mixinBehaviors( [
     });
   }
 
-  _handleContentClick(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    GerritNav.navigateToChange(this.change);
-  }
-
   _computeChangeURL(change) {
     return GerritNav.getUrlForChange(change);
   }

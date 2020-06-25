@@ -16,6 +16,24 @@
       "revId": "65cb483c2c5e682064a4ffb8114b1b48289db41f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a85d93d3_27b6919f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-25T11:50:11Z",
+      "side": 1,
+      "message": "Thanks.\nI edited commit message, hope it\u0027s better.\nEssentially they are just not very important atm, so there is no problem just to remove them for now (explained why there is no easy way to solve the problem with Account.Id revealing itself).",
+      "parentUuid": "9c009346_5f45a4f9",
+      "revId": "65cb483c2c5e682064a4ffb8114b1b48289db41f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

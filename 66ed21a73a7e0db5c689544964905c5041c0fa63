@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7eecca5_4839a52a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-25T11:35:39Z",
+      "side": 1,
+      "message": "\u003e Is this worth it to add one more button when you can go to diff and start edit there?\n\nI would say yes.\n\nAs you said, in diff view, there is Edit buttoon (Thanks Paladox for adding it!), but even then, I would need to move my mouse to the upper right corner to click it.\n\nHowever the primary use case is inline diff on change screen. Let\u0027s count what user would have to do after expanding the diff for file Foo and seeing a comment on line 1234 and what she would have to do to jump on that line in inline editor.\n\nThere are two possibilities:\n\nUse Case 1. Go to the diff view first (as there is now way to open change editor on speicifc line in inline diff):\n\na) Open Foo file in diff view\nb) Scroll to the lin 1234\nc) Move mouse to the upper right corner\nd) Hit \"EDIT\" button\n\n^^^ UX disadvantage of the above approach is that the user has to go to the diff view to have EDIT button that preserves line context in inline editor.\n\nUse Case 2. Stay on inline diff view and open inline editor from change screen directly:\n\na) Activate Editing mode n change screen: Move the mouse to the upper right corner and hit EDIT button\nb) Expanded Foo diff content on the change screen is collapsed, there is no point to expand it again, because jumping to the specific line is not supported from inline diff anyway\nc) Click the Action button and Open the Foo file in inline editor\nd) Unfortunatly, (and this is main regression compared to GWT UI) the line 1234 is lost\n\n\u003e Do you have some data how much it was used?\n\nI don\u0027t have any metrics. I implemented inline edit feature in Gerrit, in backend and in GWT UI and I added the \"Fix\" button to the comment box in Gerrit old UI and yes, today I am missing that button.\n\nHaving said that, GWT UI never had inline diff on change screens. So that I am not sure that direct comparssion makes sense.",
+      "parentUuid": "73f0c4b8_a5bdc768",
+      "revId": "66ed21a73a7e0db5c689544964905c5041c0fa63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d829fd1f_812f0d27",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 2

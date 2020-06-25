@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "ec25917a_a5958408",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-25T15:37:12Z",
+      "side": 1,
+      "message": "\u003e Adding an \"EDIT\" button to the comment panel is confusing. \n\nOf course renaming the buton fix the code would solve the problem.\n\n\u003e When clicking EDIT on the diff page or clicking OPEN in the inline diff action, then (of course) the line should not be lost.\n\nIndeed, \"ACTIONS\" button in inline diff header is already sticky. I missed that  so that it could also work to preserve the line when jumping from inline diff view to inline editor.\n\nHowever, the main problem ist, that at the moment when the change owner reading the comment in inline diff, the EDIT mode wasn\u0027t activated, so that the ACTIONS menu is not there, so that the user would have to do this event sequence:\n\n* 1. Expand inline diff in change screen\n* 2. Read reviewer comment in comment box, and realize she would like to proceed to immediate fix\n* 3. Activate EDIT mode: at this point, right now, the inline diff is collapsed and the place that should be fixed is lost!\n* 4. Expand inline diff content again (!) on the change screen and find again (!) the right place to position your mouse at\n* 5. Click the Action/Open button to open the file in inline editor on specific line\n\nThis change is offering one click \"Fix the code\" button instead.",
+      "parentUuid": "0f87a64e_0426aadc",
+      "revId": "66ed21a73a7e0db5c689544964905c5041c0fa63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d829fd1f_812f0d27",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 2

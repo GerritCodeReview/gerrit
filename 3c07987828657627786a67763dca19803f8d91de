@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddf87b45_eb178449",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T14:07:14Z",
+      "side": 1,
+      "message": "Did we discuss whether is makes sense to distinguish between owner and reviewer? I agree that this is the right logic for reviewers, but is it also the better choice for owners?",
+      "revId": "3c07987828657627786a67763dca19803f8d91de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da510d14_b28251aa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T14:07:14Z",
+      "side": 1,
+      "message": "What if patchNum and latestPatchNum are equal?\n\nDo we then want to fall back to diffing base vs patchNum?",
+      "revId": "3c07987828657627786a67763dca19803f8d91de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

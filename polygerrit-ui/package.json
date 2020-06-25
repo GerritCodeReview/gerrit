@@ -14,9 +14,7 @@
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "lodash": "^4.17.15",
-    "mocha": "^7.1.1",
-    "wct-browser-legacy": "^1.0.2",
-    "web-component-tester": "^6.9.2"
+    "mocha": "^7.1.1"
   },
   "scripts": {
     "postinstall": "selenium-standalone install"

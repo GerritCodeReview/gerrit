@@ -148,159 +148,29 @@ $(bazel info output_base)/external/local_jdk/bin/java \
 ## Running Tests
 
 For daily development you typically only want to run and debug individual tests.
-There are 2 types of fronted tests in gerrit:
-- Karma tests - all tests matches `*_test.js` pattern
-- web-component-tester(WCT) tests - all tests matches the `*_test.html` pattern.
+There are several ways to run tests.
 
-**Note:** WCT tests are deprecated. We are migrating to Karma tests now. If you are going to change
-something in a WCT test file, we strongly recommend to convert it to Karma tests before making
-any change. See [Converting WCT tests to Karma](#wct-to-karma).
-
-Our CI integration ensures that all tests are run when you upload a change to
-Gerrit, but you can also run all tests locally in headless mode:
-
+* Run all tests in headless mode:
 ```sh
-npm test
+npm run test
 ```
 
-### Running Karma tests
-There are several ways to run Karma tests:
-
-* Run all Karma tests in headless mode:
-```sh
-npm run test:karma
-```
-
-* Run all Karma tests in debug mode (the command opens Chrome browser with
+* Run all tests in debug mode (the command opens Chrome browser with
 the default Karma page; you should click the "Debug" button to start testing):
 ```sh
-npm run test:karma:debug
+npm run test:debug
 ```
 
 * Run a single test file:
 ```
 # Headless mode
-npm run test:karma async-foreach-behavior_test.js
+npm run test:single async-foreach-behavior_test.js
 # Debug mode
-npm run test:karma:debug async-foreach-behavior_test.js
+npm run test:debug async-foreach-behavior_test.js
 ```
 
 * You can run tests in IDE:
   - [IntelliJ: running unit tests on Karma](https://www.jetbrains.com/help/idea/running-unit-tests-on-karma.html#ws_karma_running)
-
-### Running WCT tests
-
-Run the local [Go proxy server](#go-server) and navigate for example to
-<http://localhost:8081/elements/shared/gr-account-entry/gr-account-entry_test.html>.
-Check "Disable cache" in the "Network" tab of Chrome's dev tools, so code
-changes are picked up on "reload".
-
-You can also run all WCT tests locally in headless mode:
-
-```sh
-npm test:wct
-```
-
-To allow the tests to run in Safari:
-
-* In the Advanced preferences tab, check "Show Develop menu in menu bar".
-* In the Develop menu, enable the "Allow Remote Automation" option.
-
-To run Chrome tests in headless mode:
-
-```sh
-WCT_HEADLESS_MODE=1 WCT_ARGS='--verbose -l chrome' ./polygerrit-ui/app/run_test.sh
-```
-
-### <a name="wct-to-karma"></a>Converting WCT tests to Karma
-
-If you are want to change a WCT test file (any `..._test.html` file), please convert the file to a
-Karma test file before making any changes. It is better to make a conversion in a separate change,
-so any conversion-related problems can be catch at this step.
-
-Usually, our WCT tests files have the following structure:
-```Html
-<!-- Test header: meta, title, wct scripts -->
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<meta charset="utf-8">
-<title>gr-account-link</title>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
-
-<!-- Templates for test fixtures (optional) -->
-<test-fixture id="basic">
-   <template>
-     <gr-account-link></gr-account-link>
-   </template>
- </test-fixture>
-
-<test-fixture id="other">
-   <template>
-     <gr-dialog>
-       <span>Hello!</span>
-     </gr-dialog>
-   </template>
- </test-fixture>
-
-<!-- Tests -->
-<script type="module">
-// One or more imports:
-import '../../../test/common-test-setup.js';
-import ...;
-
-// Tests - one or more suites
-suite(..., () => {
-   ...
-   // instantiate 'basic' template:
-   element = fixture('basic');
-
-   ...
-   // instantiate 'other' template:
-   otherElements = fixture('other');
-
-);
-</script>
-```
-
-A conversion requires the following changes:
-* Rename the `..._test.html` file to the `..._test.js` file.
-* Remove test header (see a WCT test example above)
-* Remove all `<script...>` and `</script>` tags, but preserve javascript code
-* Change imports - use `test/common-test-setup-karma.js` instead of `test/common-test-setup.js`.
-Ensure, that the `common-test-setup-karma.js` import is placed above any other imports.
-* If there are test fixtures in the html file, move them inside a `<script>` tag and use
-the `fixtureFromTemplate` or `fixtureFromElement` (if there is only one element in a template)
-to define a test fixture template.
-* Use `instantiate` method instead of `fixture` method.
-
-After conversion, the Karma test file for the example above can look like:
-```Javascript
-import '../../../test/common-test-setup-karma.js';
-// Other imports:
-import ...
-
-// Define test fixtures templates:
-const fixture =
-  fixtureFromElement('gr-account-link');
-const otherFixture = fixtureFromTemplate(html`<gr-dialog>
-  <span>Hello!</span>
-</gr-dialog>
-`);
-
-// Tests - one or more suites
-suite(..., () => {
-   ...
-   // instantiate 'basic' template:
-   element = fixture.instantiate();
-
-   ...
-   // instantiate 'other' template:
-   otherElements = otherFixture.instantiate();
-
-);
-```
 
 ## Style guide
 

@@ -129,6 +129,11 @@ suite('gr-change-metadata integration tests', () => {
       });
     });
 
+    teardown(() => {
+      document.body.querySelectorAll('custom-style')
+          .forEach(style => style.remove());
+    });
+
     for (const sectionSelector of sectionSelectors) {
       test('section.strategy may have display: none', () => {
         assert.equal(getStyle(sectionSelector, 'display'), 'none');
@@ -147,6 +152,11 @@ suite('gr-change-metadata integration tests', () => {
       sandbox.stub(pluginLoader, 'arePluginsLoaded').returns(true);
       pluginLoader.loadPlugins([]);
       element = createElement();
+    });
+
+    teardown(() => {
+      document.body.querySelectorAll('custom-style')
+          .forEach(style => style.remove());
     });
 
     test('labels changed callback', done => {

@@ -18,6 +18,7 @@
 import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader.js';
 import {testOnly_resetInternalState} from '../elements/shared/gr-js-api-interface/gr-api-utils.js';
 import {_testOnly_resetEndpoints} from '../elements/shared/gr-js-api-interface/gr-plugin-endpoints.js';
+import {KeyboardShortcutBinder, _testOnly_getShortcutManagerInstance} from '../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 
 export const mockPromise = () => {
   let res;
@@ -28,6 +29,34 @@ export const mockPromise = () => {
   return promise;
 };
 export const isHidden = el => getComputedStyle(el).display === 'none';
+
+export class TestKeyboardShortcutBinder {
+  static push() {
+    if (!this.stack) {
+      this.stack = [];
+    }
+    const testBinder = new TestKeyboardShortcutBinder();
+    this.stack.push(testBinder);
+    return KeyboardShortcutBinder;
+  }
+
+  static pop() {
+    this.stack.pop()._restoreShortcuts();
+  }
+
+  constructor() {
+    this._originalBinding = new Map(
+        _testOnly_getShortcutManagerInstance().bindings);
+  }
+
+  _restoreShortcuts() {
+    const bindings = _testOnly_getShortcutManagerInstance().bindings;
+    bindings.clear();
+    this._originalBinding.forEach((value, key) => {
+      bindings.set(key, value);
+    });
+  }
+}
 
 // Provide reset plugins function to clear installed plugins between tests.
 // No gr-app found (running tests)

@@ -16,6 +16,23 @@
       "revId": "26e211508078e36da8335c1016cb03f2c87f1189",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5ae123de_7f6a6aee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T07:39:49Z",
+      "side": 1,
+      "message": "I don\u0027t like this solution, because it ...\n\n1. ... adds a new user setting.\n2. ... the dashboard rows with different font-sizes do not look nice anymore.\n3. ... we should also fix this for all users, not just visually-impaired. You should not have to use such a setting to make Gerrit usable.\n\nI am looping in our UX designer. Maybe we can come up with something better. Please give her time until Monday evening to respond.",
+      "revId": "26e211508078e36da8335c1016cb03f2c87f1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

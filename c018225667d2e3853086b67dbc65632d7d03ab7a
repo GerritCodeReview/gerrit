@@ -22,6 +22,30 @@
       "revId": "c018225667d2e3853086b67dbc65632d7d03ab7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f396400f_85f13b1f",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-25T22:35:51Z",
+      "side": 1,
+      "message": "For all the other extension points, we only have one place (typically at the\nbottom of the element). Like the `commit-containter`, or the `settings-screen`\nextension points. So having one place for the related changes list seems\nnatural to me, and having a `top` and a `bottom` would not fit the scheme.\n\nBut then: one might start such a new norm of having `top` and `bottom` extension\npoints. I\u0027m totally not sure. For this use-case, a single extension would do.\n\nIf you say, we want `top` and `bottom`. That\u0027s fine by me. Let me know and I\u0027ll add\nthem tomorrow.",
+      "parentUuid": "080ece87_11aac110",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 28
+      },
+      "revId": "c018225667d2e3853086b67dbc65632d7d03ab7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

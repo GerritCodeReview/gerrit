@@ -402,7 +402,7 @@ public class ProjectState {
       for (LabelType type : s.getConfig().getLabelSections().values()) {
         String lower = type.getName().toLowerCase();
         LabelType old = types.get(lower);
-        if (old == null || old.canOverride()) {
+        if (old == null || old.isCanOverride()) {
           types.put(lower, type);
         }
       }

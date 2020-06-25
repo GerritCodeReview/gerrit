@@ -18,6 +18,8 @@ import '../../../scripts/bundled-polymer.js';
 
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../../styles/shared-styles.js';
+import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
+import '../../plugins/gr-endpoint-param/gr-endpoint-param.js';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';

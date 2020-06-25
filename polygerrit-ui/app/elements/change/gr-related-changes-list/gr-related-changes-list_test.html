@@ -35,6 +35,10 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import './gr-related-changes-list.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+
+const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-related-changes-list tests', () => {
   let element;
@@ -43,6 +47,9 @@ suite('gr-related-changes-list tests', () => {
   setup(() => {
     element = fixture('basic');
     sandbox = sinon.sandbox.create();
+    stub('gr-endpoint-decorator', {
+      _import: sandbox.stub().returns(Promise.resolve()),
+    });
   });
 
   teardown(() => {
@@ -550,6 +557,28 @@ suite('gr-related-changes-list tests', () => {
       assert.strictEqual(
           element.shadowRoot
               .querySelector('.note').innerText, '(+ 2 non-visible changes)');
+    });
+  });
+
+  suite('plugin endpoints', () => {
+    test('endpoint params', done => {
+      element.change = {labels: {}};
+      let hookEl;
+      let plugin;
+      pluginApi.install(
+          p => {
+            plugin = p;
+            plugin.hook('related-changes-section').getLastAttached()
+                .then(el => hookEl = el);
+          },
+          '0.1',
+          'http://some/plugins/url.html');
+      pluginLoader.loadPlugins([]);
+      flush(() => {
+        assert.strictEqual(hookEl.plugin, plugin);
+        assert.strictEqual(hookEl.change, element.change);
+        done();
+      });
     });
   });
 });

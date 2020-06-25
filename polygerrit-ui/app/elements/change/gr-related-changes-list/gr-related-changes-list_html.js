@@ -197,6 +197,9 @@ export const htmlTemplate = html`
         </div>
       </template>
     </section>
+    <gr-endpoint-decorator name="related-changes-section">
+      <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
+    </gr-endpoint-decorator>
   </div>
   <div hidden$="[[!loading]]">Loading...</div>
   <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

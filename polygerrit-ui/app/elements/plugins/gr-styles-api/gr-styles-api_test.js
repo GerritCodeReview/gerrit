@@ -1,47 +1,39 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2019 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2019 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>gr-admin-api</title>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
-
-<dom-module id="gr-style-test-element">
-  <template>
-    <div id="wrapper"></div>
-  </template>
-  <script type="module">
-import '../../../test/common-test-setup.js';
+import '../../../test/common-test-setup-karma.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
-import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
-Polymer({is: 'gr-style-test-element'});
-</script>
-</dom-module>
-
-<script type="module">
-import '../../../test/common-test-setup.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import '../../../test/common-test-setup-karma.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
+class GrStyleTestElement extends PolymerElement {
+  static get is() { return 'gr-style-test-element'; }
+
+  static get template() {
+    return html`<div id="wrapper"></div>`;
+  }
+}
+
+customElements.define(GrStyleTestElement.is, GrStyleTestElement);
 
 const pluginApi = _testOnly_initGerritPluginApi();
 
@@ -77,6 +69,7 @@ suite('gr-styles-api tests', () => {
     let stylesApi;
     let displayInlineStyle;
     let displayNoneStyle;
+    let elementsToRemove;
 
     setup(() => {
       sandbox = sinon.sandbox.create();
@@ -87,12 +80,17 @@ suite('gr-styles-api tests', () => {
       stylesApi = plugin.styles();
       displayInlineStyle = stylesApi.css('display: inline');
       displayNoneStyle = stylesApi.css('display: none');
+      elementsToRemove = [];
     });
 
     teardown(() => {
       displayInlineStyle = null;
       displayNoneStyle = null;
       stylesApi = null;
+      elementsToRemove.forEach(element => {
+        element.remove();
+      });
+      elementsToRemove = null;
       sandbox.restore();
     });
 
@@ -109,6 +107,11 @@ suite('gr-styles-api tests', () => {
       dom(parentElement).appendChild(element2);
       dom(element2).appendChild(element3);
 
+      if (parentElement === document.body) {
+        elementsToRemove.push(element1);
+        elementsToRemove.push(element2);
+      }
+
       return [element1, element2, element3];
     }
 
@@ -121,6 +124,7 @@ suite('gr-styles-api tests', () => {
     test('getClassName  - elements inside polymer element', () => {
       const polymerElement = document.createElement('gr-style-test-element');
       dom(document.body).appendChild(polymerElement);
+      elementsToRemove.push(polymerElement);
       const contentElements = createNestedElements(polymerElement.$.wrapper);
 
       testGetClassName(contentElements);
@@ -154,6 +158,7 @@ suite('gr-styles-api tests', () => {
     test('apply - elements inside polymer element', () => {
       const polymerElement = document.createElement('gr-style-test-element');
       dom(document.body).appendChild(polymerElement);
+      elementsToRemove.push(polymerElement);
       const contentElements = createNestedElements(polymerElement.$.wrapper);
 
       testApply(contentElements);
@@ -185,4 +190,4 @@ suite('gr-styles-api tests', () => {
     }
   });
 });
-</script>
+

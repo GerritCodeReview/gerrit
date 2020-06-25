@@ -1,50 +1,28 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2015 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2015 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<meta charset="utf-8">
-<title>gr-change-list</title>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
-<script src="/node_modules/page/page.js"></script>
-
-<test-fixture id="basic">
-  <template>
-    <gr-change-list></gr-change-list>
-  </template>
-</test-fixture>
-
-<test-fixture id="grouped">
-  <template>
-    <gr-change-list></gr-change-list>
-  </template>
-</test-fixture>
-
-<script type="module">
-import '../../../test/common-test-setup.js';
+import '../../../test/common-test-setup-karma.js';
 import './gr-change-list.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
 import {KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+
+const basicFixture = fixtureFromElement('gr-change-list');
 
 suite('gr-change-list basic tests', () => {
   // Define keybindings before attaching other fixtures.
@@ -63,14 +41,14 @@ suite('gr-change-list basic tests', () => {
 
   setup(() => {
     sandbox = sinon.sandbox.create();
-    element = fixture('basic');
+    element = basicFixture.instantiate();
   });
 
   teardown(() => { sandbox.restore(); });
 
   suite('test show change number not logged in', () => {
     setup(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       element.account = null;
       element.preferences = null;
       element._config = {};
@@ -83,7 +61,7 @@ suite('gr-change-list basic tests', () => {
 
   suite('test show change number preference enabled', () => {
     setup(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       element.preferences = {
         legacycid_in_change_table: true,
         time_format: 'HHMM_12',
@@ -101,7 +79,7 @@ suite('gr-change-list basic tests', () => {
 
   suite('test show change number preference disabled', () => {
     setup(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       // legacycid_in_change_table is not set when false.
       element.preferences = {
         time_format: 'HHMM_12',
@@ -331,7 +309,7 @@ suite('gr-change-list basic tests', () => {
     let element;
 
     setup(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       element.sections = [
         {results: [{}]},
       ];
@@ -362,7 +340,7 @@ suite('gr-change-list basic tests', () => {
     let element;
 
     setup(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       element.sections = [
         {results: [{}]},
       ];
@@ -400,7 +378,7 @@ suite('gr-change-list basic tests', () => {
     let element;
 
     setup(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       element.sections = [
         {results: [{}]},
       ];
@@ -444,7 +422,7 @@ suite('gr-change-list basic tests', () => {
     /* This would only exist if somebody manually updated the config
     file. */
     setup(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       element.account = {_account_id: 1001};
       element.preferences = {
         legacycid_in_change_table: true,
@@ -469,7 +447,7 @@ suite('gr-change-list basic tests', () => {
 
     setup(() => {
       sandbox = sinon.sandbox.create();
-      element = fixture('basic');
+      element = basicFixture.instantiate();
     });
 
     teardown(() => { sandbox.restore(); });
@@ -522,7 +500,7 @@ suite('gr-change-list basic tests', () => {
 
     setup(() => {
       sandbox = sinon.sandbox.create();
-      element = fixture('basic');
+      element = basicFixture.instantiate();
     });
 
     teardown(() => { sandbox.restore(); });
@@ -650,4 +628,4 @@ suite('gr-change-list basic tests', () => {
     });
   });
 });
-</script>
+

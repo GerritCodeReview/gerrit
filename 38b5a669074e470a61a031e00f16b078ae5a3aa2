@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4f245c7a_c18ef2ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-25T03:19:22Z",
+      "side": 1,
+      "message": "When I read this I assumed there would be some annotation added, but it\u0027s just comments in the javadoc.\n\nMaybe reword this to make it clearer.\n\nAlso we could look into creating annotations, but later.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 49
+      },
+      "revId": "38b5a669074e470a61a031e00f16b078ae5a3aa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1e48b541_86a6a6af",
         "filename": "plugins/singleusergroup",
         "patchSetId": 2

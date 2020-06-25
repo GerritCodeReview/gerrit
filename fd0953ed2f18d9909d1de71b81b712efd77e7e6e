@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0c74f847_c0b592f6",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-25T15:44:20Z",
+      "side": 1,
+      "message": "GO_KEY doesn\u0027t really have multiple key bindings for now. Ie Go + A/B doing the same thing.\nThis is why we do not need special handling for now.\nIt\u0027s not really needed but updated.",
+      "parentUuid": "6b6d12df_bdcabcd7",
+      "revId": "fd0953ed2f18d9909d1de71b81b712efd77e7e6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f21fa22e_acbb7ce9",
         "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js",
         "patchSetId": 17
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "80c2a08e_b39d01a8",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 613,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-25T15:44:20Z",
+      "side": 1,
+      "message": "Same as above.\nUpdated.",
+      "parentUuid": "f21fa22e_acbb7ce9",
+      "revId": "fd0953ed2f18d9909d1de71b81b712efd77e7e6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bcc31313_b8eaa987",
         "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js",
         "patchSetId": 17
@@ -47,6 +83,24 @@
       "writtenOn": "2020-06-25T14:43:17Z",
       "side": 1,
       "message": "Why is the GO_KEY handled differently here than V_KEY?",
+      "revId": "fd0953ed2f18d9909d1de71b81b712efd77e7e6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f8dd710_9484ad21",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-25T15:44:20Z",
+      "side": 1,
+      "message": "It\u0027s being handled the same except each component does not need to listen to the v key. This allows us to add fewer listeners.\nI can add listeners for each component for consistency but worse performance I guess.",
+      "parentUuid": "bcc31313_b8eaa987",
       "revId": "fd0953ed2f18d9909d1de71b81b712efd77e7e6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

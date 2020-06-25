@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "7902d93d_192ff745",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-06-25T12:28:07Z",
+      "side": 1,
+      "message": "Thanks for context!",
+      "parentUuid": "a7eecca5_4839a52a",
+      "revId": "66ed21a73a7e0db5c689544964905c5041c0fa63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d829fd1f_812f0d27",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 2

@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "7cffbcc2_d2b4d847",
+        "filename": "package.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-25T10:45:25Z",
+      "side": 1,
+      "message": "terser is not called directly. Instead, terser_minified rule is called. It seems, that \"terser\" is not needed here. Could you please try to remove it?",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 22
+      },
+      "revId": "058983d630a710b40e441cff58f4342a49306823",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8df0fcdb_9eb469c1",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-25T10:45:25Z",
+      "side": 1,
+      "message": "I am not familiar with terser_minified rule. Could you please confirm, that this rule works with ES6 modules? (for example, if plugin has 2 file and file A imports file B).\nI checked the https://github.com/terser/terser#minify-options and there is the \u0027module\u0027 option, which is false by default. Not sure about defaults for terser_minified.",
+      "range": {
+        "startLine": 480,
+        "startChar": 4,
+        "endLine": 480,
+        "endChar": 19
+      },
+      "revId": "058983d630a710b40e441cff58f4342a49306823",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "64ce9b78_64be3c86",
         "filename": "tools/bzl/js.bzl",
         "patchSetId": 2
@@ -13,6 +59,30 @@
       "writtenOn": "2020-06-23T08:04:50Z",
       "side": 1,
       "message": "This could be omitted?",
+      "range": {
+        "startLine": 483,
+        "startChar": 14,
+        "endLine": 483,
+        "endChar": 19
+      },
+      "revId": "058983d630a710b40e441cff58f4342a49306823",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "426cd3f7_308de278",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-25T10:45:25Z",
+      "side": 1,
+      "message": "I think yes, but I prefer to add \u0027:\u0027 before filegroup",
+      "parentUuid": "64ce9b78_64be3c86",
       "range": {
         "startLine": 483,
         "startChar": 14,

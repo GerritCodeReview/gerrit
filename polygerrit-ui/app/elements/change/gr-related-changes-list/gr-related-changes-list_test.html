@@ -429,6 +429,23 @@ suite('gr-related-changes-list tests', () => {
       element._resultsChanged({}, {}, [], [], ['test']);
       assert.isFalse(element.hidden);
       assert.isTrue(updateHandler.called);
+      updateHandler.reset();
+
+      element._resultsChanged(
+          {}, {changes: [], non_visible_changes: 0}, [], [], []);
+      assert.isTrue(element.hidden);
+      assert.isFalse(updateHandler.called);
+
+      element._resultsChanged(
+          {}, {changes: ['test'], non_visible_changes: 0}, [], [], []);
+      assert.isFalse(element.hidden);
+      assert.isTrue(updateHandler.called);
+      updateHandler.reset();
+
+      element._resultsChanged(
+          {}, {changes: [], non_visible_changes: 1}, [], [], []);
+      assert.isFalse(element.hidden);
+      assert.isTrue(updateHandler.called);
     });
 
     suite('hiding and unhiding', () => {

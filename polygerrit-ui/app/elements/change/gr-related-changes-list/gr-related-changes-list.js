@@ -331,7 +331,10 @@ class GrRelatedChangesList extends mixinBehaviors( [
 
     const results = [
       related && related.changes,
-      submittedTogether && submittedTogether.changes,
+      // If there are either visible or non-visible changes, we need a
+      // non-empty list to fire the event and set visibility.
+      submittedTogether && ((submittedTogether.changes || [])
+          + (submittedTogether.non_visible_changes ? [{}] : [])),
       conflicts,
       cherryPicks,
       sameTopic,

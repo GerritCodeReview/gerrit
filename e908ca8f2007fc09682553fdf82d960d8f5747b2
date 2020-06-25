@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9aed80e_68f1db28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-25T10:49:18Z",
+      "side": 1,
+      "message": "From my side the change looks good. Not sure about backend part (protobuf/args4j) - it would be good if someone familiar with backend takes a look on it.",
+      "revId": "e908ca8f2007fc09682553fdf82d960d8f5747b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

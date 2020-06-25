@@ -1,43 +1,43 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2017 The Android Open Source Settings
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+/**
+ * @license
+ * Copyright (C) 2017 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
 
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>gr-settings-api</title>
 
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
 
-<test-fixture id="basic">
-  <template>
-    <gr-endpoint-decorator name="settings-menu-item">
+
+
+
+const basicFixture = fixtureFromTemplate(html`
+<gr-endpoint-decorator name="settings-menu-item">
     </gr-endpoint-decorator>
     <gr-endpoint-decorator name="settings-screen">
     </gr-endpoint-decorator>
-  </template>
-</test-fixture>
+`);
 
-<script type="module">
+
 import '../../../test/common-test-setup.js';
 import '../gr-endpoint-decorator/gr-endpoint-decorator.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
 
 const pluginApi = _testOnly_initGerritPluginApi();
 
@@ -69,7 +69,7 @@ suite('gr-settings-api tests', () => {
         .token('bar')
         .module('some-settings-screen')
         .build();
-    const element = fixture('basic');
+    const element = basicFixture.instantiate();
     flush(() => {
       const [menuItemEl, itemEl] = element;
       const menuItem = menuItemEl.shadowRoot
@@ -86,4 +86,4 @@ suite('gr-settings-api tests', () => {
     });
   });
 });
-</script>
+

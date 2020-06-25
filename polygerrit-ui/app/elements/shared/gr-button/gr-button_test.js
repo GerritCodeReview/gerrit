@@ -1,55 +1,49 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2016 The Android Open Source Project
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+/**
+ * @license
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
 
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<meta charset="utf-8">
-<title>gr-button</title>
 
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
 
-<test-fixture id="basic">
-  <template>
-    <gr-button></gr-button>
-  </template>
-</test-fixture>
 
-<test-fixture id="nested">
-  <template>
-    <div id="test">
+
+
+
+const basicFixture = fixtureFromElement('gr-button');
+
+const nestedFixture = fixtureFromTemplate(html`
+<div id="test">
       <gr-button class="testBtn"></gr-button>
     </div>
-  </template>
-</test-fixture>
+`);
 
-<test-fixture id="tabindex">
-  <template>
-    <gr-button tabindex="3"></gr-button>
-  </template>
-</test-fixture>
+const tabindexFixture = fixtureFromTemplate(html`
+<gr-button tabindex="3"></gr-button>
+`);
 
-<script type="module">
+
 import '../../../test/common-test-setup.js';
 import './gr-button.js';
 import {addListener} from '@polymer/polymer/lib/utils/gestures.js';
 import {appContext} from '../../../services/app-context.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
 
 suite('gr-button tests', () => {
   let element;
@@ -66,7 +60,7 @@ suite('gr-button tests', () => {
   };
 
   setup(() => {
-    element = fixture('basic');
+    element = basicFixture.instantiate();
     sandbox = sinon.sandbox.create();
   });
 
@@ -118,7 +112,7 @@ suite('gr-button tests', () => {
   });
 
   test('tabindex should be preserved', () => {
-    element = fixture('tabindex');
+    element = tabindexFixture.instantiate();
     element.disabled = false;
     assert.equal(element.getAttribute('tabindex'), '3');
     element.disabled = true;
@@ -209,7 +203,7 @@ suite('gr-button tests', () => {
     });
 
     test('report event after click on nested', () => {
-      element = fixture('nested');
+      element = nestedFixture.instantiate();
       MockInteractions.click(element.querySelector('gr-button'));
       assert.isTrue(reportStub.calledOnce);
       assert.equal(reportStub.lastCall.args[0], 'button-click');
@@ -219,4 +213,4 @@ suite('gr-button tests', () => {
     });
   });
 });
-</script>
+

@@ -1,47 +1,43 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2016 The Android Open Source Project
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+/**
+ * @license
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
 
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<meta charset="utf-8">
-<title>keyboard-shortcut-behavior</title>
 
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
-<test-fixture id="basic">
-  <template>
-    <test-element></test-element>
-  </template>
-</test-fixture>
 
-<test-fixture id="within-overlay">
-  <template>
-    <gr-overlay>
+
+
+
+const basicFixture = fixtureFromElement('test-element');
+
+const withinOverlayFixture = fixtureFromTemplate(html`
+<gr-overlay>
       <test-element></test-element>
     </gr-overlay>
-  </template>
-</test-fixture>
+`);
 
-<script type="module">
+
 import '../../test/common-test-setup.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
 import {KeyboardShortcutBehavior, KeyboardShortcutBinder} from './keyboard-shortcut-behavior.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
 suite('keyboard-shortcut-behavior tests', () => {
   const kb = KeyboardShortcutBinder;
 
@@ -63,8 +59,8 @@ suite('keyboard-shortcut-behavior tests', () => {
   });
 
   setup(() => {
-    element = fixture('basic');
-    overlay = fixture('within-overlay');
+    element = basicFixture.instantiate();
+    overlay = withinOverlayFixture.instantiate();
     sandbox = sinon.sandbox.create();
   });
 
@@ -439,4 +435,4 @@ suite('keyboard-shortcut-behavior tests', () => {
     });
   });
 });
-</script>
+

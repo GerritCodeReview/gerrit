@@ -1,29 +1,29 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2015 The Android Open Source Project
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+/**
+ * @license
+ * Copyright (C) 2015 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
 
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<meta charset="utf-8">
-<title>gr-file-list</title>
 
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
+
+
+
+
 <script src="/components/web-component-tester/data/a11ySuite.js"></script>
 <script src="/node_modules/page/page.js"></script>
 
@@ -36,13 +36,9 @@ limitations under the License.
   </template>
   </dom-module>
 
-<test-fixture id="basic">
-  <template>
-    <comment-api-mock></comment-api-mock>
-  </template>
-</test-fixture>
 
-<script type="module">
+
+
 import '../../../test/common-test-setup.js';
 import '../../diff/gr-comment-api/gr-comment-api.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
@@ -52,6 +48,10 @@ import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {GrFileListConstants} from '../gr-file-list-constants.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+
+const basicFixture = fixtureFromElement('comment-api-mock');
+
+
 
 suite('gr-file-list tests', () => {
   const kb = KeyboardShortcutBinder;
@@ -100,7 +100,7 @@ suite('gr-file-list tests', () => {
 
       // Element must be wrapped in an element with direct access to the
       // comment API.
-      commentApiWrapper = fixture('basic');
+      commentApiWrapper = basicFixture.instantiate();
       element = commentApiWrapper.$.fileList;
       loadCommentSpy = sandbox.spy(commentApiWrapper.$.commentAPI, 'loadAll');
 
@@ -1580,7 +1580,7 @@ suite('gr-file-list tests', () => {
 
       // Element must be wrapped in an element with direct access to the
       // comment API.
-      commentApiWrapper = fixture('basic');
+      commentApiWrapper = basicFixture.instantiate();
       element = commentApiWrapper.$.fileList;
       loadCommentSpy = sandbox.spy(commentApiWrapper.$.commentAPI, 'loadAll');
       element.diffPrefs = {};
@@ -1949,4 +1949,4 @@ suite('gr-file-list tests', () => {
   });
   a11ySuite('basic');
 });
-</script>
+

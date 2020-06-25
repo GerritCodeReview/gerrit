@@ -1,41 +1,41 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2016 The Android Open Source Project
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+/**
+ * @license
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
 
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<meta charset="utf-8">
-<title>gr-error-manager</title>
 
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
 
-<test-fixture id="basic">
-  <template>
-    <gr-error-manager></gr-error-manager>
-  </template>
-</test-fixture>
 
-<script type="module">
+
+
+
+
+
+
 import '../../../test/common-test-setup.js';
 import './gr-error-manager.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+
+const basicFixture = fixtureFromElement('gr-error-manager');
+
+
 
 _testOnly_initGerritPluginApi();
 
@@ -55,7 +55,7 @@ suite('gr-error-manager tests', () => {
     setup(() => {
       sandbox.stub(window, 'fetch')
           .returns(Promise.resolve({ok: true, status: 204}));
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       element._authService.clearCache();
     });
 
@@ -539,7 +539,7 @@ suite('gr-error-manager tests', () => {
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(false); },
       });
-      element = fixture('basic');
+      element = basicFixture.instantiate();
     });
 
     test('refresh loop continues on credential fail', done => {
@@ -562,4 +562,4 @@ suite('gr-error-manager tests', () => {
     });
   });
 });
-</script>
+

@@ -1,29 +1,29 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2016 The Android Open Source Project
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+/**
+ * @license
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
 
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<meta charset="utf-8">
-<title>gr-linked-chip</title>
 
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
+
+
+
+
 <!-- Can't use absolute path below for mock-interaction.js.
 Web component tester(wct) has a built-in http server and it serves "/components" directory (which is
 actually /node_modules directory). Also, wct patches some files to load modules from /components.
@@ -32,21 +32,21 @@ With the absolute path, browser tries to load dom-module from 2 different places
 -->
 <script src="../../../node_modules/iron-test-helpers/mock-interactions.js"></script>
 
-<test-fixture id="basic">
-  <template>
-    <gr-linked-chip></gr-linked-chip>
-  </template>
-</test-fixture>
 
-<script type="module">
+
+
 import '../../../test/common-test-setup.js';
 import './gr-linked-chip.js';
+
+const basicFixture = fixtureFromElement('gr-linked-chip');
+
+
 suite('gr-linked-chip tests', () => {
   let element;
   let sandbox;
 
   setup(() => {
-    element = fixture('basic');
+    element = basicFixture.instantiate();
     sandbox = sinon.sandbox.create();
   });
 
@@ -62,4 +62,4 @@ suite('gr-linked-chip tests', () => {
     assert.isTrue(spy.called);
   });
 });
-</script>
+

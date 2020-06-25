@@ -1,29 +1,29 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2015 The Android Open Source Project
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+/**
+ * @license
+ * Copyright (C) 2015 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
 
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<meta charset="utf-8">
-<title>gr-patch-range-select</title>
 
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
+
+
+
+
 <script src="/node_modules/page/page.js"></script>
 
 <dom-module id="comment-api-mock">
@@ -34,13 +34,9 @@ limitations under the License.
   </template>
   </dom-module>
 
-<test-fixture id="basic">
-  <template>
-    <comment-api-mock></comment-api-mock>
-  </template>
-</test-fixture>
 
-<script type="module">
+
+
 import '../../../test/common-test-setup.js';
 import '../gr-comment-api/gr-comment-api.js';
 import '../../shared/revision-info/revision-info.js';
@@ -48,6 +44,10 @@ import './gr-patch-range-select.js';
 import '../../../test/mocks/comment-api.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {RevisionInfo} from '../../shared/revision-info/revision-info.js';
+
+const basicFixture = fixtureFromElement('comment-api-mock');
+
+
 suite('gr-patch-range-select tests', () => {
   let element;
   let sandbox;
@@ -72,7 +72,7 @@ suite('gr-patch-range-select tests', () => {
 
     // Element must be wrapped in an element with direct access to the
     // comment API.
-    commentApiWrapper = fixture('basic');
+    commentApiWrapper = basicFixture.instantiate();
     element = commentApiWrapper.$.patchRange;
 
     // Stub methods on the changeComments object after changeComments has
@@ -426,4 +426,4 @@ suite('gr-patch-range-select tests', () => {
         {basePatchNum: 1, patchNum: 'edit'});
   });
 });
-</script>
+

@@ -1,41 +1,39 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2016 The Android Open Source Project
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+/**
+ * @license
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
 
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<meta charset="utf-8">
-<title>gr-app</title>
 
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
 
-<test-fixture id="basic">
-  <template>
-    <gr-app id="app"></gr-app>
-  </template>
-</test-fixture>
 
-<script type="module">
+
+
+
+const basicFixture = fixtureFromTemplate(html`<gr-app id="app"></gr-app>`);
+
+
 import '../test/common-test-setup.js';
 import './gr-app.js';
 import {appContext} from '../services/app-context.js';
 import {GerritNav} from './core/gr-navigation/gr-navigation.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
 
 suite('gr-app tests', () => {
   let sandbox;
@@ -68,7 +66,7 @@ suite('gr-app tests', () => {
       probePath() { return Promise.resolve(42); },
     });
 
-    element = fixture('basic');
+    element = basicFixture.instantiate();
     flush(done);
   });
 
@@ -103,4 +101,4 @@ suite('gr-app tests', () => {
     assert.ok(appElement()._lastSearchPage);
   });
 });
-</script>
+

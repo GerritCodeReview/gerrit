@@ -1,42 +1,42 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2019 The Android Open Source Project
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+/**
+ * @license
+ * Copyright (C) 2019 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-http://www.apache.org/licenses/LICENSE-2.0
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
 
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>gr-admin-api</title>
 
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
+
+
+
 
 <dom-module id="gr-style-test-element">
   <template>
     <div id="wrapper"></div>
   </template>
-  <script type="module">
+  
 import '../../../test/common-test-setup.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
 Polymer({is: 'gr-style-test-element'});
-</script>
+
 </dom-module>
 
-<script type="module">
+
 import '../../../test/common-test-setup.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
@@ -185,4 +185,4 @@ suite('gr-styles-api tests', () => {
     }
   });
 });
-</script>
+

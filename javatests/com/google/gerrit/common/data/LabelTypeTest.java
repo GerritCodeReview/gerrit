@@ -22,26 +22,26 @@ import org.junit.Test;
 public class LabelTypeTest {
   @Test
   public void sortLabelValues() {
-    LabelValue v0 = new LabelValue((short) 0, "Zero");
-    LabelValue v1 = new LabelValue((short) 1, "One");
-    LabelValue v2 = new LabelValue((short) 2, "Two");
-    LabelType types = new LabelType("Label", ImmutableList.of(v2, v0, v1));
+    LabelValue v0 = LabelValue.create((short) 0, "Zero");
+    LabelValue v1 = LabelValue.create((short) 1, "One");
+    LabelValue v2 = LabelValue.create((short) 2, "Two");
+    LabelType types = LabelType.create("Label", ImmutableList.of(v2, v0, v1));
     assertThat(types.getValues()).containsExactly(v0, v1, v2).inOrder();
   }
 
   @Test
   public void insertMissingLabelValues() {
-    LabelValue v0 = new LabelValue((short) 0, "Zero");
-    LabelValue v2 = new LabelValue((short) 2, "Two");
-    LabelValue v5 = new LabelValue((short) 5, "Five");
-    LabelType types = new LabelType("Label", ImmutableList.of(v2, v5, v0));
+    LabelValue v0 = LabelValue.create((short) 0, "Zero");
+    LabelValue v2 = LabelValue.create((short) 2, "Two");
+    LabelValue v5 = LabelValue.create((short) 5, "Five");
+    LabelType types = LabelType.create("Label", ImmutableList.of(v2, v5, v0));
     assertThat(types.getValues())
         .containsExactly(
             v0,
-            new LabelValue((short) 1, ""),
+            LabelValue.create((short) 1, ""),
             v2,
-            new LabelValue((short) 3, ""),
-            new LabelValue((short) 4, ""),
+            LabelValue.create((short) 3, ""),
+            LabelValue.create((short) 4, ""),
             v5)
         .inOrder();
   }

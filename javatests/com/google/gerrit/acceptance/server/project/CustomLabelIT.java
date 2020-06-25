@@ -32,6 +32,7 @@ import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
@@ -48,7 +49,6 @@ import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
-import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -58,9 +58,10 @@ public class CustomLabelIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private ExtensionRegistry extensionRegistry;
 
+  private final String labelName = "CustomLabel";
   private final LabelType label =
       label("CustomLabel", value(1, "Positive"), value(0, "No score"), value(-1, "Negative"));
-
+  private final String PLabelName = "CustomLabel2";
   private final LabelType P = label("CustomLabel2", value(1, "Positive"), value(0, "No score"));
 
   @Before
@@ -68,19 +69,18 @@ public class CustomLabelIT extends AbstractDaemonTest {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(allowLabel(label.getName()).ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, 1))
-        .add(allowLabel(P.getName()).ref("refs/heads/*").group(ANONYMOUS_USERS).range(0, 1))
+        .add(allowLabel(labelName).ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, 1))
+        .add(allowLabel(PLabelName).ref("refs/heads/*").group(ANONYMOUS_USERS).range(0, 1))
         .update();
   }
 
   @Test
   public void customLabelNoOp_NegativeVoteNotBlock() throws Exception {
-    label.setFunction(NO_OP);
-    saveLabelConfig();
+    saveLabelConfig(label.toBuilder().setFunction(NO_OP));
     PushOneCommit.Result r = createChange();
-    revision(r).review(new ReviewInput().label(label.getName(), -1));
+    revision(r).review(new ReviewInput().label(labelName, -1));
     ChangeInfo c = getWithLabels(r);
-    LabelInfo q = c.labels.get(label.getName());
+    LabelInfo q = c.labels.get(labelName);
     assertThat(q.all).hasSize(1);
     assertThat(q.approved).isNull();
     assertThat(q.recommended).isNull();
@@ -91,12 +91,11 @@ public class CustomLabelIT extends AbstractDaemonTest {
 
   @Test
   public void customLabelNoBlock_NegativeVoteNotBlock() throws Exception {
-    label.setFunction(NO_BLOCK);
-    saveLabelConfig();
+    saveLabelConfig(label.toBuilder().setFunction(NO_BLOCK));
     PushOneCommit.Result r = createChange();
-    revision(r).review(new ReviewInput().label(label.getName(), -1));
+    revision(r).review(new ReviewInput().label(labelName, -1));
     ChangeInfo c = getWithLabels(r);
-    LabelInfo q = c.labels.get(label.getName());
+    LabelInfo q = c.labels.get(labelName);
     assertThat(q.all).hasSize(1);
     assertThat(q.approved).isNull();
     assertThat(q.recommended).isNull();
@@ -107,12 +106,11 @@ public class CustomLabelIT extends AbstractDaemonTest {
 
   @Test
   public void customLabelMaxNoBlock_NegativeVoteNotBlock() throws Exception {
-    label.setFunction(MAX_NO_BLOCK);
-    saveLabelConfig();
+    saveLabelConfig(label.toBuilder().setFunction(MAX_NO_BLOCK));
     PushOneCommit.Result r = createChange();
-    revision(r).review(new ReviewInput().label(label.getName(), -1));
+    revision(r).review(new ReviewInput().label(labelName, -1));
     ChangeInfo c = getWithLabels(r);
-    LabelInfo q = c.labels.get(label.getName());
+    LabelInfo q = c.labels.get(labelName);
     assertThat(q.all).hasSize(1);
     assertThat(q.approved).isNull();
     assertThat(q.recommended).isNull();
@@ -123,16 +121,14 @@ public class CustomLabelIT extends AbstractDaemonTest {
 
   @Test
   public void customLabelMaxNoBlock_MaxVoteSubmittable() throws Exception {
-    label.setFunction(MAX_NO_BLOCK);
-    P.setFunction(NO_OP);
-    saveLabelConfig();
+    saveLabelConfig(label.toBuilder().setFunction(MAX_NO_BLOCK), P.toBuilder().setFunction(NO_OP));
     PushOneCommit.Result r = createChange();
     assertThat(info(r.getChangeId()).submittable).isNull();
-    revision(r).review(ReviewInput.approve().label(label.getName(), 1));
+    revision(r).review(ReviewInput.approve().label(labelName, 1));
 
     ChangeInfo c = getWithLabels(r);
     assertThat(c.submittable).isTrue();
-    LabelInfo q = c.labels.get(label.getName());
+    LabelInfo q = c.labels.get(labelName);
     assertThat(q.all).hasSize(1);
     assertThat(q.approved).isNotNull();
     assertThat(q.recommended).isNull();
@@ -143,12 +139,11 @@ public class CustomLabelIT extends AbstractDaemonTest {
 
   @Test
   public void customLabelAnyWithBlock_NegativeVoteBlock() throws Exception {
-    label.setFunction(ANY_WITH_BLOCK);
-    saveLabelConfig();
+    saveLabelConfig(label.toBuilder().setFunction(ANY_WITH_BLOCK));
     PushOneCommit.Result r = createChange();
-    revision(r).review(new ReviewInput().label(label.getName(), -1));
+    revision(r).review(new ReviewInput().label(labelName, -1));
     ChangeInfo c = getWithLabels(r);
-    LabelInfo q = c.labels.get(label.getName());
+    LabelInfo q = c.labels.get(labelName);
     assertThat(q.all).hasSize(1);
     assertThat(q.approved).isNull();
     assertThat(q.recommended).isNull();
@@ -170,19 +165,18 @@ public class CustomLabelIT extends AbstractDaemonTest {
   public void customLabelAnyWithBlock_Addreviewer_ZeroVote() throws Exception {
     TestListener testListener = new TestListener();
     try (Registration registration = extensionRegistry.newRegistration().add(testListener)) {
-      P.setFunction(ANY_WITH_BLOCK);
-      saveLabelConfig();
+      saveLabelConfig(P.toBuilder().setFunction(ANY_WITH_BLOCK));
       PushOneCommit.Result r = createChange();
       AddReviewerInput in = new AddReviewerInput();
       in.reviewer = user.email();
       gApi.changes().id(r.getChangeId()).addReviewer(in);
 
-      ReviewInput input = new ReviewInput().label(P.getName(), 0);
+      ReviewInput input = new ReviewInput().label(PLabelName, 0);
       input.message = "foo";
 
       revision(r).review(input);
       ChangeInfo c = getWithLabels(r);
-      LabelInfo q = c.labels.get(P.getName());
+      LabelInfo q = c.labels.get(PLabelName);
       assertThat(q.all).hasSize(1);
       assertThat(q.approved).isNull();
       assertThat(q.recommended).isNull();
@@ -196,12 +190,11 @@ public class CustomLabelIT extends AbstractDaemonTest {
 
   @Test
   public void customLabelMaxWithBlock_NegativeVoteBlock() throws Exception {
-    label.setFunction(MAX_WITH_BLOCK);
-    saveLabelConfig();
+    saveLabelConfig(label.toBuilder().setFunction(MAX_WITH_BLOCK));
     PushOneCommit.Result r = createChange();
-    revision(r).review(new ReviewInput().label(label.getName(), -1));
+    revision(r).review(new ReviewInput().label(labelName, -1));
     ChangeInfo c = getWithLabels(r);
-    LabelInfo q = c.labels.get(label.getName());
+    LabelInfo q = c.labels.get(labelName);
     assertThat(q.all).hasSize(1);
     assertThat(q.approved).isNull();
     assertThat(q.recommended).isNull();
@@ -212,16 +205,15 @@ public class CustomLabelIT extends AbstractDaemonTest {
 
   @Test
   public void customLabelMaxWithBlock_MaxVoteSubmittable() throws Exception {
-    label.setFunction(MAX_WITH_BLOCK);
-    P.setFunction(NO_OP);
-    saveLabelConfig();
+    saveLabelConfig(
+        label.toBuilder().setFunction(MAX_WITH_BLOCK), P.toBuilder().setFunction(NO_OP));
     PushOneCommit.Result r = createChange();
     assertThat(info(r.getChangeId()).submittable).isNull();
-    revision(r).review(ReviewInput.approve().label(label.getName(), 1));
+    revision(r).review(ReviewInput.approve().label(labelName, 1));
 
     ChangeInfo c = getWithLabels(r);
     assertThat(c.submittable).isTrue();
-    LabelInfo q = c.labels.get(label.getName());
+    LabelInfo q = c.labels.get(labelName);
     assertThat(q.all).hasSize(1);
     assertThat(q.approved).isNotNull();
     assertThat(q.recommended).isNull();
@@ -232,13 +224,12 @@ public class CustomLabelIT extends AbstractDaemonTest {
 
   @Test
   public void customLabelMaxWithBlock_MaxVoteNegativeVoteBlock() throws Exception {
-    label.setFunction(MAX_WITH_BLOCK);
-    saveLabelConfig();
+    saveLabelConfig(label.toBuilder().setFunction(MAX_WITH_BLOCK));
     PushOneCommit.Result r = createChange();
-    revision(r).review(new ReviewInput().label(label.getName(), 1));
-    revision(r).review(new ReviewInput().label(label.getName(), -1));
+    revision(r).review(new ReviewInput().label(labelName, 1));
+    revision(r).review(new ReviewInput().label(labelName, -1));
     ChangeInfo c = getWithLabels(r);
-    LabelInfo q = c.labels.get(label.getName());
+    LabelInfo q = c.labels.get(labelName);
     assertThat(q.all).hasSize(1);
     assertThat(q.approved).isNull();
     assertThat(q.recommended).isNull();
@@ -249,10 +240,9 @@ public class CustomLabelIT extends AbstractDaemonTest {
 
   @Test
   public void customLabel_DisallowPostSubmit() throws Exception {
-    label.setFunction(NO_OP);
-    label.setAllowPostSubmit(false);
-    P.setFunction(NO_OP);
-    saveLabelConfig();
+    saveLabelConfig(
+        label.toBuilder().setFunction(NO_OP).setAllowPostSubmit(false),
+        P.toBuilder().setFunction(NO_OP));
 
     PushOneCommit.Result r = createChange();
     revision(r).review(ReviewInput.approve());
@@ -260,8 +250,8 @@ public class CustomLabelIT extends AbstractDaemonTest {
 
     ChangeInfo info = getWithLabels(r);
     assertPermitted(info, "Code-Review", 2);
-    assertPermitted(info, P.getName(), 0, 1);
-    assertPermitted(info, label.getName());
+    assertPermitted(info, PLabelName, 0, 1);
+    assertPermitted(info, labelName);
 
     ReviewInput postSubmitReview1 = new ReviewInput();
     postSubmitReview1.label(P.getName(), P.getMax().getValue());
@@ -273,7 +263,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
         assertThrows(ResourceConflictException.class, () -> revision(r).review(postSubmitReview2));
     assertThat(thrown)
         .hasMessageThat()
-        .contains("Voting on labels disallowed after submit: " + label.getName());
+        .contains("Voting on labels disallowed after submit: " + labelName);
   }
 
   @Test
@@ -331,10 +321,9 @@ public class CustomLabelIT extends AbstractDaemonTest {
 
   @Test
   public void customLabel_withBranch() throws Exception {
-    label.setRefPatterns(Arrays.asList("master"));
-    saveLabelConfig();
+    saveLabelConfig(label.toBuilder().setRefPatterns(ImmutableList.of("master")));
     ProjectConfig cfg = projectCache.get(project).orElseThrow(illegalState(project)).getConfig();
-    assertThat(cfg.getLabelSections().get(label.getName()).getRefPatterns()).contains("master");
+    assertThat(cfg.getLabelSections().get(labelName).getRefPatterns()).contains("master");
   }
 
   private void assertLabelStatus(String changeId, String testLabel) throws Exception {
@@ -348,10 +337,11 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertThat(labelInfo.blocking).isNull();
   }
 
-  private void saveLabelConfig() throws Exception {
+  private void saveLabelConfig(LabelType.Builder... builders) throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().getLabelSections().put(label.getName(), label);
-      u.getConfig().getLabelSections().put(P.getName(), P);
+      for (LabelType.Builder b : builders) {
+        u.getConfig().upsertLabelType(b.build());
+      }
       u.save();
     }
   }

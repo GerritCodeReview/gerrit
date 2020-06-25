@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.LabelDefinitionInput;
@@ -88,6 +89,9 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
         } else {
           md.setMessage("Update label");
         }
+        String newName = Strings.nullToEmpty(input.name).trim();
+        labelType =
+            config.getLabelSections().get(newName.isEmpty() ? labelType.getName() : newName);
 
         config.commit(md);
         projectCache.evict(rsrc.getProject().getProjectState().getProject());
@@ -109,8 +113,7 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
   public boolean updateLabel(ProjectConfig config, LabelType labelType, LabelDefinitionInput input)
       throws BadRequestException, ResourceConflictException {
     boolean dirty = false;
-
-    config.getLabelSections().remove(labelType.getName());
+    LabelType.Builder labelTypeBuilder = labelType.toBuilder();
 
     if (input.name != null) {
       String newName = input.name.trim();
@@ -129,11 +132,7 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
           }
         }
 
-        try {
-          labelType.setName(newName);
-        } catch (IllegalArgumentException e) {
-          throw new BadRequestException("invalid name: " + input.name, e);
-        }
+        labelTypeBuilder.setName(newName);
         dirty = true;
       }
     }
@@ -142,7 +141,7 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
       if (input.function.trim().isEmpty()) {
         throw new BadRequestException("function cannot be empty");
       }
-      labelType.setFunction(LabelDefinitionInputParser.parseFunction(input.function));
+      labelTypeBuilder.setFunction(LabelDefinitionInputParser.parseFunction(input.function));
       dirty = true;
     }
 
@@ -150,78 +149,83 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
       if (input.values.isEmpty()) {
         throw new BadRequestException("values cannot be empty");
       }
-      labelType.setValues(LabelDefinitionInputParser.parseValues(input.values));
+      labelTypeBuilder.setValues(LabelDefinitionInputParser.parseValues(input.values));
       dirty = true;
     }
 
     if (input.defaultValue != null) {
-      labelType.setDefaultValue(
+      labelTypeBuilder.setDefaultValue(
           LabelDefinitionInputParser.parseDefaultValue(labelType, input.defaultValue));
       dirty = true;
     }
 
     if (input.branches != null) {
-      labelType.setRefPatterns(LabelDefinitionInputParser.parseBranches(input.branches));
+      labelTypeBuilder.setRefPatterns(LabelDefinitionInputParser.parseBranches(input.branches));
       dirty = true;
     }
 
     if (input.canOverride != null) {
-      labelType.setCanOverride(input.canOverride);
+      labelTypeBuilder.setCanOverride(input.canOverride);
       dirty = true;
     }
 
     if (input.copyAnyScore != null) {
-      labelType.setCopyAnyScore(input.copyAnyScore);
+      labelTypeBuilder.setCopyAnyScore(input.copyAnyScore);
       dirty = true;
     }
 
     if (input.copyMinScore != null) {
-      labelType.setCopyMinScore(input.copyMinScore);
+      labelTypeBuilder.setCopyMinScore(input.copyMinScore);
       dirty = true;
     }
 
     if (input.copyMaxScore != null) {
-      labelType.setCopyMaxScore(input.copyMaxScore);
+      labelTypeBuilder.setCopyMaxScore(input.copyMaxScore);
       dirty = true;
     }
 
     if (input.copyAllScoresIfNoChange != null) {
-      labelType.setCopyAllScoresIfNoChange(input.copyAllScoresIfNoChange);
+      labelTypeBuilder.setCopyAllScoresIfNoChange(input.copyAllScoresIfNoChange);
+      dirty = true;
     }
 
     if (input.copyAllScoresIfNoCodeChange != null) {
-      labelType.setCopyAllScoresIfNoCodeChange(input.copyAllScoresIfNoCodeChange);
+      labelTypeBuilder.setCopyAllScoresIfNoCodeChange(input.copyAllScoresIfNoCodeChange);
       dirty = true;
     }
 
     if (input.copyAllScoresOnTrivialRebase != null) {
-      labelType.setCopyAllScoresOnTrivialRebase(input.copyAllScoresOnTrivialRebase);
+      labelTypeBuilder.setCopyAllScoresOnTrivialRebase(input.copyAllScoresOnTrivialRebase);
       dirty = true;
     }
 
     if (input.copyAllScoresOnMergeFirstParentUpdate != null) {
-      labelType.setCopyAllScoresOnMergeFirstParentUpdate(
+      labelTypeBuilder.setCopyAllScoresOnMergeFirstParentUpdate(
           input.copyAllScoresOnMergeFirstParentUpdate);
       dirty = true;
     }
 
     if (input.copyValues != null) {
-      labelType.setCopyValues(input.copyValues);
+      labelTypeBuilder.setCopyValues(ImmutableList.copyOf(input.copyValues));
       dirty = true;
     }
 
     if (input.allowPostSubmit != null) {
-      labelType.setAllowPostSubmit(input.allowPostSubmit);
+      labelTypeBuilder.setAllowPostSubmit(input.allowPostSubmit);
       dirty = true;
     }
 
     if (input.ignoreSelfApproval != null) {
-      labelType.setIgnoreSelfApproval(input.ignoreSelfApproval);
+      labelTypeBuilder.setIgnoreSelfApproval(input.ignoreSelfApproval);
       dirty = true;
     }
 
-    config.getLabelSections().put(labelType.getName(), labelType);
-
+    try {
+      config.getLabelSections().remove(labelType.getName());
+      config.upsertLabelType(labelTypeBuilder.build());
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestException("invalid name: " + input.name, e);
+    }
     return dirty;
   }
 }

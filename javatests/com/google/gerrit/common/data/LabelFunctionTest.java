@@ -87,12 +87,12 @@ public class LabelFunctionTest {
   private static LabelType makeLabel() {
     List<LabelValue> values = new ArrayList<>();
     // The label text is irrelevant here, only the numerical value is used
-    values.add(new LabelValue((short) -2, "Great job, please fix compilation."));
-    values.add(new LabelValue((short) -1, "Really good, please make some minor changes."));
-    values.add(new LabelValue((short) 0, "No vote."));
-    values.add(new LabelValue((short) 1, "Closest thing perfection."));
-    values.add(new LabelValue((short) 2, "Perfect!"));
-    return new LabelType(LABEL_NAME, values);
+    values.add(LabelValue.create((short) -2, "Great job, please fix compilation."));
+    values.add(LabelValue.create((short) -1, "Really good, please make some minor changes."));
+    values.add(LabelValue.create((short) 0, "No vote."));
+    values.add(LabelValue.create((short) 1, "Closest thing perfection."));
+    values.add(LabelValue.create((short) 2, "Perfect!"));
+    return LabelType.create(LABEL_NAME, values);
   }
 
   private static PatchSetApproval makeApproval(int value) {

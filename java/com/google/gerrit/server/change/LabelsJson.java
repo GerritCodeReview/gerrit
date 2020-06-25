@@ -122,7 +122,7 @@ public class LabelsJson {
       if (rec.labels != null) {
         for (SubmitRecord.Label r : rec.labels) {
           LabelType type = labelTypes.byLabel(r.label);
-          if (type != null && (!isMerged || type.allowPostSubmit())) {
+          if (type != null && (!isMerged || type.isAllowPostSubmit())) {
             toCheck.put(type.getName(), type);
           }
         }
@@ -139,7 +139,7 @@ public class LabelsJson {
       }
       for (SubmitRecord.Label r : rec.labels) {
         LabelType type = labelTypes.byLabel(r.label);
-        if (type == null || (isMerged && !type.allowPostSubmit())) {
+        if (type == null || (isMerged && !type.isAllowPostSubmit())) {
           continue;
         }
 

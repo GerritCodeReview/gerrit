@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "f2b22bd1_add08815",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T19:39:28Z",
+      "side": 1,
+      "message": "I don\u0027t think that renaming the button will fix the confusion. I think it is confusing to have a button on the comment panel that does not have anything to do with the comment.\n\nIf you had an always visible EDIT button in a sticky file header, which does not lose the line number, then would this solve your problem?\n\nI don\u0027t think there should be a problem with adding such a button to the sticky inline diff header similar to the MARK REVIEWED button. WDYT?",
+      "parentUuid": "ec25917a_a5958408",
+      "revId": "66ed21a73a7e0db5c689544964905c5041c0fa63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d829fd1f_812f0d27",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 2

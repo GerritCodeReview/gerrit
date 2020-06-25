@@ -163,6 +163,24 @@
     },
     {
       "key": {
+        "uuid": "3f5bfab3_01b93120",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T20:25:59Z",
+      "side": 1,
+      "message": "Ok, so do you want the FE team to put this on the Q3 things to implement? Or do you want to get this done now and implement it yourself?",
+      "parentUuid": "a7bc17d9_ee0f0b25",
+      "revId": "66ed21a73a7e0db5c689544964905c5041c0fa63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d829fd1f_812f0d27",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 2

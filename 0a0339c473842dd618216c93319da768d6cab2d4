@@ -56,6 +56,24 @@
       "revId": "0a0339c473842dd618216c93319da768d6cab2d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0b0fef2_8ba5b2a6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-25T06:46:30Z",
+      "side": 1,
+      "message": "Yeah, you are right. We should rename it. Let\u0027s wait for feedback from FE team.",
+      "parentUuid": "b090ab48_cd10cb22",
+      "revId": "0a0339c473842dd618216c93319da768d6cab2d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

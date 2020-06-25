@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ac332ef_eb40139b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-25T10:29:44Z",
+      "side": 1,
+      "message": "this is interesting, can you add a comment above so people won\u0027t get lost in the future :)",
+      "revId": "f5ddbb1d2d1a32917e5f650f495740db9cb3d38a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

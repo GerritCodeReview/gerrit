@@ -66,7 +66,8 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
       return ruleError(E_UNABLE_TO_FETCH_LABELS);
     }
 
-    boolean shouldIgnoreSelfApproval = labelTypes.stream().anyMatch(LabelType::ignoreSelfApproval);
+    boolean shouldIgnoreSelfApproval =
+        labelTypes.stream().anyMatch(LabelType::isIgnoreSelfApproval);
     if (!shouldIgnoreSelfApproval) {
       // Shortcut to avoid further processing if no label should ignore uploader approvals
       return Optional.empty();
@@ -86,7 +87,7 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
     submitRecord.requirements = new ArrayList<>();
 
     for (LabelType t : labelTypes) {
-      if (!t.ignoreSelfApproval()) {
+      if (!t.isIgnoreSelfApproval()) {
         // The default rules are enough in this case.
         continue;
       }

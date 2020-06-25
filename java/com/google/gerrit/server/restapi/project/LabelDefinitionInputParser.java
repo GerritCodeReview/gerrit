@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Shorts;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
@@ -56,7 +57,7 @@ public class LabelDefinitionInputParser {
       if (valueDescription.isEmpty()) {
         throw new BadRequestException("description for value '" + e.getKey() + "' cannot be empty");
       }
-      valueList.add(new LabelValue(value, valueDescription));
+      valueList.add(LabelValue.create(value, valueDescription));
     }
     return valueList;
   }
@@ -69,7 +70,8 @@ public class LabelDefinitionInputParser {
     return defaultValue;
   }
 
-  public static List<String> parseBranches(List<String> branches) throws BadRequestException {
+  public static ImmutableList<String> parseBranches(List<String> branches)
+      throws BadRequestException {
     List<String> validBranches = new ArrayList<>();
     for (String branch : branches) {
       String newBranch = branch.trim();
@@ -86,7 +88,7 @@ public class LabelDefinitionInputParser {
       }
       validBranches.add(newBranch);
     }
-    return validBranches;
+    return ImmutableList.copyOf(validBranches);
   }
 
   private LabelDefinitionInputParser() {}

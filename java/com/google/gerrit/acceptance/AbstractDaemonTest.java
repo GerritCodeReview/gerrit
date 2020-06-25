@@ -1442,10 +1442,10 @@ public abstract class AbstractDaemonTest {
       LabelValue... value)
       throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType labelType = label(label, value);
+      LabelType.Builder labelType = label(label, value).toBuilder();
       labelType.setFunction(func);
-      labelType.setRefPatterns(refPatterns);
-      u.getConfig().getLabelSections().put(labelType.getName(), labelType);
+      labelType.setRefPatterns(ImmutableList.copyOf(refPatterns));
+      u.getConfig().upsertLabelType(labelType.build());
       u.save();
     }
   }

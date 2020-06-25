@@ -14,65 +14,42 @@
 
 package com.google.gerrit.common.data;
 
-import java.util.Objects;
+import com.google.auto.value.AutoValue;
 
-public class LabelValue {
+@AutoValue
+public abstract class LabelValue {
   public static String formatValue(short value) {
     if (value < 0) {
       return Short.toString(value);
     } else if (value == 0) {
       return " 0";
     } else {
-      return "+" + Short.toString(value);
+      return "+" + value;
     }
   }
 
-  protected short value;
-  protected String text;
+  public abstract short getValue();
 
-  public LabelValue(short value, String text) {
-    this.value = value;
-    this.text = text;
-  }
+  public abstract String getText();
 
-  protected LabelValue() {}
-
-  public short getValue() {
-    return value;
-  }
-
-  public String getText() {
-    return text;
+  public static LabelValue create(short value, String text) {
+    return new AutoValue_LabelValue(value, text);
   }
 
   public String formatValue() {
-    return formatValue(value);
+    return formatValue(getValue());
   }
 
   public String format() {
     StringBuilder sb = new StringBuilder(formatValue());
-    if (!text.isEmpty()) {
-      sb.append(' ').append(text);
+    if (!getText().isEmpty()) {
+      sb.append(' ').append(getText());
     }
     return sb.toString();
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (!(o instanceof LabelValue)) {
-      return false;
-    }
-    LabelValue v = (LabelValue) o;
-    return value == v.value && Objects.equals(text, v.text);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(value, text);
-  }
-
-  @Override
-  public String toString() {
+  public final String toString() {
     return format();
   }
 }

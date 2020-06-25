@@ -61,8 +61,8 @@ public class CommentAddedEventIT extends AbstractDaemonTest {
 
   private void saveLabelConfig() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().getLabelSections().put(label.getName(), label);
-      u.getConfig().getLabelSections().put(pLabel.getName(), pLabel);
+      u.getConfig().upsertLabelType(label);
+      u.getConfig().upsertLabelType(pLabel);
       u.save();
     }
   }

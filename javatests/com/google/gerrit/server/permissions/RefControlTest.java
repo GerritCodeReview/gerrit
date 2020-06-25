@@ -207,7 +207,7 @@ public class RefControlTest {
         ProjectConfig allProjectsConfig = projectConfigFactory.create(allProjectsName);
         allProjectsConfig.load(md);
         LabelType cr = TestLabels.codeReview();
-        allProjectsConfig.getLabelSections().put(cr.getName(), cr);
+        allProjectsConfig.upsertLabelType(cr);
         allProjectsConfig.commit(md);
       }
     }

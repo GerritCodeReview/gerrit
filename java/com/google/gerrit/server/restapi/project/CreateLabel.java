@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
@@ -136,9 +137,9 @@ public class CreateLabel
 
     List<LabelValue> values = LabelDefinitionInputParser.parseValues(input.values);
 
-    LabelType labelType;
+    LabelType.Builder labelType;
     try {
-      labelType = new LabelType(label, values);
+      labelType = LabelType.create(label, values).toBuilder();
     } catch (IllegalArgumentException e) {
       throw new BadRequestException("invalid name: " + label, e);
     }
@@ -151,7 +152,7 @@ public class CreateLabel
 
     if (input.defaultValue != null) {
       labelType.setDefaultValue(
-          LabelDefinitionInputParser.parseDefaultValue(labelType, input.defaultValue));
+          LabelDefinitionInputParser.parseDefaultValue(labelType.build(), input.defaultValue));
     }
 
     if (input.branches != null) {
@@ -192,7 +193,7 @@ public class CreateLabel
     }
 
     if (input.copyValues != null) {
-      labelType.setCopyValues(input.copyValues);
+      labelType.setCopyValues(ImmutableList.copyOf(input.copyValues));
     }
 
     if (input.allowPostSubmit != null) {
@@ -203,8 +204,9 @@ public class CreateLabel
       labelType.setIgnoreSelfApproval(input.ignoreSelfApproval);
     }
 
-    config.getLabelSections().put(labelType.getName(), labelType);
+    LabelType lt = labelType.build();
+    config.upsertLabelType(lt);
 
-    return labelType;
+    return lt;
   }
 }

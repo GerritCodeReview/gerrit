@@ -1313,7 +1313,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       for (PatchSetApproval psa : del) {
         LabelType lt = requireNonNull(labelTypes.byLabel(psa.label()));
         String normName = lt.getName();
-        if (!lt.allowPostSubmit()) {
+        if (!lt.isAllowPostSubmit()) {
           disallowed.add(normName);
         }
         Short prev = previous.get(normName);
@@ -1325,7 +1325,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       for (PatchSetApproval psa : ups) {
         LabelType lt = requireNonNull(labelTypes.byLabel(psa.label()));
         String normName = lt.getName();
-        if (!lt.allowPostSubmit()) {
+        if (!lt.isAllowPostSubmit()) {
           disallowed.add(normName);
         }
         Short prev = previous.get(normName);

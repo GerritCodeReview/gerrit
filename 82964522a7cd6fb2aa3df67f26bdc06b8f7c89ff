@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4fa7edc9_b292b61e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-25T07:09:14Z",
+      "side": 1,
+      "message": "The plan was to move the Status enum from Comment to HumanComment. Gal, is this still on your radar?",
+      "revId": "82964522a7cd6fb2aa3df67f26bdc06b8f7c89ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

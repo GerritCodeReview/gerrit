@@ -274,6 +274,7 @@ class GrReplyDialog extends mixinBehaviors( [
     return {
       'esc': '_handleEscKey',
       'ctrl+enter meta+enter': '_handleEnterKey',
+      '1': '_handleNumericKey',
     };
   }
 
@@ -283,6 +284,10 @@ class GrReplyDialog extends mixinBehaviors( [
       '_ccsChanged(_ccs.splices)',
       '_reviewersChanged(_reviewers.splices)',
     ];
+  }
+
+  _handleNumericKey(e) {
+    console.log('numeric key', e);
   }
 
   /** @override */

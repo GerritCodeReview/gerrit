@@ -22,6 +22,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-download-dialog_html.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
+import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 
 /**
@@ -29,6 +30,7 @@ import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-c
  */
 class GrDownloadDialog extends mixinBehaviors( [
   PatchSetBehavior,
+  KeyboardShortcutBehavior,
   RESTClientBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
@@ -58,6 +60,21 @@ class GrDownloadDialog extends mixinBehaviors( [
       },
       _selectedScheme: String,
     };
+  }
+
+  get keyBindings() {
+    return {
+      esc: '_handleEscKey',
+      1: '_handleNumericKey',
+    };
+  }
+
+  _handleNumericKey(e) {
+    console.log('numeric key', e);
+  }
+
+  _handleEscKey(e) {
+    console.log('esc key pressed');
   }
 
   /** @override */

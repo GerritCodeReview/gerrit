@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5cde71af_771ea88d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-25T13:41:36Z",
+      "side": 1,
+      "message": "Looks really good. Thanks, again, Christian for your input to the contribution guidelines.",
+      "revId": "ef5d7a5f5f4b57706441ce0da38a3c4aef2cd625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab81db98_f7db470b",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-25T13:41:36Z",
+      "side": 1,
+      "message": "I would suggest to add: \", bearing in mind that verification and release may happen only once merged upstream\".",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 39
+      },
+      "revId": "ef5d7a5f5f4b57706441ce0da38a3c4aef2cd625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c705e59_48630ff5",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-25T13:41:36Z",
+      "side": 1,
+      "message": "nit: redundant IMHO",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 15
+      },
+      "revId": "ef5d7a5f5f4b57706441ce0da38a3c4aef2cd625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fa2308a_e7fea94c",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-25T13:41:36Z",
+      "side": 1,
+      "message": "nit: \"ad-hoc exceptions\" would be best.",
+      "range": {
+        "startLine": 37,
+        "startChar": 53,
+        "endLine": 38,
+        "endChar": 27
+      },
+      "revId": "ef5d7a5f5f4b57706441ce0da38a3c4aef2cd625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "544b93c3_7e122a14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-25T06:47:39Z",
+      "side": 1,
+      "message": "Yes, I would like to have another shortcut for \"resetting\" to \"base vs latest\".",
+      "parentUuid": "d60021a3_2813d3a0",
+      "revId": "a3c5603d52c62aa789407dde285313c7f05c0edb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a0cb3081_2d29ba8c",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 14

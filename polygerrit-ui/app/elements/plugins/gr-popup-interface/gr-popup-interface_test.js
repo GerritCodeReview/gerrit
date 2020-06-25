@@ -1,53 +1,41 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2017 The Android Open Source Project
+/**
+ * @license
+ * Copyright (C) 2017 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>gr-popup-interface</title>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
-
-<test-fixture id="container">
-  <template>
-    <div></div>
-  </template>
-</test-fixture>
-
-<dom-module id="gr-user-test-popup">
-  <template>
-    <div id="barfoo">some test module</div>
-  </template>
-  <script type="module">
-import '../../../test/common-test-setup.js';
+import '../../../test/common-test-setup-karma.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
-import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
-Polymer({is: 'gr-user-test-popup'});
-</script>
-</dom-module>
-
-<script type="module">
-import '../../../test/common-test-setup.js';
+import '../../../test/common-test-setup-karma.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GrPopupInterface} from './gr-popup-interface.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+
+class GrUserTestPopupElement extends PolymerElement {
+  static get is() { return 'gr-user-test-popup'; }
+
+  static get template() {
+    return html`<div id="barfoo">some test module</div>`;
+  }
+}
+
+customElements.define(GrUserTestPopupElement.is, GrUserTestPopupElement);
+
+const containerFixture = fixtureFromElement('div');
 
 const pluginApi = _testOnly_initGerritPluginApi();
 suite('gr-popup-interface tests', () => {
@@ -60,7 +48,7 @@ suite('gr-popup-interface tests', () => {
     sandbox = sinon.sandbox.create();
     pluginApi.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
-    container = fixture('container');
+    container = containerFixture.instantiate();
     sandbox.stub(plugin, 'hook').returns({
       getLastAttached() {
         return Promise.resolve(container);
@@ -124,4 +112,4 @@ suite('gr-popup-interface tests', () => {
     });
   });
 });
-</script>
+

@@ -18,10 +18,11 @@
 import '../../../test/common-test-setup-karma.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import './gr-external-style.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
 const pluginApi = _testOnly_initGerritPluginApi();
 
 const basicFixture = fixtureFromTemplate(

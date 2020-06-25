@@ -19,9 +19,21 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 
-class CommentApiMock extends GestureEventListeners(
+export class CommentApiMock extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {
+  static setDomModuleTemplate(template) {
+    if (!CommentApiMock._domModule) {
+      CommentApiMock._domModule = document.createElement('dom-module');
+      CommentApiMock._domModule.register(CommentApiMock.is);
+    }
+    CommentApiMock._domModule.innerHTML = template;
+  }
+
+  static resetDomModuleTemplate() {
+    this._domModule.innerHTML = '';
+  }
+
   static get is() { return 'comment-api-mock'; }
 
   static get properties() {
@@ -50,6 +62,16 @@ class CommentApiMock extends GestureEventListeners(
           this._changeComments = this.$.commentAPI._changeComments;
         });
   }
+}
+
+export function createCommentApiMockWithTemplateElement(tagName, template) {
+  const elementClass = class extends CommentApiMock {
+    static get is() { return tagName; }
+
+    static get template() { return template; }
+  };
+  customElements.define(tagName, elementClass);
+  return elementClass;
 }
 
 customElements.define(CommentApiMock.is, CommentApiMock);

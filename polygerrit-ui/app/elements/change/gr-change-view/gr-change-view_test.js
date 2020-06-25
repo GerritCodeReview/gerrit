@@ -21,7 +21,6 @@ import './gr-change-view.js';
 import {PrimaryTab, SecondaryTab, ChangeStatus} from '../../../constants/constants.js';
 
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {GrEditConstants} from '../../edit/gr-edit-constants.js';
 import {_testOnly_resetEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {getComputedStyleValue} from '../../../utils/dom-util.js';
@@ -30,27 +29,35 @@ import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 
 import 'lodash/lodash.js';
+import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 const fixture = fixtureFromElement('gr-change-view');
 
 suite('gr-change-view tests', () => {
-  const kb = KeyboardShortcutBinder;
-  kb.bindShortcut(kb.Shortcut.SEND_REPLY, 'ctrl+enter');
-  kb.bindShortcut(kb.Shortcut.REFRESH_CHANGE, 'shift+r');
-  kb.bindShortcut(kb.Shortcut.OPEN_REPLY_DIALOG, 'a');
-  kb.bindShortcut(kb.Shortcut.OPEN_DOWNLOAD_DIALOG, 'd');
-  kb.bindShortcut(kb.Shortcut.TOGGLE_DIFF_MODE, 'm');
-  kb.bindShortcut(kb.Shortcut.TOGGLE_CHANGE_STAR, 's');
-  kb.bindShortcut(kb.Shortcut.UP_TO_DASHBOARD, 'u');
-  kb.bindShortcut(kb.Shortcut.EXPAND_ALL_MESSAGES, 'x');
-  kb.bindShortcut(kb.Shortcut.COLLAPSE_ALL_MESSAGES, 'z');
-  kb.bindShortcut(kb.Shortcut.OPEN_DIFF_PREFS, ',');
-  kb.bindShortcut(kb.Shortcut.EDIT_TOPIC, 't');
-
   let element;
   let sandbox;
   let navigateToChangeStub;
+
+  suiteSetup(() => {
+    const kb = TestKeyboardShortcutBinder.push();
+    kb.bindShortcut(kb.Shortcut.SEND_REPLY, 'ctrl+enter');
+    kb.bindShortcut(kb.Shortcut.REFRESH_CHANGE, 'shift+r');
+    kb.bindShortcut(kb.Shortcut.OPEN_REPLY_DIALOG, 'a');
+    kb.bindShortcut(kb.Shortcut.OPEN_DOWNLOAD_DIALOG, 'd');
+    kb.bindShortcut(kb.Shortcut.TOGGLE_DIFF_MODE, 'm');
+    kb.bindShortcut(kb.Shortcut.TOGGLE_CHANGE_STAR, 's');
+    kb.bindShortcut(kb.Shortcut.UP_TO_DASHBOARD, 'u');
+    kb.bindShortcut(kb.Shortcut.EXPAND_ALL_MESSAGES, 'x');
+    kb.bindShortcut(kb.Shortcut.COLLAPSE_ALL_MESSAGES, 'z');
+    kb.bindShortcut(kb.Shortcut.OPEN_DIFF_PREFS, ',');
+    kb.bindShortcut(kb.Shortcut.EDIT_TOPIC, 't');
+  });
+
+  suiteTeardown(() => {
+    TestKeyboardShortcutBinder.pop();
+  });
+
   const TEST_SCROLL_TOP_PX = 100;
 
   const ROBOT_COMMENTS_LIMIT = 10;

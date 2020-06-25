@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bc3d03f_00d48283",
+        "filename": "java/com/google/gerrit/extensions/api/changes/AttentionSetInput.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-25T16:17:45Z",
+      "side": 1,
+      "message": "Is this now the @DefaultInput?",
+      "revId": "29f43c811650d4f24273859b3f64fa204fe64677",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "507988b2_487acaf5",
+        "filename": "java/com/google/gerrit/server/restapi/change/RemoveFromAttentionSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-25T16:17:45Z",
+      "side": 1,
+      "message": "\"match\" for short?",
+      "range": {
+        "startLine": 76,
+        "startChar": 55,
+        "endLine": 76,
+        "endChar": 76
+      },
+      "revId": "29f43c811650d4f24273859b3f64fa204fe64677",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

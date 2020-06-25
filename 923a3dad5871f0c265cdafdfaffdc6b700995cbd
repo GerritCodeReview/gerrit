@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66fd1aca_dc623fd1",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-25T08:30:59Z",
+      "side": 1,
+      "message": "The currentAccountUpdates set is created to filter already existing values in the map, but, even though the map entries are filtered with:\n\n  .filter(u -\u003e !currentAccountUpdates.contains(u.account()))\n\nthey are still conditionally inserted with Map::putIfAbsent() method. I think that filtering twice is not needed? Wouldn\u0027t this just work:\n\n      updates.stream()\n        .forEach(u -\u003e plannedAttentionSetUpdates.putIfAbsent(u.account(), u));\n\nOr, if you prefer intermediate filtering, then just put should work as well:\n\n      updates.stream()\n        .filter(u -\u003e !currentAccountUpdates.contains(u.account()))\n        .forEach(u -\u003e plannedAttentionSetUpdates.put(u.account(), u));",
+      "range": {
+        "startLine": 402,
+        "startChar": 3,
+        "endLine": 408,
+        "endChar": 78
+      },
+      "revId": "923a3dad5871f0c265cdafdfaffdc6b700995cbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

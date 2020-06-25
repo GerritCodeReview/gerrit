@@ -124,11 +124,7 @@ public class AllProjectsCreator {
           });
 
       // init labels.
-      input
-          .codeReviewLabel()
-          .ifPresent(
-              codeReviewLabel ->
-                  config.getLabelSections().put(codeReviewLabel.getName(), codeReviewLabel));
+      input.codeReviewLabel().ifPresent(codeReviewLabel -> config.upsertLabelType(codeReviewLabel));
 
       if (input.initDefaultAcls()) {
         // init access sections.

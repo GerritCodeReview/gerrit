@@ -118,7 +118,7 @@ public class AllUsersCreator {
               RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}", true);
 
       // Initialize "Code-Review" label.
-      config.getLabelSections().put(codeReviewLabel.getName(), codeReviewLabel);
+      config.upsertLabelType(codeReviewLabel);
 
       grant(config, users, Permission.READ, false, true, registered);
       grant(config, users, Permission.PUSH, false, true, registered);

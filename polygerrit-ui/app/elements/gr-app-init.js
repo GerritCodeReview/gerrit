@@ -20,7 +20,6 @@ import {appContext} from '../services/app-context.js';
 
 if (!window.Polymer) {
   window.Polymer = {
-    passiveTouchGestures: true,
     lazyRegister: true,
   };
 }

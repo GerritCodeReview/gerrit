@@ -91,8 +91,11 @@ export const htmlTemplate = html`
       </template>
       <div class="attention">
         <iron-icon icon="gr-icons:attention"></iron-icon>
-        <span>It is this user's turn to take action.</span>
+        <span
+          >[[_computeText(account, _selfAccount)]] turn to take action.</span
+        >
       </div>
     </template>
   </div>
+  <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

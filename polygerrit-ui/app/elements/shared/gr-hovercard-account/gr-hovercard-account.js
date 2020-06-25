@@ -19,6 +19,7 @@ import '@polymer/iron-icon/iron-icon.js';
 import '../../../styles/shared-styles.js';
 import '../gr-avatar/gr-avatar.js';
 import '../gr-button/gr-button.js';
+import '../gr-rest-api-interface/gr-rest-api-interface.js';
 import {hovercardBehaviorMixin} from '../gr-hovercard/gr-hovercard-behavior.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
@@ -36,6 +37,7 @@ class GrHovercardAccount extends GestureEventListeners(
   static get properties() {
     return {
       account: Object,
+      _selfAccount: Object,
       voteableText: String,
       attention: {
         type: Boolean,
@@ -43,6 +45,17 @@ class GrHovercardAccount extends GestureEventListeners(
         reflectToAttribute: true,
       },
     };
+  }
+
+  attached() {
+    super.attached();
+    this.$.restAPI.getAccount().then(account => {
+      this._selfAccount = account;
+    });
+  }
+
+  _computeText(account, selfAccount) {
+    return account._account_id === selfAccount._account_id ? 'Your' : 'Their';
   }
 }
 

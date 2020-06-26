@@ -15,14 +15,14 @@
  * limitations under the License.
  */
 
-import {GrDiffBuilder} from './gr-diff-builder.js';
+import {GrDiffBuilderUnified} from './gr-diff-builder-unified.js';
 
 /** @constructor */
 export function GrDiffBuilderBinary(diff, prefs, outputEl) {
-  GrDiffBuilder.call(this, diff, prefs, outputEl);
+  GrDiffBuilderUnified.call(this, diff, prefs, outputEl, []);
 }
 
-GrDiffBuilderBinary.prototype = Object.create(GrDiffBuilder.prototype);
+GrDiffBuilderBinary.prototype = Object.create(GrDiffBuilderUnified.prototype);
 GrDiffBuilderBinary.prototype.constructor = GrDiffBuilderBinary;
 
 // This method definition is a no-op to satisfy the parent type.
@@ -30,12 +30,15 @@ GrDiffBuilderBinary.prototype.addColumns = function(outputEl, fontSize) {};
 
 GrDiffBuilderBinary.prototype.buildSectionElement = function() {
   const section = this._createElement('tbody', 'binary-diff');
-  const row = this._createElement('tr');
-  const cell = this._createElement('td');
-  const label = this._createElement('label');
-  label.textContent = 'Difference in binary files';
-  cell.appendChild(label);
-  row.appendChild(cell);
-  section.appendChild(row);
+  const fileRow = this._createRow(section, {
+    beforeNumber: 'FILE',
+    afterNumber: 'FILE',
+    type: 'both',
+    text: '',
+  });
+  const contentTd = fileRow.querySelector('td.both.file');
+  contentTd.textContent = ' Difference in binary files';
+
+  section.appendChild(fileRow);
   return section;
 };

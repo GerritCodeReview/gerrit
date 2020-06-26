@@ -942,7 +942,7 @@ class GrReplyDialog extends mixinBehaviors( [
   _computePatchSetWarning(patchNum, labelsChanged) {
     let str = `Patch ${patchNum} is not latest.`;
     if (labelsChanged) {
-      str += ' Voting on a non-latest patch will have no effect.';
+      str += ' Voting will have no effect.';
     }
     return str;
   }

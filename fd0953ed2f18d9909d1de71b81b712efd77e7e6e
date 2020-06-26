@@ -158,6 +158,24 @@
       "revId": "fd0953ed2f18d9909d1de71b81b712efd77e7e6e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f9776c3_130370fc",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-26T09:41:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39cf308a_dcb00d20",
+      "revId": "fd0953ed2f18d9909d1de71b81b712efd77e7e6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

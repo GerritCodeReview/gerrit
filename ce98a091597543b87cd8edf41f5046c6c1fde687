@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "c81c8671_903a049c",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-26T07:23:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56bc97ca_ba247234",
+      "revId": "ce98a091597543b87cd8edf41f5046c6c1fde687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9eed99fb_53cf2257",
         "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 4
@@ -67,6 +85,24 @@
       "revId": "ce98a091597543b87cd8edf41f5046c6c1fde687",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fff44bc7_6d8eba0c",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 830,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-26T07:23:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9eed99fb_53cf2257",
+      "revId": "ce98a091597543b87cd8edf41f5046c6c1fde687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -87,6 +123,24 @@
     },
     {
       "key": {
+        "uuid": "295f1f6e_07b9b2fd",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewAttentionSet.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-26T07:23:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ada16328_44f56510",
+      "revId": "ce98a091597543b87cd8edf41f5046c6c1fde687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3811e9b2_27bddcd5",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
         "patchSetId": 4
@@ -101,6 +155,24 @@
       "revId": "ce98a091597543b87cd8edf41f5046c6c1fde687",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddd0c390_8b5974b9",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-26T07:23:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3811e9b2_27bddcd5",
+      "revId": "ce98a091597543b87cd8edf41f5046c6c1fde687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "bd1543db_eb3787b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-26T02:06:31Z",
+      "side": 1,
+      "message": "\"none of these configuration options are guarded\"",
+      "range": {
+        "startLine": 23,
+        "startChar": 63,
+        "endLine": 24,
+        "endChar": 43
+      },
+      "revId": "01825ad84d0d764852c0a9691551b7644966089a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c5263880_0fd1ecb9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

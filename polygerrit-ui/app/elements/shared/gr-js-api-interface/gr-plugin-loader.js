@@ -375,7 +375,8 @@ export class PluginLoader {
     }
 
     // theme is per host, should always load from assetsPath
-    const isThemeFile = pathOrUrl.endsWith('static/gerrit-theme.html');
+    const isThemeFile = pathOrUrl.endsWith('static/gerrit-theme.html') ||
+      pathOrUrl.endsWith('static/gerrit-theme.js');
     const shouldTryLoadFromAssetsPathFirst = !isThemeFile && assetsPath;
     if (pathOrUrl.startsWith(PRELOADED_PROTOCOL) ||
         pathOrUrl.startsWith('http')) {

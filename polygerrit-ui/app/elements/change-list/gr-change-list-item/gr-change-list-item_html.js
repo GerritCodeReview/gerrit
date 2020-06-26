@@ -57,7 +57,7 @@ export const htmlTemplate = html`
       white-space: nowrap;
     }
     .reviewers {
-      --account-max-length: 75px;
+      --account-max-length: 90px;
     }
     .spacer {
       height: 0;

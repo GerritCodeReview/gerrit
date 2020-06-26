@@ -516,7 +516,7 @@ class GrFileList extends mixinBehaviors( [
    * @return {string}
    */
   _computeCommentsString(changeComments, patchRange, path) {
-    if ([changeComments, patchRange, path].some(arg => arg === undefined)) {
+    if ([changeComments, patchRange, path].includes(undefined)) {
       return '';
     }
     const unresolvedCount =
@@ -558,7 +558,7 @@ class GrFileList extends mixinBehaviors( [
    * @return {string}
    */
   _computeDraftsString(changeComments, patchRange, path) {
-    if ([changeComments, patchRange, path].some(arg => arg === undefined)) {
+    if ([changeComments, patchRange, path].includes(undefined)) {
       return '';
     }
     const draftCount =
@@ -582,7 +582,7 @@ class GrFileList extends mixinBehaviors( [
    * @return {string}
    */
   _computeDraftsStringMobile(changeComments, patchRange, path) {
-    if ([changeComments, patchRange, path].some(arg => arg === undefined)) {
+    if ([changeComments, patchRange, path].includes(undefined)) {
       return '';
     }
     const draftCount =
@@ -606,7 +606,7 @@ class GrFileList extends mixinBehaviors( [
    * @return {string}
    */
   _computeCommentsStringMobile(changeComments, patchRange, path) {
-    if ([changeComments, patchRange, path].some(arg => arg === undefined)) {
+    if ([changeComments, patchRange, path].includes(undefined)) {
       return '';
     }
     const commentCount =
@@ -1068,7 +1068,7 @@ class GrFileList extends mixinBehaviors( [
       patchRange,
       reviewed,
       loading,
-    ].some(arg => arg === undefined)) {
+    ].includes(undefined)) {
       return;
     }
 
@@ -1089,7 +1089,7 @@ class GrFileList extends mixinBehaviors( [
 
   _computeFilesShown(numFilesShown, files) {
     // Polymer 2: check for undefined
-    if ([numFilesShown, files].some(arg => arg === undefined)) {
+    if ([numFilesShown, files].includes(undefined)) {
       return undefined;
     }
 
@@ -1165,7 +1165,7 @@ class GrFileList extends mixinBehaviors( [
 
   _computePatchSetDescription(revisions, patchNum) {
     // Polymer 2: check for undefined
-    if ([revisions, patchNum].some(arg => arg === undefined)) {
+    if ([revisions, patchNum].includes(undefined)) {
       return '';
     }
 

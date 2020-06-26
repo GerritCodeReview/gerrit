@@ -299,7 +299,7 @@ class GrDiff extends mixinBehaviors( [
 
   _enableSelectionObserver(loggedIn, isAttached) {
     // Polymer 2: check for undefined
-    if ([loggedIn, isAttached].some(arg => arg === undefined)) {
+    if ([loggedIn, isAttached].includes(undefined)) {
       return;
     }
 

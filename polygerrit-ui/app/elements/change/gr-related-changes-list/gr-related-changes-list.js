@@ -225,7 +225,7 @@ class GrRelatedChangesList extends mixinBehaviors( [
 
   _computeChangeContainerClass(currentChange, relatedChange) {
     const classes = ['changeContainer'];
-    if ([relatedChange, currentChange].some(arg => arg === undefined)) {
+    if ([relatedChange, currentChange].includes(undefined)) {
       return classes;
     }
     if (this._changesEqual(relatedChange, currentChange)) {
@@ -324,7 +324,7 @@ class GrRelatedChangesList extends mixinBehaviors( [
       conflicts,
       cherryPicks,
       sameTopic,
-    ].some(arg => arg === undefined)) {
+    ].includes(undefined)) {
       return;
     }
 
@@ -353,7 +353,7 @@ class GrRelatedChangesList extends mixinBehaviors( [
 
   _computeConnectedRevisions(change, patchNum, relatedChanges) {
     // Polymer 2: check for undefined
-    if ([change, patchNum, relatedChanges].some(arg => arg === undefined)) {
+    if ([change, patchNum, relatedChanges].includes(undefined)) {
       return undefined;
     }
 

@@ -674,7 +674,7 @@ class GrReplyDialog extends mixinBehaviors( [
 
   _changeUpdated(changeRecord, owner) {
     // Polymer 2: check for undefined
-    if ([changeRecord, owner].some(arg => arg === undefined)) {
+    if ([changeRecord, owner].includes(undefined)) {
       return;
     }
 
@@ -929,7 +929,7 @@ class GrReplyDialog extends mixinBehaviors( [
       includeComments,
       disabled,
       commentEditing,
-    ].some(arg => arg === undefined)) {
+    ].includes(undefined)) {
       return undefined;
     }
 

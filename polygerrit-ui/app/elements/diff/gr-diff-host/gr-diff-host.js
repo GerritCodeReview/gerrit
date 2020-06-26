@@ -933,7 +933,7 @@ class GrDiffHost extends mixinBehaviors( [
       preferredWhitespaceLevel,
       loadedWhitespaceLevel,
       noRenderOnPrefsChange,
-    ].some(arg => arg === undefined)) {
+    ].includes(undefined)) {
       return;
     }
 
@@ -949,7 +949,7 @@ class GrDiffHost extends mixinBehaviors( [
     if ([
       noRenderOnPrefsChange,
       prefsChangeRecord,
-    ].some(arg => arg === undefined)) {
+    ].includes(undefined)) {
       return;
     }
 

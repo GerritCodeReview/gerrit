@@ -86,7 +86,7 @@ class GrAccountDropdown extends mixinBehaviors( [
 
   _getLinks(switchAccountUrl, path) {
     // Polymer 2: check for undefined
-    if ([switchAccountUrl, path].some(arg => arg === undefined)) {
+    if ([switchAccountUrl, path].includes(undefined)) {
       return undefined;
     }
 

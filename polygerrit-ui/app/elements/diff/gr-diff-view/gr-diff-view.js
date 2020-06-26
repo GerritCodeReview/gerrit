@@ -849,7 +849,7 @@ class GrDiffView extends mixinBehaviors( [
 
   _setReviewedObserver(_loggedIn, paramsRecord, _prefs) {
     // Polymer 2: check for undefined
-    if ([_loggedIn, paramsRecord, _prefs].some(arg => arg === undefined)) {
+    if ([_loggedIn, paramsRecord, _prefs].includes(undefined)) {
       return;
     }
 
@@ -906,7 +906,7 @@ class GrDiffView extends mixinBehaviors( [
   }
 
   _getDiffUrl(change, patchRange, path) {
-    if ([change, patchRange, path].some(arg => arg === undefined)) {
+    if ([change, patchRange, path].includes(undefined)) {
       return '';
     }
     return GerritNav.getUrlForDiff(change, path, patchRange.patchNum,
@@ -947,7 +947,7 @@ class GrDiffView extends mixinBehaviors( [
   }
 
   _getChangePath(change, patchRange, revisions) {
-    if ([change, patchRange].some(arg => arg === undefined)) {
+    if ([change, patchRange].includes(undefined)) {
       return '';
     }
     const range = this._getChangeUrlRange(patchRange, revisions);
@@ -970,7 +970,7 @@ class GrDiffView extends mixinBehaviors( [
       files,
       patchNum,
       changeComments,
-    ].some(arg => arg === undefined)) {
+    ].includes(undefined)) {
       return;
     }
 
@@ -1164,7 +1164,7 @@ class GrDiffView extends mixinBehaviors( [
       path,
       patchRange,
       projectConfig,
-    ].some(arg => arg === undefined)) {
+    ].includes(undefined)) {
       return undefined;
     }
 
@@ -1198,7 +1198,7 @@ class GrDiffView extends mixinBehaviors( [
       commentMap,
       fileList,
       path,
-    ].some(arg => arg === undefined)) {
+    ].includes(undefined)) {
       return undefined;
     }
 
@@ -1385,7 +1385,7 @@ class GrDiffView extends mixinBehaviors( [
 
   _computeFileNum(file, files) {
     // Polymer 2: check for undefined
-    if ([file, files].some(arg => arg === undefined)) {
+    if ([file, files].includes(undefined)) {
       return undefined;
     }
 

@@ -202,7 +202,7 @@ class GrConfirmCherrypickDialog extends GestureEventListeners(
       changeStatus,
       commitNum,
       commitMessage,
-    ].some(arg => arg === undefined)) {
+    ].includes(undefined)) {
       return;
     }
 

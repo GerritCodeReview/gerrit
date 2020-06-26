@@ -48,11 +48,25 @@ suite('gr-plugin-endpoints tests', () => {
     pluginApi.install(p => { pluginFoo = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/foo.html');
     instance.registerModule(
-        pluginFoo, 'a-place', 'decorate', 'foo-module', domHook);
+        pluginFoo,
+        {
+          endpoint: 'a-place',
+          type: 'decorate',
+          moduleName: 'foo-module',
+          domHook,
+        }
+    );
     pluginApi.install(p => { pluginBar = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/bar.html');
     instance.registerModule(
-        pluginBar, 'a-place', 'style', 'bar-module', domHook);
+        pluginBar,
+        {
+          endpoint: 'a-place',
+          type: 'style',
+          moduleName: 'bar-module',
+          domHook,
+        }
+    );
     sandbox.stub(pluginLoader, 'arePluginsLoaded').returns(true);
   });
 
@@ -68,6 +82,7 @@ suite('gr-plugin-endpoints tests', () => {
         pluginUrl: pluginFoo._url,
         type: 'decorate',
         domHook,
+        slot: undefined,
       },
       {
         moduleName: 'bar-module',
@@ -75,6 +90,7 @@ suite('gr-plugin-endpoints tests', () => {
         pluginUrl: pluginBar._url,
         type: 'style',
         domHook,
+        slot: undefined,
       },
     ]);
   });
@@ -87,6 +103,7 @@ suite('gr-plugin-endpoints tests', () => {
         pluginUrl: pluginBar._url,
         type: 'style',
         domHook,
+        slot: undefined,
       },
     ]);
   });
@@ -101,6 +118,7 @@ suite('gr-plugin-endpoints tests', () => {
             pluginUrl: pluginFoo._url,
             type: 'decorate',
             domHook,
+            slot: undefined,
           },
         ]);
   });
@@ -119,13 +137,20 @@ suite('gr-plugin-endpoints tests', () => {
     const newModuleStub = sandbox.stub();
     instance.onNewEndpoint('a-place', newModuleStub);
     instance.registerModule(
-        pluginFoo, 'a-place', 'replace', 'zaz-module', domHook);
+        pluginFoo,
+        {
+          endpoint: 'a-place',
+          type: 'replace',
+          moduleName: 'zaz-module',
+          domHook,
+        });
     assert.deepEqual(newModuleStub.lastCall.args[0], {
       moduleName: 'zaz-module',
       plugin: pluginFoo,
       pluginUrl: pluginFoo._url,
       type: 'replace',
       domHook,
+      slot: undefined,
     });
   });
 
@@ -139,6 +164,7 @@ suite('gr-plugin-endpoints tests', () => {
         pluginUrl: pluginFoo._url,
         type: 'decorate',
         domHook,
+        slot: undefined,
       },
       {
         moduleName: 'bar-module',
@@ -146,6 +172,7 @@ suite('gr-plugin-endpoints tests', () => {
         pluginUrl: pluginBar._url,
         type: 'style',
         domHook,
+        slot: undefined,
       },
     ]);
   });

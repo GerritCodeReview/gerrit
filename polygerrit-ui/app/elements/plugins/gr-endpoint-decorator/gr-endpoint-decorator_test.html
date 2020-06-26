@@ -29,6 +29,10 @@ limitations under the License.
     <div>
       <gr-endpoint-decorator name="first">
         <gr-endpoint-param name="someparam" value="barbar"></gr-endpoint-param>
+        <p>
+          <span>test slot</span>
+          <gr-endpoint-slot name="test"></gr-endpoint-slot>
+        </p>
       </gr-endpoint-decorator>
       <gr-endpoint-decorator name="second">
         <gr-endpoint-param name="someparam" value="foofoo"></gr-endpoint-param>
@@ -44,6 +48,7 @@ limitations under the License.
 import '../../../test/common-test-setup.js';
 import './gr-endpoint-decorator.js';
 import '../gr-endpoint-param/gr-endpoint-param.js';
+import '../gr-endpoint-slot/gr-endpoint-slot.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
@@ -56,6 +61,7 @@ suite('gr-endpoint-decorator', () => {
   let sandbox;
   let plugin;
   let decorationHook;
+  let decorationHookWithSlot;
   let replacementHook;
 
   setup(done => {
@@ -69,6 +75,11 @@ suite('gr-endpoint-decorator', () => {
         'http://some/plugin/url.html');
     // Decoration
     decorationHook = plugin.registerCustomComponent('first', 'some-module');
+    decorationHookWithSlot = plugin.registerCustomComponent(
+        'first',
+        'some-module-2',
+        {slot: 'test'}
+    );
     // Replacement
     replacementHook = plugin.registerCustomComponent(
         'second', 'other-module', {replace: true});
@@ -100,12 +111,31 @@ suite('gr-endpoint-decorator', () => {
     const [module] = modules;
     assert.isOk(module);
     assert.equal(module['someparam'], 'barbar');
-    return decorationHook.getLastAttached().then(element => {
-      assert.strictEqual(element, module);
-    })
+    return decorationHook.getLastAttached()
+        .then(element => {
+          assert.strictEqual(element, module);
+        })
         .then(() => {
           element.remove();
           assert.equal(decorationHook.getAllAttached().length, 0);
+        });
+  });
+
+  test('decoration with slot', () => {
+    const element =
+        container.querySelector('gr-endpoint-decorator[name="first"]');
+    const modules = [...dom(element).querySelectorAll('p > some-module-2')];
+    assert.equal(modules.length, 1);
+    const [module] = modules;
+    assert.isOk(module);
+    assert.equal(module['someparam'], 'barbar');
+    return decorationHookWithSlot.getLastAttached()
+        .then(element => {
+          assert.strictEqual(element, module);
+        })
+        .then(() => {
+          element.remove();
+          assert.equal(decorationHookWithSlot.getAllAttached().length, 0);
         });
   });
 

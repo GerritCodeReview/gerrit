@@ -28,7 +28,6 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -183,12 +182,10 @@ public class AllProjectsCreator {
   private void initDefaultAclsForBatchUsers(
       AccessSection capabilities, ProjectConfig config, GroupReference batchUsersGroup) {
     Permission priority = capabilities.getPermission(GlobalCapability.PRIORITY, true);
-    PermissionRule r = rule(config, batchUsersGroup);
-    r.setAction(Action.BATCH);
-    priority.add(r);
+    priority.add(rule(config, batchUsersGroup).setAction(Action.BATCH).build());
 
     Permission stream = capabilities.getPermission(GlobalCapability.STREAM_EVENTS, true);
-    stream.add(rule(config, batchUsersGroup));
+    stream.add(rule(config, batchUsersGroup).build());
   }
 
   private void initDefaultAclsForAdmins(

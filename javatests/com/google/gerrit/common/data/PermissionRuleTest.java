@@ -15,7 +15,6 @@
 package com.google.gerrit.common.data;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.entities.AccountGroup;
@@ -29,140 +28,33 @@ public class PermissionRuleTest {
   @Before
   public void setup() {
     this.groupReference = GroupReference.create(AccountGroup.uuid("uuid"), "group");
-    this.permissionRule = new PermissionRule(groupReference);
-  }
-
-  @Test
-  public void getAndSetAction() {
-    assertThat(permissionRule.getAction()).isEqualTo(Action.ALLOW);
-
-    permissionRule.setAction(Action.DENY);
-    assertThat(permissionRule.getAction()).isEqualTo(Action.DENY);
-  }
-
-  @Test
-  public void cannotSetActionToNull() {
-    assertThrows(NullPointerException.class, () -> permissionRule.setAction(null));
-  }
-
-  @Test
-  public void setDeny() {
-    assertThat(permissionRule.isDeny()).isFalse();
-
-    permissionRule.setDeny();
-    assertThat(permissionRule.isDeny()).isTrue();
-  }
-
-  @Test
-  public void setBlock() {
-    assertThat(permissionRule.isBlock()).isFalse();
-
-    permissionRule.setBlock();
-    assertThat(permissionRule.isBlock()).isTrue();
-  }
-
-  @Test
-  public void setForce() {
-    assertThat(permissionRule.getForce()).isFalse();
-
-    permissionRule.setForce(true);
-    assertThat(permissionRule.getForce()).isTrue();
-
-    permissionRule.setForce(false);
-    assertThat(permissionRule.getForce()).isFalse();
-  }
-
-  @Test
-  public void setMin() {
-    assertThat(permissionRule.getMin()).isEqualTo(0);
-
-    permissionRule.setMin(-2);
-    assertThat(permissionRule.getMin()).isEqualTo(-2);
-
-    permissionRule.setMin(2);
-    assertThat(permissionRule.getMin()).isEqualTo(2);
-  }
-
-  @Test
-  public void setMax() {
-    assertThat(permissionRule.getMax()).isEqualTo(0);
-
-    permissionRule.setMax(2);
-    assertThat(permissionRule.getMax()).isEqualTo(2);
-
-    permissionRule.setMax(-2);
-    assertThat(permissionRule.getMax()).isEqualTo(-2);
-  }
-
-  @Test
-  public void setRange() {
-    assertThat(permissionRule.getMin()).isEqualTo(0);
-    assertThat(permissionRule.getMax()).isEqualTo(0);
-
-    permissionRule.setRange(-2, 2);
-    assertThat(permissionRule.getMin()).isEqualTo(-2);
-    assertThat(permissionRule.getMax()).isEqualTo(2);
-
-    permissionRule.setRange(2, -2);
-    assertThat(permissionRule.getMin()).isEqualTo(-2);
-    assertThat(permissionRule.getMax()).isEqualTo(2);
-
-    permissionRule.setRange(1, 1);
-    assertThat(permissionRule.getMin()).isEqualTo(1);
-    assertThat(permissionRule.getMax()).isEqualTo(1);
-  }
-
-  @Test
-  public void hasRange() {
-    assertThat(permissionRule.hasRange()).isFalse();
-
-    permissionRule.setMin(-1);
-    assertThat(permissionRule.hasRange()).isTrue();
-
-    permissionRule.setMax(1);
-    assertThat(permissionRule.hasRange()).isTrue();
-  }
-
-  @Test
-  public void getGroup() {
-    assertThat(permissionRule.getGroup()).isEqualTo(groupReference);
-  }
-
-  @Test
-  public void setGroup() {
-    GroupReference groupReference2 = GroupReference.create(AccountGroup.uuid("uuid2"), "group2");
-    assertThat(groupReference2).isNotEqualTo(groupReference);
-
-    assertThat(permissionRule.getGroup()).isEqualTo(groupReference);
-
-    permissionRule.setGroup(groupReference2);
-    assertThat(permissionRule.getGroup()).isEqualTo(groupReference2);
+    this.permissionRule = PermissionRule.create(groupReference);
   }
 
   @Test
   public void mergeFromAnyBlock() {
     GroupReference groupReference1 = GroupReference.create(AccountGroup.uuid("uuid1"), "group1");
-    PermissionRule permissionRule1 = new PermissionRule(groupReference1);
+    PermissionRule permissionRule1 = PermissionRule.builder(groupReference1).build();
 
     GroupReference groupReference2 = GroupReference.create(AccountGroup.uuid("uuid2"), "group2");
-    PermissionRule permissionRule2 = new PermissionRule(groupReference2);
+    PermissionRule permissionRule2 = PermissionRule.builder(groupReference2).build();
 
-    permissionRule1.mergeFrom(permissionRule2);
+    permissionRule1 = PermissionRule.merge(permissionRule2, permissionRule1);
     assertThat(permissionRule1.isBlock()).isFalse();
     assertThat(permissionRule2.isBlock()).isFalse();
 
-    permissionRule2.setBlock();
-    permissionRule1.mergeFrom(permissionRule2);
+    permissionRule2 = permissionRule2.toBuilder().setBlock().build();
+    permissionRule1 = PermissionRule.merge(permissionRule2, permissionRule1);
     assertThat(permissionRule1.isBlock()).isTrue();
     assertThat(permissionRule2.isBlock()).isTrue();
 
-    permissionRule2.setDeny();
-    permissionRule1.mergeFrom(permissionRule2);
+    permissionRule2 = permissionRule2.toBuilder().setDeny().build();
+    permissionRule1 = PermissionRule.merge(permissionRule2, permissionRule1);
     assertThat(permissionRule1.isBlock()).isTrue();
     assertThat(permissionRule2.isBlock()).isFalse();
 
-    permissionRule2.setAction(Action.BATCH);
-    permissionRule1.mergeFrom(permissionRule2);
+    permissionRule2 = permissionRule2.toBuilder().setAction(Action.BATCH).build();
+    permissionRule1 = PermissionRule.merge(permissionRule2, permissionRule1);
     assertThat(permissionRule1.isBlock()).isTrue();
     assertThat(permissionRule2.isBlock()).isFalse();
   }
@@ -170,22 +62,22 @@ public class PermissionRuleTest {
   @Test
   public void mergeFromAnyDeny() {
     GroupReference groupReference1 = GroupReference.create(AccountGroup.uuid("uuid1"), "group1");
-    PermissionRule permissionRule1 = new PermissionRule(groupReference1);
+    PermissionRule permissionRule1 = PermissionRule.builder(groupReference1).build();
 
     GroupReference groupReference2 = GroupReference.create(AccountGroup.uuid("uuid2"), "group2");
-    PermissionRule permissionRule2 = new PermissionRule(groupReference2);
+    PermissionRule permissionRule2 = PermissionRule.builder(groupReference2).build();
 
-    permissionRule1.mergeFrom(permissionRule2);
+    permissionRule1 = PermissionRule.merge(permissionRule2, permissionRule1);
     assertThat(permissionRule1.isDeny()).isFalse();
     assertThat(permissionRule2.isDeny()).isFalse();
 
-    permissionRule2.setDeny();
-    permissionRule1.mergeFrom(permissionRule2);
+    permissionRule2 = permissionRule2.toBuilder().setDeny().build();
+    permissionRule1 = PermissionRule.merge(permissionRule2, permissionRule1);
     assertThat(permissionRule1.isDeny()).isTrue();
     assertThat(permissionRule2.isDeny()).isTrue();
 
-    permissionRule2.setAction(Action.BATCH);
-    permissionRule1.mergeFrom(permissionRule2);
+    permissionRule2 = permissionRule2.toBuilder().setAction(Action.BATCH).build();
+    permissionRule1 = PermissionRule.merge(permissionRule2, permissionRule1);
     assertThat(permissionRule1.isDeny()).isTrue();
     assertThat(permissionRule2.isDeny()).isFalse();
   }
@@ -193,22 +85,22 @@ public class PermissionRuleTest {
   @Test
   public void mergeFromAnyBatch() {
     GroupReference groupReference1 = GroupReference.create(AccountGroup.uuid("uuid1"), "group1");
-    PermissionRule permissionRule1 = new PermissionRule(groupReference1);
+    PermissionRule permissionRule1 = PermissionRule.builder(groupReference1).build();
 
     GroupReference groupReference2 = GroupReference.create(AccountGroup.uuid("uuid2"), "group2");
-    PermissionRule permissionRule2 = new PermissionRule(groupReference2);
+    PermissionRule permissionRule2 = PermissionRule.builder(groupReference2).build();
 
-    permissionRule1.mergeFrom(permissionRule2);
+    permissionRule1 = PermissionRule.merge(permissionRule2, permissionRule1);
     assertThat(permissionRule1.getAction()).isNotEqualTo(Action.BATCH);
     assertThat(permissionRule2.getAction()).isNotEqualTo(Action.BATCH);
 
-    permissionRule2.setAction(Action.BATCH);
-    permissionRule1.mergeFrom(permissionRule2);
+    permissionRule2 = permissionRule2.toBuilder().setAction(Action.BATCH).build();
+    permissionRule1 = PermissionRule.merge(permissionRule2, permissionRule1);
     assertThat(permissionRule1.getAction()).isEqualTo(Action.BATCH);
     assertThat(permissionRule2.getAction()).isEqualTo(Action.BATCH);
 
-    permissionRule2.setAction(Action.ALLOW);
-    permissionRule1.mergeFrom(permissionRule2);
+    permissionRule2 = permissionRule2.toBuilder().setAction(Action.ALLOW).build();
+    permissionRule1 = PermissionRule.merge(permissionRule2, permissionRule1);
     assertThat(permissionRule1.getAction()).isEqualTo(Action.BATCH);
     assertThat(permissionRule2.getAction()).isNotEqualTo(Action.BATCH);
   }
@@ -216,22 +108,22 @@ public class PermissionRuleTest {
   @Test
   public void mergeFromAnyForce() {
     GroupReference groupReference1 = GroupReference.create(AccountGroup.uuid("uuid1"), "group1");
-    PermissionRule permissionRule1 = new PermissionRule(groupReference1);
+    PermissionRule permissionRule1 = PermissionRule.builder(groupReference1).build();
 
     GroupReference groupReference2 = GroupReference.create(AccountGroup.uuid("uuid2"), "group2");
-    PermissionRule permissionRule2 = new PermissionRule(groupReference2);
+    PermissionRule permissionRule2 = PermissionRule.builder(groupReference2).build();
 
-    permissionRule1.mergeFrom(permissionRule2);
+    permissionRule1 = PermissionRule.merge(permissionRule2, permissionRule1);
     assertThat(permissionRule1.getForce()).isFalse();
     assertThat(permissionRule2.getForce()).isFalse();
 
-    permissionRule2.setForce(true);
-    permissionRule1.mergeFrom(permissionRule2);
+    permissionRule2 = permissionRule2.toBuilder().setForce(true).build();
+    permissionRule1 = PermissionRule.merge(permissionRule2, permissionRule1);
     assertThat(permissionRule1.getForce()).isTrue();
     assertThat(permissionRule2.getForce()).isTrue();
 
-    permissionRule2.setForce(false);
-    permissionRule1.mergeFrom(permissionRule2);
+    permissionRule2 = permissionRule2.toBuilder().setForce(false).build();
+    permissionRule1 = PermissionRule.merge(permissionRule2, permissionRule1);
     assertThat(permissionRule1.getForce()).isTrue();
     assertThat(permissionRule2.getForce()).isFalse();
   }
@@ -239,14 +131,14 @@ public class PermissionRuleTest {
   @Test
   public void mergeFromMergeRange() {
     GroupReference groupReference1 = GroupReference.create(AccountGroup.uuid("uuid1"), "group1");
-    PermissionRule permissionRule1 = new PermissionRule(groupReference1);
-    permissionRule1.setRange(-1, 2);
+    PermissionRule permissionRule1 =
+        PermissionRule.builder(groupReference1).setRange(-1, 2).build();
 
     GroupReference groupReference2 = GroupReference.create(AccountGroup.uuid("uuid2"), "group2");
-    PermissionRule permissionRule2 = new PermissionRule(groupReference2);
-    permissionRule2.setRange(-2, 1);
+    PermissionRule permissionRule2 =
+        PermissionRule.builder(groupReference2).setRange(-2, 1).build();
 
-    permissionRule1.mergeFrom(permissionRule2);
+    permissionRule1 = PermissionRule.merge(permissionRule2, permissionRule1);
     assertThat(permissionRule1.getMin()).isEqualTo(-2);
     assertThat(permissionRule1.getMax()).isEqualTo(2);
     assertThat(permissionRule2.getMin()).isEqualTo(-2);
@@ -256,49 +148,56 @@ public class PermissionRuleTest {
   @Test
   public void mergeFromGroupNotChanged() {
     GroupReference groupReference1 = GroupReference.create(AccountGroup.uuid("uuid1"), "group1");
-    PermissionRule permissionRule1 = new PermissionRule(groupReference1);
+    PermissionRule permissionRule1 = PermissionRule.builder(groupReference1).build();
 
     GroupReference groupReference2 = GroupReference.create(AccountGroup.uuid("uuid2"), "group2");
-    PermissionRule permissionRule2 = new PermissionRule(groupReference2);
+    PermissionRule permissionRule2 = PermissionRule.builder(groupReference2).build();
 
-    permissionRule1.mergeFrom(permissionRule2);
+    permissionRule1 = PermissionRule.merge(permissionRule2, permissionRule1);
     assertThat(permissionRule1.getGroup()).isEqualTo(groupReference1);
     assertThat(permissionRule2.getGroup()).isEqualTo(groupReference2);
   }
 
   @Test
   public void asString() {
-    assertThat(permissionRule.asString(true)).isEqualTo("group " + groupReference.getName());
+    PermissionRule.Builder permissionRule = this.permissionRule.toBuilder();
+
+    assertThat(permissionRule.build().asString(true))
+        .isEqualTo("group " + groupReference.getName());
 
     permissionRule.setDeny();
-    assertThat(permissionRule.asString(true)).isEqualTo("deny group " + groupReference.getName());
+    assertThat(permissionRule.build().asString(true))
+        .isEqualTo("deny group " + groupReference.getName());
 
     permissionRule.setBlock();
-    assertThat(permissionRule.asString(true)).isEqualTo("block group " + groupReference.getName());
+    assertThat(permissionRule.build().asString(true))
+        .isEqualTo("block group " + groupReference.getName());
 
     permissionRule.setAction(Action.BATCH);
-    assertThat(permissionRule.asString(true)).isEqualTo("batch group " + groupReference.getName());
+    assertThat(permissionRule.build().asString(true))
+        .isEqualTo("batch group " + groupReference.getName());
 
     permissionRule.setAction(Action.INTERACTIVE);
-    assertThat(permissionRule.asString(true))
+    assertThat(permissionRule.build().asString(true))
         .isEqualTo("interactive group " + groupReference.getName());
 
     permissionRule.setForce(true);
-    assertThat(permissionRule.asString(true))
+    assertThat(permissionRule.build().asString(true))
         .isEqualTo("interactive +force group " + groupReference.getName());
 
     permissionRule.setAction(Action.ALLOW);
-    assertThat(permissionRule.asString(true)).isEqualTo("+force group " + groupReference.getName());
+    assertThat(permissionRule.build().asString(true))
+        .isEqualTo("+force group " + groupReference.getName());
 
     permissionRule.setMax(1);
-    assertThat(permissionRule.asString(true))
+    assertThat(permissionRule.build().asString(true))
         .isEqualTo("+force +0..+1 group " + groupReference.getName());
 
     permissionRule.setMin(-1);
-    assertThat(permissionRule.asString(true))
+    assertThat(permissionRule.build().asString(true))
         .isEqualTo("+force -1..+1 group " + groupReference.getName());
 
-    assertThat(permissionRule.asString(false))
+    assertThat(permissionRule.build().asString(false))
         .isEqualTo("+force group " + groupReference.getName());
   }
 
@@ -348,35 +247,42 @@ public class PermissionRuleTest {
   @Test
   public void testEquals() {
     GroupReference groupReference2 = GroupReference.create(AccountGroup.uuid("uuid2"), "group2");
-    PermissionRule permissionRuleOther = new PermissionRule(groupReference2);
+    PermissionRule.Builder permissionRuleOther = PermissionRule.builder(groupReference2);
+    PermissionRule.Builder permissionRule = this.permissionRule.toBuilder();
+
     assertThat(permissionRule.equals(permissionRuleOther)).isFalse();
 
     permissionRuleOther.setGroup(groupReference);
-    assertThat(permissionRule.equals(permissionRuleOther)).isTrue();
+    assertThat(permissionRuleEquals(permissionRule, permissionRuleOther)).isTrue();
 
     permissionRule.setDeny();
-    assertThat(permissionRule.equals(permissionRuleOther)).isFalse();
+    assertThat(permissionRuleEquals(permissionRule, permissionRuleOther)).isFalse();
 
     permissionRuleOther.setDeny();
-    assertThat(permissionRule.equals(permissionRuleOther)).isTrue();
+    assertThat(permissionRuleEquals(permissionRule, permissionRuleOther)).isTrue();
 
     permissionRule.setForce(true);
-    assertThat(permissionRule.equals(permissionRuleOther)).isFalse();
+    assertThat(permissionRuleEquals(permissionRule, permissionRuleOther)).isFalse();
 
     permissionRuleOther.setForce(true);
-    assertThat(permissionRule.equals(permissionRuleOther)).isTrue();
+    assertThat(permissionRuleEquals(permissionRule, permissionRuleOther)).isTrue();
 
     permissionRule.setMin(-1);
-    assertThat(permissionRule.equals(permissionRuleOther)).isFalse();
+    assertThat(permissionRuleEquals(permissionRule, permissionRuleOther)).isFalse();
 
     permissionRuleOther.setMin(-1);
-    assertThat(permissionRule.equals(permissionRuleOther)).isTrue();
+    assertThat(permissionRuleEquals(permissionRule, permissionRuleOther)).isTrue();
 
     permissionRule.setMax(1);
-    assertThat(permissionRule.equals(permissionRuleOther)).isFalse();
+    assertThat(permissionRuleEquals(permissionRule, permissionRuleOther)).isFalse();
 
     permissionRuleOther.setMax(1);
-    assertThat(permissionRule.equals(permissionRuleOther)).isTrue();
+    assertThat(permissionRuleEquals(permissionRule, permissionRuleOther)).isTrue();
+  }
+
+  private static boolean permissionRuleEquals(
+      PermissionRule.Builder r1, PermissionRule.Builder r2) {
+    return r1.build().equals(r2.build());
   }
 
   private void assertPermissionRule(

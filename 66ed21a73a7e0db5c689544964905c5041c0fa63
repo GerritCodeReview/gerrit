@@ -181,6 +181,24 @@
     },
     {
       "key": {
+        "uuid": "913d626e_4ea713b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-26T07:43:42Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think that renaming the button will fix the confusion. I think it is confusing to have a button on the comment panel that does not have anything to do with the comment.\n\nI am not sure I agree with this assesment, that the comment box where the reviewer telling me to replace \"foo\" with \"bar\" and changing the related line of code in inline editor are not related.\n\nHave you checked \"Robot Comment\" box? Thix box has \"Fix the code button\"? Why it is related? Should we remove the Fix button there to be consistent with human comment box?\n\nWhat if we combine to buttons: \"Fix the code\u0026Mark the comment as Done\". In that case, the change owner would click the \"Fix the code \u0026 Mark as Done\" button only once, the comment would be marked as done and the user would be taken to the corresponding line in inline editor. (Of course, it would complicate the state management of the comment box, if use klick first only \"Done\" button, what would \"Fix the code\u0026Mark the comment as Done\" mean in that case).",
+      "parentUuid": "3f5bfab3_01b93120",
+      "revId": "66ed21a73a7e0db5c689544964905c5041c0fa63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d829fd1f_812f0d27",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 2

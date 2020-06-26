@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8dbdb219_4f7f8464",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-26T12:49:04Z",
+      "side": 1,
+      "message": "fonts.css is only relevant when useGoogleFonts is false\n\nhttps://gerrit.googlesource.com/gerrit/+/3164e069abf81fb125e62965f55c91f02b5bde95/resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+      "parentUuid": "b460f902_fb763be8",
+      "range": {
+        "startLine": 10,
+        "startChar": 18,
+        "endLine": 11,
+        "endChar": 56
+      },
+      "revId": "d46a08bd1223d84a6ff7819358173b18827db7d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6527201_f54c3273",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -59,6 +83,23 @@
       "writtenOn": "2020-06-26T12:25:12Z",
       "side": 1,
       "message": "LGTM, but I will defer +2 to Ben as he added these in the first place",
+      "revId": "d46a08bd1223d84a6ff7819358173b18827db7d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "352fc0e9_5ca6b982",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-26T12:49:04Z",
+      "side": 1,
+      "message": "Sorry for breaking. Thanks for fixing!",
       "revId": "d46a08bd1223d84a6ff7819358173b18827db7d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

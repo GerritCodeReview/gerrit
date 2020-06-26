@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "b460f902_fb763be8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-26T12:31:45Z",
+      "side": 1,
+      "message": "This is done unconditionally.\n\nI see why you would like to have it, but what\u0027s for all other gerrit users that do not care about connectivity? It\u0027s certainly faster to load the fonts from Google CDN as from Wikimedia/OpenStack/LibreOffice sites?",
+      "range": {
+        "startLine": 10,
+        "startChar": 18,
+        "endLine": 11,
+        "endChar": 56
+      },
+      "revId": "d46a08bd1223d84a6ff7819358173b18827db7d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6527201_f54c3273",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-26T12:31:45Z",
+      "side": 1,
+      "message": "Nit: Worng footer order. Do you have broken commit-msg hook?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 12
+      },
+      "revId": "d46a08bd1223d84a6ff7819358173b18827db7d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "97c1110a_f472fbe4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

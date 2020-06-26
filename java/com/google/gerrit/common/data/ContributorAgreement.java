@@ -14,98 +14,67 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
-import java.util.ArrayList;
-import java.util.List;
 
 /** Portion of a {@link Project} describing a single contributor agreement. */
-public class ContributorAgreement implements Comparable<ContributorAgreement> {
-  protected String name;
-  protected String description;
-  protected List<PermissionRule> accepted;
-  protected GroupReference autoVerify;
-  protected String agreementUrl;
-  protected List<String> excludeProjectsRegexes;
-  protected List<String> matchProjectsRegexes;
+@AutoValue
+public abstract class ContributorAgreement implements Comparable<ContributorAgreement> {
+  public abstract String getName();
 
-  protected ContributorAgreement() {}
+  @Nullable
+  public abstract String getDescription();
 
-  public ContributorAgreement(String name) {
-    setName(name);
-  }
+  public abstract ImmutableList<PermissionRule> getAccepted();
 
-  public String getName() {
-    return name;
-  }
+  @Nullable
+  public abstract GroupReference getAutoVerify();
 
-  public void setName(String name) {
-    this.name = name;
-  }
+  @Nullable
+  public abstract String getAgreementUrl();
 
-  public String getDescription() {
-    return description;
-  }
+  public abstract ImmutableList<String> getExcludeProjectsRegexes();
 
-  public void setDescription(String description) {
-    this.description = description;
-  }
+  public abstract ImmutableList<String> getMatchProjectsRegexes();
 
-  public List<PermissionRule> getAccepted() {
-    if (accepted == null) {
-      accepted = new ArrayList<>();
-    }
-    return accepted;
-  }
-
-  public void setAccepted(List<PermissionRule> accepted) {
-    this.accepted = accepted;
-  }
-
-  public GroupReference getAutoVerify() {
-    return autoVerify;
-  }
-
-  public void setAutoVerify(GroupReference autoVerify) {
-    this.autoVerify = autoVerify;
-  }
-
-  public String getAgreementUrl() {
-    return agreementUrl;
-  }
-
-  public void setAgreementUrl(String agreementUrl) {
-    this.agreementUrl = agreementUrl;
-  }
-
-  public List<String> getExcludeProjectsRegexes() {
-    if (excludeProjectsRegexes == null) {
-      excludeProjectsRegexes = new ArrayList<>();
-    }
-    return excludeProjectsRegexes;
-  }
-
-  public void setExcludeProjectsRegexes(List<String> excludeProjectsRegexes) {
-    this.excludeProjectsRegexes = excludeProjectsRegexes;
-  }
-
-  public List<String> getMatchProjectsRegexes() {
-    if (matchProjectsRegexes == null) {
-      matchProjectsRegexes = new ArrayList<>();
-    }
-    return matchProjectsRegexes;
-  }
-
-  public void setMatchProjectsRegexes(List<String> matchProjectsRegexes) {
-    this.matchProjectsRegexes = matchProjectsRegexes;
+  public static ContributorAgreement.Builder builder(String name) {
+    return new AutoValue_ContributorAgreement.Builder()
+        .setName(name)
+        .setAccepted(ImmutableList.of())
+        .setExcludeProjectsRegexes(ImmutableList.of())
+        .setMatchProjectsRegexes(ImmutableList.of());
   }
 
   @Override
-  public int compareTo(ContributorAgreement o) {
+  public final int compareTo(ContributorAgreement o) {
     return getName().compareTo(o.getName());
   }
 
   @Override
-  public String toString() {
+  public final String toString() {
     return "ContributorAgreement[" + getName() + "]";
+  }
+
+  public abstract Builder toBuilder();
+
+  @AutoValue.Builder
+  public abstract static class Builder {
+    public abstract Builder setName(String name);
+
+    public abstract Builder setDescription(@Nullable String description);
+
+    public abstract Builder setAccepted(ImmutableList<PermissionRule> accepted);
+
+    public abstract Builder setAutoVerify(@Nullable GroupReference autoVerify);
+
+    public abstract Builder setAgreementUrl(@Nullable String agreementUrl);
+
+    public abstract Builder setExcludeProjectsRegexes(ImmutableList<String> excludeProjectsRegexes);
+
+    public abstract Builder setMatchProjectsRegexes(ImmutableList<String> matchProjectsRegexes);
+
+    public abstract ContributorAgreement build();
   }
 }

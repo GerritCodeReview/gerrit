@@ -76,7 +76,7 @@ public class AgreementsIT extends AbstractDaemonTest {
 
   protected ContributorAgreement configureContributorAgreement(boolean autoVerify)
       throws Exception {
-    ContributorAgreement ca;
+    ContributorAgreement.Builder ca;
     String name = autoVerify ? "cla-test-group" : "cla-test-no-auto-verify-group";
     AccountGroup.UUID g = groupOperations.newGroup().name(name).create();
     GroupApi groupApi = gApi.groups().id(g.get());
@@ -86,11 +86,11 @@ public class AgreementsIT extends AbstractDaemonTest {
     PermissionRule rule =
         PermissionRule.builder(groupRef).setAction(PermissionRule.Action.ALLOW).build();
     if (autoVerify) {
-      ca = new ContributorAgreement("cla-test");
+      ca = ContributorAgreement.builder("cla-test");
       ca.setAutoVerify(groupRef);
       ca.setAccepted(ImmutableList.of(rule));
     } else {
-      ca = new ContributorAgreement("cla-test-no-auto-verify");
+      ca = ContributorAgreement.builder("cla-test-no-auto-verify");
     }
     ca.setDescription("description");
     ca.setAgreementUrl("agreement-url");
@@ -98,9 +98,10 @@ public class AgreementsIT extends AbstractDaemonTest {
     ca.setExcludeProjectsRegexes(ImmutableList.of("ExcludedProject"));
 
     try (ProjectConfigUpdate u = updateProject(allProjects)) {
-      u.getConfig().replace(ca);
+      ContributorAgreement contributorAgreement = ca.build();
+      u.getConfig().replace(contributorAgreement);
       u.save();
-      return ca;
+      return contributorAgreement;
     }
   }
 

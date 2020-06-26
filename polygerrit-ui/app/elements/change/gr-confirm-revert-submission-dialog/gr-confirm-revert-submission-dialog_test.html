@@ -41,7 +41,7 @@ suite('gr-confirm-revert-submission-dialog tests', () => {
 
   setup(() => {
     element = fixture('basic');
-    sandbox =sinon.sandbox.create();
+    sandbox = sinon.sandbox.create();
   });
 
   teardown(() => sandbox.restore());
@@ -51,7 +51,7 @@ suite('gr-confirm-revert-submission-dialog tests', () => {
     const alertStub = sandbox.stub();
     element.addEventListener('show-alert', alertStub);
     element._populateRevertSubmissionMessage(
-        'not a commitHash in sight'
+        'not a commitHash in sight', {}
     );
     assert.isTrue(alertStub.calledOnce);
   });
@@ -60,8 +60,8 @@ suite('gr-confirm-revert-submission-dialog tests', () => {
     assert.isNotOk(element.message);
     element._populateRevertSubmissionMessage(
         'one line commit\n\nChange-Id: abcdefg\n',
-        'abcd123');
-    const expected = 'Revert submission\n\n' +
+        {current_revision: 'abcd123', submission_id: '111'});
+    const expected = 'Revert submission 111\n\n' +
       'Reason for revert: <INSERT REASONING HERE>\n';
     assert.equal(element.message, expected);
   });
@@ -70,8 +70,8 @@ suite('gr-confirm-revert-submission-dialog tests', () => {
     assert.isNotOk(element.message);
     element._populateRevertSubmissionMessage(
         'many lines\ncommit\n\nmessage\n\nChange-Id: abcdefg\n',
-        'abcd123');
-    const expected = 'Revert submission\n\n' +
+        {current_revision: 'abcd123', submission_id: '111'});
+    const expected = 'Revert submission 111\n\n' +
       'Reason for revert: <INSERT REASONING HERE>\n';
     assert.equal(element.message, expected);
   });
@@ -80,8 +80,8 @@ suite('gr-confirm-revert-submission-dialog tests', () => {
     assert.isNotOk(element.message);
     element._populateRevertSubmissionMessage(
         'test \nvery\n\ncommit\n\nBug: Issue 42\nChange-Id: abcdefg\n',
-        'abcd123');
-    const expected = 'Revert submission\n\n' +
+        {current_revision: 'abcd123', submission_id: '111'});
+    const expected = 'Revert submission 111\n\n' +
         'Reason for revert: <INSERT REASONING HERE>\n';
     assert.equal(element.message, expected);
   });
@@ -90,8 +90,8 @@ suite('gr-confirm-revert-submission-dialog tests', () => {
     assert.isNotOk(element.message);
     element._populateRevertSubmissionMessage(
         'Revert "one line commit"\n\nChange-Id: abcdefg\n',
-        'abcd123');
-    const expected = 'Revert submission\n\n' +
+        {current_revision: 'abcd123', submission_id: '111'});
+    const expected = 'Revert submission 111\n\n' +
       'Reason for revert: <INSERT REASONING HERE>\n';
     assert.equal(element.message, expected);
   });

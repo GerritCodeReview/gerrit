@@ -65,6 +65,9 @@ class GrConfirmRevertSubmissionDialog extends GestureEventListeners(
   }
 
   _populateRevertSubmissionMessage(message, change, changes) {
+    if (change === undefined) {
+      return;
+    }
     // Follow the same convention of the revert
     const commitHash = change.current_revision;
     if (!commitHash) {
@@ -79,12 +82,14 @@ class GrConfirmRevertSubmissionDialog extends GestureEventListeners(
     this.changes = changes;
     this.message = revertTitle + '\n\n' +
         'Reason for revert: <INSERT REASONING HERE>\n';
-    this.message += 'Reverted Changes:\n';
     changes = changes || [];
-    changes.forEach(change => {
-      this.message += change.change_id.substring(0, 10) + ': ' +
-        this._getTrimmedChangeSubject(change.subject) + '\n';
-    });
+    if (changes.length) {
+      this.message += 'Reverted Changes:\n';
+      changes.forEach(change => {
+        this.message += change.change_id.substring(0, 10) + ': ' +
+          this._getTrimmedChangeSubject(change.subject) + '\n';
+      });
+    }
     this.message = this._modifyRevertSubmissionMsg(change);
   }
 

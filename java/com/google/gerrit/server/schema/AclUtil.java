@@ -53,9 +53,7 @@ public class AclUtil {
     }
     for (GroupReference group : groupList) {
       if (group != null) {
-        PermissionRule r = rule(config, group);
-        r.setForce(force);
-        p.add(r);
+        p.add(rule(config, group).setForce(force).build());
       }
     }
   }
@@ -65,9 +63,7 @@ public class AclUtil {
     Permission p = section.getPermission(permission, true);
     for (GroupReference group : groupList) {
       if (group != null) {
-        PermissionRule r = rule(config, group);
-        r.setBlock();
-        p.add(r);
+        p.add(rule(config, group).setBlock().build());
       }
     }
   }
@@ -95,15 +91,13 @@ public class AclUtil {
     p.setExclusiveGroup(exclusive);
     for (GroupReference group : groupList) {
       if (group != null) {
-        PermissionRule r = rule(config, group);
-        r.setRange(min, max);
-        p.add(r);
+        p.add(rule(config, group).setRange(min, max).build());
       }
     }
   }
 
-  public static PermissionRule rule(ProjectConfig config, GroupReference group) {
-    return new PermissionRule(config.resolve(group));
+  public static PermissionRule.Builder rule(ProjectConfig config, GroupReference group) {
+    return PermissionRule.builder(config.resolve(group));
   }
 
   public static void remove(
@@ -111,8 +105,7 @@ public class AclUtil {
     Permission p = section.getPermission(permission, true);
     for (GroupReference group : groupList) {
       if (group != null) {
-        PermissionRule r = rule(config, group);
-        p.remove(r);
+        p.remove(rule(config, group).build());
       }
     }
   }

@@ -305,11 +305,12 @@ public class ProjectConfigTest {
     ProjectConfig cfg = read(rev);
     AccessSection section = cfg.getAccessSection("refs/heads/*");
     cfg.getAccountsSection()
-        .setSameGroupVisibility(Collections.singletonList(new PermissionRule(cfg.resolve(staff))));
+        .setSameGroupVisibility(
+            Collections.singletonList(PermissionRule.create(cfg.resolve(staff))));
     Permission submit = section.getPermission(Permission.SUBMIT);
-    submit.add(new PermissionRule(cfg.resolve(staff)));
+    submit.add(PermissionRule.create(cfg.resolve(staff)));
     ContributorAgreement ca = cfg.getContributorAgreement("Individual");
-    ca.setAccepted(Collections.singletonList(new PermissionRule(cfg.resolve(staff))));
+    ca.setAccepted(Collections.singletonList(PermissionRule.create(cfg.resolve(staff))));
     ca.setAutoVerify(null);
     ca.setMatchProjectsRegexes(null);
     ca.setExcludeProjectsRegexes(Collections.singletonList("^/theirproject"));
@@ -423,7 +424,7 @@ public class ProjectConfigTest {
     ProjectConfig cfg = read(rev);
     AccessSection section = cfg.getAccessSection("refs/heads/*");
     Permission submit = section.getPermission(Permission.SUBMIT);
-    submit.add(new PermissionRule(cfg.resolve(staff)));
+    submit.add(PermissionRule.create(cfg.resolve(staff)));
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))
         .isEqualTo(

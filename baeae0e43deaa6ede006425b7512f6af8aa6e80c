@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "929c19bc_bf19b3dd",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 61
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-26T13:35:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14924b94_cce27864",
+      "range": {
+        "startLine": 263,
+        "startChar": 43,
+        "endLine": 263,
+        "endChar": 53
+      },
+      "revId": "baeae0e43deaa6ede006425b7512f6af8aa6e80c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09c14c1c_dd2dcd34",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 61
@@ -83,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "9392336f_d8faeac9",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 61
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-26T13:35:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09c14c1c_dd2dcd34",
+      "range": {
+        "startLine": 273,
+        "startChar": 40,
+        "endLine": 273,
+        "endChar": 77
+      },
+      "revId": "baeae0e43deaa6ede006425b7512f6af8aa6e80c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "35db50ec_3910a09c",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 61
@@ -97,6 +145,24 @@
       "revId": "baeae0e43deaa6ede006425b7512f6af8aa6e80c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb68aeaa_866cf7da",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 61
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-26T13:35:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35db50ec_3910a09c",
+      "revId": "baeae0e43deaa6ede006425b7512f6af8aa6e80c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

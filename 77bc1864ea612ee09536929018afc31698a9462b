@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2329bb5a_333ece94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-26T10:27:35Z",
+      "side": 1,
+      "message": "David, I think you might have misunderstood this change. It\u0027s only about showing the config options on the UI. The config options will work as previously for the plugins.",
+      "parentUuid": "03c92a7d_5f9eb425",
+      "range": {
+        "startLine": 40,
+        "startChar": 20,
+        "endLine": 41,
+        "endChar": 17
+      },
+      "revId": "77bc1864ea612ee09536929018afc31698a9462b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3929b534_818df3e1",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

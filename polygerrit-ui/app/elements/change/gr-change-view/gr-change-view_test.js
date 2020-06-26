@@ -679,7 +679,9 @@ suite('gr-change-view tests', () => {
         });
 
     test('d should open download overlay', () => {
-      const stub = sandbox.stub(element.$.downloadOverlay, 'open');
+      const stub = sandbox.stub(element.$.downloadOverlay, 'open').returns(
+          new Promise(resolve => {})
+      );
       MockInteractions.pressAndReleaseKeyOn(element, 68, null, 'd');
       assert.isTrue(stub.called);
     });

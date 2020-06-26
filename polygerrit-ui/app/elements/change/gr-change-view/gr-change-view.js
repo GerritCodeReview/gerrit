@@ -1400,7 +1400,7 @@ class GrChangeView extends mixinBehaviors( [
         this.modifierPressed(e)) { return; }
 
     e.preventDefault();
-    this.$.downloadOverlay.open();
+    this._handleOpenDownloadDialog();
   }
 
   _handleEditTopic(e) {

@@ -309,12 +309,13 @@ public class ProjectConfigTest {
             Collections.singletonList(PermissionRule.create(cfg.resolve(staff))));
     Permission submit = section.getPermission(Permission.SUBMIT);
     submit.add(PermissionRule.create(cfg.resolve(staff)));
-    ContributorAgreement ca = cfg.getContributorAgreement("Individual");
-    ca.setAccepted(Collections.singletonList(PermissionRule.create(cfg.resolve(staff))));
+    ContributorAgreement.Builder ca = cfg.getContributorAgreement("Individual").toBuilder();
+    ca.setAccepted(ImmutableList.of(PermissionRule.create(cfg.resolve(staff))));
     ca.setAutoVerify(null);
-    ca.setMatchProjectsRegexes(null);
-    ca.setExcludeProjectsRegexes(Collections.singletonList("^/theirproject"));
+    ca.setMatchProjectsRegexes(ImmutableList.of());
+    ca.setExcludeProjectsRegexes(ImmutableList.of("^/theirproject"));
     ca.setDescription("A new description");
+    cfg.upsertContributorAgreement(ca.build());
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))
         .isEqualTo(
@@ -714,8 +715,9 @@ public class ProjectConfigTest {
     update(rev);
 
     ProjectConfig cfg = read(rev);
-    ContributorAgreement section = cfg.getContributorAgreement("Individual");
+    ContributorAgreement.Builder section = cfg.getContributorAgreement("Individual").toBuilder();
     section.setAccepted(ImmutableList.of());
+    cfg.upsertContributorAgreement(section.build());
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))
         .isEqualTo(

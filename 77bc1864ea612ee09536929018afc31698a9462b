@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "03c92a7d_5f9eb425",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-26T10:23:17Z",
+      "side": 1,
+      "message": "What explicit flag and where should be added to fix that? Consider reviewers-by-blame plugin, where site admin has configured:\n\n  [plugin \"reviewers-by-blame\"]\n    maxReviewers \u003d 2\n\nNow, a casual contributor without read persmission on refs/meta/config would try to upload a change and that plugin wouldn\u0027t work any more: [1]. But the site admin wouldn\u0027t like to grant read access for refs/meta/config to Registered Users.\n\nAlso note, that in the wild Registered Users don\u0027t have read access for refs/meta/config. For example, I cannot read this file on Android gerrit site: [2].\n\nI think you cannot submit that changs in its current state. As it would effectively kill all plugins that depend on configuration stored in refs/meta/config branch.\n\nAs always with non compatible changes with such huge impact, what shoud happen to make it submittable:\n\n* 1. Backwards compatibility first approach: The old way should be remained enabled per default for at least one major release after announcement\n* 2. Add incompatble-option, see Bazel project for that pattern. e.g.: gerrit.enforceRefsMetaConigReadAccessCheckForPluginConfiguration, but disable this option per default\n* 3. Release new major gerrit version\n* 4. Swap the option value to be enabled per default and announce that move\n* 5. [Optional] Provide alternative persistence layer for plugins to no depend on refs/meta/config branch e.g.: refs/meta/plugin\n\n[1] https://gerrit.googlesource.com/plugins/reviewers-by-blame/+/refs/heads/master/src/main/java/com/googlesource/gerrit/plugins/reviewersbyblame/ChangeUpdatedListener.java#88\n[2] https://android.googlesource.com/All-Projects/+/refs/meta/config/rules.pl",
+      "range": {
+        "startLine": 40,
+        "startChar": 20,
+        "endLine": 41,
+        "endChar": 17
+      },
+      "revId": "77bc1864ea612ee09536929018afc31698a9462b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3929b534_818df3e1",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

@@ -118,6 +118,30 @@
       "revId": "c018225667d2e3853086b67dbc65632d7d03ab7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e78c58c8_97c8392f",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-26T08:51:06Z",
+      "side": 1,
+      "message": "Done in PS4.\n\n(But since this change is on stable-3.2, I cherry picked the \u003cgr-endpoint-slot\u003e\nback to stable-3.2 in https://gerrit-review.googlesource.com/c/gerrit/+/273357 )",
+      "parentUuid": "04a5f792_96d43975",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 28
+      },
+      "revId": "c018225667d2e3853086b67dbc65632d7d03ab7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

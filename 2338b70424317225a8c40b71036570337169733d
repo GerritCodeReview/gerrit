@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4530303d_71bf3119",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-26T10:58:42Z",
+      "side": 1,
+      "message": "max?",
+      "range": {
+        "startLine": 11,
+        "startChar": 61,
+        "endLine": 11,
+        "endChar": 64
+      },
+      "revId": "2338b70424317225a8c40b71036570337169733d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdef59e7_cd98aab0",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-26T10:58:42Z",
+      "side": 1,
+      "message": "Update the comment to reflect the changes(moving the current user first).",
+      "revId": "2338b70424317225a8c40b71036570337169733d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

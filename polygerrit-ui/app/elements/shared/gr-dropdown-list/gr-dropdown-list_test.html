@@ -51,6 +51,24 @@ suite('gr-dropdown-list tests', () => {
     sandbox.restore();
   });
 
+  test('hide copy by default', () => {
+    const copyEl = element.shadowRoot
+        .querySelector('#triggerText + gr-copy-clipboard');
+    assert.isTrue(!!copyEl);
+    assert.isTrue(copyEl.hidden);
+  });
+
+  test('show copy if enabled', done => {
+    element.showCopy = true;
+    flush(() => {
+      const copyEl = element.shadowRoot
+          .querySelector('#triggerText + gr-copy-clipboard');
+      assert.isTrue(!!copyEl);
+      assert.isFalse(copyEl.hidden);
+      done();
+    });
+  });
+
   test('tap on trigger opens menu', () => {
     sandbox.stub(element, '_open', () => { element.$.dropdown.open(); });
     assert.isFalse(element.$.dropdown.opened);

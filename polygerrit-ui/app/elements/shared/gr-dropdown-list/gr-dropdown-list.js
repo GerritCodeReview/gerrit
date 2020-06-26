@@ -83,6 +83,13 @@ class GrDropdownList extends GestureEventListeners(
         type: String,
         notify: true,
       },
+      /**
+       * Show copy to clipboard for every item.
+       */
+      showCopy: {
+        type: Boolean,
+        value: false,
+      },
     };
   }
 

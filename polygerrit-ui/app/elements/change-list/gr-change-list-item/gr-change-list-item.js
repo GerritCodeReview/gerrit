@@ -70,6 +70,14 @@ class GrChangeListItem extends mixinBehaviors( [
 
   static get properties() {
     return {
+      /**
+       * The logged-in user's account, or an empty object if no user is logged
+       * in.
+       */
+      account: {
+        type: Object,
+        value: null,
+      },
       visibleChangeTableColumns: Array,
       labelNames: {
         type: Array,
@@ -225,9 +233,11 @@ class GrChangeListItem extends mixinBehaviors( [
     if (!change || !change.reviewers || !change.reviewers.REVIEWER) return [];
     const reviewers = [...change.reviewers.REVIEWER];
     reviewers.sort((r1, r2) => {
-      if (this._hasAttention(r1)) return -1;
-      if (this._hasAttention(r2)) return 1;
-      return 0;
+      if (r1._account_id === this.account._account_id) return -1;
+      if (r2._account_id === this.account._account_id) return 1;
+      if (this._hasAttention(r1) && !this._hasAttention(r2)) return -1;
+      if (this._hasAttention(r2) && !this._hasAttention(r1)) return 1;
+      return r1.name.localeCompare(r2.name);
     });
     return reviewers;
   }

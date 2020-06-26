@@ -121,8 +121,7 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-list-styles">
       @media only screen and (max-width: 100em) {
         .assignee,
         .branch,
-        .owner,
-        .reviewers {
+        .owner {
           max-width: 10rem;
         }
       }

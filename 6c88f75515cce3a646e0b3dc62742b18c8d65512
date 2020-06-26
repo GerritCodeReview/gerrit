@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d87ded8_1b27aa68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-26T07:17:43Z",
+      "side": 1,
+      "message": "maybe explain things a bit more:\nIn NoteDb, we have the option to specify a custom update message. This message is later in served in /change-messages and shown in the UI. For reviewers - which is in large parts similar to attention-set implementation-wise, we do not store custom change message. Instead, we serve reviewer updates on a separate endpoint parsing them out from NoteDb. The frontend joins these two message streams.\n\nThis commit removes the custom attention set message, because it would be shown in the frontend as\n\nAdded to attention set Gerrit User 123\n\nLater on, we will reconsider how we want to show these updates and potentially redesign the logic for change messages and reviewer updates.",
+      "revId": "6c88f75515cce3a646e0b3dc62742b18c8d65512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

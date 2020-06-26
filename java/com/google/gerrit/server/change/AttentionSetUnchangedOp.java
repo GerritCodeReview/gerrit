@@ -12,24 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.extensions.api.changes;
+package com.google.gerrit.server.change;
 
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
+import com.google.gerrit.server.update.ChangeContext;
 
-/** API for managing the attention set of a change. */
-public interface AttentionSetApi {
+/**
+ * Ensures that the attention set will not be changed, thus blocks {@link RemoveFromAttentionSetOp}
+ * and {@link AddToAttentionSetOp}.
+ */
+public class AttentionSetUnchangedOp implements BatchUpdateOp {
 
-  void remove(AttentionSetInput input) throws RestApiException;
-
-  /**
-   * A default implementation which allows source compatibility when adding new methods to the
-   * interface.
-   */
-  class NotImplemented implements AttentionSetApi {
-    @Override
-    public void remove(AttentionSetInput input) throws RestApiException {
-      throw new NotImplementedException();
-    }
+  @Override
+  public boolean updateChange(ChangeContext ctx) throws RestApiException {
+    ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
+    update.ignoreDefaultAttentionSetRules();
+    return true;
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd159704_33486baa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-26T20:30:35Z",
+      "side": 1,
+      "message": "Trivial replacement, verified with a few of these scenarios (compiled and passed locally).",
+      "revId": "6b3ae424324be5f79a889d69503dd62fb1c0e7f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

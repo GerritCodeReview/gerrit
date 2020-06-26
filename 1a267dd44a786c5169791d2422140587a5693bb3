@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "508ff7e4_5737a36c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 64
+      },
+      "lineNbr": 779,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-26T19:33:10Z",
+      "side": 1,
+      "message": "The criterion is that I use !! when I want to enforce the type of the resulting expression to be a boolean. If config\u003d\u003dundefined, then the return value would be undefined, but I want it to be false.\n\nIn an if() clause or in a terniary ?: it is automatically casted to boolean, so then it does not matter.\n\n`enable_attention_set` must be a boolean, so let\u0027s remove the !! from that. :-)",
+      "parentUuid": "cfeeb31b_2862457a",
+      "range": {
+        "startLine": 779,
+        "startChar": 11,
+        "endLine": 779,
+        "endChar": 19
+      },
+      "revId": "1a267dd44a786c5169791d2422140587a5693bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea7f2c22_ff51f57a",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 64
@@ -45,6 +69,30 @@
       "revId": "1a267dd44a786c5169791d2422140587a5693bb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7195077a_cf41ac2f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 64
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-26T19:33:10Z",
+      "side": 1,
+      "message": "The click target is an account-label and `account` is the user that the account-label represents. This is not the logged-in user.",
+      "parentUuid": "ea7f2c22_ff51f57a",
+      "range": {
+        "startLine": 783,
+        "startChar": 24,
+        "endLine": 783,
+        "endChar": 31
+      },
+      "revId": "1a267dd44a786c5169791d2422140587a5693bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "683103b7_de65e62c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 64
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-26T19:33:10Z",
+      "side": 1,
+      "message": "Nice! Done.",
+      "parentUuid": "22f661a2_4d8b9244",
+      "range": {
+        "startLine": 808,
+        "startChar": 15,
+        "endLine": 808,
+        "endChar": 39
+      },
+      "revId": "1a267dd44a786c5169791d2422140587a5693bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e227618_5e0bc88d",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 64
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "03bf5015_f2f121e6",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 64
+      },
+      "lineNbr": 814,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-26T19:33:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e227618_5e0bc88d",
+      "range": {
+        "startLine": 814,
+        "startChar": 25,
+        "endLine": 814,
+        "endChar": 39
+      },
+      "revId": "1a267dd44a786c5169791d2422140587a5693bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13ef15ec_da8a00c7",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.js",
         "patchSetId": 64
@@ -111,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "f66e4662_5dd5b4ef",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.js",
+        "patchSetId": 64
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-26T19:33:10Z",
+      "side": 1,
+      "message": "No. Done.",
+      "parentUuid": "13ef15ec_da8a00c7",
+      "revId": "1a267dd44a786c5169791d2422140587a5693bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2fc1a17_0f027bfe",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
         "patchSetId": 64
@@ -125,6 +239,24 @@
       "revId": "1a267dd44a786c5169791d2422140587a5693bb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cd76b4a_de292af0",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 64
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-26T19:33:10Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "d2fc1a17_0f027bfe",
+      "revId": "1a267dd44a786c5169791d2422140587a5693bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

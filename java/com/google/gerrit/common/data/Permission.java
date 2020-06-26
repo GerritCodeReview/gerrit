@@ -207,7 +207,7 @@ public class Permission implements Comparable<Permission> {
     }
 
     if (create) {
-      PermissionRule r = new PermissionRule(group);
+      PermissionRule r = PermissionRule.builder(group).build();
       rules.add(r);
       return r;
     }
@@ -218,7 +218,8 @@ public class Permission implements Comparable<Permission> {
     for (PermissionRule srcRule : src.getRules()) {
       PermissionRule dstRule = getRule(srcRule.getGroup());
       if (dstRule != null) {
-        dstRule.mergeFrom(srcRule);
+        rules.remove(dstRule);
+        rules.add(PermissionRule.merge(srcRule, dstRule));
       } else {
         add(srcRule);
       }

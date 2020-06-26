@@ -83,8 +83,8 @@ public class AgreementsIT extends AbstractDaemonTest {
     groupApi.description("CLA test group");
     InternalGroup caGroup = group(AccountGroup.uuid(groupApi.detail().id));
     GroupReference groupRef = GroupReference.create(caGroup.getGroupUUID(), caGroup.getName());
-    PermissionRule rule = new PermissionRule(groupRef);
-    rule.setAction(PermissionRule.Action.ALLOW);
+    PermissionRule rule =
+        PermissionRule.builder(groupRef).setAction(PermissionRule.Action.ALLOW).build();
     if (autoVerify) {
       ca = new ContributorAgreement("cla-test");
       ca.setAutoVerify(groupRef);

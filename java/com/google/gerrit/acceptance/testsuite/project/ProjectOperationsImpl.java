@@ -166,36 +166,39 @@ public class ProjectOperationsImpl implements ProjectOperations {
     private void addCapabilities(
         ProjectConfig projectConfig, ImmutableList<TestCapability> addedCapabilities) {
       for (TestCapability c : addedCapabilities) {
-        PermissionRule rule = newRule(projectConfig, c.group());
+        PermissionRule.Builder rule = newRule(projectConfig, c.group());
         rule.setRange(c.min(), c.max());
         projectConfig
             .getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true)
             .getPermission(c.name(), true)
-            .add(rule);
+            .add(rule.build());
       }
     }
 
     private void addPermissions(
         ProjectConfig projectConfig, ImmutableList<TestPermission> addedPermissions) {
       for (TestPermission p : addedPermissions) {
-        PermissionRule rule = newRule(projectConfig, p.group());
+        PermissionRule.Builder rule = newRule(projectConfig, p.group());
         rule.setAction(p.action());
         rule.setForce(p.force());
-        projectConfig.getAccessSection(p.ref(), true).getPermission(p.name(), true).add(rule);
+        projectConfig
+            .getAccessSection(p.ref(), true)
+            .getPermission(p.name(), true)
+            .add(rule.build());
       }
     }
 
     private void addLabelPermissions(
         ProjectConfig projectConfig, ImmutableList<TestLabelPermission> addedLabelPermissions) {
       for (TestLabelPermission p : addedLabelPermissions) {
-        PermissionRule rule = newRule(projectConfig, p.group());
+        PermissionRule.Builder rule = newRule(projectConfig, p.group());
         rule.setAction(p.action());
         rule.setRange(p.min(), p.max());
         String permissionName =
             p.impersonation() ? Permission.forLabelAs(p.name()) : Permission.forLabel(p.name());
         Permission permission =
             projectConfig.getAccessSection(p.ref(), true).getPermission(permissionName, true);
-        permission.add(rule);
+        permission.add(rule.build());
       }
     }
 
@@ -324,9 +327,10 @@ public class ProjectOperationsImpl implements ProjectOperations {
     }
   }
 
-  private static PermissionRule newRule(ProjectConfig project, AccountGroup.UUID groupUUID) {
+  private static PermissionRule.Builder newRule(
+      ProjectConfig project, AccountGroup.UUID groupUUID) {
     GroupReference group = GroupReference.create(groupUUID, groupUUID.get());
     group = project.resolve(group);
-    return new PermissionRule(group);
+    return PermissionRule.builder(group);
   }
 }

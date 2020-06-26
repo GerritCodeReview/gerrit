@@ -438,9 +438,11 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   public void replace(AccessSection section) {
     for (Permission permission : section.getPermissions()) {
+      ImmutableList.Builder<PermissionRule> newRules = ImmutableList.builder();
       for (PermissionRule rule : permission.getRules()) {
-        rule.setGroup(resolve(rule.getGroup()));
+        newRules.add(rule.toBuilder().setGroup(resolve(rule.getGroup())).build());
       }
+      permission.setRules(newRules.build());
     }
 
     accessSections.put(section.getName(), section);
@@ -471,9 +473,11 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   public void replace(ContributorAgreement section) {
     section.setAutoVerify(resolve(section.getAutoVerify()));
+    ImmutableList.Builder<PermissionRule> newRules = ImmutableList.builder();
     for (PermissionRule rule : section.getAccepted()) {
-      rule.setGroup(resolve(rule.getGroup()));
+      newRules.add(rule.toBuilder().setGroup(resolve(rule.getGroup())).build());
     }
+    section.setAccepted(newRules.build());
 
     contributorAgreements.put(section.getName(), section);
   }
@@ -908,8 +912,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
                 PROJECT_CONFIG, "group \"" + ref.getName() + "\" not in " + GroupList.FILE_NAME));
       }
 
-      rule.setGroup(ref);
-      perm.add(rule);
+      perm.add(rule.toBuilder().setGroup(ref).build());
     }
   }
 
@@ -1283,7 +1286,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         if (ca.getAutoVerify().getUUID() != null) {
           keepGroups.add(ca.getAutoVerify().getUUID());
         }
-        String autoVerify = new PermissionRule(ca.getAutoVerify()).asString(false);
+        String autoVerify = PermissionRule.builder(ca.getAutoVerify()).build().asString(false);
         set(rc, CONTRIBUTOR_AGREEMENT, ca.getName(), KEY_AUTO_VERIFY, autoVerify);
       } else {
         rc.unset(CONTRIBUTOR_AGREEMENT, ca.getName(), KEY_AUTO_VERIFY);
@@ -1316,7 +1319,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           .forEach(keepGroups::add);
       List<String> email =
           nc.getGroups().stream()
-              .map(gr -> new PermissionRule(gr).asString(false))
+              .map(gr -> PermissionRule.builder(gr).build().asString(false))
               .sorted()
               .collect(toList());
 

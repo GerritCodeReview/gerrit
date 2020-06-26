@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d234cebc_bf3f2682",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 61
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-26T08:33:22Z",
+      "side": 1,
+      "message": "Screenshots would be nice.",
+      "revId": "baeae0e43deaa6ede006425b7512f6af8aa6e80c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14924b94_cce27864",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 61
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-26T08:33:22Z",
+      "side": 1,
+      "message": "nit: typo constitues",
+      "range": {
+        "startLine": 263,
+        "startChar": 43,
+        "endLine": 263,
+        "endChar": 53
+      },
+      "revId": "baeae0e43deaa6ede006425b7512f6af8aa6e80c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09c14c1c_dd2dcd34",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 61
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-26T08:33:22Z",
+      "side": 1,
+      "message": "what does a \"sensible default\" mean?",
+      "range": {
+        "startLine": 273,
+        "startChar": 40,
+        "endLine": 273,
+        "endChar": 77
+      },
+      "revId": "baeae0e43deaa6ede006425b7512f6af8aa6e80c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35db50ec_3910a09c",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 61
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-26T08:33:22Z",
+      "side": 1,
+      "message": "Perhaps add a test covering _computeNewAttention.\nSpecifically that the owner can add all reviewers to the attention set but the reviewer cannot do the same.",
+      "revId": "baeae0e43deaa6ede006425b7512f6af8aa6e80c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

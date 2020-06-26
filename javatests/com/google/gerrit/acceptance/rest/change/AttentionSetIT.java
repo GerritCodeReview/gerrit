@@ -20,7 +20,6 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.UnmodifiableIterator;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -185,14 +184,14 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     change(r).abandon();
 
-    UnmodifiableIterator<AttentionSetUpdate> attentionSets =
-        r.getChange().attentionSet().iterator();
-    AttentionSetUpdate userUpdate = attentionSets.next();
+    AttentionSetUpdate userUpdate =
+        Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
     assertThat(userUpdate.account()).isEqualTo(user.id());
     assertThat(userUpdate.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
     assertThat(userUpdate.reason()).isEqualTo("Change was abandoned");
 
-    AttentionSetUpdate adminUpdate = attentionSets.next();
+    AttentionSetUpdate adminUpdate =
+        Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
     assertThat(adminUpdate.account()).isEqualTo(admin.id());
     assertThat(adminUpdate.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
     assertThat(adminUpdate.reason()).isEqualTo("Change was abandoned");

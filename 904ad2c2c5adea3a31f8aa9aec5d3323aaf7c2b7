@@ -1,0 +1,198 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d396397f_0c2b0244",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ReviewInput.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-26T08:45:53Z",
+      "side": 1,
+      "message": "from",
+      "range": {
+        "startLine": 81,
+        "startChar": 35,
+        "endLine": 81,
+        "endChar": 37
+      },
+      "revId": "904ad2c2c5adea3a31f8aa9aec5d3323aaf7c2b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce560545_73da7065",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ReviewInput.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-26T08:45:53Z",
+      "side": 1,
+      "message": "The method and the field shouldn\u0027t have the same name.",
+      "revId": "904ad2c2c5adea3a31f8aa9aec5d3323aaf7c2b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f36ae069_951ef955",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ReviewInput.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-26T08:45:53Z",
+      "side": 1,
+      "message": "Would it make sense to check for duplicates here?",
+      "revId": "904ad2c2c5adea3a31f8aa9aec5d3323aaf7c2b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a39f7195_c7088daf",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-26T08:45:53Z",
+      "side": 1,
+      "message": "Supernit: Put the faster expression first so lazy evaluation skips the slower one.",
+      "range": {
+        "startLine": 810,
+        "startChar": 13,
+        "endLine": 810,
+        "endChar": 80
+      },
+      "revId": "904ad2c2c5adea3a31f8aa9aec5d3323aaf7c2b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94e2ea8d_df7ed2fc",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewAttentionSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-26T08:45:53Z",
+      "side": 1,
+      "message": "Nit: I think comments read better when you omit this (like e.g. below).",
+      "range": {
+        "startLine": 72,
+        "startChar": 5,
+        "endLine": 72,
+        "endChar": 17
+      },
+      "revId": "904ad2c2c5adea3a31f8aa9aec5d3323aaf7c2b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f0e0b57_bd19d851",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewAttentionSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-26T08:45:53Z",
+      "side": 1,
+      "message": "Move this to processManualUpdates() as you don\u0027t use it here.",
+      "revId": "904ad2c2c5adea3a31f8aa9aec5d3323aaf7c2b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f645675c_4f0adf09",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewAttentionSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-26T08:45:53Z",
+      "side": 1,
+      "message": "You mean \"explicitly adding/removing\"?",
+      "range": {
+        "startLine": 89,
+        "startChar": 85,
+        "endLine": 89,
+        "endChar": 100
+      },
+      "revId": "904ad2c2c5adea3a31f8aa9aec5d3323aaf7c2b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dff06c2_8c980676",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewAttentionSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-26T08:45:53Z",
+      "side": 1,
+      "message": "javadoc",
+      "revId": "904ad2c2c5adea3a31f8aa9aec5d3323aaf7c2b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9d03172_1bea9b40",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewAttentionSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-26T08:45:53Z",
+      "side": 1,
+      "message": "I don\u0027t understand this comment; what does \"should\" mean exactly? I assume this refers to the consistency check?",
+      "revId": "904ad2c2c5adea3a31f8aa9aec5d3323aaf7c2b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f5bf4e9_6d80263e",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewAttentionSet.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-06-26T08:45:53Z",
+      "side": 1,
+      "message": "Same here.",
+      "revId": "904ad2c2c5adea3a31f8aa9aec5d3323aaf7c2b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

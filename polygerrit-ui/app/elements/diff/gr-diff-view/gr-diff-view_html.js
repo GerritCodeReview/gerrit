@@ -325,9 +325,7 @@ export const htmlTemplate = html`
           </span>
         </template>
         <span class="separator"></span>
-        <div
-          class$="diffModeSelector [[_computeModeSelectHideClass(_isImageDiff)]]"
-        >
+        <div class$="diffModeSelector [[_computeModeSelectHideClass(_diff)]]">
           <span>Diff view:</span>
           <gr-diff-mode-selector
             id="modeSelect"

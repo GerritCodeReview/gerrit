@@ -966,6 +966,17 @@ suite('gr-diff-view tests', () => {
       assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
     });
 
+    test('diff mode selector should be hidden for binary', done => {
+      element._diff = {binary: true, content: []};
+
+      flush(() => {
+        const diffModeSelector = element.shadowRoot
+            .querySelector('.diffModeSelector');
+        assert.isTrue(diffModeSelector.classList.contains('hide'));
+        done();
+      });
+    });
+
     suite('_commitRange', () => {
       setup(() => {
         sandbox.stub(element.$.diffHost, 'reload');

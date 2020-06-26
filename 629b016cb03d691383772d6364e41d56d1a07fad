@@ -16,6 +16,24 @@
       "revId": "629b016cb03d691383772d6364e41d56d1a07fad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e61db4c_194bf4f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-26T11:49:48Z",
+      "side": 1,
+      "message": "you probably can mention the autofucus as an outcome, not the change itself",
+      "parentUuid": "7c5cb9ac_889d7f49",
+      "revId": "629b016cb03d691383772d6364e41d56d1a07fad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

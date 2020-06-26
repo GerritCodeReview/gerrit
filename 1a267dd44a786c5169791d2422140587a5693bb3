@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cfeeb31b_2862457a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 64
+      },
+      "lineNbr": 779,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-26T14:26:02Z",
+      "side": 1,
+      "message": "wondering what\u0027s your criteria of using `!!` vs not using it :)",
+      "range": {
+        "startLine": 779,
+        "startChar": 11,
+        "endLine": 779,
+        "endChar": 19
+      },
+      "revId": "1a267dd44a786c5169791d2422140587a5693bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea7f2c22_ff51f57a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 64
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-26T14:26:02Z",
+      "side": 1,
+      "message": "is it possible this is `null` at the time of called ? its probably ok if attention set feture is meant only for logged in users ?",
+      "range": {
+        "startLine": 783,
+        "startChar": 24,
+        "endLine": 783,
+        "endChar": 31
+      },
+      "revId": "1a267dd44a786c5169791d2422140587a5693bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22f661a2_4d8b9244",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 64
+      },
+      "lineNbr": 808,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-26T14:26:02Z",
+      "side": 1,
+      "message": "seems not necessary, can just do it in the `forEach` loop",
+      "range": {
+        "startLine": 808,
+        "startChar": 15,
+        "endLine": 808,
+        "endChar": 39
+      },
+      "revId": "1a267dd44a786c5169791d2422140587a5693bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e227618_5e0bc88d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 64
+      },
+      "lineNbr": 814,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-26T14:26:02Z",
+      "side": 1,
+      "message": "can we test it in some other way ?",
+      "range": {
+        "startLine": 814,
+        "startChar": 25,
+        "endLine": 814,
+        "endChar": 39
+      },
+      "revId": "1a267dd44a786c5169791d2422140587a5693bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13ef15ec_da8a00c7",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.js",
+        "patchSetId": 64
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-26T14:26:02Z",
+      "side": 1,
+      "message": "is this intended to have them not tab-able ?",
+      "revId": "1a267dd44a786c5169791d2422140587a5693bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2fc1a17_0f027bfe",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.html",
+        "patchSetId": 64
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-26T14:26:02Z",
+      "side": 1,
+      "message": "why you need to get the response here ? why not just clone the element._newAttentionSet ?",
+      "revId": "1a267dd44a786c5169791d2422140587a5693bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

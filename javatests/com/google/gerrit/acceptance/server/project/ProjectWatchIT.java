@@ -50,15 +50,15 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   @Test
   public void newPatchSetsNotifyConfig() throws Exception {
     Address addr = Address.create("Watcher", "watcher@example.com");
-    NotifyConfig nc = new NotifyConfig();
-    nc.addEmail(addr);
+    NotifyConfig.Builder nc = NotifyConfig.builder();
+    nc.addAddress(addr);
     nc.setName("new-patch-set");
     nc.setHeader(NotifyConfig.Header.CC);
-    nc.setTypes(EnumSet.of(NotifyType.NEW_PATCHSETS));
+    nc.setNotify(EnumSet.of(NotifyType.NEW_PATCHSETS));
     nc.setFilter("message:sekret");
 
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().putNotifyConfig("watch", nc);
+      u.getConfig().putNotifyConfig("watch", nc.build());
       u.save();
     }
 
@@ -91,14 +91,14 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   @Test
   public void noNotificationForPrivateChangesForWatchersInNotifyConfig() throws Exception {
     Address addr = Address.create("Watcher", "watcher@example.com");
-    NotifyConfig nc = new NotifyConfig();
-    nc.addEmail(addr);
+    NotifyConfig.Builder nc = NotifyConfig.builder();
+    nc.addAddress(addr);
     nc.setName("team");
     nc.setHeader(NotifyConfig.Header.TO);
-    nc.setTypes(EnumSet.of(NotifyType.NEW_CHANGES, NotifyType.ALL_COMMENTS));
+    nc.setNotify(EnumSet.of(NotifyType.NEW_CHANGES, NotifyType.ALL_COMMENTS));
 
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().putNotifyConfig("team", nc);
+      u.getConfig().putNotifyConfig("team", nc.build());
       u.save();
     }
 
@@ -123,14 +123,14 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   public void noNotificationForChangeThatIsTurnedPrivateForWatchersInNotifyConfig()
       throws Exception {
     Address addr = Address.create("Watcher", "watcher@example.com");
-    NotifyConfig nc = new NotifyConfig();
-    nc.addEmail(addr);
+    NotifyConfig.Builder nc = NotifyConfig.builder();
+    nc.addAddress(addr);
     nc.setName("team");
     nc.setHeader(NotifyConfig.Header.TO);
-    nc.setTypes(EnumSet.of(NotifyType.NEW_PATCHSETS));
+    nc.setNotify(EnumSet.of(NotifyType.NEW_PATCHSETS));
 
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().putNotifyConfig("team", nc);
+      u.getConfig().putNotifyConfig("team", nc.build());
       u.save();
     }
 
@@ -152,14 +152,14 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   @Test
   public void noNotificationForWipChangesForWatchersInNotifyConfig() throws Exception {
     Address addr = Address.create("Watcher", "watcher@example.com");
-    NotifyConfig nc = new NotifyConfig();
-    nc.addEmail(addr);
+    NotifyConfig.Builder nc = NotifyConfig.builder();
+    nc.addAddress(addr);
     nc.setName("team");
     nc.setHeader(NotifyConfig.Header.TO);
-    nc.setTypes(EnumSet.of(NotifyType.NEW_CHANGES, NotifyType.ALL_COMMENTS));
+    nc.setNotify(EnumSet.of(NotifyType.NEW_CHANGES, NotifyType.ALL_COMMENTS));
 
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().putNotifyConfig("team", nc);
+      u.getConfig().putNotifyConfig("team", nc.build());
       u.save();
     }
 
@@ -183,14 +183,14 @@ public class ProjectWatchIT extends AbstractDaemonTest {
   @Test
   public void noNotificationForChangeThatIsTurnedWipForWatchersInNotifyConfig() throws Exception {
     Address addr = Address.create("Watcher", "watcher@example.com");
-    NotifyConfig nc = new NotifyConfig();
-    nc.addEmail(addr);
+    NotifyConfig.Builder nc = NotifyConfig.builder();
+    nc.addAddress(addr);
     nc.setName("team");
     nc.setHeader(NotifyConfig.Header.TO);
-    nc.setTypes(EnumSet.of(NotifyType.NEW_PATCHSETS));
+    nc.setNotify(EnumSet.of(NotifyType.NEW_PATCHSETS));
 
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().putNotifyConfig("team", nc);
+      u.getConfig().putNotifyConfig("team", nc.build());
       u.save();
     }
 

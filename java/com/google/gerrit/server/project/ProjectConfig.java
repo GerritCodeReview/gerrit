@@ -741,13 +741,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private void loadNotifySections(Config rc) {
     notifySections = new HashMap<>();
     for (String sectionName : rc.getSubsections(NOTIFY)) {
-      NotifyConfig n = new NotifyConfig();
+      NotifyConfig.Builder n = NotifyConfig.builder();
       n.setName(sectionName);
       n.setFilter(rc.getString(NOTIFY, sectionName, KEY_FILTER));
 
       EnumSet<NotifyType> types = EnumSet.noneOf(NotifyType.class);
       types.addAll(ConfigUtil.getEnumList(rc, NOTIFY, sectionName, KEY_TYPE, NotifyType.ALL));
-      n.setTypes(types);
+      n.setNotify(types);
       n.setHeader(rc.getEnum(NOTIFY, sectionName, KEY_HEADER, NotifyConfig.Header.BCC));
 
       for (String dst : rc.getStringList(NOTIFY, sectionName, KEY_EMAIL)) {
@@ -758,7 +758,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
             ref = groupList.resolve(GroupReference.create(groupName));
           }
           if (ref.getUUID() != null) {
-            n.addEmail(ref);
+            n.addGroup(ref);
           } else {
             error(
                 ValidationError.create(
@@ -769,7 +769,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           error(ValidationError.create(PROJECT_CONFIG, dst + " not supported"));
         } else {
           try {
-            n.addEmail(Address.parse(dst));
+            n.addAddress(Address.parse(dst));
           } catch (IllegalArgumentException err) {
             error(
                 ValidationError.create(
@@ -778,7 +778,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           }
         }
       }
-      notifySections.put(sectionName, n);
+      notifySections.put(sectionName, n.build());
     }
   }
 

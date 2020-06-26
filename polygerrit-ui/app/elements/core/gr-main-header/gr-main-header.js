@@ -196,7 +196,7 @@ class GrMainHeader extends mixinBehaviors( [
       adminLinks,
       topMenus,
       docBaseUrl,
-    ].some(arg => arg === undefined)) {
+    ].includes(undefined)) {
       return undefined;
     }
 

@@ -202,7 +202,7 @@ class GrChangeList extends mixinBehaviors( [
 
   _computePreferences(account, preferences, config) {
     // Polymer 2: check for undefined
-    if ([account, preferences, config].some(arg => arg === undefined)) {
+    if ([account, preferences, config].includes(undefined)) {
       return;
     }
 

@@ -160,7 +160,7 @@ class GrConfirmRebaseDialog extends GestureEventListeners(
    */
   _updateSelectedOption(rebaseOnCurrent, hasParent) {
     // Polymer 2: check for undefined
-    if ([rebaseOnCurrent, hasParent].some(arg => arg === undefined)) {
+    if ([rebaseOnCurrent, hasParent].includes(undefined)) {
       return;
     }
 

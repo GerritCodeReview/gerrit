@@ -128,7 +128,7 @@ class GrLabelScoreRow extends GestureEventListeners(
   }
 
   _computeLabelValue(labels, permittedLabels, label) {
-    if ([labels, permittedLabels, label].some(arg => arg === undefined)) {
+    if ([labels, permittedLabels, label].includes(undefined)) {
       return null;
     }
     if (!labels[label.name]) { return null; }
@@ -177,7 +177,7 @@ class GrLabelScoreRow extends GestureEventListeners(
 
   _computePermittedLabelValues(permittedLabels, label) {
     // Polymer 2: check for undefined
-    if ([permittedLabels, label].some(arg => arg === undefined)) {
+    if ([permittedLabels, label].includes(undefined)) {
       return undefined;
     }
 

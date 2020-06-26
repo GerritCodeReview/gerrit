@@ -376,7 +376,7 @@ class GrMessage extends GestureEventListeners(
 
   _computeScoreClass(score, labelExtremes) {
     // Polymer 2: check for undefined
-    if ([score, labelExtremes].some(arg => arg === undefined)) {
+    if ([score, labelExtremes].includes(undefined)) {
       return '';
     }
     if (score.value === 'removed') {

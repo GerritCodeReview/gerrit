@@ -143,7 +143,7 @@ class GrRegistrationDialog extends GestureEventListeners(
     if ([
       config,
       username,
-    ].some(arg => arg === undefined)) {
+    ].includes(undefined)) {
       return undefined;
     }
 

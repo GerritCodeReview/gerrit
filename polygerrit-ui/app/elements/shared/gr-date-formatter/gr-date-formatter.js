@@ -224,7 +224,7 @@ class GrDateFormatter extends mixinBehaviors( [
       dateStr,
       timeFormat,
       dateFormat,
-    ].some(arg => arg === undefined)) {
+    ].includes(undefined)) {
       return undefined;
     }
 

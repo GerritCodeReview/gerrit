@@ -52,7 +52,7 @@ export const ChangeTableBehavior = {
    * @return {boolean}
    */
   isColumnHidden(columnToCheck, columnsToDisplay) {
-    if ([columnsToDisplay, columnToCheck].some(arg => arg === undefined)) {
+    if ([columnsToDisplay, columnToCheck].includes(undefined)) {
       return false;
     }
     return !columnsToDisplay.includes(columnToCheck);

@@ -178,7 +178,7 @@ class GrReviewerList extends GestureEventListeners(
 
   _reviewersChanged(changeRecord, owner, serverConfig) {
     // Polymer 2: check for undefined
-    if ([changeRecord, owner, serverConfig].some(arg => arg === undefined)) {
+    if ([changeRecord, owner, serverConfig].includes(undefined)) {
       return;
     }
 
@@ -212,7 +212,7 @@ class GrReviewerList extends GestureEventListeners(
 
   _computeHiddenCount(reviewers, displayedReviewers) {
     // Polymer 2: check for undefined
-    if ([reviewers, displayedReviewers].some(arg => arg === undefined)) {
+    if ([reviewers, displayedReviewers].includes(undefined)) {
       return undefined;
     }
 

@@ -725,7 +725,7 @@ class GrChangeView extends mixinBehaviors( [
     if ([
       change,
       mergeable,
-    ].some(arg => arg === undefined)) {
+    ].includes(undefined)) {
       // To keep consistent with Polymer 1, we are returning undefined
       // if not all dependencies are defined
       return undefined;
@@ -1119,7 +1119,7 @@ class GrChangeView extends mixinBehaviors( [
 
   _paramsAndChangeChanged(value, change) {
     // Polymer 2: check for undefined
-    if ([value, change].some(arg => arg === undefined)) {
+    if ([value, change].includes(undefined)) {
       return;
     }
 
@@ -1300,7 +1300,7 @@ class GrChangeView extends mixinBehaviors( [
 
   _computeChangeIdCommitMessageError(commitMessage, change) {
     // Polymer 2: check for undefined
-    if ([commitMessage, change].some(arg => arg === undefined)) {
+    if ([commitMessage, change].includes(undefined)) {
       return undefined;
     }
 
@@ -1359,7 +1359,7 @@ class GrChangeView extends mixinBehaviors( [
 
   _computeReplyButtonLabel(changeRecord, canStartReview) {
     // Polymer 2: check for undefined
-    if ([changeRecord, canStartReview].some(arg => arg === undefined)) {
+    if ([changeRecord, canStartReview].includes(undefined)) {
       return 'Reply';
     }
     if (canStartReview) {
@@ -2183,7 +2183,7 @@ class GrChangeView extends mixinBehaviors( [
   }
 
   _computeEditMode(patchRangeRecord, paramsRecord) {
-    if ([patchRangeRecord, paramsRecord].some(arg => arg === undefined)) {
+    if ([patchRangeRecord, paramsRecord].includes(undefined)) {
       return undefined;
     }
 

@@ -100,7 +100,7 @@ class GrLabelScores extends GestureEventListeners(
 
   _computeLabels(labelRecord, account) {
     // Polymer 2: check for undefined
-    if ([labelRecord, account].some(arg => arg === undefined)) {
+    if ([labelRecord, account].includes(undefined)) {
       return undefined;
     }
 

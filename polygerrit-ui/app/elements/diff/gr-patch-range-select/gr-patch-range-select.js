@@ -97,7 +97,7 @@ class GrPatchRangeSelect extends mixinBehaviors( [
       _sortedRevisions,
       changeComments,
       revisionInfo,
-    ].some(arg => arg === undefined)) {
+    ].includes(undefined)) {
       return undefined;
     }
 
@@ -150,7 +150,7 @@ class GrPatchRangeSelect extends mixinBehaviors( [
       basePatchNum,
       _sortedRevisions,
       changeComments,
-    ].some(arg => arg === undefined)) {
+    ].includes(undefined)) {
       return undefined;
     }
 

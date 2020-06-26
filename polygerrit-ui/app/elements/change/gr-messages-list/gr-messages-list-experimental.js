@@ -46,7 +46,7 @@ const ExpandAllState = {
  * straightforward.
  */
 function computeThreads(message, allMessages, changeComments) {
-  if ([message, allMessages, changeComments].some(arg => arg === undefined)) {
+  if ([message, allMessages, changeComments].includes(undefined)) {
     return [];
   }
   if (message._index === undefined) {

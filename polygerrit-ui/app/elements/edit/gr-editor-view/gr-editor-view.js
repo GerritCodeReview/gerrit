@@ -247,7 +247,7 @@ class GrEditorView extends mixinBehaviors( [
       content,
       newContent,
       saving,
-    ].some(arg => arg === undefined)) {
+    ].includes(undefined)) {
       return true;
     }
 

@@ -160,7 +160,7 @@ class GrFileListHeader extends mixinBehaviors( [
 
   _computeDescriptionReadOnly(loggedIn, change, account) {
     // Polymer 2: check for undefined
-    if ([loggedIn, change, account].some(arg => arg === undefined)) {
+    if ([loggedIn, change, account].includes(undefined)) {
       return undefined;
     }
 
@@ -169,7 +169,7 @@ class GrFileListHeader extends mixinBehaviors( [
 
   _computePatchSetDescription(change, patchNum) {
     // Polymer 2: check for undefined
-    if ([change, patchNum].some(arg => arg === undefined)) {
+    if ([change, patchNum].includes(undefined)) {
       return;
     }
 

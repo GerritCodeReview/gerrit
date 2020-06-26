@@ -102,7 +102,7 @@ class GrUploadHelpDialog extends GestureEventListeners(
       revision,
       preferredDownloadCommand,
       preferredDownloadScheme,
-    ].some(arg => arg === undefined)) {
+    ].includes(undefined)) {
       return undefined;
     }
 

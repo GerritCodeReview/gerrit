@@ -357,7 +357,7 @@ class GrComment extends mixinBehaviors( [
 
   _calculateActionstoShow(showActions, isRobotComment) {
     // Polymer 2: check for undefined
-    if ([showActions, isRobotComment].some(arg => arg === undefined)) {
+    if ([showActions, isRobotComment].includes(undefined)) {
       return;
     }
 
@@ -786,7 +786,7 @@ class GrComment extends mixinBehaviors( [
 
   _loadLocalDraft(changeNum, patchNum, comment) {
     // Polymer 2: check for undefined
-    if ([changeNum, patchNum, comment].some(arg => arg === undefined)) {
+    if ([changeNum, patchNum, comment].includes(undefined)) {
       return;
     }
 

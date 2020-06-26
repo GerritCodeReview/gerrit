@@ -167,7 +167,7 @@ class GrMessagesList extends mixinBehaviors( [
 
   _computeItems(messages, reviewerUpdates) {
     // Polymer 2: check for undefined
-    if ([messages, reviewerUpdates].some(arg => arg === undefined)) {
+    if ([messages, reviewerUpdates].includes(undefined)) {
       return [];
     }
 
@@ -293,7 +293,7 @@ class GrMessagesList extends mixinBehaviors( [
    * @return {!Object} Hash of arrays of comments, filename as key.
    */
   _computeCommentsForMessage(changeComments, message) {
-    if ([changeComments, message].some(arg => arg === undefined)) {
+    if ([changeComments, message].includes(undefined)) {
       return {};
     }
     const comments = changeComments.getAllPublishedComments();
@@ -344,7 +344,7 @@ class GrMessagesList extends mixinBehaviors( [
    * more visible messages in the list.
    */
   _getDelta(visibleMessages, messages, hideAutomated) {
-    if ([visibleMessages, messages].some(arg => arg === undefined)) {
+    if ([visibleMessages, messages].includes(undefined)) {
       return 0;
     }
 
@@ -367,7 +367,7 @@ class GrMessagesList extends mixinBehaviors( [
    * exist in _visibleMessages.
    */
   _numRemaining(visibleMessages, messages, hideAutomated) {
-    if ([visibleMessages, messages].some(arg => arg === undefined)) {
+    if ([visibleMessages, messages].includes(undefined)) {
       return 0;
     }
 
@@ -391,7 +391,7 @@ class GrMessagesList extends mixinBehaviors( [
 
   _computeShowHideTextHidden(visibleMessages, messages,
       hideAutomated) {
-    if ([visibleMessages, messages].some(arg => arg === undefined)) {
+    if ([visibleMessages, messages].includes(undefined)) {
       return 0;
     }
 

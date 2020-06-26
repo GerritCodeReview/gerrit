@@ -281,7 +281,7 @@ class GrAutocomplete extends mixinBehaviors( [
 
   _updateSuggestions(text, threshold, noDebounce) {
     // Polymer 2: check for undefined
-    if ([text, threshold, noDebounce].some(arg => arg === undefined)) {
+    if ([text, threshold, noDebounce].includes(undefined)) {
       return;
     }
 

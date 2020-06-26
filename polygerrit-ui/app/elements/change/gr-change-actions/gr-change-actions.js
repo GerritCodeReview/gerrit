@@ -669,7 +669,7 @@ class GrChangeActions extends mixinBehaviors( [
       actionsChangeRecord,
       revisionActionsChangeRecord,
       additionalActionsChangeRecord,
-    ].some(arg => arg === undefined)) {
+    ].includes(undefined)) {
       return;
     }
 
@@ -708,7 +708,7 @@ class GrChangeActions extends mixinBehaviors( [
       editMode,
       editBasedOnCurrentPatchSet,
       disableEdit,
-    ].some(arg => arg === undefined)) {
+    ].includes(undefined)) {
       return;
     }
 
@@ -1526,7 +1526,7 @@ class GrChangeActions extends mixinBehaviors( [
       primariesRecord,
       additionalActionsRecord,
       change,
-    ].some(arg => arg === undefined)) {
+    ].includes(undefined)) {
       return [];
     }
 

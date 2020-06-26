@@ -59,7 +59,7 @@ class GrCommitInfo extends GestureEventListeners(
 
   _computeShowWebLink(change, commitInfo, serverConfig) {
     // Polymer 2: check for undefined
-    if ([change, commitInfo, serverConfig].some(arg => arg === undefined)) {
+    if ([change, commitInfo, serverConfig].includes(undefined)) {
       return undefined;
     }
 
@@ -69,7 +69,7 @@ class GrCommitInfo extends GestureEventListeners(
 
   _computeWebLink(change, commitInfo, serverConfig) {
     // Polymer 2: check for undefined
-    if ([change, commitInfo, serverConfig].some(arg => arg === undefined)) {
+    if ([change, commitInfo, serverConfig].includes(undefined)) {
       return undefined;
     }
 

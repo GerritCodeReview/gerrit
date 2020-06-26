@@ -70,7 +70,7 @@ class GrCommentList extends mixinBehaviors( [
   }
 
   _computeDiffURL(filePath, changeNum, allComments) {
-    if ([filePath, changeNum, allComments].some(arg => arg === undefined)) {
+    if ([filePath, changeNum, allComments].includes(undefined)) {
       return;
     }
     const fileComments = this._computeCommentsForFile(allComments, filePath);

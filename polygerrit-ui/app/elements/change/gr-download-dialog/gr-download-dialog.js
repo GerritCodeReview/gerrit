@@ -133,7 +133,7 @@ class GrDownloadDialog extends mixinBehaviors( [
    */
   _computeDownloadLink(change, patchNum, opt_zip) {
     // Polymer 2: check for undefined
-    if ([change, patchNum].some(arg => arg === undefined)) {
+    if ([change, patchNum].includes(undefined)) {
       return '';
     }
     return this.changeBaseURL(change.project, change._number, patchNum) +
@@ -149,7 +149,7 @@ class GrDownloadDialog extends mixinBehaviors( [
    */
   _computeDownloadFilename(change, patchNum, opt_zip) {
     // Polymer 2: check for undefined
-    if ([change, patchNum].some(arg => arg === undefined)) {
+    if ([change, patchNum].includes(undefined)) {
       return '';
     }
 
@@ -165,7 +165,7 @@ class GrDownloadDialog extends mixinBehaviors( [
 
   _computeHidePatchFile(change, patchNum) {
     // Polymer 2: check for undefined
-    if ([change, patchNum].some(arg => arg === undefined)) {
+    if ([change, patchNum].includes(undefined)) {
       return false;
     }
     for (const rev of Object.values(change.revisions || {})) {
@@ -180,7 +180,7 @@ class GrDownloadDialog extends mixinBehaviors( [
 
   _computeArchiveDownloadLink(change, patchNum, format) {
     // Polymer 2: check for undefined
-    if ([change, patchNum, format].some(arg => arg === undefined)) {
+    if ([change, patchNum, format].includes(undefined)) {
       return '';
     }
     return this.changeBaseURL(change.project, change._number, patchNum) +
@@ -189,7 +189,7 @@ class GrDownloadDialog extends mixinBehaviors( [
 
   _computeSchemes(change, patchNum) {
     // Polymer 2: check for undefined
-    if ([change, patchNum].some(arg => arg === undefined)) {
+    if ([change, patchNum].includes(undefined)) {
       return [];
     }
 

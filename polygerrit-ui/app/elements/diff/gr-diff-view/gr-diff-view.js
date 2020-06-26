@@ -1067,8 +1067,8 @@ class GrDiffView extends mixinBehaviors( [
     }
   }
 
-  _computeModeSelectHideClass(isImageDiff) {
-    return isImageDiff ? 'hide' : '';
+  _computeModeSelectHideClass(_diff) {
+    return _diff.binary ? 'hide' : '';
   }
 
   _onLineSelected(e, detail) {

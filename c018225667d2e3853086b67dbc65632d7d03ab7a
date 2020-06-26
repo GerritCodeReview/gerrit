@@ -94,6 +94,30 @@
       "revId": "c018225667d2e3853086b67dbc65632d7d03ab7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04a5f792_96d43975",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-26T07:14:51Z",
+      "side": 1,
+      "message": "yes, we can certainly support that with the gr-endpoint-slot, you can refer to an example here:  https://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.js#155\n\nor the change 269178\n\nIf the `top`, `bottom` are use cases, then we can take advantage of this and support them from the beginning so no need to worry about backward compatibility in the future if we need to add more",
+      "parentUuid": "9d876b24_f68db009",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 28
+      },
+      "revId": "c018225667d2e3853086b67dbc65632d7d03ab7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e4b8d7c3_46765743",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-26T07:23:00Z",
+      "side": 1,
+      "message": "yep already done in I45343a8f50",
+      "parentUuid": "61eecd64_c6918b85",
+      "revId": "044edfceb9d42a63237f8110d277ed6504aed0ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71b5a6d2_3b2078b5",
         "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 6
@@ -33,6 +51,24 @@
       "revId": "044edfceb9d42a63237f8110d277ed6504aed0ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07dbabc6_1f3e5ce1",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-26T07:23:00Z",
+      "side": 1,
+      "message": "not anymore.\nWe can later add \"--force\" or somesthing, if needed.",
+      "parentUuid": "71b5a6d2_3b2078b5",
+      "revId": "044edfceb9d42a63237f8110d277ed6504aed0ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "b849842d_adb1ca69",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewAttentionSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-26T07:23:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f3b6372_e9e1d1b6",
+      "range": {
+        "startLine": 90,
+        "startChar": 44,
+        "endLine": 90,
+        "endChar": 47
+      },
+      "revId": "044edfceb9d42a63237f8110d277ed6504aed0ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "138aac3d_a338a9ee",
         "filename": "java/com/google/gerrit/server/restapi/change/PostReviewAttentionSet.java",
         "patchSetId": 6
@@ -73,6 +133,24 @@
       "revId": "044edfceb9d42a63237f8110d277ed6504aed0ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a3f623d_bb9c97b5",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReviewAttentionSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-26T07:23:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "138aac3d_a338a9ee",
+      "revId": "044edfceb9d42a63237f8110d277ed6504aed0ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -33,6 +33,29 @@
       "revId": "4745865bf552819c962c8a7b86e068c57aef6343",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d276de8_bb900833",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-26T12:57:18Z",
+      "side": 1,
+      "message": "just noticed, since account can be null for guest users, probably need to check it before using it",
+      "range": {
+        "startLine": 236,
+        "startChar": 29,
+        "endLine": 236,
+        "endChar": 41
+      },
+      "revId": "4745865bf552819c962c8a7b86e068c57aef6343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

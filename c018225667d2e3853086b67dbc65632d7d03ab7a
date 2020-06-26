@@ -70,6 +70,30 @@
       "revId": "c018225667d2e3853086b67dbc65632d7d03ab7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d876b24_f68db009",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-26T07:03:19Z",
+      "side": 1,
+      "message": "No, don\u0027t add speculative extension points. A lot of extension points are only used by one or just a few plugins anyway. I would not like the idea of adding even more extension points that are then used by zero plugins. Every extension point comes with a certain (albeit low) maintenance cost.\n\nAlso note that Tao has recently introduced the notion of \u003cgr-endpoint-slot\u003e, so if you really need two places to extend here, then you would rather have one endpoint with two slots.",
+      "parentUuid": "ddcf9d16_3321e087",
+      "range": {
+        "startLine": 200,
+        "startChar": 0,
+        "endLine": 202,
+        "endChar": 28
+      },
+      "revId": "c018225667d2e3853086b67dbc65632d7d03ab7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

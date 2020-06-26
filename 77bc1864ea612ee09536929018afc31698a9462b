@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3929b534_818df3e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-26T09:51:59Z",
+      "side": 1,
+      "message": "Hi plugin maintainers,\n\nI cc\u0027ed you on this change as you\u0027re a maintainer of a plugin binding at least one ProjectConfigEntry.",
+      "revId": "77bc1864ea612ee09536929018afc31698a9462b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

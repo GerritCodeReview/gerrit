@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dec5440c_71c1763f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-26T09:51:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd1543db_eb3787b1",
+      "range": {
+        "startLine": 23,
+        "startChar": 63,
+        "endLine": 24,
+        "endChar": 43
+      },
+      "revId": "01825ad84d0d764852c0a9691551b7644966089a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5263880_0fd1ecb9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "01825ad84d0d764852c0a9691551b7644966089a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71a1da42_57ccd00b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-06-26T09:51:59Z",
+      "side": 1,
+      "message": "I looked at the affected plugins and don\u0027t see how this change should negatively affect them. After all, the plugin options will still be visible to people who can read/adjust the plugin options (-\u003e project owners see them). When I looked over the plugin usage, I rather found options which I personally wouldn\u0027t expose to all users.\n\nI\u0027ll cc the maintainers of the plugins so that they know about this change.\n\nAffected plugins:\n- find-owners\n- changemessage\n- reviewers-by-blame\n- its-base\n- its-jira\n- uploadvalidator\n- zuul-status\n- cookbook-plugin\n- git-numberer",
+      "parentUuid": "c5263880_0fd1ecb9",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 27
+      },
+      "revId": "01825ad84d0d764852c0a9691551b7644966089a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

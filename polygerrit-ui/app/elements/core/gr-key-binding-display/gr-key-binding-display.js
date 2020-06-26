@@ -30,7 +30,10 @@ class GrKeyBindingDisplay extends GestureEventListeners(
 
   static get properties() {
     return {
-    /** @type {Array<string>} */
+      /** @type {Array<Array<string>>}
+       * Each entry in the binding represents an array that is a keyboard
+       * shortcut containing [modifier, combination]
+       */
       binding: Array,
     };
   }

@@ -270,9 +270,9 @@ class GrAppElement extends mixinBehaviors( [
         this.Shortcut.EDIT_TOPIC, 't');
 
     this.bindShortcut(
-        this.Shortcut.OPEN_REPLY_DIALOG, 'a');
+        this.Shortcut.OPEN_REPLY_DIALOG, 'a:keyup');
     this.bindShortcut(
-        this.Shortcut.OPEN_DOWNLOAD_DIALOG, 'd');
+        this.Shortcut.OPEN_DOWNLOAD_DIALOG, 'd:keyup');
     this.bindShortcut(
         this.Shortcut.EXPAND_ALL_MESSAGES, 'x');
     this.bindShortcut(
@@ -285,6 +285,16 @@ class GrAppElement extends mixinBehaviors( [
         this.Shortcut.UP_TO_CHANGE, 'u');
     this.bindShortcut(
         this.Shortcut.TOGGLE_DIFF_MODE, 'm:keyup');
+    this.bindShortcut(
+        this.Shortcut.DIFF_AGAINST_BASE, this.V_KEY, 'down', 's');
+    this.bindShortcut(
+        this.Shortcut.DIFF_AGAINST_LATEST, this.V_KEY, 'up', 'w');
+    this.bindShortcut(
+        this.Shortcut.DIFF_BASE_AGAINST_LEFT, this.V_KEY, 'left', 'a');
+    this.bindShortcut(
+        this.Shortcut.DIFF_RIGHT_AGAINST_LATEST, this.V_KEY, 'right', 'd');
+    this.bindShortcut(
+        this.Shortcut.DIFF_BASE_AGAINST_LATEST, this.V_KEY, 'b');
 
     this.bindShortcut(
         this.Shortcut.NEXT_LINE, 'j', 'down');

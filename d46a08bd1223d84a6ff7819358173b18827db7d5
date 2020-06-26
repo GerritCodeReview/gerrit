@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97c1110a_f472fbe4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-26T12:25:12Z",
+      "side": 1,
+      "message": "LGTM, but I will defer +2 to Ben as he added these in the first place",
+      "revId": "d46a08bd1223d84a6ff7819358173b18827db7d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

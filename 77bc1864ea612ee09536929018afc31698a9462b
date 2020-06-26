@@ -16,6 +16,24 @@
       "revId": "77bc1864ea612ee09536929018afc31698a9462b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c309aa6d_4ae67714",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022949
+      },
+      "writtenOn": "2020-06-26T10:10:18Z",
+      "side": 1,
+      "message": "git-numberer owner: LGTM.",
+      "parentUuid": "3929b534_818df3e1",
+      "revId": "77bc1864ea612ee09536929018afc31698a9462b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

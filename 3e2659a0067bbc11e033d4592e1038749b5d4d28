@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "809f4349_53e5e4a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-26T10:56:34Z",
+      "side": 1,
+      "message": "to be accurate, `Array.some` is like static method `some` for `Array`, it\u0027s `Array.prototype.some`. I think you can just say replace `.some` with `.includes`",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "3e2659a0067bbc11e033d4592e1038749b5d4d28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

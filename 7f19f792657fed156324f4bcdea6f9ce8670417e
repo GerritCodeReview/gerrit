@@ -91,6 +91,30 @@
       "revId": "7f19f792657fed156324f4bcdea6f9ce8670417e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d98db005_e2358497",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 62
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-26T10:49:28Z",
+      "side": 1,
+      "message": "I also prefer includes(undefined) but we seem to have this check in a lot of other places.\nhttps://gerrit-review.googlesource.com/c/gerrit/+/273365\nShould fix it for each occurrence.",
+      "parentUuid": "fc25e61e_cd5f9afa",
+      "range": {
+        "startLine": 801,
+        "startChar": 41,
+        "endLine": 801,
+        "endChar": 71
+      },
+      "revId": "7f19f792657fed156324f4bcdea6f9ce8670417e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

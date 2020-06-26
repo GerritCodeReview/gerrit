@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "794f9def_93961aea",
+        "filename": "java/com/google/gerrit/extensions/api/changes/AttentionSetInput.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-26T11:32:00Z",
+      "side": 1,
+      "message": "It\u0027s an annotation that we defined ourselves and that the RestApi processor can interpret they way Joerg said.",
+      "parentUuid": "b123d8a7_dab6cfd5",
+      "revId": "29f43c811650d4f24273859b3f64fa204fe64677",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "507988b2_487acaf5",
         "filename": "java/com/google/gerrit/server/restapi/change/RemoveFromAttentionSet.java",
         "patchSetId": 6

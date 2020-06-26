@@ -131,6 +131,7 @@ export const htmlTemplate = html`
         </template>
         <template is="dom-repeat" items="[[changeSection.results]]" as="change">
           <gr-change-list-item
+            account="[[account]]"
             selected$="[[_computeItemSelected(sectionIndex, index, selectedIndex)]]"
             highlight$="[[_computeItemHighlight(account, change)]]"
             needs-review$="[[_computeItemNeedsReview(account, change, showReviewedState)]]"

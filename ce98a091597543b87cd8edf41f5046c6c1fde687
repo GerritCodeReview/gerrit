@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "ac3dc1bf_6cf0877e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-26T07:12:16Z",
+      "side": 1,
+      "message": "LGTM minus Joerg\u0027s comments",
+      "revId": "ce98a091597543b87cd8edf41f5046c6c1fde687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56bc97ca_ba247234",
         "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 4

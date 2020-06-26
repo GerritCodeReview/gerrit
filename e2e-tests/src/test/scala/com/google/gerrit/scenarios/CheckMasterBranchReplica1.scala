@@ -51,23 +51,23 @@ class CheckMasterBranchReplica1 extends ProjectSimulation {
   setUp(
     createChange.test.inject(
       nothingFor(stepWaitTime(createChange) seconds),
-      atOnceUsers(1)
+      atOnceUsers(single)
     ),
     approveChange.test.inject(
       nothingFor(stepWaitTime(approveChange) seconds),
-      atOnceUsers(1)
+      atOnceUsers(single)
     ),
     submitChange.test.inject(
       nothingFor(stepWaitTime(submitChange) seconds),
-      atOnceUsers(1)
+      atOnceUsers(single)
     ),
     getBranch.test.inject(
       nothingFor(stepWaitTime(getBranch) seconds),
-      atOnceUsers(1)
+      atOnceUsers(single)
     ),
     test.inject(
       nothingFor(stepWaitTime(this) seconds),
-      atOnceUsers(1)
+      atOnceUsers(single)
     ).protocols(httpForReplica),
   ).protocols(httpProtocol)
 }

@@ -30,6 +30,7 @@ class GerritSimulation extends Simulation {
   protected val resource: String = s"$pathName.json"
   protected val body: String = s"$pathName-body.json"
   protected val unique: String = name + "-" + this.hashCode()
+  protected val single = 1
 
   private val powerFactor: Double = replaceProperty("power_factor", 1.0).toDouble
   protected val SecondsPerWeightUnit: Int = 2

@@ -186,6 +186,10 @@ A system wide access control list affecting all projects is stored in
 project "`All-Projects`".  This inheritance can be configured
 through link:cmd-set-project-parent.html[gerrit set-project-parent].
 
+When projects are set as parent projects, the child projects inherit
+all of the parent's access rights. "`All-Projects`" is treated as a
+parent of all projects.
+
 Per-project access control lists are also supported.
 
 Users are permitted to use the maximum range granted to any of their

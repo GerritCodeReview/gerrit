@@ -66,6 +66,7 @@ const elements = [
   'change/gr-confirm-move-dialog/gr-confirm-move-dialog_test.html',
   'change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog_test.html',
   'change/gr-confirm-revert-dialog/gr-confirm-revert-dialog_test.html',
+  'change/gr-confirm-revert-dialog/gr-confirm-revert-submission-dialog_test.html',
   'change/gr-confirm-submit-dialog/gr-confirm-submit-dialog_test.html',
   'change/gr-download-dialog/gr-download-dialog_test.html',
   'change/gr-file-list-header/gr-file-list-header_test.html',

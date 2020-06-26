@@ -178,6 +178,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final ProjectCache projectCache;
   private final PermissionBackend permissionBackend;
   private final PluginSetContext<CommentValidator> commentValidators;
+  private final PostReviewAttentionSet postReviewAttentionSet;
   private final boolean strictLabels;
 
   @Inject
@@ -201,7 +202,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       WorkInProgressOp.Factory workInProgressOpFactory,
       ProjectCache projectCache,
       PermissionBackend permissionBackend,
-      PluginSetContext<CommentValidator> commentValidators) {
+      PluginSetContext<CommentValidator> commentValidators,
+      PostReviewAttentionSet postReviewAttentionSet) {
     this.updateFactory = updateFactory;
     this.changeResourceFactory = changeResourceFactory;
     this.changeDataFactory = changeDataFactory;
@@ -221,6 +223,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
     this.commentValidators = commentValidators;
+    this.postReviewAttentionSet = postReviewAttentionSet;
     this.strictLabels = gerritConfig.getBoolean("change", "strictLabels", false);
   }
 
@@ -379,6 +382,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       NotifyResolver.Result notify = notifyResolver.resolve(input.notify, input.notifyDetails);
       bu.setNotify(notify);
 
+      // Adjust the attention set based on the input
+      postReviewAttentionSet.updateAttentionSet(bu, revision, input, reviewerResults);
       bu.execute();
 
       // Re-read change to take into account results of the update.

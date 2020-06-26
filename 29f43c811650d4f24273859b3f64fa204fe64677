@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "52b2e2bd_ef1ea456",
+        "filename": "java/com/google/gerrit/extensions/api/changes/AttentionSetInput.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-26T07:46:24Z",
+      "side": 1,
+      "message": "I don\u0027t know :) I tried to look into what @DefaultInput is, and I found nothing online. Can you explain?\n\nAdded for now.",
+      "parentUuid": "2bc3d03f_00d48283",
+      "revId": "29f43c811650d4f24273859b3f64fa204fe64677",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "507988b2_487acaf5",
         "filename": "java/com/google/gerrit/server/restapi/change/RemoveFromAttentionSet.java",
         "patchSetId": 6
@@ -39,6 +57,30 @@
       "revId": "29f43c811650d4f24273859b3f64fa204fe64677",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77577f9b_50a532c2",
+        "filename": "java/com/google/gerrit/server/restapi/change/RemoveFromAttentionSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-06-26T07:46:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "507988b2_487acaf5",
+      "range": {
+        "startLine": 76,
+        "startChar": 55,
+        "endLine": 76,
+        "endChar": 76
+      },
+      "revId": "29f43c811650d4f24273859b3f64fa204fe64677",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

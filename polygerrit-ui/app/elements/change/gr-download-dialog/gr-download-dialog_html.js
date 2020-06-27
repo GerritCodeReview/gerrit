@@ -23,7 +23,6 @@ export const htmlTemplate = html`
       padding: var(--spacing-m) 0;
     }
     section {
-      display: flex;
       padding: var(--spacing-m) var(--spacing-xl);
     }
     .flexContainer {

@@ -64,8 +64,8 @@ protobuf_deps()
 
 http_archive(
     name = "build_bazel_rules_nodejs",
-    sha256 = "84abf7ac4234a70924628baa9a73a5a5cbad944c4358cf9abdb4aab29c9a5b77",
-    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/1.7.0/rules_nodejs-1.7.0.tar.gz"],
+    sha256 = "5bf77cc2d13ddf9124f4c1453dd96063774d755d4fc75d922471540d1c9a8ea8",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/2.0.0/rules_nodejs-2.0.0.tar.gz"],
 )
 
 # Golang support for PolyGerrit local dev server.
@@ -1003,11 +1003,6 @@ yarn_install(
     yarn_lock = "//:plugins/yarn.lock",
 )
 
-# Install all Bazel dependencies needed for npm packages that supply Bazel rules
-load("@npm//:install_bazel_dependencies.bzl", "install_bazel_dependencies")
-
-install_bazel_dependencies()
-
 load("//tools/bzl:js.bzl", "bower_archive", "npm_binary")
 
 # NPM binaries bundled along with their dependencies.
@@ -1198,9 +1193,5 @@ bower_archive(
     sha1 = "d84f6a13bde5f8fd39ee208d43f33925410530d7",
     version = "6.5.1",
 )
-
-load("@npm_bazel_typescript//:index.bzl", "ts_setup_workspace")
-
-ts_setup_workspace()
 
 external_plugin_deps()

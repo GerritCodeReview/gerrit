@@ -1,5 +1,5 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
-load("@npm_bazel_rollup//:index.bzl", "rollup_bundle")
+load("@npm//@bazel/rollup:index.bzl", "rollup_bundle")
 
 def _get_ts_compiled_path(outdir, file_name):
     """Calculates the typescript output path for a file_name.

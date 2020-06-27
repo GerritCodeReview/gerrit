@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb719066_8f51a635",
+        "filename": "package.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-27T08:52:45Z",
+      "side": 1,
+      "message": "Should be sorted alphabetically.",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 22
+      },
+      "revId": "2eb9cdb3f7c6b801a5cbb69d40b2cc92e7dc08d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -16,6 +16,9 @@
  */
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../../styles/shared-styles.js';
+import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
+import '../../plugins/gr-endpoint-param/gr-endpoint-param.js';
+import '../../plugins/gr-endpoint-slot/gr-endpoint-slot.js';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
@@ -330,7 +333,10 @@ class GrRelatedChangesList extends mixinBehaviors( [
 
     const results = [
       related && related.changes,
-      submittedTogether && submittedTogether.changes,
+      // If there are either visible or non-visible changes, we need a
+      // non-empty list to fire the event and set visibility.
+      submittedTogether && ((submittedTogether.changes || [])
+          + (submittedTogether.non_visible_changes ? [{}] : [])),
       conflicts,
       cherryPicks,
       sameTopic,

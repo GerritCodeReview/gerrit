@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "7403faee_067088ba",
+        "filename": "package.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-27T07:33:46Z",
+      "side": 1,
+      "message": "I asked in JavaScriipt Bazel channel on Slack, and Alex Eagle, maintainer of rules_nodejs gave this answer, quoting:\n\n\"\n@bazel/terser has a peer dependency on terser so that you can choose any compatible version of the latter, so that’s expected\n\nnote that the yarn install / npm_install warns about missing peer dependencies - not a great DX but not something bazel can/should fix\n\"",
+      "parentUuid": "658064c7_6ab12585",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 22
+      },
+      "revId": "058983d630a710b40e441cff58f4342a49306823",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8df0fcdb_9eb469c1",
         "filename": "tools/bzl/js.bzl",
         "patchSetId": 2

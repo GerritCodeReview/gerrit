@@ -1,5 +1,5 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
-load("@npm_bazel_rollup//:index.bzl", "rollup_bundle")
+load("@npm//@bazel/rollup:index.bzl", "rollup_bundle")
 
 def polygerrit_bundle(name, srcs, outs, entry_point):
     """Build .zip bundle from source code

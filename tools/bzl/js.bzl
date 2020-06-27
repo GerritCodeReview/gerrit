@@ -1,4 +1,4 @@
-load("@npm_bazel_terser//:index.bzl", "terser_minified")
+load("@npm//@bazel/terser:index.bzl", "terser_minified")
 load("//lib/js:npm.bzl", "NPM_SHA1S", "NPM_VERSIONS")
 
 NPMJS = "NPMJS"

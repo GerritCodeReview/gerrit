@@ -199,6 +199,24 @@
     },
     {
       "key": {
+        "uuid": "0b831c87_d2a857df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-27T10:49:31Z",
+      "side": 1,
+      "message": "\u003e I\u0027m trying with this instance of gerrit, and Edit doesn\u0027t take me to the line I\u0027m currently viewing in the diff editor. It always starts on line 1.\n\nThat\u0027s strange. All this change is doing is to add a button and pass in line number, like this: [1]. The extension of codemirror-editor plugin and gerrit core was done in another changes (though it seems that the current line is not passed from the diff screen, always line 1 is opened).\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/272772/5/WORKSPACE,edit#984",
+      "parentUuid": "913d626e_4ea713b6",
+      "revId": "66ed21a73a7e0db5c689544964905c5041c0fa63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d829fd1f_812f0d27",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 2

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ed58c6b_5b08f739",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-27T11:57:18Z",
+      "side": 1,
+      "message": "polylint_test are failing after the migration. I wrote this issue: [1].\n\n[1] https://github.com/bazelbuild/rules_nodejs/issues/1977",
+      "revId": "1726071c3b7f7ee9085c68b92da8f4038d3e4b19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -993,6 +993,15 @@ maven_jar(
     sha1 = "639033469776fd37c08358c6b92a4761feb2af4b",
 )
 
+load("@build_bazel_rules_nodejs//:index.bzl", "yarn_install")
+
+# npm repositories must be loaded before js.bzl, because terser_minified is used there.
+yarn_install(
+    name = "npm",
+    package_json = "//:package.json",
+    yarn_lock = "//:yarn.lock",
+)
+
 load("//tools/bzl:js.bzl", "bower_archive", "npm_binary")
 
 # NPM binaries bundled along with their dependencies.
@@ -1182,14 +1191,6 @@ bower_archive(
     package = "polymer/web-component-tester",
     sha1 = "d84f6a13bde5f8fd39ee208d43f33925410530d7",
     version = "6.5.1",
-)
-
-load("@build_bazel_rules_nodejs//:index.bzl", "yarn_install")
-
-yarn_install(
-    name = "npm",
-    package_json = "//:package.json",
-    yarn_lock = "//:yarn.lock",
 )
 
 yarn_install(

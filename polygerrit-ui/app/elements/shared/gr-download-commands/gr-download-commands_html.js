@@ -44,7 +44,6 @@ export const htmlTemplate = html`
       flex-direction: column;
     }
     gr-shell-command {
-      width: 60em;
       margin-bottom: var(--spacing-m);
     }
     .hidden {

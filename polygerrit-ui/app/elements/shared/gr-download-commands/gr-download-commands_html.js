@@ -39,12 +39,7 @@ export const htmlTemplate = html`
       display: flex;
       justify-content: space-between;
     }
-    .commands {
-      display: flex;
-      flex-direction: column;
-    }
     gr-shell-command {
-      width: 60em;
       margin-bottom: var(--spacing-m);
     }
     .hidden {

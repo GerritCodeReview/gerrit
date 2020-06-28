@@ -48,7 +48,6 @@ suite('gr-reply-dialog tests', () => {
   let changeNum;
   let patchNum;
 
-  let sandbox;
   let getDraftCommentStub;
   let setDraftCommentStub;
   let eraseDraftCommentStub;
@@ -58,8 +57,6 @@ suite('gr-reply-dialog tests', () => {
   const makeGroup = function() { return {id: lastId++}; };
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
-
     changeNum = 42;
     patchNum = 1;
 
@@ -70,7 +67,7 @@ suite('gr-reply-dialog tests', () => {
       getChangeSuggestedReviewers() { return Promise.resolve([]); },
     });
 
-    sandbox.stub(appContext.flagsService, 'isEnabled').returns(true);
+    sinon.stub(appContext.flagsService, 'isEnabled').returns(true);
 
     element = basicFixture.instantiate();
     element.change = {
@@ -113,27 +110,23 @@ suite('gr-reply-dialog tests', () => {
       ],
     };
 
-    getDraftCommentStub = sandbox.stub(element.$.storage, 'getDraftComment');
-    setDraftCommentStub = sandbox.stub(element.$.storage, 'setDraftComment');
-    eraseDraftCommentStub = sandbox.stub(element.$.storage,
+    getDraftCommentStub = sinon.stub(element.$.storage, 'getDraftComment');
+    setDraftCommentStub = sinon.stub(element.$.storage, 'setDraftComment');
+    eraseDraftCommentStub = sinon.stub(element.$.storage,
         'eraseDraftComment');
 
-    sandbox.stub(element, 'fetchChangeUpdates')
+    sinon.stub(element, 'fetchChangeUpdates')
         .returns(Promise.resolve({isLatest: true}));
 
     // Allow the elements created by dom-repeat to be stamped.
     flushAsynchronousOperations();
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
-
   function stubSaveReview(jsonResponseProducer) {
-    return sandbox.stub(
+    return sinon.stub(
         element,
-        '_saveReview',
-        review => new Promise((resolve, reject) => {
+        '_saveReview')
+        .callsFake(review => new Promise((resolve, reject) => {
           try {
             const result = jsonResponseProducer(review) || {};
             const resultStr =
@@ -327,7 +320,7 @@ suite('gr-reply-dialog tests', () => {
       });
     });
 
-    sandbox.stub(element.$.labelScores, 'getLabelValues', () => {
+    sinon.stub(element.$.labelScores, 'getLabelValues').callsFake( () => {
       return {
         'Code-Review': -1,
         'Verified': -1,
@@ -635,7 +628,7 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('400 converts to human-readable server-error', done => {
-    sandbox.stub(window, 'fetch', () => {
+    sinon.stub(window, 'fetch').callsFake(() => {
       const text = '....{"reviewers":{"id1":{"error":"first error"}},' +
         '"ccs":{"id2":{"error":"second error"}}}';
       return Promise.resolve(cloneableResponse(400, text));
@@ -657,7 +650,7 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('non-json 400 is treated as a normal server-error', done => {
-    sandbox.stub(window, 'fetch', () => {
+    sinon.stub(window, 'fetch').callsFake(() => {
       const text = 'Comment validation error!';
       return Promise.resolve(cloneableResponse(400, text));
     });
@@ -707,12 +700,12 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('_focusOn', () => {
-    sandbox.spy(element, '_chooseFocusTarget');
+    sinon.spy(element, '_chooseFocusTarget');
     flushAsynchronousOperations();
-    const textareaStub = sandbox.stub(element.$.textarea, 'async');
-    const reviewerEntryStub = sandbox.stub(element.$.reviewers.focusStart,
+    const textareaStub = sinon.stub(element.$.textarea, 'async');
+    const reviewerEntryStub = sinon.stub(element.$.reviewers.focusStart,
         'async');
-    const ccStub = sandbox.stub(element.$.ccs.focusStart, 'async');
+    const ccStub = sinon.stub(element.$.ccs.focusStart, 'async');
     element._focusOn();
     assert.equal(element._chooseFocusTarget.callCount, 1);
     assert.deepEqual(textareaStub.callCount, 1);
@@ -811,7 +804,7 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('_purgeReviewersPendingRemove', () => {
-    const removeStub = sandbox.stub(element, '_removeAccount');
+    const removeStub = sinon.stub(element, '_removeAccount');
     const mock = function() {
       element._reviewersPendingRemove = {
         test: [makeAccount()],
@@ -836,7 +829,7 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('_removeAccount', done => {
-    sandbox.stub(element.$.restAPI, 'removeChangeReviewer')
+    sinon.stub(element.$.restAPI, 'removeChangeReviewer')
         .returns(Promise.resolve({ok: true}));
     const arr = [makeAccount(), makeAccount()];
     element.change.reviewers = {
@@ -937,7 +930,7 @@ suite('gr-reply-dialog tests', () => {
 
     stubSaveReview(review => mutations.push(...review.reviewers));
 
-    sandbox.stub(element, '_removeAccount', (account, type) => {
+    sinon.stub(element, '_removeAccount').callsFake((account, type) => {
       mutations.push({state: 'REMOVED', account});
       return Promise.resolve();
     });
@@ -1007,7 +1000,7 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('emits cancel on esc key', () => {
-    const cancelHandler = sandbox.spy();
+    const cancelHandler = sinon.spy();
     element.addEventListener('cancel', cancelHandler);
     MockInteractions.pressAndReleaseKeyOn(element, 27, null, 'esc');
     flushAsynchronousOperations();
@@ -1115,10 +1108,10 @@ suite('gr-reply-dialog tests', () => {
     let startReviewStub;
 
     setup(() => {
-      startReviewStub = sandbox.stub(
+      startReviewStub = sinon.stub(
           element.$.restAPI,
-          'startReview',
-          () => Promise.resolve());
+          'startReview')
+          .callsFake(() => Promise.resolve());
     });
 
     test('ready property in review input on start review', () => {
@@ -1145,7 +1138,7 @@ suite('gr-reply-dialog tests', () => {
     let sendStub;
 
     setup(() => {
-      sendStub = sandbox.stub(element, 'send', () => Promise.resolve());
+      sendStub = sinon.stub(element, 'send').callsFake(() => Promise.resolve());
       element.canBeStarted = true;
       // Flush to make both Start/Save buttons appear in DOM.
       flushAsynchronousOperations();
@@ -1201,10 +1194,10 @@ suite('gr-reply-dialog tests', () => {
     suite('pending diff drafts?', () => {
       test('yes', () => {
         const promise = mockPromise();
-        const refreshHandler = sandbox.stub();
+        const refreshHandler = sinon.stub();
 
         element.addEventListener('comment-refresh', refreshHandler);
-        sandbox.stub(element.$.restAPI, 'hasPendingDiffDrafts').returns(true);
+        sinon.stub(element.$.restAPI, 'hasPendingDiffDrafts').returns(true);
         element.$.restAPI._pendingRequests.sendDiffDraft = [promise];
         element.open();
 
@@ -1220,7 +1213,7 @@ suite('gr-reply-dialog tests', () => {
       });
 
       test('no', () => {
-        sandbox.stub(element.$.restAPI, 'hasPendingDiffDrafts').returns(false);
+        sinon.stub(element.$.restAPI, 'hasPendingDiffDrafts').returns(false);
         element.open();
         assert.notOk(element._savingComments);
       });
@@ -1358,10 +1351,10 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('_submit blocked when no mutations exist', () => {
-    const sendStub = sandbox.stub(element, 'send').returns(Promise.resolve());
+    const sendStub = sinon.stub(element, 'send').returns(Promise.resolve());
     // Stub the below function to avoid side effects from the send promise
     // resolving.
-    sandbox.stub(element, '_purgeReviewersPendingRemove');
+    sinon.stub(element, '_purgeReviewersPendingRemove');
     element.draftCommentThreads = [];
     flushAsynchronousOperations();
 

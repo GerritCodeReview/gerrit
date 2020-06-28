@@ -22,19 +22,13 @@ const basicFixture = fixtureFromElement('gr-plugin-popup');
 
 suite('gr-plugin-popup tests', () => {
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
     stub('gr-overlay', {
-      open: sandbox.stub().returns(Promise.resolve()),
-      close: sandbox.stub(),
+      open: sinon.stub().returns(Promise.resolve()),
+      close: sinon.stub(),
     });
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   test('exists', () => {

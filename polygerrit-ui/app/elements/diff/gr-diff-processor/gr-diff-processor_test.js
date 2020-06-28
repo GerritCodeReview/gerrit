@@ -32,14 +32,9 @@ suite('gr-diff-processor tests', () => {
       'fugit assum per.';
 
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
-  });
 
-  teardown(() => {
-    sandbox.restore();
   });
 
   suite('not logged in', () => {
@@ -599,7 +594,7 @@ suite('gr-diff-processor tests', () => {
         ],
       };
       const content = _.times(200, _.constant(contentRow));
-      sandbox.stub(element, 'async');
+      sinon.stub(element, 'async');
       element._isScrolling = true;
       element.process(content);
       // Just the files group - no more processing during scrolling.
@@ -619,7 +614,7 @@ suite('gr-diff-processor tests', () => {
         ],
       };
       const content = _.times(200, _.constant(contentRow));
-      sandbox.stub(element, 'async');
+      sinon.stub(element, 'async');
       element.process(content, true);
       assert.equal(element.groups.length, 1);
 
@@ -855,7 +850,7 @@ suite('gr-diff-processor tests', () => {
 
     suite('_breakdown*', () => {
       test('_breakdownChunk breaks down additions', () => {
-        sandbox.spy(element, '_breakdown');
+        sinon.spy(element, '_breakdown');
         const chunk = {b: ['blah', 'blah', 'blah']};
         const result = element._breakdownChunk(chunk);
         assert.deepEqual(result, [chunk]);
@@ -864,7 +859,7 @@ suite('gr-diff-processor tests', () => {
 
       test('_breakdownChunk keeps due_to_rebase for broken down additions',
           () => {
-            sandbox.spy(element, '_breakdown');
+            sinon.spy(element, '_breakdown');
             const chunk = {b: ['blah', 'blah', 'blah'], due_to_rebase: true};
             const result = element._breakdownChunk(chunk);
             for (const subResult of result) {
@@ -912,7 +907,7 @@ suite('gr-diff-processor tests', () => {
 
   test('detaching cancels', () => {
     element = basicFixture.instantiate();
-    sandbox.stub(element, 'cancel');
+    sinon.stub(element, 'cancel');
     element.detached();
     assert(element.cancel.called);
   });

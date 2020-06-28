@@ -29,14 +29,14 @@ const basicFixture = fixtureFromTemplate(html`
 
 suite('gr-linked-text tests', () => {
   let element;
-  let sandbox;
+
   let originalCanonicalPath;
 
   setup(() => {
     originalCanonicalPath = window.CANONICAL_PATH;
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
-    sandbox.stub(GerritNav, 'mapCommentlinks', x => x);
+
+    sinon.stub(GerritNav, 'mapCommentlinks').value( x => x);
     element.config = {
       ph: {
         match: '([Bb]ug|[Ii]ssue)\\s*#?(\\d+)',
@@ -80,7 +80,6 @@ suite('gr-linked-text tests', () => {
   });
 
   teardown(() => {
-    sandbox.restore();
     window.CANONICAL_PATH = originalCanonicalPath;
   });
 
@@ -357,8 +356,8 @@ suite('gr-linked-text tests', () => {
   });
 
   test('_contentOrConfigChanged called with config', () => {
-    const contentStub = sandbox.stub(element, '_contentChanged');
-    const contentConfigStub = sandbox.stub(element, '_contentOrConfigChanged');
+    const contentStub = sinon.stub(element, '_contentChanged');
+    const contentConfigStub = sinon.stub(element, '_contentOrConfigChanged');
     element.content = 'some text';
     assert.isTrue(contentStub.called);
     assert.isTrue(contentConfigStub.called);

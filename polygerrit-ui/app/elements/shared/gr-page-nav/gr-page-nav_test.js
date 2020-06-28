@@ -29,30 +29,24 @@ const basicFixture = fixtureFromTemplate(html`
 
 suite('gr-page-nav tests', () => {
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
     flushAsynchronousOperations();
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
-
   test('header is not pinned just below top', () => {
-    sandbox.stub(element, '_getOffsetParent', () => 0);
-    sandbox.stub(element, '_getOffsetTop', () => 10);
-    sandbox.stub(element, '_getScrollY', () => 5);
+    sinon.stub(element, '_getOffsetParent').callsFake(() => 0);
+    sinon.stub(element, '_getOffsetTop').callsFake(() => 10);
+    sinon.stub(element, '_getScrollY').callsFake(() => 5);
     element._handleBodyScroll();
     assert.isFalse(element.$.nav.classList.contains('pinned'));
   });
 
   test('header is pinned when scroll down the page', () => {
-    sandbox.stub(element, '_getOffsetParent', () => 0);
-    sandbox.stub(element, '_getOffsetTop', () => 10);
-    sandbox.stub(element, '_getScrollY', () => 25);
+    sinon.stub(element, '_getOffsetParent').callsFake(() => 0);
+    sinon.stub(element, '_getOffsetTop').callsFake(() => 10);
+    sinon.stub(element, '_getScrollY').callsFake(() => 25);
     window.scrollY = 100;
     element._handleBodyScroll();
     assert.isTrue(element.$.nav.classList.contains('pinned'));
@@ -60,7 +54,7 @@ suite('gr-page-nav tests', () => {
 
   test('header is not pinned just below top with header set', () => {
     element._headerHeight = 20;
-    sandbox.stub(element, '_getScrollY', () => 15);
+    sinon.stub(element, '_getScrollY').callsFake(() => 15);
     window.scrollY = 100;
     element._handleBodyScroll();
     assert.isFalse(element.$.nav.classList.contains('pinned'));
@@ -68,7 +62,7 @@ suite('gr-page-nav tests', () => {
 
   test('header is pinned when scroll down the page with header set', () => {
     element._headerHeight = 20;
-    sandbox.stub(element, '_getScrollY', () => 25);
+    sinon.stub(element, '_getScrollY').callsFake(() => 25);
     window.scrollY = 100;
     element._handleBodyScroll();
     assert.isTrue(element.$.nav.classList.contains('pinned'));

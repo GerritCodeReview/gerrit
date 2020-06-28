@@ -21,16 +21,14 @@ import './gr-lib-loader.js';
 const basicFixture = fixtureFromElement('gr-lib-loader');
 
 suite('gr-lib-loader tests', () => {
-  let sandbox;
   let element;
   let resolveLoad;
   let loadStub;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
 
-    loadStub = sandbox.stub(element, '_loadScript', () =>
+    loadStub = sinon.stub(element, '_loadScript').callsFake(() =>
       new Promise(resolve => resolveLoad = resolve)
     );
 
@@ -42,7 +40,6 @@ suite('gr-lib-loader tests', () => {
     if (window.hljs) {
       delete window.hljs;
     }
-    sandbox.restore();
 
     // Because the element state is a singleton, clean it up.
     element._hljsState.configured = false;
@@ -51,7 +48,7 @@ suite('gr-lib-loader tests', () => {
   });
 
   test('only load once', done => {
-    sandbox.stub(element, '_getHLJSUrl').returns('');
+    sinon.stub(element, '_getHLJSUrl').returns('');
     const firstCallHandler = sinon.stub();
     element.getHLJS().then(firstCallHandler);
 
@@ -116,7 +113,7 @@ suite('gr-lib-loader tests', () => {
       let root;
 
       setup(() => {
-        sandbox.stub(element, '_getLibRoot', () => root);
+        sinon.stub(element, '_getLibRoot').callsFake(() => root);
       });
 
       test('with no root', () => {

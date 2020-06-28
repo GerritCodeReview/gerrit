@@ -33,6 +33,24 @@
       "revId": "00cd8587657e74a8cb00d0142b01d00bdd3b584e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31160065_c9403d9f",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-28T06:23:15Z",
+      "side": 1,
+      "message": "When executed this test locally in Chrome, I see: [1].\n\n  gr-plugin-loader.js:418 Uncaught (in promise) Error: Timeout when loading plugins: \n    at gr-plugin-loader.js:418\n\n[1] http://paste.openstack.org/show/795302",
+      "parentUuid": "687e018e_725ef298",
+      "revId": "00cd8587657e74a8cb00d0142b01d00bdd3b584e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

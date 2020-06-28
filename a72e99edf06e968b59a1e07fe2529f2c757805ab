@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3efb1ac1_f2786075",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-06-28T18:18:34Z",
+      "side": 1,
+      "message": "this could be cursorAddress \u0026\u0026 cursorAddress.number.",
+      "range": {
+        "startLine": 685,
+        "startChar": 8,
+        "endLine": 685,
+        "endChar": 56
+      },
+      "revId": "a72e99edf06e968b59a1e07fe2529f2c757805ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

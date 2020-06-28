@@ -22,6 +22,30 @@
       "revId": "07d62ef9194324cfc6090ff796994a3963c1032a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85a653d3_58a78187",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator_test.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-28T18:46:03Z",
+      "side": 0,
+      "message": "not really, we just need to have `plugins` as that\u0027s how we extract the name of the plugin, the domain part is not that important :)",
+      "parentUuid": "6bdc1279_2ca1e51a",
+      "range": {
+        "startLine": 63,
+        "startChar": 8,
+        "endLine": 63,
+        "endChar": 37
+      },
+      "revId": "07d62ef9194324cfc6090ff796994a3963c1032a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

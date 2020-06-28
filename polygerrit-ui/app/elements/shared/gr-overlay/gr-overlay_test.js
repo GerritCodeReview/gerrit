@@ -27,21 +27,15 @@ const basicFixture = fixtureFromTemplate(html`
 
 suite('gr-overlay tests', () => {
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
-
   test('events are fired on fullscreen view', done => {
-    sandbox.stub(element, '_isMobile').returns(true);
-    const openHandler = sandbox.stub();
-    const closeHandler = sandbox.stub();
+    sinon.stub(element, '_isMobile').returns(true);
+    const openHandler = sinon.stub();
+    const closeHandler = sinon.stub();
     element.addEventListener('fullscreen-overlay-opened', openHandler);
     element.addEventListener('fullscreen-overlay-closed', closeHandler);
 
@@ -58,9 +52,9 @@ suite('gr-overlay tests', () => {
   });
 
   test('events are not fired on desktop view', done => {
-    sandbox.stub(element, '_isMobile').returns(false);
-    const openHandler = sandbox.stub();
-    const closeHandler = sandbox.stub();
+    sinon.stub(element, '_isMobile').returns(false);
+    const openHandler = sinon.stub();
+    const closeHandler = sinon.stub();
     element.addEventListener('fullscreen-overlay-opened', openHandler);
     element.addEventListener('fullscreen-overlay-closed', closeHandler);
 

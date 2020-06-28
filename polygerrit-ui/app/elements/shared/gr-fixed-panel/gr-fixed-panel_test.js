@@ -27,21 +27,15 @@ const basicFixture = fixtureFromTemplate(html`
 
 suite('gr-fixed-panel', () => {
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
     element.readyForMeasure = true;
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
-
   test('can be disabled with floatingDisabled', () => {
     element.floatingDisabled = true;
-    sandbox.stub(element, '_reposition');
+    sinon.stub(element, '_reposition');
     window.dispatchEvent(new CustomEvent('resize'));
     element.flushDebouncer('update');
     assert.isFalse(element._reposition.called);
@@ -52,7 +46,7 @@ suite('gr-fixed-panel', () => {
   });
 
   test('scroll triggers _reposition', () => {
-    sandbox.stub(element, '_reposition');
+    sinon.stub(element, '_reposition');
     window.dispatchEvent(new CustomEvent('scroll'));
     element.flushDebouncer('update');
     assert.isTrue(element._reposition.called);
@@ -71,7 +65,7 @@ suite('gr-fixed-panel', () => {
 
     setup(() => {
       element._headerTopInitial = 10;
-      sandbox.stub(element, '_getElementTop')
+      sinon.stub(element, '_getElementTop')
           .returns(element._headerTopInitial);
     });
 

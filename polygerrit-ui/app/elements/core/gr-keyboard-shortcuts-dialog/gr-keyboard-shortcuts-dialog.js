@@ -59,15 +59,17 @@ class GrKeyboardShortcutsDialog extends mixinBehaviors( [
   /** @override */
   attached() {
     super.attached();
+    this.keyboardShortcutDirectoryListener =
+        this._onDirectoryUpdated.bind(this);
     this.addKeyboardShortcutDirectoryListener(
-        this._onDirectoryUpdated.bind(this));
+        this.keyboardShortcutDirectoryListener);
   }
 
   /** @override */
   detached() {
     super.detached();
     this.removeKeyboardShortcutDirectoryListener(
-        this._onDirectoryUpdated.bind(this));
+        this.keyboardShortcutDirectoryListener);
   }
 
   _handleCloseTap(e) {

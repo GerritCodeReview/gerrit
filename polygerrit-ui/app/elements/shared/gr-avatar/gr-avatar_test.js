@@ -23,15 +23,9 @@ const basicFixture = fixtureFromElement('gr-avatar');
 
 suite('gr-avatar tests', () => {
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   test('methods', () => {
@@ -161,23 +155,22 @@ suite('gr-avatar tests', () => {
       element = basicFixture.instantiate();
     });
 
-    test('avatar hidden when account set', () => {
-      flush(() => {
-        assert.isFalse(element.hasAttribute('hidden'));
+    test('avatar hidden when account set', async () => {
+      await flush();
+      assert.isTrue(element.hasAttribute('hidden'));
 
-        element.imageSize = 64;
-        element.account = {
-          _account_id: 123,
-        };
-        // Emulate plugins loaded.
-        pluginLoader.loadPlugins([]);
+      element.imageSize = 64;
+      element.account = {
+        _account_id: 123,
+      };
+      // Emulate plugins loaded.
+      pluginLoader.loadPlugins([]);
 
-        return Promise.all([
-          element.$.restAPI.getConfig(),
-          pluginLoader.awaitPluginsLoaded(),
-        ]).then(() => {
-          assert.isTrue(element.hasAttribute('hidden'));
-        });
+      return Promise.all([
+        element.$.restAPI.getConfig(),
+        pluginLoader.awaitPluginsLoaded(),
+      ]).then(() => {
+        assert.isTrue(element.hasAttribute('hidden'));
       });
     });
   });

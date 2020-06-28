@@ -25,25 +25,20 @@ const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-plugin-action-context tests', () => {
   let instance;
-  let sandbox;
+
   let plugin;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     pluginApi.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
     instance = new GrPluginActionContext(plugin);
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
-
   test('popup() and hide()', () => {
     const popupApiStub = {
-      close: sandbox.stub(),
+      close: sinon.stub(),
     };
-    sandbox.stub(plugin.deprecated, 'popup').returns(popupApiStub);
+    sinon.stub(plugin.deprecated, 'popup').returns(popupApiStub);
     const el = {};
     instance.popup(el);
     assert.isTrue(instance.plugin.deprecated.popup.calledWith(el));
@@ -80,7 +75,7 @@ suite('gr-plugin-action-context tests', () => {
     let clickStub;
     let button;
     setup(() => {
-      clickStub = sandbox.stub();
+      clickStub = sinon.stub();
       button = instance.button('foo', {onclick: clickStub});
       // If you don't attach a Polymer element to the DOM, then the ready()
       // callback will not be called and then e.g. this.$ is undefined.
@@ -110,8 +105,8 @@ suite('gr-plugin-action-context tests', () => {
   test('label', () => {
     const fakeMsg = {};
     const fakeCheckbox = {};
-    sandbox.stub(instance, 'div');
-    sandbox.stub(instance, 'msg').returns(fakeMsg);
+    sinon.stub(instance, 'div');
+    sinon.stub(instance, 'msg').returns(fakeMsg);
     instance.label(fakeCheckbox, 'foo');
     assert.isTrue(instance.div.calledWithExactly(fakeCheckbox, fakeMsg));
   });
@@ -122,12 +117,12 @@ suite('gr-plugin-action-context tests', () => {
       __key: 'key',
       __url: '/changes/1/revisions/2/foo~bar',
     };
-    const sendStub = sandbox.stub().returns(Promise.resolve());
-    sandbox.stub(plugin, 'restApi').returns({
+    const sendStub = sinon.stub().returns(Promise.resolve());
+    sinon.stub(plugin, 'restApi').returns({
       send: sendStub,
     });
     const payload = {foo: 'foo'};
-    const successStub = sandbox.stub();
+    const successStub = sinon.stub();
     instance.call(payload, successStub);
     assert.isTrue(sendStub.calledWith(
         'METHOD', '/changes/1/revisions/2/foo~bar', payload));
@@ -139,11 +134,11 @@ suite('gr-plugin-action-context tests', () => {
       __key: 'key',
       __url: '/changes/1/revisions/2/foo~bar',
     };
-    const sendStub = sandbox.stub().returns(Promise.reject(new Error('boom')));
-    sandbox.stub(plugin, 'restApi').returns({
+    const sendStub = sinon.stub().returns(Promise.reject(new Error('boom')));
+    sinon.stub(plugin, 'restApi').returns({
       send: sendStub,
     });
-    const errorStub = sandbox.stub();
+    const errorStub = sinon.stub();
     document.addEventListener('show-alert', errorStub);
     instance.call();
     flush(() => {

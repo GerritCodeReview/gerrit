@@ -35,7 +35,6 @@ suite('keyboard-shortcut-behavior tests', () => {
 
   let element;
   let overlay;
-  let sandbox;
 
   suiteSetup(() => {
     // Define a Polymer element that uses this behavior.
@@ -53,11 +52,6 @@ suite('keyboard-shortcut-behavior tests', () => {
   setup(() => {
     element = basicFixture.instantiate();
     overlay = withinOverlayFixture.instantiate();
-    sandbox = sinon.sandbox.create();
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   suite('ShortcutManager', () => {
@@ -337,7 +331,7 @@ suite('keyboard-shortcut-behavior tests', () => {
   });
 
   test('modifierPressed returns accurate values', () => {
-    const spy = sandbox.spy(element, 'modifierPressed');
+    const spy = sinon.spy(element, 'modifierPressed');
     element._handleKey = e => {
       element.modifierPressed(e);
     };
@@ -358,7 +352,7 @@ suite('keyboard-shortcut-behavior tests', () => {
   });
 
   test('isModifierPressed returns accurate value', () => {
-    const spy = sandbox.spy(element, 'isModifierPressed');
+    const spy = sinon.spy(element, 'isModifierPressed');
     element._handleKey = e => {
       element.isModifierPressed(e, 'shiftKey');
     };
@@ -384,12 +378,12 @@ suite('keyboard-shortcut-behavior tests', () => {
     setup(() => {
       element._shortcut_go_table.set('a', '_handleA');
       handlerStub = element._handleA = sinon.stub();
-      sandbox.stub(Date, 'now').returns(10000);
+      sinon.stub(Date, 'now').returns(10000);
     });
 
     test('success', () => {
       const e = {detail: {key: 'a'}, preventDefault: () => {}};
-      sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+      sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
       element._shortcut_go_key_last_pressed = 9000;
       element._handleGoAction(e);
       assert.isTrue(handlerStub.calledOnce);
@@ -398,7 +392,7 @@ suite('keyboard-shortcut-behavior tests', () => {
 
     test('go key not pressed', () => {
       const e = {detail: {key: 'a'}, preventDefault: () => {}};
-      sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+      sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
       element._shortcut_go_key_last_pressed = null;
       element._handleGoAction(e);
       assert.isFalse(handlerStub.called);
@@ -406,7 +400,7 @@ suite('keyboard-shortcut-behavior tests', () => {
 
     test('go key pressed too long ago', () => {
       const e = {detail: {key: 'a'}, preventDefault: () => {}};
-      sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+      sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
       element._shortcut_go_key_last_pressed = 3000;
       element._handleGoAction(e);
       assert.isFalse(handlerStub.called);
@@ -414,7 +408,7 @@ suite('keyboard-shortcut-behavior tests', () => {
 
     test('should suppress', () => {
       const e = {detail: {key: 'a'}, preventDefault: () => {}};
-      sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(true);
+      sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(true);
       element._shortcut_go_key_last_pressed = 9000;
       element._handleGoAction(e);
       assert.isFalse(handlerStub.called);
@@ -422,7 +416,7 @@ suite('keyboard-shortcut-behavior tests', () => {
 
     test('unrecognized key', () => {
       const e = {detail: {key: 'f'}, preventDefault: () => {}};
-      sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+      sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
       element._shortcut_go_key_last_pressed = 9000;
       element._handleGoAction(e);
       assert.isFalse(handlerStub.called);

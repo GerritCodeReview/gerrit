@@ -58,6 +58,23 @@ let grEtagDecorator = new GrEtagDecorator; // Shared across instances.
 let projectLookup = {}; // Shared across instances.
 
 export function _testOnlyResetGrRestApiSharedObjects() {
+  for (const key in fetchPromisesCache._data) {
+    if (fetchPromisesCache._data.hasOwnProperty(key)) {
+      // reject already fulfilled promise does nothing
+      fetchPromisesCache._data[key].reject();
+    }
+  }
+
+  for (const key in pendingRequest) {
+    if (!pendingRequest.hasOwnProperty(key)) {
+      continue;
+    }
+    for (const req of pendingRequest[key]) {
+      // reject already fulfilled promise does nothing
+      req.reject();
+    }
+  }
+
   siteBasedCache = new SiteBasedCache();
   fetchPromisesCache = new FetchPromisesCache();
   pendingRequest = {};

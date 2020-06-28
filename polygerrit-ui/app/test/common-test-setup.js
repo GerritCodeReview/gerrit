@@ -28,6 +28,9 @@ import {_testOnlyResetRestApi} from '../elements/shared/gr-js-api-interface/gr-p
 import {_testOnlyResetGrRestApiSharedObjects} from '../elements/shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {TestKeyboardShortcutBinder} from './test-utils';
 import {flushDebouncers} from '@polymer/polymer/lib/utils/debounce';
+import {_testOnly_getShortcutManagerInstance} from '../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import sinon from 'sinon/pkg/sinon-esm.js';
+window.sinon = sinon;
 
 security.polymer_resin.install({
   allowedIdentifierPrefixes: [''],
@@ -62,6 +65,9 @@ setup(() => {
   // The following calls is nessecary to avoid influence of previously executed
   // tests.
   TestKeyboardShortcutBinder.push();
+  const mgr = _testOnly_getShortcutManagerInstance();
+  assert.equal(mgr.activeHosts.size, 0);
+  assert.equal(mgr.listeners.size, 0);
   document.getSelection().removeAllRanges();
   const pl = _testOnly_resetPluginLoader();
   // For testing, always init with empty plugin list
@@ -82,7 +88,7 @@ window.stub = function(tagName, implementation) {
   // This method is inspired by web-component-tester method
   const proto = document.createElement(tagName).constructor.prototype;
   const stubs = Object.keys(implementation)
-      .map(key => sinon.stub(proto, key, implementation[key]));
+      .map(key => sinon.stub(proto, key).callsFake(implementation[key]));
   cleanups.push(() => {
     stubs.forEach(stub => {
       stub.restore();
@@ -129,6 +135,7 @@ function checkGlobalSpace() {
 }
 
 teardown(() => {
+  sinon.restore();
   cleanups.forEach(cleanup => cleanup());
   cleanups.splice(0);
   TestKeyboardShortcutBinder.pop();

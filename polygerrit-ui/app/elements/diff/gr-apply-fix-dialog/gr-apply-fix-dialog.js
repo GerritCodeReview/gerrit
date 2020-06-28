@@ -90,7 +90,10 @@ class GrApplyFixDialog extends GestureEventListeners(
     return Promise.all(promises)
         .then(() => {
           // ensures gr-overlay repositions overlay in center
-          this.$.applyFixOverlay.fire('iron-resize');
+          this.$.applyFixOverlay.dispatchEvent(
+              new CustomEvent('iron-resize', {
+                composed: true, bubbles: true,
+              }));
         });
   }
 
@@ -98,7 +101,10 @@ class GrApplyFixDialog extends GestureEventListeners(
     super.attached();
     this.refitOverlay = () => {
       // re-center the dialog as content changed
-      this.$.applyFixOverlay.fire('iron-resize');
+      this.$.applyFixOverlay.dispatchEvent(
+          new CustomEvent('iron-resize', {
+            composed: true, bubbles: true,
+          }));
     };
     this.addEventListener('diff-context-expanded', this.refitOverlay);
   }

@@ -51,6 +51,29 @@
       "revId": "00cd8587657e74a8cb00d0142b01d00bdd3b584e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ac69903_6dd7226b",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-28T09:02:09Z",
+      "side": 1,
+      "message": "I think that this change is related: [1]. Adding Tao as reviewer. Also, in: [1] all touched WCT tests were migrated to karma tests, so may be this test should be migrated to karma prior to this merge?\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/272684",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 7
+      },
+      "revId": "00cd8587657e74a8cb00d0142b01d00bdd3b584e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

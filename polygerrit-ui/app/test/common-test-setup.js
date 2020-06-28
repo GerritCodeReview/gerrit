@@ -90,7 +90,15 @@ setup(() => {
   // overwritten by some other code.
   assert.equal(cleanups.length, 0);
 
-  _testOnly_resetPluginLoader();
+  const pl = _testOnly_resetPluginLoader();
+  // for testing, always init with empty plugin list
+  // Since when serve in gr-app, we always retrieve the list
+  // from project config and init loading after that, all
+  // `awaitPluginsLoaded` will rely on that to kick off,
+  // in testing, we want to kick start this earlier.
+  // You still can manually call _testOnly_resetPluginLoader
+  // to reset this behavior if you need to test something specific
+  pl.loadPlugins([]);
 });
 
 if (isKarmaTest() || window.stub) {

@@ -245,7 +245,7 @@ export class PluginLoader {
       this._plugins.get(key).state = state;
     } else {
       // Plugin is not recorded for some reason.
-      console.warn(`Plugin loaded separately: ${pluginUrl}`);
+      console.info(`Plugin loaded separately: ${pluginUrl}`);
       this._plugins.set(key, {
         name: key,
         url: pluginUrl,
@@ -446,4 +446,5 @@ PluginLoader.PluginOption;
 export let pluginLoader = new PluginLoader();
 export function _testOnly_resetPluginLoader() {
   pluginLoader = new PluginLoader();
+  return pluginLoader;
 }

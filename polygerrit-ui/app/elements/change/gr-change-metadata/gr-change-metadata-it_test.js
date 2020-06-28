@@ -120,7 +120,7 @@ suite('gr-change-metadata integration tests', () => {
       resetPlugins();
       pluginApi.install(plugin => {
         plugin.registerStyleModule('change-metadata', 'my-plugin-style');
-      }, undefined, 'http://test.com/style.js');
+      }, undefined, 'http://test.com/plugins/style.js');
       element = createElement();
       sandbox.stub(pluginEndpoints, 'importUrl', url => Promise.resolve());
       pluginLoader.loadPlugins([]);
@@ -143,7 +143,7 @@ suite('gr-change-metadata integration tests', () => {
       pluginApi.install(p => {
         plugin = p;
         plugin.registerStyleModule('change-metadata', 'my-plugin-style');
-      }, undefined, 'http://test.com/style.js');
+      }, undefined, 'http://test.com/plugins/style.js');
       sandbox.stub(pluginLoader, 'arePluginsLoaded').returns(true);
       pluginLoader.loadPlugins([]);
       element = createElement();

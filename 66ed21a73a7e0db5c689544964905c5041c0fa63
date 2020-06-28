@@ -217,6 +217,24 @@
     },
     {
       "key": {
+        "uuid": "df53250f_88e8f9b2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-28T11:33:42Z",
+      "side": 1,
+      "message": "\u003e though it seems that the current line is not passed from the diff screen, always line 1 is opened\n\nConfirmed, that the line is not passed in to the inline editor when invoked from Diff View. I wrote this issue 13041.",
+      "parentUuid": "0b831c87_d2a857df",
+      "revId": "66ed21a73a7e0db5c689544964905c5041c0fa63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d829fd1f_812f0d27",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 2

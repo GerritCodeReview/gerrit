@@ -249,6 +249,8 @@ class GrDiffView extends mixinBehaviors( [
         type: Number,
         value: 0,
       },
+
+      _lineNum: Number,
     };
   }
 
@@ -676,11 +678,13 @@ class GrDiffView extends mixinBehaviors( [
   }
 
   _goToEditFile() {
+    console.log(this._lineNum);
     // TODO(taoalpha): add a shortcut for editing
     const editUrl = GerritNav.getEditUrlForDiff(
         this._change,
         this._path,
-        this._patchRange.patchNum
+        this._patchRange.patchNum,
+        this._lineNum
     );
     return GerritNav.navigateToRelativeUrl(editUrl);
   }
@@ -756,6 +760,7 @@ class GrDiffView extends mixinBehaviors( [
       patchNum: value.patchNum,
       basePatchNum: value.basePatchNum || PARENT,
     };
+    this._lineNum = value.lineNum;
 
     // NOTE: This may be called before attachment (e.g. while parentElement is
     // null). Fire title-change in an async so that, if attachment to the DOM

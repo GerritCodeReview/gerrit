@@ -29,7 +29,7 @@ const basicFixture = fixtureFromTemplate(
 );
 
 suite('gr-external-style integration tests', () => {
-  const TEST_URL = 'http://some/plugin/url.html';
+  const TEST_URL = 'http://some.com/plugins/url.html';
 
   let sandbox;
   let element;

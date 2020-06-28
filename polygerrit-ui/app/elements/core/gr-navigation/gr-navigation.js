@@ -471,11 +471,12 @@ export const GerritNav = {
    * @param {{ _number: number, project: string }} change The change object.
    * @param {string} path The file path.
    * @param {number=} opt_patchNum
+   * @param {number=} opt_lineNum
    * @return {string}
    */
-  getEditUrlForDiff(change, path, opt_patchNum) {
+  getEditUrlForDiff(change, path, opt_patchNum, opt_lineNum) {
     return this.getEditUrlForDiffById(change._number, change.project, path,
-        opt_patchNum);
+        opt_patchNum, opt_lineNum);
   },
 
   /**
@@ -484,15 +485,17 @@ export const GerritNav = {
    * @param {string} path The file path.
    * @param {number|string=} opt_patchNum The patchNum the file content
    *    should be based on, or ${EDIT_PATCHNUM} if left undefined.
+   * @param {number=} opt_lineNum
    * @return {string}
    */
-  getEditUrlForDiffById(changeNum, project, path, opt_patchNum) {
+  getEditUrlForDiffById(changeNum, project, path, opt_patchNum, opt_lineNum) {
     return this._getUrlFor({
       view: GerritNav.View.EDIT,
       changeNum,
       project,
       path,
       patchNum: opt_patchNum || EDIT_PATCHNUM,
+      lineNum: opt_lineNum,
     });
   },
 

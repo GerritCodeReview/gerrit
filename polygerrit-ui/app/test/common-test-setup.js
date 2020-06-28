@@ -18,20 +18,16 @@
 // TODO(dmfilippov): remove bundled-polymer.js imports when the following issue
 // https://github.com/Polymer/polymer-resin/issues/9 is resolved.
 import '../scripts/bundled-polymer.js';
-
+import './test-app-context-init.js';
 import 'polymer-resin/standalone/polymer-resin.js';
 import '@polymer/iron-test-helpers/iron-test-helpers.js';
 import './test-router.js';
 import {SafeTypes} from '../behaviors/safe-types-behavior/safe-types-behavior.js';
-import {appContext} from '../services/app-context.js';
-import {initAppContext} from '../services/app-context-init.js';
 import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader.js';
-import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock.js';
-
-// Returns true if tests run under the Karma
-function isKarmaTest() {
-  return window.__karma__ !== undefined;
-}
+import {_testOnlyResetRestApi} from '../elements/shared/gr-js-api-interface/gr-plugin-rest-api.js';
+import {_testOnlyResetGrRestApiSharedObjects} from '../elements/shared/gr-rest-api-interface/gr-rest-api-interface.js';
+import {TestKeyboardShortcutBinder} from './test-utils';
+import {flushDebouncers} from '@polymer/polymer/lib/utils/debounce';
 
 security.polymer_resin.install({
   allowedIdentifierPrefixes: [''],
@@ -49,88 +45,86 @@ security.polymer_resin.install({
   safeTypesBridge: SafeTypes.safeTypesBridge,
 });
 
-// Default implementations of 'fixture' and 'stub' methods in
-// web-component-tester are incorrect. Default methods calls mocha teardown
-// method to register cleanup actions. Each call to the teardown method adds
-// additional 'afterEach' hook to a suite.
-// As a result, if a suite's setup(..) method calls fixture(..) or stub(..)
-// method, then additional afterEach hook is registered before each test.
-// In overall, afterEach hook is called testCount^2 instead of testCount.
-// When tests runs with the wct test runner, the runner adds listener for
-// the 'afterEach' and tries to make some UI and log udpates. These updates
-// are quite heavy, and after about 40-50 tests each test waste 0.5-1seconds.
-//
-// Our implementation uses global teardown to clean up everything. mocha calls
-// global teardown after each test. The cleanups array stores all functions
-// which must be called after a test ends.
-//
-// Note, that fixture(...) and stub(..) methods are registered different by
-// WCT. This is why these methods implemented slightly different here.
 const cleanups = [];
-if (isKarmaTest() || !window.fixture) {
-  // For karma always set our implementation
-  // (karma doesn't provide the fixture method)
-  window.fixture = function(fixtureId, model) {
-    // This method is inspired by WCT method
-    cleanups.push(() => document.getElementById(fixtureId).restore());
-    return document.getElementById(fixtureId).create(model);
-  };
-} else {
-  // The following error is important for WCT tests.
-  // If window.fixture already installed by WCT at this point, WCT tests
-  // performance decreases rapidly.
-  // It allows to catch performance problems earlier.
-  throw new Error('window.fixture must be set before wct sets it');
-}
 
-// On the first call to the setup, WCT installs window.fixture
-// and window.stub methods
+// For karma always set our implementation
+// (karma doesn't provide the fixture method)
+window.fixture = function(fixtureId, model) {
+  // This method is inspired by web-component-tester method
+  cleanups.push(() => document.getElementById(fixtureId).restore());
+  return document.getElementById(fixtureId).create(model);
+};
+
 setup(() => {
   // If the following asserts fails - then window.stub is
   // overwritten by some other code.
   assert.equal(cleanups.length, 0);
-
+  // The following calls is nessecary to avoid influence of previously executed
+  // tests.
+  TestKeyboardShortcutBinder.push();
+  document.getSelection().removeAllRanges();
   _testOnly_resetPluginLoader();
+  _testOnlyResetGrRestApiSharedObjects();
+  _testOnlyResetRestApi();
 });
 
-if (isKarmaTest() || window.stub) {
-  // For karma always set our implementation
-  // (karma doesn't provide the stub method)
-  window.stub = function(tagName, implementation) {
-    // This method is inspired by WCT method
-    const proto = document.createElement(tagName).constructor.prototype;
-    const stubs = Object.keys(implementation)
-        .map(key => sinon.stub(proto, key, implementation[key]));
-    cleanups.push(() => {
-      stubs.forEach(stub => {
-        stub.restore();
-      });
+// For karma always set our implementation
+// (karma doesn't provide the stub method)
+window.stub = function(tagName, implementation) {
+  // This method is inspired by web-component-tester method
+  const proto = document.createElement(tagName).constructor.prototype;
+  const stubs = Object.keys(implementation)
+      .map(key => sinon.stub(proto, key, implementation[key]));
+  cleanups.push(() => {
+    stubs.forEach(stub => {
+      stub.restore();
     });
-  };
-} else {
-  // The following error is important for WCT tests.
-  // If window.fixture already installed by WCT at this point, WCT tests
-  // performance decreases rapidly.
-  // It allows to catch performance problems earlier.
-  throw new Error('window.stub must be set after wct sets it');
-}
-
-initAppContext();
-function setMock(serviceName, setupMock) {
-  Object.defineProperty(appContext, serviceName, {
-    get() {
-      return setupMock;
-    },
   });
+};
+
+// Very simple function to catch unexpected elements in documents body.
+// It can't catch everything, but in most cases it is enough.
+function checkChildAllowed(element) {
+  const allowedTags = ['SCRIPT', 'IRON-A11Y-ANNOUNCER'];
+  if (allowedTags.includes(element.tagName)) {
+    return;
+  }
+  if (element.tagName === 'TEST-FIXTURE') {
+    if (element.children.length == 0 ||
+        (element.children.length == 1 &&
+        element.children[0].tagName === 'TEMPLATE')) {
+      return;
+    }
+    assert.fail(`Test fixture
+        ${element.outerHTML}` +
+        `isn't resotred after the test is finished. Please ensure that ` +
+        `restore() method is called for this test-fixture. Usually the call` +
+        `happens automatically.`);
+    return;
+  }
+  if (element.tagName === 'DIV' && element.id === 'gr-hovercard-container' &&
+      element.childNodes.length === 0) {
+    return;
+  }
+  assert.fail(
+      `The following node remains in document after the test:
+      ${element.tagName}
+      Outer HTML:
+      ${element.outerHTML},
+      Stack trace:
+      ${element.stackTrace}`);
 }
-setMock('reportingService', grReportingMock);
+function checkGlobalSpace() {
+  for (const child of document.body.children) {
+    checkChildAllowed(child);
+  }
+}
 
 teardown(() => {
-  // WCT incorrectly uses teardown method in the 'fixture' and 'stub'
-  // implementations. This leads to slowdown WCT tests after each tests.
-  // I.e. more tests in a file - longer it takes.
-  // For example, gr-file-list_test.html takes approx 40 second without
-  // a fix and 10 seconds with our implementation of fixture and stub.
   cleanups.forEach(cleanup => cleanup());
   cleanups.splice(0);
+  TestKeyboardShortcutBinder.pop();
+  checkGlobalSpace();
+  // Clean Polymer debouncer queue, so next tests will not be affected.
+  flushDebouncers();
 });

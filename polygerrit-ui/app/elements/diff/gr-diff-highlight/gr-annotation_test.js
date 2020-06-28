@@ -28,18 +28,16 @@ suite('annotation', () => {
   let str;
   let parent;
   let textNode;
-  let sandbox;
+
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+    
     parent = basicFixture.instantiate();
     textNode = parent.childNodes[0];
     str = textNode.textContent;
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('_annotateText Case 1', () => {
     GrAnnotation._annotateText(textNode, 0, str.length, 'foobar');
@@ -194,7 +192,7 @@ suite('annotation', () => {
     setup(() => {
       originalSanitizeDOMValue = sanitizeDOMValue;
       assert.isDefined(originalSanitizeDOMValue);
-      mockSanitize = sandbox.spy(originalSanitizeDOMValue);
+      mockSanitize = sinon.spy(originalSanitizeDOMValue);
       setSanitizeDOMValue(mockSanitize);
     });
 

@@ -22,15 +22,9 @@ const basicFixture = fixtureFromElement('gr-group-audit-log');
 
 suite('gr-group-audit-log tests', () => {
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   suite('members', () => {
@@ -85,8 +79,9 @@ suite('gr-group-audit-log tests', () => {
       element.groupId = 1;
 
       const response = {status: 404};
-      sandbox.stub(
-          element.$.restAPI, 'getGroupAuditLog', (group, errFn) => {
+      sinon.stub(
+          element.$.restAPI, 'getGroupAuditLog')
+          .callsFake((group, errFn) => {
             errFn(response);
           });
 

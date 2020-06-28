@@ -23,10 +23,10 @@ const basicFixture = fixtureFromElement('gr-copy-clipboard');
 
 suite('gr-copy-clipboard tests', () => {
   let element;
-  let sandbox;
+
 
   setup(done => {
-    sandbox = sinon.sandbox.create();
+
     element = basicFixture.instantiate();
     element.text = `git fetch http://gerrit@localhost:8080/a/test-project
         refs/changes/05/5/1 && git checkout FETCH_HEAD`;
@@ -34,12 +34,10 @@ suite('gr-copy-clipboard tests', () => {
     flush(done);
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('copy to clipboard', () => {
-    const clipboardSpy = sandbox.spy(element, '_copyToClipboard');
+    const clipboardSpy = sinon.spy(element, '_copyToClipboard');
     const copyBtn = element.shadowRoot
         .querySelector('.copyToClipboard');
     MockInteractions.tap(copyBtn);

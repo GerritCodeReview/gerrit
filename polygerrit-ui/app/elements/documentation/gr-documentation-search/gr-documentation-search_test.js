@@ -32,19 +32,17 @@ const documentationGenerator = () => {
 suite('gr-documentation-search tests', () => {
   let element;
   let documentationSearches;
-  let sandbox;
+
   let value;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
-    sandbox.stub(page, 'show');
+
+    sinon.stub(page, 'show');
     element = basicFixture.instantiate();
     counter = 0;
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   suite('list with searches for documentation', () => {
     setup(done => {
@@ -75,10 +73,10 @@ suite('gr-documentation-search tests', () => {
     });
 
     test('_paramsChanged', done => {
-      sandbox.stub(
+      sinon.stub(
           element.$.restAPI,
-          'getDocumentationSearches',
-          () => Promise.resolve(documentationSearches));
+          'getDocumentationSearches')
+          .callsFake(() => Promise.resolve(documentationSearches));
       const value = {
         filter: 'test',
       };

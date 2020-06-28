@@ -22,16 +22,14 @@ const basicFixture = fixtureFromElement('gr-diff-mode-selector');
 
 suite('gr-diff-mode-selector tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+    
     element = basicFixture.instantiate();
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('_computeSelectedClass', () => {
     assert.equal(
@@ -42,7 +40,7 @@ suite('gr-diff-mode-selector tests', () => {
   });
 
   test('setMode', () => {
-    const saveStub = sandbox.stub(element.$.restAPI, 'savePreferences');
+    const saveStub = sinon.stub(element.$.restAPI, 'savePreferences');
 
     // Setting the mode initially does not save prefs.
     element.saveOnChange = true;

@@ -28,7 +28,7 @@ suite('gr-settings-view tests', () => {
   let account;
   let preferences;
   let config;
-  let sandbox;
+
 
   function valueOf(title, fieldsetid) {
     const sections = element.$[fieldsetid].querySelectorAll('section');
@@ -51,12 +51,12 @@ suite('gr-settings-view tests', () => {
   }
 
   function stubAddAccountEmail(statusCode) {
-    return sandbox.stub(element.$.restAPI, 'addAccountEmail',
+    return sinon.stub(element.$.restAPI, 'addAccountEmail').callsFake(
         () => Promise.resolve({status: statusCode}));
   }
 
   setup(done => {
-    sandbox = sinon.sandbox.create();
+
     account = {
       _account_id: 123,
       name: 'user name',
@@ -100,9 +100,7 @@ suite('gr-settings-view tests', () => {
     element._loadingPromise.then(done);
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('theme changing', () => {
     window.localStorage.removeItem('dark-theme');
@@ -119,7 +117,7 @@ suite('gr-settings-view tests', () => {
   });
 
   test('calls the title-change event', () => {
-    const titleChangedStub = sandbox.stub();
+    const titleChangedStub = sinon.stub();
 
     // Create a new view.
     const newElement = document.createElement('gr-settings-view');
@@ -346,7 +344,7 @@ suite('gr-settings-view tests', () => {
   });
 
   test('emails are loaded without emailToken', () => {
-    sandbox.stub(element.$.emailEditor, 'loadData');
+    sinon.stub(element.$.emailEditor, 'loadData');
     element.params = {};
     element.attached();
     assert.isTrue(element.$.emailEditor.loadData.calledOnce);
@@ -356,7 +354,7 @@ suite('gr-settings-view tests', () => {
     let newColumns = ['Owner', 'Project', 'Branch'];
     element._localChangeTableColumns = newColumns.slice(0);
     element._showNumber = false;
-    const cloneStub = sandbox.stub(element, '_cloneChangeTableColumns');
+    const cloneStub = sinon.stub(element, '_cloneChangeTableColumns');
     element._handleSaveChangeTable();
     assert.isTrue(cloneStub.calledOnce);
     assert.deepEqual(element.prefs.change_table, newColumns);
@@ -400,7 +398,7 @@ suite('gr-settings-view tests', () => {
   });
 
   test('test that reset button is called', () => {
-    const overlayOpen = sandbox.stub(element, '_handleResetMenuButton');
+    const overlayOpen = sinon.stub(element, '_handleResetMenuButton');
 
     MockInteractions.tap(element.$.resetMenu);
 
@@ -484,11 +482,13 @@ suite('gr-settings-view tests', () => {
     let resolveConfirm;
 
     setup(() => {
-      sandbox.stub(element.$.emailEditor, 'loadData');
-      sandbox.stub(
+      sinon.stub(element.$.emailEditor, 'loadData');
+      sinon.stub(
           element.$.restAPI,
-          'confirmEmail',
-          () => new Promise(resolve => { resolveConfirm = resolve; }));
+          'confirmEmail')
+          .callsFake(
+              () => new Promise(
+                  resolve => { resolveConfirm = resolve; }));
       element.params = {emailToken: 'foo'};
       element.attached();
     });
@@ -511,7 +511,7 @@ suite('gr-settings-view tests', () => {
     });
 
     test('show-alert is fired when email is confirmed', done => {
-      sandbox.spy(element, 'dispatchEvent');
+      sinon.spy(element, 'dispatchEvent');
       element._loadingPromise.then(() => {
         assert.equal(
             element.dispatchEvent.lastCall.args[0].type, 'show-alert');

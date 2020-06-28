@@ -23,7 +23,6 @@ const basicFixture = fixtureFromElement('tooltip-behavior-element');
 
 suite('gr-tooltip-behavior tests', () => {
   let element;
-  let sandbox;
 
   function makeTooltip(tooltipRect, parentRect) {
     return {
@@ -45,16 +44,11 @@ suite('gr-tooltip-behavior tests', () => {
   });
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
-
   test('normal position', () => {
-    sandbox.stub(element, 'getBoundingClientRect', () => {
+    sinon.stub(element, 'getBoundingClientRect').callsFake(() => {
       return {top: 100, left: 100, width: 200};
     });
     const tooltip = makeTooltip(
@@ -68,7 +62,7 @@ suite('gr-tooltip-behavior tests', () => {
   });
 
   test('left side position', () => {
-    sandbox.stub(element, 'getBoundingClientRect', () => {
+    sinon.stub(element, 'getBoundingClientRect').callsFake(() =>  {
       return {top: 100, left: 10, width: 50};
     });
     const tooltip = makeTooltip(
@@ -85,7 +79,7 @@ suite('gr-tooltip-behavior tests', () => {
   });
 
   test('right side position', () => {
-    sandbox.stub(element, 'getBoundingClientRect', () => {
+    sinon.stub(element, 'getBoundingClientRect').callsFake(() => {
       return {top: 100, left: 950, width: 50};
     });
     const tooltip = makeTooltip(
@@ -102,7 +96,7 @@ suite('gr-tooltip-behavior tests', () => {
   });
 
   test('position to bottom', () => {
-    sandbox.stub(element, 'getBoundingClientRect', () => {
+    sinon.stub(element, 'getBoundingClientRect').callsFake(() => {
       return {top: 100, left: 950, width: 50, height: 50};
     });
     const tooltip = makeTooltip(
@@ -120,20 +114,20 @@ suite('gr-tooltip-behavior tests', () => {
   });
 
   test('hides tooltip when detached', () => {
-    sandbox.stub(element, '_handleHideTooltip');
+    sinon.stub(element, '_handleHideTooltip');
     element.remove();
     flushAsynchronousOperations();
     assert.isTrue(element._handleHideTooltip.called);
   });
 
   test('sets up listeners when has-tooltip is changed', () => {
-    const addListenerStub = sandbox.stub(element, 'addEventListener');
+    const addListenerStub = sinon.stub(element, 'addEventListener');
     element.hasTooltip = true;
     assert.isTrue(addListenerStub.called);
   });
 
   test('clean up listeners when has-tooltip changed to false', () => {
-    const removeListenerStub = sandbox.stub(element, 'removeEventListener');
+    const removeListenerStub = sinon.stub(element, 'removeEventListener');
     element.hasTooltip = true;
     element.hasTooltip = false;
     assert.isTrue(removeListenerStub.called);

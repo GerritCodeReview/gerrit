@@ -23,31 +23,29 @@ const basicFixture = fixtureFromElement('gr-repo-commands');
 
 suite('gr-repo-commands tests', () => {
   let element;
-  let sandbox;
+
   let repoStub;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
     element = basicFixture.instantiate();
-    repoStub = sandbox.stub(
+    repoStub = sinon.stub(
         element.$.restAPI,
-        'getProjectConfig',
-        () => Promise.resolve({}));
+        'getProjectConfig')
+        .callsFake(() => Promise.resolve({}));
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   suite('create new change dialog', () => {
     test('_createNewChange opens modal', () => {
-      const openStub = sandbox.stub(element.$.createChangeOverlay, 'open');
+      const openStub = sinon.stub(element.$.createChangeOverlay, 'open');
       element._createNewChange();
       assert.isTrue(openStub.called);
     });
 
     test('_handleCreateChange called when confirm fired', () => {
-      sandbox.stub(element, '_handleCreateChange');
+      sinon.stub(element, '_handleCreateChange');
       element.$.createChangeDialog.dispatchEvent(
           new CustomEvent('confirm', {
             composed: true, bubbles: true,
@@ -56,7 +54,7 @@ suite('gr-repo-commands tests', () => {
     });
 
     test('_handleCloseCreateChange called when cancel fired', () => {
-      sandbox.stub(element, '_handleCloseCreateChange');
+      sinon.stub(element, '_handleCloseCreateChange');
       element.$.createChangeDialog.dispatchEvent(
           new CustomEvent('cancel', {
             composed: true, bubbles: true,
@@ -72,11 +70,11 @@ suite('gr-repo-commands tests', () => {
     let alertStub;
 
     setup(() => {
-      createChangeStub = sandbox.stub(element.$.restAPI, 'createChange');
-      urlStub = sandbox.stub(GerritNav, 'getEditUrlForDiff');
-      sandbox.stub(GerritNav, 'navigateToRelativeUrl');
-      handleSpy = sandbox.spy(element, '_handleEditRepoConfig');
-      alertStub = sandbox.stub();
+      createChangeStub = sinon.stub(element.$.restAPI, 'createChange');
+      urlStub = sinon.stub(GerritNav, 'getEditUrlForDiff');
+      sinon.stub(GerritNav, 'navigateToRelativeUrl');
+      handleSpy = sinon.spy(element, '_handleEditRepoConfig');
+      alertStub = sinon.stub();
       element.addEventListener('show-alert', alertStub);
     });
 
@@ -121,8 +119,9 @@ suite('gr-repo-commands tests', () => {
       element.repo = 'test';
 
       const response = {status: 404};
-      sandbox.stub(
-          element.$.restAPI, 'getProjectConfig', (repo, errFn) => {
+      sinon.stub(
+          element.$.restAPI, 'getProjectConfig')
+          .callsFake((repo, errFn) => {
             errFn(response);
           });
       element.addEventListener('page-error', e => {

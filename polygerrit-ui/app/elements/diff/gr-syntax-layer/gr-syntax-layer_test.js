@@ -24,7 +24,7 @@ import {GrDiffLine} from '../gr-diff/gr-diff-line.js';
 const basicFixture = fixtureFromElement('gr-syntax-layer');
 
 suite('gr-syntax-layer tests', () => {
-  let sandbox;
+
   let diff;
   let element;
   const lineNumberEl = document.createElement('td');
@@ -49,18 +49,16 @@ suite('gr-syntax-layer tests', () => {
   }
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+    
     element = basicFixture.instantiate();
     diff = getMockDiffResponse();
     element.diff = diff;
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('annotate without range does nothing', () => {
-    const annotationSpy = sandbox.spy(GrAnnotation, 'annotateElement');
+    const annotationSpy = sinon.spy(GrAnnotation, 'annotateElement');
     const el = document.createElement('div');
     el.textContent = 'Etiam dui, blandit wisi.';
     const line = new GrDiffLine(GrDiffLine.Type.REMOVE);
@@ -77,7 +75,7 @@ suite('gr-syntax-layer tests', () => {
     const length = 3;
     const className = 'foobar';
 
-    const annotationSpy = sandbox.spy(GrAnnotation, 'annotateElement');
+    const annotationSpy = sinon.spy(GrAnnotation, 'annotateElement');
     const el = document.createElement('div');
     el.textContent = str;
     const line = new GrDiffLine(GrDiffLine.Type.REMOVE);
@@ -104,7 +102,7 @@ suite('gr-syntax-layer tests', () => {
     const length = 3;
     const className = 'foobar';
 
-    const annotationSpy = sandbox.spy(GrAnnotation, 'annotateElement');
+    const annotationSpy = sinon.spy(GrAnnotation, 'annotateElement');
     const el = document.createElement('div');
     el.textContent = str;
     const line = new GrDiffLine(GrDiffLine.Type.REMOVE);
@@ -127,7 +125,7 @@ suite('gr-syntax-layer tests', () => {
       meta_b: {content_type: 'application/json'},
       content: [],
     };
-    const processNextSpy = sandbox.spy(element, '_processNextLine');
+    const processNextSpy = sinon.spy(element, '_processNextLine');
 
     const processPromise = element.process();
 
@@ -145,7 +143,7 @@ suite('gr-syntax-layer tests', () => {
       meta_b: {content_type: 'application/not-a-real-language'},
       content: [],
     };
-    const processNextSpy = sandbox.spy(element, '_processNextLine');
+    const processNextSpy = sinon.spy(element, '_processNextLine');
 
     const processPromise = element.process();
 
@@ -158,9 +156,9 @@ suite('gr-syntax-layer tests', () => {
   });
 
   test('process while disabled does nothing', done => {
-    const processNextSpy = sandbox.spy(element, '_processNextLine');
+    const processNextSpy = sinon.spy(element, '_processNextLine');
     element.enabled = false;
-    const loadHLJSSpy = sandbox.spy(element, '_loadHLJS');
+    const loadHLJSSpy = sinon.spy(element, '_loadHLJS');
 
     const processPromise = element.process();
 
@@ -179,9 +177,9 @@ suite('gr-syntax-layer tests', () => {
 
     const mockHLJS = getMockHLJS();
     const highlightSpy = sinon.spy(mockHLJS, 'highlight');
-    sandbox.stub(element.$.libLoader, 'getHLJS',
+    sinon.stub(element.$.libLoader, 'getHLJS').callsFake(
         () => Promise.resolve(mockHLJS));
-    const processNextSpy = sandbox.spy(element, '_processNextLine');
+    const processNextSpy = sinon.spy(element, '_processNextLine');
     const processPromise = element.process();
 
     processPromise.then(() => {
@@ -244,7 +242,7 @@ suite('gr-syntax-layer tests', () => {
   });
 
   test('_diffChanged calls cancel', () => {
-    const cancelSpy = sandbox.spy(element, '_diffChanged');
+    const cancelSpy = sinon.spy(element, '_diffChanged');
     element.diff = {content: []};
     assert.isTrue(cancelSpy.called);
   });
@@ -379,7 +377,7 @@ suite('gr-syntax-layer tests', () => {
   });
 
   test('_rangesFromString cache same syntax markers', () => {
-    sandbox.spy(element, '_rangesFromElement');
+    sinon.spy(element, '_rangesFromElement');
     const str =
       '<span class="gr-diff gr-syntax gr-syntax-keyword">public</span>';
     const cacheMap = new Map();

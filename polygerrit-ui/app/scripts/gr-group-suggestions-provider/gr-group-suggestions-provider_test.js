@@ -25,7 +25,7 @@ const basicFixture = fixtureFromTemplate(html`
 `);
 
 suite('GrGroupSuggestionsProvider tests', () => {
-  let sandbox;
+
   let restAPI;
   let provider;
   const group1 = {
@@ -39,7 +39,7 @@ suite('GrGroupSuggestionsProvider tests', () => {
   };
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+    
 
     stub('gr-rest-api-interface', {
       getConfig() { return Promise.resolve({}); },
@@ -48,13 +48,11 @@ suite('GrGroupSuggestionsProvider tests', () => {
     provider = new GrGroupSuggestionsProvider(restAPI);
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('getSuggestions', done => {
     const getSuggestedAccountsStub =
-        sandbox.stub(restAPI, 'getSuggestedGroups')
+        sinon.stub(restAPI, 'getSuggestedGroups')
             .returns(Promise.resolve({
               'Some name': {id: 1},
               'Other name': {id: 3, url: 'abcd'},

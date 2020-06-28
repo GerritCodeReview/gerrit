@@ -25,7 +25,7 @@ suite('gr-account-info tests', () => {
   let element;
   let account;
   let config;
-  let sandbox;
+
 
   function valueOf(title) {
     const sections = dom(element.root).querySelectorAll('section');
@@ -39,7 +39,6 @@ suite('gr-account-info tests', () => {
   }
 
   setup(done => {
-    sandbox = sinon.sandbox.create();
     account = {
       _account_id: 123,
       name: 'user name',
@@ -61,9 +60,7 @@ suite('gr-account-info tests', () => {
     element.loadData().then(() => { flush(done); });
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('basic account info render', () => {
     assert.isFalse(element._loading);
@@ -134,17 +131,17 @@ suite('gr-account-info tests', () => {
     let statusStub;
 
     setup(() => {
-      nameChangedSpy = sandbox.spy(element, '_nameChanged');
-      usernameChangedSpy = sandbox.spy(element, '_usernameChanged');
-      statusChangedSpy = sandbox.spy(element, '_statusChanged');
+      nameChangedSpy = sinon.spy(element, '_nameChanged');
+      usernameChangedSpy = sinon.spy(element, '_usernameChanged');
+      statusChangedSpy = sinon.spy(element, '_statusChanged');
       element.set('_serverConfig',
           {auth: {editable_account_fields: ['FULL_NAME', 'USER_NAME']}});
 
-      nameStub = sandbox.stub(element.$.restAPI, 'setAccountName',
+      nameStub = sinon.stub(element.$.restAPI, 'setAccountName').callsFake(
           name => Promise.resolve());
-      usernameStub = sandbox.stub(element.$.restAPI, 'setAccountUsername',
+      usernameStub = sinon.stub(element.$.restAPI, 'setAccountUsername').callsFake(
           username => Promise.resolve());
-      statusStub = sandbox.stub(element.$.restAPI, 'setAccountStatus',
+      statusStub = sinon.stub(element.$.restAPI, 'setAccountStatus').callsFake(
           status => Promise.resolve());
     });
 
@@ -219,16 +216,16 @@ suite('gr-account-info tests', () => {
     let statusStub;
 
     setup(() => {
-      nameChangedSpy = sandbox.spy(element, '_nameChanged');
-      statusChangedSpy = sandbox.spy(element, '_statusChanged');
+      nameChangedSpy = sinon.spy(element, '_nameChanged');
+      statusChangedSpy = sinon.spy(element, '_statusChanged');
       element.set('_serverConfig',
           {auth: {editable_account_fields: ['FULL_NAME']}});
 
-      nameStub = sandbox.stub(element.$.restAPI, 'setAccountName',
+      nameStub = sinon.stub(element.$.restAPI, 'setAccountName').callsFake(
           name => Promise.resolve());
-      statusStub = sandbox.stub(element.$.restAPI, 'setAccountStatus',
+      statusStub = sinon.stub(element.$.restAPI, 'setAccountStatus').callsFake(
           status => Promise.resolve());
-      sandbox.stub(element.$.restAPI, 'setAccountUsername',
+      sinon.stub(element.$.restAPI, 'setAccountUsername').callsFake(
           username => Promise.resolve());
     });
 
@@ -264,11 +261,11 @@ suite('gr-account-info tests', () => {
     let statusStub;
 
     setup(() => {
-      statusChangedSpy = sandbox.spy(element, '_statusChanged');
+      statusChangedSpy = sinon.spy(element, '_statusChanged');
       element.set('_serverConfig',
           {auth: {editable_account_fields: []}});
 
-      statusStub = sandbox.stub(element.$.restAPI, 'setAccountStatus',
+      statusStub = sinon.stub(element.$.restAPI, 'setAccountStatus').callsFake(
           status => Promise.resolve());
     });
 

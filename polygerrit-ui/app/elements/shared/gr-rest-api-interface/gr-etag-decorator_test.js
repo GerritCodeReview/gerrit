@@ -20,7 +20,7 @@ import {GrEtagDecorator} from './gr-etag-decorator.js';
 
 suite('gr-etag-decorator', () => {
   let etag;
-  let sandbox;
+
 
   const fakeRequest = (opt_etag, opt_status) => {
     const headers = new Headers();
@@ -32,13 +32,11 @@ suite('gr-etag-decorator', () => {
   };
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
     etag = new GrEtagDecorator();
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('exists', () => {
     assert.isOk(etag);

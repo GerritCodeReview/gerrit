@@ -30,7 +30,6 @@ suite('gr-reply-dialog tests', () => {
   let changeNum;
   let patchNum;
 
-  let sandbox;
 
   const setupElement = element => {
     element.change = {
@@ -70,12 +69,12 @@ suite('gr-reply-dialog tests', () => {
         '+1',
       ],
     };
-    sandbox.stub(element, 'fetchChangeUpdates')
+    sinon.stub(element, 'fetchChangeUpdates')
         .returns(Promise.resolve({isLatest: true}));
   };
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
 
     changeNum = 42;
     patchNum = 1;
@@ -93,15 +92,14 @@ suite('gr-reply-dialog tests', () => {
   });
 
   teardown(() => {
-    sandbox.restore();
     resetPlugins();
   });
 
   test('_submit blocked when invalid email is supplied to ccs', () => {
-    const sendStub = sandbox.stub(element, 'send').returns(Promise.resolve());
+    const sendStub = sinon.stub(element, 'send').returns(Promise.resolve());
     // Stub the below function to avoid side effects from the send promise
     // resolving.
-    sandbox.stub(element, '_purgeReviewersPendingRemove');
+    sinon.stub(element, '_purgeReviewersPendingRemove');
 
     element.$.ccs.$.entry.setText('test');
     MockInteractions.tap(element.shadowRoot
@@ -131,7 +129,7 @@ suite('gr-reply-dialog tests', () => {
     }, null, 'http://test.com/lgtm.js');
     element = basicFixture.instantiate();
     setupElement(element);
-    sandbox.stub(pluginEndpoints, 'importUrl', url => Promise.resolve());
+    sinon.stub(pluginEndpoints, 'importUrl').callsFake( url => Promise.resolve());
     pluginLoader.loadPlugins([]);
     pluginLoader.awaitPluginsLoaded().then(() => {
       flush(() => {

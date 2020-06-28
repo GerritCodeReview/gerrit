@@ -33,16 +33,14 @@ const PRIVATE_TOOLTIP = 'This change is only visible to its owner and ' +
 
 suite('gr-change-status tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
+    
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('WIP', () => {
     element.status = 'WIP';

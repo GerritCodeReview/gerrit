@@ -23,11 +23,11 @@ import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr
 const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-admin-api tests', () => {
-  let sandbox;
+
   let adminApi;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
     let plugin;
     pluginApi.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
@@ -37,7 +37,6 @@ suite('gr-admin-api tests', () => {
 
   teardown(() => {
     adminApi = null;
-    sandbox.restore();
   });
 
   test('exists', () => {

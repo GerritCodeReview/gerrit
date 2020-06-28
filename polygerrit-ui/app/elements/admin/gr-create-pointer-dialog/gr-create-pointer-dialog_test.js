@@ -23,29 +23,27 @@ const basicFixture = fixtureFromElement('gr-create-pointer-dialog');
 
 suite('gr-create-pointer-dialog tests', () => {
   let element;
-  let sandbox;
+
 
   const ironInput = function(element) {
     return dom(element).querySelector('iron-input');
   };
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
     stub('gr-rest-api-interface', {
       getLoggedIn() { return Promise.resolve(true); },
     });
     element = basicFixture.instantiate();
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('branch created', done => {
-    sandbox.stub(
+    sinon.stub(
         element.$.restAPI,
-        'createRepoBranch',
-        () => Promise.resolve({}));
+        'createRepoBranch')
+        .callsFake(() => Promise.resolve({}));
 
     assert.isFalse(element.hasNewItemName);
 
@@ -64,10 +62,10 @@ suite('gr-create-pointer-dialog tests', () => {
   });
 
   test('tag created', done => {
-    sandbox.stub(
+    sinon.stub(
         element.$.restAPI,
-        'createRepoTag',
-        () => Promise.resolve({}));
+        'createRepoTag')
+        .callsFake(() => Promise.resolve({}));
 
     assert.isFalse(element.hasNewItemName);
 
@@ -86,10 +84,10 @@ suite('gr-create-pointer-dialog tests', () => {
   });
 
   test('tag created with annotations', done => {
-    sandbox.stub(
+    sinon.stub(
         element.$.restAPI,
-        'createRepoTag',
-        () => Promise.resolve({}));
+        'createRepoTag')
+        .callsFake(() => Promise.resolve({}));
 
     assert.isFalse(element.hasNewItemName);
 

@@ -26,15 +26,13 @@ const basicFixture = fixtureFromTemplate(html`
 
 suite('gr-date-formatter tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+    
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   /**
    * Parse server-formatter date and normalize into current timezone.
@@ -52,7 +50,7 @@ suite('gr-date-formatter tests', () => {
         .toJSON()
         .replace('T', ' ')
         .slice(0, -1);
-    sandbox.useFakeTimers(normalizedDate(nowStr).getTime());
+    sinon.useFakeTimers(normalizedDate(nowStr).getTime());
     element.dateStr = dateStr;
     flush(() => {
       const span = element.shadowRoot
@@ -83,7 +81,7 @@ suite('gr-date-formatter tests', () => {
       relative_date_in_change_table: false,
     }).then(() => {
       element = basicFixture.instantiate();
-      sandbox.stub(element, '_getUtcOffsetString').returns('');
+      sinon.stub(element, '_getUtcOffsetString').returns('');
       return element._loadPreferences();
     }));
 
@@ -132,7 +130,7 @@ suite('gr-date-formatter tests', () => {
       relative_date_in_change_table: false,
     }).then(() => {
       element = basicFixture.instantiate();
-      sandbox.stub(element, '_getUtcOffsetString').returns('');
+      sinon.stub(element, '_getUtcOffsetString').returns('');
       return element._loadPreferences();
     }));
 
@@ -168,7 +166,7 @@ suite('gr-date-formatter tests', () => {
       relative_date_in_change_table: false,
     }).then(() => {
       element = basicFixture.instantiate();
-      sandbox.stub(element, '_getUtcOffsetString').returns('');
+      sinon.stub(element, '_getUtcOffsetString').returns('');
       return element._loadPreferences();
     }));
 
@@ -204,7 +202,7 @@ suite('gr-date-formatter tests', () => {
       relative_date_in_change_table: false,
     }).then(() => {
       element = basicFixture.instantiate();
-      sandbox.stub(element, '_getUtcOffsetString').returns('');
+      sinon.stub(element, '_getUtcOffsetString').returns('');
       return element._loadPreferences();
     }));
 
@@ -240,7 +238,7 @@ suite('gr-date-formatter tests', () => {
       relative_date_in_change_table: false,
     }).then(() => {
       element = basicFixture.instantiate();
-      sandbox.stub(element, '_getUtcOffsetString').returns('');
+      sinon.stub(element, '_getUtcOffsetString').returns('');
       return element._loadPreferences();
     }));
 
@@ -276,7 +274,7 @@ suite('gr-date-formatter tests', () => {
           {time_format: 'HHMM_12', date_format: 'STD'}
       ).then(() => {
         element = basicFixture.instantiate();
-        sandbox.stub(element, '_getUtcOffsetString').returns('');
+        sinon.stub(element, '_getUtcOffsetString').returns('');
         return element._loadPreferences();
       })
     );
@@ -297,7 +295,7 @@ suite('gr-date-formatter tests', () => {
           {time_format: 'HHMM_12', date_format: 'US'}
       ).then(() => {
         element = basicFixture.instantiate();
-        sandbox.stub(element, '_getUtcOffsetString').returns('');
+        sinon.stub(element, '_getUtcOffsetString').returns('');
         return element._loadPreferences();
       })
     );
@@ -318,7 +316,7 @@ suite('gr-date-formatter tests', () => {
           {time_format: 'HHMM_12', date_format: 'ISO'}
       ).then(() => {
         element = basicFixture.instantiate();
-        sandbox.stub(element, '_getUtcOffsetString').returns('');
+        sinon.stub(element, '_getUtcOffsetString').returns('');
         return element._loadPreferences();
       })
     );
@@ -339,7 +337,7 @@ suite('gr-date-formatter tests', () => {
           {time_format: 'HHMM_12', date_format: 'EURO'}
       ).then(() => {
         element = basicFixture.instantiate();
-        sandbox.stub(element, '_getUtcOffsetString').returns('');
+        sinon.stub(element, '_getUtcOffsetString').returns('');
         return element._loadPreferences();
       })
     );
@@ -360,7 +358,7 @@ suite('gr-date-formatter tests', () => {
           {time_format: 'HHMM_12', date_format: 'UK'}
       ).then(() => {
         element = basicFixture.instantiate();
-        sandbox.stub(element, '_getUtcOffsetString').returns('');
+        sinon.stub(element, '_getUtcOffsetString').returns('');
         return element._loadPreferences();
       })
     );
@@ -381,7 +379,7 @@ suite('gr-date-formatter tests', () => {
       relative_date_in_change_table: true,
     }).then(() => {
       element = basicFixture.instantiate();
-      sandbox.stub(element, '_getUtcOffsetString').returns('');
+      sinon.stub(element, '_getUtcOffsetString').returns('');
       return element._loadPreferences();
     }));
 

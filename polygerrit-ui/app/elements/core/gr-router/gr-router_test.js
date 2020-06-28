@@ -24,14 +24,12 @@ const basicFixture = fixtureFromElement('gr-router');
 
 suite('gr-router tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
     element = basicFixture.instantiate();
   });
-
-  teardown(() => { sandbox.restore(); });
 
   test('_firstCodeBrowserWeblink', () => {
     assert.deepEqual(element._firstCodeBrowserWeblink([
@@ -50,7 +48,7 @@ suite('gr-router tests', () => {
     const link = {name: 'test', url: 'test/url'};
     const weblinks = [browserLink, link];
     const config = {gerrit: {primary_weblink_name: browserLink.name}};
-    sandbox.stub(element, '_firstCodeBrowserWeblink').returns(link);
+    sinon.stub(element, '_firstCodeBrowserWeblink').returns(link);
 
     assert.deepEqual(element._getBrowseCommitWeblink(weblinks, config),
         browserLink);
@@ -62,7 +60,7 @@ suite('gr-router tests', () => {
     const link = {name: 'test', url: 'test/url'};
     const browserLink = {name: 'browser', url: 'browser/url'};
     const mapLinksToConfig = weblinks => { return {options: {weblinks}}; };
-    sandbox.stub(element, '_getBrowseCommitWeblink').returns(browserLink);
+    sinon.stub(element, '_getBrowseCommitWeblink').returns(browserLink);
 
     assert.deepEqual(
         element._getChangeWeblinks(mapLinksToConfig([link, browserLink]))[0],
@@ -137,10 +135,10 @@ suite('gr-router tests', () => {
 
     const requiresAuth = {};
     const doesNotRequireAuth = {};
-    sandbox.stub(GerritNav, 'setup');
-    sandbox.stub(page, 'start');
-    sandbox.stub(page, 'base');
-    sandbox.stub(element, '_mapRoute', (pattern, methodName, usesAuth) => {
+    sinon.stub(GerritNav, 'setup');
+    sinon.stub(page, 'start');
+    sinon.stub(page, 'base');
+    sinon.stub(element, '_mapRoute').callsFake((pattern, methodName, usesAuth) => {
       if (usesAuth) {
         requiresAuth[methodName] = true;
       } else {
@@ -227,19 +225,19 @@ suite('gr-router tests', () => {
   });
 
   test('_redirectIfNotLoggedIn while logged in', () => {
-    sandbox.stub(element.$.restAPI, 'getLoggedIn')
+    sinon.stub(element.$.restAPI, 'getLoggedIn')
         .returns(Promise.resolve(true));
     const data = {canonicalPath: ''};
-    const redirectStub = sandbox.stub(element, '_redirectToLogin');
+    const redirectStub = sinon.stub(element, '_redirectToLogin');
     return element._redirectIfNotLoggedIn(data).then(() => {
       assert.isFalse(redirectStub.called);
     });
   });
 
   test('_redirectIfNotLoggedIn while logged out', () => {
-    sandbox.stub(element.$.restAPI, 'getLoggedIn')
+    sinon.stub(element.$.restAPI, 'getLoggedIn')
         .returns(Promise.resolve(false));
-    const redirectStub = sandbox.stub(element, '_redirectToLogin');
+    const redirectStub = sinon.stub(element, '_redirectToLogin');
     const data = {canonicalPath: ''};
     return new Promise(resolve => {
       element._redirectIfNotLoggedIn(data)
@@ -520,9 +518,9 @@ suite('gr-router tests', () => {
     let projectLookupStub;
 
     setup(() => {
-      projectLookupStub = sandbox
+      projectLookupStub = sinon
           .stub(element.$.restAPI, 'getFromProjectLookup');
-      sandbox.stub(element, '_generateUrl');
+      sinon.stub(element, '_generateUrl');
     });
 
     suite('_normalizeLegacyRouteParams', () => {
@@ -531,10 +529,10 @@ suite('gr-router tests', () => {
       let show404Stub;
 
       setup(() => {
-        rangeStub = sandbox.stub(element, '_normalizePatchRangeParams')
+        rangeStub = sinon.stub(element, '_normalizePatchRangeParams')
             .returns(Promise.resolve());
-        redirectStub = sandbox.stub(element, '_redirect');
-        show404Stub = sandbox.stub(element, '_show404');
+        redirectStub = sinon.stub(element, '_redirect');
+        show404Stub = sinon.stub(element, '_show404');
       });
 
       test('w/o changeNum', () => {
@@ -607,9 +605,9 @@ suite('gr-router tests', () => {
     }
 
     setup(() => {
-      redirectStub = sandbox.stub(element, '_redirect');
-      setParamsStub = sandbox.stub(element, '_setParams');
-      handlePassThroughRoute = sandbox.stub(element, '_handlePassThroughRoute');
+      redirectStub = sinon.stub(element, '_redirect');
+      setParamsStub = sinon.stub(element, '_setParams');
+      handlePassThroughRoute = sinon.stub(element, '_handlePassThroughRoute');
     });
 
     test('_handleAgreementsRoute', () => {
@@ -664,10 +662,10 @@ suite('gr-router tests', () => {
       const onRegisteringExit = (match, _onExit) => {
         onExit = _onExit;
       };
-      sandbox.stub(page, 'exit', onRegisteringExit);
-      sandbox.stub(GerritNav, 'setup');
-      sandbox.stub(page, 'start');
-      sandbox.stub(page, 'base');
+      sinon.stub(page, 'exit').callsFake( onRegisteringExit);
+      sinon.stub(GerritNav, 'setup');
+      sinon.stub(page, 'start');
+      sinon.stub(page, 'base');
       element._startRouter();
 
       const appElementStub = {dispatchEvent: sinon.stub()};
@@ -689,7 +687,7 @@ suite('gr-router tests', () => {
           redirectStub.lastCall.args[0],
           '/c/test/+/42');
 
-      sandbox.stub(element, '_getHashFromCanonicalPath').returns('foo');
+      sinon.stub(element, '_getHashFromCanonicalPath').returns('foo');
       element._handleImproperlyEncodedPlusRoute(
           {canonicalPath: '/c/test/%20/42', params: ['test', '42']});
       assert.equal(
@@ -764,7 +762,7 @@ suite('gr-router tests', () => {
     suite('_handleRootRoute', () => {
       test('closes for closeAfterLogin', () => {
         const data = {querystring: 'closeAfterLogin', canonicalPath: ''};
-        const closeStub = sandbox.stub(window, 'close');
+        const closeStub = sinon.stub(window, 'close');
         const result = element._handleRootRoute(data);
         assert.isNotOk(result);
         assert.isTrue(closeStub.called);
@@ -772,7 +770,7 @@ suite('gr-router tests', () => {
       });
 
       test('redirects to dashboard if logged in', () => {
-        sandbox.stub(element.$.restAPI, 'getLoggedIn')
+        sinon.stub(element.$.restAPI, 'getLoggedIn')
             .returns(Promise.resolve(true));
         const data = {
           canonicalPath: '/', path: '/', querystring: '', hash: '',
@@ -785,7 +783,7 @@ suite('gr-router tests', () => {
       });
 
       test('redirects to open changes if not logged in', () => {
-        sandbox.stub(element.$.restAPI, 'getLoggedIn')
+        sinon.stub(element.$.restAPI, 'getLoggedIn')
             .returns(Promise.resolve(false));
         const data = {
           canonicalPath: '/', path: '/', querystring: '', hash: '',
@@ -841,7 +839,7 @@ suite('gr-router tests', () => {
             querystring: '',
             hash: '/foo/bar',
           };
-          sandbox.stub(element, 'getBaseUrl').returns('/baz');
+          sinon.stub(element, 'getBaseUrl').returns('/baz');
           const result = element._handleRootRoute(data);
           assert.isNotOk(result);
           assert.isTrue(redirectStub.called);
@@ -879,11 +877,11 @@ suite('gr-router tests', () => {
       let redirectToLoginStub;
 
       setup(() => {
-        redirectToLoginStub = sandbox.stub(element, '_redirectToLogin');
+        redirectToLoginStub = sinon.stub(element, '_redirectToLogin');
       });
 
       test('own dashboard but signed out redirects to login', () => {
-        sandbox.stub(element.$.restAPI, 'getLoggedIn')
+        sinon.stub(element.$.restAPI, 'getLoggedIn')
             .returns(Promise.resolve(false));
         const data = {canonicalPath: '/dashboard/', params: {0: 'seLF'}};
         return element._handleDashboardRoute(data, '').then(() => {
@@ -894,7 +892,7 @@ suite('gr-router tests', () => {
       });
 
       test('non-self dashboard but signed out does not redirect', () => {
-        sandbox.stub(element.$.restAPI, 'getLoggedIn')
+        sinon.stub(element.$.restAPI, 'getLoggedIn')
             .returns(Promise.resolve(false));
         const data = {canonicalPath: '/dashboard/', params: {0: 'foo'}};
         return element._handleDashboardRoute(data, '').then(() => {
@@ -906,7 +904,7 @@ suite('gr-router tests', () => {
       });
 
       test('dashboard while signed in sets params', () => {
-        sandbox.stub(element.$.restAPI, 'getLoggedIn')
+        sinon.stub(element.$.restAPI, 'getLoggedIn')
             .returns(Promise.resolve(true));
         const data = {canonicalPath: '/dashboard/', params: {0: 'foo'}};
         return element._handleDashboardRoute(data, '').then(() => {
@@ -925,7 +923,7 @@ suite('gr-router tests', () => {
       let redirectToLoginStub;
 
       setup(() => {
-        redirectToLoginStub = sandbox.stub(element, '_redirectToLogin');
+        redirectToLoginStub = sinon.stub(element, '_redirectToLogin');
       });
 
       test('no user specified', () => {
@@ -1332,7 +1330,7 @@ suite('gr-router tests', () => {
       });
 
       test('_handleChangeLegacyRoute', () => {
-        const normalizeRouteStub = sandbox.stub(element,
+        const normalizeRouteStub = sinon.stub(element,
             '_normalizeLegacyRouteParams');
         const ctx = {
           params: [
@@ -1357,7 +1355,7 @@ suite('gr-router tests', () => {
       });
 
       test('_handleDiffLegacyRoute', () => {
-        const normalizeRouteStub = sandbox.stub(element,
+        const normalizeRouteStub = sinon.stub(element,
             '_normalizeLegacyRouteParams');
         const ctx = {
           params: [
@@ -1420,14 +1418,14 @@ suite('gr-router tests', () => {
         }
 
         setup(() => {
-          normalizeRangeStub = sandbox.stub(element,
+          normalizeRangeStub = sinon.stub(element,
               '_normalizePatchRangeParams');
-          sandbox.stub(element.$.restAPI, 'setInProjectLookup');
+          sinon.stub(element.$.restAPI, 'setInProjectLookup');
         });
 
         test('needs redirect', () => {
           normalizeRangeStub.returns(true);
-          sandbox.stub(element, '_generateUrl').returns('foo');
+          sinon.stub(element, '_generateUrl').returns('foo');
           const ctx = makeParams(null, '');
           element._handleChangeRoute(ctx);
           assert.isTrue(normalizeRangeStub.called);
@@ -1438,7 +1436,7 @@ suite('gr-router tests', () => {
 
         test('change view', () => {
           normalizeRangeStub.returns(false);
-          sandbox.stub(element, '_generateUrl').returns('foo');
+          sinon.stub(element, '_generateUrl').returns('foo');
           const ctx = makeParams(null, '');
           assertDataToParams(ctx, '_handleChangeRoute', {
             view: GerritNav.View.CHANGE,
@@ -1474,14 +1472,14 @@ suite('gr-router tests', () => {
         }
 
         setup(() => {
-          normalizeRangeStub = sandbox.stub(element,
+          normalizeRangeStub = sinon.stub(element,
               '_normalizePatchRangeParams');
-          sandbox.stub(element.$.restAPI, 'setInProjectLookup');
+          sinon.stub(element.$.restAPI, 'setInProjectLookup');
         });
 
         test('needs redirect', () => {
           normalizeRangeStub.returns(true);
-          sandbox.stub(element, '_generateUrl').returns('foo');
+          sinon.stub(element, '_generateUrl').returns('foo');
           const ctx = makeParams(null, '');
           element._handleDiffRoute(ctx);
           assert.isTrue(normalizeRangeStub.called);
@@ -1492,7 +1490,7 @@ suite('gr-router tests', () => {
 
         test('diff view', () => {
           normalizeRangeStub.returns(false);
-          sandbox.stub(element, '_generateUrl').returns('foo');
+          sinon.stub(element, '_generateUrl').returns('foo');
           const ctx = makeParams('foo/bar/baz', 'b44');
           assertDataToParams(ctx, '_handleDiffRoute', {
             view: GerritNav.View.DIFF,
@@ -1511,8 +1509,8 @@ suite('gr-router tests', () => {
 
       test('_handleDiffEditRoute', () => {
         const normalizeRangeSpy =
-            sandbox.spy(element, '_normalizePatchRangeParams');
-        sandbox.stub(element.$.restAPI, 'setInProjectLookup');
+            sinon.spy(element, '_normalizePatchRangeParams');
+        sinon.stub(element.$.restAPI, 'setInProjectLookup');
         const ctx = {
           params: [
             'foo/bar', // 0 Project
@@ -1540,8 +1538,8 @@ suite('gr-router tests', () => {
 
       test('_handleDiffEditRoute with lineNum', () => {
         const normalizeRangeSpy =
-            sandbox.spy(element, '_normalizePatchRangeParams');
-        sandbox.stub(element.$.restAPI, 'setInProjectLookup');
+            sinon.spy(element, '_normalizePatchRangeParams');
+        sinon.stub(element.$.restAPI, 'setInProjectLookup');
         const ctx = {
           params: [
             'foo/bar', // 0 Project
@@ -1570,8 +1568,8 @@ suite('gr-router tests', () => {
 
       test('_handleChangeEditRoute', () => {
         const normalizeRangeSpy =
-            sandbox.spy(element, '_normalizePatchRangeParams');
-        sandbox.stub(element.$.restAPI, 'setInProjectLookup');
+            sinon.spy(element, '_normalizePatchRangeParams');
+        sinon.stub(element.$.restAPI, 'setInProjectLookup');
         const ctx = {
           params: [
             'foo/bar', // 0 Project

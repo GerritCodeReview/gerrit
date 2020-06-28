@@ -22,10 +22,10 @@ const basicFixture = fixtureFromElement('gr-main-header');
 
 suite('gr-main-header tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+    
     stub('gr-rest-api-interface', {
       getConfig() { return Promise.resolve({}); },
       probePath(path) { return Promise.resolve(false); },
@@ -36,9 +36,7 @@ suite('gr-main-header tests', () => {
     element = basicFixture.instantiate();
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('link visibility', () => {
     element.loading = true;

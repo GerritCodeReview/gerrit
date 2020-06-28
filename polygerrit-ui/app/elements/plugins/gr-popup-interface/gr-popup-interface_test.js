@@ -40,22 +40,16 @@ suite('gr-popup-interface tests', () => {
   let container;
   let instance;
   let plugin;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     pluginApi.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
     container = containerFixture.instantiate();
-    sandbox.stub(plugin, 'hook').returns({
+    sinon.stub(plugin, 'hook').returns({
       getLastAttached() {
         return Promise.resolve(container);
       },
     });
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   suite('manual', () => {

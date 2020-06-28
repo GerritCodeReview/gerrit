@@ -26,7 +26,6 @@ const basicFixture = fixtureFromTemplate(html`
 `);
 
 suite('GrReviewerSuggestionsProvider tests', () => {
-  let sandbox;
   let _nextAccountId = 0;
   const makeAccount = function(opt_status) {
     const accountId = ++_nextAccountId;
@@ -88,13 +87,10 @@ suite('GrReviewerSuggestionsProvider tests', () => {
         REVIEWER: [existingReviewer2],
       },
     };
-    sandbox = sinon.sandbox.create();
+
     return flush(done);
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
   suite('allowAnyUser set to false', () => {
     setup(done => {
       provider = GrReviewerSuggestionsProvider.create(restAPI, change._number,
@@ -168,7 +164,7 @@ suite('GrReviewerSuggestionsProvider tests', () => {
           value: {account, count: 1},
         });
 
-        sandbox.stub(GrDisplayNameUtils, '_accountEmail',
+        sinon.stub(GrDisplayNameUtils, '_accountEmail').callsFake(
             () => '');
 
         suggestion = provider.makeSuggestionItem(account3);
@@ -207,10 +203,10 @@ suite('GrReviewerSuggestionsProvider tests', () => {
 
     test('getChangeSuggestedReviewers is used', done => {
       const suggestReviewerStub =
-          sandbox.stub(restAPI, 'getChangeSuggestedReviewers')
+          sinon.stub(restAPI, 'getChangeSuggestedReviewers')
               .returns(Promise.resolve([]));
       const suggestAccountStub =
-          sandbox.stub(restAPI, 'getSuggestedAccounts')
+          sinon.stub(restAPI, 'getSuggestedAccounts')
               .returns(Promise.resolve([]));
 
       provider.getSuggestions('').then(() => {
@@ -231,10 +227,10 @@ suite('GrReviewerSuggestionsProvider tests', () => {
 
     test('getSuggestedAccounts is used', done => {
       const suggestReviewerStub =
-          sandbox.stub(restAPI, 'getChangeSuggestedReviewers')
+          sinon.stub(restAPI, 'getChangeSuggestedReviewers')
               .returns(Promise.resolve([]));
       const suggestAccountStub =
-          sandbox.stub(restAPI, 'getSuggestedAccounts')
+          sinon.stub(restAPI, 'getSuggestedAccounts')
               .returns(Promise.resolve([]));
 
       provider.getSuggestions('').then(() => {

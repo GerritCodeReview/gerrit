@@ -23,19 +23,15 @@ const basicFixture =
 
 suite('gr-confirm-cherrypick-conflict-dialog tests', () => {
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
   });
 
-  teardown(() => { sandbox.restore(); });
-
   test('_handleConfirmTap', () => {
-    const confirmHandler = sandbox.stub();
+    const confirmHandler = sinon.stub();
     element.addEventListener('confirm', confirmHandler);
-    sandbox.spy(element, '_handleConfirmTap');
+    sinon.spy(element, '_handleConfirmTap');
     element.shadowRoot
         .querySelector('gr-dialog').dispatchEvent(
             new CustomEvent('confirm', {
@@ -48,9 +44,9 @@ suite('gr-confirm-cherrypick-conflict-dialog tests', () => {
   });
 
   test('_handleCancelTap', () => {
-    const cancelHandler = sandbox.stub();
+    const cancelHandler = sinon.stub();
     element.addEventListener('cancel', cancelHandler);
-    sandbox.spy(element, '_handleCancelTap');
+    sinon.spy(element, '_handleCancelTap');
     element.shadowRoot
         .querySelector('gr-dialog').dispatchEvent(
             new CustomEvent('cancel', {

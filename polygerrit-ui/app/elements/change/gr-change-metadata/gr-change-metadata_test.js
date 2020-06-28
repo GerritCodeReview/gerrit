@@ -29,21 +29,16 @@ const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-change-metadata tests', () => {
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     stub('gr-rest-api-interface', {
       getConfig() { return Promise.resolve({}); },
       getLoggedIn() { return Promise.resolve(false); },
     });
 
     element = basicFixture.instantiate();
-    sandbox.stub(pluginEndpoints, 'importUrl', url => Promise.resolve());
-  });
-
-  teardown(() => {
-    sandbox.restore();
+    sinon.stub(pluginEndpoints, 'importUrl')
+        .callsFake( url => Promise.resolve());
   });
 
   test('computed fields', () => {
@@ -111,7 +106,7 @@ suite('gr-change-metadata tests', () => {
   });
 
   test('weblinks use GerritNav interface', () => {
-    const weblinksStub = sandbox.stub(GerritNav, '_generateWeblinks')
+    const weblinksStub = sinon.stub(GerritNav, '_generateWeblinks')
         .returns([{name: 'stubb', url: '#s'}]);
     element.commitInfo = {};
     element.serverConfig = {};
@@ -154,7 +149,7 @@ suite('gr-change-metadata tests', () => {
 
   test('weblinks are visible when other weblinks', () => {
     const router = document.createElement('gr-router');
-    sandbox.stub(GerritNav, '_generateWeblinks',
+    sinon.stub(GerritNav, '_generateWeblinks').callsFake(
         router._generateWeblinks.bind(router));
 
     element.commitInfo = {web_links: [{name: 'test', url: '#'}]};
@@ -170,7 +165,7 @@ suite('gr-change-metadata tests', () => {
 
   test('weblinks are visible when gitiles and other weblinks', () => {
     const router = document.createElement('gr-router');
-    sandbox.stub(GerritNav, '_generateWeblinks',
+    sinon.stub(GerritNav, '_generateWeblinks').callsFake(
         router._generateWeblinks.bind(router));
 
     element.commitInfo = {
@@ -612,7 +607,7 @@ suite('gr-change-metadata tests', () => {
 
   suite('remove reviewer votes', () => {
     setup(() => {
-      sandbox.stub(element, '_computeTopicReadOnly').returns(true);
+      sinon.stub(element, '_computeTopicReadOnly').returns(true);
       element.change = {
         _number: 42,
         change_id: 'the id',
@@ -647,8 +642,8 @@ suite('gr-change-metadata tests', () => {
       let setStub;
 
       setup(() => {
-        deleteStub = sandbox.stub(element.$.restAPI, 'deleteAssignee');
-        setStub = sandbox.stub(element.$.restAPI, 'setAssignee');
+        deleteStub = sinon.stub(element.$.restAPI, 'deleteAssignee');
+        setStub = sinon.stub(element.$.restAPI, 'setAssignee');
         element.serverConfig = {
           change: {
             enable_assignee: true,
@@ -692,10 +687,10 @@ suite('gr-change-metadata tests', () => {
 
     test('changing topic', () => {
       const newTopic = 'the new topic';
-      sandbox.stub(element.$.restAPI, 'setChangeTopic').returns(
+      sinon.stub(element.$.restAPI, 'setChangeTopic').returns(
           Promise.resolve(newTopic));
       element._handleTopicChanged({}, newTopic);
-      const topicChangedSpy = sandbox.spy();
+      const topicChangedSpy = sinon.spy();
       element.addEventListener('topic-changed', topicChangedSpy);
       assert.isTrue(element.$.restAPI.setChangeTopic.calledWith(
           42, newTopic));
@@ -707,12 +702,12 @@ suite('gr-change-metadata tests', () => {
     });
 
     test('topic removal', () => {
-      sandbox.stub(element.$.restAPI, 'setChangeTopic').returns(
+      sinon.stub(element.$.restAPI, 'setChangeTopic').returns(
           Promise.resolve());
       const chip = element.shadowRoot
           .querySelector('gr-linked-chip');
       const remove = chip.$.remove;
-      const topicChangedSpy = sandbox.spy();
+      const topicChangedSpy = sinon.spy();
       element.addEventListener('topic-changed', topicChangedSpy);
       MockInteractions.tap(remove);
       assert.isTrue(chip.disabled);
@@ -730,7 +725,7 @@ suite('gr-change-metadata tests', () => {
       flushAsynchronousOperations();
       element._newHashtag = 'new hashtag';
       const newHashtag = ['new hashtag'];
-      sandbox.stub(element.$.restAPI, 'setChangeHashtag').returns(
+      sinon.stub(element.$.restAPI, 'setChangeHashtag').returns(
           Promise.resolve(newHashtag));
       element._handleHashtagChanged({}, 'new hashtag');
       assert.isTrue(element.$.restAPI.setChangeHashtag.calledWith(
@@ -750,7 +745,7 @@ suite('gr-change-metadata tests', () => {
     const label = element.shadowRoot
         .querySelector('.topicEditableLabel');
     assert.ok(label);
-    sandbox.stub(label, 'open');
+    sinon.stub(label, 'open');
     element.editTopic();
     flushAsynchronousOperations();
 

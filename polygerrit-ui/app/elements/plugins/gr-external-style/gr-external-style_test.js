@@ -32,7 +32,6 @@ const basicFixture = fixtureFromTemplate(
 suite('gr-external-style integration tests', () => {
   const TEST_URL = 'http://some/plugin/url.html';
 
-  let sandbox;
   let element;
   let plugin;
 
@@ -45,7 +44,7 @@ suite('gr-external-style integration tests', () => {
 
   const createElement = () => {
     element = basicFixture.instantiate();
-    sandbox.spy(element, '_applyStyle');
+    sinon.spy(element, '_applyStyle');
   };
 
   /**
@@ -67,14 +66,13 @@ suite('gr-external-style integration tests', () => {
   };
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
-    sandbox.stub(pluginEndpoints, 'importUrl', url => Promise.resolve());
-    sandbox.stub(pluginLoader, 'awaitPluginsLoaded')
+    sinon.stub(pluginEndpoints, 'importUrl')
+        .callsFake( url => Promise.resolve());
+    sinon.stub(pluginLoader, 'awaitPluginsLoaded')
         .returns(Promise.resolve());
   });
 
   teardown(() => {
-    sandbox.restore();
     resetPlugins();
     document.body.querySelectorAll('custom-style')
         .forEach(style => style.remove());

@@ -46,7 +46,7 @@ suite('gr-diff a11y test', () => {
 suite('gr-file-list tests', () => {
   let element;
   let commentApiWrapper;
-  let sandbox;
+
   let saveStub;
   let loadCommentSpy;
 
@@ -76,7 +76,6 @@ suite('gr-file-list tests', () => {
 
   suite('basic tests', () => {
     setup(done => {
-      sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(true); },
         getPreferences() { return Promise.resolve({}); },
@@ -98,13 +97,13 @@ suite('gr-file-list tests', () => {
       // comment API.
       commentApiWrapper = basicFixture.instantiate();
       element = commentApiWrapper.$.fileList;
-      loadCommentSpy = sandbox.spy(commentApiWrapper.$.commentAPI, 'loadAll');
+      loadCommentSpy = sinon.spy(commentApiWrapper.$.commentAPI, 'loadAll');
 
       // Stub methods on the changeComments object after changeComments has
       // been initialized.
       commentApiWrapper.loadComments().then(() => {
-        sandbox.stub(element.changeComments, 'getPaths').returns({});
-        sandbox.stub(element.changeComments, 'getCommentsBySideForPath')
+        sinon.stub(element.changeComments, 'getPaths').returns({});
+        sinon.stub(element.changeComments, 'getCommentsBySideForPath')
             .returns({meta: {}, left: [], right: []});
         done();
       });
@@ -115,12 +114,8 @@ suite('gr-file-list tests', () => {
         basePatchNum: 'PARENT',
         patchNum: '2',
       };
-      saveStub = sandbox.stub(element, '_saveReviewedState',
+      saveStub = sinon.stub(element, '_saveReviewedState').callsFake(
           () => Promise.resolve());
-    });
-
-    teardown(() => {
-      sandbox.restore();
     });
 
     test('correct number of files are shown', () => {
@@ -152,7 +147,7 @@ suite('gr-file-list tests', () => {
     });
 
     test('rendering each row calls the _reportRenderedRow method', () => {
-      const renderedStub = sandbox.stub(element, '_reportRenderedRow');
+      const renderedStub = sinon.stub(element, '_reportRenderedRow');
       element._filesByPath = Array(10).fill(0)
           .reduce((_filesByPath, _, idx) => {
             _filesByPath['/file' + idx] = {lines_inserted: 9};
@@ -602,14 +597,11 @@ suite('gr-file-list tests', () => {
       });
 
       test('toggle left diff via shortcut', () => {
-        const toggleLeftDiffStub = sandbox.stub();
+        const toggleLeftDiffStub = sinon.stub();
         // Property getter cannot be stubbed w/ sandbox due to a bug in Sinon.
         // https://github.com/sinonjs/sinon/issues/781
-        const diffsStub = sinon.stub(element, 'diffs', {
-          get() {
-            return [{toggleLeftDiff: toggleLeftDiffStub}];
-          },
-        });
+        const diffsStub = sinon.stub(element, 'diffs')
+            .get(() => [{toggleLeftDiff: toggleLeftDiffStub}]);
         MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift', 'a');
         assert.isTrue(toggleLeftDiffStub.calledOnce);
         diffsStub.restore();
@@ -637,7 +629,7 @@ suite('gr-file-list tests', () => {
         assert.equal(element.selectedIndex, 1);
         MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
 
-        const navStub = sandbox.stub(GerritNav, 'navigateToDiff');
+        const navStub = sinon.stub(GerritNav, 'navigateToDiff');
         assert.equal(element.$.fileCursor.index, 2);
         assert.equal(element.selectedIndex, 2);
 
@@ -664,7 +656,7 @@ suite('gr-file-list tests', () => {
         assert.equal(element.$.fileCursor.index, 0);
         assert.equal(element.selectedIndex, 0);
 
-        const createCommentInPlaceStub = sandbox.stub(element.$.diffCursor,
+        const createCommentInPlaceStub = sinon.stub(element.$.diffCursor,
             'createCommentInPlace');
         MockInteractions.pressAndReleaseKeyOn(element, 67, null, 'c');
         assert.isTrue(createCommentInPlaceStub.called);
@@ -672,7 +664,7 @@ suite('gr-file-list tests', () => {
 
       test('i key shows/hides selected inline diff', () => {
         const paths = Object.keys(element._filesByPath);
-        sandbox.stub(element, '_expandedFilesChanged');
+        sinon.stub(element, '_expandedFilesChanged');
         flushAsynchronousOperations();
         const files = dom(element.root).querySelectorAll('.file-row');
         element.$.fileCursor.stops = files;
@@ -740,12 +732,12 @@ suite('gr-file-list tests', () => {
         let interact;
 
         setup(() => {
-          sandbox.stub(element, 'shouldSuppressKeyboardShortcut')
+          sinon.stub(element, 'shouldSuppressKeyboardShortcut')
               .returns(false);
-          sandbox.stub(element, 'modifierPressed').returns(false);
-          const openCursorStub = sandbox.stub(element, '_openCursorFile');
-          const openSelectedStub = sandbox.stub(element, '_openSelectedFile');
-          const expandStub = sandbox.stub(element, '_toggleFileExpanded');
+          sinon.stub(element, 'modifierPressed').returns(false);
+          const openCursorStub = sinon.stub(element, '_openCursorFile');
+          const openSelectedStub = sinon.stub(element, '_openSelectedFile');
+          const expandStub = sinon.stub(element, '_toggleFileExpanded');
 
           interact = function(opt_payload) {
             openCursorStub.reset();
@@ -789,11 +781,12 @@ suite('gr-file-list tests', () => {
       });
 
       test('shift+left/shift+right', () => {
-        const moveLeftStub = sandbox.stub(element.$.diffCursor, 'moveLeft');
-        const moveRightStub = sandbox.stub(element.$.diffCursor, 'moveRight');
+        const moveLeftStub = sinon.stub(element.$.diffCursor, 'moveLeft');
+        const moveRightStub = sinon.stub(element.$.diffCursor, 'moveRight');
 
         let noDiffsExpanded = true;
-        sandbox.stub(element, '_noDiffsExpanded', () => noDiffsExpanded);
+        sinon.stub(element, '_noDiffsExpanded')
+            .callsFake(() => noDiffsExpanded);
 
         MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift', 'left');
         assert.isFalse(moveLeftStub.called);
@@ -833,8 +826,8 @@ suite('gr-file-list tests', () => {
         patchNum: '2',
       };
       element.$.fileCursor.setCursorAtIndex(0);
-      const reviewSpy = sandbox.spy(element, '_reviewFile');
-      const toggleExpandSpy = sandbox.spy(element, '_toggleFileExpanded');
+      const reviewSpy = sinon.spy(element, '_reviewFile');
+      const toggleExpandSpy = sinon.spy(element, '_toggleFileExpanded');
 
       flushAsynchronousOperations();
       const fileRows =
@@ -853,7 +846,7 @@ suite('gr-file-list tests', () => {
       assert.isTrue(commitReviewLabel.classList.contains('isReviewed'));
       assert.equal(markReviewLabel.textContent, 'MARK UNREVIEWED');
 
-      const clickSpy = sandbox.spy(element, '_reviewedClick');
+      const clickSpy = sinon.spy(element, '_reviewedClick');
       MockInteractions.tap(markReviewLabel);
       // assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', false));
       // assert.isFalse(commitReviewLabel.classList.contains('isReviewed'));
@@ -888,9 +881,9 @@ suite('gr-file-list tests', () => {
         patchNum: '2',
       };
 
-      const clickSpy = sandbox.spy(element, '_handleFileListClick');
-      const reviewStub = sandbox.stub(element, '_reviewFile');
-      const toggleExpandSpy = sandbox.spy(element, '_toggleFileExpanded');
+      const clickSpy = sinon.spy(element, '_handleFileListClick');
+      const reviewStub = sinon.stub(element, '_reviewFile');
+      const toggleExpandSpy = sinon.spy(element, '_toggleFileExpanded');
 
       const row = dom(element.root)
           .querySelector(`.row[data-file='{"path":"f1.txt"}']`);
@@ -924,8 +917,8 @@ suite('gr-file-list tests', () => {
       };
       element.editMode = true;
       flushAsynchronousOperations();
-      const clickSpy = sandbox.spy(element, '_handleFileListClick');
-      const toggleExpandSpy = sandbox.spy(element, '_toggleFileExpanded');
+      const clickSpy = sinon.spy(element, '_handleFileListClick');
+      const toggleExpandSpy = sinon.spy(element, '_toggleFileExpanded');
 
       // Tap the edit controls. Should be ignored by _handleFileListClick.
       MockInteractions.tap(element.shadowRoot
@@ -965,7 +958,7 @@ suite('gr-file-list tests', () => {
         patchNum: '2',
       };
       element.$.fileCursor.setCursorAtIndex(0);
-      sandbox.stub(element, '_expandedFilesChanged');
+      sinon.stub(element, '_expandedFilesChanged');
       flushAsynchronousOperations();
       const fileRows =
           dom(element.root).querySelectorAll('.row:not(.header-row)');
@@ -991,7 +984,7 @@ suite('gr-file-list tests', () => {
         basePatchNum: 'PARENT',
         patchNum: '2',
       };
-      sandbox.spy(element, '_updateDiffPreferences');
+      sinon.spy(element, '_updateDiffPreferences');
       element.$.fileCursor.setCursorAtIndex(0);
       flushAsynchronousOperations();
 
@@ -1025,14 +1018,14 @@ suite('gr-file-list tests', () => {
         basePatchNum: 'PARENT',
         patchNum: '2',
       };
-      sandbox.stub(element, '_expandedFilesChanged');
+      sinon.stub(element, '_expandedFilesChanged');
       flushAsynchronousOperations();
       const commitMsgFile = dom(element.root)
           .querySelectorAll('.row:not(.header-row) a.pathLink')[0];
 
       // Remove href attribute so the app doesn't route to a diff view
       commitMsgFile.removeAttribute('href');
-      const togglePathSpy = sandbox.spy(element, '_toggleFileExpanded');
+      const togglePathSpy = sinon.spy(element, '_toggleFileExpanded');
 
       MockInteractions.tap(commitMsgFile);
       flushAsynchronousOperations();
@@ -1047,8 +1040,8 @@ suite('gr-file-list tests', () => {
     test('_toggleFileExpanded', () => {
       const path = 'path/to/my/file.txt';
       element._filesByPath = {[path]: {}};
-      const renderSpy = sandbox.spy(element, '_renderInOrder');
-      const collapseStub = sandbox.stub(element, '_clearCollapsedDiffs');
+      const renderSpy = sinon.spy(element, '_renderInOrder');
+      const collapseStub = sinon.stub(element, '_clearCollapsedDiffs');
 
       assert.equal(element.shadowRoot
           .querySelector('iron-icon').icon, 'gr-icons:expand-more');
@@ -1072,10 +1065,10 @@ suite('gr-file-list tests', () => {
     });
 
     test('expandAllDiffs and collapseAllDiffs', () => {
-      const collapseStub = sandbox.stub(element, '_clearCollapsedDiffs');
-      const cursorUpdateStub = sandbox.stub(element.$.diffCursor,
+      const collapseStub = sinon.stub(element, '_clearCollapsedDiffs');
+      const cursorUpdateStub = sinon.stub(element.$.diffCursor,
           'handleDiffUpdate');
-      const reInitStub = sandbox.stub(element.$.diffCursor,
+      const reInitStub = sinon.stub(element.$.diffCursor,
           'reInitAndUpdateStops');
 
       const path = 'path/to/my/file.txt';
@@ -1095,7 +1088,7 @@ suite('gr-file-list tests', () => {
     });
 
     test('_expandedFilesChanged', done => {
-      sandbox.stub(element, '_reviewFile');
+      sinon.stub(element, '_reviewFile');
       const path = 'path/to/my/file.txt';
       const diffs = [{
         path,
@@ -1113,9 +1106,7 @@ suite('gr-file-list tests', () => {
           }
         },
       }];
-      sinon.stub(element, 'diffs', {
-        get() { return diffs; },
-      });
+      sinon.stub(element, 'diffs').get(() => diffs);
       element.push('_expandedFiles', {path});
     });
 
@@ -1156,7 +1147,7 @@ suite('gr-file-list tests', () => {
     });
 
     test('_renderInOrder', done => {
-      const reviewStub = sandbox.stub(element, '_reviewFile');
+      const reviewStub = sinon.stub(element, '_reviewFile');
       let callCount = 0;
       const diffs = [{
         path: 'p0',
@@ -1195,7 +1186,7 @@ suite('gr-file-list tests', () => {
 
     test('_renderInOrder logged in', done => {
       element._loggedIn = true;
-      const reviewStub = sandbox.stub(element, '_reviewFile');
+      const reviewStub = sinon.stub(element, '_reviewFile');
       let callCount = 0;
       const diffs = [{
         path: 'p0',
@@ -1237,7 +1228,7 @@ suite('gr-file-list tests', () => {
     test('_renderInOrder respects diffPrefs.manual_review', () => {
       element._loggedIn = true;
       element.diffPrefs = {manual_review: true};
-      const reviewStub = sandbox.stub(element, '_reviewFile');
+      const reviewStub = sinon.stub(element, '_reviewFile');
       const diffs = [{
         path: 'p',
         style: {},
@@ -1256,7 +1247,7 @@ suite('gr-file-list tests', () => {
     });
 
     test('_loadingChanged fired from reload in debouncer', done => {
-      sandbox.stub(element, '_getReviewedFiles').returns(Promise.resolve([]));
+      sinon.stub(element, '_getReviewedFiles').returns(Promise.resolve([]));
       element.changeNum = 123;
       element.patchRange = {patchNum: 12};
       element._filesByPath = {'foo.bar': {}};
@@ -1274,7 +1265,7 @@ suite('gr-file-list tests', () => {
     });
 
     test('_loadingChanged does not set class when there are no files', () => {
-      sandbox.stub(element, '_getReviewedFiles').returns(Promise.resolve([]));
+      sinon.stub(element, '_getReviewedFiles').returns(Promise.resolve([]));
       element.changeNum = 123;
       element.patchRange = {patchNum: 12};
       element.reload();
@@ -1286,7 +1277,7 @@ suite('gr-file-list tests', () => {
 
   suite('diff url file list', () => {
     test('diff url', () => {
-      const diffStub = sandbox.stub(GerritNav, 'getUrlForDiff')
+      const diffStub = sinon.stub(GerritNav, 'getUrlForDiff')
           .returns('/c/gerrit/+/1/1/index.php');
       const change = {
         _number: 1,
@@ -1303,7 +1294,7 @@ suite('gr-file-list tests', () => {
     });
 
     test('diff url commit msg', () => {
-      const diffStub = sandbox.stub(GerritNav, 'getUrlForDiff')
+      const diffStub = sinon.stub(GerritNav, 'getUrlForDiff')
           .returns('/c/gerrit/+/1/1//COMMIT_MSG');
       const change = {
         _number: 1,
@@ -1320,7 +1311,7 @@ suite('gr-file-list tests', () => {
     });
 
     test('edit url', () => {
-      const editStub = sandbox.stub(GerritNav, 'getEditUrlForDiff')
+      const editStub = sinon.stub(GerritNav, 'getEditUrlForDiff')
           .returns('/c/gerrit/+/1/edit/index.php,edit');
       const change = {
         _number: 1,
@@ -1337,7 +1328,7 @@ suite('gr-file-list tests', () => {
     });
 
     test('edit url commit msg', () => {
-      const editStub = sandbox.stub(GerritNav, 'getEditUrlForDiff')
+      const editStub = sinon.stub(GerritNav, 'getEditUrlForDiff')
           .returns('/c/gerrit/+/1/edit//COMMIT_MSG,edit');
       const change = {
         _number: 1,
@@ -1482,7 +1473,6 @@ suite('gr-file-list tests', () => {
 
   suite('gr-file-list inline diff tests', () => {
     let element;
-    let sandbox;
 
     const commitMsgComments = [
       {
@@ -1558,7 +1548,6 @@ suite('gr-file-list tests', () => {
     };
 
     setup(done => {
-      sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(true); },
         getPreferences() { return Promise.resolve({}); },
@@ -1578,15 +1567,15 @@ suite('gr-file-list tests', () => {
       // comment API.
       commentApiWrapper = basicFixture.instantiate();
       element = commentApiWrapper.$.fileList;
-      loadCommentSpy = sandbox.spy(commentApiWrapper.$.commentAPI, 'loadAll');
+      loadCommentSpy = sinon.spy(commentApiWrapper.$.commentAPI, 'loadAll');
       element.diffPrefs = {};
-      sandbox.stub(element, '_reviewFile');
+      sinon.stub(element, '_reviewFile');
 
       // Stub methods on the changeComments object after changeComments has
       // been initialized.
       commentApiWrapper.loadComments().then(() => {
-        sandbox.stub(element.changeComments, 'getPaths').returns({});
-        sandbox.stub(element.changeComments, 'getCommentsBySideForPath')
+        sinon.stub(element.changeComments, 'getPaths').returns({});
+        sinon.stub(element.changeComments, 'getCommentsBySideForPath')
             .returns({meta: {}, left: [], right: []});
         done();
       });
@@ -1615,12 +1604,8 @@ suite('gr-file-list tests', () => {
         basePatchNum: 'PARENT',
         patchNum: '2',
       };
-      sandbox.stub(window, 'fetch', () => Promise.resolve());
+      sinon.stub(window, 'fetch').callsFake(() => Promise.resolve());
       flushAsynchronousOperations();
-    });
-
-    teardown(() => {
-      sandbox.restore();
     });
 
     test('cursor with individually opened files', () => {
@@ -1701,11 +1686,11 @@ suite('gr-file-list tests', () => {
       let fileRows;
 
       setup(() => {
-        sandbox.stub(element, '_renderInOrder').returns(Promise.resolve());
-        nKeySpy = sandbox.spy(element, '_handleNextChunk');
-        nextCommentStub = sandbox.stub(element.$.diffCursor,
+        sinon.stub(element, '_renderInOrder').returns(Promise.resolve());
+        nKeySpy = sinon.spy(element, '_handleNextChunk');
+        nextCommentStub = sinon.stub(element.$.diffCursor,
             'moveToNextCommentThread');
-        nextChunkStub = sandbox.stub(element.$.diffCursor,
+        nextChunkStub = sinon.stub(element.$.diffCursor,
             'moveToNextChunk');
         fileRows =
             dom(element.root).querySelectorAll('.row:not(.header-row)');
@@ -1769,7 +1754,7 @@ suite('gr-file-list tests', () => {
     test('_openSelectedFile behavior', () => {
       const _filesByPath = element._filesByPath;
       element.set('_filesByPath', {});
-      const navStub = sandbox.stub(GerritNav, 'navigateToDiff');
+      const navStub = sinon.stub(GerritNav, 'navigateToDiff');
       // Noop when there are no files.
       element._openSelectedFile();
       assert.isFalse(navStub.called);
@@ -1782,8 +1767,10 @@ suite('gr-file-list tests', () => {
     });
 
     test('_displayLine', () => {
-      sandbox.stub(element, 'shouldSuppressKeyboardShortcut', () => false);
-      sandbox.stub(element, 'modifierPressed', () => false);
+      sinon.stub(element, 'shouldSuppressKeyboardShortcut')
+          .callsFake(() => false);
+      sinon.stub(element, 'modifierPressed')
+          .callsFake(() => false);
       element._showInlineDiffs = true;
       const mockEvent = {preventDefault() {}};
 
@@ -1803,7 +1790,7 @@ suite('gr-file-list tests', () => {
     suite('editMode behavior', () => {
       test('reviewed checkbox', () => {
         element._reviewFile.restore();
-        const saveReviewStub = sandbox.stub(element, '_saveReviewedState');
+        const saveReviewStub = sinon.stub(element, '_saveReviewedState');
 
         element.editMode = false;
         MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
@@ -1817,7 +1804,7 @@ suite('gr-file-list tests', () => {
       });
 
       test('_getReviewedFiles does not call API', () => {
-        const apiSpy = sandbox.spy(element.$.restAPI, 'getReviewedFiles');
+        const apiSpy = sinon.spy(element.$.restAPI, 'getReviewedFiles');
         element.editMode = true;
         return element._getReviewedFiles().then(files => {
           assert.equal(files.length, 0);
@@ -1867,7 +1854,7 @@ suite('gr-file-list tests', () => {
       assert.equal(thread2.comments[0].line, 20);
 
       const commentStub =
-          sandbox.stub(element.changeComments, 'getCommentsForThread');
+          sinon.stub(element.changeComments, 'getCommentsForThread');
       const commentStubRes1 = [
         {
           patch_set: 2,
@@ -1926,7 +1913,7 @@ suite('gr-file-list tests', () => {
       assert.equal(thread2.comments.length, 3);
 
       const commentStubCount = commentStub.callCount;
-      const getThreadsSpy = sandbox.spy(diffs[0], 'getThreadEls');
+      const getThreadsSpy = sinon.spy(diffs[0], 'getThreadEls');
 
       // Should not be getting threads when the file is not expanded.
       element.reloadCommentsForThreadWithRootId('ecf0b9fa_fe1a5f62',

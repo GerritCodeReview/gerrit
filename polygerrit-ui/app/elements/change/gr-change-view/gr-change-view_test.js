@@ -36,7 +36,7 @@ const fixture = fixtureFromElement('gr-change-view');
 
 suite('gr-change-view tests', () => {
   let element;
-  let sandbox;
+
   let navigateToChangeStub;
 
   suiteSetup(() => {
@@ -285,10 +285,9 @@ suite('gr-change-view tests', () => {
   ];
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     // Since pluginEndpoints are global, must reset state.
     _testOnly_resetEndpoints();
-    navigateToChangeStub = sandbox.stub(GerritNav, 'navigateToChange');
+    navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange');
     stub('gr-rest-api-interface', {
       getConfig() { return Promise.resolve({test: 'config'}); },
       getAccount() { return Promise.resolve(null); },
@@ -298,7 +297,7 @@ suite('gr-change-view tests', () => {
       _fetchSharedCacheURL() { return Promise.resolve({}); },
     });
     element = fixture.instantiate();
-    sandbox.stub(element.$.actions, 'reload').returns(Promise.resolve());
+    sinon.stub(element.$.actions, 'reload').returns(Promise.resolve());
     pluginLoader.loadPlugins([]);
     pluginApi.install(
         plugin => {
@@ -318,7 +317,6 @@ suite('gr-change-view tests', () => {
 
   teardown(done => {
     flush(() => {
-      sandbox.restore();
       done();
     });
   });
@@ -332,8 +330,8 @@ suite('gr-change-view tests', () => {
       basePatchNum: 'PARENT',
       patchNum: 1,
     };
-    const getUrlStub = sandbox.stub(GerritNav, 'getUrlForChange');
-    const replaceStateStub = sandbox.stub(history, 'replaceState');
+    const getUrlStub = sinon.stub(GerritNav, 'getUrlForChange');
+    const replaceStateStub = sinon.stub(history, 'replaceState');
     element._handleMessageAnchorTap({detail: {id: 'a12345'}});
 
     assert.equal(getUrlStub.lastCall.args[4], '#message-a12345');
@@ -346,8 +344,8 @@ suite('gr-change-view tests', () => {
       patchNum: 3,
       basePatchNum: 1,
     };
-    sandbox.stub(element, 'computeLatestPatchNum').returns(10);
-    sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+    sinon.stub(element, 'computeLatestPatchNum').returns(10);
+    sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffAgainstBase(new CustomEvent(''));
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
@@ -361,8 +359,8 @@ suite('gr-change-view tests', () => {
       basePatchNum: 1,
       patchNum: 3,
     };
-    sandbox.stub(element, 'computeLatestPatchNum').returns(10);
-    sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+    sinon.stub(element, 'computeLatestPatchNum').returns(10);
+    sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffAgainstLatest(new CustomEvent(''));
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
@@ -376,8 +374,8 @@ suite('gr-change-view tests', () => {
       patchNum: 3,
       basePatchNum: 1,
     };
-    sandbox.stub(element, 'computeLatestPatchNum').returns(10);
-    sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+    sinon.stub(element, 'computeLatestPatchNum').returns(10);
+    sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffBaseAgainstLeft(new CustomEvent(''));
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
@@ -391,8 +389,8 @@ suite('gr-change-view tests', () => {
       basePatchNum: 1,
       patchNum: 3,
     };
-    sandbox.stub(element, 'computeLatestPatchNum').returns(10);
-    sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+    sinon.stub(element, 'computeLatestPatchNum').returns(10);
+    sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffRightAgainstLatest(new CustomEvent(''));
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
@@ -406,8 +404,8 @@ suite('gr-change-view tests', () => {
       basePatchNum: 1,
       patchNum: 3,
     };
-    sandbox.stub(element, 'computeLatestPatchNum').returns(10);
-    sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+    sinon.stub(element, 'computeLatestPatchNum').returns(10);
+    sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffBaseAgainstLatest(new CustomEvent(''));
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
@@ -494,19 +492,19 @@ suite('gr-change-view tests', () => {
 
   suite('keyboard shortcuts', () => {
     test('t to add topic', () => {
-      const editStub = sandbox.stub(element.$.metadata, 'editTopic');
+      const editStub = sinon.stub(element.$.metadata, 'editTopic');
       MockInteractions.pressAndReleaseKeyOn(element, 83, null, 't');
       assert(editStub.called);
     });
 
     test('S should toggle the CL star', () => {
-      const starStub = sandbox.stub(element.$.changeStar, 'toggleStar');
+      const starStub = sinon.stub(element.$.changeStar, 'toggleStar');
       MockInteractions.pressAndReleaseKeyOn(element, 83, null, 's');
       assert(starStub.called);
     });
 
     test('U should navigate to root if no backPage set', () => {
-      const relativeNavStub = sandbox.stub(GerritNav,
+      const relativeNavStub = sinon.stub(GerritNav,
           'navigateToRelativeUrl');
       MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
       assert.isTrue(relativeNavStub.called);
@@ -515,7 +513,7 @@ suite('gr-change-view tests', () => {
     });
 
     test('U should navigate to backPage if set', () => {
-      const relativeNavStub = sandbox.stub(GerritNav,
+      const relativeNavStub = sinon.stub(GerritNav,
           'navigateToRelativeUrl');
       element.backPage = '/dashboard/self';
       MockInteractions.pressAndReleaseKeyOn(element, 85, null, 'u');
@@ -525,8 +523,8 @@ suite('gr-change-view tests', () => {
     });
 
     test('A fires an error event when not logged in', done => {
-      sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(false));
-      const loggedInErrorSpy = sandbox.spy();
+      sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(false));
+      const loggedInErrorSpy = sinon.spy();
       element.addEventListener('show-auth-required', loggedInErrorSpy);
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       flush(() => {
@@ -537,7 +535,7 @@ suite('gr-change-view tests', () => {
     });
 
     test('shift A does not open reply overlay', done => {
-      sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
+      sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
       MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift', 'a');
       flush(() => {
         assert.isFalse(element.$.replyOverlay.opened);
@@ -546,11 +544,11 @@ suite('gr-change-view tests', () => {
     });
 
     test('A toggles overlay when logged in', done => {
-      sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
-      sandbox.stub(element.$.replyDialog, 'fetchChangeUpdates')
+      sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
+      sinon.stub(element.$.replyDialog, 'fetchChangeUpdates')
           .returns(Promise.resolve({isLatest: true}));
       element._change = {labels: {}};
-      const openSpy = sandbox.spy(element, '_openReplyDialog');
+      const openSpy = sinon.spy(element, '_openReplyDialog');
 
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
       flush(() => {
@@ -580,7 +578,7 @@ suite('gr-change-view tests', () => {
           },
         },
       };
-      sandbox.spy(element, '_handleHideBackgroundContent');
+      sinon.spy(element, '_handleHideBackgroundContent');
       element.$.replyDialog.dispatchEvent(
           new CustomEvent('fullscreen-overlay-opened', {
             composed: true, bubbles: true,
@@ -605,7 +603,7 @@ suite('gr-change-view tests', () => {
           },
         },
       };
-      sandbox.spy(element, '_handleShowBackgroundContent');
+      sinon.spy(element, '_handleShowBackgroundContent');
       element.$.replyDialog.dispatchEvent(
           new CustomEvent('fullscreen-overlay-closed', {
             composed: true, bubbles: true,
@@ -616,7 +614,7 @@ suite('gr-change-view tests', () => {
 
     test('expand all messages when expand-diffs fired', () => {
       const handleExpand =
-          sandbox.stub(element.$.fileList, 'expandAllDiffs');
+          sinon.stub(element.$.fileList, 'expandAllDiffs');
       element.$.fileListHeader.dispatchEvent(
           new CustomEvent('expand-diffs', {
             composed: true, bubbles: true,
@@ -626,7 +624,7 @@ suite('gr-change-view tests', () => {
 
     test('collapse all messages when collapse-diffs fired', () => {
       const handleCollapse =
-      sandbox.stub(element.$.fileList, 'collapseAllDiffs');
+      sinon.stub(element.$.fileList, 'collapseAllDiffs');
       element.$.fileListHeader.dispatchEvent(
           new CustomEvent('collapse-diffs', {
             composed: true, bubbles: true,
@@ -636,7 +634,7 @@ suite('gr-change-view tests', () => {
 
     test('X should expand all messages', done => {
       flush(() => {
-        const handleExpand = sandbox.stub(element.messagesList,
+        const handleExpand = sinon.stub(element.messagesList,
             'handleExpandCollapse');
         MockInteractions.pressAndReleaseKeyOn(element, 88, null, 'x');
         assert(handleExpand.calledWith(true));
@@ -646,7 +644,7 @@ suite('gr-change-view tests', () => {
 
     test('Z should collapse all messages', done => {
       flush(() => {
-        const handleExpand = sandbox.stub(element.messagesList,
+        const handleExpand = sinon.stub(element.messagesList,
             'handleExpandCollapse');
         MockInteractions.pressAndReleaseKeyOn(element, 90, null, 'z');
         assert(handleExpand.calledWith(false));
@@ -674,8 +672,8 @@ suite('gr-change-view tests', () => {
           };
 
           navigateToChangeStub.restore();
-          navigateToChangeStub = sandbox.stub(GerritNav, 'navigateToChange',
-              (change, patchNum, basePatchNum) => {
+          navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange')
+              .callsFake((change, patchNum, basePatchNum) => {
                 assert.equal(change, element._change);
                 assert.isUndefined(patchNum);
                 assert.isUndefined(basePatchNum);
@@ -686,7 +684,7 @@ suite('gr-change-view tests', () => {
         });
 
     test('d should open download overlay', () => {
-      const stub = sandbox.stub(element.$.downloadOverlay, 'open').returns(
+      const stub = sinon.stub(element.$.downloadOverlay, 'open').returns(
           new Promise(resolve => {})
       );
       MockInteractions.pressAndReleaseKeyOn(element, 68, null, 'd');
@@ -694,7 +692,7 @@ suite('gr-change-view tests', () => {
     });
 
     test(', should open diff preferences', () => {
-      const stub = sandbox.stub(
+      const stub = sinon.stub(
           element.$.fileList.$.diffPreferencesDialog, 'open');
       element._loggedIn = false;
       element.disableDiffPrefs = true;
@@ -711,8 +709,8 @@ suite('gr-change-view tests', () => {
     });
 
     test('m should toggle diff mode', () => {
-      sandbox.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
-      const setModeStub = sandbox.stub(element.$.fileListHeader,
+      sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+      const setModeStub = sinon.stub(element.$.fileListHeader,
           'setDiffViewMode');
       const e = {preventDefault: () => {}};
       flushAsynchronousOperations();
@@ -744,7 +742,7 @@ suite('gr-change-view tests', () => {
     setup(() => {
       // Fake computeDraftCount as its required for ChangeComments,
       // see gr-comment-api#reloadDrafts.
-      reloadStub = sandbox.stub(element.$.commentAPI, 'reloadDrafts')
+      reloadStub = sinon.stub(element.$.commentAPI, 'reloadDrafts')
           .returns(Promise.resolve({
             drafts,
             getAllThreadsForChange: () => ([]),
@@ -779,7 +777,7 @@ suite('gr-change-view tests', () => {
     setup(() => {
       // Fake computeDraftCount as its required for ChangeComments,
       // see gr-comment-api#reloadDrafts.
-      sandbox.stub(element.$.commentAPI, 'reloadDrafts')
+      sinon.stub(element.$.commentAPI, 'reloadDrafts')
           .returns(Promise.resolve({
             drafts: {},
             getAllThreadsForChange: () => THREADS,
@@ -826,7 +824,7 @@ suite('gr-change-view tests', () => {
   });
 
   test('diff comments modified', () => {
-    sandbox.spy(element, '_handleReloadCommentThreads');
+    sinon.spy(element, '_handleReloadCommentThreads');
     return element._reloadComments().then(() => {
       element.dispatchEvent(
           new CustomEvent('diff-comments-modified', {
@@ -837,7 +835,7 @@ suite('gr-change-view tests', () => {
   });
 
   test('thread list modified', () => {
-    sandbox.spy(element, '_handleReloadDiffComments');
+    sinon.spy(element, '_handleReloadDiffComments');
     element._activeTabs = [PrimaryTab.COMMENT_THREADS, SecondaryTab.CHANGE_LOG];
     flushAsynchronousOperations();
 
@@ -896,9 +894,9 @@ suite('gr-change-view tests', () => {
           },
         },
       };
-      sandbox.stub(element.$.relatedChanges, 'reload');
-      sandbox.stub(element, '_reload').returns(Promise.resolve());
-      sandbox.spy(element, '_paramsChanged');
+      sinon.stub(element.$.relatedChanges, 'reload');
+      sinon.stub(element, '_reload').returns(Promise.resolve());
+      sinon.spy(element, '_paramsChanged');
       element.params = {view: 'change', changeNum: '1'};
     });
   });
@@ -996,7 +994,7 @@ suite('gr-change-view tests', () => {
   });
 
   test('download tap calls _handleOpenDownloadDialog', () => {
-    sandbox.stub(element, '_handleOpenDownloadDialog');
+    sinon.stub(element, '_handleOpenDownloadDialog');
     element.$.actions.dispatchEvent(
         new CustomEvent('download-tap', {
           composed: true, bubbles: true,
@@ -1012,7 +1010,7 @@ suite('gr-change-view tests', () => {
   });
 
   test('_changeStatuses', () => {
-    sandbox.stub(element, 'changeStatuses').returns(
+    sinon.stub(element, 'changeStatuses').returns(
         ['Merged', 'WIP']);
     element._loading = false;
     element._change = {
@@ -1044,7 +1042,7 @@ suite('gr-change-view tests', () => {
   });
 
   test('diff preferences open when open-diff-prefs is fired', () => {
-    const overlayOpenStub = sandbox.stub(element.$.fileList,
+    const overlayOpenStub = sinon.stub(element.$.fileList,
         'openDiffPrefs');
     element.$.fileListHeader.dispatchEvent(
         new CustomEvent('open-diff-prefs', {
@@ -1102,7 +1100,7 @@ suite('gr-change-view tests', () => {
       },
     };
     flushAsynchronousOperations();
-    const reloadStub = sandbox.stub(element, '_reload');
+    const reloadStub = sinon.stub(element, '_reload');
     element.splice('_change.labels.test.all', 0, 1);
     assert.isFalse(reloadStub.called);
     element._change.labels.test.all.push(vote);
@@ -1207,7 +1205,7 @@ suite('gr-change-view tests', () => {
 
   test('_setDiffViewMode is called with reset when new change is loaded',
       () => {
-        sandbox.stub(element, '_setDiffViewMode');
+        sinon.stub(element, '_setDiffViewMode');
         element.viewState = {changeNum: 1};
         element._changeNum = 2;
         element._resetFileListViewState();
@@ -1222,7 +1220,7 @@ suite('gr-change-view tests', () => {
   });
 
   test('diffMode defaults to side by side without preferences', done => {
-    sandbox.stub(element.$.restAPI, 'getPreferences').returns(
+    sinon.stub(element.$.restAPI, 'getPreferences').returns(
         Promise.resolve({}));
     // No user prefs or diff view mode set.
 
@@ -1233,7 +1231,7 @@ suite('gr-change-view tests', () => {
   });
 
   test('diffMode defaults to preference when not already set', done => {
-    sandbox.stub(element.$.restAPI, 'getPreferences').returns(
+    sinon.stub(element.$.restAPI, 'getPreferences').returns(
         Promise.resolve({default_diff_view: 'UNIFIED'}));
 
     element._setDiffViewMode().then(() => {
@@ -1244,7 +1242,7 @@ suite('gr-change-view tests', () => {
 
   test('existing diffMode overrides preference', done => {
     element.viewState.diffMode = 'SIDE_BY_SIDE';
-    sandbox.stub(element.$.restAPI, 'getPreferences').returns(
+    sinon.stub(element.$.restAPI, 'getPreferences').returns(
         Promise.resolve({default_diff_view: 'UNIFIED'}));
     element._setDiffViewMode().then(() => {
       assert.equal(element.viewState.diffMode, 'SIDE_BY_SIDE');
@@ -1253,13 +1251,13 @@ suite('gr-change-view tests', () => {
   });
 
   test('don’t reload entire page when patchRange changes', () => {
-    const reloadStub = sandbox.stub(element, '_reload',
+    const reloadStub = sinon.stub(element, '_reload').callsFake(
         () => Promise.resolve());
-    const reloadPatchDependentStub = sandbox.stub(element,
-        '_reloadPatchNumDependentResources',
-        () => Promise.resolve());
-    const relatedClearSpy = sandbox.spy(element.$.relatedChanges, 'clear');
-    const collapseStub = sandbox.stub(element.$.fileList, 'collapseAllDiffs');
+    const reloadPatchDependentStub = sinon.stub(element,
+        '_reloadPatchNumDependentResources')
+        .callsFake(() => Promise.resolve());
+    const relatedClearSpy = sinon.spy(element.$.relatedChanges, 'clear');
+    const collapseStub = sinon.stub(element.$.fileList, 'collapseAllDiffs');
 
     const value = {
       view: GerritNav.View.CHANGE,
@@ -1281,9 +1279,9 @@ suite('gr-change-view tests', () => {
   });
 
   test('reload entire page when patchRange doesnt change', () => {
-    const reloadStub = sandbox.stub(element, '_reload',
+    const reloadStub = sinon.stub(element, '_reload').callsFake(
         () => Promise.resolve());
-    const collapseStub = sandbox.stub(element.$.fileList, 'collapseAllDiffs');
+    const collapseStub = sinon.stub(element.$.fileList, 'collapseAllDiffs');
     const value = {
       view: GerritNav.View.CHANGE,
     };
@@ -1296,8 +1294,8 @@ suite('gr-change-view tests', () => {
   });
 
   test('related changes are not updated after other action', done => {
-    sandbox.stub(element, '_reload', () => Promise.resolve());
-    sandbox.stub(element.$.relatedChanges, 'reload');
+    sinon.stub(element, '_reload').callsFake(() => Promise.resolve());
+    sinon.stub(element.$.relatedChanges, 'reload');
     const e = {detail: {action: 'abandon'}};
     element._handleReloadChange(e).then(() => {
       assert.isFalse(navigateToChangeStub.called);
@@ -1330,7 +1328,7 @@ suite('gr-change-view tests', () => {
       },
       current_revision: 'rev3',
     };
-    sandbox.stub(GerritNav, 'getUrlForChange')
+    sinon.stub(GerritNav, 'getUrlForChange')
         .returns('/change/123');
     assert.equal(
         element._computeCopyTextForTitle(change),
@@ -1372,7 +1370,7 @@ suite('gr-change-view tests', () => {
   });
 
   test('_handleCommitMessageSave trims trailing whitespace', () => {
-    const putStub = sandbox.stub(element.$.restAPI, 'putChangeCommitMessage')
+    const putStub = sinon.stub(element.$.restAPI, 'putChangeCommitMessage')
         .returns(Promise.resolve({}));
 
     const mockEvent = content => { return {detail: {content}}; };
@@ -1459,13 +1457,14 @@ suite('gr-change-view tests', () => {
   });
 
   test('topic is coalesced to null', done => {
-    sandbox.stub(element, '_changeChanged');
-    sandbox.stub(element.$.restAPI, 'getChangeDetail', () => Promise.resolve({
-      id: '123456789',
-      labels: {},
-      current_revision: 'foo',
-      revisions: {foo: {commit: {}}},
-    }));
+    sinon.stub(element, '_changeChanged');
+    sinon.stub(element.$.restAPI, 'getChangeDetail').callsFake(
+        () => Promise.resolve({
+          id: '123456789',
+          labels: {},
+          current_revision: 'foo',
+          revisions: {foo: {commit: {}}},
+        }));
 
     element._getChangeDetail().then(() => {
       assert.isNull(element._change.topic);
@@ -1474,13 +1473,14 @@ suite('gr-change-view tests', () => {
   });
 
   test('commit sha is populated from getChangeDetail', done => {
-    sandbox.stub(element, '_changeChanged');
-    sandbox.stub(element.$.restAPI, 'getChangeDetail', () => Promise.resolve({
-      id: '123456789',
-      labels: {},
-      current_revision: 'foo',
-      revisions: {foo: {commit: {}}},
-    }));
+    sinon.stub(element, '_changeChanged');
+    sinon.stub(element.$.restAPI, 'getChangeDetail').callsFake(
+        () => Promise.resolve({
+          id: '123456789',
+          labels: {},
+          current_revision: 'foo',
+          revisions: {foo: {commit: {}}},
+        }));
 
     element._getChangeDetail().then(() => {
       assert.equal('foo', element._commitInfo.commit);
@@ -1489,14 +1489,15 @@ suite('gr-change-view tests', () => {
   });
 
   test('edit is added to change', () => {
-    sandbox.stub(element, '_changeChanged');
-    sandbox.stub(element.$.restAPI, 'getChangeDetail', () => Promise.resolve({
-      id: '123456789',
-      labels: {},
-      current_revision: 'foo',
-      revisions: {foo: {commit: {}}},
-    }));
-    sandbox.stub(element, '_getEdit', () => Promise.resolve({
+    sinon.stub(element, '_changeChanged');
+    sinon.stub(element.$.restAPI, 'getChangeDetail').callsFake(
+        () => Promise.resolve({
+          id: '123456789',
+          labels: {},
+          current_revision: 'foo',
+          revisions: {foo: {commit: {}}},
+        }));
+    sinon.stub(element, '_getEdit').callsFake(() => Promise.resolve({
       base_patch_set_number: 1,
       commit: {commit: 'bar'},
     }));
@@ -1564,7 +1565,7 @@ suite('gr-change-view tests', () => {
 
   test('_openReplyDialog called with `ANY` when coming from tap event',
       () => {
-        const openStub = sandbox.stub(element, '_openReplyDialog');
+        const openStub = sinon.stub(element, '_openReplyDialog');
         element._serverConfig = {};
         MockInteractions.tap(element.$.replyBtn);
         assert(openStub.lastCall.calledWithExactly(
@@ -1576,7 +1577,7 @@ suite('gr-change-view tests', () => {
   test('_openReplyDialog called with `BODY` when coming from message reply' +
       'event', done => {
     flush(() => {
-      const openStub = sandbox.stub(element, '_openReplyDialog');
+      const openStub = sinon.stub(element, '_openReplyDialog');
       element.messagesList.dispatchEvent(
           new CustomEvent('reply', {
             detail:
@@ -1593,7 +1594,7 @@ suite('gr-change-view tests', () => {
 
   test('reply dialog focus can be controlled', () => {
     const FocusTarget = element.$.replyDialog.FocusTarget;
-    const openStub = sandbox.stub(element, '_openReplyDialog');
+    const openStub = sinon.stub(element, '_openReplyDialog');
 
     const e = {detail: {}};
     element._handleShowReplyDialog(e);
@@ -1609,7 +1610,7 @@ suite('gr-change-view tests', () => {
   });
 
   test('getUrlParameter functionality', () => {
-    const locationStub = sandbox.stub(element, '_getLocationSearch');
+    const locationStub = sinon.stub(element, '_getLocationSearch');
 
     locationStub.returns('?test');
     assert.equal(element._getUrlParameter('test'), 'test');
@@ -1624,8 +1625,10 @@ suite('gr-change-view tests', () => {
   });
 
   test('revert dialog opened with revert param', done => {
-    sandbox.stub(element.$.restAPI, 'getLoggedIn', () => Promise.resolve(true));
-    sandbox.stub(pluginLoader, 'awaitPluginsLoaded', () => Promise.resolve());
+    sinon.stub(element.$.restAPI, 'getLoggedIn')
+        .callsFake(() => Promise.resolve(true));
+    sinon.stub(pluginLoader, 'awaitPluginsLoaded')
+        .callsFake(() => Promise.resolve());
 
     element._patchRange = {
       basePatchNum: 'PARENT',
@@ -1643,13 +1646,13 @@ suite('gr-change-view tests', () => {
       actions: {},
     };
 
-    sandbox.stub(element, '_getUrlParameter',
+    sinon.stub(element, '_getUrlParameter').callsFake(
         param => {
           assert.equal(param, 'revert');
           return param;
         });
 
-    sandbox.stub(element.$.actions, 'showRevertDialog',
+    sinon.stub(element.$.actions, 'showRevertDialog').callsFake(
         done);
 
     element._maybeShowRevertDialog();
@@ -1659,7 +1662,7 @@ suite('gr-change-view tests', () => {
   suite('scroll related tests', () => {
     test('document scrolling calls function to set scroll height', done => {
       const originalHeight = document.body.scrollHeight;
-      const scrollStub = sandbox.stub(element, '_handleScroll',
+      const scrollStub = sinon.stub(element, '_handleScroll').callsFake(
           () => {
             assert.isTrue(scrollStub.called);
             document.body.style.height = originalHeight + 'px';
@@ -1673,7 +1676,7 @@ suite('gr-change-view tests', () => {
     test('scrollTop is set correctly', () => {
       element.viewState = {scrollTop: TEST_SCROLL_TOP_PX};
 
-      sandbox.stub(element, '_reload', () => {
+      sinon.stub(element, '_reload').callsFake(() => {
         // When element is reloaded, ensure that the history
         // state has the scrollTop set earlier. This will then
         // be reset.
@@ -1694,8 +1697,8 @@ suite('gr-change-view tests', () => {
 
   suite('reply dialog tests', () => {
     setup(() => {
-      sandbox.stub(element.$.replyDialog, '_draftChanged');
-      sandbox.stub(element.$.replyDialog, 'fetchChangeUpdates',
+      sinon.stub(element.$.replyDialog, '_draftChanged');
+      sinon.stub(element.$.replyDialog, 'fetchChangeUpdates').callsFake(
           () => Promise.resolve({isLatest: true}));
       element._change = {labels: {}};
     });
@@ -1728,7 +1731,7 @@ suite('gr-change-view tests', () => {
       const div = document.createElement('div');
       element.$.replyDialog.draft = '> quote text\n\n some draft text';
       element.$.replyDialog.quote = '> quote text\n\n';
-      const e = {target: div, preventDefault: sandbox.spy()};
+      const e = {target: div, preventDefault: sinon.spy()};
       element._handleReplyTap(e);
       assert.equal(element.$.replyDialog.draft,
           '> quote text\n\n some draft text');
@@ -1744,7 +1747,7 @@ suite('gr-change-view tests', () => {
 
   suite('commit message expand/collapse', () => {
     setup(() => {
-      sandbox.stub(element, 'fetchChangeUpdates',
+      sinon.stub(element, 'fetchChangeUpdates').callsFake(
           () => Promise.resolve({isLatest: false}));
     });
 
@@ -1775,17 +1778,18 @@ suite('gr-change-view tests', () => {
   suite('related changes expand/collapse', () => {
     let updateHeightSpy;
     setup(() => {
-      updateHeightSpy = sandbox.spy(element, '_updateRelatedChangeMaxHeight');
+      updateHeightSpy = sinon.spy(element, '_updateRelatedChangeMaxHeight');
     });
 
     test('relatedChangesToggle shown height greater than changeInfo height',
         () => {
           assert.isFalse(element.$.relatedChangesToggle.classList
               .contains('showToggle'));
-          sandbox.stub(element, '_getOffsetHeight', () => 50);
-          sandbox.stub(element, '_getScrollHeight', () => 60);
-          sandbox.stub(element, '_getLineHeight', () => 5);
-          sandbox.stub(window, 'matchMedia', () => { return {matches: true}; });
+          sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
+          sinon.stub(element, '_getScrollHeight').callsFake(() => 60);
+          sinon.stub(element, '_getLineHeight').callsFake(() => 5);
+          sinon.stub(window, 'matchMedia')
+              .callsFake(() => { return {matches: true}; });
           element.$.relatedChanges.dispatchEvent(
               new CustomEvent('new-section-loaded'));
           assert.isTrue(element.$.relatedChangesToggle.classList
@@ -1797,10 +1801,11 @@ suite('gr-change-view tests', () => {
         () => {
           assert.isFalse(element.$.relatedChangesToggle.classList
               .contains('showToggle'));
-          sandbox.stub(element, '_getOffsetHeight', () => 50);
-          sandbox.stub(element, '_getScrollHeight', () => 40);
-          sandbox.stub(element, '_getLineHeight', () => 5);
-          sandbox.stub(window, 'matchMedia', () => { return {matches: true}; });
+          sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
+          sinon.stub(element, '_getScrollHeight').callsFake(() => 40);
+          sinon.stub(element, '_getLineHeight').callsFake(() => 5);
+          sinon.stub(window, 'matchMedia')
+              .callsFake(() => { return {matches: true}; });
           element.$.relatedChanges.dispatchEvent(
               new CustomEvent('new-section-loaded'));
           assert.isFalse(element.$.relatedChangesToggle.classList
@@ -1809,8 +1814,9 @@ suite('gr-change-view tests', () => {
         });
 
     test('relatedChangesToggle functions', () => {
-      sandbox.stub(element, '_getOffsetHeight', () => 50);
-      sandbox.stub(window, 'matchMedia', () => { return {matches: false}; });
+      sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
+      sinon.stub(window, 'matchMedia')
+          .callsFake(() => { return {matches: false}; });
       element._relatedChangesLoading = false;
       assert.isTrue(element._relatedChangesCollapsed);
       assert.isTrue(
@@ -1822,9 +1828,10 @@ suite('gr-change-view tests', () => {
     });
 
     test('_updateRelatedChangeMaxHeight without commit toggle', () => {
-      sandbox.stub(element, '_getOffsetHeight', () => 50);
-      sandbox.stub(element, '_getLineHeight', () => 12);
-      sandbox.stub(window, 'matchMedia', () => { return {matches: false}; });
+      sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
+      sinon.stub(element, '_getLineHeight').callsFake(() => 12);
+      sinon.stub(window, 'matchMedia')
+          .callsFake(() => { return {matches: false}; });
 
       // 50 (existing height) - 30 (extra height) = 20 (adjusted height).
       // 20 (max existing height)  % 12 (line height) = 6 (remainder).
@@ -1839,9 +1846,10 @@ suite('gr-change-view tests', () => {
 
     test('_updateRelatedChangeMaxHeight with commit toggle', () => {
       element._latestCommitMessage = _.times(31, String).join('\n');
-      sandbox.stub(element, '_getOffsetHeight', () => 50);
-      sandbox.stub(element, '_getLineHeight', () => 12);
-      sandbox.stub(window, 'matchMedia', () => { return {matches: false}; });
+      sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
+      sinon.stub(element, '_getLineHeight').callsFake(() => 12);
+      sinon.stub(window, 'matchMedia')
+          .callsFake(() => { return {matches: false}; });
 
       // 50 (existing height) % 12 (line height) = 2 (remainder).
       // 50 (existing height)  - 2 (remainder) = 48 (max height to set).
@@ -1855,9 +1863,10 @@ suite('gr-change-view tests', () => {
 
     test('_updateRelatedChangeMaxHeight in small screen mode', () => {
       element._latestCommitMessage = _.times(31, String).join('\n');
-      sandbox.stub(element, '_getOffsetHeight', () => 50);
-      sandbox.stub(element, '_getLineHeight', () => 12);
-      sandbox.stub(window, 'matchMedia', () => { return {matches: true}; });
+      sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
+      sinon.stub(element, '_getLineHeight').callsFake(() => 12);
+      sinon.stub(window, 'matchMedia')
+          .callsFake(() => { return {matches: true}; });
 
       element._updateRelatedChangeMaxHeight();
 
@@ -1870,9 +1879,9 @@ suite('gr-change-view tests', () => {
 
     test('_updateRelatedChangeMaxHeight in medium screen mode', () => {
       element._latestCommitMessage = _.times(31, String).join('\n');
-      sandbox.stub(element, '_getOffsetHeight', () => 50);
-      sandbox.stub(element, '_getLineHeight', () => 12);
-      sandbox.stub(window, 'matchMedia', () => {
+      sinon.stub(element, '_getOffsetHeight').callsFake(() => 50);
+      sinon.stub(element, '_getLineHeight').callsFake(() => 12);
+      sinon.stub(window, 'matchMedia').callsFake(() => {
         if (window.matchMedia.lastCall.args[0] === '(max-width: 75em)') {
           return {matches: true};
         } else {
@@ -1889,8 +1898,8 @@ suite('gr-change-view tests', () => {
 
     suite('update checks', () => {
       setup(() => {
-        sandbox.spy(element, '_startUpdateCheckTimer');
-        sandbox.stub(element, 'async', f => {
+        sinon.spy(element, '_startUpdateCheckTimer');
+        sinon.stub(element, 'async').callsFake( f => {
           // Only fire the async callback one time.
           if (element.async.callCount > 1) { return; }
           f.call(element);
@@ -1898,7 +1907,7 @@ suite('gr-change-view tests', () => {
       });
 
       test('_startUpdateCheckTimer negative delay', () => {
-        sandbox.stub(element, 'fetchChangeUpdates');
+        sinon.stub(element, 'fetchChangeUpdates');
 
         element._serverConfig = {change: {update_delay: -1}};
 
@@ -1907,7 +1916,7 @@ suite('gr-change-view tests', () => {
       });
 
       test('_startUpdateCheckTimer up-to-date', () => {
-        sandbox.stub(element, 'fetchChangeUpdates',
+        sinon.stub(element, 'fetchChangeUpdates').callsFake(
             () => Promise.resolve({isLatest: true}));
 
         element._serverConfig = {change: {update_delay: 12345}};
@@ -1918,7 +1927,7 @@ suite('gr-change-view tests', () => {
       });
 
       test('_startUpdateCheckTimer out-of-date shows an alert', done => {
-        sandbox.stub(element, 'fetchChangeUpdates',
+        sinon.stub(element, 'fetchChangeUpdates').callsFake(
             () => Promise.resolve({isLatest: false}));
         element.addEventListener('show-alert', e => {
           assert.equal(e.detail.message,
@@ -1929,7 +1938,7 @@ suite('gr-change-view tests', () => {
       });
 
       test('_startUpdateCheckTimer new status shows an alert', done => {
-        sandbox.stub(element, 'fetchChangeUpdates')
+        sinon.stub(element, 'fetchChangeUpdates')
             .returns(Promise.resolve({
               isLatest: true,
               newStatus: ChangeStatus.MERGED,
@@ -1942,7 +1951,7 @@ suite('gr-change-view tests', () => {
       });
 
       test('_startUpdateCheckTimer new messages shows an alert', done => {
-        sandbox.stub(element, 'fetchChangeUpdates')
+        sinon.stub(element, 'fetchChangeUpdates')
             .returns(Promise.resolve({
               isLatest: true,
               newMessages: true,
@@ -1985,7 +1994,7 @@ suite('gr-change-view tests', () => {
 
   test('_maybeScrollToMessage', done => {
     flush(() => {
-      const scrollStub = sandbox.stub(element.messagesList,
+      const scrollStub = sinon.stub(element.messagesList,
           'scrollToMessage');
 
       element._maybeScrollToMessage('');
@@ -2000,7 +2009,7 @@ suite('gr-change-view tests', () => {
   });
 
   test('topic update reloads related changes', () => {
-    sandbox.stub(element.$.relatedChanges, 'reload');
+    sinon.stub(element.$.relatedChanges, 'reload');
     element.dispatchEvent(new CustomEvent('topic-changed'));
     assert.isTrue(element.$.relatedChanges.reload.calledOnce);
   });
@@ -2067,11 +2076,11 @@ suite('gr-change-view tests', () => {
     flushAsynchronousOperations();
     const controls = element.$.fileListHeader
         .shadowRoot.querySelector('#editControls');
-    sandbox.stub(controls, 'openDeleteDialog');
-    sandbox.stub(controls, 'openRenameDialog');
-    sandbox.stub(controls, 'openRestoreDialog');
-    sandbox.stub(GerritNav, 'getEditUrlForDiff');
-    sandbox.stub(GerritNav, 'navigateToRelativeUrl');
+    sinon.stub(controls, 'openDeleteDialog');
+    sinon.stub(controls, 'openRenameDialog');
+    sinon.stub(controls, 'openRestoreDialog');
+    sinon.stub(GerritNav, 'getEditUrlForDiff');
+    sinon.stub(GerritNav, 'navigateToRelativeUrl');
 
     // Delete
     fileList.dispatchEvent(new CustomEvent('file-action-tap', {
@@ -2123,7 +2132,7 @@ suite('gr-change-view tests', () => {
   test('_selectedRevision updates when patchNum is changed', () => {
     const revision1 = {_number: 1, commit: {parents: []}};
     const revision2 = {_number: 2, commit: {parents: []}};
-    sandbox.stub(element.$.restAPI, 'getChangeDetail').returns(
+    sinon.stub(element.$.restAPI, 'getChangeDetail').returns(
         Promise.resolve({
           revisions: {
             aaa: revision1,
@@ -2134,8 +2143,8 @@ suite('gr-change-view tests', () => {
           current_revision: 'bbb',
           change_id: 'loremipsumdolorsitamet',
         }));
-    sandbox.stub(element, '_getEdit').returns(Promise.resolve());
-    sandbox.stub(element, '_getPreferences').returns(Promise.resolve({}));
+    sinon.stub(element, '_getEdit').returns(Promise.resolve());
+    sinon.stub(element, '_getPreferences').returns(Promise.resolve({}));
     element._patchRange = {patchNum: '2'};
     return element._getChangeDetail().then(() => {
       assert.strictEqual(element._selectedRevision, revision2);
@@ -2149,7 +2158,7 @@ suite('gr-change-view tests', () => {
     const revision1 = {_number: 1, commit: {parents: []}};
     const revision2 = {_number: 2, commit: {parents: []}};
     const revision3 = {_number: 'edit', commit: {parents: []}};
-    sandbox.stub(element.$.restAPI, 'getChangeDetail').returns(
+    sinon.stub(element.$.restAPI, 'getChangeDetail').returns(
         Promise.resolve({
           revisions: {
             aaa: revision1,
@@ -2161,8 +2170,8 @@ suite('gr-change-view tests', () => {
           current_revision: 'ccc',
           change_id: 'loremipsumdolorsitamet',
         }));
-    sandbox.stub(element, '_getEdit').returns(Promise.resolve());
-    sandbox.stub(element, '_getPreferences').returns(Promise.resolve({}));
+    sinon.stub(element, '_getEdit').returns(Promise.resolve());
+    sinon.stub(element, '_getPreferences').returns(Promise.resolve({}));
     element._patchRange = {patchNum: 'edit'};
     return element._getChangeDetail().then(() => {
       assert.strictEqual(element._selectedRevision, revision3);
@@ -2173,7 +2182,7 @@ suite('gr-change-view tests', () => {
     element._change = {labels: {}};
     element._patchRange = {patchNum: 4};
     element._mergeable = true;
-    const showStub = sandbox.stub(element.$.jsAPI, 'handleEvent');
+    const showStub = sinon.stub(element.$.jsAPI, 'handleEvent');
     element._sendShowChangeEvent();
     assert.isTrue(showStub.calledOnce);
     assert.equal(
@@ -2198,7 +2207,7 @@ suite('gr-change-view tests', () => {
     });
 
     test('edit exists in revisions', done => {
-      sandbox.stub(GerritNav, 'navigateToChange', (...args) => {
+      sinon.stub(GerritNav, 'navigateToChange').callsFake((...args) => {
         assert.equal(args.length, 2);
         assert.equal(args[1], element.EDIT_NAME); // patchNum
         done();
@@ -2211,7 +2220,7 @@ suite('gr-change-view tests', () => {
     });
 
     test('no edit exists in revisions, non-latest patchset', done => {
-      sandbox.stub(GerritNav, 'navigateToChange', (...args) => {
+      sinon.stub(GerritNav, 'navigateToChange').callsFake((...args) => {
         assert.equal(args.length, 4);
         assert.equal(args[1], 1); // patchNum
         assert.equal(args[3], true); // opt_isEdit
@@ -2226,7 +2235,7 @@ suite('gr-change-view tests', () => {
     });
 
     test('no edit exists in revisions, latest patchset', done => {
-      sandbox.stub(GerritNav, 'navigateToChange', (...args) => {
+      sinon.stub(GerritNav, 'navigateToChange').callsFake((...args) => {
         assert.equal(args.length, 4);
         // No patch should be specified when patchNum == latest.
         assert.isNotOk(args[1]); // patchNum
@@ -2243,10 +2252,10 @@ suite('gr-change-view tests', () => {
   });
 
   test('_handleStopEditTap', done => {
-    sandbox.stub(element.$.metadata, '_computeLabelNames');
+    sinon.stub(element.$.metadata, '_computeLabelNames');
     navigateToChangeStub.restore();
-    sandbox.stub(element, 'computeLatestPatchNum').returns(1);
-    sandbox.stub(GerritNav, 'navigateToChange', (...args) => {
+    sinon.stub(element, 'computeLatestPatchNum').returns(1);
+    sinon.stub(GerritNav, 'navigateToChange').callsFake((...args) => {
       assert.equal(args.length, 2);
       assert.equal(args[1], 1); // patchNum
       done();
@@ -2286,7 +2295,7 @@ suite('gr-change-view tests', () => {
 
     setup(() => {
       element._change = {labels: {}};
-      getMergeableStub = sandbox.stub(element.$.restAPI, 'getMergeable')
+      getMergeableStub = sinon.stub(element.$.restAPI, 'getMergeable')
           .returns(Promise.resolve({mergeable: true}));
     });
 
@@ -2318,9 +2327,9 @@ suite('gr-change-view tests', () => {
   });
 
   test('_paramsChanged sets in projectLookup', () => {
-    sandbox.stub(element.$.relatedChanges, 'reload');
-    sandbox.stub(element, '_reload').returns(Promise.resolve());
-    const setStub = sandbox.stub(element.$.restAPI, 'setInProjectLookup');
+    sinon.stub(element.$.relatedChanges, 'reload');
+    sinon.stub(element, '_reload').returns(Promise.resolve());
+    const setStub = sinon.stub(element.$.restAPI, 'setInProjectLookup');
     element._paramsChanged({
       view: GerritNav.View.CHANGE,
       changeNum: 101,
@@ -2336,7 +2345,7 @@ suite('gr-change-view tests', () => {
       starred: false,
     };
     element._loggedIn = true;
-    const stub = sandbox.stub(element, '_handleToggleStar');
+    const stub = sinon.stub(element, '_handleToggleStar');
     flushAsynchronousOperations();
 
     MockInteractions.tap(element.$.changeStar.shadowRoot
@@ -2350,19 +2359,19 @@ suite('gr-change-view tests', () => {
         basePatchNum: 'PARENT',
         patchNum: 1,
       };
-      sandbox.stub(element, '_getChangeDetail').returns(Promise.resolve());
-      sandbox.stub(element, '_getProjectConfig').returns(Promise.resolve());
-      sandbox.stub(element, '_reloadComments').returns(Promise.resolve());
-      sandbox.stub(element, '_getMergeability').returns(Promise.resolve());
-      sandbox.stub(element, '_getLatestCommitMessage')
+      sinon.stub(element, '_getChangeDetail').returns(Promise.resolve());
+      sinon.stub(element, '_getProjectConfig').returns(Promise.resolve());
+      sinon.stub(element, '_reloadComments').returns(Promise.resolve());
+      sinon.stub(element, '_getMergeability').returns(Promise.resolve());
+      sinon.stub(element, '_getLatestCommitMessage')
           .returns(Promise.resolve());
     });
 
     test('don\'t report changedDisplayed on reply', done => {
       const changeDisplayStub =
-        sandbox.stub(element.reporting, 'changeDisplayed');
+        sinon.stub(element.reporting, 'changeDisplayed');
       const changeFullyLoadedStub =
-        sandbox.stub(element.reporting, 'changeFullyLoaded');
+        sinon.stub(element.reporting, 'changeFullyLoaded');
       element._handleReplySent();
       flush(() => {
         assert.isFalse(changeDisplayStub.called);
@@ -2373,9 +2382,9 @@ suite('gr-change-view tests', () => {
 
     test('report changedDisplayed on _paramsChanged', done => {
       const changeDisplayStub =
-        sandbox.stub(element.reporting, 'changeDisplayed');
+        sinon.stub(element.reporting, 'changeDisplayed');
       const changeFullyLoadedStub =
-        sandbox.stub(element.reporting, 'changeFullyLoaded');
+        sinon.stub(element.reporting, 'changeFullyLoaded');
       element._paramsChanged({
         view: GerritNav.View.CHANGE,
         changeNum: 101,

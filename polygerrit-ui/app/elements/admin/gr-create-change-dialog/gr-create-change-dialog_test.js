@@ -22,10 +22,8 @@ const basicFixture = fixtureFromElement('gr-create-change-dialog');
 
 suite('gr-create-change-dialog tests', () => {
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     stub('gr-rest-api-interface', {
       getLoggedIn() { return Promise.resolve(true); },
       getRepoBranches(input) {
@@ -52,10 +50,6 @@ suite('gr-create-change-dialog tests', () => {
     };
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
-
   test('new change created with default', done => {
     const configInputObj = {
       branch: 'test-branch',
@@ -65,8 +59,8 @@ suite('gr-create-change-dialog tests', () => {
       work_in_progress: true,
     };
 
-    const saveStub = sandbox.stub(element.$.restAPI,
-        'createChange', () => Promise.resolve({}));
+    const saveStub = sinon.stub(element.$.restAPI,
+        'createChange').callsFake(() => Promise.resolve({}));
 
     element.branch = 'test-branch';
     element.topic = 'test-topic';
@@ -92,7 +86,8 @@ suite('gr-create-change-dialog tests', () => {
       configured_value: 'TRUE',
       inherited_value: false,
     };
-    sandbox.stub(element, '_formatBooleanString', () => Promise.resolve(true));
+    sinon.stub(element, '_formatBooleanString')
+        .callsFake(() => Promise.resolve(true));
     flushAsynchronousOperations();
 
     const configInputObj = {
@@ -103,8 +98,8 @@ suite('gr-create-change-dialog tests', () => {
       work_in_progress: true,
     };
 
-    const saveStub = sandbox.stub(element.$.restAPI,
-        'createChange', () => Promise.resolve({}));
+    const saveStub = sinon.stub(element.$.restAPI,
+        'createChange').callsFake(() => Promise.resolve({}));
 
     element.branch = 'test-branch';
     element.topic = 'test-topic';

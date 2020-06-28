@@ -23,19 +23,14 @@ const basicFixture = fixtureFromElement('gr-create-group-dialog');
 
 suite('gr-create-group-dialog tests', () => {
   let element;
-  let sandbox;
+
   const GROUP_NAME = 'test-group';
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     stub('gr-rest-api-interface', {
       getLoggedIn() { return Promise.resolve(true); },
     });
     element = basicFixture.instantiate();
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   test('name is updated correctly', done => {
@@ -52,13 +47,13 @@ suite('gr-create-group-dialog tests', () => {
   });
 
   test('test for redirecting to group on successful creation', done => {
-    sandbox.stub(element.$.restAPI, 'createGroup')
+    sinon.stub(element.$.restAPI, 'createGroup')
         .returns(Promise.resolve({status: 201}));
 
-    sandbox.stub(element.$.restAPI, 'getGroupConfig')
+    sinon.stub(element.$.restAPI, 'getGroupConfig')
         .returns(Promise.resolve({group_id: 551}));
 
-    const showStub = sandbox.stub(page, 'show');
+    const showStub = sinon.stub(page, 'show');
     element.handleCreateGroup()
         .then(() => {
           assert.isTrue(showStub.calledWith('/admin/groups/551'));
@@ -67,13 +62,13 @@ suite('gr-create-group-dialog tests', () => {
   });
 
   test('test for unsuccessful group creation', done => {
-    sandbox.stub(element.$.restAPI, 'createGroup')
+    sinon.stub(element.$.restAPI, 'createGroup')
         .returns(Promise.resolve({status: 409}));
 
-    sandbox.stub(element.$.restAPI, 'getGroupConfig')
+    sinon.stub(element.$.restAPI, 'getGroupConfig')
         .returns(Promise.resolve({group_id: 551}));
 
-    const showStub = sandbox.stub(page, 'show');
+    const showStub = sinon.stub(page, 'show');
     element.handleCreateGroup()
         .then(() => {
           assert.isFalse(showStub.called);

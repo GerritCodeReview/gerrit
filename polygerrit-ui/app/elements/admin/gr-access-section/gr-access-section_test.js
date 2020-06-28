@@ -22,15 +22,9 @@ const fixture = fixtureFromElement('gr-access-section');
 
 suite('gr-access-section tests', () => {
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = fixture.instantiate();
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   suite('unit tests', () => {
@@ -123,7 +117,7 @@ suite('gr-access-section tests', () => {
     });
 
     test('_computePermissions', () => {
-      sandbox.stub(element, 'toSortedArray').returns(
+      sinon.stub(element, 'toSortedArray').returns(
           [{
             id: 'push',
             value: {
@@ -463,7 +457,7 @@ suite('gr-access-section tests', () => {
 
       test('_handleValueChange', () => {
         // For an existing section.
-        const modifiedHandler = sandbox.stub();
+        const modifiedHandler = sinon.stub();
         element.section = {id: 'refs/for/bar', value: {permissions: {}}};
         assert.notOk(element.section.value.updatedId);
         element.section.id = 'refs/for/baz';
@@ -528,7 +522,7 @@ suite('gr-access-section tests', () => {
       });
 
       test('remove an added section', () => {
-        const removeStub = sandbox.stub();
+        const removeStub = sinon.stub();
         element.addEventListener('added-section-removed', removeStub);
         element.editing = true;
         element.section.value.added = true;

@@ -25,7 +25,7 @@ const basicFixture = fixtureFromElement('gr-rest-api-interface');
 
 suite('gr-rest-api-interface tests', () => {
   let element;
-  let sandbox;
+
   let ctr = 0;
   let originalCanonicalPath;
 
@@ -35,40 +35,39 @@ suite('gr-rest-api-interface tests', () => {
     originalCanonicalPath = window.CANONICAL_PATH;
     window.CANONICAL_PATH = `test${ctr}`;
 
-    sandbox = sinon.sandbox.create();
     const testJSON = ')]}\'\n{"hello": "bonjour"}';
-    sandbox.stub(window, 'fetch').returns(Promise.resolve({
+    sinon.stub(window, 'fetch').returns(Promise.resolve({
       ok: true,
       text() {
         return Promise.resolve(testJSON);
       },
     }));
     // fake auth
-    sandbox.stub(authService, 'authCheck').returns(Promise.resolve(true));
+    sinon.stub(authService, 'authCheck').returns(Promise.resolve(true));
     element = basicFixture.instantiate();
     element._projectLookup = {};
   });
 
   teardown(() => {
-    sandbox.restore();
     window.CANONICAL_PATH = originalCanonicalPath;
   });
 
   test('parent diff comments are properly grouped', done => {
-    sandbox.stub(element._restApiHelper, 'fetchJSON', () => Promise.resolve({
-      '/COMMIT_MSG': [],
-      'sieve.go': [
-        {
-          updated: '2017-02-03 22:32:28.000000000',
-          message: 'this isn’t quite right',
-        },
-        {
-          side: 'PARENT',
-          message: 'how did this work in the first place?',
-          updated: '2017-02-03 22:33:28.000000000',
-        },
-      ],
-    }));
+    sinon.stub(element._restApiHelper, 'fetchJSON')
+        .callsFake(() => Promise.resolve({
+          '/COMMIT_MSG': [],
+          'sieve.go': [
+            {
+              updated: '2017-02-03 22:32:28.000000000',
+              message: 'this isn’t quite right',
+            },
+            {
+              side: 'PARENT',
+              message: 'how did this work in the first place?',
+              updated: '2017-02-03 22:33:28.000000000',
+            },
+          ],
+        }));
     element._getDiffComments('42', '', 'PARENT', 1, 'sieve.go').then(
         obj => {
           assert.equal(obj.baseComments.length, 1);
@@ -194,9 +193,9 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('differing patch diff comments are properly grouped', done => {
-    sandbox.stub(element, 'getFromProjectLookup')
+    sinon.stub(element, 'getFromProjectLookup')
         .returns(Promise.resolve('test'));
-    sandbox.stub(element._restApiHelper, 'fetchJSON', request => {
+    sinon.stub(element._restApiHelper, 'fetchJSON').callsFake( request => {
       const url = request.url;
       if (url === '/changes/test~42/revisions/1') {
         return Promise.resolve({
@@ -311,7 +310,7 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('server error', done => {
-    const getResponseObjectStub = sandbox.stub(element, 'getResponseObject');
+    const getResponseObjectStub = sinon.stub(element, 'getResponseObject');
     window.fetch.returns(Promise.resolve({ok: false}));
     const serverErrorEventPromise = new Promise(resolve => {
       element.addEventListener('server-error', resolve);
@@ -325,8 +324,8 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('legacy n,z key in change url is replaced', async () => {
-    sandbox.stub(element, 'getConfig', async () => { return {}; });
-    const stub = sandbox.stub(element._restApiHelper, 'fetchJSON')
+    sinon.stub(element, 'getConfig').callsFake( async () => { return {}; });
+    const stub = sinon.stub(element._restApiHelper, 'fetchJSON')
         .returns(Promise.resolve([]));
     await element.getChanges(1, null, 'n,z');
     assert.equal(stub.lastCall.args[0].params.S, 0);
@@ -334,7 +333,7 @@ suite('gr-rest-api-interface tests', () => {
 
   test('saveDiffPreferences invalidates cache line', () => {
     const cacheKey = '/accounts/self/preferences.diff';
-    const sendStub = sandbox.stub(element._restApiHelper, 'send');
+    const sendStub = sinon.stub(element._restApiHelper, 'send');
     element._cache.set(cacheKey, {tab_size: 4});
     element.saveDiffPreferences({tab_size: 8});
     assert.isTrue(sendStub.called);
@@ -344,8 +343,8 @@ suite('gr-rest-api-interface tests', () => {
   test('getAccount when resp is null does not add anything to the cache',
       done => {
         const cacheKey = '/accounts/self/detail';
-        const stub = sandbox.stub(element._restApiHelper, 'fetchCacheURL',
-            () => Promise.resolve());
+        const stub = sinon.stub(element._restApiHelper, 'fetchCacheURL')
+            .callsFake(() => Promise.resolve());
 
         element.getAccount().then(() => {
           assert.isTrue(stub.called);
@@ -360,8 +359,8 @@ suite('gr-rest-api-interface tests', () => {
   test('getAccount does not add to the cache when resp.status is 403',
       done => {
         const cacheKey = '/accounts/self/detail';
-        const stub = sandbox.stub(element._restApiHelper, 'fetchCacheURL',
-            () => Promise.resolve());
+        const stub = sinon.stub(element._restApiHelper, 'fetchCacheURL')
+            .callsFake(() => Promise.resolve());
 
         element.getAccount().then(() => {
           assert.isTrue(stub.called);
@@ -374,7 +373,7 @@ suite('gr-rest-api-interface tests', () => {
 
   test('getAccount when resp is successful', done => {
     const cacheKey = '/accounts/self/detail';
-    const stub = sandbox.stub(element._restApiHelper, 'fetchCacheURL',
+    const stub = sinon.stub(element._restApiHelper, 'fetchCacheURL').callsFake(
         () => Promise.resolve());
 
     element.getAccount().then(response => {
@@ -388,12 +387,13 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   const preferenceSetup = function(testJSON, loggedIn, smallScreen) {
-    sandbox.stub(element, 'getLoggedIn', () => Promise.resolve(loggedIn));
-    sandbox.stub(element, '_isNarrowScreen', () => smallScreen);
-    sandbox.stub(
+    sinon.stub(element, 'getLoggedIn')
+        .callsFake(() => Promise.resolve(loggedIn));
+    sinon.stub(element, '_isNarrowScreen').callsFake(() => smallScreen);
+    sinon.stub(
         element._restApiHelper,
-        'fetchCacheURL',
-        () => Promise.resolve(testJSON));
+        'fetchCacheURL')
+        .callsFake(() => Promise.resolve(testJSON));
   };
 
   test('getPreferences returns correctly on small screens logged in',
@@ -456,14 +456,14 @@ suite('gr-rest-api-interface tests', () => {
       });
 
   test('savPreferences normalizes download scheme', () => {
-    const sendStub = sandbox.stub(element._restApiHelper, 'send');
+    const sendStub = sinon.stub(element._restApiHelper, 'send');
     element.savePreferences({download_scheme: 'HTTP'});
     assert.isTrue(sendStub.called);
     assert.equal(sendStub.lastCall.args[0].body.download_scheme, 'http');
   });
 
   test('getDiffPreferences returns correct defaults', done => {
-    sandbox.stub(element, 'getLoggedIn', () => Promise.resolve(false));
+    sinon.stub(element, 'getLoggedIn').callsFake(() => Promise.resolve(false));
 
     element.getDiffPreferences().then(obj => {
       assert.equal(obj.auto_hide_diff_table_header, true);
@@ -485,14 +485,14 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('saveDiffPreferences set show_tabs to false', () => {
-    const sendStub = sandbox.stub(element._restApiHelper, 'send');
+    const sendStub = sinon.stub(element._restApiHelper, 'send');
     element.saveDiffPreferences({show_tabs: false});
     assert.isTrue(sendStub.called);
     assert.equal(sendStub.lastCall.args[0].body.show_tabs, false);
   });
 
   test('getEditPreferences returns correct defaults', done => {
-    sandbox.stub(element, 'getLoggedIn', () => Promise.resolve(false));
+    sinon.stub(element, 'getLoggedIn').callsFake(() => Promise.resolve(false));
 
     element.getEditPreferences().then(obj => {
       assert.equal(obj.auto_close_brackets, false);
@@ -516,14 +516,14 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('saveEditPreferences set show_tabs to false', () => {
-    const sendStub = sandbox.stub(element._restApiHelper, 'send');
+    const sendStub = sinon.stub(element._restApiHelper, 'send');
     element.saveEditPreferences({show_tabs: false});
     assert.isTrue(sendStub.called);
     assert.equal(sendStub.lastCall.args[0].body.show_tabs, false);
   });
 
   test('confirmEmail', () => {
-    const sendStub = sandbox.spy(element._restApiHelper, 'send');
+    const sendStub = sinon.spy(element._restApiHelper, 'send');
     element.confirmEmail('foo');
     assert.isTrue(sendStub.calledOnce);
     assert.equal(sendStub.lastCall.args[0].method, 'PUT');
@@ -533,7 +533,7 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('setAccountStatus', () => {
-    const sendStub = sandbox.stub(element._restApiHelper, 'send')
+    const sendStub = sinon.stub(element._restApiHelper, 'send')
         .returns(Promise.resolve('OOO'));
     element._cache.set('/accounts/self/detail', {});
     return element.setAccountStatus('OOO').then(() => {
@@ -552,7 +552,8 @@ suite('gr-rest-api-interface tests', () => {
   suite('draft comments', () => {
     test('_sendDiffDraftRequest pending requests tracked', () => {
       const obj = element._pendingRequests;
-      sandbox.stub(element, '_getChangeURLAndSend', () => mockPromise());
+      sinon.stub(element, '_getChangeURLAndSend')
+          .callsFake(() => mockPromise());
       assert.notOk(element.hasPendingDiffDrafts());
 
       element._sendDiffDraftRequest(null, null, null, {});
@@ -574,8 +575,8 @@ suite('gr-rest-api-interface tests', () => {
     suite('_failForCreate200', () => {
       test('_sendDiffDraftRequest checks for 200 on create', () => {
         const sendPromise = Promise.resolve();
-        sandbox.stub(element, '_getChangeURLAndSend').returns(sendPromise);
-        const failStub = sandbox.stub(element, '_failForCreate200')
+        sinon.stub(element, '_getChangeURLAndSend').returns(sendPromise);
+        const failStub = sinon.stub(element, '_failForCreate200')
             .returns(Promise.resolve());
         return element._sendDiffDraftRequest('PUT', 123, 4, {}).then(() => {
           assert.isTrue(failStub.calledOnce);
@@ -584,9 +585,9 @@ suite('gr-rest-api-interface tests', () => {
       });
 
       test('_sendDiffDraftRequest no checks for 200 on non create', () => {
-        sandbox.stub(element, '_getChangeURLAndSend')
+        sinon.stub(element, '_getChangeURLAndSend')
             .returns(Promise.resolve());
-        const failStub = sandbox.stub(element, '_failForCreate200')
+        const failStub = sinon.stub(element, '_failForCreate200')
             .returns(Promise.resolve());
         return element._sendDiffDraftRequest('PUT', 123, 4, {id: '123'})
             .then(() => {
@@ -638,9 +639,9 @@ suite('gr-rest-api-interface tests', () => {
     const change_num = '1';
     const file_name = 'index.php';
     const file_contents = '<?php';
-    sandbox.stub(element._restApiHelper, 'send').returns(
+    sinon.stub(element._restApiHelper, 'send').returns(
         Promise.resolve([change_num, file_name, file_contents]));
-    sandbox.stub(element, 'getResponseObject')
+    sinon.stub(element, 'getResponseObject')
         .returns(Promise.resolve([change_num, file_name, file_contents]));
     element._cache.set('/changes/' + change_num + '/edit/' + file_name, {});
     return element.saveChangeEdit(change_num, file_name, file_contents)
@@ -659,9 +660,9 @@ suite('gr-rest-api-interface tests', () => {
     element._projectLookup = {1: 'test'};
     const change_num = '1';
     const message = 'this is a commit message';
-    sandbox.stub(element._restApiHelper, 'send').returns(
+    sinon.stub(element._restApiHelper, 'send').returns(
         Promise.resolve([change_num, message]));
-    sandbox.stub(element, 'getResponseObject')
+    sinon.stub(element, 'getResponseObject')
         .returns(Promise.resolve([change_num, message]));
     element._cache.set('/changes/' + change_num + '/message', {});
     return element.putChangeCommitMessage(change_num, message).then(() => {
@@ -678,9 +679,9 @@ suite('gr-rest-api-interface tests', () => {
     element._projectLookup = {1: 'test'};
     const change_num = '1';
     const messageId = 'abc';
-    sandbox.stub(element._restApiHelper, 'send').returns(
+    sinon.stub(element._restApiHelper, 'send').returns(
         Promise.resolve([change_num, messageId]));
-    sandbox.stub(element, 'getResponseObject')
+    sinon.stub(element, 'getResponseObject')
         .returns(Promise.resolve([change_num, messageId]));
     return element.deleteChangeCommitMessage(change_num, messageId).then(() => {
       assert.isTrue(element._restApiHelper.send.calledOnce);
@@ -694,7 +695,7 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('startWorkInProgress', () => {
-    const sendStub = sandbox.stub(element, '_getChangeURLAndSend')
+    const sendStub = sinon.stub(element, '_getChangeURLAndSend')
         .returns(Promise.resolve('ok'));
     element.startWorkInProgress('42');
     assert.isTrue(sendStub.calledOnce);
@@ -715,7 +716,7 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('startReview', () => {
-    const sendStub = sandbox.stub(element, '_getChangeURLAndSend')
+    const sendStub = sinon.stub(element, '_getChangeURLAndSend')
         .returns(Promise.resolve({}));
     element.startReview('42', {message: 'Please review.'});
     assert.isTrue(sendStub.calledOnce);
@@ -728,7 +729,7 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('deleteComment', () => {
-    const sendStub = sandbox.stub(element, '_getChangeURLAndSend')
+    const sendStub = sinon.stub(element, '_getChangeURLAndSend')
         .returns(Promise.resolve('some response'));
     return element.deleteComment('foo', 'bar', '01234', 'removal reason')
         .then(response => {
@@ -745,7 +746,7 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('createRepo encodes name', () => {
-    const sendStub = sandbox.stub(element._restApiHelper, 'send')
+    const sendStub = sinon.stub(element._restApiHelper, 'send')
         .returns(Promise.resolve());
     return element.createRepo({name: 'x/y'}).then(() => {
       assert.isTrue(sendStub.calledOnce);
@@ -754,7 +755,7 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('queryChangeFiles', () => {
-    const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
+    const fetchStub = sinon.stub(element, '_getChangeURLAndFetch')
         .returns(Promise.resolve());
     return element.queryChangeFiles('42', 'edit', 'test/path.js').then(() => {
       assert.equal(fetchStub.lastCall.args[0].changeNum, '42');
@@ -806,7 +807,7 @@ suite('gr-rest-api-interface tests', () => {
     let fetchCacheURLStub;
     setup(() => {
       fetchCacheURLStub =
-          sandbox.stub(element._restApiHelper, 'fetchCacheURL');
+          sinon.stub(element._restApiHelper, 'fetchCacheURL');
     });
 
     test('normal use', () => {
@@ -893,7 +894,7 @@ suite('gr-rest-api-interface tests', () => {
     let fetchCacheURLStub;
     setup(() => {
       fetchCacheURLStub =
-          sandbox.stub(element._restApiHelper, 'fetchCacheURL');
+          sinon.stub(element._restApiHelper, 'fetchCacheURL');
     });
 
     test('normal use', () => {
@@ -922,13 +923,13 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('gerrit auth is used', () => {
-    sandbox.stub(authService, 'fetch').returns(Promise.resolve());
+    sinon.stub(authService, 'fetch').returns(Promise.resolve());
     element._restApiHelper.fetchJSON({url: 'foo'});
     assert(authService.fetch.called);
   });
 
   test('getSuggestedAccounts does not return _fetchJSON', () => {
-    const _fetchJSONSpy = sandbox.spy(element._restApiHelper, 'fetchJSON');
+    const _fetchJSONSpy = sinon.spy(element._restApiHelper, 'fetchJSON');
     return element.getSuggestedAccounts().then(accts => {
       assert.isFalse(_fetchJSONSpy.called);
       assert.equal(accts.length, 0);
@@ -936,8 +937,8 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('_fetchJSON gets called by getSuggestedAccounts', () => {
-    const _fetchJSONStub = sandbox.stub(element._restApiHelper, 'fetchJSON',
-        () => Promise.resolve());
+    const _fetchJSONStub = sinon.stub(element._restApiHelper, 'fetchJSON')
+        .callsFake(() => Promise.resolve());
     return element.getSuggestedAccounts('own').then(() => {
       assert.deepEqual(_fetchJSONStub.lastCall.args[0].params, {
         q: 'own',
@@ -951,15 +952,15 @@ suite('gr-rest-api-interface tests', () => {
       let toHexStub;
 
       setup(() => {
-        toHexStub = sandbox.stub(element, 'listChangesOptionsToHex',
+        toHexStub = sinon.stub(element, 'listChangesOptionsToHex').callsFake(
             options => 'deadbeef');
-        sandbox.stub(element, '_getChangeDetail',
+        sinon.stub(element, '_getChangeDetail').callsFake(
             async (changeNum, options) => { return {changeNum, options}; });
       });
 
       test('signed pushes disabled', async () => {
         const {PUSH_CERTIFICATES} = element.ListChangesOption;
-        sandbox.stub(element, 'getConfig', async () => { return {}; });
+        sinon.stub(element, 'getConfig').callsFake( async () => { return {}; });
         const {changeNum, options} = await element.getChangeDetail(123);
         assert.strictEqual(123, changeNum);
         assert.strictEqual('deadbeef', options);
@@ -969,7 +970,7 @@ suite('gr-rest-api-interface tests', () => {
 
       test('signed pushes enabled', async () => {
         const {PUSH_CERTIFICATES} = element.ListChangesOption;
-        sandbox.stub(element, 'getConfig', async () => {
+        sinon.stub(element, 'getConfig').callsFake( async () => {
           return {receive: {enable_signed_push: true}};
         });
         const {changeNum, options} = await element.getChangeDetail(123);
@@ -981,7 +982,7 @@ suite('gr-rest-api-interface tests', () => {
     });
 
     test('GrReviewerUpdatesParser.parse is used', () => {
-      sandbox.stub(GrReviewerUpdatesParser, 'parse').returns(
+      sinon.stub(GrReviewerUpdatesParser, 'parse').returns(
           Promise.resolve('foo'));
       return element.getChangeDetail(42).then(result => {
         assert.isTrue(GrReviewerUpdatesParser.parse.calledOnce);
@@ -995,8 +996,8 @@ suite('gr-rest-api-interface tests', () => {
       const expectedUrl =
           window.CANONICAL_PATH + '/changes/test~4321/detail?'+
           '0=5&1=1&2=6&3=7&4=1&5=4';
-      sandbox.stub(element._etags, 'getOptions');
-      sandbox.stub(element._etags, 'collect');
+      sinon.stub(element._etags, 'getOptions');
+      sinon.stub(element._etags, 'collect');
       return element._getChangeDetail(changeNum, '516714').then(() => {
         assert.isTrue(element._etags.getOptions.calledWithExactly(
             expectedUrl));
@@ -1006,9 +1007,9 @@ suite('gr-rest-api-interface tests', () => {
 
     test('_getChangeDetail calls errFn on 500', () => {
       const errFn = sinon.stub();
-      sandbox.stub(element, 'getChangeActionURL')
+      sinon.stub(element, 'getChangeActionURL')
           .returns(Promise.resolve(''));
-      sandbox.stub(element._restApiHelper, 'fetchRawJSON')
+      sinon.stub(element._restApiHelper, 'fetchRawJSON')
           .returns(Promise.resolve({ok: false, status: 500}));
       return element._getChangeDetail(123, '516714', errFn).then(() => {
         assert.isTrue(errFn.called);
@@ -1016,13 +1017,13 @@ suite('gr-rest-api-interface tests', () => {
     });
 
     test('_getChangeDetail populates _projectLookup', () => {
-      sandbox.stub(element, 'getChangeActionURL')
+      sinon.stub(element, 'getChangeActionURL')
           .returns(Promise.resolve(''));
-      sandbox.stub(element._restApiHelper, 'fetchRawJSON')
+      sinon.stub(element._restApiHelper, 'fetchRawJSON')
           .returns(Promise.resolve({ok: true}));
 
       const mockResponse = {_number: 1, project: 'test'};
-      sandbox.stub(element._restApiHelper, 'readResponsePayload')
+      sinon.stub(element._restApiHelper, 'readResponsePayload')
           .returns(Promise.resolve({
             parsed: mockResponse,
             raw: JSON.stringify(mockResponse),
@@ -1044,16 +1045,16 @@ suite('gr-rest-api-interface tests', () => {
         const mockResponse = {foo: 'bar', baz: 42};
         mockResponseSerial = element.JSON_PREFIX +
             JSON.stringify(mockResponse);
-        sandbox.stub(element._restApiHelper, 'urlWithParams')
+        sinon.stub(element._restApiHelper, 'urlWithParams')
             .returns(requestUrl);
-        sandbox.stub(element, 'getChangeActionURL')
+        sinon.stub(element, 'getChangeActionURL')
             .returns(Promise.resolve(requestUrl));
-        collectSpy = sandbox.spy(element._etags, 'collect');
-        getPayloadSpy = sandbox.spy(element._etags, 'getCachedPayload');
+        collectSpy = sinon.spy(element._etags, 'collect');
+        getPayloadSpy = sinon.spy(element._etags, 'getCachedPayload');
       });
 
       test('contributes to cache', () => {
-        sandbox.stub(element._restApiHelper, 'fetchRawJSON')
+        sinon.stub(element._restApiHelper, 'fetchRawJSON')
             .returns(Promise.resolve({
               text: () => Promise.resolve(mockResponseSerial),
               status: 200,
@@ -1069,7 +1070,7 @@ suite('gr-rest-api-interface tests', () => {
       });
 
       test('uses cache on HTTP 304', () => {
-        sandbox.stub(element._restApiHelper, 'fetchRawJSON')
+        sinon.stub(element._restApiHelper, 'fetchRawJSON')
             .returns(Promise.resolve({
               text: () => Promise.resolve(mockResponseSerial),
               status: 304,
@@ -1091,7 +1092,7 @@ suite('gr-rest-api-interface tests', () => {
 
   suite('getFromProjectLookup', () => {
     test('getChange fails', () => {
-      sandbox.stub(element, 'getChange')
+      sinon.stub(element, 'getChange')
           .returns(Promise.resolve(null));
       return element.getFromProjectLookup().then(val => {
         assert.strictEqual(val, undefined);
@@ -1100,7 +1101,7 @@ suite('gr-rest-api-interface tests', () => {
     });
 
     test('getChange succeeds, no project', () => {
-      sandbox.stub(element, 'getChange').returns(Promise.resolve(null));
+      sinon.stub(element, 'getChange').returns(Promise.resolve(null));
       return element.getFromProjectLookup().then(val => {
         assert.strictEqual(val, undefined);
         assert.deepEqual(element._projectLookup, {});
@@ -1108,7 +1109,7 @@ suite('gr-rest-api-interface tests', () => {
     });
 
     test('getChange succeeds with project', () => {
-      sandbox.stub(element, 'getChange')
+      sinon.stub(element, 'getChange')
           .returns(Promise.resolve({project: 'project'}));
       return element.getFromProjectLookup('test').then(val => {
         assert.equal(val, 'project');
@@ -1119,7 +1120,7 @@ suite('gr-rest-api-interface tests', () => {
 
   suite('getChanges populates _projectLookup', () => {
     test('multiple queries', () => {
-      sandbox.stub(element._restApiHelper, 'fetchJSON')
+      sinon.stub(element._restApiHelper, 'fetchJSON')
           .returns(Promise.resolve([
             [
               {_number: 1, project: 'test'},
@@ -1139,7 +1140,7 @@ suite('gr-rest-api-interface tests', () => {
     });
 
     test('no query', () => {
-      sandbox.stub(element._restApiHelper, 'fetchJSON')
+      sinon.stub(element._restApiHelper, 'fetchJSON')
           .returns(Promise.resolve([
             {_number: 1, project: 'test'},
             {_number: 2, project: 'test'},
@@ -1159,7 +1160,7 @@ suite('gr-rest-api-interface tests', () => {
 
   test('_getChangeURLAndFetch', () => {
     element._projectLookup = {1: 'test'};
-    const fetchStub = sandbox.stub(element._restApiHelper, 'fetchJSON')
+    const fetchStub = sinon.stub(element._restApiHelper, 'fetchJSON')
         .returns(Promise.resolve());
     const req = {changeNum: 1, endpoint: '/test', patchNum: 1};
     return element._getChangeURLAndFetch(req).then(() => {
@@ -1170,7 +1171,7 @@ suite('gr-rest-api-interface tests', () => {
 
   test('_getChangeURLAndSend', () => {
     element._projectLookup = {1: 'test'};
-    const sendStub = sandbox.stub(element._restApiHelper, 'send')
+    const sendStub = sinon.stub(element._restApiHelper, 'send')
         .returns(Promise.resolve());
 
     const req = {
@@ -1208,7 +1209,7 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('setChangeTopic', () => {
-    const sendSpy = sandbox.spy(element, '_getChangeURLAndSend');
+    const sendSpy = sinon.spy(element, '_getChangeURLAndSend');
     return element.setChangeTopic(123, 'foo-bar').then(() => {
       assert.isTrue(sendSpy.calledOnce);
       assert.deepEqual(sendSpy.lastCall.args[0].body, {topic: 'foo-bar'});
@@ -1216,7 +1217,7 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('setChangeHashtag', () => {
-    const sendSpy = sandbox.spy(element, '_getChangeURLAndSend');
+    const sendSpy = sinon.spy(element, '_getChangeURLAndSend');
     return element.setChangeHashtag(123, 'foo-bar').then(() => {
       assert.isTrue(sendSpy.calledOnce);
       assert.equal(sendSpy.lastCall.args[0].body, 'foo-bar');
@@ -1224,7 +1225,7 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('generateAccountHttpPassword', () => {
-    const sendSpy = sandbox.spy(element._restApiHelper, 'send');
+    const sendSpy = sinon.spy(element._restApiHelper, 'send');
     return element.generateAccountHttpPassword().then(() => {
       assert.isTrue(sendSpy.calledOnce);
       assert.deepEqual(sendSpy.lastCall.args[0].body, {generate: true});
@@ -1233,7 +1234,7 @@ suite('gr-rest-api-interface tests', () => {
 
   suite('getChangeFiles', () => {
     test('patch only', () => {
-      const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
+      const fetchStub = sinon.stub(element, '_getChangeURLAndFetch')
           .returns(Promise.resolve());
       const range = {basePatchNum: 'PARENT', patchNum: 2};
       return element.getChangeFiles(123, range).then(() => {
@@ -1244,7 +1245,7 @@ suite('gr-rest-api-interface tests', () => {
     });
 
     test('simple range', () => {
-      const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
+      const fetchStub = sinon.stub(element, '_getChangeURLAndFetch')
           .returns(Promise.resolve());
       const range = {basePatchNum: 4, patchNum: 5};
       return element.getChangeFiles(123, range).then(() => {
@@ -1257,7 +1258,7 @@ suite('gr-rest-api-interface tests', () => {
     });
 
     test('parent index', () => {
-      const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
+      const fetchStub = sinon.stub(element, '_getChangeURLAndFetch')
           .returns(Promise.resolve());
       const range = {basePatchNum: -3, patchNum: 5};
       return element.getChangeFiles(123, range).then(() => {
@@ -1272,7 +1273,7 @@ suite('gr-rest-api-interface tests', () => {
 
   suite('getDiff', () => {
     test('patchOnly', () => {
-      const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
+      const fetchStub = sinon.stub(element, '_getChangeURLAndFetch')
           .returns(Promise.resolve());
       return element.getDiff(123, 'PARENT', 2, 'foo/bar.baz').then(() => {
         assert.isTrue(fetchStub.calledOnce);
@@ -1284,7 +1285,7 @@ suite('gr-rest-api-interface tests', () => {
     });
 
     test('simple range', () => {
-      const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
+      const fetchStub = sinon.stub(element, '_getChangeURLAndFetch')
           .returns(Promise.resolve());
       return element.getDiff(123, 4, 5, 'foo/bar.baz').then(() => {
         assert.isTrue(fetchStub.calledOnce);
@@ -1296,7 +1297,7 @@ suite('gr-rest-api-interface tests', () => {
     });
 
     test('parent index', () => {
-      const fetchStub = sandbox.stub(element, '_getChangeURLAndFetch')
+      const fetchStub = sinon.stub(element, '_getChangeURLAndFetch')
           .returns(Promise.resolve());
       return element.getDiff(123, -3, 5, 'foo/bar.baz').then(() => {
         assert.isTrue(fetchStub.calledOnce);
@@ -1309,7 +1310,7 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('getDashboard', () => {
-    const fetchCacheURLStub = sandbox.stub(element._restApiHelper,
+    const fetchCacheURLStub = sinon.stub(element._restApiHelper,
         'fetchCacheURL');
     element.getDashboard('gerrit/project', 'default:main');
     assert.isTrue(fetchCacheURLStub.calledOnce);
@@ -1319,7 +1320,7 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('getFileContent', () => {
-    sandbox.stub(element, '_getChangeURLAndSend')
+    sinon.stub(element, '_getChangeURLAndSend')
         .returns(Promise.resolve({
           ok: 'true',
           headers: {
@@ -1331,7 +1332,7 @@ suite('gr-rest-api-interface tests', () => {
           },
         }));
 
-    sandbox.stub(element, 'getResponseObject')
+    sinon.stub(element, 'getResponseObject')
         .returns(Promise.resolve('new content'));
 
     const edit = element.getFileContent('1', 'tst/path', 'EDIT').then(res => {
@@ -1354,8 +1355,8 @@ suite('gr-rest-api-interface tests', () => {
       done();
     };
     element.addEventListener('server-error', handler);
-    sandbox.stub(authService, 'fetch').returns(Promise.resolve(res));
-    sandbox.stub(element, '_changeBaseURL').returns(Promise.resolve(''));
+    sinon.stub(authService, 'fetch').returns(Promise.resolve(res));
+    sinon.stub(element, '_changeBaseURL').returns(Promise.resolve(''));
     element.getFileContent('1', 'tst/path', '1').then(() => {
       flushAsynchronousOperations();
 
@@ -1366,9 +1367,9 @@ suite('gr-rest-api-interface tests', () => {
 
   test('getChangeFilesOrEditFiles is edit-sensitive', () => {
     const fn = element.getChangeOrEditFiles.bind(element);
-    const getChangeFilesStub = sandbox.stub(element, 'getChangeFiles')
+    const getChangeFilesStub = sinon.stub(element, 'getChangeFiles')
         .returns(Promise.resolve({}));
-    const getChangeEditFilesStub = sandbox.stub(element, 'getChangeEditFiles')
+    const getChangeEditFilesStub = sinon.stub(element, 'getChangeEditFiles')
         .returns(Promise.resolve({}));
 
     return fn('1', {patchNum: 'edit'}).then(() => {
@@ -1382,13 +1383,13 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('_fetch forwards request and logs', () => {
-    const logStub = sandbox.stub(element._restApiHelper, '_logCall');
+    const logStub = sinon.stub(element._restApiHelper, '_logCall');
     const response = {status: 404, text: sinon.stub()};
     const url = 'my url';
     const fetchOptions = {method: 'DELETE'};
-    sandbox.stub(element._auth, 'fetch').returns(Promise.resolve(response));
+    sinon.stub(element._auth, 'fetch').returns(Promise.resolve(response));
     const startTime = 123;
-    sandbox.stub(Date, 'now').returns(startTime);
+    sinon.stub(Date, 'now').returns(startTime);
     const req = {url, fetchOptions};
     return element._restApiHelper.fetch(req).then(() => {
       assert.isTrue(logStub.calledOnce);
@@ -1398,7 +1399,7 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('_logCall only reports requests with anonymized URLss', () => {
-    sandbox.stub(Date, 'now').returns(200);
+    sinon.stub(Date, 'now').returns(200);
     const handler = sinon.stub();
     element.addEventListener('rpc-log', handler);
 
@@ -1412,10 +1413,10 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('saveChangeStarred', async () => {
-    sandbox.stub(element, 'getFromProjectLookup')
+    sinon.stub(element, 'getFromProjectLookup')
         .returns(Promise.resolve('test'));
     const sendStub =
-        sandbox.stub(element._restApiHelper, 'send').returns(Promise.resolve());
+        sinon.stub(element._restApiHelper, 'send').returns(Promise.resolve());
 
     await element.saveChangeStarred(123, true);
     assert.isTrue(sendStub.calledOnce);

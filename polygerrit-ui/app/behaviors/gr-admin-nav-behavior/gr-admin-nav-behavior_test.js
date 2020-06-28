@@ -23,7 +23,6 @@ const basicFixture = fixtureFromElement('gr-admin-nav-behavior-test-element');
 
 suite('gr-admin-nav-behavior tests', () => {
   let element;
-  let sandbox;
   let capabilityStub;
   let menuLinkStub;
 
@@ -39,13 +38,8 @@ suite('gr-admin-nav-behavior tests', () => {
 
   setup(() => {
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
     capabilityStub = sinon.stub();
     menuLinkStub = sinon.stub().returns([]);
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   const testAdminLinks = (account, options, expected, done) => {

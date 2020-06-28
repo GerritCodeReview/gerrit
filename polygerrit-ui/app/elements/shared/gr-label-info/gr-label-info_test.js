@@ -24,23 +24,21 @@ const basicFixture = fixtureFromElement('gr-label-info');
 
 suite('gr-account-link tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
+
     // Needed to trigger computed bindings.
     element.account = {};
     element.change = {labels: {}};
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   suite('remove reviewer votes', () => {
     setup(() => {
-      sandbox.stub(element, '_computeValueTooltip').returns('');
+      sinon.stub(element, '_computeValueTooltip').returns('');
       element.account = {
         _account_id: 1,
         name: 'bojack',
@@ -78,7 +76,7 @@ suite('gr-account-link tests', () => {
 
     test('deletes votes', () => {
       const deleteResponse = Promise.resolve({ok: true});
-      const deleteStub = sandbox.stub(
+      const deleteStub = sinon.stub(
           element.$.restAPI, 'deleteVote').returns(deleteResponse);
 
       element.change.removable_reviewers = [element.account];

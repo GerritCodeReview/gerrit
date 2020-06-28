@@ -23,7 +23,7 @@ const basicFixture = fixtureFromElement('safe-types-element');
 
 suite('gr-tooltip-behavior tests', () => {
   let element;
-  let sandbox;
+
 
   suiteSetup(() => {
     Polymer({
@@ -33,13 +33,11 @@ suite('gr-tooltip-behavior tests', () => {
   });
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+    
     element = basicFixture.instantiate();
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('SafeUrl accepts valid urls', () => {
     function accepts(url) {

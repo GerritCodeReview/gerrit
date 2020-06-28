@@ -100,14 +100,14 @@ const basicFixture = fixtureFromTemplate(html`
 
 suite('gr-diff-selection', () => {
   let element;
-  let sandbox;
+
 
   const emulateCopyOn = function(target) {
     const fakeEvent = {
       target,
-      preventDefault: sandbox.stub(),
+      preventDefault: sinon.stub(),
       clipboardData: {
-        setData: sandbox.stub(),
+        setData: sinon.stub(),
       },
     };
     element._getCopyEventTarget.returns(target);
@@ -117,11 +117,11 @@ suite('gr-diff-selection', () => {
 
   setup(() => {
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
-    sandbox.stub(element, '_getCopyEventTarget');
+    
+    sinon.stub(element, '_getCopyEventTarget');
     element._cachedDiffBuilder = {
-      getLineElByChild: sandbox.stub().returns({}),
-      getSideByLineEl: sandbox.stub(),
+      getLineElByChild: sinon.stub().returns({}),
+      getSideByLineEl: sinon.stub(),
       diffElement: element.querySelector('#diffTable'),
     };
     element.diff = {
@@ -142,9 +142,7 @@ suite('gr-diff-selection', () => {
     };
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('applies selected-left on left side click', () => {
     element.classList.add('selected-right');
@@ -170,7 +168,7 @@ suite('gr-diff-selection', () => {
   test('applies selected-blame on blame click', () => {
     element.classList.add('selected-left');
     element.diffBuilder.getLineElByChild.returns(null);
-    sandbox.stub(element, '_elementDescendedFromClass',
+    sinon.stub(element, '_elementDescendedFromClass').callsFake(
         (el, className) => className === 'blame');
     MockInteractions.down(element);
     assert.isTrue(
@@ -180,26 +178,26 @@ suite('gr-diff-selection', () => {
   });
 
   test('ignores copy for non-content Element', () => {
-    sandbox.stub(element, '_getSelectedText');
+    sinon.stub(element, '_getSelectedText');
     emulateCopyOn(element.querySelector('.not-diff-row'));
     assert.isFalse(element._getSelectedText.called);
   });
 
   test('asks for text for left side Elements', () => {
     element._cachedDiffBuilder.getSideByLineEl.returns('left');
-    sandbox.stub(element, '_getSelectedText');
+    sinon.stub(element, '_getSelectedText');
     emulateCopyOn(element.querySelector('div.contentText'));
     assert.deepEqual(['left', false], element._getSelectedText.lastCall.args);
   });
 
   test('reacts to copy for content Elements', () => {
-    sandbox.stub(element, '_getSelectedText');
+    sinon.stub(element, '_getSelectedText');
     emulateCopyOn(element.querySelector('div.contentText'));
     assert.isTrue(element._getSelectedText.called);
   });
 
   test('copy event is prevented for content Elements', () => {
-    sandbox.stub(element, '_getSelectedText');
+    sinon.stub(element, '_getSelectedText');
     element._cachedDiffBuilder.getSideByLineEl.returns('left');
     element._getSelectedText.returns('test');
     const event = emulateCopyOn(element.querySelector('div.contentText'));
@@ -207,7 +205,7 @@ suite('gr-diff-selection', () => {
   });
 
   test('inserts text into clipboard on copy', () => {
-    sandbox.stub(element, '_getSelectedText').returns('the text');
+    sinon.stub(element, '_getSelectedText').returns('the text');
     const event = emulateCopyOn(element.querySelector('div.contentText'));
     assert.deepEqual(
         ['Text', 'the text'], event.clipboardData.setData.lastCall.args);
@@ -230,8 +228,8 @@ suite('gr-diff-selection', () => {
 
   test('_setClasses removes before it ads', () => {
     element.classList.add('selected-right');
-    const addStub = sandbox.stub(element.classList, 'add');
-    const removeStub = sandbox.stub(element.classList, 'remove', () => {
+    const addStub = sinon.stub(element.classList, 'add');
+    const removeStub = sinon.stub(element.classList, 'remove').callsFake( () => {
       assert.isFalse(addStub.called);
     });
     element._setClasses(['selected-comment', 'selected-left']);
@@ -295,7 +293,7 @@ suite('gr-diff-selection', () => {
   test('defers to default behavior for textarea', () => {
     element.classList.add('selected-left');
     element.classList.remove('selected-right');
-    const selectedTextSpy = sandbox.spy(element, '_getSelectedText');
+    const selectedTextSpy = sinon.spy(element, '_getSelectedText');
     emulateCopyOn(element.querySelector('textarea'));
     assert.isFalse(selectedTextSpy.called);
   });

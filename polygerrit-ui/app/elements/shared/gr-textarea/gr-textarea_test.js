@@ -31,17 +31,15 @@ const hideBorderFixture = fixtureFromTemplate(html`
 
 suite('gr-textarea tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
     element = basicFixture.instantiate();
-    sandbox.stub(element.reporting, 'reportInteraction');
+    sinon.stub(element.reporting, 'reportInteraction');
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('monospace is set properly', () => {
     assert.isFalse(element.classList.contains('monospace'));
@@ -137,7 +135,7 @@ suite('gr-textarea tests', () => {
         // Since selectionStart is on Chrome set always on end of text, we
         // stub it to 1
         const text = ': hello';
-        sandbox.stub(element.$, 'textarea', {
+        sinon.stub(element.$, 'textarea').value( {
           selectionStart: 1,
           value: text,
           textarea: {
@@ -152,7 +150,7 @@ suite('gr-textarea tests', () => {
         assert.equal(element._currentSearchString, '');
       });
   test('emoji selector closes when text changes before the colon', () => {
-    const resetStub = sandbox.stub(element, '_resetEmojiDropdown');
+    const resetStub = sinon.stub(element, '_resetEmojiDropdown');
     MockInteractions.focus(element.$.textarea);
     flushAsynchronousOperations();
     element.$.textarea.selectionStart = 10;
@@ -172,7 +170,7 @@ suite('gr-textarea tests', () => {
   });
 
   test('_resetEmojiDropdown', () => {
-    const closeSpy = sandbox.spy(element, 'closeDropdown');
+    const closeSpy = sinon.spy(element, 'closeDropdown');
     element._resetEmojiDropdown();
     assert.equal(element._currentSearchString, '');
     assert.isTrue(element._hideAutocomplete);
@@ -186,7 +184,7 @@ suite('gr-textarea tests', () => {
 
   test('_determineSuggestions', () => {
     const emojiText = 'tear';
-    const formatSpy = sandbox.spy(element, '_formatSuggestions');
+    const formatSpy = sinon.spy(element, '_formatSuggestions');
     element._determineSuggestions(emojiText);
     assert.isTrue(formatSpy.called);
     assert.isTrue(formatSpy.lastCall.calledWithExactly(
@@ -227,7 +225,7 @@ suite('gr-textarea tests', () => {
   });
 
   test('emoji dropdown is closed when iron-overlay-closed is fired', () => {
-    const resetSpy = sandbox.spy(element, '_resetEmojiDropdown');
+    const resetSpy = sinon.spy(element, '_resetEmojiDropdown');
     element.$.emojiSuggestions.dispatchEvent(
         new CustomEvent('dropdown-closed', {
           composed: true, bubbles: true,
@@ -256,7 +254,7 @@ suite('gr-textarea tests', () => {
     }
 
     test('escape key', () => {
-      const resetSpy = sandbox.spy(element, '_resetEmojiDropdown');
+      const resetSpy = sinon.spy(element, '_resetEmojiDropdown');
       MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 27);
       assert.isFalse(resetSpy.called);
       setupDropdown();
@@ -266,7 +264,7 @@ suite('gr-textarea tests', () => {
     });
 
     test('up key', () => {
-      const upSpy = sandbox.spy(element.$.emojiSuggestions, 'cursorUp');
+      const upSpy = sinon.spy(element.$.emojiSuggestions, 'cursorUp');
       MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 38);
       assert.isFalse(upSpy.called);
       setupDropdown();
@@ -275,7 +273,7 @@ suite('gr-textarea tests', () => {
     });
 
     test('down key', () => {
-      const downSpy = sandbox.spy(element.$.emojiSuggestions, 'cursorDown');
+      const downSpy = sinon.spy(element.$.emojiSuggestions, 'cursorDown');
       MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 40);
       assert.isFalse(downSpy.called);
       setupDropdown();
@@ -284,7 +282,7 @@ suite('gr-textarea tests', () => {
     });
 
     test('enter key', () => {
-      const enterSpy = sandbox.spy(element.$.emojiSuggestions,
+      const enterSpy = sinon.spy(element.$.emojiSuggestions,
           'getCursorTarget');
       MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);
       assert.isFalse(enterSpy.called);
@@ -296,7 +294,7 @@ suite('gr-textarea tests', () => {
     });
 
     test('enter key - ignored on just colon without more information', () => {
-      const enterSpy = sandbox.spy(element.$.emojiSuggestions,
+      const enterSpy = sinon.spy(element.$.emojiSuggestions,
           'getCursorTarget');
       MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);
       assert.isFalse(enterSpy.called);
@@ -318,16 +316,14 @@ suite('gr-textarea tests', () => {
   // properties before ready() is called.
 
     let element;
-    let sandbox;
+
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+
       element = monospaceFixture.instantiate();
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+
 
     test('monospace is set properly', () => {
       assert.isTrue(element.classList.contains('monospace'));
@@ -342,16 +338,14 @@ suite('gr-textarea tests', () => {
   // properties before ready() is called.
 
     let element;
-    let sandbox;
+
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+
       element = hideBorderFixture.instantiate();
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+
 
     test('hideBorder is set properly', () => {
       assert.isTrue(element.$.textarea.classList.contains('noBorder'));

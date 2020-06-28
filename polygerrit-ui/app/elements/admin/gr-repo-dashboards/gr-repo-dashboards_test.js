@@ -23,20 +23,18 @@ const basicFixture = fixtureFromElement('gr-repo-dashboards');
 
 suite('gr-repo-dashboards tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
     element = basicFixture.instantiate();
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   suite('dashboard table', () => {
     setup(() => {
-      sandbox.stub(element.$.restAPI, 'getRepoDashboards').returns(
+      sinon.stub(element.$.restAPI, 'getRepoDashboards').returns(
           Promise.resolve([
             {
               id: 'default:contributor',
@@ -117,7 +115,7 @@ suite('gr-repo-dashboards tests', () => {
 
   suite('test url', () => {
     test('_getUrl', () => {
-      sandbox.stub(GerritNav, 'getUrlForRepoDashboard',
+      sinon.stub(GerritNav, 'getUrlForRepoDashboard').callsFake(
           () => '/r/dashboard/test');
 
       assert.equal(element._getUrl('/dashboard/test', {}), '/r/dashboard/test');
@@ -129,8 +127,9 @@ suite('gr-repo-dashboards tests', () => {
   suite('404', () => {
     test('fires page-error', done => {
       const response = {status: 404};
-      sandbox.stub(
-          element.$.restAPI, 'getRepoDashboards', (repo, errFn) => {
+      sinon.stub(
+          element.$.restAPI, 'getRepoDashboards')
+          .callsFake((repo, errFn) => {
             errFn(response);
           });
 

@@ -26,10 +26,10 @@ const CHERRY_PICK_TYPES = {
 };
 suite('gr-confirm-cherrypick-dialog tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
     stub('gr-rest-api-interface', {
       getRepoBranches(input) {
         if (input.startsWith('test')) {
@@ -48,8 +48,6 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
     element = basicFixture.instantiate();
     element.project = 'test-project';
   });
-
-  teardown(() => { sandbox.restore(); });
 
   test('with merged change', () => {
     element.changeStatus = 'MERGED';
@@ -117,7 +115,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
 
     test('cherry pick topic submit', done => {
       element.branch = 'master';
-      const executeChangeActionStub = sandbox.stub(element.$.restAPI,
+      const executeChangeActionStub = sinon.stub(element.$.restAPI,
           'executeChangeAction').returns(Promise.resolve([]));
       MockInteractions.tap(element.shadowRoot.
           querySelector('gr-dialog').$.confirm);
@@ -141,7 +139,6 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
     });
 
     test('submit button is blocked while cherry picks is running', done => {
-      console.log(element);
       const confirmButton = element.shadowRoot.querySelector('gr-dialog').$
           .confirm;
       assert.isFalse(confirmButton.hasAttribute('disabled'));
@@ -154,7 +151,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
   });
 
   test('resetFocus', () => {
-    const focusStub = sandbox.stub(element.$.branchInput, 'focus');
+    const focusStub = sinon.stub(element.$.branchInput, 'focus');
     element.resetFocus();
     assert.isTrue(focusStub.called);
   });

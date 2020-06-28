@@ -23,11 +23,11 @@ const basicFixture = fixtureFromElement('gr-change-table-editor');
 suite('gr-change-table-editor tests', () => {
   let element;
   let columns;
-  let sandbox;
+
 
   setup(() => {
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
+    
 
     columns = [
       'Subject',
@@ -46,9 +46,7 @@ suite('gr-change-table-editor tests', () => {
     flushAsynchronousOperations();
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('renders', () => {
     const rows = element.shadowRoot
@@ -112,8 +110,8 @@ suite('gr-change-table-editor tests', () => {
   });
 
   test('_handleCheckboxContainerClick relays taps to checkboxes', () => {
-    sandbox.stub(element, '_handleNumberCheckboxClick');
-    sandbox.stub(element, '_handleTargetClick');
+    sinon.stub(element, '_handleNumberCheckboxClick');
+    sinon.stub(element, '_handleTargetClick');
 
     MockInteractions.tap(
         element.shadowRoot
@@ -129,7 +127,7 @@ suite('gr-change-table-editor tests', () => {
   });
 
   test('_handleNumberCheckboxClick', () => {
-    sandbox.spy(element, '_handleNumberCheckboxClick');
+    sinon.spy(element, '_handleNumberCheckboxClick');
 
     MockInteractions
         .tap(element.shadowRoot
@@ -145,7 +143,7 @@ suite('gr-change-table-editor tests', () => {
   });
 
   test('_handleTargetClick', () => {
-    sandbox.spy(element, '_handleTargetClick');
+    sinon.spy(element, '_handleTargetClick');
     assert.include(element.displayedColumns, 'Assignee');
     MockInteractions
         .tap(element.shadowRoot

@@ -23,22 +23,20 @@ const basicFixture = fixtureFromElement('gr-dropdown-list');
 
 suite('gr-dropdown-list tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
     stub('gr-rest-api-interface', {
       getConfig() { return Promise.resolve({}); },
     });
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
+
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('tap on trigger opens menu', () => {
-    sandbox.stub(element, '_open', () => { element.$.dropdown.open(); });
+    sinon.stub(element, '_open').callsFake(() => { element.$.dropdown.open(); });
     assert.isFalse(element.$.dropdown.opened);
     MockInteractions.tap(element.$.trigger);
     assert.isTrue(element.$.dropdown.opened);

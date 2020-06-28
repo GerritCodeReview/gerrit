@@ -23,14 +23,12 @@ const basicFixture = fixtureFromElement('gr-dialog');
 
 suite('gr-dialog tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
     element = basicFixture.instantiate();
   });
-
-  teardown(() => { sandbox.restore(); });
 
   test('events', done => {
     let numEvents = 0;
@@ -47,8 +45,8 @@ suite('gr-dialog tests', () => {
 
   test('confirmOnEnter', () => {
     element.confirmOnEnter = false;
-    const handleConfirmStub = sandbox.stub(element, '_handleConfirm');
-    const handleKeydownSpy = sandbox.spy(element, '_handleKeydown');
+    const handleConfirmStub = sinon.stub(element, '_handleConfirm');
+    const handleKeydownSpy = sinon.spy(element, '_handleKeydown');
     MockInteractions.pressAndReleaseKeyOn(element.shadowRoot
         .querySelector('main'),
     13, null, 'enter');
@@ -67,7 +65,7 @@ suite('gr-dialog tests', () => {
   });
 
   test('resetFocus', () => {
-    const focusStub = sandbox.stub(element.$.confirm, 'focus');
+    const focusStub = sinon.stub(element.$.confirm, 'focus');
     element.resetFocus();
     assert.isTrue(focusStub.calledOnce);
   });

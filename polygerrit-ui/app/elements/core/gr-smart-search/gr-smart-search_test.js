@@ -22,19 +22,17 @@ const basicFixture = fixtureFromElement('gr-smart-search');
 
 suite('gr-smart-search tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
     element = basicFixture.instantiate();
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('Autocompletes accounts', () => {
-    sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+    sinon.stub(element.$.restAPI, 'getSuggestedAccounts').callsFake(() =>
       Promise.resolve([
         {
           name: 'fred',
@@ -48,7 +46,7 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Inserts self as option when valid', () => {
-    sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+    sinon.stub(element.$.restAPI, 'getSuggestedAccounts').callsFake( () =>
       Promise.resolve([
         {
           name: 'fred',
@@ -68,7 +66,7 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Inserts me as option when valid', () => {
-    sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+    sinon.stub(element.$.restAPI, 'getSuggestedAccounts').callsFake( () =>
       Promise.resolve([
         {
           name: 'fred',
@@ -88,7 +86,7 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Autocompletes groups', () => {
-    sandbox.stub(element.$.restAPI, 'getSuggestedGroups', () =>
+    sinon.stub(element.$.restAPI, 'getSuggestedGroups').callsFake( () =>
       Promise.resolve({
         Polygerrit: 0,
         gerrit: 0,
@@ -101,7 +99,7 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Autocompletes projects', () => {
-    sandbox.stub(element.$.restAPI, 'getSuggestedProjects', () =>
+    sinon.stub(element.$.restAPI, 'getSuggestedProjects').callsFake( () =>
       Promise.resolve({Polygerrit: 0}));
     return element._fetchProjects('project', 'pol').then(s => {
       assert.deepEqual(s[0], {text: 'project:Polygerrit'});
@@ -109,7 +107,7 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Autocomplete doesnt override exact matches to input', () => {
-    sandbox.stub(element.$.restAPI, 'getSuggestedGroups', () =>
+    sinon.stub(element.$.restAPI, 'getSuggestedGroups').callsFake( () =>
       Promise.resolve({
         Polygerrit: 0,
         gerrit: 0,
@@ -124,7 +122,7 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Autocompletes accounts with no email', () => {
-    sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+    sinon.stub(element.$.restAPI, 'getSuggestedAccounts').callsFake( () =>
       Promise.resolve([{name: 'fred'}]));
     return element._fetchAccounts('owner', 'fr').then(s => {
       assert.deepEqual(s[0], {text: 'owner:"fred"', label: 'fred'});
@@ -132,7 +130,7 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Autocompletes accounts with email', () => {
-    sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
+    sinon.stub(element.$.restAPI, 'getSuggestedAccounts').callsFake( () =>
       Promise.resolve([{email: 'fred@goog.co'}]));
     return element._fetchAccounts('owner', 'fr').then(s => {
       assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: ''});

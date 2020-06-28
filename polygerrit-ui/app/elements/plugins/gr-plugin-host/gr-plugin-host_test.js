@@ -23,20 +23,18 @@ const basicFixture = fixtureFromElement('gr-plugin-host');
 
 suite('gr-plugin-host tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
-    sandbox.stub(document.body, 'appendChild');
+    
+    sinon.stub(document.body, 'appendChild');
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('load plugins should be called', () => {
-    sandbox.stub(pluginLoader, 'loadPlugins');
+    sinon.stub(pluginLoader, 'loadPlugins');
     element.config = {
       plugin: {
         html_resource_paths: ['plugins/foo/bar', 'plugins/baz'],
@@ -50,7 +48,7 @@ suite('gr-plugin-host tests', () => {
   });
 
   test('theme plugins should be loaded if enabled', () => {
-    sandbox.stub(pluginLoader, 'loadPlugins');
+    sinon.stub(pluginLoader, 'loadPlugins');
     element.config = {
       default_theme: 'gerrit-theme.html',
       plugin: {
@@ -65,10 +63,10 @@ suite('gr-plugin-host tests', () => {
   });
 
   test('skip theme if preloaded', () => {
-    sandbox.stub(pluginLoader, 'isPluginPreloaded')
+    sinon.stub(pluginLoader, 'isPluginPreloaded')
         .withArgs('preloaded:gerrit-theme')
         .returns(true);
-    sandbox.stub(pluginLoader, 'loadPlugins');
+    sinon.stub(pluginLoader, 'loadPlugins');
     element.config = {
       default_theme: '/oof',
       plugin: {},

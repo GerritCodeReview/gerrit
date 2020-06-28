@@ -22,7 +22,7 @@ const basicFixture = fixtureFromElement('gr-group');
 
 suite('gr-group tests', () => {
   let element;
-  let sandbox;
+
   let groupStub;
   const group = {
     id: '6a1e70e1a88782771a91808c8af9bbb7a9871389',
@@ -36,21 +36,18 @@ suite('gr-group tests', () => {
   };
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
     stub('gr-rest-api-interface', {
       getLoggedIn() { return Promise.resolve(true); },
     });
     element = basicFixture.instantiate();
-    groupStub = sandbox.stub(
+    groupStub = sinon.stub(
         element.$.restAPI,
-        'getGroupConfig',
-        () => Promise.resolve(group)
-    );
+        'getGroupConfig')
+        .callsFake(() => Promise.resolve(group));
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('loading displays before group config is loaded', () => {
     assert.isTrue(element.$.loading.classList.contains('loading'));
@@ -61,10 +58,10 @@ suite('gr-group tests', () => {
   });
 
   test('default values are populated with internal group', done => {
-    sandbox.stub(
+    sinon.stub(
         element.$.restAPI,
-        'getIsGroupOwner',
-        () => Promise.resolve(true));
+        'getIsGroupOwner')
+        .callsFake(() => Promise.resolve(true));
     element.groupId = 1;
     element._loadGroup().then(() => {
       assert.isTrue(element._groupIsInternal);
@@ -77,14 +74,14 @@ suite('gr-group tests', () => {
     const groupExternal = Object.assign({}, group);
     groupExternal.id = 'external-group-id';
     groupStub.restore();
-    groupStub = sandbox.stub(
+    groupStub = sinon.stub(
         element.$.restAPI,
-        'getGroupConfig',
-        () => Promise.resolve(groupExternal));
-    sandbox.stub(
+        'getGroupConfig')
+        .callsFake(() => Promise.resolve(groupExternal));
+    sinon.stub(
         element.$.restAPI,
-        'getIsGroupOwner',
-        () => Promise.resolve(true));
+        'getIsGroupOwner')
+        .callsFake(() => Promise.resolve(true));
     element.groupId = 1;
     element._loadGroup().then(() => {
       assert.isFalse(element._groupIsInternal);
@@ -102,15 +99,15 @@ suite('gr-group tests', () => {
     };
     element._groupName = groupName;
 
-    sandbox.stub(
+    sinon.stub(
         element.$.restAPI,
-        'getIsGroupOwner',
-        () => Promise.resolve(true));
+        'getIsGroupOwner')
+        .callsFake(() => Promise.resolve(true));
 
-    sandbox.stub(
+    sinon.stub(
         element.$.restAPI,
-        'saveGroupName',
-        () => Promise.resolve({status: 200}));
+        'saveGroupName')
+        .callsFake(() => Promise.resolve({status: 200}));
 
     const button = element.$.inputUpdateNameBtn;
 
@@ -141,10 +138,10 @@ suite('gr-group tests', () => {
     element._groupConfigOwner = 'testId';
     element._groupOwner = true;
 
-    sandbox.stub(
+    sinon.stub(
         element.$.restAPI,
-        'getIsGroupOwner',
-        () => Promise.resolve({status: 200}));
+        'getIsGroupOwner')
+        .callsFake(() => Promise.resolve({status: 200}));
 
     const button = element.$.inputUpdateOwnerBtn;
 
@@ -168,10 +165,10 @@ suite('gr-group tests', () => {
   test('test for undefined group name', done => {
     groupStub.restore();
 
-    sandbox.stub(
+    sinon.stub(
         element.$.restAPI,
-        'getGroupConfig',
-        () => Promise.resolve({}));
+        'getGroupConfig')
+        .callsFake(() => Promise.resolve({}));
 
     assert.isUndefined(element.groupId);
 
@@ -195,10 +192,10 @@ suite('gr-group tests', () => {
       name: 'test-group',
     };
 
-    sandbox.stub(element.$.restAPI, 'saveGroupName')
+    sinon.stub(element.$.restAPI, 'saveGroupName')
         .returns(Promise.resolve({status: 200}));
 
-    const showStub = sandbox.stub(element, 'dispatchEvent');
+    const showStub = sinon.stub(element, 'dispatchEvent');
     element._handleSaveName()
         .then(() => {
           assert.isTrue(showStub.called);
@@ -245,8 +242,8 @@ suite('gr-group tests', () => {
     element.groupId = 1;
 
     const response = {status: 404};
-    sandbox.stub(
-        element.$.restAPI, 'getGroupConfig', (group, errFn) => {
+    sinon.stub(
+        element.$.restAPI, 'getGroupConfig').callsFake((group, errFn) => {
           errFn(response);
         });
 

@@ -36,17 +36,15 @@ const basicFixture = fixtureFromElement('gr-event-helper-some-element');
 suite('gr-event-helper tests', () => {
   let element;
   let instance;
-  let sandbox;
+
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+    
     element = basicFixture.instantiate();
     instance = new GrEventHelper(element);
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('onTap()', done => {
     instance.onTap(() => {
@@ -56,7 +54,7 @@ suite('gr-event-helper tests', () => {
   });
 
   test('onTap() cancel', () => {
-    const tapStub = sandbox.stub();
+    const tapStub = sinon.stub();
     addListener(element.parentElement, 'tap', tapStub);
     instance.onTap(() => false);
     MockInteractions.tap(element);
@@ -65,7 +63,7 @@ suite('gr-event-helper tests', () => {
   });
 
   test('onClick() cancel', () => {
-    const tapStub = sandbox.stub();
+    const tapStub = sinon.stub();
     element.parentElement.addEventListener('click', tapStub);
     instance.onTap(() => false);
     MockInteractions.tap(element);
@@ -88,7 +86,7 @@ suite('gr-event-helper tests', () => {
   });
 
   test('captureTap() cancels tap()', () => {
-    const tapStub = sandbox.stub();
+    const tapStub = sinon.stub();
     addListener(element.parentElement, 'tap', tapStub);
     instance.captureTap(() => false);
     MockInteractions.tap(element);
@@ -97,7 +95,7 @@ suite('gr-event-helper tests', () => {
   });
 
   test('captureClick() cancels click()', () => {
-    const tapStub = sandbox.stub();
+    const tapStub = sinon.stub();
     element.addEventListener('click', tapStub);
     instance.captureTap(() => false);
     MockInteractions.tap(element);

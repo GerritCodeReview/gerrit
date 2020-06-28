@@ -40,20 +40,18 @@ const groupGenerator = () => {
 suite('gr-admin-group-list tests', () => {
   let element;
   let groups;
-  let sandbox;
+
   let value;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
     element = basicFixture.instantiate();
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('_computeGroupUrl', () => {
-    let urlStub = sandbox.stub(GerritNav, 'getUrlForGroup',
+    let urlStub = sinon.stub(GerritNav, 'getUrlForGroup').callsFake(
         () => '/admin/groups/e2cd66f88a2db4d391ac068a92d987effbe872f5');
 
     let group = {
@@ -64,7 +62,7 @@ suite('gr-admin-group-list tests', () => {
 
     urlStub.restore();
 
-    urlStub = sandbox.stub(GerritNav, 'getUrlForGroup',
+    urlStub = sinon.stub(GerritNav, 'getUrlForGroup').callsFake(
         () => '/admin/groups/user/test');
 
     group = {
@@ -102,7 +100,7 @@ suite('gr-admin-group-list tests', () => {
     });
 
     test('_maybeOpenCreateOverlay', () => {
-      const overlayOpen = sandbox.stub(element.$.createOverlay, 'open');
+      const overlayOpen = sinon.stub(element.$.createOverlay, 'open');
       element._maybeOpenCreateOverlay();
       assert.isFalse(overlayOpen.called);
       const params = {};
@@ -134,10 +132,10 @@ suite('gr-admin-group-list tests', () => {
 
   suite('filter', () => {
     test('_paramsChanged', done => {
-      sandbox.stub(
+      sinon.stub(
           element.$.restAPI,
-          'getGroups',
-          () => Promise.resolve(groups));
+          'getGroups')
+          .callsFake(() => Promise.resolve(groups));
       const value = {
         filter: 'test',
         offset: 25,
@@ -167,7 +165,7 @@ suite('gr-admin-group-list tests', () => {
 
   suite('create new', () => {
     test('_handleCreateClicked called when create-click fired', () => {
-      sandbox.stub(element, '_handleCreateClicked');
+      sinon.stub(element, '_handleCreateClicked');
       element.shadowRoot
           .querySelector('gr-list-view').dispatchEvent(
               new CustomEvent('create-clicked', {
@@ -177,13 +175,13 @@ suite('gr-admin-group-list tests', () => {
     });
 
     test('_handleCreateClicked opens modal', () => {
-      const openStub = sandbox.stub(element.$.createOverlay, 'open');
+      const openStub = sinon.stub(element.$.createOverlay, 'open');
       element._handleCreateClicked();
       assert.isTrue(openStub.called);
     });
 
     test('_handleCreateGroup called when confirm fired', () => {
-      sandbox.stub(element, '_handleCreateGroup');
+      sinon.stub(element, '_handleCreateGroup');
       element.$.createDialog.dispatchEvent(
           new CustomEvent('confirm', {
             composed: true, bubbles: true,
@@ -192,7 +190,7 @@ suite('gr-admin-group-list tests', () => {
     });
 
     test('_handleCloseCreate called when cancel fired', () => {
-      sandbox.stub(element, '_handleCloseCreate');
+      sinon.stub(element, '_handleCloseCreate');
       element.$.createDialog.dispatchEvent(
           new CustomEvent('cancel', {
             composed: true, bubbles: true,

@@ -22,19 +22,17 @@ const basicFixture = fixtureFromElement('gr-linked-chip');
 
 suite('gr-linked-chip tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
+    
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('remove fired', () => {
-    const spy = sandbox.spy();
+    const spy = sinon.spy();
     element.addEventListener('remove', spy);
     flushAsynchronousOperations();
     MockInteractions.tap(element.$.remove);

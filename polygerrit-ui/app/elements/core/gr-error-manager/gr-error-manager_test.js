@@ -26,25 +26,18 @@ _testOnly_initGerritPluginApi();
 
 suite('gr-error-manager tests', () => {
   let element;
-  let sandbox;
-
-  setup(() => {
-    sandbox = sinon.sandbox.create();
-  });
-
-  teardown(() => {
-    sandbox.restore();
-  });
 
   suite('when authed', () => {
     let toastSpy;
+    let openOverlaySpy;
 
     setup(() => {
-      sandbox.stub(window, 'fetch')
+      sinon.stub(window, 'fetch')
           .returns(Promise.resolve({ok: true, status: 204}));
       element = basicFixture.instantiate();
       element._authService.clearCache();
-      toastSpy = sandbox.spy(element, '_createToastAlert');
+      toastSpy = sinon.spy(element, '_createToastAlert');
+      openOverlaySpy = sinon.spy(element.$.noInteractionOverlay, 'open');
     });
 
     teardown(() => {
@@ -54,7 +47,7 @@ suite('gr-error-manager tests', () => {
     });
 
     test('does not show auth error on 403 by default', done => {
-      const showAuthErrorStub = sandbox.stub(element, '_showAuthErrorAlert');
+      const showAuthErrorStub = sinon.stub(element, '_showAuthErrorAlert');
       const responseText = Promise.resolve('server says no.');
       element.dispatchEvent(
           new CustomEvent('server-error', {
@@ -70,7 +63,7 @@ suite('gr-error-manager tests', () => {
 
     test('show auth required for 403 with auth error and not authed before',
         done => {
-          const showAuthErrorStub = sandbox.stub(
+          const showAuthErrorStub = sinon.stub(
               element, '_showAuthErrorAlert'
           );
           const responseText = Promise.resolve('Authentication required\n');
@@ -107,7 +100,7 @@ suite('gr-error-manager tests', () => {
     });
 
     test('show logged in error', () => {
-      sandbox.stub(element, '_showAuthErrorAlert');
+      sinon.stub(element, '_showAuthErrorAlert');
       element.dispatchEvent(
           new CustomEvent('show-auth-required', {
             composed: true, bubbles: true,
@@ -117,8 +110,8 @@ suite('gr-error-manager tests', () => {
     });
 
     test('show normal Error', done => {
-      const showErrorStub = sandbox.stub(element, '_showErrorDialog');
-      const textSpy = sandbox.spy(() => Promise.resolve('ZOMG'));
+      const showErrorStub = sinon.stub(element, '_showErrorDialog');
+      const textSpy = sinon.spy(() => Promise.resolve('ZOMG'));
       element.dispatchEvent(
           new CustomEvent('server-error', {
             detail: {response: {status: 500, text: textSpy}},
@@ -165,7 +158,7 @@ suite('gr-error-manager tests', () => {
     });
 
     test('extract trace id from headers if exists', done => {
-      const textSpy = sandbox.spy(
+      const textSpy = sinon.spy(
           () => Promise.resolve('500')
       );
       const headers = new Headers();
@@ -191,8 +184,8 @@ suite('gr-error-manager tests', () => {
     });
 
     test('suppress TOO_MANY_FILES error', done => {
-      const showAlertStub = sandbox.stub(element, '_showAlert');
-      const textSpy = sandbox.spy(
+      const showAlertStub = sinon.stub(element, '_showAlert');
+      const textSpy = sinon.spy(
           () => Promise.resolve('too many files to find conflicts')
       );
       element.dispatchEvent(
@@ -209,8 +202,8 @@ suite('gr-error-manager tests', () => {
     });
 
     test('show network error', done => {
-      const consoleErrorStub = sandbox.stub(console, 'error');
-      const showAlertStub = sandbox.stub(element, '_showAlert');
+      const consoleErrorStub = sinon.stub(console, 'error');
+      const showAlertStub = sinon.stub(element, '_showAlert');
       element.dispatchEvent(
           new CustomEvent('network-error', {
             detail: {error: new Error('ZOMG')},
@@ -226,12 +219,12 @@ suite('gr-error-manager tests', () => {
       });
     });
 
-    test('show auth refresh toast', done => {
+    test('show auth refresh toast', async () => {
       // starts with authed state
       element.$.restAPI.getLoggedIn();
-      const refreshStub = sandbox.stub(element.$.restAPI, 'getAccount',
+      const refreshStub = sinon.stub(element.$.restAPI, 'getAccount').callsFake(
           () => Promise.resolve({}));
-      const windowOpen = sandbox.stub(window, 'open');
+      const windowOpen = sinon.stub(window, 'open');
       const responseText = Promise.resolve('Authentication required\n');
       // fake failed auth
       window.fetch.returns(Promise.resolve({status: 403}));
@@ -242,64 +235,64 @@ suite('gr-error-manager tests', () => {
             composed: true, bubbles: true,
           }));
       assert.equal(window.fetch.callCount, 1);
-      flush(() => {
-        // here needs two flush as there are two chanined
-        // promises on server-error handler and flush only flushes one
-        assert.equal(window.fetch.callCount, 2);
-        flush(() => {
-          // auth-error fired
-          assert.isTrue(toastSpy.called);
+      await flush();
 
-          // toast
-          let toast = toastSpy.lastCall.returnValue;
-          assert.isOk(toast);
-          assert.include(
-              dom(toast.root).textContent, 'Credentials expired.');
-          assert.include(
-              dom(toast.root).textContent, 'Refresh credentials');
 
-          // noInteractionOverlay
-          const noInteractionOverlay = element.$.noInteractionOverlay;
-          assert.isOk(noInteractionOverlay);
-          sinon.spy(noInteractionOverlay, 'close');
-          assert.equal(
-              noInteractionOverlay.backdropElement.getAttribute('opened'),
-              '');
-          assert.isFalse(windowOpen.called);
-          MockInteractions.tap(toast.shadowRoot
-              .querySelector('gr-button.action'));
-          assert.isTrue(windowOpen.called);
+      // here needs two flush as there are two chanined
+      // promises on server-error handler and flush only flushes one
+      assert.equal(window.fetch.callCount, 2);
+      await flush();
+      // Sometime overlay opens with delay, waiting while open is complete
+      await openOverlaySpy.lastCall.returnValue;
+      // auth-error fired
+      assert.isTrue(toastSpy.called);
 
-          // @see Issue 5822: noopener breaks closeAfterLogin
-          assert.equal(windowOpen.lastCall.args[2].indexOf('noopener=yes'),
-              -1);
+      // toast
+      let toast = toastSpy.lastCall.returnValue;
+      assert.isOk(toast);
+      assert.include(
+          dom(toast.root).textContent, 'Credentials expired.');
+      assert.include(
+          dom(toast.root).textContent, 'Refresh credentials');
 
-          const hideToastSpy = sandbox.spy(toast, 'hide');
+      // noInteractionOverlay
+      const noInteractionOverlay = element.$.noInteractionOverlay;
+      assert.isOk(noInteractionOverlay);
+      sinon.spy(noInteractionOverlay, 'close');
+      assert.equal(
+          noInteractionOverlay.backdropElement.getAttribute('opened'),
+          '');
+      assert.isFalse(windowOpen.called);
+      MockInteractions.tap(toast.shadowRoot
+          .querySelector('gr-button.action'));
+      assert.isTrue(windowOpen.called);
 
-          // now fake authed
-          window.fetch.returns(Promise.resolve({status: 204}));
-          element._handleWindowFocus();
-          element.flushDebouncer('checkLoggedIn');
-          flush(() => {
-            assert.isTrue(refreshStub.called);
-            assert.isTrue(hideToastSpy.called);
+      // @see Issue 5822: noopener breaks closeAfterLogin
+      assert.equal(windowOpen.lastCall.args[2].indexOf('noopener=yes'),
+          -1);
 
-            // toast update
-            assert.notStrictEqual(toastSpy.lastCall.returnValue, toast);
-            toast = toastSpy.lastCall.returnValue;
-            assert.isOk(toast);
-            assert.include(
-                dom(toast.root).textContent, 'Credentials refreshed');
+      const hideToastSpy = sinon.spy(toast, 'hide');
 
-            // close overlay
-            assert.isTrue(noInteractionOverlay.close.called);
-            done();
-          });
-        });
-      });
+      // now fake authed
+      window.fetch.returns(Promise.resolve({status: 204}));
+      element._handleWindowFocus();
+      element.flushDebouncer('checkLoggedIn');
+      await flush();
+      assert.isTrue(refreshStub.called);
+      assert.isTrue(hideToastSpy.called);
+
+      // toast update
+      assert.notStrictEqual(toastSpy.lastCall.returnValue, toast);
+      toast = toastSpy.lastCall.returnValue;
+      assert.isOk(toast);
+      assert.include(
+          dom(toast.root).textContent, 'Credentials refreshed');
+
+      // close overlay
+      assert.isTrue(noInteractionOverlay.close.called);
     });
 
-    test('auth toast should dismiss existing toast', done => {
+    test('auth toast should dismiss existing toast', async () => {
       // starts with authed state
       element.$.restAPI.getLoggedIn();
       const responseText = Promise.resolve('Authentication required\n');
@@ -310,7 +303,7 @@ suite('gr-error-manager tests', () => {
             detail: {message: 'test reload', action: 'reload'},
             composed: true, bubbles: true,
           }));
-      const toast = toastSpy.lastCall.returnValue;
+      let toast = toastSpy.lastCall.returnValue;
       assert.isOk(toast);
       assert.include(
           dom(toast.root).textContent, 'test reload');
@@ -324,20 +317,19 @@ suite('gr-error-manager tests', () => {
             composed: true, bubbles: true,
           }));
       assert.equal(window.fetch.callCount, 1);
-      flush(() => {
-        // here needs two flush as there are two chained
-        // promises on server-error handler and flush only flushes one
-        assert.equal(window.fetch.callCount, 2);
-        flush(() => {
-          // toast
-          const toast = toastSpy.lastCall.returnValue;
-          assert.include(
-              dom(toast.root).textContent, 'Credentials expired.');
-          assert.include(
-              dom(toast.root).textContent, 'Refresh credentials');
-          done();
-        });
-      });
+      await flush();
+      // here needs two flush as there are two chained
+      // promises on server-error handler and flush only flushes one
+      assert.equal(window.fetch.callCount, 2);
+      await flush();
+      // Sometime overlay opens with delay, waiting while open is complete
+      await openOverlaySpy.lastCall.returnValue;
+      // toast
+      toast = toastSpy.lastCall.returnValue;
+      assert.include(
+          dom(toast.root).textContent, 'Credentials expired.');
+      assert.include(
+          dom(toast.root).textContent, 'Refresh credentials');
     });
 
     test('regular toast should dismiss regular toast', () => {
@@ -412,7 +404,7 @@ suite('gr-error-manager tests', () => {
 
     test('show alert', () => {
       const alertObj = {message: 'foo'};
-      sandbox.stub(element, '_showAlert');
+      sinon.stub(element, '_showAlert');
       element.dispatchEvent(
           new CustomEvent('show-alert', {
             detail: alertObj,
@@ -425,9 +417,9 @@ suite('gr-error-manager tests', () => {
     });
 
     test('checks stale credentials on visibility change', () => {
-      const refreshStub = sandbox.stub(element,
+      const refreshStub = sinon.stub(element,
           '_checkSignedIn');
-      sandbox.stub(Date, 'now').returns(999999);
+      sinon.stub(Date, 'now').returns(999999);
       element._lastCredentialCheck = 0;
       element._handleVisibilityChange();
 
@@ -445,12 +437,12 @@ suite('gr-error-manager tests', () => {
 
     test('refreshes with same credentials', done => {
       const accountPromise = Promise.resolve({_account_id: 1234});
-      sandbox.stub(element.$.restAPI, 'getAccount')
+      sinon.stub(element.$.restAPI, 'getAccount')
           .returns(accountPromise);
-      const requestCheckStub = sandbox.stub(element, '_requestCheckLoggedIn');
-      const handleRefreshStub = sandbox.stub(element,
+      const requestCheckStub = sinon.stub(element, '_requestCheckLoggedIn');
+      const handleRefreshStub = sinon.stub(element,
           '_handleCredentialRefreshed');
-      const reloadStub = sandbox.stub(element, '_reloadPage');
+      const reloadStub = sinon.stub(element, '_reloadPage');
 
       element.knownAccountId = 1234;
       element._refreshingCredentials = true;
@@ -466,15 +458,15 @@ suite('gr-error-manager tests', () => {
 
     test('_showAlert hides existing alerts', () => {
       element._alertElement = element._createToastAlert();
-      const hideStub = sandbox.stub(element, '_hideAlert');
+      const hideStub = sinon.stub(element, '_hideAlert');
       element._showAlert();
       assert.isTrue(hideStub.calledOnce);
     });
 
     test('show-error', () => {
-      const openStub = sandbox.stub(element.$.errorOverlay, 'open');
-      const closeStub = sandbox.stub(element.$.errorOverlay, 'close');
-      const reportStub = sandbox.stub(
+      const openStub = sinon.stub(element.$.errorOverlay, 'open');
+      const closeStub = sinon.stub(element.$.errorOverlay, 'close');
+      const reportStub = sinon.stub(
           element.reporting,
           'reportErrorDialog'
       );
@@ -502,14 +494,14 @@ suite('gr-error-manager tests', () => {
 
     test('reloads when refreshed credentials differ', done => {
       const accountPromise = Promise.resolve({_account_id: 1234});
-      sandbox.stub(element.$.restAPI, 'getAccount')
+      sinon.stub(element.$.restAPI, 'getAccount')
           .returns(accountPromise);
-      const requestCheckStub = sandbox.stub(
+      const requestCheckStub = sinon.stub(
           element,
           '_requestCheckLoggedIn');
-      const handleRefreshStub = sandbox.stub(element,
+      const handleRefreshStub = sinon.stub(element,
           '_handleCredentialRefreshed');
-      const reloadStub = sandbox.stub(element, '_reloadPage');
+      const reloadStub = sinon.stub(element, '_reloadPage');
 
       element.knownAccountId = 4321; // Different from 1234
       element._refreshingCredentials = true;
@@ -531,7 +523,7 @@ suite('gr-error-manager tests', () => {
         getLoggedIn() { return Promise.resolve(false); },
       });
       element = basicFixture.instantiate();
-      toastSpy = sandbox.spy(element, '_createToastAlert');
+      toastSpy = sinon.spy(element, '_createToastAlert');
     });
 
     teardown(() => {
@@ -541,12 +533,12 @@ suite('gr-error-manager tests', () => {
     });
 
     test('refresh loop continues on credential fail', done => {
-      const requestCheckStub = sandbox.stub(
+      const requestCheckStub = sinon.stub(
           element,
           '_requestCheckLoggedIn');
-      const handleRefreshStub = sandbox.stub(element,
+      const handleRefreshStub = sinon.stub(element,
           '_handleCredentialRefreshed');
-      const reloadStub = sandbox.stub(element, '_reloadPage');
+      const reloadStub = sinon.stub(element, '_reloadPage');
 
       element._refreshingCredentials = true;
       element._checkSignedIn();

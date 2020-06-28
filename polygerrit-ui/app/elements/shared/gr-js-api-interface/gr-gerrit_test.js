@@ -27,13 +27,13 @@ const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-gerrit tests', () => {
   let element;
-  let sandbox;
+
   let sendStub;
 
   setup(() => {
     window.clock = sinon.useFakeTimers();
-    sandbox = sinon.sandbox.create();
-    sendStub = sandbox.stub().returns(Promise.resolve({status: 200}));
+
+    sendStub = sinon.stub().returns(Promise.resolve({status: 200}));
     stub('gr-rest-api-interface', {
       getAccount() {
         return Promise.resolve({name: 'Judy Hopps'});
@@ -47,41 +47,38 @@ suite('gr-gerrit tests', () => {
 
   teardown(() => {
     window.clock.restore();
-    sandbox.restore();
     element._removeEventCallbacks();
     resetPlugins();
   });
 
   suite('proxy methods', () => {
     test('Gerrit._isPluginEnabled proxy to pluginLoader', () => {
-      const stubFn = sandbox.stub();
-      sandbox.stub(
+      const stubFn = sinon.stub();
+      sinon.stub(
           pluginLoader,
-          'isPluginEnabled',
-          (...args) => stubFn(...args)
+          'isPluginEnabled')
+          .callsFake((...args) => stubFn(...args)
       );
       pluginApi._isPluginEnabled('test_plugin');
       assert.isTrue(stubFn.calledWith('test_plugin'));
     });
 
     test('Gerrit._isPluginLoaded proxy to pluginLoader', () => {
-      const stubFn = sandbox.stub();
-      sandbox.stub(
+      const stubFn = sinon.stub();
+      sinon.stub(
           pluginLoader,
-          'isPluginLoaded',
-          (...args) => stubFn(...args)
-      );
+          'isPluginLoaded')
+          .callsFake((...args) => stubFn(...args));
       pluginApi._isPluginLoaded('test_plugin');
       assert.isTrue(stubFn.calledWith('test_plugin'));
     });
 
     test('Gerrit._isPluginPreloaded proxy to pluginLoader', () => {
-      const stubFn = sandbox.stub();
-      sandbox.stub(
+      const stubFn = sinon.stub();
+      sinon.stub(
           pluginLoader,
-          'isPluginPreloaded',
-          (...args) => stubFn(...args)
-      );
+          'isPluginPreloaded')
+          .callsFake((...args) => stubFn(...args));
       pluginApi._isPluginPreloaded('test_plugin');
       assert.isTrue(stubFn.calledWith('test_plugin'));
     });

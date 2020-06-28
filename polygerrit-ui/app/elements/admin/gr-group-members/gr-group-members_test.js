@@ -23,14 +23,14 @@ const basicFixture = fixtureFromElement('gr-group-members');
 
 suite('gr-group-members tests', () => {
   let element;
-  let sandbox;
+
   let groups;
   let groupMembers;
   let includedGroups;
   let groupStub;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
 
     groups = {
       name: 'Administrators',
@@ -137,18 +137,16 @@ suite('gr-group-members tests', () => {
       },
     });
     element = basicFixture.instantiate();
-    sandbox.stub(element, 'getBaseUrl').returns('https://test/site');
+    sinon.stub(element, 'getBaseUrl').returns('https://test/site');
     element.groupId = 1;
-    groupStub = sandbox.stub(
+    groupStub = sinon.stub(
         element.$.restAPI,
-        'getGroupConfig',
-        () => Promise.resolve(groups));
+        'getGroupConfig')
+        .callsFake(() => Promise.resolve(groups));
     return element._loadGroupDetails();
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('_includedGroups', () => {
     assert.equal(element._includedGroups.length, 3);
@@ -167,8 +165,8 @@ suite('gr-group-members tests', () => {
 
     const memberName = 'test-admin';
 
-    const saveStub = sandbox.stub(element.$.restAPI, 'saveGroupMembers',
-        () => Promise.resolve({}));
+    const saveStub = sinon.stub(element.$.restAPI, 'saveGroupMembers')
+        .callsFake(() => Promise.resolve({}));
 
     const button = element.$.saveGroupMember;
 
@@ -192,8 +190,9 @@ suite('gr-group-members tests', () => {
 
     const includedGroupName = 'testName';
 
-    const saveIncludedGroupStub = sandbox.stub(
-        element.$.restAPI, 'saveIncludedGroup', () => Promise.resolve({}));
+    const saveIncludedGroupStub = sinon.stub(
+        element.$.restAPI, 'saveIncludedGroup')
+        .callsFake(() => Promise.resolve({}));
 
     const button = element.$.saveIncludedGroups;
 
@@ -216,11 +215,11 @@ suite('gr-group-members tests', () => {
     element._groupOwner = true;
 
     const memberName = 'bad-name';
-    const alertStub = sandbox.stub();
+    const alertStub = sinon.stub();
     element.addEventListener('show-alert', alertStub);
     const error = new Error('error');
     error.status = 404;
-    sandbox.stub(element.$.restAPI, 'saveGroupMembers',
+    sinon.stub(element.$.restAPI, 'saveGroupMembers').callsFake(
         () => Promise.reject(error));
 
     element.$.groupMemberSearchInput.text = memberName;
@@ -345,8 +344,9 @@ suite('gr-group-members tests', () => {
     element.groupId = 1;
 
     const response = {status: 404};
-    sandbox.stub(
-        element.$.restAPI, 'getGroupConfig', (group, errFn) => {
+    sinon.stub(
+        element.$.restAPI, 'getGroupConfig')
+        .callsFake((group, errFn) => {
           errFn(response);
         });
     element.addEventListener('page-error', e => {

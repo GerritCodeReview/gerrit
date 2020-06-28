@@ -28,11 +28,11 @@ const basicFixture = fixtureFromTemplate(html`
 
 suite('gr-hovercard tests', () => {
   let element;
-  let sandbox;
+
   let button;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
 
     button = document.createElement('button');
     button.innerHTML = 'Hello';
@@ -43,7 +43,6 @@ suite('gr-hovercard tests', () => {
   });
 
   teardown(() => {
-    sandbox.restore();
     element.hide({});
     button.remove();
   });

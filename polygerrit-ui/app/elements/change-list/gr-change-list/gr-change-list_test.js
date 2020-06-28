@@ -26,7 +26,7 @@ const basicFixture = fixtureFromElement('gr-change-list');
 
 suite('gr-change-list basic tests', () => {
   let element;
-  let sandbox;
+
 
   suiteSetup(() => {
     const kb = TestKeyboardShortcutBinder.push();
@@ -45,11 +45,9 @@ suite('gr-change-list basic tests', () => {
   });
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
     element = basicFixture.instantiate();
   });
-
-  teardown(() => { sandbox.restore(); });
 
   suite('test show change number not logged in', () => {
     setup(() => {
@@ -153,7 +151,7 @@ suite('gr-change-list basic tests', () => {
   });
 
   test('keyboard shortcuts', done => {
-    sandbox.stub(element, '_computeLabelNames');
+    sinon.stub(element, '_computeLabelNames');
     element.sections = [
       {results: new Array(1)},
       {results: new Array(2)},
@@ -178,7 +176,7 @@ suite('gr-change-list basic tests', () => {
       assert.equal(element.selectedIndex, 2);
       assert.isTrue(elementItems[2].hasAttribute('selected'));
 
-      const navStub = sandbox.stub(GerritNav, 'navigateToChange');
+      const navStub = sinon.stub(GerritNav, 'navigateToChange');
       assert.equal(element.selectedIndex, 2);
       MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
       assert.deepEqual(navStub.lastCall.args[0], {_number: 2},
@@ -195,7 +193,7 @@ suite('gr-change-list basic tests', () => {
       MockInteractions.pressAndReleaseKeyOn(element, 75, null, 'k');
       assert.equal(element.selectedIndex, 0);
 
-      const reloadStub = sandbox.stub(element, '_reloadWindow');
+      const reloadStub = sinon.stub(element, '_reloadWindow');
       MockInteractions.pressAndReleaseKeyOn(element, 82, 'shift', 'r');
       assert.isTrue(reloadStub.called);
 
@@ -448,14 +446,14 @@ suite('gr-change-list basic tests', () => {
 
   suite('dashboard queries', () => {
     let element;
-    let sandbox;
+
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+
       element = basicFixture.instantiate();
     });
 
-    teardown(() => { sandbox.restore(); });
+    teardown(() => { sinon.restore(); });
 
     test('query without age and limit unchanged', () => {
       const query = 'status:closed owner:me';
@@ -501,14 +499,12 @@ suite('gr-change-list basic tests', () => {
 
   suite('gr-change-list sections', () => {
     let element;
-    let sandbox;
+
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+
       element = basicFixture.instantiate();
     });
-
-    teardown(() => { sandbox.restore(); });
 
     test('keyboard shortcuts', done => {
       element.selectedIndex = 0;
@@ -545,7 +541,7 @@ suite('gr-change-list basic tests', () => {
         assert.equal(element.selectedIndex, 1);
         MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
 
-        const navStub = sandbox.stub(GerritNav, 'navigateToChange');
+        const navStub = sinon.stub(GerritNav, 'navigateToChange');
         assert.equal(element.selectedIndex, 2);
 
         MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
@@ -614,7 +610,7 @@ suite('gr-change-list basic tests', () => {
     });
 
     test('_computeItemAbsoluteIndex', () => {
-      sandbox.stub(element, '_computeLabelNames');
+      sinon.stub(element, '_computeLabelNames');
       element.sections = [
         {results: new Array(1)},
         {results: new Array(2)},

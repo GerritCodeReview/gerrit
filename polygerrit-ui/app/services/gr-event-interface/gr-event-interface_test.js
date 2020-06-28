@@ -25,15 +25,13 @@ const basicFixture = fixtureFromElement('gr-js-api-interface');
 const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-event-interface tests', () => {
-  let sandbox;
+
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   suite('test on Gerrit', () => {
     setup(() => {

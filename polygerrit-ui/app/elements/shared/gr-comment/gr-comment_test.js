@@ -33,7 +33,7 @@ function isVisible(el) {
 suite('gr-comment tests', () => {
   suite('basic tests', () => {
     let element;
-    let sandbox;
+
     let openOverlaySpy;
 
     setup(() => {
@@ -51,15 +51,14 @@ suite('gr-comment tests', () => {
         message: 'is this a crossover episode!?',
         updated: '2015-12-08 19:48:33.843000000',
       };
-      sandbox = sinon.sandbox.create();
-      openOverlaySpy = sandbox.spy(element, '_openOverlay');
+
+      openOverlaySpy = sinon.spy(element, '_openOverlay');
     });
 
     teardown(() => {
       openOverlaySpy.getCalls().forEach(call => {
         call.args[0].remove();
       });
-      sandbox.restore();
     });
 
     test('collapsible comments', () => {
@@ -109,8 +108,8 @@ suite('gr-comment tests', () => {
     });
 
     test('message is not retrieved from storage when other edits', done => {
-      const storageStub = sandbox.stub(element.$.storage, 'getDraftComment');
-      const loadSpy = sandbox.spy(element, '_loadLocalDraft');
+      const storageStub = sinon.stub(element.$.storage, 'getDraftComment');
+      const loadSpy = sinon.spy(element, '_loadLocalDraft');
 
       element.changeNum = 1;
       element.patchNum = 1;
@@ -130,8 +129,8 @@ suite('gr-comment tests', () => {
     });
 
     test('message is retrieved from storage when no other edits', done => {
-      const storageStub = sandbox.stub(element.$.storage, 'getDraftComment');
-      const loadSpy = sandbox.spy(element, '_loadLocalDraft');
+      const storageStub = sinon.stub(element.$.storage, 'getDraftComment');
+      const loadSpy = sinon.spy(element, '_loadLocalDraft');
 
       element.changeNum = 1;
       element.patchNum = 1;
@@ -188,8 +187,8 @@ suite('gr-comment tests', () => {
       setup(() => {
         element.editing = true;
         element._messageText = 'test';
-        sandbox.stub(element, '_handleCancel');
-        sandbox.stub(element, '_handleSave');
+        sinon.stub(element, '_handleCancel');
+        sinon.stub(element, '_handleSave');
         flushAsynchronousOperations();
       });
 
@@ -265,9 +264,9 @@ suite('gr-comment tests', () => {
     });
 
     test('delete comment', done => {
-      sandbox.stub(
+      sinon.stub(
           element.$.restAPI, 'deleteComment').returns(Promise.resolve({}));
-      sandbox.spy(element.confirmDeleteOverlay, 'open');
+      sinon.spy(element.confirmDeleteOverlay, 'open');
       element.changeNum = 42;
       element.patchNum = 0xDEADBEEF;
       element._isAdmin = true;
@@ -297,12 +296,12 @@ suite('gr-comment tests', () => {
 
       setup(() => {
         mockEvent = {preventDefault() {}};
-        sandbox.stub(element, 'save')
+        sinon.stub(element, 'save')
             .returns(Promise.resolve({}));
-        sandbox.stub(element, '_discardDraft')
+        sinon.stub(element, '_discardDraft')
             .returns(Promise.resolve({}));
         endStub = sinon.stub();
-        getTimerStub = sandbox.stub(element.reporting, 'getTimer')
+        getTimerStub = sinon.stub(element.reporting, 'getTimer')
             .returns({end: endStub});
       });
 
@@ -326,7 +325,7 @@ suite('gr-comment tests', () => {
 
       test('discard', () => {
         element.comment = {id: 'abc_123'};
-        sandbox.stub(element, '_closeConfirmDiscardOverlay');
+        sinon.stub(element, '_closeConfirmDiscardOverlay');
         return element._handleConfirmDiscard(mockEvent).then(() => {
           assert.isTrue(endStub.calledOnce);
           assert.isTrue(getTimerStub.calledOnce);
@@ -336,7 +335,7 @@ suite('gr-comment tests', () => {
     });
 
     test('edit reports interaction', () => {
-      const reportStub = sandbox.stub(element.reporting,
+      const reportStub = sinon.stub(element.reporting,
           'recordDraftInteraction');
       element.draft = true;
       flushAsynchronousOperations();
@@ -346,7 +345,7 @@ suite('gr-comment tests', () => {
     });
 
     test('discard reports interaction', () => {
-      const reportStub = sandbox.stub(element.reporting,
+      const reportStub = sinon.stub(element.reporting,
           'recordDraftInteraction');
       element.draft = true;
       flushAsynchronousOperations();
@@ -358,7 +357,7 @@ suite('gr-comment tests', () => {
 
   suite('gr-comment draft tests', () => {
     let element;
-    let sandbox;
+
 
     setup(() => {
       stub('gr-rest-api-interface', {
@@ -399,12 +398,10 @@ suite('gr-comment tests', () => {
         line: 5,
       };
       element.commentSide = 'right';
-      sandbox = sinon.sandbox.create();
+
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+
 
     test('button visibility states', () => {
       element.showActions = false;
@@ -658,7 +655,7 @@ suite('gr-comment tests', () => {
       assert.isTrue(element.editing);
 
       element._messageText = '';
-      const eraseMessageDraftSpy = sandbox.spy(element, '_eraseDraftComment');
+      const eraseMessageDraftSpy = sinon.spy(element, '_eraseDraftComment');
 
       // Save should be disabled on an empty message.
       let disabled = element.shadowRoot
@@ -691,8 +688,8 @@ suite('gr-comment tests', () => {
 
     test('draft discard removes message from storage', done => {
       element._messageText = '';
-      const eraseMessageDraftSpy = sandbox.spy(element, '_eraseDraftComment');
-      sandbox.stub(element, '_closeConfirmDiscardOverlay');
+      const eraseMessageDraftSpy = sinon.spy(element, '_eraseDraftComment');
+      sinon.stub(element, '_closeConfirmDiscardOverlay');
 
       element.addEventListener('comment-discard', e => {
         assert.isTrue(eraseMessageDraftSpy.called);
@@ -703,11 +700,11 @@ suite('gr-comment tests', () => {
 
     test('storage is cleared only after save success', () => {
       element._messageText = 'test';
-      const eraseStub = sandbox.stub(element, '_eraseDraftComment');
-      sandbox.stub(element.$.restAPI, 'getResponseObject')
+      const eraseStub = sinon.stub(element, '_eraseDraftComment');
+      sinon.stub(element.$.restAPI, 'getResponseObject')
           .returns(Promise.resolve({}));
 
-      sandbox.stub(element, '_saveDraft').returns(Promise.resolve({ok: false}));
+      sinon.stub(element, '_saveDraft').returns(Promise.resolve({ok: false}));
 
       const savePromise = element.save();
       assert.isFalse(eraseStub.called);
@@ -715,7 +712,7 @@ suite('gr-comment tests', () => {
         assert.isFalse(eraseStub.called);
 
         element._saveDraft.restore();
-        sandbox.stub(element, '_saveDraft')
+        sinon.stub(element, '_saveDraft')
             .returns(Promise.resolve({ok: true}));
         return element.save().then(() => {
           assert.isTrue(eraseStub.called);
@@ -744,8 +741,8 @@ suite('gr-comment tests', () => {
       let mockEvent;
 
       setup(() => {
-        discardStub = sandbox.stub(element, '_discardDraft');
-        overlayStub = sandbox.stub(element, '_openOverlay')
+        discardStub = sinon.stub(element, '_discardDraft');
+        overlayStub = sinon.stub(element, '_openOverlay')
             .returns(Promise.resolve());
         mockEvent = {preventDefault: sinon.stub()};
       });
@@ -766,7 +763,7 @@ suite('gr-comment tests', () => {
     });
 
     test('ctrl+s saves comment', done => {
-      const stub = sinon.stub(element, 'save', () => {
+      const stub = sinon.stub(element, 'save').callsFake(() => {
         assert.isTrue(stub.called);
         stub.restore();
         done();
@@ -782,7 +779,7 @@ suite('gr-comment tests', () => {
 
     test('draft saving/editing', done => {
       const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
-      const cancelDebounce = sandbox.stub(element, 'cancelDebouncer');
+      const cancelDebounce = sinon.stub(element, 'cancelDebouncer');
 
       element.draft = true;
       flushAsynchronousOperations();
@@ -848,7 +845,7 @@ suite('gr-comment tests', () => {
     });
 
     test('draft prevent save when disabled', () => {
-      const saveStub = sandbox.stub(element, 'save').returns(Promise.resolve());
+      const saveStub = sinon.stub(element, 'save').returns(Promise.resolve());
       element.showActions = true;
       element.draft = true;
       flushAsynchronousOperations();
@@ -871,7 +868,7 @@ suite('gr-comment tests', () => {
     });
 
     test('proper event fires on resolve, comment is not saved', done => {
-      const save = sandbox.stub(element, 'save');
+      const save = sinon.stub(element, 'save');
       element.addEventListener('comment-update', e => {
         assert.isTrue(e.detail.comment.unresolved);
         assert.isFalse(save.called);
@@ -882,7 +879,7 @@ suite('gr-comment tests', () => {
     });
 
     test('resolved comment state indicated by checkbox', () => {
-      sandbox.stub(element, 'save');
+      sinon.stub(element, 'save');
       element.comment = {unresolved: false};
       assert.isTrue(element.shadowRoot
           .querySelector('.resolve input').checked);
@@ -893,7 +890,7 @@ suite('gr-comment tests', () => {
 
     test('resolved checkbox saves with tap when !editing', () => {
       element.editing = false;
-      const save = sandbox.stub(element, 'save');
+      const save = sinon.stub(element, 'save');
 
       element.comment = {unresolved: false};
       assert.isTrue(element.shadowRoot
@@ -917,7 +914,7 @@ suite('gr-comment tests', () => {
       });
 
       test('_show{Start,End}Request', () => {
-        const updateStub = sandbox.stub(element, '_updateRequestToast');
+        const updateStub = sinon.stub(element, '_updateRequestToast');
         element._numPendingDraftRequests.number = 1;
 
         element._showStartRequest();
@@ -938,9 +935,9 @@ suite('gr-comment tests', () => {
     });
 
     test('cancelling an unsaved draft discards, persists in storage', () => {
-      const discardSpy = sandbox.spy(element, '_fireDiscard');
-      const storeStub = sandbox.stub(element.$.storage, 'setDraftComment');
-      const eraseStub = sandbox.stub(element.$.storage, 'eraseDraftComment');
+      const discardSpy = sinon.spy(element, '_fireDiscard');
+      const storeStub = sinon.stub(element.$.storage, 'setDraftComment');
+      const eraseStub = sinon.stub(element.$.storage, 'eraseDraftComment');
       element._messageText = 'test text';
       flushAsynchronousOperations();
       element.flushDebouncer('store');
@@ -954,8 +951,8 @@ suite('gr-comment tests', () => {
 
     test('cancelling edit on a saved draft does not store', () => {
       element.comment.id = 'foo';
-      const discardSpy = sandbox.spy(element, '_fireDiscard');
-      const storeStub = sandbox.stub(element.$.storage, 'setDraftComment');
+      const discardSpy = sinon.spy(element, '_fireDiscard');
+      const storeStub = sinon.stub(element.$.storage, 'setDraftComment');
       element._messageText = 'test text';
       flushAsynchronousOperations();
       element.flushDebouncer('store');
@@ -968,7 +965,7 @@ suite('gr-comment tests', () => {
     test('deleting text from saved draft and saving deletes the draft', () => {
       element.comment = {id: 'foo', message: 'test'};
       element._messageText = '';
-      const discardStub = sandbox.stub(element, '_discardDraft');
+      const discardStub = sinon.stub(element, '_discardDraft');
 
       element.save();
       assert.isTrue(discardStub.called);
@@ -1140,19 +1137,19 @@ suite('gr-comment tests', () => {
 
   suite('respectful tips', () => {
     let element;
-    let sandbox;
+
     let clock;
     setup(() => {
       stub('gr-rest-api-interface', {
         getAccount() { return Promise.resolve(null); },
       });
       clock = sinon.useFakeTimers();
-      sandbox = sinon.sandbox.create();
+
     });
 
     teardown(() => {
       clock.restore();
-      sandbox.restore();
+      sinon.restore();
     });
 
     test('show tip when no cached record', done => {

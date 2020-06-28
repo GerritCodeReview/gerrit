@@ -22,26 +22,25 @@ const basicFixture = fixtureFromElement('gr-labeled-autocomplete');
 
 suite('gr-labeled-autocomplete tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
     element = basicFixture.instantiate();
   });
 
-  teardown(() => { sandbox.restore(); });
 
   test('tapping trigger focuses autocomplete', () => {
     const e = {stopPropagation: () => undefined};
-    sandbox.stub(e, 'stopPropagation');
-    sandbox.stub(element.$.autocomplete, 'focus');
+    sinon.stub(e, 'stopPropagation');
+    sinon.stub(element.$.autocomplete, 'focus');
     element._handleTriggerClick(e);
     assert.isTrue(e.stopPropagation.calledOnce);
     assert.isTrue(element.$.autocomplete.focus.calledOnce);
   });
 
   test('setText', () => {
-    sandbox.stub(element.$.autocomplete, 'setText');
+    sinon.stub(element.$.autocomplete, 'setText');
     element.setText('foo-bar');
     assert.isTrue(element.$.autocomplete.setText.calledWith('foo-bar'));
   });

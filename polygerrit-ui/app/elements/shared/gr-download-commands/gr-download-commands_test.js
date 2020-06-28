@@ -23,7 +23,7 @@ const basicFixture = fixtureFromElement('gr-download-commands');
 
 suite('gr-download-commands', () => {
   let element;
-  let sandbox;
+
   const SCHEMES = ['http', 'repo', 'ssh'];
   const COMMANDS = [{
     title: 'Checkout',
@@ -45,12 +45,10 @@ suite('gr-download-commands', () => {
   const SELECTED_SCHEME = 'http';
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+    
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   suite('unauthenticated', () => {
     setup(done => {
@@ -63,7 +61,7 @@ suite('gr-download-commands', () => {
     });
 
     test('focusOnCopy', () => {
-      const focusStub = sandbox.stub(element.shadowRoot
+      const focusStub = sinon.stub(element.shadowRoot
           .querySelector('gr-shell-command'),
       'focusOnCopy');
       element.focusOnCopy();
@@ -122,7 +120,7 @@ suite('gr-download-commands', () => {
 
     test('saves scheme to preferences', () => {
       element._loggedIn = true;
-      const savePrefsStub = sandbox.stub(element.$.restAPI, 'savePreferences',
+      const savePrefsStub = sinon.stub(element.$.restAPI, 'savePreferences').callsFake(
           () => Promise.resolve());
 
       flushAsynchronousOperations();

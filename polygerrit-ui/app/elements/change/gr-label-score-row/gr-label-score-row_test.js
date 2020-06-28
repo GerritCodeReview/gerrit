@@ -23,10 +23,10 @@ const basicFixture = fixtureFromElement('gr-label-score-row');
 
 suite('gr-label-row-score tests', () => {
   let element;
-  let sandbox;
+
 
   setup(done => {
-    sandbox = sinon.sandbox.create();
+
     element = basicFixture.instantiate();
     element.labels = {
       'Code-Review': {
@@ -86,9 +86,7 @@ suite('gr-label-row-score tests', () => {
     flush(done);
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   function checkAriaCheckedValid() {
     const items = element.$.labelSelector.items;
@@ -105,7 +103,7 @@ suite('gr-label-row-score tests', () => {
   }
 
   test('label picker', () => {
-    const labelsChangedHandler = sandbox.stub();
+    const labelsChangedHandler = sinon.stub();
     element.addEventListener('labels-changed', labelsChangedHandler);
     assert.ok(element.$.labelSelector);
     MockInteractions.tap(element.shadowRoot

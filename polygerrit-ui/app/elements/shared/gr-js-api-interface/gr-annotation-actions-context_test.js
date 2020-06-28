@@ -25,13 +25,13 @@ const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-annotation-actions-context tests', () => {
   let instance;
-  let sandbox;
+
   let el;
   let lineNumberEl;
   let plugin;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
     pluginApi.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
 
@@ -48,12 +48,11 @@ suite('gr-annotation-actions-context tests', () => {
   });
 
   teardown(() => {
-    sandbox.restore();
     el.remove();
   });
 
   test('test annotateRange', () => {
-    const annotateElementSpy = sandbox.spy(GrAnnotation, 'annotateElement');
+    const annotateElementSpy = sinon.spy(GrAnnotation, 'annotateElement');
     const start = 0;
     const end = 100;
     const cssStyleObject = plugin.styles().css('background-color: #000000');

@@ -23,12 +23,12 @@ const basicFixture = fixtureFromElement('gr-reviewer-list');
 
 suite('gr-reviewer-list tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
     element = basicFixture.instantiate();
     element.serverConfig = {};
-    sandbox = sinon.sandbox.create();
+
     stub('gr-rest-api-interface', {
       getConfig() { return Promise.resolve({}); },
       removeChangeReviewer() {
@@ -37,9 +37,7 @@ suite('gr-reviewer-list tests', () => {
     });
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('controls hidden on immutable element', () => {
     element.mutable = false;
@@ -162,7 +160,7 @@ suite('gr-reviewer-list tests', () => {
   });
 
   test('_handleAddTap passes mode with event', () => {
-    const fireStub = sandbox.stub(element, 'dispatchEvent');
+    const fireStub = sinon.stub(element, 'dispatchEvent');
     const e = {preventDefault() {}};
 
     element.ccsOnly = false;

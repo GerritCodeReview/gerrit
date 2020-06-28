@@ -29,11 +29,9 @@ const basicFixture = fixtureFromTemplate(html`
 const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-repo-api tests', () => {
-  let sandbox;
   let repoApi;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     let plugin;
     pluginApi.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
@@ -43,7 +41,6 @@ suite('gr-repo-api tests', () => {
 
   teardown(() => {
     repoApi = null;
-    sandbox.restore();
   });
 
   test('exists', () => {
@@ -51,8 +48,8 @@ suite('gr-repo-api tests', () => {
   });
 
   test('works', done => {
-    const attachedStub = sandbox.stub();
-    const tapStub = sandbox.stub();
+    const attachedStub = sinon.stub();
+    const tapStub = sinon.stub();
     repoApi
         .createCommand('foo', attachedStub)
         .onTap(tapStub);

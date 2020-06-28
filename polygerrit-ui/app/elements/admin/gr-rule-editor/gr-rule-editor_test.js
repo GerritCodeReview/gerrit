@@ -23,15 +23,9 @@ const basicFixture = fixtureFromElement('gr-rule-editor');
 
 suite('gr-rule-editor tests', () => {
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   suite('unit tests', () => {
@@ -133,7 +127,7 @@ suite('gr-rule-editor tests', () => {
     test('_setDefaultRuleValues', () => {
       element.rule = {id: 123};
       const defaultValue = {action: 'ALLOW'};
-      sandbox.stub(element, '_getDefaultRuleValues').returns(defaultValue);
+      sinon.stub(element, '_getDefaultRuleValues').returns(defaultValue);
       element._setDefaultRuleValues();
       assert.isTrue(element._getDefaultRuleValues.called);
       assert.equal(element.rule.value, defaultValue);
@@ -156,7 +150,7 @@ suite('gr-rule-editor tests', () => {
     });
 
     test('_handleValueChange', () => {
-      const modifiedHandler = sandbox.stub();
+      const modifiedHandler = sinon.stub();
       element.rule = {value: {}};
       element.addEventListener('access-modified', modifiedHandler);
       element._handleValueChange();
@@ -346,7 +340,7 @@ suite('gr-rule-editor tests', () => {
 
     test('remove value', () => {
       element.editing = true;
-      const removeStub = sandbox.stub();
+      const removeStub = sinon.stub();
       element.addEventListener('added-rule-removed', removeStub);
       MockInteractions.tap(element.$.removeBtn);
       flushAsynchronousOperations();
@@ -399,7 +393,7 @@ suite('gr-rule-editor tests', () => {
     });
 
     test('modify value', () => {
-      const removeStub = sandbox.stub();
+      const removeStub = sinon.stub();
       element.addEventListener('added-rule-removed', removeStub);
       assert.isNotOk(element.rule.value.modified);
       dom(element.root).querySelector('#labelMin').bindValue = 1;
@@ -414,7 +408,7 @@ suite('gr-rule-editor tests', () => {
 
   suite('new rule with labels', () => {
     setup(done => {
-      sandbox.spy(element, '_setDefaultRuleValues');
+      sinon.spy(element, '_setDefaultRuleValues');
       element.label = {values: [
         {value: -2, text: 'This shall not be merged'},
         {value: -1, text: 'I would prefer this is not merged as is'},

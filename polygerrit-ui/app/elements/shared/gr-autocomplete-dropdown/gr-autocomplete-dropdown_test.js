@@ -22,10 +22,8 @@ const basicFixture = fixtureFromElement('gr-autocomplete-dropdown');
 
 suite('gr-autocomplete-dropdown', () => {
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
     element.open();
     element.suggestions = [
@@ -35,7 +33,6 @@ suite('gr-autocomplete-dropdown', () => {
   });
 
   teardown(() => {
-    sandbox.restore();
     if (element.isOpen) element.close();
   });
 
@@ -46,7 +43,7 @@ suite('gr-autocomplete-dropdown', () => {
   });
 
   test('escape key', done => {
-    const closeSpy = sandbox.spy(element, 'close');
+    const closeSpy = sinon.spy(element, 'close');
     MockInteractions.pressAndReleaseKeyOn(element, 27);
     flushAsynchronousOperations();
     assert.isTrue(closeSpy.called);
@@ -54,8 +51,8 @@ suite('gr-autocomplete-dropdown', () => {
   });
 
   test('tab key', () => {
-    const handleTabSpy = sandbox.spy(element, '_handleTab');
-    const itemSelectedStub = sandbox.stub();
+    const handleTabSpy = sinon.spy(element, '_handleTab');
+    const itemSelectedStub = sinon.stub();
     element.addEventListener('item-selected', itemSelectedStub);
     MockInteractions.pressAndReleaseKeyOn(element, 9);
     assert.isTrue(handleTabSpy.called);
@@ -68,8 +65,8 @@ suite('gr-autocomplete-dropdown', () => {
   });
 
   test('enter key', () => {
-    const handleEnterSpy = sandbox.spy(element, '_handleEnter');
-    const itemSelectedStub = sandbox.stub();
+    const handleEnterSpy = sinon.spy(element, '_handleEnter');
+    const itemSelectedStub = sinon.stub();
     element.addEventListener('item-selected', itemSelectedStub);
     MockInteractions.pressAndReleaseKeyOn(element, 13);
     assert.isTrue(handleEnterSpy.called);
@@ -82,7 +79,7 @@ suite('gr-autocomplete-dropdown', () => {
 
   test('down key', () => {
     element.isHidden = true;
-    const nextSpy = sandbox.spy(element.$.cursor, 'next');
+    const nextSpy = sinon.spy(element.$.cursor, 'next');
     MockInteractions.pressAndReleaseKeyOn(element, 40);
     assert.isFalse(nextSpy.called);
     assert.equal(element.$.cursor.index, 0);
@@ -94,7 +91,7 @@ suite('gr-autocomplete-dropdown', () => {
 
   test('up key', () => {
     element.isHidden = true;
-    const prevSpy = sandbox.spy(element.$.cursor, 'previous');
+    const prevSpy = sinon.spy(element.$.cursor, 'previous');
     MockInteractions.pressAndReleaseKeyOn(element, 38);
     assert.isFalse(prevSpy.called);
     assert.equal(element.$.cursor.index, 0);
@@ -107,7 +104,7 @@ suite('gr-autocomplete-dropdown', () => {
   });
 
   test('tapping selects item', () => {
-    const itemSelectedStub = sandbox.stub();
+    const itemSelectedStub = sinon.stub();
     element.addEventListener('item-selected', itemSelectedStub);
 
     MockInteractions.tap(element.$.suggestions.querySelectorAll('li')[1]);
@@ -119,7 +116,7 @@ suite('gr-autocomplete-dropdown', () => {
   });
 
   test('tapping child still selects item', () => {
-    const itemSelectedStub = sandbox.stub();
+    const itemSelectedStub = sinon.stub();
     element.addEventListener('item-selected', itemSelectedStub);
 
     MockInteractions.tap(element.$.suggestions.querySelectorAll('li')[0]
@@ -132,7 +129,7 @@ suite('gr-autocomplete-dropdown', () => {
   });
 
   test('updated suggestions resets cursor stops', () => {
-    const resetStopsSpy = sandbox.spy(element, '_resetCursorStops');
+    const resetStopsSpy = sinon.spy(element, '_resetCursorStops');
     element.suggestions = [];
     assert.isTrue(resetStopsSpy.called);
   });

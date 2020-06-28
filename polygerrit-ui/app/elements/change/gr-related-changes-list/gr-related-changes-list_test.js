@@ -27,15 +27,9 @@ const basicFixture = fixtureFromElement('gr-related-changes-list');
 
 suite('gr-related-changes-list tests', () => {
   let element;
-  let sandbox;
 
   setup(() => {
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   test('connected revisions', () => {
@@ -247,7 +241,7 @@ suite('gr-related-changes-list tests', () => {
   });
 
   test('event for section loaded fires for each section ', () => {
-    const loadedStub = sandbox.stub();
+    const loadedStub = sinon.stub();
     element.patchNum = 7;
     element.change = {
       change_id: 123,
@@ -255,13 +249,13 @@ suite('gr-related-changes-list tests', () => {
     };
     element.mergeable = true;
     element.addEventListener('new-section-loaded', loadedStub);
-    sandbox.stub(element, '_getRelatedChanges')
+    sinon.stub(element, '_getRelatedChanges')
         .returns(Promise.resolve({changes: []}));
-    sandbox.stub(element, '_getSubmittedTogether')
+    sinon.stub(element, '_getSubmittedTogether')
         .returns(Promise.resolve());
-    sandbox.stub(element, '_getCherryPicks')
+    sinon.stub(element, '_getCherryPicks')
         .returns(Promise.resolve());
-    sandbox.stub(element, '_getConflicts')
+    sinon.stub(element, '_getConflicts')
         .returns(Promise.resolve());
 
     return element.reload().then(() => {
@@ -275,13 +269,13 @@ suite('gr-related-changes-list tests', () => {
     setup(() => {
       element = basicFixture.instantiate();
 
-      sandbox.stub(element, '_getRelatedChanges')
+      sinon.stub(element, '_getRelatedChanges')
           .returns(Promise.resolve({changes: []}));
-      sandbox.stub(element, '_getSubmittedTogether')
+      sinon.stub(element, '_getSubmittedTogether')
           .returns(Promise.resolve());
-      sandbox.stub(element, '_getCherryPicks')
+      sinon.stub(element, '_getCherryPicks')
           .returns(Promise.resolve());
-      sandbox.stub(element, '_getConflicts')
+      sinon.stub(element, '_getConflicts')
           .returns(Promise.resolve());
     });
 
@@ -304,13 +298,13 @@ suite('gr-related-changes-list tests', () => {
     setup(() => {
       element = basicFixture.instantiate();
 
-      sandbox.stub(element, '_getRelatedChanges')
+      sinon.stub(element, '_getRelatedChanges')
           .returns(Promise.resolve({changes: []}));
-      sandbox.stub(element, '_getSubmittedTogether')
+      sinon.stub(element, '_getSubmittedTogether')
           .returns(Promise.resolve());
-      sandbox.stub(element, '_getCherryPicks')
+      sinon.stub(element, '_getCherryPicks')
           .returns(Promise.resolve());
-      conflictsStub = sandbox.stub(element, '_getConflicts')
+      conflictsStub = sinon.stub(element, '_getConflicts')
           .returns(Promise.resolve());
     });
 
@@ -408,7 +402,7 @@ suite('gr-related-changes-list tests', () => {
     });
 
     test('update fires', () => {
-      const updateHandler = sandbox.stub();
+      const updateHandler = sinon.stub();
       element.addEventListener('update', updateHandler);
 
       element._resultsChanged({}, {}, [], [], []);
@@ -471,7 +465,7 @@ suite('gr-related-changes-list tests', () => {
   });
 
   test('_computeChangeURL uses GerritNav', () => {
-    const getUrlStub = sandbox.stub(GerritNav, 'getUrlForChangeById');
+    const getUrlStub = sinon.stub(GerritNav, 'getUrlForChangeById');
     element._computeChangeURL(123, 'abc/def', 12);
     assert.isTrue(getUrlStub.called);
   });

@@ -22,11 +22,10 @@ const basicFixture = fixtureFromElement('gr-registration-dialog');
 suite('gr-registration-dialog tests', () => {
   let element;
   let account;
-  let sandbox;
+
   let _listeners;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     _listeners = {};
 
     account = {
@@ -67,7 +66,6 @@ suite('gr-registration-dialog tests', () => {
   });
 
   teardown(() => {
-    sandbox.restore();
     for (const eventType in _listeners) {
       if (_listeners.hasOwnProperty(eventType)) {
         element.removeEventListener(eventType, _listeners[eventType]);

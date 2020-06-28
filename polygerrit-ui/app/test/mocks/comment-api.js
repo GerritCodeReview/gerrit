@@ -26,7 +26,6 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 class CommentApiMock extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {
-
   static get properties() {
     return {
       _changeComments: Object,

@@ -42,7 +42,6 @@ suite('gr-editable-label tests', () => {
   let elementNoPlaceholder;
   let input;
   let label;
-  let sandbox;
 
   setup(done => {
     element = basicFixture.instantiate();
@@ -50,7 +49,7 @@ suite('gr-editable-label tests', () => {
 
     label = element.shadowRoot
         .querySelector('label');
-    sandbox = sinon.sandbox.create();
+
     flush(() => {
       // In Polymer 2 inputElement isn't nativeInput anymore
       input = element.$.input.$.nativeInput || element.$.input.inputElement;
@@ -58,17 +57,13 @@ suite('gr-editable-label tests', () => {
     });
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
-
   test('element render', () => {
     // The dropdown is closed and the label is visible:
     assert.isFalse(element.$.dropdown.opened);
     assert.isTrue(label.classList.contains('editable'));
     assert.equal(label.textContent, 'value text');
-    const focusSpy = sandbox.spy(input, 'focus');
-    const showSpy = sandbox.spy(element, '_showDropdown');
+    const focusSpy = sinon.spy(input, 'focus');
+    const showSpy = sinon.spy(element, '_showDropdown');
 
     MockInteractions.tap(label);
 
@@ -101,7 +96,7 @@ suite('gr-editable-label tests', () => {
   });
 
   test('edit value', done => {
-    const editedStub = sandbox.stub();
+    const editedStub = sinon.stub();
     element.addEventListener('changed', editedStub);
     assert.isFalse(element.editing);
 
@@ -126,7 +121,7 @@ suite('gr-editable-label tests', () => {
   });
 
   test('save button', done => {
-    const editedStub = sandbox.stub();
+    const editedStub = sinon.stub();
     element.addEventListener('changed', editedStub);
     assert.isFalse(element.editing);
 
@@ -151,7 +146,7 @@ suite('gr-editable-label tests', () => {
   });
 
   test('edit and then escape key', done => {
-    const editedStub = sandbox.stub();
+    const editedStub = sinon.stub();
     element.addEventListener('changed', editedStub);
     assert.isFalse(element.editing);
 
@@ -177,7 +172,7 @@ suite('gr-editable-label tests', () => {
   });
 
   test('cancel button', done => {
-    const editedStub = sandbox.stub();
+    const editedStub = sinon.stub();
     element.addEventListener('changed', editedStub);
     assert.isFalse(element.editing);
 

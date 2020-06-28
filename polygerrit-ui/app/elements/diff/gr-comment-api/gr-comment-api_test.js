@@ -24,27 +24,23 @@ suite('gr-comment-api tests', () => {
   const PARENT = 'PARENT';
 
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
   });
-
-  teardown(() => { sandbox.restore(); });
 
   test('loads logged-out', () => {
     const changeNum = 1234;
 
-    sandbox.stub(element.$.restAPI, 'getLoggedIn')
+    sinon.stub(element.$.restAPI, 'getLoggedIn')
         .returns(Promise.resolve(false));
-    sandbox.stub(element.$.restAPI, 'getDiffComments')
+    sinon.stub(element.$.restAPI, 'getDiffComments')
         .returns(Promise.resolve({
           'foo.c': [{id: '123', message: 'foo bar', in_reply_to: '321'}],
         }));
-    sandbox.stub(element.$.restAPI, 'getDiffRobotComments')
+    sinon.stub(element.$.restAPI, 'getDiffRobotComments')
         .returns(Promise.resolve({'foo.c': [{id: '321', message: 'done'}]}));
-    sandbox.stub(element.$.restAPI, 'getDiffDrafts')
+    sinon.stub(element.$.restAPI, 'getDiffDrafts')
         .returns(Promise.resolve({}));
 
     return element.loadAll(changeNum).then(() => {
@@ -63,15 +59,15 @@ suite('gr-comment-api tests', () => {
   test('loads logged-in', () => {
     const changeNum = 1234;
 
-    sandbox.stub(element.$.restAPI, 'getLoggedIn')
+    sinon.stub(element.$.restAPI, 'getLoggedIn')
         .returns(Promise.resolve(true));
-    sandbox.stub(element.$.restAPI, 'getDiffComments')
+    sinon.stub(element.$.restAPI, 'getDiffComments')
         .returns(Promise.resolve({
           'foo.c': [{id: '123', message: 'foo bar', in_reply_to: '321'}],
         }));
-    sandbox.stub(element.$.restAPI, 'getDiffRobotComments')
+    sinon.stub(element.$.restAPI, 'getDiffRobotComments')
         .returns(Promise.resolve({'foo.c': [{id: '321', message: 'done'}]}));
-    sandbox.stub(element.$.restAPI, 'getDiffDrafts')
+    sinon.stub(element.$.restAPI, 'getDiffDrafts')
         .returns(Promise.resolve({'foo.c': [{id: '555', message: 'ack'}]}));
 
     return element.loadAll(changeNum).then(() => {
@@ -92,17 +88,17 @@ suite('gr-comment-api tests', () => {
     let robotCommentStub;
     let draftStub;
     setup(() => {
-      commentStub = sandbox.stub(element.$.restAPI, 'getDiffComments')
+      commentStub = sinon.stub(element.$.restAPI, 'getDiffComments')
           .returns(Promise.resolve({}));
-      robotCommentStub = sandbox.stub(element.$.restAPI,
+      robotCommentStub = sinon.stub(element.$.restAPI,
           'getDiffRobotComments').returns(Promise.resolve({}));
-      draftStub = sandbox.stub(element.$.restAPI, 'getDiffDrafts')
+      draftStub = sinon.stub(element.$.restAPI, 'getDiffDrafts')
           .returns(Promise.resolve({}));
     });
 
     test('without loadAll first', done => {
       assert.isNotOk(element._changeComments);
-      sandbox.spy(element, 'loadAll');
+      sinon.spy(element, 'loadAll');
       element.reloadDrafts().then(() => {
         assert.isTrue(element.loadAll.called);
         assert.isOk(element._changeComments);
@@ -195,9 +191,9 @@ suite('gr-comment-api tests', () => {
       const patchRange2 = {basePatchNum: 123, patchNum: 125};
       const patchRange3 = {basePatchNum: 124, patchNum: 125};
 
-      const isInBasePatchStub = sandbox.stub(element._changeComments,
+      const isInBasePatchStub = sinon.stub(element._changeComments,
           '_isInBaseOfPatchRange');
-      const isInRevisionPatchStub = sandbox.stub(element._changeComments,
+      const isInRevisionPatchStub = sinon.stub(element._changeComments,
           '_isInRevisionOfPatchRange');
 
       isInBasePatchStub.withArgs({}, patchRange1).returns(true);

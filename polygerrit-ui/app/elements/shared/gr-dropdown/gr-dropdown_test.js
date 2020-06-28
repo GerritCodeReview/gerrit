@@ -23,18 +23,12 @@ const basicFixture = fixtureFromElement('gr-dropdown');
 
 suite('gr-dropdown tests', () => {
   let element;
-  let sandbox;
 
   setup(() => {
     stub('gr-rest-api-interface', {
       getConfig() { return Promise.resolve({}); },
     });
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   test('_computeIsDownload', () => {
@@ -43,8 +37,10 @@ suite('gr-dropdown tests', () => {
   });
 
   test('tap on trigger opens menu, then closes', () => {
-    sandbox.stub(element, '_open', () => { element.$.dropdown.open(); });
-    sandbox.stub(element, '_close', () => { element.$.dropdown.close(); });
+    sinon.stub(element, '_open')
+        .callsFake(() => { element.$.dropdown.open(); });
+    sinon.stub(element, '_close')
+        .callsFake(() => { element.$.dropdown.close(); });
     assert.isFalse(element.$.dropdown.opened);
     MockInteractions.tap(element.$.trigger);
     assert.isTrue(element.$.dropdown.opened);
@@ -108,8 +104,8 @@ suite('gr-dropdown tests', () => {
   test('non link items', () => {
     const item0 = {name: 'item one', id: 'foo'};
     element.items = [item0, {name: 'item two', id: 'bar'}];
-    const fooTapped = sandbox.stub();
-    const tapped = sandbox.stub();
+    const fooTapped = sinon.stub();
+    const tapped = sinon.stub();
     element.addEventListener('tap-item-foo', fooTapped);
     element.addEventListener('tap-item', tapped);
     flushAsynchronousOperations();
@@ -124,8 +120,8 @@ suite('gr-dropdown tests', () => {
     element.items = [{name: 'item one', id: 'foo'}];
     element.disabledIds = ['foo'];
 
-    const stub = sandbox.stub();
-    const tapped = sandbox.stub();
+    const stub = sinon.stub();
+    const tapped = sinon.stub();
     element.addEventListener('tap-item-foo', stub);
     element.addEventListener('tap-item', tapped);
     flushAsynchronousOperations();
@@ -160,7 +156,7 @@ suite('gr-dropdown tests', () => {
     });
 
     test('down', () => {
-      const stub = sandbox.stub(element.$.cursor, 'next');
+      const stub = sinon.stub(element.$.cursor, 'next');
       assert.isFalse(element.$.dropdown.opened);
       MockInteractions.pressAndReleaseKeyOn(element, 40);
       assert.isTrue(element.$.dropdown.opened);
@@ -169,7 +165,7 @@ suite('gr-dropdown tests', () => {
     });
 
     test('up', () => {
-      const stub = sandbox.stub(element.$.cursor, 'previous');
+      const stub = sinon.stub(element.$.cursor, 'previous');
       assert.isFalse(element.$.dropdown.opened);
       MockInteractions.pressAndReleaseKeyOn(element, 38);
       assert.isTrue(element.$.dropdown.opened);
@@ -185,7 +181,7 @@ suite('gr-dropdown tests', () => {
       assert.isTrue(element.$.dropdown.opened);
 
       const el = element.$.cursor.target.querySelector(':not([hidden]) a');
-      const stub = sandbox.stub(el, 'click');
+      const stub = sinon.stub(el, 'click');
       MockInteractions.pressAndReleaseKeyOn(element, 32); // Space
       assert.isTrue(stub.called);
     });

@@ -35,10 +35,9 @@ const tabindexFixture = fixtureFromTemplate(html`
 
 suite('gr-button tests', () => {
   let element;
-  let sandbox;
 
   const addSpyOn = function(eventName) {
-    const spy = sandbox.spy();
+    const spy = sinon.spy();
     if (eventName == 'tap') {
       addListener(element, eventName, spy);
     } else {
@@ -49,11 +48,6 @@ suite('gr-button tests', () => {
 
   setup(() => {
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   test('disabled is set by disabled', () => {
@@ -132,14 +126,14 @@ suite('gr-button tests', () => {
   // Keycodes: 32 for Space, 13 for Enter.
   for (const key of [32, 13]) {
     test('dispatches click event on keycode ' + key, () => {
-      const tapSpy = sandbox.spy();
+      const tapSpy = sinon.spy();
       element.addEventListener('click', tapSpy);
       MockInteractions.pressAndReleaseKeyOn(element, key);
       assert.isTrue(tapSpy.calledOnce);
     });
 
     test('dispatches no click event with modifier on keycode ' + key, () => {
-      const tapSpy = sandbox.spy();
+      const tapSpy = sinon.spy();
       element.addEventListener('click', tapSpy);
       MockInteractions.pressAndReleaseKeyOn(element, key, 'shift');
       MockInteractions.pressAndReleaseKeyOn(element, key, 'ctrl');
@@ -165,7 +159,7 @@ suite('gr-button tests', () => {
     // Keycodes: 32 for Space, 13 for Enter.
     for (const key of [32, 13]) {
       test('stops click event on keycode ' + key, () => {
-        const tapSpy = sandbox.spy();
+        const tapSpy = sinon.spy();
         element.addEventListener('click', tapSpy);
         MockInteractions.pressAndReleaseKeyOn(element, key);
         assert.isFalse(tapSpy.called);
@@ -176,7 +170,7 @@ suite('gr-button tests', () => {
   suite('reporting', () => {
     let reportStub;
     setup(() => {
-      reportStub = sandbox.stub(appContext.reportingService,
+      reportStub = sinon.stub(appContext.reportingService,
           'reportInteraction');
       reportStub.reset();
     });

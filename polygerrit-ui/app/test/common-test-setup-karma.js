@@ -20,6 +20,13 @@ import 'chai/chai.js';
 self.assert = window.chai.assert;
 self.expect = window.chai.expect;
 
+window.addEventListener('error', e => {
+  // For uncaught error mochajs doesn't print the full stack trace.
+  // We should print it ourselves.
+  console.error(e.error.stack.toString());
+});
+
+
 // Tests can use fake timers (sandbox.useFakeTimers)
 // Keep the original one for use in test utils methods.
 const nativeSetTimeout = window.setTimeout;

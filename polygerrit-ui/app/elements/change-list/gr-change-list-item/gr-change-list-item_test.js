@@ -23,18 +23,14 @@ const basicFixture = fixtureFromElement('gr-change-list-item');
 
 suite('gr-change-list-item tests', () => {
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     stub('gr-rest-api-interface', {
       getConfig() { return Promise.resolve({}); },
       getLoggedIn() { return Promise.resolve(false); },
     });
     element = basicFixture.instantiate();
   });
-
-  teardown(() => { sandbox.restore(); });
 
   test('computed fields', () => {
     assert.equal(element._computeLabelClass({labels: {}}),
@@ -261,7 +257,7 @@ suite('gr-change-list-item tests', () => {
   });
 
   test('change params passed to gr-navigation', () => {
-    sandbox.stub(GerritNav);
+    sinon.stub(GerritNav);
     const change = {
       internalHost: 'test-host',
       project: 'test-repo',

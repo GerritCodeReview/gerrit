@@ -22,14 +22,10 @@ const basicFixture = fixtureFromElement('gr-included-in-dialog');
 
 suite('gr-included-in-dialog', () => {
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
   });
-
-  teardown(() => { sandbox.restore(); });
 
   test('_computeGroups', () => {
     const includedIn = {branches: [], tags: []};

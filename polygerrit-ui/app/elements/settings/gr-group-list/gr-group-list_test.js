@@ -23,12 +23,10 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 const basicFixture = fixtureFromElement('gr-group-list');
 
 suite('gr-group-list tests', () => {
-  let sandbox;
   let element;
   let groups;
 
   setup(done => {
-    sandbox = sinon.sandbox.create();
     groups = [{
       url: 'some url',
       options: {},
@@ -57,8 +55,6 @@ suite('gr-group-list tests', () => {
     element.loadData().then(() => { flush(done); });
   });
 
-  teardown(() => { sandbox.restore(); });
-
   test('renders', () => {
     const rows = Array.from(
         dom(element.root).querySelectorAll('tbody tr'));
@@ -80,7 +76,7 @@ suite('gr-group-list tests', () => {
   });
 
   test('_computeGroupPath', () => {
-    let urlStub = sandbox.stub(GerritNav, 'getUrlForGroup',
+    let urlStub = sinon.stub(GerritNav, 'getUrlForGroup').callsFake(
         () => '/admin/groups/e2cd66f88a2db4d391ac068a92d987effbe872f5');
 
     let group = {
@@ -96,7 +92,7 @@ suite('gr-group-list tests', () => {
 
     urlStub.restore();
 
-    urlStub = sandbox.stub(GerritNav, 'getUrlForGroup',
+    urlStub = sinon.stub(GerritNav, 'getUrlForGroup').callsFake(
         () => '/admin/groups/user/test');
 
     group = {

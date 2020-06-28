@@ -24,22 +24,21 @@ const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-plugin-rest-api tests', () => {
   let instance;
-  let sandbox;
+
   let getResponseObjectStub;
   let sendStub;
   let restApiStub;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
-    getResponseObjectStub = sandbox.stub().returns(Promise.resolve());
-    sendStub = sandbox.stub().returns(Promise.resolve({status: 200}));
+    getResponseObjectStub = sinon.stub().returns(Promise.resolve());
+    sendStub = sinon.stub().returns(Promise.resolve({status: 200}));
     restApiStub = {
       getAccount: () => Promise.resolve({name: 'Judy Hopps'}),
       getResponseObject: getResponseObjectStub,
       send: sendStub,
-      getLoggedIn: sandbox.stub(),
-      getVersion: sandbox.stub(),
-      getConfig: sandbox.stub(),
+      getLoggedIn: sinon.stub(),
+      getVersion: sinon.stub(),
+      getConfig: sinon.stub(),
     };
     stub('gr-rest-api-interface', Object.keys(restApiStub).reduce((a, k) => {
       a[k] = (...args) => restApiStub[k](...args);
@@ -48,10 +47,6 @@ suite('gr-plugin-rest-api tests', () => {
     pluginApi.install(p => {}, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
     instance = new GrPluginRestApi();
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   test('fetch', () => {

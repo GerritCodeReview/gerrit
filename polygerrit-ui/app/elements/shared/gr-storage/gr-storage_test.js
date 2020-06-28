@@ -22,7 +22,6 @@ const basicFixture = fixtureFromElement('gr-storage');
 
 suite('gr-storage tests', () => {
   let element;
-  let sandbox;
 
   function mockStorage(opt_quotaExceeded) {
     return {
@@ -38,11 +37,9 @@ suite('gr-storage tests', () => {
 
   setup(() => {
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
+
     element._storage = mockStorage();
   });
-
-  teardown(() => sandbox.restore());
 
   test('storing, retrieving and erasing drafts', () => {
     const changeNum = 1234;
@@ -93,7 +90,7 @@ suite('gr-storage tests', () => {
     // Make sure that the call to cleanup doesn't get throttled.
     element._lastCleanup = 0;
 
-    const cleanupSpy = sandbox.spy(element, '_cleanupItems');
+    const cleanupSpy = sinon.spy(element, '_cleanupItems');
 
     // Create a message with a timestamp that is a second behind the max age.
     element._storage.setItem(key, JSON.stringify({
@@ -153,7 +150,7 @@ suite('gr-storage tests', () => {
   });
 
   test('editable content items', () => {
-    const cleanupStub = sandbox.stub(element, '_cleanupItems');
+    const cleanupStub = sinon.stub(element, '_cleanupItems');
     const key = 'testKey';
     const computedKey = element._getEditableContentKey(key);
     // Key correctly computed.

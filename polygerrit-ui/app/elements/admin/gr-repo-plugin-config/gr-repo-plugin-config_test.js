@@ -22,14 +22,10 @@ const basicFixture = fixtureFromElement('gr-repo-plugin-config');
 
 suite('gr-repo-plugin-config tests', () => {
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
   });
-
-  teardown(() => sandbox.restore());
 
   test('_computePluginConfigOptions', () => {
     assert.deepEqual(element._computePluginConfigOptions(), []);
@@ -48,7 +44,7 @@ suite('gr-repo-plugin-config tests', () => {
   });
 
   test('_handleChange', () => {
-    const eventStub = sandbox.stub(element, 'dispatchEvent');
+    const eventStub = sinon.stub(element, 'dispatchEvent');
     element.pluginData = {
       name: 'testName',
       config: {plugin: {value: 'test'}},
@@ -72,8 +68,8 @@ suite('gr-repo-plugin-config tests', () => {
     let buildStub;
 
     setup(() => {
-      changeStub = sandbox.stub(element, '_handleChange');
-      buildStub = sandbox.stub(element, '_buildConfigChangeInfo');
+      changeStub = sinon.stub(element, '_handleChange');
+      buildStub = sinon.stub(element, '_buildConfigChangeInfo');
     });
 
     test('ARRAY type option', () => {

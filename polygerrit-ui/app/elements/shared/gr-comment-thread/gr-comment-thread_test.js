@@ -28,20 +28,18 @@ const withCommentFixture = fixtureFromElement('gr-comment-thread');
 suite('gr-comment-thread tests', () => {
   suite('basic test', () => {
     let element;
-    let sandbox;
+
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
+
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(false); },
       });
-      sandbox = sinon.sandbox.create();
+
       element = basicFixture.instantiate();
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+
 
     test('comments are sorted correctly', () => {
       const comments = [
@@ -113,9 +111,9 @@ suite('gr-comment-thread tests', () => {
         updated: '2015-12-25 15:00:20.396000000',
         __draft: true,
       }];
-      const commentElStub = sandbox.stub(element, '_commentElWithDraftID',
+      const commentElStub = sinon.stub(element, '_commentElWithDraftID').callsFake(
           () => { return {}; });
-      const addDraftStub = sandbox.stub(element, 'addDraft');
+      const addDraftStub = sinon.stub(element, 'addDraft');
 
       element.addOrEditDraft(123);
 
@@ -125,9 +123,9 @@ suite('gr-comment-thread tests', () => {
 
     test('addOrEditDraft w/o edit draft', () => {
       element.comments = [];
-      const commentElStub = sandbox.stub(element, '_commentElWithDraftID',
+      const commentElStub = sinon.stub(element, '_commentElWithDraftID').callsFake(
           () => { return {}; });
-      const addDraftStub = sandbox.stub(element, 'addDraft');
+      const addDraftStub = sinon.stub(element, 'addDraft');
 
       element.addOrEditDraft(123);
 
@@ -169,7 +167,7 @@ suite('gr-comment-thread tests', () => {
 
     test('setting project name loads the project config', done => {
       const projectName = 'foo/bar/baz';
-      const getProjectStub = sandbox.stub(element.$.restAPI, 'getProjectConfig')
+      const getProjectStub = sinon.stub(element.$.restAPI, 'getProjectConfig')
           .returns(Promise.resolve({}));
       element.projectName = projectName;
       flush(() => {
@@ -184,7 +182,7 @@ suite('gr-comment-thread tests', () => {
       assert.isNotOk(element.shadowRoot
           .querySelector('.pathInfo'));
 
-      sandbox.stub(GerritNav, 'getUrlForDiffById');
+      sinon.stub(GerritNav, 'getUrlForDiffById');
       element.changeNum = 123;
       element.projectName = 'test project';
       element.path = 'path/to/file';
@@ -234,10 +232,10 @@ suite('gr-comment-thread tests', () => {
 
 suite('comment action tests with unresolved thread', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
     stub('gr-rest-api-interface', {
       getLoggedIn() { return Promise.resolve(false); },
       saveDiffDraft() {
@@ -276,14 +274,12 @@ suite('comment action tests with unresolved thread', () => {
     flushAsynchronousOperations();
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('reply', () => {
     const commentEl = element.shadowRoot
         .querySelector('gr-comment');
-    const reportStub = sandbox.stub(element.reporting,
+    const reportStub = sinon.stub(element.reporting,
         'recordDraftInteraction');
     assert.ok(commentEl);
 
@@ -301,7 +297,7 @@ suite('comment action tests with unresolved thread', () => {
   test('quote reply', () => {
     const commentEl = element.shadowRoot
         .querySelector('gr-comment');
-    const reportStub = sandbox.stub(element.reporting,
+    const reportStub = sinon.stub(element.reporting,
         'recordDraftInteraction');
     assert.ok(commentEl);
 
@@ -317,7 +313,7 @@ suite('comment action tests with unresolved thread', () => {
   });
 
   test('quote reply multiline', () => {
-    const reportStub = sandbox.stub(element.reporting,
+    const reportStub = sinon.stub(element.reporting,
         'recordDraftInteraction');
     element.comments = [{
       author: {
@@ -348,7 +344,7 @@ suite('comment action tests with unresolved thread', () => {
   });
 
   test('ack', done => {
-    const reportStub = sandbox.stub(element.reporting,
+    const reportStub = sinon.stub(element.reporting,
         'recordDraftInteraction');
     element.changeNum = '42';
     element.patchNum = '1';
@@ -371,7 +367,7 @@ suite('comment action tests with unresolved thread', () => {
   });
 
   test('done', done => {
-    const reportStub = sandbox.stub(element.reporting,
+    const reportStub = sinon.stub(element.reporting,
         'recordDraftInteraction');
     element.changeNum = '42';
     element.patchNum = '1';
@@ -400,7 +396,7 @@ suite('comment action tests with unresolved thread', () => {
         .querySelector('gr-comment');
     assert.ok(commentEl);
 
-    const saveOrDiscardStub = sandbox.stub();
+    const saveOrDiscardStub = sinon.stub();
     element.addEventListener('thread-changed', saveOrDiscardStub);
     element.shadowRoot
         .querySelector('gr-comment')._fireSave();
@@ -448,7 +444,7 @@ suite('comment action tests with unresolved thread', () => {
         'it’s pronouced jiff, not giff'));
     flushAsynchronousOperations();
 
-    const saveOrDiscardStub = sandbox.stub();
+    const saveOrDiscardStub = sinon.stub();
     element.addEventListener('thread-changed', saveOrDiscardStub);
     const draftEl =
         dom(element.root).querySelectorAll('gr-comment')[1];
@@ -481,7 +477,7 @@ suite('comment action tests with unresolved thread', () => {
         const rootId = element.rootId;
         assert.isOk(rootId);
 
-        const saveOrDiscardStub = sandbox.stub();
+        const saveOrDiscardStub = sinon.stub();
         element.addEventListener('thread-changed', saveOrDiscardStub);
         const draftEl =
         dom(element.root).querySelectorAll('gr-comment')[0];
@@ -815,10 +811,10 @@ suite('comment action tests with unresolved thread', () => {
 
 suite('comment action tests on resolved comments', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
     stub('gr-rest-api-interface', {
       getLoggedIn() { return Promise.resolve(false); },
       saveDiffDraft() {
@@ -855,9 +851,7 @@ suite('comment action tests on resolved comments', () => {
     flushAsynchronousOperations();
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('ack and done should be hidden', () => {
     element.changeNum = '42';

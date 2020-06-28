@@ -23,13 +23,13 @@ const basicFixture = fixtureFromElement('gr-plugin-config-array-editor');
 
 suite('gr-plugin-config-array-editor tests', () => {
   let element;
-  let sandbox;
+
   let dispatchStub;
 
   const getAll = str => dom(element.root).querySelectorAll(str);
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
     element = basicFixture.instantiate();
     element.pluginOption = {
       _key: 'test-key',
@@ -38,8 +38,6 @@ suite('gr-plugin-config-array-editor tests', () => {
       },
     };
   });
-
-  teardown(() => sandbox.restore());
 
   test('_computeShowInputRow', () => {
     assert.equal(element._computeShowInputRow(true), 'hide');
@@ -58,7 +56,7 @@ suite('gr-plugin-config-array-editor tests', () => {
 
   suite('adding', () => {
     setup(() => {
-      dispatchStub = sandbox.stub(element, '_dispatchChanged');
+      dispatchStub = sinon.stub(element, '_dispatchChanged');
     });
 
     test('with enter', () => {
@@ -93,7 +91,7 @@ suite('gr-plugin-config-array-editor tests', () => {
   });
 
   test('deleting', () => {
-    dispatchStub = sandbox.stub(element, '_dispatchChanged');
+    dispatchStub = sinon.stub(element, '_dispatchChanged');
     element.pluginOption = {info: {values: ['test', 'test2']}};
     flushAsynchronousOperations();
 
@@ -117,7 +115,7 @@ suite('gr-plugin-config-array-editor tests', () => {
   });
 
   test('_dispatchChanged', () => {
-    const eventStub = sandbox.stub(element, 'dispatchEvent');
+    const eventStub = sinon.stub(element, 'dispatchEvent');
     element._dispatchChanged(['new-test-value']);
 
     assert.isTrue(eventStub.called);

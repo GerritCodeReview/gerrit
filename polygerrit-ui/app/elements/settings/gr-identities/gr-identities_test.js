@@ -23,7 +23,7 @@ const basicFixture = fixtureFromElement('gr-identities');
 
 suite('gr-identities tests', () => {
   let element;
-  let sandbox;
+
   const ids = [
     {
       identity: 'username:john',
@@ -41,7 +41,7 @@ suite('gr-identities tests', () => {
   ];
 
   setup(done => {
-    sandbox = sinon.sandbox.create();
+    
 
     stub('gr-rest-api-interface', {
       getExternalIds() { return Promise.resolve(ids); },
@@ -52,9 +52,7 @@ suite('gr-identities tests', () => {
     element.loadData().then(() => { flush(done); });
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('renders', () => {
     const rows = Array.from(
@@ -98,7 +96,7 @@ suite('gr-identities tests', () => {
 
   test('delete id', done => {
     element._idName = 'mailto:gerrit2@example.com';
-    const loadDataStub = sandbox.stub(element, 'loadData');
+    const loadDataStub = sinon.stub(element, 'loadData');
     element._handleDeleteItemConfirm().then(() => {
       assert.isTrue(loadDataStub.called);
       done();
@@ -108,7 +106,7 @@ suite('gr-identities tests', () => {
   test('_handleDeleteItem opens modal', () => {
     const deleteBtn =
         dom(element.root).querySelector('.deleteButton');
-    const deleteItem = sandbox.stub(element, '_handleDeleteItem');
+    const deleteItem = sinon.stub(element, '_handleDeleteItem');
     MockInteractions.tap(deleteBtn);
     assert.isTrue(deleteItem.called);
   });

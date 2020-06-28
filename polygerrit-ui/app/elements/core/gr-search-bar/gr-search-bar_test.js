@@ -24,7 +24,7 @@ const basicFixture = fixtureFromElement('gr-search-bar');
 
 suite('gr-search-bar tests', () => {
   let element;
-  let sandbox;
+
 
   suiteSetup(() => {
     const kb = TestKeyboardShortcutBinder.push();
@@ -36,14 +36,12 @@ suite('gr-search-bar tests', () => {
   });
 
   setup(done => {
-    sandbox = sinon.sandbox.create();
+
     element = basicFixture.instantiate();
     flush(done);
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('value is propagated to _inputVal', () => {
     element.value = 'foo';
@@ -66,7 +64,7 @@ suite('gr-search-bar tests', () => {
   });
 
   test('input blurred after commit', () => {
-    const blurSpy = sandbox.spy(element.$.searchInput.$.input, 'blur');
+    const blurSpy = sinon.spy(element.$.searchInput.$.input, 'blur');
     element.$.searchInput.text = 'fate/stay';
     MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
         null, 'enter');
@@ -74,7 +72,7 @@ suite('gr-search-bar tests', () => {
   });
 
   test('empty search query does not trigger nav', () => {
-    const searchSpy = sandbox.spy();
+    const searchSpy = sinon.spy();
     element.addEventListener('handle-search', searchSpy);
     element.value = '';
     MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
@@ -83,7 +81,7 @@ suite('gr-search-bar tests', () => {
   });
 
   test('Predefined query op with no predication doesnt trigger nav', () => {
-    const searchSpy = sandbox.spy();
+    const searchSpy = sinon.spy();
     element.addEventListener('handle-search', searchSpy);
     element.value = 'added:';
     MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
@@ -92,7 +90,7 @@ suite('gr-search-bar tests', () => {
   });
 
   test('predefined predicate query triggers nav', () => {
-    const searchSpy = sandbox.spy();
+    const searchSpy = sinon.spy();
     element.addEventListener('handle-search', searchSpy);
     element.value = 'age:1week';
     MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
@@ -101,7 +99,7 @@ suite('gr-search-bar tests', () => {
   });
 
   test('undefined predicate query triggers nav', () => {
-    const searchSpy = sandbox.spy();
+    const searchSpy = sinon.spy();
     element.addEventListener('handle-search', searchSpy);
     element.value = 'random:1week';
     MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
@@ -110,7 +108,7 @@ suite('gr-search-bar tests', () => {
   });
 
   test('empty undefined predicate query triggers nav', () => {
-    const searchSpy = sandbox.spy();
+    const searchSpy = sinon.spy();
     element.addEventListener('handle-search', searchSpy);
     element.value = 'random:';
     MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
@@ -119,8 +117,8 @@ suite('gr-search-bar tests', () => {
   });
 
   test('keyboard shortcuts', () => {
-    const focusSpy = sandbox.spy(element.$.searchInput, 'focus');
-    const selectAllSpy = sandbox.spy(element.$.searchInput, 'selectAll');
+    const focusSpy = sinon.spy(element.$.searchInput, 'focus');
+    const selectAllSpy = sinon.spy(element.$.searchInput, 'selectAll');
     MockInteractions.pressAndReleaseKeyOn(document.body, 191, null, '/');
     assert.isTrue(focusSpy.called);
     assert.isTrue(selectAllSpy.called);
@@ -128,7 +126,7 @@ suite('gr-search-bar tests', () => {
 
   suite('_getSearchSuggestions', () => {
     test('Autocompletes accounts', () => {
-      sandbox.stub(element, 'accountSuggestions', () =>
+      sinon.stub(element, 'accountSuggestions').callsFake(() =>
         Promise.resolve([{text: 'owner:fred@goog.co'}])
       );
       return element._getSearchSuggestions('owner:fr').then(s => {
@@ -137,7 +135,7 @@ suite('gr-search-bar tests', () => {
     });
 
     test('Autocompletes groups', done => {
-      sandbox.stub(element, 'groupSuggestions', () =>
+      sinon.stub(element, 'groupSuggestions').callsFake(() =>
         Promise.resolve([
           {text: 'ownerin:Polygerrit'},
           {text: 'ownerin:gerrit'},
@@ -150,7 +148,7 @@ suite('gr-search-bar tests', () => {
     });
 
     test('Autocompletes projects', done => {
-      sandbox.stub(element, 'projectSuggestions', () =>
+      sinon.stub(element, 'projectSuggestions').callsFake(() =>
         Promise.resolve([
           {text: 'project:Polygerrit'},
           {text: 'project:gerrit'},

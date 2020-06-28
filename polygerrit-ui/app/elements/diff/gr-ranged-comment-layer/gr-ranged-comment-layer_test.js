@@ -25,7 +25,7 @@ const basicFixture = fixtureFromElement('gr-ranged-comment-layer');
 
 suite('gr-ranged-comment-layer', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
     const initialCommentRanges = [
@@ -67,34 +67,30 @@ suite('gr-ranged-comment-layer', () => {
       },
     ];
 
-    sandbox = sinon.sandbox.create();
+
     element = basicFixture.instantiate();
     element.commentRanges = initialCommentRanges;
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   suite('annotate', () => {
-    let sandbox;
+
     let el;
     let line;
     let annotateElementStub;
     const lineNumberEl = document.createElement('td');
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
-      annotateElementStub = sandbox.stub(GrAnnotation, 'annotateElement');
+
+      annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
       el = document.createElement('div');
       el.setAttribute('data-side', 'left');
       line = new GrDiffLine(GrDiffLine.Type.BOTH);
       line.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit,';
     });
 
-    teardown(() => {
-      sandbox.restore();
-    });
+
 
     test('type=Remove no-comment', () => {
       line.type = GrDiffLine.Type.REMOVE;
@@ -195,7 +191,7 @@ suite('gr-ranged-comment-layer', () => {
   test('_handleCommentRangesChange hovering', () => {
     const notifyStub = sinon.stub();
     element.addListener(notifyStub);
-    const updateRangesMapSpy = sandbox.spy(element, '_updateRangesMap');
+    const updateRangesMapSpy = sinon.spy(element, '_updateRangesMap');
 
     element.set(['commentRanges', 1, 'hovering'], true);
 
@@ -242,7 +238,7 @@ suite('gr-ranged-comment-layer', () => {
   test('_handleCommentRangesChange mixed actions', () => {
     const notifyStub = sinon.stub();
     element.addListener(notifyStub);
-    const updateRangesMapSpy = sandbox.spy(element, '_updateRangesMap');
+    const updateRangesMapSpy = sinon.spy(element, '_updateRangesMap');
 
     element.set(['commentRanges', 1, 'hovering'], true);
     assert.isTrue(updateRangesMapSpy.callCount === 1);

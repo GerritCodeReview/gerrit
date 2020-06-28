@@ -24,15 +24,13 @@ const basicFixture = fixtureFromElement('gr-comment-list');
 
 suite('gr-comment-list tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
-    sandbox.stub(GerritNav, 'mapCommentlinks', x => x);
-  });
 
-  teardown(() => { sandbox.restore(); });
+    sinon.stub(GerritNav, 'mapCommentlinks').callsFake( x => x);
+  });
 
   test('_computeFilesFromComments w/ special file path sorting', () => {
     const comments = {
@@ -91,7 +89,7 @@ suite('gr-comment-list tests', () => {
   });
 
   test('_computeDiffLineURL', () => {
-    const getUrlStub = sandbox.stub(GerritNav, 'getUrlForDiffById');
+    const getUrlStub = sinon.stub(GerritNav, 'getUrlForDiffById');
     element.projectName = 'proj';
     element.changeNum = 123;
 

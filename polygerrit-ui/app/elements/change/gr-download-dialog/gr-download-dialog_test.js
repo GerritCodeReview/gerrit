@@ -101,10 +101,10 @@ function getChangeObjectNoFetch() {
 
 suite('gr-download-dialog', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
 
     element = basicFixture.instantiate();
     element.patchNum = '1';
@@ -121,9 +121,7 @@ suite('gr-download-dialog', () => {
     flushAsynchronousOperations();
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('anchors use download attribute', () => {
     const anchors = Array.from(
@@ -138,7 +136,7 @@ suite('gr-download-dialog', () => {
     });
 
     test('focuses on first download link if no copy links', () => {
-      const focusStub = sandbox.stub(element.$.download, 'focus');
+      const focusStub = sinon.stub(element.$.download, 'focus');
       element.focus();
       assert.isTrue(focusStub.called);
       focusStub.restore();

@@ -21,7 +21,7 @@ import './gr-account-entry.js';
 const basicFixture = fixtureFromElement('gr-account-entry');
 
 suite('gr-account-entry tests', () => {
-  let sandbox;
+
   let element;
 
   const suggestion1 = {
@@ -41,13 +41,11 @@ suite('gr-account-entry tests', () => {
 
   setup(done => {
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
+    
     return flush(done);
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   suite('stubbed values for querySuggestions', () => {
     setup(() => {
@@ -62,7 +60,7 @@ suite('gr-account-entry tests', () => {
   test('account-text-changed fired when input text changed and allowAnyInput',
       () => {
         // Spy on query, as that is called when _updateSuggestions proceeds.
-        const changeStub = sandbox.stub();
+        const changeStub = sinon.stub();
         element.allowAnyInput = true;
         element.querySuggestions = input => Promise.resolve([]);
         element.addEventListener('account-text-changed', changeStub);
@@ -75,7 +73,7 @@ suite('gr-account-entry tests', () => {
   test('account-text-changed not fired when input text changed without ' +
       'allowAnyInput', () => {
     // Spy on query, as that is called when _updateSuggestions proceeds.
-    const changeStub = sandbox.stub();
+    const changeStub = sinon.stub();
     element.querySuggestions = input => Promise.resolve([]);
     element.addEventListener('account-text-changed', changeStub);
     element.$.input.text = 'a';
@@ -84,7 +82,7 @@ suite('gr-account-entry tests', () => {
 
   test('setText', () => {
     // Spy on query, as that is called when _updateSuggestions proceeds.
-    const suggestSpy = sandbox.spy(element.$.input, 'query');
+    const suggestSpy = sinon.spy(element.$.input, 'query');
     element.setText('test text');
     flushAsynchronousOperations();
 

@@ -24,17 +24,17 @@ import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 const basicFixture = fixtureFromTemplate(html`<gr-app id="app"></gr-app>`);
 
 suite('gr-app tests', () => {
-  let sandbox;
+
   let element;
 
   setup(done => {
-    sandbox = sinon.sandbox.create();
-    sandbox.stub(appContext.reportingService, 'appStarted');
+    
+    sinon.stub(appContext.reportingService, 'appStarted');
     stub('gr-account-dropdown', {
       _getTopContent: sinon.stub(),
     });
     stub('gr-router', {
-      start: sandbox.stub(),
+      start: sinon.stub(),
     });
     stub('gr-rest-api-interface', {
       getAccount() { return Promise.resolve({}); },
@@ -58,9 +58,7 @@ suite('gr-app tests', () => {
     flush(done);
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   const appElement = () => element.$['app-element'];
 

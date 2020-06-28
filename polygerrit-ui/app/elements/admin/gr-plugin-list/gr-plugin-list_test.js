@@ -38,18 +38,16 @@ const pluginGenerator = () => {
 suite('gr-plugin-list tests', () => {
   let element;
   let plugins;
-  let sandbox;
+
   let value;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
     element = basicFixture.instantiate();
     counter = 0;
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   suite('list with plugins', () => {
     setup(done => {
@@ -110,10 +108,10 @@ suite('gr-plugin-list tests', () => {
 
   suite('filter', () => {
     test('_paramsChanged', done => {
-      sandbox.stub(
+      sinon.stub(
           element.$.restAPI,
-          'getPlugins',
-          () => Promise.resolve(plugins));
+          'getPlugins')
+          .callsFake(() => Promise.resolve(plugins));
       const value = {
         filter: 'test',
         offset: 25,
@@ -148,7 +146,7 @@ suite('gr-plugin-list tests', () => {
   suite('404', () => {
     test('fires page-error', done => {
       const response = {status: 404};
-      sandbox.stub(element.$.restAPI, 'getPlugins',
+      sinon.stub(element.$.restAPI, 'getPlugins').callsFake(
           (filter, pluginsPerPage, opt_offset, errFn) => {
             errFn(response);
           });

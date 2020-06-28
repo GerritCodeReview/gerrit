@@ -22,12 +22,12 @@ const basicFixture = fixtureFromElement('gr-permission');
 
 suite('gr-permission tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+    
     element = basicFixture.instantiate();
-    sandbox.stub(element.$.restAPI, 'getSuggestedGroups').returns(
+    sinon.stub(element.$.restAPI, 'getSuggestedGroups').returns(
         Promise.resolve({
           'Administrators': {
             id: '4c97682e6ce61b7247f3381b6f1789356666de7f',
@@ -38,9 +38,7 @@ suite('gr-permission tests', () => {
         }));
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   suite('unit tests', () => {
     test('_sortPermission', () => {
@@ -253,7 +251,7 @@ suite('gr-permission tests', () => {
 
   suite('interactions', () => {
     setup(() => {
-      sandbox.spy(element, '_computeLabel');
+      sinon.spy(element, '_computeLabel');
       element.name = 'Priority';
       element.section = 'refs/*';
       element.labels = {
@@ -337,7 +335,7 @@ suite('gr-permission tests', () => {
     });
 
     test('removing an added permission', () => {
-      const removeStub = sandbox.stub();
+      const removeStub = sinon.stub();
       element.addEventListener('added-permission-removed', removeStub);
       element.editing = true;
       element.name = 'Priority';
@@ -352,7 +350,7 @@ suite('gr-permission tests', () => {
       element.name = 'Priority';
       element.section = 'refs/*';
 
-      const removeStub = sandbox.stub();
+      const removeStub = sinon.stub();
       element.addEventListener('added-permission-removed', removeStub);
 
       assert.isFalse(element.$.permission.classList.contains('deleted'));
@@ -384,7 +382,7 @@ suite('gr-permission tests', () => {
     });
 
     test('_handleValueChange', () => {
-      const modifiedHandler = sandbox.stub();
+      const modifiedHandler = sinon.stub();
       element.permission = {value: {rules: {}}};
       element.addEventListener('access-modified', modifiedHandler);
       assert.isNotOk(element.permission.value.modified);

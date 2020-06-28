@@ -49,7 +49,7 @@ suite('gr-account-list tests', () => {
 
   let existingAccount1;
   let existingAccount2;
-  let sandbox;
+
   let element;
   let suggestionsProvider;
 
@@ -58,7 +58,7 @@ suite('gr-account-list tests', () => {
   }
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+    
     existingAccount1 = makeAccount();
     existingAccount2 = makeAccount();
 
@@ -71,9 +71,7 @@ suite('gr-account-list tests', () => {
     element.suggestionsProvider = suggestionsProvider;
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('account entry only appears when editable', () => {
     element.readonly = false;
@@ -84,7 +82,7 @@ suite('gr-account-list tests', () => {
 
   test('addition and removal of account/group chips', () => {
     flushAsynchronousOperations();
-    sandbox.stub(element, '_computeRemovable').returns(true);
+    sinon.stub(element, '_computeRemovable').returns(true);
     // Existing accounts are listed.
     let chips = getChips();
     assert.equal(chips.length, 2);
@@ -180,9 +178,9 @@ suite('gr-account-list tests', () => {
         _account_id: 25,
       },
     ];
-    sandbox.stub(suggestionsProvider, 'getSuggestions')
+    sinon.stub(suggestionsProvider, 'getSuggestions')
         .returns(Promise.resolve(originalSuggestions));
-    sandbox.stub(suggestionsProvider, 'makeSuggestionItem', suggestion => {
+    sinon.stub(suggestionsProvider, 'makeSuggestionItem').callsFake( suggestion => {
       return {
         name: suggestion.email,
         value: suggestion._account_id,
@@ -242,13 +240,13 @@ suite('gr-account-list tests', () => {
     element.allowAnyInput = true;
     flushAsynchronousOperations();
 
-    const getTextStub = sandbox.stub(element.$.entry, 'getText');
+    const getTextStub = sinon.stub(element.$.entry, 'getText');
     getTextStub.onFirstCall().returns('');
     getTextStub.onSecondCall().returns('test');
     getTextStub.onThirdCall().returns('test@test');
 
     // When entry is empty, return true.
-    const clearStub = sandbox.stub(element.$.entry, 'clear');
+    const clearStub = sinon.stub(element.$.entry, 'clear');
     assert.isTrue(element.submitEntryText());
     assert.isFalse(clearStub.called);
 
@@ -366,11 +364,11 @@ suite('gr-account-list tests', () => {
       },
     ];
     const getSuggestionsStub =
-        sandbox.stub(suggestionsProvider, 'getSuggestions')
+        sinon.stub(suggestionsProvider, 'getSuggestions')
             .returns(Promise.resolve(suggestions));
 
     const makeSuggestionItemStub =
-        sandbox.stub(suggestionsProvider, 'makeSuggestionItem', item => item);
+        sinon.stub(suggestionsProvider, 'makeSuggestionItem').callsFake( item => item);
 
     const input = element.$.entry.$.input;
 
@@ -399,11 +397,11 @@ suite('gr-account-list tests', () => {
       },
     ];
     const getSuggestionsStub =
-        sandbox.stub(suggestionsProvider, 'getSuggestions')
+        sinon.stub(suggestionsProvider, 'getSuggestions')
             .returns(Promise.resolve(suggestions));
 
     const makeSuggestionItemStub =
-        sandbox.stub(suggestionsProvider, 'makeSuggestionItem', item => item);
+        sinon.stub(suggestionsProvider, 'makeSuggestionItem').callsFake( item => item);
 
     const input = element.$.entry.$.input;
 
@@ -422,7 +420,7 @@ suite('gr-account-list tests', () => {
   test('skip suggestion on empty', done => {
     element.skipSuggestOnEmpty = true;
     const getSuggestionsStub =
-        sandbox.stub(suggestionsProvider, 'getSuggestions')
+        sinon.stub(suggestionsProvider, 'getSuggestions')
             .returns(Promise.resolve([]));
 
     const input = element.$.entry.$.input;
@@ -450,7 +448,7 @@ suite('gr-account-list tests', () => {
     });
 
     test('toasts on invalid email', () => {
-      const toastHandler = sandbox.stub();
+      const toastHandler = sinon.stub();
       element.addEventListener('show-alert', toastHandler);
       element._handleAdd({detail: {value: 'test'}});
       assert.isTrue(toastHandler.called);
@@ -473,8 +471,8 @@ suite('gr-account-list tests', () => {
   suite('keyboard interactions', () => {
     test('backspace at text input start removes last account', done => {
       const input = element.$.entry.$.input;
-      sandbox.stub(input, '_updateSuggestions');
-      sandbox.stub(element, '_computeRemovable').returns(true);
+      sinon.stub(input, '_updateSuggestions');
+      sinon.stub(element, '_computeRemovable').returns(true);
       flush(() => {
         // Next line is a workaround for Firefox not moving cursor
         // on input field update
@@ -504,10 +502,10 @@ suite('gr-account-list tests', () => {
         MockInteractions.focus(input.$.input);
         flushAsynchronousOperations();
         const chips = element.accountChips;
-        const chipsOneSpy = sandbox.spy(chips[1], 'focus');
+        const chipsOneSpy = sinon.spy(chips[1], 'focus');
         MockInteractions.pressAndReleaseKeyOn(input.$.input, 37); // Left
         assert.isTrue(chipsOneSpy.called);
-        const chipsZeroSpy = sandbox.spy(chips[0], 'focus');
+        const chipsZeroSpy = sinon.spy(chips[0], 'focus');
         MockInteractions.pressAndReleaseKeyOn(chips[1], 37); // Left
         assert.isTrue(chipsZeroSpy.called);
         MockInteractions.pressAndReleaseKeyOn(chips[0], 37); // Left
@@ -521,8 +519,8 @@ suite('gr-account-list tests', () => {
     test('delete', done => {
       element.accounts = [makeAccount(), makeAccount()];
       flush(() => {
-        const focusSpy = sandbox.spy(element.accountChips[1], 'focus');
-        const removeSpy = sandbox.spy(element, 'removeAccount');
+        const focusSpy = sinon.spy(element.accountChips[1], 'focus');
+        const removeSpy = sinon.spy(element, 'removeAccount');
         MockInteractions.pressAndReleaseKeyOn(
             element.accountChips[0], 8); // Backspace
         assert.isTrue(focusSpy.called);

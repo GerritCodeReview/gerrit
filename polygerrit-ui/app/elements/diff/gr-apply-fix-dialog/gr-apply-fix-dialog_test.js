@@ -23,7 +23,7 @@ const basicFixture = fixtureFromElement('gr-apply-fix-dialog');
 
 suite('gr-apply-fix-dialog tests', () => {
   let element;
-  let sandbox;
+
   const ROBOT_COMMENT_WITH_TWO_FIXES = {
     robot_id: 'robot_1',
     fix_suggestions: [{fix_id: 'fix_1'}, {fix_id: 'fix_2'}],
@@ -35,7 +35,7 @@ suite('gr-apply-fix-dialog tests', () => {
   };
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
     element = basicFixture.instantiate();
     element.changeNum = '1';
     element._patchNum = 2;
@@ -55,13 +55,11 @@ suite('gr-apply-fix-dialog tests', () => {
     };
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   suite('dialog open', () => {
     setup(() => {
-      sandbox.stub(element.$.restAPI, 'getRobotCommentFixPreview')
+      sinon.stub(element.$.restAPI, 'getRobotCommentFixPreview')
           .returns(Promise.resolve({
             f1: {
               meta_a: {},
@@ -94,7 +92,7 @@ suite('gr-apply-fix-dialog tests', () => {
               ],
             },
           }));
-      sandbox.stub(element.$.applyFixOverlay, 'open')
+      sinon.stub(element.$.applyFixOverlay, 'open')
           .returns(Promise.resolve());
     });
 
@@ -152,9 +150,9 @@ suite('gr-apply-fix-dialog tests', () => {
   });
 
   test('next button state updated when suggestions changed', done => {
-    sandbox.stub(element.$.restAPI, 'getRobotCommentFixPreview')
+    sinon.stub(element.$.restAPI, 'getRobotCommentFixPreview')
         .returns(Promise.resolve({}));
-    sandbox.stub(element.$.applyFixOverlay, 'open').returns(Promise.resolve());
+    sinon.stub(element.$.applyFixOverlay, 'open').returns(Promise.resolve());
 
     element.open({detail: {patchNum: 2, comment: ROBOT_COMMENT_WITH_ONE_FIX}})
         .then(() => assert.isTrue(element.$.nextFix.disabled))
@@ -168,7 +166,7 @@ suite('gr-apply-fix-dialog tests', () => {
   });
 
   test('preview endpoint throws error should reset dialog', done => {
-    sandbox.stub(window, 'fetch', (url => {
+    sinon.stub(window, 'fetch').callsFake((url => {
       if (url.endsWith('/preview')) {
         return Promise.reject(new Error('backend error'));
       }
@@ -191,9 +189,9 @@ suite('gr-apply-fix-dialog tests', () => {
 
   test('apply fix button should call apply ' +
   'and navigate to change view', done => {
-    sandbox.stub(element.$.restAPI, 'applyFixSuggestion')
+    sinon.stub(element.$.restAPI, 'applyFixSuggestion')
         .returns(Promise.resolve({ok: true}));
-    sandbox.stub(GerritNav, 'navigateToChange');
+    sinon.stub(GerritNav, 'navigateToChange');
     element._currentFix = {fix_id: '123'};
 
     element._handleApplyFix().then(() => {
@@ -217,9 +215,9 @@ suite('gr-apply-fix-dialog tests', () => {
   });
 
   test('should not navigate to change view if incorect reponse', done => {
-    sandbox.stub(element.$.restAPI, 'applyFixSuggestion')
+    sinon.stub(element.$.restAPI, 'applyFixSuggestion')
         .returns(Promise.resolve({}));
-    sandbox.stub(GerritNav, 'navigateToChange');
+    sinon.stub(GerritNav, 'navigateToChange');
     element._currentFix = {fix_id: '123'};
 
     element._handleApplyFix().then(() => {
@@ -233,7 +231,7 @@ suite('gr-apply-fix-dialog tests', () => {
   });
 
   test('select fix forward and back of multiple suggested fixes', done => {
-    sandbox.stub(element.$.restAPI, 'getRobotCommentFixPreview')
+    sinon.stub(element.$.restAPI, 'getRobotCommentFixPreview')
         .returns(Promise.resolve({
           f1: {
             meta_a: {},
@@ -266,7 +264,7 @@ suite('gr-apply-fix-dialog tests', () => {
             ],
           },
         }));
-    sandbox.stub(element.$.applyFixOverlay, 'open').returns(Promise.resolve());
+    sinon.stub(element.$.applyFixOverlay, 'open').returns(Promise.resolve());
 
     element.open({detail: {patchNum: 2, comment: ROBOT_COMMENT_WITH_TWO_FIXES}})
         .then(() => {
@@ -279,7 +277,7 @@ suite('gr-apply-fix-dialog tests', () => {
   });
 
   test('server-error should throw for failed apply call', done => {
-    sandbox.stub(window, 'fetch', (url => {
+    sinon.stub(window, 'fetch').callsFake((url => {
       if (url.endsWith('/apply')) {
         return Promise.reject(new Error('backend error'));
       }
@@ -291,7 +289,7 @@ suite('gr-apply-fix-dialog tests', () => {
     }));
     const errorStub = sinon.stub();
     document.addEventListener('network-error', errorStub);
-    sandbox.stub(GerritNav, 'navigateToChange');
+    sinon.stub(GerritNav, 'navigateToChange');
     element._currentFix = {fix_id: '123'};
     element._handleApplyFix();
     flush(() => {

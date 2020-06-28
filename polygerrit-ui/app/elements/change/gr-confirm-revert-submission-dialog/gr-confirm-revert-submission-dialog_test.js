@@ -22,18 +22,16 @@ const basicFixture = fixtureFromElement('gr-confirm-revert-submission-dialog');
 
 suite('gr-confirm-revert-submission-dialog tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
-  });
 
-  teardown(() => sandbox.restore());
+  });
 
   test('no match', () => {
     assert.isNotOk(element.message);
-    const alertStub = sandbox.stub();
+    const alertStub = sinon.stub();
     element.addEventListener('show-alert', alertStub);
     element._populateRevertSubmissionMessage(
         'not a commitHash in sight', {}

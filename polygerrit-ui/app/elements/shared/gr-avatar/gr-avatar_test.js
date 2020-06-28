@@ -23,16 +23,14 @@ const basicFixture = fixtureFromElement('gr-avatar');
 
 suite('gr-avatar tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
     element = basicFixture.instantiate();
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('methods', () => {
     assert.equal(

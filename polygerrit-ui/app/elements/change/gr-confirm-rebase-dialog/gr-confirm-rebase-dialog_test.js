@@ -22,16 +22,14 @@ const basicFixture = fixtureFromElement('gr-confirm-rebase-dialog');
 
 suite('gr-confirm-rebase-dialog tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
+
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('controls with parent and rebase on current available', () => {
     element.rebaseOnCurrent = true;
@@ -124,7 +122,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
         },
       ];
 
-      sandbox.stub(element.$.restAPI, 'getChanges').returns(Promise.resolve(
+      sinon.stub(element.$.restAPI, 'getChanges').returns(Promise.resolve(
           [
             {
               _number: 123,
@@ -143,7 +141,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
     });
 
     test('_getRecentChanges', () => {
-      sandbox.spy(element, '_getRecentChanges');
+      sinon.spy(element, '_getRecentChanges');
       return element._getRecentChanges()
           .then(() => {
             assert.deepEqual(element._recentChanges, recentChanges);
@@ -173,7 +171,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
     });
 
     test('input text change triggers function', () => {
-      sandbox.spy(element, '_getRecentChanges');
+      sinon.spy(element, '_getRecentChanges');
       element.$.parentInput.noDebounce = true;
       MockInteractions.pressAndReleaseKeyOn(
           element.$.parentInput.$.input,

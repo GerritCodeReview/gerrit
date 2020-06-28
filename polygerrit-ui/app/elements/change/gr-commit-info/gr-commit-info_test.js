@@ -24,19 +24,17 @@ const basicFixture = fixtureFromElement('gr-commit-info');
 
 suite('gr-commit-info tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
     element = basicFixture.instantiate();
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('weblinks use GerritNav interface', () => {
-    const weblinksStub = sandbox.stub(GerritNav, '_generateWeblinks')
+    const weblinksStub = sinon.stub(GerritNav, '_generateWeblinks')
         .returns([{name: 'stubb', url: '#s'}]);
     element.change = {};
     element.commitInfo = {};
@@ -55,7 +53,7 @@ suite('gr-commit-info tests', () => {
 
   test('use web link when available', () => {
     const router = document.createElement('gr-router');
-    sandbox.stub(GerritNav, '_generateWeblinks',
+    sinon.stub(GerritNav, '_generateWeblinks').callsFake(
         router._generateWeblinks.bind(router));
 
     element.change = {labels: [], project: ''};
@@ -71,7 +69,7 @@ suite('gr-commit-info tests', () => {
 
   test('does not relativize web links that begin with scheme', () => {
     const router = document.createElement('gr-router');
-    sandbox.stub(GerritNav, '_generateWeblinks',
+    sinon.stub(GerritNav, '_generateWeblinks').callsFake(
         router._generateWeblinks.bind(router));
 
     element.change = {labels: [], project: ''};
@@ -89,7 +87,7 @@ suite('gr-commit-info tests', () => {
 
   test('ignore web links that are neither gitweb nor gitiles', () => {
     const router = document.createElement('gr-router');
-    sandbox.stub(GerritNav, '_generateWeblinks',
+    sinon.stub(GerritNav, '_generateWeblinks').callsFake(
         router._generateWeblinks.bind(router));
 
     element.change = {project: 'project-name'};

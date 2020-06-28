@@ -36,17 +36,15 @@ suite('gr-diff a11y test', () => {
 
 suite('gr-diff tests', () => {
   let element;
-  let sandbox;
+
 
   const MINIMAL_PREFS = {tab_size: 2, line_length: 80};
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   suite('selectionchange event handling', () => {
     const emulateSelection = function() {
@@ -55,7 +53,7 @@ suite('gr-diff tests', () => {
 
     setup(() => {
       element = basicFixture.instantiate();
-      sandbox.stub(element.$.highlights, 'handleSelectionChange');
+      sinon.stub(element.$.highlights, 'handleSelectionChange');
     });
 
     test('enabled if logged in', () => {
@@ -73,7 +71,7 @@ suite('gr-diff tests', () => {
 
   test('cancel', () => {
     element = basicFixture.instantiate();
-    const cancelStub = sandbox.stub(element.$.diffBuilder, 'cancel');
+    const cancelStub = sinon.stub(element.$.diffBuilder, 'cancel');
     element.cancel();
     assert.isTrue(cancelStub.calledOnce);
   });
@@ -195,8 +193,8 @@ suite('gr-diff tests', () => {
     });
 
     test('addDraftAtLine', () => {
-      sandbox.stub(element, '_selectLine');
-      const loggedInErrorSpy = sandbox.spy();
+      sinon.stub(element, '_selectLine');
+      const loggedInErrorSpy = sinon.spy();
       element.addEventListener('show-auth-required', loggedInErrorSpy);
       element.addDraftAtLine();
       assert.isTrue(loggedInErrorSpy.called);
@@ -211,7 +209,7 @@ suite('gr-diff tests', () => {
     });
 
     test('displayLine class added called when displayLine is true', () => {
-      const spy = sandbox.spy(element, '_computeContainerClass');
+      const spy = sinon.spy(element, '_computeContainerClass');
       element.displayLine = true;
       assert.isTrue(spy.called);
       assert.isTrue(
@@ -545,7 +543,7 @@ suite('gr-diff tests', () => {
     });
 
     test('_handleTap lineNum', done => {
-      const addDraftStub = sandbox.stub(element, 'addDraftAtLine');
+      const addDraftStub = sinon.stub(element, 'addDraftAtLine');
       const el = document.createElement('div');
       el.className = 'lineNum';
       el.addEventListener('click', e => {
@@ -559,7 +557,7 @@ suite('gr-diff tests', () => {
 
     test('_handleTap context', done => {
       const showContextStub =
-          sandbox.stub(element.$.diffBuilder, 'showContext');
+          sinon.stub(element.$.diffBuilder, 'showContext');
       const el = document.createElement('div');
       el.className = 'showContext';
       el.addEventListener('click', e => {
@@ -574,8 +572,8 @@ suite('gr-diff tests', () => {
       const content = document.createElement('div');
       const lineEl = document.createElement('div');
 
-      const selectStub = sandbox.stub(element, '_selectLine');
-      sandbox.stub(element.$.diffBuilder, 'getLineElByChild', () => lineEl);
+      const selectStub = sinon.stub(element, '_selectLine');
+      sinon.stub(element.$.diffBuilder, 'getLineElByChild').callsFake( () => lineEl);
 
       content.className = 'content';
       content.addEventListener('click', e => {
@@ -642,16 +640,16 @@ suite('gr-diff tests', () => {
       element.patchRange = {};
 
       fakeLineEl = {
-        getAttribute: sandbox.stub().returns(42),
+        getAttribute: sinon.stub().returns(42),
         classList: {
-          contains: sandbox.stub().returns(true),
+          contains: sinon.stub().returns(true),
         },
       };
     });
 
     test('addDraftAtLine', () => {
-      sandbox.stub(element, '_selectLine');
-      sandbox.stub(element, '_createComment');
+      sinon.stub(element, '_selectLine');
+      sinon.stub(element, '_createComment');
       element.addDraftAtLine(fakeLineEl);
       assert.isTrue(element._createComment
           .calledWithExactly(fakeLineEl, 42));
@@ -659,9 +657,9 @@ suite('gr-diff tests', () => {
 
     test('addDraftAtLine on an edit', () => {
       element.patchRange.basePatchNum = element.EDIT_NAME;
-      sandbox.stub(element, '_selectLine');
-      sandbox.stub(element, '_createComment');
-      const alertSpy = sandbox.spy();
+      sinon.stub(element, '_selectLine');
+      sinon.stub(element, '_createComment');
+      const alertSpy = sinon.spy();
       element.addEventListener('show-alert', alertSpy);
       element.addDraftAtLine(fakeLineEl);
       assert.isTrue(alertSpy.called);
@@ -671,9 +669,9 @@ suite('gr-diff tests', () => {
     test('addDraftAtLine on an edit base', () => {
       element.patchRange.patchNum = element.EDIT_NAME;
       element.patchRange.basePatchNum = element.PARENT_NAME;
-      sandbox.stub(element, '_selectLine');
-      sandbox.stub(element, '_createComment');
-      const alertSpy = sandbox.spy();
+      sinon.stub(element, '_selectLine');
+      sinon.stub(element, '_createComment');
+      const alertSpy = sinon.spy();
       element.addEventListener('show-alert', alertSpy);
       element.addDraftAtLine(fakeLineEl);
       assert.isTrue(alertSpy.called);
@@ -695,7 +693,7 @@ suite('gr-diff tests', () => {
       });
 
       test('change in preferences re-renders diff', () => {
-        sandbox.stub(element, '_renderDiffTable');
+        sinon.stub(element, '_renderDiffTable');
         element.prefs = Object.assign(
             {}, MINIMAL_PREFS, {time_format: 'HHMM_12'});
         element.flushDebouncer('renderDiffTable');
@@ -703,7 +701,7 @@ suite('gr-diff tests', () => {
       });
 
       test('adding/removing property in preferences re-renders diff', () => {
-        const stub = sandbox.stub(element, '_renderDiffTable');
+        const stub = sinon.stub(element, '_renderDiffTable');
         const newPrefs1 = Object.assign({}, MINIMAL_PREFS,
             {line_wrapping: true});
         element.prefs = newPrefs1;
@@ -720,7 +718,7 @@ suite('gr-diff tests', () => {
 
       test('change in preferences does not re-renders diff with ' +
           'noRenderOnPrefsChange', () => {
-        sandbox.stub(element, '_renderDiffTable');
+        sinon.stub(element, '_renderDiffTable');
         element.noRenderOnPrefsChange = true;
         element.prefs = Object.assign(
             {}, MINIMAL_PREFS, {time_format: 'HHMM_12'});
@@ -778,13 +776,13 @@ suite('gr-diff tests', () => {
 
     setup(() => {
       element = basicFixture.instantiate();
-      renderStub = sandbox.stub(element.$.diffBuilder, 'render',
+      renderStub = sinon.stub(element.$.diffBuilder, 'render').callsFake(
           () => {
             element.$.diffBuilder.dispatchEvent(
                 new CustomEvent('render', {bubbles: true, composed: true}));
             return Promise.resolve({});
           });
-      sandbox.stub(element, 'getDiffLength').returns(10000);
+      sinon.stub(element, 'getDiffLength').returns(10000);
       element.diff = getMockDiffResponse();
       element.noRenderOnPrefsChange = true;
     });
@@ -834,7 +832,7 @@ suite('gr-diff tests', () => {
 
     test('unsetting', () => {
       element.blame = [];
-      const setBlameSpy = sandbox.spy(element.$.diffBuilder, 'setBlame');
+      const setBlameSpy = sinon.spy(element.$.diffBuilder, 'setBlame');
       element.classList.add('showBlame');
       element.blame = null;
       assert.isTrue(setBlameSpy.calledWithExactly(null));
@@ -935,7 +933,7 @@ suite('gr-diff tests', () => {
     setup(() => {
       element = basicFixture.instantiate();
       element.prefs = {};
-      renderStub = sandbox.stub(element.$.diffBuilder, 'render')
+      renderStub = sinon.stub(element.$.diffBuilder, 'render')
           .returns(new Promise(() => {}));
     });
 
@@ -1143,7 +1141,7 @@ suite('gr-diff tests', () => {
   test('`render` event has contentRendered field in detail', done => {
     element = basicFixture.instantiate();
     element.prefs = {};
-    sandbox.stub(element.$.diffBuilder, 'render')
+    sinon.stub(element.$.diffBuilder, 'render')
         .returns(Promise.resolve());
     element.addEventListener('render', event => {
       assert.isTrue(event.detail.contentRendered);

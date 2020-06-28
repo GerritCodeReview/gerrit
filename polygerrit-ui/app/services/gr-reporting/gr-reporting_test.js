@@ -20,22 +20,21 @@ import {GrReporting, DEFAULT_STARTUP_TIMERS, initErrorReporter} from './gr-repor
 import {appContext} from '../app-context.js';
 suite('gr-reporting tests', () => {
   let service;
-  let sandbox;
+
   let clock;
   let fakePerformance;
 
   const NOW_TIME = 100;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
     clock = sinon.useFakeTimers(NOW_TIME);
     service = new GrReporting(appContext.flagsService);
     service._baselines = Object.assign({}, DEFAULT_STARTUP_TIMERS);
-    sandbox.stub(service, 'reporter');
+    sinon.stub(service, 'reporter');
   });
 
   teardown(() => {
-    sandbox.restore();
     clock.restore();
   });
 
@@ -45,9 +44,8 @@ suite('gr-reporting tests', () => {
       loadEventEnd: 2,
     };
     fakePerformance.toJSON = () => fakePerformance;
-    sinon.stub(service, 'performanceTiming',
-        {get() { return fakePerformance; }});
-    sandbox.stub(window.performance, 'now').returns(42);
+    sinon.stub(service, 'performanceTiming').get(() => fakePerformance);
+    sinon.stub(window.performance, 'now').returns(42);
     service.appStarted();
     assert.isTrue(
         service.reporter.calledWithMatch(
@@ -62,7 +60,7 @@ suite('gr-reporting tests', () => {
   });
 
   test('WebComponentsReady', () => {
-    sandbox.stub(window.performance, 'now').returns(42);
+    sinon.stub(window.performance, 'now').returns(42);
     service.timeEnd('WebComponentsReady');
     assert.isTrue(service.reporter.calledWithMatch(
         'timing-report', 'UI Latency', 'WebComponentsReady', 42
@@ -71,7 +69,7 @@ suite('gr-reporting tests', () => {
 
   test('beforeLocationChanged', () => {
     service._baselines['garbage'] = 'monster';
-    sandbox.stub(service, 'time');
+    sinon.stub(service, 'time');
     service.beforeLocationChanged();
     assert.isTrue(service.time.calledWithExactly('DashboardDisplayed'));
     assert.isTrue(service.time.calledWithExactly('ChangeDisplayed'));
@@ -82,7 +80,7 @@ suite('gr-reporting tests', () => {
   });
 
   test('changeDisplayed', () => {
-    sandbox.spy(service, 'timeEnd');
+    sinon.spy(service, 'timeEnd');
     service.changeDisplayed();
     assert.isFalse(service.timeEnd.calledWith('ChangeDisplayed'));
     assert.isTrue(service.timeEnd.calledWith('StartupChangeDisplayed'));
@@ -91,7 +89,7 @@ suite('gr-reporting tests', () => {
   });
 
   test('changeFullyLoaded', () => {
-    sandbox.spy(service, 'timeEnd');
+    sinon.spy(service, 'timeEnd');
     service.changeFullyLoaded();
     assert.isFalse(
         service.timeEnd.calledWithExactly('ChangeFullyLoaded'));
@@ -102,7 +100,7 @@ suite('gr-reporting tests', () => {
   });
 
   test('diffViewDisplayed', () => {
-    sandbox.spy(service, 'timeEnd');
+    sinon.spy(service, 'timeEnd');
     service.diffViewDisplayed();
     assert.isFalse(service.timeEnd.calledWith('DiffViewDisplayed'));
     assert.isTrue(service.timeEnd.calledWith('StartupDiffViewDisplayed'));
@@ -111,7 +109,7 @@ suite('gr-reporting tests', () => {
   });
 
   test('fileListDisplayed', () => {
-    sandbox.spy(service, 'timeEnd');
+    sinon.spy(service, 'timeEnd');
     service.fileListDisplayed();
     assert.isFalse(
         service.timeEnd.calledWithExactly('FileListDisplayed'));
@@ -122,7 +120,7 @@ suite('gr-reporting tests', () => {
   });
 
   test('dashboardDisplayed', () => {
-    sandbox.spy(service, 'timeEnd');
+    sinon.spy(service, 'timeEnd');
     service.dashboardDisplayed();
     assert.isFalse(service.timeEnd.calledWith('DashboardDisplayed'));
     assert.isTrue(service.timeEnd.calledWith('StartupDashboardDisplayed'));
@@ -131,8 +129,8 @@ suite('gr-reporting tests', () => {
   });
 
   test('dashboardDisplayed details', () => {
-    sandbox.spy(service, 'timeEnd');
-    sandbox.stub(window, 'performance', {
+    sinon.spy(service, 'timeEnd');
+    sinon.stub(window, 'performance').value( {
       memory: {
         usedJSHeapSize: 1024 * 1024,
       },
@@ -175,8 +173,8 @@ suite('gr-reporting tests', () => {
     };
 
     setup(() => {
-      sandbox.spy(service, 'timeEnd');
-      nowStub = sandbox.stub(window.performance, 'now');
+      sinon.spy(service, 'timeEnd');
+      nowStub = sinon.stub(window.performance, 'now');
       visibilityStateStub = {
         value: value => {
           Object.defineProperty(document, 'visibilityState',
@@ -228,7 +226,7 @@ suite('gr-reporting tests', () => {
       visibilityStateStub.value('visible');
       nowStub.returns(15);
       service.beforeLocationChanged();
-      service.timeEnd.reset();
+      service.timeEnd.resetHistory();
       service.dashboardDisplayed();
       assert.isTrue(
           service.timeEnd.calledWithMatch('DashboardDisplayed',
@@ -238,7 +236,7 @@ suite('gr-reporting tests', () => {
   });
 
   test('time and timeEnd', () => {
-    const nowStub = sandbox.stub(window.performance, 'now').returns(0);
+    const nowStub = sinon.stub(window.performance, 'now').returns(0);
     service.time('foo');
     nowStub.returns(1);
     service.time('bar');
@@ -255,7 +253,7 @@ suite('gr-reporting tests', () => {
   });
 
   test('timer object', () => {
-    const nowStub = sandbox.stub(window.performance, 'now').returns(100);
+    const nowStub = sinon.stub(window.performance, 'now').returns(100);
     const timer = service.getTimer('foo-bar');
     nowStub.returns(150);
     timer.end();
@@ -273,7 +271,7 @@ suite('gr-reporting tests', () => {
   });
 
   test('timer object maximum', () => {
-    const nowStub = sandbox.stub(window.performance, 'now').returns(100);
+    const nowStub = sinon.stub(window.performance, 'now').returns(100);
     const timer = service.getTimer('foo-bar').withMaximum(100);
     nowStub.returns(150);
     timer.end();
@@ -287,8 +285,8 @@ suite('gr-reporting tests', () => {
 
   test('recordDraftInteraction', () => {
     const key = 'TimeBetweenDraftActions';
-    const nowStub = sandbox.stub(window.performance, 'now').returns(100);
-    const timingStub = sandbox.stub(service, '_reportTiming');
+    const nowStub = sinon.stub(window.performance, 'now').returns(100);
+    const timingStub = sinon.stub(service, '_reportTiming');
     service.recordDraftInteraction();
     assert.isFalse(timingStub.called);
 
@@ -310,7 +308,7 @@ suite('gr-reporting tests', () => {
   });
 
   test('timeEndWithAverage', () => {
-    const nowStub = sandbox.stub(window.performance, 'now').returns(0);
+    const nowStub = sinon.stub(window.performance, 'now').returns(0);
     nowStub.returns(1000);
     service.time('foo');
     nowStub.returns(1100);
@@ -331,7 +329,7 @@ suite('gr-reporting tests', () => {
 
   test('reportInteraction', () => {
     service.reporter.restore();
-    sandbox.spy(service, '_reportEvent');
+    sinon.spy(service, '_reportEvent');
     service.pluginsLoaded(); // so we don't cache
     service.reportInteraction('button-click', {name: 'sendReply'});
     assert.isTrue(service._reportEvent.getCall(2).calledWithMatch(
@@ -345,9 +343,9 @@ suite('gr-reporting tests', () => {
 
   test('report start time', () => {
     service.reporter.restore();
-    sandbox.stub(window.performance, 'now').returns(42);
-    sandbox.spy(service, '_reportEvent');
-    const dispatchStub = sandbox.spy(document, 'dispatchEvent');
+    sinon.stub(window.performance, 'now').returns(42);
+    sinon.spy(service, '_reportEvent');
+    const dispatchStub = sinon.spy(document, 'dispatchEvent');
     service.pluginsLoaded();
     service.time('timeAction');
     service.timeEnd('timeAction');
@@ -366,11 +364,11 @@ suite('gr-reporting tests', () => {
   suite('plugins', () => {
     setup(() => {
       service.reporter.restore();
-      sandbox.stub(service, '_reportEvent');
+      sinon.stub(service, '_reportEvent');
     });
 
     test('pluginsLoaded reports time', () => {
-      sandbox.stub(window.performance, 'now').returns(42);
+      sinon.stub(window.performance, 'now').returns(42);
       service.pluginsLoaded();
       assert.isTrue(service._reportEvent.calledWithMatch(
           {
@@ -452,7 +450,7 @@ suite('gr-reporting tests', () => {
           this.handlers[type] = handler;
         },
       };
-      sandbox.stub(console, 'error');
+      sinon.stub(console, 'error');
       Object.defineProperty(appContext, 'reportingService', {
         get() {
           return service;

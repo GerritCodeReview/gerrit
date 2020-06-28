@@ -22,22 +22,20 @@ const basicFixture = fixtureFromElement('gr-shell-command');
 
 suite('gr-shell-command tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+    
     element = basicFixture.instantiate();
     element.text = `git fetch http://gerrit@localhost:8080/a/test-project
         refs/changes/05/5/1 && git checkout FETCH_HEAD`;
     flushAsynchronousOperations();
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('focusOnCopy', () => {
-    const focusStub = sandbox.stub(element.shadowRoot
+    const focusStub = sinon.stub(element.shadowRoot
         .querySelector('gr-copy-clipboard'),
     'focusOnCopy');
     element.focusOnCopy();

@@ -25,7 +25,7 @@ const basicFixture = fixtureFromElement('gr-thread-list');
 
 suite('gr-thread-list tests', () => {
   let element;
-  let sandbox;
+
   let threadElements;
 
   function getVisibleThreads() {
@@ -35,7 +35,7 @@ suite('gr-thread-list tests', () => {
   }
 
   setup(done => {
-    sandbox = sinon.sandbox.create();
+
     element = basicFixture.instantiate();
     element.threads = [
       {
@@ -268,9 +268,7 @@ suite('gr-thread-list tests', () => {
     });
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('draft toggle only appears when logged in', () => {
     assert.equal(getComputedStyle(element.shadowRoot
@@ -579,8 +577,8 @@ suite('gr-thread-list tests', () => {
   });
 
   test('modification events are consumed and displatched', () => {
-    sandbox.spy(element, '_handleCommentsChanged');
-    const dispatchSpy = sandbox.stub();
+    sinon.spy(element, '_handleCommentsChanged');
+    const dispatchSpy = sinon.stub();
     element.addEventListener('thread-list-modified', dispatchSpy);
     threadElements[0].dispatchEvent(
         new CustomEvent('thread-changed', {

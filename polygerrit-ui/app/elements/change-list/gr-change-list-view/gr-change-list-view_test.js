@@ -27,7 +27,7 @@ const COMMIT_HASH = '12345678';
 
 suite('gr-change-list-view tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
     stub('gr-rest-api-interface', {
@@ -39,12 +39,11 @@ suite('gr-change-list-view tests', () => {
       getAccountStatus() { return Promise.resolve({}); },
     });
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
+
   });
 
   teardown(done => {
     flush(() => {
-      sandbox.restore();
       done();
     });
   });
@@ -64,7 +63,7 @@ suite('gr-change-list-view tests', () => {
   });
 
   test('_computeNavLink', () => {
-    const getUrlStub = sandbox.stub(GerritNav, 'getUrlForSearchQuery')
+    const getUrlStub = sinon.stub(GerritNav, 'getUrlForSearchQuery')
         .returns('');
     const query = 'status:open';
     let offset = 0;
@@ -110,7 +109,7 @@ suite('gr-change-list-view tests', () => {
   });
 
   test('_handleNextPage', () => {
-    const showStub = sandbox.stub(page, 'show');
+    const showStub = sinon.stub(page, 'show');
     element.$.nextArrow.hidden = true;
     element._handleNextPage();
     assert.isFalse(showStub.called);
@@ -120,7 +119,7 @@ suite('gr-change-list-view tests', () => {
   });
 
   test('_handlePreviousPage', () => {
-    const showStub = sandbox.stub(page, 'show');
+    const showStub = sinon.stub(page, 'show');
     element.$.prevArrow.hidden = true;
     element._handlePreviousPage();
     assert.isFalse(showStub.called);
@@ -186,16 +185,16 @@ suite('gr-change-list-view tests', () => {
 
     teardown(done => {
       flush(() => {
-        sandbox.restore();
+        sinon.restore();
         done();
       });
     });
 
     test('Searching for a change ID redirects to change', done => {
       const change = {_number: 1};
-      sandbox.stub(element, '_getChanges')
+      sinon.stub(element, '_getChanges')
           .returns(Promise.resolve([change]));
-      sandbox.stub(GerritNav, 'navigateToChange', url => {
+      sinon.stub(GerritNav, 'navigateToChange').callsFake( url => {
         assert.equal(url, change);
         done();
       });
@@ -205,9 +204,9 @@ suite('gr-change-list-view tests', () => {
 
     test('Searching for a change num redirects to change', done => {
       const change = {_number: 1};
-      sandbox.stub(element, '_getChanges')
+      sinon.stub(element, '_getChanges')
           .returns(Promise.resolve([change]));
-      sandbox.stub(GerritNav, 'navigateToChange', url => {
+      sinon.stub(GerritNav, 'navigateToChange').callsFake( url => {
         assert.equal(url, change);
         done();
       });
@@ -217,9 +216,9 @@ suite('gr-change-list-view tests', () => {
 
     test('Commit hash redirects to change', done => {
       const change = {_number: 1};
-      sandbox.stub(element, '_getChanges')
+      sinon.stub(element, '_getChanges')
           .returns(Promise.resolve([change]));
-      sandbox.stub(GerritNav, 'navigateToChange', url => {
+      sinon.stub(GerritNav, 'navigateToChange').callsFake( url => {
         assert.equal(url, change);
         done();
       });
@@ -228,9 +227,9 @@ suite('gr-change-list-view tests', () => {
     });
 
     test('Searching for an invalid change ID searches', () => {
-      sandbox.stub(element, '_getChanges')
+      sinon.stub(element, '_getChanges')
           .returns(Promise.resolve([]));
-      const stub = sandbox.stub(GerritNav, 'navigateToChange');
+      const stub = sinon.stub(GerritNav, 'navigateToChange');
 
       element.params = {view: GerritNav.View.SEARCH, query: CHANGE_ID};
       flushAsynchronousOperations();
@@ -239,9 +238,9 @@ suite('gr-change-list-view tests', () => {
     });
 
     test('Change ID with multiple search results searches', () => {
-      sandbox.stub(element, '_getChanges')
+      sinon.stub(element, '_getChanges')
           .returns(Promise.resolve([{}, {}]));
-      const stub = sandbox.stub(GerritNav, 'navigateToChange');
+      const stub = sinon.stub(GerritNav, 'navigateToChange');
 
       element.params = {view: GerritNav.View.SEARCH, query: CHANGE_ID};
       flushAsynchronousOperations();

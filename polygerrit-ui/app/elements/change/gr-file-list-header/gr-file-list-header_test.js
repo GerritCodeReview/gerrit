@@ -25,10 +25,10 @@ const basicFixture = fixtureFromElement('gr-file-list-header');
 
 suite('gr-file-list-header tests', () => {
   let element;
-  let sandbox;
+
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
     stub('gr-rest-api-interface', {
       getConfig() { return Promise.resolve({test: 'config'}); },
       getAccount() { return Promise.resolve(null); },
@@ -39,7 +39,6 @@ suite('gr-file-list-header tests', () => {
 
   teardown(done => {
     flush(() => {
-      sandbox.restore();
       done();
     });
   });
@@ -80,7 +79,7 @@ suite('gr-file-list-header tests', () => {
   });
 
   test('description editing', () => {
-    const putDescStub = sandbox.stub(element.$.restAPI, 'setDescription')
+    const putDescStub = sinon.stub(element.$.restAPI, 'setDescription')
         .returns(Promise.resolve({ok: true}));
 
     element.changeNum = '42';
@@ -149,7 +148,7 @@ suite('gr-file-list-header tests', () => {
   test('expandAllDiffs called when expand button clicked', () => {
     element.shownFileCount = 1;
     flushAsynchronousOperations();
-    sandbox.stub(element, '_expandAllDiffs');
+    sinon.stub(element, '_expandAllDiffs');
     MockInteractions.tap(dom(element.root).querySelector(
         '#expandBtn'));
     assert.isTrue(element._expandAllDiffs.called);
@@ -158,14 +157,14 @@ suite('gr-file-list-header tests', () => {
   test('collapseAllDiffs called when expand button clicked', () => {
     element.shownFileCount = 1;
     flushAsynchronousOperations();
-    sandbox.stub(element, '_collapseAllDiffs');
+    sinon.stub(element, '_collapseAllDiffs');
     MockInteractions.tap(dom(element.root).querySelector(
         '#collapseBtn'));
     assert.isTrue(element._collapseAllDiffs.called);
   });
 
   test('show/hide diffs disabled for large amounts of files', done => {
-    const computeSpy = sandbox.spy(element, '_fileListActionsVisible');
+    const computeSpy = sinon.spy(element, '_fileListActionsVisible');
     element._files = [];
     element.changeNum = '42';
     element.basePatchNum = 'PARENT';
@@ -218,7 +217,7 @@ suite('gr-file-list-header tests', () => {
   });
 
   test('navigateToChange called when range select changes', () => {
-    const navigateToChangeStub = sandbox.stub(GerritNav, 'navigateToChange');
+    const navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange');
     element.change = {
       change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
       revisions: {
@@ -261,7 +260,7 @@ suite('gr-file-list-header tests', () => {
 
     test('patch specific elements', () => {
       element.editMode = true;
-      sandbox.stub(element, 'computeLatestPatchNum').returns('2');
+      sinon.stub(element, 'computeLatestPatchNum').returns('2');
       flushAsynchronousOperations();
 
       assert.isFalse(isVisible(element.$.diffPrefsContainer));

@@ -48,17 +48,17 @@ const basicFixture = fixtureFromTemplate(
 
 suite('gr-endpoint-decorator', () => {
   let container;
-  let sandbox;
+
   let plugin;
   let decorationHook;
   let decorationHookWithSlot;
   let replacementHook;
 
   setup(done => {
-    sandbox = sinon.sandbox.create();
+
     resetPlugins();
     container = basicFixture.instantiate();
-    sandbox.stub(pluginEndpoints, 'importUrl', url => Promise.resolve());
+    sinon.stub(pluginEndpoints, 'importUrl').callsFake( url => Promise.resolve());
     pluginApi.install(p => plugin = p, '0.1',
         'http://some/plugin/url.html');
     // Decoration
@@ -77,7 +77,6 @@ suite('gr-endpoint-decorator', () => {
   });
 
   teardown(() => {
-    sandbox.restore();
     resetPlugins();
   });
 

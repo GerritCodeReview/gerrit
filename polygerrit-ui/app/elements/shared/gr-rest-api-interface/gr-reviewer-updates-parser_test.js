@@ -20,24 +20,22 @@ import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser.js';
 import {parseDate} from '../../../utils/date-util.js';
 
 suite('gr-reviewer-updates-parser tests', () => {
-  let sandbox;
+
   let instance;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
+
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
+
 
   test('ignores changes without messages', () => {
     const change = {};
-    sandbox.stub(
+    sinon.stub(
         GrReviewerUpdatesParser.prototype, '_filterRemovedMessages');
-    sandbox.stub(
+    sinon.stub(
         GrReviewerUpdatesParser.prototype, '_groupUpdates');
-    sandbox.stub(
+    sinon.stub(
         GrReviewerUpdatesParser.prototype, '_formatUpdates');
     assert.strictEqual(GrReviewerUpdatesParser.parse(change), change);
     assert.isFalse(
@@ -52,11 +50,11 @@ suite('gr-reviewer-updates-parser tests', () => {
     const change = {
       messages: [],
     };
-    sandbox.stub(
+    sinon.stub(
         GrReviewerUpdatesParser.prototype, '_filterRemovedMessages');
-    sandbox.stub(
+    sinon.stub(
         GrReviewerUpdatesParser.prototype, '_groupUpdates');
-    sandbox.stub(
+    sinon.stub(
         GrReviewerUpdatesParser.prototype, '_formatUpdates');
     assert.strictEqual(GrReviewerUpdatesParser.parse(change), change);
     assert.isFalse(
@@ -72,11 +70,11 @@ suite('gr-reviewer-updates-parser tests', () => {
       messages: [],
       reviewer_updates: [],
     };
-    sandbox.stub(
+    sinon.stub(
         GrReviewerUpdatesParser.prototype, '_filterRemovedMessages');
-    sandbox.stub(
+    sinon.stub(
         GrReviewerUpdatesParser.prototype, '_groupUpdates');
-    sandbox.stub(
+    sinon.stub(
         GrReviewerUpdatesParser.prototype, '_formatUpdates');
     assert.strictEqual(GrReviewerUpdatesParser.parse(change), change);
     assert.isFalse(

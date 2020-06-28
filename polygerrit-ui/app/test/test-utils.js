@@ -34,5 +34,6 @@ export const isHidden = el => getComputedStyle(el).display === 'none';
 export const resetPlugins = () => {
   testOnly_resetInternalState();
   _testOnly_resetEndpoints();
-  _testOnly_resetPluginLoader();
+  const pl = _testOnly_resetPluginLoader();
+  pl.loadPlugins([]);
 };

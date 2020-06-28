@@ -36,7 +36,7 @@ import '../../../test/common-test-setup.js';
 import './gr-js-api-interface.js';
 import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {PRELOADED_PROTOCOL, PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils.js';
-import {pluginLoader} from './gr-plugin-loader.js';
+import {_testOnly_resetPluginLoader} from './gr-plugin-loader.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import {_testOnly_flushPreinstalls} from './gr-gerrit.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
@@ -48,6 +48,7 @@ suite('gr-plugin-loader tests', () => {
   let sandbox;
   let url;
   let sendStub;
+  let pluginLoader;
 
   setup(() => {
     window.clock = sinon.useFakeTimers();
@@ -61,6 +62,7 @@ suite('gr-plugin-loader tests', () => {
         return sendStub(...args);
       },
     });
+    pluginLoader = _testOnly_resetPluginLoader();
     sandbox.stub(document.body, 'appendChild');
     fixture('basic');
     url = window.location.origin;
@@ -104,7 +106,7 @@ suite('gr-plugin-loader tests', () => {
     pluginsLoadedStub.reset();
     window.Gerrit._loadPlugins([]);
     flush(() => {
-      assert.isTrue(pluginsLoadedStub.calledOnce);
+      assert.isTrue(pluginsLoadedStub.called);
       done();
     });
   });

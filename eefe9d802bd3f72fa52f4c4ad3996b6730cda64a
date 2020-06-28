@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08e3362a_ced37b1d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-28T14:37:20Z",
+      "side": 1,
+      "message": "I think, I like PS4 best, but I added the latest suggestions to PS5.",
+      "revId": "eefe9d802bd3f72fa52f4c4ad3996b6730cda64a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

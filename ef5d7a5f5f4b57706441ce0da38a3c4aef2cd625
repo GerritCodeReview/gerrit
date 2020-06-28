@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "2367192d_75c8cfd0",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-28T14:37:20Z",
+      "side": 1,
+      "message": "Done in PS5.",
+      "parentUuid": "ab81db98_f7db470b",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 31,
+        "endChar": 39
+      },
+      "revId": "ef5d7a5f5f4b57706441ce0da38a3c4aef2cd625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c705e59_48630ff5",
         "filename": "Documentation/dev-crafting-changes.txt",
         "patchSetId": 4
@@ -65,6 +89,30 @@
     },
     {
       "key": {
+        "uuid": "11b2dfac_8c8a7087",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-28T14:37:20Z",
+      "side": 1,
+      "message": "Done in PS5.",
+      "parentUuid": "5c705e59_48630ff5",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 15
+      },
+      "revId": "ef5d7a5f5f4b57706441ce0da38a3c4aef2cd625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4fa2308a_e7fea94c",
         "filename": "Documentation/dev-crafting-changes.txt",
         "patchSetId": 4
@@ -85,6 +133,30 @@
       "revId": "ef5d7a5f5f4b57706441ce0da38a3c4aef2cd625",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39948b71_5471e02e",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-28T14:37:20Z",
+      "side": 1,
+      "message": "Done in PS5.",
+      "parentUuid": "4fa2308a_e7fea94c",
+      "range": {
+        "startLine": 37,
+        "startChar": 53,
+        "endLine": 38,
+        "endChar": 27
+      },
+      "revId": "ef5d7a5f5f4b57706441ce0da38a3c4aef2cd625",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

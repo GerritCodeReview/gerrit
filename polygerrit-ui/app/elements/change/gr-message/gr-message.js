@@ -187,6 +187,7 @@ class GrMessage extends GestureEventListeners(
         count += commentArray.length;
       }
     }
+<<<<<<< HEAD   (1ece28 Merge "Merge branch 'stable-3.1' into stable-3.2" into stabl)
     if (count === 0) {
       return undefined;
     } else if (count === 1) {
@@ -194,6 +195,19 @@ class GrMessage extends GestureEventListeners(
     } else {
       return `${count} comments`;
     }
+=======
+  }
+
+  _onThreadListModified() {
+    // TODO(taoalpha): this won't propagate the changes to the files
+    // should consider replacing this with either top level events
+    // or gerrit level events
+
+    // emit the event so change-view can also get updated with latest changes
+    this.dispatchEvent(new CustomEvent('comment-refresh', {
+      composed: true, bubbles: true,
+    }));
+>>>>>>> CHANGE (6b055d Replace all 'this.fire' with 'this.dispatchEvent' for custom)
   }
 
   _computeMessageContentExpanded(content, tag) {

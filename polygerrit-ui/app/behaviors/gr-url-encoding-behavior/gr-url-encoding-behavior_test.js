@@ -24,7 +24,6 @@ const basicFixture =
 
 suite('gr-url-encoding-behavior tests', () => {
   let element;
-  let sandbox;
 
   suiteSetup(() => {
     // Define a Polymer element that uses this behavior.
@@ -35,12 +34,7 @@ suite('gr-url-encoding-behavior tests', () => {
   });
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   suite('encodeURL', () => {

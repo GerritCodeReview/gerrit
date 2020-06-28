@@ -22,18 +22,14 @@ const basicFixture = fixtureFromElement('gr-repo-branch-picker');
 
 suite('gr-repo-branch-picker tests', () => {
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
   });
 
-  teardown(() => { sandbox.restore(); });
-
   suite('_getRepoSuggestions', () => {
     setup(() => {
-      sandbox.stub(element.$.restAPI, 'getRepos')
+      sinon.stub(element.$.restAPI, 'getRepos')
           .returns(Promise.resolve([
             {
               id: 'plugins%2Favatars-external',
@@ -69,7 +65,7 @@ suite('gr-repo-branch-picker tests', () => {
 
   suite('_getRepoBranchesSuggestions', () => {
     setup(() => {
-      sandbox.stub(element.$.restAPI, 'getRepoBranches')
+      sinon.stub(element.$.restAPI, 'getRepoBranches')
           .returns(Promise.resolve([
             {ref: 'refs/heads/stable-2.10'},
             {ref: 'refs/heads/stable-2.11'},

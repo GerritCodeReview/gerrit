@@ -30,11 +30,9 @@ const headerTitleFixture = fixtureFromTemplate(html`
 const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-theme-api tests', () => {
-  let sandbox;
   let theme;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     let plugin;
     pluginApi.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
@@ -43,7 +41,6 @@ suite('gr-theme-api tests', () => {
 
   teardown(() => {
     theme = null;
-    sandbox.restore();
   });
 
   test('exists', () => {

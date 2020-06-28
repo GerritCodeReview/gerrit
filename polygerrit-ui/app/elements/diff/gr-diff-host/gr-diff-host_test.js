@@ -26,22 +26,17 @@ const basicFixture = fixtureFromElement('gr-diff-host');
 
 suite('gr-diff-host tests', () => {
   let element;
-  let sandbox;
+
   let getLoggedIn;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     getLoggedIn = false;
     stub('gr-rest-api-interface', {
       async getLoggedIn() { return getLoggedIn; },
     });
     element = basicFixture.instantiate();
-    sandbox.stub(element.reporting, 'time');
-    sandbox.stub(element.reporting, 'timeEnd');
-  });
-
-  teardown(() => {
-    sandbox.restore();
+    sinon.stub(element.reporting, 'time');
+    sinon.stub(element.reporting, 'timeEnd');
   });
 
   suite('plugin layers', () => {
@@ -61,7 +56,7 @@ suite('gr-diff-host tests', () => {
 
   suite('handle comment-update', () => {
     setup(() => {
-      sandbox.stub(element, '_commentsChanged');
+      sinon.stub(element, '_commentsChanged');
       element.comments = {
         meta: {
           changeNum: '42',
@@ -107,7 +102,7 @@ suite('gr-diff-host tests', () => {
         side: 'PARENT',
         __commentSide: 'left',
       };
-      const diffCommentsModifiedStub = sandbox.stub();
+      const diffCommentsModifiedStub = sinon.stub();
       element.addEventListener('diff-comments-modified',
           diffCommentsModifiedStub);
       element.comments.left.push(comment);
@@ -132,7 +127,7 @@ suite('gr-diff-host tests', () => {
         side: 'PARENT',
         __commentSide: 'left',
       };
-      const diffCommentsModifiedStub = sandbox.stub();
+      const diffCommentsModifiedStub = sinon.stub();
       element.addEventListener('diff-comments-modified',
           diffCommentsModifiedStub);
       element.comments.left.push(comment);
@@ -151,7 +146,7 @@ suite('gr-diff-host tests', () => {
   });
 
   test('remove comment', () => {
-    sandbox.stub(element, '_commentsChanged');
+    sinon.stub(element, '_commentsChanged');
     element.comments = {
       meta: {
         changeNum: '42',
@@ -305,13 +300,13 @@ suite('gr-diff-host tests', () => {
     });
 
     test('ends total and syntax timer after syntax layer processing', done => {
-      sandbox.stub(element.reporting, 'diffViewContentDisplayed');
+      sinon.stub(element.reporting, 'diffViewContentDisplayed');
       let notifySyntaxProcessed;
-      sandbox.stub(element.$.syntaxLayer, 'process').returns(new Promise(
+      sinon.stub(element.$.syntaxLayer, 'process').returns(new Promise(
           resolve => {
             notifySyntaxProcessed = resolve;
           }));
-      sandbox.stub(element.$.restAPI, 'getDiff').returns(
+      sinon.stub(element.$.restAPI, 'getDiff').returns(
           Promise.resolve({content: []}));
       element.patchRange = {};
       element.$.restAPI.getDiffPreferences().then(prefs => {
@@ -334,7 +329,7 @@ suite('gr-diff-host tests', () => {
     });
 
     test('ends total timer w/ no syntax layer processing', done => {
-      sandbox.stub(element.$.restAPI, 'getDiff').returns(
+      sinon.stub(element.$.restAPI, 'getDiff').returns(
           Promise.resolve({content: []}));
       element.patchRange = {};
       element.reload();
@@ -349,11 +344,11 @@ suite('gr-diff-host tests', () => {
 
     test('completes reload promise after syntax layer processing', done => {
       let notifySyntaxProcessed;
-      sandbox.stub(element.$.syntaxLayer, 'process').returns(new Promise(
+      sinon.stub(element.$.syntaxLayer, 'process').returns(new Promise(
           resolve => {
             notifySyntaxProcessed = resolve;
           }));
-      sandbox.stub(element.$.restAPI, 'getDiff').returns(
+      sinon.stub(element.$.restAPI, 'getDiff').returns(
           Promise.resolve({content: []}));
       element.patchRange = {};
       let reloadComplete = false;
@@ -379,10 +374,10 @@ suite('gr-diff-host tests', () => {
   });
 
   test('reload() cancels before network resolves', () => {
-    const cancelStub = sandbox.stub(element.$.diff, 'cancel');
+    const cancelStub = sinon.stub(element.$.diff, 'cancel');
 
     // Stub the network calls into requests that never resolve.
-    sandbox.stub(element, '_getDiff', () => new Promise(() => {}));
+    sinon.stub(element, '_getDiff').callsFake(() => new Promise(() => {}));
     element.patchRange = {};
 
     element.reload();
@@ -396,9 +391,9 @@ suite('gr-diff-host tests', () => {
     });
 
     test('reload() loads files weblinks', () => {
-      const weblinksStub = sandbox.stub(GerritNav, '_generateWeblinks')
+      const weblinksStub = sinon.stub(GerritNav, '_generateWeblinks')
           .returns({name: 'stubb', url: '#s'});
-      sandbox.stub(element.$.restAPI, 'getDiff').returns(Promise.resolve({
+      sinon.stub(element.$.restAPI, 'getDiff').returns(Promise.resolve({
         content: [],
       }));
       element.projectName = 'test-project';
@@ -431,7 +426,7 @@ suite('gr-diff-host tests', () => {
     });
 
     test('prefetch getDiff', done => {
-      const diffRestApiStub = sandbox.stub(element.$.restAPI, 'getDiff')
+      const diffRestApiStub = sinon.stub(element.$.restAPI, 'getDiff')
           .returns(Promise.resolve({content: []}));
       element.changeNum = 123;
       element.patchRange = {basePatchNum: 1, patchNum: 2};
@@ -454,9 +449,9 @@ suite('gr-diff-host tests', () => {
     });
 
     test('reload resolves on error', () => {
-      const onErrStub = sandbox.stub(element, '_handleGetDiffError');
+      const onErrStub = sinon.stub(element, '_handleGetDiffError');
       const error = {ok: false, status: 500};
-      sandbox.stub(element.$.restAPI, 'getDiff',
+      sinon.stub(element.$.restAPI, 'getDiff').callsFake(
           (changeNum, basePatchNum, patchNum, path, onErr) => {
             onErr(error);
           });
@@ -515,12 +510,12 @@ suite('gr-diff-host tests', () => {
           'wsAAAAAAAAAAAAA/////w==',
           type: 'image/bmp',
         };
-        sandbox.stub(element.$.restAPI,
-            'getB64FileContents',
-            (changeId, patchNum, path, opt_parentIndex) => Promise.resolve(
-                opt_parentIndex === 1 ? mockFile1 :
-                  mockFile2)
-        );
+        sinon.stub(element.$.restAPI,
+            'getB64FileContents')
+            .callsFake(
+                (changeId, patchNum, path, opt_parentIndex) => Promise.resolve(
+                    opt_parentIndex === 1 ? mockFile1 : mockFile2)
+            );
 
         element.patchRange = {basePatchNum: 'PARENT', patchNum: 1};
         element.comments = {
@@ -547,7 +542,7 @@ suite('gr-diff-host tests', () => {
           content: [{skip: 66}],
           binary: true,
         };
-        sandbox.stub(element.$.restAPI, 'getDiff')
+        sinon.stub(element.$.restAPI, 'getDiff')
             .returns(Promise.resolve(mockDiff));
 
         const rendered = () => {
@@ -628,7 +623,7 @@ suite('gr-diff-host tests', () => {
           content: [{skip: 66}],
           binary: true,
         };
-        sandbox.stub(element.$.restAPI, 'getDiff')
+        sinon.stub(element.$.restAPI, 'getDiff')
             .returns(Promise.resolve(mockDiff));
 
         const rendered = () => {
@@ -710,7 +705,7 @@ suite('gr-diff-host tests', () => {
           content: [{skip: 66}],
           binary: true,
         };
-        sandbox.stub(element.$.restAPI, 'getDiff')
+        sinon.stub(element.$.restAPI, 'getDiff')
             .returns(Promise.resolve(mockDiff));
 
         element.addEventListener('render', () => {
@@ -751,7 +746,7 @@ suite('gr-diff-host tests', () => {
           content: [{skip: 66}],
           binary: true,
         };
-        sandbox.stub(element.$.restAPI, 'getDiff')
+        sinon.stub(element.$.restAPI, 'getDiff')
             .returns(Promise.resolve(mockDiff));
 
         element.addEventListener('render', () => {
@@ -794,7 +789,7 @@ suite('gr-diff-host tests', () => {
         };
         mockFile1.type = 'image/jpeg-evil';
 
-        sandbox.stub(element.$.restAPI, 'getDiff')
+        sinon.stub(element.$.restAPI, 'getDiff')
             .returns(Promise.resolve(mockDiff));
 
         element.addEventListener('render', () => {
@@ -817,7 +812,7 @@ suite('gr-diff-host tests', () => {
   });
 
   test('delegates cancel()', () => {
-    const stub = sandbox.stub(element.$.diff, 'cancel');
+    const stub = sinon.stub(element.$.diff, 'cancel');
     element.patchRange = {};
     element.reload();
     assert.isTrue(stub.calledOnce);
@@ -826,7 +821,7 @@ suite('gr-diff-host tests', () => {
 
   test('delegates getCursorStops()', () => {
     const returnValue = [document.createElement('b')];
-    const stub = sandbox.stub(element.$.diff, 'getCursorStops')
+    const stub = sinon.stub(element.$.diff, 'getCursorStops')
         .returns(returnValue);
     assert.equal(element.getCursorStops(), returnValue);
     assert.isTrue(stub.calledOnce);
@@ -835,7 +830,7 @@ suite('gr-diff-host tests', () => {
 
   test('delegates isRangeSelected()', () => {
     const returnValue = true;
-    const stub = sandbox.stub(element.$.diff, 'isRangeSelected')
+    const stub = sinon.stub(element.$.diff, 'isRangeSelected')
         .returns(returnValue);
     assert.equal(element.isRangeSelected(), returnValue);
     assert.isTrue(stub.calledOnce);
@@ -843,7 +838,7 @@ suite('gr-diff-host tests', () => {
   });
 
   test('delegates toggleLeftDiff()', () => {
-    const stub = sandbox.stub(element.$.diff, 'toggleLeftDiff');
+    const stub = sinon.stub(element.$.diff, 'toggleLeftDiff');
     element.toggleLeftDiff();
     assert.isTrue(stub.calledOnce);
     assert.equal(stub.lastCall.args.length, 0);
@@ -856,7 +851,7 @@ suite('gr-diff-host tests', () => {
 
     test('clearBlame', () => {
       element._blame = [];
-      const setBlameSpy = sandbox.spy(element.$.diff.$.diffBuilder, 'setBlame');
+      const setBlameSpy = sinon.spy(element.$.diff.$.diffBuilder, 'setBlame');
       element.clearBlame();
       assert.isNull(element._blame);
       assert.isTrue(setBlameSpy.calledWithExactly(null));
@@ -867,7 +862,7 @@ suite('gr-diff-host tests', () => {
       const mockBlame = [{id: 'commit id', ranges: [{start: 1, end: 2}]}];
       const showAlertStub = sinon.stub();
       element.addEventListener('show-alert', showAlertStub);
-      const getBlameStub = sandbox.stub(element.$.restAPI, 'getBlame')
+      const getBlameStub = sinon.stub(element.$.restAPI, 'getBlame')
           .returns(Promise.resolve(mockBlame));
       element.changeNum = 42;
       element.patchRange = {patchNum: 5, basePatchNum: 4};
@@ -885,7 +880,7 @@ suite('gr-diff-host tests', () => {
       const mockBlame = [];
       const showAlertStub = sinon.stub();
       element.addEventListener('show-alert', showAlertStub);
-      sandbox.stub(element.$.restAPI, 'getBlame')
+      sinon.stub(element.$.restAPI, 'getBlame')
           .returns(Promise.resolve(mockBlame));
       element.changeNum = 42;
       element.patchRange = {patchNum: 5, basePatchNum: 4};
@@ -911,7 +906,7 @@ suite('gr-diff-host tests', () => {
 
   test('delegates addDraftAtLine(el)', () => {
     const param0 = document.createElement('b');
-    const stub = sandbox.stub(element.$.diff, 'addDraftAtLine');
+    const stub = sinon.stub(element.$.diff, 'addDraftAtLine');
     element.addDraftAtLine(param0);
     assert.isTrue(stub.calledOnce);
     assert.equal(stub.lastCall.args.length, 1);
@@ -919,14 +914,14 @@ suite('gr-diff-host tests', () => {
   });
 
   test('delegates clearDiffContent()', () => {
-    const stub = sandbox.stub(element.$.diff, 'clearDiffContent');
+    const stub = sinon.stub(element.$.diff, 'clearDiffContent');
     element.clearDiffContent();
     assert.isTrue(stub.calledOnce);
     assert.equal(stub.lastCall.args.length, 0);
   });
 
   test('delegates expandAllContext()', () => {
-    const stub = sandbox.stub(element.$.diff, 'expandAllContext');
+    const stub = sinon.stub(element.$.diff, 'expandAllContext');
     element.expandAllContext();
     assert.isTrue(stub.calledOnce);
     assert.equal(stub.lastCall.args.length, 0);
@@ -1024,7 +1019,7 @@ suite('gr-diff-host tests', () => {
       element = basicFixture.instantiate();
       element.path = 'file.txt';
       element.patchRange = {basePatchNum: 1};
-      reportStub = sandbox.stub(element.reporting, 'reportInteraction');
+      reportStub = sinon.stub(element.reporting, 'reportInteraction');
     });
 
     test('null and content-less', () => {
@@ -1474,9 +1469,9 @@ suite('gr-diff-host tests', () => {
     });
 
     test('starts syntax layer processing on render event', done => {
-      sandbox.stub(element.$.syntaxLayer, 'process')
+      sinon.stub(element.$.syntaxLayer, 'process')
           .returns(Promise.resolve());
-      sandbox.stub(element.$.restAPI, 'getDiff').returns(
+      sinon.stub(element.$.restAPI, 'getDiff').returns(
           Promise.resolve({content: []}));
       element.reload();
       setTimeout(() => {
@@ -1650,7 +1645,7 @@ suite('gr-diff-host tests', () => {
     suite('_hasTrailingNewlines', () => {
       test('shared no trailing', () => {
         const diff = undefined;
-        sandbox.stub(element, '_lastChunkForSide')
+        sinon.stub(element, '_lastChunkForSide')
             .returns({ab: ['foo', 'bar']});
         assert.isFalse(element._hasTrailingNewlines(diff, false));
         assert.isFalse(element._hasTrailingNewlines(diff, true));
@@ -1658,7 +1653,7 @@ suite('gr-diff-host tests', () => {
 
       test('delta trailing in right', () => {
         const diff = undefined;
-        sandbox.stub(element, '_lastChunkForSide')
+        sinon.stub(element, '_lastChunkForSide')
             .returns({a: ['foo', 'bar'], b: ['baz', '']});
         assert.isTrue(element._hasTrailingNewlines(diff, false));
         assert.isFalse(element._hasTrailingNewlines(diff, true));
@@ -1666,7 +1661,7 @@ suite('gr-diff-host tests', () => {
 
       test('addition', () => {
         const diff = undefined;
-        sandbox.stub(element, '_lastChunkForSide', (diff, leftSide) => {
+        sinon.stub(element, '_lastChunkForSide').callsFake((diff, leftSide) => {
           if (leftSide) { return null; }
           return {b: ['foo', '']};
         });
@@ -1676,7 +1671,7 @@ suite('gr-diff-host tests', () => {
 
       test('deletion', () => {
         const diff = undefined;
-        sandbox.stub(element, '_lastChunkForSide', (diff, leftSide) => {
+        sinon.stub(element, '_lastChunkForSide').callsFake((diff, leftSide) => {
           if (!leftSide) { return null; }
           return {a: ['foo']};
         });

@@ -23,17 +23,13 @@ const basicFixture = fixtureFromElement('gr-repo-header');
 
 suite('gr-repo-header tests', () => {
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
   });
 
-  teardown(() => { sandbox.restore(); });
-
   test('repoUrl reset once repo changed', () => {
-    sandbox.stub(GerritNav, 'getUrlForRepo',
+    sinon.stub(GerritNav, 'getUrlForRepo').callsFake(
         repoName => `http://test.com/${repoName}`
     );
     assert.equal(element._repoUrl, undefined);

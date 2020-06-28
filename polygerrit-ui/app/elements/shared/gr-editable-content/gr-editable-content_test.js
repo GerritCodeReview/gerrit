@@ -22,14 +22,10 @@ const basicFixture = fixtureFromElement('gr-editable-content');
 
 suite('gr-editable-content tests', () => {
   let element;
-  let sandbox;
 
   setup(() => {
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
   });
-
-  teardown(() => { sandbox.restore(); });
 
   test('save event', done => {
     element.content = '';
@@ -95,11 +91,11 @@ suite('gr-editable-content tests', () => {
     setup(() => {
       element.content = 'current content';
       element.storageKey = 'test';
-      dispatchSpy = sandbox.spy(element, 'dispatchEvent');
+      dispatchSpy = sinon.spy(element, 'dispatchEvent');
     });
 
     test('editing toggled to true, has stored data', () => {
-      sandbox.stub(element.$.storage, 'getEditableContentItem')
+      sinon.stub(element.$.storage, 'getEditableContentItem')
           .returns({message: 'stored content'});
       element.editing = true;
 
@@ -109,7 +105,7 @@ suite('gr-editable-content tests', () => {
     });
 
     test('editing toggled to true, has no stored data', () => {
-      sandbox.stub(element.$.storage, 'getEditableContentItem')
+      sinon.stub(element.$.storage, 'getEditableContentItem')
           .returns({});
       element.editing = true;
 
@@ -119,9 +115,9 @@ suite('gr-editable-content tests', () => {
 
     test('edits are cached', () => {
       const storeStub =
-          sandbox.stub(element.$.storage, 'setEditableContentItem');
+          sinon.stub(element.$.storage, 'setEditableContentItem');
       const eraseStub =
-          sandbox.stub(element.$.storage, 'eraseEditableContentItem');
+          sinon.stub(element.$.storage, 'eraseEditableContentItem');
       element.editing = true;
 
       element._newContent = 'new content';

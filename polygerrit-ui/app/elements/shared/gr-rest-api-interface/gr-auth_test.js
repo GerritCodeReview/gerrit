@@ -22,22 +22,16 @@ import {appContext} from '../../../services/app-context.js';
 
 suite('gr-auth', () => {
   let auth;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     auth = authService;
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   suite('Auth class methods', () => {
     let fakeFetch;
     setup(() => {
       auth = new Auth();
-      fakeFetch = sandbox.stub(window, 'fetch');
+      fakeFetch = sinon.stub(window, 'fetch');
     });
 
     test('auth-check returns 403', done => {
@@ -83,7 +77,7 @@ suite('gr-auth', () => {
     setup(() => {
       auth = new Auth();
       clock = sinon.useFakeTimers();
-      fakeFetch = sandbox.stub(window, 'fetch');
+      fakeFetch = sinon.stub(window, 'fetch');
     });
 
     test('cache auth-check result', done => {
@@ -218,7 +212,7 @@ suite('gr-auth', () => {
 
   suite('default (xsrf token header)', () => {
     setup(() => {
-      sandbox.stub(window, 'fetch').returns(Promise.resolve({ok: true}));
+      sinon.stub(window, 'fetch').returns(Promise.resolve({ok: true}));
     });
 
     test('GET', done => {
@@ -231,7 +225,7 @@ suite('gr-auth', () => {
     });
 
     test('POST', done => {
-      sandbox.stub(auth, '_getCookie')
+      sinon.stub(auth, '_getCookie')
           .withArgs('XSRF_TOKEN')
           .returns('foobar');
       auth.fetch('/url', {method: 'POST'}).then(() => {
@@ -246,7 +240,7 @@ suite('gr-auth', () => {
 
   suite('cors (access token)', () => {
     setup(() => {
-      sandbox.stub(window, 'fetch').returns(Promise.resolve({ok: true}));
+      sinon.stub(window, 'fetch').returns(Promise.resolve({ok: true}));
     });
 
     let getToken;
@@ -259,14 +253,14 @@ suite('gr-auth', () => {
     };
 
     setup(() => {
-      getToken = sandbox.stub();
+      getToken = sinon.stub();
       getToken.returns(Promise.resolve(makeToken()));
       auth.setup(getToken);
     });
 
     test('base url support', done => {
       const baseUrl = 'http://foo';
-      sandbox.stub(BaseUrlBehavior, 'getBaseUrl').returns(baseUrl);
+      sinon.stub(BaseUrlBehavior, 'getBaseUrl').returns(baseUrl);
       auth.fetch(baseUrl + '/url', {bar: 'bar'}).then(() => {
         const [url] = fetch.lastCall.args;
         assert.equal(url, 'http://foo/a/url?access_token=zbaz');
@@ -303,7 +297,7 @@ suite('gr-auth', () => {
     });
 
     test('getToken refreshes token', done => {
-      sandbox.stub(auth, '_isTokenValid');
+      sinon.stub(auth, '_isTokenValid');
       auth._isTokenValid
           .onFirstCall().returns(true)
           .onSecondCall()

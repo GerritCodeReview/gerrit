@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9b0b62c1_aaebfb96",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-28T10:57:28Z",
+      "side": 1,
+      "message": "Interestingly, I\u0027m seeing that even new style karma tests on master reporting \"Error: Timeout when loading plugins\" errors, e.g.: [1] for\n\n  polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata_test.js\n\n[1] http://paste.openstack.org/show/795306",
+      "parentUuid": "31160065_c9403d9f",
+      "revId": "00cd8587657e74a8cb00d0142b01d00bdd3b584e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0ac69903_6dd7226b",
         "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.html",
         "patchSetId": 1

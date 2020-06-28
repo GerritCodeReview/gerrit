@@ -507,6 +507,43 @@ suite('gr-diff-view tests', () => {
       });
     });
 
+    test('edit should redirect to edit page with line number', done => {
+      const lineNumber = 42;
+      element._loggedIn = true;
+      element._path = 't.txt';
+      element._patchRange = {
+        basePatchNum: PARENT,
+        patchNum: '1',
+      };
+      element._change = {
+        _number: 42,
+        project: 'gerrit',
+        status: ChangeStatus.NEW,
+        revisions: {
+          a: {_number: 1, commit: {parents: []}},
+          b: {_number: 2, commit: {parents: []}},
+        },
+      };
+      sinon.stub(element.$.cursor, 'getAddress')
+          .returns({number: lineNumber, isLeftSide: false});
+      const redirectStub = sinon.stub(GerritNav, 'navigateToRelativeUrl');
+      flush(() => {
+        const editBtn = element.shadowRoot
+            .querySelector('.editButton gr-button');
+        assert.isTrue(!!editBtn);
+        MockInteractions.tap(editBtn);
+        assert.isTrue(redirectStub.called);
+        assert.isTrue(redirectStub.lastCall.calledWithExactly(
+            GerritNav.getEditUrlForDiff(
+                element._change,
+                element._path,
+                element._patchRange.patchNum,
+                lineNumber
+            )));
+        done();
+      });
+    });
+
     function isEditVisibile({loggedIn, changeStatus}) {
       return new Promise(resolve => {
         element._loggedIn = loggedIn;

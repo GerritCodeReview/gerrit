@@ -22,15 +22,9 @@ const basicFixture = fixtureFromElement('gr-confirm-submit-dialog');
 
 suite('gr-file-list-header tests', () => {
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   test('display', () => {

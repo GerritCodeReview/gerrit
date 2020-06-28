@@ -28,6 +28,8 @@ import {_testOnlyResetRestApi} from '../elements/shared/gr-js-api-interface/gr-p
 import {_testOnlyResetGrRestApiSharedObjects} from '../elements/shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {TestKeyboardShortcutBinder} from './test-utils';
 import {flushDebouncers} from '@polymer/polymer/lib/utils/debounce';
+import sinon from 'sinon/pkg/sinon-esm.js';
+window.sinon = sinon;
 
 security.polymer_resin.install({
   allowedIdentifierPrefixes: [''],
@@ -82,7 +84,7 @@ window.stub = function(tagName, implementation) {
   // This method is inspired by web-component-tester method
   const proto = document.createElement(tagName).constructor.prototype;
   const stubs = Object.keys(implementation)
-      .map(key => sinon.stub(proto, key, implementation[key]));
+      .map(key => sinon.stub(proto, key).callsFake(implementation[key]));
   cleanups.push(() => {
     stubs.forEach(stub => {
       stub.restore();
@@ -129,6 +131,7 @@ function checkGlobalSpace() {
 }
 
 teardown(() => {
+  sinon.restore();
   cleanups.forEach(cleanup => cleanup());
   cleanups.splice(0);
   TestKeyboardShortcutBinder.pop();

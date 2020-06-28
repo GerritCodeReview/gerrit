@@ -25,18 +25,16 @@ import {removeTheme} from '../styles/themes/dark-theme.js';
 const basicFixture = fixtureFromElement('gr-app');
 
 suite('gr-app custom dark theme tests', () => {
-  let sandbox;
   let element;
   setup(done => {
     window.localStorage.setItem('dark-theme', 'true');
-    sandbox = sinon.sandbox.create();
+
     element = basicFixture.instantiate();
     pluginLoader.loadPlugins([]);
     pluginLoader.awaitPluginsLoaded().then(() => flush(done));
   });
 
   teardown(() => {
-    sandbox.restore();
     window.localStorage.removeItem('dark-theme');
     removeTheme();
     // The app sends requests to server. This can lead to

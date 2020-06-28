@@ -24,7 +24,7 @@ const basicFixture = fixtureFromElement('gr-dashboard-view');
 
 suite('gr-dashboard-view tests', () => {
   let element;
-  let sandbox;
+
   let paramsChangedPromise;
   let getChangesStub;
 
@@ -35,8 +35,8 @@ suite('gr-dashboard-view tests', () => {
       getAccountStatus() { return Promise.resolve(false); },
     });
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
-    getChangesStub = sandbox.stub(element.$.restAPI, 'getChanges',
+
+    getChangesStub = sinon.stub(element.$.restAPI, 'getChanges').callsFake(
         (_, qs) => Promise.resolve(qs.map(() => [])));
 
     let resolver;
@@ -44,13 +44,9 @@ suite('gr-dashboard-view tests', () => {
       resolver = resolve;
     });
     const paramsChanged = element._paramsChanged.bind(element);
-    sandbox.stub(element, '_paramsChanged', params => {
+    sinon.stub(element, '_paramsChanged').callsFake( params => {
       paramsChanged(params).then(() => resolver());
     });
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   suite('drafts banner functionality', () => {
@@ -71,7 +67,7 @@ suite('gr-dashboard-view tests', () => {
       test('no drafts on open changes', () => {
         element.params = {user: 'self'};
         element._results = [{query: 'has:draft', results: [{status: '_'}]}];
-        sandbox.stub(element, 'changeIsOpen').returns(true);
+        sinon.stub(element, 'changeIsOpen').returns(true);
         element._maybeShowDraftsBanner();
         assert.isFalse(element._showDraftsBanner);
       });
@@ -79,7 +75,7 @@ suite('gr-dashboard-view tests', () => {
       test('no drafts on open changes', () => {
         element.params = {user: 'self'};
         element._results = [{query: 'has:draft', results: [{status: '_'}]}];
-        sandbox.stub(element, 'changeIsOpen').returns(false);
+        sinon.stub(element, 'changeIsOpen').returns(false);
         element._maybeShowDraftsBanner();
         assert.isTrue(element._showDraftsBanner);
       });
@@ -98,7 +94,7 @@ suite('gr-dashboard-view tests', () => {
     });
 
     test('delete tap opens dialog', () => {
-      sandbox.stub(element, '_handleOpenDeleteDialog');
+      sinon.stub(element, '_handleOpenDeleteDialog');
       element._showDraftsBanner = true;
       flushAsynchronousOperations();
 
@@ -108,15 +104,15 @@ suite('gr-dashboard-view tests', () => {
     });
 
     test('delete comments flow', async () => {
-      sandbox.spy(element, '_handleConfirmDelete');
-      sandbox.stub(element, '_reload');
+      sinon.spy(element, '_handleConfirmDelete');
+      sinon.stub(element, '_reload');
 
       // Set up control over timing of when RPC resolves.
       let deleteDraftCommentsPromiseResolver;
       const deleteDraftCommentsPromise = new Promise(resolve => {
         deleteDraftCommentsPromiseResolver = resolve;
       });
-      sandbox.stub(element.$.restAPI, 'deleteDraftComments')
+      sinon.stub(element.$.restAPI, 'deleteDraftComments')
           .returns(deleteDraftCommentsPromise);
 
       // Open confirmation dialog and tap confirm button.
@@ -231,14 +227,15 @@ suite('gr-dashboard-view tests', () => {
 
   suite('_getProjectDashboard', () => {
     test('dashboard with foreach', () => {
-      sandbox.stub(element.$.restAPI, 'getDashboard', () => Promise.resolve({
-        title: 'title',
-        foreach: 'foreach for ${project}',
-        sections: [
-          {name: 'section 1', query: 'query 1'},
-          {name: 'section 2', query: '${project} query 2'},
-        ],
-      }));
+      sinon.stub(element.$.restAPI, 'getDashboard')
+          .callsFake( () => Promise.resolve({
+            title: 'title',
+            foreach: 'foreach for ${project}',
+            sections: [
+              {name: 'section 1', query: 'query 1'},
+              {name: 'section 2', query: '${project} query 2'},
+            ],
+          }));
       return element._getProjectDashboard('project', '').then(dashboard => {
         assert.deepEqual(
             dashboard,
@@ -256,13 +253,14 @@ suite('gr-dashboard-view tests', () => {
     });
 
     test('dashboard without foreach', () => {
-      sandbox.stub(element.$.restAPI, 'getDashboard', () => Promise.resolve({
-        title: 'title',
-        sections: [
-          {name: 'section 1', query: 'query 1'},
-          {name: 'section 2', query: '${project} query 2'},
-        ],
-      }));
+      sinon.stub(element.$.restAPI, 'getDashboard').callsFake(
+          () => Promise.resolve({
+            title: 'title',
+            sections: [
+              {name: 'section 1', query: 'query 1'},
+              {name: 'section 2', query: '${project} query 2'},
+            ],
+          }));
       return element._getProjectDashboard('project', '').then(dashboard => {
         assert.deepEqual(
             dashboard,
@@ -283,7 +281,7 @@ suite('gr-dashboard-view tests', () => {
       {name: 'test2', query: 'test2', hideIfEmpty: true},
     ];
     getChangesStub.restore();
-    sandbox.stub(element.$.restAPI, 'getChanges')
+    sinon.stub(element.$.restAPI, 'getChanges')
         .returns(Promise.resolve([[], ['nonempty']]));
 
     return element._fetchDashboardChanges({sections}, false).then(() => {
@@ -298,7 +296,7 @@ suite('gr-dashboard-view tests', () => {
       {name: 'test2', query: 'test2'},
     ];
     getChangesStub.restore();
-    sandbox.stub(element.$.restAPI, 'getChanges')
+    sinon.stub(element.$.restAPI, 'getChanges')
         .returns(Promise.resolve([[], []]));
 
     return element._fetchDashboardChanges({sections}, false).then(() => {
@@ -336,7 +334,7 @@ suite('gr-dashboard-view tests', () => {
 
   test('404 page', done => {
     const response = {status: 404};
-    sandbox.stub(element.$.restAPI, 'getDashboard',
+    sinon.stub(element.$.restAPI, 'getDashboard').callsFake(
         async (project, dashboard, errFn) => {
           errFn(response);
         });
@@ -352,7 +350,7 @@ suite('gr-dashboard-view tests', () => {
   });
 
   test('params change triggers dashboardDisplayed()', () => {
-    sandbox.stub(element.reporting, 'dashboardDisplayed');
+    sinon.stub(element.reporting, 'dashboardDisplayed');
     element.params = {
       view: GerritNav.View.DASHBOARD,
       project: 'project',

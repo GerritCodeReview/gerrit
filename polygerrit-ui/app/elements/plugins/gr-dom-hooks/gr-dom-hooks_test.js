@@ -32,25 +32,20 @@ suite('gr-dom-hooks tests', () => {
   ];
 
   let instance;
-  let sandbox;
+
   let hook;
   let hookInternal;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     let plugin;
     pluginApi.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
     instance = new GrDomHooksManager(plugin);
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
-
   suite('placeholder', () => {
     setup(()=>{
-      sandbox.stub(GrDomHook.prototype, '_createPlaceholder');
+      sinon.stub(GrDomHook.prototype, '_createPlaceholder');
       hookInternal = instance.getDomHook('foo-bar');
       hook = hookInternal.getPublicAPI();
     });
@@ -88,7 +83,7 @@ suite('gr-dom-hooks tests', () => {
     });
 
     test('onAttached', () => {
-      const onAttachedSpy = sandbox.spy();
+      const onAttachedSpy = sinon.spy();
       hook.onAttached(onAttachedSpy);
       const [el1, el2] = [
         document.createElement(hook.getModuleName()),
@@ -101,7 +96,7 @@ suite('gr-dom-hooks tests', () => {
     });
 
     test('onDetached', () => {
-      const onDetachedSpy = sandbox.spy();
+      const onDetachedSpy = sinon.spy();
       hook.onDetached(onDetachedSpy);
       const [el1, el2] = [
         document.createElement(hook.getModuleName()),

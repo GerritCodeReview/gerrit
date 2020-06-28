@@ -22,23 +22,19 @@ const basicFixture = fixtureFromElement('gr-user-header');
 
 suite('gr-user-header tests', () => {
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
   });
 
-  teardown(() => { sandbox.restore(); });
-
   test('loads and clears account info', done => {
-    sandbox.stub(element.$.restAPI, 'getAccountDetails')
+    sinon.stub(element.$.restAPI, 'getAccountDetails')
         .returns(Promise.resolve({
           name: 'foo',
           email: 'bar',
           registered_on: '2015-03-12 18:32:08.000000000',
         }));
-    sandbox.stub(element.$.restAPI, 'getAccountStatus')
+    sinon.stub(element.$.restAPI, 'getAccountStatus')
         .returns(Promise.resolve('baz'));
 
     element.userId = 'foo.bar@baz';

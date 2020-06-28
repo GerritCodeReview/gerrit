@@ -59,18 +59,12 @@ suite('gr-repo-detail-list', () => {
   suite('Branches', () => {
     let element;
     let branches;
-    let sandbox;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
       element = basicFixture.instantiate();
       element.detailType = 'branches';
       counter = 0;
-      sandbox.stub(page, 'show');
-    });
-
-    teardown(() => {
-      sandbox.restore();
+      sinon.stub(page, 'show');
     });
 
     suite('list of repo branches', () => {
@@ -122,8 +116,8 @@ suite('gr-repo-detail-list', () => {
       });
 
       test('Edit HEAD button not admin', done => {
-        sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
-        sandbox.stub(element.$.restAPI, 'getRepoAccess').returns(
+        sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
+        sinon.stub(element.$.restAPI, 'getRepoAccess').returns(
             Promise.resolve({
               test: {is_owner: false},
             }));
@@ -146,12 +140,12 @@ suite('gr-repo-detail-list', () => {
         const revisionWithEditing = dom(element.root)
             .querySelector('.revisionWithEditing');
 
-        sandbox.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
-        sandbox.stub(element.$.restAPI, 'getRepoAccess').returns(
+        sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
+        sinon.stub(element.$.restAPI, 'getRepoAccess').returns(
             Promise.resolve({
               test: {is_owner: true},
             }));
-        sandbox.stub(element, '_handleSaveRevision');
+        sinon.stub(element, '_handleSaveRevision');
         element._determineIfOwner('test').then(() => {
           assert.equal(element._isOwner, true);
           // The revision container for non-editing enabled row is not visible.
@@ -222,9 +216,9 @@ suite('gr-repo-detail-list', () => {
       });
 
       test('_handleSaveRevision with invalid rev', done => {
-        const event = {model: {set: sandbox.stub()}};
+        const event = {model: {set: sinon.stub()}};
         element._isEditing = true;
-        sandbox.stub(element.$.restAPI, 'setRepoHead').returns(
+        sinon.stub(element.$.restAPI, 'setRepoHead').returns(
             Promise.resolve({
               status: 400,
             })
@@ -238,9 +232,9 @@ suite('gr-repo-detail-list', () => {
       });
 
       test('_handleSaveRevision with valid rev', done => {
-        const event = {model: {set: sandbox.stub()}};
+        const event = {model: {set: sinon.stub()}};
         element._isEditing = true;
-        sandbox.stub(element.$.restAPI, 'setRepoHead').returns(
+        sinon.stub(element.$.restAPI, 'setRepoHead').returns(
             Promise.resolve({
               status: 200,
             })
@@ -284,10 +278,10 @@ suite('gr-repo-detail-list', () => {
 
     suite('filter', () => {
       test('_paramsChanged', done => {
-        sandbox.stub(
+        sinon.stub(
             element.$.restAPI,
-            'getRepoBranches',
-            () => Promise.resolve(branches));
+            'getRepoBranches')
+            .callsFake(() => Promise.resolve(branches));
         const params = {
           detail: 'branches',
           repo: 'test',
@@ -311,7 +305,7 @@ suite('gr-repo-detail-list', () => {
     suite('404', () => {
       test('fires page-error', done => {
         const response = {status: 404};
-        sandbox.stub(element.$.restAPI, 'getRepoBranches',
+        sinon.stub(element.$.restAPI, 'getRepoBranches').callsFake(
             (filter, repo, reposBranchesPerPage, opt_offset, errFn) => {
               errFn(response);
             });
@@ -335,18 +329,12 @@ suite('gr-repo-detail-list', () => {
   suite('Tags', () => {
     let element;
     let tags;
-    let sandbox;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
       element = basicFixture.instantiate();
       element.detailType = 'tags';
       counter = 0;
-      sandbox.stub(page, 'show');
-    });
-
-    teardown(() => {
-      sandbox.restore();
+      sinon.stub(page, 'show');
     });
 
     test('_computeMessage', () => {
@@ -468,10 +456,10 @@ suite('gr-repo-detail-list', () => {
 
     suite('filter', () => {
       test('_paramsChanged', done => {
-        sandbox.stub(
+        sinon.stub(
             element.$.restAPI,
-            'getRepoTags',
-            () => Promise.resolve(tags));
+            'getRepoTags')
+            .callsFake(() => Promise.resolve(tags));
         const params = {
           repo: 'test',
           detail: 'tags',
@@ -494,7 +482,7 @@ suite('gr-repo-detail-list', () => {
 
     suite('create new', () => {
       test('_handleCreateClicked called when create-click fired', () => {
-        sandbox.stub(element, '_handleCreateClicked');
+        sinon.stub(element, '_handleCreateClicked');
         element.shadowRoot
             .querySelector('gr-list-view').dispatchEvent(
                 new CustomEvent('create-clicked', {
@@ -504,13 +492,13 @@ suite('gr-repo-detail-list', () => {
       });
 
       test('_handleCreateClicked opens modal', () => {
-        const openStub = sandbox.stub(element.$.createOverlay, 'open');
+        const openStub = sinon.stub(element.$.createOverlay, 'open');
         element._handleCreateClicked();
         assert.isTrue(openStub.called);
       });
 
       test('_handleCreateItem called when confirm fired', () => {
-        sandbox.stub(element, '_handleCreateItem');
+        sinon.stub(element, '_handleCreateItem');
         element.$.createDialog.dispatchEvent(
             new CustomEvent('confirm', {
               composed: true, bubbles: true,
@@ -519,7 +507,7 @@ suite('gr-repo-detail-list', () => {
       });
 
       test('_handleCloseCreate called when cancel fired', () => {
-        sandbox.stub(element, '_handleCloseCreate');
+        sinon.stub(element, '_handleCloseCreate');
         element.$.createDialog.dispatchEvent(
             new CustomEvent('cancel', {
               composed: true, bubbles: true,
@@ -531,7 +519,7 @@ suite('gr-repo-detail-list', () => {
     suite('404', () => {
       test('fires page-error', done => {
         const response = {status: 404};
-        sandbox.stub(element.$.restAPI, 'getRepoTags',
+        sinon.stub(element.$.restAPI, 'getRepoTags').callsFake(
             (filter, repo, reposTagsPerPage, opt_offset, errFn) => {
               errFn(response);
             });

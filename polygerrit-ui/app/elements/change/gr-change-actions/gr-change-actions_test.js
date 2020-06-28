@@ -30,7 +30,6 @@ const CHERRY_PICK_TYPES = {
 // TODO(dhruvsri): remove use of _populateRevertMessage as it's private
 suite('gr-change-actions tests', () => {
   let element;
-  let sandbox;
 
   suite('basic tests', () => {
     setup(() => {
@@ -85,8 +84,7 @@ suite('gr-change-actions tests', () => {
         getProjectConfig() { return Promise.resolve({}); },
       });
 
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(pluginLoader, 'awaitPluginsLoaded')
+      sinon.stub(pluginLoader, 'awaitPluginsLoaded')
           .returns(Promise.resolve());
 
       element = basicFixture.instantiate();
@@ -101,16 +99,12 @@ suite('gr-change-actions tests', () => {
           enabled: true,
         },
       };
-      sandbox.stub(element.$.confirmCherrypick.$.restAPI,
+      sinon.stub(element.$.confirmCherrypick.$.restAPI,
           'getRepoBranches').returns(Promise.resolve([]));
-      sandbox.stub(element.$.confirmMove.$.restAPI,
+      sinon.stub(element.$.confirmMove.$.restAPI,
           'getRepoBranches').returns(Promise.resolve([]));
 
       return element.reload();
-    });
-
-    teardown(() => {
-      sandbox.restore();
     });
 
     test('show-revision-actions event should fire', done => {
@@ -144,7 +138,7 @@ suite('gr-change-actions tests', () => {
     });
 
     test('plugin revision actions', done => {
-      sandbox.stub(element.$.restAPI, 'getChangeActionURL').returns(
+      sinon.stub(element.$.restAPI, 'getChangeActionURL').returns(
           Promise.resolve('the-url'));
       element.revisionActions = {
         'plugin~action': {},
@@ -159,7 +153,7 @@ suite('gr-change-actions tests', () => {
     });
 
     test('plugin change actions', done => {
-      sandbox.stub(element.$.restAPI, 'getChangeActionURL').returns(
+      sinon.stub(element.$.restAPI, 'getChangeActionURL').returns(
           Promise.resolve('the-url'));
       element.actions = {
         'plugin~action': {},
@@ -274,12 +268,12 @@ suite('gr-change-actions tests', () => {
     });
 
     test('submit change', () => {
-      const showSpy = sandbox.spy(element, '_showActionDialog');
-      sandbox.stub(element.$.restAPI, 'getFromProjectLookup')
+      const showSpy = sinon.spy(element, '_showActionDialog');
+      sinon.stub(element.$.restAPI, 'getFromProjectLookup')
           .returns(Promise.resolve('test'));
-      sandbox.stub(element, 'fetchChangeUpdates',
+      sinon.stub(element, 'fetchChangeUpdates').callsFake(
           () => Promise.resolve({isLatest: true}));
-      sandbox.stub(element.$.overlay, 'open').returns(Promise.resolve());
+      sinon.stub(element.$.overlay, 'open').returns(Promise.resolve());
       element.change = {
         revisions: {
           rev1: {_number: 1},
@@ -298,12 +292,12 @@ suite('gr-change-actions tests', () => {
     });
 
     test('submit change, tap on icon', done => {
-      sandbox.stub(element.$.confirmSubmitDialog, 'resetFocus', done);
-      sandbox.stub(element.$.restAPI, 'getFromProjectLookup')
+      sinon.stub(element.$.confirmSubmitDialog, 'resetFocus').callsFake( done);
+      sinon.stub(element.$.restAPI, 'getFromProjectLookup')
           .returns(Promise.resolve('test'));
-      sandbox.stub(element, 'fetchChangeUpdates',
+      sinon.stub(element, 'fetchChangeUpdates').callsFake(
           () => Promise.resolve({isLatest: true}));
-      sandbox.stub(element.$.overlay, 'open').returns(Promise.resolve());
+      sinon.stub(element.$.overlay, 'open').returns(Promise.resolve());
       element.change = {
         revisions: {
           rev1: {_number: 1},
@@ -320,8 +314,8 @@ suite('gr-change-actions tests', () => {
     });
 
     test('_handleSubmitConfirm', () => {
-      const fireStub = sandbox.stub(element, '_fireAction');
-      sandbox.stub(element, '_canSubmitChange').returns(true);
+      const fireStub = sinon.stub(element, '_fireAction');
+      sinon.stub(element, '_canSubmitChange').returns(true);
       element._handleSubmitConfirm();
       assert.isTrue(fireStub.calledOnce);
       assert.deepEqual(fireStub.lastCall.args,
@@ -329,16 +323,16 @@ suite('gr-change-actions tests', () => {
     });
 
     test('_handleSubmitConfirm when not able to submit', () => {
-      const fireStub = sandbox.stub(element, '_fireAction');
-      sandbox.stub(element, '_canSubmitChange').returns(false);
+      const fireStub = sinon.stub(element, '_fireAction');
+      sinon.stub(element, '_canSubmitChange').returns(false);
       element._handleSubmitConfirm();
       assert.isFalse(fireStub.called);
     });
 
     test('submit change with plugin hook', done => {
-      sandbox.stub(element, '_canSubmitChange',
+      sinon.stub(element, '_canSubmitChange').callsFake(
           () => false);
-      const fireActionStub = sandbox.stub(element, '_fireAction');
+      const fireActionStub = sinon.stub(element, '_fireAction');
       flush(() => {
         const submitButton = element.shadowRoot
             .querySelector('gr-button[data-action-key="submit"]');
@@ -378,8 +372,8 @@ suite('gr-change-actions tests', () => {
     });
 
     test('rebase change', done => {
-      const fireActionStub = sandbox.stub(element, '_fireAction');
-      const fetchChangesStub = sandbox.stub(element.$.confirmRebase,
+      const fireActionStub = sinon.stub(element, '_fireAction');
+      const fetchChangesStub = sinon.stub(element.$.confirmRebase,
           'fetchRecentChanges').returns(Promise.resolve([]));
       element._hasKnownChainState = true;
       flush(() => {
@@ -404,8 +398,8 @@ suite('gr-change-actions tests', () => {
     });
 
     test('rebase change calls navigateToChange', done => {
-      const navigateToChangeStub = sandbox.stub(GerritNav, 'navigateToChange');
-      sandbox.stub(element.$.restAPI, 'getResponseObject').returns(
+      const navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange');
+      sinon.stub(element.$.restAPI, 'getResponseObject').returns(
           Promise.resolve({}));
       element._handleResponse({__key: 'rebase'}, {});
       flush(() => {
@@ -415,7 +409,7 @@ suite('gr-change-actions tests', () => {
     });
 
     test(`rebase dialog gets recent changes each time it's opened`, done => {
-      const fetchChangesStub = sandbox.stub(element.$.confirmRebase,
+      const fetchChangesStub = sinon.stub(element.$.confirmRebase,
           'fetchRecentChanges').returns(Promise.resolve([]));
       element._hasKnownChainState = true;
       const rebaseButton = element.shadowRoot
@@ -443,7 +437,7 @@ suite('gr-change-actions tests', () => {
         MockInteractions.tap(rebaseButton);
         flushAsynchronousOperations();
         assert.isFalse(element.$.confirmRebase.hidden);
-        sandbox.stub(element.$.restAPI, 'getChanges')
+        sinon.stub(element.$.restAPI, 'getChanges')
             .returns(Promise.resolve([]));
         element._handleCherrypickTap();
         flush(() => {
@@ -455,7 +449,7 @@ suite('gr-change-actions tests', () => {
     });
 
     test('fullscreen-overlay-opened hides content', () => {
-      sandbox.spy(element, '_handleHideBackgroundContent');
+      sinon.spy(element, '_handleHideBackgroundContent');
       element.$.overlay.dispatchEvent(
           new CustomEvent('fullscreen-overlay-opened', {
             composed: true, bubbles: true,
@@ -465,7 +459,7 @@ suite('gr-change-actions tests', () => {
     });
 
     test('fullscreen-overlay-closed shows content', () => {
-      sandbox.spy(element, '_handleShowBackgroundContent');
+      sinon.spy(element, '_handleShowBackgroundContent');
       element.$.overlay.dispatchEvent(
           new CustomEvent('fullscreen-overlay-closed', {
             composed: true, bubbles: true,
@@ -477,8 +471,8 @@ suite('gr-change-actions tests', () => {
     test('_setLabelValuesOnRevert', () => {
       const labels = {'Foo': 1, 'Bar-Baz': -2};
       const changeId = 1234;
-      sandbox.stub(element.$.jsAPI, 'getLabelValuesPostRevert').returns(labels);
-      const saveStub = sandbox.stub(element.$.restAPI, 'saveChangeReview')
+      sinon.stub(element.$.jsAPI, 'getLabelValuesPostRevert').returns(labels);
+      const saveStub = sinon.stub(element.$.restAPI, 'saveChangeReview')
           .returns(Promise.resolve());
       return element._setLabelValuesOnRevert(changeId).then(() => {
         assert.isTrue(saveStub.calledOnce);
@@ -511,7 +505,7 @@ suite('gr-change-actions tests', () => {
         element.set('editMode', true);
         element.set('editPatchsetLoaded', true);
 
-        const fireActionStub = sandbox.stub(element, '_fireAction');
+        const fireActionStub = sinon.stub(element, '_fireAction');
         element._handleDeleteEditTap();
         assert.isFalse(element.$.confirmDeleteEditDialog.hidden);
         MockInteractions.tap(
@@ -644,8 +638,8 @@ suite('gr-change-actions tests', () => {
       let fireActionStub;
 
       setup(() => {
-        fireActionStub = sandbox.stub(element, '_fireAction');
-        sandbox.stub(window, 'alert');
+        fireActionStub = sinon.stub(element, '_fireAction');
+        sinon.stub(window, 'alert');
       });
 
       test('works', () => {
@@ -753,7 +747,7 @@ suite('gr-change-actions tests', () => {
           },
         ];
         setup(done => {
-          sandbox.stub(element.$.restAPI, 'getChanges')
+          sinon.stub(element.$.restAPI, 'getChanges')
               .returns(Promise.resolve(changes));
           element._handleCherrypickTap();
           flush(() => {
@@ -818,8 +812,8 @@ suite('gr-change-actions tests', () => {
       let fireActionStub;
 
       setup(() => {
-        fireActionStub = sandbox.stub(element, '_fireAction');
-        sandbox.stub(window, 'alert');
+        fireActionStub = sinon.stub(element, '_fireAction');
+        sinon.stub(window, 'alert');
       });
 
       test('works', () => {
@@ -900,8 +894,8 @@ suite('gr-change-actions tests', () => {
       let fireActionStub;
 
       setup(() => {
-        fireActionStub = sandbox.stub(element, '_fireAction');
-        alertStub = sandbox.stub(window, 'alert');
+        fireActionStub = sinon.stub(element, '_fireAction');
+        alertStub = sinon.stub(window, 'alert');
         element.actions = {
           abandon: {
             method: 'POST',
@@ -970,7 +964,7 @@ suite('gr-change-actions tests', () => {
       let fireActionStub;
 
       setup(() => {
-        fireActionStub = sandbox.stub(element, '_fireAction');
+        fireActionStub = sinon.stub(element, '_fireAction');
         element.commitMessage = 'random commit message';
         element.change.current_revision = 'abcdef';
         element.actions = {
@@ -986,18 +980,18 @@ suite('gr-change-actions tests', () => {
 
       test('revert change with plugin hook', done => {
         const newRevertMsg = 'Modified revert msg';
-        sandbox.stub(element.$.confirmRevertDialog, '_modifyRevertMsg',
+        sinon.stub(element.$.confirmRevertDialog, '_modifyRevertMsg').callsFake(
             () => newRevertMsg);
         element.change = {
           current_revision: 'abc1234',
         };
-        sandbox.stub(element.$.restAPI, 'getChanges')
+        sinon.stub(element.$.restAPI, 'getChanges')
             .returns(Promise.resolve([
               {change_id: '12345678901234', topic: 'T', subject: 'random'},
               {change_id: '23456', topic: 'T', subject: 'a'.repeat(100)},
             ]));
-        sandbox.stub(element.$.confirmRevertDialog,
-            '_populateRevertSubmissionMessage', () => 'original msg');
+        sinon.stub(element.$.confirmRevertDialog,
+            '_populateRevertSubmissionMessage').callsFake(() => 'original msg');
         flush(() => {
           const revertButton = element.shadowRoot
               .querySelector('gr-button[data-action-key="revert"]');
@@ -1016,7 +1010,7 @@ suite('gr-change-actions tests', () => {
             submission_id: '199 0',
             current_revision: '2000',
           };
-          getChangesStub = sandbox.stub(element.$.restAPI, 'getChanges')
+          getChangesStub = sinon.stub(element.$.restAPI, 'getChanges')
               .returns(Promise.resolve([
                 {change_id: '12345678901234', topic: 'T', subject: 'random'},
                 {change_id: '23456', topic: 'T', subject: 'a'.repeat(100)},
@@ -1063,7 +1057,7 @@ suite('gr-change-actions tests', () => {
               .querySelector('gr-button[data-action-key="revert"]');
           const confirmRevertDialog = element.$.confirmRevertDialog;
           MockInteractions.tap(revertButton);
-          const fireStub = sandbox.stub(confirmRevertDialog, 'dispatchEvent');
+          const fireStub = sinon.stub(confirmRevertDialog, 'dispatchEvent');
           flush(() => {
             const confirmButton = element.$.confirmRevertDialog.shadowRoot
                 .querySelector('gr-dialog')
@@ -1126,7 +1120,7 @@ suite('gr-change-actions tests', () => {
             submission_id: '199',
             current_revision: '2000',
           };
-          sandbox.stub(element.$.restAPI, 'getChanges')
+          sinon.stub(element.$.restAPI, 'getChanges')
               .returns(Promise.resolve([
                 {change_id: '12345678901234', topic: 'T', subject: 'random'},
               ]));
@@ -1137,7 +1131,7 @@ suite('gr-change-actions tests', () => {
               .querySelector('gr-button[data-action-key="revert"]');
           const confirmRevertDialog = element.$.confirmRevertDialog;
           MockInteractions.tap(revertButton);
-          const fireStub = sandbox.stub(confirmRevertDialog, 'dispatchEvent');
+          const fireStub = sinon.stub(confirmRevertDialog, 'dispatchEvent');
           flush(() => {
             const confirmButton = element.$.confirmRevertDialog.shadowRoot
                 .querySelector('gr-dialog')
@@ -1289,7 +1283,7 @@ suite('gr-change-actions tests', () => {
       let deleteAction;
 
       setup(() => {
-        fireActionStub = sandbox.stub(element, '_fireAction');
+        fireActionStub = sinon.stub(element, '_fireAction');
         element.change = {
           current_revision: 'abc1234',
         };
@@ -1338,7 +1332,7 @@ suite('gr-change-actions tests', () => {
 
     suite('ignore change', () => {
       setup(done => {
-        sandbox.stub(element, '_fireAction');
+        sinon.stub(element, '_fireAction');
 
         const IgnoreAction = {
           __key: 'ignore',
@@ -1381,7 +1375,7 @@ suite('gr-change-actions tests', () => {
 
     suite('unignore change', () => {
       setup(done => {
-        sandbox.stub(element, '_fireAction');
+        sinon.stub(element, '_fireAction');
 
         const UnignoreAction = {
           __key: 'unignore',
@@ -1424,7 +1418,7 @@ suite('gr-change-actions tests', () => {
 
     suite('reviewed change', () => {
       setup(done => {
-        sandbox.stub(element, '_fireAction');
+        sinon.stub(element, '_fireAction');
 
         const ReviewedAction = {
           __key: 'reviewed',
@@ -1481,7 +1475,7 @@ suite('gr-change-actions tests', () => {
 
     suite('unreviewed change', () => {
       setup(done => {
-        sandbox.stub(element, '_fireAction');
+        sinon.stub(element, '_fireAction');
 
         const UnreviewedAction = {
           __key: 'unreviewed',
@@ -1613,7 +1607,7 @@ suite('gr-change-actions tests', () => {
       });
 
       test('approves when tapped', () => {
-        const fireActionStub = sandbox.stub(element, '_fireAction');
+        const fireActionStub = sinon.stub(element, '_fireAction');
         MockInteractions.tap(
             element.shadowRoot
                 .querySelector('gr-button[data-action-key=\'review\']'));
@@ -1717,7 +1711,7 @@ suite('gr-change-actions tests', () => {
     });
 
     test('adds download revision action', () => {
-      const handler = sandbox.stub();
+      const handler = sinon.stub();
       element.addEventListener('download-tap', handler);
       assert.ok(element.revisionActions.download);
       element._handleDownloadTap();
@@ -1727,7 +1721,7 @@ suite('gr-change-actions tests', () => {
     });
 
     test('changing changeNum or patchNum does not reload', () => {
-      const reloadStub = sandbox.stub(element, 'reload');
+      const reloadStub = sinon.stub(element, 'reload');
       element.changeNum = 123;
       assert.isFalse(reloadStub.called);
       element.latestPatchNum = 456;
@@ -1769,7 +1763,7 @@ suite('gr-change-actions tests', () => {
 
       suite('_waitForChangeReachable', () => {
         setup(() => {
-          sandbox.stub(element, 'async', fn => fn());
+          sinon.stub(element, 'async').callsFake( fn => fn());
         });
 
         const makeGetChange = numTries => () => {
@@ -1782,14 +1776,16 @@ suite('gr-change-actions tests', () => {
         };
 
         test('succeed', () => {
-          sandbox.stub(element.$.restAPI, 'getChange', makeGetChange(5));
+          sinon.stub(element.$.restAPI, 'getChange')
+              .callsFake( makeGetChange(5));
           return element._waitForChangeReachable(123).then(success => {
             assert.isTrue(success);
           });
         });
 
         test('fail', () => {
-          sandbox.stub(element.$.restAPI, 'getChange', makeGetChange(6));
+          sinon.stub(element.$.restAPI, 'getChange')
+              .callsFake( makeGetChange(6));
           return element._waitForChangeReachable(123).then(success => {
             assert.isFalse(success);
           });
@@ -1820,15 +1816,15 @@ suite('gr-change-actions tests', () => {
       suite('happy path', () => {
         let sendStub;
         setup(() => {
-          sandbox.stub(element, 'fetchChangeUpdates')
+          sinon.stub(element, 'fetchChangeUpdates')
               .returns(Promise.resolve({isLatest: true}));
-          sendStub = sandbox.stub(element.$.restAPI, 'executeChangeAction')
+          sendStub = sinon.stub(element.$.restAPI, 'executeChangeAction')
               .returns(Promise.resolve({}));
-          getResponseObjectStub = sandbox.stub(element.$.restAPI,
+          getResponseObjectStub = sinon.stub(element.$.restAPI,
               'getResponseObject');
-          sandbox.stub(GerritNav,
+          sinon.stub(GerritNav,
               'navigateToChange').returns(Promise.resolve(true));
-          sandbox.stub(element, 'computeLatestPatchNum')
+          sinon.stub(element, 'computeLatestPatchNum')
               .returns(element.latestPatchNum);
         });
 
@@ -1848,7 +1844,7 @@ suite('gr-change-actions tests', () => {
           setup(() => {
             element.change.submission_id = '199';
             element.change.current_revision = '2000';
-            sandbox.stub(element.$.restAPI, 'getChanges')
+            sinon.stub(element.$.restAPI, 'getChanges')
                 .returns(Promise.resolve([
                   {change_id: '12345678901234', topic: 'T', subject: 'random'},
                   {change_id: '23456', topic: 'T', subject: 'a'.repeat(100)},
@@ -1863,7 +1859,7 @@ suite('gr-change-actions tests', () => {
               '23456: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...' +
               '\n';
             const modifiedMsg = expectedMsg + 'abcd';
-            sandbox.stub(element.$.confirmRevertSubmissionDialog,
+            sinon.stub(element.$.confirmRevertSubmissionDialog,
                 '_modifyRevertSubmissionMsg').returns(modifiedMsg);
             element.showRevertSubmissionDialog();
             flush(() => {
@@ -1881,7 +1877,7 @@ suite('gr-change-actions tests', () => {
                 .returns(Promise.resolve({revert_changes: [
                   {change_id: 12345},
                 ]}));
-            navigateToSearchQueryStub = sandbox.stub(GerritNav,
+            navigateToSearchQueryStub = sinon.stub(GerritNav,
                 'navigateToSearchQuery');
           });
 
@@ -1906,8 +1902,8 @@ suite('gr-change-actions tests', () => {
                   {change_id: 12345, topic: 'T'},
                   {change_id: 23456, topic: 'T'},
                 ]}));
-            showActionDialogStub = sandbox.stub(element, '_showActionDialog');
-            navigateToSearchQueryStub = sandbox.stub(GerritNav,
+            showActionDialogStub = sinon.stub(element, '_showActionDialog');
+            navigateToSearchQueryStub = sinon.stub(GerritNav,
                 'navigateToSearchQuery');
           });
 
@@ -1940,9 +1936,9 @@ suite('gr-change-actions tests', () => {
 
       suite('failure modes', () => {
         test('non-latest', () => {
-          sandbox.stub(element, 'fetchChangeUpdates')
+          sinon.stub(element, 'fetchChangeUpdates')
               .returns(Promise.resolve({isLatest: false}));
-          const sendStub = sandbox.stub(element.$.restAPI,
+          const sendStub = sinon.stub(element.$.restAPI,
               'executeChangeAction');
 
           return element._send('DELETE', payload, '/endpoint', true, cleanup)
@@ -1955,15 +1951,15 @@ suite('gr-change-actions tests', () => {
         });
 
         test('send fails', () => {
-          sandbox.stub(element, 'fetchChangeUpdates')
+          sinon.stub(element, 'fetchChangeUpdates')
               .returns(Promise.resolve({isLatest: true}));
-          const sendStub = sandbox.stub(element.$.restAPI,
-              'executeChangeAction',
+          const sendStub = sinon.stub(element.$.restAPI,
+              'executeChangeAction').callsFake(
               (num, method, patchNum, endpoint, payload, onErr) => {
                 onErr();
                 return Promise.resolve(null);
               });
-          const handleErrorStub = sandbox.stub(element, '_handleResponseError');
+          const handleErrorStub = sinon.stub(element, '_handleResponseError');
 
           return element._send('DELETE', payload, '/endpoint', true, cleanup)
               .then(() => {
@@ -1977,8 +1973,8 @@ suite('gr-change-actions tests', () => {
     });
 
     test('_handleAction reports', () => {
-      sandbox.stub(element, '_fireAction');
-      const reportStub = sandbox.stub(element.reporting, 'reportInteraction');
+      sinon.stub(element, '_fireAction');
+      const reportStub = sinon.stub(element.reporting, 'reportInteraction');
       element._handleAction('type', 'key');
       assert.isTrue(reportStub.called);
       assert.equal(reportStub.lastCall.args[0], 'type-key');
@@ -1987,7 +1983,7 @@ suite('gr-change-actions tests', () => {
 
   suite('getChangeRevisionActions returns only some actions', () => {
     let element;
-    let sandbox;
+
     let changeRevisionActions;
 
     setup(() => {
@@ -2001,8 +1997,7 @@ suite('gr-change-actions tests', () => {
         getProjectConfig() { return Promise.resolve({}); },
       });
 
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(pluginLoader, 'awaitPluginsLoaded')
+      sinon.stub(pluginLoader, 'awaitPluginsLoaded')
           .returns(Promise.resolve());
 
       element = basicFixture.instantiate();
@@ -2012,15 +2007,11 @@ suite('gr-change-actions tests', () => {
       element.changeNum = '42';
       element.latestPatchNum = '2';
 
-      sandbox.stub(element.$.confirmCherrypick.$.restAPI,
+      sinon.stub(element.$.confirmCherrypick.$.restAPI,
           'getRepoBranches').returns(Promise.resolve([]));
-      sandbox.stub(element.$.confirmMove.$.restAPI,
+      sinon.stub(element.$.confirmMove.$.restAPI,
           'getRepoBranches').returns(Promise.resolve([]));
       return element.reload();
-    });
-
-    teardown(() => {
-      sandbox.restore();
     });
 
     test('confirmSubmitDialog and confirmRebase properties are changed', () => {

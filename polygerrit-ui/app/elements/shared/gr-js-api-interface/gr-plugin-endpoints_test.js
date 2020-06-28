@@ -25,14 +25,12 @@ import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-plugin-endpoints tests', () => {
-  let sandbox;
   let instance;
   let pluginFoo;
   let pluginBar;
   let domHook;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     domHook = {};
     instance = new GrPluginEndpoints();
     pluginApi.install(p => { pluginFoo = p; }, '0.1',
@@ -57,12 +55,11 @@ suite('gr-plugin-endpoints tests', () => {
           domHook,
         }
     );
-    sandbox.stub(pluginLoader, 'arePluginsLoaded').returns(true);
-    sandbox.spy(instance, 'importUrl');
+    sinon.stub(pluginLoader, 'arePluginsLoaded').returns(true);
+    sinon.spy(instance, 'importUrl');
   });
 
   teardown(() => {
-    sandbox.restore();
     resetPlugins();
   });
 
@@ -134,7 +131,7 @@ suite('gr-plugin-endpoints tests', () => {
   });
 
   test('onNewEndpoint', () => {
-    const newModuleStub = sandbox.stub();
+    const newModuleStub = sinon.stub();
     instance.onNewEndpoint('a-place', newModuleStub);
     instance.registerModule(
         pluginFoo,

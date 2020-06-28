@@ -25,7 +25,7 @@ const basicFixture = fixtureFromTemplate(html`
 
 suite('gr-hovercard-account tests', () => {
   let element;
-  let sandbox;
+
   const ACCOUNT = {
     email: 'kermit@gmail.com',
     username: 'kermit',
@@ -34,9 +34,8 @@ suite('gr-hovercard-account tests', () => {
   };
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
-    sandbox.stub(element.$.restAPI, 'getAccount').returns(
+    sinon.stub(element.$.restAPI, 'getAccount').returns(
         new Promise(resolve => { '2'; })
     );
 

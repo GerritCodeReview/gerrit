@@ -38,18 +38,13 @@ const repoGenerator = () => {
 suite('gr-repo-list tests', () => {
   let element;
   let repos;
-  let sandbox;
+
   let value;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
-    sandbox.stub(page, 'show');
+    sinon.stub(page, 'show');
     element = basicFixture.instantiate();
     counter = 0;
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   suite('list with repos', () => {
@@ -75,7 +70,7 @@ suite('gr-repo-list tests', () => {
     });
 
     test('_maybeOpenCreateOverlay', () => {
-      const overlayOpen = sandbox.stub(element.$.createOverlay, 'open');
+      const overlayOpen = sinon.stub(element.$.createOverlay, 'open');
       element._maybeOpenCreateOverlay();
       assert.isFalse(overlayOpen.called);
       const params = {};
@@ -113,7 +108,8 @@ suite('gr-repo-list tests', () => {
     });
 
     test('_paramsChanged', done => {
-      sandbox.stub(element.$.restAPI, 'getRepos', () => Promise.resolve(repos));
+      sinon.stub(element.$.restAPI, 'getRepos')
+          .callsFake( () => Promise.resolve(repos));
       const value = {
         filter: 'test',
         offset: 25,
@@ -126,7 +122,7 @@ suite('gr-repo-list tests', () => {
     });
 
     test('latest repos requested are always set', done => {
-      const repoStub = sandbox.stub(element.$.restAPI, 'getRepos');
+      const repoStub = sinon.stub(element.$.restAPI, 'getRepos');
       repoStub.withArgs('test').returns(Promise.resolve(repos));
       repoStub.withArgs('filter').returns(Promise.resolve(reposFiltered));
       element._filter = 'test';
@@ -156,7 +152,7 @@ suite('gr-repo-list tests', () => {
 
   suite('create new', () => {
     test('_handleCreateClicked called when create-click fired', () => {
-      sandbox.stub(element, '_handleCreateClicked');
+      sinon.stub(element, '_handleCreateClicked');
       element.shadowRoot
           .querySelector('gr-list-view').dispatchEvent(
               new CustomEvent('create-clicked', {
@@ -166,13 +162,13 @@ suite('gr-repo-list tests', () => {
     });
 
     test('_handleCreateClicked opens modal', () => {
-      const openStub = sandbox.stub(element.$.createOverlay, 'open');
+      const openStub = sinon.stub(element.$.createOverlay, 'open');
       element._handleCreateClicked();
       assert.isTrue(openStub.called);
     });
 
     test('_handleCreateRepo called when confirm fired', () => {
-      sandbox.stub(element, '_handleCreateRepo');
+      sinon.stub(element, '_handleCreateRepo');
       element.$.createDialog.dispatchEvent(
           new CustomEvent('confirm', {
             composed: true, bubbles: true,
@@ -181,7 +177,7 @@ suite('gr-repo-list tests', () => {
     });
 
     test('_handleCloseCreate called when cancel fired', () => {
-      sandbox.stub(element, '_handleCloseCreate');
+      sinon.stub(element, '_handleCloseCreate');
       element.$.createDialog.dispatchEvent(
           new CustomEvent('cancel', {
             composed: true, bubbles: true,

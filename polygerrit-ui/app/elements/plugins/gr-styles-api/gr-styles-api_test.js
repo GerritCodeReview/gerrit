@@ -36,11 +36,9 @@ customElements.define(GrStyleTestElement.is, GrStyleTestElement);
 const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-styles-api tests', () => {
-  let sandbox;
   let stylesApi;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     let plugin;
     pluginApi.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
@@ -50,7 +48,6 @@ suite('gr-styles-api tests', () => {
 
   teardown(() => {
     stylesApi = null;
-    sandbox.restore();
   });
 
   test('exists', () => {
@@ -63,14 +60,12 @@ suite('gr-styles-api tests', () => {
   });
 
   suite('GrStyleObject tests', () => {
-    let sandbox;
     let stylesApi;
     let displayInlineStyle;
     let displayNoneStyle;
     let elementsToRemove;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
       let plugin;
       pluginApi.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
@@ -89,7 +84,7 @@ suite('gr-styles-api tests', () => {
         element.remove();
       });
       elementsToRemove = null;
-      sandbox.restore();
+      sinon.restore();
     });
 
     function createNestedElements(parentElement) {

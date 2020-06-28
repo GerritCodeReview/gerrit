@@ -23,23 +23,17 @@ const basicFixture = fixtureFromElement('gr-account-link');
 
 suite('gr-account-link tests', () => {
   let element;
-  let sandbox;
 
   setup(() => {
     stub('gr-rest-api-interface', {
       getConfig() { return Promise.resolve({}); },
     });
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   test('computed fields', () => {
     const url = 'test/url';
-    const urlStub = sandbox.stub(GerritNav, 'getUrlForOwner').returns(url);
+    const urlStub = sinon.stub(GerritNav, 'getUrlForOwner').returns(url);
     const account = {
       email: 'email',
       username: 'username',

@@ -47,10 +47,10 @@ const basicFixture = fixtureFromTemplate(html`
           <tr class="diff-row side-by-side" left-type="remove" right-type="add">
             <td class="left lineNum" data-value="2"></td>
             <!-- Next tag is formatted to eliminate zero-length text nodes. -->
-            <td class="content remove"><div class="contentText">na💢ti <hl class="foo">te, inquit</hl>, sumus <hl class="bar">aliquando</hl> otiosum, <hl>certe</hl> a <hl><span class="tab-indicator" style="tab-size:8;">\\u0009</span></hl>udiam, <hl>quid</hl> sit, <span class="tab-indicator" style="tab-size:8;">\\u0009</span>quod <hl>Epicurum</hl></div></td>
+            <td class="content remove"><div class="contentText">na💢ti <hl class="foo">te, inquit</hl>, sumus <hl class="bar">aliquando</hl> otiosum, <hl>certe</hl> a <hl><span class="tab-indicator" style="tab-size:8;">\u0009</span></hl>udiam, <hl>quid</hl> sit, <span class="tab-indicator" style="tab-size:8;">\u0009</span>quod <hl>Epicurum</hl></div></td>
             <td class="right lineNum" data-value="2"></td>
             <!-- Next tag is formatted to eliminate zero-length text nodes. -->
-            <td class="content add"><div class="contentText">nacti , <hl>,</hl> sumus <hl><span class="tab-indicator" style="tab-size:8;">\\u0009</span></hl> otiosum,  <span class="tab-indicator" style="tab-size:8;">\\u0009</span> audiam,  sit, quod</div></td>
+            <td class="content add"><div class="contentText">nacti , <hl>,</hl> sumus <hl><span class="tab-indicator" style="tab-size:8;">\u0009</span></hl> otiosum,  <span class="tab-indicator" style="tab-size:8;">\u0009</span> audiam,  sit, quod</div></td>
           </tr>
         </tbody>
 
@@ -67,19 +67,19 @@ const basicFixture = fixtureFromTemplate(html`
           <tr class="diff-row side-by-side" left-type="remove" right-type="add">
             <td class="left lineNum" data-value="140"></td>
             <!-- Next tag is formatted to eliminate zero-length text nodes. -->
-            <td class="content remove"><div class="contentText">na💢ti <hl class="foo">te, inquit</hl>, sumus <hl class="bar">aliquando</hl> otiosum, <hl>certe</hl> a <hl><span class="tab-indicator" style="tab-size:8;">\\u0009</span></hl>udiam, <hl>quid</hl> sit, <span class="tab-indicator" style="tab-size:8;">\\u0009</span>quod <hl>Epicurum</hl></div><div class="comment-thread">
+            <td class="content remove"><div class="contentText">na💢ti <hl class="foo">te, inquit</hl>, sumus <hl class="bar">aliquando</hl> otiosum, <hl>certe</hl> a <hl><span class="tab-indicator" style="tab-size:8;">\u0009</span></hl>udiam, <hl>quid</hl> sit, <span class="tab-indicator" style="tab-size:8;">\u0009</span>quod <hl>Epicurum</hl></div><div class="comment-thread">
                 [Yet another random diff thread content here]
             </div></td>
             <td class="right lineNum" data-value="120"></td>
             <!-- Next tag is formatted to eliminate zero-length text nodes. -->
-            <td class="content add"><div class="contentText">nacti , <hl>,</hl> sumus <hl><span class="tab-indicator" style="tab-size:8;">\\u0009</span></hl> otiosum,  <span class="tab-indicator" style="tab-size:8;">\\u0009</span> audiam,  sit, quod</div></td>
+            <td class="content add"><div class="contentText">nacti , <hl>,</hl> sumus <hl><span class="tab-indicator" style="tab-size:8;">\u0009</span></hl> otiosum,  <span class="tab-indicator" style="tab-size:8;">\u0009</span> audiam,  sit, quod</div></td>
           </tr>
         </tbody>
 
         <tbody class="section both">
           <tr class="diff-row side-by-side" left-type="both" right-type="both">
             <td class="left lineNum" data-value="141"></td>
-            <td class="content both"><div class="contentText">nam et<hl><span class="tab-indicator" style="tab-size:8;">\\u0009</span></hl>complectitur<span class="tab-indicator" style="tab-size:8;">\\u0009</span>verbis, quod vult, et dicit plane, quod intellegam;</div></td>
+            <td class="content both"><div class="contentText">nam et<hl><span class="tab-indicator" style="tab-size:8;">\u0009</span></hl>complectitur<span class="tab-indicator" style="tab-size:8;">\u0009</span>verbis, quod vult, et dicit plane, quod intellegam;</div></td>
             <td class="right lineNum" data-value="130"></td>
             <td class="content both"><div class="contentText">nam et complectitur verbis, quod vult, et dicit plane, quod intellegam;</div></td>
           </tr>
@@ -120,7 +120,7 @@ const basicFixture = fixtureFromTemplate(html`
             <td class="left lineNum" data-value="165"></td>
             <td class="content both"><div class="contentText"></div></td>
             <td class="right lineNum" data-value="147"></td>
-            <td class="content both"><div class="contentText">in physicis, <hl><span class="tab-indicator" style="tab-size:8;">\\u0009</span></hl> quibus maxime gloriatur, primum totus est alienus. Democritea dicit</div></td>
+            <td class="content both"><div class="contentText">in physicis, <hl><span class="tab-indicator" style="tab-size:8;">\u0009</span></hl> quibus maxime gloriatur, primum totus est alienus. Democritea dicit</div></td>
           </tr>
         </tbody>
 
@@ -131,15 +131,9 @@ const basicFixture = fixtureFromTemplate(html`
 
 suite('gr-diff-highlight', () => {
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate()[1];
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   suite('comment events', () => {
@@ -147,9 +141,9 @@ suite('gr-diff-highlight', () => {
 
     setup(() => {
       builder = {
-        getContentsByLineRange: sandbox.stub().returns([]),
-        getLineElByChild: sandbox.stub().returns({}),
-        getSideByLineEl: sandbox.stub().returns('other-side'),
+        getContentsByLineRange: sinon.stub().returns([]),
+        getLineElByChild: sinon.stub().returns({}),
+        getSideByLineEl: sinon.stub().returns('other-side'),
       };
       element._cachedDiffBuilder = builder;
     });
@@ -162,7 +156,7 @@ suite('gr-diff-highlight', () => {
       element.appendChild(threadEl);
       element.commentRanges = [{side: 'right'}];
 
-      sandbox.stub(element, 'set');
+      sinon.stub(element, 'set');
       threadEl.dispatchEvent(new CustomEvent(
           'comment-thread-mouseenter', {bubbles: true, composed: true}));
       assert.isFalse(element.set.called);
@@ -187,7 +181,7 @@ suite('gr-diff-highlight', () => {
         end_character: 6,
       }}];
 
-      sandbox.stub(element, 'set');
+      sinon.stub(element, 'set');
       threadEl.dispatchEvent(new CustomEvent(
           'comment-thread-mouseenter', {bubbles: true, composed: true}));
       assert.isTrue(element.set.called);
@@ -204,7 +198,7 @@ suite('gr-diff-highlight', () => {
       element.appendChild(threadEl);
       element.commentRanges = [{side: 'right'}];
 
-      sandbox.stub(element, 'set');
+      sinon.stub(element, 'set');
       threadEl.dispatchEvent(new CustomEvent(
           'comment-thread-mouseleave', {bubbles: true, composed: true}));
       assert.isFalse(element.set.called);
@@ -212,7 +206,7 @@ suite('gr-diff-highlight', () => {
 
     test(`create-range-comment for range when create-comment-requested
           is fired`, () => {
-      sandbox.stub(element, '_removeActionBox');
+      sinon.stub(element, '_removeActionBox');
       element.selectedRange = {
         side: 'left',
         range: {
@@ -273,16 +267,16 @@ suite('gr-diff-highlight', () => {
     setup(() => {
       contentStubs = [];
       stub('gr-selection-action-box', {
-        placeAbove: sandbox.stub(),
-        placeBelow: sandbox.stub(),
+        placeAbove: sinon.stub(),
+        placeBelow: sinon.stub(),
       });
       diff = element.querySelector('#diffTable');
       builder = {
-        getContentTdByLine: sandbox.stub(),
-        getContentTdByLineEl: sandbox.stub(),
+        getContentTdByLine: sinon.stub(),
+        getContentTdByLineEl: sinon.stub(),
         getLineElByChild,
-        getLineNumberByChild: sandbox.stub(),
-        getSideByLineEl: sandbox.stub(),
+        getLineNumberByChild: sinon.stub(),
+        getSideByLineEl: sinon.stub(),
       };
       element._cachedDiffBuilder = builder;
     });
@@ -294,7 +288,7 @@ suite('gr-diff-highlight', () => {
 
     test('single first line', () => {
       const content = stubContent(1, 'right');
-      sandbox.spy(element, '_positionActionBox');
+      sinon.spy(element, '_positionActionBox');
       emulateSelection(content.firstChild, 5, content.firstChild, 12);
       const actionBox = element.shadowRoot
           .querySelector('gr-selection-action-box');
@@ -304,7 +298,7 @@ suite('gr-diff-highlight', () => {
     test('multiline starting on first line', () => {
       const startContent = stubContent(1, 'right');
       const endContent = stubContent(2, 'right');
-      sandbox.spy(element, '_positionActionBox');
+      sinon.spy(element, '_positionActionBox');
       emulateSelection(
           startContent.firstChild, 10, endContent.lastChild, 7);
       const actionBox = element.shadowRoot
@@ -314,7 +308,7 @@ suite('gr-diff-highlight', () => {
 
     test('single line', () => {
       const content = stubContent(138, 'left');
-      sandbox.spy(element, '_positionActionBox');
+      sinon.spy(element, '_positionActionBox');
       emulateSelection(content.firstChild, 5, content.firstChild, 12);
       const actionBox = element.shadowRoot
           .querySelector('gr-selection-action-box');
@@ -332,7 +326,7 @@ suite('gr-diff-highlight', () => {
     test('multiline', () => {
       const startContent = stubContent(119, 'right');
       const endContent = stubContent(120, 'right');
-      sandbox.spy(element, '_positionActionBox');
+      sinon.spy(element, '_positionActionBox');
       emulateSelection(
           startContent.firstChild, 10, endContent.lastChild, 7);
       const actionBox = element.shadowRoot
@@ -360,7 +354,7 @@ suite('gr-diff-highlight', () => {
       endRange.setStart(endContent.lastChild, 6);
       endRange.setEnd(endContent.lastChild, 7);
 
-      const getRangeAtStub = sandbox.stub();
+      const getRangeAtStub = sinon.stub();
       getRangeAtStub
           .onFirstCall().returns(startRange)
           .onSecondCall()
@@ -368,7 +362,7 @@ suite('gr-diff-highlight', () => {
       const selection = {
         rangeCount: 2,
         getRangeAt: getRangeAtStub,
-        removeAllRanges: sandbox.stub(),
+        removeAllRanges: sinon.stub(),
       };
       element._handleSelection(selection);
       const {range} = element.selectedRange;

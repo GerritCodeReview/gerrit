@@ -30,19 +30,13 @@ const basicTestFixutre = fixtureFromTemplate(html`
 `);
 
 suite('gr-cursor-manager tests', () => {
-  let sandbox;
   let element;
   let list;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     const fixtureElements = basicTestFixutre.instantiate();
     element = fixtureElements[0];
     list = fixtureElements[1];
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   test('core cursor functionality', () => {
@@ -164,8 +158,8 @@ suite('gr-cursor-manager tests', () => {
   });
 
   test('opt_noScroll', () => {
-    sandbox.stub(element, '_targetIsVisible', () => false);
-    const scrollStub = sandbox.stub(window, 'scrollTo');
+    sinon.stub(element, '_targetIsVisible').callsFake(() => false);
+    const scrollStub = sinon.stub(window, 'scrollTo');
     element.stops = list.querySelectorAll('li');
     element.scrollMode = 'keep-visible';
 
@@ -207,7 +201,7 @@ suite('gr-cursor-manager tests', () => {
   test('focusOnMove prop', () => {
     const listEls = list.querySelectorAll('li');
     for (let i = 0; i < listEls.length; i++) {
-      sandbox.spy(listEls[i], 'focus');
+      sinon.spy(listEls[i], 'focus');
     }
     element.stops = listEls;
     element.setCursor(list.children[0]);
@@ -230,32 +224,32 @@ suite('gr-cursor-manager tests', () => {
       // There is a target which has a targetNext
       element.setCursor(list.children[0]);
       element._moveCursor(1);
-      scrollStub = sandbox.stub(window, 'scrollTo');
+      scrollStub = sinon.stub(window, 'scrollTo');
       window.innerHeight = 60;
     });
 
     test('Called when top and bottom not visible', () => {
-      sandbox.stub(element, '_targetIsVisible').returns(false);
+      sinon.stub(element, '_targetIsVisible').returns(false);
       element._scrollToTarget();
       assert.isTrue(scrollStub.called);
     });
 
     test('Not called when top and bottom visible', () => {
-      sandbox.stub(element, '_targetIsVisible').returns(true);
+      sinon.stub(element, '_targetIsVisible').returns(true);
       element._scrollToTarget();
       assert.isFalse(scrollStub.called);
     });
 
     test('Called when top is visible, bottom is not, scroll is lower', () => {
-      const visibleStub = sandbox.stub(element, '_targetIsVisible',
+      const visibleStub = sinon.stub(element, '_targetIsVisible').callsFake(
           () => visibleStub.callCount === 2);
-      sandbox.stub(element, '_getWindowDims').returns({
+      sinon.stub(element, '_getWindowDims').returns({
         scrollX: 123,
         scrollY: 15,
         innerHeight: 1000,
         pageYOffset: 0,
       });
-      sandbox.stub(element, '_calculateScrollToValue').returns(20);
+      sinon.stub(element, '_calculateScrollToValue').returns(20);
       element._scrollToTarget();
       assert.isTrue(scrollStub.called);
       assert.isTrue(scrollStub.calledWithExactly(123, 20));
@@ -263,22 +257,22 @@ suite('gr-cursor-manager tests', () => {
     });
 
     test('Called when top is visible, bottom not, scroll is higher', () => {
-      const visibleStub = sandbox.stub(element, '_targetIsVisible',
+      const visibleStub = sinon.stub(element, '_targetIsVisible').callsFake(
           () => visibleStub.callCount === 2);
-      sandbox.stub(element, '_getWindowDims').returns({
+      sinon.stub(element, '_getWindowDims').returns({
         scrollX: 123,
         scrollY: 25,
         innerHeight: 1000,
         pageYOffset: 0,
       });
-      sandbox.stub(element, '_calculateScrollToValue').returns(20);
+      sinon.stub(element, '_calculateScrollToValue').returns(20);
       element._scrollToTarget();
       assert.isFalse(scrollStub.called);
       assert.equal(visibleStub.callCount, 2);
     });
 
     test('_calculateScrollToValue', () => {
-      sandbox.stub(element, '_getWindowDims').returns({
+      sinon.stub(element, '_getWindowDims').returns({
         scrollX: 123,
         scrollY: 25,
         innerHeight: 300,

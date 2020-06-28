@@ -22,13 +22,12 @@ import {authService} from '../gr-auth.js';
 
 suite('gr-rest-api-helper tests', () => {
   let helper;
-  let sandbox;
+
   let cache;
   let fetchPromisesCache;
   let originalCanonicalPath;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     cache = new SiteBasedCache();
     fetchPromisesCache = new FetchPromisesCache();
 
@@ -41,7 +40,7 @@ suite('gr-rest-api-helper tests', () => {
     };
 
     const testJSON = ')]}\'\n{"hello": "bonjour"}';
-    sandbox.stub(window, 'fetch').returns(Promise.resolve({
+    sinon.stub(window, 'fetch').returns(Promise.resolve({
       ok: true,
       text() {
         return Promise.resolve(testJSON);
@@ -53,13 +52,12 @@ suite('gr-rest-api-helper tests', () => {
   });
 
   teardown(() => {
-    sandbox.restore();
     window.CANONICAL_PATH = originalCanonicalPath;
   });
 
   suite('fetchJSON()', () => {
     test('Sets header to accept application/json', () => {
-      const authFetchStub = sandbox.stub(helper._auth, 'fetch')
+      const authFetchStub = sinon.stub(helper._auth, 'fetch')
           .returns(Promise.resolve());
       helper.fetchJSON({url: '/dummy/url'});
       assert.isTrue(authFetchStub.called);
@@ -68,7 +66,7 @@ suite('gr-rest-api-helper tests', () => {
     });
 
     test('Use header option accept when provided', () => {
-      const authFetchStub = sandbox.stub(helper._auth, 'fetch')
+      const authFetchStub = sinon.stub(helper._auth, 'fetch')
           .returns(Promise.resolve());
       const headers = new Headers();
       headers.append('Accept', '*/*');
@@ -89,7 +87,7 @@ suite('gr-rest-api-helper tests', () => {
 
   test('cached results', done => {
     let n = 0;
-    sandbox.stub(helper, 'fetchJSON', () => Promise.resolve(++n));
+    sinon.stub(helper, 'fetchJSON').callsFake(() => Promise.resolve(++n));
     const promises = [];
     promises.push(helper.fetchCacheURL('/foo'));
     promises.push(helper.fetchCacheURL('/foo'));

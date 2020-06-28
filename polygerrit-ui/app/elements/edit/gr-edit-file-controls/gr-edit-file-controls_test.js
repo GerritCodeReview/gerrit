@@ -24,17 +24,14 @@ const basicFixture = fixtureFromElement('gr-edit-file-controls');
 
 suite('gr-edit-file-controls tests', () => {
   let element;
-  let sandbox;
+
   let fileActionHandler;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
-    fileActionHandler = sandbox.stub();
+    fileActionHandler = sinon.stub();
     element.addEventListener('file-action-tap', fileActionHandler);
   });
-
-  teardown(() => { sandbox.restore(); });
 
   test('open tap emits event', () => {
     const actions = element.$.actions;

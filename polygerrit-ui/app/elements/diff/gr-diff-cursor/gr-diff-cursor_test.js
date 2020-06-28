@@ -32,13 +32,10 @@ const basicFixture = fixtureFromTemplate(html`
 const emptyFixture = fixtureFromElement('div');
 
 suite('gr-diff-cursor tests', () => {
-  let sandbox;
   let cursorElement;
   let diffElement;
 
   setup(done => {
-    sandbox = sinon.sandbox.create();
-
     const fixtureElems = basicFixture.instantiate();
     diffElement = fixtureElems[0];
     cursorElement = fixtureElems[1];
@@ -67,8 +64,6 @@ suite('gr-diff-cursor tests', () => {
       diffElement.diff = getMockDiffResponse();
     });
   });
-
-  teardown(() => sandbox.restore());
 
   test('diff cursor functionality (side-by-side)', () => {
     // The cursor has been initialized to the first delta.
@@ -119,7 +114,7 @@ suite('gr-diff-cursor tests', () => {
   });
 
   test('moves to selected line', () => {
-    const moveToNumStub = sandbox.stub(cursorElement, 'moveToLineNumber');
+    const moveToNumStub = sinon.stub(cursorElement, 'moveToLineNumber');
 
     cursorElement._handleDiffLineSelected(
         new CustomEvent('line-selected', {
@@ -232,7 +227,7 @@ suite('gr-diff-cursor tests', () => {
   test('navigate to next unreviewed file via moveToNextChunk', () => {
     const cursor = cursorElement.shadowRoot.querySelector('#cursorManager');
     cursor.index = cursor.stops.length - 1;
-    const dispatchEventStub = sandbox.stub(cursor, 'dispatchEvent');
+    const dispatchEventStub = sinon.stub(cursor, 'dispatchEvent');
     cursorElement.moveToNextChunk(/* opt_clipToTop = */false,
         /* opt_navigateToNextFile = */true);
     assert.isTrue(dispatchEventStub.called);
@@ -246,9 +241,10 @@ suite('gr-diff-cursor tests', () => {
 
   test('initialLineNumber not provided', done => {
     let scrollBehaviorDuringMove;
-    const moveToNumStub = sandbox.stub(cursorElement, 'moveToLineNumber');
-    const moveToChunkStub = sandbox.stub(cursorElement, 'moveToFirstChunk',
-        () => { scrollBehaviorDuringMove = cursorElement._scrollMode; });
+    const moveToNumStub = sinon.stub(cursorElement, 'moveToLineNumber');
+    const moveToChunkStub = sinon.stub(cursorElement, 'moveToFirstChunk')
+        .callsFake(
+            () => { scrollBehaviorDuringMove = cursorElement._scrollMode; });
 
     function renderHandler() {
       diffElement.removeEventListener('render', renderHandler);
@@ -265,9 +261,10 @@ suite('gr-diff-cursor tests', () => {
 
   test('initialLineNumber provided', done => {
     let scrollBehaviorDuringMove;
-    const moveToNumStub = sandbox.stub(cursorElement, 'moveToLineNumber',
-        () => { scrollBehaviorDuringMove = cursorElement._scrollMode; });
-    const moveToChunkStub = sandbox.stub(cursorElement, 'moveToFirstChunk');
+    const moveToNumStub = sinon.stub(cursorElement, 'moveToLineNumber')
+        .callsFake(
+            () => { scrollBehaviorDuringMove = cursorElement._scrollMode; });
+    const moveToChunkStub = sinon.stub(cursorElement, 'moveToFirstChunk');
     function renderHandler() {
       diffElement.removeEventListener('render', renderHandler);
       cursorElement.reInitCursor();
@@ -349,9 +346,9 @@ suite('gr-diff-cursor tests', () => {
     });
 
     test('createCommentInPlace ignores call if nothing is selected', () => {
-      const createRangeCommentStub = sandbox.stub(diffElement,
+      const createRangeCommentStub = sinon.stub(diffElement,
           'createRangeComment');
-      const addDraftAtLineStub = sandbox.stub(diffElement, 'addDraftAtLine');
+      const addDraftAtLineStub = sinon.stub(diffElement, 'addDraftAtLine');
       cursorElement.diffRow = undefined;
       cursorElement.createCommentInPlace();
       assert.isFalse(createRangeCommentStub.called);
@@ -398,7 +395,7 @@ suite('gr-diff-cursor tests', () => {
   });
 
   test('expand context updates stops', done => {
-    sandbox.spy(cursorElement, '_updateStops');
+    sinon.spy(cursorElement, '_updateStops');
     MockInteractions.tap(diffElement.shadowRoot
         .querySelector('.showContext'));
     flush(() => {
@@ -408,15 +405,13 @@ suite('gr-diff-cursor tests', () => {
   });
 
   suite('gr-diff-cursor event tests', () => {
-    let sandbox;
     let someEmptyDiv;
 
     setup(() => {
-      sandbox = sinon.sandbox.create();
       someEmptyDiv = emptyFixture.instantiate();
     });
 
-    teardown(() => sandbox.restore());
+    teardown(() => sinon.restore());
 
     test('ready is fired after component is rendered', done => {
       const cursorElement = document.createElement('gr-diff-cursor');

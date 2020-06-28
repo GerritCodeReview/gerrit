@@ -36,7 +36,7 @@ const basicFixture = fixtureFromElement(commentApiMockElement.is);
 
 suite('gr-patch-range-select tests', () => {
   let element;
-  let sandbox;
+
   let commentApiWrapper;
 
   function getInfo(revisions) {
@@ -48,8 +48,6 @@ suite('gr-patch-range-select tests', () => {
   }
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
-
     stub('gr-rest-api-interface', {
       getDiffComments() { return Promise.resolve({}); },
       getDiffRobotComments() { return Promise.resolve({}); },
@@ -65,8 +63,6 @@ suite('gr-patch-range-select tests', () => {
     // been initialized.
     return commentApiWrapper.loadComments();
   });
-
-  teardown(() => sandbox.restore());
 
   test('enabled/disabled options', () => {
     const patchRange = {
@@ -190,7 +186,7 @@ suite('gr-patch-range-select tests', () => {
     element.basePatchNum = 'PARENT';
     flushAsynchronousOperations();
 
-    sandbox.stub(element, '_computeBaseDropdownContent');
+    sinon.stub(element, '_computeBaseDropdownContent');
 
     // Should be recomputed for each available patch
     element.set('patchNum', 1);
@@ -217,7 +213,7 @@ suite('gr-patch-range-select tests', () => {
         flushAsynchronousOperations();
 
         // Should be recomputed for each available patch
-        sandbox.stub(element, '_computeBaseDropdownContent');
+        sinon.stub(element, '_computeBaseDropdownContent');
         assert.equal(element._computeBaseDropdownContent.callCount, 0);
         commentApiWrapper.loadComments().then()
             .then(() => {
@@ -245,7 +241,7 @@ suite('gr-patch-range-select tests', () => {
     flushAsynchronousOperations();
 
     // Should be recomputed for each available patch
-    sandbox.stub(element, '_computePatchDropdownContent');
+    sinon.stub(element, '_computePatchDropdownContent');
     element.set('basePatchNum', 1);
     assert.equal(element._computePatchDropdownContent.callCount, 1);
   });
@@ -269,7 +265,7 @@ suite('gr-patch-range-select tests', () => {
     flushAsynchronousOperations();
 
     // Should be recomputed for each available patch
-    sandbox.stub(element, '_computePatchDropdownContent');
+    sinon.stub(element, '_computePatchDropdownContent');
     assert.equal(element._computePatchDropdownContent.callCount, 0);
     commentApiWrapper.loadComments().then()
         .then(() => {
@@ -396,7 +392,7 @@ suite('gr-patch-range-select tests', () => {
   });
 
   test('patch-range-change fires', () => {
-    const handler = sandbox.stub();
+    const handler = sinon.stub();
     element.basePatchNum = 1;
     element.patchNum = 3;
     element.addEventListener('patch-range-change', handler);

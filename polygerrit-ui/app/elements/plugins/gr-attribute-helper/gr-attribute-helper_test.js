@@ -34,16 +34,10 @@ const basicFixture = fixtureFromElement('gr-attrubute-helper-some-element');
 suite('gr-attribute-helper tests', () => {
   let element;
   let instance;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
     instance = new GrAttributeHelper(element);
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   test('resolved on value change from undefined', () => {
@@ -64,7 +58,7 @@ suite('gr-attribute-helper tests', () => {
   });
 
   test('bind', () => {
-    const stub = sandbox.stub();
+    const stub = sinon.stub();
     element.fooBar = 'bar foo';
     const unbind = instance.bind('fooBar', stub);
     element.fooBar = 'partridge in a foo tree';

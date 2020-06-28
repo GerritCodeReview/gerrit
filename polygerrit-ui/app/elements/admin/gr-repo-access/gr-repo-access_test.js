@@ -24,7 +24,7 @@ const basicFixture = fixtureFromElement('gr-repo-access');
 
 suite('gr-repo-access tests', () => {
   let element;
-  let sandbox;
+
   let repoStub;
 
   const accessRes = {
@@ -99,37 +99,32 @@ suite('gr-repo-access tests', () => {
     },
   };
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
     stub('gr-rest-api-interface', {
       getAccount() { return Promise.resolve(null); },
     });
-    repoStub = sandbox.stub(element.$.restAPI, 'getRepo').returns(
+    repoStub = sinon.stub(element.$.restAPI, 'getRepo').returns(
         Promise.resolve(repoRes));
     element._loading = false;
     element._ownerOf = [];
     element._canUpload = false;
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
-
   test('_repoChanged called when repo name changes', () => {
-    sandbox.stub(element, '_repoChanged');
+    sinon.stub(element, '_repoChanged');
     element.repo = 'New Repo';
     assert.isTrue(element._repoChanged.called);
   });
 
   test('_repoChanged', done => {
-    const accessStub = sandbox.stub(element.$.restAPI,
+    const accessStub = sinon.stub(element.$.restAPI,
         'getRepoAccessRights');
 
     accessStub.withArgs('New Repo').returns(
         Promise.resolve(JSON.parse(JSON.stringify(accessRes))));
     accessStub.withArgs('Another New Repo')
         .returns(Promise.resolve(JSON.parse(JSON.stringify(accessRes2))));
-    const capabilitiesStub = sandbox.stub(element.$.restAPI,
+    const capabilitiesStub = sinon.stub(element.$.restAPI,
         'getCapabilities');
     capabilitiesStub.returns(Promise.resolve(capabilitiesRes));
 
@@ -164,9 +159,9 @@ suite('gr-repo-access tests', () => {
         name: 'Access Database',
       },
     };
-    const accessStub = sandbox.stub(element.$.restAPI, 'getRepoAccessRights')
+    const accessStub = sinon.stub(element.$.restAPI, 'getRepoAccessRights')
         .returns(Promise.resolve(JSON.parse(JSON.stringify(accessRes2))));
-    const capabilitiesStub = sandbox.stub(element.$.restAPI,
+    const capabilitiesStub = sinon.stub(element.$.restAPI,
         'getCapabilities').returns(Promise.resolve(capabilitiesRes));
 
     element._repoChanged().then(() => {
@@ -199,7 +194,7 @@ suite('gr-repo-access tests', () => {
   test('inherit section', () => {
     element._local = {};
     element._ownerOf = [];
-    sandbox.stub(element, '_computeParentHref');
+    sinon.stub(element, '_computeParentHref');
     // Nothing should appear when no inherit from and not in edit mode.
     assert.equal(getComputedStyle(element.$.inheritsFrom).display, 'none');
     // The autocomplete should be hidden, and the link should be  displayed.
@@ -244,8 +239,9 @@ suite('gr-repo-access tests', () => {
   test('fires page-error', done => {
     const response = {status: 404};
 
-    sandbox.stub(
-        element.$.restAPI, 'getRepoAccessRights', (repoName, errFn) => {
+    sinon.stub(
+        element.$.restAPI, 'getRepoAccessRights')
+        .callsFake((repoName, errFn) => {
           errFn(response);
         });
 
@@ -352,7 +348,7 @@ suite('gr-repo-access tests', () => {
     });
 
     test('_handleAccessModified called with event fired', () => {
-      sandbox.spy(element, '_handleAccessModified');
+      sinon.spy(element, '_handleAccessModified');
       element.dispatchEvent(
           new CustomEvent('access-modified', {
             composed: true, bubbles: true,
@@ -370,7 +366,7 @@ suite('gr-repo-access tests', () => {
             detail: {},
             composed: true, bubbles: true,
           }));
-      sandbox.spy(element, '_handleAccessModified');
+      sinon.spy(element, '_handleAccessModified');
       element.dispatchEvent(
           new CustomEvent('access-modified', {
             detail: {},
@@ -381,8 +377,8 @@ suite('gr-repo-access tests', () => {
 
     test('_handleSaveForReview', () => {
       const saveStub =
-          sandbox.stub(element.$.restAPI, 'setRepoAccessRightsForReview');
-      sandbox.stub(element, '_computeAddAndRemove').returns({
+          sinon.stub(element.$.restAPI, 'setRepoAccessRightsForReview');
+      sinon.stub(element, '_computeAddAndRemove').returns({
         add: {},
         remove: {},
       });
@@ -1164,16 +1160,16 @@ suite('gr-repo-access tests', () => {
           },
         },
       };
-      sandbox.stub(element.$.restAPI, 'getRepoAccessRights').returns(
+      sinon.stub(element.$.restAPI, 'getRepoAccessRights').returns(
           Promise.resolve(JSON.parse(JSON.stringify(accessRes))));
-      sandbox.stub(GerritNav, 'navigateToChange');
+      sinon.stub(GerritNav, 'navigateToChange');
       let resolver;
-      const saveStub = sandbox.stub(element.$.restAPI,
+      const saveStub = sinon.stub(element.$.restAPI,
           'setRepoAccessRights')
           .returns(new Promise(r => resolver = r));
 
       element.repo = 'test-repo';
-      sandbox.stub(element, '_computeAddAndRemove').returns(repoAccessInput);
+      sinon.stub(element, '_computeAddAndRemove').returns(repoAccessInput);
 
       element._modified = true;
       MockInteractions.tap(element.$.saveBtn);
@@ -1211,16 +1207,16 @@ suite('gr-repo-access tests', () => {
           },
         },
       };
-      sandbox.stub(element.$.restAPI, 'getRepoAccessRights').returns(
+      sinon.stub(element.$.restAPI, 'getRepoAccessRights').returns(
           Promise.resolve(JSON.parse(JSON.stringify(accessRes))));
-      sandbox.stub(GerritNav, 'navigateToChange');
+      sinon.stub(GerritNav, 'navigateToChange');
       let resolver;
-      const saveForReviewStub = sandbox.stub(element.$.restAPI,
+      const saveForReviewStub = sinon.stub(element.$.restAPI,
           'setRepoAccessRightsForReview')
           .returns(new Promise(r => resolver = r));
 
       element.repo = 'test-repo';
-      sandbox.stub(element, '_computeAddAndRemove').returns(repoAccessInput);
+      sinon.stub(element, '_computeAddAndRemove').returns(repoAccessInput);
 
       element._modified = true;
       MockInteractions.tap(element.$.saveReviewBtn);

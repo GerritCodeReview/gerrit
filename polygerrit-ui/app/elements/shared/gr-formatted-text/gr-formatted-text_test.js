@@ -22,7 +22,6 @@ const basicFixture = fixtureFromElement('gr-formatted-text');
 
 suite('gr-formatted-text tests', () => {
   let element;
-  let sandbox;
 
   function assertBlock(result, index, type, text) {
     assert.equal(result[index].type, type);
@@ -36,11 +35,6 @@ suite('gr-formatted-text tests', () => {
 
   setup(() => {
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   test('parse null undefined and empty', () => {
@@ -395,14 +389,14 @@ suite('gr-formatted-text tests', () => {
   });
 
   test('_computeNodes called without config', () => {
-    const computeNodesSpy = sandbox.spy(element, '_computeNodes');
+    const computeNodesSpy = sinon.spy(element, '_computeNodes');
     element.content = 'some text';
     assert.isTrue(computeNodesSpy.called);
   });
 
   test('_contentOrConfigChanged called with config', () => {
-    const contentStub = sandbox.stub(element, '_contentChanged');
-    const contentConfigStub = sandbox.stub(element, '_contentOrConfigChanged');
+    const contentStub = sinon.stub(element, '_contentChanged');
+    const contentConfigStub = sinon.stub(element, '_contentOrConfigChanged');
     element.content = 'some text';
     element.config = {};
     assert.isTrue(contentStub.called);

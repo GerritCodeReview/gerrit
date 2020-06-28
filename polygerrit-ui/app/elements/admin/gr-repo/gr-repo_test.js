@@ -24,7 +24,7 @@ const basicFixture = fixtureFromElement('gr-repo');
 
 suite('gr-repo tests', () => {
   let element;
-  let sandbox;
+
   let repoStub;
   const repoConf = {
     description: 'Access inherited by all other projects.',
@@ -99,7 +99,6 @@ suite('gr-repo tests', () => {
   }
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     stub('gr-rest-api-interface', {
       getLoggedIn() { return Promise.resolve(false); },
       getConfig() {
@@ -107,14 +106,10 @@ suite('gr-repo tests', () => {
       },
     });
     element = basicFixture.instantiate();
-    repoStub = sandbox.stub(
+    repoStub = sinon.stub(
         element.$.restAPI,
-        'getProjectConfig',
-        () => Promise.resolve(repoConf));
-  });
-
-  teardown(() => {
-    sandbox.restore();
+        'getProjectConfig')
+        .callsFake(() => Promise.resolve(repoConf));
   });
 
   test('_computePluginData', () => {
@@ -126,7 +121,7 @@ suite('gr-repo tests', () => {
   });
 
   test('_handlePluginConfigChanged', () => {
-    const notifyStub = sandbox.stub(element, 'notifyPath');
+    const notifyStub = sinon.stub(element, 'notifyPath');
     element._repoConfig = {plugin_config: {}};
     element._handlePluginConfigChanged({detail: {
       name: 'test',
@@ -175,11 +170,11 @@ suite('gr-repo tests', () => {
 
   test('form defaults to read only when logged in and not admin', done => {
     element.repo = REPO;
-    sandbox.stub(element, '_getLoggedIn', () => Promise.resolve(true));
-    sandbox.stub(
+    sinon.stub(element, '_getLoggedIn').callsFake(() => Promise.resolve(true));
+    sinon.stub(
         element.$.restAPI,
-        'getRepoAccess',
-        () => Promise.resolve({'test-repo': {}}));
+        'getRepoAccess')
+        .callsFake(() => Promise.resolve({'test-repo': {}}));
     element._loadRepo().then(() => {
       assert.isTrue(element._readOnly);
       done();
@@ -252,10 +247,10 @@ suite('gr-repo tests', () => {
     element.repo = 'test';
 
     const response = {status: 404};
-    sandbox.stub(
-        element.$.restAPI, 'getProjectConfig', (repo, errFn) => {
-          errFn(response);
-        });
+    sinon.stub(
+        element.$.restAPI, 'getProjectConfig').callsFake((repo, errFn) => {
+      errFn(response);
+    });
     element.addEventListener('page-error', e => {
       assert.deepEqual(e.detail.response, response);
       done();
@@ -267,11 +262,12 @@ suite('gr-repo tests', () => {
   suite('admin', () => {
     setup(() => {
       element.repo = REPO;
-      sandbox.stub(element, '_getLoggedIn', () => Promise.resolve(true));
-      sandbox.stub(
+      sinon.stub(element, '_getLoggedIn')
+          .callsFake(() => Promise.resolve(true));
+      sinon.stub(
           element.$.restAPI,
-          'getRepoAccess',
-          () => Promise.resolve({'test-repo': {is_owner: true}}));
+          'getRepoAccess')
+          .callsFake(() => Promise.resolve({'test-repo': {is_owner: true}}));
     });
 
     test('all form elements are enabled', done => {
@@ -327,8 +323,8 @@ suite('gr-repo tests', () => {
         enable_reviewer_by_email: 'TRUE',
       };
 
-      const saveStub = sandbox.stub(element.$.restAPI, 'saveRepoConfig'
-          , () => Promise.resolve({}));
+      const saveStub = sinon.stub(element.$.restAPI, 'saveRepoConfig')
+          .callsFake(() => Promise.resolve({}));
 
       const button = dom(element.root).querySelector('gr-button');
 

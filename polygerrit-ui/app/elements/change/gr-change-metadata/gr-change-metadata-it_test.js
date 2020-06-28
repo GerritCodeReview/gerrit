@@ -54,7 +54,6 @@ const basicFixture = fixtureFromTemplate(
 const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-change-metadata integration tests', () => {
-  let sandbox;
   let element;
 
   const sectionSelectors = [
@@ -89,7 +88,6 @@ suite('gr-change-metadata integration tests', () => {
   }
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     stub('gr-rest-api-interface', {
       getConfig() { return Promise.resolve({}); },
       getLoggedIn() { return Promise.resolve(false); },
@@ -98,7 +96,6 @@ suite('gr-change-metadata integration tests', () => {
   });
 
   teardown(() => {
-    sandbox.restore();
     resetPlugins();
   });
 
@@ -122,7 +119,8 @@ suite('gr-change-metadata integration tests', () => {
         plugin.registerStyleModule('change-metadata', 'my-plugin-style');
       }, undefined, 'http://test.com/style.js');
       element = createElement();
-      sandbox.stub(pluginEndpoints, 'importUrl', url => Promise.resolve());
+      sinon.stub(pluginEndpoints, 'importUrl')
+          .callsFake( url => Promise.resolve());
       pluginLoader.loadPlugins([]);
       pluginLoader.awaitPluginsLoaded().then(() => {
         flush(done);
@@ -149,7 +147,7 @@ suite('gr-change-metadata integration tests', () => {
         plugin = p;
         plugin.registerStyleModule('change-metadata', 'my-plugin-style');
       }, undefined, 'http://test.com/style.js');
-      sandbox.stub(pluginLoader, 'arePluginsLoaded').returns(true);
+      sinon.stub(pluginLoader, 'arePluginsLoaded').returns(true);
       pluginLoader.loadPlugins([]);
       element = createElement();
     });
@@ -161,7 +159,7 @@ suite('gr-change-metadata integration tests', () => {
 
     test('labels changed callback', done => {
       let callCount = 0;
-      const labelChangeSpy = sandbox.spy(arg => {
+      const labelChangeSpy = sinon.spy(arg => {
         callCount++;
         if (callCount === 1) {
           assert.deepEqual(arg, labels);

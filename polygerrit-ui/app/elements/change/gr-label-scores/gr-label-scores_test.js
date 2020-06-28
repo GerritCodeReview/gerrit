@@ -22,10 +22,8 @@ const basicFixture = fixtureFromElement('gr-label-scores');
 
 suite('gr-label-scores tests', () => {
   let element;
-  let sandbox;
 
   setup(done => {
-    sandbox = sinon.sandbox.create();
     stub('gr-rest-api-interface', {
       getLoggedIn() { return Promise.resolve(false); },
     });
@@ -85,10 +83,6 @@ suite('gr-label-scores tests', () => {
       ],
     };
     flush(done);
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   test('get and set label scores', () => {

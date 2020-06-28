@@ -25,7 +25,7 @@ const basicFixture = fixtureFromTemplate(
 
 suite('gr-autocomplete tests', () => {
   let element;
-  let sandbox;
+
   const focusOnInput = element => {
     MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
         'enter');
@@ -33,16 +33,11 @@ suite('gr-autocomplete tests', () => {
 
   setup(() => {
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   test('renders', () => {
     let promise;
-    const queryStub = sandbox.spy(input => promise = Promise.resolve([
+    const queryStub = sinon.spy(input => promise = Promise.resolve([
       {name: input + ' 0', value: 0},
       {name: input + ' 1', value: 1},
       {name: input + ' 2', value: 2},
@@ -76,7 +71,7 @@ suite('gr-autocomplete tests', () => {
   test('selectAll', done => {
     flush(() => {
       const nativeInput = element._nativeInput;
-      const selectionStub = sandbox.stub(nativeInput, 'setSelectionRange');
+      const selectionStub = sinon.stub(nativeInput, 'setSelectionRange');
 
       element.selectAll();
       assert.isFalse(selectionStub.called);
@@ -90,7 +85,7 @@ suite('gr-autocomplete tests', () => {
 
   test('esc key behavior', done => {
     let promise;
-    const queryStub = sandbox.spy(() => promise = Promise.resolve([
+    const queryStub = sinon.spy(() => promise = Promise.resolve([
       {name: 'blah', value: 123},
     ]));
     element.query = queryStub;
@@ -103,7 +98,7 @@ suite('gr-autocomplete tests', () => {
     promise.then(() => {
       assert.isFalse(element.$.suggestions.isHidden);
 
-      const cancelHandler = sandbox.spy();
+      const cancelHandler = sinon.spy();
       element.addEventListener('cancel', cancelHandler);
 
       MockInteractions.pressAndReleaseKeyOn(element.$.input, 27, null, 'esc');
@@ -119,7 +114,7 @@ suite('gr-autocomplete tests', () => {
 
   test('emits commit and handles cursor movement', done => {
     let promise;
-    const queryStub = sandbox.spy(input => promise = Promise.resolve([
+    const queryStub = sinon.spy(input => promise = Promise.resolve([
       {name: input + ' 0', value: 0},
       {name: input + ' 1', value: 1},
       {name: input + ' 2', value: 2},
@@ -136,7 +131,7 @@ suite('gr-autocomplete tests', () => {
     promise.then(() => {
       assert.isFalse(element.$.suggestions.isHidden);
 
-      const commitHandler = sandbox.spy();
+      const commitHandler = sinon.spy();
       element.addEventListener('commit', commitHandler);
 
       assert.equal(element.$.suggestions.$.cursor.index, 0);
@@ -169,7 +164,7 @@ suite('gr-autocomplete tests', () => {
 
   test('clear-on-commit behavior (off)', done => {
     let promise;
-    const queryStub = sandbox.spy(() => {
+    const queryStub = sinon.spy(() => {
       promise = Promise.resolve([{name: 'suggestion', value: 0}]);
       return promise;
     });
@@ -178,7 +173,7 @@ suite('gr-autocomplete tests', () => {
     element.text = 'blah';
 
     promise.then(() => {
-      const commitHandler = sandbox.spy();
+      const commitHandler = sinon.spy();
       element.addEventListener('commit', commitHandler);
 
       MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
@@ -192,7 +187,7 @@ suite('gr-autocomplete tests', () => {
 
   test('clear-on-commit behavior (on)', done => {
     let promise;
-    const queryStub = sandbox.spy(() => {
+    const queryStub = sinon.spy(() => {
       promise = Promise.resolve([{name: 'suggestion', value: 0}]);
       return promise;
     });
@@ -202,7 +197,7 @@ suite('gr-autocomplete tests', () => {
     element.clearOnCommit = true;
 
     promise.then(() => {
-      const commitHandler = sandbox.spy();
+      const commitHandler = sinon.spy();
       element.addEventListener('commit', commitHandler);
 
       MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
@@ -215,7 +210,7 @@ suite('gr-autocomplete tests', () => {
   });
 
   test('threshold guards the query', () => {
-    const queryStub = sandbox.spy(() => Promise.resolve([]));
+    const queryStub = sinon.spy(() => Promise.resolve([]));
     element.query = queryStub;
     element.threshold = 2;
     focusOnInput(element);
@@ -226,9 +221,9 @@ suite('gr-autocomplete tests', () => {
   });
 
   test('noDebounce=false debounces the query', () => {
-    const queryStub = sandbox.spy(() => Promise.resolve([]));
+    const queryStub = sinon.spy(() => Promise.resolve([]));
     let callback;
-    const debounceStub = sandbox.stub(element, 'debounce',
+    const debounceStub = sinon.stub(element, 'debounce').callsFake(
         (name, cb) => { callback = cb; });
     element.query = queryStub;
     element.noDebounce = false;
@@ -255,7 +250,7 @@ suite('gr-autocomplete tests', () => {
 
   test('when focused', done => {
     let promise;
-    const queryStub = sandbox.stub()
+    const queryStub = sinon.stub()
         .returns(promise = Promise.resolve([
           {name: 'suggestion', value: 0},
         ]));
@@ -274,7 +269,7 @@ suite('gr-autocomplete tests', () => {
 
   test('when not focused', done => {
     let promise;
-    const queryStub = sandbox.stub()
+    const queryStub = sinon.stub()
         .returns(promise = Promise.resolve([
           {name: 'suggestion', value: 0},
         ]));
@@ -291,7 +286,7 @@ suite('gr-autocomplete tests', () => {
 
   test('suggestions should not carry over', done => {
     let promise;
-    const queryStub = sandbox.stub()
+    const queryStub = sinon.stub()
         .returns(promise = Promise.resolve([
           {name: 'suggestion', value: 0},
         ]));
@@ -309,7 +304,7 @@ suite('gr-autocomplete tests', () => {
 
   test('multi completes only the last part of the query', done => {
     let promise;
-    const queryStub = sandbox.stub()
+    const queryStub = sinon.stub()
         .returns(promise = Promise.resolve([
           {name: 'suggestion', value: 0},
         ]));
@@ -319,7 +314,7 @@ suite('gr-autocomplete tests', () => {
     element.multi = true;
 
     promise.then(() => {
-      const commitHandler = sandbox.spy();
+      const commitHandler = sinon.spy();
       element.addEventListener('commit', commitHandler);
 
       MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
@@ -334,9 +329,9 @@ suite('gr-autocomplete tests', () => {
   test('tabComplete flag functions', () => {
     // commitHandler checks for the commit event, whereas commitSpy checks for
     // the _commit function of the element.
-    const commitHandler = sandbox.spy();
+    const commitHandler = sinon.spy();
     element.addEventListener('commit', commitHandler);
-    const commitSpy = sandbox.spy(element, '_commit');
+    const commitSpy = sinon.spy(element, '_commit');
     element._focused = true;
 
     element._suggestions = ['tunnel snakes rule!'];
@@ -385,8 +380,8 @@ suite('gr-autocomplete tests', () => {
   });
 
   test('_focused flag shows/hides the suggestions', () => {
-    const openStub = sandbox.stub(element.$.suggestions, 'open');
-    const closedStub = sandbox.stub(element.$.suggestions, 'close');
+    const openStub = sinon.stub(element.$.suggestions, 'open');
+    const closedStub = sinon.stub(element.$.suggestions, 'close');
     element._suggestions = ['hello', 'its me'];
     assert.isFalse(openStub.called);
     assert.isTrue(closedStub.calledOnce);
@@ -399,7 +394,7 @@ suite('gr-autocomplete tests', () => {
 
   test('_handleInputCommit with autocomplete hidden does nothing without' +
         'without allowNonSuggestedValues', () => {
-    const commitStub = sandbox.stub(element, '_commit');
+    const commitStub = sinon.stub(element, '_commit');
     element.$.suggestions.isHidden = true;
     element._handleInputCommit();
     assert.isFalse(commitStub.called);
@@ -407,7 +402,7 @@ suite('gr-autocomplete tests', () => {
 
   test('_handleInputCommit with autocomplete hidden with' +
         'allowNonSuggestedValues', () => {
-    const commitStub = sandbox.stub(element, '_commit');
+    const commitStub = sinon.stub(element, '_commit');
     element.allowNonSuggestedValues = true;
     element.$.suggestions.isHidden = true;
     element._handleInputCommit();
@@ -415,7 +410,7 @@ suite('gr-autocomplete tests', () => {
   });
 
   test('_handleInputCommit with autocomplete open calls commit', () => {
-    const commitStub = sandbox.stub(element, '_commit');
+    const commitStub = sinon.stub(element, '_commit');
     element.$.suggestions.isHidden = false;
     element._handleInputCommit();
     assert.isTrue(commitStub.calledOnce);
@@ -423,7 +418,7 @@ suite('gr-autocomplete tests', () => {
 
   test('_handleInputCommit with autocomplete open calls commit' +
         'with allowNonSuggestedValues', () => {
-    const commitStub = sandbox.stub(element, '_commit');
+    const commitStub = sinon.stub(element, '_commit');
     element.allowNonSuggestedValues = true;
     element.$.suggestions.isHidden = false;
     element._handleInputCommit();
@@ -432,7 +427,7 @@ suite('gr-autocomplete tests', () => {
 
   test('issue 8655', () => {
     function makeSuggestion(s) { return {name: s, text: s, value: s}; }
-    const keydownSpy = sandbox.spy(element, '_handleKeydown');
+    const keydownSpy = sinon.spy(element, '_handleKeydown');
     element.setText('file:');
     element._suggestions =
         [makeSuggestion('file:'), makeSuggestion('-file:')];
@@ -455,12 +450,12 @@ suite('gr-autocomplete tests', () => {
     let focusSpy;
 
     setup(() => {
-      commitSpy = sandbox.spy(element, '_commit');
+      commitSpy = sinon.spy(element, '_commit');
     });
 
     test('enter does not call focus', () => {
       element._suggestions = ['sugar bombs'];
-      focusSpy = sandbox.spy(element, 'focus');
+      focusSpy = sinon.spy(element, 'focus');
       MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
           'enter');
       flushAsynchronousOperations();
@@ -471,8 +466,8 @@ suite('gr-autocomplete tests', () => {
     });
 
     test('tab in input, tabComplete = true', () => {
-      focusSpy = sandbox.spy(element, 'focus');
-      const commitHandler = sandbox.stub();
+      focusSpy = sinon.spy(element, 'focus');
+      const commitHandler = sinon.stub();
       element.addEventListener('commit', commitHandler);
       element.tabComplete = true;
       element._suggestions = ['tunnel snakes drool'];
@@ -487,7 +482,7 @@ suite('gr-autocomplete tests', () => {
 
     test('tab in input, tabComplete = false', () => {
       element._suggestions = ['sugar bombs'];
-      focusSpy = sandbox.spy(element, 'focus');
+      focusSpy = sinon.spy(element, 'focus');
       MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
       flushAsynchronousOperations();
 
@@ -501,7 +496,7 @@ suite('gr-autocomplete tests', () => {
       element._focused = true;
       // When tabComplete is false, do not focus.
       element.tabComplete = false;
-      focusSpy = sandbox.spy(element, 'focus');
+      focusSpy = sinon.spy(element, 'focus');
       flush$0();
       assert.isFalse(element.$.suggestions.isHidden);
 
@@ -518,7 +513,7 @@ suite('gr-autocomplete tests', () => {
       element._focused = true;
       // When tabComplete is true, focus.
       element.tabComplete = true;
-      focusSpy = sandbox.spy(element, 'focus');
+      focusSpy = sinon.spy(element, 'focus');
       flush$0();
       assert.isFalse(element.$.suggestions.isHidden);
 
@@ -532,7 +527,7 @@ suite('gr-autocomplete tests', () => {
     });
 
     test('tap on suggestion commits, does not call focus', () => {
-      focusSpy = sandbox.spy(element, 'focus');
+      focusSpy = sinon.spy(element, 'focus');
       element._focused = true;
       element._suggestions = [{name: 'first suggestion'}];
       flush$0();
@@ -548,7 +543,7 @@ suite('gr-autocomplete tests', () => {
   });
 
   test('input-keydown event fired', () => {
-    const listener = sandbox.spy();
+    const listener = sinon.spy();
     element.addEventListener('input-keydown', listener);
     MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
     flushAsynchronousOperations();
@@ -556,8 +551,8 @@ suite('gr-autocomplete tests', () => {
   });
 
   test('enter with modifier does not complete', () => {
-    const handleSpy = sandbox.spy(element, '_handleKeydown');
-    const commitStub = sandbox.stub(element, '_handleInputCommit');
+    const handleSpy = sinon.spy(element, '_handleKeydown');
+    const commitStub = sinon.stub(element, '_handleInputCommit');
     MockInteractions.pressAndReleaseKeyOn(
         element.$.input, 13, 'ctrl', 'enter');
     assert.isTrue(handleSpy.called);

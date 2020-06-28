@@ -25,20 +25,15 @@ const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-change-reply-js-api tests', () => {
   let element;
-  let sandbox;
+
   let changeReply;
   let plugin;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     stub('gr-rest-api-interface', {
       getConfig() { return Promise.resolve({}); },
       getAccount() { return Promise.resolve(null); },
     });
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   suite('early init', () => {
@@ -54,19 +49,19 @@ suite('gr-change-reply-js-api tests', () => {
     });
 
     test('works', () => {
-      sandbox.stub(element, 'getLabelValue').returns('+123');
+      sinon.stub(element, 'getLabelValue').returns('+123');
       assert.equal(changeReply.getLabelValue('My-Label'), '+123');
 
-      sandbox.stub(element, 'setLabelValue');
+      sinon.stub(element, 'setLabelValue');
       changeReply.setLabelValue('My-Label', '+1337');
       assert.isTrue(
           element.setLabelValue.calledWithExactly('My-Label', '+1337'));
 
-      sandbox.stub(element, 'send');
+      sinon.stub(element, 'send');
       changeReply.send(false);
       assert.isTrue(element.send.calledWithExactly(false));
 
-      sandbox.stub(element, 'setPluginMessage');
+      sinon.stub(element, 'setPluginMessage');
       changeReply.showMessage('foobar');
       assert.isTrue(element.setPluginMessage.calledWithExactly('foobar'));
     });
@@ -85,19 +80,19 @@ suite('gr-change-reply-js-api tests', () => {
     });
 
     test('works', () => {
-      sandbox.stub(element, 'getLabelValue').returns('+123');
+      sinon.stub(element, 'getLabelValue').returns('+123');
       assert.equal(changeReply.getLabelValue('My-Label'), '+123');
 
-      sandbox.stub(element, 'setLabelValue');
+      sinon.stub(element, 'setLabelValue');
       changeReply.setLabelValue('My-Label', '+1337');
       assert.isTrue(
           element.setLabelValue.calledWithExactly('My-Label', '+1337'));
 
-      sandbox.stub(element, 'send');
+      sinon.stub(element, 'send');
       changeReply.send(false);
       assert.isTrue(element.send.calledWithExactly(false));
 
-      sandbox.stub(element, 'setPluginMessage');
+      sinon.stub(element, 'setPluginMessage');
       changeReply.showMessage('foobar');
       assert.isTrue(element.setPluginMessage.calledWithExactly('foobar'));
     });

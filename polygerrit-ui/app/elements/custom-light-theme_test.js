@@ -24,10 +24,8 @@ import {pluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader.js';
 const basicFixture = fixtureFromElement('gr-app');
 
 suite('gr-app custom light theme tests', () => {
-  let sandbox;
   let element;
   setup(done => {
-    sandbox = sinon.sandbox.create();
     window.localStorage.removeItem('dark-theme');
     stub('gr-rest-api-interface', {
       getConfig() { return Promise.resolve({test: 'config'}); },
@@ -42,7 +40,6 @@ suite('gr-app custom light theme tests', () => {
     pluginLoader.awaitPluginsLoaded().then(() => flush(done));
   });
   teardown(() => {
-    sandbox.restore();
     // The app sends requests to server. This can lead to
     // unexpected gr-alert elements in document.body
     document.body.querySelectorAll('gr-alert').forEach(grAlert => {

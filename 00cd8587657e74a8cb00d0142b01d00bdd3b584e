@@ -16,6 +16,23 @@
       "revId": "00cd8587657e74a8cb00d0142b01d00bdd3b584e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "687e018e_725ef298",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-28T04:58:37Z",
+      "side": 1,
+      "message": "It\u0027s failing to init sinon context:\n\n  Tests failed: Error thrown outside of test function: Attempted to wrap undefined property _import as function\n      Object.wrapMethod at /components/@polymer/sinonjs/sinon.js:1474\n          Object.stub at /components/@polymer/sinonjs/sinon.js:3528\n  Object.keys.map.key at /components/aea93e89e3d70d5ed914a8409e0483c0/test/common-test-setup.js:100\n          window.stub at /components/aea93e89e3d70d5ed914a8409e0483c0/test/common-test-setup.js:100\n        Context.setup at gr-related-changes-list_test.html:45",
+      "revId": "00cd8587657e74a8cb00d0142b01d00bdd3b584e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

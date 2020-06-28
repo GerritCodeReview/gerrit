@@ -233,7 +233,9 @@ class GrMessage extends GestureEventListeners(
     // or gerrit level events
 
     // emit the event so change-view can also get updated with latest changes
-    this.fire('comment-refresh');
+    this.dispatchEvent(new CustomEvent('comment-refresh', {
+      composed: true, bubbles: true,
+    }));
   }
 
   _computeMessageContentExpanded(content, tag) {

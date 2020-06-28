@@ -435,7 +435,14 @@ suite('gr-change-view tests', () => {
     });
 
     test('show-primary-tab switched primary tab correctly', done => {
-      element.fire('show-primary-tab', {tab: 'change-view-tab-header-url'});
+      element.dispatchEvent(
+          new CustomEvent('show-primary-tab', {
+            composed: true,
+            bubbles: true,
+            detail: {
+              tab: 'change-view-tab-header-url'
+            },
+          }));
       flush(() => {
         assert.equal(element._activeTabs[0], 'change-view-tab-header-url');
         done();

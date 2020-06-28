@@ -6,13 +6,6 @@ if [[ -z "$bazel_bin" ]]; then
     bazel_bin=bazel
 fi
 
-# WCT tests are not hermetic, and need extra environment variables.
-# TODO(hanwen): does $DISPLAY even work on OSX?
 ${bazel_bin} test \
-      --test_env="HOME=$HOME" \
-      --test_env="WCT_ARGS=${WCT_ARGS}" \
-      --test_env="DISPLAY=${DISPLAY}" \
-      --test_env="WCT_HEADLESS_MODE=${WCT_HEADLESS_MODE}" \
       "$@" \
-      //polygerrit-ui/app:wct_test \
       //polygerrit-ui:karma_test

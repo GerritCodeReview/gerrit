@@ -25,24 +25,21 @@ const basicFixture = fixtureFromElement('gr-edit-controls');
 
 suite('gr-edit-controls tests', () => {
   let element;
-  let sandbox;
+
   let showDialogSpy;
   let closeDialogSpy;
   let queryStub;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
     element.change = {_number: '42'};
-    showDialogSpy = sandbox.spy(element, '_showDialog');
-    closeDialogSpy = sandbox.spy(element, '_closeDialog');
-    sandbox.stub(element, '_hideAllDialogs');
-    queryStub = sandbox.stub(element.$.restAPI, 'queryChangeFiles')
+    showDialogSpy = sinon.spy(element, '_showDialog');
+    closeDialogSpy = sinon.spy(element, '_closeDialog');
+    sinon.stub(element, '_hideAllDialogs');
+    queryStub = sinon.stub(element.$.restAPI, 'queryChangeFiles')
         .returns(Promise.resolve([]));
     flushAsynchronousOperations();
   });
-
-  teardown(() => { sandbox.restore(); });
 
   test('all actions exist', () => {
     // We take 1 away from the total found, due to an extra button being
@@ -58,8 +55,8 @@ suite('gr-edit-controls tests', () => {
 
     setup(() => {
       navStubs = [
-        sandbox.stub(GerritNav, 'getEditUrlForDiff'),
-        sandbox.stub(GerritNav, 'navigateToRelativeUrl'),
+        sinon.stub(GerritNav, 'getEditUrlForDiff'),
+        sinon.stub(GerritNav, 'navigateToRelativeUrl'),
       ];
       openAutoCcmplete = element.$.openDialog.querySelector('gr-autocomplete');
     });
@@ -117,8 +114,8 @@ suite('gr-edit-controls tests', () => {
     let deleteAutocomplete;
 
     setup(() => {
-      navStub = sandbox.stub(GerritNav, 'navigateToChange');
-      deleteStub = sandbox.stub(element.$.restAPI, 'deleteFileInChangeEdit');
+      navStub = sinon.stub(GerritNav, 'navigateToChange');
+      deleteStub = sinon.stub(element.$.restAPI, 'deleteFileInChangeEdit');
       deleteAutocomplete =
           element.$.deleteDialog.querySelector('gr-autocomplete');
     });
@@ -201,8 +198,8 @@ suite('gr-edit-controls tests', () => {
       '.newPathInput';
 
     setup(() => {
-      navStub = sandbox.stub(GerritNav, 'navigateToChange');
-      renameStub = sandbox.stub(element.$.restAPI, 'renameFileInChangeEdit');
+      navStub = sinon.stub(GerritNav, 'navigateToChange');
+      renameStub = sinon.stub(element.$.restAPI, 'renameFileInChangeEdit');
       renameAutocomplete =
           element.$.renameDialog.querySelector('gr-autocomplete');
     });
@@ -294,8 +291,8 @@ suite('gr-edit-controls tests', () => {
     let restoreStub;
 
     setup(() => {
-      navStub = sandbox.stub(GerritNav, 'navigateToChange');
-      restoreStub = sandbox.stub(element.$.restAPI, 'restoreFileInChangeEdit');
+      navStub = sinon.stub(GerritNav, 'navigateToChange');
+      restoreStub = sinon.stub(element.$.restAPI, 'restoreFileInChangeEdit');
     });
 
     test('restore hidden by default', () => {
@@ -358,8 +355,8 @@ suite('gr-edit-controls tests', () => {
     let fileStub;
 
     setup(() => {
-      navStub = sandbox.stub(GerritNav, 'navigateToChange');
-      fileStub = sandbox.stub(element.$.restAPI, 'saveFileUploadChangeEdit');
+      navStub = sinon.stub(GerritNav, 'navigateToChange');
+      fileStub = sinon.stub(element.$.restAPI, 'saveFileUploadChangeEdit');
     });
 
     test('_handleUploadConfirm', () => {
@@ -395,7 +392,7 @@ suite('gr-edit-controls tests', () => {
   });
 
   test('_getDialogFromEvent', () => {
-    const spy = sandbox.spy(element, '_getDialogFromEvent');
+    const spy = sinon.spy(element, '_getDialogFromEvent');
     element.addEventListener('tap', element._getDialogFromEvent);
 
     MockInteractions.tap(element.$.openDialog);

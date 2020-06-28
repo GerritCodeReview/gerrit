@@ -20,6 +20,38 @@ import 'chai/chai.js';
 self.assert = window.chai.assert;
 self.expect = window.chai.expect;
 
+window.addEventListener('error', e => {
+  // For uncaught error mochajs doesn't print the full stack trace.
+  // We should print it ourselves.
+  console.error(e.error.stack.toString());
+});
+
+let originalOnBeforeUnload;
+
+suiteSetup(() => {
+  // This suiteSetup() method is called only once before all tests
+
+  // Can't use window.addEventListener("beforeunload",...) here,
+  // the handler is raised too late.
+  originalOnBeforeUnload = window.onbeforeunload;
+  window.onbeforeunload = e => {
+    // If a test reloads a page, we can't prevent it.
+    // However we can print earror and the stack trace with assert.fail
+    try {
+      throw new Error();
+    } catch (e) {
+      console.error('Page reloading attempt detected.');
+      console.error(e.stack.toString());
+    }
+    originalOnBeforeUnload(e);
+  };
+});
+
+suiteTeardown(() => {
+  // This suiteTeardown() method is called only once after all tests
+  window.onbeforeunload = originalOnBeforeUnload;
+});
+
 // Tests can use fake timers (sandbox.useFakeTimers)
 // Keep the original one for use in test utils methods.
 const nativeSetTimeout = window.setTimeout;

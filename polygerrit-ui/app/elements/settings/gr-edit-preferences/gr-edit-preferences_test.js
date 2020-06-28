@@ -22,7 +22,7 @@ const basicFixture = fixtureFromElement('gr-edit-preferences');
 
 suite('gr-edit-preferences tests', () => {
   let element;
-  let sandbox;
+
   let editPreferences;
 
   function valueOf(title, fieldsetid) {
@@ -63,11 +63,9 @@ suite('gr-edit-preferences tests', () => {
     });
 
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
+
     return element.loadData();
   });
-
-  teardown(() => { sandbox.restore(); });
 
   test('renders', () => {
     // Rendered with the expected preferences selected.
@@ -94,7 +92,7 @@ suite('gr-edit-preferences tests', () => {
   });
 
   test('save changes', () => {
-    sandbox.stub(element.$.restAPI, 'saveEditPreferences')
+    sinon.stub(element.$.restAPI, 'saveEditPreferences')
         .returns(Promise.resolve());
     const showTabsCheckbox = valueOf('Show tabs', 'editPreferences')
         .firstElementChild;

@@ -22,7 +22,7 @@ const basicFixture = fixtureFromElement('gr-diff-preferences');
 
 suite('gr-diff-preferences tests', () => {
   let element;
-  let sandbox;
+
   let diffPreferences;
 
   function valueOf(title, fieldsetid) {
@@ -57,11 +57,9 @@ suite('gr-diff-preferences tests', () => {
     });
 
     element = basicFixture.instantiate();
-    sandbox = sinon.sandbox.create();
+
     return element.loadData();
   });
-
-  teardown(() => { sandbox.restore(); });
 
   test('renders', () => {
     // Rendered with the expected preferences selected.
@@ -91,7 +89,7 @@ suite('gr-diff-preferences tests', () => {
   });
 
   test('save changes', () => {
-    sandbox.stub(element.$.restAPI, 'saveDiffPreferences')
+    sinon.stub(element.$.restAPI, 'saveDiffPreferences')
         .returns(Promise.resolve());
     const showTrailingWhitespaceCheckbox =
         valueOf('Show trailing whitespace', 'diffPreferences')

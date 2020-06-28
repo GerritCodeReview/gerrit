@@ -33,11 +33,10 @@ const pluginApi = _testOnly_initGerritPluginApi();
 
 suite('gr-annotation-actions-js-api tests', () => {
   let annotationActions;
-  let sandbox;
+
   let plugin;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     pluginApi.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
     annotationActions = plugin.annotationApi();
@@ -45,7 +44,6 @@ suite('gr-annotation-actions-js-api tests', () => {
 
   teardown(() => {
     annotationActions = null;
-    sandbox.restore();
   });
 
   test('add/get layer', () => {
@@ -78,8 +76,8 @@ suite('gr-annotation-actions-js-api tests', () => {
     const path2 = '/dummy/path2';
     const annotationLayer1 = annotationActions.getLayer(path1, 1, 2);
     const annotationLayer2 = annotationActions.getLayer(path2, 1, 2);
-    const layer1Spy = sandbox.spy(annotationLayer1, 'notifyListeners');
-    const layer2Spy = sandbox.spy(annotationLayer2, 'notifyListeners');
+    const layer1Spy = sinon.spy(annotationLayer1, 'notifyListeners');
+    const layer2Spy = sinon.spy(annotationLayer2, 'notifyListeners');
 
     let notify;
     let notifyFuncCalled;
@@ -101,8 +99,8 @@ suite('gr-annotation-actions-js-api tests', () => {
     assert.isFalse(layer2Spy.called);
 
     // Reset spies.
-    layer1Spy.reset();
-    layer2Spy.reset();
+    layer1Spy.resetHistory();
+    layer2Spy.resetHistory();
 
     // Assert that only the 2nd layer is invoked with path2.
     notify(path2, 0, 20, 'left');
@@ -112,8 +110,8 @@ suite('gr-annotation-actions-js-api tests', () => {
 
   test('toggle checkbox', () => {
     const fakeEl = {content: basicFixture.instantiate()};
-    const hookStub = {onAttached: sandbox.stub()};
-    sandbox.stub(plugin, 'hook').returns(hookStub);
+    const hookStub = {onAttached: sinon.stub()};
+    sinon.stub(plugin, 'hook').returns(hookStub);
 
     let checkbox;
     let onAttachedFuncCalled = false;
@@ -137,8 +135,8 @@ suite('gr-annotation-actions-js-api tests', () => {
     // Assert that error is shown if we try to enable checkbox again.
     onAttachedFuncCalled = false;
     annotationActions.enableToggleCheckbox('test label2', onAttachedFunc);
-    const errorStub = sandbox.stub(
-        console, 'error', (msg, err) => undefined);
+    const errorStub = sinon.stub(
+        console, 'error').callsFake((msg, err) => undefined);
     emulateAttached();
     assert.isTrue(
         errorStub.calledWith(

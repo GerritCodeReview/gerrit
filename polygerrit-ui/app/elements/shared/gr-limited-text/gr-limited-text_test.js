@@ -22,19 +22,13 @@ const basicFixture = fixtureFromElement('gr-limited-text');
 
 suite('gr-limited-text tests', () => {
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
   });
 
-  teardown(() => {
-    sandbox.restore();
-  });
-
   test('_updateTitle', () => {
-    const updateSpy = sandbox.spy(element, '_updateTitle');
+    const updateSpy = sinon.spy(element, '_updateTitle');
     element.text = 'abc 123';
     flushAsynchronousOperations();
     assert.isTrue(updateSpy.calledOnce);
@@ -78,7 +72,7 @@ suite('gr-limited-text tests', () => {
   });
 
   test('when disable tooltip', () => {
-    sandbox.spy(element, '_updateTitle');
+    sinon.spy(element, '_updateTitle');
     element.text = 'abcdefghijklmn';
     element.disableTooltip = true;
     element.limit = 10;

@@ -22,18 +22,12 @@ const basicFixture = fixtureFromElement('gr-create-repo-dialog');
 
 suite('gr-create-repo-dialog tests', () => {
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     stub('gr-rest-api-interface', {
       getLoggedIn() { return Promise.resolve(true); },
     });
     element = basicFixture.instantiate();
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   test('default values are populated', () => {
@@ -50,8 +44,8 @@ suite('gr-create-repo-dialog tests', () => {
       owners: ['testId'],
     };
 
-    const saveStub = sandbox.stub(element.$.restAPI,
-        'createRepo', () => Promise.resolve({}));
+    const saveStub = sinon.stub(element.$.restAPI,
+        'createRepo').callsFake(() => Promise.resolve({}));
 
     assert.isFalse(element.hasNewRepoName);
 

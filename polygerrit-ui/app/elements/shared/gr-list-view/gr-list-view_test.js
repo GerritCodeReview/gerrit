@@ -23,15 +23,9 @@ const basicFixture = fixtureFromElement('gr-list-view');
 
 suite('gr-list-view tests', () => {
   let element;
-  let sandbox;
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
     element = basicFixture.instantiate();
-  });
-
-  teardown(() => {
-    sandbox.restore();
   });
 
   test('_computeNavLink', () => {
@@ -40,7 +34,7 @@ suite('gr-list-view tests', () => {
     let filter = 'test';
     const path = '/admin/projects';
 
-    sandbox.stub(element, 'getBaseUrl', () => '');
+    sinon.stub(element, 'getBaseUrl').callsFake(() => '');
 
     assert.equal(
         element._computeNavLink(offset, 1, projectsPerPage, filter, path),
@@ -66,7 +60,7 @@ suite('gr-list-view tests', () => {
 
   test('_onValueChange', done => {
     element.path = '/admin/projects';
-    sandbox.stub(page, 'show', url => {
+    sinon.stub(page, 'show').callsFake( url => {
       assert.equal(url, '/admin/projects/q/filter:test');
       done();
     });
@@ -74,7 +68,7 @@ suite('gr-list-view tests', () => {
   });
 
   test('_filterChanged not reload when swap between falsy values', () => {
-    sandbox.stub(element, '_debounceReload');
+    sinon.stub(element, '_debounceReload');
     element.filter = null;
     element.filter = undefined;
     element.filter = '';
@@ -122,7 +116,7 @@ suite('gr-list-view tests', () => {
   });
 
   test('fires create clicked event when button tapped', () => {
-    const clickHandler = sandbox.stub();
+    const clickHandler = sinon.stub();
     element.addEventListener('create-clicked', clickHandler);
     element.createNew = true;
     flushAsynchronousOperations();
@@ -133,7 +127,7 @@ suite('gr-list-view tests', () => {
   test('next/prev links change when path changes', () => {
     const BRANCHES_PATH = '/path/to/branches';
     const TAGS_PATH = '/path/to/tags';
-    sandbox.stub(element, '_computeNavLink');
+    sinon.stub(element, '_computeNavLink');
     element.offset = 0;
     element.itemsPerPage = 25;
     element.filter = '';

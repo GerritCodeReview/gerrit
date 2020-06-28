@@ -33,7 +33,7 @@ suite('gr-js-api-interface tests', () => {
   let element;
   let plugin;
   let errorStub;
-  let sandbox;
+
   let getResponseObjectStub;
   let sendStub;
 
@@ -43,9 +43,9 @@ suite('gr-js-api-interface tests', () => {
 
   setup(() => {
     window.clock = sinon.useFakeTimers();
-    sandbox = sinon.sandbox.create();
-    getResponseObjectStub = sandbox.stub().returns(Promise.resolve());
-    sendStub = sandbox.stub().returns(Promise.resolve({status: 200}));
+
+    getResponseObjectStub = sinon.stub().returns(Promise.resolve());
+    sendStub = sinon.stub().returns(Promise.resolve({status: 200}));
     stub('gr-rest-api-interface', {
       getAccount() {
         return Promise.resolve({name: 'Judy Hopps'});
@@ -56,7 +56,7 @@ suite('gr-js-api-interface tests', () => {
       },
     });
     element = basicFixture.instantiate();
-    errorStub = sandbox.stub(console, 'error');
+    errorStub = sinon.stub(console, 'error');
     pluginApi.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
     pluginLoader.loadPlugins([]);
@@ -64,7 +64,6 @@ suite('gr-js-api-interface tests', () => {
 
   teardown(() => {
     window.clock.restore();
-    sandbox.restore();
     element._removeEventCallbacks();
     plugin = null;
   });
@@ -227,7 +226,7 @@ suite('gr-js-api-interface tests', () => {
       _number: 42,
       revisions: {def: {_number: 2}, abc: {_number: 1}},
     };
-    const spy = sandbox.spy();
+    const spy = sinon.spy();
     pluginLoader.loadPlugins(['plugins/test.html']);
     plugin.on(element.EventType.SHOW_CHANGE, spy);
     element.handleEvent(element.EventType.SHOW_CHANGE,
@@ -335,7 +334,7 @@ suite('gr-js-api-interface tests', () => {
 
   test('getLoggedIn', done => {
     // fake fetch for authCheck
-    sandbox.stub(window, 'fetch', () => Promise.resolve({status: 204}));
+    sinon.stub(window, 'fetch').callsFake(() => Promise.resolve({status: 204}));
     plugin.restApi().getLoggedIn()
         .then(loggedIn => {
           assert.isTrue(loggedIn);
@@ -356,7 +355,7 @@ suite('gr-js-api-interface tests', () => {
 
   test('getAdminMenuLinks', () => {
     const links = [{text: 'a', url: 'b'}, {text: 'c', url: 'd'}];
-    const getCallbacksStub = sandbox.stub(element, '_getEventCallbacks')
+    const getCallbacksStub = sinon.stub(element, '_getEventCallbacks')
         .returns([
           {getMenuLinks: () => [links[0]]},
           {getMenuLinks: () => [links[1]]},
@@ -372,7 +371,7 @@ suite('gr-js-api-interface tests', () => {
     let baseUrlPlugin;
 
     setup(() => {
-      sandbox.stub(BaseUrlBehavior, 'getBaseUrl').returns('/r');
+      sinon.stub(BaseUrlBehavior, 'getBaseUrl').returns('/r');
 
       pluginApi.install(p => { baseUrlPlugin = p; }, '0.1',
           'http://test.com/r/plugins/baseurlplugin/static/test.js');
@@ -395,7 +394,7 @@ suite('gr-js-api-interface tests', () => {
     });
 
     test('popup(moduleName) creates popup with component', () => {
-      const openStub = sandbox.stub(GrPopupInterface.prototype, 'open',
+      const openStub = sinon.stub(GrPopupInterface.prototype, 'open').callsFake(
           function() {
             // Arrow function can't be used here, because we want to
             // get properties from the instance of GrPopupInterface
@@ -411,7 +410,7 @@ suite('gr-js-api-interface tests', () => {
     test('deprecated.popup(element) creates popup with element', () => {
       const el = document.createElement('div');
       el.textContent = 'some text here';
-      const openStub = sandbox.stub(GrPopupInterface.prototype, 'open');
+      const openStub = sinon.stub(GrPopupInterface.prototype, 'open');
       openStub.returns(Promise.resolve({
         _getElement() {
           return document.createElement('div');
@@ -430,15 +429,15 @@ suite('gr-js-api-interface tests', () => {
       change = {};
       revision = {};
       actionDetails = {__key: 'some'};
-      sandbox.stub(plugin, 'on').callsArgWith(1, change, revision);
-      sandbox.stub(plugin, 'changeActions').returns({
-        addTapListener: sandbox.stub().callsArg(1),
+      sinon.stub(plugin, 'on').callsArgWith(1, change, revision);
+      sinon.stub(plugin, 'changeActions').returns({
+        addTapListener: sinon.stub().callsArg(1),
         getActionDetails: () => actionDetails,
       });
     });
 
     test('returns GrPluginActionContext', () => {
-      const stub = sandbox.stub();
+      const stub = sinon.stub();
       plugin.deprecated.onAction('change', 'foo', ctx => {
         assert.isTrue(ctx instanceof GrPluginActionContext);
         assert.strictEqual(ctx.change, change);
@@ -451,7 +450,7 @@ suite('gr-js-api-interface tests', () => {
     });
 
     test('other actions', () => {
-      const stub = sandbox.stub();
+      const stub = sinon.stub();
       plugin.deprecated.onAction('project', 'foo', stub);
       plugin.deprecated.onAction('edit', 'foo', stub);
       plugin.deprecated.onAction('branch', 'foo', stub);
@@ -461,7 +460,7 @@ suite('gr-js-api-interface tests', () => {
 
   suite('screen', () => {
     test('screenUrl()', () => {
-      sandbox.stub(BaseUrlBehavior, 'getBaseUrl').returns('/base');
+      sinon.stub(BaseUrlBehavior, 'getBaseUrl').returns('/base');
       assert.equal(
           plugin.screenUrl(),
           `${location.origin}/base/x/testplugin`
@@ -473,9 +472,9 @@ suite('gr-js-api-interface tests', () => {
     });
 
     test('deprecated works', () => {
-      const stub = sandbox.stub();
-      const hookStub = {onAttached: sandbox.stub()};
-      sandbox.stub(plugin, 'hook').returns(hookStub);
+      const stub = sinon.stub();
+      const hookStub = {onAttached: sinon.stub()};
+      sinon.stub(plugin, 'hook').returns(hookStub);
       plugin.deprecated.screen('foo', stub);
       assert.isTrue(plugin.hook.calledWith('testplugin-screen-foo'));
       const fakeEl = {style: {display: ''}};
@@ -485,7 +484,7 @@ suite('gr-js-api-interface tests', () => {
     });
 
     test('works', () => {
-      sandbox.stub(plugin, 'registerCustomComponent');
+      sinon.stub(plugin, 'registerCustomComponent');
       plugin.screen('foo', 'some-module');
       assert.isTrue(plugin.registerCustomComponent.calledWith(
           'testplugin-screen-foo', 'some-module'));
@@ -498,8 +497,8 @@ suite('gr-js-api-interface tests', () => {
 
     setup(()=> {
       fakeEl = {change: {}, revision: {}};
-      const hookStub = {onAttached: sandbox.stub()};
-      sandbox.stub(plugin, 'hook').returns(hookStub);
+      const hookStub = {onAttached: sinon.stub()};
+      sinon.stub(plugin, 'hook').returns(hookStub);
       emulateAttached = () => hookStub.onAttached.callArgWith(0, fakeEl);
     });
 
@@ -513,7 +512,7 @@ suite('gr-js-api-interface tests', () => {
       ['CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK', 'change-metadata-item'],
     ].forEach(([panelName, endpointName]) => {
       test(`deprecated.panel works for ${panelName}`, () => {
-        const callback = sandbox.stub();
+        const callback = sinon.stub();
         plugin.deprecated.panel(panelName, callback);
         assert.isTrue(plugin.hook.calledWith(endpointName));
         emulateAttached();
@@ -538,15 +537,15 @@ suite('gr-js-api-interface tests', () => {
     });
 
     test('plugin.deprecated.settingsScreen() works', () => {
-      const hookStub = {onAttached: sandbox.stub()};
-      sandbox.stub(plugin, 'hook').returns(hookStub);
+      const hookStub = {onAttached: sinon.stub()};
+      sinon.stub(plugin, 'hook').returns(hookStub);
       const fakeSettings = {};
-      fakeSettings.title = sandbox.stub().returns(fakeSettings);
-      fakeSettings.token = sandbox.stub().returns(fakeSettings);
-      fakeSettings.module = sandbox.stub().returns(fakeSettings);
-      fakeSettings.build = sandbox.stub().returns(hookStub);
-      sandbox.stub(plugin, 'settings').returns(fakeSettings);
-      const callback = sandbox.stub();
+      fakeSettings.title = sinon.stub().returns(fakeSettings);
+      fakeSettings.token = sinon.stub().returns(fakeSettings);
+      fakeSettings.module = sinon.stub().returns(fakeSettings);
+      fakeSettings.build = sinon.stub().returns(hookStub);
+      sinon.stub(plugin, 'settings').returns(fakeSettings);
+      const callback = sinon.stub();
 
       plugin.deprecated.settingsScreen('path', 'menu', callback);
       assert.isTrue(fakeSettings.title.calledWith('menu'));
@@ -559,7 +558,7 @@ suite('gr-js-api-interface tests', () => {
         style: {
           display: '',
         },
-        querySelector: sandbox.stub().returns(fakeBody),
+        querySelector: sinon.stub().returns(fakeBody),
       };
       // Emulate settings screen attached
       hookStub.onAttached.callArgWith(0, fakeEl);

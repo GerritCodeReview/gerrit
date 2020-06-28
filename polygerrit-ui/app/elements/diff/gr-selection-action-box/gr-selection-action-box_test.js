@@ -29,17 +29,12 @@ const basicFixture = fixtureFromTemplate(html`
 suite('gr-selection-action-box', () => {
   let container;
   let element;
-  let sandbox;
 
   setup(() => {
     container = basicFixture.instantiate();
     element = container.querySelector('gr-selection-action-box');
-    sandbox = sinon.sandbox.create();
-    sandbox.stub(element, 'dispatchEvent');
-  });
 
-  teardown(() => {
-    sandbox.restore();
+    sinon.stub(element, 'dispatchEvent');
   });
 
   test('ignores regular keys', () => {
@@ -53,8 +48,8 @@ suite('gr-selection-action-box', () => {
     setup(() => {
       e = {
         button: 0,
-        preventDefault: sandbox.stub(),
-        stopPropagation: sandbox.stub(),
+        preventDefault: sinon.stub(),
+        stopPropagation: sinon.stub(),
       };
     });
 
@@ -80,11 +75,11 @@ suite('gr-selection-action-box', () => {
 
     setup(() => {
       target = container.querySelector('.target');
-      sandbox.stub(container, 'getBoundingClientRect').returns(
+      sinon.stub(container, 'getBoundingClientRect').returns(
           {top: 1, bottom: 2, left: 3, right: 4, width: 50, height: 6});
-      sandbox.stub(element, '_getTargetBoundingRect').returns(
+      sinon.stub(element, '_getTargetBoundingRect').returns(
           {top: 42, bottom: 20, left: 30, right: 40, width: 100, height: 60});
-      sandbox.stub(element.$.tooltip, 'getBoundingClientRect').returns(
+      sinon.stub(element.$.tooltip, 'getBoundingClientRect').returns(
           {width: 10, height: 10});
     });
 
@@ -113,9 +108,9 @@ suite('gr-selection-action-box', () => {
     });
 
     test('uses document.createRange', () => {
-      sandbox.spy(document, 'createRange');
+      sinon.spy(document, 'createRange');
       element._getTargetBoundingRect.restore();
-      sandbox.spy(element, '_getTargetBoundingRect');
+      sinon.spy(element, '_getTargetBoundingRect');
       element.placeAbove(target.firstChild);
       assert.isTrue(document.createRange.called);
     });

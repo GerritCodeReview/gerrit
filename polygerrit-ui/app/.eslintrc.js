@@ -228,7 +228,7 @@ module.exports = {
       }
     },
     {
-      "files": ["test/functional/**/*.js", "wct.conf.js", "template_test.js"],
+      "files": ["test/functional/**/*.js", "template_test.js"],
       // Settings for functional tests. These scripts are node scripts.
       // Turn off "no-undef" to allow any global variable
       "env": {
@@ -238,12 +238,6 @@ module.exports = {
       },
       "rules": {
         "no-undef": "off",
-      }
-    },
-    {
-      "files": "test/index.html",
-      "globals": {
-        "WCT": "readonly",
       }
     },
     {

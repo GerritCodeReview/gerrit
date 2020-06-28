@@ -19,10 +19,13 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 
+/**
+ * This is an "abstract" class for tests. The descendant must define a template
+ * for this element and a tagName - see createCommentApiMockWithTemplateElement below
+ */
 class CommentApiMock extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {
-  static get is() { return 'comment-api-mock'; }
 
   static get properties() {
     return {
@@ -52,4 +55,18 @@ class CommentApiMock extends GestureEventListeners(
   }
 }
 
-customElements.define(CommentApiMock.is, CommentApiMock);
+/**
+ * Creates a new element which is descendant of CommentApiMock with specified
+ * template. Additionally, the method registers a tagName for this element.
+ *
+ * Each tagName must be a unique accross all tests.
+ */
+export function createCommentApiMockWithTemplateElement(tagName, template) {
+  const elementClass = class extends CommentApiMock {
+    static get is() { return tagName; }
+
+    static get template() { return template; }
+  };
+  customElements.define(tagName, elementClass);
+  return elementClass;
+}

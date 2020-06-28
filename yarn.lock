@@ -9055,7 +9055,7 @@ wd@^1.2.0:
     request "2.88.0"
     vargs "^0.1.0"
 
-web-component-tester@^6.5.1, web-component-tester@^6.9.0:
+web-component-tester@^6.9.0:
   version "6.9.2"
   resolved "https://registry.yarnpkg.com/web-component-tester/-/web-component-tester-6.9.2.tgz#40a7b824f2cf3cbc4305552bdfc3357977ded48a"
   integrity sha512-s2kB/+IE8XWcnxY1fqSpqTiiHEGHWgUWariAbiRlxmAvWSuvaCVNALHYebsZrLCNCLHKcJR8/sGv/bw0MWMvjw==

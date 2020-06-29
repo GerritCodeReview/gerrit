@@ -33,6 +33,52 @@
       "revId": "1a07e46f11bb9e14902ff27f98a2a480d406e6fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c603e69d_550aa8d8",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-29T05:27:18Z",
+      "side": 1,
+      "message": "Not needed?",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 88
+      },
+      "revId": "1a07e46f11bb9e14902ff27f98a2a480d406e6fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dae5a26_0e3ffd7e",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-29T05:27:18Z",
+      "side": 1,
+      "message": "This line (and import above) shouldn\u0027t be needed after Tao principle fix of plugin loading in component tests. Can you re-do the merge against recent master and remove these two lines?",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 73
+      },
+      "revId": "1a07e46f11bb9e14902ff27f98a2a480d406e6fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

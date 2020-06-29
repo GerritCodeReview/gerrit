@@ -60,7 +60,7 @@ public class CapabilityCollection {
     this.systemGroupBackend = systemGroupBackend;
 
     if (section == null) {
-      section = new AccessSection(AccessSection.GLOBAL_CAPABILITIES);
+      section = AccessSection.create(AccessSection.GLOBAL_CAPABILITIES);
     }
 
     Map<String, List<PermissionRule>> tmp = new HashMap<>();

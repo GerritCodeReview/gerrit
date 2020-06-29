@@ -81,6 +81,24 @@
       "revId": "8206f70c7cd14b140fd5038026fb9d90e6cc7224",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a38d62ea_b56604b9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-29T08:33:06Z",
+      "side": 1,
+      "message": "\u003e also for submodule commits, since submodule commits are just file names in some format, right?\n\nThis should be easy to set up in a test. Can you add that please? We should have some good examples in *Submodule*IT.java",
+      "parentUuid": "6d92f579_4e335db0",
+      "revId": "8206f70c7cd14b140fd5038026fb9d90e6cc7224",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

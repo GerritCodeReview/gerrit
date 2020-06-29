@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f4c9411_66a66de6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-29T18:22:20Z",
+      "side": 1,
+      "message": "After sinon update mocking changed, so that this should be adapted now.",
+      "range": {
+        "startLine": 527,
+        "startChar": 6,
+        "endLine": 527,
+        "endChar": 13
+      },
+      "revId": "cde5798ab3f43e20ddc488b59766124588976a3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

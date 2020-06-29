@@ -253,6 +253,23 @@
     },
     {
       "key": {
+        "uuid": "53c17496_7c23a6db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-06-29T15:01:50Z",
+      "side": 1,
+      "message": "Thanks David for bringing this. \n\nI also would not want to add an EDIT button to the comment panel because it is too similar to the EDIT button in the comment card.\n\nWe discussed with Ben that we would like to have sticky headers in Gerrit. We could make the Change header sticky to bring the Edit button closer to the file header in the change page (sticky header [1] and other sticky header in the change page such as Patchset navigation header and File header when viewing the Files tab).\n\nAlso worth noting is that at the moment, there is a space conflict for the use case of wanting to edit without being in \"Edit mode\" because the \"Mark reviewed\" button takes quite some space in the File header in the change page [2].\n\nAdding a change header sticky throughout all tabs, will reduce space between the Edited file and the EDIT button for now. As a future work item, we will need to look into button placement and default buttons vs hidden buttons in Gerrit to provide useful action and other actions under one more click (maybe under dropdowns?). This will need to be tackled holistically as a future work item from the UX and Eng side.\n\n[1] https://imgur.com/a/ohi8EwU\n[2] https://imgur.com/a/0wwyPxq",
+      "revId": "66ed21a73a7e0db5c689544964905c5041c0fa63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d829fd1f_812f0d27",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 2

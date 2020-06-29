@@ -65,6 +65,30 @@
     },
     {
       "key": {
+        "uuid": "42900c48_d5da180d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-29T08:24:59Z",
+      "side": 1,
+      "message": "It goes to Base vs Latest.",
+      "parentUuid": "6123ed8f_e3720e5c",
+      "range": {
+        "startLine": 11,
+        "startChar": 24,
+        "endLine": 11,
+        "endChar": 35
+      },
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30d274a8_8158e707",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.js",
         "patchSetId": 26
@@ -79,6 +103,24 @@
       "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0fa590d_86135b07",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-29T08:24:59Z",
+      "side": 1,
+      "message": "Yeah, computeAllPatchSets is doing it from change.revisions, so still need to initialise it.",
+      "parentUuid": "30d274a8_8158e707",
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -99,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "be07c374_6922e287",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-29T08:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "207328e3_40918a5b",
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44c14a70_c8acc723",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_test.html",
         "patchSetId": 26
@@ -110,6 +170,30 @@
       "writtenOn": "2020-06-25T10:29:28Z",
       "side": 1,
       "message": "May be add a test (or modify existing one) where this number is important/used?\nI.e. I don\u0027t see why do you stub _computeLatestPatchNum in setup and all tests remains uncanged.",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 0
+      },
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a53e00f_744bd8c7",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_test.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-29T08:24:59Z",
+      "side": 1,
+      "message": "It is being tested mostly in gr-change-view-test.\nWhy I need to stub it here is because gr-nav throws an error if I specify base patch set and not latest.",
+      "parentUuid": "44c14a70_c8acc723",
       "range": {
         "startLine": 55,
         "startChar": 4,
@@ -162,6 +246,30 @@
     },
     {
       "key": {
+        "uuid": "dc5d59ef_5bf43e4c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-29T08:24:59Z",
+      "side": 1,
+      "message": "I do not fully understand the solutions you are suggesting.\nThere are other instances where the code-base is depending on the toast being shown(assumes firing event results in toast being shown).\nI can imagine all the components firing show-alert also have the same problem, they do not actually know if an alert was actually shown or not.\n\nIf we do tackle this, I would prefer to tackle it in a separate effort and not as a part of this change.",
+      "parentUuid": "3fc06479_552a1115",
+      "range": {
+        "startLine": 253,
+        "startChar": 6,
+        "endLine": 253,
+        "endChar": 39
+      },
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "61e06bfe_379eee7c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 26
@@ -173,6 +281,24 @@
       "writtenOn": "2020-06-25T07:31:23Z",
       "side": 1,
       "message": "Would it be an option to fire these events directly from \u003cgr-comment-thread\u003e?",
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18fe6eca_e06abd0a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 750,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-29T08:24:59Z",
+      "side": 1,
+      "message": "We don\u0027t want to show these events in the change page, only if you go to the diff page.\nThat is why I send the events from here.",
+      "parentUuid": "61e06bfe_379eee7c",
       "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -225,6 +351,54 @@
     },
     {
       "key": {
+        "uuid": "69edcd06_eb18d2fc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 753,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-29T08:24:59Z",
+      "side": 1,
+      "message": "Added a comment for now.\nNot sure about the automatic generation part.",
+      "parentUuid": "8a2829da_66e7b964",
+      "range": {
+        "startLine": 753,
+        "startChar": 56,
+        "endLine": 753,
+        "endChar": 61
+      },
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bcdf9fbf_646a38ce",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 753,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-29T08:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8542308_cbd4b814",
+      "range": {
+        "startLine": 753,
+        "startChar": 60,
+        "endLine": 753,
+        "endChar": 61
+      },
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3c773b1_e3e0e98b",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 26
@@ -239,6 +413,24 @@
       "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7b4c87d_b32f4616",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-29T08:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3c773b1_e3e0e98b",
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -262,6 +454,30 @@
       "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d116d07b_b6be4c25",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-29T08:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe0409da_0434a619",
+      "range": {
+        "startLine": 873,
+        "startChar": 9,
+        "endLine": 884,
+        "endChar": 11
+      },
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -305,6 +521,24 @@
     },
     {
       "key": {
+        "uuid": "225eb013_425a8ef6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-29T08:24:59Z",
+      "side": 1,
+      "message": "Will add an experiment for it.\nKeeping this unresolved until I implement it.",
+      "parentUuid": "34235b3a_d8cbd6be",
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f021cb28_64c26e08",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 26
@@ -319,6 +553,24 @@
       "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32539897_8c1a5b98",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-29T08:24:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f021cb28_64c26e08",
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -51,6 +51,23 @@
       "revId": "26e211508078e36da8335c1016cb03f2c87f1189",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57e6a7e7_3d09fec8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-06-29T14:24:24Z",
+      "side": 1,
+      "message": "Thanks Rikard for bringing up this accessibility issue!\n\nA. Related to resizing the check marks are small and hard to read.\n\nIn the proposed change, UI elements such as checkboxes appears bigger so that checkboxes are more visually prominent. In the current implementation of check marks in the dashboard, we are showing check marks and crosses using a font. We propose to replace these fonts with the existing check marks and \"X\" icon used next to labels in the change page to address this issue [1] . \n\nB. Related to setting an Accessibility section in Gerrit\n\nWe don\u0027t plan to add an accessibility section to Gerrit at the moment. Visually impaired users have 2 ways to scale Gerrit content to adjust to their preferences:\n- Visually impaired users may use magnification tools that scale contents according to their preferences (for example, Zoom text [2]). The font and UI elements as implemented in Gerrit will work well with a magnification tool.\n- Also we acknowledge that many users with low vision do not use magnifying software; in this case, they could scale the page via their web browser option and similarly, font size and UI elements will scale accordingly in Gerrit. The web browser retains user scaling preferences.\n\n[1] https://imgur.com/a/EjGUjDF \n[2] https://www.zoomtext.com/\n",
+      "revId": "26e211508078e36da8335c1016cb03f2c87f1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

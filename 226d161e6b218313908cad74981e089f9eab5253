@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4116a8f7_9d8e594f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-29T10:09:43Z",
+      "side": 1,
+      "message": "Should we rebase this on top of master, and skip non working conversion to karma test? And extend the existing WCT test without conversion to karma first as indicated in README.md?",
+      "revId": "226d161e6b218313908cad74981e089f9eab5253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

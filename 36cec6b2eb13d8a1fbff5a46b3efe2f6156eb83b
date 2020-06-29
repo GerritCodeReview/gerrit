@@ -16,6 +16,24 @@
       "revId": "36cec6b2eb13d8a1fbff5a46b3efe2f6156eb83b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e457d96_c13955dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-29T06:56:42Z",
+      "side": 1,
+      "message": "You don\u0027t see it in the diff because that change is already in master (https://gerrit-review.googlesource.com/c/gerrit/+/270341) and it\u0027s listed here because it got backported (https://gerrit-review.googlesource.com/c/gerrit/+/273357).",
+      "parentUuid": "f643aa60_ac4fd751",
+      "revId": "36cec6b2eb13d8a1fbff5a46b3efe2f6156eb83b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

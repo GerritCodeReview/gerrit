@@ -28,6 +28,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.api.projects.TagApi;
@@ -158,6 +159,12 @@ public class TagsIT extends AbstractDaemonTest {
   @Test
   public void listTagsOfNonVisibleBranch() throws Exception {
     grantTagPermissions();
+    // Allow creating a new hidden branch
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.CREATE).group(REGISTERED_USERS).ref("refs/heads/hidden"))
+        .update();
 
     PushOneCommit push1 = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result r1 = push1.to("refs/heads/master");
@@ -169,7 +176,7 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(result.ref).isEqualTo(R_TAGS + tag1.ref);
     assertThat(result.revision).isEqualTo(tag1.revision);
 
-    pushTo("refs/heads/hidden");
+    pushTo("refs/heads/hidden").assertOkStatus();
     PushOneCommit push2 = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result r2 = push2.to("refs/heads/hidden");
     r2.assertOkStatus();
@@ -470,8 +477,12 @@ public class TagsIT extends AbstractDaemonTest {
   }
 
   private static void removeAllBranchPermissions(ProjectConfig cfg, String... permissions) {
-    cfg.getAccessSections().stream()
-        .filter(s -> s.getName().startsWith("refs/tags/"))
-        .forEach(s -> Arrays.stream(permissions).forEach(s::removePermission));
+    for (AccessSection accessSection : ImmutableList.copyOf(cfg.getAccessSections())) {
+      cfg.upsertAccessSection(
+          accessSection.getName(),
+          updatedAccessSection -> {
+            Arrays.stream(permissions).forEach(updatedAccessSection::removePermission);
+          });
+    }
   }
 }

@@ -52,6 +52,24 @@
       "revId": "36cec6b2eb13d8a1fbff5a46b3efe2f6156eb83b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7513a964_5357648d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-29T09:16:02Z",
+      "side": 1,
+      "message": "Nice! Would is also work if footer contains the URL and not Change-Id: [1].\n\nAnother nit, that could be solved, is the difference, how the changes in \"Related\" and \"Depends On\" are presented.\n\nIn your link, \"Depends On\" is just a Change-id, and in \"Related\" there are commit subjects.\n\nTheoretically zuul-status plugin could request commit info from the server and present the subject? But that would mean yet another client/server roundtrips.\n\nWe should also raise the question to install zuul-status plugin on gerrit-review. We use Zuul now and we use \"Depends-On:\" footers, and it rocks.\n\n[1] https://gerrit-review.googlesource.com/c/plugins/oauth/+/273552",
+      "parentUuid": "95b7fa3e_fae6410b",
+      "revId": "36cec6b2eb13d8a1fbff5a46b3efe2f6156eb83b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

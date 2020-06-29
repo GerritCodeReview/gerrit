@@ -22,6 +22,30 @@
       "revId": "efbb46cf7b7567b0202d565dd1bd879ce9b41ba7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fb5ed1e_9ed6fc2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-06-29T06:26:59Z",
+      "side": 1,
+      "message": "Release-Notes: n/a\n\nMaking it optional will not make people think about it and it will be forgotten IMO.",
+      "parentUuid": "d2a5b372_bb7155ac",
+      "range": {
+        "startLine": 13,
+        "startChar": 50,
+        "endLine": 15,
+        "endChar": 43
+      },
+      "revId": "efbb46cf7b7567b0202d565dd1bd879ce9b41ba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f643aa60_ac4fd751",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-29T06:54:22Z",
+      "side": 1,
+      "message": "Is this missing from the merge?\n\nThen maybe the above \"Add extension point for related changes\" probably does not work?",
+      "revId": "36cec6b2eb13d8a1fbff5a46b3efe2f6156eb83b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -504,6 +504,30 @@
     },
     {
       "key": {
+        "uuid": "45e49d47_e72bcac6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-29T08:38:17Z",
+      "side": 1,
+      "message": "If user uploads a new patchset and clicks on the toast, [1] says we redirect them to the change page without any patchset choice.\nIn the case all the comment links are recomputed and user is taken to X vs Latest and not X vs Y if they click on a comment link again.\n\nIf user is already on X vs Y and then reloads the page without using the toast, user should stay on X vs Y. It is intended behaviour.\n\n[1] https://source.corp.google.com/piper///depot/google3/third_party/javascript/polygerrit/elements/change/gr-change-view/gr-change-view.js;l\u003d2151?q\u003dgr-change-v\u0026sq\u003dpackage:piper%20file:%2F%2Fdepot%2Fgoogle3%20-file:google3%2Fexperimental",
+      "parentUuid": "ffc54308_6c2de932",
+      "range": {
+        "startLine": 234,
+        "startChar": 4,
+        "endLine": 236,
+        "endChar": 0
+      },
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "34235b3a_d8cbd6be",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 26

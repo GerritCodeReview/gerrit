@@ -30,6 +30,7 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -63,28 +64,41 @@ public class GrantRevertPermission {
     try (Repository repo = repoManager.openRepository(projectName)) {
       MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, projectName, repo);
       ProjectConfig projectConfig = projectConfigFactory.read(md);
-      AccessSection heads = projectConfig.getAccessSection(AccessSection.HEADS, true);
 
-      Permission permissionOnRefsHeads = heads.getPermission(Permission.REVERT);
+      AtomicBoolean shouldExit = new AtomicBoolean(false);
+      projectConfig.upsertAccessSection(
+          AccessSection.HEADS,
+          heads -> {
+            Permission permissionOnRefsHeads = heads.build().getPermission(Permission.REVERT);
 
-      if (permissionOnRefsHeads != null) {
-        if (permissionOnRefsHeads.getRule(registeredUsers) == null
-            || permissionOnRefsHeads.getRules().size() > 1) {
-          // If admins already changed the permission, don't do anything.
-          return;
-        }
-        // permission already exists in refs/heads/*, delete it for Registered Users.
-        remove(projectConfig, heads, Permission.REVERT, registeredUsers);
-      }
+            if (permissionOnRefsHeads != null) {
+              if (permissionOnRefsHeads.getRule(registeredUsers) == null
+                  || permissionOnRefsHeads.getRules().size() > 1) {
+                // If admins already changed the permission, don't do anything.
+                shouldExit.set(true);
+                return;
+              }
+              // permission already exists in refs/heads/*, delete it for Registered Users.
+              remove(projectConfig, heads, Permission.REVERT, registeredUsers);
+            }
+          });
 
-      AccessSection all = projectConfig.getAccessSection(AccessSection.ALL, true);
-      Permission permissionOnRefsStar = all.getPermission(Permission.REVERT);
-      if (permissionOnRefsStar != null && permissionOnRefsStar.getRule(registeredUsers) != null) {
-        // permission already exists in refs/*, don't do anything.
+      if (shouldExit.get()) {
         return;
       }
-      // If the permission doesn't exist of refs/* for Registered Users, grant it.
-      grant(projectConfig, all, Permission.REVERT, registeredUsers);
+
+      projectConfig.upsertAccessSection(
+          AccessSection.ALL,
+          all -> {
+            Permission permissionOnRefsStar = all.build().getPermission(Permission.REVERT);
+            if (permissionOnRefsStar != null
+                && permissionOnRefsStar.getRule(registeredUsers) != null) {
+              // permission already exists in refs/*, don't do anything.
+              return;
+            }
+            // If the permission doesn't exist of refs/* for Registered Users, grant it.
+            grant(projectConfig, all, Permission.REVERT, registeredUsers);
+          });
 
       md.getCommitBuilder().setAuthor(serverUser);
       md.getCommitBuilder().setCommitter(serverUser);

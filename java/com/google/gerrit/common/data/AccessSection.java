@@ -14,18 +14,20 @@
 
 package com.google.gerrit.common.data;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.Objects.requireNonNull;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Optional;
 
 /** Portion of a {@link Project} describing access rules. */
-public final class AccessSection implements Comparable<AccessSection> {
+@AutoValue
+public abstract class AccessSection implements Comparable<AccessSection> {
   /** Special name given to the global capabilities; not a valid reference. */
   public static final String GLOBAL_CAPABILITIES = "GLOBAL_CAPABILITIES";
   /** Pattern that matches all references in a project. */
@@ -38,12 +40,16 @@ public final class AccessSection implements Comparable<AccessSection> {
   public static final String REGEX_PREFIX = "^";
 
   /** Name of the access section. It could be a ref pattern or something else. */
-  private String name;
+  public abstract String getName();
 
-  private List<Permission> permissions;
+  public abstract ImmutableList<Permission> getPermissions();
 
-  public AccessSection(String name) {
-    this.name = name;
+  public static AccessSection create(String name) {
+    return builder(name).build();
+  }
+
+  public static Builder builder(String name) {
+    return new AutoValue_AccessSection.Builder().setName(name).setPermissions(ImmutableList.of());
   }
 
   /** @return true if the name is likely to be a valid reference section name. */
@@ -51,101 +57,21 @@ public final class AccessSection implements Comparable<AccessSection> {
     return name.startsWith("refs/") || name.startsWith("^refs/");
   }
 
-  public String getName() {
-    return name;
-  }
-
-  public ImmutableList<Permission> getPermissions() {
-    return permissions == null ? ImmutableList.of() : ImmutableList.copyOf(permissions);
-  }
-
-  public void setPermissions(List<Permission> list) {
-    requireNonNull(list);
-
-    Set<String> names = new HashSet<>();
-    for (Permission p : list) {
-      if (!names.add(p.getName().toLowerCase())) {
-        throw new IllegalArgumentException();
-      }
-    }
-
-    permissions = new ArrayList<>(list);
-  }
-
   @Nullable
   public Permission getPermission(String name) {
-    return getPermission(name, false);
-  }
-
-  @Nullable
-  public Permission getPermission(String name, boolean create) {
     requireNonNull(name);
-
-    if (permissions != null) {
-      for (Permission p : permissions) {
+    if (getPermissions() != null) {
+      for (Permission p : getPermissions()) {
         if (p.getName().equalsIgnoreCase(name)) {
           return p;
         }
       }
     }
-
-    if (create) {
-      if (permissions == null) {
-        permissions = new ArrayList<>();
-      }
-
-      Permission p = new Permission(name);
-      permissions.add(p);
-      return p;
-    }
-
     return null;
   }
 
-  public void addPermission(Permission permission) {
-    requireNonNull(permission);
-
-    if (permissions == null) {
-      permissions = new ArrayList<>();
-    }
-
-    for (Permission p : permissions) {
-      if (p.getName().equalsIgnoreCase(permission.getName())) {
-        throw new IllegalArgumentException();
-      }
-    }
-
-    permissions.add(permission);
-  }
-
-  public void remove(Permission permission) {
-    requireNonNull(permission);
-    removePermission(permission.getName());
-  }
-
-  public void removePermission(String name) {
-    requireNonNull(name);
-
-    if (permissions != null) {
-      permissions.removeIf(permission -> name.equalsIgnoreCase(permission.getName()));
-    }
-  }
-
-  public void mergeFrom(AccessSection section) {
-    requireNonNull(section);
-
-    for (Permission src : section.getPermissions()) {
-      Permission dst = getPermission(src.getName());
-      if (dst != null) {
-        dst.mergeFrom(src);
-      } else {
-        permissions.add(src);
-      }
-    }
-  }
-
   @Override
-  public int compareTo(AccessSection o) {
+  public final int compareTo(AccessSection o) {
     return comparePattern().compareTo(o.comparePattern());
   }
 
@@ -157,33 +83,104 @@ public final class AccessSection implements Comparable<AccessSection> {
   }
 
   @Override
-  public String toString() {
+  public final String toString() {
     return "AccessSection[" + getName() + "]";
   }
 
-  @Override
-  public boolean equals(Object obj) {
-    if (!(obj instanceof AccessSection)) {
-      return false;
-    }
-
-    AccessSection other = (AccessSection) obj;
-    if (!getName().equals(other.getName())) {
-      return false;
-    }
-    return new HashSet<>(getPermissions())
-        .equals(new HashSet<>(((AccessSection) obj).getPermissions()));
+  public Builder toBuilder() {
+    Builder b = autoToBuilder();
+    b.setPermissionBuilders(
+        b.getPermissions().stream().map(Permission::toBuilder).collect(toImmutableList()));
+    return b;
   }
 
-  @Override
-  public int hashCode() {
-    int hashCode = super.hashCode();
-    if (permissions != null) {
-      for (Permission permission : permissions) {
-        hashCode += permission.hashCode();
-      }
+  protected abstract Builder autoToBuilder();
+
+  @AutoValue.Builder
+  public abstract static class Builder {
+    private final List<Permission.Builder> permissionBuilders;
+
+    public Builder() {
+      permissionBuilders = new ArrayList<>();
     }
-    hashCode += getName().hashCode();
-    return hashCode;
+
+    public abstract Builder setName(String name);
+
+    public abstract String getName();
+
+    public List<Permission.Builder> getPermissionBuilders() {
+      return permissionBuilders;
+    }
+
+    public Builder setPermissionBuilders(ImmutableList<Permission.Builder> permissions) {
+      permissionBuilders.clear();
+      permissionBuilders.addAll(permissions);
+      return this;
+    }
+
+    public Builder addPermission(Permission.Builder permission) {
+      if (permission == null) {
+        throw new IllegalArgumentException("permission must be non-null");
+      }
+
+      permissionBuilders.add(permission);
+      return this;
+    }
+
+    public Builder remove(Permission.Builder permission) {
+      if (permission == null) {
+        throw new IllegalArgumentException("permission must be non-null");
+      }
+      return removePermission(permission.getName());
+    }
+
+    public Builder removePermission(String name) {
+      if (name == null) {
+        throw new IllegalArgumentException("permission name must be non-null");
+      }
+
+      return setPermissionBuilders(
+          getPermissionBuilders().stream()
+              .filter(p -> !name.equalsIgnoreCase(p.getName()))
+              .collect(toImmutableList()));
+    }
+
+    public Permission.Builder getPermission(String permissionName) {
+      if (permissionName == null) {
+        throw new IllegalArgumentException("permission name must be non-null");
+      }
+
+      Optional<Permission.Builder> maybePermission =
+          getPermissionBuilders().stream()
+              .filter(p -> p.getName().equalsIgnoreCase(permissionName))
+              .findAny();
+      if (maybePermission.isPresent()) {
+        return maybePermission.get();
+      }
+
+      Permission.Builder permission = Permission.builder(permissionName);
+      addPermission(permission);
+      return permission;
+    }
+
+    public AccessSection build() {
+      setPermissions(
+          permissionBuilders.stream().map(Permission.Builder::build).collect(toImmutableList()));
+      if (getPermissions().size()
+          > getPermissions().stream()
+              .map(Permission::getName)
+              .map(String::toLowerCase)
+              .distinct()
+              .count()) {
+        throw new IllegalArgumentException("duplicate permissions: " + getPermissions());
+      }
+      return autoBuild();
+    }
+
+    protected abstract AccessSection autoBuild();
+
+    protected abstract ImmutableList<Permission> getPermissions();
+
+    protected abstract Builder setPermissions(ImmutableList<Permission> permissions);
   }
 }

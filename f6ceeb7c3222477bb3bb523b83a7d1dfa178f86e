@@ -318,6 +318,30 @@
     },
     {
       "key": {
+        "uuid": "402b497b_1b941829",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-29T09:57:14Z",
+      "side": 1,
+      "message": "Just to be clear, the naming of the variable is intentionally _hasShownToast. The variable is only concerned with the fact if the toast is shown or not.\n\nThe variable is *not* named _isShowingToast. In this case we would need to check real time if the toast is being shown or not and we would face inconsistencies with the Close Button or 10 seconds timeout.\n\nSince we are only concerned with showing the toast to the user and not their interaction with it, does it solve your concern?",
+      "parentUuid": "6bd3207b_439d0c7d",
+      "range": {
+        "startLine": 253,
+        "startChar": 6,
+        "endLine": 253,
+        "endChar": 39
+      },
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "61e06bfe_379eee7c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 26

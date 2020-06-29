@@ -18,19 +18,17 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.AccountGroup;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
 public class PermissionTest {
   private static final String PERMISSION_NAME = "foo";
 
-  private Permission permission;
+  private Permission.Builder permission;
 
   @Before
   public void setup() {
-    this.permission = new Permission(PERMISSION_NAME);
+    this.permission = Permission.builder(PERMISSION_NAME);
   }
 
   @Test
@@ -117,209 +115,169 @@ public class PermissionTest {
 
   @Test
   public void getLabel() {
-    assertThat(new Permission(Permission.LABEL + "Code-Review").getLabel())
+    assertThat(Permission.create(Permission.LABEL + "Code-Review").getLabel())
         .isEqualTo("Code-Review");
-    assertThat(new Permission(Permission.LABEL_AS + "Code-Review").getLabel())
+    assertThat(Permission.create(Permission.LABEL_AS + "Code-Review").getLabel())
         .isEqualTo("Code-Review");
-    assertThat(new Permission("Code-Review").getLabel()).isNull();
-    assertThat(new Permission(Permission.ABANDON).getLabel()).isNull();
+    assertThat(Permission.create("Code-Review").getLabel()).isNull();
+    assertThat(Permission.create(Permission.ABANDON).getLabel()).isNull();
   }
 
   @Test
   public void exclusiveGroup() {
-    assertThat(permission.getExclusiveGroup()).isFalse();
+    assertThat(permission.build().getExclusiveGroup()).isFalse();
 
     permission.setExclusiveGroup(true);
-    assertThat(permission.getExclusiveGroup()).isTrue();
+    assertThat(permission.build().getExclusiveGroup()).isTrue();
 
     permission.setExclusiveGroup(false);
-    assertThat(permission.getExclusiveGroup()).isFalse();
+    assertThat(permission.build().getExclusiveGroup()).isFalse();
   }
 
   @Test
   public void noExclusiveGroupOnOwnerPermission() {
-    Permission permission = new Permission(Permission.OWNER);
+    Permission permission = Permission.create(Permission.OWNER);
     assertThat(permission.getExclusiveGroup()).isFalse();
 
-    permission.setExclusiveGroup(true);
+    permission = permission.toBuilder().setExclusiveGroup(true).build();
     assertThat(permission.getExclusiveGroup()).isFalse();
   }
 
   @Test
   public void getEmptyRules() {
-    assertThat(permission.getRules()).isNotNull();
-    assertThat(permission.getRules()).isEmpty();
+    assertThat(permission.getRulesBuilders()).isNotNull();
+    assertThat(permission.getRulesBuilders()).isEmpty();
   }
 
   @Test
   public void setAndGetRules() {
-    PermissionRule permissionRule1 =
-        PermissionRule.create(GroupReference.create(AccountGroup.uuid("uuid-1"), "group1"));
-    PermissionRule permissionRule2 =
-        PermissionRule.create(GroupReference.create(AccountGroup.uuid("uuid-2"), "group2"));
-    permission.setRules(ImmutableList.of(permissionRule1, permissionRule2));
-    assertThat(permission.getRules()).containsExactly(permissionRule1, permissionRule2).inOrder();
+    PermissionRule.Builder permissionRule1 =
+        PermissionRule.builder(GroupReference.create(AccountGroup.uuid("uuid-1"), "group1"));
+    PermissionRule.Builder permissionRule2 =
+        PermissionRule.builder(GroupReference.create(AccountGroup.uuid("uuid-2"), "group2"));
+    permission.setRulesBuilders(ImmutableList.of(permissionRule1, permissionRule2));
+    assertThat(permission.getRulesBuilders())
+        .containsExactly(permissionRule1, permissionRule2)
+        .inOrder();
 
-    PermissionRule permissionRule3 =
-        PermissionRule.create(GroupReference.create(AccountGroup.uuid("uuid-3"), "group3"));
-    permission.setRules(ImmutableList.of(permissionRule3));
-    assertThat(permission.getRules()).containsExactly(permissionRule3);
-  }
-
-  @Test
-  public void cannotAddPermissionByModifyingListThatWasProvidedToAccessSection() {
-    PermissionRule permissionRule1 =
-        PermissionRule.create(GroupReference.create(AccountGroup.uuid("uuid-1"), "group1"));
-    PermissionRule permissionRule2 =
-        PermissionRule.create(GroupReference.create(AccountGroup.uuid("uuid-2"), "group2"));
-    GroupReference groupReference3 = GroupReference.create(AccountGroup.uuid("uuid-3"), "group3");
-
-    List<PermissionRule> rules = new ArrayList<>();
-    rules.add(permissionRule1);
-    rules.add(permissionRule2);
-    permission.setRules(rules);
-    assertThat(permission.getRule(groupReference3)).isNull();
-
-    PermissionRule permissionRule3 = PermissionRule.create(groupReference3);
-    rules.add(permissionRule3);
-    assertThat(permission.getRule(groupReference3)).isNull();
+    PermissionRule.Builder permissionRule3 =
+        PermissionRule.builder(GroupReference.create(AccountGroup.uuid("uuid-3"), "group3"));
+    permission.setRulesBuilders(ImmutableList.of(permissionRule3));
+    assertThat(permission.getRulesBuilders()).containsExactly(permissionRule3);
   }
 
   @Test
   public void getNonExistingRule() {
     GroupReference groupReference = GroupReference.create(AccountGroup.uuid("uuid-1"), "group1");
-    assertThat(permission.getRule(groupReference)).isNull();
-    assertThat(permission.getRule(groupReference, false)).isNull();
+    assertThat(permission.build().getRule(groupReference)).isNull();
+    assertThat(permission.build().getRule(groupReference)).isNull();
   }
 
   @Test
   public void getRule() {
     GroupReference groupReference = GroupReference.create(AccountGroup.uuid("uuid-1"), "group1");
-    PermissionRule permissionRule = PermissionRule.create(groupReference);
-    permission.setRules(ImmutableList.of(permissionRule));
-    assertThat(permission.getRule(groupReference)).isEqualTo(permissionRule);
-  }
-
-  @Test
-  public void createMissingRuleOnGet() {
-    GroupReference groupReference = GroupReference.create(AccountGroup.uuid("uuid-1"), "group1");
-    assertThat(permission.getRule(groupReference)).isNull();
-
-    assertThat(permission.getRule(groupReference, true))
-        .isEqualTo(PermissionRule.create(groupReference));
+    PermissionRule.Builder permissionRule = PermissionRule.builder(groupReference);
+    permission.setRulesBuilders(ImmutableList.of(permissionRule));
+    assertThat(permission.build().getRule(groupReference)).isEqualTo(permissionRule.build());
   }
 
   @Test
   public void addRule() {
-    PermissionRule permissionRule1 =
-        PermissionRule.create(GroupReference.create(AccountGroup.uuid("uuid-1"), "group1"));
-    PermissionRule permissionRule2 =
-        PermissionRule.create(GroupReference.create(AccountGroup.uuid("uuid-2"), "group2"));
-    permission.setRules(ImmutableList.of(permissionRule1, permissionRule2));
+    PermissionRule.Builder permissionRule1 =
+        PermissionRule.builder(GroupReference.create(AccountGroup.uuid("uuid-1"), "group1"));
+    PermissionRule.Builder permissionRule2 =
+        PermissionRule.builder(GroupReference.create(AccountGroup.uuid("uuid-2"), "group2"));
+    permission.setRulesBuilders(ImmutableList.of(permissionRule1, permissionRule2));
     GroupReference groupReference3 = GroupReference.create(AccountGroup.uuid("uuid-3"), "group3");
-    assertThat(permission.getRule(groupReference3)).isNull();
+    assertThat(permission.build().getRule(groupReference3)).isNull();
 
-    PermissionRule permissionRule3 = PermissionRule.create(groupReference3);
+    PermissionRule.Builder permissionRule3 = PermissionRule.builder(groupReference3);
     permission.add(permissionRule3);
-    assertThat(permission.getRule(groupReference3)).isEqualTo(permissionRule3);
-    assertThat(permission.getRules())
-        .containsExactly(permissionRule1, permissionRule2, permissionRule3)
+    assertThat(permission.build().getRule(groupReference3)).isEqualTo(permissionRule3.build());
+    assertThat(permission.build().getRules())
+        .containsExactly(permissionRule1.build(), permissionRule2.build(), permissionRule3.build())
         .inOrder();
   }
 
   @Test
   public void removeRule() {
-    PermissionRule permissionRule1 =
-        PermissionRule.create(GroupReference.create(AccountGroup.uuid("uuid-1"), "group1"));
-    PermissionRule permissionRule2 =
-        PermissionRule.create(GroupReference.create(AccountGroup.uuid("uuid-2"), "group2"));
+    PermissionRule.Builder permissionRule1 =
+        PermissionRule.builder(GroupReference.create(AccountGroup.uuid("uuid-1"), "group1"));
+    PermissionRule.Builder permissionRule2 =
+        PermissionRule.builder(GroupReference.create(AccountGroup.uuid("uuid-2"), "group2"));
     GroupReference groupReference3 = GroupReference.create(AccountGroup.uuid("uuid-3"), "group3");
-    PermissionRule permissionRule3 = PermissionRule.create(groupReference3);
+    PermissionRule.Builder permissionRule3 = PermissionRule.builder(groupReference3);
 
-    permission.setRules(ImmutableList.of(permissionRule1, permissionRule2, permissionRule3));
-    assertThat(permission.getRule(groupReference3)).isNotNull();
+    permission.setRulesBuilders(
+        ImmutableList.of(permissionRule1, permissionRule2, permissionRule3));
+    assertThat(permission.build().getRule(groupReference3)).isNotNull();
 
-    permission.remove(permissionRule3);
-    assertThat(permission.getRule(groupReference3)).isNull();
-    assertThat(permission.getRules()).containsExactly(permissionRule1, permissionRule2).inOrder();
-  }
-
-  @Test
-  public void removeRuleByGroupReference() {
-    PermissionRule permissionRule1 =
-        PermissionRule.create(GroupReference.create(AccountGroup.uuid("uuid-1"), "group1"));
-    PermissionRule permissionRule2 =
-        PermissionRule.create(GroupReference.create(AccountGroup.uuid("uuid-2"), "group2"));
-    GroupReference groupReference3 = GroupReference.create(AccountGroup.uuid("uuid-3"), "group3");
-    PermissionRule permissionRule3 = PermissionRule.create(groupReference3);
-
-    permission.setRules(ImmutableList.of(permissionRule1, permissionRule2, permissionRule3));
-    assertThat(permission.getRule(groupReference3)).isNotNull();
-
-    permission.removeRule(groupReference3);
-    assertThat(permission.getRule(groupReference3)).isNull();
-    assertThat(permission.getRules()).containsExactly(permissionRule1, permissionRule2).inOrder();
-  }
-
-  @Test
-  public void clearRules() {
-    PermissionRule permissionRule1 =
-        PermissionRule.create(GroupReference.create(AccountGroup.uuid("uuid-1"), "group1"));
-    PermissionRule permissionRule2 =
-        PermissionRule.create(GroupReference.create(AccountGroup.uuid("uuid-2"), "group2"));
-
-    permission.setRules(ImmutableList.of(permissionRule1, permissionRule2));
-    assertThat(permission.getRules()).isNotEmpty();
-
-    permission.clearRules();
-    assertThat(permission.getRules()).isEmpty();
-  }
-
-  @Test
-  public void mergePermissions() {
-    PermissionRule permissionRule1 =
-        PermissionRule.create(GroupReference.create(AccountGroup.uuid("uuid-1"), "group1"));
-    PermissionRule permissionRule2 =
-        PermissionRule.create(GroupReference.create(AccountGroup.uuid("uuid-2"), "group2"));
-    PermissionRule permissionRule3 =
-        PermissionRule.create(GroupReference.create(AccountGroup.uuid("uuid-3"), "group3"));
-
-    Permission permission1 = new Permission("foo");
-    permission1.setRules(ImmutableList.of(permissionRule1, permissionRule2));
-
-    Permission permission2 = new Permission("bar");
-    permission2.setRules(ImmutableList.of(permissionRule2, permissionRule3));
-
-    permission1.mergeFrom(permission2);
-    assertThat(permission1.getRules())
-        .containsExactly(permissionRule1, permissionRule2, permissionRule3)
+    permission.remove(permissionRule3.build());
+    assertThat(permission.build().getRule(groupReference3)).isNull();
+    assertThat(permission.build().getRules())
+        .containsExactly(permissionRule1.build(), permissionRule2.build())
         .inOrder();
   }
 
   @Test
+  public void removeRuleByGroupReference() {
+    PermissionRule.Builder permissionRule1 =
+        PermissionRule.builder(GroupReference.create(AccountGroup.uuid("uuid-1"), "group1"));
+    PermissionRule.Builder permissionRule2 =
+        PermissionRule.builder(GroupReference.create(AccountGroup.uuid("uuid-2"), "group2"));
+    GroupReference groupReference3 = GroupReference.create(AccountGroup.uuid("uuid-3"), "group3");
+    PermissionRule.Builder permissionRule3 = PermissionRule.builder(groupReference3);
+
+    permission.setRulesBuilders(
+        ImmutableList.of(permissionRule1, permissionRule2, permissionRule3));
+    assertThat(permission.build().getRule(groupReference3)).isNotNull();
+
+    permission.removeRule(groupReference3);
+    assertThat(permission.build().getRule(groupReference3)).isNull();
+    assertThat(permission.build().getRules())
+        .containsExactly(permissionRule1.build(), permissionRule2.build())
+        .inOrder();
+  }
+
+  @Test
+  public void clearRules() {
+    PermissionRule.Builder permissionRule1 =
+        PermissionRule.builder(GroupReference.create(AccountGroup.uuid("uuid-1"), "group1"));
+    PermissionRule.Builder permissionRule2 =
+        PermissionRule.builder(GroupReference.create(AccountGroup.uuid("uuid-2"), "group2"));
+
+    permission.setRulesBuilders(ImmutableList.of(permissionRule1, permissionRule2));
+    assertThat(permission.build().getRules()).isNotEmpty();
+
+    permission.clearRules();
+    assertThat(permission.build().getRules()).isEmpty();
+  }
+
+  @Test
   public void testEquals() {
-    PermissionRule permissionRule1 =
-        PermissionRule.create(GroupReference.create(AccountGroup.uuid("uuid-1"), "group1"));
-    PermissionRule permissionRule2 =
-        PermissionRule.create(GroupReference.create(AccountGroup.uuid("uuid-2"), "group2"));
+    PermissionRule.Builder permissionRule1 =
+        PermissionRule.builder(GroupReference.create(AccountGroup.uuid("uuid-1"), "group1"));
+    PermissionRule.Builder permissionRule2 =
+        PermissionRule.builder(GroupReference.create(AccountGroup.uuid("uuid-2"), "group2"));
 
-    permission.setRules(ImmutableList.of(permissionRule1, permissionRule2));
+    permission.setRulesBuilders(ImmutableList.of(permissionRule1, permissionRule2));
 
-    Permission permissionSameRulesOtherName = new Permission("bar");
-    permissionSameRulesOtherName.setRules(ImmutableList.of(permissionRule1, permissionRule2));
+    Permission.Builder permissionSameRulesOtherName = Permission.builder("bar");
+    permissionSameRulesOtherName.setRulesBuilders(
+        ImmutableList.of(permissionRule1, permissionRule2));
     assertThat(permission.equals(permissionSameRulesOtherName)).isFalse();
 
-    Permission permissionSameRulesSameNameOtherExclusiveGroup = new Permission("foo");
-    permissionSameRulesSameNameOtherExclusiveGroup.setRules(
+    Permission.Builder permissionSameRulesSameNameOtherExclusiveGroup = Permission.builder("foo");
+    permissionSameRulesSameNameOtherExclusiveGroup.setRulesBuilders(
         ImmutableList.of(permissionRule1, permissionRule2));
     permissionSameRulesSameNameOtherExclusiveGroup.setExclusiveGroup(true);
     assertThat(permission.equals(permissionSameRulesSameNameOtherExclusiveGroup)).isFalse();
 
-    Permission permissionOther = new Permission(PERMISSION_NAME);
-    permissionOther.setRules(ImmutableList.of(permissionRule1));
-    assertThat(permission.equals(permissionOther)).isFalse();
+    Permission.Builder permissionOther = Permission.builder(PERMISSION_NAME);
+    permissionOther.setRulesBuilders(ImmutableList.of(permissionRule1));
+    assertThat(permission.build().equals(permissionOther.build())).isFalse();
 
     permissionOther.add(permissionRule2);
-    assertThat(permission.equals(permissionOther)).isTrue();
+    assertThat(permission.build().equals(permissionOther.build())).isTrue();
   }
 }

@@ -120,8 +120,11 @@ public class AccessIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(newProjectName)) {
       MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, newProjectName, repo);
       ProjectConfig projectConfig = projectConfigFactory.read(md);
-      AccessSection heads = projectConfig.getAccessSection(AccessSection.HEADS, true);
-      grant(projectConfig, heads, Permission.REVERT, registeredUsers);
+      projectConfig.upsertAccessSection(
+          AccessSection.HEADS,
+          heads -> {
+            grant(projectConfig, heads, Permission.REVERT, registeredUsers);
+          });
       md.getCommitBuilder().setAuthor(admin.newIdent());
       md.getCommitBuilder().setCommitter(admin.newIdent());
       md.setMessage("Add revert permission for all registered users\n");
@@ -155,15 +158,19 @@ public class AccessIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(newProjectName)) {
       MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, newProjectName, repo);
       ProjectConfig projectConfig = projectConfigFactory.read(md);
-      AccessSection heads = projectConfig.getAccessSection(AccessSection.HEADS, true);
-      grant(projectConfig, heads, Permission.REVERT, registeredUsers);
-      grant(projectConfig, heads, Permission.REVERT, otherGroup);
+      projectConfig.upsertAccessSection(
+          AccessSection.HEADS,
+          heads -> {
+            grant(projectConfig, heads, Permission.REVERT, registeredUsers);
+            grant(projectConfig, heads, Permission.REVERT, otherGroup);
+          });
       md.getCommitBuilder().setAuthor(admin.newIdent());
       md.getCommitBuilder().setCommitter(admin.newIdent());
       md.setMessage("Add revert permission for all registered users\n");
 
       projectConfig.commit(md);
     }
+    projectCache.evict(newProjectName);
     ProjectAccessInfo expected = pApi().access();
 
     grantRevertPermission.execute(newProjectName);
@@ -181,7 +188,7 @@ public class AccessIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(newProjectName)) {
       MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, newProjectName, repo);
       ProjectConfig projectConfig = projectConfigFactory.read(md);
-      AccessSection all = projectConfig.getAccessSection(AccessSection.ALL, true);
+      AccessSection all = projectConfig.getAccessSection(AccessSection.ALL);
 
       Permission permission = all.getPermission(Permission.REVERT);
       assertThat(permission.getRules()).hasSize(1);

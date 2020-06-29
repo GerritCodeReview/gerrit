@@ -34,6 +34,24 @@
       "revId": "36cec6b2eb13d8a1fbff5a46b3efe2f6156eb83b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95b7fa3e_fae6410b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-29T08:49:35Z",
+      "side": 1,
+      "message": "\u003e Then maybe the above \"Add extension point for related changes\" probably does not work?\n\nThanks for checking back!\n\nThe extension point is working.\nYou can see it in action adding \"Depends on\" and \"Needed by\" sections for example at\n\nhttps://gerrit.wikimedia.org/r/c/mediawiki/tools/phan/SecurityCheckPlugin/+/543393\n\n(Only the whole \"related changes\" part gets hidden if all of Gerrit\u0027s native sections are empty, regardless of whether or not the extension point contains non-empty content or not. But that\u0027s a separate issue that I\u0027ll try to tackle soon.)",
+      "parentUuid": "2e457d96_c13955dc",
+      "revId": "36cec6b2eb13d8a1fbff5a46b3efe2f6156eb83b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

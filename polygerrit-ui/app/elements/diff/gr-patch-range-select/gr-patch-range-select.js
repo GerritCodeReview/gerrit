@@ -289,14 +289,18 @@ class GrPatchRangeSelect extends mixinBehaviors( [
   _handlePatchChange(e) {
     const detail = {patchNum: this.patchNum, basePatchNum: this.basePatchNum};
     const target = dom(e).localTarget;
-
+    const latestPatchNum = this.computeLatestPatchNum(this.availablePatches);
     if (target === this.$.patchNumDropdown) {
       if (detail.patchNum === e.detail.value) return;
       this.reporting.reportInteraction('right-patchset-changed',
-          {previous: detail.patchNum, current: e.detail.value});
+          {
+            previous: detail.patchNum,
+            current: e.detail.value,
+            latest: latestPatchNum,
+          });
       detail.patchNum = e.detail.value;
     } else {
-      if (detail.basePatchNum === e.detail.value) return;
+      if (this.patchNumEquals(detail.basePatchNum, e.detail.value)) return;
       this.reporting.reportInteraction('left-patchset-changed',
           {previous: detail.basePatchNum, current: e.detail.value});
       detail.basePatchNum = e.detail.value;

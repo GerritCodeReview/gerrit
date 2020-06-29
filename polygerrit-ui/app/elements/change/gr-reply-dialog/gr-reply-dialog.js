@@ -182,6 +182,7 @@ class GrReplyDialog extends mixinBehaviors( [
        * @type {{ commentlinks: Array }}
        */
       projectConfig: Object,
+      serverConfig: Object,
       knownLatestState: String,
       underReview: {
         type: Boolean,
@@ -250,6 +251,33 @@ class GrReplyDialog extends mixinBehaviors( [
         type: Boolean,
         value: false,
       },
+      /**
+       * Is the UI in the state where the user individually modifies attention
+       * set entries?
+       */
+      _attentionModified: {
+        type: Boolean,
+        value: false,
+      },
+      /**
+       * Set of account IDs that currently constitutes the attention set, read
+       * from change.attention_set. Will be updated by the
+       * _computeNewAttention() observer.
+       */
+      _currentAttentionSet: {
+        type: Object,
+        value: () => new Set(),
+      },
+      /**
+       * Set of account IDs that should constitute the attention set after
+       * publishing the votes/comments. Will be initialized with a default (that
+       * matches the default rules that the backend would also apply) by the
+       * _computeNewAttention(_account, _reviewers, change) observer.
+       */
+      _newAttentionSet: {
+        type: Object,
+        value: () => new Set(),
+      },
       _sendDisabled: {
         type: Boolean,
         computed: '_computeSendButtonDisabled(canBeStarted, ' +
@@ -282,6 +310,7 @@ class GrReplyDialog extends mixinBehaviors( [
       '_changeUpdated(change.reviewers.*, change.owner)',
       '_ccsChanged(_ccs.splices)',
       '_reviewersChanged(_reviewers.splices)',
+      '_computeNewAttention(_account, _reviewers, change)',
     ];
   }
 
@@ -503,13 +532,29 @@ class GrReplyDialog extends mixinBehaviors( [
     this.reporting.time(SEND_REPLY_TIMING_LABEL);
     const labels = this.$.labelScores.getLabelValues();
 
-    const obj = {
+    const reviewInput = {
       drafts: includeComments ? 'PUBLISH_ALL_REVISIONS' : 'KEEP',
       labels,
     };
 
     if (startReview) {
-      obj.ready = true;
+      reviewInput.ready = true;
+    }
+
+    if (this._attentionModified) {
+      reviewInput.ignore_default_rules = true;
+      reviewInput.add_to_attention_set = [];
+      for (const user of this._newAttentionSet) {
+        if (!this._currentAttentionSet.has(user)) {
+          reviewInput.add_to_attention_set.push(user);
+        }
+      }
+      reviewInput.remove_from_attention_set = [];
+      for (const user of this._currentAttentionSet) {
+        if (!this._newAttentionSet.has(user)) {
+          reviewInput.remove_from_attention_set.push(user);
+        }
+      }
     }
 
     if (this.draft != null) {
@@ -518,16 +563,16 @@ class GrReplyDialog extends mixinBehaviors( [
           message: this.draft,
           unresolved: !this._isResolvedPatchsetLevelComment,
         };
-        obj.comments = {
+        reviewInput.comments = {
           [SpecialFilePath.PATCHSET_LEVEL_COMMENTS]: [comment],
         };
       } else {
-        obj.message = this.draft;
+        reviewInput.message = this.draft;
       }
     }
 
     const accountAdditions = {};
-    obj.reviewers = this.$.reviewers.additions().map(reviewer => {
+    reviewInput.reviewers = this.$.reviewers.additions().map(reviewer => {
       if (reviewer.account) {
         accountAdditions[reviewer.account._account_id] = true;
       }
@@ -541,14 +586,14 @@ class GrReplyDialog extends mixinBehaviors( [
         }
         reviewer = this._mapReviewer(reviewer);
         reviewer.state = 'CC';
-        obj.reviewers.push(reviewer);
+        reviewInput.reviewers.push(reviewer);
       }
     }
 
     this.disabled = true;
 
     const errFn = this._handle400Error.bind(this);
-    return this._saveReview(obj, errFn)
+    return this._saveReview(reviewInput, errFn)
         .then(response => {
           if (!response) {
             // Null or undefined response indicates that an error handler
@@ -608,6 +653,11 @@ class GrReplyDialog extends mixinBehaviors( [
 
     // Default to BODY.
     return FocusTarget.BODY;
+  }
+
+  _isOwner(account, change) {
+    if (!account || !change || !change.owner) return false;
+    return account._account_id === change.owner._account_id;
   }
 
   _handle400Error(response) {
@@ -711,6 +761,58 @@ class GrReplyDialog extends mixinBehaviors( [
 
     this._ccs = ccs;
     this._reviewers = reviewers;
+  }
+
+  _handleAttentionModify() {
+    this._attentionModified = true;
+  }
+
+  _showAttentionSummary(config, attentionModified) {
+    return this._isAttentionSetEnabled(config) && !attentionModified;
+  }
+
+  _showAttentionDetails(config, attentionModified) {
+    return this._isAttentionSetEnabled(config) && attentionModified;
+  }
+
+  _isAttentionSetEnabled(config) {
+    return !!config && !!config.change && config.change.enable_attention_set;
+  }
+
+  _handleAttentionClick(e) {
+    const id = e.target.account._account_id;
+    if (!id) return;
+    if (this._newAttentionSet.has(id)) {
+      this._newAttentionSet.delete(id);
+    } else {
+      this._newAttentionSet.add(id);
+    }
+    // Ensure that Polymer picks up the change.
+    this._newAttentionSet = new Set(this._newAttentionSet);
+  }
+
+  _computeHasNewAttention(account, newAttention) {
+    return newAttention && account && newAttention.has(account._account_id);
+  }
+
+  _computeNewAttention(user, reviewers, change) {
+    if ([user, reviewers, change].includes(undefined)) {
+      return;
+    }
+    this._attentionModified = false;
+    this._currentAttentionSet =
+        new Set(Object.keys(change.attention_set || {})
+            .map(id => parseInt(id)));
+    const newAttention = new Set(this._currentAttentionSet);
+    if (this._isOwner(user, change)) {
+      reviewers.forEach(r => newAttention.add(r._account_id));
+    } else {
+      if (change.owner) {
+        newAttention.add(change.owner._account_id);
+      }
+    }
+    if (user) newAttention.delete(user._account_id);
+    this._newAttentionSet = newAttention;
   }
 
   _accountOrGroupKey(entry) {

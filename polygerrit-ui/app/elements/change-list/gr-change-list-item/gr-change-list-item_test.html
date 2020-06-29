@@ -173,6 +173,37 @@ suite('gr-change-list-item tests', () => {
     }
   });
 
+  function checkComputeReviewers(
+      userId, reviewerIds, reviewerNames, attSetIds, expected) {
+    element.account = userId ? {_account_id: userId} : null;
+    element.change = {
+      reviewers: {
+        REVIEWER: [],
+      },
+      attention_set: {},
+    };
+    for (let i = 0; i < reviewerIds.length; i++) {
+      element.change.reviewers.REVIEWER.push({
+        _account_id: reviewerIds[i],
+        name: reviewerNames[i],
+      });
+    }
+    attSetIds.forEach(id => element.change.attention_set[id] = {});
+
+    const actual = element._computeReviewers(element.change)
+        .map(r => r._account_id);
+    assert.deepEqual(actual, expected);
+  }
+
+  test('compute reviewers', () => {
+    checkComputeReviewers(null, [], [], [], []);
+    checkComputeReviewers(1, [], [], [], []);
+    checkComputeReviewers(
+        1, [2, 3, 4, 5], ['b', 'a', 'd', 'c'], [3, 4], [3, 4, 2, 5]);
+    checkComputeReviewers(
+        1, [2, 3, 1, 4, 5], ['b', 'a', 'x', 'd', 'c'], [3, 4], [1, 3, 4, 2, 5]);
+  });
+
   test('random column does not exist', () => {
     element.visibleChangeTableColumns = [
       'Bad',

@@ -18,8 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,11 +25,11 @@ import org.junit.Test;
 public class AccessSectionTest {
   private static final String REF_PATTERN = "refs/heads/master";
 
-  private AccessSection accessSection;
+  private AccessSection.Builder accessSection;
 
   @Before
   public void setup() {
-    this.accessSection = new AccessSection(REF_PATTERN);
+    this.accessSection = AccessSection.builder(REF_PATTERN);
   }
 
   @Test
@@ -41,22 +39,22 @@ public class AccessSectionTest {
 
   @Test
   public void getEmptyPermissions() {
-    assertThat(accessSection.getPermissions()).isNotNull();
-    assertThat(accessSection.getPermissions()).isEmpty();
+    assertThat(accessSection.getPermissionBuilders()).isNotNull();
+    assertThat(accessSection.getPermissionBuilders()).isEmpty();
   }
 
   @Test
   public void setAndGetPermissions() {
-    Permission abandonPermission = new Permission(Permission.ABANDON);
-    Permission rebasePermission = new Permission(Permission.REBASE);
-    accessSection.setPermissions(ImmutableList.of(abandonPermission, rebasePermission));
-    assertThat(accessSection.getPermissions())
+    Permission.Builder abandonPermission = Permission.builder(Permission.ABANDON);
+    Permission.Builder rebasePermission = Permission.builder(Permission.REBASE);
+    accessSection.setPermissionBuilders(ImmutableList.of(abandonPermission, rebasePermission));
+    assertThat(accessSection.getPermissionBuilders())
         .containsExactly(abandonPermission, rebasePermission)
         .inOrder();
 
-    Permission submitPermission = new Permission(Permission.SUBMIT);
-    accessSection.setPermissions(ImmutableList.of(submitPermission));
-    assertThat(accessSection.getPermissions()).containsExactly(submitPermission);
+    Permission.Builder submitPermission = Permission.builder(Permission.SUBMIT);
+    accessSection.setPermissionBuilders(ImmutableList.of(submitPermission));
+    assertThat(accessSection.getPermissionBuilders()).containsExactly(submitPermission);
     assertThrows(NullPointerException.class, () -> accessSection.setPermissions(null));
   }
 
@@ -65,185 +63,160 @@ public class AccessSectionTest {
     assertThrows(
         IllegalArgumentException.class,
         () ->
-            accessSection.setPermissions(
-                ImmutableList.of(
-                    new Permission(Permission.ABANDON), new Permission(Permission.ABANDON))));
+            accessSection
+                .setPermissionBuilders(
+                    ImmutableList.of(
+                        Permission.builder(Permission.ABANDON),
+                        Permission.builder(Permission.ABANDON)))
+                .build());
   }
 
   @Test
   public void cannotSetPermissionsWithConflictingNames() {
-    Permission abandonPermissionLowerCase =
-        new Permission(Permission.ABANDON.toLowerCase(Locale.US));
-    Permission abandonPermissionUpperCase =
-        new Permission(Permission.ABANDON.toUpperCase(Locale.US));
+    Permission.Builder abandonPermissionLowerCase =
+        Permission.builder(Permission.ABANDON.toLowerCase(Locale.US));
+    Permission.Builder abandonPermissionUpperCase =
+        Permission.builder(Permission.ABANDON.toUpperCase(Locale.US));
 
     assertThrows(
         IllegalArgumentException.class,
         () ->
-            accessSection.setPermissions(
-                ImmutableList.of(abandonPermissionLowerCase, abandonPermissionUpperCase)));
+            accessSection
+                .setPermissionBuilders(
+                    ImmutableList.of(abandonPermissionLowerCase, abandonPermissionUpperCase))
+                .build());
   }
 
   @Test
   public void getNonExistingPermission() {
-    assertThat(accessSection.getPermission("non-existing")).isNull();
-    assertThat(accessSection.getPermission("non-existing", false)).isNull();
+    assertThat(accessSection.build().getPermission("non-existing")).isNull();
+    assertThat(accessSection.build().getPermission("non-existing")).isNull();
   }
 
   @Test
   public void getPermission() {
-    Permission submitPermission = new Permission(Permission.SUBMIT);
-    accessSection.setPermissions(ImmutableList.of(submitPermission));
+    Permission.Builder submitPermission = Permission.builder(Permission.SUBMIT);
+    accessSection.setPermissionBuilders(ImmutableList.of(submitPermission));
     assertThat(accessSection.getPermission(Permission.SUBMIT)).isEqualTo(submitPermission);
-    assertThrows(NullPointerException.class, () -> accessSection.getPermission(null));
+    assertThrows(IllegalArgumentException.class, () -> accessSection.getPermission(null));
   }
 
   @Test
   public void getPermissionWithOtherCase() {
-    Permission submitPermissionLowerCase = new Permission(Permission.SUBMIT.toLowerCase(Locale.US));
-    accessSection.setPermissions(ImmutableList.of(submitPermissionLowerCase));
+    Permission.Builder submitPermissionLowerCase =
+        Permission.builder(Permission.SUBMIT.toLowerCase(Locale.US));
+    accessSection.setPermissionBuilders(ImmutableList.of(submitPermissionLowerCase));
     assertThat(accessSection.getPermission(Permission.SUBMIT.toUpperCase(Locale.US)))
         .isEqualTo(submitPermissionLowerCase);
   }
 
   @Test
   public void createMissingPermissionOnGet() {
-    assertThat(accessSection.getPermission(Permission.SUBMIT)).isNull();
+    assertThat(accessSection.build().getPermission(Permission.SUBMIT)).isNull();
 
-    assertThat(accessSection.getPermission(Permission.SUBMIT, true))
-        .isEqualTo(new Permission(Permission.SUBMIT));
+    assertThat(accessSection.getPermission(Permission.SUBMIT).build())
+        .isEqualTo(Permission.create(Permission.SUBMIT));
 
-    assertThrows(NullPointerException.class, () -> accessSection.getPermission(null, true));
+    assertThrows(IllegalArgumentException.class, () -> accessSection.getPermission(null));
   }
 
   @Test
   public void addPermission() {
-    Permission abandonPermission = new Permission(Permission.ABANDON);
-    Permission rebasePermission = new Permission(Permission.REBASE);
+    Permission.Builder abandonPermission = Permission.builder(Permission.ABANDON);
+    Permission.Builder rebasePermission = Permission.builder(Permission.REBASE);
 
-    accessSection.setPermissions(ImmutableList.of(abandonPermission, rebasePermission));
-    assertThat(accessSection.getPermission(Permission.SUBMIT)).isNull();
+    accessSection.setPermissionBuilders(ImmutableList.of(abandonPermission, rebasePermission));
+    assertThat(accessSection.build().getPermission(Permission.SUBMIT)).isNull();
 
-    Permission submitPermission = new Permission(Permission.SUBMIT);
+    Permission.Builder submitPermission = Permission.builder(Permission.SUBMIT);
     accessSection.addPermission(submitPermission);
-    assertThat(accessSection.getPermission(Permission.SUBMIT)).isEqualTo(submitPermission);
-    assertThat(accessSection.getPermissions())
-        .containsExactly(abandonPermission, rebasePermission, submitPermission)
+    assertThat(accessSection.build().getPermission(Permission.SUBMIT))
+        .isEqualTo(submitPermission.build());
+    assertThat(accessSection.build().getPermissions())
+        .containsExactly(
+            abandonPermission.build(), rebasePermission.build(), submitPermission.build())
         .inOrder();
-    assertThrows(NullPointerException.class, () -> accessSection.addPermission(null));
-  }
-
-  @Test
-  public void cannotAddPermissionByModifyingListThatWasProvidedToAccessSection() {
-    Permission abandonPermission = new Permission(Permission.ABANDON);
-    Permission rebasePermission = new Permission(Permission.REBASE);
-
-    List<Permission> permissions = new ArrayList<>();
-    permissions.add(abandonPermission);
-    permissions.add(rebasePermission);
-    accessSection.setPermissions(permissions);
-    assertThat(accessSection.getPermission(Permission.SUBMIT)).isNull();
-
-    Permission submitPermission = new Permission(Permission.SUBMIT);
-    permissions.add(submitPermission);
-    assertThat(accessSection.getPermission(Permission.SUBMIT)).isNull();
+    assertThrows(IllegalArgumentException.class, () -> accessSection.addPermission(null));
   }
 
   @Test
   public void removePermission() {
-    Permission abandonPermission = new Permission(Permission.ABANDON);
-    Permission rebasePermission = new Permission(Permission.REBASE);
-    Permission submitPermission = new Permission(Permission.SUBMIT);
+    Permission.Builder abandonPermission = Permission.builder(Permission.ABANDON);
+    Permission.Builder rebasePermission = Permission.builder(Permission.REBASE);
+    Permission.Builder submitPermission = Permission.builder(Permission.SUBMIT);
 
-    accessSection.setPermissions(
+    accessSection.setPermissionBuilders(
         ImmutableList.of(abandonPermission, rebasePermission, submitPermission));
-    assertThat(accessSection.getPermission(Permission.SUBMIT)).isNotNull();
+    assertThat(accessSection.build().getPermission(Permission.SUBMIT)).isNotNull();
 
     accessSection.remove(submitPermission);
-    assertThat(accessSection.getPermission(Permission.SUBMIT)).isNull();
-    assertThat(accessSection.getPermissions())
-        .containsExactly(abandonPermission, rebasePermission)
+    assertThat(accessSection.build().getPermission(Permission.SUBMIT)).isNull();
+    assertThat(accessSection.build().getPermissions())
+        .containsExactly(abandonPermission.build(), rebasePermission.build())
         .inOrder();
-    assertThrows(NullPointerException.class, () -> accessSection.remove(null));
+    assertThrows(IllegalArgumentException.class, () -> accessSection.remove(null));
   }
 
   @Test
   public void removePermissionByName() {
-    Permission abandonPermission = new Permission(Permission.ABANDON);
-    Permission rebasePermission = new Permission(Permission.REBASE);
-    Permission submitPermission = new Permission(Permission.SUBMIT);
+    Permission.Builder abandonPermission = Permission.builder(Permission.ABANDON);
+    Permission.Builder rebasePermission = Permission.builder(Permission.REBASE);
+    Permission.Builder submitPermission = Permission.builder(Permission.SUBMIT);
 
-    accessSection.setPermissions(
+    accessSection.setPermissionBuilders(
         ImmutableList.of(abandonPermission, rebasePermission, submitPermission));
-    assertThat(accessSection.getPermission(Permission.SUBMIT)).isNotNull();
+    assertThat(accessSection.build().getPermission(Permission.SUBMIT)).isNotNull();
 
     accessSection.removePermission(Permission.SUBMIT);
-    assertThat(accessSection.getPermission(Permission.SUBMIT)).isNull();
-    assertThat(accessSection.getPermissions())
-        .containsExactly(abandonPermission, rebasePermission)
+    assertThat(accessSection.build().getPermission(Permission.SUBMIT)).isNull();
+    assertThat(accessSection.build().getPermissions())
+        .containsExactly(abandonPermission.build(), rebasePermission.build())
         .inOrder();
 
-    assertThrows(NullPointerException.class, () -> accessSection.removePermission(null));
+    assertThrows(IllegalArgumentException.class, () -> accessSection.removePermission(null));
   }
 
   @Test
   public void removePermissionByNameOtherCase() {
-    Permission abandonPermission = new Permission(Permission.ABANDON);
-    Permission rebasePermission = new Permission(Permission.REBASE);
+    Permission.Builder abandonPermission = Permission.builder(Permission.ABANDON);
+    Permission.Builder rebasePermission = Permission.builder(Permission.REBASE);
 
     String submitLowerCase = Permission.SUBMIT.toLowerCase(Locale.US);
     String submitUpperCase = Permission.SUBMIT.toUpperCase(Locale.US);
-    Permission submitPermissionLowerCase = new Permission(submitLowerCase);
+    Permission.Builder submitPermissionLowerCase = Permission.builder(submitLowerCase);
 
-    accessSection.setPermissions(
+    accessSection.setPermissionBuilders(
         ImmutableList.of(abandonPermission, rebasePermission, submitPermissionLowerCase));
-    assertThat(accessSection.getPermission(submitLowerCase)).isNotNull();
-    assertThat(accessSection.getPermission(submitUpperCase)).isNotNull();
+    assertThat(accessSection.build().getPermission(submitLowerCase)).isNotNull();
+    assertThat(accessSection.build().getPermission(submitUpperCase)).isNotNull();
 
     accessSection.removePermission(submitUpperCase);
-    assertThat(accessSection.getPermission(submitLowerCase)).isNull();
-    assertThat(accessSection.getPermission(submitUpperCase)).isNull();
-    assertThat(accessSection.getPermissions())
-        .containsExactly(abandonPermission, rebasePermission)
+    assertThat(accessSection.build().getPermission(submitLowerCase)).isNull();
+    assertThat(accessSection.build().getPermission(submitUpperCase)).isNull();
+    assertThat(accessSection.build().getPermissions())
+        .containsExactly(abandonPermission.build(), rebasePermission.build())
         .inOrder();
-  }
-
-  @Test
-  public void mergeAccessSections() {
-    Permission abandonPermission = new Permission(Permission.ABANDON);
-    Permission rebasePermission = new Permission(Permission.REBASE);
-    Permission submitPermission = new Permission(Permission.SUBMIT);
-
-    AccessSection accessSection1 = new AccessSection("refs/heads/foo");
-    accessSection1.setPermissions(ImmutableList.of(abandonPermission, rebasePermission));
-
-    AccessSection accessSection2 = new AccessSection("refs/heads/bar");
-    accessSection2.setPermissions(ImmutableList.of(rebasePermission, submitPermission));
-
-    accessSection1.mergeFrom(accessSection2);
-    assertThat(accessSection1.getPermissions())
-        .containsExactly(abandonPermission, rebasePermission, submitPermission)
-        .inOrder();
-    assertThrows(NullPointerException.class, () -> accessSection.mergeFrom(null));
   }
 
   @Test
   public void testEquals() {
-    Permission abandonPermission = new Permission(Permission.ABANDON);
-    Permission rebasePermission = new Permission(Permission.REBASE);
+    Permission.Builder abandonPermission = Permission.builder(Permission.ABANDON);
+    Permission.Builder rebasePermission = Permission.builder(Permission.REBASE);
 
-    accessSection.setPermissions(ImmutableList.of(abandonPermission, rebasePermission));
+    accessSection.setPermissionBuilders(ImmutableList.of(abandonPermission, rebasePermission));
 
-    AccessSection accessSectionSamePermissionsOtherRef = new AccessSection("refs/heads/other");
-    accessSectionSamePermissionsOtherRef.setPermissions(
+    AccessSection.Builder accessSectionSamePermissionsOtherRef =
+        AccessSection.builder("refs/heads/other");
+    accessSectionSamePermissionsOtherRef.setPermissionBuilders(
         ImmutableList.of(abandonPermission, rebasePermission));
-    assertThat(accessSection.equals(accessSectionSamePermissionsOtherRef)).isFalse();
+    assertThat(accessSection.build().equals(accessSectionSamePermissionsOtherRef.build()))
+        .isFalse();
 
-    AccessSection accessSectionOther = new AccessSection(REF_PATTERN);
-    accessSectionOther.setPermissions(ImmutableList.of(abandonPermission));
-    assertThat(accessSection.equals(accessSectionOther)).isFalse();
+    AccessSection.Builder accessSectionOther = AccessSection.builder(REF_PATTERN);
+    accessSectionOther.setPermissionBuilders(ImmutableList.of(abandonPermission));
+    assertThat(accessSection.build().equals(accessSectionOther.build())).isFalse();
 
     accessSectionOther.addPermission(rebasePermission);
-    assertThat(accessSection.equals(accessSectionOther)).isTrue();
+    assertThat(accessSection.build().equals(accessSectionOther.build())).isTrue();
   }
 }

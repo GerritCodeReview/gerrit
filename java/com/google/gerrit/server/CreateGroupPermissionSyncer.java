@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server;
 
-import static java.util.stream.Collectors.toList;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
@@ -101,23 +101,26 @@ public class CreateGroupPermissionSyncer implements ChangeMergedListener {
 
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsers)) {
       ProjectConfig config = projectConfigFactory.read(md);
-      AccessSection createGroupAccessSection =
-          config.getAccessSection(RefNames.REFS_GROUPS + "*", true);
-      if (createGroupsGlobal.isEmpty()) {
-        createGroupAccessSection.setPermissions(
-            createGroupAccessSection.getPermissions().stream()
-                .filter(p -> !Permission.CREATE.equals(p.getName()))
-                .collect(toList()));
-        config.replace(createGroupAccessSection);
-      } else {
-        // The create permission is managed by Gerrit at this point only so there is no concern of
-        // overwriting user-defined permissions here.
-        Permission createGroupPermission = new Permission(Permission.CREATE);
-        createGroupAccessSection.remove(createGroupPermission);
-        createGroupAccessSection.addPermission(createGroupPermission);
-        createGroupsGlobal.forEach(createGroupPermission::add);
-        config.replace(createGroupAccessSection);
-      }
+      config.upsertAccessSection(
+          RefNames.REFS_GROUPS + "*",
+          createGroupAccessSection -> {
+            if (createGroupsGlobal.isEmpty()) {
+              createGroupAccessSection.setPermissionBuilders(
+                  createGroupAccessSection.getPermissionBuilders().stream()
+                      .filter(p -> !Permission.CREATE.equals(p.getName()))
+                      .collect(toImmutableList()));
+            } else {
+              // The create permission is managed by Gerrit at this point only so there is no
+              // concern of
+              // overwriting user-defined permissions here.
+              Permission.Builder createGroupPermission = Permission.builder(Permission.CREATE);
+              createGroupAccessSection.remove(createGroupPermission);
+              createGroupAccessSection.addPermission(createGroupPermission);
+              createGroupsGlobal.stream()
+                  .map(p -> p.toBuilder())
+                  .forEach(createGroupPermission::add);
+            }
+          });
 
       config.commit(md);
       projectCache.evict(config.getProject());

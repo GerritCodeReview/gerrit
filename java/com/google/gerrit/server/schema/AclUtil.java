@@ -27,13 +27,16 @@ import com.google.gerrit.server.project.ProjectConfig;
  */
 public class AclUtil {
   public static void grant(
-      ProjectConfig config, AccessSection section, String permission, GroupReference... groupList) {
+      ProjectConfig config,
+      AccessSection.Builder section,
+      String permission,
+      GroupReference... groupList) {
     grant(config, section, permission, false, groupList);
   }
 
   public static void grant(
       ProjectConfig config,
-      AccessSection section,
+      AccessSection.Builder section,
       String permission,
       boolean force,
       GroupReference... groupList) {
@@ -42,35 +45,38 @@ public class AclUtil {
 
   public static void grant(
       ProjectConfig config,
-      AccessSection section,
+      AccessSection.Builder section,
       String permission,
       boolean force,
       Boolean exclusive,
       GroupReference... groupList) {
-    Permission p = section.getPermission(permission, true);
+    Permission.Builder p = section.getPermission(permission);
     if (exclusive != null) {
       p.setExclusiveGroup(exclusive);
     }
     for (GroupReference group : groupList) {
       if (group != null) {
-        p.add(rule(config, group).setForce(force).build());
+        p.add(rule(config, group).setForce(force));
       }
     }
   }
 
   public static void block(
-      ProjectConfig config, AccessSection section, String permission, GroupReference... groupList) {
-    Permission p = section.getPermission(permission, true);
+      ProjectConfig config,
+      AccessSection.Builder section,
+      String permission,
+      GroupReference... groupList) {
+    Permission.Builder p = section.getPermission(permission);
     for (GroupReference group : groupList) {
       if (group != null) {
-        p.add(rule(config, group).setBlock().build());
+        p.add(rule(config, group).setBlock());
       }
     }
   }
 
   public static void grant(
       ProjectConfig config,
-      AccessSection section,
+      AccessSection.Builder section,
       LabelType type,
       int min,
       int max,
@@ -80,18 +86,18 @@ public class AclUtil {
 
   public static void grant(
       ProjectConfig config,
-      AccessSection section,
+      AccessSection.Builder section,
       LabelType type,
       int min,
       int max,
       boolean exclusive,
       GroupReference... groupList) {
     String name = Permission.LABEL + type.getName();
-    Permission p = section.getPermission(name, true);
+    Permission.Builder p = section.getPermission(name);
     p.setExclusiveGroup(exclusive);
     for (GroupReference group : groupList) {
       if (group != null) {
-        p.add(rule(config, group).setRange(min, max).build());
+        p.add(rule(config, group).setRange(min, max));
       }
     }
   }
@@ -101,8 +107,11 @@ public class AclUtil {
   }
 
   public static void remove(
-      ProjectConfig config, AccessSection section, String permission, GroupReference... groupList) {
-    Permission p = section.getPermission(permission, true);
+      ProjectConfig config,
+      AccessSection.Builder section,
+      String permission,
+      GroupReference... groupList) {
+    Permission.Builder p = section.getPermission(permission);
     for (GroupReference group : groupList) {
       if (group != null) {
         p.remove(rule(config, group).build());

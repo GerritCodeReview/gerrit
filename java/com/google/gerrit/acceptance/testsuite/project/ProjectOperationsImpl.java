@@ -151,15 +151,19 @@ public class ProjectOperationsImpl implements ProjectOperations {
         ProjectConfig projectConfig,
         ImmutableList<TestProjectUpdate.TestPermissionKey> removedPermissions) {
       for (TestProjectUpdate.TestPermissionKey p : removedPermissions) {
-        Permission permission =
-            projectConfig.getAccessSection(p.section(), true).getPermission(p.name(), true);
-        if (p.group().isPresent()) {
-          GroupReference group = GroupReference.create(p.group().get(), p.group().get().get());
-          group = projectConfig.resolve(group);
-          permission.removeRule(group);
-        } else {
-          permission.clearRules();
-        }
+        projectConfig.upsertAccessSection(
+            p.section(),
+            as -> {
+              Permission.Builder permission = as.getPermission(p.name());
+              if (p.group().isPresent()) {
+                GroupReference group =
+                    GroupReference.create(p.group().get(), p.group().get().get());
+                group = projectConfig.resolve(group);
+                permission.removeRule(group);
+              } else {
+                permission.clearRules();
+              }
+            });
       }
     }
 
@@ -168,10 +172,8 @@ public class ProjectOperationsImpl implements ProjectOperations {
       for (TestCapability c : addedCapabilities) {
         PermissionRule.Builder rule = newRule(projectConfig, c.group());
         rule.setRange(c.min(), c.max());
-        projectConfig
-            .getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true)
-            .getPermission(c.name(), true)
-            .add(rule.build());
+        projectConfig.upsertAccessSection(
+            AccessSection.GLOBAL_CAPABILITIES, as -> as.getPermission(c.name()).add(rule));
       }
     }
 
@@ -181,10 +183,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
         PermissionRule.Builder rule = newRule(projectConfig, p.group());
         rule.setAction(p.action());
         rule.setForce(p.force());
-        projectConfig
-            .getAccessSection(p.ref(), true)
-            .getPermission(p.name(), true)
-            .add(rule.build());
+        projectConfig.upsertAccessSection(p.ref(), as -> as.getPermission(p.name()).add(rule));
       }
     }
 
@@ -196,9 +195,8 @@ public class ProjectOperationsImpl implements ProjectOperations {
         rule.setRange(p.min(), p.max());
         String permissionName =
             p.impersonation() ? Permission.forLabelAs(p.name()) : Permission.forLabel(p.name());
-        Permission permission =
-            projectConfig.getAccessSection(p.ref(), true).getPermission(permissionName, true);
-        permission.add(rule.build());
+        projectConfig.upsertAccessSection(
+            p.ref(), as -> as.getPermission(permissionName).add(rule));
       }
     }
 
@@ -207,10 +205,8 @@ public class ProjectOperationsImpl implements ProjectOperations {
         ImmutableMap<TestProjectUpdate.TestPermissionKey, Boolean> exclusiveGroupPermissions) {
       exclusiveGroupPermissions.forEach(
           (key, exclusive) ->
-              projectConfig
-                  .getAccessSection(key.section(), true)
-                  .getPermission(key.name(), true)
-                  .setExclusiveGroup(exclusive));
+              projectConfig.upsertAccessSection(
+                  key.section(), as -> as.getPermission(key.name()).setExclusiveGroup(exclusive)));
     }
 
     private RevCommit headOrNull(String branch) {

@@ -206,6 +206,30 @@
     },
     {
       "key": {
+        "uuid": "0536fe8f_dfdedf5d",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_test.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-29T09:50:20Z",
+      "side": 1,
+      "message": "What if I set another number (instead of 10) here:\nsandbox.stub(element, \u0027_computeLatestPatchNum\u0027).returns(10);\n\nWhat if I remove this line completely?\n\nI.e. it looks suspicious that _computeLatestPatchNum returns some number, but this number doesn\u0027t affect any test.\n\nMay be add some comments why this line is added or why it is 10 here.",
+      "parentUuid": "0a53e00f_744bd8c7",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 0
+      },
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5eca6696_b2d8fe42",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 26
@@ -258,6 +282,30 @@
       "side": 1,
       "message": "I do not fully understand the solutions you are suggesting.\nThere are other instances where the code-base is depending on the toast being shown(assumes firing event results in toast being shown).\nI can imagine all the components firing show-alert also have the same problem, they do not actually know if an alert was actually shown or not.\n\nIf we do tackle this, I would prefer to tackle it in a separate effort and not as a part of this change.",
       "parentUuid": "3fc06479_552a1115",
+      "range": {
+        "startLine": 253,
+        "startChar": 6,
+        "endLine": 253,
+        "endChar": 39
+      },
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bd3207b_439d0c7d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-29T09:50:20Z",
+      "side": 1,
+      "message": "Yes, maybe other elements also have such dependencies (and later we should fix it). But gr-diff-view is a separate element and it doesn\u0027t depend on other implementation, so you can implement it in better way.\n\nThe solution 3 is quite complex, it is just an idea for future.\nBut 1 or 2 should be easy to implement.\n\nI think, the gr-diff-view should either:\n1) have full control over the visibility (i.e. use only bindings to hasShownDiffBaseAgainstLeftToast/hasShownDiffAgainstLatestToast)\nOR\n2) notify application that it want to show a toast (i.e. gr-diff-view fires events when gr-diff-view wants to show a toast).\n\nWhere I see a problem with the current implementation:\nLet\u0027s suppose, that we change implementation of toasts and a toast is visible for 10 seconds only. Or we add a button to close a toast.\nAfter such changes, we will have inconsistency between _hasShownDiffBaseAgainstLeftToast value and actual visibility of a toast - toast is closed, but _hasShown ... Toast is true",
+      "parentUuid": "dc5d59ef_5bf43e4c",
       "range": {
         "startLine": 253,
         "startChar": 6,
@@ -525,6 +573,30 @@
       "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc4e1238_204f80ca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-29T09:50:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45e49d47_e72bcac6",
+      "range": {
+        "startLine": 234,
+        "startChar": 4,
+        "endLine": 236,
+        "endChar": 0
+      },
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

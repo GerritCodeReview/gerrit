@@ -1940,10 +1940,15 @@ class GrRestApiInterface extends mixinBehaviors( [
   }
 
   saveChangeReviewed(changeNum, reviewed) {
-    return this._getChangeURLAndSend({
-      changeNum,
-      method: 'PUT',
-      endpoint: reviewed ? '/reviewed' : '/unreviewed',
+    return this.getConfig().then(config => {
+      const isAttentionSetEnabled = !!config && !!config.change
+          && config.change.enable_attention_set;
+      if (isAttentionSetEnabled) return Promise.resolve();
+      return this._getChangeURLAndSend({
+        changeNum,
+        method: 'PUT',
+        endpoint: reviewed ? '/reviewed' : '/unreviewed',
+      });
     });
   }
 

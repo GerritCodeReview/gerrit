@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e45b6f3_f5908495",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 32
+      },
+      "lineNbr": 1377,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-29T15:52:21Z",
+      "side": 1,
+      "message": "We were chatting about showing the toast when clicking the link instead. Are you working on that?",
+      "revId": "da867acb316aebdfa1ab7c67a2b011fc3022bceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99ee3d65_d56f2ec2",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 32
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-29T15:52:21Z",
+      "side": 1,
+      "message": "Why this comment and not a comment for all the other shortcuts?",
+      "revId": "da867acb316aebdfa1ab7c67a2b011fc3022bceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c051b56_ff0e31bc",
+        "filename": "polygerrit-ui/app/services/flags.js",
+        "patchSetId": 32
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-29T15:52:21Z",
+      "side": 1,
+      "message": "outdated",
+      "revId": "da867acb316aebdfa1ab7c67a2b011fc3022bceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

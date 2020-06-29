@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d571f854_ab3aad25",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-29T06:31:28Z",
+      "side": 1,
+      "message": "Whoa, awesome!\n\nAre that *all* the test files?\nAre all these Karma tests already passing?",
+      "revId": "335f97eed0ff6ee055230c0126ada02c139228ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

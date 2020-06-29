@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b754e2b0_688b8367",
+        "filename": "java/com/google/gerrit/server/plugins/JarPluginProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-29T21:57:49Z",
+      "side": 0,
+      "message": "Here you have this conditional directory creation.",
+      "range": {
+        "startLine": 113,
+        "startChar": 4,
+        "endLine": 113,
+        "endChar": 43
+      },
+      "revId": "9764e50a45cae5cbd373e2e3be6e79a1162c27c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f404f3f6_c66a5027",
+        "filename": "java/com/google/gerrit/server/plugins/JarPluginProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-29T21:57:49Z",
+      "side": 0,
+      "message": "Same here, site_path.tmp_dir would amost always exit.",
+      "range": {
+        "startLine": 113,
+        "startChar": 22,
+        "endLine": 113,
+        "endChar": 39
+      },
+      "revId": "9764e50a45cae5cbd373e2e3be6e79a1162c27c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

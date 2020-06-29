@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fba85993_1e1c42dd",
+        "filename": "java/com/google/gerrit/server/plugins/PluginUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-29T21:57:49Z",
+      "side": 1,
+      "message": "But this directory may exist already, e. g. PluginLoader#installPluginFromStream() calling it with sitePaths.plugins_dir and it certainly exist already.\n\n  Path tmp \u003d PluginUtil.asTemp(in, \".next_\" + fileName + \"_\", \".tmp\", pluginsDir);",
+      "range": {
+        "startLine": 55,
+        "startChar": 72,
+        "endLine": 55,
+        "endChar": 75
+      },
+      "revId": "d4e589bcdd327d655b72cd77274e4faafe535a18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d12f56cf_6b5bff77",
+        "filename": "java/com/google/gerrit/server/plugins/PluginUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-29T21:57:49Z",
+      "side": 1,
+      "message": "It doesn\u0027t throw exception if the directory already exists, but I think we should check before creation:\n\n  if (Files.notExists(dir)){\n    Files.createDirectories(dir); \n  }\n\nThe callers of this method were smart enough to rely on the fact that directories from gerit_site pluginsDir already exist.",
+      "revId": "d4e589bcdd327d655b72cd77274e4faafe535a18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

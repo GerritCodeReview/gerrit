@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a59338d0_1b803f38",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-29T13:39:43Z",
+      "side": 1,
+      "message": "new error prone version update was merged upstream: [1]. And new java_tools release will land shortly. Next Bazel version 3.4 or 4.0 would be shipped with EP 2.4.0.\n\n[1] https://github.com/bazelbuild/bazel/pull/11426\n[2] https://github.com/bazelbuild/bazel/pull/11665",
+      "revId": "2192d819b8d26b595d2ccdcd70b9f136806ed883",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

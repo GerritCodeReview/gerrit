@@ -70,6 +70,24 @@
       "revId": "36cec6b2eb13d8a1fbff5a46b3efe2f6156eb83b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01df596b_4b890386",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-06-29T14:04:45Z",
+      "side": 1,
+      "message": "\u003e Would is also work if footer contains the URL and not Change-Id: [1].\n\nThe current implementation is very rudimentary. So the answer sadly is no.\nBut I don\u0027t see a reason why one could not implement that.\nChange-Id is not ideal anyways, because the same Change-Id can live on\nmultiple branches/projects.\n\n\u003e Theoretically zuul-status plugin could request commit info from the server and present the subject? \n\nYes, totally! That\u0027s actually what we\u0027d want at the end of the day.\nBut a few days ago the plugin did not build, and had only a GWT UI.\nImprovements have just begun :-)",
+      "parentUuid": "7513a964_5357648d",
+      "revId": "36cec6b2eb13d8a1fbff5a46b3efe2f6156eb83b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

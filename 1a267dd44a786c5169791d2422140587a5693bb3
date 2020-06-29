@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "4b42f3e7_0fac228d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 64
+      },
+      "lineNbr": 779,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-29T07:15:48Z",
+      "side": 1,
+      "message": "k I see, I was just a bit confused to see you have !! here but not in L795",
+      "parentUuid": "508ff7e4_5737a36c",
+      "range": {
+        "startLine": 779,
+        "startChar": 11,
+        "endLine": 779,
+        "endChar": 19
+      },
+      "revId": "1a267dd44a786c5169791d2422140587a5693bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea7f2c22_ff51f57a",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 64

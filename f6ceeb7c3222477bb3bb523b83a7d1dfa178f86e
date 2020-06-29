@@ -563,6 +563,24 @@
     },
     {
       "key": {
+        "uuid": "79b841e9_d347b8ab",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-29T09:28:17Z",
+      "side": 1,
+      "message": "Added an experiment for it.",
+      "parentUuid": "225eb013_425a8ef6",
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f021cb28_64c26e08",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 26

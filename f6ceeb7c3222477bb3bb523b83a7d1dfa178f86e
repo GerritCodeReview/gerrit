@@ -384,6 +384,30 @@
     },
     {
       "key": {
+        "uuid": "f04956dc_96524df3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-29T18:33:34Z",
+      "side": 1,
+      "message": "\u003e\u003e does it solve your concern\nNot completely. I am still worrying that events here are used instead of something like toast.show(...) method.\n\nAt the same time, all this magic is still hidden inside, so we can change it later. I don\u0027t want to block change just because of it. \n\nMaybe let\u0027s ask for another opinion? Ben, WDYT?",
+      "parentUuid": "402b497b_1b941829",
+      "range": {
+        "startLine": 253,
+        "startChar": 6,
+        "endLine": 253,
+        "endChar": 39
+      },
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "61e06bfe_379eee7c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 26

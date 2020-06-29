@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1145da98_0233a663",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-29T18:33:34Z",
+      "side": 1,
+      "message": "Not sure, but probably _hasShownDiffBaseAgainstLeftToast/_hasShownDiffAgainstLatestToast must be reset here. gr-diff-view can be detached and attached back, but with a different file. WDYT?",
+      "range": {
+        "startLine": 335,
+        "startChar": 2,
+        "endLine": 335,
+        "endChar": 14
+      },
+      "revId": "7729da0a271c67c00e649da38c59d433507eedb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d1f45af_93fcffaa",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-29T18:33:34Z",
+      "side": 1,
+      "message": "Did you forget to remove?",
+      "range": {
+        "startLine": 339,
+        "startChar": 3,
+        "endLine": 340,
+        "endChar": 55
+      },
+      "revId": "7729da0a271c67c00e649da38c59d433507eedb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9dfca64_82a1729c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-29T18:33:34Z",
+      "side": 1,
+      "message": "nit: remove",
+      "range": {
+        "startLine": 769,
+        "startChar": 4,
+        "endLine": 769,
+        "endChar": 11
+      },
+      "revId": "7729da0a271c67c00e649da38c59d433507eedb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a3fb53d_f10c8f35",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 786,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-06-29T18:33:34Z",
+      "side": 1,
+      "message": "nit:remove",
+      "range": {
+        "startLine": 786,
+        "startChar": 4,
+        "endLine": 786,
+        "endChar": 10
+      },
+      "revId": "7729da0a271c67c00e649da38c59d433507eedb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

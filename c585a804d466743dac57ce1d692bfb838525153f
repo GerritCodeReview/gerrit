@@ -16,6 +16,24 @@
       "revId": "c585a804d466743dac57ce1d692bfb838525153f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d75a61b5_94f62652",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-29T08:22:01Z",
+      "side": 1,
+      "message": "oh nvm its just used in the request payload",
+      "parentUuid": "baa255fa_16591f76",
+      "revId": "c585a804d466743dac57ce1d692bfb838525153f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

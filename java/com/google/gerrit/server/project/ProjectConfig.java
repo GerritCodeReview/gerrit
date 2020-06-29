@@ -350,16 +350,16 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   public AccessSection getAccessSection(String name) {
-    return getAccessSection(name, false);
+    return accessSections.get(name);
   }
 
-  public AccessSection getAccessSection(String name, boolean create) {
-    AccessSection as = accessSections.get(name);
-    if (as == null && create) {
-      as = new AccessSection(name);
-      accessSections.put(name, as);
-    }
-    return as;
+  public void upsertAccessSection(String name, Consumer<AccessSection.Builder> update) {
+    AccessSection.Builder accessSectionBuilder =
+        accessSections.containsKey(name)
+            ? accessSections.get(name).toBuilder()
+            : AccessSection.builder(name);
+    update.accept(accessSectionBuilder);
+    accessSections.put(name, accessSectionBuilder.build());
   }
 
   public ImmutableSet<String> getAccessSectionNames() {
@@ -400,8 +400,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     if (section != null) {
       String name = section.getName();
       if (sectionsWithUnknownPermissions.contains(name)) {
-        AccessSection a = accessSections.get(name);
-        a.setPermissions(new ArrayList<>());
+        AccessSection.Builder a = accessSections.get(name).toBuilder();
+        a.modifyPermissions(p -> p.clear());
+        accessSections.put(name, a.build());
       } else {
         accessSections.remove(name);
       }
@@ -412,8 +413,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     if (permission == null) {
       remove(section);
     } else if (section != null) {
-      AccessSection a = accessSections.get(section.getName());
-      a.remove(permission);
+      AccessSection a =
+          accessSections.get(section.getName()).toBuilder().remove(permission.toBuilder()).build();
+      accessSections.put(section.getName(), a);
       if (a.getPermissions().isEmpty()) {
         remove(a);
       }
@@ -432,26 +434,19 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       if (p == null) {
         return;
       }
-      p.remove(rule);
-      if (p.getRules().isEmpty()) {
-        a.remove(permission);
+      AccessSection.Builder accessSectionBuilder = a.toBuilder();
+      Permission.Builder permissionBuilder =
+          accessSectionBuilder.upsertPermission(permission.getName());
+      permissionBuilder.remove(rule);
+      if (permissionBuilder.build().getRules().isEmpty()) {
+        accessSectionBuilder.remove(permissionBuilder);
       }
+      a = accessSectionBuilder.build();
+      accessSections.put(section.getName(), a);
       if (a.getPermissions().isEmpty()) {
         remove(a);
       }
     }
-  }
-
-  public void replace(AccessSection section) {
-    for (Permission permission : section.getPermissions()) {
-      ImmutableList.Builder<PermissionRule> newRules = ImmutableList.builder();
-      for (PermissionRule rule : permission.getRules()) {
-        newRules.add(rule.toBuilder().setGroup(resolve(rule.getGroup())).build());
-      }
-      permission.setRules(newRules.build());
-    }
-
-    accessSections.put(section.getName(), section);
   }
 
   public ContributorAgreement getContributorAgreement(String name) {
@@ -790,38 +785,41 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     sectionsWithUnknownPermissions = new HashSet<>();
     for (String refName : rc.getSubsections(ACCESS)) {
       if (AccessSection.isValidRefSectionName(refName) && isValidRegex(refName)) {
-        AccessSection as = getAccessSection(refName, true);
+        upsertAccessSection(
+            refName,
+            as -> {
+              for (String varName : rc.getStringList(ACCESS, refName, KEY_GROUP_PERMISSIONS)) {
+                for (String n : Splitter.on(EXCLUSIVE_PERMISSIONS_SPLIT_PATTERN).split(varName)) {
+                  n = convertLegacyPermission(n);
+                  if (isCoreOrPluginPermission(n)) {
+                    as.upsertPermission(n).setExclusiveGroup(true);
+                  }
+                }
+              }
 
-        for (String varName : rc.getStringList(ACCESS, refName, KEY_GROUP_PERMISSIONS)) {
-          for (String n : Splitter.on(EXCLUSIVE_PERMISSIONS_SPLIT_PATTERN).split(varName)) {
-            n = convertLegacyPermission(n);
-            if (isCoreOrPluginPermission(n)) {
-              as.getPermission(n, true).setExclusiveGroup(true);
-            }
-          }
-        }
-
-        for (String varName : rc.getNames(ACCESS, refName)) {
-          String convertedName = convertLegacyPermission(varName);
-          if (isCoreOrPluginPermission(convertedName)) {
-            Permission perm = as.getPermission(convertedName, true);
-            loadPermissionRules(
-                rc, ACCESS, refName, varName, perm, Permission.hasRange(convertedName));
-          } else {
-            sectionsWithUnknownPermissions.add(as.getName());
-          }
-        }
+              for (String varName : rc.getNames(ACCESS, refName)) {
+                String convertedName = convertLegacyPermission(varName);
+                if (isCoreOrPluginPermission(convertedName)) {
+                  Permission.Builder perm = as.upsertPermission(convertedName);
+                  loadPermissionRules(
+                      rc, ACCESS, refName, varName, perm, Permission.hasRange(convertedName));
+                } else {
+                  sectionsWithUnknownPermissions.add(as.getName());
+                }
+              }
+            });
       }
     }
 
-    AccessSection capability = null;
+    AccessSection.Builder capability = null;
     for (String varName : rc.getNames(CAPABILITY)) {
       if (capability == null) {
-        capability = new AccessSection(AccessSection.GLOBAL_CAPABILITIES);
-        accessSections.put(AccessSection.GLOBAL_CAPABILITIES, capability);
+        capability = AccessSection.builder(AccessSection.GLOBAL_CAPABILITIES);
+        accessSections.put(AccessSection.GLOBAL_CAPABILITIES, capability.build());
       }
-      Permission perm = capability.getPermission(varName, true);
+      Permission.Builder perm = capability.upsertPermission(varName);
       loadPermissionRules(rc, CAPABILITY, null, varName, perm, GlobalCapability.hasRange(varName));
+      accessSections.put(AccessSection.GLOBAL_CAPABILITIES, capability.build());
     }
   }
 
@@ -874,9 +872,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   private ImmutableList<PermissionRule> loadPermissionRules(
       Config rc, String section, String subsection, String varName, boolean useRange) {
-    Permission perm = new Permission(varName);
+    Permission.Builder perm = Permission.builder(varName);
     loadPermissionRules(rc, section, subsection, varName, perm, useRange);
-    return ImmutableList.copyOf(perm.getRules());
+    return ImmutableList.copyOf(perm.build().getRules());
   }
 
   private void loadPermissionRules(
@@ -884,7 +882,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       String section,
       String subsection,
       String varName,
-      Permission perm,
+      Permission.Builder perm,
       boolean useRange) {
     for (String ruleString : rc.getStringList(section, subsection, varName)) {
       PermissionRule rule;
@@ -916,7 +914,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
                 PROJECT_CONFIG, "group \"" + ref.getName() + "\" not in " + GroupList.FILE_NAME));
       }
 
-      perm.add(rule.toBuilder().setGroup(ref).build());
+      perm.add(rule.toBuilder().setGroup(ref));
     }
   }
 

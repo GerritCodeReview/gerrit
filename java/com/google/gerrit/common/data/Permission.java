@@ -14,14 +14,19 @@
 
 package com.google.gerrit.common.data;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
+import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.Nullable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 
 /** A single permission within an {@link AccessSection} of a project. */
-public class Permission implements Comparable<Permission> {
+@AutoValue
+public abstract class Permission implements Comparable<Permission> {
   public static final String ABANDON = "abandon";
   public static final String ADD_PATCH_SET = "addPatchSet";
   public static final String CREATE = "create";
@@ -133,18 +138,21 @@ public class Permission implements Comparable<Permission> {
     return true;
   }
 
-  protected String name;
-  protected boolean exclusiveGroup;
-  protected List<PermissionRule> rules;
+  public abstract String getName();
 
-  protected Permission() {}
+  protected abstract boolean isExclusiveGroup();
 
-  public Permission(String name) {
-    this.name = name;
+  public abstract ImmutableList<PermissionRule> getRules();
+
+  public static Builder builder(String name) {
+    return new AutoValue_Permission.Builder()
+        .setName(name)
+        .setExclusiveGroup(false)
+        .setRules(ImmutableList.of());
   }
 
-  public String getName() {
-    return name;
+  public static Permission create(String name) {
+    return builder(name).build();
   }
 
   public String getLabel() {
@@ -155,97 +163,32 @@ public class Permission implements Comparable<Permission> {
     // Only permit exclusive group behavior on non OWNER permissions,
     // otherwise an owner might lose access to a delegated subspace.
     //
-    return exclusiveGroup && !OWNER.equals(getName());
+    return isExclusiveGroup() && !OWNER.equals(getName());
   }
 
-  public void setExclusiveGroup(boolean newExclusiveGroup) {
-    exclusiveGroup = newExclusiveGroup;
-  }
-
-  public ImmutableList<PermissionRule> getRules() {
-    return rules == null ? ImmutableList.of() : ImmutableList.copyOf(rules);
-  }
-
-  public void setRules(List<PermissionRule> list) {
-    rules = new ArrayList<>(list);
-  }
-
-  public void add(PermissionRule rule) {
-    initRules();
-    rules.add(rule);
-  }
-
-  public void remove(PermissionRule rule) {
-    if (rule != null) {
-      removeRule(rule.getGroup());
-    }
-  }
-
-  public void removeRule(GroupReference group) {
-    if (rules != null) {
-      rules.removeIf(permissionRule -> sameGroup(permissionRule, group));
-    }
-  }
-
-  public void clearRules() {
-    if (rules != null) {
-      rules.clear();
-    }
-  }
-
+  @Nullable
   public PermissionRule getRule(GroupReference group) {
-    return getRule(group, false);
-  }
-
-  public PermissionRule getRule(GroupReference group, boolean create) {
-    initRules();
-
-    for (PermissionRule r : rules) {
+    for (PermissionRule r : getRules()) {
       if (sameGroup(r, group)) {
         return r;
       }
     }
 
-    if (create) {
-      PermissionRule r = PermissionRule.create(group);
-      rules.add(r);
-      return r;
-    }
     return null;
   }
 
-  void mergeFrom(Permission src) {
-    for (PermissionRule srcRule : src.getRules()) {
-      PermissionRule dstRule = getRule(srcRule.getGroup());
-      if (dstRule != null) {
-        rules.remove(dstRule);
-        rules.add(PermissionRule.merge(srcRule, dstRule));
-      } else {
-        add(srcRule);
-      }
-    }
-  }
-
   private static boolean sameGroup(PermissionRule rule, GroupReference group) {
-    if (group.getUUID() != null) {
+    if (group.getUUID() != null && rule.getGroup().getUUID() != null) {
       return group.getUUID().equals(rule.getGroup().getUUID());
-
-    } else if (group.getName() != null) {
+    } else if (group.getName() != null && rule.getGroup().getName() != null) {
       return group.getName().equals(rule.getGroup().getName());
-
     } else {
       return false;
     }
   }
 
-  private void initRules() {
-    if (rules == null) {
-      rules = new ArrayList<>(4);
-    }
-  }
-
   @Override
-  public int compareTo(Permission b) {
+  public final int compareTo(Permission b) {
     int cmp = index(this) - index(b);
     if (cmp == 0) {
       cmp = getName().compareTo(b.getName());
@@ -265,28 +208,10 @@ public class Permission implements Comparable<Permission> {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (!(obj instanceof Permission)) {
-      return false;
-    }
-
-    final Permission other = (Permission) obj;
-    if (!name.equals(other.name) || exclusiveGroup != other.exclusiveGroup) {
-      return false;
-    }
-    return new HashSet<>(getRules()).equals(new HashSet<>(other.getRules()));
-  }
-
-  @Override
-  public int hashCode() {
-    return name.hashCode();
-  }
-
-  @Override
-  public String toString() {
+  public final String toString() {
     StringBuilder bldr = new StringBuilder();
-    bldr.append(name).append(" ");
-    if (exclusiveGroup) {
+    bldr.append(getName()).append(" ");
+    if (isExclusiveGroup()) {
       bldr.append("[exclusive] ");
     }
     bldr.append("[");
@@ -299,5 +224,71 @@ public class Permission implements Comparable<Permission> {
     }
     bldr.append("]");
     return bldr.toString();
+  }
+
+  protected abstract Builder autoToBuilder();
+
+  public Builder toBuilder() {
+    Builder b = autoToBuilder();
+    getRules().stream().map(PermissionRule::toBuilder).forEach(r -> b.add(r));
+    return b;
+  }
+
+  @AutoValue.Builder
+  public abstract static class Builder {
+    private final List<PermissionRule.Builder> rulesBuilders;
+
+    Builder() {
+      rulesBuilders = new ArrayList<>();
+    }
+
+    public abstract Builder setName(String value);
+
+    public abstract String getName();
+
+    public abstract Builder setExclusiveGroup(boolean value);
+
+    public Builder modifyRules(Consumer<List<PermissionRule.Builder>> modification) {
+      modification.accept(rulesBuilders);
+      return this;
+    }
+
+    public Builder add(PermissionRule.Builder rule) {
+      rulesBuilders.add(rule);
+      return this;
+    }
+
+    public Builder remove(PermissionRule rule) {
+      if (rule != null) {
+        return removeRule(rule.getGroup());
+      }
+      return this;
+    }
+
+    public Builder removeRule(GroupReference group) {
+      rulesBuilders.removeIf(r -> sameGroup(r.build(), group));
+      return this;
+    }
+
+    public Builder clearRules() {
+      rulesBuilders.clear();
+      return this;
+    }
+
+    public Permission build() {
+      setRules(
+          rulesBuilders.stream().map(PermissionRule.Builder::build).collect(toImmutableList()));
+      return autoBuild();
+    }
+
+    public List<PermissionRule.Builder> getRulesBuilders() {
+      return rulesBuilders;
+    }
+
+    protected abstract ImmutableList<PermissionRule> getRules();
+
+    protected abstract Builder setRules(ImmutableList<PermissionRule> rules);
+
+    protected abstract Permission autoBuild();
   }
 }

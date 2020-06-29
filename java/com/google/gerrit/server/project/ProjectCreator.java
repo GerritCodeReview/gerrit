@@ -179,14 +179,17 @@ public class ProjectCreator {
           });
 
       if (!args.ownerIds.isEmpty()) {
-        AccessSection all = config.getAccessSection(AccessSection.ALL, true);
-        for (AccountGroup.UUID ownerId : args.ownerIds) {
-          GroupDescription.Basic g = groupBackend.get(ownerId);
-          if (g != null) {
-            GroupReference group = config.resolve(GroupReference.forGroup(g));
-            all.getPermission(Permission.OWNER, true).add(PermissionRule.create(group));
-          }
-        }
+        config.upsertAccessSection(
+            AccessSection.ALL,
+            all -> {
+              for (AccountGroup.UUID ownerId : args.ownerIds) {
+                GroupDescription.Basic g = groupBackend.get(ownerId);
+                if (g != null) {
+                  GroupReference group = config.resolve(GroupReference.forGroup(g));
+                  all.upsertPermission(Permission.OWNER).add(PermissionRule.builder(group));
+                }
+              }
+            });
       }
 
       md.setMessage("Created project\n");

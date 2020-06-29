@@ -280,14 +280,16 @@ public class ProjectState {
       sm = new ArrayList<>(fromConfig.size());
       for (AccessSection section : fromConfig) {
         if (isAllProjects) {
-          List<Permission> copy = Lists.newArrayListWithCapacity(section.getPermissions().size());
+          List<Permission.Builder> copy = new ArrayList<>();
           for (Permission p : section.getPermissions()) {
             if (Permission.canBeOnAllProjects(section.getName(), p.getName())) {
-              copy.add(p);
+              copy.add(p.toBuilder());
             }
           }
-          section = new AccessSection(section.getName());
-          section.setPermissions(copy);
+          section =
+              AccessSection.builder(section.getName())
+                  .modifyPermissions(permissions -> permissions.addAll(copy))
+                  .build();
         }
 
         SectionMatcher matcher = SectionMatcher.wrap(getNameKey(), section);

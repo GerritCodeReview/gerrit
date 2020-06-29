@@ -127,8 +127,14 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   private void setUpPermissions() throws Exception {
     // Remove read permissions for all users besides admin.
     try (ProjectConfigUpdate u = updateProject(allProjects)) {
-      for (AccessSection sec : u.getConfig().getAccessSections()) {
-        sec.removePermission(Permission.READ);
+
+      for (AccessSection sec : ImmutableList.copyOf(u.getConfig().getAccessSections())) {
+        u.getConfig()
+            .upsertAccessSection(
+                sec.getName(),
+                updatedSec -> {
+                  updatedSec.removePermission(Permission.READ);
+                });
       }
       u.save();
     }
@@ -139,8 +145,13 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
     // Remove all read permissions on All-Users.
     try (ProjectConfigUpdate u = updateProject(allUsers)) {
-      for (AccessSection sec : u.getConfig().getAccessSections()) {
-        sec.removePermission(Permission.READ);
+      for (AccessSection sec : ImmutableList.copyOf(u.getConfig().getAccessSections())) {
+        u.getConfig()
+            .upsertAccessSection(
+                sec.getName(),
+                updatedSec -> {
+                  updatedSec.removePermission(Permission.READ);
+                });
       }
       u.save();
     }

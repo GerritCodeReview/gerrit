@@ -129,7 +129,12 @@ public class GetCommitIT extends AbstractDaemonTest {
 
   private void unblockRead() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().getAccessSection("refs/*").remove(new Permission(Permission.READ));
+      u.getConfig()
+          .upsertAccessSection(
+              "refs/*",
+              as -> {
+                as.remove(Permission.builder(Permission.READ));
+              });
       u.save();
     }
   }

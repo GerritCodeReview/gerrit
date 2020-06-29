@@ -63,28 +63,34 @@ public class GrantRevertPermission {
     try (Repository repo = repoManager.openRepository(projectName)) {
       MetaDataUpdate md = new MetaDataUpdate(GitReferenceUpdated.DISABLED, projectName, repo);
       ProjectConfig projectConfig = projectConfigFactory.read(md);
-      AccessSection heads = projectConfig.getAccessSection(AccessSection.HEADS, true);
+      projectConfig.upsertAccessSection(
+          AccessSection.HEADS,
+          heads -> {
+            Permission.Builder permissionOnRefsHeads = heads.getPermission(Permission.REVERT);
 
-      Permission permissionOnRefsHeads = heads.getPermission(Permission.REVERT);
+            if (permissionOnRefsHeads != null) {
+              if (permissionOnRefsHeads.build().getRule(registeredUsers) == null
+                  || permissionOnRefsHeads.build().getRules().size() > 1) {
+                // If admins already changed the permission, don't do anything.
+                return;
+              }
+              // permission already exists in refs/heads/*, delete it for Registered Users.
+              remove(projectConfig, heads, Permission.REVERT, registeredUsers);
+            }
+          });
 
-      if (permissionOnRefsHeads != null) {
-        if (permissionOnRefsHeads.getRule(registeredUsers) == null
-            || permissionOnRefsHeads.getRules().size() > 1) {
-          // If admins already changed the permission, don't do anything.
-          return;
-        }
-        // permission already exists in refs/heads/*, delete it for Registered Users.
-        remove(projectConfig, heads, Permission.REVERT, registeredUsers);
-      }
-
-      AccessSection all = projectConfig.getAccessSection(AccessSection.ALL, true);
-      Permission permissionOnRefsStar = all.getPermission(Permission.REVERT);
-      if (permissionOnRefsStar != null && permissionOnRefsStar.getRule(registeredUsers) != null) {
-        // permission already exists in refs/*, don't do anything.
-        return;
-      }
-      // If the permission doesn't exist of refs/* for Registered Users, grant it.
-      grant(projectConfig, all, Permission.REVERT, registeredUsers);
+      projectConfig.upsertAccessSection(
+          AccessSection.ALL,
+          all -> {
+            Permission.Builder permissionOnRefsStar = all.getPermission(Permission.REVERT);
+            if (permissionOnRefsStar != null
+                && permissionOnRefsStar.build().getRule(registeredUsers) != null) {
+              // permission already exists in refs/*, don't do anything.
+              return;
+            }
+            // If the permission doesn't exist of refs/* for Registered Users, grant it.
+            grant(projectConfig, all, Permission.REVERT, registeredUsers);
+          });
 
       md.getCommitBuilder().setAuthor(serverUser);
       md.getCommitBuilder().setCommitter(serverUser);

@@ -78,14 +78,14 @@ public class SetAccessUtil {
         continue;
       }
 
-      AccessSection accessSection = new AccessSection(entry.getKey());
+      AccessSection.Builder accessSection = AccessSection.builder(entry.getKey());
       for (Map.Entry<String, PermissionInfo> permissionEntry :
           entry.getValue().permissions.entrySet()) {
         if (permissionEntry.getValue().rules == null) {
           continue;
         }
 
-        Permission p = new Permission(permissionEntry.getKey());
+        Permission.Builder p = Permission.builder(permissionEntry.getKey());
         if (permissionEntry.getValue().exclusive != null) {
           p.setExclusiveGroup(permissionEntry.getValue().exclusive);
         }
@@ -114,11 +114,11 @@ public class SetAccessUtil {
               r.setForce(pri.force);
             }
           }
-          p.add(r.build());
+          p.add(r);
         }
         accessSection.addPermission(p);
       }
-      sections.add(accessSection);
+      sections.add(accessSection.build());
     }
     return sections;
   }
@@ -199,18 +199,22 @@ public class SetAccessUtil {
         // Add AccessSection
         config.replace(section);
       } else {
-        for (Permission p : section.getPermissions()) {
-          Permission currentPermission = currentAccessSection.getPermission(p.getName());
-          if (currentPermission == null) {
-            // Add Permission
-            currentAccessSection.addPermission(p);
-          } else {
-            for (PermissionRule r : p.getRules()) {
-              // AddPermissionRule
-              currentPermission.add(r);
-            }
-          }
-        }
+        config.upsertAccessSection(
+            section.getName(),
+            as -> {
+              for (Permission p : section.getPermissions()) {
+                Permission.Builder currentPermission = as.getPermission(p.getName());
+                if (currentPermission == null) {
+                  // Add Permission
+                  as.addPermission(p.toBuilder());
+                } else {
+                  for (PermissionRule r : p.getRules()) {
+                    // AddPermissionRule
+                    currentPermission.add(r.toBuilder());
+                  }
+                }
+              }
+            });
       }
     }
   }

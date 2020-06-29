@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "64f953bd_33649e09",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-29T08:33:27Z",
+      "side": 1,
+      "message": "all complex behaviors are made from simple expressions :) the more tests you have, the easier you capture any unexpected or expected changes, rely on manual test seems very fragile. The more tests you added during the change, the easier it will be when you get to a stage that you really need tests, IMO. If we use the excuses that we have poor tests now, then we will never have good tests :) When we enable attention set, we probably won\u0027t come back and add tests before we enabling it right ? I think this change probably will be merged after the karma change. \n\nBut of course, I won\u0027t block small changes just because of lacking of tests, especially when owner thinks its not neccessary.",
+      "parentUuid": "2c7718c4_970b0abe",
+      "revId": "696af221d28ad58162283defda0ffda8d562e8f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "02c296fb_91e13e8a",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_html.js",
         "patchSetId": 1
@@ -72,6 +90,30 @@
       "side": 1,
       "message": "This is unrelated to the change. Are you 100% sure that this css rule will still work without the $?\n\n  :host([needs-review]) { ... }",
       "parentUuid": "02c296fb_91e13e8a",
+      "range": {
+        "startLine": 137,
+        "startChar": 24,
+        "endLine": 137,
+        "endChar": 25
+      },
+      "revId": "696af221d28ad58162283defda0ffda8d562e8f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8485efde_c7bb26a1",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-29T08:33:27Z",
+      "side": 1,
+      "message": "if you expect it to show up in the element as attribute, should use `reflectToAttribute` instead when define it on properties. `$` is primarily used for native html attributes like `data-xxx$` to have proper bindings",
+      "parentUuid": "379c604c_317e1d60",
       "range": {
         "startLine": 137,
         "startChar": 24,

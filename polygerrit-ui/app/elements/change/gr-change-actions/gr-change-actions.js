@@ -233,6 +233,11 @@ Hence, a second button is not needed.
 */
 const SKIP_ACTION_KEYS = [ChangeActions.REVERT_SUBMISSION];
 
+const SKIP_ACTION_KEYS_ATTENTION_SET = [
+  ChangeActions.REVIEWED,
+  ChangeActions.UNREVIEWED,
+];
+
 /**
  * @extends PolymerElement
  */
@@ -360,7 +365,7 @@ class GrChangeActions extends mixinBehaviors( [
         type: Array,
         computed: '_computeAllActions(actions.*, revisionActions.*,' +
           'primaryActionKeys.*, _additionalActions.*, change, ' +
-          '_actionPriorityOverrides.*)',
+          '_config, _actionPriorityOverrides.*)',
       },
       _topLevelActions: {
         type: Array,
@@ -462,6 +467,7 @@ class GrChangeActions extends mixinBehaviors( [
         type: Boolean,
         value: true,
       },
+      _config: Object,
     };
   }
 
@@ -487,6 +493,9 @@ class GrChangeActions extends mixinBehaviors( [
   ready() {
     super.ready();
     this.$.jsAPI.addElement(this.$.jsAPI.Element.CHANGE_ACTIONS, this);
+    this.$.restAPI.getConfig().then(config => {
+      this._config = config;
+    });
     this._handleLoadingComplete();
   }
 
@@ -1515,10 +1524,11 @@ class GrChangeActions extends mixinBehaviors( [
    * @param {!Array} primariesRecord
    * @param {!Array} additionalActionsRecord
    * @param {!Object} change The change object.
+   * @param {!Object} config server configuration info
    * @return {!Array}
    */
   _computeAllActions(changeActionsRecord, revisionActionsRecord,
-      primariesRecord, additionalActionsRecord, change) {
+      primariesRecord, additionalActionsRecord, change, config) {
     // Polymer 2: check for undefined
     if ([
       changeActionsRecord,
@@ -1554,7 +1564,7 @@ class GrChangeActions extends mixinBehaviors( [
           // End of hack
           return action;
         })
-        .filter(action => !this._shouldSkipAction(action));
+        .filter(action => !this._shouldSkipAction(action, config));
   }
 
   _getActionPriority(action) {
@@ -1592,8 +1602,14 @@ class GrChangeActions extends mixinBehaviors( [
     }
   }
 
-  _shouldSkipAction(action) {
-    return SKIP_ACTION_KEYS.includes(action.__key);
+  _shouldSkipAction(action, config) {
+    const skipActionKeys = [...SKIP_ACTION_KEYS];
+    const isAttentionSetEnabled = !!config && !!config.change
+        && config.change.enable_attention_set;
+    if (isAttentionSetEnabled) {
+      skipActionKeys.push(...SKIP_ACTION_KEYS_ATTENTION_SET);
+    }
+    return skipActionKeys.includes(action.__key);
   }
 
   _computeTopLevelActions(actionRecord, hiddenActionsRecord) {

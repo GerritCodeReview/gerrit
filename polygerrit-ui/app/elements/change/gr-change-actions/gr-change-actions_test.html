@@ -145,8 +145,10 @@ suite('gr-change-actions tests', () => {
     });
 
     test('revert submission action is skipped', () => {
-      assert.isFalse(element._allActionValues.includes(action =>
-        action.key === 'revert_submission'));
+      assert.equal(element._allActionValues.filter(action =>
+        action.__key === 'submit').length, 1);
+      assert.equal(element._allActionValues.filter(action =>
+        action.__key === 'revert_submission').length, 0);
     });
 
     test('_shouldHideActions', () => {
@@ -1456,6 +1458,19 @@ suite('gr-change-actions tests', () => {
         element.latestPatchNum = '2';
 
         element.reload().then(() => { flush(done); });
+      });
+
+      test('action is enabled', () => {
+        assert.equal(element._allActionValues.filter(action =>
+          action.__key === 'reviewed').length, 1);
+      });
+
+      test('action is skipped when attention set is enabled', () => {
+        element._config = {
+          change: {enable_attention_set: true},
+        };
+        assert.equal(element._allActionValues.filter(action =>
+          action.__key === 'reviewed').length, 0);
       });
 
       test('make sure the reviewed button is not outside of the overflow menu',

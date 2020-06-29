@@ -542,7 +542,7 @@ class GrReplyDialog extends mixinBehaviors( [
     }
 
     if (this._attentionModified) {
-      reviewInput.ignore_default_rules = true;
+      reviewInput.ignore_default_attention_set_rules = true;
       reviewInput.add_to_attention_set = [];
       for (const user of this._newAttentionSet) {
         if (!this._currentAttentionSet.has(user)) {

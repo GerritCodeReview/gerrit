@@ -208,7 +208,7 @@ suite('gr-reply-dialog tests', () => {
     flushAsynchronousOperations();
 
     stubSaveReview(review => {
-      assert.isTrue(review.ignore_default_rules);
+      assert.isTrue(review.ignore_default_attention_set_rules);
       assert.deepEqual(review.add_to_attention_set, []);
       assert.deepEqual(review.remove_from_attention_set, []);
       done();

@@ -300,8 +300,10 @@ class GrChangeList extends mixinBehaviors( [
       ? 0 : undefined;
   }
 
-  _computeItemNeedsReview(account, change, showReviewedState) {
-    return showReviewedState && !change.reviewed &&
+  _computeItemNeedsReview(account, change, showReviewedState, config) {
+    const isAttentionSetEnabled =
+        !!config && !!config.change && config.change.enable_attention_set;
+    return !isAttentionSetEnabled && showReviewedState && !change.reviewed &&
         !change.work_in_progress &&
         this.changeIsOpen(change) &&
         (!account || account._account_id != change.owner._account_id);

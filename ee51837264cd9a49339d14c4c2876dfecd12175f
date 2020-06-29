@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f11b2e08_54f15951",
+        "filename": "WORKSPACE",
+        "patchSetId": 7
+      },
+      "lineNbr": 1034,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-29T20:56:14Z",
+      "side": 1,
+      "message": "Note for reviewers: I was trying to upgrade to rules_nodejs 2.0.0 that removed install_bazel_dependencies() machinery. As Alex Eagle said: \"we don’t believe in bazel dependencies ;-)\".\n\nHowever, after the upgrade polymer linting tests were failing, so that I rebased this change out of the rules_nodejs series and marked the series as WIP. I also wrote this issue: [1].\n\nOnce: [1] is fixed, and we upgrade to rules_nodejs 2.0.0, we can move that block again (or part of it).\n\n[1] https://github.com/bazelbuild/rules_nodejs/issues/1977",
+      "revId": "ee51837264cd9a49339d14c4c2876dfecd12175f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

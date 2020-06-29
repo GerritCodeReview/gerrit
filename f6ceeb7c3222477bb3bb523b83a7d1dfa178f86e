@@ -230,6 +230,30 @@
     },
     {
       "key": {
+        "uuid": "1c34a413_dde17b38",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_test.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-29T12:52:11Z",
+      "side": 1,
+      "message": "Yeah, 10 is not special at all. Just a number I chose.\nI mentioned this in the comment.",
+      "parentUuid": "0536fe8f_dfdedf5d",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 0
+      },
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5eca6696_b2d8fe42",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 26

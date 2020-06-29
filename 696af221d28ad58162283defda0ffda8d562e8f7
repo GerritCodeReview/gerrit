@@ -189,6 +189,30 @@
       "revId": "696af221d28ad58162283defda0ffda8d562e8f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ec0c67d_5eac75bf",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-29T09:13:35Z",
+      "side": 1,
+      "message": "ya since needsReview is not defined in the change-list-item as a property, and if it is, then can just `reflectToAttribute` to make sure it appears in element as an attribute",
+      "parentUuid": "7b4fa906_5758e3c8",
+      "range": {
+        "startLine": 137,
+        "startChar": 24,
+        "endLine": 137,
+        "endChar": 25
+      },
+      "revId": "696af221d28ad58162283defda0ffda8d562e8f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

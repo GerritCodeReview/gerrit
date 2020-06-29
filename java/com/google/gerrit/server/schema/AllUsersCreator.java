@@ -22,7 +22,6 @@ import static com.google.gerrit.server.schema.AllProjectsInput.getDefaultCodeRev
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.Version;
-import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
@@ -113,33 +112,39 @@ public class AllUsersCreator {
       ProjectConfig config = projectConfigFactory.read(md);
       config.updateProject(p -> p.setDescription("Individual user settings and preferences."));
 
-      AccessSection users =
-          config.getAccessSection(
-              RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}", true);
+      config.upsertAccessSection(
+          RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}",
+          users -> {
+            grant(config, users, Permission.READ, false, true, registered);
+            grant(config, users, Permission.PUSH, false, true, registered);
+            grant(config, users, Permission.SUBMIT, false, true, registered);
+            grant(config, users, codeReviewLabel, -2, 2, true, registered);
+          });
 
       // Initialize "Code-Review" label.
       config.upsertLabelType(codeReviewLabel);
 
-      grant(config, users, Permission.READ, false, true, registered);
-      grant(config, users, Permission.PUSH, false, true, registered);
-      grant(config, users, Permission.SUBMIT, false, true, registered);
-      grant(config, users, codeReviewLabel, -2, 2, true, registered);
-
       if (admin != null) {
-        AccessSection defaults = config.getAccessSection(RefNames.REFS_USERS_DEFAULT, true);
-        defaults.getPermission(Permission.READ, true).setExclusiveGroup(true);
-        grant(config, defaults, Permission.READ, admin);
-        defaults.getPermission(Permission.PUSH, true).setExclusiveGroup(true);
-        grant(config, defaults, Permission.PUSH, admin);
-        defaults.getPermission(Permission.CREATE, true).setExclusiveGroup(true);
-        grant(config, defaults, Permission.CREATE, admin);
+        config.upsertAccessSection(
+            RefNames.REFS_USERS_DEFAULT,
+            defaults -> {
+              defaults.getPermission(Permission.READ).setExclusiveGroup(true);
+              grant(config, defaults, Permission.READ, admin);
+              defaults.getPermission(Permission.PUSH).setExclusiveGroup(true);
+              grant(config, defaults, Permission.PUSH, admin);
+              defaults.getPermission(Permission.CREATE).setExclusiveGroup(true);
+              grant(config, defaults, Permission.CREATE, admin);
+            });
       }
 
       // Grant read permissions on the group branches to all users.
       // This allows group owners to see the group refs. VisibleRefFilter ensures that read
       // permissions for non-group-owners are ignored.
-      AccessSection groups = config.getAccessSection(RefNames.REFS_GROUPS + "*", true);
-      grant(config, groups, Permission.READ, false, true, registered);
+      config.upsertAccessSection(
+          RefNames.REFS_GROUPS + "*",
+          groups -> {
+            grant(config, groups, Permission.READ, false, true, registered);
+          });
 
       config.commit(md);
     }

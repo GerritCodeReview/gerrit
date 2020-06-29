@@ -28,6 +28,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.ProjectApi.ListRefsRequest;
 import com.google.gerrit.extensions.api.projects.TagApi;
@@ -470,8 +471,12 @@ public class TagsIT extends AbstractDaemonTest {
   }
 
   private static void removeAllBranchPermissions(ProjectConfig cfg, String... permissions) {
-    cfg.getAccessSections().stream()
-        .filter(s -> s.getName().startsWith("refs/tags/"))
-        .forEach(s -> Arrays.stream(permissions).forEach(s::removePermission));
+    for (AccessSection accessSection : ImmutableList.copyOf(cfg.getAccessSections())) {
+      cfg.upsertAccessSection(
+          accessSection.getName(),
+          updatedAccessSection -> {
+            Arrays.stream(permissions).forEach(updatedAccessSection::removePermission);
+          });
+    }
   }
 }

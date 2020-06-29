@@ -362,22 +362,28 @@ public class PushPermissionsIT extends AbstractDaemonTest {
   }
 
   private static void removeAllBranchPermissions(ProjectConfig cfg, String... permissions) {
-    cfg.getAccessSections().stream()
-        .filter(
-            s ->
-                s.getName().startsWith("refs/heads/")
-                    || s.getName().startsWith("refs/for/")
-                    || s.getName().equals("refs/*"))
-        .forEach(s -> Arrays.stream(permissions).forEach(s::removePermission));
+    for (AccessSection s : ImmutableList.copyOf(cfg.getAccessSections())) {
+      if (s.getName().startsWith("refs/heads/")
+          || s.getName().startsWith("refs/for/")
+          || s.getName().equals("refs/*")) {
+        cfg.upsertAccessSection(
+            s.getName(),
+            updatedSection -> {
+              Arrays.stream(permissions).forEach(p -> updatedSection.remove(Permission.builder(p)));
+            });
+      }
+    }
   }
 
   private static void removeAllGlobalCapabilities(ProjectConfig cfg, String... capabilities) {
     Arrays.stream(capabilities)
         .forEach(
             c ->
-                cfg.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true)
-                    .getPermission(c, true)
-                    .clearRules());
+                cfg.upsertAccessSection(
+                    AccessSection.GLOBAL_CAPABILITIES,
+                    as -> {
+                      as.upsertPermission(c).clearRules();
+                    }));
   }
 
   private PushResult push(String... refSpecs) throws Exception {

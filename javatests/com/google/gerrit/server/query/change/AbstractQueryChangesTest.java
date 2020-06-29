@@ -44,7 +44,6 @@ import com.google.common.truth.ThrowableSubject;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
@@ -1859,13 +1858,16 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       md.setMessage(String.format("Grant %s on %s", permission, ref));
       ProjectConfig config = projectConfigFactory.read(md);
-      AccessSection s = config.getAccessSection(ref, true);
-      Permission p = s.getPermission(permission, true);
-      PermissionRule rule =
-          PermissionRule.builder(GroupReference.create(groupUUID, groupUUID.get()))
-              .setForce(force)
-              .build();
-      p.add(rule);
+      config.upsertAccessSection(
+          ref,
+          s -> {
+            Permission.Builder p = s.upsertPermission(permission);
+            PermissionRule.Builder rule =
+                PermissionRule.builder(GroupReference.create(groupUUID, groupUUID.get()))
+                    .setForce(force);
+            p.add(rule);
+          });
+
       config.commit(md);
       projectCache.evict(config.getProject());
     }

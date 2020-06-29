@@ -1653,8 +1653,11 @@ public class AccountIT extends AbstractDaemonTest {
       // remove default READ permissions
       try (ProjectConfigUpdate u = updateProject(allUsers)) {
         u.getConfig()
-            .getAccessSection(RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}", true)
-            .remove(new Permission(Permission.READ));
+            .upsertAccessSection(
+                RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}",
+                as -> {
+                  as.remove(Permission.builder(Permission.READ));
+                });
         u.save();
       }
 

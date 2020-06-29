@@ -59,6 +59,30 @@
     },
     {
       "key": {
+        "uuid": "c1f2ae69_0df2a09b",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-29T06:23:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c603e69d_550aa8d8",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 88
+      },
+      "revId": "1a07e46f11bb9e14902ff27f98a2a480d406e6fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9dae5a26_0e3ffd7e",
         "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.html",
         "patchSetId": 2
@@ -79,6 +103,30 @@
       "revId": "1a07e46f11bb9e14902ff27f98a2a480d406e6fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aec83540_09ae8935",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-29T06:23:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9dae5a26_0e3ffd7e",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 73
+      },
+      "revId": "1a07e46f11bb9e14902ff27f98a2a480d406e6fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

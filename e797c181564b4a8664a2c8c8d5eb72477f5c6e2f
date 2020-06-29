@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e632bc0_bd7bca2f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-29T08:02:32Z",
+      "side": 0,
+      "message": "will this change some behaviors ? like change in `_actionPriorityOverrides` was expected to re-compute the _allActionValues, but not after this change.",
+      "range": {
+        "startLine": 363,
+        "startChar": 11,
+        "endLine": 363,
+        "endChar": 35
+      },
+      "revId": "e797c181564b4a8664a2c8c8d5eb72477f5c6e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

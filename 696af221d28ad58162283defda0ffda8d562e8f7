@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cc3e9f5_3e0969cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-29T08:02:32Z",
+      "side": 1,
+      "message": "tests plz",
+      "revId": "696af221d28ad58162283defda0ffda8d562e8f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02c296fb_91e13e8a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-29T08:02:32Z",
+      "side": 1,
+      "message": "this is not needed, as well as highlight",
+      "range": {
+        "startLine": 137,
+        "startChar": 24,
+        "endLine": 137,
+        "endChar": 25
+      },
+      "revId": "696af221d28ad58162283defda0ffda8d562e8f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

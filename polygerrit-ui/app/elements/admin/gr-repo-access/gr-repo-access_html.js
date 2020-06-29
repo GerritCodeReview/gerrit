@@ -37,6 +37,9 @@ export const htmlTemplate = html`
     .weblink {
       margin-right: var(--spacing-xs);
     }
+    gr-access-section {
+      margin-top: var(--spacing-l);
+    }
     .weblinks.show,
     .referenceContainer {
       display: block;
@@ -94,25 +97,6 @@ export const htmlTemplate = html`
           </a>
         </template>
       </div>
-      <gr-button id="editBtn" on-click="_handleEdit"
-        >[[_editOrCancel(_editing)]]</gr-button
-      >
-      <gr-button
-        id="saveBtn"
-        primary=""
-        class$="[[_computeSaveBtnClass(_ownerOf)]]"
-        on-click="_handleSave"
-        disabled="[[!_modified]]"
-        >Save</gr-button
-      >
-      <gr-button
-        id="saveReviewBtn"
-        primary=""
-        class$="[[_computeSaveReviewBtnClass(_canUpload)]]"
-        on-click="_handleSaveForReview"
-        disabled="[[!_modified]]"
-        >Save for review</gr-button
-      >
       <template
         is="dom-repeat"
         items="{{_sections}}"
@@ -134,6 +118,27 @@ export const htmlTemplate = html`
       <div class="referenceContainer">
         <gr-button id="addReferenceBtn" on-click="_handleCreateSection"
           >Add Reference</gr-button
+        >
+      </div>
+      <div>
+        <gr-button id="editBtn" on-click="_handleEdit"
+          >[[_editOrCancel(_editing)]]</gr-button
+        >
+        <gr-button
+          id="saveBtn"
+          primary=""
+          class$="[[_computeSaveBtnClass(_ownerOf)]]"
+          on-click="_handleSave"
+          disabled="[[!_modified]]"
+          >Save</gr-button
+        >
+        <gr-button
+          id="saveReviewBtn"
+          primary=""
+          class$="[[_computeSaveReviewBtnClass(_canUpload)]]"
+          on-click="_handleSaveForReview"
+          disabled="[[!_modified]]"
+          >Save for review</gr-button
         >
       </div>
     </div>

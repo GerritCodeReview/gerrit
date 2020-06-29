@@ -16,6 +16,24 @@
       "revId": "0af76b89dfe7067c252a701e349f2d913a567d44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33c7fb28_a2b9b56e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-06-29T15:21:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9392b33_3e64137d",
+      "revId": "0af76b89dfe7067c252a701e349f2d913a567d44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

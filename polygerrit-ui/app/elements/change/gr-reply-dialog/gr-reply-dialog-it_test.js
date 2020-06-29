@@ -128,7 +128,7 @@ suite('gr-reply-dialog tests', () => {
           replyApi.setLabelValue(label, '+1');
         }
       });
-    }, null, 'http://test.com/lgtm.js');
+    }, null, 'http://test.com/plugins/lgtm.js');
     element = basicFixture.instantiate();
     setupElement(element);
     sandbox.stub(pluginEndpoints, 'importUrl', url => Promise.resolve());

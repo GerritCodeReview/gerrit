@@ -1905,6 +1905,13 @@ utils (e.g. MigrateToNoteDb).
 +
 Default is `false`.
 
+[[database.h2.maxQueryTimeout]]database.h2.maxQueryTimeout::
++
+The maximum timeout of a query in milliseconds.
+(see http://www.h2database.com/javadoc/org/h2/engine/DbSettings.html?#MAX_QUERY_TIMEOUT[MAX_QUERY_TIMEOUT]).
++
+The default is 0, meaning no limit.
+
 [[download]]
 === Section download
 

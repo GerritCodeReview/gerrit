@@ -47,6 +47,7 @@ class H2 extends BaseDataSourceType {
 
   public static String appendUrlOptions(Config cfg, String url) {
     long h2CacheSize = cfg.getLong("database", "h2", "cacheSize", -1);
+    long h2MaxQueryTimeout = cfg.getLong("database", "h2", "maxQueryTimeout", -1);
     boolean h2AutoServer = cfg.getBoolean("database", "h2", "autoServer", false);
 
     StringBuilder urlBuilder = new StringBuilder().append(url);
@@ -54,6 +55,9 @@ class H2 extends BaseDataSourceType {
     if (h2CacheSize >= 0) {
       // H2 CACHE_SIZE is always given in KB
       urlBuilder.append(";CACHE_SIZE=").append(h2CacheSize / 1024);
+    }
+    if (h2MaxQueryTimeout >= 0) {
+      urlBuilder.append(";MAX_QUERY_TIMEOUT=").append(h2MaxQueryTimeout);
     }
     if (h2AutoServer) {
       urlBuilder.append(";AUTO_SERVER=TRUE");

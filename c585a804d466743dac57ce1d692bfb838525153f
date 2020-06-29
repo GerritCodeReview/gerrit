@@ -34,6 +34,24 @@
       "revId": "c585a804d466743dac57ce1d692bfb838525153f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1b7972a_87edc399",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-29T08:34:35Z",
+      "side": 1,
+      "message": "Actually there was a test to be updated. :-/",
+      "parentUuid": "d75a61b5_94f62652",
+      "revId": "c585a804d466743dac57ce1d692bfb838525153f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

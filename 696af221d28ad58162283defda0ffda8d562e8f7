@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "b16413cd_298417a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-29T09:08:16Z",
+      "side": 1,
+      "message": "Thanks for holding me accountable. I think adding tests was actually a good idea. And I found a broken test, as well. :-)\n\nDone.",
+      "parentUuid": "64f953bd_33649e09",
+      "revId": "696af221d28ad58162283defda0ffda8d562e8f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02c296fb_91e13e8a",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_html.js",
         "patchSetId": 1
@@ -138,6 +156,30 @@
       "side": 1,
       "message": "actually after read the polymer doc again, I think you can use `$` for attributes in general, not limited to native attributes, so if you don\u0027t define needsReview as a property in the component, you do can use the `needs-review$` to bind to the attributes. so I will take this comment back :)",
       "parentUuid": "8485efde_c7bb26a1",
+      "range": {
+        "startLine": 137,
+        "startChar": 24,
+        "endLine": 137,
+        "endChar": 25
+      },
+      "revId": "696af221d28ad58162283defda0ffda8d562e8f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b4fa906_5758e3c8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-06-29T09:08:16Z",
+      "side": 1,
+      "message": "Yeah, and I tested that it would actually break the style rule, if you remove the $. :-)",
+      "parentUuid": "5b63b827_1feff75e",
       "range": {
         "startLine": 137,
         "startChar": 24,

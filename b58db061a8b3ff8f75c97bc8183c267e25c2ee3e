@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a12b7b97_df7f37c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-06-29T08:41:10Z",
+      "side": 1,
+      "message": "too bad, the plugins are still relying on the bower components, at least for their wct testing. ",
+      "revId": "b58db061a8b3ff8f75c97bc8183c267e25c2ee3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -828,7 +828,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
     change(r).addToAttentionSet(new AttentionSetInput(user.email(), "remove"));
 
     requestScopeOperations.setApiUser(user.id());
-    ReviewInput reviewInput = ReviewInput.create().recommend();
+    ReviewInput reviewInput = ReviewInput.recommend();
     change(r).current().review(reviewInput);
 
     // reviewer removed

@@ -345,6 +345,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return accountsSection;
   }
 
+  public void setAccountsSection(AccountsSection accountsSection) {
+    this.accountsSection = accountsSection;
+  }
+
   public Map<String, List<String>> getExtensionPanelSections() {
     return extensionPanelSections;
   }
@@ -650,9 +654,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   private void loadAccountsSection(Config rc) {
-    accountsSection = new AccountsSection();
-    accountsSection.setSameGroupVisibility(
-        loadPermissionRules(rc, ACCOUNTS, null, KEY_SAME_GROUP_VISIBILITY, false));
+    accountsSection =
+        AccountsSection.create(
+            loadPermissionRules(rc, ACCOUNTS, null, KEY_SAME_GROUP_VISIBILITY, false));
   }
 
   private void loadExtensionPanelSections(Config rc) {

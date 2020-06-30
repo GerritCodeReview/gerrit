@@ -45,7 +45,7 @@ const Requests = {
 
 const CREATE_DRAFT_UNEXPECTED_STATUS_MESSAGE =
     'Saving draft resulted in HTTP 200 (OK) but expected HTTP 201 (Created)';
-const HEADER_REPORTING_BLACKLIST = /^set-cookie$/i;
+const HEADER_REPORTING_BLOCK_REGEX = /^set-cookie$/i;
 
 const ANONYMIZED_CHANGE_BASE_URL = '/changes/*~*';
 const ANONYMIZED_REVISION_BASE_URL = ANONYMIZED_CHANGE_BASE_URL +
@@ -2804,7 +2804,7 @@ class GrRestApiInterface extends mixinBehaviors( [
         // Read the response headers into an object representation.
         const headers = Array.from(result.headers.entries())
             .reduce((obj, [key, val]) => {
-              if (!HEADER_REPORTING_BLACKLIST.test(key)) {
+              if (!HEADER_REPORTING_BLOCK_REGEX.test(key)) {
                 obj[key] = val;
               }
               return obj;

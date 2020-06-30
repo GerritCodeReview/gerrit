@@ -331,7 +331,7 @@ class GrRouter extends mixinBehaviors( [
   }
 
   _firstCodeBrowserWeblink(weblinks) {
-    // This is an ordered whitelist of web link types that provide direct
+    // This is an ordered allowed list of web link types that provide direct
     // links to the commit in the url property.
     const codeBrowserLinks = ['gitiles', 'browse', 'gitweb'];
     for (let i = 0; i < codeBrowserLinks.length; i++) {

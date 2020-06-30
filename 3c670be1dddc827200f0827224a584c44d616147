@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d0e7896_9ed694aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-06-30T17:32:21Z",
+      "side": 1,
+      "message": "\u003e Patch Set 1:\n\u003e \n\u003e Move this to stable-3.0?\n\nDone.",
+      "revId": "3c670be1dddc827200f0827224a584c44d616147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

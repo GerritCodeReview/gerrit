@@ -23,6 +23,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.DefaultQueueOp;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.project.CachedProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
@@ -87,7 +88,7 @@ class RenameGroupOp extends DefaultQueueOp {
   public void run() {
     Iterable<Project.NameKey> names = tryingAgain ? retryOn : projectCache.all();
     for (Project.NameKey projectName : names) {
-      ProjectConfig config =
+      CachedProjectConfig config =
           projectCache.get(projectName).orElseThrow(illegalState(projectName)).getConfig();
       GroupReference ref = config.getGroup(uuid);
       if (ref == null || newName.equals(ref.getName())) {

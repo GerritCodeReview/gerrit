@@ -801,10 +801,9 @@ public class ChangeJson {
     } else {
       PatchSet ps;
       if (limitToPsId.isPresent()) {
-        ps = cd.patchSet(limitToPsId.get());
-        if (ps == null) {
-          throw new StorageException("missing patch set " + limitToPsId.get());
-        }
+        ps =
+            cd.patchSet(limitToPsId.get())
+                .orElseThrow(() -> new StorageException("missing patch set " + limitToPsId.get()));
       } else {
         ps = cd.currentPatchSet();
         if (ps == null) {

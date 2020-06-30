@@ -1035,7 +1035,7 @@ public abstract class AbstractDaemonTest {
         .inOrder();
   }
 
-  protected PatchSet getPatchSet(PatchSet.Id psId) {
+  protected Optional<PatchSet> getPatchSet(PatchSet.Id psId) {
     return changeDataFactory.create(project, psId.changeId()).patchSet(psId);
   }
 

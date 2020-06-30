@@ -62,6 +62,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.junit.TestRepository;
@@ -1461,9 +1462,9 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   private static ObjectId obj(ChangeData cd, int psNum) throws Exception {
     PatchSet.Id psId = PatchSet.id(cd.getId(), psNum);
-    PatchSet ps = cd.patchSet(psId);
-    assertWithMessage("%s not found in %s", psId, cd.patchSets()).that(ps).isNotNull();
-    return ps.commitId();
+    Optional<PatchSet> ps = cd.patchSet(psId);
+    assertWithMessage("%s not found in %s", psId, cd.patchSets()).that(ps.isPresent()).isTrue();
+    return ps.get().commitId();
   }
 
   private AccountGroup.UUID createSelfOwnedGroup(String name, TestAccount... members)

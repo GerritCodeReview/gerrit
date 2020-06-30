@@ -357,7 +357,7 @@ public class WalkSorterTest {
 
   private static PatchSetData patchSetData(ChangeData cd, int psId, RevCommit commit)
       throws Exception {
-    return PatchSetData.create(cd, cd.patchSet(PatchSet.id(cd.getId(), psId)), commit);
+    return PatchSetData.create(cd, cd.patchSet(PatchSet.id(cd.getId(), psId)).get(), commit);
   }
 
   private static void assertSorted(

@@ -204,7 +204,7 @@ public abstract class AbstractSubmitOnPush extends AbstractDaemonTest {
     assertSubmitApproval(psId);
 
     assertThat(cd.patchSets()).hasSize(1);
-    assertThat(cd.patchSet(psId).commitId()).isEqualTo(c);
+    assertThat(cd.patchSet(psId).get().commitId()).isEqualTo(c);
   }
 
   @Test
@@ -302,8 +302,8 @@ public abstract class AbstractSubmitOnPush extends AbstractDaemonTest {
     assertSubmitApproval(psId2);
 
     assertThat(cd.patchSets()).hasSize(2);
-    assertThat(cd.patchSet(psId1).commitId()).isEqualTo(c1);
-    assertThat(cd.patchSet(psId2).commitId()).isEqualTo(c2);
+    assertThat(cd.patchSet(psId1).get().commitId()).isEqualTo(c1);
+    assertThat(cd.patchSet(psId2).get().commitId()).isEqualTo(c2);
   }
 
   @Test
@@ -377,15 +377,15 @@ public abstract class AbstractSubmitOnPush extends AbstractDaemonTest {
     assertThat(cd2.change().isMerged()).isTrue();
     PatchSet.Id psId2_2 = cd2.change().currentPatchSetId();
     assertThat(psId2_2.get()).isEqualTo(2);
-    assertThat(cd2.patchSet(psId2_1).commitId()).isEqualTo(c2_1);
-    assertThat(cd2.patchSet(psId2_2).commitId()).isEqualTo(c2_2);
+    assertThat(cd2.patchSet(psId2_1).get().commitId()).isEqualTo(c2_1);
+    assertThat(cd2.patchSet(psId2_2).get().commitId()).isEqualTo(c2_2);
 
     ChangeData cd1 = r1.getChange();
     assertThat(cd1.change().isMerged()).isTrue();
     PatchSet.Id psId1_2 = cd1.change().currentPatchSetId();
     assertThat(psId1_2.get()).isEqualTo(2);
-    assertThat(cd1.patchSet(psId1_1).commitId()).isEqualTo(c1_1);
-    assertThat(cd1.patchSet(psId1_2).commitId()).isEqualTo(c1_2);
+    assertThat(cd1.patchSet(psId1_1).get().commitId()).isEqualTo(c1_1);
+    assertThat(cd1.patchSet(psId1_2).get().commitId()).isEqualTo(c1_2);
   }
 
   @Test

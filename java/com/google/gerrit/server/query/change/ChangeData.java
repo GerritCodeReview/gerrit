@@ -642,16 +642,16 @@ public class ChangeData {
   }
 
   /** @return patch with the given ID, or null if it does not exist. */
-  public PatchSet patchSet(PatchSet.Id psId) {
+  public Optional<PatchSet> patchSet(PatchSet.Id psId) {
     if (currentPatchSet != null && currentPatchSet.id().equals(psId)) {
-      return currentPatchSet;
+      return Optional.of(currentPatchSet);
     }
     for (PatchSet ps : patchSets()) {
       if (ps.id().equals(psId)) {
-        return ps;
+        return Optional.of(ps);
       }
     }
-    return null;
+    return Optional.empty();
   }
 
   /**

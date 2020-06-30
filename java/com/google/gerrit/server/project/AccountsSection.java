@@ -14,22 +14,16 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.PermissionRule;
-import java.util.ArrayList;
 import java.util.List;
 
-public class AccountsSection {
-  protected List<PermissionRule> sameGroupVisibility;
+@AutoValue
+public abstract class AccountsSection {
+  public abstract ImmutableList<PermissionRule> getSameGroupVisibility();
 
-  public ImmutableList<PermissionRule> getSameGroupVisibility() {
-    if (sameGroupVisibility == null) {
-      sameGroupVisibility = ImmutableList.of();
-    }
-    return ImmutableList.copyOf(sameGroupVisibility);
-  }
-
-  public void setSameGroupVisibility(List<PermissionRule> sameGroupVisibility) {
-    this.sameGroupVisibility = new ArrayList<>(sameGroupVisibility);
+  public static AccountsSection create(List<PermissionRule> sameGroupVisibility) {
+    return new AutoValue_AccountsSection(ImmutableList.copyOf(sameGroupVisibility));
   }
 }

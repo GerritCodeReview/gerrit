@@ -70,6 +70,10 @@ public class GroupList extends TabFile {
     return byUUID.get(uuid);
   }
 
+  public Map<AccountGroup.UUID, GroupReference> byUUID() {
+    return byUUID;
+  }
+
   @Nullable
   public GroupReference byName(String name) {
     return byUUID.entrySet().stream()

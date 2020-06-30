@@ -47,7 +47,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.project.CachedProjectConfig;
 import com.google.inject.Inject;
 import org.junit.Before;
 import org.junit.Test;
@@ -322,7 +322,8 @@ public class CustomLabelIT extends AbstractDaemonTest {
   @Test
   public void customLabel_withBranch() throws Exception {
     saveLabelConfig(LABEL.toBuilder().setRefPatterns(ImmutableList.of("master")));
-    ProjectConfig cfg = projectCache.get(project).orElseThrow(illegalState(project)).getConfig();
+    CachedProjectConfig cfg =
+        projectCache.get(project).orElseThrow(illegalState(project)).getConfig();
     assertThat(cfg.getLabelSections().get(LABEL_NAME).getRefPatterns()).contains("master");
   }
 

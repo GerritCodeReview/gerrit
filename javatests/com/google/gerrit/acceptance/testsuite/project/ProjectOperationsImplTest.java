@@ -102,14 +102,14 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     Project.NameKey key = projectOperations.newProject().create();
     ProjectConfig projectConfig = projectOperations.project(key).getProjectConfig();
     ProjectState cachedProjectState1 = projectCache.get(key).orElseThrow(illegalState(project));
-    ProjectConfig cachedProjectConfig1 = cachedProjectState1.getConfig();
+    ProjectConfig cachedProjectConfig1 = cachedProjectState1.getBareConfig();
     assertThat(cachedProjectConfig1).isNotSameInstanceAs(projectConfig);
     assertThat(cachedProjectConfig1.getProject().getDescription()).isEmpty();
     assertThat(projectConfig.getProject().getDescription()).isEmpty();
     projectConfig.updateProject(p -> p.setDescription("my fancy project"));
 
     ProjectConfig cachedProjectConfig2 =
-        projectCache.get(key).orElseThrow(illegalState(project)).getConfig();
+        projectCache.get(key).orElseThrow(illegalState(project)).getBareConfig();
     assertThat(cachedProjectConfig2).isNotSameInstanceAs(projectConfig);
     assertThat(cachedProjectConfig2.getProject().getDescription()).isEmpty();
   }

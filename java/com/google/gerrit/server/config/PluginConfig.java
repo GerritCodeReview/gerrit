@@ -52,7 +52,7 @@ public class PluginConfig {
     ProjectState parent = Iterables.getFirst(state.parents(), null);
     if (parent != null) {
       PluginConfig parentPluginConfig =
-          parent.getConfig().getPluginConfig(pluginName).withInheritance(projectStateFactory);
+          parent.getBareConfig().getPluginConfig(pluginName).withInheritance(projectStateFactory);
       Set<String> allNames = cfg.getNames(PLUGIN, pluginName);
       cfg = copyConfig(cfg);
       for (String name : parentPluginConfig.cfg.getNames(PLUGIN, pluginName)) {

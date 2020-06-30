@@ -90,7 +90,7 @@ public class ContributorAgreementsChecker {
 
     IdentifiedUser iUser = user.asIdentifiedUser();
     Collection<ContributorAgreement> contributorAgreements =
-        projectCache.getAllProjects().getConfig().getContributorAgreements();
+        projectCache.getAllProjects().getConfig().getContributorAgreements().values();
     List<UUID> okGroupIds = new ArrayList<>();
     for (ContributorAgreement ca : contributorAgreements) {
       List<AccountGroup.UUID> groupIds;

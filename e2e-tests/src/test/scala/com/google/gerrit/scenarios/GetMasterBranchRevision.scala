@@ -36,6 +36,6 @@ class GetMasterBranchRevision extends ProjectSimulation {
 
   setUp(
     test.inject(
-      atOnceUsers(1)
+      atOnceUsers(single)
     )).protocols(httpProtocol)
 }

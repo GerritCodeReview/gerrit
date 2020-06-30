@@ -47,23 +47,23 @@ class SubmitChange extends GerritSimulation {
   setUp(
     createProject.test.inject(
       nothingFor(stepWaitTime(createProject) seconds),
-      atOnceUsers(1)
+      atOnceUsers(single)
     ),
     createChange.test.inject(
       nothingFor(stepWaitTime(createChange) seconds),
-      atOnceUsers(1)
+      atOnceUsers(single)
     ),
     approveChange.test.inject(
       nothingFor(stepWaitTime(approveChange) seconds),
-      atOnceUsers(1)
+      atOnceUsers(single)
     ),
     test.inject(
       nothingFor(stepWaitTime(this) seconds),
-      atOnceUsers(1)
+      atOnceUsers(single)
     ),
     deleteProject.test.inject(
       nothingFor(stepWaitTime(deleteProject) seconds),
-      atOnceUsers(1)
+      atOnceUsers(single)
     ),
   ).protocols(httpProtocol)
 }

@@ -16,6 +16,29 @@
       "revId": "ee51837264cd9a49339d14c4c2876dfecd12175f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebcab0ee_71ce0d3c",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-30T12:49:29Z",
+      "side": 1,
+      "message": "This is unused now and should have been removed. And this is also why the follow-up change is failing to build.",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 92
+      },
+      "revId": "ee51837264cd9a49339d14c4c2876dfecd12175f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

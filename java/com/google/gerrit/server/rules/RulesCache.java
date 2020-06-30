@@ -55,6 +55,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.errors.LargeObjectException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
@@ -128,8 +129,8 @@ public class RulesCache {
    * @return a Prolog machine, after loading the specified rules.
    * @throws CompileException the machine cannot be created.
    */
-  public synchronized PrologMachineCopy loadMachine(Project.NameKey project, ObjectId rulesId)
-      throws CompileException {
+  public synchronized PrologMachineCopy loadMachine(
+      @Nullable Project.NameKey project, @Nullable ObjectId rulesId) throws CompileException {
     if (!enableProjectRules || project == null || rulesId == null) {
       return defaultMachine;
     }

@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Comparator.comparing;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -125,8 +126,11 @@ public class AgreementsIT extends AbstractDaemonTest {
     if (isContributorAgreementsEnabled()) {
       assertThat(info.auth.useContributorAgreements).isTrue();
       assertThat(info.auth.contributorAgreements).hasSize(2);
-      assertAgreement(info.auth.contributorAgreements.get(0), caAutoVerify);
-      assertAgreement(info.auth.contributorAgreements.get(1), caNoAutoVerify);
+      // Sort to get a stable assertion as the API does not guarantee ordering.
+      List<AgreementInfo> agreements =
+          ImmutableList.sortedCopyOf(comparing(a -> a.name), info.auth.contributorAgreements);
+      assertAgreement(agreements.get(0), caAutoVerify);
+      assertAgreement(agreements.get(1), caNoAutoVerify);
     } else {
       assertThat(info.auth.useContributorAgreements).isNull();
       assertThat(info.auth.contributorAgreements).isNull();

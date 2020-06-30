@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a651d324_87a7e6ca",
+        "filename": "java/com/google/gerrit/server/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-30T18:11:18Z",
+      "side": 1,
+      "message": "Move it before //java/com/google/gerrit/server/git/receive:ref_cache to be sorted, as mentioned by buildifier.",
+      "range": {
+        "startLine": 58,
+        "startChar": 8,
+        "endLine": 58,
+        "endChar": 47
+      },
+      "revId": "32520104844013394a4ebf03401558ebde1aba40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68e8abc8_23850eb9",
+        "filename": "java/com/google/gerrit/server/data/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-30T18:11:18Z",
+      "side": 1,
+      "message": "Import java_library to be forward compatible:\n\n  load(\"@rules_java//java:defs.bzl\", \"java_library\")\n\nWe do it already in all other places. See: https://github.com/bazelbuild/bazel/issues/8741. If you run buildifier with --fix/--lint it would complaint.",
+      "revId": "32520104844013394a4ebf03401558ebde1aba40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "109d9049_046e788f",
+        "filename": "java/com/google/gerrit/server/data/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-06-30T18:11:18Z",
+      "side": 1,
+      "message": "Remove this. There is no sub directories in this package.",
+      "range": {
+        "startLine": 5,
+        "startChar": 10,
+        "endLine": 5,
+        "endChar": 13
+      },
+      "revId": "32520104844013394a4ebf03401558ebde1aba40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

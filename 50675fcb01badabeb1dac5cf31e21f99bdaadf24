@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "13e7e06a_dc1f032d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-30T21:05:05Z",
+      "side": 1,
+      "message": "\u003e Patch Set 3:\n\u003e \n\u003e Any progress yet?\n\nDaring to ask again myself, after \u003e4 months since that last follow-up; any updates? -Thanks.",
+      "revId": "50675fcb01badabeb1dac5cf31e21f99bdaadf24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

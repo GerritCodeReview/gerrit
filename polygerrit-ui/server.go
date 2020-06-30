@@ -22,16 +22,19 @@ import (
 	"encoding/json"
 	"errors"
 	"flag"
-	"io"
+  "io"
 	"io/ioutil"
 	"log"
 	"net"
 	"net/http"
 	"net/url"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"regexp"
 	"strings"
+  "sync"
+	"time"
 
 	"golang.org/x/tools/godoc/vfs/httpfs"
 	"golang.org/x/tools/godoc/vfs/zipfs"
@@ -59,13 +62,29 @@ func main() {
 		log.Fatal(err)
 	}
 
+	tsInstance := newTypescriptInstance(
+	  filepath.Join(workspace, "./node_modules/.bin/tsc"),
+    filepath.Join(workspace, "./polygerrit-ui/app/tsconfig.json"),
+    filepath.Join(workspace, "./.ts-out/server-go"),
+  )
+
+	if err := tsInstance.StartWatch(); err != nil {
+	  log.Fatal(err)
+  }
+
+
 	dirListingMux := http.NewServeMux()
 	dirListingMux.Handle("/styles/", http.StripPrefix("/styles/", http.FileServer(http.Dir("app/styles"))))
 	dirListingMux.Handle("/samples/", http.StripPrefix("/samples/", http.FileServer(http.Dir("app/samples"))))
 	dirListingMux.Handle("/elements/", http.StripPrefix("/elements/", http.FileServer(http.Dir("app/elements"))))
 	dirListingMux.Handle("/behaviors/", http.StripPrefix("/behaviors/", http.FileServer(http.Dir("app/behaviors"))))
 
-	http.HandleFunc("/", func(w http.ResponseWriter, req *http.Request) { handleSrcRequest(dirListingMux, w, req) })
+	http.HandleFunc("/",
+	  func(w http.ResponseWriter, req *http.Request) {
+	    // If typescript compiler hasn't finished yet, wait for it
+	    tsInstance.WaitForCompilationComplete()
+	    handleSrcRequest(dirListingMux, w, req)
+	  })
 
 	http.Handle("/fonts/",
 		addDevHeadersMiddleware(http.FileServer(httpfs.New(zipfs.New(fontsArchive, "fonts")))))
@@ -453,4 +472,94 @@ func (_ *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	gzw := newGzipResponseWriter(w)
 	defer gzw.Close()
 	http.DefaultServeMux.ServeHTTP(gzw, r)
+}
+
+// Typescript compiler support
+// The code below runs typescript compiler in watch mode and redirect
+// all output from the compiler to the standard logger with the prefix "TSC -"
+// Additionally, the code analyzes messages produced by the typescript compiler
+// and allows to wait until compilation is finished.
+var (
+  tsStartingCompilation = "- Starting compilation in watch mode..."
+  tsFileChangeDetectedMsg = "- File change detected. Starting incremental compilation..."
+  tsStartWatchingMsg = regexp.MustCompile(`^.* - Found \d errors\. Watching for file changes\.$`)
+  waitForNextChangeInterval = 1 * time.Second
+)
+
+type typescriptLogWriter struct {
+  logger                *log.Logger
+  // when WaitGroup counter is 0 the compilation is complete
+  compilationDoneWaiter *sync.WaitGroup
+}
+
+func newTypescriptLogWriter(compilationCompleteWaiter *sync.WaitGroup) *typescriptLogWriter {
+  return &typescriptLogWriter{
+    logger:                log.New(log.Writer(), "TSC - ", log.Flags()),
+    compilationDoneWaiter: compilationCompleteWaiter,
+  }
+}
+
+func (lw typescriptLogWriter) Write(p []byte) (n int, err error) {
+  text := strings.TrimSpace(string(p))
+  if strings.HasSuffix(text, tsFileChangeDetectedMsg) ||
+      strings.HasSuffix(text, tsStartingCompilation) {
+    lw.compilationDoneWaiter.Add(1)
+  }
+  if tsStartWatchingMsg.MatchString(text) {
+    // A source code can be changed while previous compiler run is in progress.
+    // In this case typescript reruns compilation again almost immediately
+    // after the previous run finishes. To detect this situation, we are
+    // waiting waitForNextChangeInterval before decreasing the counter.
+    // If another compiler run is started in this interval, we will wait
+    // again until it finishes.
+    go func() {
+      time.Sleep(waitForNextChangeInterval)
+      lw.compilationDoneWaiter.Add(-1)
+    }();
+
+  }
+  lw.logger.Print(text);
+  return len(p), nil
+}
+
+type typescriptInstance struct {
+  cmd *exec.Cmd
+  compilationCompleteWaiter *sync.WaitGroup
+}
+
+func newTypescriptInstance(tscBinaryPath string, projectPath string, outdir string) *typescriptInstance {
+  cmd := exec.Command(tscBinaryPath,
+    "--watch",
+    "--preserveWatchOutput",
+    "--project",
+    projectPath,
+    "--outDir",
+    outdir)
+
+  compilationCompleteWaiter := &sync.WaitGroup{}
+  logWriter := newTypescriptLogWriter(compilationCompleteWaiter)
+  cmd.Stdout = logWriter
+  cmd.Stderr = logWriter
+
+  return &typescriptInstance{
+    cmd: cmd,
+    compilationCompleteWaiter: compilationCompleteWaiter,
+  }
+}
+
+func (ts *typescriptInstance) StartWatch() error {
+  err := ts.cmd.Start()
+  if err != nil {
+    return err
+  }
+  go func() {
+    ts.cmd.Wait()
+    log.Fatal("Typescript exits unexpected")
+  }()
+
+  return nil
+}
+
+func (ts *typescriptInstance) WaitForCompilationComplete() {
+  ts.compilationCompleteWaiter.Wait()
 }

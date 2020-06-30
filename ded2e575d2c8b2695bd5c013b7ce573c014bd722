@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "55e56cfc_ff4501c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2020-06-30T16:12:02Z",
+      "side": 1,
+      "message": "What I think I would find easiest to use is a variant on commit_delta that passes in the file mode.\n\nThat way, I could look for changes to a file with mode O_GITLINK (0160000).",
+      "parentUuid": "ebe74d90_5f7cd44e",
+      "range": {
+        "startLine": 14,
+        "startChar": 12,
+        "endLine": 15,
+        "endChar": 5
+      },
+      "revId": "ded2e575d2c8b2695bd5c013b7ce573c014bd722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5de84a93_756e715c",
         "filename": "Documentation/prolog-change-facts.txt",
         "patchSetId": 2

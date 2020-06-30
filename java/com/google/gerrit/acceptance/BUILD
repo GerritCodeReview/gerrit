@@ -64,6 +64,7 @@ TEST_DEPS = [
     "//java/com/google/gerrit/acceptance/config",
     "//java/com/google/gerrit/acceptance/testsuite/project",
     "//java/com/google/gerrit/server/fixes/testing",
+    "//java/com/google/gerrit/server/data",
     "//java/com/google/gerrit/server/group/testing",
     "//java/com/google/gerrit/server/project/testing:project-test-util",
     "//java/com/google/gerrit/testing:gerrit-test-util",

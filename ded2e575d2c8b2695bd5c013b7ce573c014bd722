@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebe74d90_5f7cd44e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2020-06-30T16:09:03Z",
+      "side": 1,
+      "message": "Do you have more details? How would I go about this?",
+      "range": {
+        "startLine": 14,
+        "startChar": 12,
+        "endLine": 15,
+        "endChar": 5
+      },
+      "revId": "ded2e575d2c8b2695bd5c013b7ce573c014bd722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5de84a93_756e715c",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2020-06-30T16:09:03Z",
+      "side": 1,
+      "message": "missing blank line above\n\nThese seem to be in alphabetical order; should this one be as well?",
+      "revId": "ded2e575d2c8b2695bd5c013b7ce573c014bd722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

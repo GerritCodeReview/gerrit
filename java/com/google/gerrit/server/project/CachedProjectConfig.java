@@ -1,4 +1,4 @@
-// Copyright (C) 2010 The Android Open Source Project
+// Copyright (C) 2020 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,15 +15,8 @@
 package com.google.gerrit.server.project;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.collect.ImmutableList;
-import com.google.gerrit.common.data.PermissionRule;
-import java.util.List;
 
+/** Cached representation of values parsed from */
 @AutoValue
-public abstract class AccountsSection {
-  public abstract ImmutableList<PermissionRule> getSameGroupVisibility();
-
-  public static AccountsSection create(List<PermissionRule> sameGroupVisibility) {
-    return new AutoValue_AccountsSection(ImmutableList.copyOf(sameGroupVisibility));
-  }
+public class CachedProjectConfig {
 }

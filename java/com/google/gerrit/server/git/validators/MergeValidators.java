@@ -229,7 +229,7 @@ public class MergeValidators {
             String value = pluginCfg.getString(e.getExportName());
             String oldValue =
                 destProject
-                    .getConfig()
+                    .getBareConfig()
                     .getPluginConfig(e.getPluginName())
                     .getString(e.getExportName());
 

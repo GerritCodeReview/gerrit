@@ -82,7 +82,7 @@ public class PutAgreement implements RestModifyView<AccountResource, AgreementIn
 
     String agreementName = Strings.nullToEmpty(input.name);
     ContributorAgreement ca =
-        projectCache.getAllProjects().getConfig().getContributorAgreement(agreementName);
+        projectCache.getAllProjects().getConfig().getContributorAgreements().get(agreementName);
     if (ca == null) {
       throw new UnprocessableEntityException("contributor agreement not found");
     }

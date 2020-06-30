@@ -79,6 +79,7 @@ public class ProjectState {
   private final List<CommentLinkInfo> commentLinks;
 
   private final ProjectConfig config;
+  private final CachedProjectConfig cachedConfig;
   private final Map<String, ProjectLevelConfig> configs;
   private final Set<AccountGroup.UUID> localOwners;
   private final long globalMaxObjectSizeLimit;
@@ -107,6 +108,7 @@ public class ProjectState {
     this.gitMgr = gitMgr;
     this.commentLinks = commentLinks;
     this.config = config;
+    this.cachedConfig = config.getCacheable();
     this.configs = new HashMap<>();
     this.capabilities =
         isAllProjects
@@ -156,7 +158,7 @@ public class ProjectState {
     // If not, we check the parents.
     return parents().stream()
         .map(ProjectState::getConfig)
-        .map(ProjectConfig::getRulesId)
+        .map(CachedProjectConfig::getRulesId)
         .anyMatch(Objects::nonNull);
   }
 
@@ -172,7 +174,12 @@ public class ProjectState {
     return getNameKey().get();
   }
 
-  public ProjectConfig getConfig() {
+  public CachedProjectConfig getConfig() {
+    return cachedConfig;
+  }
+
+  // TODO(hiesel): Remove this method.
+  public ProjectConfig getBareConfig() {
     return config;
   }
 
@@ -459,7 +466,7 @@ public class ProjectState {
       cls.put(cl.name.toLowerCase(), cl);
     }
     for (ProjectState s : treeInOrder()) {
-      for (StoredCommentLinkInfo cl : s.getConfig().getCommentLinkSections()) {
+      for (StoredCommentLinkInfo cl : s.getConfig().getCommentLinkSections().values()) {
         String name = cl.getName().toLowerCase();
         if (cl.getOverrideOnly()) {
           CommentLinkInfo parent = cls.get(name);

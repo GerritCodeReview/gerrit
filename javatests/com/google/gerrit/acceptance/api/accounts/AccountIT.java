@@ -139,7 +139,6 @@ import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.index.account.StalenessChecker;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
-import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.update.RetryHelper;
@@ -284,8 +283,12 @@ public class AccountIT extends AbstractDaemonTest {
       String labelName,
       int min,
       int max) {
-    ProjectConfig cfg = projectCache.get(project).orElseThrow(illegalState(project)).getConfig();
-    AccessSection accessSection = cfg.getAccessSection(ref);
+    AccessSection accessSection =
+        projectCache
+            .get(project)
+            .orElseThrow(illegalState(project))
+            .getConfig()
+            .getAccessSection(ref);
     assertThat(accessSection).isNotNull();
 
     String permissionName = Permission.LABEL + labelName;

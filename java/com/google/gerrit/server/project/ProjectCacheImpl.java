@@ -297,7 +297,7 @@ public class ProjectCacheImpl implements ProjectCache {
         try (Repository git = mgr.openRepository(key)) {
           Ref configRef = git.exactRef(RefNames.REFS_CONFIG);
           if (configRef != null
-              && configRef.getObjectId().equals(oldState.getConfig().getRevision())) {
+              && configRef.getObjectId().equals(oldState.getBareConfig().getRevision())) {
             refreshCounter.increment(CACHE_NAME, false);
             return Futures.immediateFuture(oldState);
           }

@@ -102,7 +102,7 @@ const LANGUAGE_MAP = {
 };
 const ASYNC_DELAY = 10;
 
-const CLASS_WHITELIST = {
+const CLASS_SAFELIST = {
   'gr-diff gr-syntax gr-syntax-attr': true,
   'gr-diff gr-syntax gr-syntax-attribute': true,
   'gr-diff gr-syntax gr-syntax-built_in': true,
@@ -365,7 +365,7 @@ class GrSyntaxLayer extends GestureEventListeners(
       // Note: HLJS may emit a span with class undefined when it thinks there
       // may be a syntax error.
       if (node.tagName === 'SPAN' && node.className !== 'undefined') {
-        if (CLASS_WHITELIST.hasOwnProperty(node.className)) {
+        if (CLASS_SAFELIST.hasOwnProperty(node.className)) {
           result.push({
             start: offset,
             length: nodeLength,

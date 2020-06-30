@@ -276,7 +276,7 @@ suite('keyboard-shortcut-behavior tests', () => {
     });
   });
 
-  test('doesn’t block kb shortcuts for non-whitelisted els', done => {
+  test('doesn’t block kb shortcuts for non-allowed els', done => {
     const divEl = document.createElement('div');
     element.appendChild(divEl);
     element._handleKey = e => {

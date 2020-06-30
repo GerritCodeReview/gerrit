@@ -276,11 +276,11 @@ suite('gr-syntax-layer tests', () => {
     assert.equal(result[0].className, className);
   });
 
-  test('_rangesFromElement non-whitelist', () => {
+  test('_rangesFromElement non-allowed', () => {
     const str0 = 'Etiam ';
     const str1 = 'dui, blandit';
     const str2 = ' wisi.';
-    const className = 'not-in-the-whitelist';
+    const className = 'not-in-the-safelist';
     const offset = 100;
 
     const elem = document.createElement('span');
@@ -363,7 +363,7 @@ suite('gr-syntax-layer tests', () => {
     assert.equal(result[1].className, className);
   });
 
-  test('_rangesFromString whitelist allows recursion', () => {
+  test('_rangesFromString safelist allows recursion', () => {
     const str = [
       '<span class="non-whtelisted-class">',
       '<span class="gr-diff gr-syntax gr-syntax-keyword">public</span>',

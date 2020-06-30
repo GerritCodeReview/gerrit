@@ -16,6 +16,23 @@
       "revId": "fa45c1af95982b68981c0dba86bb33e2fbd05670",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "633cfd02_0b4e195c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-06-30T20:38:43Z",
+      "side": 1,
+      "message": "Thanks Marco for the discussion, I see the follow-up replacement and I\u0027m fine with it.\nWe should sooner or later think about load and performance tests, based on the E2E scenarios, which would need some refactoring I believe.",
+      "revId": "fa45c1af95982b68981c0dba86bb33e2fbd05670",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ce4ef30_27cf0b42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-06-30T00:10:12Z",
+      "side": 1,
+      "message": "No-op merge. The H2 class doesn\u0027t exist on this branch.",
+      "revId": "0d3cbeae2c4fc1446d8bf7810c5044f00532208a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1213,11 +1213,15 @@ public abstract class AbstractDaemonTest {
       String ref,
       boolean exclusive,
       String... permissionNames) {
-    ProjectConfig cfg = projectCache.get(project).orElseThrow(illegalState(project)).getConfig();
-    AccessSection accessSection = cfg.getAccessSection(ref);
-    assertThat(accessSection).isNotNull();
+    Optional<AccessSection> accessSection =
+        projectCache
+            .get(project)
+            .orElseThrow(illegalState(project))
+            .getConfig()
+            .getAccessSection(ref);
+    assertThat(accessSection).isPresent();
     for (String permissionName : permissionNames) {
-      Permission permission = accessSection.getPermission(permissionName);
+      Permission permission = accessSection.get().getPermission(permissionName);
       assertPermission(permission, permissionName, exclusive, null);
       assertPermissionRule(
           permission.getRule(groupReference), groupReference, Action.ALLOW, false, 0, 0);

@@ -32,6 +32,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -83,10 +84,10 @@ public class CreateGroupPermissionSyncer implements ChangeMergedListener {
         new HashSet<>(allProjectsState.getCapabilityCollection().createGroup);
     Set<PermissionRule> createGroupsRef = new HashSet<>();
 
-    AccessSection allUsersCreateGroupAccessSection =
+    Optional<AccessSection> allUsersCreateGroupAccessSection =
         allUsersState.getConfig().getAccessSection(RefNames.REFS_GROUPS + "*");
-    if (allUsersCreateGroupAccessSection != null) {
-      Permission create = allUsersCreateGroupAccessSection.getPermission(Permission.CREATE);
+    if (allUsersCreateGroupAccessSection.isPresent()) {
+      Permission create = allUsersCreateGroupAccessSection.get().getPermission(Permission.CREATE);
       if (create != null && create.getRules() != null) {
         createGroupsRef.addAll(create.getRules());
       }

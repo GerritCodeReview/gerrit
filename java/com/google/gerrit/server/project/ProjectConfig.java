@@ -28,7 +28,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.primitives.Shorts;
 import com.google.gerrit.common.Nullable;
@@ -47,7 +47,6 @@ import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BooleanProjectConfig;
-import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.InvalidNameException;
@@ -252,6 +251,28 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private boolean hasLegacyPermissions;
   private Map<String, List<String>> extensionPanelSections;
 
+  /** Returns an immutable, thread-safe representation of this object that can be cached. */
+  public CachedProjectConfig getCacheable() {
+    return CachedProjectConfig.builder()
+        .setProject(project)
+        .setAccountsSection(accountsSection)
+        .setGroups(ImmutableMap.copyOf(groupList.byUUID()))
+        .setAccessSections(ImmutableMap.copyOf(accessSections))
+        .setBranchOrderSection(Optional.ofNullable(branchOrderSection))
+        .setContributorAgreements(ImmutableMap.copyOf(contributorAgreements))
+        .setNotifySections(ImmutableMap.copyOf(notifySections))
+        .setLabelSections(ImmutableMap.copyOf(labelSections))
+        .setMimeTypes(mimeTypes)
+        .setSubscribeSections(ImmutableMap.copyOf(subscribeSections))
+        .setCommentLinkSections(ImmutableMap.copyOf(commentLinkSections))
+        .setRulesId(Optional.ofNullable(rulesId))
+        .setRevision(Optional.ofNullable(getRevision()))
+        .setMaxObjectSizeLimit(maxObjectSizeLimit)
+        .setCheckReceivedObjects(checkReceivedObjects)
+        .setExtensionPanelSections(extensionPanelSections)
+        .build();
+  }
+
   public static StoredCommentLinkInfo buildCommentLink(Config cfg, String name, boolean allowRaw)
       throws IllegalArgumentException {
     String match = cfg.getString(COMMENTLINK, name, KEY_MATCH);
@@ -349,10 +370,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     this.accountsSection = accountsSection;
   }
 
-  public Map<String, List<String>> getExtensionPanelSections() {
-    return extensionPanelSections;
-  }
-
   public AccessSection getAccessSection(String name) {
     return accessSections.get(name);
   }
@@ -364,10 +381,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
             : AccessSection.builder(name);
     update.accept(accessSectionBuilder);
     accessSections.put(name, accessSectionBuilder.build());
-  }
-
-  public ImmutableSet<String> getAccessSectionNames() {
-    return ImmutableSet.copyOf(accessSections.keySet());
   }
 
   public Collection<AccessSection> getAccessSections() {
@@ -384,16 +397,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   public Map<Project.NameKey, SubscribeSection> getSubscribeSections() {
     return subscribeSections;
-  }
-
-  public Collection<SubscribeSection> getSubscribeSections(BranchNameKey branch) {
-    Collection<SubscribeSection> ret = new ArrayList<>();
-    for (SubscribeSection s : subscribeSections.values()) {
-      if (s.appliesTo(branch)) {
-        ret.add(s);
-      }
-    }
-    return ret;
   }
 
   public void addSubscribeSection(SubscribeSection s) {
@@ -538,11 +541,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
    */
   public GroupReference getGroup(String groupName) {
     return groupList.byName(groupName);
-  }
-
-  /** @return set of all groups used by this configuration. */
-  public Set<AccountGroup.UUID> getAllGroupUUIDs() {
-    return groupList.uuids();
   }
 
   /**

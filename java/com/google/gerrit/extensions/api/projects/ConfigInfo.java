@@ -14,6 +14,8 @@
 
 package com.google.gerrit.extensions.api.projects;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
@@ -49,7 +51,7 @@ public class ConfigInfo {
 
   public Map<String, CommentLinkInfo> commentlinks;
 
-  public Map<String, List<String>> extensionPanelNames;
+  public ImmutableMap<String, ImmutableList<String>> extensionPanelNames;
 
   public static class InheritedBooleanInfo {
     public Boolean value;

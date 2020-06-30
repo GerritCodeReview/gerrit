@@ -157,7 +157,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
         projectState = projectCache.get(projectName).orElseThrow(illegalState(projectName));
         perm = permissionBackend.currentUser().project(projectName);
       } else if (config.getRevision() != null
-          && !config.getRevision().equals(projectState.getConfig().getRevision())) {
+          && !config.getRevision().equals(projectState.getConfig().getRevision().orElse(null))) {
         projectCache.evict(config.getProject());
         projectState = projectCache.get(projectName).orElseThrow(illegalState(projectName));
         perm = permissionBackend.currentUser().project(projectName);

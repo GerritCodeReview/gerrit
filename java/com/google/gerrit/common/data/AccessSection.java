@@ -113,8 +113,7 @@ public abstract class AccessSection implements Comparable<AccessSection> {
 
     public Builder addPermission(Permission.Builder permission) {
       requireNonNull(permission, "permission must be non-null");
-      permissionBuilders.add(permission);
-      return this;
+      return modifyPermissions(p -> p.add(permission));
     }
 
     public Builder remove(Permission.Builder permission) {
@@ -124,9 +123,8 @@ public abstract class AccessSection implements Comparable<AccessSection> {
 
     public Builder removePermission(String name) {
       requireNonNull(name, "name must be non-null");
-      permissionBuilders.removeIf(
-          permissionBuilder -> name.equalsIgnoreCase(permissionBuilder.getName()));
-      return this;
+      return modifyPermissions(
+          p -> p.removeIf(permissionBuilder -> name.equalsIgnoreCase(permissionBuilder.getName())));
     }
 
     public Permission.Builder upsertPermission(String permissionName) {
@@ -141,7 +139,7 @@ public abstract class AccessSection implements Comparable<AccessSection> {
       }
 
       Permission.Builder permission = Permission.builder(permissionName);
-      addPermission(permission);
+      modifyPermissions(p -> p.add(permission));
       return permission;
     }
 

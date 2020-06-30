@@ -254,8 +254,7 @@ public abstract class Permission implements Comparable<Permission> {
     }
 
     public Builder add(PermissionRule.Builder rule) {
-      rulesBuilders.add(rule);
-      return this;
+      return modifyRules(r -> r.add(rule));
     }
 
     public Builder remove(PermissionRule rule) {
@@ -266,13 +265,11 @@ public abstract class Permission implements Comparable<Permission> {
     }
 
     public Builder removeRule(GroupReference group) {
-      rulesBuilders.removeIf(r -> sameGroup(r.build(), group));
-      return this;
+      return modifyRules(rules -> rules.removeIf(rule -> sameGroup(rule.build(), group)));
     }
 
     public Builder clearRules() {
-      rulesBuilders.clear();
-      return this;
+      return modifyRules(r -> r.clear());
     }
 
     public Permission build() {

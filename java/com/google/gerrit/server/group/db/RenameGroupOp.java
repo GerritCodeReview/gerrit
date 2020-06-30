@@ -23,6 +23,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.DefaultQueueOp;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.project.CachedProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
@@ -30,6 +31,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -87,10 +89,10 @@ class RenameGroupOp extends DefaultQueueOp {
   public void run() {
     Iterable<Project.NameKey> names = tryingAgain ? retryOn : projectCache.all();
     for (Project.NameKey projectName : names) {
-      ProjectConfig config =
+      CachedProjectConfig config =
           projectCache.get(projectName).orElseThrow(illegalState(projectName)).getConfig();
-      GroupReference ref = config.getGroup(uuid);
-      if (ref == null || newName.equals(ref.getName())) {
+      Optional<GroupReference> ref = config.getGroup(uuid);
+      if (!ref.isPresent() || newName.equals(ref.get().getName())) {
         continue;
       }
 

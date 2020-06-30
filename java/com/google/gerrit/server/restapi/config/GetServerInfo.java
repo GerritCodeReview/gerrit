@@ -174,7 +174,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
 
     if (info.useContributorAgreements != null) {
       Collection<ContributorAgreement> agreements =
-          projectCache.getAllProjects().getConfig().getContributorAgreements();
+          projectCache.getAllProjects().getConfig().getContributorAgreements().values();
       if (!agreements.isEmpty()) {
         info.contributorAgreements = Lists.newArrayListWithCapacity(agreements.size());
         for (ContributorAgreement agreement : agreements) {

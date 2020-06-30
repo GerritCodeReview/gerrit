@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43d71113_d8f94e00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-06-30T09:25:31Z",
+      "side": 1,
+      "message": "Please add \n\n  Bug: Issue 13014\n\nas footer so that this gets linked to https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d13014",
+      "revId": "a1942c7ae3b8738666128775563c495262aa034e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

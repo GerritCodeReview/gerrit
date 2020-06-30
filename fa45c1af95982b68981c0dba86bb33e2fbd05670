@@ -33,6 +33,24 @@
       "revId": "fa45c1af95982b68981c0dba86bb33e2fbd05670",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b1012f8_b25dce3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-06-30T21:00:00Z",
+      "side": 1,
+      "message": "\u003e Thanks Marco for the discussion, I see the follow-up replacement and I\u0027m fine with it.\n\u003e We should sooner or later think about load and performance tests, based on the E2E scenarios, which would need some refactoring I believe.\n\nThanks. Either refactoring and/or coming up with new scenarios, yes. And the core framework will be as expected to evolve, alongside the plugin scenarios. A few plugins already started building on this base indeed; HA, MS and gc-conductor. I\u0027ll keep working on this overall myself too.",
+      "parentUuid": "633cfd02_0b4e195c",
+      "revId": "fa45c1af95982b68981c0dba86bb33e2fbd05670",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

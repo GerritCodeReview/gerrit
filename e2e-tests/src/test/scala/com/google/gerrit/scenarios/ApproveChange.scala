@@ -43,6 +43,6 @@ class ApproveChange extends GerritSimulation {
 
   setUp(
     test.inject(
-      atOnceUsers(1)
+      atOnceUsers(single)
     )).protocols(httpProtocol)
 }

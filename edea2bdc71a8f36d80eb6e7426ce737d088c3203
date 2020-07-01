@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "df7ba0e8_d9ae693f",
+        "filename": "java/com/google/gerrit/entities/Project.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-01T11:50:36Z",
+      "side": 1,
+      "message": "Fixed. Though I am not sure I would say it\u0027s wrong. Any reason you prefer the member here?",
+      "parentUuid": "a39d2600_69934ba8",
+      "range": {
+        "startLine": 79,
+        "startChar": 13,
+        "endLine": 79,
+        "endChar": 18
+      },
+      "revId": "edea2bdc71a8f36d80eb6e7426ce737d088c3203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8ea23147_f52ba513",
         "filename": "java/com/google/gerrit/server/config/AllProjectsName.java",
         "patchSetId": 3
@@ -42,6 +66,42 @@
     },
     {
       "key": {
+        "uuid": "f0730e36_46167725",
+        "filename": "java/com/google/gerrit/server/config/AllProjectsName.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-01T11:50:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ea23147_f52ba513",
+      "revId": "edea2bdc71a8f36d80eb6e7426ce737d088c3203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9875029e_96ffb38a",
+        "filename": "java/com/google/gerrit/server/config/AllProjectsName.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-01T11:50:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ea23147_f52ba513",
+      "revId": "edea2bdc71a8f36d80eb6e7426ce737d088c3203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb7ef2d0_1033e419",
         "filename": "java/com/google/gerrit/server/config/AllUsersName.java",
         "patchSetId": 3
@@ -56,6 +116,24 @@
       "revId": "edea2bdc71a8f36d80eb6e7426ce737d088c3203",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62743c03_45c3aed3",
+        "filename": "java/com/google/gerrit/server/config/AllUsersName.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-01T11:50:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb7ef2d0_1033e419",
+      "revId": "edea2bdc71a8f36d80eb6e7426ce737d088c3203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

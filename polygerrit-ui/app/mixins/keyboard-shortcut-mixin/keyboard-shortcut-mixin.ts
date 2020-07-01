@@ -103,10 +103,12 @@ import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin';
 import {property} from '@polymer/decorators';
 import {PolymerElement} from '@polymer/polymer';
 import {Constructor} from '../../utils/common-util';
+import {PreferencesInfo} from '../../types/common';
 import {
   CustomKeyboardEvent,
   ShortcutTriggeredEventDetail,
 } from '../../types/events';
+import {appContext} from '../../services/app-context';
 
 /** Enum for all special shortcuts */
 export enum SPECIAL_SHORTCUT {
@@ -805,6 +807,20 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
 
       ShortcutSection = ShortcutSection;
 
+      readonly restApiService = appContext.restApiService;
+
+      private preferences?: PreferencesInfo;
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+      constructor(..._: any[]) {
+        super();
+        this.restApiService.getPreferences().then(pref => {
+          if (!pref) return;
+
+          this.preferences = pref;
+        });
+      }
+
       modifierPressed(event: CustomKeyboardEvent) {
         /* We are checking for g/v as modifiers pressed. There are cases such as
          * pressing v and then /, where we want the handler for / to be triggered.
@@ -826,6 +842,10 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
       }
 
       shouldSuppressKeyboardShortcut(event: CustomKeyboardEvent) {
+        if (this.preferences?.disable_keyboard_shortcuts) {
+          return true;
+        }
+
         const e = getKeyboardEvent(event);
         // TODO(TS): maybe override the EventApi, narrow it down to Element always
         const target = (dom(e) as EventApi).rootTarget as Element;

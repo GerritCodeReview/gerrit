@@ -45,6 +45,7 @@ import {
   AccountInfo,
   ChangeInfo,
   ServerInfo,
+  PreferencesInfo,
   PreferencesInput,
 } from '../../../types/common';
 import {
@@ -136,6 +137,9 @@ export class GrChangeList extends ChangeTableMixin(
   @property({type: Object})
   preferences?: PreferencesInput;
 
+  @property({type: Object})
+  _userPrefs?: PreferencesInfo;
+
   @property({type: Boolean})
   isCursorMoving = false;
 
@@ -173,6 +177,11 @@ export class GrChangeList extends ChangeTableMixin(
     super.ready();
     this.restApiService.getConfig().then(config => {
       this._config = config;
+    });
+    this.restApiService.getPreferences().then(pref => {
+      if (!pref) return;
+
+      this._userPrefs = pref;
     });
   }
 
@@ -403,7 +412,10 @@ export class GrChangeList extends ChangeTableMixin(
   }
 
   _nextChange(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e, this._userPrefs) ||
+      this.modifierPressed(e)
+    ) {
       return;
     }
 
@@ -415,7 +427,10 @@ export class GrChangeList extends ChangeTableMixin(
   }
 
   _prevChange(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e, this._userPrefs) ||
+      this.modifierPressed(e)
+    ) {
       return;
     }
 
@@ -427,7 +442,10 @@ export class GrChangeList extends ChangeTableMixin(
   }
 
   _openChange(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e, this._userPrefs) ||
+      this.modifierPressed(e)
+    ) {
       return;
     }
 
@@ -438,7 +456,7 @@ export class GrChangeList extends ChangeTableMixin(
 
   _nextPage(e: CustomKeyboardEvent) {
     if (
-      this.shouldSuppressKeyboardShortcut(e) ||
+      this.shouldSuppressKeyboardShortcut(e, this._userPrefs) ||
       (this.modifierPressed(e) &&
         !this.isModifierPressed(e, Modifier.SHIFT_KEY))
     ) {
@@ -451,7 +469,7 @@ export class GrChangeList extends ChangeTableMixin(
 
   _prevPage(e: CustomKeyboardEvent) {
     if (
-      this.shouldSuppressKeyboardShortcut(e) ||
+      this.shouldSuppressKeyboardShortcut(e, this._userPrefs) ||
       (this.modifierPressed(e) &&
         !this.isModifierPressed(e, Modifier.SHIFT_KEY))
     ) {
@@ -468,7 +486,10 @@ export class GrChangeList extends ChangeTableMixin(
   }
 
   _toggleChangeReviewed(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e, this._userPrefs) ||
+      this.modifierPressed(e)
+    ) {
       return;
     }
 
@@ -487,7 +508,7 @@ export class GrChangeList extends ChangeTableMixin(
   }
 
   _refreshChangeList(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+    if (this.shouldSuppressKeyboardShortcut(e, this._userPrefs)) {
       return;
     }
 
@@ -500,7 +521,10 @@ export class GrChangeList extends ChangeTableMixin(
   }
 
   _toggleChangeStar(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e, this._userPrefs) ||
+      this.modifierPressed(e)
+    ) {
       return;
     }
 

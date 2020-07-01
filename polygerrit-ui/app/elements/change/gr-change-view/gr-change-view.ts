@@ -748,7 +748,10 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleToggleDiffMode(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e, this._prefs) ||
+      this.modifierPressed(e)
+    ) {
       return;
     }
 
@@ -1266,7 +1269,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _expandAllDiffs(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+    if (this.shouldSuppressKeyboardShortcut(e, this._prefs)) {
       return;
     }
     this.$.fileList.expandAllDiffs();
@@ -1655,7 +1658,10 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleOpenReplyDialog(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e, this._prefs) ||
+      this.modifierPressed(e)
+    ) {
       return;
     }
     this._getLoggedIn().then(isLoggedIn => {
@@ -1670,7 +1676,10 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleOpenDownloadDialogShortcut(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e, this._prefs) ||
+      this.modifierPressed(e)
+    ) {
       return;
     }
 
@@ -1679,7 +1688,10 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleEditTopic(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e, this._prefs) ||
+      this.modifierPressed(e)
+    ) {
       return;
     }
 
@@ -1688,7 +1700,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleDiffAgainstBase(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+    if (this.shouldSuppressKeyboardShortcut(e, this._prefs)) {
       return;
     }
     assertIsDefined(this._change, '_change');
@@ -1702,7 +1714,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleDiffBaseAgainstLeft(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+    if (this.shouldSuppressKeyboardShortcut(e, this._prefs)) {
       return;
     }
     assertIsDefined(this._change, '_change');
@@ -1716,7 +1728,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleDiffAgainstLatest(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+    if (this.shouldSuppressKeyboardShortcut(e, this._prefs)) {
       return;
     }
     assertIsDefined(this._change, '_change');
@@ -1735,7 +1747,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleDiffRightAgainstLatest(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+    if (this.shouldSuppressKeyboardShortcut(e, this._prefs)) {
       return;
     }
     assertIsDefined(this._change, '_change');
@@ -1754,7 +1766,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleDiffBaseAgainstLatest(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+    if (this.shouldSuppressKeyboardShortcut(e, this._prefs)) {
       return;
     }
     assertIsDefined(this._change, '_change');
@@ -1772,7 +1784,7 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleRefreshChange(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+    if (this.shouldSuppressKeyboardShortcut(e, this._prefs)) {
       return;
     }
     e.preventDefault();
@@ -1780,7 +1792,10 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleToggleChangeStar(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e, this._prefs) ||
+      this.modifierPressed(e)
+    ) {
       return;
     }
     e.preventDefault();
@@ -1788,7 +1803,10 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleUpToDashboard(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e, this._prefs) ||
+      this.modifierPressed(e)
+    ) {
       return;
     }
 
@@ -1797,7 +1815,10 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleExpandAllMessages(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e, this._prefs) ||
+      this.modifierPressed(e)
+    ) {
       return;
     }
 
@@ -1808,7 +1829,10 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleCollapseAllMessages(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e, this._prefs) ||
+      this.modifierPressed(e)
+    ) {
       return;
     }
 
@@ -1819,7 +1843,10 @@ export class GrChangeView extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleOpenDiffPrefsShortcut(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e, this._prefs) ||
+      this.modifierPressed(e)
+    ) {
       return;
     }
 

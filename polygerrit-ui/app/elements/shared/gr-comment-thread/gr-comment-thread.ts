@@ -34,6 +34,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {appContext} from '../../../services/app-context';
 import {
   CommentSide,
+  createDefaultPreferences,
   createDefaultDiffPrefs,
   Side,
   SpecialFilePath,
@@ -45,6 +46,7 @@ import {
   ConfigInfo,
   NumericChangeId,
   PatchSetNum,
+  PreferencesInfo,
   RepoName,
   UrlEncodedCommentId,
 } from '../../../types/common';
@@ -173,6 +175,9 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
   _projectConfig?: ConfigInfo;
 
   @property({type: Object})
+  _userPrefs: PreferencesInfo = createDefaultPreferences();
+
+  @property({type: Object})
   _prefs: DiffPreferencesInfo = createDefaultDiffPrefs();
 
   @property({type: Object})
@@ -229,6 +234,11 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
     super.connectedCallback();
     this._getLoggedIn().then(loggedIn => {
       this._showActions = loggedIn;
+    });
+    this.restApiService.getPreferences().then(pref => {
+      if (!pref) return;
+
+      this._userPrefs = pref;
     });
     this.restApiService.getDiffPreferences().then(prefs => {
       if (!prefs) return;
@@ -451,7 +461,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleEKey(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+    if (this.shouldSuppressKeyboardShortcut(e, this._userPrefs)) {
       return;
     }
 

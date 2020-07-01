@@ -562,6 +562,11 @@ export const KeyboardShortcutBehavior = [
     },
 
     shouldSuppressKeyboardShortcut(e) {
+      // If disable-hotkeys is in the local storage,
+      // disable hotskeys.
+      if (window.localStorage.getItem('disable-hotkeys')) {
+        return true
+      }
       e = getKeyboardEvent(e);
       const tagName = dom(e).rootTarget.tagName;
       if (tagName === 'INPUT' || tagName === 'TEXTAREA' ||

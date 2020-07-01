@@ -865,7 +865,10 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleLeftPane(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this._noDiffsExpanded()) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e, this._userPrefs) ||
+      this._noDiffsExpanded()
+    ) {
       return;
     }
 
@@ -874,7 +877,10 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleRightPane(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this._noDiffsExpanded()) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e, this._userPrefs) ||
+      this._noDiffsExpanded()
+    ) {
       return;
     }
 
@@ -884,7 +890,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
 
   _handleToggleInlineDiff(e: CustomKeyboardEvent) {
     if (
-      this.shouldSuppressKeyboardShortcut(e) ||
+      this.shouldSuppressKeyboardShortcut(e, this._userPrefs) ||
       this.modifierPressed(e) ||
       this.fileCursor.index === -1
     ) {
@@ -896,7 +902,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleToggleAllInlineDiffs(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+    if (this.shouldSuppressKeyboardShortcut(e, this._userPrefs)) {
       return;
     }
 
@@ -905,7 +911,10 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleToggleHideAllCommentThreads(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e, this._userPrefs) ||
+      this.modifierPressed(e)
+    ) {
       return;
     }
 
@@ -914,7 +923,10 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleCursorNext(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e, this._userPrefs) ||
+      this.modifierPressed(e)
+    ) {
       return;
     }
 
@@ -934,7 +946,10 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleCursorPrev(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e, this._userPrefs) ||
+      this.modifierPressed(e)
+    ) {
       return;
     }
 
@@ -954,7 +969,10 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleNewComment(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e, this._userPrefs) ||
+      this.modifierPressed(e)
+    ) {
       return;
     }
     e.preventDefault();
@@ -965,7 +983,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   _handleOpenLastFile(e: CustomKeyboardEvent) {
     // Check for meta key to avoid overriding native chrome shortcut.
     if (
-      this.shouldSuppressKeyboardShortcut(e) ||
+      this.shouldSuppressKeyboardShortcut(e, this._userPrefs) ||
       this.getKeyboardEvent(e).metaKey
     ) {
       return;
@@ -978,7 +996,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   _handleOpenFirstFile(e: CustomKeyboardEvent) {
     // Check for meta key to avoid overriding native chrome shortcut.
     if (
-      this.shouldSuppressKeyboardShortcut(e) ||
+      this.shouldSuppressKeyboardShortcut(e, this._userPrefs) ||
       this.getKeyboardEvent(e).metaKey
     ) {
       return;
@@ -989,7 +1007,10 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleOpenFile(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e, this._userPrefs) ||
+      this.modifierPressed(e)
+    ) {
       return;
     }
     e.preventDefault();
@@ -1004,7 +1025,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
 
   _handleNextChunk(e: CustomKeyboardEvent) {
     if (
-      this.shouldSuppressKeyboardShortcut(e) ||
+      this.shouldSuppressKeyboardShortcut(e, this._userPrefs) ||
       (this.modifierPressed(e) &&
         !this.isModifierPressed(e, Modifier.SHIFT_KEY)) ||
       this._noDiffsExpanded()
@@ -1022,7 +1043,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
 
   _handlePrevChunk(e: CustomKeyboardEvent) {
     if (
-      this.shouldSuppressKeyboardShortcut(e) ||
+      this.shouldSuppressKeyboardShortcut(e, this._userPrefs) ||
       (this.modifierPressed(e) &&
         !this.isModifierPressed(e, Modifier.SHIFT_KEY)) ||
       this._noDiffsExpanded()
@@ -1039,7 +1060,10 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleToggleFileReviewed(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e, this._userPrefs) ||
+      this.modifierPressed(e)
+    ) {
       return;
     }
 
@@ -1051,7 +1075,7 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleToggleLeftPane(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+    if (this.shouldSuppressKeyboardShortcut(e, this._userPrefs)) {
       return;
     }
 
@@ -1582,7 +1606,10 @@ export class GrFileList extends KeyboardShortcutMixin(PolymerElement) {
   }
 
   _handleEscKey(e: CustomKeyboardEvent) {
-    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e, this._userPrefs) ||
+      this.modifierPressed(e)
+    ) {
       return;
     }
     e.preventDefault();

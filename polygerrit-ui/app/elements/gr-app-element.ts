@@ -53,6 +53,7 @@ import {GrRouter} from './core/gr-router/gr-router';
 import {
   AccountDetailInfo,
   ElementPropertyDeepChange,
+  PreferencesInfo,
   ServerInfo,
 } from '../types/common';
 import {GrErrorManager} from './core/gr-error-manager/gr-error-manager';
@@ -117,6 +118,9 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
 
   @property({type: Object, observer: '_accountChanged'})
   _account?: AccountDetailInfo;
+
+  @property({type: Object})
+  _prefs?: PreferencesInfo;
 
   @property({type: Number})
   _lastGKeyPressTimestamp: number | null = null;
@@ -267,6 +271,11 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
     this.restApiService.getVersion().then(version => {
       this._version = version;
       this._logWelcome();
+    });
+    this.restApiService.getPreferences().then(pref => {
+      if (!pref) return;
+
+      this._prefs = pref;
     });
 
     if (window.localStorage.getItem('dark-theme')) {
@@ -642,7 +651,7 @@ export class GrAppElement extends KeyboardShortcutMixin(PolymerElement) {
       keyboardShortcuts.cancel();
       return;
     }
-    if (this.shouldSuppressKeyboardShortcut(e)) {
+    if (this.shouldSuppressKeyboardShortcut(e, this._prefs)) {
       return;
     }
     keyboardShortcuts.open();

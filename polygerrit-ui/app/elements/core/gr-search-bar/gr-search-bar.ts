@@ -24,7 +24,7 @@ import {
   Shortcut,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {customElement, property} from '@polymer/decorators';
-import {ServerInfo} from '../../../types/common';
+import {PreferencesInfo, ServerInfo} from '../../../types/common';
 import {
   AutocompleteQuery,
   AutocompleteSuggestion,
@@ -188,6 +188,9 @@ export class GrSearchBar extends KeyboardShortcutMixin(PolymerElement) {
   @property({type: String})
   docBaseUrl: string | null = null;
 
+  @property({type: Object})
+  _userPrefs?: PreferencesInfo;
+
   private readonly restApiService = appContext.restApiService;
 
   constructor() {
@@ -197,6 +200,7 @@ export class GrSearchBar extends KeyboardShortcutMixin(PolymerElement) {
 
   connectedCallback() {
     super.connectedCallback();
+
     this.restApiService.getConfig().then((serverConfig?: ServerInfo) => {
       const mergeability =
         serverConfig &&
@@ -216,6 +220,12 @@ export class GrSearchBar extends KeyboardShortcutMixin(PolymerElement) {
           this.docBaseUrl = baseUrl;
         });
       }
+    });
+
+    this.restApiService.getPreferences().then(pref => {
+      if (!pref) return;
+
+      this._userPrefs = pref;
     });
   }
 
@@ -387,7 +397,7 @@ export class GrSearchBar extends KeyboardShortcutMixin(PolymerElement) {
   _handleSearch(e: CustomKeyboardEvent) {
     const keyboardEvent = this.getKeyboardEvent(e);
     if (
-      this.shouldSuppressKeyboardShortcut(e) ||
+      this.shouldSuppressKeyboardShortcut(e, this._userPrefs) ||
       (this.modifierPressed(e) && !keyboardEvent.shiftKey)
     ) {
       return;

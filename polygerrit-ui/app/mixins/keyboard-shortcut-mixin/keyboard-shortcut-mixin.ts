@@ -103,6 +103,7 @@ import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin';
 import {property} from '@polymer/decorators';
 import {PolymerElement} from '@polymer/polymer';
 import {Constructor} from '../../utils/common-util';
+import {PreferencesInfo} from '../../types/common';
 import {
   CustomKeyboardEvent,
   ShortcutTriggeredEventDetail,
@@ -825,7 +826,14 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
         return getKeyboardEvent(e)[modifier];
       }
 
-      shouldSuppressKeyboardShortcut(event: CustomKeyboardEvent) {
+      shouldSuppressKeyboardShortcut(
+        event: CustomKeyboardEvent,
+        prefs?: PreferencesInfo
+      ) {
+        if (prefs && prefs.disable_keyboard_shortcuts) {
+          return true;
+        }
+
         const e = getKeyboardEvent(event);
         // TODO(TS): maybe override the EventApi, narrow it down to Element always
         const target = (dom(e) as EventApi).rootTarget as Element;
@@ -1086,7 +1094,10 @@ export interface KeyboardShortcutMixinInterface {
   keyboardShortcuts(): {[key: string]: string | null};
   createTitle(name: Shortcut, section: ShortcutSection): string;
   bindShortcut(shortcut: Shortcut, ...bindings: string[]): void;
-  shouldSuppressKeyboardShortcut(event: CustomKeyboardEvent): boolean;
+  shouldSuppressKeyboardShortcut(
+    event: CustomKeyboardEvent,
+    prefs?: PreferencesInfo
+  ): boolean;
   modifierPressed(event: CustomKeyboardEvent): boolean;
   isModifierPressed(event: CustomKeyboardEvent, modifier: Modifier): boolean;
   getKeyboardEvent(e: CustomKeyboardEvent): CustomKeyboardEvent;

@@ -1,9 +1,10 @@
 :linkattrs:
 = Gerrit Code Review - NoteDb Backend
 
-NoteDb is the next generation of Gerrit storage backend, which replaces the
-traditional SQL backend for change, account and group metadata with storing
-data in the same repository as code changes.
+NoteDb is the storage backend for code review metadata. It is based on
+Git, so code reviews are stored together with the code under review.
+NoteDb replaced the traditional SQL backend for change, account and group
+metadata that was used in the 2.x series.
 
 .Advantages
 - *Simplicity*: All data is stored in one location in the site directory, rather
@@ -22,32 +23,18 @@ data in the same repository as code changes.
 - *New features*: Enables simple federation between Gerrit servers, as well as
   offline code review and interoperation with other tools.
 
-== Current Status
-
-- Storing change metadata is fully implemented in the 2.15 release, and is the
-  default for new sites.
-- Admins may use an link:#offline-migration[offline] or
-  link:#online-migration[online] tool to migrate change data in an existing
-  site from ReviewDb.
-- Storing link:config-accounts.html[account data] is fully implemented in the
-  2.15 release. Account data is migrated automatically during the upgrade
-  process by running `gerrit.war init`.
-- Storing link:config-groups.html[group metadata] is fully implemented
-  in the 2.16 release. Group data is migrated automatically during
-  the upgrade process by running `gerrit.war init`
-- Account, group and change metadata on the servers behind `googlesource.com` is fully
-  migrated to NoteDb. In other words, if you use
-  link:https://gerrit-review.googlesource.com/[gerrit-review,role=external,window=_blank], you're already
-  using NoteDb.
-- NoteDb is the only database format supported by Gerrit 3.0. The change data
-  migration tools are only included in Gerrit 2.15 and 2.16; they are not
-  available in 3.0.
-
 For an example NoteDb change, poke around at this one:
 ----
   git fetch https://gerrit.googlesource.com/gerrit refs/changes/70/98070/meta \
       && git log -p FETCH_HEAD
 ----
+
+== Current Status
+
+NoteDb is the only database format supported by Gerrit 3.0+. The
+change data migration tools are only included in Gerrit 2.16; they are
+not available in 3.0, so any upgrade from Gerrit 2.x to 3.x must go through
+2.16 to effect the NoteDb upgrade.
 
 [[migration]]
 == Migration

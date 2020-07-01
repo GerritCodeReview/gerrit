@@ -17,18 +17,22 @@ package com.google.gerrit.scenarios
 import io.gatling.core.Predef._
 import io.gatling.core.feeder.FeederBuilder
 import io.gatling.core.structure.ScenarioBuilder
+import io.gatling.http.Predef._
 
-class DeleteProject extends ProjectSimulation {
+class GetMasterBranchRevision extends ProjectSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
-
-  def this(default: String) {
-    this()
-    this.default = default
-  }
+  var revision: Option[String] = None
+  val revisionKey = "revision"
+  val revisionPattern: String = "\"" + revisionKey + "\": \"(.+)\""
 
   val test: ScenarioBuilder = scenario(unique)
       .feed(data)
-      .exec(httpRequest)
+      .exec(http(unique).get("${url}")
+          .check(regex(revisionPattern).saveAs(revisionKey)))
+      .exec(session => {
+        revision = Some(session(revisionKey).as[String])
+        session
+      })
 
   setUp(
     test.inject(

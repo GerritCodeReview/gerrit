@@ -74,6 +74,7 @@ const PREFS_SECTION_FIELDS: Array<keyof PreferencesInput> = [
   'email_strategy',
   'diff_view',
   'publish_comments_on_push',
+  'disable_keyboard_shortcuts',
   'work_in_progress_by_default',
   'default_base_for_merges',
   'signed_off_by',
@@ -380,6 +381,13 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
     );
   }
 
+  _handleDisableHotkeys() {
+    this.set(
+      '_localPrefs.disable_keyboard_shortcuts',
+      this.$.disableHotkeys.checked
+    );
+  }
+
   _handleWorkInProgressByDefault() {
     this.set(
       '_localPrefs.work_in_progress_by_default',
@@ -524,7 +532,7 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
   /**
    * Work around a issue on iOS when clicking turns into double tap
    */
-  _onTapDarkToggle(e: Event) {
+  _onClickToggle(e: Event) {
     e.preventDefault();
   }
 }

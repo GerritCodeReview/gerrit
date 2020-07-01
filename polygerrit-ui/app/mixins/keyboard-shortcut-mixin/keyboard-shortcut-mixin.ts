@@ -826,6 +826,12 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
       }
 
       shouldSuppressKeyboardShortcut(event: CustomKeyboardEvent) {
+        // If disable-hotkeys is in the local storage,
+        // disable hotkeys.
+        if (window.localStorage.getItem('disable-hotkeys')) {
+          return true;
+        }
+
         const e = getKeyboardEvent(event);
         // TODO(TS): maybe override the EventApi, narrow it down to Element always
         const target = (dom(e) as EventApi).rootTarget as Element;

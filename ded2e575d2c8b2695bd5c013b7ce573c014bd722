@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "971f03ba_a45d1cf8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-01T12:25:25Z",
+      "side": 1,
+      "message": "Changed this, hopefully it\u0027s better now.\nAll you have to do is check the rule for \"submodule_file\".",
+      "parentUuid": "55e56cfc_ff4501c4",
+      "range": {
+        "startLine": 14,
+        "startChar": 12,
+        "endLine": 15,
+        "endChar": 5
+      },
+      "revId": "ded2e575d2c8b2695bd5c013b7ce573c014bd722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5de84a93_756e715c",
         "filename": "Documentation/prolog-change-facts.txt",
         "patchSetId": 2
@@ -63,6 +87,24 @@
       "revId": "ded2e575d2c8b2695bd5c013b7ce573c014bd722",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb0177c7_799cd4cb",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-01T12:25:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5de84a93_756e715c",
+      "revId": "ded2e575d2c8b2695bd5c013b7ce573c014bd722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

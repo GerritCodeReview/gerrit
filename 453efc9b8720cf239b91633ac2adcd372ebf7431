@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "002986fc_3796b763",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-01T18:40:28Z",
+      "side": 1,
+      "message": "Both checks were reported here as successful, but no votes. Should I score them manually for now?",
+      "revId": "453efc9b8720cf239b91633ac2adcd372ebf7431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

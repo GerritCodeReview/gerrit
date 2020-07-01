@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "70b642ca_9a0da1c2",
+        "filename": "java/com/google/gerrit/server/project/StoredCommentLinkInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-01T11:50:36Z",
+      "side": 1,
+      "message": "It\u0027s strange, I agree. But the whole refactoring series is touching a good chunk of the code base and in order to reduce the risk of breakages, I try to keep existing functional behavior in place where possible.\n\nMade it a JavaDoc.",
+      "parentUuid": "08898e5b_b848f42c",
+      "range": {
+        "startLine": 43,
+        "startChar": 37,
+        "endLine": 43,
+        "endChar": 55
+      },
+      "revId": "e11c1fe9e44697770993edead3f9cbc413ea8ee2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "671a4a3a_b3550d93",
         "filename": "java/com/google/gerrit/server/project/StoredCommentLinkInfo.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "9e12f11b_0dda8588",
+        "filename": "java/com/google/gerrit/server/project/StoredCommentLinkInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-01T11:50:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "671a4a3a_b3550d93",
+      "range": {
+        "startLine": 50,
+        "startChar": 8,
+        "endLine": 50,
+        "endChar": 12
+      },
+      "revId": "e11c1fe9e44697770993edead3f9cbc413ea8ee2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b89fccdd_028af503",
         "filename": "java/com/google/gerrit/server/project/StoredCommentLinkInfo.java",
         "patchSetId": 2
@@ -68,6 +116,30 @@
       "revId": "e11c1fe9e44697770993edead3f9cbc413ea8ee2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b65ed0a_bc085779",
+        "filename": "java/com/google/gerrit/server/project/StoredCommentLinkInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-01T11:50:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b89fccdd_028af503",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 99
+      },
+      "revId": "e11c1fe9e44697770993edead3f9cbc413ea8ee2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

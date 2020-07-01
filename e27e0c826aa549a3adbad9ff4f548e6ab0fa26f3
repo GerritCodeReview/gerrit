@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0d4d4aa_b414a04a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-01T15:12:14Z",
+      "side": 1,
+      "message": "manually verified, because of flaky test, child change has a successful ci verification",
+      "revId": "e27e0c826aa549a3adbad9ff4f548e6ab0fa26f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

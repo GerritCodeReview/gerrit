@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "99a1a1f8_51eb6813",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-01T12:48:51Z",
+      "side": 1,
+      "message": "But now :-)",
+      "parentUuid": "99172f15_9d72f349",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 18
+      },
+      "revId": "77173ae63905f14aaf0b09ee200b8d6493bc6e37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84912d22_8c3a3161",
         "filename": "java/com/google/gerrit/common/data/SubscribeSection.java",
         "patchSetId": 2

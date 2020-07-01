@@ -158,6 +158,9 @@ suite('gr-change-list-item tests', () => {
       userId, reviewerIds, reviewerNames, attSetIds, expected) {
     element.account = userId ? {_account_id: userId} : null;
     element.change = {
+      owner: {
+        _account_id: 99,
+      },
       reviewers: {
         REVIEWER: [],
       },
@@ -179,6 +182,8 @@ suite('gr-change-list-item tests', () => {
   test('compute reviewers', () => {
     checkComputeReviewers(null, [], [], [], []);
     checkComputeReviewers(1, [], [], [], []);
+    checkComputeReviewers(1, [2], ['a'], [], [2]);
+    checkComputeReviewers(1, [99], ['owner'], [], []);
     checkComputeReviewers(
         1, [2, 3, 4, 5], ['b', 'a', 'd', 'c'], [3, 4], [3, 4, 2, 5]);
     checkComputeReviewers(

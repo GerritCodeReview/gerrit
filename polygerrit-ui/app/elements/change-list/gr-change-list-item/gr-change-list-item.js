@@ -228,7 +228,9 @@ class GrChangeListItem extends mixinBehaviors( [
    */
   _computeReviewers(change) {
     if (!change || !change.reviewers || !change.reviewers.REVIEWER) return [];
-    const reviewers = [...change.reviewers.REVIEWER];
+    const reviewers = [...change.reviewers.REVIEWER].filter(r =>
+      !change.owner || change.owner._account_id != r._account_id
+    );
     reviewers.sort((r1, r2) => {
       if (this.account) {
         if (r1._account_id === this.account._account_id) return -1;

@@ -107,7 +107,7 @@ export const htmlTemplate = html`
             aria-labelledby="darkThemeToggleLabel"
             checked="[[_isDark]]"
             on-change="_handleToggleDark"
-            on-click="_onTapDarkToggle"
+            on-click="_onClickToggle"
           ></paper-toggle-button>
           <div id="darkThemeToggleLabel">Dark theme (alpha)</div>
         </div>
@@ -261,6 +261,17 @@ export const htmlTemplate = html`
               type="checkbox"
               checked$="[[_localPrefs.publish_comments_on_push]]"
               on-change="_handlePublishCommentsOnPushChanged"
+            />
+          </span>
+        </section>
+        <section>
+          <label for="disableHotkeys" class="title">Disable Hotkeys</label>
+          <span class="value">
+            <input
+              id="disableHotkeys"
+              type="checkbox"
+              checked$="[[_localPrefs.disable_keyboard_shortcuts]]"
+              on-change="_handleDisableHotkeys"
             />
           </span>
         </section>

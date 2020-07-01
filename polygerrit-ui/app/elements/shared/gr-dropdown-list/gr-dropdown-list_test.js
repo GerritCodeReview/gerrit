@@ -36,7 +36,7 @@ suite('gr-dropdown-list tests', () => {
         .callsFake(() => { element.$.dropdown.open(); });
     assert.isFalse(element.$.dropdown.opened);
     MockInteractions.tap(element.$.trigger);
-    assert.isTrue(element.$.dropdown.opened);
+    assert.isFalse(element.$.dropdown.opened);
   });
 
   test('_computeMobileText', () => {

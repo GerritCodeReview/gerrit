@@ -48,3 +48,5 @@
 !/plugins/webhooks
 /test_site
 /tools/format
+/.ts-out/*
+!/.ts-out/README.md

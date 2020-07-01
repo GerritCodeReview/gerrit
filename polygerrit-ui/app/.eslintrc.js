@@ -17,6 +17,7 @@
 
 // Do not add any bazel-specific properties in this file to keep it clean.
 // Please add such properties to the .eslintrc-bazel.js file
+const path = require('path');
 
 module.exports = {
   "extends": ["eslint:recommended", "google"],
@@ -149,7 +150,6 @@ module.exports = {
       }
     }],
     "import/named": 2,
-    "import/no-unresolved": 2,
     "import/no-self-import": 2,
     // The no-cycle rule is slow, because it doesn't cache dependencies.
     // Disable it.
@@ -157,6 +157,9 @@ module.exports = {
     "import/no-useless-path-segments": 2,
     "import/no-unused-modules": 2,
     "import/no-default-export": 2,
+    // Custom rule from the //tools/js/eslint-rules directory.
+    // See //tools/js/eslint-rules/README.md for details
+    "goog-module-id": 2,
   },
 
   // List of allowed globals in all files
@@ -173,6 +176,38 @@ module.exports = {
     "security": "readonly",
   },
   "overrides": [
+    {
+      // .js-only rules
+      "files": ["**/*.js"],
+      "rules": {
+        // The rule is required for .js files only, because typescript compiler
+        // always checks import.
+        "import/no-unresolved": 2,
+      },
+      "globals": {
+        "goog": "readonly",
+      }
+    },
+    {
+      "files": ["**/*.ts"],
+      "extends": [require.resolve("gts/.eslintrc.json")],
+      "rules": {
+        // The following rules is required to match internal google rules
+        "@typescript-eslint/restrict-plus-operands": "error"
+      },
+      "parserOptions": {
+        "project": path.resolve(__dirname, "./tsconfig.json"),
+      }
+    },
+    {
+      "files": ["**/*.ts"],
+      "excludedFiles": "*.d.ts",
+      "rules": {
+        // Custom rule from the //tools/js/eslint-rules directory.
+        // See //tools/js/eslint-rules/README.md for details
+        "ts-imports-js": 2,
+      }
+    },
     {
       "files": ["*.html", "test.js", "test-infra.js", "template_test.js"],
       "rules": {
@@ -263,6 +298,10 @@ module.exports = {
     "prettier"
   ],
   "settings": {
-    "html/report-bad-indent": "error"
+    "html/report-bad-indent": "error",
+    "import/resolver": {
+      "node": {},
+      [path.resolve(__dirname, './.eslint-ts-resolver.js')]: {},
+    },
   },
 };

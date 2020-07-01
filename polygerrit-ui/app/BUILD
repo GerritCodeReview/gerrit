@@ -1,24 +1,82 @@
-load(":rules.bzl", "polygerrit_bundle")
+load(":rules.bzl", "compile_ts", "polygerrit_bundle")
 load("//tools/js:eslint.bzl", "eslint")
 
 package(default_visibility = ["//visibility:public"])
 
-polygerrit_bundle(
-    name = "polygerrit_ui",
+# This list must be in sync with the "include" list in the tsconfig.json file
+src_dirs = [
+    "behaviors",
+    "constants",
+    "elements",
+    "embed",
+    "gr-diff",
+    "samples",
+    "scripts",
+    "services",
+    "styles",
+    "types",
+    "utils",
+]
+
+compiled_pg_srcs = compile_ts(
+    name = "compile_pg",
+    srcs = glob(
+        [src_dir + "/**/*" + ext for src_dir in src_dirs for ext in [
+            ".js",
+            ".ts",
+        ]],
+        exclude = [
+            "**/*_test.js",
+        ],
+    ),
+    # The same outdir also appears in the following files:
+    # polylint_test.sh
+    ts_outdir = "_pg_ts_out",
+)
+
+compiled_pg_srcs_with_tests = compile_ts(
+    name = "compile_pg_with_tests",
     srcs = glob(
         [
             "**/*.js",
+            "**/*.ts",
         ],
         exclude = [
             "node_modules/**",
             "node_modules_licenses/**",
-            "test/**",
-            "**/*_test.html",
-            "**/*_test.js",
+            "template_test_srcs/**",
+            "rollup.config.js",
         ],
     ),
+    # The same outdir also appears in the following files:
+    # wct_test.sh
+    # karma.conf.js
+    ts_outdir = "_pg_with_tests_out",
+)
+
+polygerrit_bundle(
+    name = "polygerrit_ui",
+    srcs = compiled_pg_srcs,
     outs = ["polygerrit_ui.zip"],
-    entry_point = "elements/gr-app.js",
+    entry_point = "_pg_ts_out/elements/gr-app.js",
+)
+
+filegroup(
+    name = "eslint_src_code",
+    srcs = glob(
+        [
+            "**/*.html",
+            "**/*.js",
+            "**/*.ts",
+        ],
+        exclude = [
+            "node_modules/**",
+            "node_modules_licenses/**",
+        ],
+    ) + [
+        "@ui_dev_npm//:node_modules",
+        "@ui_npm//:node_modules",
+    ],
 )
 
 filegroup(
@@ -26,38 +84,19 @@ filegroup(
     srcs = glob(
         [
             "**/*.html",
-            "**/*.js",
         ],
         exclude = [
             "node_modules/**",
             "node_modules_licenses/**",
         ],
-    ),
-)
-
-filegroup(
-    name = "pg_code_without_test",
-    srcs = glob(
-        [
-            "**/*.html",
-            "**/*.js",
-        ],
-        exclude = [
-            "node_modules/**",
-            "node_modules_licenses/**",
-            "test/**",
-            "samples/**",
-            "**/*_test.js",
-        ],
-    ),
+    ) + compiled_pg_srcs_with_tests,
 )
 
 # Workaround for https://github.com/bazelbuild/bazel/issues/1305
 filegroup(
     name = "test-srcs-fg",
     srcs = [
-        "test/common-test-setup.js",
-        "test/common-test-setup-karma.js",
+        "rollup.config.js",
         ":pg_code",
         "@ui_dev_npm//:node_modules",
         "@ui_npm//:node_modules",
@@ -68,13 +107,19 @@ filegroup(
 # The eslint macro creates 2 rules: lint_test and lint_bin
 eslint(
     name = "lint",
-    srcs = [":test-srcs-fg"],
+    srcs = [":eslint_src_code"],
     config = ".eslintrc-bazel.js",
-    # The .eslintrc-bazel.js extends the .eslintrc.js config, pass it as a dependency
-    data = [".eslintrc.js"],
+    data = [
+        # The .eslintrc-bazel.js extends the .eslintrc.js config, pass it as a dependency
+        ".eslintrc.js",
+        ".prettierrc.js",
+        ".eslint-ts-resolver.js",
+        "tsconfig.json",
+    ],
     extensions = [
         ".html",
         ".js",
+        ".ts",
     ],
     ignore = ".eslintignore",
     plugins = [
@@ -83,16 +128,18 @@ eslint(
         "@npm//eslint-plugin-import",
         "@npm//eslint-plugin-jsdoc",
         "@npm//eslint-plugin-prettier",
+        "@npm//gts",
     ],
 )
 
-# Workaround for https://github.com/bazelbuild/bazel/issues/1305
 filegroup(
     name = "polylint-fg",
     srcs = [
-        ":pg_code_without_test",
+        # Workaround for https://github.com/bazelbuild/bazel/issues/1305
         "@ui_npm//:node_modules",
-    ],
+    ] +
+    # Polylinter can't check .ts files, run it on compiled srcs
+    compiled_pg_srcs,
 )
 
 sh_test(

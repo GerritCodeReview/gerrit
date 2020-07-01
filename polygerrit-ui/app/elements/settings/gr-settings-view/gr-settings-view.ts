@@ -203,6 +203,9 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
   @property({type: Boolean})
   _isDark = false;
 
+  @property({type: Boolean})
+  _isDisableHotkeys = false;
+
   public _testOnly_loadingPromise?: Promise<void>;
 
   private readonly restApiService = appContext.restApiService;
@@ -216,6 +219,8 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
     fireTitleChange(this, 'Settings');
 
     this._isDark = !!window.localStorage.getItem('dark-theme');
+
+    this._isDisableHotkeys = !!window.localStorage.getItem('disable-hotkeys');
 
     const promises: Array<Promise<unknown>> = [
       this.$.accountInfo.loadData(),
@@ -511,6 +516,23 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
     fireAlert(this, `Theme changed to ${this._isDark ? 'dark' : 'light'}.`);
   }
 
+  _handleToggleDisableHotkeys() {
+    if (this._isDisableHotkeys) {
+      window.localStorage.removeItem('disable-hotkeys');
+    } else {
+      window.localStorage.setItem('disable-hotkeys', 'true');
+    }
+    this._isDisableHotkeys = !!window.localStorage.getItem('disable-hotkeys');
+
+    const message = this._isDisableHotkeys ?
+      'Disabled Hotkeys' : 'Enabled Hotkeys';
+    this.dispatchEvent(new CustomEvent('show-alert', {
+      detail: {message},
+      bubbles: true,
+      composed: true,
+    }));
+  }
+
   _showHttpAuth(config?: ServerInfo) {
     if (config && config.auth && config.auth.git_basic_auth_policy) {
       return HTTP_AUTH.includes(
@@ -524,7 +546,7 @@ export class GrSettingsView extends ChangeTableMixin(PolymerElement) {
   /**
    * Work around a issue on iOS when clicking turns into double tap
    */
-  _onTapDarkToggle(e: Event) {
+  _onClickToggle(e: Event) {
     e.preventDefault();
   }
 }

@@ -16,6 +16,24 @@
       "revId": "453efc9b8720cf239b91633ac2adcd372ebf7431",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb05705a_aa25589f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-01T19:07:35Z",
+      "side": 1,
+      "message": "This is gerrit project, so that GerritForge-CI is running the tests and not Zuul.\n\n@Luca, can you have a look, why there wasn\u0027t VRFY vote on this change?",
+      "parentUuid": "002986fc_3796b763",
+      "revId": "453efc9b8720cf239b91633ac2adcd372ebf7431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

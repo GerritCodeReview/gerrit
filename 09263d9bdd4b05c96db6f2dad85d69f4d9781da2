@@ -22,6 +22,30 @@
       "revId": "09263d9bdd4b05c96db6f2dad85d69f4d9781da2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d98fd284_35c672d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-01T14:39:01Z",
+      "side": 1,
+      "message": "If you are interested, I think this is defined in https://tools.ietf.org/html/rfc2606",
+      "parentUuid": "92044fb7_6a0c6871",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 51
+      },
+      "revId": "09263d9bdd4b05c96db6f2dad85d69f4d9781da2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

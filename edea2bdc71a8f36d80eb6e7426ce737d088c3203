@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ea23147_f52ba513",
+        "filename": "java/com/google/gerrit/server/config/AllProjectsName.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-01T08:37:01Z",
+      "side": 1,
+      "message": "Should the @Immutable annotation be used here too?",
+      "revId": "edea2bdc71a8f36d80eb6e7426ce737d088c3203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb7ef2d0_1033e419",
+        "filename": "java/com/google/gerrit/server/config/AllUsersName.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-01T08:37:01Z",
+      "side": 1,
+      "message": "Should the @Immutable annotation be used here too?",
+      "revId": "edea2bdc71a8f36d80eb6e7426ce737d088c3203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

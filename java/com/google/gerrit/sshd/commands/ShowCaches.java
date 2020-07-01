@@ -49,7 +49,7 @@ import java.util.Date;
 import java.util.Map;
 import org.apache.sshd.common.io.IoAcceptor;
 import org.apache.sshd.common.io.IoSession;
-import org.apache.sshd.common.io.mina.MinaSession;
+import org.apache.sshd.mina.MinaSession;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.channel.ChannelSession;
 import org.kohsuke.args4j.Option;

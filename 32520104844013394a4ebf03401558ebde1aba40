@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6d234e8d_f9673537",
+        "filename": "java/com/google/gerrit/server/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-07-01T12:14:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a651d324_87a7e6ca",
+      "range": {
+        "startLine": 58,
+        "startChar": 8,
+        "endLine": 58,
+        "endChar": 47
+      },
+      "revId": "32520104844013394a4ebf03401558ebde1aba40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68e8abc8_23850eb9",
         "filename": "java/com/google/gerrit/server/data/BUILD",
         "patchSetId": 2
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "fafc221c_488421ae",
+        "filename": "java/com/google/gerrit/server/data/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-07-01T12:14:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68e8abc8_23850eb9",
+      "revId": "32520104844013394a4ebf03401558ebde1aba40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "109d9049_046e788f",
         "filename": "java/com/google/gerrit/server/data/BUILD",
         "patchSetId": 2
@@ -53,6 +95,30 @@
       "writtenOn": "2020-06-30T18:11:18Z",
       "side": 1,
       "message": "Remove this. There is no sub directories in this package.",
+      "range": {
+        "startLine": 5,
+        "startChar": 10,
+        "endLine": 5,
+        "endChar": 13
+      },
+      "revId": "32520104844013394a4ebf03401558ebde1aba40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1b1afea_ed6d8649",
+        "filename": "java/com/google/gerrit/server/data/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-07-01T12:14:38Z",
+      "side": 1,
+      "message": "Done.\n\nnote that adding \u0027**/\u0027 is forward compatible with when we ever add them, and logging/BUILD has this too.",
+      "parentUuid": "109d9049_046e788f",
       "range": {
         "startLine": 5,
         "startChar": 10,

@@ -65,6 +65,7 @@ suite('gr-settings-view tests', () => {
       registered: '2000-01-01 00:00:00.000000000',
     };
     preferences = {
+      disable_keyboard_shortcuts: false,
       changes_per_page: 25,
       date_format: 'UK',
       time_format: 'HHMM_12',
@@ -126,6 +127,10 @@ suite('gr-settings-view tests', () => {
 
   test('user preferences', done => {
     // Rendered with the expected preferences selected.
+    assert.equal(valueOf('Disable Hotkeys', 'preferences')
+        .firstElementChild.checked, false);
+    assert.equal(valueOf('Changes per page', 'preferences')
+        .firstElementChild.bindValue, preferences.changes_per_page);
     assert.equal(valueOf('Changes per page', 'preferences')
         .firstElementChild.bindValue, preferences.changes_per_page);
     assert.equal(valueOf('Date/time format', 'preferences')

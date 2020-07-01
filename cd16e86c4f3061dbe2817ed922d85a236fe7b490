@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21be6596_649f5c16",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-01T16:26:39Z",
+      "side": 1,
+      "message": "status \u003d\u003d MERGED would be shorter, or MERGED.equals(status) if you prefer .equals().",
+      "range": {
+        "startLine": 772,
+        "startChar": 11,
+        "endLine": 772,
+        "endChar": 65
+      },
+      "revId": "cd16e86c4f3061dbe2817ed922d85a236fe7b490",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb91d1b1_45b14449",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-01T16:26:39Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 773,
+        "startChar": 40,
+        "endLine": 773,
+        "endChar": 48
+      },
+      "revId": "cd16e86c4f3061dbe2817ed922d85a236fe7b490",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d526324_9b8f3b3b",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-01T16:26:39Z",
+      "side": 1,
+      "message": "I think this comment should either be javadoc or inside the message body.",
+      "revId": "cd16e86c4f3061dbe2817ed922d85a236fe7b490",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1c78570_e81acfe1",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-01T16:26:39Z",
+      "side": 1,
+      "message": "I don\u0027t believe the bug can reproduce anyway without another bug ;-)",
+      "range": {
+        "startLine": 250,
+        "startChar": 97,
+        "endLine": 251,
+        "endChar": 26
+      },
+      "revId": "cd16e86c4f3061dbe2817ed922d85a236fe7b490",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

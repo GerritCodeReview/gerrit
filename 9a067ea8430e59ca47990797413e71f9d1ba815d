@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1603768f_ab6d60c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-01T13:17:25Z",
+      "side": 1,
+      "message": "The build is failing with:\n\"polygerrit-ui/app/behaviors/docs-url-behavior/docs-url-behavior.ts(22,5): error TS7034: Variable \u0027cachedPromise\u0027 implicitly has type \u0027any\u0027 in some locations where its type cannot be determined.\npolygerrit-ui/app/behaviors/docs-url-behavior/docs-url-behavior.ts(35,18): error TS7006: Parameter \u0027config\u0027 implicitly has an \u0027any\u0027 type.\npolygerrit-ui/app/behaviors/docs-url-behavior/docs-url-behavior.ts(35,26): error TS7006: Parameter \u0027restApi\u0027 implicitly has an \u0027any\u0027 type.\npolygerrit-ui/app/behaviors/docs-url-behavior/docs-url-behavior.ts(36,10): error TS7005: Variable \u0027cachedPromise\u0027 implicitly has an \u0027any\u0027 type.\npolygerrit-ui/app/behaviors/docs-url-behavior/docs-url-behavior.ts(41,34): error TS2339: Property \u0027getBaseUrl\u0027 does not exist on type \u0027{ getDocsBaseUrl(config: any, restApi: any): any; _clearDocsBaseUrlCache(): void; }\u0027.\npolygerrit-ui/app/behaviors/docs-url-behavior/docs-url-behavior.ts(41,66): error TS7006: Parameter \u0027ok\u0027 implicitly has an \u0027any\u0027 type.\npolygerrit-ui/app/behaviors/docs-url-behavior/docs-url-behavior.ts(42,32): error TS2339: Property \u0027getBaseUrl\u0027 does not exist on type \u0027{ getDocsBaseUrl(config: any, restApi: any): any; _clearDocsBaseUrlCache(): void; }\u0027.\npolygerrit-ui/app/behaviors/docs-url-behavior/docs-url-behavior.ts(47,12): error TS7005: Variable \u0027cachedPromise\u0027 implicitly has an \u0027any\u0027 type.\nERROR: /home/jenkins/workspace/Gerrit-verifier-bazel/gerrit/polygerrit-ui/app/BUILD:57:1 Executing genrule //polygerrit-ui/app:compile_pg_ts_compiled failed (Exit 2)\"\n\nHowever, Dimitrii verified manually. Is the CI broken? How did you verify the change locally?",
+      "revId": "9a067ea8430e59ca47990797413e71f9d1ba815d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

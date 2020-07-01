@@ -24,6 +24,9 @@ import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.api.changes.ChangeApi;
+import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
@@ -45,6 +48,9 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   public static Config submitWholeTopicEnabled() {
     return submitWholeTopicEnabledConfig();
   }
+
+  private static final String RULE_TEMPLATE =
+      "submit_rule(submit(W)) :- \n" + "%s,\n" + "W = label('OK', ok(user(1000000))).";
 
   @Inject private ProjectOperations projectOperations;
 
@@ -629,6 +635,65 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     // Push succeeds, but gitlink update is skipped.
     pushChangeTo(subRepo, "master");
     expectToHaveSubmoduleState(superRepo, "master", subKey, badId);
+  }
+
+  @Test
+  public void FileNamesPredicateWithSubmoduleCommit() throws Exception {
+    allowMatchingSubmoduleSubscription(subKey, "refs/heads/*", superKey, "refs/heads/*");
+    // Create branch "branch" for the parent and the submodule
+    pushChangeTo(superRepo, "branch");
+    pushChangeTo(subRepo, "branch");
+
+    // Make the superRepo a parent repo of the subRepo, for both branches.
+    createSubmoduleSubscription(superRepo, "master", subKey, "master");
+    createSubmoduleSubscription(superRepo, "branch", subKey, "branch");
+    pushChangeTo(subRepo, "master");
+    pushChangeTo(subRepo, "branch");
+
+    // This push creates a new commit in subRepo, master branch, which makes superRepo update their
+    // submodule.
+    pushChangeTo(subRepo, "master");
+
+    // Fetch the commit from superRepo that Gerrit created automatically to fulfill the submodule
+    // subscription.
+    ObjectId commitId =
+        superRepo
+            .git()
+            .fetch()
+            .setRemote("origin")
+            .call()
+            .getAdvertisedRef("refs/heads/" + "master")
+            .getObjectId();
+    CherryPickInput cherryPickInput = new CherryPickInput();
+    cherryPickInput.destination = "branch";
+    cherryPickInput.allowConflicts = true;
+
+    // Ensure the next change has submodule_file.
+    modifySubmitRules(String.format("gerrit:files([submodule_file('%s')])", subKey));
+    // Cherry-pick the newly created commit which contains a submodule update, to branch "branch".
+    ChangeApi changeApi =
+        gApi.projects().name(superKey.get()).commit(commitId.getName()).cherryPick(cherryPickInput);
+
+    // This check is the same as RulesIT#statusForRule. If the rule had an error, the change would
+    // not be submittable.
+    assertThat(changeApi.get().submittable).isTrue();
+  }
+
+  private void modifySubmitRules(String ruleTested) throws Exception {
+    String newContent = String.format(RULE_TEMPLATE, ruleTested);
+
+    try (Repository repo = repoManager.openRepository(superKey);
+        TestRepository<Repository> testRepo = new TestRepository<>(repo)) {
+      testRepo
+          .branch(RefNames.REFS_CONFIG)
+          .commit()
+          .author(admin.newIdent())
+          .committer(admin.newIdent())
+          .add("rules.pl", newContent)
+          .message("Modify rules.pl")
+          .create();
+    }
+    projectCache.evict(superKey);
   }
 
   private ObjectId directUpdateRef(Project.NameKey project, String ref) throws Exception {

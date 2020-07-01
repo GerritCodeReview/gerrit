@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "90af2bac_6ea3ee15",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-01T20:59:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21be6596_649f5c16",
+      "range": {
+        "startLine": 772,
+        "startChar": 11,
+        "endLine": 772,
+        "endChar": 65
+      },
+      "revId": "cd16e86c4f3061dbe2817ed922d85a236fe7b490",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb91d1b1_45b14449",
         "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f3479bd9_0fb85c3c",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-01T20:59:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb91d1b1_45b14449",
+      "range": {
+        "startLine": 773,
+        "startChar": 40,
+        "endLine": 773,
+        "endChar": 48
+      },
+      "revId": "cd16e86c4f3061dbe2817ed922d85a236fe7b490",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d526324_9b8f3b3b",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
         "patchSetId": 2
@@ -62,6 +110,24 @@
       "revId": "cd16e86c4f3061dbe2817ed922d85a236fe7b490",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cde3ea98_47a6573f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-01T20:59:48Z",
+      "side": 1,
+      "message": "Done\nI wasn\u0027t sure since I don\u0027t remember ever writing a comment on top of a test, but sounds good.",
+      "parentUuid": "5d526324_9b8f3b3b",
+      "revId": "cd16e86c4f3061dbe2817ed922d85a236fe7b490",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -85,6 +151,30 @@
       "revId": "cd16e86c4f3061dbe2817ed922d85a236fe7b490",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d91d16b_b3786808",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-01T20:59:48Z",
+      "side": 1,
+      "message": "Sure it can! My bugs are great, they reproduce other bugs.\n(Fixed).",
+      "parentUuid": "c1c78570_e81acfe1",
+      "range": {
+        "startLine": 250,
+        "startChar": 97,
+        "endLine": 251,
+        "endChar": 26
+      },
+      "revId": "cd16e86c4f3061dbe2817ed922d85a236fe7b490",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

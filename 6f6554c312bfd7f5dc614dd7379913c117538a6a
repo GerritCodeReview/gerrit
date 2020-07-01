@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5a1d076_505b5c90",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-01T15:28:13Z",
+      "side": 1,
+      "message": "unrelated, but I think it looks better this way anyway :)",
+      "range": {
+        "startLine": 662,
+        "startChar": 0,
+        "endLine": 662,
+        "endChar": 0
+      },
+      "revId": "6f6554c312bfd7f5dc614dd7379913c117538a6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

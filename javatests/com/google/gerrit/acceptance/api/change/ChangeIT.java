@@ -1878,7 +1878,7 @@ public class ChangeIT extends AbstractDaemonTest {
     Timestamp oldTs = rsrc.getChange().getLastUpdatedOn();
 
     // create a group named "ab" with one user: testUser
-    String email = "abcd@test.com";
+    String email = "abcd@example.com";
     String fullname = "abcd";
     Account.Id accountIdOfTestUser =
         accountOperations
@@ -1931,11 +1931,11 @@ public class ChangeIT extends AbstractDaemonTest {
     accountOperations
         .newAccount()
         .username("kobebryant")
-        .preferredEmail("kobebryant@test.com")
+        .preferredEmail("kobebryant@example.com")
         .fullname(testUserFullname)
         .create();
 
-    String myGroupUserEmail = "lee@test.com";
+    String myGroupUserEmail = "lee@example.com";
     String myGroupUserFullname = "lee";
     Account.Id accountIdOfGroupUser =
         accountOperations
@@ -3747,7 +3747,7 @@ public class ChangeIT extends AbstractDaemonTest {
             "Configure Notifications",
             "project.config",
             "[notify \"my=notify-config\"]\n"
-                + "  email = foo@test.com\n"
+                + "  email = foo@example.com\n"
                 + "  filter = dir:\\\"foo/bar/baz\\\"");
     push.to(RefNames.REFS_CONFIG);
     testRepo.reset(oldHead);
@@ -3759,7 +3759,8 @@ public class ChangeIT extends AbstractDaemonTest {
             admin.newIdent(), testRepo, "Test change", "foo/bar/baz/test.txt", "some content");
     PushOneCommit.Result r = push.to("refs/for/master");
     assertThat(sender.getMessages()).hasSize(1);
-    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(Address.parse("foo@test.com"));
+    assertThat(sender.getMessages().get(0).rcpt())
+        .containsExactly(Address.parse("foo@example.com"));
 
     // Comment on the change.
     sender.clear();
@@ -3767,7 +3768,8 @@ public class ChangeIT extends AbstractDaemonTest {
     reviewInput.message = "some message";
     gApi.changes().id(r.getChangeId()).current().review(reviewInput);
     assertThat(sender.getMessages()).hasSize(1);
-    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(Address.parse("foo@test.com"));
+    assertThat(sender.getMessages().get(0).rcpt())
+        .containsExactly(Address.parse("foo@example.com"));
   }
 
   @Test

@@ -34,6 +34,24 @@
       "revId": "453efc9b8720cf239b91633ac2adcd372ebf7431",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3edc7ffd_51aa51fd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-01T21:19:13Z",
+      "side": 1,
+      "message": "\u003e This is gerrit project, so that GerritForge-CI is running the tests and not Zuul.\n\nWhere was I. Of course. Removing James now. Thanks David and Luca for looking into this.",
+      "parentUuid": "eb05705a_aa25589f",
+      "revId": "453efc9b8720cf239b91633ac2adcd372ebf7431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

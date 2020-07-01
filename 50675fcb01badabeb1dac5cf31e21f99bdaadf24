@@ -16,6 +16,24 @@
       "revId": "50675fcb01badabeb1dac5cf31e21f99bdaadf24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "310f05fc_53e0e984",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-07-01T07:21:57Z",
+      "side": 1,
+      "message": "Gal started to look into it but ran into some issues as far as I know. Gal, is that accurate?",
+      "parentUuid": "13e7e06a_dc1f032d",
+      "revId": "50675fcb01badabeb1dac5cf31e21f99bdaadf24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

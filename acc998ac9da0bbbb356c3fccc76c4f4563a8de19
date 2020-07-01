@@ -46,6 +46,30 @@
       "revId": "acc998ac9da0bbbb356c3fccc76c4f4563a8de19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfaba83e_30c912db",
+        "filename": "java/com/google/gerrit/server/project/ConfiguredMimeTypes.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-01T11:50:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "48b5b36d_a89ce819",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 11
+      },
+      "revId": "acc998ac9da0bbbb356c3fccc76c4f4563a8de19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

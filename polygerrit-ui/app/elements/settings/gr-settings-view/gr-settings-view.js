@@ -181,6 +181,11 @@ class GrSettingsView extends mixinBehaviors( [
         type: Boolean,
         value: false,
       },
+
+      _isDisableHotkeys: {
+        type: Boolean,
+        value: false,
+      },
     };
   }
 
@@ -204,6 +209,8 @@ class GrSettingsView extends mixinBehaviors( [
     }));
 
     this._isDark = !!window.localStorage.getItem('dark-theme');
+
+    this._isDisableHotkeys = !!window.localStorage.getItem('disable-hotkeys');
 
     const promises = [
       this.$.accountInfo.loadData(),
@@ -489,6 +496,23 @@ class GrSettingsView extends mixinBehaviors( [
     }));
   }
 
+  _handleToggleDisableHotkeys() {
+    if (this._isDisableHotkeys) {
+      window.localStorage.removeItem('disable-hotkeys');
+    } else {
+      window.localStorage.setItem('disable-hotkeys', 'true');
+    }
+    this._isDisableHotkeys = !!window.localStorage.getItem('disable-hotkeys');
+
+    const message = this._isDisableHotkeys ?
+      'Disabled Hotkeys' : 'Enabled Hotkeys';
+    this.dispatchEvent(new CustomEvent('show-alert', {
+      detail: {message},
+      bubbles: true,
+      composed: true,
+    }));
+  }
+
   _showHttpAuth(config) {
     if (config && config.auth &&
         config.auth.git_basic_auth_policy) {
@@ -502,7 +526,7 @@ class GrSettingsView extends mixinBehaviors( [
   /**
    * Work around a issue on iOS when clicking turns into double tap
    */
-  _onTapDarkToggle(e) {
+  _onTapToggle(e) {
     e.preventDefault();
   }
 }

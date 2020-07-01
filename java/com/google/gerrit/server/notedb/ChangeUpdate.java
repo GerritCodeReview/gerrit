@@ -659,7 +659,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, e.getValue().getFooterKey());
       noteUtil.appendAccountIdIdentString(msg, e.getKey()).append('\n');
     }
+
     applyReviewerUpdatesToAttentionSet();
+
     for (Map.Entry<Address, ReviewerStateInternal> e : reviewersByEmail.entrySet()) {
       addFooter(msg, e.getValue().getByEmailFooterKey(), e.getKey().toString());
     }
@@ -766,8 +768,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   private void applyReviewerUpdatesToAttentionSet() {
     if ((workInProgress != null && workInProgress == true)
-        || getNotes().getChange().isWorkInProgress()) {
-      // Users shouldn't be added to the attention set if the change is work in progress.
+        || getNotes().getChange().isWorkInProgress()
+        || (status != null && status.equals(Change.Status.MERGED))) {
+      // Attention set shouldn't change for here for changes that are work in progress or are about
+      // to be submitted.
       return;
     }
     Set<Account.Id> currentReviewers =

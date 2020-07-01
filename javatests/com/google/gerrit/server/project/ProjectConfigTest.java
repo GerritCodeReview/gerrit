@@ -34,6 +34,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
+import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.project.testing.TestLabels;
@@ -90,8 +91,8 @@ public class ProjectConfigTest {
   @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
   private final GroupReference developers =
-      new GroupReference(AccountGroup.uuid("X"), "Developers");
-  private final GroupReference staff = new GroupReference(AccountGroup.uuid("Y"), "Staff");
+      GroupReference.create(AccountGroup.uuid("X"), "Developers");
+  private final GroupReference staff = GroupReference.create(AccountGroup.uuid("Y"), "Staff");
 
   private SitePaths sitePaths;
   private ProjectConfig.Factory factory;
@@ -361,12 +362,43 @@ public class ProjectConfigTest {
   }
 
   @Test
+  public void readExistingBranchOrder() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add("project.config", "[branchOrder]\n" + "\tbranch = foo\n" + "\tbranch = bar\n")
+            .create();
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    assertThat(cfg.getBranchOrderSection())
+        .isEqualTo(BranchOrderSection.create(ImmutableList.of("foo", "bar")));
+  }
+
+  @Test
+  public void editBranchOrder() throws Exception {
+    RevCommit rev = tr.commit().create();
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    cfg.setBranchOrderSection(BranchOrderSection.create(ImmutableList.of("foo", "bar")));
+    rev = commit(cfg);
+    assertThat(text(rev, "project.config"))
+        .isEqualTo("[branchOrder]\n" + "\tbranch = foo\n" + "\tbranch = bar\n");
+  }
+
+  @Test
   public void addCommentLink() throws Exception {
     RevCommit rev = tr.commit().create();
     update(rev);
 
     ProjectConfig cfg = read(rev);
-    CommentLinkInfoImpl cm = new CommentLinkInfoImpl("Test", "abc.*", null, "<a>link</a>", true);
+    StoredCommentLinkInfo cm =
+        StoredCommentLinkInfo.builder("Test")
+            .setMatch("abc.*")
+            .setHtml("<a>link</a>")
+            .setEnabled(true)
+            .setOverrideOnly(false)
+            .build();
     cfg.addCommentLinkSection(cm);
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))
@@ -529,12 +561,11 @@ public class ProjectConfigTest {
     ProjectConfig cfg = read(rev);
     assertThat(cfg.getCommentLinkSections())
         .containsExactly(
-            new CommentLinkInfoImpl(
-                "bugzilla",
-                "(bug\\s+#?)(\\d+)",
-                "http://bugs.example.com/show_bug.cgi?id=$2",
-                null,
-                null));
+            StoredCommentLinkInfo.builder("bugzilla")
+                .setMatch("(bug\\s+#?)(\\d+)")
+                .setLink("http://bugs.example.com/show_bug.cgi?id=$2")
+                .setOverrideOnly(false)
+                .build());
   }
 
   @Test
@@ -543,7 +574,7 @@ public class ProjectConfigTest {
         tr.commit().add("project.config", "[commentlink \"bugzilla\"]\n \tenabled = true").create();
     ProjectConfig cfg = read(rev);
     assertThat(cfg.getCommentLinkSections())
-        .containsExactly(new CommentLinkInfoImpl.Enabled("bugzilla"));
+        .containsExactly(StoredCommentLinkInfo.enabled("bugzilla"));
   }
 
   @Test
@@ -554,7 +585,7 @@ public class ProjectConfigTest {
             .create();
     ProjectConfig cfg = read(rev);
     assertThat(cfg.getCommentLinkSections())
-        .containsExactly(new CommentLinkInfoImpl.Disabled("bugzilla"));
+        .containsExactly(StoredCommentLinkInfo.disabled("bugzilla"));
   }
 
   @Test
@@ -571,7 +602,7 @@ public class ProjectConfigTest {
     assertThat(cfg.getCommentLinkSections()).isEmpty();
     assertThat(cfg.getValidationErrors())
         .containsExactly(
-            new ValidationError(
+            ValidationError.create(
                 "project.config: Invalid pattern \"(bugs{+#?)(d+)\" in commentlink.bugzilla.match: "
                     + "Illegal repetition near index 4\n"
                     + "(bugs{+#?)(d+)\n"
@@ -592,7 +623,7 @@ public class ProjectConfigTest {
     assertThat(cfg.getCommentLinkSections()).isEmpty();
     assertThat(cfg.getValidationErrors())
         .containsExactly(
-            new ValidationError(
+            ValidationError.create(
                 "project.config: Error in pattern \"(bugs#?)(d+)\" in commentlink.bugzilla.match: "
                     + "Raw html replacement not allowed"));
   }
@@ -607,7 +638,7 @@ public class ProjectConfigTest {
     assertThat(cfg.getCommentLinkSections()).isEmpty();
     assertThat(cfg.getValidationErrors())
         .containsExactly(
-            new ValidationError(
+            ValidationError.create(
                 "project.config: Error in pattern \"(bugs#?)(d+)\" in commentlink.bugzilla.match: "
                     + "commentlink.bugzilla must have either link or html"));
   }

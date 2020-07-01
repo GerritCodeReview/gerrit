@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "85201371_57816b2d",
+        "filename": "java/com/google/gerrit/server/git/BranchOrderSection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-01T11:50:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "602cf817_0ba53388",
+      "range": {
+        "startLine": 48,
+        "startChar": 5,
+        "endLine": 49,
+        "endChar": 75
+      },
+      "revId": "6fb16783777eda8a0692f632c9695a50dbf227cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a671bdbe_45b65c6b",
         "filename": "java/com/google/gerrit/server/git/BranchOrderSection.java",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "6fb16783777eda8a0692f632c9695a50dbf227cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1dba7642_1b88d27e",
+        "filename": "java/com/google/gerrit/server/git/BranchOrderSection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-01T11:50:36Z",
+      "side": 1,
+      "message": "Left a comment. We use this class to write BranchOrder back to disk in ProjectConfig, so we don\u0027t want to mingle with it",
+      "parentUuid": "a671bdbe_45b65c6b",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 76
+      },
+      "revId": "6fb16783777eda8a0692f632c9695a50dbf227cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

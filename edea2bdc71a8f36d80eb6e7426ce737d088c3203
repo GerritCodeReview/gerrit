@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "f103a141_b92a71de",
+        "filename": "java/com/google/gerrit/entities/Project.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-01T16:06:36Z",
+      "side": 1,
+      "message": "I feel it\u0027s a needless indirection. What it means to do is proxy hashCode() to \"name\". But does get() really return \"name\", or maybe name.toUpperCase() or \u0027\"name: \" + name\u0027 or whatever? Someone changing get() like that might overlook that this would affect other methods. Just my $0.02.",
+      "parentUuid": "d4058e4b_4812756b",
+      "range": {
+        "startLine": 79,
+        "startChar": 13,
+        "endLine": 79,
+        "endChar": 18
+      },
+      "revId": "edea2bdc71a8f36d80eb6e7426ce737d088c3203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ea23147_f52ba513",
         "filename": "java/com/google/gerrit/server/config/AllProjectsName.java",
         "patchSetId": 3

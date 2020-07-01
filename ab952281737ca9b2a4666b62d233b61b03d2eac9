@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a9b84df_bf9752b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-01T08:45:05Z",
+      "side": 1,
+      "message": "Maybe mention why mutating the BranchOrder in project.config will be needed?",
+      "revId": "ab952281737ca9b2a4666b62d233b61b03d2eac9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

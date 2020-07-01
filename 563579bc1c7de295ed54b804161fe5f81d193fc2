@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "11b64177_509b9aa4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2020-07-01T14:30:27Z",
+      "side": 1,
+      "message": "Exporting a list instead of exporting each file feels unidiomatic in prolog. The existing change facts in http://gerrit-review.googlesource.com/Documentation/prolog-change-facts.html use the export-each-item approach:\n\n* commit_label allows making assertions about whether a label is present, instead of about the full list of labels\n* commit_delta allows making assertions about whether a file is being modified, instead of about the full list of modified files",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3571a31c_03bb2256",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

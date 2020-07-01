@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b89fccdd_028af503",
+        "filename": "java/com/google/gerrit/server/project/StoredCommentLinkInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-01T08:58:38Z",
+      "side": 1,
+      "message": "I think it would be better (better readable callers) to drop this method and instead have a builder() method that returns a StoredCommentLinkInfo.Builder which has explicit setter methods for all these values.",
+      "range": {
+        "startLine": 65,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 99
+      },
+      "revId": "e11c1fe9e44697770993edead3f9cbc413ea8ee2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -181,13 +181,17 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('modified attention set', done => {
+    element._newAttentionSet = new Set([314]);
     const buttonEl = element.shadowRoot.querySelector('.edit-attention-button');
     MockInteractions.tap(buttonEl);
     flushAsynchronousOperations();
 
     stubSaveReview(review => {
       assert.isTrue(review.ignore_default_attention_set_rules);
-      assert.deepEqual(review.add_to_attention_set, []);
+      assert.deepEqual(review.add_to_attention_set, [{
+        user: 314,
+        reason: 'manually added in reply dialog',
+      }]);
       assert.deepEqual(review.remove_from_attention_set, []);
       done();
     });

@@ -71,6 +71,7 @@ suite('gr-settings-view tests', () => {
       diff_view: 'UNIFIED_DIFF',
       email_strategy: 'ENABLED',
       email_format: 'HTML_PLAINTEXT',
+      disable_keyboard_shortcuts: false,
       default_base_for_merges: 'FIRST_PARENT',
       relative_date_in_change_table: false,
       size_bar_in_change_table: true,
@@ -146,6 +147,8 @@ suite('gr-settings-view tests', () => {
     assert.equal(valueOf('Show size bars in file list', 'preferences')
         .firstElementChild.checked, true);
     assert.equal(valueOf('Publish comments on push', 'preferences')
+        .firstElementChild.checked, false);
+    assert.equal(valueOf('Disable Hotkeys', 'preferences')
         .firstElementChild.checked, false);
     assert.equal(valueOf(
         'Set new changes to "work in progress" by default', 'preferences')

@@ -27,12 +27,12 @@ def declare_nongoogle_deps():
         sha1 = "dd76a62b007ffea9e6aba10f64c04173ef65f895",
     )
 
-    SSHD_VERS = "2.4.0"
+    SSHD_VERS = "2.5.0"
 
     maven_jar(
         name = "sshd-osgi",
         artifact = "org.apache.sshd:sshd-osgi:" + SSHD_VERS,
-        sha1 = "fc4551c1eeda35e4671b263297d37d2bca81c4d4",
+        sha1 = "a3d9dc0830dd176d3744573befd9ab4142e48029",
     )
 
     maven_jar(
@@ -50,7 +50,7 @@ def declare_nongoogle_deps():
     maven_jar(
         name = "sshd-mina",
         artifact = "org.apache.sshd:sshd-mina:" + SSHD_VERS,
-        sha1 = "8aa8715d07bd61ad8315df66d43c0c04b1b755c8",
+        sha1 = "8ad87f5f22e5dcb8c2ea06c1ea05168aed2064b2",
     )
 
     # elasticsearch-rest-client explicitly depends on this version

@@ -44,13 +44,6 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
-import java.nio.file.FileStore;
-import java.nio.file.FileSystem;
-import java.nio.file.Path;
-import java.nio.file.PathMatcher;
-import java.nio.file.WatchService;
-import java.nio.file.attribute.UserPrincipalLookupService;
-import java.nio.file.spi.FileSystemProvider;
 import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
@@ -61,7 +54,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.mina.transport.socket.SocketSessionConfig;
@@ -71,6 +63,7 @@ import org.apache.sshd.common.NamedResource;
 import org.apache.sshd.common.cipher.Cipher;
 import org.apache.sshd.common.compression.BuiltinCompressions;
 import org.apache.sshd.common.compression.Compression;
+import org.apache.sshd.common.file.nativefs.NativeFileSystemFactory;
 import org.apache.sshd.common.forward.DefaultForwarderFactory;
 import org.apache.sshd.common.io.AbstractIoServiceFactory;
 import org.apache.sshd.common.io.IoAcceptor;
@@ -724,66 +717,6 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private void initFileSystemFactory() {
-    setFileSystemFactory(
-        session ->
-            new FileSystem() {
-              @Override
-              public void close() throws IOException {}
-
-              @Override
-              public Iterable<FileStore> getFileStores() {
-                return null;
-              }
-
-              @Override
-              public Path getPath(String arg0, String... arg1) {
-                return null;
-              }
-
-              @Override
-              public PathMatcher getPathMatcher(String arg0) {
-                return null;
-              }
-
-              @Override
-              public Iterable<Path> getRootDirectories() {
-                return null;
-              }
-
-              @Override
-              public String getSeparator() {
-                return null;
-              }
-
-              @Override
-              public UserPrincipalLookupService getUserPrincipalLookupService() {
-                return null;
-              }
-
-              @Override
-              public boolean isOpen() {
-                return false;
-              }
-
-              @Override
-              public boolean isReadOnly() {
-                return false;
-              }
-
-              @Override
-              public WatchService newWatchService() throws IOException {
-                return null;
-              }
-
-              @Override
-              public FileSystemProvider provider() {
-                return null;
-              }
-
-              @Override
-              public Set<String> supportedFileAttributeViews() {
-                return null;
-              }
-            });
+    setFileSystemFactory(new NativeFileSystemFactory(false));
   }
 }

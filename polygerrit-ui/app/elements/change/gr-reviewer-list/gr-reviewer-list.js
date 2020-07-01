@@ -201,6 +201,10 @@ class GrReviewerList extends GestureEventListeners(
     const isFirstNameConfigured = serverConfig.accounts
         && serverConfig.accounts.default_display_name === 'FIRST_NAME';
     const maxReviewers = isFirstNameConfigured ? 6 : 3;
+
+    // while (this._reviewers.length > 0 && this._reviewers.length < maxReviewers - 3) {
+    //   this._reviewers.push(this._reviewers[0]);
+    // }
     // If there is one or two more than the max reviewers, don't show the
     // 'show more' button, because it takes up just as much space.
     if (this._reviewers.length > maxReviewers + 2) {

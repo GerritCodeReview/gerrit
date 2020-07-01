@@ -76,6 +76,10 @@ class GrAccountEntry extends GestureEventListeners(
         observer: '_inputTextChanged',
       },
 
+      textEmpty: {
+        type: Boolean,
+        computed: '_isTextEmpty(_inputText)',
+      },
     };
   }
 
@@ -112,6 +116,10 @@ class GrAccountEntry extends GestureEventListeners(
       this.dispatchEvent(new CustomEvent(
           'account-text-changed', {bubbles: true, composed: true}));
     }
+  }
+
+  _isTextEmpty(text) {
+    return !text || text.length === 0;
   }
 }
 

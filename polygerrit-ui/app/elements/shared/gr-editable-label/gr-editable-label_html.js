@@ -69,12 +69,28 @@ export const htmlTemplate = html`
       --paper-input-container-focus-color: var(--link-color);
     }
   </style>
-  <label
-    class$="[[_computeLabelClass(readOnly, value, placeholder)]]"
-    title$="[[_computeLabel(value, placeholder)]]"
-    on-click="_showDropdown"
-    >[[_computeLabel(value, placeholder)]]</label
-  >
+  <template is="dom-if" if="[[!pencilEnabled]]">
+    <label
+      class$="[[_computeLabelClass(readOnly, value, placeholder)]]"
+      title$="[[_computeLabel(value, placeholder)]]"
+      on-click="_showDropdown"
+      >[[_computeLabel(value, placeholder)]]</label
+    >
+  </template>
+  <template is="dom-if" if="[[pencilEnabled]]">
+    <gr-button
+          link=""
+          id="addReviewer"
+          class="addReviewer"
+          hidden$="[[!mutable]]"
+          on-click="_showDropdown"
+          title="Edit reviewers"
+          has-tooltip
+          >
+            <iron-icon icon="gr-icons:edit" class=""></iron-icon>          
+          </gr-button></gr-button
+        >
+  </template>
   <iron-dropdown
     id="dropdown"
     vertical-align="auto"

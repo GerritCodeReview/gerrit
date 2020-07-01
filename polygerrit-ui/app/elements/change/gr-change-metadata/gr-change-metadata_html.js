@@ -157,20 +157,35 @@ export const htmlTemplate = html`
         ></gr-account-link>
       </span>
     </section>
-    <template is="dom-if" if="[[_isAssigneeEnabled(serverConfig)]]">
+    <template is="dom-if" if="[[!_isAssigneeEnabled(serverConfig)]]">
       <section class="assignee">
         <span class="title">Assignee</span>
         <span class="value">
-          <gr-account-list
-            id="assigneeValue"
-            placeholder="Set assignee..."
-            max-count="1"
-            skip-suggest-on-empty=""
-            accounts="{{_assignee}}"
-            readonly="[[_computeAssigneeReadOnly(_mutable, change)]]"
-            suggestions-provider="[[_getReviewerSuggestionsProvider(change)]]"
+          <template is="dom-if" if="[[_hasAssignee(_assignee.*, _editAssignee)]]">
+            <gr-account-list
+              id="assigneeValue"
+              placeholder="Set assignee..."
+              max-count="1"
+              skip-suggest-on-empty=""
+              accounts="{{_assignee}}"
+              readonly="[[_computeAssigneeReadOnly(_mutable, change)]]"
+              suggestions-provider="[[_getReviewerSuggestionsProvider(change)]]"
+              on-blur="_handleAssigneeFocusOut"
+            >
+            </gr-account-list>
+          </template>
+          <gr-button
+            link=""
+            id="addReviewer"
+            class="addReviewer"
+            hidden$="[[!mutable]]"
+            on-click="_handleEditAssigneeTap"
+            title="Edit reviewers"
+            has-tooltip
+            >
+              <iron-icon icon="gr-icons:edit" class=""></iron-icon>          
+            </gr-button></gr-button
           >
-          </gr-account-list>
         </span>
       </section>
     </template>
@@ -285,6 +300,7 @@ export const htmlTemplate = html`
             placeholder="[[_computeTopicPlaceholder(_topicReadOnly)]]"
             read-only="[[_topicReadOnly]]"
             on-changed="_handleTopicChanged"
+            pencil-enabled="true"
           ></gr-editable-label>
         </template>
       </span>
@@ -334,6 +350,7 @@ export const htmlTemplate = html`
             placeholder="[[_computeHashtagPlaceholder(_hashtagReadOnly)]]"
             read-only="[[_hashtagReadOnly]]"
             on-changed="_handleHashtagChanged"
+            pencil-enabled="true"
           ></gr-editable-label>
         </template>
       </span>

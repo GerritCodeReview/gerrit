@@ -138,6 +138,10 @@ class GrChangeMetadata extends mixinBehaviors( [
       },
 
       _assignee: Array,
+      _editAssignee: {
+        type: Boolean,
+        value: false,
+      },
       _isWip: {
         type: Boolean,
         computed: '_computeIsWip(change)',
@@ -535,6 +539,24 @@ class GrChangeMetadata extends mixinBehaviors( [
         change._number, SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY);
     provider.init();
     return provider;
+  }
+
+  _handleEditAssigneeTap(e) {
+    e.preventDefault();
+    this._editAssignee = true;
+    this.async(() => {
+      const x = this.shadowRoot.querySelector('#assigneeValue').focusStart;
+      x.async(x.focus);
+    });
+  }
+
+  _hasAssignee(_assigneeChangeRecord, _editAssignee) {
+    return true || this._assignee && this._assignee.length > 0 || _editAssignee;
+  }
+
+  _handleAssigneeFocusOut(e) {
+    console.log('_handleAssigneeFocusOut');
+    this._editAssignee = false;
   }
 }
 

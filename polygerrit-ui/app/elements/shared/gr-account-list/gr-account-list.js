@@ -115,6 +115,13 @@ class GrAccountList extends GestureEventListeners(
         type: Boolean,
         value: false,
       },
+
+      editorEmpty: {
+        type: Boolean,
+        computed: '_isEditorEmpty(accounts, _isEntryEditorEmpty)',
+      },
+
+      _isEntryEditorEmpty: Boolean,
     };
   }
 
@@ -137,6 +144,10 @@ class GrAccountList extends GestureEventListeners(
 
   get focusStart() {
     return this.$.entry.focusStart;
+  }
+
+  get isEmpty() {
+    return this.$.entry.getText() === "" || this.acc
   }
 
   _getSuggestions(input) {

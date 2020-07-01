@@ -1,4 +1,5 @@
 load("//tools/bzl:maven_jar.bzl", "maven_jar")
+load("@bazel_tools//tools/build_defs/repo:java.bzl", "java_import_external")
 
 GUAVA_VERSION = "29.0-jre"
 GUAVA_BIN_SHA1 = "801142b4c3d0f0770dd29abea50906cacfddd447"
@@ -31,12 +32,15 @@ def declare_nongoogle_deps():
         sha1 = "cb2f351bf4463751201f43bb99865235d5ba07ca",
     )
 
-    SSHD_VERS = "2.4.0"
+    SSHD_VERS = "2.6.0"
 
-    maven_jar(
+    java_import_external(
         name = "sshd-osgi",
-        artifact = "org.apache.sshd:sshd-osgi:" + SSHD_VERS,
-        sha1 = "fc4551c1eeda35e4671b263297d37d2bca81c4d4",
+        jar_sha256 = "056452b1c0405fafefbfbbb5108d9308c64214c96774e2767ab2a3ee748f6b66",
+        jar_urls = [
+            "https://repository.apache.org/content/repositories/orgapachemina-1052/org/apache/sshd/sshd-osgi/2.6.0/sshd-osgi-2.6.0.jar",
+        ],
+        licenses = ["unencumbered"],  # public domain
     )
 
     maven_jar(
@@ -51,10 +55,13 @@ def declare_nongoogle_deps():
         sha1 = "e1a317689ecd438f54e863747e832f741ef8e092",
     )
 
-    maven_jar(
+    java_import_external(
         name = "sshd-mina",
-        artifact = "org.apache.sshd:sshd-mina:" + SSHD_VERS,
-        sha1 = "8aa8715d07bd61ad8315df66d43c0c04b1b755c8",
+        jar_sha256 = "8423f34658e90cd8c7769b3b7b1497bd37c4827ec25a38d66a6f8f4c38fb37fa",
+        jar_urls = [
+            "https://repository.apache.org/content/repositories/orgapachemina-1052/org/apache/sshd/sshd-mina/2.6.0/sshd-mina-2.6.0.jar",
+        ],
+        licenses = ["unencumbered"],  # public domain
     )
 
     # elasticsearch-rest-client explicitly depends on this version

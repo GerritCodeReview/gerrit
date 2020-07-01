@@ -176,6 +176,11 @@ class GrAppElement extends mixinBehaviors( [
         e => this._handleRpcLog(e));
     this.addEventListener('shortcut-triggered',
         e => this._handleShortcutTriggered(e));
+
+    // Disable hotkeys if user enable it
+    // in preference
+    this.addEventListener('keydown',
+        e => this._disableHotkeys(e));
   }
 
   /** @override */
@@ -597,6 +602,12 @@ class GrAppElement extends mixinBehaviors( [
     return window.localStorage.getItem('dark-theme') ?
       'app-theme-dark' :
       'app-theme-light';
+  }
+
+  _disableHotkeys(e) {
+    if (window.localStorage.getItem('disable-hotkeys')) {
+      e.stopPropagation();
+    }
   }
 }
 

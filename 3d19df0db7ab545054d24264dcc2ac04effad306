@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "0affe80b_a86903d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-01T14:21:50Z",
+      "side": 1,
+      "message": "PTAL",
+      "revId": "3d19df0db7ab545054d24264dcc2ac04effad306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dfe0c9ca_3b6bd84d",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
         "patchSetId": 2
@@ -45,6 +62,54 @@
       "revId": "3d19df0db7ab545054d24264dcc2ac04effad306",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0286e034_e07fa105",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-01T14:21:50Z",
+      "side": 1,
+      "message": "Yes, just for tests.",
+      "parentUuid": "dfe0c9ca_3b6bd84d",
+      "range": {
+        "startLine": 232,
+        "startChar": 7,
+        "endLine": 232,
+        "endChar": 19
+      },
+      "revId": "3d19df0db7ab545054d24264dcc2ac04effad306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3453627e_46935013",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-01T14:21:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70debb9e_1cd1268b",
+      "range": {
+        "startLine": 232,
+        "startChar": 48,
+        "endLine": 232,
+        "endChar": 50
+      },
+      "revId": "3d19df0db7ab545054d24264dcc2ac04effad306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

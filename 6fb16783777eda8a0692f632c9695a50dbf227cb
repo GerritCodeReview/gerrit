@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9fa33620_de78e4b4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1300,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-01T08:46:45Z",
+      "side": 0,
+      "message": "should this rather be part of the successor change?",
+      "revId": "6fb16783777eda8a0692f632c9695a50dbf227cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

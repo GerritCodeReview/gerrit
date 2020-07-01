@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3571a31c_03bb2256",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-01T13:00:51Z",
+      "side": 1,
+      "message": "It seems strange that the commit message is a regular file, because it\u0027s actually a magic file that Gerrit adds. Can we just suppress Gerrit\u0027s magic files (commit message, merge list, etc.)?",
+      "range": {
+        "startLine": 14,
+        "startChar": 38,
+        "endLine": 16,
+        "endChar": 27
+      },
+      "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da27db42_79d959b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-01T13:00:51Z",
+      "side": 1,
+      "message": "Nice, great progress!",
+      "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "521402cb_60530d2b",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-01T13:00:51Z",
+      "side": 1,
+      "message": "nit: remove unnecessary space",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 4
+      },
+      "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10327421_205c609d",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-01T13:00:51Z",
+      "side": 1,
+      "message": "nit: How about just \"files\"\n\nit\u0027s not only names, you are also exporting a type now.",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 12
+      },
+      "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe0012c4_effeac9e",
+        "filename": "java/gerrit/PRED_file_names_1.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-01T13:00:51Z",
+      "side": 1,
+      "message": "Does that work when I delete a (submodule) file?\n\nI\u0027d assume that when a file gets deleted, getNewName is empty or null.\n\nIf so, I think it\u0027s OK to just treat the diff, so if a file is either in getOldName or in getNewName, we export it (then covering additions, deletion, and mutations). We just need to de-duplicate.",
+      "range": {
+        "startLine": 53,
+        "startChar": 58,
+        "endLine": 53,
+        "endChar": 68
+      },
+      "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dab4b1ad_0e72c1cf",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-01T13:00:51Z",
+      "side": 1,
+      "message": "The logic is correct, but the comment is wrong: You are pushing to subRepo.",
+      "range": {
+        "startLine": 653,
+        "startChar": 0,
+        "endLine": 654,
+        "endChar": 36
+      },
+      "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da333619_44766c20",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-01T13:00:51Z",
+      "side": 1,
+      "message": "nit: Fetch the commit from superRepo that Gerrit created automatically to fulfill the submodule subscription",
+      "range": {
+        "startLine": 656,
+        "startChar": 7,
+        "endLine": 656,
+        "endChar": 38
+      },
+      "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d9a8904_b1b85f94",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-01T13:00:51Z",
+      "side": 1,
+      "message": "Can you put everything until here in a private helper method and add an inverse test case?\n\nSo write a submit rule that blocks when *any* submodule file was changed (that\u0027s what the original feature request was for).",
+      "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

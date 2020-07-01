@@ -158,7 +158,7 @@ public class PostReviewAttentionSet {
   private void processManualUpdates(BatchUpdate bu, RevisionResource revision, ReviewInput input)
       throws BadRequestException, IOException, PermissionBackendException,
           UnprocessableEntityException, ConfigInvalidException {
-    Set<Account.Id> accountsChangedInCommit = new HashSet();
+    Set<Account.Id> accountsChangedInCommit = new HashSet<>();
     // If we specify a user to remove, and the user is in the attention set, we remove it.
     if (input.removeFromAttentionSet != null) {
       for (AttentionSetInput remove : input.removeFromAttentionSet) {

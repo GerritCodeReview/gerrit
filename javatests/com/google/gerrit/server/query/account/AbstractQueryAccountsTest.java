@@ -217,7 +217,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
     AccountInfo user5 = newAccountWithEmail("user5", name("user5MixedCase@example.com"));
 
-    assertQuery("notexisting@test.com");
+    assertQuery("notexisting@example.com");
 
     assertQuery(currentUserInfo.email, currentUserInfo);
     assertQuery("email:" + currentUserInfo.email, currentUserInfo);
@@ -253,8 +253,8 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
   @Test
   public void byEmailWithoutModifyAccountCapability() throws Exception {
-    String preferredEmail = name("primary@test.com");
-    String secondaryEmail = name("secondary@test.com");
+    String preferredEmail = name("primary@example.com");
+    String secondaryEmail = name("secondary@example.com");
     AccountInfo user1 = newAccountWithEmail("user1", preferredEmail);
     addEmails(user1, secondaryEmail);
 
@@ -485,11 +485,11 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     // sorting by account ID. Use the same fullname for all accounts so that sorting must be done by
     // preferred email.
     AccountInfo userFoo3 =
-        newAccount("user3", "foo-" + appendix, "foo3-" + appendix + "@test.com", true);
+        newAccount("user3", "foo-" + appendix, "foo3-" + appendix + "@example.com", true);
     AccountInfo userFoo1 =
-        newAccount("user1", "foo-" + appendix, "foo1-" + appendix + "@test.com", true);
+        newAccount("user1", "foo-" + appendix, "foo1-" + appendix + "@example.com", true);
     AccountInfo userFoo2 =
-        newAccount("user2", "foo-" + appendix, "foo2-" + appendix + "@test.com", true);
+        newAccount("user2", "foo-" + appendix, "foo2-" + appendix + "@example.com", true);
     assertThat(userFoo3._accountId).isLessThan(userFoo1._accountId);
     assertThat(userFoo1._accountId).isLessThan(userFoo2._accountId);
 

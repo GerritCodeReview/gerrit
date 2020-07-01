@@ -107,7 +107,7 @@ export const htmlTemplate = html`
             aria-labelledby="darkThemeToggleLabel"
             checked="[[_isDark]]"
             on-change="_handleToggleDark"
-            on-click="_onTapDarkToggle"
+            on-click="_onClickToggle"
           ></paper-toggle-button>
           <div id="darkThemeToggleLabel">Dark theme (alpha)</div>
         </div>
@@ -115,6 +115,34 @@ export const htmlTemplate = html`
           Gerrit's dark theme is in early alpha, and almost definitely will not
           play nicely with themes set by specific Gerrit hosts. Filing feedback
           via the link in the app footer is strongly encouraged!
+        </p>
+      </section>
+      <section class="disableHotkeysToggle">
+        <div class="toggle">
+          <paper-toggle-button
+            aria-labelledby="disableHotkeysToggleLabel"
+            checked="[[_isDisableHotkeys]]"
+            on-change="_handleToggleDisableHotkeys"
+            on-tap="_onClickToggle"
+          ></paper-toggle-button>
+          <div id="disableHotkeyToggleLabel">Disable Hotkeys</div>
+        </div>
+        <p>
+          Disable Hotkeys to prevent being able to use shortcuts.
+        </p>
+      </section>
+      <section class="disableHotkeysToggle">
+        <div class="toggle">
+          <paper-toggle-button
+            aria-labelledby="disableHotkeysToggleLabel"
+            checked="[[_isDisableHotkeys]]"
+            on-change="_handleToggleDisableHotkeys"
+            on-tap="_onTapToggle"
+          ></paper-toggle-button>
+          <div id="disableHotkeyToggleLabel">Disable Hotkeys</div>
+        </div>
+        <p>
+          Disable Hotkeys to prevent being able to use shortcuts.
         </p>
       </section>
       <h2 id="Profile" class$="[[_computeHeaderClass(_accountInfoChanged)]]">

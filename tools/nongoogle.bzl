@@ -1,4 +1,5 @@
 load("//tools/bzl:maven_jar.bzl", "maven_jar")
+load("@bazel_tools//tools/build_defs/repo:java.bzl", "java_import_external")
 
 def declare_nongoogle_deps():
     """loads dependencies that are not used at Google.
@@ -27,12 +28,15 @@ def declare_nongoogle_deps():
         sha1 = "e55d1e4de0ccec6f404dbf775c62626d8b9f79a4",
     )
 
-    SSHD_VERS = "2.4.0"
+    SSHD_VERS = "2.6.0"
 
-    maven_jar(
+    java_import_external(
         name = "sshd-osgi",
-        artifact = "org.apache.sshd:sshd-osgi:" + SSHD_VERS,
-        sha1 = "fc4551c1eeda35e4671b263297d37d2bca81c4d4",
+        jar_sha256 = "7d1577ae36ae8a45cc810c096e6d5fca3c5b841788d9c4c46c5d0ee0610029cc",
+        jar_urls = [
+            "https://github.com/davido/mina-sshd/releases/download/v2.6.0-alpha/sshd-osgi-2.6.0.jar",
+        ],
+        licenses = ["unencumbered"],  # public domain
     )
 
     maven_jar(
@@ -47,10 +51,13 @@ def declare_nongoogle_deps():
         sha1 = "e1a317689ecd438f54e863747e832f741ef8e092",
     )
 
-    maven_jar(
+    java_import_external(
         name = "sshd-mina",
-        artifact = "org.apache.sshd:sshd-mina:" + SSHD_VERS,
-        sha1 = "8aa8715d07bd61ad8315df66d43c0c04b1b755c8",
+        jar_sha256 = "b911661a1031a8490a31372e1b1cf2b41519590fe6f191bff68b493de19ef9d3",
+        jar_urls = [
+            "https://github.com/davido/mina-sshd/releases/download/v2.6.0-alpha/sshd-mina-2.6.0.jar",
+        ],
+        licenses = ["unencumbered"],  # public domain
     )
 
     # elasticsearch-rest-client explicitly depends on this version

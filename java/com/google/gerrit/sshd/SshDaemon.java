@@ -17,7 +17,15 @@ package com.google.gerrit.sshd;
 import static com.google.gerrit.server.ssh.SshAddressesModule.IANA_SSH_PORT;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.apache.sshd.common.channel.ChannelOutputStream.WAIT_FOR_SPACE_TIMEOUT;
+import static org.apache.sshd.core.CoreModuleProperties.AUTH_TIMEOUT;
+import static org.apache.sshd.core.CoreModuleProperties.IDLE_TIMEOUT;
+import static org.apache.sshd.core.CoreModuleProperties.MAX_AUTH_REQUESTS;
+import static org.apache.sshd.core.CoreModuleProperties.MAX_CONCURRENT_SESSIONS;
+import static org.apache.sshd.core.CoreModuleProperties.NIO2_READ_TIMEOUT;
+import static org.apache.sshd.core.CoreModuleProperties.REKEY_BYTES_LIMIT;
+import static org.apache.sshd.core.CoreModuleProperties.REKEY_TIME_LIMIT;
+import static org.apache.sshd.core.CoreModuleProperties.SERVER_IDENTIFICATION;
+import static org.apache.sshd.core.CoreModuleProperties.WAIT_FOR_SPACE_TIMEOUT;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
@@ -44,24 +52,17 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
-import java.nio.file.FileStore;
-import java.nio.file.FileSystem;
-import java.nio.file.Path;
-import java.nio.file.PathMatcher;
-import java.nio.file.WatchService;
-import java.nio.file.attribute.UserPrincipalLookupService;
-import java.nio.file.spi.FileSystemProvider;
 import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.PublicKey;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.mina.transport.socket.SocketSessionConfig;
@@ -71,14 +72,13 @@ import org.apache.sshd.common.NamedResource;
 import org.apache.sshd.common.cipher.Cipher;
 import org.apache.sshd.common.compression.BuiltinCompressions;
 import org.apache.sshd.common.compression.Compression;
+import org.apache.sshd.common.file.nonefs.NoneFileSystemFactory;
 import org.apache.sshd.common.forward.DefaultForwarderFactory;
 import org.apache.sshd.common.io.AbstractIoServiceFactory;
 import org.apache.sshd.common.io.IoAcceptor;
 import org.apache.sshd.common.io.IoServiceFactory;
 import org.apache.sshd.common.io.IoServiceFactoryFactory;
 import org.apache.sshd.common.io.IoSession;
-import org.apache.sshd.common.io.mina.MinaServiceFactoryFactory;
-import org.apache.sshd.common.io.mina.MinaSession;
 import org.apache.sshd.common.io.nio2.Nio2ServiceFactoryFactory;
 import org.apache.sshd.common.kex.KeyExchangeFactory;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
@@ -91,6 +91,8 @@ import org.apache.sshd.common.util.buffer.Buffer;
 import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
 import org.apache.sshd.common.util.net.SshdSocketAddress;
 import org.apache.sshd.common.util.security.SecurityUtils;
+import org.apache.sshd.mina.MinaServiceFactoryFactory;
+import org.apache.sshd.mina.MinaSession;
 import org.apache.sshd.server.ServerBuilder;
 import org.apache.sshd.server.SshServer;
 import org.apache.sshd.server.auth.UserAuthFactory;
@@ -163,45 +165,38 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     this.advertised = advertised;
     keepAlive = cfg.getBoolean("sshd", "tcpkeepalive", true);
 
-    getProperties()
-        .put(
-            SERVER_IDENTIFICATION,
-            "GerritCodeReview_"
-                + Version.getVersion() //
-                + " ("
-                + super.getVersion()
-                + ")");
-
-    getProperties().put(MAX_AUTH_REQUESTS, String.valueOf(cfg.getInt("sshd", "maxAuthTries", 6)));
-
-    getProperties()
-        .put(
-            AUTH_TIMEOUT,
-            String.valueOf(
-                MILLISECONDS.convert(
-                    ConfigUtil.getTimeUnit(cfg, "sshd", null, "loginGraceTime", 120, SECONDS),
-                    SECONDS)));
+    SERVER_IDENTIFICATION.set(
+        this,
+        "GerritCodeReview_"
+            + Version.getVersion() //
+            + " ("
+            + super.getVersion()
+            + ")");
+    MAX_AUTH_REQUESTS.set(this, cfg.getInt("sshd", "maxAuthTries", 6));
+    AUTH_TIMEOUT.set(
+        this,
+        Duration.ofSeconds(
+            MILLISECONDS.convert(
+                ConfigUtil.getTimeUnit(cfg, "sshd", null, "loginGraceTime", 120, SECONDS),
+                SECONDS)));
 
     long idleTimeoutSeconds = ConfigUtil.getTimeUnit(cfg, "sshd", null, "idleTimeout", 0, SECONDS);
-    getProperties().put(IDLE_TIMEOUT, String.valueOf(SECONDS.toMillis(idleTimeoutSeconds)));
-    getProperties().put(NIO2_READ_TIMEOUT, String.valueOf(SECONDS.toMillis(idleTimeoutSeconds)));
+    IDLE_TIMEOUT.set(this, Duration.ofSeconds(SECONDS.toMillis(idleTimeoutSeconds)));
+    NIO2_READ_TIMEOUT.set(this, Duration.ofSeconds(SECONDS.toMillis(idleTimeoutSeconds)));
 
     long rekeyTimeLimit =
         ConfigUtil.getTimeUnit(cfg, "sshd", null, "rekeyTimeLimit", 3600, SECONDS);
-    getProperties().put(REKEY_TIME_LIMIT, String.valueOf(SECONDS.toMillis(rekeyTimeLimit)));
+    REKEY_TIME_LIMIT.set(this, Duration.ofSeconds(SECONDS.toMillis(rekeyTimeLimit)));
 
-    getProperties()
-        .put(
-            REKEY_BYTES_LIMIT,
-            String.valueOf(cfg.getLong("sshd", "rekeyBytesLimit", 1024 * 1024 * 1024 /* 1GB */)));
+    REKEY_BYTES_LIMIT.set(
+        this, cfg.getLong("sshd", "rekeyBytesLimit", 1024 * 1024 * 1024 /* 1GB */));
 
     long waitTimeoutSeconds = ConfigUtil.getTimeUnit(cfg, "sshd", null, "waitTimeout", 30, SECONDS);
-    getProperties()
-        .put(WAIT_FOR_SPACE_TIMEOUT, String.valueOf(SECONDS.toMillis(waitTimeoutSeconds)));
+    WAIT_FOR_SPACE_TIMEOUT.set(this, Duration.ofSeconds(SECONDS.toMillis(waitTimeoutSeconds)));
 
     final int maxConnectionsPerUser = cfg.getInt("sshd", "maxConnectionsPerUser", 64);
     if (0 < maxConnectionsPerUser) {
-      getProperties().put(MAX_CONCURRENT_SESSIONS, String.valueOf(maxConnectionsPerUser));
+      MAX_CONCURRENT_SESSIONS.set(this, maxConnectionsPerUser);
     }
 
     final String kerberosKeytab = cfg.getString("sshd", null, "kerberosKeytab");
@@ -724,66 +719,6 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private void initFileSystemFactory() {
-    setFileSystemFactory(
-        session ->
-            new FileSystem() {
-              @Override
-              public void close() throws IOException {}
-
-              @Override
-              public Iterable<FileStore> getFileStores() {
-                return null;
-              }
-
-              @Override
-              public Path getPath(String arg0, String... arg1) {
-                return null;
-              }
-
-              @Override
-              public PathMatcher getPathMatcher(String arg0) {
-                return null;
-              }
-
-              @Override
-              public Iterable<Path> getRootDirectories() {
-                return null;
-              }
-
-              @Override
-              public String getSeparator() {
-                return null;
-              }
-
-              @Override
-              public UserPrincipalLookupService getUserPrincipalLookupService() {
-                return null;
-              }
-
-              @Override
-              public boolean isOpen() {
-                return false;
-              }
-
-              @Override
-              public boolean isReadOnly() {
-                return false;
-              }
-
-              @Override
-              public WatchService newWatchService() throws IOException {
-                return null;
-              }
-
-              @Override
-              public FileSystemProvider provider() {
-                return null;
-              }
-
-              @Override
-              public Set<String> supportedFileAttributeViews() {
-                return null;
-              }
-            });
+    setFileSystemFactory(NoneFileSystemFactory.INSTANCE);
   }
 }

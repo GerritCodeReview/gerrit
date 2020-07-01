@@ -1221,7 +1221,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void cannotAddNonConfirmedEmailWithoutModifyAccountPermission() throws Exception {
     TestAccount account = accountCreator.create(name("user"));
-    EmailInput input = newEmailInput("test@test.com");
+    EmailInput input = newEmailInput("test@example.com");
     requestScopeOperations.setApiUser(user.id());
     assertThrows(AuthException.class, () -> gApi.accounts().id(account.username()).addEmail(input));
   }

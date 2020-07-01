@@ -146,9 +146,9 @@ public class FromAddressGeneratorProviderTest {
   @Test
   public void USERNoAllowDomain() {
     setFrom("USER");
-    setDomains(Arrays.asList("example.com"));
+    setDomains(Arrays.asList("example.net"));
     final String name = "A U. Thor";
-    final String email = "a.u.thor@test.com";
+    final String email = "a.u.thor@example.com";
     final Account.Id user = user(name, email);
 
     final Address r = create().from(user);
@@ -161,10 +161,10 @@ public class FromAddressGeneratorProviderTest {
   @Test
   public void USERAllowDomainTwice() {
     setFrom("USER");
+    setDomains(Arrays.asList("example.net"));
     setDomains(Arrays.asList("example.com"));
-    setDomains(Arrays.asList("test.com"));
     final String name = "A U. Thor";
-    final String email = "a.u.thor@test.com";
+    final String email = "a.u.thor@example.com";
     final Account.Id user = user(name, email);
 
     final Address r = create().from(user);
@@ -177,10 +177,10 @@ public class FromAddressGeneratorProviderTest {
   @Test
   public void USERAllowDomainTwiceReverse() {
     setFrom("USER");
-    setDomains(Arrays.asList("test.com"));
     setDomains(Arrays.asList("example.com"));
+    setDomains(Arrays.asList("example.net"));
     final String name = "A U. Thor";
-    final String email = "a.u.thor@test.com";
+    final String email = "a.u.thor@example.com";
     final Account.Id user = user(name, email);
 
     final Address r = create().from(user);
@@ -195,7 +195,7 @@ public class FromAddressGeneratorProviderTest {
     setFrom("USER");
     setDomains(Arrays.asList("example.com", "test.com"));
     final String name = "A U. Thor";
-    final String email = "a.u.thor@test.com";
+    final String email = "a.u.thor@example.com";
     final Account.Id user = user(name, email);
 
     final Address r = create().from(user);

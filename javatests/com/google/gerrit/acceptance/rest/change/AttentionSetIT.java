@@ -14,9 +14,6 @@
 
 package com.google.gerrit.acceptance.rest.change;
 
-import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -36,16 +33,20 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
+import org.junit.Before;
+import org.junit.Test;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.LongSupplier;
 import java.util.stream.Collectors;
-import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
-import org.eclipse.jgit.junit.TestRepository;
-import org.junit.Before;
-import org.junit.Test;
+
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 @NoHttpd
 @UseClockStep(clockStepUnit = TimeUnit.MINUTES)
@@ -238,6 +239,32 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet.account()).isEqualTo(user.id());
     assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
     assertThat(attentionSet.reason()).isEqualTo("Change was submitted");
+  }
+
+  /** There is currently a bug that adds the person who submitted the change as reviewer, which in turn adds them to the attention set. This test ensures this doesn't happen. */
+  @Test
+  public void submitDoesNotAddReviewersToAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange("refs/heads/master", "file1", "content");
+
+    // Someone else approves, because if admin reviews, they will be added to the reviewers (and the
+    // bug won't be reproduced).
+    requestScopeOperations.setApiUser(accountCreator.admin2().id());
+    change(r).current().review(ReviewInput.approve().addUserToAttentionSet(user.email(), "reason"));
+
+    requestScopeOperations.setApiUser(admin.id());
+
+    change(r).attention(admin.email()).remove(new AttentionSetInput("remove"));
+    change(r).current().submit();
+
+    // Attention set updates that relate to the admin (the person who replied) are filtered out.
+    AttentionSetUpdate attentionSet =
+        Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
+
+    assertThat(attentionSet.account()).isEqualTo(admin.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet.reason()).isEqualTo("remove");
+
+    change(r).addReviewer(user.email());
   }
 
   @Test

@@ -14,6 +14,56 @@
 
 package com.google.gerrit.server.notedb;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Table;
+import com.google.common.collect.TreeBasedTable;
+import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AttentionSetUpdate;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RobotComment;
+import com.google.gerrit.entities.SubmissionId;
+import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.mail.Address;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.util.AttentionSetUtil;
+import com.google.gerrit.server.util.LabelVote;
+import com.google.gerrit.server.validators.ValidationException;
+import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.notes.NoteMap;
+import org.eclipse.jgit.revwalk.FooterKey;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
@@ -45,55 +95,6 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.Comparator.naturalOrder;
 import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
-
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Joiner;
-import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Table;
-import com.google.common.collect.TreeBasedTable;
-import com.google.gerrit.common.data.SubmitRecord;
-import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.AttentionSetUpdate;
-import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.Comment;
-import com.google.gerrit.entities.HumanComment;
-import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.RobotComment;
-import com.google.gerrit.entities.SubmissionId;
-import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.mail.Address;
-import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.util.AttentionSetUtil;
-import com.google.gerrit.server.util.LabelVote;
-import com.google.gerrit.server.validators.ValidationException;
-import com.google.inject.assistedinject.Assisted;
-import com.google.inject.assistedinject.AssistedInject;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.CommitBuilder;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.notes.NoteMap;
-import org.eclipse.jgit.revwalk.FooterKey;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * A delta to apply to a change.
@@ -659,7 +660,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, e.getValue().getFooterKey());
       noteUtil.appendAccountIdIdentString(msg, e.getKey()).append('\n');
     }
+
     applyReviewerUpdatesToAttentionSet();
+
     for (Map.Entry<Address, ReviewerStateInternal> e : reviewersByEmail.entrySet()) {
       addFooter(msg, e.getValue().getByEmailFooterKey(), e.getKey().toString());
     }
@@ -766,8 +769,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
 
   private void applyReviewerUpdatesToAttentionSet() {
     if ((workInProgress != null && workInProgress == true)
-        || getNotes().getChange().isWorkInProgress()) {
-      // Users shouldn't be added to the attention set if the change is work in progress.
+        || getNotes().getChange().isWorkInProgress()
+        || status == Change.Status.MERGED) {
+      // Attention set shouldn't change here for changes that are work in progress or are about to be submitted.
       return;
     }
     Set<Account.Id> currentReviewers =

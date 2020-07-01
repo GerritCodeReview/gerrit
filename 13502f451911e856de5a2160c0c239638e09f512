@@ -34,6 +34,24 @@
       "revId": "13502f451911e856de5a2160c0c239638e09f512",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fca46eda_35b6f540",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-01T13:28:36Z",
+      "side": 1,
+      "message": "Thanks for the pointer, Thomas. We have to wait until 2.5.1 is released then.",
+      "parentUuid": "bfea46d7_c86f5944",
+      "revId": "13502f451911e856de5a2160c0c239638e09f512",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

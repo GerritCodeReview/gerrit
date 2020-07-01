@@ -88,6 +88,29 @@
     },
     {
       "key": {
+        "uuid": "a79dfd5a_449da617",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-07-01T13:54:18Z",
+      "side": 1,
+      "message": "since you\u0027re here now, maybe add something for symlinks too?",
+      "range": {
+        "startLine": 60,
+        "startChar": 13,
+        "endLine": 60,
+        "endChar": 15
+      },
+      "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fe0012c4_effeac9e",
         "filename": "java/gerrit/PRED_file_names_1.java",
         "patchSetId": 3

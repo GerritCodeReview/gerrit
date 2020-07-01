@@ -46,6 +46,30 @@
       "revId": "09263d9bdd4b05c96db6f2dad85d69f4d9781da2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce997703_08d17b0e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-01T14:49:37Z",
+      "side": 1,
+      "message": "Thanks for the pointer!",
+      "parentUuid": "d98fd284_35c672d9",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 51
+      },
+      "revId": "09263d9bdd4b05c96db6f2dad85d69f4d9781da2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

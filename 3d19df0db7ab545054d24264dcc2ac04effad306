@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfe0c9ca_3b6bd84d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-01T14:14:28Z",
+      "side": 1,
+      "message": "in which case a change won\u0027t have owner ? or this is just to satisfy tests \n ?",
+      "range": {
+        "startLine": 232,
+        "startChar": 7,
+        "endLine": 232,
+        "endChar": 19
+      },
+      "revId": "3d19df0db7ab545054d24264dcc2ac04effad306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70debb9e_1cd1268b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-01T14:14:28Z",
+      "side": 1,
+      "message": "!\u003d\u003d",
+      "range": {
+        "startLine": 232,
+        "startChar": 48,
+        "endLine": 232,
+        "endChar": 50
+      },
+      "revId": "3d19df0db7ab545054d24264dcc2ac04effad306",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

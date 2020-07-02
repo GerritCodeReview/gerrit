@@ -79,6 +79,23 @@ class ChangeComments {
     return this._robotComments;
   }
 
+  findCommentById(commentId) {
+    const findComment = comments => {
+      let comment;
+      for (const path in comments) {
+        if (comments.hasOwnProperty(path)) {
+          comments[path].forEach(c => {
+            if (c.id === commentId) {
+              comment = c;
+            }
+          });
+        }
+      }
+      return comment;
+    };
+    return findComment(this._comments) || findComment(this._robotComments);
+  }
+
   /**
    * Get an object mapping file paths to a boolean representing whether that
    * path contains diff comments in the given patch set (including drafts and

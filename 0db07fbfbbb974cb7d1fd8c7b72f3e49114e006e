@@ -511,6 +511,30 @@
     },
     {
       "key": {
+        "uuid": "1d13dd7f_f809ac30",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetLabel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-02T11:53:11Z",
+      "side": 1,
+      "message": "Thanks, LGTM now.",
+      "parentUuid": "217853f3_d38c31f5",
+      "range": {
+        "startLine": 226,
+        "startChar": 3,
+        "endLine": 228,
+        "endChar": 5
+      },
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ce061b6_dbdbbb1f",
         "filename": "java/com/google/gerrit/server/schema/AllProjectsInput.java",
         "patchSetId": 2

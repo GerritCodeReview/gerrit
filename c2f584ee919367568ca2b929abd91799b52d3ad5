@@ -46,6 +46,30 @@
       "revId": "c2f584ee919367568ca2b929abd91799b52d3ad5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7def4b1e_9ccc719f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-02T07:04:25Z",
+      "side": 1,
+      "message": "Ah, got it. The status is only MERGED when it is set to MERGED and not when an update is done on a merged change.",
+      "parentUuid": "66876120_8050fb8a",
+      "range": {
+        "startLine": 772,
+        "startChar": 11,
+        "endLine": 772,
+        "endChar": 41
+      },
+      "revId": "c2f584ee919367568ca2b929abd91799b52d3ad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

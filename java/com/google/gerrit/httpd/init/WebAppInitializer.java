@@ -96,6 +96,7 @@ import com.google.gerrit.server.securestore.SecureStoreClassName;
 import com.google.gerrit.server.ssh.NoSshModule;
 import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.server.submit.LocalMergeSuperSetComputation;
+import com.google.gerrit.server.submit.SubscriptionGraph;
 import com.google.gerrit.sshd.SshHostKeyModule;
 import com.google.gerrit.sshd.SshKeyCacheImpl;
 import com.google.gerrit.sshd.SshModule;
@@ -322,6 +323,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     }
 
     modules.add(new RestApiModule());
+    modules.add(new SubscriptionGraph.Module());
     modules.add(new WorkQueue.Module());
     modules.add(new GerritInstanceNameModule());
     modules.add(

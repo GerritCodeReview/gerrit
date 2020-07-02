@@ -185,7 +185,6 @@ class GrDiffView extends KeyboardShortcutMixin(
         value: true,
       },
       _prefs: Object,
-      _localPrefs: Object,
       _projectConfig: Object,
       _userPrefs: Object,
       _diffMode: {
@@ -256,7 +255,7 @@ class GrDiffView extends KeyboardShortcutMixin(
     return [
       '_getProjectConfig(_change.project)',
       '_getFiles(_changeNum, _patchRange.*, _changeComments)',
-      '_setReviewedObserver(_loggedIn, params.*, _prefs)',
+      '_setReviewedObserver(_loggedIn, params.*, _prefs, _patchRange.*)',
       '_recomputeComments(_files.changeFilesByPath,' +
       '_path, _patchRange, _projectConfig)',
     ];
@@ -360,6 +359,7 @@ class GrDiffView extends KeyboardShortcutMixin(
   }
 
   _getSortedFileList(files) {
+    if (!files) return;
     return files.sortedFileList;
   }
 
@@ -382,6 +382,10 @@ class GrDiffView extends KeyboardShortcutMixin(
     // Polymer 2: check for undefined
     if ([changeNum, patchRangeRecord, patchRangeRecord.base, changeComments]
         .some(arg => arg === undefined)) {
+      return Promise.resolve();
+    }
+
+    if (!patchRangeRecord.base.patchNum) {
       return Promise.resolve();
     }
 
@@ -420,6 +424,7 @@ class GrDiffView extends KeyboardShortcutMixin(
   _setReviewed(reviewed) {
     if (this._editMode) { return; }
     this.$.reviewed.checked = reviewed;
+    if (!this._patchRange.patchNum) return;
     this._saveReviewedState(reviewed).catch(err => {
       this.dispatchEvent(new CustomEvent('show-alert', {
         detail: {message: ERR_REVIEW_STATUS},
@@ -742,24 +747,42 @@ class GrDiffView extends KeyboardShortcutMixin(
         .then(files => files.has(path));
   }
 
-  _paramsChanged(value) {
-    if (value.view !== GerritNav.View.DIFF) { return; }
+  _initLineOfInterestAndCursor(lineNum, leftSide) {
+    this.$.diffHost.lineOfInterest =
+      this._getLineOfInterest({
+        lineNum,
+        leftSide,
+      });
+    this._initCursor({
+      lineNum,
+      leftSide,
+    });
+  }
 
-    if (value.changeNum && value.project) {
-      this.$.restAPI.setInProjectLookup(value.changeNum, value.project);
+  _initCommitRange() {
+    const change = this._change;
+    let commit;
+    let baseCommit;
+    if (!this._patchRange || !this._patchRange.patchNum) return;
+    for (const commitSha in change.revisions) {
+      if (!change.revisions.hasOwnProperty(commitSha)) continue;
+      const revision = change.revisions[commitSha];
+      const patchNum = revision._number.toString();
+      if (patchNum === this._patchRange.patchNum) {
+        commit = commitSha;
+        const commitObj = revision.commit || {};
+        const parents = commitObj.parents || [];
+        if (this._patchRange.basePatchNum === PARENT && parents.length) {
+          baseCommit = parents[parents.length - 1].commit;
+        }
+      } else if (patchNum === this._patchRange.basePatchNum) {
+        baseCommit = commitSha;
+      }
     }
+    this._commitRange = {commit, baseCommit};
+  }
 
-    this.$.diffHost.lineOfInterest = this._getLineOfInterest(this.params);
-    this._initCursor(this.params);
-
-    this._changeNum = value.changeNum;
-    this.classList.remove('hideComments');
-    this._path = value.path;
-    this._patchRange = {
-      patchNum: value.patchNum,
-      basePatchNum: value.basePatchNum || PARENT,
-    };
-
+  _fireTitleChange() {
     // NOTE: This may be called before attachment (e.g. while parentElement is
     // null). Fire title-change in an async so that, if attachment to the DOM
     // has been queued, the event can bubble up to the handler in gr-app.
@@ -769,11 +792,80 @@ class GrDiffView extends KeyboardShortcutMixin(
         composed: true, bubbles: true,
       }));
     });
+  }
+
+  _initPatchRange() {
+    const params = this.params;
+    const change = this._change;
+    const comments = this._changeComments;
+    let lineNum; let leftSide;
+    if (params.commentId) {
+      const comment = comments.findCommentById(params.commentId);
+      if (!comment) {
+        this.dispatchEvent(new CustomEvent('show-alert', {
+          detail: {
+            message: 'comment not found',
+          },
+          composed: true, bubbles: true,
+        }));
+        // TODO(dhruvsri): replace with  reload event
+        GerritNav.navigateToChange(change);
+        return;
+      }
+      this._path = comment.path;
+      const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
+      if (patchNumEquals(latestPatchNum, comment.patch_set)) {
+        this._patchRange = {
+          patchNum: latestPatchNum,
+          basePatchNum: PARENT,
+        };
+      } else {
+        this._patchRange = {
+          patchNum: latestPatchNum,
+          basePatchNum: comment.patch_set,
+        };
+      }
+      lineNum = comment.line;
+      leftSide = comment.__commentSide === 'left';
+    } else {
+      if (params.path) {
+        this._path = params.path;
+        this._fireTitleChange();
+      }
+      if (params.patchNum) {
+        this._patchRange = {
+          patchNum: params.patchNum,
+          basePatchNum: params.basePatchNum || PARENT,
+        };
+      }
+      if (params.lineNum) {
+        lineNum = params.lineNum;
+        leftSide = params.leftSide;
+      }
+    }
+    this._initLineOfInterestAndCursor(lineNum, leftSide);
+    this._commentMap = this._getPaths(this._patchRange);
+
+    this._commentsForDiff = this._getCommentsForPath(this._path,
+        this._patchRange, this._projectConfig);
+  }
+
+  _paramsChanged(value) {
+    if (value.view !== GerritNav.View.DIFF) { return; }
+
+    if (value.changeNum && value.project) {
+      this.$.restAPI.setInProjectLookup(value.changeNum, value.project);
+    }
+
+    this._changeNum = value.changeNum;
+    this.classList.remove('hideComments');
 
     // When navigating away from the page, there is a possibility that the
     // patch number is no longer a part of the URL (say when navigating to
     // the top-level change info view) and therefore undefined in `params`.
-    if (!this._patchRange.patchNum) {
+    // If route is of type /comment/<commentId>/ then no patchNum is present
+    if (!value.patchNum && !value.commentLink) {
+      console.warn('invalid url, no patchNum found');
       return;
     }
 
@@ -785,29 +877,7 @@ class GrDiffView extends KeyboardShortcutMixin(
       this._userPrefs = prefs;
     }));
 
-    promises.push(this._getChangeDetail(this._changeNum).then(change => {
-      let commit;
-      let baseCommit;
-      if (change) {
-        for (const commitSha in change.revisions) {
-          if (!change.revisions.hasOwnProperty(commitSha)) continue;
-          const revision = change.revisions[commitSha];
-          const patchNum = revision._number.toString();
-          if (patchNum === this._patchRange.patchNum) {
-            commit = commitSha;
-            const commitObj = revision.commit || {};
-            const parents = commitObj.parents || [];
-            if (this._patchRange.basePatchNum === PARENT && parents.length) {
-              baseCommit = parents[parents.length - 1].commit;
-            }
-          } else if (patchNum === this._patchRange.basePatchNum) {
-            baseCommit = commitSha;
-          }
-        }
-        this._commitRange = {commit, baseCommit};
-      }
-    }));
-
+    promises.push(this._getChangeDetail(this._changeNum));
     promises.push(this._loadComments());
 
     promises.push(this._getChangeEdit(this._changeNum));
@@ -817,6 +887,10 @@ class GrDiffView extends KeyboardShortcutMixin(
     this._loading = true;
     return Promise.all(promises)
         .then(r => {
+          this._loading = false;
+          this._initPatchRange();
+          this._initCommitRange();
+          this.$.diffHost.comments = this._commentsForDiff;
           const edit = r[4];
           if (edit) {
             this.set('_change.revisions.' + edit.commit.commit, {
@@ -825,8 +899,6 @@ class GrDiffView extends KeyboardShortcutMixin(
               commit: edit.commit,
             });
           }
-          this._loading = false;
-          this.$.diffHost.comments = this._commentsForDiff;
           return this.$.diffHost.reload(true);
         })
         .then(() => {
@@ -850,22 +922,27 @@ class GrDiffView extends KeyboardShortcutMixin(
     }
   }
 
-  _setReviewedObserver(_loggedIn, paramsRecord, _prefs) {
+  _setReviewedObserver(_loggedIn, paramsRecord, _prefs, patchRangeRecord) {
     // Polymer 2: check for undefined
-    if ([_loggedIn, paramsRecord, _prefs].includes(undefined)) {
+    if ([_loggedIn, paramsRecord, _prefs, patchRangeRecord,
+      patchRangeRecord.base].includes(
+        undefined)) {
       return;
     }
-
+    const patchRange = patchRangeRecord.base;
     const params = paramsRecord.base || {};
     if (!_loggedIn) { return; }
 
     if (_prefs.manual_review) {
-      // Checkbox state needs to be set explicitly only when manual_review
+      // Checkbox state needs to be set  plicitly only when manual_review
       // is specified.
-      this._getReviewedStatus(this.editMode, this._changeNum,
-          this._patchRange.patchNum, this._path).then(status => {
-        this.$.reviewed.checked = status;
-      });
+
+      if (patchRange.patchNum) {
+        this._getReviewedStatus(this.editMode, this._changeNum,
+            patchRange.patchNum, this._path).then(status => {
+          this.$.reviewed.checked = status;
+        });
+      }
       return;
     }
 
@@ -902,7 +979,7 @@ class GrDiffView extends KeyboardShortcutMixin(
       }));
     }
 
-    if (this._fileList.length == 0) { return; }
+    if (!this._fileList || this._fileList.length == 0) { return; }
 
     this.set('changeViewState.selectedFileIndex',
         this._fileList.indexOf(path));
@@ -1153,10 +1230,6 @@ class GrDiffView extends KeyboardShortcutMixin(
   _loadComments() {
     return this.$.commentAPI.loadAll(this._changeNum).then(comments => {
       this._changeComments = comments;
-      this._commentMap = this._getPaths(this._patchRange);
-
-      this._commentsForDiff = this._getCommentsForPath(this._path,
-          this._patchRange, this._projectConfig);
     });
   }
 

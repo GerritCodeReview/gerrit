@@ -20,6 +20,7 @@ import './gr-router.js';
 import page from 'page/page.mjs';
 import {GerritNav} from '../gr-navigation/gr-navigation.js';
 import {stubBaseUrl} from '../../../test/test-utils.js';
+import {_testOnly_RoutePattern} from './gr-router.js';
 
 const basicFixture = fixtureFromElement('gr-router');
 
@@ -183,6 +184,7 @@ suite('gr-router tests', () => {
       '_handleBranchListOffsetRoute',
       '_handleChangeNumberLegacyRoute',
       '_handleChangeRoute',
+      '_handleCommentRoute',
       '_handleDiffRoute',
       '_handleDefaultRoute',
       '_handleChangeLegacyRoute',
@@ -1504,6 +1506,23 @@ suite('gr-router tests', () => {
           });
           assert.isFalse(redirectStub.called);
           assert.isTrue(normalizeRangeStub.called);
+        });
+
+        test('comment route', () => {
+          const url = '/c/gerrit/+/264833/comment/00049681_f34fd6a9/';
+          const groups = url.match(_testOnly_RoutePattern.COMMENT);
+          assert.deepEqual(groups.slice(1), [
+            'gerrit', // project
+            '264833', // changeNum
+            '00049681_f34fd6a9', // commentId
+          ]);
+          assertDataToParams({params: groups.slice(1)}, '_handleCommentRoute', {
+            project: 'gerrit',
+            changeNum: '264833',
+            commentId: '00049681_f34fd6a9',
+            commentLink: true,
+            view: GerritNav.View.DIFF,
+          });
         });
       });
 

@@ -133,6 +133,32 @@ suite('gr-diff-view tests', () => {
       });
     });
 
+    test('comment route', () => {
+      sinon.stub(element.reporting, 'diffViewDisplayed');
+      sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
+      sinon.spy(element, '_paramsChanged');
+      element.params = {
+        view: GerritNav.View.DIFF,
+        changeNum: '42',
+        patchNum: '2',
+        basePatchNum: '1',
+        path: '/COMMIT_MSG',
+        commentLink: true,
+        commentId: 'c1',
+      };
+      sinon.stub(element.$.diffHost, '_commentsChanged');
+      sinon.stub(element, '_getCommentsForPath').returns({
+        left: [{id: 'c1', __commentSide: 'left', line: 10}],
+        right: [{id: 'c2', __commentSide: 'right', line: 11}],
+      });
+      const initLineOfInterestAndCursorStub =
+        sinon.stub(element, '_initLineOfInterestAndCursor');
+      return element._paramsChanged.returnValues[0].then(() => {
+        assert.isTrue(initLineOfInterestAndCursorStub.
+            calledWithExactly(10, true));
+      });
+    });
+
     test('params change causes blame to load if it was set to true', () => {
       // Blame loads for subsequent files if it was loaded for one file
       element._isBlameLoaded = true;

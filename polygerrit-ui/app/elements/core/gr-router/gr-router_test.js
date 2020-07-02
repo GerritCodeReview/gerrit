@@ -182,6 +182,7 @@ suite('gr-router tests', () => {
       '_handleBranchListOffsetRoute',
       '_handleChangeNumberLegacyRoute',
       '_handleChangeRoute',
+      '_handleCommentRoute',
       '_handleDiffRoute',
       '_handleDefaultRoute',
       '_handleChangeLegacyRoute',
@@ -1503,6 +1504,21 @@ suite('gr-router tests', () => {
           });
           assert.isFalse(redirectStub.called);
           assert.isTrue(normalizeRangeStub.called);
+        });
+
+        test('comment route', () => {
+          // /c/<project>/+/<changeNum>/<patchNum>/comment/<commentId>/<path>
+          const COMMENT = /^\/c\/(.+)\/\+\/(\d+)\/(\d+)\/comment\/(\w+)\/(.+)/;
+          const url = '/c/gerrit/+/264833/32/comment/00049681_f34fd6a9/'
+            + 'polygerrit-ui/app/elements/core/gr-router/gr-router.js';
+          const groups = url.match(COMMENT);
+          assert.deepEqual(groups.slice(1), [
+            'gerrit', // project
+            '264833', // changeNum
+            '32', // patchNum
+            '00049681_f34fd6a9', // commentId
+            'polygerrit-ui/app/elements/core/gr-router/gr-router.js', // path
+          ]);
         });
       });
 

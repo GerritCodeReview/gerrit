@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "952f0d23_710c8f13",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-02T06:45:08Z",
+      "side": 1,
+      "message": "What about explicitly adding a reviewer on a merged change?\nIs this reviewer now also not showing up in the attention set?\nE.g. it\u0027s possible to allow post-submit approvals, which are sometimes needed to fulfil requirements for verifiable builds (e.g. every change must have an approval of at least one Googler, if a change was submitted without approval from a Googler you may request this missing approval after the fact to be able to pass the verifiable build validation).",
+      "range": {
+        "startLine": 772,
+        "startChar": 11,
+        "endLine": 772,
+        "endChar": 41
+      },
+      "revId": "c2f584ee919367568ca2b929abd91799b52d3ad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

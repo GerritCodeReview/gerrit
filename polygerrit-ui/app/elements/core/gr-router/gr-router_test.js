@@ -20,6 +20,7 @@ import './gr-router.js';
 import page from 'page/page.mjs';
 import {GerritNav} from '../gr-navigation/gr-navigation.js';
 import {stubBaseUrl} from '../../../test/test-utils.js';
+import {_testOnly_RoutePattern} from './gr-router.js';
 
 const basicFixture = fixtureFromElement('gr-router');
 
@@ -183,6 +184,8 @@ suite('gr-router tests', () => {
       '_handleBranchListOffsetRoute',
       '_handleChangeNumberLegacyRoute',
       '_handleChangeRoute',
+      '_handleFileRoute',
+      '_handleCommentRoute',
       '_handleDiffRoute',
       '_handleDefaultRoute',
       '_handleChangeLegacyRoute',
@@ -1504,6 +1507,48 @@ suite('gr-router tests', () => {
           });
           assert.isFalse(redirectStub.called);
           assert.isTrue(normalizeRangeStub.called);
+        });
+
+        test('file route', () => {
+          const url = '/c/gerrit/+/274190/file/1/' +
+            'polygerrit-ui/app/elements/core/gr-router/gr-router.js';
+          const groups = url.match(_testOnly_RoutePattern.FILE);
+          assert.deepEqual(groups.slice(1), [
+            'gerrit', // project
+            '274190', // changeNum
+            '1', // patchNum
+            'polygerrit-ui/app/elements/core/gr-router/gr-router.js', // path
+          ]);
+          assertDataToParams({params: groups.slice(1)}, '_handleFileRoute', {
+            project: 'gerrit',
+            changeNum: '274190',
+            patchNum: '1',
+            path: 'polygerrit-ui/app/elements/core/gr-router/gr-router.js',
+            fileLink: true,
+            view: GerritNav.View.DIFF,
+          });
+        });
+
+        test('comment route', () => {
+          const url = '/c/gerrit/+/264833/32/comment/00049681_f34fd6a9/'
+            + 'polygerrit-ui/app/elements/core/gr-router/gr-router.js';
+          const groups = url.match(_testOnly_RoutePattern.COMMENT);
+          assert.deepEqual(groups.slice(1), [
+            'gerrit', // project
+            '264833', // changeNum
+            '32', // patchNum
+            '00049681_f34fd6a9', // commentId
+            'polygerrit-ui/app/elements/core/gr-router/gr-router.js', // path
+          ]);
+          assertDataToParams({params: groups.slice(1)}, '_handleCommentRoute', {
+            project: 'gerrit',
+            changeNum: '264833',
+            patchNum: '32',
+            commentId: '00049681_f34fd6a9',
+            path: 'polygerrit-ui/app/elements/core/gr-router/gr-router.js',
+            commentLink: true,
+            view: GerritNav.View.DIFF,
+          });
         });
       });
 

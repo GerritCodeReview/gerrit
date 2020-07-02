@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5257e21f_355bb45e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-02T10:36:10Z",
+      "side": 1,
+      "message": "removing everyone but David from the attention set, because this is ready to submit",
+      "revId": "ffa5cce8dce60faacd6f02e0bb2943a0e425f81a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -742,6 +742,18 @@ class GrDiffView extends mixinBehaviors( [
         .then(files => files.has(path));
   }
 
+  _initLineOfInterestAndCursor(lineNum, leftSide) {
+    this.$.diffHost.lineOfInterest =
+      this._getLineOfInterest({
+        lineNum,
+        leftSide,
+      });
+    this._initCursor({
+      lineNum,
+      leftSide,
+    });
+  }
+
   _paramsChanged(value) {
     if (value.view !== GerritNav.View.DIFF) { return; }
 
@@ -749,8 +761,8 @@ class GrDiffView extends mixinBehaviors( [
       this.$.restAPI.setInProjectLookup(value.changeNum, value.project);
     }
 
-    this.$.diffHost.lineOfInterest = this._getLineOfInterest(this.params);
-    this._initCursor(this.params);
+    this._initLineOfInterestAndCursor(this.params.lineNum,
+        this.params.leftSide);
 
     this._changeNum = value.changeNum;
     this.classList.remove('hideComments');
@@ -827,6 +839,22 @@ class GrDiffView extends mixinBehaviors( [
           }
           this._loading = false;
           this.$.diffHost.comments = this._commentsForDiff;
+          if (value.commentId) {
+            const comment = [...this._commentsForDiff.left,
+              ...this._commentsForDiff.right].find(c =>
+              c.id === value.commentId);
+            if (!comment) {
+              this.dispatchEvent(new CustomEvent('show-alert', {
+                detail: {
+                  message: `comment not found`,
+                },
+                composed: true, bubbles: true,
+              }));
+            } else {
+              this._initLineOfInterestAndCursor(comment.line,
+                  comment.__commentSide === 'left');
+            }
+          }
           return this.$.diffHost.reload(true);
         })
         .then(() => {

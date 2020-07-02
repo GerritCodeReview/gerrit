@@ -31,6 +31,8 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
+import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -102,12 +104,12 @@ public class SubscriptionGraph {
   }
 
   /** Get branches updated as part of the enclosing submit or push batch. */
-  ImmutableSet<BranchNameKey> getUpdatedBranches() {
+  public ImmutableSet<BranchNameKey> getUpdatedBranches() {
     return updatedBranches;
   }
 
   /** Get all superprojects affected. */
-  ImmutableSet<Project.NameKey> getAffectedSuperProjects() {
+  public ImmutableSet<Project.NameKey> getAffectedSuperProjects() {
     return branchesByProject.keySet();
   }
 
@@ -120,7 +122,7 @@ public class SubscriptionGraph {
    * Returns all branches within the superproject {@code project} which have submodule
    * subscriptions.
    */
-  ImmutableSet<BranchNameKey> getAffectedSuperBranches(Project.NameKey project) {
+  public ImmutableSet<BranchNameKey> getAffectedSuperBranches(Project.NameKey project) {
     return branchesByProject.get(project);
   }
 
@@ -130,71 +132,78 @@ public class SubscriptionGraph {
    *
    * @see SubscriptionGraph#sortedBranches
    */
-  ImmutableSet<BranchNameKey> getSortedSuperprojectAndSubmoduleBranches() {
+  public ImmutableSet<BranchNameKey> getSortedSuperprojectAndSubmoduleBranches() {
     return sortedBranches;
   }
 
   /** Check if a {@code branch} is a submodule of a superproject. */
-  boolean hasSuperproject(BranchNameKey branch) {
+  public boolean hasSuperproject(BranchNameKey branch) {
     return subscribedBranches.contains(branch);
   }
 
   /** See if a {@code branch} is a superproject branch affected. */
-  boolean hasSubscription(BranchNameKey branch) {
+  public boolean hasSubscription(BranchNameKey branch) {
     return targets.containsKey(branch);
   }
 
   /** Get all related {@code SubmoduleSubscription}s whose super branch is {@code branch}. */
-  ImmutableSet<SubmoduleSubscription> getSubscriptions(BranchNameKey branch) {
+  public ImmutableSet<SubmoduleSubscription> getSubscriptions(BranchNameKey branch) {
     return targets.get(branch);
   }
 
   public interface Factory {
-    SubscriptionGraph compute(Set<BranchNameKey> updatedBranches) throws SubmoduleConflictException;
+    SubscriptionGraph compute(Set<BranchNameKey> updatedBranches, MergeOpRepoManager orm)
+        throws SubmoduleConflictException;
+  }
+
+  public static class Module extends AbstractModule {
+    @Override
+    protected void configure() {
+      bind(Factory.class).to(DefaultFactory.class);
+    }
   }
 
   static class DefaultFactory implements Factory {
     private static final FluentLogger logger = FluentLogger.forEnclosingClass();
     private final ProjectCache projectCache;
     private final GitModules.Factory gitmodulesFactory;
-    private final Map<BranchNameKey, GitModules> branchGitModules;
-    private final MergeOpRepoManager orm;
 
-    // Fields required to the constructor of SubscriptionGraph.
-    /** All affected branches, including those in superprojects and submodules. */
-    private final Set<BranchNameKey> affectedBranches;
-
-    /** @see SubscriptionGraph#targets */
-    private final SetMultimap<BranchNameKey, SubmoduleSubscription> targets;
-
-    /** @see SubscriptionGraph#branchesByProject */
-    private final SetMultimap<Project.NameKey, BranchNameKey> branchesByProject;
-
-    /** @see SubscriptionGraph#subscribedBranches */
-    private final Set<BranchNameKey> subscribedBranches;
-
-    DefaultFactory(
-        GitModules.Factory gitmodulesFactory, ProjectCache projectCache, MergeOpRepoManager orm) {
+    @Inject
+    DefaultFactory(GitModules.Factory gitmodulesFactory, ProjectCache projectCache) {
       this.gitmodulesFactory = gitmodulesFactory;
       this.projectCache = projectCache;
-      this.orm = orm;
-      this.branchGitModules = new HashMap<>();
-
-      this.affectedBranches = new HashSet<>();
-      this.targets = MultimapBuilder.hashKeys().hashSetValues().build();
-      this.branchesByProject = MultimapBuilder.hashKeys().hashSetValues().build();
-      this.subscribedBranches = new HashSet<>();
     }
 
     @Override
-    public SubscriptionGraph compute(Set<BranchNameKey> updatedBranches)
+    public SubscriptionGraph compute(Set<BranchNameKey> updatedBranches, MergeOpRepoManager orm)
         throws SubmoduleConflictException {
+      Map<BranchNameKey, GitModules> branchGitModules = new HashMap<>();
+      // All affected branches, including those in superprojects and submodules.
+      Set<BranchNameKey> affectedBranches = new HashSet<>();
+
+      // See SubscriptionGraph#targets.
+      SetMultimap<BranchNameKey, SubmoduleSubscription> targets =
+          MultimapBuilder.hashKeys().hashSetValues().build();
+
+      // See SubscriptionGraph#branchesByProject.
+      SetMultimap<Project.NameKey, BranchNameKey> branchesByProject =
+          MultimapBuilder.hashKeys().hashSetValues().build();
+
+      // See SubscriptionGraph#subscribedBranches.
+      Set<BranchNameKey> subscribedBranches = new HashSet<>();
+
+      Set<BranchNameKey> sortedBranches =
+          calculateSubscriptionMaps(
+              updatedBranches,
+              affectedBranches,
+              targets,
+              branchesByProject,
+              subscribedBranches,
+              branchGitModules,
+              orm);
+
       return new SubscriptionGraph(
-          updatedBranches,
-          targets,
-          branchesByProject,
-          subscribedBranches,
-          calculateSubscriptionMaps(updatedBranches));
+          updatedBranches, targets, branchesByProject, subscribedBranches, sortedBranches);
     }
 
     /**
@@ -203,15 +212,22 @@ public class SubscriptionGraph {
      * <p>In addition to the return value, the following fields are populated as a side effect:
      *
      * <ul>
-     *   <li>{@link #affectedBranches}
-     *   <li>{@link #targets}
-     *   <li>{@link #branchesByProject}
-     *   <li>{@link #subscribedBranches}
+     *   <li>{@code affectedBranches}
+     *   <li>{@code targets}
+     *   <li>{@code branchesByProject}
+     *   <li>{@code subscribedBranches}
      * </ul>
      *
      * @return the ordered set to be stored in {@link #sortedBranches}.
      */
-    private Set<BranchNameKey> calculateSubscriptionMaps(Set<BranchNameKey> updatedBranches)
+    private Set<BranchNameKey> calculateSubscriptionMaps(
+        Set<BranchNameKey> updatedBranches,
+        Set<BranchNameKey> affectedBranches,
+        SetMultimap<BranchNameKey, SubmoduleSubscription> targets,
+        SetMultimap<Project.NameKey, BranchNameKey> branchesByProject,
+        Set<BranchNameKey> subscribedBranches,
+        Map<BranchNameKey, GitModules> branchGitModules,
+        MergeOpRepoManager orm)
         throws SubmoduleConflictException {
       logger.atFine().log("Calculating superprojects - submodules map");
       LinkedHashSet<BranchNameKey> allVisited = new LinkedHashSet<>();
@@ -220,7 +236,16 @@ public class SubscriptionGraph {
           continue;
         }
 
-        searchForSuperprojects(updatedBranch, new LinkedHashSet<>(), allVisited);
+        searchForSuperprojects(
+            updatedBranch,
+            new LinkedHashSet<>(),
+            allVisited,
+            affectedBranches,
+            targets,
+            branchesByProject,
+            subscribedBranches,
+            branchGitModules,
+            orm);
       }
 
       // Since the searchForSuperprojects will add all branches (related or
@@ -235,7 +260,13 @@ public class SubscriptionGraph {
     private void searchForSuperprojects(
         BranchNameKey current,
         LinkedHashSet<BranchNameKey> currentVisited,
-        LinkedHashSet<BranchNameKey> allVisited)
+        LinkedHashSet<BranchNameKey> allVisited,
+        Set<BranchNameKey> affectedBranches,
+        SetMultimap<BranchNameKey, SubmoduleSubscription> targets,
+        SetMultimap<Project.NameKey, BranchNameKey> branchesByProject,
+        Set<BranchNameKey> subscribedBranches,
+        Map<BranchNameKey, GitModules> branchGitModules,
+        MergeOpRepoManager orm)
         throws SubmoduleConflictException {
       logger.atFine().log("Now processing %s", current);
 
@@ -252,10 +283,19 @@ public class SubscriptionGraph {
       currentVisited.add(current);
       try {
         Collection<SubmoduleSubscription> subscriptions =
-            superProjectSubscriptionsForSubmoduleBranch(current);
+            superProjectSubscriptionsForSubmoduleBranch(current, branchGitModules, orm);
         for (SubmoduleSubscription sub : subscriptions) {
           BranchNameKey superBranch = sub.getSuperProject();
-          searchForSuperprojects(superBranch, currentVisited, allVisited);
+          searchForSuperprojects(
+              superBranch,
+              currentVisited,
+              allVisited,
+              affectedBranches,
+              targets,
+              branchesByProject,
+              subscribedBranches,
+              branchGitModules,
+              orm);
           targets.put(superBranch, sub);
           branchesByProject.put(superBranch.project(), superBranch);
           affectedBranches.add(superBranch);
@@ -269,8 +309,8 @@ public class SubscriptionGraph {
       allVisited.add(current);
     }
 
-    private Collection<BranchNameKey> getDestinationBranches(BranchNameKey src, SubscribeSection s)
-        throws IOException {
+    private Collection<BranchNameKey> getDestinationBranches(
+        BranchNameKey src, SubscribeSection s, MergeOpRepoManager orm) throws IOException {
       OpenRepo or;
       try {
         or = orm.getRepo(s.project());
@@ -286,7 +326,10 @@ public class SubscriptionGraph {
     }
 
     private Collection<SubmoduleSubscription> superProjectSubscriptionsForSubmoduleBranch(
-        BranchNameKey srcBranch) throws IOException {
+        BranchNameKey srcBranch,
+        Map<BranchNameKey, GitModules> branchGitModules,
+        MergeOpRepoManager orm)
+        throws IOException {
       logger.atFine().log("Calculating possible superprojects for %s", srcBranch);
       Collection<SubmoduleSubscription> ret = new ArrayList<>();
       Project.NameKey srcProject = srcBranch.project();
@@ -296,7 +339,7 @@ public class SubscriptionGraph {
               .orElseThrow(illegalState(srcProject))
               .getSubscribeSections(srcBranch)) {
         logger.atFine().log("Checking subscribe section %s", s);
-        Collection<BranchNameKey> branches = getDestinationBranches(srcBranch, s);
+        Collection<BranchNameKey> branches = getDestinationBranches(srcBranch, s, orm);
         for (BranchNameKey targetBranch : branches) {
           Project.NameKey targetProject = targetBranch.project();
           try {

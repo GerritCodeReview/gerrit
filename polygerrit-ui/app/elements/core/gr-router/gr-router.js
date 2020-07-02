@@ -135,6 +135,12 @@ const RoutePattern = {
   // Matches /c/<project>/+/<changeNum>/[<patchNum|edit>],edit
   CHANGE_EDIT: /^\/c\/(.+)\/\+\/(\d+)(\/(\d+))?,edit\/?$/,
 
+  // Matches /c/<project>/+/<changeNum>/file/<patchNum>/<path>
+  FILE: /^\/c\/(.+)\/\+\/(\d+)\/file\/(\d+)\/(.+)/,
+
+  // Matches /c/<project>/+/<changeNum>/<patchNum>/comment/<commentId>/<path>
+  COMMENT: /^\/c\/(.+)\/\+\/(\d+)\/(\d+)\/comment\/(\w+)\/(.+)/,
+
   // Matches
   // /c/<project>/+/<changeNum>/[<basePatchNum|edit>..]<patchNum|edit>/<path>.
   // TODO(kaspern): Migrate completely to project based URLs, with backwards
@@ -878,6 +884,10 @@ class GrRouter extends mixinBehaviors( [
 
     this._mapRoute(RoutePattern.CHANGE_EDIT, '_handleChangeEditRoute', true);
 
+    this._mapRoute(RoutePattern.FILE, '_handleFileRoute');
+
+    this._mapRoute(RoutePattern.COMMENT, '_handleCommentRoute');
+
     this._mapRoute(RoutePattern.DIFF, '_handleDiffRoute');
 
     this._mapRoute(RoutePattern.CHANGE, '_handleChangeRoute');
@@ -1360,6 +1370,32 @@ class GrRouter extends mixinBehaviors( [
       queryMap: ctx.queryMap,
     };
 
+    this.reporting.setRepoName(params.project);
+    this._redirectOrNavigate(params);
+  }
+
+  _handleFileRoute(ctx) {
+    const params = {
+      project: ctx.params[0],
+      changeNum: ctx.params[1],
+      patchNum: ctx.params[2],
+      path: ctx.params[3],
+      view: GerritNav.View.DIFF,
+      fileLink: true,
+    };
+    this.reporting.setRepoName(params.project);
+    this._redirectOrNavigate(params);
+  }
+
+  _handleCommentRoute(ctx) {
+    const params = {
+      project: ctx.params[0],
+      changeNum: ctx.params[1],
+      patchNum: ctx.params[2],
+      commentId: ctx.params[3],
+      path: ctx.params[4],
+      view: GerritNav.View.DIFF,
+    };
     this.reporting.setRepoName(params.project);
     this._redirectOrNavigate(params);
   }

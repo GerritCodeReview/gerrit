@@ -964,6 +964,7 @@ class GrDiffHost extends GestureEventListeners(
    * @return {number|null}
    */
   _computeParentIndex(patchRangeRecord) {
+    if (!patchRangeRecord.base) return null;
     return isMergeParent(patchRangeRecord.base.basePatchNum) ?
       getParentIndex(patchRangeRecord.base.basePatchNum) : null;
   }

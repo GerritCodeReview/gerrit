@@ -1504,6 +1504,24 @@ suite('gr-router tests', () => {
           assert.isFalse(redirectStub.called);
           assert.isTrue(normalizeRangeStub.called);
         });
+
+        test('comments view', () => {
+          normalizeRangeStub.returns(false);
+          sinon.stub(element, '_generateUrl').returns('foo');
+          const ctx = makeParams('foo/bar/baz', 'b44');
+          assertDataToParams(ctx, '_handleDiffRoute', {
+            view: GerritNav.View.DIFF,
+            project: 'foo/bar',
+            changeNum: 1234,
+            basePatchNum: 4,
+            patchNum: 7,
+            path: 'foo/bar/baz',
+            leftSide: true,
+            lineNum: 44,
+          });
+          assert.isFalse(redirectStub.called);
+          assert.isTrue(normalizeRangeStub.called);
+        });
       });
 
       test('_handleDiffEditRoute', () => {

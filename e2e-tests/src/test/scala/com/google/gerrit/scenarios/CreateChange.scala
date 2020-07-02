@@ -50,19 +50,19 @@ class CreateChange extends ProjectSimulation {
   setUp(
     createProject.test.inject(
       nothingFor(stepWaitTime(createProject) seconds),
-      atOnceUsers(1)
+      atOnceUsers(single)
     ),
     test.inject(
       nothingFor(stepWaitTime(this) seconds),
-      atOnceUsers(1)
+      atOnceUsers(single)
     ),
     deleteChange.test.inject(
       nothingFor(stepWaitTime(deleteChange) seconds),
-      atOnceUsers(1)
+      atOnceUsers(single)
     ),
     deleteProject.test.inject(
       nothingFor(stepWaitTime(deleteProject) seconds),
-      atOnceUsers(1)
+      atOnceUsers(single)
     ),
   ).protocols(httpProtocol)
 }

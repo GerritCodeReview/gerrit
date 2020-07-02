@@ -43,7 +43,7 @@ class ReplayRecordsFromFeeder extends GitSimulation {
   setUp(
     createProject.test.inject(
       nothingFor(stepWaitTime(createProject) seconds),
-      atOnceUsers(1)
+      atOnceUsers(single)
     ),
     test.inject(
       nothingFor(stepWaitTime(this) seconds),
@@ -54,7 +54,7 @@ class ReplayRecordsFromFeeder extends GitSimulation {
     ),
     deleteProject.test.inject(
       nothingFor(maxBeforeDelete seconds),
-      atOnceUsers(1)
+      atOnceUsers(single)
     ),
   ).protocols(gitProtocol, httpProtocol)
       .maxDuration(maxExecutionTime seconds)

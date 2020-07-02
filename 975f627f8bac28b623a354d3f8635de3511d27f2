@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37af1e98_6c426b86",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-02T04:47:06Z",
+      "side": 1,
+      "message": "I\u0027m seeing test failures after the upgrade. I filed this issue: [1].\n\n[1] https://issues.apache.org/jira/projects/SSHD/issues/SSHD-1020",
+      "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

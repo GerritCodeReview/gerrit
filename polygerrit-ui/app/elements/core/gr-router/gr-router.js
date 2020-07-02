@@ -133,6 +133,13 @@ const RoutePattern = {
   // Matches /c/<project>/+/<changeNum>/[<patchNum|edit>],edit
   CHANGE_EDIT: /^\/c\/(.+)\/\+\/(\d+)(\/(\d+))?,edit\/?$/,
 
+  // TODO(dhruvsri): look into removing patchNum and path from this url
+  // Matches /c/<project>/+/<changeNum>/comment/<commentId>/<patchNum>/<path>/
+  // Navigates to the diff view
+  // This route is needed to resolve to patchNum vs latestPatchNum used in the
+  // links generated in the emails.
+  COMMENT: /^\/c\/(.+)\/\+\/(\d+)\/comment\/(\w+)\/?$/,
+
   // Matches
   // /c/<project>/+/<changeNum>/[<basePatchNum|edit>..]<patchNum|edit>/<path>.
   // TODO(kaspern): Migrate completely to project based URLs, with backwards
@@ -165,6 +172,8 @@ const RoutePattern = {
   DOCUMENTATION_SEARCH: /^\/Documentation\/q\/(.*)$/,
   DOCUMENTATION: /^\/Documentation(\/)?(.+)?/,
 };
+
+export const _testOnly_RoutePattern = RoutePattern;
 
 /**
  * Pattern to recognize and parse the diff line locations as they appear in
@@ -877,6 +886,8 @@ class GrRouter extends GestureEventListeners(
 
     this._mapRoute(RoutePattern.CHANGE_EDIT, '_handleChangeEditRoute', true);
 
+    this._mapRoute(RoutePattern.COMMENT, '_handleCommentRoute');
+
     this._mapRoute(RoutePattern.DIFF, '_handleDiffRoute');
 
     this._mapRoute(RoutePattern.CHANGE, '_handleChangeRoute');
@@ -1359,6 +1370,18 @@ class GrRouter extends GestureEventListeners(
       queryMap: ctx.queryMap,
     };
 
+    this.reporting.setRepoName(params.project);
+    this._redirectOrNavigate(params);
+  }
+
+  _handleCommentRoute(ctx) {
+    const params = {
+      project: ctx.params[0],
+      changeNum: ctx.params[1],
+      commentId: ctx.params[2],
+      view: GerritNav.View.DIFF,
+      commentLink: true,
+    };
     this.reporting.setRepoName(params.project);
     this._redirectOrNavigate(params);
   }

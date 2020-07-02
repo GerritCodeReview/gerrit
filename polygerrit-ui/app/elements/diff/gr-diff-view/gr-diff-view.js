@@ -891,6 +891,25 @@ class GrDiffView extends mixinBehaviors( [
           }
           this._loading = false;
           this.$.diffHost.comments = this._commentsForDiff;
+          let comment;
+          if (value.commentId) {
+            comment = [...this._commentsForDiff.left,
+              ...this._commentsForDiff.right].find(c =>
+              c.id === value.commentId);
+            if (!comment) {
+              console.error('comment not found');
+              return;
+            }
+            this.$.diffHost.lineOfInterest =
+              this._getLineOfInterest({
+                lineNum: comment.line,
+                leftSide: comment.__commentSide === 'left',
+              });
+            this._initCursor({
+              lineNum: comment.line,
+              leftSide: comment.__commentSide === 'left',
+            });
+          }
           return this.$.diffHost.reload(true);
         })
         .then(() => {

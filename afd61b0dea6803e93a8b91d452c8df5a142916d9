@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "c188772c_61c91049",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-02T11:13:32Z",
+      "side": 1,
+      "message": "Done here any way :-)",
+      "parentUuid": "666dd7a7_1b0d1ffd",
+      "revId": "afd61b0dea6803e93a8b91d452c8df5a142916d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "088b1919_8b090fe7",
         "filename": "java/com/google/gerrit/entities/Project.java",
         "patchSetId": 2
@@ -57,6 +75,30 @@
       "revId": "afd61b0dea6803e93a8b91d452c8df5a142916d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf52df1e_b527fbd3",
+        "filename": "java/com/google/gerrit/entities/Project.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-02T11:13:32Z",
+      "side": 1,
+      "message": "This has callers unfortunately, which we\u0027d have to move over. If we do that, I would like to do it in a separate change so that this series has a lower risk of introducing regressions.",
+      "parentUuid": "088b1919_8b090fe7",
+      "range": {
+        "startLine": 128,
+        "startChar": 2,
+        "endLine": 128,
+        "endChar": 8
+      },
+      "revId": "afd61b0dea6803e93a8b91d452c8df5a142916d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -83,6 +125,30 @@
     },
     {
       "key": {
+        "uuid": "bf71f180_1db2e27f",
+        "filename": "java/com/google/gerrit/entities/Project.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-02T11:13:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47a36eeb_c92b38f7",
+      "range": {
+        "startLine": 197,
+        "startChar": 50,
+        "endLine": 197,
+        "endChar": 51
+      },
+      "revId": "afd61b0dea6803e93a8b91d452c8df5a142916d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "113a823b_a5604b97",
         "filename": "java/com/google/gerrit/server/project/ProjectCreator.java",
         "patchSetId": 2
@@ -97,6 +163,24 @@
       "revId": "afd61b0dea6803e93a8b91d452c8df5a142916d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efc058e9_983a82e7",
+        "filename": "java/com/google/gerrit/server/project/ProjectCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-02T11:13:32Z",
+      "side": 1,
+      "message": "Done. I think I refactored that before implementing updateProject.",
+      "parentUuid": "113a823b_a5604b97",
+      "revId": "afd61b0dea6803e93a8b91d452c8df5a142916d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +201,24 @@
     },
     {
       "key": {
+        "uuid": "75cd8591_34901791",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-02T11:13:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "009b3f97_fac39fda",
+      "revId": "afd61b0dea6803e93a8b91d452c8df5a142916d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e102670a_9d96cd5d",
         "filename": "java/com/google/gerrit/server/restapi/project/PutDescription.java",
         "patchSetId": 2
@@ -134,6 +236,24 @@
     },
     {
       "key": {
+        "uuid": "00191410_44a635b2",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutDescription.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-02T11:13:32Z",
+      "side": 1,
+      "message": "Doesn\u0027t work unfortunately because all variables in the lambda need to be effectively final and we mutate input in l.64.",
+      "parentUuid": "e102670a_9d96cd5d",
+      "revId": "afd61b0dea6803e93a8b91d452c8df5a142916d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4370f03b_22974c19",
         "filename": "java/com/google/gerrit/server/restapi/project/SetDefaultDashboard.java",
         "patchSetId": 2
@@ -148,6 +268,24 @@
       "revId": "afd61b0dea6803e93a8b91d452c8df5a142916d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c8877a9_2bbd9eab",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetDefaultDashboard.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-02T11:13:32Z",
+      "side": 1,
+      "message": "Same: Must be effectively final to be used in the lambda.",
+      "parentUuid": "4370f03b_22974c19",
+      "revId": "afd61b0dea6803e93a8b91d452c8df5a142916d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

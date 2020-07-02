@@ -247,7 +247,7 @@ class GrCommentThread extends mixinBehaviors( [
   _computeDisplayPath(path) {
     const displayPath = this.computeDisplayPath(path);
     if (displayPath === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
-      return `Patchset ${this.patchNum}`;
+      return `Patchset`;
     }
     return displayPath;
   }

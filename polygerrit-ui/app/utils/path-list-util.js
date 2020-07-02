@@ -68,6 +68,7 @@ export function shouldHideFile(file) {
 }
 
 export function addUnmodifiedFiles(files, commentedPaths) {
+  if (!commentedPaths) return;
   Object.keys(commentedPaths).forEach(commentedPath => {
     if (files.hasOwnProperty(commentedPath) ||
       shouldHideFile(commentedPath)) { return; }

@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "541d72f8_973de28b",
+        "filename": "java/com/google/gerrit/server/project/CachedProjectConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-02T15:55:45Z",
+      "side": 1,
+      "message": "\u003cp\u003e?",
+      "range": {
+        "startLine": 40,
+        "startChar": 47,
+        "endLine": 40,
+        "endChar": 49
+      },
+      "revId": "c5508c4729d452e78cb33c7b0d242537adcbbd65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8accd2a5_92afdca0",
+        "filename": "java/com/google/gerrit/server/project/CachedProjectConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-02T15:55:45Z",
+      "side": 1,
+      "message": "IMHO this reads better as just \"Returns ...\". I think we have some bot that does s/@return/Returns/ automatically eventually :-)",
+      "revId": "c5508c4729d452e78cb33c7b0d242537adcbbd65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb0b551e_5b49c8a7",
+        "filename": "java/com/google/gerrit/server/project/GroupList.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-02T15:55:45Z",
+      "side": 1,
+      "message": "This exposes mutable internal state. Is there sth like Collections.asImmutableMap() or similar?",
+      "revId": "c5508c4729d452e78cb33c7b0d242537adcbbd65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94fb7d32_ad68fb6b",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-02T15:55:45Z",
+      "side": 1,
+      "message": "\"Bare\" is an adjective that isn\u0027t very informative IMHO. Maybe \"Mutable\" or \"NonCacheable\"?",
+      "range": {
+        "startLine": 182,
+        "startChar": 26,
+        "endLine": 182,
+        "endChar": 30
+      },
+      "revId": "c5508c4729d452e78cb33c7b0d242537adcbbd65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

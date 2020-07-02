@@ -16,6 +16,24 @@
       "revId": "ef98ee8794df683dc9bcccba908b03e958300370",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4dcb2d75_a6ed5658",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-02T21:02:50Z",
+      "side": 1,
+      "message": "No, that is not worth it.",
+      "parentUuid": "b31a701c_c2c235e9",
+      "revId": "ef98ee8794df683dc9bcccba908b03e958300370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -68,6 +68,24 @@
       "revId": "26e211508078e36da8335c1016cb03f2c87f1189",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4c6d7490_aa555696",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2020-07-02T08:07:47Z",
+      "side": 1,
+      "message": "Apologies for the late reply.\nThe icons look a lot clearer.\nI believe the +1/-1 may still be a concern for getting an immediate overview, but zooming appears to work well, and I think it\u0027s an acceptable compromise.\n\nI\u0027ll see if I can get a patchset for using the icons up.",
+      "parentUuid": "57e6a7e7_3d09fec8",
+      "revId": "26e211508078e36da8335c1016cb03f2c87f1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

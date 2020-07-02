@@ -16,6 +16,24 @@
       "revId": "08f852408c5db36e6fe92d39695cce8678819096",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5832dfc1_649b5fdf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-02T13:32:18Z",
+      "side": 1,
+      "message": "Yes. I also just saw the internal discussion. I will abandon the change.",
+      "parentUuid": "3ff7ee0b_ed839557",
+      "revId": "08f852408c5db36e6fe92d39695cce8678819096",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

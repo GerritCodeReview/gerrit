@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "409872df_eaccc9f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-07-02T07:51:33Z",
+      "side": 1,
+      "message": "Marking as resolved according to David\u0027s comment.",
+      "parentUuid": "9e34d328_12881546",
+      "range": {
+        "startLine": 40,
+        "startChar": 20,
+        "endLine": 41,
+        "endChar": 17
+      },
+      "revId": "77bc1864ea612ee09536929018afc31698a9462b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3929b534_818df3e1",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -119,6 +143,23 @@
       "writtenOn": "2020-06-26T12:42:44Z",
       "side": 1,
       "message": "The interaction of `read` on refs/meta/config and inherited config values is a bit subtle, but this seems consistent with other uses of READ_CONFIG.",
+      "revId": "77bc1864ea612ee09536929018afc31698a9462b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c2e46c7_f45b0fc9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-07-02T07:51:33Z",
+      "side": 1,
+      "message": "I didn\u0027t hear about any issues this change would cause by now. Hence, let\u0027s submit it. We can still make adjustments if people stumble over issues in the future.",
       "revId": "77bc1864ea612ee09536929018afc31698a9462b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "ff4712ed_322b45b8",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2020-07-02T08:00:23Z",
+      "side": 1,
+      "message": "I\u0027d check where this factory is used. I suppose it won\u0027t make a difference in practice since Gerrit doesn\u0027t provide SFTP access, but better make sure that this does not inadvertently give clients access to the Gerrit host\u0027s file system. Might be safer and more explicit to have a NoFileSystem implementation.",
+      "parentUuid": "87016af0_972a0676",
+      "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2ea1317d_45d0497b",
         "filename": "tools/nongoogle.bzl",
         "patchSetId": 1

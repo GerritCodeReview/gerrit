@@ -270,6 +270,23 @@
     },
     {
       "key": {
+        "uuid": "60f72f81_7276f027",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-02T10:36:52Z",
+      "side": 1,
+      "message": "waiting for a reply from David O, so removing everyone else from the attention set",
+      "revId": "66ed21a73a7e0db5c689544964905c5041c0fa63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d829fd1f_812f0d27",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 2

@@ -394,6 +394,24 @@
     },
     {
       "key": {
+        "uuid": "f5ee6505_d753e244",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateLabel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-02T12:02:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4fd7d57_fac64cb5",
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d59d368_d7c35f8e",
         "filename": "java/com/google/gerrit/server/restapi/project/LabelDefinitionInputParser.java",
         "patchSetId": 2

@@ -51,6 +51,24 @@
       "revId": "3313e5f4b94ca581347613e30117b39c5f2331c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7b09db5_12eaf372",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-07-02T13:15:22Z",
+      "side": 1,
+      "message": "Sigh, I knew I had forgotten something. The earlier changes could all be applied without consideration for the import and I had stopped paying attention to this. Yunjie, Ivan, and I already agreed on a plan, though, so we can resolve this even though they have public holidays.\n\nShort answer: Binding the module in this class is intended. It should not be in GerritGlobalModule as you otherwise can\u0027t use another implementation for generating a SubscriptionGraph.\n\nI\u0027ll help with the internal adjustment. I didn\u0027t have WebAppInitializer on my radar yet. We should adjust it too. I\u0027ll create a change for it.",
+      "parentUuid": "b2f5f695_c391fe83",
+      "revId": "3313e5f4b94ca581347613e30117b39c5f2331c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

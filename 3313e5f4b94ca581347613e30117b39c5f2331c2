@@ -87,6 +87,24 @@
       "revId": "3313e5f4b94ca581347613e30117b39c5f2331c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7156b8ee_56d4cc27",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-07-02T13:28:06Z",
+      "side": 1,
+      "message": "Adjusting WebAppInitializer: https://gerrit-review.googlesource.com/c/gerrit/+/274188",
+      "parentUuid": "4cb896ca_b6be2040",
+      "revId": "3313e5f4b94ca581347613e30117b39c5f2331c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

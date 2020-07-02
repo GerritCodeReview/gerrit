@@ -33,6 +33,24 @@
       "revId": "3313e5f4b94ca581347613e30117b39c5f2331c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2f5f695_c391fe83",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-02T12:43:06Z",
+      "side": 1,
+      "message": "Actually, do we need to use a different implementation for this internally?\nIf not we should probably move this into GerritGlobalModule, this way it would be available for Deamon, WebAppInitializer and our internal Guice stack.",
+      "parentUuid": "e054c944_2f871e17",
+      "revId": "3313e5f4b94ca581347613e30117b39c5f2331c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

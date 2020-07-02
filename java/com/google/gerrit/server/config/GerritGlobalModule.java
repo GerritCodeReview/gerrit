@@ -189,6 +189,7 @@ import com.google.gerrit.server.ssh.SshAddressesModule;
 import com.google.gerrit.server.submit.GitModules;
 import com.google.gerrit.server.submit.MergeSuperSetComputation;
 import com.google.gerrit.server.submit.SubmitStrategy;
+import com.google.gerrit.server.submit.SubscriptionGraph;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.IdGenerator;
@@ -261,6 +262,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new ReceiveCommitsModule());
     install(new SshAddressesModule());
     install(ThreadLocalRequestContext.module());
+    install(new SubscriptionGraph.Module());
 
     factory(CapabilityCollection.Factory.class);
     factory(ChangeData.AssistedFactory.class);

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import '../../../styles/shared-styles.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {flush, dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {getRootElement} from '../../../scripts/rootElement.js';
 
 const HOVER_CLASS = 'hovered';
@@ -261,6 +261,10 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
     // position for it.
     this.classList.add(HIDE_CLASS);
     this.classList.add(HOVER_CLASS);
+    // Make sure that the hovercard actually rendered and all dom-if
+    // statements processed, so that we can measure the (invisible)
+    // hovercard properly in updatePosition().
+    flush();
     this.updatePosition();
     this.classList.remove(HIDE_CLASS);
   }

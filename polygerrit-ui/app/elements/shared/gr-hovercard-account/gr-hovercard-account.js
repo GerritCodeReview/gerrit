@@ -74,10 +74,13 @@ class GrHovercardAccount extends GestureEventListeners(
 
   attached() {
     super.attached();
+    console.log('hovercard attached');
     this.$.restAPI.getConfig().then(config => {
+      console.log('config set');
       this._config = config;
     });
     this.$.restAPI.getAccount().then(account => {
+      console.log('account set');
       this._selfAccount = account;
     });
   }

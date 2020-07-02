@@ -36,6 +36,7 @@ import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.change.ChangeETagComputation;
+import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
@@ -79,6 +80,7 @@ public class ExtensionRegistry {
   private final DynamicSet<WorkInProgressStateChangedListener> workInProgressStateChangedListeners;
   private final DynamicMap<CapabilityDefinition> capabilityDefinitions;
   private final DynamicMap<PluginProjectPermissionDefinition> pluginProjectPermissionDefinitions;
+  private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
 
   @Inject
   ExtensionRegistry(
@@ -107,7 +109,8 @@ public class ExtensionRegistry {
       DynamicSet<OnSubmitValidationListener> onSubmitValidationListeners,
       DynamicSet<WorkInProgressStateChangedListener> workInProgressStateChangedListeners,
       DynamicMap<CapabilityDefinition> capabilityDefinitions,
-      DynamicMap<PluginProjectPermissionDefinition> pluginProjectPermissionDefinitions) {
+      DynamicMap<PluginProjectPermissionDefinition> pluginProjectPermissionDefinitions,
+      DynamicMap<ProjectConfigEntry> pluginConfigEntries) {
     this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
     this.groupIndexedListeners = groupIndexedListeners;
@@ -134,6 +137,7 @@ public class ExtensionRegistry {
     this.workInProgressStateChangedListeners = workInProgressStateChangedListeners;
     this.capabilityDefinitions = capabilityDefinitions;
     this.pluginProjectPermissionDefinitions = pluginProjectPermissionDefinitions;
+    this.pluginConfigEntries = pluginConfigEntries;
   }
 
   public Registration newRegistration() {
@@ -252,6 +256,10 @@ public class ExtensionRegistry {
     public Registration add(
         PluginProjectPermissionDefinition pluginProjectPermissionDefinition, String exportName) {
       return add(pluginProjectPermissionDefinitions, pluginProjectPermissionDefinition, exportName);
+    }
+
+    public Registration add(ProjectConfigEntry pluginConfigEntry, String exportName) {
+      return add(pluginConfigEntries, pluginConfigEntry, exportName);
     }
 
     private <T> Registration add(DynamicSet<T> dynamicSet, T extension) {

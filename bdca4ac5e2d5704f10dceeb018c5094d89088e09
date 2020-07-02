@@ -16,6 +16,23 @@
       "revId": "bdca4ac5e2d5704f10dceeb018c5094d89088e09",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9d60686_732b4f67",
+        "filename": "java/com/google/gerrit/server/CreateGroupPermissionSyncer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-02T15:42:26Z",
+      "side": 1,
+      "message": "rewrap",
+      "revId": "bdca4ac5e2d5704f10dceeb018c5094d89088e09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

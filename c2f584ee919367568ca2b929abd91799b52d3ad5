@@ -22,6 +22,30 @@
       "revId": "c2f584ee919367568ca2b929abd91799b52d3ad5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66876120_8050fb8a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-02T06:58:01Z",
+      "side": 1,
+      "message": "Sure, it\u0027s possible to add a reviewer -\u003e add to attention set, on a merged change.\nI\u0027ll add a test, but essentially \"status\" is set only if it is being changed in this ChangeUpdate.",
+      "parentUuid": "952f0d23_710c8f13",
+      "range": {
+        "startLine": 772,
+        "startChar": 11,
+        "endLine": 772,
+        "endChar": 41
+      },
+      "revId": "c2f584ee919367568ca2b929abd91799b52d3ad5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -277,7 +277,7 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
     }
 
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().getProject().setLocalDefaultDashboard(dashboardRef + ":overview");
+      u.getConfig().updateProject(p -> p.setLocalDefaultDashboard(dashboardRef + ":overview"));
       u.save();
     }
   }

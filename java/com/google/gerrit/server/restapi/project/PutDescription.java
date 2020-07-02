@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.project;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.projects.DescriptionInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -73,8 +72,8 @@ public class PutDescription implements RestModifyView<ProjectResource, Descripti
 
     try (MetaDataUpdate md = updateFactory.get().create(resource.getNameKey())) {
       ProjectConfig config = projectConfigFactory.read(md);
-      Project project = config.getProject();
-      project.setDescription(Strings.emptyToNull(input.description));
+      String desc = input.description;
+      config.updateProject(p -> p.setDescription(Strings.emptyToNull(desc)));
 
       String msg =
           MoreObjects.firstNonNull(
@@ -86,11 +85,11 @@ public class PutDescription implements RestModifyView<ProjectResource, Descripti
       md.setMessage(msg);
       config.commit(md);
       cache.evict(resource.getProjectState().getProject());
-      md.getRepository().setGitwebDescription(project.getDescription());
+      md.getRepository().setGitwebDescription(config.getProject().getDescription());
 
-      return Strings.isNullOrEmpty(project.getDescription())
+      return Strings.isNullOrEmpty(config.getProject().getDescription())
           ? Response.none()
-          : Response.ok(project.getDescription());
+          : Response.ok(config.getProject().getDescription());
     } catch (RepositoryNotFoundException notFound) {
       throw new ResourceNotFoundException(resource.getName(), notFound);
     } catch (ConfigInvalidException e) {

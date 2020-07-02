@@ -134,14 +134,14 @@ public class CreateLabel
       throw new BadRequestException("values are required");
     }
 
-    List<LabelValue> values = LabelDefinitionInputParser.parseValues(input.values);
-
-    LabelType labelType;
     try {
-      labelType = new LabelType(label, values);
+      LabelType.checkName(label);
     } catch (IllegalArgumentException e) {
       throw new BadRequestException("invalid name: " + label, e);
     }
+
+    List<LabelValue> values = LabelDefinitionInputParser.parseValues(input.values);
+    LabelType.Builder labelType = LabelType.builder(LabelType.checkName(label), values);
 
     if (input.function != null && !input.function.trim().isEmpty()) {
       labelType.setFunction(LabelDefinitionInputParser.parseFunction(input.function));
@@ -203,8 +203,9 @@ public class CreateLabel
       labelType.setIgnoreSelfApproval(input.ignoreSelfApproval);
     }
 
-    config.getLabelSections().put(labelType.getName(), labelType);
+    LabelType lt = labelType.build();
+    config.upsertLabelType(lt);
 
-    return labelType;
+    return lt;
   }
 }

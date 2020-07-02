@@ -31,7 +31,7 @@ public class LabelDefinitionJson {
         labelType.getValues().stream().collect(toMap(LabelValue::formatValue, LabelValue::getText));
     label.defaultValue = labelType.getDefaultValue();
     label.branches = labelType.getRefPatterns() != null ? labelType.getRefPatterns() : null;
-    label.canOverride = toBoolean(labelType.canOverride());
+    label.canOverride = toBoolean(labelType.isCanOverride());
     label.copyAnyScore = toBoolean(labelType.isCopyAnyScore());
     label.copyMinScore = toBoolean(labelType.isCopyMinScore());
     label.copyMaxScore = toBoolean(labelType.isCopyMaxScore());
@@ -41,8 +41,8 @@ public class LabelDefinitionJson {
     label.copyAllScoresOnMergeFirstParentUpdate =
         toBoolean(labelType.isCopyAllScoresOnMergeFirstParentUpdate());
     label.copyValues = labelType.getCopyValues().isEmpty() ? null : labelType.getCopyValues();
-    label.allowPostSubmit = toBoolean(labelType.allowPostSubmit());
-    label.ignoreSelfApproval = toBoolean(labelType.ignoreSelfApproval());
+    label.allowPostSubmit = toBoolean(labelType.isAllowPostSubmit());
+    label.ignoreSelfApproval = toBoolean(labelType.isIgnoreSelfApproval());
     return label;
   }
 

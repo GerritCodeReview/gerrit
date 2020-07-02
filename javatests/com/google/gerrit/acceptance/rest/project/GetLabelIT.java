@@ -22,7 +22,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.LabelFunction;
-import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -75,9 +74,7 @@ public class GetLabelIT extends AbstractDaemonTest {
 
     // set default value
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType labelType = u.getConfig().getLabelSections().get("foo");
-      labelType.setDefaultValue((short) 1);
-      u.getConfig().getLabelSections().put(labelType.getName(), labelType);
+      u.getConfig().updateLabelType("foo", labelType -> labelType.setDefaultValue((short) 1));
       u.save();
     }
 
@@ -100,11 +97,14 @@ public class GetLabelIT extends AbstractDaemonTest {
 
     // unset rules which are enabled by default
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType labelType = u.getConfig().getLabelSections().get("foo");
-      labelType.setCanOverride(false);
-      labelType.setCopyAllScoresIfNoChange(false);
-      labelType.setAllowPostSubmit(false);
-      u.getConfig().getLabelSections().put(labelType.getName(), labelType);
+      u.getConfig()
+          .updateLabelType(
+              "foo",
+              labelType -> {
+                labelType.setCanOverride(false);
+                labelType.setCopyAllScoresIfNoChange(false);
+                labelType.setAllowPostSubmit(false);
+              });
       u.save();
     }
 
@@ -128,16 +128,19 @@ public class GetLabelIT extends AbstractDaemonTest {
 
     // set rules which are not enabled by default
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType labelType = u.getConfig().getLabelSections().get("foo");
-      labelType.setCopyAnyScore(true);
-      labelType.setCopyMinScore(true);
-      labelType.setCopyMaxScore(true);
-      labelType.setCopyAllScoresIfNoCodeChange(true);
-      labelType.setCopyAllScoresOnTrivialRebase(true);
-      labelType.setCopyAllScoresOnMergeFirstParentUpdate(true);
-      labelType.setCopyValues(ImmutableList.of((short) -1, (short) 1));
-      labelType.setIgnoreSelfApproval(true);
-      u.getConfig().getLabelSections().put(labelType.getName(), labelType);
+      u.getConfig()
+          .updateLabelType(
+              "foo",
+              labelType -> {
+                labelType.setCopyAnyScore(true);
+                labelType.setCopyMinScore(true);
+                labelType.setCopyMaxScore(true);
+                labelType.setCopyAllScoresIfNoCodeChange(true);
+                labelType.setCopyAllScoresOnTrivialRebase(true);
+                labelType.setCopyAllScoresOnMergeFirstParentUpdate(true);
+                labelType.setCopyValues(ImmutableList.of((short) -1, (short) 1));
+                labelType.setIgnoreSelfApproval(true);
+              });
       u.save();
     }
 

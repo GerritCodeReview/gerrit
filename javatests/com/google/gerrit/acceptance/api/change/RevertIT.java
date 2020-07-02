@@ -398,7 +398,7 @@ public class RevertIT extends AbstractDaemonTest {
         .review(ReviewInput.approve());
     gApi.changes().id(result.getChangeId()).revision(result.getCommit().name()).submit();
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().getProject().setState(ProjectState.READ_ONLY);
+      u.getConfig().updateProject(p -> p.setState(ProjectState.READ_ONLY));
       u.save();
     }
 
@@ -481,7 +481,7 @@ public class RevertIT extends AbstractDaemonTest {
 
     // revoke write permissions for the first repository.
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().getProject().setState(ProjectState.READ_ONLY);
+      u.getConfig().updateProject(p -> p.setState(ProjectState.READ_ONLY));
       u.save();
     }
 

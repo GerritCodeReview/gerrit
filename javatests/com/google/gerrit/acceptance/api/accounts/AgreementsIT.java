@@ -67,7 +67,8 @@ public class AgreementsIT extends AbstractDaemonTest {
   protected void setUseContributorAgreements(InheritableBoolean value) throws Exception {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       ProjectConfig config = projectConfigFactory.read(md);
-      config.getProject().setBooleanConfig(BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS, value);
+      config.updateProject(
+          p -> p.setBooleanConfig(BooleanProjectConfig.USE_CONTRIBUTOR_AGREEMENTS, value));
       config.commit(md);
       projectCache.evict(config.getProject());
     }

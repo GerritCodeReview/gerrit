@@ -26,7 +26,6 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.LabelFunction;
-import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
@@ -450,9 +449,7 @@ public class SetLabelIT extends AbstractDaemonTest {
   public void setCanOverride() throws Exception {
     configLabel("foo", LabelFunction.NO_OP);
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType labelType = u.getConfig().getLabelSections().get("foo");
-      labelType.setCanOverride(false);
-      u.getConfig().getLabelSections().put(labelType.getName(), labelType);
+      u.getConfig().updateLabelType("foo", lt -> lt.setCanOverride(false));
       u.save();
     }
     assertThat(gApi.projects().name(project.get()).label("foo").get().canOverride).isNull();
@@ -501,9 +498,7 @@ public class SetLabelIT extends AbstractDaemonTest {
   public void unsetCopyAnyScore() throws Exception {
     configLabel("foo", LabelFunction.NO_OP);
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType labelType = u.getConfig().getLabelSections().get("foo");
-      labelType.setCopyAnyScore(true);
-      u.getConfig().getLabelSections().put(labelType.getName(), labelType);
+      u.getConfig().updateLabelType("foo", lt -> lt.setCopyAnyScore(true));
       u.save();
     }
     assertThat(gApi.projects().name(project.get()).label("foo").get().copyAnyScore).isTrue();
@@ -537,9 +532,7 @@ public class SetLabelIT extends AbstractDaemonTest {
   public void unsetCopyMinScore() throws Exception {
     configLabel("foo", LabelFunction.NO_OP);
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType labelType = u.getConfig().getLabelSections().get("foo");
-      labelType.setCopyMinScore(true);
-      u.getConfig().getLabelSections().put(labelType.getName(), labelType);
+      u.getConfig().updateLabelType("foo", lt -> lt.setCopyMinScore(true));
       u.save();
     }
     assertThat(gApi.projects().name(project.get()).label("foo").get().copyMinScore).isTrue();
@@ -573,9 +566,7 @@ public class SetLabelIT extends AbstractDaemonTest {
   public void unsetCopyMaxScore() throws Exception {
     configLabel("foo", LabelFunction.NO_OP);
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType labelType = u.getConfig().getLabelSections().get("foo");
-      labelType.setCopyMaxScore(true);
-      u.getConfig().getLabelSections().put(labelType.getName(), labelType);
+      u.getConfig().updateLabelType("foo", lt -> lt.setCopyMaxScore(true));
       u.save();
     }
     assertThat(gApi.projects().name(project.get()).label("foo").get().copyMaxScore).isTrue();
@@ -594,9 +585,7 @@ public class SetLabelIT extends AbstractDaemonTest {
   public void setCopyAllScoresIfNoChange() throws Exception {
     configLabel("foo", LabelFunction.NO_OP);
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType labelType = u.getConfig().getLabelSections().get("foo");
-      labelType.setCopyAllScoresIfNoChange(false);
-      u.getConfig().getLabelSections().put(labelType.getName(), labelType);
+      u.getConfig().updateLabelType("foo", lt -> lt.setCopyAllScoresIfNoChange(false));
       u.save();
     }
     assertThat(gApi.projects().name(project.get()).label("foo").get().copyAllScoresIfNoChange)
@@ -651,9 +640,7 @@ public class SetLabelIT extends AbstractDaemonTest {
   public void unsetCopyAllScoresIfNoCodeChange() throws Exception {
     configLabel("foo", LabelFunction.NO_OP);
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType labelType = u.getConfig().getLabelSections().get("foo");
-      labelType.setCopyAllScoresIfNoCodeChange(true);
-      u.getConfig().getLabelSections().put(labelType.getName(), labelType);
+      u.getConfig().updateLabelType("foo", lt -> lt.setCopyAllScoresIfNoCodeChange(true));
       u.save();
     }
     assertThat(gApi.projects().name(project.get()).label("foo").get().copyAllScoresIfNoCodeChange)
@@ -691,9 +678,7 @@ public class SetLabelIT extends AbstractDaemonTest {
   public void unsetCopyAllScoresOnTrivialRebase() throws Exception {
     configLabel("foo", LabelFunction.NO_OP);
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType labelType = u.getConfig().getLabelSections().get("foo");
-      labelType.setCopyAllScoresOnTrivialRebase(true);
-      u.getConfig().getLabelSections().put(labelType.getName(), labelType);
+      u.getConfig().updateLabelType("foo", lt -> lt.setCopyAllScoresOnTrivialRebase(true));
       u.save();
     }
     assertThat(gApi.projects().name(project.get()).label("foo").get().copyAllScoresOnTrivialRebase)
@@ -741,9 +726,7 @@ public class SetLabelIT extends AbstractDaemonTest {
   public void unsetCopyAllScoresOnMergeFirstParentUpdate() throws Exception {
     configLabel("foo", LabelFunction.NO_OP);
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType labelType = u.getConfig().getLabelSections().get("foo");
-      labelType.setCopyAllScoresOnMergeFirstParentUpdate(true);
-      u.getConfig().getLabelSections().put(labelType.getName(), labelType);
+      u.getConfig().updateLabelType("foo", lt -> lt.setCopyAllScoresOnMergeFirstParentUpdate(true));
       u.save();
     }
     assertThat(
@@ -791,9 +774,8 @@ public class SetLabelIT extends AbstractDaemonTest {
   public void unsetCopyValues() throws Exception {
     configLabel("foo", LabelFunction.NO_OP);
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType labelType = u.getConfig().getLabelSections().get("foo");
-      labelType.setCopyValues(ImmutableList.of((short) -1, (short) 1));
-      u.getConfig().getLabelSections().put(labelType.getName(), labelType);
+      u.getConfig()
+          .updateLabelType("foo", lt -> lt.setCopyValues(ImmutableList.of((short) -1, (short) 1)));
       u.save();
     }
     assertThat(gApi.projects().name(project.get()).label("foo").get().copyValues).isNotEmpty();
@@ -812,9 +794,7 @@ public class SetLabelIT extends AbstractDaemonTest {
   public void setAllowPostSubmit() throws Exception {
     configLabel("foo", LabelFunction.NO_OP);
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType labelType = u.getConfig().getLabelSections().get("foo");
-      labelType.setAllowPostSubmit(false);
-      u.getConfig().getLabelSections().put(labelType.getName(), labelType);
+      u.getConfig().updateLabelType("foo", lt -> lt.setAllowPostSubmit(false));
       u.save();
     }
     assertThat(gApi.projects().name(project.get()).label("foo").get().allowPostSubmit).isNull();
@@ -863,9 +843,7 @@ public class SetLabelIT extends AbstractDaemonTest {
   public void unsetIgnoreSelfApproval() throws Exception {
     configLabel("foo", LabelFunction.NO_OP);
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType labelType = u.getConfig().getLabelSections().get("foo");
-      labelType.setIgnoreSelfApproval(true);
-      u.getConfig().getLabelSections().put(labelType.getName(), labelType);
+      u.getConfig().updateLabelType("foo", lt -> lt.setIgnoreSelfApproval(true));
       u.save();
     }
     assertThat(gApi.projects().name(project.get()).label("foo").get().ignoreSelfApproval).isTrue();

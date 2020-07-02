@@ -1026,7 +1026,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
       ProjectConfig cfg = projectConfigFactory.create(project);
       cfg.load(md);
-      cfg.getLabelSections().put(verified.getName(), verified);
+      cfg.upsertLabelType(verified);
       cfg.commit(md);
     }
     projectCache.evict(project);

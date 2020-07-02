@@ -772,8 +772,9 @@ public class ChangeEditIT extends AbstractDaemonTest {
     String cr = "Code-Review";
     try (ProjectConfigUpdate u = updateProject(project)) {
       LabelType codeReview = TestLabels.codeReview();
-      codeReview.setCopyAllScoresIfNoCodeChange(true);
-      u.getConfig().getLabelSections().put(cr, codeReview);
+      u.getConfig().upsertLabelType(codeReview);
+      u.getConfig()
+          .updateLabelType(codeReview.getName(), lt -> lt.setCopyAllScoresIfNoCodeChange(true));
       u.save();
     }
 

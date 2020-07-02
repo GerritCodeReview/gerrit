@@ -174,7 +174,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
   public void voteOnBehalfOfLabelNotPermitted() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       LabelType verified = TestLabels.verified();
-      u.getConfig().getLabelSections().put(verified.getName(), verified);
+      u.getConfig().upsertLabelType(verified);
       u.save();
     }
 

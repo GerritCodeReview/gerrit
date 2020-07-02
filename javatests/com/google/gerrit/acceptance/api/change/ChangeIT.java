@@ -2231,7 +2231,7 @@ public class ChangeIT extends AbstractDaemonTest {
     LabelType verified =
         label("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().getLabelSections().put(verified.getName(), verified);
+      u.getConfig().upsertLabelType(verified);
       u.save();
     }
     projectOperations
@@ -2518,7 +2518,7 @@ public class ChangeIT extends AbstractDaemonTest {
         label("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));
     String heads = "refs/heads/*";
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().getLabelSections().put(verified.getName(), verified);
+      u.getConfig().upsertLabelType(verified);
       u.save();
     }
     projectOperations
@@ -2863,9 +2863,9 @@ public class ChangeIT extends AbstractDaemonTest {
     LabelType custom2 =
         label("Custom2", value(1, "Positive"), value(0, "No score"), value(-1, "Negative"));
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().getLabelSections().put(verified.getName(), verified);
-      u.getConfig().getLabelSections().put(custom1.getName(), custom1);
-      u.getConfig().getLabelSections().put(custom2.getName(), custom2);
+      u.getConfig().upsertLabelType(verified);
+      u.getConfig().upsertLabelType(custom1);
+      u.getConfig().upsertLabelType(custom2);
       u.save();
     }
     projectOperations
@@ -3603,7 +3603,7 @@ public class ChangeIT extends AbstractDaemonTest {
     String heads = RefNames.REFS_HEADS + "*";
 
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().getLabelSections().put(verified.getName(), verified);
+      u.getConfig().upsertLabelType(verified);
       u.save();
     }
     projectOperations
@@ -3671,7 +3671,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // add new label and assert that it's returned for existing changes
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().getLabelSections().put(verified.getName(), verified);
+      u.getConfig().upsertLabelType(verified);
       u.save();
     }
     projectOperations

@@ -14,113 +14,101 @@
 
 package com.google.gerrit.server.git;
 
-import com.google.common.base.MoreObjects;
+import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Set;
+import org.eclipse.jgit.annotations.Nullable;
 
-public class NotifyConfig implements Comparable<NotifyConfig> {
+@AutoValue
+public abstract class NotifyConfig implements Comparable<NotifyConfig> {
   public enum Header {
     TO,
     CC,
     BCC
   }
 
-  private String name;
-  private EnumSet<NotifyType> types = EnumSet.of(NotifyType.ALL);
-  private String filter;
+  @Nullable
+  public abstract String getName();
 
-  private Header header;
-  private Set<GroupReference> groups = new HashSet<>();
-  private Set<Address> addresses = new HashSet<>();
+  public abstract ImmutableSet<NotifyType> getNotify();
 
-  public String getName() {
-    return name;
-  }
+  @Nullable
+  public abstract String getFilter();
 
-  public void setName(String name) {
-    this.name = name;
-  }
+  @Nullable
+  public abstract Header getHeader();
+
+  public abstract ImmutableSet<GroupReference> getGroups();
+
+  public abstract ImmutableSet<Address> getAddresses();
 
   public boolean isNotify(NotifyType type) {
-    return types.contains(type) || types.contains(NotifyType.ALL);
+    return getNotify().contains(type) || getNotify().contains(NotifyType.ALL);
   }
 
-  public Set<NotifyType> getNotify() {
-    return types;
+  public static Builder builder() {
+    return new AutoValue_NotifyConfig.Builder()
+        .setNotify(ImmutableSet.copyOf(EnumSet.of(NotifyType.ALL)));
   }
 
-  public void setTypes(Set<NotifyType> newTypes) {
-    types = EnumSet.copyOf(newTypes);
-  }
+  @AutoValue.Builder
+  public abstract static class Builder {
+    public abstract Builder setName(String name);
 
-  public String getFilter() {
-    return filter;
-  }
+    public abstract Builder setNotify(Set<NotifyType> newTypes);
 
-  public void setFilter(String filter) {
-    if ("*".equals(filter)) {
-      this.filter = null;
-    } else {
-      this.filter = Strings.emptyToNull(filter);
+    public abstract Builder setFilter(@Nullable String filter);
+
+    public abstract Builder setHeader(Header hdr);
+
+    public Builder addGroup(GroupReference group) {
+      groupsBuilder().add(group);
+      return this;
+    }
+
+    public Builder addAddress(Address address) {
+      addressesBuilder().add(address);
+      return this;
+    }
+
+    protected abstract ImmutableSet.Builder<GroupReference> groupsBuilder();
+
+    protected abstract ImmutableSet.Builder<Address> addressesBuilder();
+
+    protected abstract NotifyConfig autoBuild();
+
+    protected abstract String getFilter();
+
+    public NotifyConfig build() {
+      if ("*".equals(getFilter())) {
+        setFilter(null);
+      } else {
+        setFilter(Strings.emptyToNull(getFilter()));
+      }
+      return autoBuild();
     }
   }
 
-  public Header getHeader() {
-    return header;
-  }
-
-  public void setHeader(Header hdr) {
-    header = hdr;
-  }
-
-  public Set<GroupReference> getGroups() {
-    return groups;
-  }
-
-  public Set<Address> getAddresses() {
-    return addresses;
-  }
-
-  public void addEmail(GroupReference group) {
-    groups.add(group);
-  }
-
-  public void addEmail(Address address) {
-    addresses.add(address);
+  @Override
+  public final int compareTo(NotifyConfig o) {
+    return getName().compareTo(o.getName());
   }
 
   @Override
-  public int compareTo(NotifyConfig o) {
-    return name.compareTo(o.name);
+  public final int hashCode() {
+    return getName().hashCode();
   }
 
   @Override
-  public int hashCode() {
-    return name.hashCode();
-  }
-
-  @Override
-  public boolean equals(Object obj) {
+  public final boolean equals(Object obj) {
     if (obj instanceof NotifyConfig) {
       return compareTo((NotifyConfig) obj) == 0;
     }
     return false;
-  }
-
-  @Override
-  public String toString() {
-    return MoreObjects.toStringHelper(this)
-        .add("name", name)
-        .add("addresses", addresses)
-        .add("groups", groups)
-        .add("header", header)
-        .add("types", types)
-        .add("filter", filter)
-        .toString();
   }
 }

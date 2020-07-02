@@ -207,7 +207,7 @@ public class RefControlTest {
         ProjectConfig allProjectsConfig = projectConfigFactory.create(allProjectsName);
         allProjectsConfig.load(md);
         LabelType cr = TestLabels.codeReview();
-        allProjectsConfig.getLabelSections().put(cr.getName(), cr);
+        allProjectsConfig.upsertLabelType(cr);
         allProjectsConfig.commit(md);
       }
     }
@@ -217,7 +217,7 @@ public class RefControlTest {
     try (MetaDataUpdate md = metaDataUpdateFactory.create(localKey)) {
       ProjectConfig newLocal = projectConfigFactory.create(localKey);
       newLocal.load(md);
-      newLocal.getProject().setParentName(parentKey);
+      newLocal.updateProject(p -> p.setParent(parentKey));
       newLocal.commit(md);
     }
 

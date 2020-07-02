@@ -175,7 +175,7 @@ public class PushPermissionsIT extends AbstractDaemonTest {
   public void readOnlyProjectRejectedBeforeTestingPermissions() throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
       try (ProjectConfigUpdate u = updateProject(project)) {
-        u.getConfig().getProject().setState(ProjectState.READ_ONLY);
+        u.getConfig().updateProject(p -> p.setState(ProjectState.READ_ONLY));
         u.save();
       }
     }

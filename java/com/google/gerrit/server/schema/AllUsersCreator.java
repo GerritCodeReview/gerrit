@@ -26,7 +26,6 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
@@ -112,15 +111,14 @@ public class AllUsersCreator {
       md.setMessage("Initialized Gerrit Code Review " + Version.getVersion());
 
       ProjectConfig config = projectConfigFactory.read(md);
-      Project project = config.getProject();
-      project.setDescription("Individual user settings and preferences.");
+      config.updateProject(p -> p.setDescription("Individual user settings and preferences."));
 
       AccessSection users =
           config.getAccessSection(
               RefNames.REFS_USERS + "${" + RefPattern.USERID_SHARDED + "}", true);
 
       // Initialize "Code-Review" label.
-      config.getLabelSections().put(codeReviewLabel.getName(), codeReviewLabel);
+      config.upsertLabelType(codeReviewLabel);
 
       grant(config, users, Permission.READ, false, true, registered);
       grant(config, users, Permission.PUSH, false, true, registered);

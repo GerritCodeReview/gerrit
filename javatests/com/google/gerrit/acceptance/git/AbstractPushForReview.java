@@ -161,7 +161,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   public void setUpPatchSetLock() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       patchSetLock = TestLabels.patchSetLock();
-      u.getConfig().getLabelSections().put(patchSetLock.getName(), patchSetLock);
+      u.getConfig().upsertLabelType(patchSetLock);
       u.save();
     }
     projectOperations
@@ -1200,7 +1200,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         label("Custom-Label", value(1, "Positive"), value(0, "No score"), value(-1, "Negative"));
     String heads = "refs/heads/*";
     try (ProjectConfigUpdate u = updateProject(project)) {
-      u.getConfig().getLabelSections().put(Q.getName(), Q);
+      u.getConfig().upsertLabelType(Q);
       u.save();
     }
     projectOperations
@@ -1686,8 +1686,10 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig()
-          .getProject()
-          .setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE);
+          .updateProject(
+              p ->
+                  p.setBooleanConfig(
+                      BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE));
       u.save();
     }
 
@@ -1712,8 +1714,10 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig()
-          .getProject()
-          .setBooleanConfig(BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE);
+          .updateProject(
+              p ->
+                  p.setBooleanConfig(
+                      BooleanProjectConfig.REQUIRE_CHANGE_ID, InheritableBoolean.FALSE));
       u.save();
     }
 
@@ -1863,9 +1867,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @Test
   public void pushNewPatchsetOverridingStickyLabel() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
-      LabelType codeReview = TestLabels.codeReview();
-      codeReview.setCopyMaxScore(true);
-      u.getConfig().getLabelSections().put(codeReview.getName(), codeReview);
+      LabelType codeReview = TestLabels.codeReview().toBuilder().setCopyMaxScore(true).build();
+      u.getConfig().upsertLabelType(codeReview);
       u.save();
     }
 

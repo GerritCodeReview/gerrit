@@ -16,7 +16,6 @@ package com.google.gerrit.server.restapi.project;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.projects.DashboardInfo;
 import com.google.gerrit.extensions.api.projects.SetDashboardInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -97,11 +96,11 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
 
     try (MetaDataUpdate md = updateFactory.create(rsrc.getProjectState().getNameKey())) {
       ProjectConfig config = projectConfigFactory.read(md);
-      Project project = config.getProject();
+      String id = input.id;
       if (inherited) {
-        project.setDefaultDashboard(input.id);
+        config.updateProject(p -> p.setDefaultDashboard(id));
       } else {
-        project.setLocalDefaultDashboard(input.id);
+        config.updateProject(p -> p.setLocalDefaultDashboard(id));
       }
 
       String msg =

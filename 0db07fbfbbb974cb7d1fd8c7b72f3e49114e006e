@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0651ea6f_e906742e",
+        "filename": "java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-02T11:44:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "231d31ae_98aa581e",
+      "range": {
+        "startLine": 76,
+        "startChar": 17,
+        "endLine": 76,
+        "endChar": 21
+      },
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8f966385_1a0776c9",
         "filename": "java/com/google/gerrit/common/data/LabelType.java",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c8e3c1e_3d9455c3",
+        "filename": "java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-02T11:44:31Z",
+      "side": 1,
+      "message": "Done. Now using ImmutableList.of()",
+      "parentUuid": "8f966385_1a0776c9",
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "cac819be_32d1d46f",
+        "filename": "java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-02T11:44:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5092d5b_ece1f5ab",
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0156f945_0cb6dcdb",
         "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
         "patchSetId": 2
@@ -73,6 +133,24 @@
       "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e13dd74_bb0fa40a",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-02T11:44:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0156f945_0cb6dcdb",
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -96,6 +174,30 @@
       "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "effa3f46_a2539b63",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-02T11:44:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4edf051_33f93e15",
+      "range": {
+        "startLine": 507,
+        "startChar": 14,
+        "endLine": 507,
+        "endChar": 16
+      },
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -145,6 +247,54 @@
     },
     {
       "key": {
+        "uuid": "bf470266_c1b91506",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-02T11:44:31Z",
+      "side": 1,
+      "message": "Done :-)",
+      "parentUuid": "e0cedee2_6b13574a",
+      "range": {
+        "startLine": 508,
+        "startChar": 27,
+        "endLine": 508,
+        "endChar": 29
+      },
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2ba3152a_34e49c73",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-02T11:44:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ae7a113_e9ed8ad6",
+      "range": {
+        "startLine": 508,
+        "startChar": 27,
+        "endLine": 508,
+        "endChar": 29
+      },
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51b9dacd_a50d9ffb",
         "filename": "java/com/google/gerrit/server/restapi/project/CreateLabel.java",
         "patchSetId": 2
@@ -168,6 +318,30 @@
     },
     {
       "key": {
+        "uuid": "3eaa595f_e2a0f7da",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateLabel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-02T11:44:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51b9dacd_a50d9ffb",
+      "range": {
+        "startLine": 142,
+        "startChar": 28,
+        "endLine": 142,
+        "endChar": 61
+      },
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0dc44fc5_72eba61a",
         "filename": "java/com/google/gerrit/server/restapi/project/CreateLabel.java",
         "patchSetId": 2
@@ -182,6 +356,24 @@
       "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ce06488_ff18c5da",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateLabel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-02T11:44:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0dc44fc5_72eba61a",
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -219,6 +411,24 @@
     },
     {
       "key": {
+        "uuid": "3886f04f_602d6d69",
+        "filename": "java/com/google/gerrit/server/restapi/project/LabelDefinitionInputParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-02T11:44:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d59d368_d7c35f8e",
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2efba075_68f1d964",
         "filename": "java/com/google/gerrit/server/restapi/project/SetLabel.java",
         "patchSetId": 2
@@ -233,6 +443,24 @@
       "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b9efa93_f72c7b4e",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetLabel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-02T11:44:31Z",
+      "side": 1,
+      "message": "Done.\n\nThey do through LabelType#build -\u003e checkName.\n\nI added IllegalArgumentException to the signatures.",
+      "parentUuid": "2efba075_68f1d964",
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -259,6 +487,30 @@
     },
     {
       "key": {
+        "uuid": "217853f3_d38c31f5",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetLabel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-02T11:44:31Z",
+      "side": 1,
+      "message": "Good point. InvalidNameException is a checked exception, though, so we\u0027d have to catch that everywhere.\n\nI solved this differently, by checking the name explicitly before setting it here in l.138 and have removed the try/catch from the build here.",
+      "parentUuid": "e3fb4674_0910c579",
+      "range": {
+        "startLine": 226,
+        "startChar": 3,
+        "endLine": 228,
+        "endChar": 5
+      },
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ce061b6_dbdbbb1f",
         "filename": "java/com/google/gerrit/server/schema/AllProjectsInput.java",
         "patchSetId": 2
@@ -279,6 +531,30 @@
       "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "058cd2db_8f05053c",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-02T11:44:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ce061b6_dbdbbb1f",
+      "range": {
+        "startLine": 49,
+        "startChar": 21,
+        "endLine": 49,
+        "endChar": 27
+      },
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -305,6 +581,30 @@
     },
     {
       "key": {
+        "uuid": "039c6b1c_a908fd2f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-02T11:44:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c0307e1_6e863333",
+      "range": {
+        "startLine": 82,
+        "startChar": 10,
+        "endLine": 82,
+        "endChar": 15
+      },
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "463f982b_eb14330b",
         "filename": "javatests/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
         "patchSetId": 2
@@ -325,6 +625,30 @@
       "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c1040e6_b4d5af29",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-02T11:44:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "463f982b_eb14330b",
+      "range": {
+        "startLine": 61,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 0
+      },
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

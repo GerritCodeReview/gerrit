@@ -238,7 +238,7 @@ class GrChangeListItem extends mixinBehaviors( [
       }
       if (this._hasAttention(r1) && !this._hasAttention(r2)) return -1;
       if (this._hasAttention(r2) && !this._hasAttention(r1)) return 1;
-      return r1.name.localeCompare(r2.name);
+      return (r1.name || '').localeCompare(r2.name || '');
     });
     return reviewers;
   }

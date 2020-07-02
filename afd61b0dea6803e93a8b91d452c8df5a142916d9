@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47a36eeb_c92b38f7",
+        "filename": "java/com/google/gerrit/entities/Project.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-02T08:46:35Z",
+      "side": 1,
+      "message": "nit: \"description\"?",
+      "range": {
+        "startLine": 197,
+        "startChar": 50,
+        "endLine": 197,
+        "endChar": 51
+      },
+      "revId": "afd61b0dea6803e93a8b91d452c8df5a142916d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "113a823b_a5604b97",
+        "filename": "java/com/google/gerrit/server/project/ProjectCreator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-02T08:46:35Z",
+      "side": 1,
+      "message": "Wouldn\u0027t this be a use case for the new updateProject() method?",
+      "revId": "afd61b0dea6803e93a8b91d452c8df5a142916d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "009b3f97_fac39fda",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-02T08:46:35Z",
+      "side": 1,
+      "message": "ProjectConfig.updateProject()?",
+      "revId": "afd61b0dea6803e93a8b91d452c8df5a142916d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e102670a_9d96cd5d",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutDescription.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-02T08:46:35Z",
+      "side": 1,
+      "message": "inline?",
+      "revId": "afd61b0dea6803e93a8b91d452c8df5a142916d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4370f03b_22974c19",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetDefaultDashboard.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-02T08:46:35Z",
+      "side": 1,
+      "message": "inline?",
+      "revId": "afd61b0dea6803e93a8b91d452c8df5a142916d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

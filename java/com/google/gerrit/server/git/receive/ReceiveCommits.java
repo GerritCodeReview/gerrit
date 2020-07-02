@@ -1005,7 +1005,19 @@ class ReceiveCommits {
   private String buildError(String error, List<String> branches) {
     StringBuilder sb = new StringBuilder();
     if (branches.size() == 1) {
-      sb.append("branch ").append(branches.get(0)).append(":\n");
+      String branch = branches.get(0);
+      sb.append("branch ").append(branch).append(":\n");
+      // As of 2020, there are still many git-review <1.27 installations in the wild that still
+      // try to use outdated magic "refs/publish/...". The default error messages of
+      //   You need 'Create' rights to create new references.
+      // and
+      //   use a SHA1 visible to you, or get update permission on the ref
+      // are not helpful in their cases. So although git-review is a third party application, we
+      // nonetheless try to guide them, as git-review is widely used and git-review installations
+      // only very seldomly see updates
+      if (branch.startsWith("refs/publish/")) {
+        sb.append("If you a using git-review, update to at least git-review 1.27. Otherwise:\n");
+      }
       sb.append(error);
       return sb.toString();
     }

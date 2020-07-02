@@ -2,6 +2,184 @@
   "comments": [
     {
       "key": {
+        "uuid": "231d31ae_98aa581e",
+        "filename": "java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-02T10:05:17Z",
+      "side": 1,
+      "message": "Maybe consider making this an ImmutableList.",
+      "range": {
+        "startLine": 76,
+        "startChar": 17,
+        "endLine": 76,
+        "endChar": 21
+      },
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ae7a113_e9ed8ad6",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-02T10:05:17Z",
+      "side": 1,
+      "message": "Looks like you forgot to add an error message here.",
+      "range": {
+        "startLine": 508,
+        "startChar": 27,
+        "endLine": 508,
+        "endChar": 29
+      },
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51b9dacd_a50d9ffb",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateLabel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-02T10:05:17Z",
+      "side": 1,
+      "message": "Should LabelType rather have a builder(label, values) method so that we avoid to to first call build() and then toBuilder()?",
+      "range": {
+        "startLine": 142,
+        "startChar": 28,
+        "endLine": 142,
+        "endChar": 61
+      },
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dc44fc5_72eba61a",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateLabel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-02T10:05:17Z",
+      "side": 1,
+      "message": "I wonder if this can be rewritten to avoid building the labelType here.\nLabelTypeBuilder already has a getValues() method, maybe we could just use this method for checking if a value for the defaultValue exists?",
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3fb4674_0910c579",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetLabel.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-02T10:05:17Z",
+      "side": 1,
+      "message": "It seems to be a bit error-prone to assume that every IllegalArgumentException that is thrown by the build() method is caused by an invalid name (e.g. what if we add another validation check in the build() method that also throws IllegalArgumentException but is not about the name). Would it make sense if the build() method was throwing com.google.gerrit.exceptions.InvalidNameException instead?",
+      "range": {
+        "startLine": 226,
+        "startChar": 3,
+        "endLine": 228,
+        "endChar": 5
+      },
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ce061b6_dbdbbb1f",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-02T10:05:17Z",
+      "side": 1,
+      "message": "better have a builder() method",
+      "range": {
+        "startLine": 49,
+        "startChar": 21,
+        "endLine": 49,
+        "endChar": 27
+      },
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c0307e1_6e863333",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-02T10:05:17Z",
+      "side": 1,
+      "message": "Should this method be changed to return a LabelType.Builder?",
+      "range": {
+        "startLine": 82,
+        "startChar": 10,
+        "endLine": 82,
+        "endChar": 15
+      },
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "463f982b_eb14330b",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/CustomLabelIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-02T10:05:17Z",
+      "side": 1,
+      "message": "Should the new fields for the names be static?",
+      "range": {
+        "startLine": 61,
+        "startChar": 2,
+        "endLine": 66,
+        "endChar": 0
+      },
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dad3e1e1_aa8b6f13",
         "filename": "plugins/delete-project",
         "patchSetId": 2

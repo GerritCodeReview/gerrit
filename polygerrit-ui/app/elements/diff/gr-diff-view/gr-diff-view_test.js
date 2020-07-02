@@ -113,6 +113,13 @@ suite('gr-diff-view tests', () => {
         },
       });
       element = basicFixture.instantiate();
+      sinon.stub(element.$.commentAPI, 'loadAll').returns(Promise.resolve({
+        _comments: {'/COMMIT_MSG': [{id: 'c1', line: 10, patch_set: 2,
+          __commentSide: 'left'}]},
+        computeCommentCount: () => {},
+        computeUnresolvedNum: () => {},
+        getPaths: () => {},
+      }));
       return element._loadComments();
     });
 
@@ -133,7 +140,36 @@ suite('gr-diff-view tests', () => {
       });
     });
 
-    test('params change cases blame to load if it was set to true', () => {
+    test('comment route', () => {
+      const initLineOfInterestAndCursorStub =
+        sinon.stub(element, '_initLineOfInterestAndCursor');
+      sinon.stub(element, '_getFiles');
+      sinon.stub(element.reporting, 'diffViewDisplayed');
+      sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
+      sinon.spy(element, '_paramsChanged');
+      element._change = generateChange({revisionsCount: 11});
+      sinon.stub(element, '_getChangeDetail').returns(Promise.resolve(
+          generateChange({revisionsCount: 11})));
+      element.params = {
+        view: GerritNav.View.DIFF,
+        changeNum: '42',
+        commentLink: true,
+        commentId: 'c1',
+      };
+      sinon.stub(element.$.diffHost, '_commentsChanged');
+      sinon.stub(element, '_getCommentsForPath').returns({
+        left: [{id: 'c1', __commentSide: 'left', line: 10}],
+        right: [{id: 'c2', __commentSide: 'right', line: 11}],
+      });
+      return element._paramsChanged.returnValues[0].then(() => {
+        assert.isTrue(initLineOfInterestAndCursorStub.
+            calledWithExactly(10, true));
+        assert.equal(element._patchRange.patchNum, 11);
+        assert.equal(element._patchRange.basePatchNum, 2);
+      });
+    });
+
+    test('params change causes blame to load if it was set to true', () => {
       // Blame loads for subsequent files if it was loaded for one file
       element._isBlameLoaded = true;
       sinon.stub(element.reporting, 'diffViewDisplayed');
@@ -921,7 +957,7 @@ suite('gr-diff-view tests', () => {
 
     test('hash is determined from params', done => {
       sinon.stub(element.$.diffHost, 'reload');
-      sinon.stub(element, '_initCursor');
+      sinon.stub(element, '_initLineOfInterestAndCursor');
 
       element._loggedIn = true;
       element.params = {
@@ -934,7 +970,7 @@ suite('gr-diff-view tests', () => {
       };
 
       flush(() => {
-        assert.isTrue(element._initCursor.calledOnce);
+        assert.isTrue(element._initLineOfInterestAndCursor.calledOnce);
         done();
       });
     });
@@ -1156,15 +1192,16 @@ suite('gr-diff-view tests', () => {
       assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
     });
 
-    suite('_loadComments', () => {
-      test('empty', done => {
-        element._loadComments().then(() => {
-          assert.equal(Object.keys(element._commentMap).length, 0);
-          done();
-        });
+    suite('_processComments', () => {
+      test('empty', () => {
+        sinon.stub(element, '_getCommentsForPath');
+        sinon.stub(element, '_getPaths').returns(new Map());
+        element._processComments({});
+        assert.equal(Object.keys(element._commentMap).length, 0);
       });
 
-      test('has paths', done => {
+      test('has paths', () => {
+        sinon.stub(element, '_getFiles');
         sinon.stub(element, '_getPaths').returns({
           'path/to/file/one.cpp': [{patch_set: 3, message: 'lorem'}],
           'path-to/file/two.py': [{patch_set: 5, message: 'ipsum'}],
@@ -1175,11 +1212,10 @@ suite('gr-diff-view tests', () => {
           basePatchNum: '3',
           patchNum: '5',
         };
-        element._loadComments().then(() => {
-          assert.deepEqual(Object.keys(element._commentMap),
-              ['path/to/file/one.cpp', 'path-to/file/two.py']);
-          done();
-        });
+
+        element._processComments({});
+        assert.deepEqual(Object.keys(element._commentMap),
+            ['path/to/file/one.cpp', 'path-to/file/two.py']);
       });
     });
 
@@ -1389,8 +1425,7 @@ suite('gr-diff-view tests', () => {
     });
 
     test('_paramsChanged sets in projectLookup', () => {
-      sinon.stub(element, '_getLineOfInterest');
-      sinon.stub(element, '_initCursor');
+      sinon.stub(element, '_initLineOfInterestAndCursor');
       const setStub = sinon.stub(element.$.restAPI, 'setInProjectLookup');
       element._paramsChanged({
         view: GerritNav.View.DIFF,
@@ -1421,8 +1456,7 @@ suite('gr-diff-view tests', () => {
 
     test('File change should trigger navigateToDiff once', () => {
       element._files = getFilesFromFileList(['file1', 'file2', 'file3']);
-      sinon.stub(element, '_getLineOfInterest');
-      sinon.stub(element, '_initCursor');
+      sinon.stub(element, '_initLineOfInterestAndCursor');
       sinon.stub(GerritNav, 'navigateToDiff');
 
       // Load file1

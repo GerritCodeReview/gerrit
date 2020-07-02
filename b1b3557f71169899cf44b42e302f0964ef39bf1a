@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51154dde_960ebc75",
+        "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-07-02T13:27:20Z",
+      "side": 1,
+      "message": "FYI: I didn\u0027t test whether the order was relevant but simply put this line above WorkQueue.Module() as in Daemon. Not sure whether that\u0027s relevant.",
+      "revId": "b1b3557f71169899cf44b42e302f0964ef39bf1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

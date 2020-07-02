@@ -16,6 +16,23 @@
       "revId": "3313e5f4b94ca581347613e30117b39c5f2331c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e054c944_2f871e17",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 415,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-02T12:41:15Z",
+      "side": 1,
+      "message": "Don\u0027t we need to add this module in WebAppInitializer too?",
+      "revId": "3313e5f4b94ca581347613e30117b39c5f2331c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

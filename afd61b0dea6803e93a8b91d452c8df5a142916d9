@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "666dd7a7_1b0d1ffd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-02T09:12:37Z",
+      "side": 1,
+      "message": "Ah, I see you did this on the follow-up change.",
+      "parentUuid": "4ee5acab_664925df",
+      "revId": "afd61b0dea6803e93a8b91d452c8df5a142916d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "088b1919_8b090fe7",
         "filename": "java/com/google/gerrit/entities/Project.java",
         "patchSetId": 2

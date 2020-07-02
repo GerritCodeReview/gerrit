@@ -86,6 +86,24 @@
       "revId": "26e211508078e36da8335c1016cb03f2c87f1189",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "012aa0b6_34866fa1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-07-02T08:18:06Z",
+      "side": 1,
+      "message": "The examples are labels visualized on the change-screen, will the same check-marks be used in the dashboard?",
+      "parentUuid": "4c6d7490_aa555696",
+      "revId": "26e211508078e36da8335c1016cb03f2c87f1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

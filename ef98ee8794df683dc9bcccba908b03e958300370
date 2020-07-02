@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b31a701c_c2c235e9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-02T21:00:59Z",
+      "side": 1,
+      "message": "should you try first to fallback to displayName here?",
+      "revId": "ef98ee8794df683dc9bcccba908b03e958300370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

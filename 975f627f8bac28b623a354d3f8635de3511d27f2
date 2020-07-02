@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9cce06d5_7715668f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-02T07:52:05Z",
+      "side": 1,
+      "message": "\u003e I guess you meant [1].\n\nYes, sorry for the typo.\n\n\u003e  Looks like some sessions are not closed server-side?\n\u003e Or do the tests really run more than the limit of 64 sessions in parallel?\n\nUnlikely, because it worked in 2.4.0 and is broken after the upgrade?",
+      "parentUuid": "fb1e2137_ae02033a",
+      "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aad5779c_2c9cf4d1",
         "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
         "patchSetId": 1
@@ -54,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "87016af0_972a0676",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 720,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-02T07:52:05Z",
+      "side": 1,
+      "message": "Good question, worth explaining in the commit message(or even extracting to own change). New method was added to the interface and it is not a FunctionalInterface any more, so that the old code wasn\u0027t compiling. Then, I figured I could just replace it with NativeFileSystemFactory.",
+      "parentUuid": "aad5779c_2c9cf4d1",
+      "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2ea1317d_45d0497b",
         "filename": "tools/nongoogle.bzl",
         "patchSetId": 1
@@ -65,6 +101,24 @@
       "writtenOn": "2020-07-02T07:38:06Z",
       "side": 1,
       "message": "Try with 2.5.1; it\u0027s out. See [1]. I don\u0027t think it\u0027ll make any difference, though.\n\n[1] https://repo1.maven.org/maven2/org/apache/sshd/sshd-core/2.5.1/",
+      "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff11ca66_a3d11030",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-02T07:52:05Z",
+      "side": 1,
+      "message": "Thanks. Will update later today.",
+      "parentUuid": "2ea1317d_45d0497b",
       "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

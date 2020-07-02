@@ -16,6 +16,24 @@
       "revId": "b1b3557f71169899cf44b42e302f0964ef39bf1a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "415f44bc_540f3b5d",
+        "filename": "java/com/google/gerrit/httpd/init/WebAppInitializer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-02T13:42:06Z",
+      "side": 1,
+      "message": "AFAIK, the order doesn\u0027t matter.",
+      "parentUuid": "51154dde_960ebc75",
+      "revId": "b1b3557f71169899cf44b42e302f0964ef39bf1a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

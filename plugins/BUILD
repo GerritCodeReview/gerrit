@@ -21,6 +21,7 @@ genrule2(
 
 PLUGIN_API = [
     "//java/com/google/gerrit/server",
+    "//java/com/google/gerrit/server/data",
     "//java/com/google/gerrit/server/ioutil",
     "//java/com/google/gerrit/server/restapi",
     "//java/com/google/gerrit/pgm/init/api",

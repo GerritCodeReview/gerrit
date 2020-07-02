@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dad3e1e1_aa8b6f13",
+        "filename": "plugins/delete-project",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-02T06:42:37Z",
+      "side": 1,
+      "message": "I included the submodule commit here to get correct CI results.",
+      "revId": "0db07fbfbbb974cb7d1fd8c7b72f3e49114e006e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

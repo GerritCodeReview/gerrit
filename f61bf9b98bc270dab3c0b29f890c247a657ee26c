@@ -34,6 +34,24 @@
       "revId": "f61bf9b98bc270dab3c0b29f890c247a657ee26c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56ba1b5f_241a90d6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-03T19:20:09Z",
+      "side": 1,
+      "message": "\u003e I think it is actually slightly nicer to submit the backend change first, because of how Google releases backend and frontend separately. \n\nWorth explaining in the commit message, and upload follow-up frontend change to review the whole series before approving and merging the server-only part.",
+      "parentUuid": "140e254c_42cda1a7",
+      "revId": "f61bf9b98bc270dab3c0b29f890c247a657ee26c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

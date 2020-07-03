@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "b672a011_e2b6bbfa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-03T19:20:09Z",
+      "side": 1,
+      "message": "\u003e From GMail: https://imgur.com/a/8J8tpOH\n\nNice. Didn\u0027t know it\u0027s possible in GMail. I tried to disable keyboard shortcuts in GMail, but I still see the keyboard shortcut help dialog if I hit \u0027?\u0027 key. Is this a bug in GMail?",
+      "parentUuid": "9a517f53_09504a36",
+      "revId": "6c4a012106a4173d7efe3703a9192e80ed7c3fa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2fca2256_73ee6049",
         "filename": "java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
         "patchSetId": 5

@@ -46,6 +46,30 @@
       "revId": "eccf87d931391022cb93fa135c8b6e50c8d3b8f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92b642f9_89a46024",
+        "filename": "java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-03T14:24:18Z",
+      "side": 1,
+      "message": "Yeah, must be enum or string for theme. We may also have a colorblind theme at some point.",
+      "parentUuid": "60b1c8f2_552381c2",
+      "range": {
+        "startLine": 127,
+        "startChar": 2,
+        "endLine": 128,
+        "endChar": 31
+      },
+      "revId": "eccf87d931391022cb93fa135c8b6e50c8d3b8f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

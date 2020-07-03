@@ -24,9 +24,6 @@ import '../../shared/gr-formatted-text/gr-formatted-text.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../../styles/shared-styles.js';
 import '../../../styles/gr-voting-styles.js';
-import '../gr-comment-list/gr-comment-list.js';
-import {appContext} from '../../../services/app-context.js';
-import {ExperimentIds} from '../../../services/flags.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
@@ -136,8 +133,7 @@ class GrMessage extends GestureEventListeners(
       },
       _commentCountText: {
         type: Number,
-        computed: '_computeCommentCountText(comments,'
-            + ' message.commentThreads.length, _isCleanerLogExperimentEnabled)',
+        computed: '_computeCommentCountText(message.commentThreads.length)',
       },
       _loggedIn: {
         type: Boolean,
@@ -151,7 +147,6 @@ class GrMessage extends GestureEventListeners(
         type: Boolean,
         value: false,
       },
-      _isCleanerLogExperimentEnabled: Boolean,
     };
   }
 
@@ -163,7 +158,6 @@ class GrMessage extends GestureEventListeners(
 
   constructor() {
     super();
-    this.flagsService = appContext.flagsService;
   }
 
   /** @override */
@@ -176,8 +170,6 @@ class GrMessage extends GestureEventListeners(
   /** @override */
   ready() {
     super.ready();
-    this._isCleanerLogExperimentEnabled = this.flagsService
-        .isEnabled(ExperimentIds.CLEANER_CHANGELOG);
     this.$.restAPI.getConfig().then(config => {
       this.config = config;
     });
@@ -197,33 +189,13 @@ class GrMessage extends GestureEventListeners(
     }
   }
 
-  _computeCommentCountText(
-      comments, threadsLength, isCleanerLogExperimentEnabled) {
-    // TODO(taoalpha): clean up after cleaner-changelog experiment launched
-    if (isCleanerLogExperimentEnabled) {
-      if (threadsLength === 0) {
-        return undefined;
-      } else if (threadsLength === 1) {
-        return '1 comment';
-      } else {
-        return `${threadsLength} comments`;
-      }
+  _computeCommentCountText(threadsLength) {
+    if (threadsLength === 0) {
+      return undefined;
+    } else if (threadsLength === 1) {
+      return '1 comment';
     } else {
-      if (!comments) return undefined;
-      let count = 0;
-      for (const file in comments) {
-        if (comments.hasOwnProperty(file)) {
-          const commentArray = comments[file] || [];
-          count += commentArray.length;
-        }
-      }
-      if (count === 0) {
-        return undefined;
-      } else if (count === 1) {
-        return '1 comment';
-      } else {
-        return `${count} comments`;
-      }
+      return `${threadsLength} comments`;
     }
   }
 

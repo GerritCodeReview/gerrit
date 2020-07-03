@@ -1235,7 +1235,8 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ false,
         /* includeComments= */ false,
         /* disabled= */ false,
-        /* commentEditing= */ false
+        /* commentEditing= */ false,
+        /* attentionModified= */ false
     ));
   });
 
@@ -1250,7 +1251,24 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ false,
         /* includeComments= */ false,
         /* disabled= */ false,
-        /* commentEditing= */ false
+        /* commentEditing= */ false,
+        /* attentionModified= */ false
+    ));
+  });
+
+  test('_computeSendButtonDisabled_attentionModified true', () => {
+    const fn = element._computeSendButtonDisabled.bind(element);
+    // Mock everything false
+    assert.isFalse(fn(
+        /* canBeStarted= */ false,
+        /* draftCommentThreads= */ [],
+        /* text= */ '',
+        /* reviewersMutated= */ false,
+        /* labelsChanged= */ false,
+        /* includeComments= */ false,
+        /* disabled= */ false,
+        /* commentEditing= */ false,
+        /* attentionModified= */ true
     ));
   });
 
@@ -1265,7 +1283,8 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ false,
         /* includeComments= */ true,
         /* disabled= */ false,
-        /* commentEditing= */ false
+        /* commentEditing= */ false,
+        /* attentionModified= */ false
     ));
   });
 
@@ -1280,7 +1299,8 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ false,
         /* includeComments= */ false,
         /* disabled= */ false,
-        /* commentEditing= */ false
+        /* commentEditing= */ false,
+        /* attentionModified= */ false
     ));
   });
 
@@ -1295,7 +1315,8 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ false,
         /* includeComments= */ false,
         /* disabled= */ false,
-        /* commentEditing= */ false
+        /* commentEditing= */ false,
+        /* attentionModified= */ false
     ));
   });
 
@@ -1310,7 +1331,8 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ false,
         /* includeComments= */ false,
         /* disabled= */ false,
-        /* commentEditing= */ false
+        /* commentEditing= */ false,
+        /* attentionModified= */ false
     ));
   });
 
@@ -1325,7 +1347,8 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ true,
         /* includeComments= */ false,
         /* disabled= */ false,
-        /* commentEditing= */ false
+        /* commentEditing= */ false,
+        /* attentionModified= */ false
     ));
   });
 
@@ -1340,7 +1363,8 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ true,
         /* includeComments= */ false,
         /* disabled= */ true,
-        /* commentEditing= */ false
+        /* commentEditing= */ false,
+        /* attentionModified= */ false
     ));
     assert.isTrue(fn(
         /* buttonLabel= */ 'Send',
@@ -1350,7 +1374,8 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ true,
         /* includeComments= */ false,
         /* disabled= */ false,
-        /* commentEditing= */ true
+        /* commentEditing= */ true,
+        /* attentionModified= */ false
     ));
   });
 

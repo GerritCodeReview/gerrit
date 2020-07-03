@@ -176,6 +176,24 @@
       "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2bd4682_842cc4e3",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-03T19:34:44Z",
+      "side": 1,
+      "message": "We could revert the offending commit and build 2.5.1-patched on top of it and upload it in some location to proof that this would fix the breakage. Last time I uploaded a fix patch here: [1].\n\n[1] https://github.com/davido/mina-sshd/releases/tag/v2.4.0-134-gbb07cf5d",
+      "parentUuid": "6b1d0079_557ce696",
+      "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

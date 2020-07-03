@@ -1284,6 +1284,8 @@ any account.
   )]}'
   {
     "changes_per_page": 25,
+    "dark_theme": false,
+    "disable_hotkeys": false,
     "date_format": "STD",
     "time_format": "HHMM_12",
     "diff_view": "SIDE_BY_SIDE",
@@ -1336,6 +1338,8 @@ link:#preferences-input[PreferencesInput] entity.
 
   {
     "changes_per_page": 50,
+    "dark_theme": true,
+    "disable_hotkeys": true,
     "expand_inline_diffs": true,
     "date_format": "STD",
     "time_format": "HHMM_12",
@@ -1383,6 +1387,8 @@ link:#preferences-info[PreferencesInfo] entity.
   )]}'
   {
     "changes_per_page": 50,
+    "dark_theme" true,
+    "disable_hotkeys": true,
     "expand_inline_diffs": true,
     "date_format": "STD",
     "time_format": "HHMM_12",
@@ -2759,6 +2765,12 @@ The `PreferencesInfo` entity contains information about a user's preferences.
 |`changes_per_page`             ||
 The number of changes to show on each page.
 Allowed values are `10`, `25`, `50`, `100`.
+|`dark_theme`             ||
+Whether to enable the dark theme.
+Allowed values are `false`, `true`.
+|`disable_hotkeys`             ||
+Whether to disable hotkeys.
+Allowed values are `false`, `true`.
 |`expand_inline_diffs`          |not set if `false`|
 Whether to expand diffs inline instead of opening as separate page
 (PolyGerrit only).

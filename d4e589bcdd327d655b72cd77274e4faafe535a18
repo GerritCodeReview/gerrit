@@ -39,6 +39,24 @@
       "revId": "d4e589bcdd327d655b72cd77274e4faafe535a18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba7eb17a_b1fbc441",
+        "filename": "java/com/google/gerrit/server/plugins/PluginUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-03T12:10:55Z",
+      "side": 1,
+      "message": "\u003e It doesn\u0027t throw exception if the directory already exists, but I think we should check before creation:\n\nDone in PS2",
+      "parentUuid": "d12f56cf_6b5bff77",
+      "revId": "d4e589bcdd327d655b72cd77274e4faafe535a18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

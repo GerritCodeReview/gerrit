@@ -118,6 +118,30 @@
       "revId": "eccf87d931391022cb93fa135c8b6e50c8d3b8f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e98dc67_e8ff4c69",
+        "filename": "java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-07-03T14:49:23Z",
+      "side": 1,
+      "message": "One of the users said the reason why they want to disable it is because \"it\u0027s a bit tedious when my palm grazes the touchpad and then gerrit changes pages multiple times\".\n\nThough i guess we can keep \"disable hotkeys\" in the web storage rather than a preference.",
+      "parentUuid": "dcf3b4fe_d56a3541",
+      "range": {
+        "startLine": 127,
+        "startChar": 2,
+        "endLine": 128,
+        "endChar": 31
+      },
+      "revId": "eccf87d931391022cb93fa135c8b6e50c8d3b8f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

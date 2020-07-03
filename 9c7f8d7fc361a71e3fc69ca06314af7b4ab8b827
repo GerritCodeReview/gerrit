@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d46661d_e3021356",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-03T14:28:07Z",
+      "side": 1,
+      "message": "This describes the \"else\" condition. Maybe put this in line 938 like \"} // else: New change, no need to update...\"",
+      "revId": "9c7f8d7fc361a71e3fc69ca06314af7b4ab8b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b132527b_af78bbb4",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-03T14:28:07Z",
+      "side": 1,
+      "message": "Why are we extracting CCs and storing them in \"reviewers\"?",
+      "range": {
+        "startLine": 932,
+        "startChar": 16,
+        "endLine": 933,
+        "endChar": 47
+      },
+      "revId": "9c7f8d7fc361a71e3fc69ca06314af7b4ab8b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8355dd10_767f1f17",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-03T14:28:07Z",
+      "side": 1,
+      "message": "Isn\u0027t that the same thing?",
+      "range": {
+        "startLine": 50,
+        "startChar": 55,
+        "endLine": 50,
+        "endChar": 98
+      },
+      "revId": "9c7f8d7fc361a71e3fc69ca06314af7b4ab8b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca3241ce_4a4ec11e",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-03T14:28:07Z",
+      "side": 1,
+      "message": "I know this is kinda late, but: \"Default rules\" suggests there are also \"user rules\" or something like that. Maybe \"heuristics\" or \"automatic rules\" or just \"rules\" would be clearer, WDYT?",
+      "range": {
+        "startLine": 77,
+        "startChar": 54,
+        "endLine": 77,
+        "endChar": 61
+      },
+      "revId": "9c7f8d7fc361a71e3fc69ca06314af7b4ab8b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e380c27_8b7dc481",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-03T14:28:07Z",
+      "side": 1,
+      "message": "I find this transformation hard to follow. You\u0027re filtering for \"ccs \u003d\u003d null\" and building from that a set called finalCCs. It doesn\u0027t help that ReviewerAddition is undocumented. Could you add a comment to explain this?",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 46
+      },
+      "revId": "9c7f8d7fc361a71e3fc69ca06314af7b4ab8b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f1e808d_01a5a39b",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-03T14:28:07Z",
+      "side": 1,
+      "message": "Given that this modifies the set of current reviewers by removing some, shouldn\u0027t it be called getNewReviewers() or getUpdatedReviewers or something?",
+      "range": {
+        "startLine": 125,
+        "startChar": 26,
+        "endLine": 125,
+        "endChar": 45
+      },
+      "revId": "9c7f8d7fc361a71e3fc69ca06314af7b4ab8b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4412bcac_19485655",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-03T14:32:41Z",
+      "side": 1,
+      "message": "I insist to separate two new perferences in two different changes. This would simplify the review process and also allow us to rollback them independently from each other.",
+      "revId": "956263760ef0d9ab57a464673bfcd1eef866d614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

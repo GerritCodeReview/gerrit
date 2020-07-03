@@ -161,6 +161,7 @@ import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.restapi.change.ReplyAttentionSetUpdates;
 import com.google.gerrit.server.submit.MergeOp;
 import com.google.gerrit.server.submit.MergeOpRepoManager;
 import com.google.gerrit.server.submit.SubmoduleOp;
@@ -345,6 +346,7 @@ class ReceiveCommits {
   private final TagCache tagCache;
   private final ProjectConfig.Factory projectConfigFactory;
   private final SetPrivateOp.Factory setPrivateOpFactory;
+  private final ReplyAttentionSetUpdates replyAttentionSetUpdates;
 
   // Assisted injected fields.
   private final ProjectState projectState;
@@ -424,6 +426,7 @@ class ReceiveCommits {
       SubmoduleOp.Factory subOpFactory,
       TagCache tagCache,
       SetPrivateOp.Factory setPrivateOpFactory,
+      ReplyAttentionSetUpdates replyAttentionSetUpdates,
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
       @Assisted ReceivePack rp,
@@ -471,6 +474,7 @@ class ReceiveCommits {
     this.tagCache = tagCache;
     this.projectConfigFactory = projectConfigFactory;
     this.setPrivateOpFactory = setPrivateOpFactory;
+    this.replyAttentionSetUpdates = replyAttentionSetUpdates;
 
     // Assisted injected fields.
     this.projectState = projectState;
@@ -922,6 +926,28 @@ class ReceiveCommits {
               bu.addOp(
                   replace.notes.getChangeId(),
                   publishCommentsOp.create(replace.psId, project.getNameKey()));
+              Optional<ChangeNotes> changeNotes = getChangeNotes(replace.notes.getChangeId());
+              if (!changeNotes.isPresent()) {
+                // If not present, no need to update attention set here since this is a new change.
+                continue;
+              }
+              List<HumanComment> drafts =
+                  commentsUtil.draftByChangeAuthor(changeNotes.get(), user.getAccountId());
+              if (drafts.isEmpty()) {
+                // If no comments, attention set shouldn't update since the user didn't reply.
+                continue;
+              }
+              // Reviewers can only be removed by becoming CCs.
+              Set<String> potentiallyRemovedReviewers =
+                  magicBranch.getCombinedCcs(
+                      getRecipientsFromFooters(
+                          accountResolver, replace.revCommit.getFooterLines()));
+              replyAttentionSetUpdates.processAutomaticAttentionSetRulesOnReply(
+                  bu,
+                  changeNotes.get(),
+                  isReadyForReview(changeNotes.get()),
+                  potentiallyRemovedReviewers,
+                  user.getAccountId());
             }
           }
         }
@@ -976,7 +1002,11 @@ class ReceiveCommits {
       } catch (ResourceConflictException e) {
         addError(e.getMessage());
         reject(magicBranchCmd, "conflict");
-      } catch (BadRequestException | UnprocessableEntityException | AuthException e) {
+      } catch (BadRequestException
+          | UnprocessableEntityException
+          | AuthException
+          | ConfigInvalidException
+          | PermissionBackendException e) {
         logger.atFine().withCause(e).log("Rejecting due to client error");
         reject(magicBranchCmd, e.getMessage());
       } catch (RestApiException | IOException e) {
@@ -1000,6 +1030,11 @@ class ReceiveCommits {
         }
       }
     }
+  }
+
+  private boolean isReadyForReview(ChangeNotes changeNotes) {
+    return (!changeNotes.getChange().isWorkInProgress() && !magicBranch.workInProgress)
+        || magicBranch.ready;
   }
 
   private String buildError(String error, List<String> branches) {

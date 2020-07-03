@@ -74,7 +74,7 @@ public class GroupList extends TabFile {
   public GroupReference byName(String name) {
     return byUUID.entrySet().stream()
         .map(Map.Entry::getValue)
-        .filter(groupReference -> name.equals(groupReference.getName()))
+        .filter(groupReference -> groupReference.getName().equals(name))
         .findAny()
         .orElse(null);
   }

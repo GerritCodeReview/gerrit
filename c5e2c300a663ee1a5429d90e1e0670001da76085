@@ -16,6 +16,24 @@
       "revId": "c5e2c300a663ee1a5429d90e1e0670001da76085",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "218c9e91_dc39c28c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2020-07-03T12:38:51Z",
+      "side": 1,
+      "message": "I don\u0027t think there\u0027s any mention of this new permission option in the release notes either (3.0, 3.1, 3.2).",
+      "parentUuid": "dc037eff_4128fd0f",
+      "revId": "c5e2c300a663ee1a5429d90e1e0670001da76085",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

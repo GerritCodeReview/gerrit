@@ -16,6 +16,24 @@
       "revId": "f61bf9b98bc270dab3c0b29f890c247a657ee26c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "140e254c_42cda1a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-03T17:27:04Z",
+      "side": 1,
+      "message": "I think it is actually slightly nicer to submit the backend change first, because of how Google releases backend and frontend separately. If you submit both together, then you would start showing the new settings UI before the backend knows what to do with it.",
+      "parentUuid": "d745a095_4f3e5c63",
+      "revId": "f61bf9b98bc270dab3c0b29f890c247a657ee26c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

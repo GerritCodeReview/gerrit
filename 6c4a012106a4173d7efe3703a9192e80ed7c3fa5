@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "9a517f53_09504a36",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-03T17:27:04Z",
+      "side": 1,
+      "message": "From GMail: https://imgur.com/a/8J8tpOH",
+      "parentUuid": "dbb25c8a_8c790ecd",
+      "revId": "6c4a012106a4173d7efe3703a9192e80ed7c3fa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2fca2256_73ee6049",
         "filename": "java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
         "patchSetId": 5

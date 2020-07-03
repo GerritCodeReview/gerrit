@@ -190,6 +190,30 @@
       "revId": "eccf87d931391022cb93fa135c8b6e50c8d3b8f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e8a3e6f_91130045",
+        "filename": "java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-07-03T15:11:49Z",
+      "side": 1,
+      "message": "\u003ePlease. I am not adding any new user/site preference to gerrit because of opinion of \"One of the users\".\nYou asked me for a use case, i gave it to you. Please don\u0027t be rude about it expecially as you saw i was replying to your \"I am (still) missing a use case that would convince me that such a preference would make sense for the majority of gerrit users.\" comment. I understand that you\u0027re rejecting it.\n\nCould have simply said \"Thanks for giving me the use case but i still don\u0027t think that\u0027s a use case that would be valid for majority of our users\" rather than \"Please. I am not adding any new user/site preference to gerrit because of opinion of \"One of the users\"\" which makes me feel like i did something wrong.",
+      "parentUuid": "512c8c2c_79c806ac",
+      "range": {
+        "startLine": 127,
+        "startChar": 2,
+        "endLine": 128,
+        "endChar": 31
+      },
+      "revId": "eccf87d931391022cb93fa135c8b6e50c8d3b8f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

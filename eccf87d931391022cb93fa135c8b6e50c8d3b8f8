@@ -166,6 +166,30 @@
       "revId": "eccf87d931391022cb93fa135c8b6e50c8d3b8f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "512c8c2c_79c806ac",
+        "filename": "java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-03T15:04:09Z",
+      "side": 1,
+      "message": "\u003e  I am not adding any new user/site preference to gerrit because of opinion of \"One of the users\".\n\nOn second thought, I wouldn\u0027t even add it to web storage, as a core gerrit feature (even undocumented one). It doesn\u0027t belong for me in Gerrit core.\n\nCan we rather add extension point and write a plugin for it? Or, could you fork gerrit and do such a \"hack\" in your fork?",
+      "parentUuid": "1c719c6a_9c368d30",
+      "range": {
+        "startLine": 127,
+        "startChar": 2,
+        "endLine": 128,
+        "endChar": 31
+      },
+      "revId": "eccf87d931391022cb93fa135c8b6e50c8d3b8f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

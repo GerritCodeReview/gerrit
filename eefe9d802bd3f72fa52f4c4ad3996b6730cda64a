@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "47a4442d_d8caa877",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-03T09:32:50Z",
+      "side": 1,
+      "message": "Done in PS6",
+      "parentUuid": "4fd470ce_9e8f1551",
+      "range": {
+        "startLine": 17,
+        "startChar": 53,
+        "endLine": 17,
+        "endChar": 56
+      },
+      "revId": "eefe9d802bd3f72fa52f4c4ad3996b6730cda64a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71d69fac_28b7125e",
         "filename": "Documentation/dev-crafting-changes.txt",
         "patchSetId": 5
@@ -65,6 +89,30 @@
     },
     {
       "key": {
+        "uuid": "f3e3d6c1_81c615b4",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-03T09:32:50Z",
+      "side": 1,
+      "message": "Done in PS6",
+      "parentUuid": "71d69fac_28b7125e",
+      "range": {
+        "startLine": 21,
+        "startChar": 40,
+        "endLine": 21,
+        "endChar": 48
+      },
+      "revId": "eefe9d802bd3f72fa52f4c4ad3996b6730cda64a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a4c1d84_04a9214b",
         "filename": "Documentation/dev-crafting-changes.txt",
         "patchSetId": 5
@@ -79,6 +127,24 @@
       "revId": "eefe9d802bd3f72fa52f4c4ad3996b6730cda64a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9908ba38_4cbb0d0b",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-03T09:32:50Z",
+      "side": 1,
+      "message": "I see your point of advertising the `Move change` feature, and indeed the\n`Move change` feature is really great.\nBut I had hoped that by adding this branches section, people would choose the\n\"right\" branch from the start and would no longer need to move a change :-D\n\nI\u0027ve had to move changes a few times the past weeks, and sometime reviewers\nhinted me at the `Move change` feature. I found that very helpful, as it was\nthe right hint at the right time.\nTo me it seems adding the `Move change` advertisement here is still the right\nhint, but it\u0027s long forgotten when the user needs to move a change. I\u0027d say\nreminding users of `Move change` is best done when they need it.",
+      "parentUuid": "3a4c1d84_04a9214b",
+      "revId": "eefe9d802bd3f72fa52f4c4ad3996b6730cda64a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

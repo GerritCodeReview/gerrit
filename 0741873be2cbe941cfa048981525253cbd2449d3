@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec899545_d6d9c4d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-03T08:53:53Z",
+      "side": 1,
+      "message": "As this is a hint for a third-party software, I\u0027m not sure if we\nwant this change in our code base.\n\nWikimedia noted in their upgrade announcement email that people will\nneed git-review \u003e\u003d1.27. Yet still we\u0027re seeing lots of users that\nrun into issues around `ref/publish/...` So we figured it would be\nbest to alert people about the upgrade right when the error occurs,\nand assist them to make sense of Gerrit\u0027s otherwise confusing default\nerror message.\n\nHints are limited to the /refs/publish/... errors, so the rate of\nfalse positives should be low.\n\nBut as git-review is used widely, we\u0027ll run this patch at Wikimedia,\nto help users to help themselves.\n\n(Even if we cannot land this patch in main Gerrit, it might be useful\nfor others)",
+      "revId": "0741873be2cbe941cfa048981525253cbd2449d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -70,6 +70,30 @@
       "revId": "eccf87d931391022cb93fa135c8b6e50c8d3b8f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "061e59ea_d19a49c9",
+        "filename": "java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-07-03T14:34:20Z",
+      "side": 1,
+      "message": "I suppose we could create a \"theme\" with different code words (light, dark). In the future allowing plugins to hook in so that users can create different themes without them having to be committed to core (different change).\n\nI support disableHotKeys since it basically means you either set it to true to mean disable hotkeys or set it to false to allow hotkeys.",
+      "parentUuid": "60b1c8f2_552381c2",
+      "range": {
+        "startLine": 127,
+        "startChar": 2,
+        "endLine": 128,
+        "endChar": 31
+      },
+      "revId": "eccf87d931391022cb93fa135c8b6e50c8d3b8f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

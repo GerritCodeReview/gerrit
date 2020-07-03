@@ -208,7 +208,7 @@ suite('gr-comment-thread tests', () => {
 
       element.patchNum = '3';
       path = SpecialFilePath.PATCHSET_LEVEL_COMMENTS;
-      assert.equal(element._computeDisplayPath(path), 'Patchset 3');
+      assert.equal(element._computeDisplayPath(path), 'Patchset');
     });
 
     test('_computeDisplayLine', () => {

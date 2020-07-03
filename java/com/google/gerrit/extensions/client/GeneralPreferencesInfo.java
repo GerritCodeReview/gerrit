@@ -102,6 +102,11 @@ public class GeneralPreferencesInfo {
     }
   }
 
+  public enum Theme {
+    DARK,
+    LIGHT
+  }
+
   public enum TimeFormat {
     /** 12-hour clock: 1:15 am, 2:13 pm */
     HHMM_12("h:mm a"),
@@ -125,6 +130,7 @@ public class GeneralPreferencesInfo {
   /** Type of download URL the user prefers to use. */
   public String downloadScheme;
 
+  public Theme theme;
   public DateFormat dateFormat;
   public TimeFormat timeFormat;
   public Boolean expandInlineDiffs;
@@ -182,6 +188,7 @@ public class GeneralPreferencesInfo {
     GeneralPreferencesInfo p = new GeneralPreferencesInfo();
     p.changesPerPage = DEFAULT_PAGESIZE;
     p.downloadScheme = null;
+    p.theme = Theme.LIGHT;
     p.dateFormat = DateFormat.STD;
     p.timeFormat = TimeFormat.HHMM_12;
     p.expandInlineDiffs = false;

@@ -948,6 +948,9 @@ class GrDiffView extends KeyboardShortcutMixin(
             !!value.commentLink) {
             this._displayToasts();
           }
+          // If the blame was loaded for a previous file and user navigates to
+          // another file, then we load the blame for this file too
+          if (this._isBlameLoaded) this._loadBlame();
         });
   }
 

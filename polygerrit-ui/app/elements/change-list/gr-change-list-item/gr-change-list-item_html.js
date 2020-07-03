@@ -133,7 +133,11 @@ export const htmlTemplate = html`
   >
     <div class="container">
       <div class="content">
-        <a title$="[[change.subject]]" href$="[[changeURL]]">
+        <a
+          title$="[[change.subject]]"
+          href$="[[changeURL]]"
+          on-click="_handleChangeClick"
+        >
           [[change.subject]]
         </a>
       </div>

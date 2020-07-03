@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "301b438f_af0e12b8",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 872,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2020-07-03T12:15:17Z",
+      "side": 1,
+      "message": "toggle?",
+      "range": {
+        "startLine": 872,
+        "startChar": 11,
+        "endLine": 872,
+        "endChar": 17
+      },
+      "revId": "9c9d78ae369aba90055a0cd8ce09ddcb9b134a3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30c8843c_4e10f05d",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2020-07-03T12:15:17Z",
+      "side": 1,
+      "message": "If you change access-control.txt\nalso change this to toggle",
+      "range": {
+        "startLine": 596,
+        "startChar": 46,
+        "endLine": 596,
+        "endChar": 52
+      },
+      "revId": "9c9d78ae369aba90055a0cd8ce09ddcb9b134a3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

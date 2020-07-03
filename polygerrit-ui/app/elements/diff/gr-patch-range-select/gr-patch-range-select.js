@@ -297,12 +297,19 @@ class GrPatchRangeSelect extends mixinBehaviors( [
             previous: detail.patchNum,
             current: e.detail.value,
             latest: latestPatchNum,
+            commentCount: this.changeComments.computeCommentCount(
+                {patchNum: e.detail.value}),
           });
       detail.patchNum = e.detail.value;
     } else {
       if (this.patchNumEquals(detail.basePatchNum, e.detail.value)) return;
       this.reporting.reportInteraction('left-patchset-changed',
-          {previous: detail.basePatchNum, current: e.detail.value});
+          {
+            previous: detail.basePatchNum,
+            current: e.detail.value,
+            commentCount: this.changeComments.computeCommentCount(
+                {patchNum: e.detail.value}),
+          });
       detail.basePatchNum = e.detail.value;
     }
 

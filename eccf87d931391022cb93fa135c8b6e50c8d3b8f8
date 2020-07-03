@@ -94,6 +94,30 @@
       "revId": "eccf87d931391022cb93fa135c8b6e50c8d3b8f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcf3b4fe_d56a3541",
+        "filename": "java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-03T14:42:06Z",
+      "side": 1,
+      "message": "Gerrit is used at hundreds of sites in the wild. WMF is one site. We are not adding options per downstream site to this product.\n\nI am (still) missing a use case that would convince me that such a preference would make sense for the majority of gerrit users.\n\nIt\u0027s out of question to add preference for theme. And yes, it should be enum. BTW: GWT UI had such THEME preference, obviously, and it was mapped directly to Codemirror editor themes, that were loaded lazily.",
+      "parentUuid": "061e59ea_d19a49c9",
+      "range": {
+        "startLine": 127,
+        "startChar": 2,
+        "endLine": 128,
+        "endChar": 31
+      },
+      "revId": "eccf87d931391022cb93fa135c8b6e50c8d3b8f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,65 +1,51 @@
-<!DOCTYPE html>
-<!--
-@license
-Copyright (C) 2016 The Android Open Source Project
+<<<<<<< HEAD   (a828c3 Upgrade metrics-core to 4.1.10.1)
+=======
+/**
+ * @license
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
-
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<meta charset="utf-8">
-<title>gr-diff-builder</title>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
-
-<script src="/node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/components/wct-browser-legacy/browser.js"></script>
-
-<test-fixture id="basic">
-  <template is="dom-template">
-    <gr-diff-builder>
-      <table id="diffTable"></table>
-    </gr-diff-builder>
-  </template>
-</test-fixture>
-
-<test-fixture id="div-with-text">
-  <template>
-    <div>Lorem ipsum dolor sit amet, suspendisse inceptos vehicula</div>
-  </template>
-</test-fixture>
-
-<test-fixture id="mock-diff">
-  <template>
-    <gr-diff-builder view-mode="SIDE_BY_SIDE">
-      <table id="diffTable"></table>
-    </gr-diff-builder>
-  </template>
-</test-fixture>
-
-<script type="module">
-import '../../../test/common-test-setup.js';
+import '../../../test/common-test-setup-karma.js';
 import '../gr-diff/gr-diff-group.js';
 import './gr-diff-builder.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import {getMockDiffResponse} from '../../../test/mock-diff-response.js';
+import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-diff-builder-element.js';
-import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {stubBaseUrl} from '../../../test/test-utils.js';
 import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
 import {GrDiffLine} from '../gr-diff/gr-diff-line.js';
 import {GrDiffGroup} from '../gr-diff/gr-diff-group.js';
 import {GrDiffBuilder} from './gr-diff-builder.js';
+import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+
+const basicFixture = fixtureFromTemplate(html`
+    <gr-diff-builder>
+      <table id="diffTable"></table>
+    </gr-diff-builder>
+`);
+
+const divWithTextFixture = fixtureFromTemplate(html`
+<div>Lorem ipsum dolor sit amet, suspendisse inceptos vehicula</div>
+`);
+
+const mockDiffFixture = fixtureFromTemplate(html`
+<gr-diff-builder view-mode="SIDE_BY_SIDE">
+      <table id="diffTable"></table>
+    </gr-diff-builder>
+`);
 
 const DiffViewMode = {
   SIDE_BY_SIDE: 'SIDE_BY_SIDE',
@@ -70,17 +56,16 @@ suite('gr-diff-builder tests', () => {
   let prefs;
   let element;
   let builder;
-  let sandbox;
+
   const LINE_FEED_HTML = '<span class="style-scope gr-diff br"></span>';
 
   setup(() => {
-    sandbox = sinon.sandbox.create();
-    element = fixture('basic');
+    element = basicFixture.instantiate();
     stub('gr-rest-api-interface', {
       getLoggedIn() { return Promise.resolve(false); },
       getProjectConfig() { return Promise.resolve({}); },
     });
-    sinon.stub(BaseUrlBehavior, 'getBaseUrl').returns('/r');
+    stubBaseUrl('/r');
     prefs = {
       line_length: 10,
       show_tabs: true,
@@ -89,8 +74,6 @@ suite('gr-diff-builder tests', () => {
     builder = new GrDiffBuilder({content: []}, prefs);
   });
 
-  teardown(() => { sandbox.restore(); });
-
   test('_createElement classStr applies all classes', () => {
     const node = builder._createElement('div', 'test classes');
     assert.isTrue(node.classList.contains('gr-diff'));
@@ -98,44 +81,70 @@ suite('gr-diff-builder tests', () => {
     assert.isTrue(node.classList.contains('classes'));
   });
 
-  test('context control buttons', () => {
-    // Create 10 lines.
-    const lines = [];
-    for (let i = 0; i < 10; i++) {
-      const line = new GrDiffLine(GrDiffLine.Type.BOTH);
-      line.beforeNumber = i + 1;
-      line.afterNumber = i + 1;
-      line.text = 'lorem upsum';
-      lines.push(line);
+  suite('context control', () => {
+    function createContextLine(options) {
+      const offset = options.offset || 0;
+      const numLines = options.count || 10;
+      const lines = [];
+      for (let i = 0; i < numLines; i++) {
+        const line = new GrDiffLine(GrDiffLine.Type.BOTH);
+        line.beforeNumber = offset + i + 1;
+        line.afterNumber = offset + i + 1;
+        line.text = 'lorem upsum';
+        lines.push(line);
+      }
+
+      return {
+        contextGroups: [new GrDiffGroup(GrDiffGroup.Type.BOTH, lines)],
+      };
     }
 
-    const contextLine = {
-      contextGroups: [new GrDiffGroup(GrDiffGroup.Type.BOTH, lines)],
-    };
+    test('no +10 buttons for 10 or less lines', () => {
+      const contextLine = createContextLine({count: 10});
 
-    const section = {};
-    // Does not include +10 buttons when there are fewer than 11 lines.
-    let td = builder._createContextControl(section, contextLine);
-    let buttons = td.querySelectorAll('gr-button.showContext');
+      const td = builder._createContextControl({}, contextLine);
+      const buttons = td.querySelectorAll('gr-button.showContext');
 
-    assert.equal(buttons.length, 1);
-    assert.equal(dom(buttons[0]).textContent, 'Show 10 common lines');
+      assert.equal(buttons.length, 1);
+      assert.equal(dom(buttons[0]).textContent, 'Show 10 common lines');
+    });
 
-    // Add another line.
-    const line = new GrDiffLine(GrDiffLine.Type.BOTH);
-    line.text = 'lorem upsum';
-    line.beforeNumber = 11;
-    line.afterNumber = 11;
-    contextLine.contextGroups[0].addLine(line);
+    test('context control at the top', () => {
+      const contextLine = createContextLine({offset: 0, count: 20});
 
-    // Includes +10 buttons when there are at least 11 lines.
-    td = builder._createContextControl(section, contextLine);
-    buttons = td.querySelectorAll('gr-button.showContext');
+      builder._numLinesLeft = 50;
+      const td = builder._createContextControl({}, contextLine);
+      const buttons = td.querySelectorAll('gr-button.showContext');
 
-    assert.equal(buttons.length, 3);
-    assert.equal(dom(buttons[0]).textContent, '+10 above');
-    assert.equal(dom(buttons[1]).textContent, 'Show 11 common lines');
-    assert.equal(dom(buttons[2]).textContent, '+10 below');
+      assert.equal(buttons.length, 2);
+      assert.equal(dom(buttons[0]).textContent, 'Show 20 common lines');
+      assert.equal(dom(buttons[1]).textContent, '+10 below');
+    });
+
+    test('context control in the middle', () => {
+      const contextLine = createContextLine({offset: 10, count: 20});
+
+      builder._numLinesLeft = 50;
+      const td = builder._createContextControl({}, contextLine);
+      const buttons = td.querySelectorAll('gr-button.showContext');
+
+      assert.equal(buttons.length, 3);
+      assert.equal(dom(buttons[0]).textContent, '+10 above');
+      assert.equal(dom(buttons[1]).textContent, 'Show 20 common lines');
+      assert.equal(dom(buttons[2]).textContent, '+10 below');
+    });
+
+    test('context control at the top', () => {
+      const contextLine = createContextLine({offset: 30, count: 20});
+
+      builder._numLinesLeft = 50;
+      const td = builder._createContextControl({}, contextLine);
+      const buttons = td.querySelectorAll('gr-button.showContext');
+
+      assert.equal(buttons.length, 2);
+      assert.equal(dom(buttons[0]).textContent, '+10 above');
+      assert.equal(dom(buttons[1]).textContent, 'Show 20 common lines');
+    });
   });
 
   test('newlines 1', () => {
@@ -265,7 +274,6 @@ suite('gr-diff-builder tests', () => {
     expectTextLength('abc\t', 8, 8);
     expectTextLength('abc\t\t', 10, 20);
     expectTextLength('', 10, 0);
-    expectTextLength('', 10, 0);
     // 17 Thai combining chars.
     expectTextLength('ก้้้้้้้้้้้้้้้้', 4, 17);
     expectTextLength('abc\tde', 10, 12);
@@ -296,7 +304,7 @@ suite('gr-diff-builder tests', () => {
   });
 
   test('_handlePreferenceError called with invalid preference', () => {
-    sandbox.stub(element, '_handlePreferenceError');
+    sinon.stub(element, '_handlePreferenceError');
     const prefs = {tab_size: 0};
     element._getDiffBuilder(element.diff, prefs);
     assert.isTrue(element._handlePreferenceError.lastCall
@@ -356,9 +364,9 @@ suite('gr-diff-builder tests', () => {
     }
 
     setup(() => {
-      el = fixture('div-with-text');
+      el = divWithTextFixture.instantiate();
       str = el.textContent;
-      annotateElementSpy = sandbox.spy(GrAnnotation, 'annotateElement');
+      annotateElementSpy = sinon.spy(GrAnnotation, 'annotateElement');
       layer = document.createElement('gr-diff-builder')
           ._createIntralineLayer();
     });
@@ -514,7 +522,7 @@ suite('gr-diff-builder tests', () => {
     const lineNumberEl = document.createElement('td');
 
     setup(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       element._showTabs = true;
       layer = element._createTabIndicatorLayer();
     });
@@ -523,7 +531,7 @@ suite('gr-diff-builder tests', () => {
       const line = {text: ''};
       const el = document.createElement('div');
       const annotateElementStub =
-          sandbox.stub(GrAnnotation, 'annotateElement');
+          sinon.stub(GrAnnotation, 'annotateElement');
 
       layer.annotate(el, lineNumberEl, line);
 
@@ -536,7 +544,7 @@ suite('gr-diff-builder tests', () => {
       const el = document.createElement('div');
       el.textContent = str;
       const annotateElementStub =
-          sandbox.stub(GrAnnotation, 'annotateElement');
+          sinon.stub(GrAnnotation, 'annotateElement');
 
       layer.annotate(el, lineNumberEl, line);
 
@@ -549,7 +557,7 @@ suite('gr-diff-builder tests', () => {
       const el = document.createElement('div');
       el.textContent = str;
       const annotateElementStub =
-          sandbox.stub(GrAnnotation, 'annotateElement');
+          sinon.stub(GrAnnotation, 'annotateElement');
 
       layer.annotate(el, lineNumberEl, line);
 
@@ -569,7 +577,7 @@ suite('gr-diff-builder tests', () => {
       const el = document.createElement('div');
       el.textContent = str;
       const annotateElementStub =
-          sandbox.stub(GrAnnotation, 'annotateElement');
+          sinon.stub(GrAnnotation, 'annotateElement');
 
       layer.annotate(el, lineNumberEl, line);
 
@@ -582,7 +590,7 @@ suite('gr-diff-builder tests', () => {
       const el = document.createElement('div');
       el.textContent = str;
       const annotateElementStub =
-          sandbox.stub(GrAnnotation, 'annotateElement');
+          sinon.stub(GrAnnotation, 'annotateElement');
 
       layer.annotate(el, lineNumberEl, line);
 
@@ -607,7 +615,7 @@ suite('gr-diff-builder tests', () => {
       const el = document.createElement('div');
       el.textContent = str;
       const annotateElementStub =
-          sandbox.stub(GrAnnotation, 'annotateElement');
+          sinon.stub(GrAnnotation, 'annotateElement');
 
       layer.annotate(el, lineNumberEl, line);
 
@@ -626,7 +634,7 @@ suite('gr-diff-builder tests', () => {
     let withLayerCount;
     setup(() => {
       const layers = [];
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       element.layers = layers;
       element._showTrailingWhitespace = true;
       element._setupAnnotationLayers();
@@ -641,7 +649,7 @@ suite('gr-diff-builder tests', () => {
     suite('with layers', () => {
       const layers = [{}, {}];
       setup(() => {
-        element = fixture('basic');
+        element = basicFixture.instantiate();
         element.layers = layers;
         element._showTrailingWhitespace = true;
         element._setupAnnotationLayers();
@@ -662,7 +670,7 @@ suite('gr-diff-builder tests', () => {
     const lineNumberEl = document.createElement('td');
 
     setup(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       element._showTrailingWhitespace = true;
       layer = element._createTrailingWhitespaceLayer();
     });
@@ -671,7 +679,7 @@ suite('gr-diff-builder tests', () => {
       const line = {text: ''};
       const el = document.createElement('div');
       const annotateElementStub =
-          sandbox.stub(GrAnnotation, 'annotateElement');
+          sinon.stub(GrAnnotation, 'annotateElement');
       layer.annotate(el, lineNumberEl, line);
       assert.isFalse(annotateElementStub.called);
     });
@@ -682,7 +690,7 @@ suite('gr-diff-builder tests', () => {
       const el = document.createElement('div');
       el.textContent = str;
       const annotateElementStub =
-          sandbox.stub(GrAnnotation, 'annotateElement');
+          sinon.stub(GrAnnotation, 'annotateElement');
       layer.annotate(el, lineNumberEl, line);
       assert.isFalse(annotateElementStub.called);
     });
@@ -693,7 +701,7 @@ suite('gr-diff-builder tests', () => {
       const el = document.createElement('div');
       el.textContent = str;
       const annotateElementStub =
-          sandbox.stub(GrAnnotation, 'annotateElement');
+          sinon.stub(GrAnnotation, 'annotateElement');
       layer.annotate(el, lineNumberEl, line);
       assert.isTrue(annotateElementStub.called);
       assert.equal(annotateElementStub.lastCall.args[1], 11);
@@ -706,7 +714,7 @@ suite('gr-diff-builder tests', () => {
       const el = document.createElement('div');
       el.textContent = str;
       const annotateElementStub =
-          sandbox.stub(GrAnnotation, 'annotateElement');
+          sinon.stub(GrAnnotation, 'annotateElement');
       layer.annotate(el, lineNumberEl, line);
       assert.isTrue(annotateElementStub.called);
       assert.equal(annotateElementStub.lastCall.args[1], 11);
@@ -719,7 +727,7 @@ suite('gr-diff-builder tests', () => {
       const el = document.createElement('div');
       el.textContent = str;
       const annotateElementStub =
-          sandbox.stub(GrAnnotation, 'annotateElement');
+          sinon.stub(GrAnnotation, 'annotateElement');
       layer.annotate(el, lineNumberEl, line);
       assert.isTrue(annotateElementStub.called);
       assert.equal(annotateElementStub.lastCall.args[1], 11);
@@ -732,7 +740,7 @@ suite('gr-diff-builder tests', () => {
       const el = document.createElement('div');
       el.textContent = str;
       const annotateElementStub =
-          sandbox.stub(GrAnnotation, 'annotateElement');
+          sinon.stub(GrAnnotation, 'annotateElement');
       layer.annotate(el, lineNumberEl, line);
       assert.isTrue(annotateElementStub.called);
       assert.equal(annotateElementStub.lastCall.args[1], 1);
@@ -746,7 +754,7 @@ suite('gr-diff-builder tests', () => {
       const el = document.createElement('div');
       el.textContent = str;
       const annotateElementStub =
-          sandbox.stub(GrAnnotation, 'annotateElement');
+          sinon.stub(GrAnnotation, 'annotateElement');
       layer.annotate(el, lineNumberEl, line);
       assert.isFalse(annotateElementStub.called);
     });
@@ -759,9 +767,9 @@ suite('gr-diff-builder tests', () => {
     let content;
 
     setup(() => {
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       element.viewMode = 'SIDE_BY_SIDE';
-      processStub = sandbox.stub(element.$.processor, 'process')
+      processStub = sinon.stub(element.$.processor, 'process')
           .returns(Promise.resolve());
       keyLocations = {left: {}, right: {}};
       prefs = {
@@ -833,12 +841,12 @@ suite('gr-diff-builder tests', () => {
           ],
         },
       ];
-      element = fixture('basic');
+      element = basicFixture.instantiate();
       outputEl = element.queryEffectiveChildren('#diffTable');
       keyLocations = {left: {}, right: {}};
-      sandbox.stub(element, '_getDiffBuilder', () => {
+      sinon.stub(element, '_getDiffBuilder').callsFake(() => {
         const builder = new GrDiffBuilder({content}, prefs, outputEl);
-        sandbox.stub(builder, 'addColumns');
+        sinon.stub(builder, 'addColumns');
         builder.buildSectionElement = function(group) {
           const section = document.createElement('stub');
           section.textContent = group.lines
@@ -875,7 +883,7 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('render-start and render-content are fired', done => {
-      const dispatchEventStub = sandbox.stub(element, 'dispatchEvent');
+      const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
       element.render(keyLocations, {}).then(() => {
         const firedEventTypes = dispatchEventStub.getCalls()
             .map(c => c.args[0].type);
@@ -886,7 +894,7 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('cancel', () => {
-      const processorCancelStub = sandbox.stub(element.$.processor, 'cancel');
+      const processorCancelStub = sinon.stub(element.$.processor, 'cancel');
       element.cancel();
       assert.isTrue(processorCancelStub.called);
     });
@@ -900,7 +908,7 @@ suite('gr-diff-builder tests', () => {
     let keyLocations;
 
     setup(done => {
-      element = fixture('mock-diff');
+      element = mockDiffFixture.instantiate();
       diff = getMockDiffResponse();
       element.diff = diff;
 
@@ -950,22 +958,24 @@ suite('gr-diff-builder tests', () => {
       assert.equal(actual.textContent, diff.content[1].b[0]);
     });
 
-    test('getContentByLineEl works both with button and td', () => {
+    test('getContentTdByLineEl works both with button and td', () => {
       const diffRow = element.diffElement.querySelectorAll('tr.diff-row')[2];
 
       const lineNumTdLeft = diffRow.querySelector('td.lineNum.left');
       const lineNumButtonLeft = lineNumTdLeft.querySelector('button');
-      const contentLeft = diffRow.querySelectorAll('.contentText')[0];
+      const contentTdLeft = diffRow.querySelectorAll('.content')[0];
 
       const lineNumTdRight = diffRow.querySelector('td.lineNum.right');
       const lineNumButtonRight = lineNumTdRight.querySelector('button');
-      const contentRight = diffRow.querySelectorAll('.contentText')[1];
+      const contentTdRight = diffRow.querySelectorAll('.content')[1];
 
-      assert.equal(element.getContentByLineEl(lineNumTdLeft), contentLeft);
-      assert.equal(element.getContentByLineEl(lineNumButtonLeft), contentLeft);
-      assert.equal(element.getContentByLineEl(lineNumTdRight), contentRight);
+      assert.equal(element.getContentTdByLineEl(lineNumTdLeft), contentTdLeft);
       assert.equal(
-          element.getContentByLineEl(lineNumButtonRight), contentRight);
+          element.getContentTdByLineEl(lineNumButtonLeft), contentTdLeft);
+      assert.equal(
+          element.getContentTdByLineEl(lineNumTdRight), contentTdRight);
+      assert.equal(
+          element.getContentTdByLineEl(lineNumButtonRight), contentTdRight);
     });
 
     test('findLinesByRange', () => {
@@ -989,7 +999,7 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('_renderContentByRange', () => {
-      const spy = sandbox.spy(builder, '_createTextEl');
+      const spy = sinon.spy(builder, '_createTextEl');
       const start = 9;
       const end = 14;
       const count = end - start + 1;
@@ -1003,9 +1013,9 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('_renderContentByRange notexistent elements', () => {
-      const spy = sandbox.spy(builder, '_createTextEl');
+      const spy = sinon.spy(builder, '_createTextEl');
 
-      sandbox.stub(builder, 'findLinesByRange',
+      sinon.stub(builder, 'findLinesByRange').callsFake(
           (s, e, d, lines, elements) => {
             // Add a line and a corresponding element.
             lines.push(new GrDiffLine(GrDiffLine.Type.BOTH));
@@ -1161,7 +1171,7 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('setBlame attempts to render each blamed line', () => {
-      const getBlameStub = sandbox.stub(builder, '_getBlameByLineNum')
+      const getBlameStub = sinon.stub(builder, '_getBlameByLineNum')
           .returns(null);
       builder.setBlame(mockBlame);
       assert.equal(getBlameStub.callCount, 32);
@@ -1230,4 +1240,5 @@ suite('gr-diff-builder tests', () => {
     });
   });
 });
-</script>
+
+>>>>>>> CHANGE (87aa6b blame: Add base url to _getBlameForBaseLine)

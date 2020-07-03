@@ -213,7 +213,7 @@ export const htmlTemplate = html`
       --paper-tab-ink: var(--link-color);
     }
     gr-thread-list,
-    gr-messages-list-experimental {
+    gr-messages-list {
       display: block;
     }
     gr-thread-list {
@@ -700,7 +700,7 @@ export const htmlTemplate = html`
         is="dom-if"
         if="[[_isTabActive(_constants.SecondaryTab.CHANGE_LOG, _activeTabs)]]"
       >
-        <gr-messages-list-experimental
+        <gr-messages-list
           class="hideOnMobileOverlay"
           change="[[_change]]"
           change-num="[[_changeNum]]"
@@ -712,7 +712,7 @@ export const htmlTemplate = html`
           show-reply-buttons="[[_loggedIn]]"
           on-message-anchor-tap="_handleMessageAnchorTap"
           on-reply="_handleMessageReply"
-        ></gr-messages-list-experimental>
+        ></gr-messages-list>
       </template>
     </section>
   </div>

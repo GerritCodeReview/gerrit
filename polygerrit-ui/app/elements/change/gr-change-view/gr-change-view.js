@@ -39,7 +39,7 @@ import '../gr-download-dialog/gr-download-dialog.js';
 import '../gr-file-list-header/gr-file-list-header.js';
 import '../gr-file-list/gr-file-list.js';
 import '../gr-included-in-dialog/gr-included-in-dialog.js';
-import '../gr-messages-list/gr-messages-list-experimental.js';
+import '../gr-messages-list/gr-messages-list.js';
 import '../gr-related-changes-list/gr-related-changes-list.js';
 import '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js';
 import '../gr-reply-dialog/gr-reply-dialog.js';
@@ -542,7 +542,7 @@ class GrChangeView extends mixinBehaviors( [
   }
 
   get messagesList() {
-    return this.shadowRoot.querySelector('gr-messages-list-experimental');
+    return this.shadowRoot.querySelector('gr-messages-list');
   }
 
   get threadList() {

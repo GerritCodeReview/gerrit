@@ -17,25 +17,25 @@
 
 import '../../../test/common-test-setup-karma.js';
 import '../../diff/gr-comment-api/gr-comment-api.js';
-import './gr-messages-list-experimental.js';
+import './gr-messages-list.js';
 import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {TEST_ONLY} from './gr-messages-list-experimental.js';
+import {TEST_ONLY} from './gr-messages-list.js';
 import {MessageTag} from '../../../constants/constants.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
 createCommentApiMockWithTemplateElement(
-    'gr-messages-list-experimental-comment-mock-api', html`
-     <gr-messages-list-experimental
+    'gr-messages-list-comment-mock-api', html`
+     <gr-messages-list
          id="messagesList"
-         change-comments="[[_changeComments]]"></gr-messages-list-experimental>
+         change-comments="[[_changeComments]]"></gr-messages-list>
      <gr-comment-api id="commentAPI"></gr-comment-api>
 `);
 
 const basicFixture = fixtureFromTemplate(html`
-<gr-messages-list-experimental-comment-mock-api>
-  <gr-messages-list-experimental></gr-messages-list-experimental>
-</gr-messages-list-experimental-comment-mock-api>
+<gr-messages-list-comment-mock-api>
+  <gr-messages-list></gr-messages-list>
+</gr-messages-list-comment-mock-api>
 `);
 
 const randomMessage = function(opt_params) {
@@ -60,7 +60,7 @@ function generateRandomMessages(count) {
       .map(() => randomMessage());
 }
 
-suite('gr-messages-list-experimental tests', () => {
+suite('gr-messages-list tests', () => {
   let element;
   let messages;
 
@@ -435,7 +435,7 @@ suite('gr-messages-list-experimental tests', () => {
     });
   });
 
-  suite('gr-messages-list-experimental automate tests', () => {
+  suite('gr-messages-list automate tests', () => {
     let element;
     let messages;
 

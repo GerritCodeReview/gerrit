@@ -54,14 +54,6 @@ export const htmlTemplate = html`
     gr-message {
       background-color: var(--background-color-secondary);
     }
-    .experimentMessage {
-      padding: var(--spacing-s) var(--spacing-m);
-      background-color: var(--emphasis-color);
-      border-radius: var(--border-radius);
-    }
-    .experimentMessage iron-icon {
-      vertical-align: top;
-    }
   </style>
   <div class="header">
     <div id="showAllActivityToggleContainer" class="container">

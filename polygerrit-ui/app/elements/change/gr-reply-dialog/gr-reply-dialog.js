@@ -561,6 +561,9 @@ class GrReplyDialog extends mixinBehaviors( [
         }
       }
     }
+    this.reportAttentionSetChanges(this._attentionModified,
+        reviewInput.add_to_attention_set,
+        reviewInput.remove_from_attention_set);
 
     if (this.draft != null) {
       if (this._isPatchsetCommentsExperimentEnabled) {
@@ -1085,6 +1088,26 @@ class GrReplyDialog extends mixinBehaviors( [
     this.dispatchEvent(new CustomEvent('comment-refresh', {
       composed: true, bubbles: true,
     }));
+  }
+
+  reportAttentionSetChanges(modified, addedSet, removedSet) {
+    const actions = modified ? ['MODIFIED'] : ['NOT_MODIFIED'];
+    const ownerId = (this.change && this.change.owner
+        && this.change.owner._account_id) || -1;
+    const selfId = (this._account && this._account._account_id) || -1;
+    for (const added of (addedSet || [])) {
+      const addedId = added.user;
+      const self = addedId === selfId ? '_SELF' : '';
+      const role = addedId === ownerId ? '_OWNER' : '_REVIEWER';
+      actions.push('ADD' + self + role);
+    }
+    for (const removed of (removedSet || [])) {
+      const removedId = removed.user;
+      const self = removedId === selfId ? '_SELF' : '';
+      const role = removedId === ownerId ? '_OWNER' : '_REVIEWER';
+      actions.push('REMOVE' + self + role);
+    }
+    this.reporting.reportInteraction('attention-set-actions', {actions});
   }
 }
 

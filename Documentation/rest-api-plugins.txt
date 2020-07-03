@@ -48,6 +48,7 @@ by plugin ID.
       "id": "delete-project",
       "index_url": "plugins/delete-project/",
       "filename": "delete-project.jar",
+      "api_version": "2.9.3-SNAPSHOT",
       "version": "2.9-SNAPSHOT"
     }
   }
@@ -437,12 +438,13 @@ The `PluginInfo` entity describes a plugin.
 
 [options="header",cols="1,^2,4"]
 |=======================
-|Field Name ||Description
-|`id`       ||The ID of the plugin.
-|`version`  ||The version of the plugin.
-|`index_url`|optional|URL of the plugin's default page.
-|`filename` |optional|The plugin's filename.
-|`disabled` |not set if `false`|Whether the plugin is disabled.
+|Field Name   ||Description
+|`id`         ||The ID of the plugin.
+|`version`    ||The version of the plugin.
+|`api_version`|optional|The version of the Gerrit Api used by the plugin.
+|`index_url`  |optional|URL of the plugin's default page.
+|`filename`   |optional|The plugin's filename.
+|`disabled`   |not set if `false`|Whether the plugin is disabled.
 |=======================
 
 [[plugin-input]]

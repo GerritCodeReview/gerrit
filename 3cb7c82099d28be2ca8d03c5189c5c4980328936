@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4adbc3e3_8f4a0429",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1048,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-03T20:10:47Z",
+      "side": 1,
+      "message": "Does that have precedence maybe?",
+      "revId": "3cb7c82099d28be2ca8d03c5189c5c4980328936",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

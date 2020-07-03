@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a2c6cb1_73196e31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-03T07:21:01Z",
+      "side": 1,
+      "message": "Thanks for the contribution. I think it is good idea to support such a preference, but it would have to be proper user preference, not stored in localStorage.\n\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-info\n\nBtw, I think the dark-theme preference should also be moved into the proper pref object. Tao, WDYT?",
+      "revId": "cb397ae0729297b99d6fd6b8816f6369acf4bacd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

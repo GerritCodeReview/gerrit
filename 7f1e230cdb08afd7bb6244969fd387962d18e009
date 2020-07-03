@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "482d07a5_c0866448",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-03T14:27:41Z",
+      "side": 1,
+      "message": "It was broken in commit that was submitted into stable-3.0 branch (and also cherry-picked to stable-2.16 branch). Given that stable-3.0 branch is still supported stable release, should we rather cherry-pick it there?",
+      "revId": "7f1e230cdb08afd7bb6244969fd387962d18e009",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

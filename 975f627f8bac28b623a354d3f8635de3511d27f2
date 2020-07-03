@@ -194,6 +194,24 @@
       "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48c881dc_841a5fe2",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-03T20:56:44Z",
+      "side": 1,
+      "message": "Done, switched to patch release and all tests are passing again.",
+      "parentUuid": "e2bd4682_842cc4e3",
+      "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

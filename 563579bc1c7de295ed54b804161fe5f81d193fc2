@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "06fca433_75d772d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-03T09:00:19Z",
+      "side": 1,
+      "message": "Do we mean different things by saying \"list\"?\nI copied code from commit_label, so I think it should be the same ;)",
+      "parentUuid": "11b64177_509b9aa4",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 13
+      },
+      "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3571a31c_03bb2256",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ded4f97d_26023706",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-03T09:00:19Z",
+      "side": 1,
+      "message": "I also thought it\u0027s strange, but didn\u0027t think it matters.\nSure, done.",
+      "parentUuid": "3571a31c_03bb2256",
+      "range": {
+        "startLine": 14,
+        "startChar": 38,
+        "endLine": 16,
+        "endChar": 27
+      },
+      "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +136,30 @@
     },
     {
       "key": {
+        "uuid": "9a32b8da_41ded6e6",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-03T09:00:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "521402cb_60530d2b",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 4
+      },
+      "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10327421_205c609d",
         "filename": "Documentation/prolog-change-facts.txt",
         "patchSetId": 3
@@ -108,6 +180,30 @@
       "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3618a1b3_de9a83b0",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-03T09:00:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10327421_205c609d",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 12
+      },
+      "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -134,6 +230,30 @@
     },
     {
       "key": {
+        "uuid": "396eccef_7290261b",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-03T09:00:19Z",
+      "side": 1,
+      "message": "Ack\nI looked into this and writing the test doesn\u0027t look completely trivial.\nDid anyone ask for it? Will anyone use it? I was under the understanding that we want to implement as least as possible to allow migration from prolog later to be easier.\n\nIf it\u0027s needed, I can definitely add that in a follow-up.",
+      "parentUuid": "a79dfd5a_449da617",
+      "range": {
+        "startLine": 60,
+        "startChar": 13,
+        "endLine": 60,
+        "endChar": 15
+      },
+      "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe0012c4_effeac9e",
         "filename": "java/gerrit/PRED_file_names_1.java",
         "patchSetId": 3
@@ -154,6 +274,30 @@
       "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c462178_cf5be061",
+        "filename": "java/gerrit/PRED_file_names_1.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-03T09:00:19Z",
+      "side": 1,
+      "message": "You\u0027d think that deleting a file makes getNewName empty or null, right? ;)\nApparently, newName is always set, and oldName is never set unless the file is copied or renamed.\n\nSee PatchListEntry#PatchListEntry() (lines 85-100).\n\nI added a test with a deleted file, I hope that\u0027s enough.",
+      "parentUuid": "fe0012c4_effeac9e",
+      "range": {
+        "startLine": 53,
+        "startChar": 58,
+        "endLine": 53,
+        "endChar": 68
+      },
+      "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -180,6 +324,30 @@
     },
     {
       "key": {
+        "uuid": "fcc35877_2eefef0d",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-03T09:00:19Z",
+      "side": 1,
+      "message": "Well, yea, but then superRepo makes a commit to update the submodule. Clarified.",
+      "parentUuid": "dab4b1ad_0e72c1cf",
+      "range": {
+        "startLine": 653,
+        "startChar": 0,
+        "endLine": 654,
+        "endChar": 36
+      },
+      "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da333619_44766c20",
         "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
         "patchSetId": 3
@@ -203,6 +371,30 @@
     },
     {
       "key": {
+        "uuid": "ca949379_c8820ea3",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-03T09:00:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da333619_44766c20",
+      "range": {
+        "startLine": 656,
+        "startChar": 7,
+        "endLine": 656,
+        "endChar": 38
+      },
+      "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d9a8904_b1b85f94",
         "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
         "patchSetId": 3
@@ -214,6 +406,24 @@
       "writtenOn": "2020-07-01T13:00:51Z",
       "side": 1,
       "message": "Can you put everything until here in a private helper method and add an inverse test case?\n\nSo write a submit rule that blocks when *any* submodule file was changed (that\u0027s what the original feature request was for).",
+      "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f32f3a4d_6ee954fa",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-03T09:00:19Z",
+      "side": 1,
+      "message": "Can you clarify what you mean? Do you want another rule on top of the original one?\nIf that\u0027s the case, why do we need the original rule? Should I delete it and just have a rule like submodule_file(N) while N is the number of submodule files?",
+      "parentUuid": "3d9a8904_b1b85f94",
       "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

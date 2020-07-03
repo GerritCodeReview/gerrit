@@ -20,7 +20,6 @@ import '../../core/gr-router/gr-router.js';
 import './gr-change-metadata.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
-import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 
 const basicFixture = fixtureFromElement('gr-change-metadata');
@@ -37,8 +36,6 @@ suite('gr-change-metadata tests', () => {
     });
 
     element = basicFixture.instantiate();
-    sinon.stub(pluginEndpoints, 'importUrl')
-        .callsFake( url => Promise.resolve());
   });
 
   test('computed fields', () => {

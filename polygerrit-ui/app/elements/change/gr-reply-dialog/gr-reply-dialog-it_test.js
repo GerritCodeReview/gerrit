@@ -20,7 +20,6 @@ import {resetPlugins} from '../../../test/test-utils.js';
 import './gr-reply-dialog.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
-import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 const basicFixture = fixtureFromElement('gr-reply-dialog');
 const pluginApi = _testOnly_initGerritPluginApi();
@@ -126,8 +125,6 @@ suite('gr-reply-dialog tests', () => {
     }, null, 'http://test.com/plugins/lgtm.js');
     element = basicFixture.instantiate();
     setupElement(element);
-    sinon.stub(pluginEndpoints, 'importUrl')
-        .callsFake( url => Promise.resolve());
     pluginLoader.loadPlugins([]);
     pluginLoader.awaitPluginsLoaded().then(() => {
       flush(() => {

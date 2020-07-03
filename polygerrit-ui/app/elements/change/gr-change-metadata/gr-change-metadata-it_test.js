@@ -21,7 +21,6 @@ import './gr-change-metadata.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
-import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 
 const testHtmlPlugin = document.createElement('dom-module');
@@ -119,8 +118,6 @@ suite('gr-change-metadata integration tests', () => {
         plugin.registerStyleModule('change-metadata', 'my-plugin-style');
       }, undefined, 'http://test.com/plugins/style.js');
       element = createElement();
-      sinon.stub(pluginEndpoints, 'importUrl')
-          .callsFake( url => Promise.resolve());
       pluginLoader.loadPlugins([]);
       pluginLoader.awaitPluginsLoaded().then(() => {
         flush(done);

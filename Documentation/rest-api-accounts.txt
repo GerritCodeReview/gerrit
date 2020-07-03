@@ -1284,6 +1284,7 @@ any account.
   )]}'
   {
     "changes_per_page": 25,
+    "theme": "LIGHT",
     "date_format": "STD",
     "time_format": "HHMM_12",
     "diff_view": "SIDE_BY_SIDE",
@@ -1336,6 +1337,7 @@ link:#preferences-input[PreferencesInput] entity.
 
   {
     "changes_per_page": 50,
+    "theme": "DARK",
     "expand_inline_diffs": true,
     "date_format": "STD",
     "time_format": "HHMM_12",
@@ -1383,6 +1385,7 @@ link:#preferences-info[PreferencesInfo] entity.
   )]}'
   {
     "changes_per_page": 50,
+    "theme" "DARK",
     "expand_inline_diffs": true,
     "date_format": "STD",
     "time_format": "HHMM_12",
@@ -2759,6 +2762,9 @@ The `PreferencesInfo` entity contains information about a user's preferences.
 |`changes_per_page`             ||
 The number of changes to show on each page.
 Allowed values are `10`, `25`, `50`, `100`.
+|`theme`             ||
+Which theme to use.
+Allowed values are `dark` or `light`.
 |`expand_inline_diffs`          |not set if `false`|
 Whether to expand diffs inline instead of opening as separate page
 (PolyGerrit only).
@@ -2821,6 +2827,9 @@ user preferences. Fields which are not set will not be updated.
 |`changes_per_page`             |optional|
 The number of changes to show on each page.
 Allowed values are `10`, `25`, `50`, `100`.
+|`theme`             |optional|
+Which theme to use.
+Allowed values are `dark` or `light`.
 |`expand_inline_diffs`          |not set if `false`|
 Whether to expand diffs inline instead of opening as separate page
 (PolyGerrit only).

@@ -198,7 +198,61 @@ suite('gr-diff-view tests', () => {
       });
     });
 
-    test('diff toast to go to base is shown', () => {
+    test('unchanged diff X vs latest from comment links navigates to base vs X'
+        , () => {
+          const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
+          sinon.stub(element.reporting, 'diffViewDisplayed');
+          sinon.stub(element, '_loadBlame');
+          sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
+          sinon.stub(element, '_isFileUnchanged').returns(true);
+          sinon.spy(element, '_paramsChanged');
+          sinon.stub(element, 'computeLatestPatchNum').returns(11);
+          element._isChangeCommentsLinkExperimentEnabled = true;
+          element.params = {
+            view: GerritNav.View.DIFF,
+            changeNum: '42',
+            patchNum: '2',
+            path: '/COMMIT_MSG',
+            commentLink: true,
+          };
+          return element._paramsChanged.returnValues[0].then(() => {
+            assert.isTrue(diffNavStub.lastCall.calledWithExactly(
+                element._change, '/COMMIT_MSG', '2'));
+          });
+        });
+
+    test('_isFileUnchanged', () => {
+      let diff = {
+        content: [
+          {a: 'abcd', ab: 'ef'},
+          {b: 'ancd', a: 'xx'},
+        ],
+      };
+      assert.equal(element._isFileUnchanged(diff), false);
+      diff = {
+        content: [
+          {ab: 'abcd'},
+          {ab: 'ancd'},
+        ],
+      };
+      assert.equal(element._isFileUnchanged(diff), true);
+      diff = {
+        content: [
+          {a: 'abcd', ab: 'ef', common: true},
+          {b: 'ancd', ab: 'xx'},
+        ],
+      };
+      assert.equal(element._isFileUnchanged(diff), false);
+      diff = {
+        content: [
+          {a: 'abcd', ab: 'ef', common: true},
+          {b: 'ancd', ab: 'xx', common: true},
+        ],
+      };
+      assert.equal(element._isFileUnchanged(diff), true);
+    });
+
+    test('diff toast to go to latest is shown and not base', () => {
       sinon.stub(element.reporting, 'diffViewDisplayed');
       sinon.stub(element, '_loadBlame');
       sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());

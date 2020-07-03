@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "d235dc4c_183f40f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-03T14:35:22Z",
+      "side": 1,
+      "message": "\u003e Do you think one of the settings not not make sense?\n\nMy first thought is that I am against disable_hotkeys preference. I am not aware of any application that offer your such option. Show me?",
+      "parentUuid": "09796a0f_167a5c2e",
+      "revId": "6c4a012106a4173d7efe3703a9192e80ed7c3fa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2fca2256_73ee6049",
         "filename": "java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
         "patchSetId": 5

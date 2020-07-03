@@ -22,11 +22,15 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.extensions.annotations.Exports;
+import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -98,6 +102,53 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     amendResult.assertOkStatus();
     amendResult.assertNotMessage("Comment validation failure:");
     assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(1);
+  }
+
+  @Test
+  public void attentionSetUpdatedReviewerAdded() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    gApi.changes().id(changeId).addReviewer(user.email());
+    gApi.changes().id(changeId).attention(user.email()).remove(new AttentionSetInput("removed"));
+    String revId = result.getCommit().getName();
+    DraftInput comment = testCommentHelper.newDraft(COMMENT_TEXT);
+    testCommentHelper.addDraft(changeId, revId, comment);
+    Result amendResult = amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
+    AttentionSetUpdate attentionSetUpdate =
+        Iterables.getOnlyElement(amendResult.getChange().attentionSet());
+    assertThat(attentionSetUpdate.account()).isEqualTo(user.id());
+    assertThat(attentionSetUpdate.reason()).isEqualTo("owner or uploader replied");
+    assertThat(attentionSetUpdate.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
+  }
+
+  @Test
+  public void attentionSetUpdatedReviewerNotAddedWhenRemoved() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    gApi.changes().id(changeId).addReviewer(user.email());
+    gApi.changes().id(changeId).attention(user.email()).remove(new AttentionSetInput("removed"));
+    String revId = result.getCommit().getName();
+    DraftInput comment = testCommentHelper.newDraft(COMMENT_TEXT);
+    testCommentHelper.addDraft(changeId, revId, comment);
+    Result amendResult =
+        amendChange(
+            changeId, "refs/for/master%publish-comments,cc=" + user.email(), admin, testRepo);
+    AttentionSetUpdate attentionSetUpdate =
+        Iterables.getOnlyElement(amendResult.getChange().attentionSet());
+    assertThat(attentionSetUpdate.account()).isEqualTo(user.id());
+    assertThat(attentionSetUpdate.reason()).isEqualTo("removed");
+    assertThat(attentionSetUpdate.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+  }
+
+  @Test
+  public void attentionSetNotUpdatedWhenNoCommentsPublished() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    gApi.changes().id(changeId).addReviewer(user.email());
+    gApi.changes().id(changeId).attention(user.email()).remove(new AttentionSetInput("removed"));
+    ImmutableSet<AttentionSetUpdate> attentionSet = result.getChange().attentionSet();
+    Result amendResult = amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
+    assertThat(attentionSet).isEqualTo(amendResult.getChange().attentionSet());
   }
 
   @Test

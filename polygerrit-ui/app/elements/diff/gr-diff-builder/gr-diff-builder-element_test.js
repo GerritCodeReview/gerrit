@@ -21,6 +21,7 @@ import './gr-diff-builder.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-diff-builder-element.js';
+import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
 import {GrDiffLine} from '../gr-diff/gr-diff-line.js';
@@ -1230,6 +1231,25 @@ suite('gr-diff-builder tests', () => {
           `Commit 1234567890<br>Author: Clark Kent<br>Date: ${date}`
         + '<br><br>Testing Commit'
       );
+
+      const url = blameNode.getElementsByClassName('blameDate');
+      assert.equal(url[0].getAttribute('href'), '/q/1234567890');
+    });
+
+    test('_getBlameForBaseLine with base url', () => {
+      sinon.stub(BaseUrlBehavior, 'getBaseUrl').returns('/r');
+
+      const mockCommit = {
+        time: 1576105200,
+        id: 1234567890,
+        author: 'Clark Kent',
+        commit_msg: 'Testing Commit',
+        ranges: [1],
+      };
+      const blameNode = builder._getBlameForBaseLine(1, mockCommit);
+
+      const url = blameNode.getElementsByClassName('blameDate');
+      assert.equal(url[0].getAttribute('href'), '/r/q/1234567890');
     });
   });
 });

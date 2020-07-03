@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DefaultBase;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.DiffView;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailFormat;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.Theme;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.TimeFormat;
 import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.extensions.config.DownloadScheme;
@@ -68,6 +69,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
 
     // change all default values
     i.changesPerPage *= -1;
+    i.theme = Theme.DARK;
     i.dateFormat = DateFormat.US;
     i.timeFormat = TimeFormat.HHMM_24;
     i.emailStrategy = EmailStrategy.DISABLED;
@@ -90,6 +92,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     assertPrefs(o, i, "my");
     assertThat(o.my).containsExactlyElementsIn(i.my);
     assertThat(o.changeTable).containsExactlyElementsIn(i.changeTable);
+    assertThat(o.theme).isEqualTo(i.theme);
   }
 
   @Test

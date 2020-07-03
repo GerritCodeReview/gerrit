@@ -877,6 +877,14 @@ class GrDiffView extends KeyboardShortcutMixin(
         this._patchRange, this._projectConfig);
   }
 
+  _isFileUnchanged(diff) {
+    if (!diff || !diff.content) return false;
+    return !diff.content.some(content =>
+      (content.a && !content.common) ||
+        (content.b && !content.common)
+    );
+  }
+
   _paramsChanged(value) {
     if (value.view !== GerritNav.View.DIFF) { return; }
 
@@ -941,13 +949,28 @@ class GrDiffView extends KeyboardShortcutMixin(
           this.reporting.diffViewDisplayed();
         })
         .then(() => {
-          // If the blame was loaded for a previous file and user navigates to
-          // another file, then we load the blame for this file too
-          if (this._isBlameLoaded) this._loadBlame();
+          const fileUnchanged = this._isFileUnchanged(this._diff);
+          if (fileUnchanged && value.commentLink) {
+            this.dispatchEvent(new CustomEvent('show-alert', {
+              detail: {
+                message: `File is unchanged between Patchset
+                  ${this._patchRange.basePatchNum} and
+                  ${this._patchRange.patchNum}. Showing diff of Base vs
+                  ${this._patchRange.patchNum}`,
+              },
+              composed: true, bubbles: true,
+            }));
+            GerritNav.navigateToDiff(
+                this._change, this._path, this._patchRange.basePatchNum);
+            return;
+          }
           if (this._isChangeCommentsLinkExperimentEnabled &&
             !!value.commentLink) {
             this._displayToasts();
           }
+          // If the blame was loaded for a previous file and user navigates to
+          // another file, then we load the blame for this file too
+          if (this._isBlameLoaded) this._loadBlame();
         });
   }
 

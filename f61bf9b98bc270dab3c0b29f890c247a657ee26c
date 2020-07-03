@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d745a095_4f3e5c63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-03T16:15:47Z",
+      "side": 1,
+      "message": "You haven\u0027t extended UI part? See example change where I added new user preference for defaulting new changes to WIP on git push:\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/183970",
+      "revId": "f61bf9b98bc270dab3c0b29f890c247a657ee26c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

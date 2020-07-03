@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16ab07c2_e6af3bb7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-03T06:03:39Z",
+      "side": 1,
+      "message": "How come that this wasn\u0027t detected by the CI? How the core plugins build was still passed?",
+      "revId": "dd5625277dc4a74fec9f4b4ed05b5843f65eedec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

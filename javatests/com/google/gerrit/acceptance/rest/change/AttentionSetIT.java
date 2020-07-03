@@ -884,7 +884,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void attentionSetUnchangedWithIgnoreDefaultAttentionSetRules() throws Exception {
+  public void attentionSetUnchangedWithIgnoreAutomaticAttentionSetRules() throws Exception {
     PushOneCommit.Result r = createChange();
     change(r).addToAttentionSet(new AttentionSetInput(admin.email(), "reason"));
     change(r)
@@ -892,7 +892,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
         .review(
             ReviewInput.create()
                 .reviewer(admin.email(), ReviewerState.CC, false)
-                .blockDefaultAttentionSetRules());
+                .blockAutomaticAttentionSetRules());
 
     // admin is still in the attention set, although replies remove from attention set, and removing
     // from reviewer also should remove from attention set.
@@ -903,7 +903,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void attentionSetStillChangesWithIgnoreDefaultAttentionSetRulesWithInputList()
+  public void attentionSetStillChangesWithIgnoreAutomaticAttentionSetRulesWithInputList()
       throws Exception {
     PushOneCommit.Result r = createChange();
     change(r).addToAttentionSet(new AttentionSetInput(admin.email(), "reason"));
@@ -912,7 +912,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
         .review(
             ReviewInput.create()
                 .removeUserFromAttentionSet(admin.email(), "removed")
-                .blockDefaultAttentionSetRules());
+                .blockAutomaticAttentionSetRules());
 
     // Admin is still removed although we block default attention set rules, since we remove
     // the admin manually.

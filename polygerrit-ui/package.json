@@ -4,7 +4,7 @@
   "browser": true,
   "dependencies": {},
   "devDependencies": {
-    "@open-wc/karma-esm": "^2.13.21",
+    "@open-wc/karma-esm": "^2.16.16",
     "@polymer/iron-test-helpers": "^3.0.1",
     "@polymer/test-fixture": "^4.0.2",
     "accessibility-developer-tools": "^2.12.0",

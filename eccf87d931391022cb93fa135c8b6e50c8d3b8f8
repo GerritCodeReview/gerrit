@@ -142,6 +142,30 @@
       "revId": "eccf87d931391022cb93fa135c8b6e50c8d3b8f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c719c6a_9c368d30",
+        "filename": "java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-03T15:00:12Z",
+      "side": 1,
+      "message": "Please. I am not adding any new user/site preference to gerrit because of opinion of \"One of the users\".",
+      "parentUuid": "7e98dc67_e8ff4c69",
+      "range": {
+        "startLine": 127,
+        "startChar": 2,
+        "endLine": 128,
+        "endChar": 31
+      },
+      "revId": "eccf87d931391022cb93fa135c8b6e50c8d3b8f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

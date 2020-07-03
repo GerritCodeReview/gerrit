@@ -140,6 +140,24 @@
       "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb595e57_d79c75b0",
+        "filename": "tools/nongoogle.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1100310
+      },
+      "writtenOn": "2020-07-03T19:00:41Z",
+      "side": 1,
+      "message": "Indeed it won\u0027t make a difference. The server doesn\u0027t close its server-side sessions when a client disconnects. Simple JGit unit test reproducing the problem: [1]. Works with 2.4.0, fails with 2.5.[01].\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/165814",
+      "parentUuid": "ff11ca66_a3d11030",
+      "revId": "975f627f8bac28b623a354d3f8635de3511d27f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

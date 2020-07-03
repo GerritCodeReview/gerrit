@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "423a7abf_84a12df1",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-03T19:07:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d46661d_e3021356",
+      "revId": "9c7f8d7fc361a71e3fc69ca06314af7b4ab8b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b132527b_af78bbb4",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 1
@@ -39,6 +57,30 @@
       "revId": "9c7f8d7fc361a71e3fc69ca06314af7b4ab8b827",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edd2b2f9_0f77b2d7",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-03T19:07:57Z",
+      "side": 1,
+      "message": "My bad, it was supposed to be removedReviewers.",
+      "parentUuid": "b132527b_af78bbb4",
+      "range": {
+        "startLine": 932,
+        "startChar": 16,
+        "endLine": 933,
+        "endChar": 47
+      },
+      "revId": "9c7f8d7fc361a71e3fc69ca06314af7b4ab8b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "0138ba30_fb15b38a",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-03T19:07:57Z",
+      "side": 1,
+      "message": "No: Replies on a change also happen in ReceiveCommits if we publish comments at the same time of uploading a change.",
+      "parentUuid": "8355dd10_767f1f17",
+      "range": {
+        "startLine": 50,
+        "startChar": 55,
+        "endLine": 50,
+        "endChar": 98
+      },
+      "revId": "9c7f8d7fc361a71e3fc69ca06314af7b4ab8b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca3241ce_4a4ec11e",
         "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
         "patchSetId": 1
@@ -85,6 +151,30 @@
       "revId": "9c7f8d7fc361a71e3fc69ca06314af7b4ab8b827",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d15c07ed_231a32f1",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-03T19:07:57Z",
+      "side": 1,
+      "message": "Sure, sounds good.",
+      "parentUuid": "ca3241ce_4a4ec11e",
+      "range": {
+        "startLine": 77,
+        "startChar": 54,
+        "endLine": 77,
+        "endChar": 61
+      },
+      "revId": "9c7f8d7fc361a71e3fc69ca06314af7b4ab8b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "3a67fbac_024d4a81",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-03T19:07:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e380c27_8b7dc481",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 46
+      },
+      "revId": "9c7f8d7fc361a71e3fc69ca06314af7b4ab8b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f1e808d_01a5a39b",
         "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
         "patchSetId": 1
@@ -131,6 +245,30 @@
       "revId": "9c7f8d7fc361a71e3fc69ca06314af7b4ab8b827",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41805a00_1960d214",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-03T19:07:57Z",
+      "side": 1,
+      "message": "Thanks, good point.",
+      "parentUuid": "2f1e808d_01a5a39b",
+      "range": {
+        "startLine": 125,
+        "startChar": 26,
+        "endLine": 125,
+        "endChar": 45
+      },
+      "revId": "9c7f8d7fc361a71e3fc69ca06314af7b4ab8b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

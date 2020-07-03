@@ -16,6 +16,24 @@
       "revId": "dd5625277dc4a74fec9f4b4ed05b5843f65eedec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ebd4139_403ce813",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-03T06:59:41Z",
+      "side": 1,
+      "message": "Apparently, none of the core plugins surface this area of the plugin API. In fact its-bugzilla and some other plugins were failing to build from master.",
+      "parentUuid": "16ab07c2_e6af3bb7",
+      "revId": "dd5625277dc4a74fec9f4b4ed05b5843f65eedec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

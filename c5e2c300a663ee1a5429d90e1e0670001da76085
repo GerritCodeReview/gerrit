@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc037eff_4128fd0f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-03T12:23:09Z",
+      "side": 1,
+      "message": "Should we rather move this change to stable-3.0, where the original change was added?",
+      "revId": "c5e2c300a663ee1a5429d90e1e0670001da76085",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

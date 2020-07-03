@@ -183,6 +183,8 @@ suite('gr-change-list-item tests', () => {
     checkComputeReviewers(null, [], [], [], []);
     checkComputeReviewers(1, [], [], [], []);
     checkComputeReviewers(1, [2], ['a'], [], [2]);
+    checkComputeReviewers(1, [2, 3], [undefined, 'a'], [], [2, 3]);
+    checkComputeReviewers(1, [2, 3], ['a', undefined], [], [3, 2]);
     checkComputeReviewers(1, [99], ['owner'], [], []);
     checkComputeReviewers(
         1, [2, 3, 4, 5], ['b', 'a', 'd', 'c'], [3, 4], [3, 4, 2, 5]);

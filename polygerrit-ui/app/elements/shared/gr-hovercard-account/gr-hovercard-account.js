@@ -26,6 +26,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-hovercard-account_html.js';
+import {appContext} from '../../../services/app-context.js';
 
 /** @extends PolymerElement */
 class GrHovercardAccount extends GestureEventListeners(
@@ -70,6 +71,11 @@ class GrHovercardAccount extends GestureEventListeners(
         value: null,
       },
     };
+  }
+
+  constructor() {
+    super();
+    this.reporting = appContext.reportingService;
   }
 
   attached() {
@@ -120,6 +126,8 @@ class GrHovercardAccount extends GestureEventListeners(
       composed: true,
       bubbles: true,
     }));
+    this.reporting.reportInteraction('attention-hovercard-add',
+        this._reportingDetails());
     this.$.restAPI.addToAttentionSet(this.change._number,
         this.account._account_id, 'manually added').then(obj => {
       GerritNav.navigateToChange(this.change);
@@ -136,11 +144,33 @@ class GrHovercardAccount extends GestureEventListeners(
       composed: true,
       bubbles: true,
     }));
+    this.reporting.reportInteraction('attention-hovercard-remove',
+        this._reportingDetails());
     this.$.restAPI.removeFromAttentionSet(this.change._number,
         this.account._account_id, 'manually removed').then(obj => {
       GerritNav.navigateToChange(this.change);
     });
     this.hide();
+  }
+
+  _reportingDetails() {
+    const targetId = this.account._account_id;
+    const ownerId = (this.change && this.change.owner
+        && this.change.owner._account_id) || -1;
+    const selfId = (this._selfAccount && this._selfAccount._account_id) || -1;
+    const reviewers = (
+      this.change && this.change.reviewers && this.change.reviewers.REVIEWER ?
+        [...this.change.reviewers.REVIEWER] : []);
+    const reviewerIds = reviewers
+        .map(r => r._account_id)
+        .filter(rId => rId !== ownerId);
+    return {
+      actionByOwner: selfId === ownerId,
+      actionByReviewer: reviewerIds.includes(selfId),
+      targetIsOwner: targetId === ownerId,
+      targetIsReviewer: reviewerIds.includes(targetId),
+      targetIsSelf: targetId === selfId,
+    };
   }
 }
 

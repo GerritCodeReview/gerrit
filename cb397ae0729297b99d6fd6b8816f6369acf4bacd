@@ -70,6 +70,24 @@
       "revId": "cb397ae0729297b99d6fd6b8816f6369acf4bacd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fde17a5_f2b37013",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-07-03T14:12:25Z",
+      "side": 1,
+      "message": "I\u0027ve done https://gerrit-review.googlesource.com/c/gerrit/+/274352",
+      "parentUuid": "5852fd82_fd746f6e",
+      "revId": "cb397ae0729297b99d6fd6b8816f6369acf4bacd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

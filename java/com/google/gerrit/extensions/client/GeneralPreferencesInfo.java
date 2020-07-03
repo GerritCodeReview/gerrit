@@ -130,6 +130,7 @@ public class GeneralPreferencesInfo {
   /** Type of download URL the user prefers to use. */
   public String downloadScheme;
   public String theme;
+  public Boolean enableKeyboardShortcuts;
 
   public DateFormat dateFormat;
   public TimeFormat timeFormat;
@@ -189,6 +190,7 @@ public class GeneralPreferencesInfo {
     p.changesPerPage = DEFAULT_PAGESIZE;
     p.downloadScheme = null;
     p.theme = Theme.LIGHT;
+    p.enableKeyboardShortcuts = true;
     p.dateFormat = DateFormat.STD;
     p.timeFormat = TimeFormat.HHMM_12;
     p.expandInlineDiffs = false;

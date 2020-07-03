@@ -16,6 +16,24 @@
       "revId": "cb397ae0729297b99d6fd6b8816f6369acf4bacd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf9932a8_05aee925",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-03T07:31:19Z",
+      "side": 1,
+      "message": "my general rule for whether it should be in localStorage or in pref is basic ask if you want to persist that config across browsers and devices. If so, then it should be in pref, if not, then localStorage it is\n\nSo, I am fine with moving dark-theme to pref if we think that\u0027s what we want. Since my recent change allowed us to toggle dark and light theme without changing preference, I am actually thinking of adding one more option to allow that follow system preference, similar to chrome devtools. I have a local extension do that for me already",
+      "parentUuid": "0a2c6cb1_73196e31",
+      "revId": "cb397ae0729297b99d6fd6b8816f6369acf4bacd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

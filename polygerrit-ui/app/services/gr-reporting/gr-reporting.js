@@ -617,6 +617,7 @@ export class GrReporting {
   }
 
   reportInteraction(eventName, details) {
+    console.log(`reportInteraction ${eventName} ${JSON.stringify(details)}`);
     this.reporter(INTERACTION.TYPE, INTERACTION.CATEGORY.DEFAULT, eventName,
         undefined, details, true);
   }

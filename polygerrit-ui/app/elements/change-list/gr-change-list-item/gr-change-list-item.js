@@ -40,6 +40,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {GrDisplayNameUtils} from '../../../scripts/gr-display-name-utils/gr-display-name-utils.js';
 import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {appContext} from '../../../services/app-context';
 
 const CHANGE_SIZE = {
   XS: 10,
@@ -83,6 +84,8 @@ class GrChangeListItem extends mixinBehaviors( [
       /** @type {?} */
       change: Object,
       config: Object,
+      /** Name of the section in the change-list. Used for reporting. */
+      sectionName: String,
       changeURL: {
         type: String,
         computed: '_computeChangeURL(change)',
@@ -104,6 +107,11 @@ class GrChangeListItem extends mixinBehaviors( [
         type: Array,
       },
     };
+  }
+
+  constructor() {
+    super();
+    this.reporting = appContext.reportingService;
   }
 
   /** @override */
@@ -297,6 +305,15 @@ class GrChangeListItem extends mixinBehaviors( [
       composed: true,
       detail: {change: this.change, reviewed: newVal},
     }));
+  }
+
+  _handleChangeClick(e) {
+    console.log('asdfasdfasdfasdfasdf');
+    // Don't prevent the default and neither stop bubbling. We just want to
+    // report the click, but then let the browser handle the click on the link.
+    this.reporting.reportInteraction('change-row-clicked', {
+      section: this.sectionName,
+    });
   }
 }
 

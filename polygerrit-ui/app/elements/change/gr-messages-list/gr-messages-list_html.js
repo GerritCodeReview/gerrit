@@ -18,8 +18,7 @@ import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
 export const htmlTemplate = html`
   <style include="shared-styles">
-    :host,
-    .messageListControls {
+    :host {
       display: flex;
       justify-content: space-between;
     }
@@ -30,9 +29,6 @@ export const htmlTemplate = html`
       display: flex;
       justify-content: space-between;
       padding: var(--spacing-s) var(--spacing-l);
-    }
-    #messageControlsContainer {
-      padding: 0 var(--spacing-l);
     }
     .highlighted {
       animation: 3s fadeOut;
@@ -45,47 +41,42 @@ export const htmlTemplate = html`
         background-color: var(--view-background-color);
       }
     }
-    #messageControlsContainer {
-      align-items: center;
-      background-color: var(--background-color-secondary);
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
-      height: 2.25em;
-      justify-content: center;
-    }
-    #messageControlsContainer gr-button {
-      padding: var(--spacing-s) 0;
-    }
     .container {
       align-items: center;
       display: flex;
     }
+    .hiddenEntries {
+      color: var(--deemphasized-text-color);
+    }
     gr-message:not(:last-of-type) {
       border-bottom: 1px solid var(--border-color);
     }
-    gr-message:nth-child(2n) {
+    gr-message {
       background-color: var(--background-color-secondary);
-    }
-    gr-message:nth-child(2n + 1) {
-      background-color: var(--background-color-tertiary);
     }
   </style>
   <div class="header">
-    <span
-      id="automatedMessageToggleContainer"
-      class="container"
-      hidden$="[[!_hasAutomatedMessages(messages)]]"
-    >
-      <paper-toggle-button
-        id="automatedMessageToggle"
-        checked="{{_hideAutomated}}"
-        aria-labelledby="onlyCommentsLabel"
-        role="switch"
-        on-tap="_onTapHideAutomated"
-      ></paper-toggle-button>
-      <span id="onlyCommentsLabel">Only comments</span>
-      <span class="transparent separator"></span>
-    </span>
+    <div id="showAllActivityToggleContainer" class="container">
+      <template
+        is="dom-if"
+        if="[[_isVisibleShowAllActivityToggle(_combinedMessages)]]"
+      >
+        <paper-toggle-button
+          class="showAllActivityToggle"
+          checked="{{_showAllActivity}}"
+          aria-labelledby="showAllEntriesLabel"
+          role="switch"
+          on-tap="_onTapShowAllActivityToggle"
+        ></paper-toggle-button>
+        <div id="showAllEntriesLabel">
+          <span>Show all entries</span>
+          <span class="hiddenEntries" hidden$="[[_showAllActivity]]">
+            ([[_computeHiddenEntriesCount(_combinedMessages)]] hidden)
+          </span>
+        </div>
+        <span class="transparent separator"></span>
+      </template>
+    </div>
     <gr-button
       id="collapse-messages"
       link=""
@@ -95,35 +86,17 @@ export const htmlTemplate = html`
       [[_expandAllState]]
     </gr-button>
   </div>
-  <span
-    id="messageControlsContainer"
-    hidden$="[[_computeShowHideTextHidden(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]"
+  <template
+    id="messageRepeat"
+    is="dom-repeat"
+    items="[[_combinedMessages]]"
+    as="message"
+    filter="_isMessageVisible"
   >
-    <gr-button id="oldMessagesBtn" link="" on-click="_handleShowAllTap">
-      [[_computeNumMessagesText(_visibleMessages, _processedMessages,
-      _hideAutomated, _visibleMessages.length)]]
-    </gr-button>
-    <span
-      class="container"
-      hidden$="[[_computeIncrementHidden(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]"
-    >
-      <span class="transparent separator"></span>
-      <gr-button
-        id="incrementMessagesBtn"
-        link=""
-        on-click="_handleIncrementShownMessages"
-      >
-        [[_computeIncrementText(_visibleMessages, _processedMessages,
-        _hideAutomated, _visibleMessages.length)]]
-      </gr-button>
-    </span>
-  </span>
-  <template is="dom-repeat" items="[[_visibleMessages]]" as="message">
     <gr-message
+      change="[[change]]"
       change-num="[[changeNum]]"
       message="[[message]]"
-      comments="[[_computeCommentsForMessage(changeComments, message)]]"
-      hide-automated="[[_hideAutomated]]"
       project-name="[[projectName]]"
       show-reply-button="[[showReplyButtons]]"
       on-message-anchor-tap="_handleAnchorClick"

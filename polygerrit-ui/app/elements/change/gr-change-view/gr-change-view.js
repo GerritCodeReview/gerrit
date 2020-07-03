@@ -40,7 +40,6 @@ import '../gr-file-list-header/gr-file-list-header.js';
 import '../gr-file-list/gr-file-list.js';
 import '../gr-included-in-dialog/gr-included-in-dialog.js';
 import '../gr-messages-list/gr-messages-list.js';
-import '../gr-messages-list/gr-messages-list-experimental.js';
 import '../gr-related-changes-list/gr-related-changes-list.js';
 import '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js';
 import '../gr-reply-dialog/gr-reply-dialog.js';
@@ -66,7 +65,6 @@ import {RevisionInfo} from '../../shared/revision-info/revision-info.js';
 import {PrimaryTab, SecondaryTab} from '../../../constants/constants.js';
 import {NO_ROBOT_COMMENTS_THREADS_MSG} from '../../../constants/messages.js';
 import {appContext} from '../../../services/app-context.js';
-import {ExperimentIds} from '../../../services/flags.js';
 import {ChangeStatus} from '../../../constants/constants.js';
 
 const CHANGE_ID_ERROR = {
@@ -453,7 +451,6 @@ class GrChangeView extends mixinBehaviors( [
 
   constructor() {
     super();
-    this.flagsService = appContext.flagsService;
     this.reporting = appContext.reportingService;
   }
 
@@ -544,14 +541,8 @@ class GrChangeView extends mixinBehaviors( [
     }
   }
 
-  _isChangeLogExperimentEnabled() {
-    return this.flagsService.isEnabled(ExperimentIds.CLEANER_CHANGELOG);
-  }
-
   get messagesList() {
-    const tagName = this._isChangeLogExperimentEnabled()
-      ? 'gr-messages-list-experimental' : 'gr-messages-list';
-    return this.shadowRoot.querySelector(tagName);
+    return this.shadowRoot.querySelector('gr-messages-list');
   }
 
   get threadList() {

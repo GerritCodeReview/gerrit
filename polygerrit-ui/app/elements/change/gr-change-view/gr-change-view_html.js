@@ -213,8 +213,7 @@ export const htmlTemplate = html`
       --paper-tab-ink: var(--link-color);
     }
     gr-thread-list,
-    gr-messages-list,
-    gr-messages-list-experimental {
+    gr-messages-list {
       display: block;
     }
     gr-thread-list {
@@ -701,35 +700,19 @@ export const htmlTemplate = html`
         is="dom-if"
         if="[[_isTabActive(_constants.SecondaryTab.CHANGE_LOG, _activeTabs)]]"
       >
-        <template is="dom-if" if="[[!_isChangeLogExperimentEnabled()]]">
-          <gr-messages-list
-            class="hideOnMobileOverlay"
-            change-num="[[_changeNum]]"
-            labels="[[_change.labels]]"
-            messages="[[_change.messages]]"
-            reviewer-updates="[[_change.reviewer_updates]]"
-            change-comments="[[_changeComments]]"
-            project-name="[[_change.project]]"
-            show-reply-buttons="[[_loggedIn]]"
-            on-message-anchor-tap="_handleMessageAnchorTap"
-            on-reply="_handleMessageReply"
-          ></gr-messages-list>
-        </template>
-        <template is="dom-if" if="[[_isChangeLogExperimentEnabled()]]">
-          <gr-messages-list-experimental
-            class="hideOnMobileOverlay"
-            change="[[_change]]"
-            change-num="[[_changeNum]]"
-            labels="[[_change.labels]]"
-            messages="[[_change.messages]]"
-            reviewer-updates="[[_change.reviewer_updates]]"
-            change-comments="[[_changeComments]]"
-            project-name="[[_change.project]]"
-            show-reply-buttons="[[_loggedIn]]"
-            on-message-anchor-tap="_handleMessageAnchorTap"
-            on-reply="_handleMessageReply"
-          ></gr-messages-list-experimental>
-        </template>
+        <gr-messages-list
+          class="hideOnMobileOverlay"
+          change="[[_change]]"
+          change-num="[[_changeNum]]"
+          labels="[[_change.labels]]"
+          messages="[[_change.messages]]"
+          reviewer-updates="[[_change.reviewer_updates]]"
+          change-comments="[[_changeComments]]"
+          project-name="[[_change.project]]"
+          show-reply-buttons="[[_loggedIn]]"
+          on-message-anchor-tap="_handleMessageAnchorTap"
+          on-reply="_handleMessageReply"
+        ></gr-messages-list>
       </template>
     </section>
   </div>

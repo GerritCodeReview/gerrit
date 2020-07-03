@@ -87,7 +87,7 @@ public class ReviewInput {
    * occur. E.g, adding/removing reviewers, marking a change ready for review or work in progress,
    * and replying on changes.
    */
-  public boolean ignoreDefaultAttentionSetRules;
+  public boolean ignoreAutomaticAttentionSetRules;
 
   public enum DraftHandling {
     /** Leave pending drafts alone. */
@@ -176,7 +176,7 @@ public class ReviewInput {
   }
 
   public ReviewInput blockDefaultAttentionSetRules() {
-    ignoreDefaultAttentionSetRules = true;
+    ignoreAutomaticAttentionSetRules = true;
     return this;
   }
 

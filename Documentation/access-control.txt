@@ -840,6 +840,14 @@ The change owner and any explicitly added reviewers can always see
 private changes (even without having the `View Private Changes` access
 right assigned).
 
+[[category_toggle_work_in_progress_state]]
+=== Toggle Work In Progress state
+
+This category controls who is able to flip the Work In Progress bit.
+
+Change owner, server administrators and project owners can always flip
+the Work In Progress bit of the change (even without having the
+`Toggle Work In Progress state` access right assigned).
 
 [[category_delete_own_changes]]
 === Delete Own Changes

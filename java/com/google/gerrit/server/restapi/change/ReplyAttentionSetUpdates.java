@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.gerrit.entities.Account;
@@ -30,7 +29,7 @@ import com.google.gerrit.server.change.AddToAttentionSetOp;
 import com.google.gerrit.server.change.AttentionSetUnchangedOp;
 import com.google.gerrit.server.change.RemoveFromAttentionSetOp;
 import com.google.gerrit.server.change.ReviewerAdder;
-import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -42,12 +41,13 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /**
- * This class is used by {@link PostReview} to update the attention set when performing a review.
+ * This class is used to update the attention set when performing a review or replying on a change.
  */
-public class PostReviewAttentionSet {
+public class ReplyAttentionSetUpdates {
 
   private final PermissionBackend permissionBackend;
   private final AddToAttentionSetOp.Factory addToAttentionSetOpFactory;
@@ -56,7 +56,7 @@ public class PostReviewAttentionSet {
   private final AccountResolver accountResolver;
 
   @Inject
-  PostReviewAttentionSet(
+  ReplyAttentionSetUpdates(
       PermissionBackend permissionBackend,
       AddToAttentionSetOp.Factory addToAttentionSetOpFactory,
       RemoveFromAttentionSetOp.Factory removeFromAttentionSetOpFactory,
@@ -69,6 +69,28 @@ public class PostReviewAttentionSet {
     this.accountResolver = accountResolver;
   }
 
+  /** Adjusts the attention set but only based on the automatic rules. */
+  public void processAutomaticAttentionSetRulesOnReply(
+      BatchUpdate bu,
+      ChangeNotes changeNotes,
+      boolean readyForReview,
+      Set<String> removedReviewers,
+      Account.Id currentUser)
+      throws IOException, ConfigInvalidException, PermissionBackendException,
+          UnprocessableEntityException {
+
+    Set<Account.Id> removedReviewersId = new HashSet();
+    for (String reviewer : removedReviewers) {
+      removedReviewersId.add(getAccountId(changeNotes, reviewer));
+    }
+    processRules(
+        bu,
+        changeNotes,
+        readyForReview,
+        getUpdatedReviewers(changeNotes, removedReviewersId),
+        currentUser);
+  }
+
   /**
    * Adjusts the attention set by adding and removing users. If the same user should be added and
    * removed or added/removed twice, the user will only be added/removed once, based on first
@@ -76,21 +98,43 @@ public class PostReviewAttentionSet {
    */
   public void updateAttentionSet(
       BatchUpdate bu,
-      RevisionResource revision,
+      ChangeNotes changeNotes,
       ReviewInput input,
-      List<ReviewerAdder.ReviewerAddition> reviewerResults)
+      List<ReviewerAdder.ReviewerAddition> reviewerResults,
+      Account.Id currentUser)
       throws BadRequestException, IOException, PermissionBackendException,
           UnprocessableEntityException, ConfigInvalidException {
-    processManualUpdates(bu, revision, input);
+    processManualUpdates(bu, changeNotes, input);
     if (input.ignoreDefaultAttentionSetRules) {
 
       // If We ignore default attention set rules it means we need to pass this information to
       // ChangeUpdate. Also, we should stop all other attention set update that are part of
       // this method (that happen in PostReview.
-      bu.addOp(revision.getChange().getId(), new AttentionSetUnchangedOp());
+      bu.addOp(changeNotes.getChangeId(), new AttentionSetUnchangedOp());
       return;
     }
-    processRules(bu, revision, input, reviewerResults);
+    // Gets a set of all the CCs in this change. Updated reviewers will be defined as reviewers who
+    // didn't become CC.
+    Set<Account.Id> finalCCs =
+        reviewerResults.stream()
+            .filter(r -> r.result.ccs == null)
+            .map(r -> r.reviewers)
+            .flatMap(x -> x.stream())
+            .collect(toSet());
+    processRules(
+        bu,
+        changeNotes,
+        isReadyForReview(changeNotes, input),
+        getUpdatedReviewers(changeNotes, finalCCs),
+        currentUser);
+  }
+
+  private Set<Account.Id> getUpdatedReviewers(
+      ChangeNotes changeNotes, Set<Account.Id> removedReviewers) {
+    // Filter by users that are currently reviewers and remove CCs.
+    return approvalsUtil.getReviewers(changeNotes).byState(REVIEWER).stream()
+        .filter(r -> !removedReviewers.contains(r))
+        .collect(Collectors.toSet());
   }
 
   /**
@@ -100,44 +144,33 @@ public class PostReviewAttentionSet {
    */
   private void processRules(
       BatchUpdate bu,
-      RevisionResource revision,
-      ReviewInput input,
-      List<ReviewerAdder.ReviewerAddition> reviewerResults) {
+      ChangeNotes changeNotes,
+      boolean readyForReview,
+      Set<Account.Id> reviewers,
+      Account.Id currentUser) {
     // Replying removes the publishing user from the attention set.
     RemoveFromAttentionSetOp removeFromAttentionSetOp =
-        removeFromAttentionSetOpFactory.create(revision.getAccountId(), "removed on reply");
-    bu.addOp(revision.getChange().getId(), removeFromAttentionSetOp);
+        removeFromAttentionSetOpFactory.create(currentUser, "removed on reply");
+    bu.addOp(changeNotes.getChangeId(), removeFromAttentionSetOp);
 
     // The rest of the conditions only apply if the change is ready for review
-    if (!isReadyForReview(revision, input)) {
+    if (!readyForReview) {
       return;
     }
-    Account.Id uploader = revision.getPatchSet().uploader();
-    Account.Id owner = revision.getChange().getOwner();
-    Account.Id currentUser = revision.getAccountId();
+    Account.Id uploader = changeNotes.getCurrentPatchSet().uploader();
+    Account.Id owner = changeNotes.getChange().getOwner();
     if (currentUser.equals(uploader) && !uploader.equals(owner)) {
       // When the uploader replies, add the owner to the attention set.
       AddToAttentionSetOp addToAttentionSetOp =
           addToAttentionSetOpFactory.create(owner, "uploader replied");
-      bu.addOp(revision.getChange().getId(), addToAttentionSetOp);
+      bu.addOp(changeNotes.getChangeId(), addToAttentionSetOp);
     }
     if (currentUser.equals(uploader) || currentUser.equals(owner)) {
       // When the owner or uploader replies, add the reviewers to the attention set.
-      // Filter by users that are currently reviewers.
-      Set<Account.Id> finalCCs =
-          reviewerResults.stream()
-              .filter(r -> r.result.ccs == null)
-              .map(r -> r.reviewers)
-              .flatMap(x -> x.stream())
-              .collect(toSet());
-      for (Account.Id reviewer :
-          approvalsUtil.getReviewers(revision.getChangeResource().getNotes()).byState(REVIEWER)
-              .stream()
-              .filter(r -> !finalCCs.contains(r))
-              .collect(toList())) {
+      for (Account.Id reviewer : reviewers) {
         AddToAttentionSetOp addToAttentionSetOp =
             addToAttentionSetOpFactory.create(reviewer, "owner or uploader replied");
-        bu.addOp(revision.getChange().getId(), addToAttentionSetOp);
+        bu.addOp(changeNotes.getChangeId(), addToAttentionSetOp);
       }
     }
     if (!currentUser.equals(uploader) && !currentUser.equals(owner)) {
@@ -145,24 +178,24 @@ public class PostReviewAttentionSet {
       // uploader to the attention set.
       AddToAttentionSetOp addToAttentionSetOp =
           addToAttentionSetOpFactory.create(owner, "reviewer or cc replied");
-      bu.addOp(revision.getChange().getId(), addToAttentionSetOp);
+      bu.addOp(changeNotes.getChangeId(), addToAttentionSetOp);
 
       if (owner.get() != uploader.get()) {
         addToAttentionSetOp = addToAttentionSetOpFactory.create(uploader, "reviewer or cc replied");
-        bu.addOp(revision.getChange().getId(), addToAttentionSetOp);
+        bu.addOp(changeNotes.getChangeId(), addToAttentionSetOp);
       }
     }
   }
 
   /** Process the manual updates of the attention set. */
-  private void processManualUpdates(BatchUpdate bu, RevisionResource revision, ReviewInput input)
+  private void processManualUpdates(BatchUpdate bu, ChangeNotes changeNotes, ReviewInput input)
       throws BadRequestException, IOException, PermissionBackendException,
           UnprocessableEntityException, ConfigInvalidException {
     Set<Account.Id> accountsChangedInCommit = new HashSet<>();
     // If we specify a user to remove, and the user is in the attention set, we remove it.
     if (input.removeFromAttentionSet != null) {
       for (AttentionSetInput remove : input.removeFromAttentionSet) {
-        removeFromAttentionSet(bu, revision, remove, accountsChangedInCommit);
+        removeFromAttentionSet(bu, changeNotes, remove, accountsChangedInCommit);
       }
     }
 
@@ -170,61 +203,68 @@ public class PostReviewAttentionSet {
     // added if they are not in the attention set yet.
     if (input.addToAttentionSet != null) {
       for (AttentionSetInput add : input.addToAttentionSet) {
-        addToAttentionSet(bu, revision, add, accountsChangedInCommit);
+        addToAttentionSet(bu, changeNotes, add, accountsChangedInCommit);
       }
     }
   }
 
-  private static boolean isReadyForReview(RevisionResource revision, ReviewInput input) {
-    return (!revision.getChange().isWorkInProgress() && !input.workInProgress) || input.ready;
+  private static boolean isReadyForReview(ChangeNotes changeNotes, ReviewInput input) {
+    return (!changeNotes.getChange().isWorkInProgress() && !input.workInProgress) || input.ready;
   }
 
   private void addToAttentionSet(
       BatchUpdate bu,
-      RevisionResource revision,
+      ChangeNotes changeNotes,
       AttentionSetInput add,
-      Set<Account.Id> accountsChangedInCommitv)
+      Set<Account.Id> accountsChangedInCommit)
       throws BadRequestException, IOException, PermissionBackendException,
           UnprocessableEntityException, ConfigInvalidException {
     AttentionSetUtil.validateInput(add);
     Account.Id attentionUserId =
-        getAccountIdAndValidateUser(revision, add.user, accountsChangedInCommitv);
+        getAccountIdAndValidateUser(changeNotes, add.user, accountsChangedInCommit);
 
     AddToAttentionSetOp addToAttentionSetOp =
         addToAttentionSetOpFactory.create(attentionUserId, add.reason);
-    bu.addOp(revision.getChange().getId(), addToAttentionSetOp);
+    bu.addOp(changeNotes.getChangeId(), addToAttentionSetOp);
   }
 
   private void removeFromAttentionSet(
       BatchUpdate bu,
-      RevisionResource revision,
+      ChangeNotes changeNotes,
       AttentionSetInput remove,
       Set<Account.Id> accountsChangedInCommit)
       throws BadRequestException, IOException, PermissionBackendException,
           UnprocessableEntityException, ConfigInvalidException {
     AttentionSetUtil.validateInput(remove);
     Account.Id attentionUserId =
-        getAccountIdAndValidateUser(revision, remove.user, accountsChangedInCommit);
+        getAccountIdAndValidateUser(changeNotes, remove.user, accountsChangedInCommit);
 
     RemoveFromAttentionSetOp removeFromAttentionSetOp =
         removeFromAttentionSetOpFactory.create(attentionUserId, remove.reason);
-    bu.addOp(revision.getChange().getId(), removeFromAttentionSetOp);
+    bu.addOp(changeNotes.getChangeId(), removeFromAttentionSetOp);
   }
 
-  private Account.Id getAccountIdAndValidateUser(
-      RevisionResource revision, String user, Set<Account.Id> accountsChangedInCommit)
-      throws ConfigInvalidException, IOException, PermissionBackendException,
-          UnprocessableEntityException, BadRequestException {
+  private Account.Id getAccountId(ChangeNotes changeNotes, String user)
+      throws ConfigInvalidException, IOException, UnprocessableEntityException,
+          PermissionBackendException {
     Account.Id attentionUserId = accountResolver.resolve(user).asUnique().account().id();
     try {
       permissionBackend
           .absentUser(attentionUserId)
-          .change(revision.getNotes())
+          .change(changeNotes)
           .check(ChangePermission.READ);
     } catch (AuthException e) {
       throw new UnprocessableEntityException(
           "Can't add to attention set: Read not permitted for " + attentionUserId, e);
     }
+    return attentionUserId;
+  }
+
+  private Account.Id getAccountIdAndValidateUser(
+      ChangeNotes changeNotes, String user, Set<Account.Id> accountsChangedInCommit)
+      throws ConfigInvalidException, IOException, PermissionBackendException,
+          UnprocessableEntityException, BadRequestException {
+    Account.Id attentionUserId = getAccountId(changeNotes, user);
     if (accountsChangedInCommit.contains(attentionUserId)) {
       throw new BadRequestException(
           String.format(

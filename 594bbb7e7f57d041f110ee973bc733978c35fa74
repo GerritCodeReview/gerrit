@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5947b8f_58213465",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-03T09:37:02Z",
+      "side": 1,
+      "message": "Removing GerritCI from reviewers apparently removes the votes, so re-adding them here. They are still valid.",
+      "revId": "594bbb7e7f57d041f110ee973bc733978c35fa74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

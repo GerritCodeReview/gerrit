@@ -903,6 +903,18 @@ class GrDiffView extends mixinBehaviors( [
           this.reporting.diffViewDisplayed();
         })
         .then(() => {
+          if (this._diff.content) {
+            let fileUnchanged;
+            const diffTypes = ['a', 'b', 'edit_a', 'edit_b'];
+            this._diff.content.forEach(content => {
+              fileUnchanged = !Object.keys(content).some(diffType =>
+                diffTypes.includes(diffType));
+            });
+            if (fileUnchanged) {
+              return;
+            }
+          }
+
           // If the blame was loaded for a previous file and user navigates to
           // another file, then we load the blame for this file too
           if (this._isBlameLoaded) this._loadBlame();

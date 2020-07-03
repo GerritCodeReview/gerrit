@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "834d9234_cf4a6df6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-03T07:08:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "074eaea4_b9941c68",
+      "revId": "36b7d6fce03a38c45f287c7964f4460142e47652",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "257cb2e5_e67aa2c7",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "36b7d6fce03a38c45f287c7964f4460142e47652",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e58c001e_e3f80885",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-03T07:08:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "257cb2e5_e67aa2c7",
+      "revId": "36b7d6fce03a38c45f287c7964f4460142e47652",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -56,6 +92,30 @@
       "revId": "36b7d6fce03a38c45f287c7964f4460142e47652",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cbc5ff3_c440419d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-03T07:08:27Z",
+      "side": 1,
+      "message": "That is equivalent.\n\nSo I think you are right that we should prefer the import in utils/, but that should be done in another change also changing the ~17 other occurrences of this import.",
+      "parentUuid": "c05216ce_ce5a26e0",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 70
+      },
+      "revId": "36b7d6fce03a38c45f287c7964f4460142e47652",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

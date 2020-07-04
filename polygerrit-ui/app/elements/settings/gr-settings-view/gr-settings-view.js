@@ -50,6 +50,7 @@ import {ChangeTableBehavior} from '../../../behaviors/gr-change-table-behavior/g
 
 const PREFS_SECTION_FIELDS = [
   'changes_per_page',
+  'theme',
   'date_format',
   'time_format',
   'email_strategy',
@@ -176,11 +177,6 @@ class GrSettingsView extends mixinBehaviors( [
       _loadingPromise: Object,
 
       _showNumber: Boolean,
-
-      _isDark: {
-        type: Boolean,
-        value: false,
-      },
     };
   }
 
@@ -203,8 +199,6 @@ class GrSettingsView extends mixinBehaviors( [
       composed: true, bubbles: true,
     }));
 
-    this._isDark = !!window.localStorage.getItem('dark-theme');
-
     const promises = [
       this.$.accountInfo.loadData(),
       this.$.watchedProjectsEditor.loadData(),
@@ -215,6 +209,8 @@ class GrSettingsView extends mixinBehaviors( [
     ];
 
     promises.push(this.$.restAPI.getPreferences().then(prefs => {
+      this._applyTheme(prefs);
+
       this.prefs = prefs;
       this._showNumber = !!prefs.legacycid_in_change_table;
       this._copyPrefs('_localPrefs', 'prefs');
@@ -380,6 +376,8 @@ class GrSettingsView extends mixinBehaviors( [
     this._copyPrefs('prefs', '_localPrefs');
 
     return this.$.restAPI.savePreferences(this.prefs).then(() => {
+      this._applyTheme(this.prefs);
+
       this._prefsChanged = false;
     });
   }
@@ -471,24 +469,6 @@ class GrSettingsView extends mixinBehaviors( [
     return base + GERRIT_DOCS_FILTER_PATH;
   }
 
-  _handleToggleDark() {
-    if (this._isDark) {
-      window.localStorage.removeItem('dark-theme');
-      removeDarkTheme();
-    } else {
-      window.localStorage.setItem('dark-theme', 'true');
-      applyDarkTheme();
-    }
-    this._isDark = !!window.localStorage.getItem('dark-theme');
-    this.dispatchEvent(new CustomEvent('show-alert', {
-      detail: {
-        message: `Theme changed to ${this._isDark ? 'dark' : 'light'}.`,
-      },
-      bubbles: true,
-      composed: true,
-    }));
-  }
-
   _showHttpAuth(config) {
     if (config && config.auth &&
         config.auth.git_basic_auth_policy) {
@@ -499,11 +479,12 @@ class GrSettingsView extends mixinBehaviors( [
     return false;
   }
 
-  /**
-   * Work around a issue on iOS when clicking turns into double tap
-   */
-  _onTapDarkToggle(e) {
-    e.preventDefault();
+  _applyTheme(prefs) {
+    if (prefs && prefs.theme === 'DARK') {
+      applyDarkTheme();
+    } else if (prefs && prefs.theme === 'LIGHT') {
+      removeDarkTheme();
+    }
   }
 }
 

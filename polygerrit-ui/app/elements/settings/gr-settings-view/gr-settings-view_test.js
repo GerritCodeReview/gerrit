@@ -28,6 +28,7 @@ suite('gr-settings-view tests', () => {
   let account;
   let preferences;
   let config;
+  let prefStub;
 
   function valueOf(title, fieldsetid) {
     const sections = element.$[fieldsetid].querySelectorAll('section');
@@ -64,6 +65,7 @@ suite('gr-settings-view tests', () => {
     };
     preferences = {
       changes_per_page: 25,
+      theme: 'LIGHT',
       date_format: 'UK',
       time_format: 'HHMM_12',
       diff_view: 'UNIFIED_DIFF',
@@ -84,7 +86,6 @@ suite('gr-settings-view tests', () => {
     stub('gr-rest-api-interface', {
       getLoggedIn() { return Promise.resolve(true); },
       getAccount() { return Promise.resolve(account); },
-      getPreferences() { return Promise.resolve(preferences); },
       getWatchedProjects() {
         return Promise.resolve([]);
       },
@@ -93,23 +94,43 @@ suite('gr-settings-view tests', () => {
       getAccountGroups() { return Promise.resolve([]); },
     });
     element = basicFixture.instantiate();
+    prefStub = sinon.stub(
+        element.$.restAPI,
+        'getPreferences')
+        .callsFake(() => Promise.resolve(preferences));
 
     // Allow the element to render.
     element._loadingPromise.then(done);
   });
 
   test('theme changing', () => {
-    window.localStorage.removeItem('dark-theme');
-    assert.isFalse(window.localStorage.getItem('dark-theme') === 'true');
-    const themeToggle = element.shadowRoot
-        .querySelector('.darkToggle paper-toggle-button');
-    MockInteractions.tap(themeToggle);
-    assert.isTrue(window.localStorage.getItem('dark-theme') === 'true');
-    assert.equal(
-        getComputedStyleValue('--primary-text-color', document.body), '#e8eaed'
-    );
-    MockInteractions.tap(themeToggle);
-    assert.isFalse(window.localStorage.getItem('dark-theme') === 'true');
+    assert.equal(valueOf('Theme', 'preferences')
+        .firstElementChild.bindValue, 'LIGHT');
+
+    prefStub.restore();
+
+    const pref = preferences;
+    pref.theme = 'DARK';
+    prefStub = sinon.stub(
+        element.$.restAPI,
+        'getPreferences')
+        .callsFake(() => Promise.resolve(pref));
+
+    stub('gr-rest-api-interface', {
+      savePreferences(prefs) {
+        return Promise.resolve();
+      },
+    });
+
+    // Save the change.
+    element._handleSavePreferences().then(() => {
+      assert.equal(element.prefs.theme, 'DARK');
+
+      assert.equal(
+          getComputedStyleValue('--primary-text-color', document.body),
+          '#e8eaed'
+      );
+    });
   });
 
   test('calls the title-change event', () => {
@@ -133,6 +154,8 @@ suite('gr-settings-view tests', () => {
     // Rendered with the expected preferences selected.
     assert.equal(valueOf('Changes per page', 'preferences')
         .firstElementChild.bindValue, preferences.changes_per_page);
+    assert.equal(valueOf('Theme', 'preferences')
+        .firstElementChild.bindValue, preferences.theme);
     assert.equal(valueOf('Date/time format', 'preferences')
         .firstElementChild.bindValue, preferences.date_format);
     assert.equal(valueOf('Date/time format', 'preferences')

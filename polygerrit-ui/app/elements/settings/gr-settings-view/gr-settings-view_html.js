@@ -101,22 +101,6 @@ export const htmlTemplate = html`
     </gr-page-nav>
     <main class="gr-form-styles">
       <h1 class="heading-1">User Settings</h1>
-      <section class="darkToggle">
-        <div class="toggle">
-          <paper-toggle-button
-            aria-labelledby="darkThemeToggleLabel"
-            checked="[[_isDark]]"
-            on-change="_handleToggleDark"
-            on-tap="_onTapDarkToggle"
-          ></paper-toggle-button>
-          <div id="darkThemeToggleLabel">Dark theme (alpha)</div>
-        </div>
-        <p>
-          Gerrit's dark theme is in early alpha, and almost definitely will not
-          play nicely with themes set by specific Gerrit hosts. Filing feedback
-          via the link in the app footer is strongly encouraged!
-        </p>
-      </section>
       <h2 id="Profile" class$="[[_computeHeaderClass(_accountInfoChanged)]]">
         Profile
       </h2>
@@ -135,6 +119,17 @@ export const htmlTemplate = html`
         Preferences
       </h2>
       <fieldset id="preferences">
+        <section>
+          <span class="title">Theme</span>
+          <span class="value">
+            <gr-select bind-value="{{_localPrefs.theme}}">
+              <select>
+                <option value="DARK">Dark Theme</option>
+                <option value="LIGHT">Light Theme</option>
+              </select>
+            </gr-select>
+          </span>
+        </section>
         <section>
           <span class="title">Changes per page</span>
           <span class="value">

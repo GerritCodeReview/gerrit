@@ -909,6 +909,7 @@ class GrRestApiInterface extends GestureEventListeners(
 
       return Promise.resolve({
         changes_per_page: 25,
+        theme: 'LIGHT',
         default_diff_view: this._isNarrowScreen() ?
           DiffViewMode.UNIFIED : DiffViewMode.SIDE_BY_SIDE,
         diff_view: 'SIDE_BY_SIDE',

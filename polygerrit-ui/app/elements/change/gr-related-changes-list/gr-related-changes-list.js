@@ -30,6 +30,7 @@ import {htmlTemplate} from './gr-related-changes-list_html.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 
 /**
  * @extends Polymer.Element
@@ -351,7 +352,17 @@ class GrRelatedChangesList extends mixinBehaviors( [
         return;
       }
     }
-    this.hidden = true;
+
+    // None of the built-in change lists had elements. So all of them are
+    // hidden. But since plugins might have injected visible content, we need
+    // to check for that and stay visible if we find any such visible content.
+    // (We consider plugins visible except if it's main element has the hidden
+    // attribute set to true.)
+    const plugins = pluginEndpoints.getDetails('related-changes-section');
+    this.hidden = !(plugins.some(plugin => (
+      (!plugin.domHook)
+        || (!plugin.domHook._instances)
+        || plugin.domHook._instances.some(instance => !instance.hidden))));
   }
 
   _isIndirectAncestor(change) {

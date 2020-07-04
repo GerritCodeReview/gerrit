@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "456856ef_77cf47c8",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-04T08:42:31Z",
+      "side": 1,
+      "message": "Maybe just add !attentionModified to this list. It seems to fit very well with all these other conditions. WDYT?",
+      "revId": "c84e8ea5fd954e2d8bebd5f079e8ac1b37b9005f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

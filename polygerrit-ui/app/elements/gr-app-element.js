@@ -16,7 +16,7 @@
  */
 import '../styles/shared-styles.js';
 import '../styles/themes/app-theme.js';
-import {applyTheme as applyDarkTheme} from '../styles/themes/dark-theme.js';
+import {applyTheme as applyDarkTheme, removeTheme as removeDarkTheme} from '../styles/themes/dark-theme.js';
 import './admin/gr-admin-view/gr-admin-view.js';
 import './documentation/gr-documentation-search/gr-documentation-search.js';
 import './change-list/gr-change-list-view/gr-change-list-view.js';
@@ -52,6 +52,7 @@ import {
 import {GerritNav} from './core/gr-navigation/gr-navigation.js';
 import {appContext} from '../services/app-context.js';
 import {flush} from '@polymer/polymer/lib/utils/flush';
+import {Theme} from '../constants/constants.js';
 
 /**
  * @extends PolymerElement
@@ -215,9 +216,22 @@ class GrAppElement extends KeyboardShortcutMixin(
       this._version = version;
       this._logWelcome();
     });
+    this.$.restAPI.getPreferences().then(pref => {
+      if (!pref) return;
+
+      if (pref.theme === Theme.DARK &&
+          !window.localStorage.getItem('dark-theme')) {
+        window.localStorage.setItem('dark-theme', 'true');
+      } else if (pref.theme === Theme.LIGHT &&
+                 window.localStorage.getItem('dark-theme')) {
+        window.localStorage.removeItem('dark-theme');
+      }
+    });
 
     if (window.localStorage.getItem('dark-theme')) {
       applyDarkTheme();
+    } else {
+      removeDarkTheme();
     }
 
     // Note: this is evaluated here to ensure that it only happens after the

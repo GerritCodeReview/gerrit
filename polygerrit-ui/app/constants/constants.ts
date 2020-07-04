@@ -330,3 +330,17 @@ export enum NotifyType {
   OWNER_REVIEWERS = 'OWNER_REVIEWERS',
   ALL = 'ALL',
 }
+
+/**
+ * @enum
+ * @desc Specifies the theme
+ */
+
+/**
+ * Specifies the tpe of theme to use
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-info
+ */
+export const Theme = {
+  DARK: 'DARK',
+  LIGHT: 'LIGHT',
+};

@@ -45,7 +45,7 @@ suite('gr-app custom dark theme tests', () => {
     });
   });
 
-  test('should tried to load dark theme', () => {
+  test('should try to load dark theme', () => {
     assert.isTrue(
         !!document.head.querySelector('#dark-theme')
     );

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d835fb70_420eb9f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-04T06:48:59Z",
+      "side": 1,
+      "message": "@Han-Wen, I used your change where you split acceptance/git tests for inspiration: [1].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/224701",
+      "revId": "85562417cc2e699981ed9388e4df1b31fb0478bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

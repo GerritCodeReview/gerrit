@@ -201,10 +201,10 @@ class GrAppElement extends mixinBehaviors( [
       this._version = version;
       this._logWelcome();
     });
-
-    if (window.localStorage.getItem('dark-theme')) {
-      applyDarkTheme();
-    }
+    this.$.restAPI.getPreferences().then(pref => {
+      if (pref && pref.theme === 'DARK')
+        applyDarkTheme();
+    });
 
     // Note: this is evaluated here to ensure that it only happens after the
     // router has been initialized. @see Issue 7837

@@ -351,7 +351,46 @@ class GrRelatedChangesList extends mixinBehaviors( [
         return;
       }
     }
-    this.hidden = true;
+
+    // Non of the built-in change lists had elements. So all of them are hidden.
+    // But since plugins might have injected visible content, we need to check
+    // for that and stay visible if we find any such visible content.
+    this.hidden = this._hasOnlyHiddenChildren();
+  }
+
+  _hasOnlyHiddenChildren() {
+    // true, if each element was detected to be hidden.
+    //
+    // This is not fool-proof, as plugins might have injected content that is
+    // hidden but we fail to detect it as hidden. But we accept such false
+    // positives, as it's better to stay visible eventhough there is no visible
+    // content than to hide the whole control although plugins had visible
+    // content.
+
+    const wrappingDiv = this.root.children[1];
+    const endpointDecorator = wrappingDiv.children[0];
+    const elements = endpointDecorator.children;
+    for (let i = 0; i < elements.length; i++) {
+      const element = elements[i];
+      if (element.tagName == 'GR-ENDPOINT-PARAM') {
+        continue;
+      }
+      if (element.tagName == 'GR-ENDPOINT-SLOT') {
+        continue;
+      }
+      if (element.hidden) {
+        continue;
+      }
+      if (element.classList.contains('hidden')) {
+        continue;
+      }
+
+      // The element fell through our hidden detection, so we take it as visible
+      // and bail out (although it may effectively be hidden through means that
+      // we don't detect).
+      return false;
+    }
+    return true;
   }
 
   _isIndirectAncestor(change) {

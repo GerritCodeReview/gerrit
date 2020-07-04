@@ -64,6 +64,7 @@ suite('gr-settings-view tests', () => {
     };
     preferences = {
       changes_per_page: 25,
+      theme: 'LIGHT',
       date_format: 'UK',
       time_format: 'HHMM_12',
       diff_view: 'UNIFIED_DIFF',
@@ -98,20 +99,6 @@ suite('gr-settings-view tests', () => {
     element._loadingPromise.then(done);
   });
 
-  test('theme changing', () => {
-    window.localStorage.removeItem('dark-theme');
-    assert.isFalse(window.localStorage.getItem('dark-theme') === 'true');
-    const themeToggle = element.shadowRoot
-        .querySelector('.darkToggle paper-toggle-button');
-    MockInteractions.tap(themeToggle);
-    assert.isTrue(window.localStorage.getItem('dark-theme') === 'true');
-    assert.equal(
-        getComputedStyleValue('--primary-text-color', document.body), '#e8eaed'
-    );
-    MockInteractions.tap(themeToggle);
-    assert.isFalse(window.localStorage.getItem('dark-theme') === 'true');
-  });
-
   test('calls the title-change event', () => {
     const titleChangedStub = sinon.stub();
 
@@ -133,6 +120,8 @@ suite('gr-settings-view tests', () => {
     // Rendered with the expected preferences selected.
     assert.equal(valueOf('Changes per page', 'preferences')
         .firstElementChild.bindValue, preferences.changes_per_page);
+    assert.equal(valueOf('Theme', 'preferences')
+        .firstElementChild.bindValue, preferences.theme);
     assert.equal(valueOf('Date/time format', 'preferences')
         .firstElementChild.bindValue, preferences.date_format);
     assert.equal(valueOf('Date/time format', 'preferences')
@@ -166,9 +155,17 @@ suite('gr-settings-view tests', () => {
     const diffSelect = valueOf('Diff view', 'preferences').firstElementChild;
     diffSelect.bindValue = 'SIDE_BY_SIDE';
 
+    const themeSelect = valueOf('Theme', 'preferences').firstElementChild;
+    themeSelect.bindValue = 'DARK';
+
     const publishOnPush =
         valueOf('Publish comments on push', 'preferences').firstElementChild;
+
     diffSelect.dispatchEvent(
+        new CustomEvent('change', {
+          composed: true, bubbles: true,
+        }));
+    themeSelect.dispatchEvent(
         new CustomEvent('change', {
           composed: true, bubbles: true,
         }));
@@ -181,6 +178,7 @@ suite('gr-settings-view tests', () => {
     stub('gr-rest-api-interface', {
       savePreferences(prefs) {
         assert.equal(prefs.diff_view, 'SIDE_BY_SIDE');
+        assert.equal(prefs.theme, 'DARK');
         assertMenusEqual(prefs.my, preferences.my);
         assert.equal(prefs.publish_comments_on_push, true);
         return Promise.resolve();
@@ -189,6 +187,11 @@ suite('gr-settings-view tests', () => {
 
     // Save the change.
     element._handleSavePreferences().then(() => {
+      assert.equal(
+          getComputedStyleValue('--primary-text-color', document.body),
+          '#e8eaed'
+      );
+
       assert.isFalse(element._prefsChanged);
       assert.isFalse(element._menuChanged);
       done();

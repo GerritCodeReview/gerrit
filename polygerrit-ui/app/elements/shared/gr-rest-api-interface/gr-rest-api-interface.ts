@@ -1223,6 +1223,7 @@ export class GrRestApiInterface
       // Add default values for missed properties
       const anonymousPrefs = {
         changes_per_page: 25,
+        theme: 'LIGHT',
         default_diff_view: this._isNarrowScreen()
           ? DiffViewMode.UNIFIED
           : DiffViewMode.SIDE_BY_SIDE,

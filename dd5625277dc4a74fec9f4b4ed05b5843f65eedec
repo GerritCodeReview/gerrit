@@ -52,6 +52,23 @@
       "revId": "dd5625277dc4a74fec9f4b4ed05b5843f65eedec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a6f6a729_31ec43c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-04T00:02:03Z",
+      "side": 1,
+      "message": "I pushed a similar change for review before this very one; Idb320814c. They slightly differed in how to fix the issue. Since this one is merged, I abandoned my previous one.",
+      "revId": "dd5625277dc4a74fec9f4b4ed05b5843f65eedec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

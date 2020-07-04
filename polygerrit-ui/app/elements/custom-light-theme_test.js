@@ -26,7 +26,6 @@ const basicFixture = fixtureFromElement('gr-app');
 suite('gr-app custom light theme tests', () => {
   let element;
   setup(done => {
-    window.localStorage.removeItem('dark-theme');
     stub('gr-rest-api-interface', {
       getConfig() { return Promise.resolve({test: 'config'}); },
       getAccount() { return Promise.resolve({}); },

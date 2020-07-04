@@ -27,7 +27,11 @@ const basicFixture = fixtureFromElement('gr-app');
 suite('gr-app custom dark theme tests', () => {
   let element;
   setup(done => {
-    window.localStorage.setItem('dark-theme', 'true');
+    stub('gr-rest-api-interface', {
+      getPreferences() {
+        return Promise.resolve({theme: 'DARK'});
+      },
+    });
 
     element = basicFixture.instantiate();
     pluginLoader.loadPlugins([]);
@@ -35,7 +39,6 @@ suite('gr-app custom dark theme tests', () => {
   });
 
   teardown(() => {
-    window.localStorage.removeItem('dark-theme');
     removeTheme();
     // The app sends requests to server. This can lead to
     // unexpected gr-alert elements in document.body
@@ -44,7 +47,7 @@ suite('gr-app custom dark theme tests', () => {
     });
   });
 
-  test('should tried to load dark theme', () => {
+  test('should try to load dark theme', () => {
     assert.isTrue(
         !!document.head.querySelector('#dark-theme')
     );

@@ -22,6 +22,23 @@
       "revId": "d415fd48e1872351fe70de66c50a63d858a91978",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aaf7f2c6_61c9b5e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-07-04T09:13:31Z",
+      "side": 1,
+      "message": "Code LGTM but please fix the nit in the commit message.",
+      "revId": "d415fd48e1872351fe70de66c50a63d858a91978",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

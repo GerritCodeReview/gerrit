@@ -39,15 +39,15 @@ class CloneUsingBothProtocols extends GitSimulation {
   setUp(
     createProject.test.inject(
       nothingFor(stepWaitTime(createProject) seconds),
-      atOnceUsers(1)
+      atOnceUsers(single)
     ),
     test.inject(
       nothingFor(stepWaitTime(this) seconds),
-      constantUsersPerSec(1) during (duration seconds)
+      constantUsersPerSec(single) during (duration seconds)
     ),
     deleteProject.test.inject(
       nothingFor(stepWaitTime(deleteProject) + duration seconds),
-      atOnceUsers(1)
+      atOnceUsers(single)
     ),
   ).protocols(gitProtocol, httpProtocol)
 }

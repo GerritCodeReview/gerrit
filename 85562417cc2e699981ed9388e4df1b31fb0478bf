@@ -16,6 +16,29 @@
       "revId": "85562417cc2e699981ed9388e4df1b31fb0478bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30fe9a23_7e19c127",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-04T06:51:46Z",
+      "side": 1,
+      "message": "Unrelated here, but why we need this? For Bazel-CI?",
+      "range": {
+        "startLine": 8,
+        "startChar": 8,
+        "endLine": 8,
+        "endChar": 14
+      },
+      "revId": "85562417cc2e699981ed9388e4df1b31fb0478bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

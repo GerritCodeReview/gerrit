@@ -86,3 +86,12 @@ export const SpecialFilePath = {
   COMMIT_MESSAGE: '/COMMIT_MSG',
   MERGE_LIST: '/MERGE_LIST',
 };
+
+/**
+ * @enum
+ * @desc Specifies the theme
+ */
+export const Theme = {
+  DARK: 'DARK',
+  LIGHT: 'LIGHT',
+};

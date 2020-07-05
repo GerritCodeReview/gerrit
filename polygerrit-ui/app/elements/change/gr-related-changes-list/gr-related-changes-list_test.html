@@ -650,6 +650,31 @@ suite('gr-related-changes-list plugin tests', () => {
       element._resultsChanged({}, {}, [], [], []);
       assert.isFalse(element.hidden);
 
+      // Hiding triggered by plugin itself
+      hookEl.hidden = true;
+      hookEl.dispatchEvent(new CustomEvent('new-section-loaded', {
+        composed: true, bubbles: true,
+      }));
+      assert.isTrue(element.hidden);
+
+      // Unhiding triggered by plugin itself
+      hookEl.hidden = false;
+      hookEl.dispatchEvent(new CustomEvent('new-section-loaded', {
+        composed: true, bubbles: true,
+      }));
+      assert.isFalse(element.hidden);
+
+      // Hiding plugin keeps list visible, if there are changes
+      hookEl.hidden = false;
+      element._sameTopic = ['test'];
+      element._resultsChanged({}, {}, [], [], ['test']);
+      assert.isFalse(element.hidden);
+      hookEl.hidden = true;
+      hookEl.dispatchEvent(new CustomEvent('new-section-loaded', {
+        composed: true, bubbles: true,
+      }));
+      assert.isFalse(element.hidden);
+
       done();
     });
   });

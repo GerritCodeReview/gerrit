@@ -320,6 +320,22 @@ class GrRelatedChangesList extends mixinBehaviors( [
     return '';
   }
 
+  /** @override */
+  attached() {
+    super.attached();
+    // We listen to `new-section-loaded` events to allow plugins to trigger
+    // visibility computations, if their content or visibility changed.
+    this.addEventListener('new-section-loaded',
+        () => this._handleNewSectionLoaded());
+  }
+
+  _handleNewSectionLoaded() {
+    // A plugin sent a `new-section-loaded` event, so its visibility likely
+    // changed. Hence, we update our visibility if needed.
+    this._resultsChanged(this._relatedResponse, this._submittedTogether,
+        this._conflicts, this._cherryPicks, this._sameTopic);
+  }
+
   _resultsChanged(related, submittedTogether, conflicts,
       cherryPicks, sameTopic) {
     // Polymer 2: check for undefined

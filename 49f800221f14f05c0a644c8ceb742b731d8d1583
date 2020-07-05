@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f26a4cd8_731730c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-05T14:04:25Z",
+      "side": 1,
+      "message": "I think this change would be great, if it could land.\nAnything I can do to make that happen?",
+      "revId": "49f800221f14f05c0a644c8ceb742b731d8d1583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

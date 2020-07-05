@@ -6,7 +6,6 @@ acceptance_tests(
     group = "api_account",
     labels = [
         "api",
-        "noci",
         "no_windows",
     ],
     deps = [

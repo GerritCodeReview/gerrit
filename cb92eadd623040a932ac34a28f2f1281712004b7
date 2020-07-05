@@ -16,6 +16,24 @@
       "revId": "cb92eadd623040a932ac34a28f2f1281712004b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62590cde_352bbb85",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-05T12:54:49Z",
+      "side": 1,
+      "message": "Thanks!\nDone in PS2.\n\n(Please feel free to vote CR-1. This helps to make your comment visible.)",
+      "parentUuid": "90cf269c_fe3918f8",
+      "revId": "cb92eadd623040a932ac34a28f2f1281712004b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

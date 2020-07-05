@@ -46,6 +46,23 @@
       "revId": "efbb46cf7b7567b0202d565dd1bd879ce9b41ba7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffe6b18a_6447fc9e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-05T13:41:50Z",
+      "side": 1,
+      "message": "I see. But may be it\u0027s better to add such a check in uploadvalidator plugin and install this plugin on gerrit-review? And may be even disable the check for merge commits?\n\nAre you aware of Eclipse Foundation plugin that I adapted recently: [1]. They are checking among other things, that commit message has \"Signed-off-by:\" footer with the credentials matching those of the commit author.\n\n[1] https://github.com/EclipseFdn/gerrit-eca-plugin/blob/master/eclipse-cla/src/main/java/org/eclipse/foundation/gerrit/validation/EclipseCommitValidationListener.java#L182-L193",
+      "revId": "efbb46cf7b7567b0202d565dd1bd879ce9b41ba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

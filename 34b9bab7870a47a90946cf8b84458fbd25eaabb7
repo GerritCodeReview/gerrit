@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b0439ca_14ea7ed3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-05T22:08:41Z",
+      "side": 1,
+      "message": "If you want to see this change in action, it is live on Wikimedia\u0027s server.\n\n* Go to https://gerrit.wikimedia.org/r/c/labs/tools/wikibugs2/+/450446/2/tests/data/stream_events/change_wip_false.json\n* Then click on `SHOW BLAME` in the top right.\n* On the left the dates/name column appears\n* Clicking on the date `30.6.2018` left of the name `Merlijn` now correctly points to \nhttps://gerrit.wikimedia.org/r/q/96a9d2ed07b89fb46a873961fd31e7ce901b475f\n\n(before the `r/` after the domain was missing)",
+      "revId": "34b9bab7870a47a90946cf8b84458fbd25eaabb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

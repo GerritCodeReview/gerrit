@@ -320,6 +320,11 @@ class GrRelatedChangesList extends mixinBehaviors( [
     return '';
   }
 
+  _handleNewSectionLoaded() {
+    this._resultsChanged(this._relatedResponse, this._submittedTogether,
+        this._conflicts, this._cherryPicks, this._sameTopic);
+  }
+
   _resultsChanged(related, submittedTogether, conflicts,
       cherryPicks, sameTopic) {
     // Polymer 2: check for undefined

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a648dbb5_3a7d330b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-05T22:03:18Z",
+      "side": 1,
+      "message": "Changes from this topic are live on Wikimedia\u0027s Gerrit.\n\nFor a live change that only has `Depends on`, click on\nhttps://gerrit.wikimedia.org/r/c/mediawiki/extensions/Wikibase/+/602279\n\nFor a live change that only has `Needed by`, click on\nhttps://gerrit.wikimedia.org/r/c/mediawiki/extensions/WikibaseQualityConstraints/+/602749\n\nBefore the changes of this topic, the `Depends on` and `Needed by` were invisible.",
+      "revId": "7b7dc18775037397d674f733ddb53b4f1b253a8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

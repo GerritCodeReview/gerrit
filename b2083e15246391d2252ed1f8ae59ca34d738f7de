@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcf631cf_8a04ccb4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-05T14:09:23Z",
+      "side": 1,
+      "message": "Most changes in this topic got reviewed in one way or the other.\nI think I\u0027ve covered all comments.\n\nIs there anything I could do to make it land?",
+      "revId": "b2083e15246391d2252ed1f8ae59ca34d738f7de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

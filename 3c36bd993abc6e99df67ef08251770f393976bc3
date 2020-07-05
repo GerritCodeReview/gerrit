@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95c4ef49_5fc6ceaa",
+        "filename": "java/com/google/gerrit/server/git/NotifyConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-05T08:59:00Z",
+      "side": 1,
+      "message": "This type change from Set to ImmutableSet triggers false positive Eclipse warning in ProjectConfig.java:1338 comparison:\n\n  if (nc.getNotify().equals(EnumSet.of(NotifyType.ALL))) {\n\nThe message is:\n\n  Unlikely argument type for equals(): EnumSet\u003cProjectWatches.NotifyType\u003e\n  seems to be unrelated to ImmutableSet\u003cProjectWatches.NotifyType\u003e\n\nThe comparison could be rewritten to be warning free of the warning could be suppressed with:\n\n  @SuppressWarnings(\"unlikely-arg-type\")",
+      "range": {
+        "startLine": 38,
+        "startChar": 18,
+        "endLine": 38,
+        "endChar": 27
+      },
+      "revId": "3c36bd993abc6e99df67ef08251770f393976bc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -34,6 +34,24 @@
       "revId": "c5e2c300a663ee1a5429d90e1e0670001da76085",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b416ac09_239defdd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2020-07-05T12:17:53Z",
+      "side": 1,
+      "message": "+1 for moving this to stable-3.0 and adding it in the release notes.",
+      "parentUuid": "218c9e91_dc39c28c",
+      "revId": "c5e2c300a663ee1a5429d90e1e0670001da76085",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

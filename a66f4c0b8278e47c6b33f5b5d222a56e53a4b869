@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7d16105_dfc85df4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-05T13:06:55Z",
+      "side": 1,
+      "message": "Rebased and resolved conflicts.\n\nCI failure is apparently justified, as I can reproduce it locally:\n\n  1) getAvailableAgreements[enableAgreementsConfig](com.google.gerrit.acceptance.api.accounts.AgreementsIT)\nexpected: cla-test\nbut was : cla-test-no-auto-verify\n\tat com.google.gerrit.acceptance.api.accounts.AgreementsIT.assertAgreement(AgreementsIT.java:368)\n\tat com.google.gerrit.acceptance.api.accounts.AgreementsIT.getAvailableAgreements(AgreementsIT.java:128)\n",
+      "revId": "a66f4c0b8278e47c6b33f5b5d222a56e53a4b869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -95,7 +95,7 @@ export const htmlTemplate = html`
       }
     }
   </style>
-  <div>
+  <div on-new-section-loaded="_handleNewSectionLoaded">
     <gr-endpoint-decorator name="related-changes-section">
       <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
       <gr-endpoint-slot name="top"></gr-endpoint-slot>

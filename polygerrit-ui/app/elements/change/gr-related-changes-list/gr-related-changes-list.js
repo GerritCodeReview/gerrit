@@ -320,8 +320,24 @@ class GrRelatedChangesList extends mixinBehaviors( [
     return '';
   }
 
-  _resultsChanged(related, submittedTogether, conflicts,
-      cherryPicks, sameTopic) {
+  /** @override */
+  attached() {
+    super.attached();
+    // We listen to `new-section-loaded` events to allow plugins to trigger
+    // visibility computations, if their content or visibility changed.
+    this.addEventListener('new-section-loaded',
+        () => this._handleNewSectionLoaded());
+  }
+
+  _handleNewSectionLoaded() {
+    // A plugin sent a `new-section-loaded` event, so its visibility likely
+    // changed. Hence, we update our visibility if needed.
+    this._setHiddenAttribute(this._relatedResponse, this._submittedTogether,
+        this._conflicts, this._cherryPicks, this._sameTopic);
+  }
+
+  _setHiddenAttribute(related, submittedTogether, conflicts,
+      cherryPicks, sameTopic, fireUpdateEvent = true) {
     // Polymer 2: check for undefined
     if ([
       related,
@@ -346,9 +362,6 @@ class GrRelatedChangesList extends mixinBehaviors( [
     for (let i = 0; i < results.length; i++) {
       if (results[i] && results[i].length > 0) {
         this.hidden = false;
-        this.dispatchEvent(new CustomEvent('update', {
-          composed: true, bubbles: false,
-        }));
         return;
       }
     }
@@ -363,6 +376,17 @@ class GrRelatedChangesList extends mixinBehaviors( [
       (!plugin.domHook)
         || plugin.domHook.getAllAttached().some(
             instance => !instance.hidden))));
+  }
+
+  _resultsChanged(related, submittedTogether, conflicts,
+      cherryPicks, sameTopic) {
+    this._setHiddenAttribute(related, submittedTogether, conflicts,
+        cherryPicks, sameTopic);
+    if (!this.hidden) {
+      this.dispatchEvent(new CustomEvent('update', {
+        composed: true, bubbles: false,
+      }));
+    }
   }
 
   _isIndirectAncestor(change) {

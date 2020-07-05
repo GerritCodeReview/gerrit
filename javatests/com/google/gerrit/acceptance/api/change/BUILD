@@ -5,7 +5,6 @@ acceptance_tests(
     group = "api_change",
     labels = [
         "api",
-        "noci",
     ],
     deps = ["//java/com/google/gerrit/server/util/time"],
 )

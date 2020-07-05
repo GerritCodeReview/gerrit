@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "617adae8_cbf0c633",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-05T11:31:46Z",
+      "side": 1,
+      "message": "Done in PS8.",
+      "parentUuid": "013e53dc_6c409b83",
+      "range": {
+        "startLine": 22,
+        "startChar": 39,
+        "endLine": 22,
+        "endChar": 54
+      },
+      "revId": "8268f2fced16da68f05c46d8cb0ad71d42a3d11f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58be302e_2da7153b",
         "filename": "Documentation/dev-crafting-changes.txt",
         "patchSetId": 6
@@ -45,6 +69,30 @@
       "revId": "8268f2fced16da68f05c46d8cb0ad71d42a3d11f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11a29d73_b4eb8e65",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-05T11:31:46Z",
+      "side": 1,
+      "message": "Done in PS8.",
+      "parentUuid": "58be302e_2da7153b",
+      "range": {
+        "startLine": 34,
+        "startChar": 25,
+        "endLine": 34,
+        "endChar": 69
+      },
+      "revId": "8268f2fced16da68f05c46d8cb0ad71d42a3d11f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

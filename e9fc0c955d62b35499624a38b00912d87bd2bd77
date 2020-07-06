@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8bba7fd_ac9e6da5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-06T18:28:38Z",
+      "side": 1,
+      "message": "included",
+      "range": {
+        "startLine": 10,
+        "startChar": 43,
+        "endLine": 10,
+        "endChar": 51
+      },
+      "revId": "e9fc0c955d62b35499624a38b00912d87bd2bd77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c661d5e7_53bd7b44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-06T18:28:38Z",
+      "side": 1,
+      "message": "We could also manually amend the merge so it deems the commit as merged but without keeping its patch in. The merge commit message could then explain just that. The advantage of this alternative over the other would be that there is no need for a revert review or second commit.",
+      "range": {
+        "startLine": 17,
+        "startChar": 46,
+        "endLine": 18,
+        "endChar": 26
+      },
+      "revId": "e9fc0c955d62b35499624a38b00912d87bd2bd77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6e98289_98acbda7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-06T18:28:38Z",
+      "side": 1,
+      "message": "Nit and proposal below.",
+      "revId": "e9fc0c955d62b35499624a38b00912d87bd2bd77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

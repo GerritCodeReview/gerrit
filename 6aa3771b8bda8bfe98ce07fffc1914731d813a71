@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86f9e440_720a0af3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-06T09:17:48Z",
+      "side": 1,
+      "message": "will it throw error if patchNum is `edit` ?",
+      "revId": "6aa3771b8bda8bfe98ce07fffc1914731d813a71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

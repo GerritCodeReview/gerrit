@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ee69ca3c_1f346563",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-06T20:48:26Z",
+      "side": 1,
+      "message": "Also verified that with uploadvalidator plugin the version information improved:\n\n  $ python tools/workspace_status.py | grep UPLOAD\n  663659a\n\nand with this script:\n\n  $ python tools/workspace_status_release.py | grep UPLOAD\n  stable-2.16-0-g663659a",
+      "parentUuid": "15e9285a_55a7ad93",
+      "revId": "b2083e15246391d2252ed1f8ae59ca34d738f7de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fcf631cf_8a04ccb4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5

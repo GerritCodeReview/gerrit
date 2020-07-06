@@ -16,14 +16,23 @@ package com.google.gerrit.server.util;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.AttentionSetUpdate.Operation;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.mail.send.AttentionSetSender;
+import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.update.Context;
 import java.util.Collection;
 
 /** Common helpers for dealing with attention set data structures. */
 public class AttentionSetUtil {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   /** Returns only updates where the user was added. */
   public static ImmutableSet<AttentionSetUpdate> additionsOnly(
       Collection<AttentionSetUpdate> updates) {
@@ -45,6 +54,29 @@ public class AttentionSetUtil {
     input.reason = Strings.nullToEmpty(input.reason).trim();
     if (input.reason.isEmpty()) {
       throw new BadRequestException("missing field: reason");
+    }
+  }
+
+  public static void sendEmail(
+      AttentionSetSender sender,
+      Context ctx,
+      Change change,
+      String reason,
+      MessageIdGenerator.MessageId messageId,
+      Account.Id attentionUserId) {
+    try {
+      AccountState accountState =
+          ctx.getUser().isIdentifiedUser() ? ctx.getUser().asIdentifiedUser().state() : null;
+      if (accountState != null) {
+        sender.setFrom(accountState.account().id());
+      }
+      sender.setNotify(ctx.getNotify(change.getId()));
+      sender.setAttentionSetUser(attentionUserId);
+      sender.setReason(reason);
+      sender.setMessageId(messageId);
+      sender.send();
+    } catch (Exception e) {
+      logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
     }
   }
 

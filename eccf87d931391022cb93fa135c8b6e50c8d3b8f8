@@ -238,6 +238,30 @@
       "revId": "eccf87d931391022cb93fa135c8b6e50c8d3b8f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1123e3b8_43264c8f",
+        "filename": "java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-06T06:52:59Z",
+      "side": 1,
+      "message": "Paladox is absolutely right here, David. I think you are being rude for no reason. We can certainly have objective disagreements that sometimes won\u0027t end in a consensus, but being rude to the other person doesn\u0027t help - it just does more damage.\n\nDavid, please try harder next time to convey your opinion in a way that doesn\u0027t upset your co-contributors. We\u0027re all in the same boat in trying to move this project forward.\n\nThank you.",
+      "parentUuid": "ad28262a_54560e2e",
+      "range": {
+        "startLine": 127,
+        "startChar": 2,
+        "endLine": 128,
+        "endChar": 31
+      },
+      "revId": "eccf87d931391022cb93fa135c8b6e50c8d3b8f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

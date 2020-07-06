@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5da92113_fe705ed6",
+        "filename": ".bazelversion",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-06T16:37:18Z",
+      "side": 1,
+      "message": "rc2 is already out: [1] https://groups.google.com/d/msg/bazel-discuss/tsZxi5mAXf0/CPEJP8gsAgAJ",
+      "range": {
+        "startLine": 1,
+        "startChar": 5,
+        "endLine": 1,
+        "endChar": 8
+      },
+      "revId": "c76e0ed9236e81a67ffef50498c1153e43bd5cd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "851dcc84_739ca89c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-06T16:37:18Z",
+      "side": 1,
+      "message": "If 3.4.0 is expected soon enough, maybe this change should leave the rc and use that upcoming formal release instead. In which case the change could move to stable-3.0.\n\nOtherwise, we could start with 3.3.1 instead first, then contemplate 3.4.0. Comment about rc2 below.",
+      "revId": "c76e0ed9236e81a67ffef50498c1153e43bd5cd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

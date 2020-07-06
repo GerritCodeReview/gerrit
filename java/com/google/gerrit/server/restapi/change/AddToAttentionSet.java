@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -25,6 +26,7 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.AddToAttentionSetOp;
 import com.google.gerrit.server.change.AttentionSetEntryResource;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -43,6 +45,7 @@ public class AddToAttentionSet
   private final AddToAttentionSetOp.Factory opFactory;
   private final AccountLoader.Factory accountLoaderFactory;
   private final PermissionBackend permissionBackend;
+  private final NotifyResolver notifyResolver;
 
   @Inject
   AddToAttentionSet(
@@ -50,12 +53,14 @@ public class AddToAttentionSet
       AccountResolver accountResolver,
       AddToAttentionSetOp.Factory opFactory,
       AccountLoader.Factory accountLoaderFactory,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      NotifyResolver notifyResolver) {
     this.updateFactory = updateFactory;
     this.accountResolver = accountResolver;
     this.opFactory = opFactory;
     this.accountLoaderFactory = accountLoaderFactory;
     this.permissionBackend = permissionBackend;
+    this.notifyResolver = notifyResolver;
   }
 
   @Override
@@ -76,8 +81,11 @@ public class AddToAttentionSet
     try (BatchUpdate bu =
         updateFactory.create(
             changeResource.getChange().getProject(), changeResource.getUser(), TimeUtil.nowTs())) {
-      AddToAttentionSetOp op = opFactory.create(attentionUserId, input.reason);
+      AddToAttentionSetOp op = opFactory.create(attentionUserId, input.reason, true);
       bu.addOp(changeResource.getId(), op);
+      NotifyHandling notify = input.notify == null ? NotifyHandling.OWNER : input.notify;
+      NotifyResolver.Result notifyResult = notifyResolver.resolve(notify, input.notifyDetails);
+      bu.setNotify(notifyResult);
       bu.execute();
       return Response.ok(accountLoaderFactory.create(true).fillOne(attentionUserId));
     }

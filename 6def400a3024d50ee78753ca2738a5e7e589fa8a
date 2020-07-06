@@ -16,6 +16,24 @@
       "revId": "6def400a3024d50ee78753ca2738a5e7e589fa8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c86043de_737a268f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-06T06:14:22Z",
+      "side": 1,
+      "message": "Done. Documentation is here: [1] and release notes update is here: [2].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/274332\n[2] https://gerrit-review.googlesource.com/c/homepage/+/274442",
+      "parentUuid": "dba246d5_1619950e",
+      "revId": "6def400a3024d50ee78753ca2738a5e7e589fa8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

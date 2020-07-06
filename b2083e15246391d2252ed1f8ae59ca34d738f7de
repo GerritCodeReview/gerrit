@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "15e9285a_55a7ad93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-06T20:45:06Z",
+      "side": 1,
+      "message": "Verified, it\u0027s producing:\n\n  $ python tools/workspace_status_release.py | grep PHAB\n  stable-2.16-0-ge89997b(its-base:stable-2.16-0-gf3eb27c)",
+      "revId": "b2083e15246391d2252ed1f8ae59ca34d738f7de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fcf631cf_8a04ccb4",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5

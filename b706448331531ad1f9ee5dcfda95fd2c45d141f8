@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f84a3d4_4dad52d0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 31
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-06T10:50:30Z",
+      "side": 1,
+      "message": "add myself so i can remove myself from attention set (this is a bug)",
+      "revId": "b706448331531ad1f9ee5dcfda95fd2c45d141f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

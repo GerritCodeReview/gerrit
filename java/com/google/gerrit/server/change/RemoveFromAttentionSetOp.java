@@ -14,27 +14,45 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.AttentionSetUpdate.Operation;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.mail.send.RemoveFromAttentionSetSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.Context;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.util.Map;
+import java.util.function.Function;
 
 /** Remove a specified user from the attention set. */
 public class RemoveFromAttentionSetOp implements BatchUpdateOp {
 
   public interface Factory {
-    RemoveFromAttentionSetOp create(Account.Id attentionUserId, String reason);
+    RemoveFromAttentionSetOp create(Account.Id attentionUserId, String reason, boolean sendEmails);
   }
+
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private final ChangeData.Factory changeDataFactory;
+  private final MessageIdGenerator messageIdGenerator;
+  private final RemoveFromAttentionSetSender.Factory removeFromAttentionSetSender;
 
   private final Account.Id attentionUserId;
   private final String reason;
+
+  private Change change;
+  private boolean sendEmails;
 
   /**
    * Remove a specified user from the attention set.
@@ -43,16 +61,64 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
    * @param reason The reason for adding that user.
    */
   @Inject
-  RemoveFromAttentionSetOp(@Assisted Account.Id attentionUserId, @Assisted String reason) {
+  RemoveFromAttentionSetOp(
+      ChangeData.Factory changeDataFactory,
+      MessageIdGenerator messageIdGenerator,
+      RemoveFromAttentionSetSender.Factory removeFromAttentionSetSenderFactory,
+      @Assisted Account.Id attentionUserId,
+      @Assisted String reason,
+      @Assisted boolean sendEmails) {
+    this.changeDataFactory = changeDataFactory;
+    this.messageIdGenerator = messageIdGenerator;
+    this.removeFromAttentionSetSender = removeFromAttentionSetSenderFactory;
     this.attentionUserId = requireNonNull(attentionUserId, "user");
     this.reason = requireNonNull(reason, "reason");
+    this.sendEmails = sendEmails;
   }
 
   @Override
   public boolean updateChange(ChangeContext ctx) throws RestApiException {
+    ChangeData changeData = changeDataFactory.create(ctx.getNotes());
+    Map<Account.Id, AttentionSetUpdate> attentionMap =
+        changeData.attentionSet().stream()
+            .collect(toImmutableMap(AttentionSetUpdate::account, Function.identity()));
+    AttentionSetUpdate existingEntry = attentionMap.get(attentionUserId);
+    if (existingEntry == null || existingEntry.operation() == Operation.REMOVE) {
+      // We still need to perform this update to ensure that we don't remove the user in a follow-up
+      // operation, but no need to send an email about it.
+      sendEmails = false;
+    }
+
+    change = ctx.getChange();
+
     ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
     update.addToPlannedAttentionSetUpdates(
         AttentionSetUpdate.createForWrite(attentionUserId, Operation.REMOVE, reason));
     return true;
+  }
+
+  @Override
+  public void postUpdate(Context ctx) {
+    if (!sendEmails) {
+      return;
+    }
+    NotifyResolver.Result notify = ctx.getNotify(change.getId());
+    try {
+      RemoveFromAttentionSetSender cm =
+          removeFromAttentionSetSender.create(ctx.getProject(), change.getId());
+      AccountState accountState =
+          ctx.getUser().isIdentifiedUser() ? ctx.getUser().asIdentifiedUser().state() : null;
+      if (accountState != null) {
+        cm.setFrom(accountState.account().id());
+      }
+      cm.setNotify(notify);
+      cm.setAttentionSetUser(attentionUserId);
+      cm.setReason(reason);
+      cm.setMessageId(
+          messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
+      cm.send();
+    } catch (Exception e) {
+      logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
+    }
   }
 }

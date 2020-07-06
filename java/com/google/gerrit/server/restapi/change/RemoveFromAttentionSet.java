@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import com.google.common.base.Strings;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -24,6 +25,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.AttentionSetEntryResource;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.RemoveFromAttentionSetOp;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -39,15 +41,18 @@ public class RemoveFromAttentionSet
   private final BatchUpdate.Factory updateFactory;
   private final RemoveFromAttentionSetOp.Factory opFactory;
   private final AccountResolver accountResolver;
+  private final NotifyResolver notifyResolver;
 
   @Inject
   RemoveFromAttentionSet(
       BatchUpdate.Factory updateFactory,
       RemoveFromAttentionSetOp.Factory opFactory,
-      AccountResolver accountResolver) {
+      AccountResolver accountResolver,
+      NotifyResolver notifyResolver) {
     this.updateFactory = updateFactory;
     this.opFactory = opFactory;
     this.accountResolver = accountResolver;
+    this.notifyResolver = notifyResolver;
   }
 
   @Override
@@ -81,8 +86,11 @@ public class RemoveFromAttentionSet
         updateFactory.create(
             changeResource.getProject(), changeResource.getUser(), TimeUtil.nowTs())) {
       RemoveFromAttentionSetOp op =
-          opFactory.create(attentionResource.getAccountId(), input.reason);
+          opFactory.create(attentionResource.getAccountId(), input.reason, true);
       bu.addOp(changeResource.getId(), op);
+      NotifyHandling notify = input.notify == null ? NotifyHandling.OWNER : input.notify;
+      NotifyResolver.Result notifyResult = notifyResolver.resolve(notify, input.notifyDetails);
+      bu.setNotify(notifyResult);
       bu.execute();
     }
     return Response.none();

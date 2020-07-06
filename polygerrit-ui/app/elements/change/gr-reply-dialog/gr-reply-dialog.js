@@ -281,7 +281,7 @@ class GrReplyDialog extends mixinBehaviors( [
         type: Boolean,
         computed: '_computeSendButtonDisabled(canBeStarted, ' +
           'draftCommentThreads, draft, _reviewersMutated, _labelsChanged, ' +
-          '_includeComments, disabled, _commentEditing)',
+          '_includeComments, disabled, _commentEditing, _attentionModified)',
         observer: '_sendDisabledChanged',
       },
       draftCommentThreads: {
@@ -1028,7 +1028,8 @@ class GrReplyDialog extends mixinBehaviors( [
 
   _computeSendButtonDisabled(
       canBeStarted, draftCommentThreads, text, reviewersMutated,
-      labelsChanged, includeComments, disabled, commentEditing) {
+      labelsChanged, includeComments, disabled, commentEditing,
+      attentionModified) {
     // Polymer 2: check for undefined
     if ([
       canBeStarted,
@@ -1039,14 +1040,15 @@ class GrReplyDialog extends mixinBehaviors( [
       includeComments,
       disabled,
       commentEditing,
+      attentionModified,
     ].includes(undefined)) {
       return undefined;
     }
-
     if (commentEditing || disabled) { return true; }
     if (canBeStarted === true) { return false; }
     const hasDrafts = includeComments && draftCommentThreads.length;
-    return !hasDrafts && !text.length && !reviewersMutated && !labelsChanged;
+    return !hasDrafts && !text.length && !reviewersMutated && !labelsChanged &&
+      !attentionModified;
   }
 
   _computePatchSetWarning(patchNum, labelsChanged) {

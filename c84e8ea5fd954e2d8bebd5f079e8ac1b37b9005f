@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c03729f4_5d3e6bcf",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1048,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-06T13:11:11Z",
+      "side": 1,
+      "message": "Moved down with the other conditions.",
+      "parentUuid": "8b8a2dae_6cb8054c",
+      "range": {
+        "startLine": 1048,
+        "startChar": 27,
+        "endLine": 1048,
+        "endChar": 40
+      },
+      "revId": "c84e8ea5fd954e2d8bebd5f079e8ac1b37b9005f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "456856ef_77cf47c8",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "c84e8ea5fd954e2d8bebd5f079e8ac1b37b9005f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c4bce1a_7c0c1421",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-06T13:11:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "456856ef_77cf47c8",
+      "revId": "c84e8ea5fd954e2d8bebd5f079e8ac1b37b9005f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

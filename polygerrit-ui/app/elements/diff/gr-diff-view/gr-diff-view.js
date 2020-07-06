@@ -1307,6 +1307,7 @@ class GrDiffView extends mixinBehaviors( [
       }));
       return;
     }
+    this.reporting.reportInteraction('diff-against-base-kb');
     GerritNav.navigateToDiff(
         this._change, this._path, this._patchRange.patchNum);
   }
@@ -1322,6 +1323,7 @@ class GrDiffView extends mixinBehaviors( [
       }));
       return;
     }
+    this.reporting.reportInteraction('diff-base-against-left-kb');
     GerritNav.navigateToDiff(this._change, this._path,
         this._patchRange.basePatchNum);
   }
@@ -1339,7 +1341,7 @@ class GrDiffView extends mixinBehaviors( [
       }));
       return;
     }
-
+    this.reporting.reportInteraction('diff-against-latest-kb');
     GerritNav.navigateToDiff(
         this._change, this._path, latestPatchNum,
         this._patchRange.basePatchNum);
@@ -1357,6 +1359,7 @@ class GrDiffView extends mixinBehaviors( [
       }));
       return;
     }
+    this.reporting.reportInteraction('diff-right-against-latest-kb');
     GerritNav.navigateToDiff(this._change, this._path, latestPatchNum,
         this._patchRange.patchNum);
   }
@@ -1374,6 +1377,7 @@ class GrDiffView extends mixinBehaviors( [
       }));
       return;
     }
+    this.reporting.reportInteraction('diff-base-against-latest-kb');
     GerritNav.navigateToDiff(this._change, this._path, latestPatchNum);
   }
 

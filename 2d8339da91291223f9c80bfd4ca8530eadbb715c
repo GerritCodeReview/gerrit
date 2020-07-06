@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcd338fd_7f549bc5",
+        "filename": "tools/workspace_status_release.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-06T20:25:34Z",
+      "side": 1,
+      "message": "Now, you moved it to a function, and this a different naming convention applies: variable in function should be lowercase.",
+      "range": {
+        "startLine": 117,
+        "startChar": 4,
+        "endLine": 117,
+        "endChar": 18
+      },
+      "revId": "2d8339da91291223f9c80bfd4ca8530eadbb715c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

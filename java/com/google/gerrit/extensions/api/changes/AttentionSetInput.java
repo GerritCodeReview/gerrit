@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.extensions.common.AttentionSetInfo;
 import com.google.gerrit.extensions.restapi.DefaultInput;
+import java.util.Map;
 
 /**
  * Input at API level to add a user to the attention set.
@@ -25,6 +26,8 @@ import com.google.gerrit.extensions.restapi.DefaultInput;
 public class AttentionSetInput {
   public String user;
   @DefaultInput public String reason;
+  public NotifyHandling notify;
+  public Map<RecipientType, NotifyInfo> notifyDetails;
 
   public AttentionSetInput(String user, String reason) {
     this.user = user;

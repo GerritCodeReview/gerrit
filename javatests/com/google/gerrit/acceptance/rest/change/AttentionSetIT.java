@@ -36,6 +36,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.server.util.time.TimeUtil;
+import com.google.gerrit.testing.FakeEmailSender;
 import com.google.inject.Inject;
 import java.time.Duration;
 import java.time.Instant;
@@ -54,6 +55,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject protected AccountCreator accountCreator;
+  @Inject private FakeEmailSender email;
 
   /** Simulates a fake clock. Uses second granularity. */
   private static class FakeClock implements LongSupplier {
@@ -89,6 +91,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void addUser() throws Exception {
     PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
     int accountId =
         change(r).addToAttentionSet(new AttentionSetInput(user.email(), "first"))._accountId;
     assertThat(accountId).isEqualTo(user.id().get());
@@ -102,6 +105,13 @@ public class AttentionSetIT extends AbstractDaemonTest {
         change(r).addToAttentionSet(new AttentionSetInput(user.email(), "second"))._accountId;
     assertThat(accountId).isEqualTo(user.id().get());
     assertThat(r.getChange().attentionSet()).containsExactly(expectedAttentionSetUpdate);
+
+    // Only one email since the second add was ignored.
+    String emailBody = Iterables.getOnlyElement(email.getMessages()).body();
+    assertThat(emailBody)
+        .contains(
+            user.fullName()
+                + " added themselves to the attention set of this change.\n The reason is: first.");
   }
 
   @Test
@@ -133,6 +143,8 @@ public class AttentionSetIT extends AbstractDaemonTest {
   public void removeUser() throws Exception {
     PushOneCommit.Result r = createChange();
     change(r).addToAttentionSet(new AttentionSetInput(user.email(), "added"));
+    requestScopeOperations.setApiUser(user.id());
+
     fakeClock.advance(Duration.ofSeconds(42));
     change(r).attention(user.id().toString()).remove(new AttentionSetInput("removed"));
     AttentionSetUpdate expectedAttentionSetUpdate =
@@ -144,6 +156,13 @@ public class AttentionSetIT extends AbstractDaemonTest {
     fakeClock.advance(Duration.ofSeconds(42));
     change(r).attention(user.id().toString()).remove(new AttentionSetInput("removed again"));
     assertThat(r.getChange().attentionSet()).containsExactly(expectedAttentionSetUpdate);
+
+    // Only one email since the second remove was ignored.
+    String emailBody = Iterables.getOnlyElement(email.getMessages()).body();
+    assertThat(emailBody)
+        .contains(
+            user.fullName()
+                + " removed themselves from the attention set of this change.\n The reason is: removed.");
   }
 
   @Test
@@ -460,6 +479,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void reviewAddsManuallyAddedUserToAttentionSet() throws Exception {
     PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
     ReviewInput reviewInput = ReviewInput.create().addUserToAttentionSet(user.email(), "reason");
 
     change(r).current().review(reviewInput);
@@ -469,12 +489,21 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet.account()).isEqualTo(user.id());
     assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
     assertThat(attentionSet.reason()).isEqualTo("reason");
+
+    // This is the only email since emails are only sent for manual attention set updates (admin was
+    // also added because user replied, but no email was sent).
+    String emailBodyAddUser = Iterables.getOnlyElement(email.getMessages()).body();
+    assertThat(emailBodyAddUser)
+        .contains(
+            user.fullName()
+                + " added themselves to the attention set of this change.\n The reason is: reason.");
   }
 
   @Test
   public void reviewRemovesManuallyRemovedUserFromAttentionSet() throws Exception {
     PushOneCommit.Result r = createChange();
     change(r).addToAttentionSet(new AttentionSetInput(user.email(), "reason"));
+    requestScopeOperations.setApiUser(user.id());
 
     ReviewInput reviewInput =
         ReviewInput.create().removeUserFromAttentionSet(user.email(), "reason");
@@ -485,6 +514,12 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet.account()).isEqualTo(user.id());
     assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
     assertThat(attentionSet.reason()).isEqualTo("reason");
+
+    String emailBodyAddUser = Iterables.getOnlyElement(email.getMessages()).body();
+    assertThat(emailBodyAddUser)
+        .contains(
+            user.fullName()
+                + " removed themselves from the attention set of this change.\n The reason is: reason.");
   }
 
   @Test

@@ -49,6 +49,7 @@ import com.google.gerrit.server.change.SetPrivateOp;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.restapi.change.Reviewed.DeleteReviewed;
 import com.google.gerrit.server.restapi.change.Reviewed.PutReviewed;
+import com.google.gerrit.server.util.AttentionSetEmail;
 
 public class Module extends RestApiModule {
   @Override
@@ -217,5 +218,6 @@ public class Module extends RestApiModule {
     factory(SetTopicOp.Factory.class);
     factory(AddToAttentionSetOp.Factory.class);
     factory(RemoveFromAttentionSetOp.Factory.class);
+    factory(AttentionSetEmail.Factory.class);
   }
 }

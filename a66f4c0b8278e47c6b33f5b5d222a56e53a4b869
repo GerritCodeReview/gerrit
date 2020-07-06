@@ -16,6 +16,24 @@
       "revId": "a66f4c0b8278e47c6b33f5b5d222a56e53a4b869",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed9923a8_acad9a4f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-06T08:11:31Z",
+      "side": 1,
+      "message": "Thanks. The test depended on a certain ordering of values that the API does not guarantee. I\u0027ve sorted the values in the test to get a stable assertation.",
+      "parentUuid": "b7d16105_dfc85df4",
+      "revId": "a66f4c0b8278e47c6b33f5b5d222a56e53a4b869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

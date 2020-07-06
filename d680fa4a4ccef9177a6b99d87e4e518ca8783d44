@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17980b8a_4380634f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-06T07:49:53Z",
+      "side": 1,
+      "message": "Delete this entirely. This issue was dempted to severity level warning and thus not checked by Bazel any more, Somehow the documentation was missed to be adapted. I wrote this issue: [1].\n\n[1] https://github.com/google/error-prone/issues/1704",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 45
+      },
+      "revId": "d680fa4a4ccef9177a6b99d87e4e518ca8783d44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

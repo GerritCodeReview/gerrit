@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9ff8cfb_04a0605c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-06T20:35:54Z",
+      "side": 1,
+      "message": "This change doesn\u0027t make sense on stable-2.16 branch.\n\nDo we really need the whole series on stable-2.16 branch and do we really need a separation in so many changes? What if we squash the whole series into one change (or may be two changes): and move it to supported stable-3.0 branch? This change, that added support for modules, would be moved to stable-3.1, where the first module (JGit) was added.",
+      "revId": "dc18cf4e3553a20b22816f133757112fafc0cc88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "576ba2a4_458bfbee",
+        "filename": "tools/workspace_status_release.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-06T20:35:54Z",
+      "side": 1,
+      "message": "Doesn\u0027t make actually sense on stable-2.16 branch, as the only module (JGit) was added starting from stable-3.1, see: [1].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/227897",
+      "range": {
+        "startLine": 134,
+        "startChar": 18,
+        "endLine": 134,
+        "endChar": 25
+      },
+      "revId": "dc18cf4e3553a20b22816f133757112fafc0cc88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

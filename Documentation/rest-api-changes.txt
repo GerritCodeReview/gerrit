@@ -6115,7 +6115,7 @@ the link:#attention-set[attention set].
 |Field Name    ||Description
 |`account`     || link:rest-api-accounts.html#account-info[AccountInfo] entity.
 |`last_update` || The link:rest-api.html#timestamp[timestamp] of the last update.
-|`reason`      | The reason of for adding or removing the user.
+|`reason`      || The reason of for adding or removing the user.
 
 |===========================
 [[attention-set-input]]
@@ -6125,11 +6125,19 @@ link:#attention-set[attention set] and removing them from it.
 
 [options="header",cols="1,^1,5"]
 |===========================
-|Field Name    ||Description
-|`user`        |optional| link:rest-api-accounts.html#account-id[ID]
+|Field Name        ||Description
+|`user`            |optional| link:rest-api-accounts.html#account-id[ID]
 of the account that should be added to the attention set. For removals,
 this field should be empty or the same as the field in the request header.
-|`reason`      | The reason of for adding or removing the user.
+|`reason`          || The reason of for adding or removing the user.
+|`notify`          |optional|
+Notify handling that defines to whom email notifications should be sent
+after the change is created. +
+Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
+If not set, the default is `OWNER`.
+|`notify_details`  |optional|
+Additional information about whom to notify about the change creation
+as a map of recipient type to link:#notify-info[NotifyInfo] entity.
 |===========================
 
 [[blame-info]]

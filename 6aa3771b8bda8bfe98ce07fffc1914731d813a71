@@ -16,6 +16,24 @@
       "revId": "6aa3771b8bda8bfe98ce07fffc1914731d813a71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c07288a4_06be14c2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-06T12:13:36Z",
+      "side": 1,
+      "message": "No, verified it\u0027s working when patchNum is \u0027edit\u0027.",
+      "parentUuid": "86f9e440_720a0af3",
+      "revId": "6aa3771b8bda8bfe98ce07fffc1914731d813a71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

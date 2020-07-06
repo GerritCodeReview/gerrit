@@ -16,6 +16,40 @@
       "revId": "7b7dc18775037397d674f733ddb53b4f1b253a8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6070337e_8f46b5ba",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-06T08:17:58Z",
+      "side": 1,
+      "message": "FYI: the event is emitted here",
+      "revId": "7b7dc18775037397d674f733ddb53b4f1b253a8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23a289eb_626a299a",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_html.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-06T08:17:58Z",
+      "side": 1,
+      "message": "the `new-section-loaded` event is actually emitted in this component, so it seems unnecessary to listen on event emitted from itself here ? why not just do what you need when emit the event ?",
+      "revId": "7b7dc18775037397d674f733ddb53b4f1b253a8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

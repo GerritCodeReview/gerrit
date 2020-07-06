@@ -152,7 +152,7 @@ public class ReplyAttentionSetUpdates {
       Account.Id currentUser) {
     // Replying removes the publishing user from the attention set.
     RemoveFromAttentionSetOp removeFromAttentionSetOp =
-        removeFromAttentionSetOpFactory.create(currentUser, "removed on reply");
+        removeFromAttentionSetOpFactory.create(currentUser, "removed on reply", false);
     bu.addOp(changeNotes.getChangeId(), removeFromAttentionSetOp);
 
     // The rest of the conditions only apply if the change is ready for review
@@ -164,14 +164,14 @@ public class ReplyAttentionSetUpdates {
     if (currentUser.equals(uploader) && !uploader.equals(owner)) {
       // When the uploader replies, add the owner to the attention set.
       AddToAttentionSetOp addToAttentionSetOp =
-          addToAttentionSetOpFactory.create(owner, "uploader replied");
+          addToAttentionSetOpFactory.create(owner, "uploader replied", false);
       bu.addOp(changeNotes.getChangeId(), addToAttentionSetOp);
     }
     if (currentUser.equals(uploader) || currentUser.equals(owner)) {
       // When the owner or uploader replies, add the reviewers to the attention set.
       for (Account.Id reviewer : reviewers) {
         AddToAttentionSetOp addToAttentionSetOp =
-            addToAttentionSetOpFactory.create(reviewer, "owner or uploader replied");
+            addToAttentionSetOpFactory.create(reviewer, "owner or uploader replied", false);
         bu.addOp(changeNotes.getChangeId(), addToAttentionSetOp);
       }
     }
@@ -179,11 +179,12 @@ public class ReplyAttentionSetUpdates {
       // When neither the uploader nor the owner (reviewer or cc) replies, add the owner and the
       // uploader to the attention set.
       AddToAttentionSetOp addToAttentionSetOp =
-          addToAttentionSetOpFactory.create(owner, "reviewer or cc replied");
+          addToAttentionSetOpFactory.create(owner, "reviewer or cc replied", false);
       bu.addOp(changeNotes.getChangeId(), addToAttentionSetOp);
 
       if (owner.get() != uploader.get()) {
-        addToAttentionSetOp = addToAttentionSetOpFactory.create(uploader, "reviewer or cc replied");
+        addToAttentionSetOp =
+            addToAttentionSetOpFactory.create(uploader, "reviewer or cc replied", false);
         bu.addOp(changeNotes.getChangeId(), addToAttentionSetOp);
       }
     }
@@ -226,7 +227,7 @@ public class ReplyAttentionSetUpdates {
         getAccountIdAndValidateUser(changeNotes, add.user, accountsChangedInCommit);
 
     AddToAttentionSetOp addToAttentionSetOp =
-        addToAttentionSetOpFactory.create(attentionUserId, add.reason);
+        addToAttentionSetOpFactory.create(attentionUserId, add.reason, true);
     bu.addOp(changeNotes.getChangeId(), addToAttentionSetOp);
   }
 
@@ -242,7 +243,7 @@ public class ReplyAttentionSetUpdates {
         getAccountIdAndValidateUser(changeNotes, remove.user, accountsChangedInCommit);
 
     RemoveFromAttentionSetOp removeFromAttentionSetOp =
-        removeFromAttentionSetOpFactory.create(attentionUserId, remove.reason);
+        removeFromAttentionSetOpFactory.create(attentionUserId, remove.reason, true);
     bu.addOp(changeNotes.getChangeId(), removeFromAttentionSetOp);
   }
 

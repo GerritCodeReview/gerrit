@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0b2bc052_03d4dd11",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-06T13:12:13Z",
+      "side": 1,
+      "message": "I think we only want to show the toast when users navigate from Comment Links, so this should not be an issue.",
+      "parentUuid": "1145da98_0233a663",
+      "range": {
+        "startLine": 335,
+        "startChar": 2,
+        "endLine": 335,
+        "endChar": 14
+      },
+      "revId": "7729da0a271c67c00e649da38c59d433507eedb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d1f45af_93fcffaa",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 31
@@ -45,6 +69,30 @@
       "revId": "7729da0a271c67c00e649da38c59d433507eedb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1da459e8_9d7d0c7b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-06T13:12:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7d1f45af_93fcffaa",
+      "range": {
+        "startLine": 339,
+        "startChar": 3,
+        "endLine": 340,
+        "endChar": 55
+      },
+      "revId": "7729da0a271c67c00e649da38c59d433507eedb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "fd439751_40f529a5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-06T13:12:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9dfca64_82a1729c",
+      "range": {
+        "startLine": 769,
+        "startChar": 4,
+        "endLine": 769,
+        "endChar": 11
+      },
+      "revId": "7729da0a271c67c00e649da38c59d433507eedb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a3fb53d_f10c8f35",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 31
@@ -91,6 +163,30 @@
       "revId": "7729da0a271c67c00e649da38c59d433507eedb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fcadfa5_63a930af",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 31
+      },
+      "lineNbr": 786,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-06T13:12:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a3fb53d_f10c8f35",
+      "range": {
+        "startLine": 786,
+        "startChar": 4,
+        "endLine": 786,
+        "endChar": 10
+      },
+      "revId": "7729da0a271c67c00e649da38c59d433507eedb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

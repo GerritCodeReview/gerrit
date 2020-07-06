@@ -89,6 +89,48 @@
     },
     {
       "key": {
+        "uuid": "36a996bc_25e7f9db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-06T13:12:13Z",
+      "side": 1,
+      "message": "For now the V1 version is changing the comment link for all people.\nSince this is an experiment, I will review the feedback with partial rollout and decide if different behaviour is needed for owners and reviewers.",
+      "parentUuid": "09ba6e26_5cd78537",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9bec952_dec555af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 26
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-06T13:12:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0606e45d_585a04e4",
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30d274a8_8158e707",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.js",
         "patchSetId": 26
@@ -740,6 +782,24 @@
       "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f60c32b_21bda99d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-06T13:12:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79b841e9_d347b8ab",
+      "revId": "f6ceeb7c3222477bb3bb523b83a7d1dfa178f86e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

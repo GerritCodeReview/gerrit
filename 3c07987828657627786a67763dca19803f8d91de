@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f334a08d_ab43d471",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-06T13:12:13Z",
+      "side": 1,
+      "message": "As discussed we decide upon this after some feedback from rolling the experiment out.",
+      "parentUuid": "ddf87b45_eb178449",
+      "revId": "3c07987828657627786a67763dca19803f8d91de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da510d14_b28251aa",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 27

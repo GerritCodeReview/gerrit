@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "c640564c_19372d6d",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 32
+      },
+      "lineNbr": 1377,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-06T13:12:13Z",
+      "side": 1,
+      "message": "The idea is nice, but I need to know if users are coming to the diff view by clicking on a comment or not for other use-cases(such as navigating users away if file is unchanged).\nHence, I will keep the parameter in the url.\nI did end up using this trick when navigating users away from the unchanged file.",
+      "parentUuid": "00049681_f34fd6a9",
+      "revId": "da867acb316aebdfa1ab7c67a2b011fc3022bceb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99ee3d65_d56f2ec2",
         "filename": "polygerrit-ui/app/elements/gr-app-element.js",
         "patchSetId": 32

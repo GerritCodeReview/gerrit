@@ -171,7 +171,8 @@ $(bazel info output_base)/external/local_jdk/bin/java \
 For daily development you typically only want to run and debug individual tests.
 There are several ways to run tests.
 
-* Run all tests in headless mode:
+* Run all tests in headless mode (this command compiles code and runs tests
+using bazel, i.e. exactly like CI does it):
 ```sh
 npm run test
 ```
@@ -179,21 +180,46 @@ npm run test
 * Run all tests in debug mode (the command opens Chrome browser with
 the default Karma page; you should click the "Debug" button to start testing):
 ```sh
+# The following command doesn't compile code before tests
 npm run test:debug
 ```
 
 * Run a single test file:
 ```
-# Headless mode
+# Headless mode (doesn't compile code before run)
 npm run test:single async-foreach-behavior_test.js
-# Debug mode
+
+# Debug mode (doesn't compile code before run)
+npm run test:debug async-foreach-behavior_test.js
+```
+
+There are several options to compile frontend code before run `test:debug` and
+ `test:single`:
+* You can configure IDE for recompiling source code on changes
+* You can use `compile:local` command for running compiler once and
+`compile:watch` for running compiler in watch mode:
+
+```sh
+# Compile frontend once and run tests from a file:
+npm run compile:local && npm run test:single async-foreach-behavior_test.js
+
+# Watch mode:
+## Terminal 1:
+npm run compile:watch
+## Terminal 2:
 npm run test:debug async-foreach-behavior_test.js
 ```
 
 * You can run tests in IDE. :
   - [IntelliJ: running unit tests on Karma](https://www.jetbrains.com/help/idea/running-unit-tests-on-karma.html#ws_karma_running)
   - You should configure IDE to compile typescript before running tests.
-    
+
+**NOTE**: Bazel plugin for IntelliJ has a bug - it recompiles typescript
+project only if .ts and/or .d.ts files have been changed. If only .js files
+were changed, the plugin doesn't run compiler. As a workaround, setup
+"Run npm script 'compile:local" action instead of the "Compile Typescript" in
+the "Before launch" section for IntelliJ. This is a temporary problem until
+typescript migration is complete.
 
 ## Style guide
 

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "577de48b_a3f90d03",
+        "filename": ".bazelversion",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-06T17:34:36Z",
+      "side": 1,
+      "message": "Right. Let\u0027s do both: switch to already available rc2 and move to stable-3.0. The goal is to submit the upgrade once 3.4.0 is released. So probably better to mark it as WIP.",
+      "parentUuid": "5da92113_fe705ed6",
+      "range": {
+        "startLine": 1,
+        "startChar": 5,
+        "endLine": 1,
+        "endChar": 8
+      },
+      "revId": "c76e0ed9236e81a67ffef50498c1153e43bd5cd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "851dcc84_739ca89c",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3

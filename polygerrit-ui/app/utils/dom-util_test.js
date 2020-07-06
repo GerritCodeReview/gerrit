@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import '../test/common-test-setup-karma.js';
-import {getComputedStyleValue, querySelector, querySelectorAll, descendedFromClass, getEventPath} from './dom-util.js';
+import {strToClassName, getComputedStyleValue, querySelector, querySelectorAll, descendedFromClass, getEventPath} from './dom-util.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
@@ -134,6 +134,17 @@ suite('dom-util tests', () => {
       // Stops at stop element.
       assert.isFalse(descendedFromClass(querySelector(testEl, '.c'), 'a',
           querySelector(testEl, '.b')));
+    });
+  });
+
+  suite('strToClassName', () => {
+    test('basic tests', () => {
+      assert.equal(strToClassName('11'), 'generated_11');
+      assert.equal(strToClassName('0.123'), 'generated_0_123');
+      assert.equal(strToClassName('0.123', 'prefix'), 'prefix_0_123');
+      assert.equal(strToClassName('0>123', 'prefix'), 'prefix_0_123');
+      assert.equal(strToClassName('0<123', 'prefix'), 'prefix_0_123');
+      assert.equal(strToClassName('0+1+23', 'prefix'), 'prefix_0_1_23');
     });
   });
 });

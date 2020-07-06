@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fec08c97_ff5cef65",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-06T09:14:44Z",
+      "side": 1,
+      "message": "assertion is the noun form: [1].\n\n[1] https://dictionary.cambridge.org/dictionary/english/assertion",
+      "range": {
+        "startLine": 130,
+        "startChar": 30,
+        "endLine": 130,
+        "endChar": 42
+      },
+      "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c04f6e6_06849193",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-06T09:14:44Z",
+      "side": 1,
+      "message": "Nut: import statically:\n\n  $ grep -R \"import static java.util.Comparator.comparing\" | wc -l\n  33",
+      "range": {
+        "startLine": 133,
+        "startChar": 22,
+        "endLine": 133,
+        "endChar": 42
+      },
+      "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6a5002c_463a6b8b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-06T09:14:44Z",
+      "side": 1,
+      "message": "Prefer method reference to lambda expression:\n\n  ContributorAgreement::getName",
+      "range": {
+        "startLine": 133,
+        "startChar": 43,
+        "endLine": 133,
+        "endChar": 54
+      },
+      "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

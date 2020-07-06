@@ -427,6 +427,24 @@
       "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9849636_091017c1",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-06T14:23:19Z",
+      "side": 1,
+      "message": "No, I just want a test that shows that you can set up a rule to block any update to submodules (a change is submittable if it does not contain a submodule update and another change is not submittable, if it does).\n\nSo if you can write prolog code based on your existing rule, good. If not, then that shows that the use case that was asked for is not yet covered and we need to change the way the rule works.",
+      "parentUuid": "f32f3a4d_6ee954fa",
+      "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc3f0d6a_4aa271a9",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-06T14:23:19Z",
+      "side": 1,
+      "message": "To Jonathans any my earlier comment:\n\nJonatahn was saying that it\u0027s more Prology if this is implemented as\nfile/2 | regular_file(\"my-file.txt\", \"REGULAR\")\nfile/2 | regular_file(\"plugins/foo\", \"SUBMODULE\")\n\nTo my comment:\nThat allows you to write prolog rules a la:\n\nfile(_, \"SUBMODULE\")\n\u003e True\n\nSo that returns true if you have exported any file atom with \"SUBMODULE\" as type. The _ makes it ignored the name.\n\nThat can be used in a submit rule to block all changes that touch a submodule file.\n\nWhile at it, we could also export the modification type:\n\nfile/3 | regular_file(\"my-file.txt\", \"A\" ,\"REGULAR\")\n\nA -\u003e Addition\nM -\u003e Modification\nD -\u003e Deletion",
+      "revId": "521a044149dcb69d31363efbc395c84312e99fc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

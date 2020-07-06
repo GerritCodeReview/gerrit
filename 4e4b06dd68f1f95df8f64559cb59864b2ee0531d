@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bf250aa_f515e1bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-06T12:31:53Z",
+      "side": 1,
+      "message": "technically this will enable the `Send` button as soon as we click the `Modify` button for attention set, not when there is a change there, but maybe good enough as a temporary fix for now",
+      "revId": "4e4b06dd68f1f95df8f64559cb59864b2ee0531d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

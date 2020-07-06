@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4ae474be_9a7222d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-06T08:27:16Z",
+      "side": 1,
+      "message": "hide ?",
+      "range": {
+        "startLine": 9,
+        "startChar": 25,
+        "endLine": 9,
+        "endChar": 28
+      },
+      "revId": "6fd8c423f85e7942a42c908f79663bfe8612062a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "19a2e0e7_7d352418",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -16,6 +39,23 @@
       "revId": "6fd8c423f85e7942a42c908f79663bfe8612062a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9bf01fe9_0df16e71",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-06T08:27:16Z",
+      "side": 1,
+      "message": "maybe just use use `gr-plugin-endpoints.js` (`getDetails`) to see if any plugin registered to  the `related-changes-section` endpoint or not ? it should roughly the same as checking the content. It would be very hard to detect if plugin registers any visible content or not reliably. in general we suggest plugin only register the component if there are something visible, its also good for performance since you just add more unnecessary DOM nodes if they are not visible",
+      "revId": "6fd8c423f85e7942a42c908f79663bfe8612062a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

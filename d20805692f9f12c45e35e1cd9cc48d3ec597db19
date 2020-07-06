@@ -46,6 +46,30 @@
       "revId": "d20805692f9f12c45e35e1cd9cc48d3ec597db19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f15a323_a4850b35",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-06T13:06:01Z",
+      "side": 1,
+      "message": "oh I was just a bit confused by what `compile` means here, as there is no context before this line on that (or somewhere I did not find ?). What I should expect will happen with / without the compile process ? like compile the js code to es5 ? or compile all ts to js ? or compile all js files into a single gr-app.js ? the `compile` is a bit too vague here without context for me",
+      "parentUuid": "60fc0ddc_3b50f000",
+      "range": {
+        "startLine": 174,
+        "startChar": 47,
+        "endLine": 174,
+        "endChar": 55
+      },
+      "revId": "d20805692f9f12c45e35e1cd9cc48d3ec597db19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

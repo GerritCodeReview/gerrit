@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "b018d648_d8380308",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-06T16:19:48Z",
+      "side": 1,
+      "message": "I\u0027d say that what you describe is a part of performing a review, just triggered by the command line instead of the UI. How about sth like \"when publishing comments through the UI or git push --publish_comments_on_push\"?",
+      "parentUuid": "0138ba30_fb15b38a",
+      "range": {
+        "startLine": 50,
+        "startChar": 55,
+        "endLine": 50,
+        "endChar": 98
+      },
+      "revId": "9c7f8d7fc361a71e3fc69ca06314af7b4ab8b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ca3241ce_4a4ec11e",
         "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
         "patchSetId": 1
@@ -178,6 +202,30 @@
     },
     {
       "key": {
+        "uuid": "5c0bf5eb_9d49d5ad",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-06T16:19:48Z",
+      "side": 1,
+      "message": "Also in PostReviewAttentionSet (that\u0027s my bad because I\u0027m late with this suggestion :-).",
+      "parentUuid": "d15c07ed_231a32f1",
+      "range": {
+        "startLine": 77,
+        "startChar": 54,
+        "endLine": 77,
+        "endChar": 61
+      },
+      "revId": "9c7f8d7fc361a71e3fc69ca06314af7b4ab8b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1e380c27_8b7dc481",
         "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
         "patchSetId": 1
@@ -222,6 +270,30 @@
       "revId": "9c7f8d7fc361a71e3fc69ca06314af7b4ab8b827",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8aef55f8_c0720c2c",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-06T16:19:48Z",
+      "side": 1,
+      "message": "But when you filter for *.ccs \u003d\u003d null, why does that yield CCs? From getUpdatedReviewers() below I get the feeling that finalCCs should be called removedReviewers and that the filter criterion is based on business logic that I\u0027m not aware of and that is so basic that you think I am :-)",
+      "parentUuid": "3a67fbac_024d4a81",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 46
+      },
+      "revId": "9c7f8d7fc361a71e3fc69ca06314af7b4ab8b827",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

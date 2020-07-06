@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "541a439d_4e7267f4",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-06T16:19:48Z",
+      "side": 1,
+      "message": "That makes sense, but what if they replied to a subset? (I think that\u0027s what I emailed you about.) If the author still has to address comments shouldn\u0027t the reviewer wait? Otherwise they might be reviewing an intermediate state.",
+      "revId": "10cd807a10deae982facfff36b127abc9b17d0f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0d97691_f702ce30",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-06T16:19:48Z",
+      "side": 1,
+      "message": "I still don\u0027t get it: Why does getCombinedCcs() find removedReviewers()?",
+      "range": {
+        "startLine": 940,
+        "startChar": 14,
+        "endLine": 941,
+        "endChar": 45
+      },
+      "revId": "10cd807a10deae982facfff36b127abc9b17d0f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

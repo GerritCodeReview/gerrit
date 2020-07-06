@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "92194e03_dee2b476",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-06T18:41:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8bba7fd_ac9e6da5",
+      "range": {
+        "startLine": 10,
+        "startChar": 43,
+        "endLine": 10,
+        "endChar": 51
+      },
+      "revId": "e9fc0c955d62b35499624a38b00912d87bd2bd77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c661d5e7_53bd7b44",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "e9fc0c955d62b35499624a38b00912d87bd2bd77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1690382e_c8764e24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-06T18:41:35Z",
+      "side": 1,
+      "message": "Good suggestion. Done.",
+      "parentUuid": "c661d5e7_53bd7b44",
+      "range": {
+        "startLine": 17,
+        "startChar": 46,
+        "endLine": 18,
+        "endChar": 26
+      },
+      "revId": "e9fc0c955d62b35499624a38b00912d87bd2bd77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

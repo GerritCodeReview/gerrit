@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a362e2d2_f8eede68",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-06T23:52:20Z",
+      "side": 1,
+      "message": "According to the 1st month of Gerrit v3.2 adoption, 71% of the users are on Java11:\nhttps://docs.google.com/spreadsheets/d/15BQASqz3LsZFYwLBLudv5vYDthkLs5M8zftfUJNuW0M/edit#gid\u003d0\n",
+      "revId": "ab5f34691c090c7afb769dbe4962694aad8a8ee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

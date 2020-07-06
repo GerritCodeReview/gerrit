@@ -22,6 +22,30 @@
       "revId": "d20805692f9f12c45e35e1cd9cc48d3ec597db19",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60fc0ddc_3b50f000",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-06T13:00:45Z",
+      "side": 1,
+      "message": "run compiler ? Sorry, I don\u0027t understand your comment.",
+      "parentUuid": "73a553c4_e045bfd0",
+      "range": {
+        "startLine": 174,
+        "startChar": 47,
+        "endLine": 174,
+        "endChar": 55
+      },
+      "revId": "d20805692f9f12c45e35e1cd9cc48d3ec597db19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -20,6 +20,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-ranged-comment-layer_html.js';
 import {GrDiffLine} from '../gr-diff/gr-diff-line.js';
+import {strToClassName} from '../../../utils/dom-util.js';
 
 // Polymer 1 adds # before array's key, while Polymer 2 doesn't
 const HOVER_PATH_PATTERN = /^(commentRanges\.#?\d+)\.hovering$/;
@@ -92,7 +93,8 @@ class GrRangedCommentLayer extends GestureEventListeners(
     for (const range of ranges) {
       GrAnnotation.annotateElement(el, range.start,
           range.end - range.start,
-          range.hovering ? HOVER_HIGHLIGHT : RANGE_HIGHLIGHT);
+          (range.hovering ? HOVER_HIGHLIGHT : RANGE_HIGHLIGHT) +
+          ` ${strToClassName(range.rootId)}`);
     }
   }
 
@@ -136,11 +138,11 @@ class GrRangedCommentLayer extends GestureEventListeners(
     // If the entire set of comments was changed.
     if (record.path === 'commentRanges') {
       this._rangesMap = {left: {}, right: {}};
-      for (const {side, range, hovering} of record.value) {
+      for (const {side, range, rootId, hovering} of record.value) {
         this._updateRangesMap({
           side, range, hovering,
           operation: (forLine, start, end, hovering) => {
-            forLine.push({start, end, hovering});
+            forLine.push({start, end, hovering, rootId});
           }});
       }
     }
@@ -150,7 +152,7 @@ class GrRangedCommentLayer extends GestureEventListeners(
     if (match) {
       // The #number indicates the key of that item in the array
       // not the index, especially in polymer 1.
-      const {side, range, hovering} = this.get(match[1]);
+      const {side, range, hovering, rootId} = this.get(match[1]);
 
       this._updateRangesMap({
         side, range, hovering, skipLayerUpdate: true,
@@ -158,6 +160,7 @@ class GrRangedCommentLayer extends GestureEventListeners(
           const index = forLine.findIndex(lineRange =>
             lineRange.start === start && lineRange.end === end);
           forLine[index].hovering = hovering;
+          forLine[index].rootId = rootId;
         }});
     }
 
@@ -165,21 +168,22 @@ class GrRangedCommentLayer extends GestureEventListeners(
     if (record.path === 'commentRanges.splices') {
       for (const indexSplice of record.value.indexSplices) {
         const removed = indexSplice.removed;
-        for (const {side, range, hovering} of removed) {
+        for (const {side, range, hovering, rootId} of removed) {
           this._updateRangesMap({
             side, range, hovering, operation: (forLine, start, end) => {
               const index = forLine.findIndex(lineRange =>
-                lineRange.start === start && lineRange.end === end);
+                lineRange.start === start && lineRange.end === end &&
+                rootId === lineRange.rootId);
               forLine.splice(index, 1);
             }});
         }
         const added = indexSplice.object.slice(
             indexSplice.index, indexSplice.index + indexSplice.addedCount);
-        for (const {side, range, hovering} of added) {
+        for (const {side, range, hovering, rootId} of added) {
           this._updateRangesMap({
             side, range, hovering,
             operation: (forLine, start, end, hovering) => {
-              forLine.push({start, end, hovering});
+              forLine.push({start, end, hovering, rootId});
             }});
         }
       }

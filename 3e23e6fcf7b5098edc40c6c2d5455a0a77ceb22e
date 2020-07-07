@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74b06d76_fd122b34",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 817,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-07T17:08:17Z",
+      "side": 1,
+      "message": "you can use .every(content \u003d\u003e ...) instead",
+      "range": {
+        "startLine": 810,
+        "startChar": 4,
+        "endLine": 817,
+        "endChar": 0
+      },
+      "revId": "3e23e6fcf7b5098edc40c6c2d5455a0a77ceb22e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f644e90d_0e59a1de",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 914,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-07T17:08:17Z",
+      "side": 1,
+      "message": "May be move this block inside\nif (this._isChangeCommentsLinkExperimentEnabled) {...\n}\njust to show that this code is a part of comment link feature.",
+      "range": {
+        "startLine": 914,
+        "startChar": 10,
+        "endLine": 914,
+        "endChar": 64
+      },
+      "revId": "3e23e6fcf7b5098edc40c6c2d5455a0a77ceb22e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

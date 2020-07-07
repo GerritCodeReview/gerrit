@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "61b80f8b_264a6e92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-07T10:43:29Z",
+      "side": 1,
+      "message": "Hi David, as Ben is out, can I get a +2 from you :) thanks",
+      "revId": "3111d2150e2344c32e75569f86abbd9e31189dc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9372ea38_a734d33a",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 3

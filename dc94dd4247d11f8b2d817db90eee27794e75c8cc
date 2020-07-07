@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fba32836_22caf87d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-07T16:21:33Z",
+      "side": 1,
+      "message": "Beside these few nits, I\u0027d have this more outstanding (yet rather simple) comment below.",
+      "revId": "dc94dd4247d11f8b2d817db90eee27794e75c8cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b7faf809_c66fe5eb",
+        "filename": "Documentation/dev-core-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-07T16:21:33Z",
+      "side": 1,
+      "message": "to NOT",
+      "range": {
+        "startLine": 161,
+        "startChar": 35,
+        "endLine": 161,
+        "endChar": 44
+      },
+      "revId": "dc94dd4247d11f8b2d817db90eee27794e75c8cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48896033_7ba4d305",
+        "filename": "Documentation/dev-core-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-07T16:21:33Z",
+      "side": 1,
+      "message": "A",
+      "range": {
+        "startLine": 161,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 5
+      },
+      "revId": "dc94dd4247d11f8b2d817db90eee27794e75c8cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c583aa39_b6a3bf0b",
+        "filename": "Documentation/dev-core-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-07T16:21:33Z",
+      "side": 1,
+      "message": "Maybe the said core plugin would then need to stay until the planned replacement gets implemented. Otherwise the feature is likely missing between the removal and planned implementation times.",
+      "range": {
+        "startLine": 171,
+        "startChar": 66,
+        "endLine": 172,
+        "endChar": 7
+      },
+      "revId": "dc94dd4247d11f8b2d817db90eee27794e75c8cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0adc1c68_7b69dcc5",
+        "filename": "Documentation/dev-core-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-07T16:21:33Z",
+      "side": 1,
+      "message": "Would remove this extra (unrelated?) blank line.",
+      "revId": "dc94dd4247d11f8b2d817db90eee27794e75c8cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

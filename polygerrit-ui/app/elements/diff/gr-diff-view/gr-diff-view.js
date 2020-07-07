@@ -50,6 +50,8 @@ import {appContext} from '../../../services/app-context.js';
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
 const MSG_LOADED_BLAME = 'Blame loaded';
+// Time in which pressing n key again after the toast navigates to next file
+const NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS = 5000;
 
 const PARENT = 'PARENT';
 
@@ -563,9 +565,30 @@ class GrDiffView extends mixinBehaviors( [
       this.$.cursor.moveToNextCommentThread();
     } else {
       if (this.modifierPressed(e)) { return; }
-      // navigate to next file if key is not being held down
-      this.$.cursor.moveToNextChunk(/* opt_clipToTop = */false,
-          /* opt_navigateToNextFile = */!e.detail.keyboardEvent.repeat);
+      /*
+       * If user presses n on the last diff chunk, show a toast informing user
+       * that pressing n again will navigate them to next unreviewed file.
+       * If click happens within the time limit, then navigate to next file
+       */
+      if (this.$.cursor.isAtEnd() && !e.detail.keyboardEvent.repeat) {
+        if (this._lastDisplayedNavigateToNextFileToast && (Date.now() -
+          this._lastDisplayedNavigateToNextFileToast <=
+            NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS)) {
+          // reset for next file
+          this._lastDisplayedNavigateToNextFileToast = null;
+          this._handleNextUnreviewedFile(e);
+          return;
+        }
+        this._lastDisplayedNavigateToNextFileToast = Date.now();
+        this.dispatchEvent(new CustomEvent('show-alert', {
+          detail: {
+            message: 'Press n again to navigate to next unreviewed file',
+          },
+          composed: true, bubbles: true,
+        }));
+        return;
+      }
+      this.$.cursor.moveToNextChunk(/* opt_clipToTop = */false);
     }
   }
 

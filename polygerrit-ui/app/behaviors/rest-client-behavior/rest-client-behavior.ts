@@ -212,6 +212,7 @@ export const RESTClientBehavior = [
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function defineEmptyMixin() {
   // This is a temporary function.
   // Polymer linter doesn't process correctly the following code:
@@ -231,10 +232,12 @@ function defineEmptyMixin() {
     class extends base {
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       changeStatusString(change) {}
 
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       changeStatuses(change, opt_options) {}
     };
   // We can't apply @ts-ignore directly to RESTClientMixin - it breaks polylint
@@ -243,6 +246,7 @@ function defineEmptyMixin() {
   // unused variable use a temporary variable.
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const tmp = RESTClientMixin;
 }
 

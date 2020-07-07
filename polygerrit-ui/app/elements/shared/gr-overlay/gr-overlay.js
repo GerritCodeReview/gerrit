@@ -22,14 +22,13 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-overlay_html.js';
 
+goog.declareModuleId('polygerrit.elements.shared.gr-overlay.gr-overlay');
+
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
 const BREAKPOINT_FULLSCREEN_OVERLAY = '50em';
 
-/**
- * @extends PolymerElement
- */
-class GrOverlay extends mixinBehaviors( [
+export class GrOverlay extends mixinBehaviors( [
   IronOverlayBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(

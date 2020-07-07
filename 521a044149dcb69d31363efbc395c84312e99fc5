@@ -16,6 +16,24 @@
       "revId": "521a044149dcb69d31363efbc395c84312e99fc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c0e6a3f_453f8a93",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-07T10:16:37Z",
+      "side": 1,
+      "message": "Yea, then I misunderstood Jonathan\u0027s comment.\nfile/2 if I understand this correctly will still not work, since we need list of structs (file/2 will create 2 separate lists). What I did is probably good enough though, since it\u0027s now a list of file(\"NAME\",\"MOD_TYPE\" ,\"FILE_TYPE\").",
+      "parentUuid": "cc3f0d6a_4aa271a9",
+      "revId": "521a044149dcb69d31363efbc395c84312e99fc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

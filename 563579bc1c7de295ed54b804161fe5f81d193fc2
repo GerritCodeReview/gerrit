@@ -445,6 +445,24 @@
       "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "804f42ef_d90221a4",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 667,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-07T10:16:37Z",
+      "side": 1,
+      "message": "Got it now, done.",
+      "parentUuid": "a9849636_091017c1",
+      "revId": "563579bc1c7de295ed54b804161fe5f81d193fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

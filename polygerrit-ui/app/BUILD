@@ -44,7 +44,6 @@ compiled_pg_srcs_with_tests = compile_ts(
         exclude = [
             "node_modules/**",
             "node_modules_licenses/**",
-            "template_test_srcs/**",
             "rollup.config.js",
         ],
     ),
@@ -162,39 +161,3 @@ sh_test(
     ],
 )
 
-DIRECTORIES = [
-    "admin",
-    "change",
-    "change-list",
-    "core",
-    "diff",
-    "edit",
-    "plugins",
-    "settings",
-    "shared",
-    "gr-app",
-]
-
-[sh_test(
-    name = "template_test_" + directory,
-    size = "enormous",
-    srcs = ["template_test.sh"],
-    args = [directory],
-    data = [
-        ":pg_code",
-        ":template_test_srcs",
-    ],
-    tags = [
-        # Should not run sandboxed.
-        "local",
-        "template",
-    ],
-) for directory in DIRECTORIES]
-
-filegroup(
-    name = "template_test_srcs",
-    srcs = [
-        "template_test_srcs/convert_for_template_tests.py",
-        "template_test_srcs/template_test.js",
-    ],
-)

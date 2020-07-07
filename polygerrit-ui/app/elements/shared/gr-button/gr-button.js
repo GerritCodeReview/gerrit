@@ -26,6 +26,8 @@ import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-beh
 import {getEventPath} from '../../../utils/dom-util.js';
 import {appContext} from '../../../services/app-context.js';
 
+goog.declareModuleId('polygerrit.elements.shared.gr-button.gr-button');
+
 /**
  * @extends PolymerElement
  */

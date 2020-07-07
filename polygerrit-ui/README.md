@@ -264,21 +264,6 @@ node_modules/eslint/bin/eslint.js --ext .html,.js polygerrit-ui/app/$YOUR_DIR_HE
 git diff --name-only HEAD | xargs node_modules/eslint/bin/eslint.js --ext .html,.js
 ```
 
-We also use the `polylint` tool to lint use of Polymer. To install polylint,
-execute the following command.
-
-To run polylint, execute the following command.
-
-```sh
-bazel test //polygerrit-ui/app:polylint_test
-```
-
-or
-
-```sh
-npm run polylint
-```
-
 ## Contributing
 
 Our users report bugs / feature requests related to the UI through [Monorail Issues - PolyGerrit](https://bugs.chromium.org/p/gerrit/issues/list?q=component%3APolyGerrit).

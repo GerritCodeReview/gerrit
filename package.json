@@ -22,6 +22,8 @@
   },
   "scripts": {
     "clean": "git clean -fdx && bazel clean --expunge",
+    "compile:local": "tsc --project ./polygerrit-ui/app/tsconfig.json",
+    "compile:watch": "npm run compile:local -- --preserveWatchOutput --watch",
     "start": "polygerrit-ui/run-server.sh",
     "test": "./polygerrit-ui/app/run_test.sh",
     "safe_bazelisk": "if which bazelisk >/dev/null; then bazel_bin=bazelisk; else bazel_bin=bazel; fi && $bazel_bin",

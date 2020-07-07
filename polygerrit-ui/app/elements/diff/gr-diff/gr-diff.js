@@ -352,7 +352,7 @@ class GrDiff extends mixinBehaviors( [
     function commentRangeFromThreadEl(threadEl) {
       const side = threadEl.getAttribute('comment-side');
       const range = JSON.parse(threadEl.getAttribute('range'));
-      return {side, range, hovering: false};
+      return {side, range, hovering: false, rootId: threadEl.rootId};
     }
 
     const addedCommentRanges = addedThreadEls

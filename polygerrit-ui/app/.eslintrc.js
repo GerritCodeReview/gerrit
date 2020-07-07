@@ -149,7 +149,6 @@ module.exports = {
         }
       }
     }],
-    "import/named": 2,
     "import/no-self-import": 2,
     // The no-cycle rule is slow, because it doesn't cache dependencies.
     // Disable it.
@@ -183,6 +182,7 @@ module.exports = {
         // The rule is required for .js files only, because typescript compiler
         // always checks import.
         "import/no-unresolved": 2,
+        "import/named": 2,
       },
       "globals": {
         "goog": "readonly",

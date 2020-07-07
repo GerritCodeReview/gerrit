@@ -106,7 +106,7 @@ class JsWithDtsValidator {
     }
     const expectedName = 'polygerrit.' +
         filename.slice(index + pathStart.length, -jsExt.length)
-            .replace('/', '.');
+            .replace(/\//g, '.'); // Replace all occurrences of '/' with '.'
     if(argument.value !== expectedName) {
       context.report({
         message: `Invalid module id. It must be '${expectedName}'.`,

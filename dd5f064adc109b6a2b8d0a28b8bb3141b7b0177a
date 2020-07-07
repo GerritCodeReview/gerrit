@@ -52,6 +52,24 @@
       "revId": "dd5f064adc109b6a2b8d0a28b8bb3141b7b0177a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "376da09b_326429ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-07T13:58:53Z",
+      "side": 1,
+      "message": "Re: the toast. That is a problem for every single toast(seeing it again and again).\nThis is how Critique handles it btw.\n\nAlso why should the cursor manage showing the toasts etc? The toast is completely independent from the cursor.\nAlso it\u0027s not really cursor behaviour, navigating to a completely new file.",
+      "parentUuid": "1ba88631_8bd374b9",
+      "revId": "dd5f064adc109b6a2b8d0a28b8bb3141b7b0177a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -60,6 +60,10 @@ class GrDownloadDialog extends mixinBehaviors( [
     };
   }
 
+  connectedCallback() {
+
+  }
+
   /** @override */
   ready() {
     super.ready();

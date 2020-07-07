@@ -20,9 +20,6 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-cursor-manager_html.js';
 import {ScrollMode} from '../../../constants/constants.js';
 
-// Time in which pressing n key again after the toast navigates to next file
-const NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS = 5000;
-
 /** @extends PolymerElement */
 class GrCursorManager extends GestureEventListeners(
     LegacyElementMixin(
@@ -122,15 +119,11 @@ class GrCursorManager extends GestureEventListeners(
    *    sometimes different, used by the diff cursor.
    * @param {boolean=} opt_clipToTop When none of the next indices match, move
    *     back to first instead of to last.
-   * @param {boolean=} opt_navigateToNextFile Navigate to next unreviewed file
-   *     if user presses next on the last diff chunk
    * @private
    */
 
-  next(opt_condition, opt_getTargetHeight, opt_clipToTop,
-      opt_navigateToNextFile) {
-    this._moveCursor(1, opt_condition, opt_getTargetHeight, opt_clipToTop,
-        opt_navigateToNextFile);
+  next(opt_condition, opt_getTargetHeight, opt_clipToTop) {
+    this._moveCursor(1, opt_condition, opt_getTargetHeight, opt_clipToTop);
   }
 
   previous(opt_condition) {
@@ -272,12 +265,9 @@ class GrCursorManager extends GestureEventListeners(
    *    sometimes different, used by the diff cursor.
    * @param {boolean=} opt_clipToTop When none of the next indices match, move
    *     back to first instead of to last.
-   * @param {boolean=} opt_navigateToNextFile Navigate to next unreviewed file
-   *     if user presses next on the last diff chunk
    * @private
    */
-  _moveCursor(delta, opt_condition, opt_getTargetHeight, opt_clipToTop,
-      opt_navigateToNextFile) {
+  _moveCursor(delta, opt_condition, opt_getTargetHeight, opt_clipToTop) {
     if (!this.stops.length) {
       this.unsetCursor();
       return;
@@ -290,35 +280,6 @@ class GrCursorManager extends GestureEventListeners(
     let newTarget = null;
     if (newIndex !== -1) {
       newTarget = this.stops[newIndex];
-    }
-
-    /*
-     * If user presses n on the last diff chunk, show a toast informing user
-     * that pressing n again will navigate them to next unreviewed file.
-     * If click happens within the time limit, then navigate to next file
-     */
-    if (opt_navigateToNextFile && this.index === newIndex) {
-      if (newIndex === this.stops.length - 1) {
-        if (this._lastDisplayedNavigateToNextFileToast && (Date.now() -
-          this._lastDisplayedNavigateToNextFileToast <=
-            NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS)) {
-          // reset for next file
-          this._lastDisplayedNavigateToNextFileToast = null;
-          this.dispatchEvent(new CustomEvent(
-              'navigate-to-next-unreviewed-file', {
-                composed: true, bubbles: true,
-              }));
-          return;
-        }
-        this._lastDisplayedNavigateToNextFileToast = Date.now();
-        this.dispatchEvent(new CustomEvent('show-alert', {
-          detail: {
-            message: 'Press n again to navigate to next unreviewed file',
-          },
-          composed: true, bubbles: true,
-        }));
-        return;
-      }
     }
 
     this.index = newIndex;

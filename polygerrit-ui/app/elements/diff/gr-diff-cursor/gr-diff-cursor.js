@@ -185,6 +185,10 @@ class GrDiffCursor extends GestureEventListeners(
     }
   }
 
+  isAtEnd() {
+    return this.$.cursorManager.isAtEnd();
+  }
+
   moveUp() {
     if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
       this.$.cursorManager.previous(this._rowHasSide.bind(this));
@@ -202,10 +206,9 @@ class GrDiffCursor extends GestureEventListeners(
     }
   }
 
-  moveToNextChunk(opt_clipToTop, opt_navigateToNextFile) {
+  moveToNextChunk(opt_clipToTop) {
     this.$.cursorManager.next(this._isFirstRowOfChunk.bind(this),
-        target => target.parentNode.scrollHeight, opt_clipToTop,
-        opt_navigateToNextFile);
+        target => target.parentNode.scrollHeight, opt_clipToTop);
     this._fixSide();
   }
 

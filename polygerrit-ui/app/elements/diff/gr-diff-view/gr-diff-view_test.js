@@ -177,6 +177,7 @@ suite('gr-diff-view tests', () => {
       element.changeViewState.selectedFileIndex = 1;
       element._loggedIn = true;
 
+      sinon.stub(element.$.cursor, 'isAtEnd').returns(false);
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       const changeNavStub = sinon.stub(GerritNav, 'navigateToChange');
 
@@ -260,6 +261,24 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(element._handleToggleFileReviewed.calledTwice);
       assert.isTrue(element._setReviewed.called);
       assert.equal(element._setReviewed.lastCall.args[0], true);
+    });
+
+    test('navigate to next unreviewed file via n', async () => {
+      assert.isNotOk(element._lastDisplayedNavigateToNextFileToast);
+      sinon.stub(element.$.cursor, 'isAtEnd').returns(true);
+      const handleNextUnreviewedFileStub =
+        sinon.stub(element, '_handleNextUnreviewedFile');
+      const dispatchEventStub = sinon.spy(element, 'dispatchEvent');
+      MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
+      await flush();
+      assert.isOk(element._lastDisplayedNavigateToNextFileToast);
+      assert.equal(dispatchEventStub.getCalls().filter(call =>
+        call.args[0].type === 'show-alert').length, 1);
+      assert.isFalse(handleNextUnreviewedFileStub.called);
+      MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
+      await flush();
+      assert.isTrue(handleNextUnreviewedFileStub.called);
+      assert.isNotOk(element._lastDisplayedNavigateToNextFileToast);
     });
 
     test('shift+x shortcut expands all diff context', () => {

@@ -70,6 +70,24 @@
       "revId": "dd5f064adc109b6a2b8d0a28b8bb3141b7b0177a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97d476b2_0754a48e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-07T14:08:10Z",
+      "side": 1,
+      "message": "ya what other tools are doing doesn\u0027t make it right. Personally I never liked toasts for tips (usually tips are in new user tutorial and only show once), I like them when they are there to show me status changes, errors etc.\n\nI guess for me, `cursor` is in charge of the moving your view and current focus with keyboard, so that `moving` seems include the `next chunk`, `next line`, `next comment`, and `next file`. Especially we reuse the same concept in the change page with all diff expanded, `n` is navigating across files there already, and I don\u0027t think we have special handling in gr-diff for it (did not check tho) ?",
+      "parentUuid": "376da09b_326429ce",
+      "revId": "dd5f064adc109b6a2b8d0a28b8bb3141b7b0177a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -16,6 +16,7 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
+import './gr-diff-preferences-dialog.js';
 
 const basicFixture = fixtureFromElement('gr-diff-preferences-dialog');
 

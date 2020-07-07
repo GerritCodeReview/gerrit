@@ -44,7 +44,7 @@ function getUiDevNpmFilePath(importPath) {
 }
 
 module.exports = function(config) {
-  const localDirName = path.resolve(__dirname, '../.ts-out/polygerrit-ui/app');
+  const localDirName = path.resolve(__dirname, '../.ts-out/server-go');
   const rootDir = runUnderBazel ?
       'polygerrit-ui/app/_pg_with_tests_out/' : localDirName + '/';
   const testFilesLocationPattern =

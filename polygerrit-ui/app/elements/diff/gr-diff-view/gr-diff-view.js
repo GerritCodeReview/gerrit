@@ -563,8 +563,9 @@ class GrDiffView extends mixinBehaviors( [
       this.$.cursor.moveToNextCommentThread();
     } else {
       if (this.modifierPressed(e)) { return; }
+      // navigate to next file if key is not being held down
       this.$.cursor.moveToNextChunk(/* opt_clipToTop = */false,
-          /* opt_navigateToNextFile = */true);
+          /* opt_navigateToNextFile = */!e.detail.keyboardEvent.repeat);
     }
   }
 

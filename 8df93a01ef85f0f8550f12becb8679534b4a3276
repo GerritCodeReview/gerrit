@@ -34,6 +34,24 @@
       "revId": "8df93a01ef85f0f8550f12becb8679534b4a3276",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "327d8133_5c00bf2b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1417,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-07T10:09:58Z",
+      "side": 1,
+      "message": "yup https://gerrit-review.googlesource.com/c/gerrit/+/253653",
+      "parentUuid": "f81285cf_3ed586be",
+      "revId": "8df93a01ef85f0f8550f12becb8679534b4a3276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

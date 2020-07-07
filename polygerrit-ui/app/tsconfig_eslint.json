@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "skipLibCheck": false /* This is required for report-ts-error.js.
+    See details in the //tools/js/eslint-rules/report-ts-error.js file.*/
+  }
+}

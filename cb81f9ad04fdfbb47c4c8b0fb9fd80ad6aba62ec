@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cef655b_b47b9c1d",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-07T13:14:58Z",
+      "side": 1,
+      "message": "why its `\\w` instead of `.*`, what are the allowed character for commentId ?",
+      "range": {
+        "startLine": 139,
+        "startChar": 52,
+        "endLine": 139,
+        "endChar": 54
+      },
+      "revId": "cb81f9ad04fdfbb47c4c8b0fb9fd80ad6aba62ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16f95fb6_7a382c99",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-07T13:14:58Z",
+      "side": 1,
+      "message": "tests plz",
+      "revId": "cb81f9ad04fdfbb47c4c8b0fb9fd80ad6aba62ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "285b5534_4952e6ca",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-07T13:14:58Z",
+      "side": 1,
+      "message": "why not have it defined inside of the `if` ?",
+      "revId": "cb81f9ad04fdfbb47c4c8b0fb9fd80ad6aba62ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc0e758c_32e100d9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 898,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-07T13:14:58Z",
+      "side": 1,
+      "message": "out of this cl\u0027s scope, maybe rename this to `urlParams`, `value` doesn\u0027t really deliver anything here.",
+      "range": {
+        "startLine": 898,
+        "startChar": 23,
+        "endLine": 898,
+        "endChar": 28
+      },
+      "revId": "cb81f9ad04fdfbb47c4c8b0fb9fd80ad6aba62ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa64521a_3aed3eff",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-07T13:14:58Z",
+      "side": 1,
+      "message": "is this intended to terminate early instead of calling `this.$.diffHost.reload(true)` ? I assume if comment not found, it should behave exactly same before",
+      "revId": "cb81f9ad04fdfbb47c4c8b0fb9fd80ad6aba62ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9737645_8df840b9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 911,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-07T13:14:58Z",
+      "side": 1,
+      "message": "it seems these two always appear together and I think you used them somewhere else, maybe makes more sense to have a method just do this with a meaningful name so its easier to understand what we are trying to achieve here by assigning `lineOfInterest` and `_initCursor`",
+      "range": {
+        "startLine": 903,
+        "startChar": 12,
+        "endLine": 911,
+        "endChar": 15
+      },
+      "revId": "cb81f9ad04fdfbb47c4c8b0fb9fd80ad6aba62ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

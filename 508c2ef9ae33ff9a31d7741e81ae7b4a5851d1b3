@@ -1,0 +1,233 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e8d9ffb_95ffdcf9",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-07T12:50:24Z",
+      "side": 1,
+      "message": "unneeded check since getPermissions() can never return null (since it\u0027s not annotated with @Nullable)",
+      "revId": "508c2ef9ae33ff9a31d7741e81ae7b4a5851d1b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5488d690_c6ef2cab",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-07T12:50:24Z",
+      "side": 1,
+      "message": "nit: use Objects.requireNonNull for the null checks, here and below",
+      "range": {
+        "startLine": 122,
+        "startChar": 6,
+        "endLine": 124,
+        "endChar": 7
+      },
+      "revId": "508c2ef9ae33ff9a31d7741e81ae7b4a5851d1b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "637a298d_6742dfd9",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-07T12:50:24Z",
+      "side": 1,
+      "message": "It\u0027s not really nice that we need to copy the permission builder list and reset the permission builder immutable list builder each time a permission is removed. I think it would be better to rewrite this and follow the example of InternalGroupUpdate.MemberModification. Basically instead of having explicit remove and add methods, the caller that wants to modify the permissions, would get a list with all existing permissions, modify them and return the list of wanted permissions.",
+      "range": {
+        "startLine": 142,
+        "startChar": 6,
+        "endLine": 145,
+        "endChar": 43
+      },
+      "revId": "508c2ef9ae33ff9a31d7741e81ae7b4a5851d1b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5473ed74_a09663e9",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-07T12:50:24Z",
+      "side": 1,
+      "message": "if we keep this method, maybe \u0027upsertPermission\u0027 would be a better name",
+      "range": {
+        "startLine": 148,
+        "startChar": 30,
+        "endLine": 148,
+        "endChar": 43
+      },
+      "revId": "508c2ef9ae33ff9a31d7741e81ae7b4a5851d1b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "784104e3_2d768a43",
+        "filename": "java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-07T12:50:24Z",
+      "side": 1,
+      "message": "Is this a condition which we should already check on build?",
+      "range": {
+        "startLine": 161,
+        "startChar": 3,
+        "endLine": 164,
+        "endChar": 58
+      },
+      "revId": "508c2ef9ae33ff9a31d7741e81ae7b4a5851d1b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "288292ad_6a190921",
+        "filename": "java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-07T12:50:24Z",
+      "side": 1,
+      "message": "add @Nullable",
+      "revId": "508c2ef9ae33ff9a31d7741e81ae7b4a5851d1b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d2d2dfd_7650b83e",
+        "filename": "java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-07T12:50:24Z",
+      "side": 1,
+      "message": "Here too, consider following the approach from InternalGroupUpdate.MemberModification",
+      "range": {
+        "startLine": 248,
+        "startChar": 4,
+        "endLine": 276,
+        "endChar": 5
+      },
+      "revId": "508c2ef9ae33ff9a31d7741e81ae7b4a5851d1b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f67a258_1625053e",
+        "filename": "java/com/google/gerrit/server/CreateGroupPermissionSyncer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-07T12:50:24Z",
+      "side": 1,
+      "message": "maybe a better name would be \u0027refsGroupsAccessSectionBuilder\u0027",
+      "range": {
+        "startLine": 106,
+        "startChar": 10,
+        "endLine": 106,
+        "endChar": 34
+      },
+      "revId": "508c2ef9ae33ff9a31d7741e81ae7b4a5851d1b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0a4b651_4691e273",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-07T12:50:24Z",
+      "side": 1,
+      "message": "Can we rewrite this so that we do no call build() here and toBuilder() below?\n\nE.g.:\n\n  AccessSection.Builder accessSectionBuilder \u003d accessSections.contains(name) ?  accessSections.get(name).toBuilder() : AccessSection.builder(name);",
+      "range": {
+        "startLine": 359,
+        "startChar": 38,
+        "endLine": 359,
+        "endChar": 46
+      },
+      "revId": "508c2ef9ae33ff9a31d7741e81ae7b4a5851d1b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e457941f_9b10d388",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-07T12:50:24Z",
+      "side": 1,
+      "message": "Do we need this if do accessSections.replace below?",
+      "revId": "508c2ef9ae33ff9a31d7741e81ae7b4a5851d1b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2228d08c_b4706454",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-07T12:50:24Z",
+      "side": 1,
+      "message": "Did you want to address this todo?",
+      "revId": "508c2ef9ae33ff9a31d7741e81ae7b4a5851d1b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

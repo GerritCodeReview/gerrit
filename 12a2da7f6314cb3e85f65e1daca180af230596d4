@@ -34,6 +34,24 @@
       "revId": "12a2da7f6314cb3e85f65e1daca180af230596d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97f224c0_ed3bec08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-07T08:51:54Z",
+      "side": 1,
+      "message": "Not sure it is the best place to discuss, may be open new issue? I also don\u0027t understand why you are seeing this problem with unzip asking to overwrite file, but I fixe a similar problem in: [1]. Also CI is green: [2]. Have you tried to build it on Linux and it work? You could use CI docker image?\n\nAnd of course changing the line 109 from:\n\n  \"unzip -q $$ROOT/$\u003c\"\n\nto\n\n  \"unzip -qo $$ROOT/$\u003c\"\n\nwould fix your problem?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/258922\n[2] https://gerrit-ci.gerritforge.com/view/Plugins-stable-2.16/job/plugin-saml-bazel-stable-2.16/14/",
+      "parentUuid": "2846e362_b129e6ce",
+      "revId": "12a2da7f6314cb3e85f65e1daca180af230596d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -213,10 +213,12 @@ suite('gr-group-members tests', () => {
     const memberName = 'bad-name';
     const alertStub = sinon.stub();
     element.addEventListener('show-alert', alertStub);
-    const error = new Error('error');
-    error.status = 404;
-    sinon.stub(element.$.restAPI, 'saveGroupMembers').callsFake(
-        () => Promise.reject(error));
+    const errorResponse = {
+      status: 404,
+      ok: false,
+    };
+    sinon.stub(element.$.restAPI._restApiHelper, 'fetch').callsFake(
+        () => Promise.resolve(errorResponse));
 
     element.$.groupMemberSearchInput.text = memberName;
     element.$.groupMemberSearchInput.value = 1234;
@@ -224,6 +226,28 @@ suite('gr-group-members tests', () => {
     return element._handleSavingIncludedGroups().then(() => {
       assert.isTrue(alertStub.called);
     });
+  });
+
+  test('add included group network-error throws an exception', async () => {
+    element._groupOwner = true;
+
+    const memberName = 'bad-name';
+    const alertStub = sinon.stub();
+    element.addEventListener('show-alert', alertStub);
+    const err = new Error();
+    sinon.stub(element.$.restAPI._restApiHelper, 'fetch').callsFake(
+        () => Promise.reject(err));
+
+    element.$.groupMemberSearchInput.text = memberName;
+    element.$.groupMemberSearchInput.value = 1234;
+
+    let exceptionThrown = false;
+    try {
+      await element._handleSavingIncludedGroups();
+    } catch (e) {
+      exceptionThrown = true;
+    }
+    assert.isTrue(exceptionThrown);
   });
 
   test('_getAccountSuggestions empty', done => {

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0b2e533c_51dfab1f",
+        "filename": "java/com/google/gerrit/server/project/CachedProjectConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-07T15:43:55Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "c7ffdab4_0cb2f56d",
+      "range": {
+        "startLine": 40,
+        "startChar": 47,
+        "endLine": 40,
+        "endChar": 91
+      },
+      "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64dc6d78_977a5c4c",
         "filename": "java/com/google/gerrit/server/project/CachedProjectConfig.java",
         "patchSetId": 8
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "fb5b9581_96ce19e4",
+        "filename": "java/com/google/gerrit/server/project/CachedProjectConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-07T15:43:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64dc6d78_977a5c4c",
+      "range": {
+        "startLine": 46,
+        "startChar": 66,
+        "endLine": 46,
+        "endChar": 78
+      },
+      "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65fa6578_9c327580",
         "filename": "java/com/google/gerrit/server/project/CachedProjectConfig.java",
         "patchSetId": 8
@@ -62,6 +110,24 @@
       "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c249b7c3_3551998f",
+        "filename": "java/com/google/gerrit/server/project/CachedProjectConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-07T15:43:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65fa6578_9c327580",
+      "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "714b0a02_5639ff97",
+        "filename": "java/com/google/gerrit/server/project/CachedProjectConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-07T15:43:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a45facfa_1936502b",
+      "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a611b433_eaed64cb",
         "filename": "java/com/google/gerrit/server/project/CachedProjectConfig.java",
         "patchSetId": 8
@@ -96,6 +180,24 @@
       "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d79a1a58_ff06d34f",
+        "filename": "java/com/google/gerrit/server/project/CachedProjectConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-07T15:43:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a611b433_eaed64cb",
+      "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -116,6 +218,24 @@
     },
     {
       "key": {
+        "uuid": "eb45bb1a_84ef54c0",
+        "filename": "java/com/google/gerrit/server/project/CachedProjectConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-07T15:43:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bb8c01f_8cc105e0",
+      "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91cfe437_55be336f",
         "filename": "java/com/google/gerrit/server/project/ProjectConfigUtil.java",
         "patchSetId": 8
@@ -127,6 +247,24 @@
       "writtenOn": "2020-07-07T13:15:43Z",
       "side": 1,
       "message": "If possible we prefer not adding Util classes. Can you just inline this, it\u0027s seems to be called from a single place only?",
+      "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc7a3bdf_3e3e0f33",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfigUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-07T15:43:55Z",
+      "side": 1,
+      "message": "Done. I seem to have missed that discussion, do you have a pointer to that?",
+      "parentUuid": "91cfe437_55be336f",
       "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -153,6 +291,30 @@
       "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4de5410b_bc7fa7be",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-07T15:43:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fec08c97_ff5cef65",
+      "range": {
+        "startLine": 130,
+        "startChar": 30,
+        "endLine": 130,
+        "endChar": 42
+      },
+      "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -222,6 +384,78 @@
       "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1d5145a_a1080147",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-07T15:43:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c04f6e6_06849193",
+      "range": {
+        "startLine": 133,
+        "startChar": 22,
+        "endLine": 133,
+        "endChar": 42
+      },
+      "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "959f3a14_bd18249a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-07T15:43:55Z",
+      "side": 1,
+      "message": "This is an AgreementInfo which doesn\u0027t have getters",
+      "parentUuid": "d6a5002c_463a6b8b",
+      "range": {
+        "startLine": 133,
+        "startChar": 43,
+        "endLine": 133,
+        "endChar": 54
+      },
+      "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a7882d8_2d17ef98",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-07T15:43:55Z",
+      "side": 1,
+      "message": "Nice.",
+      "parentUuid": "2c9ee8fd_2888e79d",
+      "range": {
+        "startLine": 132,
+        "startChar": 9,
+        "endLine": 133,
+        "endChar": 56
+      },
+      "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

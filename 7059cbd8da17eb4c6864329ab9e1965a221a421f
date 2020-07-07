@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0c884db_84ea9c48",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/auth/container/HttpAuthFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-07T07:11:44Z",
+      "side": 1,
+      "message": "It seems that this change broke some users of SAML plugin, see issue 13076.",
+      "revId": "7059cbd8da17eb4c6864329ab9e1965a221a421f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

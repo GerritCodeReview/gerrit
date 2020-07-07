@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a8e7e20f_8ed90672",
+        "filename": "package.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-07T09:41:32Z",
+      "side": 1,
+      "message": "if `compile` is needed to actually run this command, maybe always run compile before running it, something like:\n\n\n\"test:single\": \"npm run compile:local \u0026\u0026 npm run safe_.xxxx\"\n\nI don\u0027t really expect to have to remember the dependency in test npm scripts... better to just have it working no matter when you run it.",
+      "range": {
+        "startLine": 35,
+        "startChar": 20,
+        "endLine": 35,
+        "endChar": 23
+      },
+      "revId": "d20805692f9f12c45e35e1cd9cc48d3ec597db19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "73a553c4_e045bfd0",
         "filename": "polygerrit-ui/README.md",
         "patchSetId": 2

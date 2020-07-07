@@ -69,6 +69,24 @@
       "revId": "3111d2150e2344c32e75569f86abbd9e31189dc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c83cbb06_7da03786",
+        "filename": "polygerrit-ui/app/utils/dom-util.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-07T10:42:02Z",
+      "side": 1,
+      "message": "I understand the function and the first arg.\nIt\u0027s specifically the word \u0027generated_\u0027 and the prefix argument that makes me think if it has a special significance.\nFine if you think it\u0027s clear.",
+      "parentUuid": "1c5cf5b6_18e827ca",
+      "revId": "3111d2150e2344c32e75569f86abbd9e31189dc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,29 @@
       "revId": "52deb9451fa825ab378668abdc1c09c365b42b39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7828511_0b2a1c03",
+        "filename": "tools/workspace_status_release.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-07T04:43:17Z",
+      "side": 1,
+      "message": "If simplify this block I still get the same results as with the original code:\n\n  match \u003d re.match(r\u0027v([0-9]+\\.[0-9]+)\\.\u0027, template)\n            ret \u003d revision_with_match(\u0027stable-\u0027 + match.group(1), True)\n            if ret.startswith(\u0027heads/\u0027):\n                return ret[len(\u0027heads/\u0027):]\n\nWouldn\u0027t this be enough of heuristic?",
+      "range": {
+        "startLine": 82,
+        "startChar": 12,
+        "endLine": 89,
+        "endChar": 30
+      },
+      "revId": "52deb9451fa825ab378668abdc1c09c365b42b39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

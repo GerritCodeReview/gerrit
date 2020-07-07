@@ -114,6 +114,8 @@ eslint(
         ".eslintrc.js",
         ".prettierrc.js",
         ".eslint-ts-resolver.js",
+        "tsconfig_eslint.json",
+        # tsconfig_eslint.json extends tsconfig.json, pass it as a dependency
         "tsconfig.json",
     ],
     extensions = [

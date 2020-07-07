@@ -34,6 +34,24 @@
       "revId": "dd5f064adc109b6a2b8d0a28b8bb3141b7b0177a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ba88631_8bd374b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-07T13:56:12Z",
+      "side": 1,
+      "message": "I am not convinced... I feel its the same behavior, and it feels weird to have it handled in two different places instead of one. I still don\u0027t see why it can not be in the `gr-diff-cursor` (is not it still a cursor behavior, just move to next chunk in next file ?)\n\nregarding the toast, do we really need the toast ? I think it can be pretty annoying soon after I know that behavior and if it still keep showing and asking me to press to navigate again, not mention the a11y. Compared to use the toast, maybe just mention that in the shortcut dialog that `n` will cross file if reach the end of the diff.\n\nlet\u0027s keep the thread open for more opinions.",
+      "parentUuid": "6d1734aa_1c26a5ff",
+      "revId": "dd5f064adc109b6a2b8d0a28b8bb3141b7b0177a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

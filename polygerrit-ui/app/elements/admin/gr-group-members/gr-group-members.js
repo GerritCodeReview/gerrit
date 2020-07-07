@@ -230,16 +230,19 @@ class GrGroupMembers extends mixinBehaviors( [
 
   _handleSavingIncludedGroups() {
     return this.$.restAPI.saveIncludedGroup(this._groupName,
-        this._includedGroupSearchId.replace(/\+/g, ' '), err => {
-          if (err.status === 404) {
-            this.dispatchEvent(new CustomEvent('show-alert', {
-              detail: {message: SAVING_ERROR_TEXT},
-              bubbles: true,
-              composed: true,
-            }));
-            return err;
+        this._includedGroupSearchId.replace(/\+/g, ' '), (errResponse, err) => {
+          if (errResponse) {
+            if (errResponse.status === 404) {
+              this.dispatchEvent(new CustomEvent('show-alert', {
+                detail: {message: SAVING_ERROR_TEXT},
+                bubbles: true,
+                composed: true,
+              }));
+              return errResponse;
+            }
+            throw Error(err.statusText);
           }
-          throw Error(err.statusText);
+          throw err;
         })
         .then(config => {
           if (!config) {

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c4f7f21e_b3d07a74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-07T11:16:04Z",
+      "side": 1,
+      "message": "Add more context here? This is a follow-up of issue 12934, so may worth referencing change 272273 in the commit message as well.",
+      "revId": "3111d2150e2344c32e75569f86abbd9e31189dc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "61b80f8b_264a6e92",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -104,6 +121,23 @@
       "revId": "3111d2150e2344c32e75569f86abbd9e31189dc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07ff014a_eaf29c42",
+        "filename": "polygerrit-ui/app/utils/dom-util_test.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-07T11:16:04Z",
+      "side": 1,
+      "message": "Test what would the call with empty string produce:\n\n  assert.equal(strToClassName(\u0027\u0027), \u0027generated_\u0027);",
+      "revId": "3111d2150e2344c32e75569f86abbd9e31189dc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

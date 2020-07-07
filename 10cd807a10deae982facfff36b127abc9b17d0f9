@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f8528ec8_2df26423",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-07T12:02:45Z",
+      "side": 1,
+      "message": "Maybe, thanks for mentioning this :-)\nOut of scope for this change, though. This change is just a bug fix, since the behavior of postReview and --publish_comments should at first be the same.",
+      "parentUuid": "541a439d_4e7267f4",
+      "revId": "10cd807a10deae982facfff36b127abc9b17d0f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d0d97691_f702ce30",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 5
@@ -39,6 +57,30 @@
       "revId": "10cd807a10deae982facfff36b127abc9b17d0f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66971dd8_44df48fb",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-07T12:02:45Z",
+      "side": 1,
+      "message": "maybe it\u0027s better to phrase it as \"potentiallyRemovedReviewers\"?\nEssentially, reviewers can\u0027t be removed by git push. However, reviewers can be moved from reviewers -\u003e cc, which we consider as a \"reviewer removed\".\n\ngetCombinedCcs gets all the CCs (including those that were never reviewers), that\u0027s why it\u0027s only \"potentially removed reviewers\".",
+      "parentUuid": "d0d97691_f702ce30",
+      "range": {
+        "startLine": 940,
+        "startChar": 14,
+        "endLine": 941,
+        "endChar": 45
+      },
+      "revId": "10cd807a10deae982facfff36b127abc9b17d0f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7451213_3423f3e0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-07T17:23:52Z",
+      "side": 1,
+      "message": "Looks suspicious, especially condition about leftSide.\nI.e. leftSide can be true or false, and false means right.\nMaybe it should be this.params.leftSide !\u003d\u003d undefined ? (or !\u003d\u003d null)\n\nI remember we can have file level comment. What is value for lineNum in this case? May be condition also should be different?",
+      "range": {
+        "startLine": 827,
+        "startChar": 8,
+        "endLine": 827,
+        "endChar": 51
+      },
+      "revId": "8103906cf177ca35f6f599e226b4e12db6663b28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b199c319_230643a8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-07T17:23:52Z",
+      "side": 1,
+      "message": "I think, this is not error. Comment link can be sent in email and then deleted by a user.\nMay be show some message \u0027Comment doesn\u0027t exist. Probably it was deleted.\u0027 (or something like that).",
+      "range": {
+        "startLine": 913,
+        "startChar": 14,
+        "endLine": 913,
+        "endChar": 49
+      },
+      "revId": "8103906cf177ca35f6f599e226b4e12db6663b28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

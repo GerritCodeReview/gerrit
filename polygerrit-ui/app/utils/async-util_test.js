@@ -15,12 +15,13 @@
  * limitations under the License.
  */
 
-import '../../test/common-test-setup-karma.js';
-import {AsyncForeachBehavior} from './async-foreach-behavior.js';
-suite('async-foreach-behavior tests', () => {
+import '../test/common-test-setup-karma.js';
+import {asyncForeach} from './async-util.js';
+
+suite('async-util tests', () => {
   test('loops over each item', () => {
     const fn = sinon.stub().returns(Promise.resolve());
-    return AsyncForeachBehavior.asyncForeach([1, 2, 3], fn)
+    return asyncForeach([1, 2, 3], fn)
         .then(() => {
           assert.isTrue(fn.calledThrice);
           assert.equal(fn.getCall(0).args[0], 1);
@@ -36,7 +37,7 @@ suite('async-foreach-behavior tests', () => {
       stop();
       return Promise.resolve();
     };
-    return AsyncForeachBehavior.asyncForeach([1, 2, 3], fn)
+    return asyncForeach([1, 2, 3], fn)
         .then(() => {
           assert.isTrue(stub.calledOnce);
           assert.equal(stub.lastCall.args[0], 1);

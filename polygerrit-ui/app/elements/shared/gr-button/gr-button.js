@@ -25,6 +25,8 @@ import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/key
 import {getEventPath} from '../../../utils/dom-util.js';
 import {appContext} from '../../../services/app-context.js';
 
+goog.declareModuleId('polygerrit.elements.shared.gr$2dbutton.gr$2dbutton');
+
 /**
  * @extends PolymerElement
  */

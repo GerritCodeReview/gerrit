@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "79dee388_f1685a7c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-07T10:18:14Z",
+      "side": 1,
+      "message": "yes, not all Element node has `querySelectorAll`, its rare tho especially with `table` check now, but no harm",
+      "parentUuid": "9372ea38_a734d33a",
+      "revId": "3111d2150e2344c32e75569f86abbd9e31189dc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d91393a3_d8d2c8c2",
         "filename": "polygerrit-ui/app/utils/dom-util.js",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2020-07-07T10:15:53Z",
       "side": 1,
       "message": "What is the arg prefix?\nAlso why is default value \u0027generated_\u0027.\nMaybe add a comment along with the param explaining both these things.",
+      "revId": "3111d2150e2344c32e75569f86abbd9e31189dc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c5cf5b6_18e827ca",
+        "filename": "polygerrit-ui/app/utils/dom-util.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-07T10:18:14Z",
+      "side": 1,
+      "message": "won\u0027t this pretty obvious already : `Must begin with a letter A-Z or a-z` ?  the prefix is more for enforcing the rule here, the default value can be anything, `generated` seems very clear its from some function instead of hardcoded value ?",
+      "parentUuid": "d91393a3_d8d2c8c2",
       "revId": "3111d2150e2344c32e75569f86abbd9e31189dc9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

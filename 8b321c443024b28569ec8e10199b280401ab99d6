@@ -1,0 +1,28 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79159f2c_650e056a",
+        "filename": "polygerrit-ui/README.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-07T10:19:51Z",
+      "side": 1,
+      "message": "\u003e Found trailing space\n\nPlease fix. ignore if this is wrong report",
+      "parentUuid": "078c41c6_530bf946",
+      "range": {
+        "startLine": 198,
+        "startChar": 80,
+        "endLine": 198,
+        "endChar": 81
+      },
+      "revId": "8b321c443024b28569ec8e10199b280401ab99d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

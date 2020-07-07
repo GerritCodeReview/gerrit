@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d585b49_89036a48",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-07-07T08:28:13Z",
+      "side": 1,
+      "message": "I just tried to build the saml-plugin and got this error:\n\n$(cat META-INF/MANIFEST.MF)\" \u003e META-INF/MANIFEST.MF \u0026\u0026 find . -exec touch \u0027\\\u0027\u0027{}\u0027\\\u0027\u0027 \u0027\\\u0027\u0027;\u0027\\\u0027\u0027 \u0026\u0026 zip -Xqr $ROOT/bazel-out/darwin-fastbuild/bin/plugins/saml/saml.jar .) \u0026\u0026 rm -rf $TMP\u0027)\nreplace META-INF/notice.txt? [y]es, [n]o, [A]ll, [N]one, [r]ename:  NULL\n(EOF or read error, treating as \"[N]one\" ...)\nTarget //plugins/saml:saml failed to build\n\nDo I have to change something in the plugin to make it work with this change?",
+      "revId": "12a2da7f6314cb3e85f65e1daca180af230596d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0926a97d_6573bcf7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1417,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-07T10:06:15Z",
+      "side": 1,
+      "message": "i think we already reporting keyboard events, if you just need the event without extra info, won\u0027t this can be retrieved by combining what page its happening and what keyboard shortcut used ?",
+      "revId": "8df93a01ef85f0f8550f12becb8679534b4a3276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -52,6 +52,24 @@
       "revId": "8df93a01ef85f0f8550f12becb8679534b4a3276",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e39dcb54_e596af7e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1417,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-07T10:39:05Z",
+      "side": 1,
+      "message": "Thanks for the pointer.\nhttps://gerrit-review.googlesource.com/c/gerrit/+/274521\nNeeds some tweaking to handle the new key \"v\"",
+      "parentUuid": "327d8133_5c00bf2b",
+      "revId": "8df93a01ef85f0f8550f12becb8679534b4a3276",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

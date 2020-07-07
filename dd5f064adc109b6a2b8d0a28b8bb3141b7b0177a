@@ -16,6 +16,24 @@
       "revId": "dd5f064adc109b6a2b8d0a28b8bb3141b7b0177a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d1734aa_1c26a5ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-07T13:45:46Z",
+      "side": 1,
+      "message": "The reason is that the cursors should not be concerned about the toasts(whether they were shown 5 seconds ago), and the navigation to next unreviewed file.\nIt makes more sense to let diff-view handle it.\nCursor retains it\u0027s original job to moveToNextChunk.",
+      "parentUuid": "a5b4ba8e_137624f8",
+      "revId": "dd5f064adc109b6a2b8d0a28b8bb3141b7b0177a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "eb816bbd_42d7a8bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-07T20:54:55Z",
+      "side": 1,
+      "message": "If we decide to remove the Polymer lint tests entirely, as suggested in: [1], this change should be rebased on top of: [1].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/274632",
+      "revId": "9dcaa6835906a7f7c5410b9dcd87cacbbe1d5340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50d7fa15_cc74e5ac",
         "filename": "polygerrit-ui/app/polylint_test.sh",
         "patchSetId": 4

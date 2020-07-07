@@ -88,6 +88,24 @@
       "revId": "dd5f064adc109b6a2b8d0a28b8bb3141b7b0177a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0a53d2f_9e94ae55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-07T15:41:20Z",
+      "side": 1,
+      "message": "The gr-diff-cursor doesn\u0027t know anything about files and in overall it just provide correct cursor management for one or multiple gr-diff on a page.\nAnd gr-diff-cursor is used in gr-diff-view and in gr-file-list, so we should again distinguish this 2 cases.\n\nI would prefer to move code partially to gr-diff-view, but make it slightly different - see my comment in gr-cursor-manager.",
+      "parentUuid": "97d476b2_0754a48e",
+      "revId": "dd5f064adc109b6a2b8d0a28b8bb3141b7b0177a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95b5856f_baba4e01",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-07T15:41:20Z",
+      "side": 0,
+      "message": "Suggestion:\n1) Instead of this block, always fire an event \u0027navigate-after-end\u0027 (or something similar)\n2) gr-diff-view handle this new event; the handler contains just code from the commented block and doesn\u0027t do any additional check (like this.$.cursor.isAtEnd())\n\nIn the future, other control can handle navigate-after-end for other purposes (for example, gr-file-list can jump to the next change in the chain, etc...)",
+      "range": {
+        "startLine": 302,
+        "startChar": 8,
+        "endLine": 319,
+        "endChar": 12
+      },
+      "revId": "ec4df750d0ed0a42e53c58629e37379965159b31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

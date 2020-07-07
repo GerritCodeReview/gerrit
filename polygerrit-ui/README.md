@@ -226,47 +226,6 @@ or
 npm run polylint
 ```
 
-## Template Type Safety
-
-> **Warning**: This feature is temporary disabled, because it doesn't work with Polymer 2 and Polymer 3. Some of the checks are made by polymer linter.
-
-Polymer elements are not type checked against the element definition, making it
-trivial to break the display when refactoring or moving code. We now run
-additional tests to help ensure that template types are checked.
-
-A few notes to ensure that these tests pass
-- Any functions with optional parameters will need closure annotations.
-- Any Polymer parameters that are nullable or can be multiple types (other than
-  the one explicitly delared) will need type annotations.
-
-These tests require the `typescript` and `fried-twinkie` npm packages.
-
-To run on all files, execute the following command:
-
-```sh
-./polygerrit-ui/app/run_template_test.sh
-```
-
-or
-
-```sh
-npm run test-template
-```
-
-To run on a specific top level directory (ex: change-list)
-```sh
-TEMPLATE_NO_DEFAULT=true ./polygerrit-ui/app/run_template_test.sh //polygerrit-ui/app:template_test_change-list
-```
-
-To run on a specific file (ex: gr-change-list-view), execute the following command:
-```sh
-TEMPLATE_NO_DEFAULT=true ./polygerrit-ui/app/run_template_test.sh //polygerrit-ui/app:template_test_<TOP_LEVEL_DIRECTORY> --test_arg=<VIEW_NAME>
-```
-
-```sh
-TEMPLATE_NO_DEFAULT=true ./polygerrit-ui/app/run_template_test.sh //polygerrit-ui/app:template_test_change-list --test_arg=gr-change-list-view
-```
-
 ## Contributing
 
 Our users report bugs / feature requests related to the UI through [Monorail Issues - PolyGerrit](https://bugs.chromium.org/p/gerrit/issues/list?q=component%3APolyGerrit).

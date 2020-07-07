@@ -184,7 +184,7 @@ public class ProjectCreator {
           GroupDescription.Basic g = groupBackend.get(ownerId);
           if (g != null) {
             GroupReference group = config.resolve(GroupReference.forGroup(g));
-            all.getPermission(Permission.OWNER, true).add(new PermissionRule(group));
+            all.getPermission(Permission.OWNER, true).add(PermissionRule.create(group));
           }
         }
       }

@@ -98,7 +98,7 @@ public class ProjectConfigSchemaUpdate extends VersionedMetaData {
                     r -> {
                       PermissionRule rule = PermissionRule.fromString(r, false);
                       if (rule.getForce()) {
-                        rule.setForce(false);
+                        rule = rule.toBuilder().setForce(false).build();
                         updated = true;
                       }
                       return rule.asString(false);

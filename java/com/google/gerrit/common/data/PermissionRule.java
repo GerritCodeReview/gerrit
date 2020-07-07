@@ -14,10 +14,10 @@
 
 package com.google.gerrit.common.data;
 
-public class PermissionRule implements Comparable<PermissionRule> {
-  public static final String FORCE_PUSH = "Force Push";
-  public static final String FORCE_EDIT = "Force Edit";
+import com.google.auto.value.AutoValue;
 
+@AutoValue
+public abstract class PermissionRule implements Comparable<PermissionRule> {
   public enum Action {
     ALLOW,
     DENY,
@@ -27,102 +27,57 @@ public class PermissionRule implements Comparable<PermissionRule> {
     BATCH
   }
 
-  protected Action action = Action.ALLOW;
-  protected boolean force;
-  protected int min;
-  protected int max;
-  protected GroupReference group;
+  public abstract Action getAction();
 
-  public PermissionRule() {}
+  public abstract boolean getForce();
 
-  public PermissionRule(GroupReference group) {
-    this.group = group;
+  public abstract int getMin();
+
+  public abstract int getMax();
+
+  public abstract GroupReference getGroup();
+
+  public static PermissionRule.Builder builder(GroupReference group) {
+    return builder().setGroup(group);
   }
 
-  public Action getAction() {
-    return action;
+  public static PermissionRule create(GroupReference group) {
+    return builder().setGroup(group).build();
   }
 
-  public void setAction(Action action) {
-    if (action == null) {
-      throw new NullPointerException("action");
-    }
-    this.action = action;
+  protected static Builder builder() {
+    return new AutoValue_PermissionRule.Builder()
+        .setMin(0)
+        .setMax(0)
+        .setAction(Action.ALLOW)
+        .setForce(false);
   }
 
-  public boolean isDeny() {
-    return action == Action.DENY;
-  }
+  static PermissionRule merge(PermissionRule src, PermissionRule dest) {
+    PermissionRule.Builder result = dest.toBuilder();
+    if (dest.getAction() != src.getAction()) {
+      if (dest.getAction() == Action.BLOCK || src.getAction() == Action.BLOCK) {
+        result.setAction(Action.BLOCK);
 
-  public void setDeny() {
-    action = Action.DENY;
-  }
+      } else if (dest.getAction() == Action.DENY || src.getAction() == Action.DENY) {
+        result.setAction(Action.DENY);
 
-  public boolean isBlock() {
-    return action == Action.BLOCK;
-  }
-
-  public void setBlock() {
-    action = Action.BLOCK;
-  }
-
-  public boolean getForce() {
-    return force;
-  }
-
-  public void setForce(boolean newForce) {
-    force = newForce;
-  }
-
-  public int getMin() {
-    return min;
-  }
-
-  public void setMin(int min) {
-    this.min = min;
-  }
-
-  public void setMax(int max) {
-    this.max = max;
-  }
-
-  public int getMax() {
-    return max;
-  }
-
-  public void setRange(int newMin, int newMax) {
-    if (newMax < newMin) {
-      min = newMax;
-      max = newMin;
-    } else {
-      min = newMin;
-      max = newMax;
-    }
-  }
-
-  public GroupReference getGroup() {
-    return group;
-  }
-
-  public void setGroup(GroupReference newGroup) {
-    group = newGroup;
-  }
-
-  void mergeFrom(PermissionRule src) {
-    if (getAction() != src.getAction()) {
-      if (getAction() == Action.BLOCK || src.getAction() == Action.BLOCK) {
-        setAction(Action.BLOCK);
-
-      } else if (getAction() == Action.DENY || src.getAction() == Action.DENY) {
-        setAction(Action.DENY);
-
-      } else if (getAction() == Action.BATCH || src.getAction() == Action.BATCH) {
-        setAction(Action.BATCH);
+      } else if (dest.getAction() == Action.BATCH || src.getAction() == Action.BATCH) {
+        result.setAction(Action.BATCH);
       }
     }
 
-    setForce(getForce() || src.getForce());
-    setRange(Math.min(getMin(), src.getMin()), Math.max(getMax(), src.getMax()));
+    result.setForce(dest.getForce() || src.getForce());
+    result.setRange(Math.min(dest.getMin(), src.getMin()), Math.max(dest.getMax(), src.getMax()));
+    return result.build();
+  }
+
+  public boolean isDeny() {
+    return getAction() == Action.DENY;
+  }
+
+  public boolean isBlock() {
+    return getAction() == Action.BLOCK;
   }
 
   @Override
@@ -159,7 +114,7 @@ public class PermissionRule implements Comparable<PermissionRule> {
   }
 
   @Override
-  public String toString() {
+  public final String toString() {
     return asString(true);
   }
 
@@ -211,7 +166,7 @@ public class PermissionRule implements Comparable<PermissionRule> {
 
   public static PermissionRule fromString(String src, boolean mightUseRange) {
     final String orig = src;
-    final PermissionRule rule = new PermissionRule();
+    final PermissionRule.Builder rule = PermissionRule.builder();
 
     src = src.trim();
 
@@ -261,7 +216,7 @@ public class PermissionRule implements Comparable<PermissionRule> {
       throw new IllegalArgumentException("Rule must include group: " + orig);
     }
 
-    return rule;
+    return rule.build();
   }
 
   public boolean hasRange() {
@@ -275,21 +230,39 @@ public class PermissionRule implements Comparable<PermissionRule> {
     return Integer.parseInt(value);
   }
 
-  @Override
-  public boolean equals(Object obj) {
-    if (!(obj instanceof PermissionRule)) {
-      return false;
-    }
-    final PermissionRule other = (PermissionRule) obj;
-    return action.equals(other.action)
-        && force == other.force
-        && min == other.min
-        && max == other.max
-        && group.equals(other.group);
-  }
+  public abstract Builder toBuilder();
 
-  @Override
-  public int hashCode() {
-    return group.hashCode();
+  @AutoValue.Builder
+  public abstract static class Builder {
+    public Builder setDeny() {
+      return setAction(Action.DENY);
+    }
+
+    public Builder setBlock() {
+      return setAction(Action.BLOCK);
+    }
+
+    public Builder setRange(int newMin, int newMax) {
+      if (newMax < newMin) {
+        setMin(newMax);
+        setMax(newMin);
+      } else {
+        setMin(newMin);
+        setMax(newMax);
+      }
+      return this;
+    }
+
+    public abstract Builder setAction(Action action);
+
+    public abstract Builder setGroup(GroupReference groupReference);
+
+    public abstract Builder setForce(boolean newForce);
+
+    public abstract Builder setMin(int min);
+
+    public abstract Builder setMax(int max);
+
+    public abstract PermissionRule build();
   }
 }

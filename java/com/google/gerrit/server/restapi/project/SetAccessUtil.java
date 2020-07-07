@@ -99,7 +99,7 @@ public class SetAccessUtil {
           }
 
           PermissionRuleInfo pri = permissionRuleInfoEntry.getValue();
-          PermissionRule r = new PermissionRule(GroupReference.forGroup(group));
+          PermissionRule.Builder r = PermissionRule.builder(GroupReference.forGroup(group));
           if (pri != null) {
             if (pri.max != null) {
               r.setMax(pri.max);
@@ -114,7 +114,7 @@ public class SetAccessUtil {
               r.setForce(pri.force);
             }
           }
-          p.add(r);
+          p.add(r.build());
         }
         accessSection.addPermission(p);
       }

@@ -111,7 +111,7 @@ public class CapabilityCollection {
 
     List<PermissionRule> r = new ArrayList<>(admins.size() + rules.size());
     for (GroupReference g : admins) {
-      r.add(new PermissionRule(g));
+      r.add(PermissionRule.create(g));
     }
     for (PermissionRule rule : rules) {
       if (!admins.contains(rule.getGroup())) {
@@ -142,9 +142,9 @@ public class CapabilityCollection {
     if (doesNotDeclare(section, capName)) {
       PermissionRange.WithDefaults range = GlobalCapability.getRange(capName);
       if (range != null) {
-        PermissionRule rule = new PermissionRule(group);
+        PermissionRule.Builder rule = PermissionRule.builder(group);
         rule.setRange(range.getDefaultMin(), range.getDefaultMax());
-        out.put(capName, Collections.singletonList(rule));
+        out.put(capName, Collections.singletonList(rule.build()));
       }
     }
   }

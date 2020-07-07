@@ -23,6 +23,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-diff-highlight_html.js';
 import {GrAnnotation} from './gr-annotation.js';
 import {GrRangeNormalizer} from './gr-range-normalizer.js';
+import {strToClassName} from '../../../utils/dom-util.js';
 
 /**
  * @extends PolymerElement
@@ -125,20 +126,27 @@ class GrDiffHighlight extends GestureEventListeners(
     // As gr-ranged-comment-layer now does not notify the layer re-render and
     // lack of access to the thread or the lineEl from the ranged-comment-layer,
     // need to update range class for styles here.
-    const currentLine = threadEl.assignedSlot.parentElement.previousSibling;
-    if (currentLine && currentLine.querySelector) {
+    let curNode = threadEl.assignedSlot;
+    while (curNode) {
+      if (curNode.nodeName === 'TABLE') break;
+      curNode = curNode.parentElement;
+    }
+    if (curNode && curNode.querySelectorAll) {
       if (highlightRange) {
-        const rangeNode = currentLine.querySelector('.range');
-        if (rangeNode) {
+        const rangeNodes = curNode
+            .querySelectorAll(`.range.${strToClassName(threadEl.rootId)}`);
+        rangeNodes.forEach(rangeNode => {
           rangeNode.classList.add('rangeHighlight');
           rangeNode.classList.remove('range');
-        }
+        });
       } else {
-        const rangeNode = currentLine.querySelector('.rangeHighlight');
-        if (rangeNode) {
+        const rangeNodes = curNode.querySelectorAll(
+            `.rangeHighlight.${strToClassName(threadEl.rootId)}`
+        );
+        rangeNodes.forEach(rangeNode => {
           rangeNode.classList.remove('rangeHighlight');
           rangeNode.classList.add('range');
-        }
+        });
       }
     }
   }

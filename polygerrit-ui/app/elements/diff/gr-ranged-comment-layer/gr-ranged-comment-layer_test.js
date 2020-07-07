@@ -36,6 +36,7 @@ suite('gr-ranged-comment-layer', () => {
           start_character: 6,
           start_line: 36,
         },
+        rootId: 'a',
       },
       {
         side: 'right',
@@ -45,6 +46,7 @@ suite('gr-ranged-comment-layer', () => {
           start_character: 10,
           start_line: 10,
         },
+        rootId: 'b',
       },
       {
         side: 'right',
@@ -54,6 +56,7 @@ suite('gr-ranged-comment-layer', () => {
           start_character: 5,
           start_line: 100,
         },
+        rootId: 'c',
       },
       {
         side: 'right',
@@ -63,6 +66,7 @@ suite('gr-ranged-comment-layer', () => {
           start_character: 32,
           start_line: 55,
         },
+        rootId: 'd',
       },
     ];
 
@@ -106,7 +110,7 @@ suite('gr-ranged-comment-layer', () => {
       assert.equal(lastCall.args[0], el);
       assert.equal(lastCall.args[1], expectedStart);
       assert.equal(lastCall.args[2], expectedLength);
-      assert.equal(lastCall.args[3], 'style-scope gr-diff range');
+      assert.equal(lastCall.args[3], 'style-scope gr-diff range generated_a');
     });
 
     test('type=Remove has-comment hovering', () => {
@@ -124,7 +128,9 @@ suite('gr-ranged-comment-layer', () => {
       assert.equal(lastCall.args[0], el);
       assert.equal(lastCall.args[1], expectedStart);
       assert.equal(lastCall.args[2], expectedLength);
-      assert.equal(lastCall.args[3], 'style-scope gr-diff rangeHighlight');
+      assert.equal(
+          lastCall.args[3], 'style-scope gr-diff rangeHighlight generated_a'
+      );
     });
 
     test('type=Both has-comment', () => {
@@ -141,7 +147,7 @@ suite('gr-ranged-comment-layer', () => {
       assert.equal(lastCall.args[0], el);
       assert.equal(lastCall.args[1], expectedStart);
       assert.equal(lastCall.args[2], expectedLength);
-      assert.equal(lastCall.args[3], 'style-scope gr-diff range');
+      assert.equal(lastCall.args[3], 'style-scope gr-diff range generated_a');
     });
 
     test('type=Both has-comment off side', () => {
@@ -169,7 +175,7 @@ suite('gr-ranged-comment-layer', () => {
       assert.equal(lastCall.args[0], el);
       assert.equal(lastCall.args[1], expectedStart);
       assert.equal(lastCall.args[2], expectedLength);
-      assert.equal(lastCall.args[3], 'style-scope gr-diff range');
+      assert.equal(lastCall.args[3], 'style-scope gr-diff range generated_b');
     });
   });
 

@@ -149,7 +149,6 @@ module.exports = {
         }
       }
     }],
-    "import/named": 2,
     "import/no-self-import": 2,
     // The no-cycle rule is slow, because it doesn't cache dependencies.
     // Disable it.
@@ -183,6 +182,7 @@ module.exports = {
         // The rule is required for .js files only, because typescript compiler
         // always checks import.
         "import/no-unresolved": 2,
+        "import/named": 2,
       },
       "globals": {
         "goog": "readonly",
@@ -193,10 +193,10 @@ module.exports = {
       "extends": [require.resolve("gts/.eslintrc.json")],
       "rules": {
         // The following rules is required to match internal google rules
-        "@typescript-eslint/restrict-plus-operands": "error"
+        "@typescript-eslint/restrict-plus-operands": "error",
       },
       "parserOptions": {
-        "project": path.resolve(__dirname, "./tsconfig.json"),
+        "project": path.resolve(__dirname, "./tsconfig_eslint.json"),
       }
     },
     {
@@ -206,6 +206,13 @@ module.exports = {
         // Custom rule from the //tools/js/eslint-rules directory.
         // See //tools/js/eslint-rules/README.md for details
         "ts-imports-js": 2,
+      }
+    },
+    {
+      "files": ["**/*.d.ts"],
+      "rules": {
+        // See details in the //tools/js/eslint-rules/report-ts-error.js file.
+        "report-ts-error": "error",
       }
     },
     {

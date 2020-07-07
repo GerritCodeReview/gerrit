@@ -36,6 +36,8 @@
 
     /* Advanced Options */
     "forceConsistentCasingInFileNames": true, /* Disallow inconsistently-cased references to the same file. */
+    "importsNotUsedAsValues": "preserve", /* Custom html elements are registered during the import. We should preserve all imports to ensure that all elements are registered.*/
+    "experimentalDecorators": true,
     "incremental": true
   },
   // With the * pattern (without an extension), only supported files

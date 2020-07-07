@@ -15,8 +15,18 @@
  * limitations under the License.
  */
 
-export declare const ChangeStatus: {
-  ABANDONED: string;
-  MERGED: string;
-  NEW: string;
-};
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+
+export interface GrDiffPreferences {
+  $: {
+    contextSelect: HTMLElement;
+  };
+}
+
+export class GrDiffPreferences extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  save(): Promise<void>;
+}

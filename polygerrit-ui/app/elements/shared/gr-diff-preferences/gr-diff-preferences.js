@@ -24,7 +24,9 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-diff-preferences_html.js';
 
-/** @extends PolymerElement */
+// eslint-disable-next-line max-len
+goog.declareModuleId('polygerrit.elements.shared.gr$2ddiff$2dpreferences.gr$2ddiff$2dpreferences');
+
 class GrDiffPreferences extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {
@@ -91,3 +93,4 @@ class GrDiffPreferences extends GestureEventListeners(
 }
 
 customElements.define(GrDiffPreferences.is, GrDiffPreferences);
+

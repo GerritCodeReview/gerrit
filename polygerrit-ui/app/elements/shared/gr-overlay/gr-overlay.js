@@ -22,6 +22,8 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-overlay_html.js';
 import {IronOverlayMixin} from '../../../mixins/iron-overlay-mixin/iron-overlay-mixin.js';
 
+goog.declareModuleId('polygerrit.elements.shared.gr$2doverlay.gr$2doverlay');
+
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
 const BREAKPOINT_FULLSCREEN_OVERLAY = '50em';

@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 
-export declare const ChangeStatus: {
-  ABANDONED: string;
-  MERGED: string;
-  NEW: string;
-};
+export type BrandType<T, BrandName extends string> = T &
+  {[__brand in BrandName]: never};
+
+export type PatchSetNum = BrandType<string, '_patchSet'>;
+export type ChangeNum = BrandType<string, '_changeNum'>;

@@ -29,8 +29,6 @@ compiled_pg_srcs = compile_ts(
             "**/*_test.js",
         ],
     ),
-    # The same outdir also appears in the following files:
-    # polylint_test.sh
     ts_outdir = "_pg_ts_out",
 )
 
@@ -48,7 +46,6 @@ compiled_pg_srcs_with_tests = compile_ts(
         ],
     ),
     # The same outdir also appears in the following files:
-    # wct_test.sh
     # karma.conf.js
     ts_outdir = "_pg_with_tests_out",
 )
@@ -130,34 +127,3 @@ eslint(
         "@npm//gts",
     ],
 )
-
-filegroup(
-    name = "polylint-fg",
-    srcs = [
-        # Workaround for https://github.com/bazelbuild/bazel/issues/1305
-        "@ui_npm//:node_modules",
-    ] +
-    # Polylinter can't check .ts files, run it on compiled srcs
-    compiled_pg_srcs,
-)
-
-sh_test(
-    name = "polylint_test",
-    size = "large",
-    srcs = ["polylint_test.sh"],
-    args = [
-        "$(location @tools_npm//polymer-cli/bin:polymer)",
-        "$(location polymer.json)",
-    ],
-    data = [
-        "polymer.json",
-        ":polylint-fg",
-        "@tools_npm//polymer-cli/bin:polymer",
-    ],
-    # Should not run sandboxed.
-    tags = [
-        "local",
-        "manual",
-    ],
-)
-

@@ -25,10 +25,11 @@
 
 /* eslint-disable no-var */
 /* eslint-disable no-unused-vars */
+/* eslint-disable @typescript-eslint/no-unused-vars*/
 /** @externs */
 // @unused
 
-var Gerrit: any;
+var Gerrit;
 var GrAnnotation;
 var GrAttributeHelper;
 var GrChangeActionsInterface;

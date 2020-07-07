@@ -15,8 +15,12 @@
  * limitations under the License.
  */
 
-export declare const ChangeStatus: {
-  ABANDONED: string;
-  MERGED: string;
-  NEW: string;
-};
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+
+export interface GrOverlay {
+  open(...args): Promise<this>;
+  close();
+  setFocusStops({start: Element, end: Element});
+}
+
+export declare class GrOverlay extends PolymerElement {}

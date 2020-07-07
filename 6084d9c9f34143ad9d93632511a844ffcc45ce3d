@@ -2,6 +2,137 @@
   "comments": [
     {
       "key": {
+        "uuid": "c7ffdab4_0cb2f56d",
+        "filename": "java/com/google/gerrit/server/project/CachedProjectConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-07T13:15:43Z",
+      "side": 1,
+      "message": "unaddressed TODO?",
+      "range": {
+        "startLine": 40,
+        "startChar": 47,
+        "endLine": 40,
+        "endChar": 91
+      },
+      "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64dc6d78_977a5c4c",
+        "filename": "java/com/google/gerrit/server/project/CachedProjectConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-07T13:15:43Z",
+      "side": 1,
+      "message": "Should this method be renamed as it\u0027s not returning a List?",
+      "range": {
+        "startLine": 46,
+        "startChar": 66,
+        "endLine": 46,
+        "endChar": 78
+      },
+      "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65fa6578_9c327580",
+        "filename": "java/com/google/gerrit/server/project/CachedProjectConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-07T13:15:43Z",
+      "side": 1,
+      "message": "add @Nullable, or better change the return type to Optional\u003cGroupReference\u003e",
+      "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a45facfa_1936502b",
+        "filename": "java/com/google/gerrit/server/project/CachedProjectConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-07T13:15:43Z",
+      "side": 1,
+      "message": "add @Nullable, or better change the return type to Optional\u003cAccessSection\u003e",
+      "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a611b433_eaed64cb",
+        "filename": "java/com/google/gerrit/server/project/CachedProjectConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-07T13:15:43Z",
+      "side": 1,
+      "message": "Here and below, should we rather use Optional?",
+      "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bb8c01f_8cc105e0",
+        "filename": "java/com/google/gerrit/server/project/CachedProjectConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-07T13:15:43Z",
+      "side": 1,
+      "message": "move this method above the builder() method",
+      "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91cfe437_55be336f",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfigUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-07T13:15:43Z",
+      "side": 1,
+      "message": "If possible we prefer not adding Util classes. Can you just inline this, it\u0027s seems to be called from a single place only?",
+      "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fec08c97_ff5cef65",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
         "patchSetId": 8
@@ -64,6 +195,29 @@
         "startChar": 43,
         "endLine": 133,
         "endChar": 54
+      },
+      "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c9ee8fd_2888e79d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-07T13:15:43Z",
+      "side": 1,
+      "message": "I recently learnt that it\u0027s better to use ImmutableList.sortedCopyOf (see [1]).\n\n[1] https://gerrit-review.googlesource.com/c/plugins/code-owners/+/272401",
+      "range": {
+        "startLine": 132,
+        "startChar": 9,
+        "endLine": 133,
+        "endChar": 56
       },
       "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

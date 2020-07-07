@@ -421,10 +421,11 @@ class GrAppElement extends mixinBehaviors( [
   }
 
   _handleShortcutTriggered(event) {
-    const {event: e, goKey} = event.detail;
+    const {event: e, goKey, vKey} = event.detail;
     // eg: {key: "k:keydown", ..., from: "gr-diff-view"}
     let key = `${e.key}:${e.type}`;
     if (goKey) key = 'g+' + key;
+    if (vKey) key = 'v+' + key;
     if (e.shiftKey) key = 'shift+' + key;
     if (e.ctrlKey) key = 'ctrl+' + key;
     if (e.metaKey) key = 'meta+' + key;

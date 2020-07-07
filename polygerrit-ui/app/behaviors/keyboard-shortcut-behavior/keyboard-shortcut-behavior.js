@@ -577,6 +577,7 @@ export const KeyboardShortcutBehavior = [
         detail: {
           event: e,
           goKey: this._inGoKeyMode(),
+          vKey: this._inVKeyMode(),
         },
         composed: true, bubbles: true,
       }));

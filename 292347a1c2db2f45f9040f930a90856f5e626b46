@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "0761f4b0_8ad6d74b",
+        "filename": "tools/workspace_status_release.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-07T04:52:37Z",
+      "side": 1,
+      "message": "Wildcard is already part of the match parameter, passed in on the lines 68 and 74.",
+      "range": {
+        "startLine": 56,
+        "startChar": 37,
+        "endLine": 56,
+        "endChar": 42
+      },
+      "revId": "292347a1c2db2f45f9040f930a90856f5e626b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "11e1ccf8_cc20b482",
         "filename": "tools/workspace_status_release.py",
         "patchSetId": 7
@@ -18,6 +41,52 @@
         "startChar": 38,
         "endLine": 65,
         "endChar": 43
+      },
+      "revId": "292347a1c2db2f45f9040f930a90856f5e626b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "347cb1b8_ae5b33ca",
+        "filename": "tools/workspace_status_release.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-07T04:52:37Z",
+      "side": 1,
+      "message": "On gerrit 2.16 branch, in the first iteration of the outer and nested loop this would produce: \u0027v2.16.21.\u0027. But what\u0027s the point? Can you think of any plugin/module where that would match to anything? If not, can we optimize the logic to only try to match against something we really expect to match? Even on the second iteration of the nested loop, where we are trying to match against \u0027v2.16.21\u0027 is in vane. I am not aware of any plugin that tagging their releases and following up to minor gerrit release.\n\nSuggestion: should we optimize the outer loop and skip patch release number, \u0027.21\u0027 on the current 2.16 branch? It could be achieved with the current code with:\n\n  # Skip major release and patch release:\n  for length in range(len(parts) - 1, 1, -1):\n  [...]\n\nMoreover the nested loop could be dropped as well (and double wildcard would be fixed). I eliminated the nested loop and the stamping results for all plugin were unchanged: [1].\n\n  for length in range(len(parts) - 1, 1, -1):\n            start \u003d \u0027.\u0027.join(parts[0:length])\n            ret \u003d revision_with_match(start)\n            if ret.startswith(start):\n                return ret\n\n[1] http://paste.openstack.org/show/795595/",
+      "range": {
+        "startLine": 69,
+        "startChar": 34,
+        "endLine": 69,
+        "endChar": 49
+      },
+      "revId": "292347a1c2db2f45f9040f930a90856f5e626b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6ee2964_04275a6f",
+        "filename": "tools/workspace_status_release.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-07T04:52:37Z",
+      "side": 1,
+      "message": "Why the repetition of the command with / without the match argument is actually needed? On oauth plugin\n\n  $ git describe --always --dirty --match \u0027v[0-9].*\u0027\n  da5aa9d\n\n  $ git describe --always --dirty\n  da5aa9d\n\nIf I replace the whole block above with one liner:\n\n  return revision_with_match(\u0027v[0-9].*\u0027)\n\nI get the same stamping results for all plugins.",
+      "range": {
+        "startLine": 72,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 36
       },
       "revId": "292347a1c2db2f45f9040f930a90856f5e626b46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

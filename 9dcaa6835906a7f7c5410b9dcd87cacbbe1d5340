@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50d7fa15_cc74e5ac",
+        "filename": "polygerrit-ui/app/polylint_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-07T18:52:13Z",
+      "side": 1,
+      "message": "The changed parameters were suggested in: [1], but it seems that even though the test is passing, it doesn\u0027t do anything, as it is immediately existing:\n\n  $ b10 test -s //polygerrit-ui/app:polylint_test\n  [...]\n  Target //polygerrit-ui/app:polylint_test up-to-date:\n  bazel-bin/polygerrit-ui/app/polylint_test\n  INFO: Elapsed time: 23.199s, Critical Path: 2.05s\n  INFO: 3 processes: 1 remote cache hit, 2 local.\n  INFO: Build completed successfully, 14 total actions\n //polygerrit-ui/app:polylint_test PASSED in 0.1s\n\nBefore this change the same test took 12 seconds on my laptop.\n\nHowever, how can we make this test fail? What kind of errors should Polylint catch now, after Gerrit migration to Polymer 3? We could upload a test change so that the //polygerrit-ui/app:polylint_test would break before the upgrade, but would succeed with this change so to say false positive? Or just comment the diff here or in: [1]? And probably we should reopen: [1] again or mention the new problem on follow-up issue: [2]?\n\n[1] https://github.com/bazelbuild/rules_nodejs/issues/1977\n[2] https://github.com/bazelbuild/rules_nodejs/issues/2002",
+      "revId": "9dcaa6835906a7f7c5410b9dcd87cacbbe1d5340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

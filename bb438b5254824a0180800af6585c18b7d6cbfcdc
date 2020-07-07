@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58d18351_fe974161",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js",
+        "patchSetId": 40
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-07T17:38:39Z",
+      "side": 1,
+      "message": "Please add a comment with character:\nreturn \u0027\\u2191\u0027; // \u0027↑\u0027",
+      "range": {
+        "startLine": 493,
+        "startChar": 0,
+        "endLine": 493,
+        "endChar": 24
+      },
+      "revId": "bb438b5254824a0180800af6585c18b7d6cbfcdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af252e04_99c6515d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 40
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-07T17:38:39Z",
+      "side": 1,
+      "message": "May be rearrange changes in the chain and use \"Add url pattern to navigate to comment in diff view\" as\nthe parent for this change.\nThen you can generate here url in the format \u0027/c/\u003cproject\u003e/+/\u003cchangeNum\u003e/\u003cpatchNum\u003e/comment/\u003ccommentId\u003e/\u003cpath\u003e",
+      "range": {
+        "startLine": 242,
+        "startChar": 11,
+        "endLine": 243,
+        "endChar": 66
+      },
+      "revId": "bb438b5254824a0180800af6585c18b7d6cbfcdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

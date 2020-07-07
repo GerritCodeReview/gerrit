@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5b4ba8e_137624f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-07T13:25:17Z",
+      "side": 1,
+      "message": "can you be more accurate on `multiple elements` here ? this message is hard to connect to why you made the change.\n\nif i understand correctly, you don\u0027t want to have the logic in cursor-manager as its used *not only* in diff, but also in file lis t dropdown etc.\n\nIf so, why not have it in `gr-diff-cursor` ? why it needs to be in gr-diff-view ? I assume `navigate to next file` is just an variant when you moveToNextChunk in diff cursor",
+      "revId": "dd5f064adc109b6a2b8d0a28b8bb3141b7b0177a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

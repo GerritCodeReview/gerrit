@@ -19,6 +19,29 @@
     },
     {
       "key": {
+        "uuid": "f00863bd_372afcaf",
+        "filename": "package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-08T07:07:46Z",
+      "side": 1,
+      "message": "Can we wait till the final release? I don\u0027t see any urgency in using rc and I am a little bit worried that rc can break some developer scenarios (like running test locally, eslintfix, etc...)",
+      "range": {
+        "startLine": 7,
+        "startChar": 22,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "9dcaa6835906a7f7c5410b9dcd87cacbbe1d5340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "50d7fa15_cc74e5ac",
         "filename": "polygerrit-ui/app/polylint_test.sh",
         "patchSetId": 4

@@ -29,7 +29,6 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-list_html.js';
 import {appContext} from '../../../services/app-context.js';
-import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {ChangeTableBehavior} from '../../../behaviors/gr-change-table-behavior/gr-change-table-behavior.js';
 import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
@@ -47,7 +46,6 @@ const MAX_SHORTCUT_CHARS = 5;
  * @extends PolymerElement
  */
 class GrChangeList extends mixinBehaviors( [
-  BaseUrlBehavior,
   ChangeTableBehavior,
   KeyboardShortcutBehavior,
   RESTClientBehavior,

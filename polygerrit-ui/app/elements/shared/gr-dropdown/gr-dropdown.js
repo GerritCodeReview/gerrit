@@ -26,7 +26,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-dropdown_html.js';
-import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {getBaseUrl} from '../../../utils/url-util.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 
 const REL_NOOPENER = 'noopener';
@@ -36,7 +36,6 @@ const REL_EXTERNAL = 'external';
  * @extends PolymerElement
  */
 class GrDropdown extends mixinBehaviors( [
-  BaseUrlBehavior,
   KeyboardShortcutBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
@@ -233,8 +232,8 @@ class GrDropdown extends mixinBehaviors( [
    * @return {!string} The scheme-relative URL.
    */
   _computeURLHelper(host, path) {
-    const base = path.startsWith(this.getBaseUrl()) ?
-      '' : this.getBaseUrl();
+    const base = path.startsWith(getBaseUrl()) ?
+      '' : getBaseUrl();
     return '//' + host + base + path;
   }
 

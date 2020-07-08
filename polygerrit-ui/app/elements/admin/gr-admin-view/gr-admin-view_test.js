@@ -20,6 +20,7 @@ import './gr-admin-view.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {stubBaseUrl} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-admin-view');
 
@@ -50,7 +51,7 @@ suite('gr-admin-view tests', () => {
         element._computeLinkURL({url: '/test', noBaseUrl: true}),
         '//' + window.location.host + '/test');
 
-    sinon.stub(element, 'getBaseUrl').returns('/foo');
+    stubBaseUrl('/foo');
     assert.equal(
         element._computeLinkURL({url: '/test', noBaseUrl: true}),
         '//' + window.location.host + '/foo/test');

@@ -23,8 +23,9 @@ import {
   PLUGIN_LOADING_TIMEOUT_MS,
   PRELOADED_PROTOCOL,
   getPluginNameFromUrl,
-  getBaseUrl,
 } from './gr-api-utils.js';
+
+import {getBaseUrl} from '../../../utils/url-util.js';
 
 /**
  * @enum {string}

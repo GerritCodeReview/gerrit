@@ -26,7 +26,7 @@ import {SafeTypes} from '../behaviors/safe-types-behavior/safe-types-behavior.js
 import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnlyResetRestApi} from '../elements/shared/gr-js-api-interface/gr-plugin-rest-api.js';
 import {_testOnlyResetGrRestApiSharedObjects} from '../elements/shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import {TestKeyboardShortcutBinder} from './test-utils';
+import {cleanupTestUtils, TestKeyboardShortcutBinder} from './test-utils.js';
 import {flushDebouncers} from '@polymer/polymer/lib/utils/debounce';
 import {_testOnly_getShortcutManagerInstance} from '../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import sinon from 'sinon/pkg/sinon-esm.js';
@@ -136,6 +136,7 @@ function checkGlobalSpace() {
 
 teardown(() => {
   sinon.restore();
+  cleanupTestUtils();
   cleanups.forEach(cleanup => cleanup());
   cleanups.splice(0);
   TestKeyboardShortcutBinder.pop();

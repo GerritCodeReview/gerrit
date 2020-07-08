@@ -26,8 +26,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-main-header_html.js';
-import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
-import {DocsUrlBehavior} from '../../../behaviors/docs-url-behavior/docs-url-behavior.js';
+import {getBaseUrl, getDocsBaseUrl} from '../../../utils/url-util.js';
 import {AdminNavBehavior} from '../../../behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
@@ -88,8 +87,6 @@ const AUTH_TYPES_WITH_REGISTER_URL = new Set([
  */
 class GrMainHeader extends mixinBehaviors( [
   AdminNavBehavior,
-  BaseUrlBehavior,
-  DocsUrlBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {
@@ -185,7 +182,7 @@ class GrMainHeader extends mixinBehaviors( [
   }
 
   _computeRelativeURL(path) {
-    return '//' + window.location.host + this.getBaseUrl() + path;
+    return '//' + window.location.host + getBaseUrl() + path;
   }
 
   _computeLinks(defaultLinks, userLinks, adminLinks, topMenus, docBaseUrl) {
@@ -288,7 +285,7 @@ class GrMainHeader extends mixinBehaviors( [
     this.$.restAPI.getConfig()
         .then(config => {
           this._retrieveRegisterURL(config);
-          return this.getDocsBaseUrl(config, this.$.restAPI);
+          return getDocsBaseUrl(config, this.$.restAPI);
         })
         .then(docBaseUrl => { this._docBaseUrl = docBaseUrl; });
   }
@@ -334,7 +331,7 @@ class GrMainHeader extends mixinBehaviors( [
   }
 
   _generateSettingsLink() {
-    return this.getBaseUrl() + '/settings/';
+    return getBaseUrl() + '/settings/';
   }
 
   _onMobileSearchTap(e) {

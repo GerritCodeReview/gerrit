@@ -24,6 +24,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-documentation-search_html.js';
 import {ListViewBehavior} from '../../../behaviors/gr-list-view-behavior/gr-list-view-behavior.js';
+import {getBaseUrl} from '../../../utils/url-util.js';
 
 /**
  * @extends PolymerElement
@@ -92,7 +93,7 @@ class GrDocumentationSearch extends mixinBehaviors( [
 
   _computeSearchUrl(url) {
     if (!url) { return ''; }
-    return this.getBaseUrl() + '/' + url;
+    return getBaseUrl() + '/' + url;
   }
 }
 

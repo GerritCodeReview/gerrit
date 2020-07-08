@@ -21,12 +21,11 @@ import '../../shared/gr-alert/gr-alert.js';
 import '../../shared/gr-overlay/gr-overlay.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-error-manager_html.js';
-import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {getBaseUrl} from '../../../utils/url-util.js';
 import {authService} from '../../shared/gr-rest-api-interface/gr-auth.js';
 import {appContext} from '../../../services/app-context.js';
 
@@ -41,11 +40,9 @@ const AUTHENTICATION_REQUIRED = 'Authentication required\n';
 /**
  * @extends PolymerElement
  */
-class GrErrorManager extends mixinBehaviors( [
-  BaseUrlBehavior,
-], GestureEventListeners(
+class GrErrorManager extends GestureEventListeners(
     LegacyElementMixin(
-        PolymerElement))) {
+        PolymerElement)) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-error-manager'; }
@@ -372,7 +369,7 @@ class GrErrorManager extends mixinBehaviors( [
       'left=' + left,
       'top=' + top,
     ];
-    window.open(this.getBaseUrl() +
+    window.open(getBaseUrl() +
         '/login/%3FcloseAfterLogin', '_blank', options.join(','));
     this.listen(window, 'focus', '_handleWindowFocus');
   }

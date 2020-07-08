@@ -73,6 +73,29 @@
       "revId": "2e3e0db7f68cc633a2cdf7df662f2e8eeb34b3bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cb7a21b_f8d36a64",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-08T11:08:47Z",
+      "side": 1,
+      "message": "Optional: May be also update the rules set to \"Polymer 3\". Even is this a copy of Polymer 2, there wouldn\u0027t be a mismatch. And who knows, if newer, Polymer 3 related rules will be added to Polymer? Could be done in a separate change, though.",
+      "range": {
+        "startLine": 165,
+        "startChar": 9,
+        "endLine": 165,
+        "endChar": 21
+      },
+      "revId": "2e3e0db7f68cc633a2cdf7df662f2e8eeb34b3bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

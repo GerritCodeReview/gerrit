@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-list-view.js';
 import page from 'page/page.mjs';
+import {stubBaseUrl} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-list-view');
 
@@ -34,7 +35,7 @@ suite('gr-list-view tests', () => {
     let filter = 'test';
     const path = '/admin/projects';
 
-    sinon.stub(element, 'getBaseUrl').callsFake(() => '');
+    stubBaseUrl('');
 
     assert.equal(
         element._computeNavLink(offset, 1, projectsPerPage, filter, path),

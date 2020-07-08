@@ -17,13 +17,13 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-js-api-interface.js';
-import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface.js';
 import {GrSettingsApi} from '../../plugins/gr-settings-api/gr-settings-api.js';
 import {GrPluginActionContext} from './gr-plugin-action-context.js';
 import {PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils.js';
 import {pluginLoader} from './gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
+import {stubBaseUrl} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-js-api-interface');
 
@@ -371,7 +371,7 @@ suite('gr-js-api-interface tests', () => {
     let baseUrlPlugin;
 
     setup(() => {
-      sinon.stub(BaseUrlBehavior, 'getBaseUrl').returns('/r');
+      stubBaseUrl('/r');
 
       pluginApi.install(p => { baseUrlPlugin = p; }, '0.1',
           'http://test.com/r/plugins/baseurlplugin/static/test.js');
@@ -460,7 +460,7 @@ suite('gr-js-api-interface tests', () => {
 
   suite('screen', () => {
     test('screenUrl()', () => {
-      sinon.stub(BaseUrlBehavior, 'getBaseUrl').returns('/base');
+      stubBaseUrl('/base');
       assert.equal(
           plugin.screenUrl(),
           `${location.origin}/base/x/testplugin`

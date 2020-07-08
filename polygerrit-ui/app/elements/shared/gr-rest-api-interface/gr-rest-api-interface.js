@@ -28,6 +28,7 @@ import {SiteBasedCache, FetchPromisesCache, GrRestApiHelper} from './gr-rest-api
 import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser.js';
 import {parseDate} from '../../../utils/date-util.js';
 import {authService} from './gr-auth.js';
+import {getBaseUrl} from '../../../utils/url-util.js';
 
 const DiffViewMode = {
   SIDE_BY_SIDE: 'SIDE_BY_SIDE',
@@ -2271,7 +2272,7 @@ class GrRestApiInterface extends mixinBehaviors( [
   }
 
   _fetchB64File(url) {
-    return this._restApiHelper.fetch({url: this.getBaseUrl() + url})
+    return this._restApiHelper.fetch({url: getBaseUrl() + url})
         .then(response => {
           if (!response.ok) {
             return Promise.reject(new Error(response.statusText));

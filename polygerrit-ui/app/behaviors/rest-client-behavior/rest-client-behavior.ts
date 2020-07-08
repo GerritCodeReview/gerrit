@@ -14,10 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  BaseUrlBehavior,
-  BaseUrlBehaviorInterface,
-} from '../base-url-behavior/base-url-behavior';
+import {getBaseUrl} from '../../utils/url-util';
 import {ChangeStatus} from '../../constants/constants';
 
 // WARNING: The types below can be completely wrong!
@@ -131,14 +128,9 @@ export const RESTClientBehavior = [
     /**
      *  @return {string}
      */
-    changeBaseURL(
-      this: BaseUrlBehaviorInterface,
-      project: string,
-      changeNum: ChangeNum,
-      patchNum: PatchNum
-    ) {
+    changeBaseURL(project: string, changeNum: ChangeNum, patchNum: PatchNum) {
       let v =
-        this.getBaseUrl() +
+        getBaseUrl() +
         '/changes/' +
         encodeURIComponent(project) +
         '~' +
@@ -149,8 +141,8 @@ export const RESTClientBehavior = [
       return v;
     },
 
-    changePath(this: BaseUrlBehaviorInterface, changeNum: ChangeNum) {
-      return this.getBaseUrl() + '/c/' + changeNum;
+    changePath(changeNum: ChangeNum) {
+      return getBaseUrl() + '/c/' + changeNum;
     },
 
     changeIsOpen(change?: Change) {
@@ -207,7 +199,6 @@ export const RESTClientBehavior = [
       return this.changeStatuses(change).join(', ');
     },
   },
-  BaseUrlBehavior,
 ];
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore

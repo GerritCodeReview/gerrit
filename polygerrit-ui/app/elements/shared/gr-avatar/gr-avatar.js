@@ -17,22 +17,19 @@
 import '../../../styles/shared-styles.js';
 import '../gr-js-api-interface/gr-js-api-interface.js';
 import '../gr-rest-api-interface/gr-rest-api-interface.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-avatar_html.js';
-import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {getBaseUrl} from '../../../utils/url-util.js';
 import {pluginLoader} from '../gr-js-api-interface/gr-plugin-loader.js';
 
 /**
  * @extends PolymerElement
  */
-class GrAvatar extends mixinBehaviors( [
-  BaseUrlBehavior,
-], GestureEventListeners(
+class GrAvatar extends GestureEventListeners(
     LegacyElementMixin(
-        PolymerElement))) {
+        PolymerElement)) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-avatar'; }
@@ -101,7 +98,7 @@ class GrAvatar extends mixinBehaviors( [
         return avatars[i].url;
       }
     }
-    return this.getBaseUrl() + '/accounts/' +
+    return getBaseUrl() + '/accounts/' +
       encodeURIComponent(this._getAccounts(account)) +
       '/avatar?s=' + this.imageSize;
   }

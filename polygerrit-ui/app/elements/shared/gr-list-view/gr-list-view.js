@@ -23,7 +23,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-list-view_html.js';
-import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {getBaseUrl} from '../../../utils/url-util.js';
 import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import page from 'page/page.mjs';
 
@@ -33,7 +33,6 @@ const REQUEST_DEBOUNCE_INTERVAL_MS = 200;
  * @extends PolymerElement
  */
 class GrListView extends mixinBehaviors( [
-  BaseUrlBehavior,
   URLEncodingBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
@@ -91,7 +90,7 @@ class GrListView extends mixinBehaviors( [
     // Offset could be a string when passed from the router.
     offset = +(offset || 0);
     const newOffset = Math.max(0, offset + (itemsPerPage * direction));
-    let href = this.getBaseUrl() + path;
+    let href = getBaseUrl() + path;
     if (filter) {
       href += '/q/filter:' + this.encodeURL(filter, false);
     }

@@ -16,9 +16,9 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
-import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {Auth, authService} from './gr-auth.js';
 import {appContext} from '../../../services/app-context.js';
+import {stubBaseUrl} from '../../../test/test-utils.js';
 
 suite('gr-auth', () => {
   let auth;
@@ -260,7 +260,7 @@ suite('gr-auth', () => {
 
     test('base url support', done => {
       const baseUrl = 'http://foo';
-      sinon.stub(BaseUrlBehavior, 'getBaseUrl').returns(baseUrl);
+      stubBaseUrl(baseUrl);
       auth.fetch(baseUrl + '/url', {bar: 'bar'}).then(() => {
         const [url] = fetch.lastCall.args;
         assert.equal(url, 'http://foo/a/url?access_token=zbaz');

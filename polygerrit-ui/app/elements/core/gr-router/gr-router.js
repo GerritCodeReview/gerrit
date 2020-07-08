@@ -21,7 +21,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import page from 'page/page.mjs';
 import {htmlTemplate} from './gr-router_html.js';
-import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {getBaseUrl} from '../../../utils/url-util.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import {GerritNav} from '../gr-navigation/gr-navigation.js';
@@ -217,7 +217,6 @@ if (!app) {
  * @extends PolymerElement
  */
 class GrRouter extends mixinBehaviors( [
-  BaseUrlBehavior,
   PatchSetBehavior,
   URLEncodingBehavior,
 ], GestureEventListeners(
@@ -277,7 +276,7 @@ class GrRouter extends mixinBehaviors( [
    * @return {string}
    */
   _generateUrl(params) {
-    const base = this.getBaseUrl();
+    const base = getBaseUrl();
     let url = '';
     const Views = GerritNav.View;
 
@@ -627,7 +626,7 @@ class GrRouter extends mixinBehaviors( [
    * @param {string} returnUrl
    */
   _redirectToLogin(returnUrl) {
-    const basePath = this.getBaseUrl() || '';
+    const basePath = getBaseUrl() || '';
     page(
         '/login/' + encodeURIComponent(returnUrl.substring(basePath.length)));
   }
@@ -725,7 +724,7 @@ class GrRouter extends mixinBehaviors( [
   }
 
   _startRouter() {
-    const base = this.getBaseUrl();
+    const base = getBaseUrl();
     if (base) {
       page.base(base);
     }
@@ -947,7 +946,7 @@ class GrRouter extends mixinBehaviors( [
         // See Issue 6888.
         hash = hash.replace('/ /', '/+/');
       }
-      const base = this.getBaseUrl();
+      const base = getBaseUrl();
       let newUrl = base + hash;
       if (hash.startsWith('/VE/')) {
         newUrl = base + '/settings' + hash;
@@ -1492,7 +1491,7 @@ class GrRouter extends mixinBehaviors( [
     if (path.startsWith('/register')) { path = '/'; }
 
     if (path[0] !== '/') { return; }
-    this._redirect(this.getBaseUrl() + path);
+    this._redirect(getBaseUrl() + path);
   }
 
   /**

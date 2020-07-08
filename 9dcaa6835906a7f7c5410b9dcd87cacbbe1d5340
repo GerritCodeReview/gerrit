@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "cbf636d1_ebe7ed28",
+        "filename": "package.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-08T07:27:09Z",
+      "side": 1,
+      "message": "Yes, absolutely. It was also meant to be only submitted after the final 2.0.0 release is published.\n\nrules_nodejs authors asked on Slack to help out and verify the last release candidate before publishing the final 2.0 release and I was eager to have the build green, and force notification to be sent to the reviewers and this is mainly the reason why I flipped the WIP bit.",
+      "parentUuid": "f00863bd_372afcaf",
+      "range": {
+        "startLine": 7,
+        "startChar": 22,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "9dcaa6835906a7f7c5410b9dcd87cacbbe1d5340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "50d7fa15_cc74e5ac",
         "filename": "polygerrit-ui/app/polylint_test.sh",
         "patchSetId": 4

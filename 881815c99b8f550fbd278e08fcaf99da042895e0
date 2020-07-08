@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45e037b8_db54daeb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-08T13:54:46Z",
+      "side": 1,
+      "message": "Should we just try to submit it and see if Bazel CI would break or not? I also filed this issue, but not response yet from Bazel team: [1].\n\n[1] https://github.com/bazelbuild/continuous-integration/issues/1000",
+      "revId": "881815c99b8f550fbd278e08fcaf99da042895e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

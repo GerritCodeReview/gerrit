@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9522e1df_736ec915",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-08T21:32:01Z",
+      "side": 1,
+      "message": "The related issue is about 3.1, but should this change be moved to stable-3.0?\n\nAlso, [1] was reopened a few days ago, for an unrelated (newly discovered) reason it seems (another issue yet to be fixed).",
+      "revId": "f2c3178ca7a87be36e7092aca04c6e01316b5987",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

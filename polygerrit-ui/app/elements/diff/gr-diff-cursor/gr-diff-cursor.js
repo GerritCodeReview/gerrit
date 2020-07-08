@@ -117,7 +117,7 @@ class GrDiffCursor extends GestureEventListeners(
 
   static get observers() {
     return [
-      '_updateSideClass(side)',
+      '_updateSideClasses(side)',
       '_diffsChanged(diffs.splices)',
     ];
   }
@@ -159,7 +159,7 @@ class GrDiffCursor extends GestureEventListeners(
 
   /** @override */
   disconnectedCallback() {
-    super.disconnectedCallback();
+    // super.disconnectedCallback();
     window.removeEventListener('scroll', this._boundHandleWindowScroll);
   }
 

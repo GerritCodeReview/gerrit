@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "679afe8b_4107af9f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-07-08T19:27:03Z",
+      "side": 1,
+      "message": "Matthias, saw you might be working on this too",
+      "revId": "977ab26f8970bcd56aac6683a6126cba03b73c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "231e8a35_7a297153",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 1

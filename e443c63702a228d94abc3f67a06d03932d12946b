@@ -16,6 +16,24 @@
       "revId": "e443c63702a228d94abc3f67a06d03932d12946b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c989b3a1_ad566f6e",
+        "filename": "polygerrit-ui/app/polylint_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-08T10:39:42Z",
+      "side": 1,
+      "message": "I uploaded a draft fix for polylint tests here: https://gerrit-review.googlesource.com/c/gerrit/+/274698/1. You can merge/cherry pick it into your change.\n\nIt seems, that bazel wraps a polymer-cli.js script into some other script and doesn\u0027t handle arguments --nobazel_run_linker --nobazel_node_patches (actually, i think this makes sense in some situations, but not in our case)\n\nAs a workaround, I manually wrap polymer-cli into nodejs_binary.\n\n\nP.S. When I wrote this comment, I tried fix only locally, but I think it should work also on CI.",
+      "parentUuid": "7a8f3e4c_93ca82ab",
+      "revId": "e443c63702a228d94abc3f67a06d03932d12946b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

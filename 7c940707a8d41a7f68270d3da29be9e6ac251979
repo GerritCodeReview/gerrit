@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d44c71f_df610677",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-08T21:14:41Z",
+      "side": 1,
+      "message": "The original wrapper appears not to be needed, as passing only --nobazel_run_linker to node launcher fixed the issue from: [1].\n\nI still think we should submit this rule set upgrade to Polymer 3. Given that the upgrade was done already on stable-3.2 we should even move this change to stable-3.2 instead (Move Change action). WDYT?\n\n[1] https://github.com/bazelbuild/rules_nodejs/issues/1977",
+      "revId": "7c940707a8d41a7f68270d3da29be9e6ac251979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

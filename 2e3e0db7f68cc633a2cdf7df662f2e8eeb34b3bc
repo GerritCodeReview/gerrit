@@ -76,6 +76,24 @@
     },
     {
       "key": {
+        "uuid": "fb8439a0_f8f49e08",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-08T11:50:22Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "64db0359_b9e7eaf3",
+      "revId": "2e3e0db7f68cc633a2cdf7df662f2e8eeb34b3bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cb7a21b_f8d36a64",
         "filename": "polygerrit-ui/app/BUILD",
         "patchSetId": 1

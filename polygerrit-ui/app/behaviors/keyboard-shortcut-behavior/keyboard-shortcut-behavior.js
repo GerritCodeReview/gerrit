@@ -561,11 +561,19 @@ export const KeyboardShortcutBehavior = [
       return getKeyboardEvent(e)[modifier];
     },
 
+    _shouldSuppressInput(type) {
+      // source: https://www.w3schools.com/html/html_form_input_types.asp
+      const types = ['text', 'email', 'password', 'number', 'search', 'tel',
+        'url'];
+      return types.includes(type);
+    },
+
     shouldSuppressKeyboardShortcut(e) {
       e = getKeyboardEvent(e);
-      const tagName = dom(e).rootTarget.tagName;
-      if (tagName === 'INPUT' || tagName === 'TEXTAREA' ||
-          (e.keyCode === 13 && tagName === 'A')) {
+      const target = dom(e).rootTarget;
+      const tagName = target.tagName;
+      if ((tagName === 'INPUT' && this._shouldSuppressInput(target.type)) ||
+        tagName === 'TEXTAREA' || (e.keyCode === 13 && tagName === 'A')) {
         // Suppress shortcuts if the key is 'enter' and target is an anchor.
         return true;
       }

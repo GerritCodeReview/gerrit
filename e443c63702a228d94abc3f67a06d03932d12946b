@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a8f3e4c_93ca82ab",
+        "filename": "polygerrit-ui/app/polylint_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-08T08:50:31Z",
+      "side": 1,
+      "message": "This change broke polymer lint: it is no-op now, and returning ater 0.1 seconds and doesn\u0027t report any breakages any more, as can be seen after rebasing this change on top of Dmitrii\u0027s WIP Polymer breakage change.\n\nI went ahead and re-opened: [1] again and reported back, that we basically don\u0027t have a workaround atm. Our only option is to unblock us from the upgrade to rules_nodejs 2.0.0 for now is to remove Polymer lint check entirely (done in another change, pending for review, together with CI script adaptation).\n\n[1] https://github.com/bazelbuild/rules_nodejs/issues/1977",
+      "revId": "e443c63702a228d94abc3f67a06d03932d12946b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

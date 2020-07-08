@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74628ac5_36f82fbf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-08T07:02:48Z",
+      "side": 1,
+      "message": "polymer linter catches some mistakes - for example https://gerrit-review.googlesource.com/c/gerrit/+/274692\n\nBut it seems, most of the rules doesn\u0027t work with Polymer 3 (rules can be found here https://github.com/Polymer/tools/tree/master/packages/linter/src/polymer) At the same time, the cost of maintaining Polymer lint tests is higher than benefits, so I support removing it.",
+      "range": {
+        "startLine": 9,
+        "startChar": 37,
+        "endLine": 10,
+        "endChar": 64
+      },
+      "revId": "99897be1a1179ac0fd433e65e6bc1e014469e074",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

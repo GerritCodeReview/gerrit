@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cd01bed_f44a036d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-07-08T22:29:48Z",
+      "side": 1,
+      "message": "I prepared the same update for jgit\nhttps://git.eclipse.org/r/c/jgit/jgit/+/166021",
+      "revId": "d09020c723ac895931cdb126529a32de8ba3de5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dabfb71d_48071d7c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-08T07:31:45Z",
+      "side": 1,
+      "message": "Thanks! So the question is, whether or not after the rules_nodejs upgrade change, the polymer lint still works? So, let me rebase my rules_nodejs upgrade change on top of this change and find out.",
+      "revId": "9e05d25d0abbae61799785a00bb94188dfc6e8fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 load(":rules.bzl", "compile_ts", "polygerrit_bundle")
 load("//tools/js:eslint.bzl", "eslint")
+load("@build_bazel_rules_nodejs//:index.bzl", "nodejs_binary")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -142,18 +143,28 @@ filegroup(
     compiled_pg_srcs,
 )
 
+nodejs_binary(
+    name = "polymer_cli",
+    data = ["@tools_npm//polymer-cli"],
+    entry_point = "@tools_npm//:node_modules/polymer-cli/bin/polymer.js",
+    templated_args = [
+        "--nobazel_run_linker",
+        "--nobazel_node_patches",
+    ],
+)
+
 sh_test(
     name = "polylint_test",
     size = "large",
     srcs = ["polylint_test.sh"],
     args = [
-        "$(location @tools_npm//polymer-cli/bin:polymer)",
+        "$(location :polymer_cli)",
         "$(location polymer.json)",
     ],
     data = [
         "polymer.json",
         ":polylint-fg",
-        "@tools_npm//polymer-cli/bin:polymer",
+        ":polymer_cli",
     ],
     # Should not run sandboxed.
     tags = [

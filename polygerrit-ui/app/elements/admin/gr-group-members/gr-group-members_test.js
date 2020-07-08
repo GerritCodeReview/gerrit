@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-group-members.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {stubBaseUrl} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-group-members');
 
@@ -135,7 +136,7 @@ suite('gr-group-members tests', () => {
       },
     });
     element = basicFixture.instantiate();
-    sinon.stub(element, 'getBaseUrl').returns('https://test/site');
+    stubBaseUrl('https://test/site');
     element.groupId = 1;
     groupStub = sinon.stub(
         element.$.restAPI,

@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-router.js';
 import page from 'page/page.mjs';
 import {GerritNav} from '../gr-navigation/gr-navigation.js';
+import {stubBaseUrl} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-router');
 
@@ -838,7 +839,7 @@ suite('gr-router tests', () => {
             querystring: '',
             hash: '/foo/bar',
           };
-          sinon.stub(element, 'getBaseUrl').returns('/baz');
+          stubBaseUrl('/baz');
           const result = element._handleRootRoute(data);
           assert.isNotOk(result);
           assert.isTrue(redirectStub.called);

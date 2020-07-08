@@ -23,7 +23,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-create-group-dialog_html.js';
-import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {getBaseUrl} from '../../../utils/url-util.js';
 import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import page from 'page/page.mjs';
 
@@ -31,7 +31,6 @@ import page from 'page/page.mjs';
  * @extends PolymerElement
  */
 class GrCreateGroupDialog extends mixinBehaviors( [
-  BaseUrlBehavior,
   URLEncodingBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
@@ -63,7 +62,7 @@ class GrCreateGroupDialog extends mixinBehaviors( [
   }
 
   _computeGroupUrl(groupId) {
-    return this.getBaseUrl() + '/admin/groups/' +
+    return getBaseUrl() + '/admin/groups/' +
         this.encodeURL(groupId, true);
   }
 

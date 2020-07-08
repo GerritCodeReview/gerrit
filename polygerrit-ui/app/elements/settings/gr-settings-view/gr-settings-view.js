@@ -45,7 +45,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-settings-view_html.js';
-import {DocsUrlBehavior} from '../../../behaviors/docs-url-behavior/docs-url-behavior.js';
+import {getDocsBaseUrl} from '../../../utils/url-util.js';
 import {ChangeTableBehavior} from '../../../behaviors/gr-change-table-behavior/gr-change-table-behavior.js';
 
 const PREFS_SECTION_FIELDS = [
@@ -78,7 +78,6 @@ const HTTP_AUTH = [
  * @extends PolymerElement
  */
 class GrSettingsView extends mixinBehaviors( [
-  DocsUrlBehavior,
   ChangeTableBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
@@ -237,7 +236,7 @@ class GrSettingsView extends mixinBehaviors( [
       }
 
       configPromises.push(
-          this.getDocsBaseUrl(config, this.$.restAPI)
+          getDocsBaseUrl(config, this.$.restAPI)
               .then(baseUrl => { this._docsBaseUrl = baseUrl; }));
 
       return Promise.all(configPromises);

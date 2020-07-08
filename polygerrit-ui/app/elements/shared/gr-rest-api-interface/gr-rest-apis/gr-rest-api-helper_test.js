@@ -35,7 +35,6 @@ suite('gr-rest-api-helper tests', () => {
     window.CANONICAL_PATH = 'testhelper';
 
     const mockRestApiInterface = {
-      getBaseUrl: sinon.stub().returns(window.CANONICAL_PATH),
       fire: sinon.stub(),
     };
 

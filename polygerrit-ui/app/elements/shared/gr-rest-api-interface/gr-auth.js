@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {getBaseUrl} from '../../../utils/url-util.js';
 import {appContext} from '../../../services/app-context.js';
 
 const MAX_AUTH_CHECK_WAIT_TIME_MS = 1000 * 30; // 30s
@@ -38,7 +38,7 @@ export class Auth {
   }
 
   get baseUrl() {
-    return BaseUrlBehavior.getBaseUrl();
+    return getBaseUrl();
   }
 
   /**

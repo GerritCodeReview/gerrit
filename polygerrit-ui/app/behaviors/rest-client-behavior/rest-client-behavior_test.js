@@ -17,7 +17,6 @@
 
 import '../../test/common-test-setup-karma.js';
 import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
-import {BaseUrlBehavior} from '../base-url-behavior/base-url-behavior.js';
 import {RESTClientBehavior} from './rest-client-behavior.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
@@ -42,7 +41,6 @@ suite('rest-client-behavior tests', () => {
     Polymer({
       is: 'rest-client-behavior-test-element',
       behaviors: [
-        BaseUrlBehavior,
         RESTClientBehavior,
       ],
     });

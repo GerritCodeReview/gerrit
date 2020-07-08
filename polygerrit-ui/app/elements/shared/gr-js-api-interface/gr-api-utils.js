@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {getBaseUrl} from '../../../utils/url-util.js';
 
 export const PRELOADED_PROTOCOL = 'preloaded:';
 export const PLUGIN_LOADING_TIMEOUT_MS = 10000;
@@ -26,10 +26,6 @@ export function getRestAPI() {
     _restAPI = document.createElement('gr-rest-api-interface');
   }
   return _restAPI;
-}
-
-export function getBaseUrl() {
-  return BaseUrlBehavior.getBaseUrl();
 }
 
 /**
@@ -49,7 +45,7 @@ export function getPluginNameFromUrl(url) {
   if (url.protocol === PRELOADED_PROTOCOL) {
     return url.pathname;
   }
-  const base = BaseUrlBehavior.getBaseUrl();
+  const base = getBaseUrl();
   let pathname = url.pathname.replace(base, '');
   // Load from ASSETS_PATH
   if (window.ASSETS_PATH && url.href.includes(window.ASSETS_PATH)) {

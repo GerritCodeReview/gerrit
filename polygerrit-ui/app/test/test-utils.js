@@ -69,3 +69,19 @@ export const resetPlugins = () => {
   const pl = _testOnly_resetPluginLoader();
   pl.loadPlugins([]);
 };
+
+const cleanups = [];
+
+function registerTestCleanup(cleanupCallback) {
+  cleanups.push(cleanupCallback);
+}
+
+export function cleanupTestUtils() {
+  cleanups.forEach(cleanup => cleanup());
+}
+
+export function stubBaseUrl(newUrl) {
+  const originalCanonicalPath = window.CANONICAL_PATH;
+  window.CANONICAL_PATH = newUrl;
+  registerTestCleanup(() => window.CANONICAL_PATH = originalCanonicalPath);
+}

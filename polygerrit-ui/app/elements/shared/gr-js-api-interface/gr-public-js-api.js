@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
+import {getBaseUrl} from '../../../utils/url-util.js';
 import {GrAttributeHelper} from '../../plugins/gr-attribute-helper/gr-attribute-helper.js';
 import {GrChangeActionsInterface} from './gr-change-actions-js-api.js';
 import {GrChangeReplyInterface} from './gr-change-reply-js-api.js';
@@ -152,7 +152,7 @@ import {deprecatedDelete} from './gr-gerrit.js';
   Plugin.prototype.url = function(opt_path) {
     const relPath = '/plugins/' + this._name + (opt_path || '/');
     const sameOriginPath = window.location.origin +
-      `${BaseUrlBehavior.getBaseUrl()}${relPath}`;
+      `${getBaseUrl()}${relPath}`;
     if (window.location.origin === this._url.origin) {
       // Plugin loaded from the same origin as gr-app, getBaseUrl in effect.
       return sameOriginPath;
@@ -168,7 +168,7 @@ import {deprecatedDelete} from './gr-gerrit.js';
 
   Plugin.prototype.screenUrl = function(opt_screenName) {
     const origin = location.origin;
-    const base = BaseUrlBehavior.getBaseUrl();
+    const base = getBaseUrl();
     const tokenPart = opt_screenName ? '/' + opt_screenName : '';
     return `${origin}${base}/x/${this.getPluginName()}${tokenPart}`;
   };

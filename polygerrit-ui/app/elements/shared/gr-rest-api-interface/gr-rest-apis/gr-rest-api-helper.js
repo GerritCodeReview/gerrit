@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {getBaseUrl} from '../../../../utils/url-util.js';
+
 const JSON_PREFIX = ')]}\'';
 
 /**
@@ -237,7 +239,7 @@ export class GrRestApiHelper {
    * @return {string}
    */
   urlWithParams(url, opt_params) {
-    if (!opt_params) { return this.getBaseUrl() + url; }
+    if (!opt_params) { return getBaseUrl() + url; }
 
     const params = [];
     for (const p in opt_params) {
@@ -250,7 +252,7 @@ export class GrRestApiHelper {
         params.push(`${encodeURIComponent(p)}=${encodeURIComponent(value)}`);
       }
     }
-    return this.getBaseUrl() + url + '?' + params.join('&');
+    return getBaseUrl() + url + '?' + params.join('&');
   }
 
   /**
@@ -297,10 +299,6 @@ export class GrRestApiHelper {
       req.fetchOptions.headers.append('Accept', 'application/json');
     }
     return req;
-  }
-
-  getBaseUrl() {
-    return this._restApiInterface.getBaseUrl();
   }
 
   dispatchEvent(type, detail) {
@@ -358,7 +356,7 @@ export class GrRestApiHelper {
       }
     }
     const url = req.url.startsWith('http') ?
-      req.url : this.getBaseUrl() + req.url;
+      req.url : getBaseUrl() + req.url;
     const fetchReq = {
       url,
       fetchOptions: options,

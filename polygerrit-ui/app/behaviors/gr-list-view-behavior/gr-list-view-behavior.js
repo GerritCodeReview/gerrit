@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import {BaseUrlBehavior} from '../base-url-behavior/base-url-behavior.js';
+import {getBaseUrl} from '../../utils/url-util.js';
 import {URLEncodingBehavior} from '../gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 
 /** @polymerBehavior ListViewBehavior */
@@ -29,7 +29,7 @@ export const ListViewBehavior = [{
   },
 
   getUrl(path, item) {
-    return this.getBaseUrl() + path + this.encodeURL(item, true);
+    return getBaseUrl() + path + this.encodeURL(item, true);
   },
 
   /**
@@ -52,7 +52,6 @@ export const ListViewBehavior = [{
     return 0;
   },
 },
-BaseUrlBehavior,
 URLEncodingBehavior,
 ];
 

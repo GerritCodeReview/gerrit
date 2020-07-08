@@ -17,10 +17,9 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-js-api-interface.js';
-import {BaseUrlBehavior} from '../../../behaviors/base-url-behavior/base-url-behavior.js';
 import {PRELOADED_PROTOCOL, PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils.js';
 import {_testOnly_resetPluginLoader} from './gr-plugin-loader.js';
-import {resetPlugins} from '../../../test/test-utils.js';
+import {resetPlugins, stubBaseUrl} from '../../../test/test-utils.js';
 import {_testOnly_flushPreinstalls} from './gr-gerrit.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 
@@ -348,7 +347,7 @@ suite('gr-plugin-loader tests', () => {
 
     test('relative path should honor getBaseUrl', () => {
       const testUrl = '/test';
-      sinon.stub(BaseUrlBehavior, 'getBaseUrl').callsFake(() => testUrl);
+      stubBaseUrl(testUrl);
 
       pluginLoader.loadPlugins([
         'foo/bar.js',

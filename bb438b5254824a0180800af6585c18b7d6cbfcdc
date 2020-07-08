@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1998a68f_bbf1a121",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js",
+        "patchSetId": 40
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-08T11:10:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58d18351_fe974161",
+      "range": {
+        "startLine": 493,
+        "startChar": 0,
+        "endLine": 493,
+        "endChar": 24
+      },
+      "revId": "bb438b5254824a0180800af6585c18b7d6cbfcdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "af252e04_99c6515d",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 40
@@ -45,6 +69,30 @@
       "revId": "bb438b5254824a0180800af6585c18b7d6cbfcdc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3df38db5_b221b760",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 40
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-08T11:10:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af252e04_99c6515d",
+      "range": {
+        "startLine": 242,
+        "startChar": 11,
+        "endLine": 243,
+        "endChar": 66
+      },
+      "revId": "bb438b5254824a0180800af6585c18b7d6cbfcdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

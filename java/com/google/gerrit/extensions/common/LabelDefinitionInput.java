@@ -34,4 +34,5 @@ public class LabelDefinitionInput extends InputWithCommitMessage {
   public List<Short> copyValues;
   public Boolean allowPostSubmit;
   public Boolean ignoreSelfApproval;
+  public Boolean robotLabel;
 }

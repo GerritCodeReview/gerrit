@@ -40,6 +40,7 @@ public abstract class LabelType {
   public static final boolean DEF_COPY_MIN_SCORE = false;
   public static final ImmutableList<Short> DEF_COPY_VALUES = ImmutableList.of();
   public static final boolean DEF_IGNORE_SELF_APPROVAL = false;
+  public static final boolean DEF_ROBOT_LABEL = false;
 
   public static LabelType withDefaultValues(String name) {
     checkName(name);
@@ -117,6 +118,8 @@ public abstract class LabelType {
 
   public abstract boolean isIgnoreSelfApproval();
 
+  public abstract boolean isRobotLabel();
+
   public abstract short getDefaultValue();
 
   public abstract ImmutableList<LabelValue> getValues();
@@ -154,7 +157,8 @@ public abstract class LabelType {
         .setCopyMinScore(DEF_COPY_MIN_SCORE)
         .setCopyValues(DEF_COPY_VALUES)
         .setAllowPostSubmit(DEF_ALLOW_POST_SUBMIT)
-        .setIgnoreSelfApproval(DEF_IGNORE_SELF_APPROVAL);
+        .setIgnoreSelfApproval(DEF_IGNORE_SELF_APPROVAL)
+        .setRobotLabel(DEF_ROBOT_LABEL);
   }
 
   public boolean matches(PatchSetApproval psa) {
@@ -227,6 +231,8 @@ public abstract class LabelType {
     public abstract Builder setAllowPostSubmit(boolean allowPostSubmit);
 
     public abstract Builder setIgnoreSelfApproval(boolean ignoreSelfApproval);
+
+    public abstract Builder setRobotLabel(boolean robotLabel);
 
     public abstract Builder setRefPatterns(@Nullable ImmutableList<String> refPatterns);
 

@@ -225,6 +225,11 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
       dirty = true;
     }
 
+    if (input.robotLabel != null) {
+      labelTypeBuilder.setRobotLabel(input.robotLabel);
+      dirty = true;
+    }
+
     config.getLabelSections().remove(labelType.getName());
     config.upsertLabelType(labelTypeBuilder.build());
 

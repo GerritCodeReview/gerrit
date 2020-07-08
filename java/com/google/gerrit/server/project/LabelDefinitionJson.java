@@ -43,6 +43,7 @@ public class LabelDefinitionJson {
     label.copyValues = labelType.getCopyValues().isEmpty() ? null : labelType.getCopyValues();
     label.allowPostSubmit = toBoolean(labelType.isAllowPostSubmit());
     label.ignoreSelfApproval = toBoolean(labelType.isIgnoreSelfApproval());
+    label.robotLabel = toBoolean(labelType.isRobotLabel());
     return label;
   }
 

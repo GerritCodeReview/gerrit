@@ -50,6 +50,7 @@ public class LabelAssert {
     assertThat(codeReviewLabel.copyValues).isNull();
     assertThat(codeReviewLabel.allowPostSubmit).isTrue();
     assertThat(codeReviewLabel.ignoreSelfApproval).isNull();
+    assertThat(codeReviewLabel.robotLabel).isNull();
   }
 
   private LabelAssert() {}

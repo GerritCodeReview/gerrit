@@ -3924,6 +3924,8 @@ on the label.
 |`ignore_self_approval`|`false` if not set|
 Whether link:config-labels.html#label_ignoreSelfApproval[ignoreSelfApproval] is
 set on the label.
+|`robot_label`|`false` if not set|
+Whether the label is mainly used by robots.
 |=============================
 
 [[label-definition-input]]
@@ -3991,6 +3993,8 @@ on the label.
 |`ignore_self_approval`|optional|
 Whether link:config-labels.html#label_ignoreSelfApproval[ignoreSelfApproval] is
 set on the label.
+|`robot_label`|optional|
+Whether the label is mainly used by robots.
 |=============================
 
 [[label-type-info]]

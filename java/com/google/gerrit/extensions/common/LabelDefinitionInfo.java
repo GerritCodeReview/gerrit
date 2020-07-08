@@ -35,4 +35,5 @@ public class LabelDefinitionInfo {
   public List<Short> copyValues;
   public Boolean allowPostSubmit;
   public Boolean ignoreSelfApproval;
+  public Boolean robotLabel;
 }

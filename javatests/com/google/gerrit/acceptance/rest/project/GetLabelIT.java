@@ -120,6 +120,7 @@ public class GetLabelIT extends AbstractDaemonTest {
     assertThat(fooLabel.copyValues).isNull();
     assertThat(fooLabel.allowPostSubmit).isNull();
     assertThat(fooLabel.ignoreSelfApproval).isNull();
+    assertThat(fooLabel.robotLabel).isNull();
   }
 
   @Test
@@ -140,6 +141,7 @@ public class GetLabelIT extends AbstractDaemonTest {
                 labelType.setCopyAllScoresOnMergeFirstParentUpdate(true);
                 labelType.setCopyValues(ImmutableList.of((short) -1, (short) 1));
                 labelType.setIgnoreSelfApproval(true);
+                labelType.setRobotLabel(true);
               });
       u.save();
     }
@@ -156,5 +158,6 @@ public class GetLabelIT extends AbstractDaemonTest {
     assertThat(fooLabel.copyValues).containsExactly((short) -1, (short) 1).inOrder();
     assertThat(fooLabel.allowPostSubmit).isTrue();
     assertThat(fooLabel.ignoreSelfApproval).isTrue();
+    assertThat(fooLabel.robotLabel).isTrue();
   }
 }

@@ -203,6 +203,10 @@ public class CreateLabel
       labelType.setIgnoreSelfApproval(input.ignoreSelfApproval);
     }
 
+    if (input.robotLabel != null) {
+      labelType.setRobotLabel(input.robotLabel);
+    }
+
     LabelType lt = labelType.build();
     config.upsertLabelType(lt);
 

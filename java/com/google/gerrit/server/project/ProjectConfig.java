@@ -103,6 +103,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public static final String KEY_COPY_MIN_SCORE = "copyMinScore";
   public static final String KEY_ALLOW_POST_SUBMIT = "allowPostSubmit";
   public static final String KEY_IGNORE_SELF_APPROVAL = "ignoreSelfApproval";
+  public static final String KEY_ROBOT_LABEL = "robotLabel";
   public static final String KEY_COPY_ANY_SCORE = "copyAnyScore";
   public static final String KEY_COPY_MAX_SCORE = "copyMaxScore";
   public static final String KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE =
@@ -1006,6 +1007,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           rc.getBoolean(LABEL, name, KEY_ALLOW_POST_SUBMIT, LabelType.DEF_ALLOW_POST_SUBMIT));
       label.setIgnoreSelfApproval(
           rc.getBoolean(LABEL, name, KEY_IGNORE_SELF_APPROVAL, LabelType.DEF_IGNORE_SELF_APPROVAL));
+      label.setRobotLabel(rc.getBoolean(LABEL, name, KEY_ROBOT_LABEL, LabelType.DEF_ROBOT_LABEL));
       label.setCopyAnyScore(
           rc.getBoolean(LABEL, name, KEY_COPY_ANY_SCORE, LabelType.DEF_COPY_ANY_SCORE));
       label.setCopyMinScore(
@@ -1478,6 +1480,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           KEY_IGNORE_SELF_APPROVAL,
           label.isIgnoreSelfApproval(),
           LabelType.DEF_IGNORE_SELF_APPROVAL);
+      setBooleanConfigKey(
+          rc, LABEL, name, KEY_ROBOT_LABEL, label.isRobotLabel(), LabelType.DEF_ROBOT_LABEL);
       setBooleanConfigKey(
           rc,
           LABEL,

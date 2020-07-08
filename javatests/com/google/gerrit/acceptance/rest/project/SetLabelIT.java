@@ -859,6 +859,40 @@ public class SetLabelIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void setRobotComment() throws Exception {
+    configLabel("foo", LabelFunction.NO_OP);
+    assertThat(gApi.projects().name(project.get()).label("foo").get().robotLabel).isNull();
+
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.robotLabel = true;
+
+    LabelDefinitionInfo updatedLabel =
+        gApi.projects().name(project.get()).label("foo").update(input);
+    assertThat(updatedLabel.robotLabel).isTrue();
+
+    assertThat(gApi.projects().name(project.get()).label("foo").get().robotLabel).isTrue();
+  }
+
+  @Test
+  public void unsetRobotComment() throws Exception {
+    configLabel("foo", LabelFunction.NO_OP);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().updateLabelType("foo", lt -> lt.setRobotLabel(true));
+      u.save();
+    }
+    assertThat(gApi.projects().name(project.get()).label("foo").get().robotLabel).isTrue();
+
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.robotLabel = false;
+
+    LabelDefinitionInfo updatedLabel =
+        gApi.projects().name(project.get()).label("foo").update(input);
+    assertThat(updatedLabel.robotLabel).isNull();
+
+    assertThat(gApi.projects().name(project.get()).label("foo").get().robotLabel).isNull();
+  }
+
+  @Test
   public void noOpUpdate() throws Exception {
     RevCommit refsMetaConfigHead =
         projectOperations.project(allProjects).getHead(RefNames.REFS_CONFIG);

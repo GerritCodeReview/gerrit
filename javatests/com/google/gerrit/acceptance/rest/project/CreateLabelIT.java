@@ -247,6 +247,7 @@ public class CreateLabelIT extends AbstractDaemonTest {
     assertThat(createdLabel.copyValues).isNull();
     assertThat(createdLabel.allowPostSubmit).isTrue();
     assertThat(createdLabel.ignoreSelfApproval).isNull();
+    assertThat(createdLabel.robotLabel).isNull();
   }
 
   @Test
@@ -590,6 +591,28 @@ public class CreateLabelIT extends AbstractDaemonTest {
     LabelDefinitionInfo createdLabel =
         gApi.projects().name(project.get()).label("foo").create(input).get();
     assertThat(createdLabel.ignoreSelfApproval).isNull();
+  }
+
+  @Test
+  public void createRobotLabel() throws Exception {
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");
+    input.robotLabel = true;
+
+    LabelDefinitionInfo createdLabel =
+        gApi.projects().name(project.get()).label("foo").create(input).get();
+    assertThat(createdLabel.robotLabel).isTrue();
+  }
+
+  @Test
+  public void createNonRobotLabel() throws Exception {
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");
+    input.robotLabel = false;
+
+    LabelDefinitionInfo createdLabel =
+        gApi.projects().name(project.get()).label("foo").create(input).get();
+    assertThat(createdLabel.robotLabel).isNull();
   }
 
   @Test

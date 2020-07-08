@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4384cc93_5f0c2c08",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-08T07:06:05Z",
+      "side": 1,
+      "message": "Needing to have such a field somehow doesn\u0027t feel right for an AutoValue.Builder.\n\nMaybe to do this properly we should separate AccessSection and AccessSectionUpdate (just following the example of InternalGroup+InternalGroupUpdate, Checker+CheckerUpdate, etc.)?",
+      "revId": "34f0f0a9abbc655878e2a2142a0d5657af928cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a49c3a4a_3f280d26",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-08T07:06:05Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be Permission? E.g. by default the Permission.Builder doesn\u0027t have getters to inspect the values in the permission, but you would need the getters to find the permission that you want to update.",
+      "range": {
+        "startLine": 109,
+        "startChar": 51,
+        "endLine": 109,
+        "endChar": 69
+      },
+      "revId": "34f0f0a9abbc655878e2a2142a0d5657af928cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e03e3c9e_67aed24c",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-08T07:06:05Z",
+      "side": 1,
+      "message": "I think these methods should rather delegate to the modifyPermissions method.\n\nYou may also follow the approach I took in the code-owners plugin and rather provide this functionality as static methods [1] that can be easily unit tested [2].\n\n[1] https://gerrit-review.googlesource.com/c/plugins/code-owners/+/272655/13/java/com/google/gerrit/plugins/codeowners/backend/CodeOwnerSetModification.java\n[2] https://gerrit-review.googlesource.com/c/plugins/code-owners/+/272655/15/javatests/com/google/gerrit/plugins/codeowners/backend/CodeOwnerSetModificationTest.java",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 5
+      },
+      "revId": "34f0f0a9abbc655878e2a2142a0d5657af928cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

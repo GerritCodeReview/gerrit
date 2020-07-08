@@ -46,6 +46,6 @@ suite('base-url-behavior tests', () => {
   });
 
   test('getBaseUrl', () => {
-    assert.deepEqual(element.getBaseUrl(), '/r');
+    assert.deepEqual(element.getBaseUrl(), 'a');
   });
 });

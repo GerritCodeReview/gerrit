@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "96c3b4eb_b8e40c1c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-07-08T21:28:35Z",
+      "side": 1,
+      "message": "Apologies, I didn\u0027t notice you already pushed this cherry-pick when I pushed my version which became PS 2",
+      "revId": "b89e4810296f361553a2064877ae9b33f0d901ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

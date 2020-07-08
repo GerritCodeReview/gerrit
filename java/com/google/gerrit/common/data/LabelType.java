@@ -259,6 +259,8 @@ public abstract class LabelType {
 
     protected abstract String getName();
 
+    protected abstract ImmutableList<Short> getCopyValues();
+
     protected abstract Builder setByValue(ImmutableMap<Short, LabelValue> byValue);
 
     @Nullable
@@ -289,6 +291,8 @@ public abstract class LabelType {
         byValue.put(v.getValue(), v);
       }
       setByValue(byValue.build());
+
+      setCopyValues(ImmutableList.sortedCopyOf(getCopyValues()));
 
       return autoBuild();
     }

@@ -42,6 +42,23 @@
     },
     {
       "key": {
+        "uuid": "ce5b334f_b712446c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-08T11:06:08Z",
+      "side": 1,
+      "message": "Nice:\n\n  //polygerrit-ui/app:lint_test    PASSED in 61.4s\n  [...]\n  \u0027_updateSideClasses(side)\u0027,\n\nI never was so happy to see the tests failing ;)",
+      "revId": "2e3e0db7f68cc633a2cdf7df662f2e8eeb34b3bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "64db0359_b9e7eaf3",
         "filename": "polygerrit-ui/app/BUILD",
         "patchSetId": 1

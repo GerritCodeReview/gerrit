@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fb8aa0c_f22d0a60",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-08T06:43:42Z",
+      "side": 1,
+      "message": "Looks good to me, but Code-Style check still runs template tests.",
+      "revId": "8faa42f26b597895911874ece9def8f4467986bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

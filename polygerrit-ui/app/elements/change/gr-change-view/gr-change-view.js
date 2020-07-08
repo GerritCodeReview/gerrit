@@ -1354,15 +1354,12 @@ class GrChangeView extends mixinBehaviors( [
     if ([changeRecord, canStartReview].includes(undefined)) {
       return 'Reply';
     }
-    if (canStartReview) {
-      return 'Start Review';
-    }
 
     const drafts = (changeRecord && changeRecord.base) || {};
     const draftCount = Object.keys(drafts)
         .reduce((count, file) => count + drafts[file].length, 0);
 
-    let label = 'Reply';
+    let label = canStartReview ? 'Start Review' : 'Reply';
     if (draftCount > 0) {
       label += ' (' + draftCount + ')';
     }

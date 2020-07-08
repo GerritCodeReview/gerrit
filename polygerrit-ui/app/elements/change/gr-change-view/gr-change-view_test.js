@@ -1136,6 +1136,7 @@ suite('gr-change-view tests', () => {
       'file2.txt': [{}, {}],
     };
     assert.equal(getLabel(changeRecord, false), 'Reply (3)');
+    assert.equal(getLabel(changeRecord, true), 'Start Review (3)');
   });
 
   test('comment events properly update diff drafts', () => {

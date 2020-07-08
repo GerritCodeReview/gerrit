@@ -25,7 +25,7 @@ const basicFixture =
 
 const withinOverlayFixture = fixtureFromTemplate(html`
 <gr-overlay>
-  <keyboard-shortcut-behavior-test-element>      
+  <keyboard-shortcut-behavior-test-element>
   </keyboard-shortcut-behavior-test-element>
 </gr-overlay>
 `);
@@ -291,6 +291,17 @@ suite('keyboard-shortcut-behavior tests', () => {
     element.appendChild(inputEl);
     element._handleKey = e => {
       assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
+      done();
+    };
+    MockInteractions.keyDownOn(inputEl, 75, null, 'k');
+  });
+
+  test('does not blocks kb shortcuts for allowed input els', done => {
+    const inputEl = document.createElement('input');
+    inputEl.type = 'checkbox';
+    element.appendChild(inputEl);
+    element._handleKey = e => {
+      assert.isFalse(element.shouldSuppressKeyboardShortcut(e));
       done();
     };
     MockInteractions.keyDownOn(inputEl, 75, null, 'k');

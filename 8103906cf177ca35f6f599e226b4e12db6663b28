@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ee96e57f_606eba77",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-08T08:43:31Z",
+      "side": 1,
+      "message": "If lineNum is not defined then both methods are internally returning before executing anything.\nI removed this condition and will let the functions _initCursor and _getLineOfInterest handle undefined/null(they already are handling it).",
+      "parentUuid": "d7451213_3423f3e0",
+      "range": {
+        "startLine": 827,
+        "startChar": 8,
+        "endLine": 827,
+        "endChar": 51
+      },
+      "revId": "8103906cf177ca35f6f599e226b4e12db6663b28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b199c319_230643a8",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 7
@@ -45,6 +69,30 @@
       "revId": "8103906cf177ca35f6f599e226b4e12db6663b28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4076c72c_c7ae3e8c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-08T08:43:31Z",
+      "side": 1,
+      "message": "Decided to show a toast saying comment not found.",
+      "parentUuid": "b199c319_230643a8",
+      "range": {
+        "startLine": 913,
+        "startChar": 14,
+        "endLine": 913,
+        "endChar": 49
+      },
+      "revId": "8103906cf177ca35f6f599e226b4e12db6663b28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

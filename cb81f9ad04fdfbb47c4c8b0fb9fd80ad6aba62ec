@@ -201,6 +201,24 @@
     },
     {
       "key": {
+        "uuid": "0d1557d6_7ff940e3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-08T08:43:31Z",
+      "side": 1,
+      "message": "Actually Dmitrii pointed out comment could be deleted and hence not found, so we should load the diff like you suggested.\nRemoved the return statement.",
+      "parentUuid": "71f04167_92cfeeae",
+      "revId": "cb81f9ad04fdfbb47c4c8b0fb9fd80ad6aba62ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9737645_8df840b9",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 6

@@ -564,8 +564,8 @@ export const KeyboardShortcutBehavior = [
     shouldSuppressKeyboardShortcut(e) {
       e = getKeyboardEvent(e);
       const tagName = dom(e).rootTarget.tagName;
-      if (tagName === 'INPUT' || tagName === 'TEXTAREA' ||
-          (e.keyCode === 13 && tagName === 'A')) {
+      if ((tagName === 'INPUT' && dom(e).rootTarget.type !== 'checkbox') ||
+        tagName === 'TEXTAREA' || (e.keyCode === 13 && tagName === 'A')) {
         // Suppress shortcuts if the key is 'enter' and target is an anchor.
         return true;
       }

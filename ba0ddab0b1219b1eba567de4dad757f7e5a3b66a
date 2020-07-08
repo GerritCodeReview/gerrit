@@ -34,6 +34,23 @@
       "revId": "ba0ddab0b1219b1eba567de4dad757f7e5a3b66a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d8bc167a_ffd8c118",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-08T16:15:48Z",
+      "side": 1,
+      "message": "\u003e So maybe just no tests looking for the sorting?\n\nYeah, we need a test for this. I\u0027ll follow up with one. +2ing this because it\u0027s an immediate fix.",
+      "revId": "ba0ddab0b1219b1eba567de4dad757f7e5a3b66a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

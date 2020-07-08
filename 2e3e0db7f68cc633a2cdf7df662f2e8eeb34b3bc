@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da422949_36c8981e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-08T10:50:27Z",
+      "side": 1,
+      "message": "Nit: 2.0.0.rc.1, or just remove \"rc\"-suffix completely. As discussed, we will only submit it once, final release is published.",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "2e3e0db7f68cc633a2cdf7df662f2e8eeb34b3bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57f6360e_e1deae36",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-08T10:50:27Z",
+      "side": 1,
+      "message": "Thanks, Dmitrii, that\u0027s great. Could you please update the GitHub issue: [1] and document your finding and needed work around correspondingly, so that I could close it again? We could abandon then the removal of Polymer lint checks for now, and consider to remove it later.",
+      "revId": "2e3e0db7f68cc633a2cdf7df662f2e8eeb34b3bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "64db0359_b9e7eaf3",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-08T10:50:27Z",
+      "side": 1,
+      "message": "Optional: may be mention the discussion in https://github.com/bazelbuild/rules_nodejs/issues/1977?",
+      "revId": "2e3e0db7f68cc633a2cdf7df662f2e8eeb34b3bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

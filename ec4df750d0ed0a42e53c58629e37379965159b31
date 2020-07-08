@@ -22,6 +22,30 @@
       "revId": "ec4df750d0ed0a42e53c58629e37379965159b31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbc41a21_ccb76015",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-08T07:37:13Z",
+      "side": 0,
+      "message": "I like the approach, more flexible to support more customization from parents",
+      "parentUuid": "95b5856f_baba4e01",
+      "range": {
+        "startLine": 302,
+        "startChar": 8,
+        "endLine": 319,
+        "endChar": 12
+      },
+      "revId": "ec4df750d0ed0a42e53c58629e37379965159b31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

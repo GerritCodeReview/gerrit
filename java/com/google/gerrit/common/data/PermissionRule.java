@@ -263,6 +263,8 @@ public abstract class PermissionRule implements Comparable<PermissionRule> {
 
     public abstract Builder setMax(int max);
 
+    public abstract GroupReference getGroup();
+
     public abstract PermissionRule build();
   }
 }

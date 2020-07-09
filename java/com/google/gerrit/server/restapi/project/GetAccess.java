@@ -157,7 +157,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
         projectState = projectCache.get(projectName).orElseThrow(illegalState(projectName));
         perm = permissionBackend.currentUser().project(projectName);
       } else if (config.getRevision() != null
-          && !config.getRevision().equals(projectState.getConfig().getRevision())) {
+          && !config.getRevision().equals(projectState.getConfig().getRevision().orElse(null))) {
         projectCache.evict(config.getProject());
         projectState = projectCache.get(projectName).orElseThrow(illegalState(projectName));
         perm = permissionBackend.currentUser().project(projectName);
@@ -208,9 +208,9 @@ public class GetAccess implements RestReadView<ProjectResource> {
           // user is a member of, as well as groups they own or that
           // are visible to all users.
 
-          AccessSection dst = null;
+          AccessSection.Builder dst = null;
           for (Permission srcPerm : section.getPermissions()) {
-            Permission dstPerm = null;
+            Permission.Builder dstPerm = null;
 
             for (PermissionRule srcRule : srcPerm.getRules()) {
               AccountGroup.UUID groupId = srcRule.getGroup().getUUID();
@@ -221,12 +221,12 @@ public class GetAccess implements RestReadView<ProjectResource> {
               loadGroup(groups, groupId);
               if (dstPerm == null) {
                 if (dst == null) {
-                  dst = new AccessSection(name);
-                  info.local.put(name, createAccessSection(groups, dst));
+                  dst = AccessSection.builder(name);
+                  info.local.put(name, createAccessSection(groups, dst.build()));
                 }
-                dstPerm = dst.getPermission(srcPerm.getName(), true);
+                dstPerm = dst.upsertPermission(srcPerm.getName());
               }
-              dstPerm.add(srcRule);
+              dstPerm.add(srcRule.toBuilder());
             }
           }
         }

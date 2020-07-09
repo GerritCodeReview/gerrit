@@ -323,3 +323,18 @@ message AccountDetailsProto {
   repeated ProjectWatchProto project_watch_proto = 2;
   string user_preferences = 3;
 }
+
+// Serialized form of com.google.gerrit.entities.Project.
+// Next ID: 11
+message ProjectProto {
+  string name = 1;
+  string description = 2;
+  map<string, string> boolean_configs = 3;
+  string submit_type = 4; // ENUM as String
+  string state = 5; // ENUM as String
+  string parent = 6;
+  string max_object_size_limit = 7;
+  string default_dashboard = 8;
+  string local_default_dashboard = 9;
+  string config_ref_state = 10;
+}

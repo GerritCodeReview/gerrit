@@ -453,7 +453,7 @@ public class PrologRuleEvaluator {
       } else {
         pmc =
             rulesCache.loadMachine(
-                projectState.getNameKey(), projectState.getConfig().getRulesId());
+                projectState.getNameKey(), projectState.getConfig().getRulesId().orElse(null));
       }
       env = envFactory.create(pmc);
     } catch (CompileException err) {
@@ -490,7 +490,7 @@ public class PrologRuleEvaluator {
         parentEnv =
             envFactory.create(
                 rulesCache.loadMachine(
-                    parentState.getNameKey(), parentState.getConfig().getRulesId()));
+                    parentState.getNameKey(), parentState.getConfig().getRulesId().orElse(null)));
       } catch (CompileException err) {
         throw new RuleEvalException("Cannot consult rules.pl for " + parentState.getName(), err);
       }

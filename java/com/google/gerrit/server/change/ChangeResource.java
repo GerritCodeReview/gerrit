@@ -20,6 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.base.MoreObjects;
 import com.google.common.hash.Hasher;
 import com.google.common.hash.Hashing;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Change;
@@ -188,7 +189,7 @@ public class ChangeResource implements RestResource, HasETag {
     Iterable<ProjectState> projectStateTree =
         projectCache.get(getProject()).orElseThrow(illegalState(getProject())).tree();
     for (ProjectState p : projectStateTree) {
-      hashObjectId(h, p.getConfig().getRevision(), buf);
+      hashObjectId(h, p.getConfig().getRevision().orElse(null), buf);
     }
 
     changeETagComputation.runEach(
@@ -218,7 +219,7 @@ public class ChangeResource implements RestResource, HasETag {
     }
   }
 
-  private void hashObjectId(Hasher h, ObjectId id, byte[] buf) {
+  private void hashObjectId(Hasher h, @Nullable ObjectId id, byte[] buf) {
     MoreObjects.firstNonNull(id, ObjectId.zeroId()).copyRawTo(buf, 0);
     h.putBytes(buf);
   }

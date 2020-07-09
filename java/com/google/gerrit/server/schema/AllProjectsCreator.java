@@ -144,79 +144,107 @@ public class AllProjectsCreator {
   }
 
   private void initDefaultAcls(ProjectConfig config, AllProjectsInput input) {
-    AccessSection capabilities = config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES, true);
-    AccessSection heads = config.getAccessSection(AccessSection.HEADS, true);
-
     checkArgument(input.codeReviewLabel().isPresent());
     LabelType codeReviewLabel = input.codeReviewLabel().get();
 
-    initDefaultAclsForRegisteredUsers(heads, codeReviewLabel, config);
+    config.upsertAccessSection(
+        AccessSection.HEADS,
+        heads -> {
+          initDefaultAclsForRegisteredUsers(heads, codeReviewLabel, config);
+        });
 
-    input
-        .batchUsersGroup()
-        .ifPresent(
-            batchUsersGroup -> initDefaultAclsForBatchUsers(capabilities, config, batchUsersGroup));
+    config.upsertAccessSection(
+        AccessSection.GLOBAL_CAPABILITIES,
+        capabilities -> {
+          input
+              .batchUsersGroup()
+              .ifPresent(
+                  batchUsersGroup ->
+                      initDefaultAclsForBatchUsers(capabilities, config, batchUsersGroup));
+        });
 
     input
         .administratorsGroup()
-        .ifPresent(
-            adminsGroup ->
-                initDefaultAclsForAdmins(
-                    capabilities, config, heads, codeReviewLabel, adminsGroup));
+        .ifPresent(adminsGroup -> initDefaultAclsForAdmins(config, codeReviewLabel, adminsGroup));
   }
 
   private void initDefaultAclsForRegisteredUsers(
-      AccessSection heads, LabelType codeReviewLabel, ProjectConfig config) {
-    AccessSection refsFor = config.getAccessSection("refs/for/*", true);
-    AccessSection magic = config.getAccessSection("refs/for/" + AccessSection.ALL, true);
-    AccessSection all = config.getAccessSection("refs/*", true);
+      AccessSection.Builder heads, LabelType codeReviewLabel, ProjectConfig config) {
+    config.upsertAccessSection(
+        "refs/for/*",
+        refsFor -> {
+          grant(config, refsFor, Permission.ADD_PATCH_SET, registered);
+        });
 
-    grant(config, refsFor, Permission.ADD_PATCH_SET, registered);
     grant(config, heads, codeReviewLabel, -1, 1, registered);
     grant(config, heads, Permission.FORGE_AUTHOR, registered);
-    grant(config, all, Permission.REVERT, registered);
-    grant(config, magic, Permission.PUSH, registered);
-    grant(config, magic, Permission.PUSH_MERGE, registered);
+
+    config.upsertAccessSection(
+        "refs/*",
+        all -> {
+          grant(config, all, Permission.REVERT, registered);
+        });
+
+    config.upsertAccessSection(
+        "refs/for/" + AccessSection.ALL,
+        magic -> {
+          grant(config, magic, Permission.PUSH, registered);
+          grant(config, magic, Permission.PUSH_MERGE, registered);
+        });
   }
 
   private void initDefaultAclsForBatchUsers(
-      AccessSection capabilities, ProjectConfig config, GroupReference batchUsersGroup) {
-    Permission priority = capabilities.getPermission(GlobalCapability.PRIORITY, true);
-    priority.add(rule(config, batchUsersGroup).setAction(Action.BATCH).build());
+      AccessSection.Builder capabilities, ProjectConfig config, GroupReference batchUsersGroup) {
+    Permission.Builder priority = capabilities.upsertPermission(GlobalCapability.PRIORITY);
+    priority.add(rule(config, batchUsersGroup).setAction(Action.BATCH));
 
-    Permission stream = capabilities.getPermission(GlobalCapability.STREAM_EVENTS, true);
-    stream.add(rule(config, batchUsersGroup).build());
+    Permission.Builder stream = capabilities.upsertPermission(GlobalCapability.STREAM_EVENTS);
+    stream.add(rule(config, batchUsersGroup));
   }
 
   private void initDefaultAclsForAdmins(
-      AccessSection capabilities,
-      ProjectConfig config,
-      AccessSection heads,
-      LabelType codeReviewLabel,
-      GroupReference adminsGroup) {
-    AccessSection all = config.getAccessSection(AccessSection.ALL, true);
-    AccessSection tags = config.getAccessSection("refs/tags/*", true);
-    AccessSection meta = config.getAccessSection(RefNames.REFS_CONFIG, true);
+      ProjectConfig config, LabelType codeReviewLabel, GroupReference adminsGroup) {
+    config.upsertAccessSection(
+        AccessSection.GLOBAL_CAPABILITIES,
+        capabilities -> {
+          grant(config, capabilities, GlobalCapability.ADMINISTRATE_SERVER, adminsGroup);
+        });
 
-    grant(config, capabilities, GlobalCapability.ADMINISTRATE_SERVER, adminsGroup);
-    grant(config, all, Permission.READ, adminsGroup, anonymous);
-    grant(config, heads, codeReviewLabel, -2, 2, adminsGroup, owners);
-    grant(config, heads, Permission.CREATE, adminsGroup, owners);
-    grant(config, heads, Permission.PUSH, adminsGroup, owners);
-    grant(config, heads, Permission.SUBMIT, adminsGroup, owners);
-    grant(config, heads, Permission.FORGE_COMMITTER, adminsGroup, owners);
-    grant(config, heads, Permission.EDIT_TOPIC_NAME, true, adminsGroup, owners);
+    config.upsertAccessSection(
+        AccessSection.ALL,
+        all -> {
+          grant(config, all, Permission.READ, adminsGroup, anonymous);
+        });
 
-    grant(config, tags, Permission.CREATE, adminsGroup, owners);
-    grant(config, tags, Permission.CREATE_TAG, adminsGroup, owners);
-    grant(config, tags, Permission.CREATE_SIGNED_TAG, adminsGroup, owners);
+    config.upsertAccessSection(
+        AccessSection.HEADS,
+        heads -> {
+          grant(config, heads, codeReviewLabel, -2, 2, adminsGroup, owners);
+          grant(config, heads, Permission.CREATE, adminsGroup, owners);
+          grant(config, heads, Permission.PUSH, adminsGroup, owners);
+          grant(config, heads, Permission.SUBMIT, adminsGroup, owners);
+          grant(config, heads, Permission.FORGE_COMMITTER, adminsGroup, owners);
+          grant(config, heads, Permission.EDIT_TOPIC_NAME, true, adminsGroup, owners);
+        });
 
-    meta.getPermission(Permission.READ, true).setExclusiveGroup(true);
-    grant(config, meta, Permission.READ, adminsGroup, owners);
-    grant(config, meta, codeReviewLabel, -2, 2, adminsGroup, owners);
-    grant(config, meta, Permission.CREATE, adminsGroup, owners);
-    grant(config, meta, Permission.PUSH, adminsGroup, owners);
-    grant(config, meta, Permission.SUBMIT, adminsGroup, owners);
+    config.upsertAccessSection(
+        "refs/tags/*",
+        tags -> {
+          grant(config, tags, Permission.CREATE, adminsGroup, owners);
+          grant(config, tags, Permission.CREATE_TAG, adminsGroup, owners);
+          grant(config, tags, Permission.CREATE_SIGNED_TAG, adminsGroup, owners);
+        });
+
+    config.upsertAccessSection(
+        RefNames.REFS_CONFIG,
+        meta -> {
+          meta.upsertPermission(Permission.READ).setExclusiveGroup(true);
+          grant(config, meta, Permission.READ, adminsGroup, owners);
+          grant(config, meta, codeReviewLabel, -2, 2, adminsGroup, owners);
+          grant(config, meta, Permission.CREATE, adminsGroup, owners);
+          grant(config, meta, Permission.PUSH, adminsGroup, owners);
+          grant(config, meta, Permission.SUBMIT, adminsGroup, owners);
+        });
   }
 
   private void initSequences(Repository git, BatchRefUpdate bru, int firstChangeId)

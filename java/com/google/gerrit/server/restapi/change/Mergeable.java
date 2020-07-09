@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -116,10 +117,10 @@ public class Mergeable implements RestReadView<RevisionResource> {
 
       if (otherBranches) {
         result.mergeableInto = new ArrayList<>();
-        BranchOrderSection branchOrder = projectState.getBranchOrderSection();
-        if (branchOrder != null) {
+        Optional<BranchOrderSection> branchOrder = projectState.getBranchOrderSection();
+        if (branchOrder.isPresent()) {
           int prefixLen = Constants.R_HEADS.length();
-          List<String> names = branchOrder.getMoreStable(ref.getName());
+          List<String> names = branchOrder.get().getMoreStable(ref.getName());
           Map<String, Ref> refs =
               git.getRefDatabase().exactRef(names.toArray(new String[names.size()]));
           for (String n : names) {

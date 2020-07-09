@@ -303,12 +303,15 @@ public class ProjectConfigTest {
     update(rev);
 
     ProjectConfig cfg = read(rev);
-    AccessSection section = cfg.getAccessSection("refs/heads/*");
-    cfg.getAccountsSection()
-        .setSameGroupVisibility(
-            Collections.singletonList(PermissionRule.create(cfg.resolve(staff))));
-    Permission submit = section.getPermission(Permission.SUBMIT);
-    submit.add(PermissionRule.create(cfg.resolve(staff)));
+    cfg.upsertAccessSection(
+        "refs/heads/*",
+        section -> {
+          Permission.Builder submit = section.upsertPermission(Permission.SUBMIT);
+          submit.add(PermissionRule.builder(cfg.resolve(staff)));
+        });
+    cfg.setAccountsSection(
+        AccountsSection.create(
+            Collections.singletonList(PermissionRule.create(cfg.resolve(staff)))));
     ContributorAgreement.Builder ca = cfg.getContributorAgreement("Individual").toBuilder();
     ca.setAccepted(ImmutableList.of(PermissionRule.create(cfg.resolve(staff))));
     ca.setAutoVerify(null);
@@ -423,9 +426,12 @@ public class ProjectConfigTest {
     update(rev);
 
     ProjectConfig cfg = read(rev);
-    AccessSection section = cfg.getAccessSection("refs/heads/*");
-    Permission submit = section.getPermission(Permission.SUBMIT);
-    submit.add(PermissionRule.create(cfg.resolve(staff)));
+    cfg.upsertAccessSection(
+        "refs/heads/*",
+        section -> {
+          Permission.Builder submit = section.upsertPermission(Permission.SUBMIT);
+          submit.add(PermissionRule.builder(cfg.resolve(staff)));
+        });
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))
         .isEqualTo(
@@ -692,7 +698,7 @@ public class ProjectConfigTest {
     update(rev);
 
     ProjectConfig cfg = read(rev);
-    cfg.getAccountsSection().setSameGroupVisibility(ImmutableList.of());
+    cfg.setAccountsSection(AccountsSection.create(ImmutableList.of()));
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))
         .isEqualTo(

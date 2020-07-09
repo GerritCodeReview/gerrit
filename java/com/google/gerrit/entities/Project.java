@@ -103,7 +103,7 @@ public abstract class Project {
   @Nullable
   public abstract String getDescription();
 
-  protected abstract ImmutableMap<BooleanProjectConfig, InheritableBoolean> getBooleanConfigs();
+  public abstract ImmutableMap<BooleanProjectConfig, InheritableBoolean> getBooleanConfigs();
 
   /**
    * Submit type as configured in {@code project.config}.

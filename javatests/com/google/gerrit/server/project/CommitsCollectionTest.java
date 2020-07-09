@@ -228,6 +228,7 @@ public class CommitsCollectionTest {
             .getAllProjects()
             .getConfig()
             .getAccessSection(AccessSection.GLOBAL_CAPABILITIES)
+            .orElseThrow(() -> new IllegalStateException("access section does not exist"))
             .getPermission(GlobalCapability.ADMINISTRATE_SERVER);
 
     return adminPermission.getRules().stream()

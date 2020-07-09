@@ -98,10 +98,15 @@ public class LabelNormalizerTest {
 
   private void configureProject() throws Exception {
     ProjectConfig pc = loadAllProjects();
-    for (AccessSection sec : pc.getAccessSections()) {
-      for (String label : pc.getLabelSections().keySet()) {
-        sec.removePermission(forLabel(label));
-      }
+
+    for (AccessSection sec : ImmutableList.copyOf(pc.getAccessSections())) {
+      pc.upsertAccessSection(
+          sec.getName(),
+          updatedSection -> {
+            for (String label : pc.getLabelSections().keySet()) {
+              updatedSection.removePermission(forLabel(label));
+            }
+          });
     }
     LabelType lt =
         label("Verified", value(1, "Verified"), value(0, "No score"), value(-1, "Fails"));

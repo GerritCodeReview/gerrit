@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "817d4de1_bc392209",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1377,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-09T11:28:54Z",
+      "side": 1,
+      "message": "This method is doing nothing but passing params it\u0027s getting from url to diff view.\nI already tested that correct params are being created from url and that the diff view is handling those params correctly.\nI think this function doesn\u0027t need to be tested(it\u0027s doing nothing but just passing the params along).",
+      "parentUuid": "d0394c56_13a6fa69",
+      "range": {
+        "startLine": 1377,
+        "startChar": 2,
+        "endLine": 1377,
+        "endChar": 18
+      },
+      "revId": "c803f7bb56d5556b7a46a654e6f77e6d2d489d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "511bff8b_1d374c4c",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.js",
         "patchSetId": 14
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ced4319d_c838d371",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1512,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-09T11:28:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "511bff8b_1d374c4c",
+      "range": {
+        "startLine": 1512,
+        "startChar": 10,
+        "endLine": 1512,
+        "endChar": 66
+      },
+      "revId": "c803f7bb56d5556b7a46a654e6f77e6d2d489d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b2f6f8e_ef0c2073",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 14
@@ -68,6 +116,30 @@
       "revId": "c803f7bb56d5556b7a46a654e6f77e6d2d489d14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf053caf_d65cdbf7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-09T11:28:54Z",
+      "side": 1,
+      "message": "Should be used in _handleCommentRoute\nI added it in the child change but forgot to update the parent.",
+      "parentUuid": "6b2f6f8e_ef0c2073",
+      "range": {
+        "startLine": 860,
+        "startChar": 14,
+        "endLine": 860,
+        "endChar": 31
+      },
+      "revId": "c803f7bb56d5556b7a46a654e6f77e6d2d489d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

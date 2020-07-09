@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "09292603_d9d7901c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-09T10:44:16Z",
+      "side": 1,
+      "message": "i mean why we want to *not* suppress when focus on checkbox ? are there some bugs related ? (I remember in some screen reader, they have shortcut like `space` to toggle checkbox, and if we have space registered to something else, then it will also trigger that without suppressing)",
+      "parentUuid": "5c832ce1_09b7c2f0",
+      "revId": "035a041d87b26c92f3a1f627951fa56e17719620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f27a2817_3fb6c21e",
         "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js",
         "patchSetId": 1

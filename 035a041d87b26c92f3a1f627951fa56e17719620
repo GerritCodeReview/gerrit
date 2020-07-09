@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a774ce1_f5f06bed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-09T08:54:03Z",
+      "side": 1,
+      "message": "can you elaborate a little bit on the reason ?",
+      "revId": "035a041d87b26c92f3a1f627951fa56e17719620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f27a2817_3fb6c21e",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-09T08:54:03Z",
+      "side": 1,
+      "message": "this should worth adding a test for, in case it gets more complicated in the future.",
+      "revId": "035a041d87b26c92f3a1f627951fa56e17719620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "821f3203_b1b9a3b5",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-09T08:54:03Z",
+      "side": 1,
+      "message": "maybe just store `dom(e).rootTarget` instead, so no need to call `dom(e)` again.\n\nAnd why `checkbox` so special ? what about other types ? or should we just suppress for text type ?",
+      "range": {
+        "startLine": 567,
+        "startChar": 34,
+        "endLine": 567,
+        "endChar": 51
+      },
+      "revId": "035a041d87b26c92f3a1f627951fa56e17719620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

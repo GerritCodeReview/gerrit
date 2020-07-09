@@ -97,6 +97,14 @@ public abstract class InternalAccountUpdate {
   public abstract Optional<String> getStatus();
 
   /**
+   * Returns the new value for the {@code isRobot} bit.
+   *
+   * @return the new value for {@code isRobot}, {@code Optional#empty()} if the {@code isRobot} is
+   *     not being updated.
+   */
+  public abstract Optional<Boolean> getIsRobot();
+
+  /**
    * Returns external IDs that should be newly created for the account.
    *
    * @return external IDs that should be newly created for the account
@@ -209,6 +217,13 @@ public abstract class InternalAccountUpdate {
      * @param status the new status, if {@code null} or empty string the status is unset
      */
     public abstract Builder setStatus(@Nullable String status);
+
+    /**
+     * Marks or unmarks this account as robot.
+     *
+     * @param isRobot the new robot bit, if {@code null} or empty string the bit is unset
+     */
+    public abstract Builder setIsRobot(boolean isRobot);
 
     /**
      * Returns a builder for the set of created external IDs.
@@ -515,6 +530,12 @@ public abstract class InternalAccountUpdate {
       @Override
       public Builder setActive(boolean active) {
         delegate.setActive(active);
+        return this;
+      }
+
+      @Override
+      public Builder setIsRobot(boolean isRobot) {
+        delegate.setIsRobot(isRobot);
         return this;
       }
 

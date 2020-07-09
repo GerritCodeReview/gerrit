@@ -32,6 +32,8 @@ public abstract class TestAccount {
 
   public abstract boolean active();
 
+  public abstract boolean isRobot();
+
   public abstract ImmutableSet<String> emails();
 
   public ImmutableSet<String> secondaryEmails() {
@@ -57,6 +59,8 @@ public abstract class TestAccount {
     abstract Builder username(Optional<String> username);
 
     abstract Builder active(boolean active);
+
+    abstract Builder isRobot(boolean active);
 
     abstract Builder emails(ImmutableSet<String> emails);
 

@@ -16,6 +16,24 @@
       "revId": "b89e4810296f361553a2064877ae9b33f0d901ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3525b208_5e24cd62",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2020-07-09T16:20:00Z",
+      "side": 1,
+      "message": "I was in-fact testing a patch I had which was similar to the one in PS2 now. My local test site had 35k changes across 4 projects, of which 33k belonged to a single project. My machine had 6 cores, so I used 6 threads. Using threads more than number of cores was degrading the performance in my setup. Here are some stats from my tests:\n\nwithout change:\nReindexed 35540 documents in changes index in 709.0s (50.1/s)\n\nwith change(with 6 threads):\nReindexed 35540 documents in changes index in 318.2s (111.7/s)",
+      "parentUuid": "96c3b4eb_b8e40c1c",
+      "revId": "b89e4810296f361553a2064877ae9b33f0d901ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

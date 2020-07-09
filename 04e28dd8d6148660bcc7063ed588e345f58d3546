@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8837c9b_b319eef2",
+        "filename": "polygerrit-ui/app/.eslintrc.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-09T11:47:47Z",
+      "side": 1,
+      "message": "does this only apply to declaration files ? maybe we can name it somehow to indicate that ?",
+      "range": {
+        "startLine": 215,
+        "startChar": 9,
+        "endLine": 215,
+        "endChar": 24
+      },
+      "revId": "04e28dd8d6148660bcc7063ed588e345f58d3546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c36e45c3_4b99c336",
+        "filename": "tools/js/eslint-rules/goog-module-id.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-09T11:47:47Z",
+      "side": 1,
+      "message": "just curious, what\u0027s this for ?",
+      "range": {
+        "startLine": 110,
+        "startChar": 38,
+        "endLine": 110,
+        "endChar": 79
+      },
+      "revId": "04e28dd8d6148660bcc7063ed588e345f58d3546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

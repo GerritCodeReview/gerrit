@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95171237_9f25491b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-09T09:10:52Z",
+      "side": 1,
+      "message": "I assume this will resolve to `patchNum` vs `latestPatchNum` for both ? the url pattern doesn\u0027t tell that info at all.\n\nWhy not follow the same pattern of comparing two patchsets:\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/274190/2..3\n\nand just support `2..` or `2..latest` as 2 vs latest instead of creating two new route here ?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 49
+      },
+      "revId": "387f8ccc5186f6222534a465a84b51622f0f5e00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4d99c9b_e6390a12",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-09T09:10:52Z",
+      "side": 1,
+      "message": "nit: unnecessary template literal",
+      "range": {
+        "startLine": 851,
+        "startChar": 27,
+        "endLine": 851,
+        "endChar": 46
+      },
+      "revId": "387f8ccc5186f6222534a465a84b51622f0f5e00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb2c019c_71b2fa94",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-09T09:10:52Z",
+      "side": 1,
+      "message": "don\u0027t we have an enum for this ? (not sure, its fine to leave it as hardcoded if none, adding one would be out of this change\u0027s scope)",
+      "range": {
+        "startLine": 857,
+        "startChar": 45,
+        "endLine": 857,
+        "endChar": 49
+      },
+      "revId": "387f8ccc5186f6222534a465a84b51622f0f5e00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8adfd8f4_8392edbc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-09T09:10:52Z",
+      "side": 1,
+      "message": "is file route also handled in diff view ? maybe also add a test for that",
+      "revId": "387f8ccc5186f6222534a465a84b51622f0f5e00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

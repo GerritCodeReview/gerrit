@@ -16,6 +16,23 @@
       "revId": "0049afe09be6b4d720588a255543b34a0a55f497",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ded1d9a_35fac457",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-07-09T11:02:20Z",
+      "side": 1,
+      "message": "Great! A small NIT: I would change a lot of string cat to template literals. From `getBaseUrl() + \u0027url\u0027` to ``${getBaseUrl()}/url``",
+      "revId": "0049afe09be6b4d720588a255543b34a0a55f497",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

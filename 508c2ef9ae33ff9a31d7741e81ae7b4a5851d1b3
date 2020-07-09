@@ -225,6 +225,30 @@
     },
     {
       "key": {
+        "uuid": "1cd1eaa2_41da4a28",
+        "filename": "java/com/google/gerrit/common/data/Permission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-09T10:10:03Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "dfbf7af6_0e8d8802",
+      "range": {
+        "startLine": 161,
+        "startChar": 3,
+        "endLine": 164,
+        "endChar": 58
+      },
+      "revId": "508c2ef9ae33ff9a31d7741e81ae7b4a5851d1b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "288292ad_6a190921",
         "filename": "java/com/google/gerrit/common/data/Permission.java",
         "patchSetId": 6

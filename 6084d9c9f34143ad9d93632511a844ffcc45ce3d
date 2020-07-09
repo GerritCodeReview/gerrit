@@ -271,6 +271,24 @@
     },
     {
       "key": {
+        "uuid": "a6532d60_cf86daf6",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfigUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-09T10:19:15Z",
+      "side": 1,
+      "message": "Well, maybe there wasn\u0027t a discussion about this, at least I can\u0027t find a pointer.",
+      "parentUuid": "bc7a3bdf_3e3e0f33",
+      "revId": "6084d9c9f34143ad9d93632511a844ffcc45ce3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fec08c97_ff5cef65",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AgreementsIT.java",
         "patchSetId": 8

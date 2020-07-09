@@ -16,6 +16,24 @@
       "revId": "881815c99b8f550fbd278e08fcaf99da042895e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5fb5ccb_db0abec4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-09T13:48:58Z",
+      "side": 1,
+      "message": "Yes, our CI is happy anyway :-)",
+      "parentUuid": "45e037b8_db54daeb",
+      "revId": "881815c99b8f550fbd278e08fcaf99da042895e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

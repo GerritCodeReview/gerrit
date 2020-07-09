@@ -155,10 +155,10 @@ export const htmlTemplate = html`
     }
     .attention-detail gr-account-label {
       background-color: var(--background-color-tertiary);
-      border-radius: 10px;
       padding: 0 var(--spacing-m) 0 var(--spacing-s);
       margin-right: var(--spacing-m);
       user-select: none;
+      --label-border-radius: 10px;
     }
     .attention-detail gr-account-label:focus {
       outline: none;

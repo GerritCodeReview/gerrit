@@ -249,7 +249,7 @@ export const htmlTemplate = html`
           max-width="20em"
           show-icon=""
         >
-          <span class="draftLabel">DRAFT</span>
+          <span class="draftLabel">[[_computeDraftText(_unableToSave)]]</span>
         </gr-tooltip-content>
       </div>
       <div class="headerMiddle">

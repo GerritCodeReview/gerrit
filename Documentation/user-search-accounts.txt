@@ -45,6 +45,17 @@ is:inactive::
 +
 Matches accounts that are inactive.
 
+[[is]]
+[[is-human]]
+is:human::
++
+Matches human accounts.
+
+[[is-robot]]
+is:robot::
++
+Matches robot accounts.
+
 [[name]]
 name:'NAME'::
 +

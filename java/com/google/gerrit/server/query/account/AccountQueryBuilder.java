@@ -157,6 +157,15 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
     if ("inactive".equalsIgnoreCase(value)) {
       return AccountPredicates.isNotActive();
     }
+    if ("robot".equalsIgnoreCase(value) || "human".equalsIgnoreCase(value)) {
+      if (!args.schema().hasField(AccountField.IS_ROBOT)) {
+        throw new QueryParseException(
+            "'is:robot' and 'is:human' operator is not supported by account index version");
+      }
+      return "robot".equalsIgnoreCase(value)
+          ? AccountPredicates.isRobot()
+          : AccountPredicates.isHuman();
+    }
     throw error("Invalid query");
   }
 

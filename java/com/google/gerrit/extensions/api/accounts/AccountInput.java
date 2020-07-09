@@ -25,4 +25,5 @@ public class AccountInput {
   public String sshKey;
   public String httpPassword;
   public List<String> groups;
+  public Boolean isRobot;
 }

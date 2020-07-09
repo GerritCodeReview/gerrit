@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7329d470_ea967ad2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 47
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-09T14:13:32Z",
+      "side": 1,
+      "message": "I click on a comment link and I see the toast. Then I go to Base vs X with keyboard shortcut and the toast is not shown. Is it correct behavior?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 69
+      },
+      "revId": "ae534a103d94a9069574ebdc39cf0ecd924221c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2ff27ee_6475769d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 47
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-09T14:13:32Z",
+      "side": 1,
+      "message": "If the current behavior valid (see my comment for commit message), I don\u0027t see any other problems in the code except unused properties in gr-comment-thread.\n",
+      "revId": "ae534a103d94a9069574ebdc39cf0ecd924221c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0918909a_cbd2691b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 47
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-09T14:13:32Z",
+      "side": 1,
+      "message": "It seems, this properties is not needed anymore (and in gr-thread-list_html.js too)",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 20
+      },
+      "revId": "ae534a103d94a9069574ebdc39cf0ecd924221c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

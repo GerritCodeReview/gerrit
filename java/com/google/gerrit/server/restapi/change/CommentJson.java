@@ -147,6 +147,7 @@ public class CommentJson {
       if (loader != null) {
         r.author = loader.get(c.author.getId());
       }
+      r.commitId = c.getCommitId().getName();
     }
 
     protected Range toRange(Comment.Range commentRange) {

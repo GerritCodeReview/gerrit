@@ -39,6 +39,9 @@ public abstract class Comment {
   public String message;
   public Boolean unresolved;
 
+  /** Hex commit SHA1 of the commit of the patchset to which this comment applies. */
+  public String commitId;
+
   public static class Range implements Comparable<Range> {
     private static final Comparator<Range> RANGE_COMPARATOR =
         Comparator.<Range>comparingInt(range -> range.startLine)
@@ -122,7 +125,8 @@ public abstract class Comment {
           && Objects.equals(inReplyTo, c.inReplyTo)
           && Objects.equals(updated, c.updated)
           && Objects.equals(message, c.message)
-          && Objects.equals(unresolved, c.unresolved);
+          && Objects.equals(unresolved, c.unresolved)
+          && Objects.equals(commitId, c.commitId);
     }
     return false;
   }

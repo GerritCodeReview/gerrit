@@ -166,6 +166,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
                 .setDisplayName(account.displayName())
                 .setPreferredEmail(account.preferredEmail())
                 .setStatus(account.status())
+                .setIsRobot(account.isRobot())
                 .build());
     return this;
   }

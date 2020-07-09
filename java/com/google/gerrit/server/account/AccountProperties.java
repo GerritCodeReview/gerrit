@@ -55,6 +55,7 @@ public class AccountProperties {
   public static final String KEY_DISPLAY_NAME = "displayName";
   public static final String KEY_PREFERRED_EMAIL = "preferredEmail";
   public static final String KEY_STATUS = "status";
+  public static final String KEY_IS_ROBOT = "isRobot";
 
   private final Account.Id accountId;
   private final Timestamp registeredOn;
@@ -100,6 +101,7 @@ public class AccountProperties {
 
     accountBuilder.setStatus(get(accountConfig, KEY_STATUS));
     accountBuilder.setMetaId(metaId != null ? metaId.name() : null);
+    accountBuilder.setIsRobot(accountConfig.getBoolean(ACCOUNT, null, KEY_IS_ROBOT, false));
     account = accountBuilder.build();
   }
 
@@ -117,6 +119,7 @@ public class AccountProperties {
     accountUpdate
         .getPreferredEmail()
         .ifPresent(preferredEmail -> set(cfg, KEY_PREFERRED_EMAIL, preferredEmail));
+    accountUpdate.getIsRobot().ifPresent(isRobot -> setIsRobot(cfg, isRobot));
     accountUpdate.getStatus().ifPresent(status -> set(cfg, KEY_STATUS, status));
   }
 
@@ -149,6 +152,25 @@ public class AccountProperties {
       cfg.setBoolean(ACCOUNT, null, KEY_ACTIVE, false);
     } else {
       cfg.unset(ACCOUNT, null, KEY_ACTIVE);
+    }
+  }
+
+  /**
+   * Sets/Unsets {@code account.isRobot} in the given config.
+   *
+   * <p>{@code account.isRobot} is set to {@code true} if the account is a robot.
+   *
+   * <p>If the account is not a robot {@code account.isRobot} is unset since {@code false} is the
+   * default if this field is missing.
+   *
+   * @param cfg the config
+   * @param value whether the account is active
+   */
+  private static void setIsRobot(Config cfg, boolean value) {
+    if (value) {
+      cfg.setBoolean(ACCOUNT, null, KEY_IS_ROBOT, true);
+    } else {
+      cfg.unset(ACCOUNT, null, KEY_IS_ROBOT);
     }
   }
 

@@ -43,6 +43,10 @@ public interface AccountApi {
 
   void setActive(boolean active) throws RestApiException;
 
+  boolean getIsRobot() throws RestApiException;
+
+  void setIsRobot(boolean robot) throws RestApiException;
+
   String getAvatarUrl(int size) throws RestApiException;
 
   GeneralPreferencesInfo getPreferences() throws RestApiException;
@@ -155,6 +159,16 @@ public interface AccountApi {
 
     @Override
     public void setActive(boolean active) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public boolean getIsRobot() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void setIsRobot(boolean isRobot) throws RestApiException {
       throw new NotImplementedException();
     }
 

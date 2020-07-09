@@ -155,6 +155,10 @@ public class InternalAccountDirectory extends AccountDirectory {
       info.inactive = account.inactive() ? true : null;
     }
 
+    if (options.contains(FillOptions.TYPE)) {
+      info.isRobot = account.isRobot() ? true : null;
+    }
+
     if (options.contains(FillOptions.AVATARS)) {
       AvatarProvider ap = avatar.get();
       if (ap != null) {

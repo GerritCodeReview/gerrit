@@ -67,6 +67,9 @@ public class AccountInfo {
   /** Whether the account is inactive. */
   public Boolean inactive;
 
+  /** Whether the account is a robot account. */
+  public Boolean isRobot;
+
   public AccountInfo(Integer id) {
     this._accountId = id;
   }
@@ -89,7 +92,8 @@ public class AccountInfo {
           && Objects.equals(username, accountInfo.username)
           && Objects.equals(avatars, accountInfo.avatars)
           && Objects.equals(_moreAccounts, accountInfo._moreAccounts)
-          && Objects.equals(status, accountInfo.status);
+          && Objects.equals(status, accountInfo.status)
+          && Objects.equals(isRobot, accountInfo.isRobot);
     }
     return false;
   }
@@ -102,6 +106,7 @@ public class AccountInfo {
         .add("displayname", displayName)
         .add("email", email)
         .add("username", username)
+        .add("isRobot", isRobot)
         .toString();
   }
 
@@ -116,7 +121,8 @@ public class AccountInfo {
         username,
         avatars,
         _moreAccounts,
-        status);
+        status,
+        isRobot);
   }
 
   protected AccountInfo() {}

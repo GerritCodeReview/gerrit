@@ -144,6 +144,7 @@ public class AccountOperationsImpl implements AccountOperations {
           .fullname(Optional.ofNullable(account.fullName()))
           .username(accountState.userName())
           .active(accountState.account().isActive())
+          .isRobot(accountState.account().isRobot())
           .emails(ExternalId.getEmails(accountState.externalIds()).collect(toImmutableSet()))
           .build();
     }
@@ -176,6 +177,7 @@ public class AccountOperationsImpl implements AccountOperations {
       accountUpdate.username().ifPresent(u -> setUsername(builder, accountId, u, httpPassword));
       accountUpdate.status().ifPresent(builder::setStatus);
       accountUpdate.active().ifPresent(builder::setActive);
+      accountUpdate.isRobot().ifPresent(builder::setIsRobot);
 
       ImmutableSet<String> secondaryEmails = getSecondaryEmails(accountUpdate, accountState);
       ImmutableSet<String> newSecondaryEmails =

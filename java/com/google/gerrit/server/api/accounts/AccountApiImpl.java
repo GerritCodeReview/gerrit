@@ -59,6 +59,7 @@ import com.google.gerrit.server.restapi.account.DeleteActive;
 import com.google.gerrit.server.restapi.account.DeleteDraftComments;
 import com.google.gerrit.server.restapi.account.DeleteEmail;
 import com.google.gerrit.server.restapi.account.DeleteExternalIds;
+import com.google.gerrit.server.restapi.account.DeleteIsRobot;
 import com.google.gerrit.server.restapi.account.DeleteSshKey;
 import com.google.gerrit.server.restapi.account.DeleteWatchedProjects;
 import com.google.gerrit.server.restapi.account.GetActive;
@@ -83,6 +84,7 @@ import com.google.gerrit.server.restapi.account.PutName;
 import com.google.gerrit.server.restapi.account.PutStatus;
 import com.google.gerrit.server.restapi.account.SetDiffPreferences;
 import com.google.gerrit.server.restapi.account.SetEditPreferences;
+import com.google.gerrit.server.restapi.account.SetIsRobot;
 import com.google.gerrit.server.restapi.account.SetPreferences;
 import com.google.gerrit.server.restapi.account.SshKeys;
 import com.google.gerrit.server.restapi.account.StarredChanges;
@@ -130,6 +132,8 @@ public class AccountApiImpl implements AccountApi {
   private final PutAgreement putAgreement;
   private final GetActive getActive;
   private final PutActive putActive;
+  private final SetIsRobot setIsRobot;
+  private final DeleteIsRobot deleteIsRobot;
   private final DeleteActive deleteActive;
   private final Index index;
   private final GetExternalIds getExternalIds;
@@ -174,6 +178,8 @@ public class AccountApiImpl implements AccountApi {
       PutAgreement putAgreement,
       GetActive getActive,
       PutActive putActive,
+      SetIsRobot setIsRobot,
+      DeleteIsRobot deleteIsRobot,
       DeleteActive deleteActive,
       Index index,
       GetExternalIds getExternalIds,
@@ -218,6 +224,8 @@ public class AccountApiImpl implements AccountApi {
     this.getActive = getActive;
     this.putActive = putActive;
     this.deleteActive = deleteActive;
+    this.setIsRobot = setIsRobot;
+    this.deleteIsRobot = deleteIsRobot;
     this.index = index;
     this.getExternalIds = getExternalIds;
     this.deleteExternalIds = deleteExternalIds;
@@ -268,6 +276,28 @@ public class AccountApiImpl implements AccountApi {
         putActive.apply(account, new Input());
       } else {
         deleteActive.apply(account, new Input());
+      }
+    } catch (Exception e) {
+      throw asRestApiException("Cannot set active", e);
+    }
+  }
+
+  @Override
+  public boolean getIsRobot() throws RestApiException {
+    try {
+      return Boolean.TRUE.equals(getDetail.apply(account).value().isRobot);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get isRobot", e);
+    }
+  }
+
+  @Override
+  public void setIsRobot(boolean isRobot) throws RestApiException {
+    try {
+      if (isRobot) {
+        setIsRobot.apply(account, new Input());
+      } else {
+        deleteIsRobot.apply(account, new Input());
       }
     } catch (Exception e) {
       throw asRestApiException("Cannot set active", e);

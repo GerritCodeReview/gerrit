@@ -36,6 +36,8 @@ public abstract class TestAccountUpdate {
 
   public abstract Optional<Boolean> active();
 
+  public abstract Optional<Boolean> isRobot();
+
   public abstract Function<ImmutableSet<String>, Set<String>> secondaryEmailsModification();
 
   abstract ThrowingConsumer<TestAccountUpdate> accountUpdater();
@@ -88,6 +90,8 @@ public abstract class TestAccountUpdate {
     public Builder inactive() {
       return active(false);
     }
+
+    public abstract Builder isRobot(boolean isRobot);
 
     abstract Builder secondaryEmailsModification(
         Function<ImmutableSet<String>, Set<String>> secondaryEmailsModification);

@@ -171,6 +171,9 @@ public class AccountField {
                       .map(ExternalId::toByteArray)
                       .collect(toSet()));
 
+  public static final FieldDef<AccountState, String> IS_ROBOT =
+      exact("is_robot").build(a -> a.account().isRobot() ? "1" : "0");
+
   private static final Set<String> getNameParts(AccountState a, Iterable<String> emails) {
     String fullName = a.account().fullName();
     Set<String> parts = SchemaUtil.getNameParts(fullName, emails);

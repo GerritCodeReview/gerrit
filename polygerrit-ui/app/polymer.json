@@ -8,7 +8,7 @@
     "types/**/*"
   ],
   "lint": {
-    "rules": ["polymer-2"],
+    "rules": ["polymer-3"],
     "ignoreWarnings": ["deprecated-dom-call"]
   }
 }

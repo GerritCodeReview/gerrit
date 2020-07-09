@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ae2e73e4_955393db",
+        "filename": "polygerrit-ui/app/.eslintrc.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-09T12:36:52Z",
+      "side": 1,
+      "message": "You can apply this rule to a .ts file as well, but in our case we don\u0027t need it.",
+      "parentUuid": "a8837c9b_b319eef2",
+      "range": {
+        "startLine": 215,
+        "startChar": 9,
+        "endLine": 215,
+        "endChar": 24
+      },
+      "revId": "04e28dd8d6148660bcc7063ed588e345f58d3546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c36e45c3_4b99c336",
         "filename": "tools/js/eslint-rules/goog-module-id.js",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2020-07-09T11:47:47Z",
       "side": 1,
       "message": "just curious, what\u0027s this for ?",
+      "range": {
+        "startLine": 110,
+        "startChar": 38,
+        "endLine": 110,
+        "endChar": 79
+      },
+      "revId": "04e28dd8d6148660bcc7063ed588e345f58d3546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8a426a9_b3d3fccc",
+        "filename": "tools/js/eslint-rules/goog-module-id.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-09T12:36:52Z",
+      "side": 1,
+      "message": "This is internal google requirement",
+      "parentUuid": "c36e45c3_4b99c336",
       "range": {
         "startLine": 110,
         "startChar": 38,

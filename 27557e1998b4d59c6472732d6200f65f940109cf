@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24914862_e0947791",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-09T15:02:33Z",
+      "side": 1,
+      "message": "i think dmitrii recently moved this to url-util.js, so you can now just import the `getBaseUrl` there :) see change https://gerrit-review.googlesource.com/c/gerrit/+/274699",
+      "revId": "27557e1998b4d59c6472732d6200f65f940109cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e164c921_20546287",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-09T10:07:26Z",
+      "side": 1,
+      "message": "Because we cannot hardcode the latest patchNum in the emails.\nWe want both the links in the Comment Tab and the email to resolve to the same url.\nSince emails cannot update latestPatchNum, we created a new route.\n\nAlso, we will want to be flexible with how we resolve this url.\nFuture iterations might involve resolving to latest for reviewers but not for owners. Therefore, this new url has to be agnostic of latestPatchNum",
+      "parentUuid": "95171237_9f25491b",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 49
+      },
+      "revId": "387f8ccc5186f6222534a465a84b51622f0f5e00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4d99c9b_e6390a12",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 13
@@ -45,6 +69,30 @@
       "revId": "387f8ccc5186f6222534a465a84b51622f0f5e00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49a19448_754ef9d4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 851,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-09T10:07:26Z",
+      "side": 1,
+      "message": "Does it matter?\nFixed for now.",
+      "parentUuid": "d4d99c9b_e6390a12",
+      "range": {
+        "startLine": 851,
+        "startChar": 27,
+        "endLine": 851,
+        "endChar": 46
+      },
+      "revId": "387f8ccc5186f6222534a465a84b51622f0f5e00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "b9286f39_086bb9c7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 857,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-09T10:07:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cb2c019c_71b2fa94",
+      "range": {
+        "startLine": 857,
+        "startChar": 45,
+        "endLine": 857,
+        "endChar": 49
+      },
+      "revId": "387f8ccc5186f6222534a465a84b51622f0f5e00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8adfd8f4_8392edbc",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.js",
         "patchSetId": 13
@@ -85,6 +157,24 @@
       "revId": "387f8ccc5186f6222534a465a84b51622f0f5e00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc7d7de6_3c345b5e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-09T10:07:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8adfd8f4_8392edbc",
+      "revId": "387f8ccc5186f6222534a465a84b51622f0f5e00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

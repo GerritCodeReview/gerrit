@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5050320b_86d5361c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-09T20:24:58Z",
+      "side": 1,
+      "message": "@davido Thanks for your feedback. Just a heads-up that I\u0027m working on it",
+      "revId": "292347a1c2db2f45f9040f930a90856f5e626b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0761f4b0_8ad6d74b",
         "filename": "tools/workspace_status_release.py",
         "patchSetId": 7
@@ -59,6 +76,30 @@
       "writtenOn": "2020-07-07T04:52:37Z",
       "side": 1,
       "message": "On gerrit 2.16 branch, in the first iteration of the outer and nested loop this would produce: \u0027v2.16.21.\u0027. But what\u0027s the point? Can you think of any plugin/module where that would match to anything? If not, can we optimize the logic to only try to match against something we really expect to match? Even on the second iteration of the nested loop, where we are trying to match against \u0027v2.16.21\u0027 is in vane. I am not aware of any plugin that tagging their releases and following up to minor gerrit release.\n\nSuggestion: should we optimize the outer loop and skip patch release number, \u0027.21\u0027 on the current 2.16 branch? It could be achieved with the current code with:\n\n  # Skip major release and patch release:\n  for length in range(len(parts) - 1, 1, -1):\n  [...]\n\nMoreover the nested loop could be dropped as well (and double wildcard would be fixed). I eliminated the nested loop and the stamping results for all plugin were unchanged: [1].\n\n  for length in range(len(parts) - 1, 1, -1):\n            start \u003d \u0027.\u0027.join(parts[0:length])\n            ret \u003d revision_with_match(start)\n            if ret.startswith(start):\n                return ret\n\n[1] http://paste.openstack.org/show/795595/",
+      "range": {
+        "startLine": 69,
+        "startChar": 34,
+        "endLine": 69,
+        "endChar": 49
+      },
+      "revId": "292347a1c2db2f45f9040f930a90856f5e626b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd364152_bbfe2ab6",
+        "filename": "tools/workspace_status_release.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-09T20:24:58Z",
+      "side": 1,
+      "message": "\u003e On gerrit 2.16 branch, in the first iteration of the outer and nested loop this would produce: \u0027v2.16.21.\u0027. But what\u0027s the point?\n\nThe point is to match eventual bug-fix releases as (not yet existing)\nv2.16.21.1, v2.16.21.2, and so on before matching v2.16.21.\nWhen stamping for gerrit v2.16.21-[...], if a commit in a plugin has\n(hypothetically!) all of v2.16.21, v2.16.21.1 and an even newer\nv2.16.22 tag on some parents, I\u0027d like to see it stamped with v2.16.21.1.\nThat\u0027s the newest of the tags that matches v2.16.21.\n\nAs the general matching strategy turns out to be more controversial than I originally thought, and\nsince re-doing the whole series will be at least a bit of work, I thought it\nmight maybe be best to first discuss the sequence of patterns that should\nget matched. Let\u0027s assume, gerrit is v2.16.21-[...]. Then I\u0027d match\nthe following patterns for plugins (first match wins) (I noticed that\nthe current code in the end differs a bit from this list. I\u0027ll update\naccordingly once we found a set of patterns that work for all of us):\n\n- v2.16.21.*\n- v2.16.21\n- v2.16.*\n- v2.16\n- stable-2.16 (on all refs, not only tags. Including local and remote branches)\n- master\n- v2.*\n- v[0-9].*\n\n--------------------------------------------\n\nv2.16.21.* : This will help to catch eventual bugfix releases with 4\n(instead of standard 3) numbers. We do see them rarely on plugins. And\nup to now, they only occur, if Gerrit itself comes with a 4 number tag\n(E.g.: Gerrit has v2.16.11.1). But I would not rule it out that\nplugins need to have a bugfix release themselves at some point. So I\u0027d\ncover that case. After all, this is the thorough stamping script, not\nthe stamping script that\u0027s optimized for speed.\nBut if you\u0027re at a firm \u0027no\u0027, then let\u0027s drop it.\n\nv2.16.21 : This would be the ideal case. The plugin\u0027s repo has a\ndirect match on gerrit\u0027s last tag.\n\nv2.16.* : Matching tags for other (most likely older) releases, to\ncapture cases, where a patch-level release got skipped on a plugin\n\nv2.16 : While we use three numbers since v3.0.0, older releases\ndon\u0027t. E.g.: Gerrit has a v2.16 tag, but no v2.16.0. And there are\nalso plugins that lack a 3 number tag even for v3.*.\nLike the rabbitmq plugin has v3.0, v3.1, v3.2 tags.\n\nstable-2.16 : Lots of plugins miss tags completely, but have stable-*\nbranches. Branches are of course a moving target. But lacking proper\ntags, they are the best we have and we cover a lot of ground by\nconsidering them.\n\nmaster : Some plugins lack both tags and stable-* branches. But\nknowing that we\u0027re building from the master branch is better than\nnothing.\n\nv2.* and v[0-9] are the last resort. If we cannot match them either,\nwe fall back to the plain abbreviated commit hash.\n\n------\n\nWould the above work for you as heuristics?",
+      "parentUuid": "347cb1b8_ae5b33ca",
       "range": {
         "startLine": 69,
         "startChar": 34,

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5c832ce1_09b7c2f0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-09T10:40:35Z",
+      "side": 1,
+      "message": "Which part is unclear?\nI am not sure what I can elaborate on.",
+      "parentUuid": "6a774ce1_f5f06bed",
+      "revId": "035a041d87b26c92f3a1f627951fa56e17719620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f27a2817_3fb6c21e",
         "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "035a041d87b26c92f3a1f627951fa56e17719620",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45acccda_bba12135",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-09T10:40:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f27a2817_3fb6c21e",
+      "revId": "035a041d87b26c92f3a1f627951fa56e17719620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -56,6 +92,30 @@
       "revId": "035a041d87b26c92f3a1f627951fa56e17719620",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bdeac6d_08fcf91b",
+        "filename": "polygerrit-ui/app/behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-09T10:40:35Z",
+      "side": 1,
+      "message": "https://www.w3schools.com/html/html_form_input_types.asp\n\nLooked at this to find the ones we should suppress.",
+      "parentUuid": "821f3203_b1b9a3b5",
+      "range": {
+        "startLine": 567,
+        "startChar": 34,
+        "endLine": 567,
+        "endChar": 51
+      },
+      "revId": "035a041d87b26c92f3a1f627951fa56e17719620",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

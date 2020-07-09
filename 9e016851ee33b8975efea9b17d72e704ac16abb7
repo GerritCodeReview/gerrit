@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29b63e5d_09289608",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-09T08:55:19Z",
+      "side": 1,
+      "message": "maybe just inline `BaseUrlBehavior.getBaseUrl()` directly",
+      "range": {
+        "startLine": 616,
+        "startChar": 39,
+        "endLine": 616,
+        "endChar": 47
+      },
+      "revId": "9e016851ee33b8975efea9b17d72e704ac16abb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

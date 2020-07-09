@@ -242,6 +242,7 @@ export const htmlTemplate = html`
         <span class="authorName">
           [[_computeAuthorName(comment, _serverConfig)]]
         </span>
+        <span class="draftLabel">[[_computeDraftText(_unableToSave)]]</span>
         <gr-tooltip-content
           class="draftTooltip"
           has-tooltip=""

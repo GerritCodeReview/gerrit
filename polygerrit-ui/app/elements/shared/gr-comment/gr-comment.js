@@ -46,6 +46,7 @@ const SAVING_MESSAGE = 'Saving';
 const DRAFT_SINGULAR = 'draft...';
 const DRAFT_PLURAL = 'drafts...';
 const SAVED_MESSAGE = 'All changes saved';
+const ERROR_MESSAGE = 'Unable to save draft';
 
 const REPORT_CREATE_DRAFT = 'CreateDraftComment';
 const REPORT_UPDATE_DRAFT = 'UpdateDraftComment';
@@ -219,6 +220,10 @@ class GrComment extends KeyboardShortcutMixin(GestureEventListeners(
         value: false,
       },
       _serverConfig: Object,
+      _unableToSave: {
+        type: Boolean,
+        value: false,
+      },
     };
   }
 
@@ -371,6 +376,10 @@ class GrComment extends KeyboardShortcutMixin(GestureEventListeners(
 
   _getIsAdmin() {
     return this.$.restAPI.getIsAdmin();
+  }
+
+  _computeDraftText(unableToSave) {
+    return 'DRAFT' + (unableToSave ? '(Unsaved)' : '');
   }
 
   /**
@@ -710,7 +719,10 @@ class GrComment extends KeyboardShortcutMixin(GestureEventListeners(
     this._closeOverlay(this.confirmDiscardOverlay);
   }
 
-  _getSavingMessage(numPending) {
+  _getSavingMessage(numPending, requestFailed) {
+    if (requestFailed) {
+      return ERROR_MESSAGE;
+    }
     if (numPending === 0) {
       return SAVED_MESSAGE;
     }
@@ -737,10 +749,12 @@ class GrComment extends KeyboardShortcutMixin(GestureEventListeners(
     // Cancel the debouncer so that error toasts from the error-manager will
     // not be overridden.
     this.cancelDebouncer('draft-toast');
+    this._updateRequestToast(this._numPendingDraftRequests.number,
+        /* requestFailed=*/true);
   }
 
-  _updateRequestToast(numPending) {
-    const message = this._getSavingMessage(numPending);
+  _updateRequestToast(numPending, requestFailed) {
+    const message = this._getSavingMessage(numPending, requestFailed);
     this.debounce('draft-toast', () => {
       // Note: the event is fired on the body rather than this element because
       // this element may not be attached by the time this executes, in which
@@ -757,6 +771,7 @@ class GrComment extends KeyboardShortcutMixin(GestureEventListeners(
           if (result.ok) {
             this._showEndRequest();
           } else {
+            this._unableToSave = true;
             this._handleFailedDraftRequest();
           }
           return result;

@@ -354,6 +354,17 @@ suite('gr-comment tests', () => {
           .querySelector('.discard'));
       assert.isTrue(reportStub.calledOnce);
     });
+
+    test('failed save draft request shows unsaved in header', done => {
+      const updateRequestStub = sinon.stub(element, '_updateRequestToast');
+      sinon.stub(element.$.restAPI, 'saveDiffDraft').returns(
+          Promise.resolve({ok: false}));
+      element._saveDraft();
+      flush(() => {
+        assert.deepEqual(updateRequestStub.lastCall.args, [0, true]);
+        done();
+      });
+    });
   });
 
   suite('gr-comment draft tests', () => {

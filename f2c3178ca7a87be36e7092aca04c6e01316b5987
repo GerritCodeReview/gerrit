@@ -52,6 +52,24 @@
       "revId": "f2c3178ca7a87be36e7092aca04c6e01316b5987",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42d2dc6e_88a7052c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-09T13:33:27Z",
+      "side": 1,
+      "message": "What I meant in fact is that [1] was reopened earlier this week, as it now leads to another, newly discovered issue.",
+      "parentUuid": "a294ce80_551c1a7f",
+      "revId": "f2c3178ca7a87be36e7092aca04c6e01316b5987",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -50,6 +50,24 @@
       "revId": "7b7dc18775037397d674f733ddb53b4f1b253a8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26fddc86_472e4d4d",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_html.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-09T20:53:13Z",
+      "side": 1,
+      "message": "The listening is for plugin-emitted events.\nThis allows plugins to trigger visibility computation of gr-related-changes-list.\n\nThe `zuul` plugin for registers in gr-related-changes-list.\nAnd the plugin initially does not know whether or not it has content worth showing.\nThe plugin has to do an API request first. Only once the response to that\nrequest has been analyzed, the plugin can add the needed sections.\n\nSo the plugin is initially hidden. And sets its `hidden` attribute to false,\nafter it has the visible sections added. But the containing gr-related-changes-list\nof course does not notice on its own the sections got added.\nHence, it cannot unhide itself.\n\nNow the plugin itself sends the `new-section-loaded` event. Which (with this\ncommit) gets picked up by gr-related-changes-list. gr-related-changes-list can\nthen decide if it should change its visibility.\n\nThis of course all depends on whether or not we want to have dynamic hiding of\ngr-related-changes-list. See the parent commit\nhttps://gerrit-review.googlesource.com/c/gerrit/+/274438/2\nIf we decide ot the parent commit that \"staying visible if there are plugins\" is\ngood enough, then this commit is not needed.",
+      "parentUuid": "23a289eb_626a299a",
+      "revId": "7b7dc18775037397d674f733ddb53b4f1b253a8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -33,6 +33,24 @@
       "revId": "0049afe09be6b4d720588a255543b34a0a55f497",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "320a0034_b93ea25a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-09T11:16:59Z",
+      "side": 1,
+      "message": "Good idea, but I would like to make it in a separate change in the future.",
+      "parentUuid": "8ded1d9a_35fac457",
+      "revId": "0049afe09be6b4d720588a255543b34a0a55f497",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

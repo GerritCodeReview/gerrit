@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "bd2754f2_ab555f4c",
+        "filename": "polygerrit-ui/app/.eslintrc.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-09T12:45:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ae2e73e4_955393db",
+      "range": {
+        "startLine": 215,
+        "startChar": 9,
+        "endLine": 215,
+        "endChar": 24
+      },
+      "revId": "04e28dd8d6148660bcc7063ed588e345f58d3546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c36e45c3_4b99c336",
         "filename": "tools/js/eslint-rules/goog-module-id.js",
         "patchSetId": 5
@@ -93,6 +117,30 @@
       "revId": "04e28dd8d6148660bcc7063ed588e345f58d3546",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40219ae5_8c39ad62",
+        "filename": "tools/js/eslint-rules/goog-module-id.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-09T12:45:01Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a8a426a9_b3d3fccc",
+      "range": {
+        "startLine": 110,
+        "startChar": 38,
+        "endLine": 110,
+        "endChar": 79
+      },
+      "revId": "04e28dd8d6148660bcc7063ed588e345f58d3546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

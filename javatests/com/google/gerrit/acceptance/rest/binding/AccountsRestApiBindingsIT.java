@@ -65,6 +65,8 @@ public class AccountsRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.get("/accounts/%s/active"),
           RestCall.put("/accounts/%s/active"),
           RestCall.delete("/accounts/%s/active"),
+          RestCall.put("/accounts/%s/robot"),
+          RestCall.delete("/accounts/%s/robot"),
           RestCall.put("/accounts/%s/password.http"),
           RestCall.delete("/accounts/%s/password.http"),
           RestCall.get("/accounts/%s/status"),

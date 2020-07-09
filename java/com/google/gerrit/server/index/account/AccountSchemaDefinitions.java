@@ -55,11 +55,19 @@ public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
   // New numeric types: use dimensional points using the k-d tree geo-spatial data structure
   // to offer fast single- and multi-dimensional numeric range. As the consequense, integer
   // document id type is replaced with string document id type.
+  @Deprecated
   static final Schema<AccountState> V11 =
       new Schema.Builder<AccountState>()
           .add(V10)
           .remove(AccountField.ID)
           .add(AccountField.ID_STR)
+          .legacyNumericFields(false)
+          .build();
+
+  static final Schema<AccountState> V12 =
+      new Schema.Builder<AccountState>()
+          .add(V11)
+          .add(AccountField.IS_ROBOT)
           .legacyNumericFields(false)
           .build();
 

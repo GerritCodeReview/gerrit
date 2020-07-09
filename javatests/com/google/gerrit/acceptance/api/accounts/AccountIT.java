@@ -366,6 +366,7 @@ public class AccountIT extends AbstractDaemonTest {
       assertThat(accountInfo.name).isEqualTo(input.name);
       assertThat(accountInfo.email).isEqualTo(input.email);
       assertThat(accountInfo.status).isNull();
+      assertThat(accountInfo.isRobot).isNull();
 
       Account.Id accountId = Account.id(accountInfo._accountId);
       accountIndexedCounter.assertReindexOf(accountId, 1);
@@ -373,6 +374,22 @@ public class AccountIT extends AbstractDaemonTest {
           .containsExactly(
               ExternalId.createUsername(input.username, accountId, null),
               ExternalId.createEmail(accountId, input.email));
+    }
+  }
+
+  @Test
+  public void createRobotAccount() throws Exception {
+    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
+      AccountInput input = new AccountInput();
+      input.username = "foo";
+      input.name = "Foo";
+      input.email = "foo@example.com";
+      input.isRobot = true;
+      AccountInfo accountInfo = gApi.accounts().create(input).get();
+      assertThat(accountInfo._accountId).isNotNull();
+      assertThat(accountInfo.isRobot).isTrue();
     }
   }
 
@@ -1102,6 +1119,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(detail.status).isEqualTo(status);
     assertThat(detail.registeredOn).isEqualTo(getAccount(foo.id()).registeredOn());
     assertThat(detail.inactive).isNull();
+    assertThat(detail.isRobot).isNull();
     assertThat(detail._moreAccounts).isNull();
   }
 

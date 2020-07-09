@@ -495,6 +495,46 @@ Sets the account state to inactive.
 
 If the account was already inactive the response is "`409 Conflict`".
 
+[[set-robot]]
+=== Set Active
+--
+'PUT /accounts/link:#account-id[\{account-id\}]/robot'
+--
+
+Marks the account as robot account.
+
+.Request
+----
+  PUT /accounts/john.doe@example.com/robot HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 201 Created
+----
+
+If the account was already marked as robot the response is "`200 OK`".
+
+[[delete-robot]]
+=== Delete Active
+--
+'DELETE /accounts/link:#account-id[\{account-id\}]/robot'
+--
+
+Marks the account as human.
+
+.Request
+----
+  DELETE /accounts/john.doe@example.com/robot HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+If the account was already marked as human the response is "`409 Conflict`".
+
 [[set-http-password]]
 === Set/Generate HTTP Password
 --
@@ -2299,6 +2339,8 @@ Only set on the last account that is returned.
 |`status`          |optional|Status message of the account.
 |`inactive`        |not set if `false`|
 Whether the account is inactive.
+|`is_robot`        |not set if `false`|
+Whether the account is a robot account.
 |===============================
 
 [[account-input]]
@@ -2319,6 +2361,8 @@ The user name. If provided, must match the user name from the URL.
 |`groups`       |optional|
 A list of link:rest-api-groups.html#group-id[group IDs] that identify
 the groups to which the user should be added.
+|`is_robot`        |not set if `false`|
+Whether the account is a robot account.
 |============================
 
 [[account-name-input]]

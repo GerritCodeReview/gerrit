@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "06f064bb_fc6fcb68",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 817,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-09T09:51:25Z",
+      "side": 1,
+      "message": "Used .some",
+      "parentUuid": "74b06d76_fd122b34",
+      "range": {
+        "startLine": 810,
+        "startChar": 4,
+        "endLine": 817,
+        "endChar": 0
+      },
+      "revId": "3e23e6fcf7b5098edc40c6c2d5455a0a77ceb22e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f644e90d_0e59a1de",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 6
@@ -45,6 +69,30 @@
       "revId": "3e23e6fcf7b5098edc40c6c2d5455a0a77ceb22e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41f8f607_08f6c04d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 914,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-09T09:51:25Z",
+      "side": 1,
+      "message": "The experiment is just for changing the urls.\nThe value.commentLink will only be true if you come from the experimental link.\nI am not sure but maybe it\u0027s possible that the user clicks on the link then opens the diff page and mendel returns the flag to now be false.\nAlso while testing we append ?flag\u003dXX for setting the experiment to true while will be lost when we navigate the new url(flag is not propogated).",
+      "parentUuid": "f644e90d_0e59a1de",
+      "range": {
+        "startLine": 914,
+        "startChar": 10,
+        "endLine": 914,
+        "endChar": 64
+      },
+      "revId": "3e23e6fcf7b5098edc40c6c2d5455a0a77ceb22e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "084cf4f637dbc844bab9caeaede213bc120c545f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13f61e92_58557c3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-09T16:37:32Z",
+      "side": 1,
+      "message": "Beside regular maintenance, no. This one had 1.7.3 set so we might as well upgrade it to 1.7.4 here. That is done for other dependencies, for the applicable branches including stable ones. If there are more concerns about this, we could move this change to master instead.",
+      "parentUuid": "296c3e7a_96407d01",
+      "revId": "084cf4f637dbc844bab9caeaede213bc120c545f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

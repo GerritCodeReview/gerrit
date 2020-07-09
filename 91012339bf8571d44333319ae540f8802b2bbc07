@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7486044_5964edb7",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateChangeIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-09T13:00:21Z",
+      "side": 1,
+      "message": "nit: link?",
+      "range": {
+        "startLine": 28,
+        "startChar": 67,
+        "endLine": 28,
+        "endChar": 99
+      },
+      "revId": "91012339bf8571d44333319ae540f8802b2bbc07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

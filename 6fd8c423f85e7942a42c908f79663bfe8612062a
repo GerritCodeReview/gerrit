@@ -56,6 +56,24 @@
       "revId": "6fd8c423f85e7942a42c908f79663bfe8612062a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ddd1a2c_dbe614b9",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-09T20:39:24Z",
+      "side": 1,
+      "message": "\u003e It would be very hard to detect if plugin registers any visible content [...]\n\nIf the plugin plays along, it\u0027s not that hard.\n\nIf the plugin sets the `hidden` attribute correctly on its top level element,\ngr-related-changes-list can detect it nicely and hides/unhides itself accordingly.\n\nFor example the zuul plugin does that in this commit\nhttps://gerrit-review.googlesource.com/c/plugins/zuul/+/274440\nand that works really well for us.\n\nIf you say so, I\u0027ll gladly switch to `getDetails()`. But that boils down to\nthe `gr-related-changes-list` being (unnecessarily) visible always on sites\nthat have a plugin there.",
+      "parentUuid": "9bf01fe9_0df16e71",
+      "revId": "6fd8c423f85e7942a42c908f79663bfe8612062a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

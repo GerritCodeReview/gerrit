@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "skipLibCheck": false, /* This is required for report-ts-error.js.
+    See details in the //tools/js/eslint-rules/report-ts-error.js file.*/
+    "baseUrl": "../../external/ui_npm/node_modules" /* Only for bazel.
+    Compiler will try to use it to resolve module name and if it fail - will
+    fallback to a default behavior
+    (https://github.com/microsoft/TypeScript/issues/5039)*/
+  }
+}

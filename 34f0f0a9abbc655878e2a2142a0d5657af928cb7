@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2f2088a2_73e0af3a",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-09T08:11:41Z",
+      "side": 1,
+      "message": "I see your point, but in all the work I did for the project cache, the boiler plate we have coming from existing patterns really struck me.\n\nFor example:\n\nAccessSection, Permission, PermissionRule, etc have the following representation:\n1) An AutoValue for in-memory representation (used to be a POJO; with builders so technically 2 classes)\n2) A proto for on-disk caching representation\n3) A serialized variant for reading from and writing to project.config\n4) A *Info object for API read requests\n5) (sometimes) A *Input object for API write requests.\n\nSo I am not so eager to add (6) an in-mem variant for updates :-(\n\nBesides the classes which are boiler-platy, we also need converters between them, which need unit tests (example: I1fbba29). \n\nA member in the builder might not look good, but it\u0027s internal to the builder, so can\u0027t do much harm. If it spares us from implementing the 6th variant of the same thing, I think it\u0027s an acceptable route to take. WDYT?\n\nSeparately I think we should investigate replacing the in-mem autovalues with protos. The migration step is small (it took me effort to move from POJO to AutoValue, but from AutoValue to proto is a way smaller step because the concepts are so close together). That could help us reduce boiler plate and use more provided builder tricks (protos can have lists that accept builders of other protos while AutoValue can\u0027t).",
+      "parentUuid": "4384cc93_5f0c2c08",
+      "revId": "34f0f0a9abbc655878e2a2142a0d5657af928cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a49c3a4a_3f280d26",
         "filename": "java/com/google/gerrit/common/data/AccessSection.java",
         "patchSetId": 9
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "2115cdb8_e042a11c",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-09T08:11:41Z",
+      "side": 1,
+      "message": "That\u0027s what upsertPermission is for.\n\nWe have a lot of existing code for our permission system because it\u0027s been feature complete for 8+ years, so a method that isn\u0027t needed now has a low chance of being needed in the future. If it is, we can just add it IMO :-)\n\nI think of the Builder much like an *Update class - a deeply mutable data structure that can spare us the separate *Update class.",
+      "parentUuid": "a49c3a4a_3f280d26",
+      "range": {
+        "startLine": 109,
+        "startChar": 51,
+        "endLine": 109,
+        "endChar": 69
+      },
+      "revId": "34f0f0a9abbc655878e2a2142a0d5657af928cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e03e3c9e_67aed24c",
         "filename": "java/com/google/gerrit/common/data/AccessSection.java",
         "patchSetId": 9
@@ -62,6 +104,30 @@
       "revId": "34f0f0a9abbc655878e2a2142a0d5657af928cb7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e051fee3_e354dfc6",
+        "filename": "java/com/google/gerrit/common/data/AccessSection.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-09T08:11:41Z",
+      "side": 1,
+      "message": "Done. I made them delegate to modifyPermission.",
+      "parentUuid": "e03e3c9e_67aed24c",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 146,
+        "endChar": 5
+      },
+      "revId": "34f0f0a9abbc655878e2a2142a0d5657af928cb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

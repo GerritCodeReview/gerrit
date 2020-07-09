@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-comment.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {__testOnly_ERROR_MESSAGE} from './gr-comment.js';
 
 const basicFixture = fixtureFromElement('gr-comment');
 
@@ -353,6 +354,20 @@ suite('gr-comment tests', () => {
       MockInteractions.tap(element.shadowRoot
           .querySelector('.discard'));
       assert.isTrue(reportStub.calledOnce);
+    });
+
+    test('failed save draft request', done => {
+      const updateRequestStub = sinon.stub(element, '_updateRequestToast');
+      sinon.stub(element.$.restAPI, 'saveDiffDraft').returns(
+          Promise.resolve({ok: false}));
+      element._saveDraft();
+      flush(() => {
+        const args = updateRequestStub.lastCall.args;
+        assert.deepEqual(args, [0, true]);
+        assert.equal(element._getSavingMessage(...args),
+            __testOnly_ERROR_MESSAGE);
+        done();
+      });
     });
   });
 

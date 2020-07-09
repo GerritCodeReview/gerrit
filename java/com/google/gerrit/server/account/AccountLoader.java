@@ -44,7 +44,8 @@ public class AccountLoader {
               FillOptions.DISPLAY_NAME,
               FillOptions.STATUS,
               FillOptions.STATE,
-              FillOptions.AVATARS));
+              FillOptions.AVATARS,
+              FillOptions.IS_ROBOT));
 
   public interface Factory {
     AccountLoader create(boolean detailed);

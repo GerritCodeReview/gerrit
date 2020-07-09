@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.account;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
@@ -338,6 +339,19 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
 
     assertQuery(quote(user2.name), user2);
     assertQuery("name:" + quote(user2.name), user2);
+  }
+
+  @Test
+  public void isRobot() throws Exception {
+    assume().that(getSchema().hasField(AccountField.IS_ROBOT)).isTrue();
+
+    String domain = name("test.com");
+    AccountInfo user = newAccountWithEmail("user", "user@" + domain);
+    AccountInfo robot = newAccountWithEmail("robot", "robot@" + domain);
+    gApi.accounts().id(robot._accountId).setIsRobot(true);
+
+    assertQuery("is:human " + user._accountId, user); // Include ID so admin doesn't show in results
+    assertQuery("is:robot", robot);
   }
 
   @Test

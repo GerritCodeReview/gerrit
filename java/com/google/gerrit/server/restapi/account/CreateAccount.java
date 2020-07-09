@@ -145,7 +145,11 @@ public class CreateAccount
           .insert(
               "Create Account via API",
               accountId,
-              u -> u.setFullName(input.name).setPreferredEmail(input.email).addExternalIds(extIds));
+              u ->
+                  u.setFullName(input.name)
+                      .setPreferredEmail(input.email)
+                      .addExternalIds(extIds)
+                      .setIsRobot(Boolean.TRUE.equals(input.isRobot)));
     } catch (DuplicateExternalIdKeyException e) {
       if (e.getDuplicateKey().isScheme(SCHEME_USERNAME)) {
         throw new ResourceConflictException(

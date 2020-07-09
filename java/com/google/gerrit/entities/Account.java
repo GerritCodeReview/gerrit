@@ -151,6 +151,9 @@ public abstract class Account {
   @Nullable
   public abstract String metaId();
 
+  /** Returns {@code true} if this account is a robot account. */
+  public abstract boolean isRobot();
+
   /**
    * Create a new account.
    *
@@ -161,6 +164,7 @@ public abstract class Account {
     return new AutoValue_Account.Builder()
         .setInactive(false)
         .setId(newId)
+        .setIsRobot(false)
         .setRegisteredOn(registeredOn);
   }
 
@@ -266,6 +270,8 @@ public abstract class Account {
     public abstract String metaId();
 
     public abstract Builder setMetaId(@Nullable String metaId);
+
+    public abstract Builder setIsRobot(boolean isRobot);
 
     public abstract Account build();
   }

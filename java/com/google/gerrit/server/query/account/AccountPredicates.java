@@ -117,6 +117,14 @@ public class AccountPredicates {
     return new AccountPredicate(AccountField.ACTIVE, "0");
   }
 
+  public static Predicate<AccountState> isRobot() {
+    return new AccountPredicate(AccountField.IS_ROBOT, "1");
+  }
+
+  public static Predicate<AccountState> isHuman() {
+    return new AccountPredicate(AccountField.IS_ROBOT, "0");
+  }
+
   public static Predicate<AccountState> username(String username) {
     return new AccountPredicate(
         AccountField.USERNAME, AccountQueryBuilder.FIELD_USERNAME, username.toLowerCase());

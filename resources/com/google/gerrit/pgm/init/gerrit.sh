@@ -345,7 +345,8 @@ fi
 
 test -z "$GERRIT_USER" && GERRIT_USER=`whoami`
 RUN_ARGS="-jar $GERRIT_WAR daemon -d $GERRIT_SITE"
-if test "`get_config --bool container.slave`" = "true" ; then
+if test "`get_config --bool container.slave`" = "true" || \
+    test "`get_config --bool container.replica`" = "true"; then
   RUN_ARGS="$RUN_ARGS --replica --enable-httpd --headless"
 fi
 DAEMON_OPTS=`get_config --get-all container.daemonOpt`

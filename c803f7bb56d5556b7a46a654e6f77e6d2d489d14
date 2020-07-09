@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0394c56_13a6fa69",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1377,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-09T11:09:12Z",
+      "side": 1,
+      "message": "This method doesn\u0027t have test.\nFor example, you can extend \"test(\u0027file route\u0027, () \u003d\u003e {\" and call this method.\nIn this test you can stub _redirectOrNavigate method and check args.\n\nThe same for _handleCommentRoute",
+      "range": {
+        "startLine": 1377,
+        "startChar": 2,
+        "endLine": 1377,
+        "endChar": 18
+      },
+      "revId": "c803f7bb56d5556b7a46a654e6f77e6d2d489d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "511bff8b_1d374c4c",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1512,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-09T11:09:12Z",
+      "side": 1,
+      "message": "This test doesn\u0027t check your code. It tests only specific regular expression.\nThe problem here that I can break regular expression in gr-router and this test doesn\u0027t catch it.\n\nYou can export FILE regexp from gr-router like this:\nexport const _testOnly_RoutePattern \u003d RoutePattern;\n\nthen use __testOnly_RoutePattern.FILE in this test.\n\nThe same for the next test \u0027comment route\u0027",
+      "range": {
+        "startLine": 1512,
+        "startChar": 10,
+        "endLine": 1512,
+        "endChar": 66
+      },
+      "revId": "c803f7bb56d5556b7a46a654e6f77e6d2d489d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b2f6f8e_ef0c2073",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 860,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-09T11:09:12Z",
+      "side": 1,
+      "message": "value.commentLink - can\u0027t find where it is set (only in tests).\nMaybe remove or use commentId instead?",
+      "range": {
+        "startLine": 860,
+        "startChar": 14,
+        "endLine": 860,
+        "endChar": 31
+      },
+      "revId": "c803f7bb56d5556b7a46a654e6f77e6d2d489d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

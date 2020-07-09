@@ -21,6 +21,7 @@ export const htmlTemplate = html`
     :host {
       display: inline;
       position: relative;
+      border-radius: var(--label-border-radius);
     }
     :host::after {
       content: var(--account-label-suffix);
@@ -36,6 +37,7 @@ export const htmlTemplate = html`
       left: 0;
       background-color: var(--background-color-primary);
       opacity: 0.5;
+      border-radius: var(--label-border-radius);
     }
     gr-avatar {
       height: var(--line-height-normal);

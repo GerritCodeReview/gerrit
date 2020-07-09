@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "df69a71d_edf06aea",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 1377,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-09T13:25:18Z",
+      "side": 1,
+      "message": "I slightly changed your function:\n_handleFileRoute(ctx) {\n    const params \u003d {\n      project: ctx.params[0],\n      changeNum: ctx.params[2],\n      patchNum: ctx.params[1],\n      path: ctx.params[3],\n      view: GerritNav.View.DIFF,\n      fileLink: true,\n    };\n    this.reporting.setRepoName(params.project);\n    this._redirectOrNavigate(params);\n  }\n\nand all tests passed. You can extend test and check that _handleFileRoute and FILE regexp are matched each other:\n\n        test(\u0027file route\u0027, () \u003d\u003e {\n          const url \u003d \u0027/c/gerrit/+/274190/file/1/\u0027 +\n            \u0027polygerrit-ui/app/elements/core/gr-router/gr-router.js\u0027;\n          const groups \u003d url.match(_testOnly_RoutePattern.FILE);\n          assert.deepEqual(groups.slice(1), [\n            \u0027gerrit\u0027, // project\n            \u0027274190\u0027, // changeNum\n            \u00271\u0027, // patchNum\n            \u0027polygerrit-ui/app/elements/core/gr-router/gr-router.js\u0027, // path\n          ]);\n\n          assertDataToParams({params: groups.slice(1)}, \u0027_handleFileRoute\u0027, {\n            project: \u0027gerrit\u0027,\n            changeNum: \u0027274190\u0027,\n            patchNum: \u00271\u0027,\n            path: \u0027polygerrit-ui/app/elements/core/gr-router/gr-router.js\u0027,\n            fileLink: true,\n            view: GerritNav.View.DIFF,\n          });\n        });\n\nAlso, if in the future the RegExp is changed, the test shows that _handleFileRoute requires an update. Without the last part (assertDataToParams), test doesn\u0027t catch the case when developer updates FILE regexp, but don\u0027t update _handleFileRoute method.",
+      "parentUuid": "817d4de1_bc392209",
+      "range": {
+        "startLine": 1377,
+        "startChar": 2,
+        "endLine": 1377,
+        "endChar": 18
+      },
+      "revId": "c803f7bb56d5556b7a46a654e6f77e6d2d489d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "511bff8b_1d374c4c",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router_test.js",
         "patchSetId": 14

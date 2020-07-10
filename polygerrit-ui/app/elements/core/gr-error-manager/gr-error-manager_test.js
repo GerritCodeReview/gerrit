@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-error-manager.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+import {__testOnly_ERROR_TYPES} from './gr-error-manager.js';
 
 const basicFixture = fixtureFromElement('gr-error-manager');
 
@@ -217,6 +218,26 @@ suite('gr-error-manager tests', () => {
         assert.isTrue(consoleErrorStub.lastCall.calledWithExactly('ZOMG'));
         done();
       });
+    });
+
+    test('_canOverride alerts', () => {
+      assert.isFalse(element._canOverride(undefined,
+          __testOnly_ERROR_TYPES.AUTH));
+      assert.isFalse(element._canOverride(undefined,
+          __testOnly_ERROR_TYPES.NETWORK));
+      assert.isTrue(element._canOverride(undefined,
+          __testOnly_ERROR_TYPES.GENERIC));
+      assert.isTrue(element._canOverride(undefined, undefined));
+
+      assert.isTrue(element._canOverride(__testOnly_ERROR_TYPES.NETWORK,
+          undefined));
+      assert.isTrue(element._canOverride(__testOnly_ERROR_TYPES.AUTH,
+          undefined));
+      assert.isFalse(element._canOverride(__testOnly_ERROR_TYPES.NETWORK,
+          __testOnly_ERROR_TYPES.AUTH));
+
+      assert.isTrue(element._canOverride(__testOnly_ERROR_TYPES.AUTH,
+          __testOnly_ERROR_TYPES.NETWORK));
     });
 
     test('show auth refresh toast', async () => {

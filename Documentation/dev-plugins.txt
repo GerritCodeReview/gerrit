@@ -2058,6 +2058,14 @@ MySecureStore(@SitePath java.io.File sitePath) {
 No Guice bindings or modules are required. Gerrit will automatically
 discover and bind the implementation.
 
+[[gerrit-replica]]
+== Gerrit Replica
+
+Gerrit can be run as a read-only replica. Some plugins may need to know
+whether Gerrit is run as a primary- or a replica instance. For that purpose
+Gerrit exposes the `@GerritIsReplica` annotation. A boolean annotated with
+this annotation will indicate whether Gerrit is run as a replica.
+
 [[accountcreation]]
 == Account Creation
 

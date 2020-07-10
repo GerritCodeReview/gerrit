@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5d6fc02b_12922bea",
+        "filename": "resources/com/google/gerrit/server/mail/RegisterNewEmailHtml.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-10T14:32:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a353a1b_c776943c",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "6dae6bcdafd5e9664c4b30e76dd3db1dd4923daa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08e40aca_d1bf1ff0",
         "filename": "resources/com/google/gerrit/server/mail/RegisterNewEmailHtml.soy",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "6dae6bcdafd5e9664c4b30e76dd3db1dd4923daa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64fe8b30_cde56b5b",
+        "filename": "resources/com/google/gerrit/server/mail/RegisterNewEmailHtml.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-10T14:32:22Z",
+      "side": 1,
+      "message": "Hmm, it seems that {\\n} works as well, but it seems that \u003cp\u003e does the formatting better, anyway.",
+      "parentUuid": "08e40aca_d1bf1ff0",
+      "range": {
+        "startLine": 22,
+        "startChar": 57,
+        "endLine": 22,
+        "endChar": 61
+      },
+      "revId": "6dae6bcdafd5e9664c4b30e76dd3db1dd4923daa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

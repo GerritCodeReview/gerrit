@@ -16,6 +16,24 @@
       "revId": "069c7b3040dde83b54f2dc35c1356e727fe06e4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c877ad1_9d05e044",
+        "filename": "polygerrit-ui/app/scripts/gr-display-name-utils/gr-display-name-utils.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-10T16:50:03Z",
+      "side": 1,
+      "message": "You are right. I didn\u0027t notice that it is located in a different location.",
+      "parentUuid": "0ec70c32_55ee7e60",
+      "revId": "069c7b3040dde83b54f2dc35c1356e727fe06e4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

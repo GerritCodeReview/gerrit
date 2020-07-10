@@ -459,7 +459,7 @@ public class MailProcessorIT extends AbstractMailIT {
   private ImmutableSet<CommentInfo> getCommentsAndRobotComments(String changeId)
       throws RestApiException {
     return Streams.concat(
-            gApi.changes().id(changeId).comments().values().stream(),
+            gApi.changes().id(changeId).comments(false).values().stream(),
             gApi.changes().id(changeId).robotComments().values().stream())
         .flatMap(Collection::stream)
         .collect(toImmutableSet());

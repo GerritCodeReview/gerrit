@@ -25,16 +25,15 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-table-editor_html.js';
-import {ChangeTableBehavior} from '../../../behaviors/gr-change-table-behavior/gr-change-table-behavior.js';
+import {ChangeTableMixin} from '../../../mixins/gr-change-table-mixin/gr-change-table-mixin.js';
 
 /**
  * @extends PolymerElement
  */
-class GrChangeTableEditor extends mixinBehaviors( [
-  ChangeTableBehavior,
+class GrChangeTableEditor extends ChangeTableMixin(mixinBehaviors( [
 ], GestureEventListeners(
     LegacyElementMixin(
-        PolymerElement))) {
+        PolymerElement)))) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-change-table-editor'; }

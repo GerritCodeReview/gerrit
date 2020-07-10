@@ -67,8 +67,8 @@ module.exports = {
       }
     ],
     "new-cap": ["error", {
-      "capIsNewExceptions": ["Polymer", "LegacyElementMixin",
-        "GestureEventListeners", "LegacyDataMixin"]
+      "capIsNewExceptions": ["Polymer", "GestureEventListeners"],
+      "capIsNewExceptionPattern": "^.*Mixin$"
     }],
     "no-console": "off",
     "no-multiple-empty-lines": ["error", {"max": 1}],

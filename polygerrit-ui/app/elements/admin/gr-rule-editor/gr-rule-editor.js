@@ -25,9 +25,8 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-rule-editor_html.js';
-import {getBaseUrl} from '../../../utils/url-util.js';
+import {encodeURL, getBaseUrl} from '../../../utils/url-util.js';
 import {AccessBehavior} from '../../../behaviors/gr-access-behavior/gr-access-behavior.js';
-import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 
 /**
  * Fired when the rule has been modified or removed.
@@ -81,7 +80,6 @@ const FORCE_EDIT_OPTIONS = [
  */
 class GrRuleEditor extends mixinBehaviors( [
   AccessBehavior,
-  URLEncodingBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {
@@ -171,7 +169,7 @@ class GrRuleEditor extends mixinBehaviors( [
   }
 
   _computeGroupPath(group) {
-    return `${getBaseUrl()}/admin/groups/${this.encodeURL(group, true)}`;
+    return `${getBaseUrl()}/admin/groups/${encodeURL(group, true)}`;
   }
 
   _handleAccessSaved() {

@@ -1540,7 +1540,7 @@ public abstract class AbstractDaemonTest {
 
   protected List<CommentInfo> getChangeSortedComments(int changeNum) throws Exception {
     List<CommentInfo> comments = new ArrayList<>();
-    Map<String, List<CommentInfo>> commentsMap = gApi.changes().id(changeNum).comments();
+    Map<String, List<CommentInfo>> commentsMap = gApi.changes().id(changeNum).comments().get();
     for (Map.Entry<String, List<CommentInfo>> e : commentsMap.entrySet()) {
       for (CommentInfo c : e.getValue()) {
         c.path = e.getKey(); // Set the comment's path field.

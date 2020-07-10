@@ -26,6 +26,7 @@ import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.FixReplacement;
 import com.google.gerrit.entities.FixSuggestion;
 import com.google.gerrit.entities.HumanComment;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.Side;
@@ -34,6 +35,7 @@ import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.server.CommentContextLoader;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
@@ -48,10 +50,15 @@ public class CommentJson {
 
   private boolean fillAccounts = true;
   private boolean fillPatchSet;
+  private CommentContextLoader.Factory commentContextLoaderFactory;
+  private CommentContextLoader commentContextLoader;
 
   @Inject
-  CommentJson(AccountLoader.Factory accountLoaderFactory) {
+  CommentJson(
+      AccountLoader.Factory accountLoaderFactory,
+      CommentContextLoader.Factory commentContextLoaderFactory) {
     this.accountLoaderFactory = accountLoaderFactory;
+    this.commentContextLoaderFactory = commentContextLoaderFactory;
   }
 
   CommentJson setFillAccounts(boolean fillAccounts) {
@@ -61,6 +68,13 @@ public class CommentJson {
 
   CommentJson setFillPatchSet(boolean fillPatchSet) {
     this.fillPatchSet = fillPatchSet;
+    return this;
+  }
+
+  CommentJson setEnableContext(boolean enableContext, Project.NameKey project) {
+    if (enableContext) {
+      this.commentContextLoader = commentContextLoaderFactory.create(project);
+    }
     return this;
   }
 
@@ -78,6 +92,9 @@ public class CommentJson {
       T info = toInfo(comment, loader);
       if (loader != null) {
         loader.fill();
+      }
+      if (commentContextLoader != null) {
+        commentContextLoader.fill();
       }
       return info;
     }
@@ -103,6 +120,9 @@ public class CommentJson {
       if (loader != null) {
         loader.fill();
       }
+      if (commentContextLoader != null) {
+        commentContextLoader.fill();
+      }
       return out;
     }
 
@@ -117,6 +137,9 @@ public class CommentJson {
 
       if (loader != null) {
         loader.fill();
+      }
+      if (commentContextLoader != null) {
+        commentContextLoader.fill();
       }
       return out;
     }
@@ -148,6 +171,9 @@ public class CommentJson {
         r.author = loader.get(c.author.getId());
       }
       r.commitId = c.getCommitId().getName();
+      if (commentContextLoader != null) {
+        r.contextLines = commentContextLoader.getContext(r);
+      }
     }
 
     protected Range toRange(Comment.Range commentRange) {

@@ -34,7 +34,6 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-file-list_html.js';
 import {asyncForeach} from '../../../utils/async-util.js';
-import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {GrFileListConstants} from '../gr-file-list-constants.js';
@@ -45,6 +44,7 @@ import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js
 import {appContext} from '../../../services/app-context.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
 import {descendedFromClass} from '../../../utils/dom-util.js';
+import {getRevisionByPatchNum} from '../../../utils/patch-set-util.js';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -92,7 +92,6 @@ const FILE_ROW_CLASS = 'file-row';
  */
 class GrFileList extends mixinBehaviors( [
   KeyboardShortcutBehavior,
-  PatchSetBehavior,
   PathListBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
@@ -1167,7 +1166,7 @@ class GrFileList extends mixinBehaviors( [
       return '';
     }
 
-    const rev = this.getRevisionByPatchNum(revisions, patchNum);
+    const rev = getRevisionByPatchNum(revisions, patchNum);
     return (rev && rev.description) ?
       rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
   }

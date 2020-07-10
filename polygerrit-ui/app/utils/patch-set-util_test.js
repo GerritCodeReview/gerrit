@@ -15,19 +15,25 @@
  * limitations under the License.
  */
 
-import '../../test/common-test-setup-karma.js';
-import {PatchSetBehavior} from './gr-patch-set-behavior.js';
-suite('gr-patch-set-behavior tests', () => {
+import '../test/common-test-setup-karma.js';
+import {
+  _testOnly_computeWipForPatchSets, computeAllPatchSets,
+  fetchChangeUpdates, findEditParentPatchNum, findEditParentRevision,
+  getParentIndex, getRevisionByPatchNum,
+  isMergeParent,
+  patchNumEquals, sortRevisions,
+} from './patch-set-util.js';
+
+suite('gr-patch-set-util tests', () => {
   test('getRevisionByPatchNum', () => {
-    const get = PatchSetBehavior.getRevisionByPatchNum;
     const revisions = [
       {_number: 0},
       {_number: 1},
       {_number: 2},
     ];
-    assert.deepEqual(get(revisions, '1'), revisions[1]);
-    assert.deepEqual(get(revisions, 2), revisions[2]);
-    assert.equal(get(revisions, '3'), undefined);
+    assert.deepEqual(getRevisionByPatchNum(revisions, '1'), revisions[1]);
+    assert.deepEqual(getRevisionByPatchNum(revisions, 2), revisions[2]);
+    assert.equal(getRevisionByPatchNum(revisions, '3'), undefined);
   });
 
   test('fetchChangeUpdates on latest', done => {
@@ -44,7 +50,7 @@ suite('gr-patch-set-behavior tests', () => {
         return Promise.resolve(knownChange);
       },
     };
-    PatchSetBehavior.fetchChangeUpdates(knownChange, mockRestApi)
+    fetchChangeUpdates(knownChange, mockRestApi)
         .then(result => {
           assert.isTrue(result.isLatest);
           assert.isNotOk(result.newStatus);
@@ -76,7 +82,7 @@ suite('gr-patch-set-behavior tests', () => {
         return Promise.resolve(actualChange);
       },
     };
-    PatchSetBehavior.fetchChangeUpdates(knownChange, mockRestApi)
+    fetchChangeUpdates(knownChange, mockRestApi)
         .then(result => {
           assert.isFalse(result.isLatest);
           assert.isNotOk(result.newStatus);
@@ -107,7 +113,7 @@ suite('gr-patch-set-behavior tests', () => {
         return Promise.resolve(actualChange);
       },
     };
-    PatchSetBehavior.fetchChangeUpdates(knownChange, mockRestApi)
+    fetchChangeUpdates(knownChange, mockRestApi)
         .then(result => {
           assert.isTrue(result.isLatest);
           assert.equal(result.newStatus, 'MERGED');
@@ -138,7 +144,7 @@ suite('gr-patch-set-behavior tests', () => {
         return Promise.resolve(actualChange);
       },
     };
-    PatchSetBehavior.fetchChangeUpdates(knownChange, mockRestApi)
+    fetchChangeUpdates(knownChange, mockRestApi)
         .then(result => {
           assert.isTrue(result.isLatest);
           assert.isNotOk(result.newStatus);
@@ -172,7 +178,7 @@ suite('gr-patch-set-behavior tests', () => {
         }
       }
       let patchNums = revs.map(rev => { return {num: rev}; });
-      patchNums = PatchSetBehavior._computeWipForPatchSets(
+      patchNums = _testOnly_computeWipForPatchSets(
           change, patchNums);
       const actualWipsByRevision = {};
       for (const patchNum of patchNums) {
@@ -226,63 +232,58 @@ suite('gr-patch-set-behavior tests', () => {
   });
 
   test('patchNumEquals', () => {
-    const equals = PatchSetBehavior.patchNumEquals;
-    assert.isFalse(equals('edit', 'PARENT'));
-    assert.isFalse(equals('edit', NaN));
-    assert.isFalse(equals(1, '2'));
+    assert.isFalse(patchNumEquals('edit', 'PARENT'));
+    assert.isFalse(patchNumEquals('edit', NaN));
+    assert.isFalse(patchNumEquals(1, '2'));
 
-    assert.isTrue(equals(1, '1'));
-    assert.isTrue(equals(1, 1));
-    assert.isTrue(equals('edit', 'edit'));
-    assert.isTrue(equals('PARENT', 'PARENT'));
+    assert.isTrue(patchNumEquals(1, '1'));
+    assert.isTrue(patchNumEquals(1, 1));
+    assert.isTrue(patchNumEquals('edit', 'edit'));
+    assert.isTrue(patchNumEquals('PARENT', 'PARENT'));
   });
 
   test('isMergeParent', () => {
-    const isParent = PatchSetBehavior.isMergeParent;
-    assert.isFalse(isParent(1));
-    assert.isFalse(isParent(4321));
-    assert.isFalse(isParent('52'));
-    assert.isFalse(isParent('edit'));
-    assert.isFalse(isParent('PARENT'));
-    assert.isFalse(isParent(0));
+    assert.isFalse(isMergeParent(1));
+    assert.isFalse(isMergeParent(4321));
+    assert.isFalse(isMergeParent('52'));
+    assert.isFalse(isMergeParent('edit'));
+    assert.isFalse(isMergeParent('PARENT'));
+    assert.isFalse(isMergeParent(0));
 
-    assert.isTrue(isParent(-23));
-    assert.isTrue(isParent(-1));
-    assert.isTrue(isParent('-42'));
+    assert.isTrue(isMergeParent(-23));
+    assert.isTrue(isMergeParent(-1));
+    assert.isTrue(isMergeParent('-42'));
   });
 
   test('findEditParentRevision', () => {
-    const findParent = PatchSetBehavior.findEditParentRevision;
     let revisions = [
       {_number: 0},
       {_number: 1},
       {_number: 2},
     ];
-    assert.strictEqual(findParent(revisions), null);
+    assert.strictEqual(findEditParentRevision(revisions), null);
 
     revisions = [...revisions, {_number: 'edit', basePatchNum: 3}];
-    assert.strictEqual(findParent(revisions), null);
+    assert.strictEqual(findEditParentRevision(revisions), null);
 
     revisions = [...revisions, {_number: 3}];
-    assert.deepEqual(findParent(revisions), {_number: 3});
+    assert.deepEqual(findEditParentRevision(revisions), {_number: 3});
   });
 
   test('findEditParentPatchNum', () => {
-    const findNum = PatchSetBehavior.findEditParentPatchNum;
     let revisions = [
       {_number: 0},
       {_number: 1},
       {_number: 2},
     ];
-    assert.equal(findNum(revisions), -1);
+    assert.equal(findEditParentPatchNum(revisions), -1);
 
     revisions =
         [...revisions, {_number: 'edit', basePatchNum: 3}, {_number: 3}];
-    assert.deepEqual(findNum(revisions), 3);
+    assert.deepEqual(findEditParentPatchNum(revisions), 3);
   });
 
   test('sortRevisions', () => {
-    const sort = PatchSetBehavior.sortRevisions;
     const revisions = [
       {_number: 0},
       {_number: 2},
@@ -294,24 +295,45 @@ suite('gr-patch-set-behavior tests', () => {
       {_number: 0},
     ];
 
-    assert.deepEqual(sort(revisions), sorted);
+    assert.deepEqual(sortRevisions(revisions), sorted);
 
     // Edit patchset should follow directly after its basePatchNum.
     revisions.push({_number: 'edit', basePatchNum: 2});
     sorted.unshift({_number: 'edit', basePatchNum: 2});
-    assert.deepEqual(sort(revisions), sorted);
+    assert.deepEqual(sortRevisions(revisions), sorted);
 
     revisions[0].basePatchNum = 0;
     const edit = sorted.shift();
     edit.basePatchNum = 0;
     // Edit patchset should be at index 2.
     sorted.splice(2, 0, edit);
-    assert.deepEqual(sort(revisions), sorted);
+    assert.deepEqual(sortRevisions(revisions), sorted);
   });
 
   test('getParentIndex', () => {
-    assert.equal(PatchSetBehavior.getParentIndex('-13'), 13);
-    assert.equal(PatchSetBehavior.getParentIndex(-4), 4);
+    assert.equal(getParentIndex('-13'), 13);
+    assert.equal(getParentIndex(-4), 4);
+  });
+
+  test('computeAllPatchSets', () => {
+    const expected = [
+      {num: 4, desc: 'test', sha: 'rev4'},
+      {num: 3, desc: 'test', sha: 'rev3'},
+      {num: 2, desc: 'test', sha: 'rev2'},
+      {num: 1, desc: 'test', sha: 'rev1'},
+    ];
+    const patchNums = computeAllPatchSets({
+      revisions: {
+        rev3: {_number: 3, description: 'test', date: 3},
+        rev1: {_number: 1, description: 'test', date: 1},
+        rev4: {_number: 4, description: 'test', date: 4},
+        rev2: {_number: 2, description: 'test', date: 2},
+      },
+    });
+    assert.equal(patchNums.length, expected.length);
+    for (let i = 0; i < expected.length; i++) {
+      assert.deepEqual(patchNums[i], expected[i]);
+    }
   });
 });
 

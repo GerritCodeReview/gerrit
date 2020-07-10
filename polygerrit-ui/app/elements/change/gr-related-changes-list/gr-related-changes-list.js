@@ -25,16 +25,15 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-related-changes-list_html.js';
-import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {ChangeStatus} from '../../../constants/constants.js';
+import {patchNumEquals} from '../../../utils/patch-set-util.js';
 
 /**
  * @extends PolymerElement
  */
 class GrRelatedChangesList extends mixinBehaviors( [
-  PatchSetBehavior,
   RESTClientBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
@@ -367,7 +366,7 @@ class GrRelatedChangesList extends mixinBehaviors( [
     let changeRevision;
     if (!change) { return []; }
     for (const rev in change.revisions) {
-      if (this.patchNumEquals(change.revisions[rev]._number, patchNum)) {
+      if (patchNumEquals(change.revisions[rev]._number, patchNum)) {
         changeRevision = rev;
       }
     }

@@ -28,10 +28,10 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-editor-view_html.js';
-import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -45,7 +45,6 @@ const STORAGE_DEBOUNCE_INTERVAL_MS = 100;
  */
 class GrEditorView extends mixinBehaviors( [
   KeyboardShortcutBehavior,
-  PatchSetBehavior,
   PathListBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
@@ -139,7 +138,7 @@ class GrEditorView extends mixinBehaviors( [
 
     this._changeNum = value.changeNum;
     this._path = value.path;
-    this._patchNum = value.patchNum || this.EDIT_NAME;
+    this._patchNum = value.patchNum || SPECIAL_PATCH_SET_NUM.EDIT;
     this._lineNum = value.lineNum;
 
     // NOTE: This may be called before attachment (e.g. while parentElement is
@@ -182,9 +181,10 @@ class GrEditorView extends mixinBehaviors( [
   }
 
   _viewEditInChangeView() {
-    const patch = this._successfulSave ? this.EDIT_NAME : this._patchNum;
+    const patch = this._successfulSave ? SPECIAL_PATCH_SET_NUM.EDIT
+      : this._patchNum;
     GerritNav.navigateToChange(this._change, patch, null,
-        patch !== this.EDIT_NAME);
+        patch !== SPECIAL_PATCH_SET_NUM.EDIT);
   }
 
   _getFileData(changeNum, path, patchNum) {

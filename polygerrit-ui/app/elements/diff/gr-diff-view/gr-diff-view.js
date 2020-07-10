@@ -38,7 +38,6 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-diff-view_html.js';
-import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
@@ -46,6 +45,12 @@ import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {RevisionInfo} from '../../shared/revision-info/revision-info.js';
 import {appContext} from '../../../services/app-context.js';
+import {
+  computeLatestPatchNum,
+  patchNumEquals,
+  SPECIAL_PATCH_SET_NUM,
+} from '../../../utils/patch-set-util.js';
+import {PatchSetMixin} from '../../../mixins/gr-patch-set-mixin/gr-patch-set-mixin.js';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -69,12 +74,11 @@ const DiffViewMode = {
  */
 class GrDiffView extends mixinBehaviors( [
   KeyboardShortcutBehavior,
-  PatchSetBehavior,
   PathListBehavior,
   RESTClientBehavior,
-], GestureEventListeners(
+], PatchSetMixin(GestureEventListeners(
     LegacyElementMixin(
-        PolymerElement))) {
+        PolymerElement)))) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-diff-view'; }
@@ -820,7 +824,7 @@ class GrDiffView extends mixinBehaviors( [
           const edit = r[4];
           if (edit) {
             this.set('_change.revisions.' + edit.commit.commit, {
-              _number: this.EDIT_NAME,
+              _number: SPECIAL_PATCH_SET_NUM.EDIT,
               basePatchNum: edit.base_patch_set_number,
               commit: edit.commit,
             });
@@ -1034,8 +1038,8 @@ class GrDiffView extends mixinBehaviors( [
 
   _handlePatchChange(e) {
     const {basePatchNum, patchNum} = e.detail;
-    if (this.patchNumEquals(basePatchNum, this._patchRange.basePatchNum) &&
-        this.patchNumEquals(patchNum, this._patchRange.patchNum)) { return; }
+    if (patchNumEquals(basePatchNum, this._patchRange.basePatchNum) &&
+        patchNumEquals(patchNum, this._patchRange.patchNum)) { return; }
     GerritNav.navigateToDiff(
         this._change, this._path, patchNum, basePatchNum);
   }
@@ -1239,7 +1243,7 @@ class GrDiffView extends mixinBehaviors( [
    */
   _computeEditMode(patchRangeRecord) {
     const patchRange = patchRangeRecord.base || {};
-    return this.patchNumEquals(patchRange.patchNum, this.EDIT_NAME);
+    return patchNumEquals(patchRange.patchNum, SPECIAL_PATCH_SET_NUM.EDIT);
   }
 
   /**
@@ -1299,7 +1303,8 @@ class GrDiffView extends mixinBehaviors( [
 
   _handleDiffAgainstBase(e) {
     if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-    if (this.patchNumEquals(this._patchRange.basePatchNum, 'PARENT')) {
+    if (patchNumEquals(this._patchRange.basePatchNum,
+        SPECIAL_PATCH_SET_NUM.PARENT)) {
       this.dispatchEvent(new CustomEvent('show-alert', {
         detail: {
           message: 'Base is already selected.',
@@ -1314,7 +1319,8 @@ class GrDiffView extends mixinBehaviors( [
 
   _handleDiffBaseAgainstLeft(e) {
     if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-    if (this.patchNumEquals(this._patchRange.basePatchNum, 'PARENT')) {
+    if (patchNumEquals(this._patchRange.basePatchNum,
+        SPECIAL_PATCH_SET_NUM.PARENT)) {
       this.dispatchEvent(new CustomEvent('show-alert', {
         detail: {
           message: 'Left is already base.',
@@ -1330,8 +1336,8 @@ class GrDiffView extends mixinBehaviors( [
   _handleDiffAgainstLatest(e) {
     if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
-    const latestPatchNum = this.computeLatestPatchNum(this._allPatchSets);
-    if (this.patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
+    const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
+    if (patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
       this.dispatchEvent(new CustomEvent('show-alert', {
         detail: {
           message: 'Latest is already selected.',
@@ -1348,8 +1354,8 @@ class GrDiffView extends mixinBehaviors( [
 
   _handleDiffRightAgainstLatest(e) {
     if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-    const latestPatchNum = this.computeLatestPatchNum(this._allPatchSets);
-    if (this.patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
+    const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
+    if (patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
       this.dispatchEvent(new CustomEvent('show-alert', {
         detail: {
           message: 'Right is already latest.',
@@ -1364,9 +1370,10 @@ class GrDiffView extends mixinBehaviors( [
 
   _handleDiffBaseAgainstLatest(e) {
     if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-    const latestPatchNum = this.computeLatestPatchNum(this._allPatchSets);
-    if (this.patchNumEquals(this._patchRange.patchNum, latestPatchNum) &&
-      this.patchNumEquals(this._patchRange.basePatchNum, 'PARENT')) {
+    const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
+    if (patchNumEquals(this._patchRange.patchNum, latestPatchNum) &&
+      patchNumEquals(this._patchRange.basePatchNum,
+          SPECIAL_PATCH_SET_NUM.PARENT)) {
       this.dispatchEvent(new CustomEvent('show-alert', {
         detail: {
           message: 'Already diffing base against latest.',

@@ -21,6 +21,7 @@ import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {ChangeStatus} from '../../../constants/constants.js';
 import {TestKeyboardShortcutBinder} from '../../../test/test-utils';
+import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
 
@@ -912,7 +913,7 @@ suite('gr-diff-view tests', () => {
     test('file review status with edit loaded', () => {
       const saveReviewedStub = sinon.stub(element, '_saveReviewedState');
 
-      element._patchRange = {patchNum: element.EDIT_NAME};
+      element._patchRange = {patchNum: SPECIAL_PATCH_SET_NUM.EDIT};
       flushAsynchronousOperations();
 
       assert.isTrue(element._editMode);
@@ -1382,7 +1383,7 @@ suite('gr-diff-view tests', () => {
         element._patchRange = {patchNum: '1'};
         // Reviewed checkbox should be shown.
         assert.isTrue(isVisible(element.$.reviewed));
-        element.set('_patchRange.patchNum', element.EDIT_NAME);
+        element.set('_patchRange.patchNum', SPECIAL_PATCH_SET_NUM.EDIT);
         flushAsynchronousOperations();
 
         assert.isFalse(isVisible(element.$.reviewed));

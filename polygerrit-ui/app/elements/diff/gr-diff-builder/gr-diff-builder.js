@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {getBaseUrl} from '../../../utils/url-util.js';
 import {GrDiffLine} from '../gr-diff/gr-diff-line.js';
 import {GrDiffGroup} from '../gr-diff/gr-diff-group.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
@@ -611,7 +612,7 @@ GrDiffBuilder.prototype._getBlameForBaseLine = function(lineNum, opt_commit) {
 
   const shaNode = this._createElement('a', 'blameDate');
   shaNode.innerText = `${date}`;
-  shaNode.setAttribute('href', `/q/${commit.id}`);
+  shaNode.setAttribute('href', `${getBaseUrl()}/q/${commit.id}`);
   blameNode.appendChild(shaNode);
 
   const shortName = commit.author.split(' ')[0];

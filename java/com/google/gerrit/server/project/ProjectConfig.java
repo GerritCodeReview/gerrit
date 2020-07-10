@@ -408,7 +408,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       String name = section.getName();
       if (sectionsWithUnknownPermissions.contains(name)) {
         AccessSection.Builder a = accessSections.get(name).toBuilder();
-        a.modifyPermissions(p -> p.clear());
+        a.modifyPermissions(List::clear);
         accessSections.put(name, a.build());
       } else {
         accessSections.remove(name);

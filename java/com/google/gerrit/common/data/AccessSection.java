@@ -98,7 +98,7 @@ public abstract class AccessSection implements Comparable<AccessSection> {
   public abstract static class Builder {
     private final List<Permission.Builder> permissionBuilders;
 
-    public Builder() {
+    protected Builder() {
       permissionBuilders = new ArrayList<>();
     }
 

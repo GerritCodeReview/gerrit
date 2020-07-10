@@ -17,7 +17,6 @@
 
 import '../../test/common-test-setup-karma.js';
 import '../../elements/shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import {GrDisplayNameUtils} from '../gr-display-name-utils/gr-display-name-utils.js';
 import {GrReviewerSuggestionsProvider, SUGGESTIONS_PROVIDERS_USERS_TYPES} from './gr-reviewer-suggestions-provider.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
@@ -164,8 +163,7 @@ suite('GrReviewerSuggestionsProvider tests', () => {
           value: {account, count: 1},
         });
 
-        sinon.stub(GrDisplayNameUtils, '_accountEmail').callsFake(
-            () => '');
+        account3.email = undefined;
 
         suggestion = provider.makeSuggestionItem(account3);
         assert.deepEqual(suggestion, {

@@ -16,6 +16,29 @@
       "revId": "de629dcadaae2ea1018619fd8cdfd5035de73c9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "104e4d66_0674c7df",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-10T13:40:20Z",
+      "side": 1,
+      "message": "who not just inline it if you only use it here :)",
+      "range": {
+        "startLine": 615,
+        "startChar": 18,
+        "endLine": 615,
+        "endChar": 31
+      },
+      "revId": "de629dcadaae2ea1018619fd8cdfd5035de73c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

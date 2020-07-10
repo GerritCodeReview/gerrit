@@ -30,7 +30,7 @@ import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr
 
 import 'lodash/lodash.js';
 import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
-import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
+import {patchSetUtilMockProxy, SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 const fixture = fixtureFromElement('gr-change-view');
@@ -345,7 +345,7 @@ suite('gr-change-view tests', () => {
       patchNum: 3,
       basePatchNum: 1,
     };
-    sinon.stub(element, 'computeLatestPatchNum').returns(10);
+    sinon.stub(patchSetUtilMockProxy, 'computeLatestPatchNum').returns(10);
     sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffAgainstBase(new CustomEvent(''));
     assert(navigateToChangeStub.called);
@@ -360,7 +360,7 @@ suite('gr-change-view tests', () => {
       basePatchNum: 1,
       patchNum: 3,
     };
-    sinon.stub(element, 'computeLatestPatchNum').returns(10);
+    sinon.stub(patchSetUtilMockProxy, 'computeLatestPatchNum').returns(10);
     sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffAgainstLatest(new CustomEvent(''));
     assert(navigateToChangeStub.called);
@@ -375,7 +375,7 @@ suite('gr-change-view tests', () => {
       patchNum: 3,
       basePatchNum: 1,
     };
-    sinon.stub(element, 'computeLatestPatchNum').returns(10);
+    sinon.stub(patchSetUtilMockProxy, 'computeLatestPatchNum').returns(10);
     sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffBaseAgainstLeft(new CustomEvent(''));
     assert(navigateToChangeStub.called);
@@ -390,7 +390,7 @@ suite('gr-change-view tests', () => {
       basePatchNum: 1,
       patchNum: 3,
     };
-    sinon.stub(element, 'computeLatestPatchNum').returns(10);
+    sinon.stub(patchSetUtilMockProxy, 'computeLatestPatchNum').returns(10);
     sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffRightAgainstLatest(new CustomEvent(''));
     assert(navigateToChangeStub.called);
@@ -405,7 +405,7 @@ suite('gr-change-view tests', () => {
       basePatchNum: 1,
       patchNum: 3,
     };
-    sinon.stub(element, 'computeLatestPatchNum').returns(10);
+    sinon.stub(patchSetUtilMockProxy, 'computeLatestPatchNum').returns(10);
     sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffBaseAgainstLatest(new CustomEvent(''));
     assert(navigateToChangeStub.called);
@@ -553,7 +553,7 @@ suite('gr-change-view tests', () => {
 
     test('A toggles overlay when logged in', done => {
       sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
-      sinon.stub(element.$.replyDialog, 'fetchChangeUpdates')
+      sinon.stub(patchSetUtilMockProxy, 'fetchChangeUpdates')
           .returns(Promise.resolve({isLatest: true}));
       element._change = {labels: {}};
       const openSpy = sinon.spy(element, '_openReplyDialog');
@@ -1707,7 +1707,7 @@ suite('gr-change-view tests', () => {
   suite('reply dialog tests', () => {
     setup(() => {
       sinon.stub(element.$.replyDialog, '_draftChanged');
-      sinon.stub(element.$.replyDialog, 'fetchChangeUpdates').callsFake(
+      sinon.stub(patchSetUtilMockProxy, 'fetchChangeUpdates').callsFake(
           () => Promise.resolve({isLatest: true}));
       element._change = {labels: {}};
     });
@@ -1756,7 +1756,7 @@ suite('gr-change-view tests', () => {
 
   suite('commit message expand/collapse', () => {
     setup(() => {
-      sinon.stub(element, 'fetchChangeUpdates').callsFake(
+      sinon.stub(patchSetUtilMockProxy, 'fetchChangeUpdates').callsFake(
           () => Promise.resolve({isLatest: false}));
     });
 
@@ -1916,27 +1916,29 @@ suite('gr-change-view tests', () => {
       });
 
       test('_startUpdateCheckTimer negative delay', () => {
-        sinon.stub(element, 'fetchChangeUpdates');
+        const fetchChangeUpdateStub =
+            sinon.stub(patchSetUtilMockProxy, 'fetchChangeUpdates');
 
         element._serverConfig = {change: {update_delay: -1}};
 
         assert.isTrue(element._startUpdateCheckTimer.called);
-        assert.isFalse(element.fetchChangeUpdates.called);
+        assert.isFalse(fetchChangeUpdateStub.called);
       });
 
       test('_startUpdateCheckTimer up-to-date', () => {
-        sinon.stub(element, 'fetchChangeUpdates').callsFake(
-            () => Promise.resolve({isLatest: true}));
+        const fetchChangeUpdateStub =
+            sinon.stub(patchSetUtilMockProxy, 'fetchChangeUpdates')
+                .callsFake(() => Promise.resolve({isLatest: true}));
 
         element._serverConfig = {change: {update_delay: 12345}};
 
         assert.isTrue(element._startUpdateCheckTimer.called);
-        assert.isTrue(element.fetchChangeUpdates.called);
+        assert.isTrue(fetchChangeUpdateStub.called);
         assert.equal(element.async.lastCall.args[1], 12345 * 1000);
       });
 
       test('_startUpdateCheckTimer out-of-date shows an alert', done => {
-        sinon.stub(element, 'fetchChangeUpdates').callsFake(
+        sinon.stub(patchSetUtilMockProxy, 'fetchChangeUpdates').callsFake(
             () => Promise.resolve({isLatest: false}));
         element.addEventListener('show-alert', e => {
           assert.equal(e.detail.message,
@@ -1947,7 +1949,7 @@ suite('gr-change-view tests', () => {
       });
 
       test('_startUpdateCheckTimer new status shows an alert', done => {
-        sinon.stub(element, 'fetchChangeUpdates')
+        sinon.stub(patchSetUtilMockProxy, 'fetchChangeUpdates')
             .returns(Promise.resolve({
               isLatest: true,
               newStatus: ChangeStatus.MERGED,
@@ -1960,7 +1962,7 @@ suite('gr-change-view tests', () => {
       });
 
       test('_startUpdateCheckTimer new messages shows an alert', done => {
-        sinon.stub(element, 'fetchChangeUpdates')
+        sinon.stub(patchSetUtilMockProxy, 'fetchChangeUpdates')
             .returns(Promise.resolve({
               isLatest: true,
               newMessages: true,

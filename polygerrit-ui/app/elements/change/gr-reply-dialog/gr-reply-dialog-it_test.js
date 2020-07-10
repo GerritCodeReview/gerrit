@@ -21,10 +21,11 @@ import './gr-reply-dialog.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+import {patchSetUtilMockProxy} from '../../../utils/patch-set-util.js';
 const basicFixture = fixtureFromElement('gr-reply-dialog');
 const pluginApi = _testOnly_initGerritPluginApi();
 
-suite('gr-reply-dialog tests', () => {
+suite('gr-reply-dialog-it tests', () => {
   let element;
   let changeNum;
   let patchNum;
@@ -67,8 +68,6 @@ suite('gr-reply-dialog tests', () => {
         '+1',
       ],
     };
-    sinon.stub(element, 'fetchChangeUpdates')
-        .returns(Promise.resolve({isLatest: true}));
   };
 
   setup(() => {
@@ -82,7 +81,8 @@ suite('gr-reply-dialog tests', () => {
 
     element = basicFixture.instantiate();
     setupElement(element);
-
+    sinon.stub(patchSetUtilMockProxy, 'fetchChangeUpdates')
+        .returns(Promise.resolve({isLatest: true}));
     // Allow the elements created by dom-repeat to be stamped.
     flushAsynchronousOperations();
   });

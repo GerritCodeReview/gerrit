@@ -16,36 +16,25 @@
  */
 
 import '../../test/common-test-setup-karma.js';
-import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
-import {ChangeTableBehavior} from './gr-change-table-behavior.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {ChangeTableMixin} from './gr-change-table-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+
+class GrChangeTableMixinTestElement extends
+  ChangeTableMixin(PolymerElement) {
+  static get is() { return 'gr-change-table-mixin-test-element'; }
+}
+
+customElements.define(GrChangeTableMixinTestElement.is,
+    GrChangeTableMixinTestElement);
 
 const basicFixture = fixtureFromElement(
-    'gr-change-table-behavior-test-element');
+    'gr-change-table-mixin-test-element');
 
-const withinOverlayFixture = fixtureFromTemplate(html`
-  <gr-overlay>
-    <gr-change-table-behavior-test-element>
-    </gr-change-table-behavior-test-element>
-  </gr-overlay>
-`);
-
-suite('gr-change-table-behavior tests', () => {
+suite('gr-change-table-mixin tests', () => {
   let element;
-  // eslint-disable-next-line no-unused-vars
-  let overlay;
-
-  suiteSetup(() => {
-    // Define a Polymer element that uses this behavior.
-    Polymer({
-      is: 'gr-change-table-behavior-test-element',
-      behaviors: [ChangeTableBehavior],
-    });
-  });
 
   setup(() => {
     element = basicFixture.instantiate();
-    overlay = withinOverlayFixture.instantiate();
   });
 
   test('getComplementColumns', () => {

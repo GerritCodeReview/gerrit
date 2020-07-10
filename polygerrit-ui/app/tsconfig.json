@@ -49,6 +49,7 @@
     "elements/**/*",
     "embed/**/*",
     "gr-diff/**/*",
+    "mixins/**/*",
     "samples/**/*",
     "scripts/**/*",
     "services/**/*",

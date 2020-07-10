@@ -326,7 +326,9 @@ public interface ChangeApi {
    * @return comments in a map keyed by path; comments have the {@code revision} field set to
    *     indicate their patch set.
    * @throws RestApiException
+   * @deprecated Callers should use {@link #commentsRequest()} instead
    */
+  @Deprecated
   Map<String, List<CommentInfo>> comments() throws RestApiException;
 
   /**
@@ -335,8 +337,19 @@ public interface ChangeApi {
    * @return comments as a list; comments have the {@code revision} field set to indicate their
    *     patch set.
    * @throws RestApiException
+   * @deprecate Callers should use {@link #commentsRequest()} instead
    */
+  @Deprecated
   List<CommentInfo> commentsAsList() throws RestApiException;
+
+  /**
+   * Get a {@link CommentsRequest} entity that can be used to retrieve published comments.
+   *
+   * @return A {@link CommentsRequest} entity that can be used to retrieve the comments using the
+   *     {@link CommentsRequest#get()} or {@link CommentsRequest#getAsList()}.
+   * @throws RestApiException
+   */
+  CommentsRequest commentsRequest() throws RestApiException;
 
   /**
    * Get all robot comments on a change.
@@ -394,6 +407,37 @@ public interface ChangeApi {
    * @throws RestApiException if the id is invalid.
    */
   ChangeMessageApi message(String id) throws RestApiException;
+
+  abstract class CommentsRequest {
+    private boolean enableContext;
+
+    /**
+     * Get all published comments on a change.
+     *
+     * @return comments in a map keyed by path; comments have the {@code revision} field set to
+     *     indicate their patch set.
+     * @throws RestApiException
+     */
+    public abstract Map<String, List<CommentInfo>> get() throws RestApiException;
+
+    /**
+     * Get all published comments on a change as a list.
+     *
+     * @return comments as a list; comments have the {@code revision} field set to indicate their
+     *     patch set.
+     * @throws RestApiException
+     */
+    public abstract List<CommentInfo> getAsList() throws RestApiException;
+
+    public CommentsRequest withContext(boolean enableContext) {
+      this.enableContext = enableContext;
+      return this;
+    }
+
+    public boolean getContext() {
+      return enableContext;
+    }
+  }
 
   abstract class SuggestedReviewersRequest {
     private String query;
@@ -603,12 +647,19 @@ public interface ChangeApi {
     }
 
     @Override
+    @Deprecated
     public Map<String, List<CommentInfo>> comments() throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
+    @Deprecated
     public List<CommentInfo> commentsAsList() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public CommentsRequest commentsRequest() throws RestApiException {
       throw new NotImplementedException();
     }
 

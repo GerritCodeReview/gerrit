@@ -30,6 +30,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.MoreCollectors;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -53,6 +54,7 @@ import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.ContextLineInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -79,6 +81,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -1019,11 +1022,15 @@ public class CommentsIT extends AbstractDaemonTest {
     addComment(r1, "nit: trailing whitespace");
     addComment(r2, "typo: content");
 
-    Map<String, List<CommentInfo>> actual = gApi.changes().id(r2.getChangeId()).comments();
+    Map<String, List<CommentInfo>> actual =
+        gApi.changes().id(r2.getChangeId()).commentsRequest().get();
     assertThat(actual.keySet()).containsExactly(FILE_NAME);
 
     List<CommentInfo> comments = actual.get(FILE_NAME);
     assertThat(comments).hasSize(2);
+
+    // Comment context is disabled by default
+    assertThat(comments.stream().filter(c -> c.contextLines != null)).isEmpty();
 
     CommentInfo c1 = comments.get(0);
     assertThat(c1.author._accountId).isEqualTo(user.id().get());
@@ -1041,6 +1048,61 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void listChangeCommentsWithContextEnabled() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+
+    ImmutableList.Builder<String> content = ImmutableList.builder();
+    for (int i = 1; i <= 10; i++) {
+      content.add("line_" + i);
+    }
+
+    PushOneCommit.Result r2 =
+        pushFactory
+            .create(
+                admin.newIdent(),
+                testRepo,
+                SUBJECT,
+                FILE_NAME,
+                content.build().stream().collect(Collectors.joining("\n")),
+                r1.getChangeId())
+            .to("refs/for/master");
+
+    addCommentOnLine(r2, "nit: please fix", 1);
+    addCommentOnRange(r2, "looks good", commentRangeInLines(2, 5));
+
+    List<CommentInfo> comments =
+        gApi.changes().id(r2.getChangeId()).commentsRequest().withContext(true).getAsList();
+
+    assertThat(comments).hasSize(2);
+
+    assertThat(
+            comments.stream()
+                .filter(c -> c.message.equals("nit: please fix"))
+                .collect(MoreCollectors.onlyElement())
+                .contextLines)
+        .containsExactlyElementsIn(contextLines("1", "line_1"));
+
+    assertThat(
+            comments.stream()
+                .filter(c -> c.message.equals("looks good"))
+                .collect(MoreCollectors.onlyElement())
+                .contextLines)
+        .containsExactlyElementsIn(
+            contextLines("2", "line_2", "3", "line_3", "4", "line_4", "5", "line_5"));
+  }
+
+  private List<ContextLineInfo> contextLines(String... args) {
+    List<ContextLineInfo> result = new ArrayList<>();
+    for (int i = 0; i < args.length; i += 2) {
+      int lineNbr = Integer.parseInt(args[i]);
+      String contextLine = args[i + 1];
+      ContextLineInfo info = new ContextLineInfo(lineNbr, contextLine);
+      result.add(info);
+    }
+    return result;
+  }
+
+  @Test
   public void listChangeCommentsAnonymousDoesNotRequireAuth() throws Exception {
     PushOneCommit.Result r1 = createChange();
 
@@ -1052,12 +1114,12 @@ public class CommentsIT extends AbstractDaemonTest {
     addComment(r1, "nit: trailing whitespace");
     addComment(r2, "typo: content");
 
-    List<CommentInfo> comments = gApi.changes().id(r1.getChangeId()).commentsAsList();
+    List<CommentInfo> comments = gApi.changes().id(r1.getChangeId()).commentsRequest().getAsList();
     assertThat(comments.stream().map(c -> c.message).collect(toList()))
         .containsExactly("nit: trailing whitespace", "typo: content");
 
     requestScopeOperations.setApiUserAnonymous();
-    comments = gApi.changes().id(r1.getChangeId()).commentsAsList();
+    comments = gApi.changes().id(r1.getChangeId()).commentsRequest().getAsList();
     assertThat(comments.stream().map(c -> c.message).collect(toList()))
         .containsExactly("nit: trailing whitespace", "typo: content");
   }
@@ -1713,7 +1775,23 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   private void addComment(PushOneCommit.Result r, String message) throws Exception {
-    addComment(r, message, false, false, null);
+    addComment(r, message, false, false, null, 1, null);
+  }
+
+  private void addCommentOnLine(PushOneCommit.Result r, String message, int line) throws Exception {
+    addComment(r, message, false, false, null, line, null);
+  }
+
+  private void addCommentOnRange(PushOneCommit.Result r, String message, Comment.Range range)
+      throws Exception {
+    addComment(r, message, false, false, null, null, range);
+  }
+
+  private Comment.Range commentRangeInLines(int startLine, int endLine) {
+    Comment.Range range = new Comment.Range();
+    range.startLine = startLine;
+    range.endLine = endLine;
+    return range;
   }
 
   private void addComment(
@@ -1723,12 +1801,25 @@ public class CommentsIT extends AbstractDaemonTest {
       Boolean unresolved,
       String inReplyTo)
       throws Exception {
+    addComment(r, message, omitDuplicateComments, unresolved, inReplyTo, 1, null);
+  }
+
+  private void addComment(
+      PushOneCommit.Result r,
+      String message,
+      boolean omitDuplicateComments,
+      Boolean unresolved,
+      String inReplyTo,
+      Integer line,
+      Comment.Range range)
+      throws Exception {
     CommentInput c = new CommentInput();
     c.line = 1;
     c.message = message;
     c.path = FILE_NAME;
     c.unresolved = unresolved;
     c.inReplyTo = inReplyTo;
+    c.range = range;
     ReviewInput in = newInput(c);
     in.omitDuplicateComments = omitDuplicateComments;
     gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
@@ -1766,11 +1857,11 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   private List<CommentInfo> getPublishedCommentsAsList(String changeId) throws Exception {
-    return gApi.changes().id(changeId).commentsAsList();
+    return gApi.changes().id(changeId).commentsRequest().getAsList();
   }
 
   private List<CommentInfo> getPublishedCommentsAsList(Change.Id changeId) throws Exception {
-    return gApi.changes().id(changeId.get()).commentsAsList();
+    return gApi.changes().id(changeId.get()).commentsRequest().getAsList();
   }
 
   private Map<String, List<CommentInfo>> getDraftComments(String changeId, String revId)

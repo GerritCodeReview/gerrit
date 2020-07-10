@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ec70c32_55ee7e60",
+        "filename": "polygerrit-ui/app/scripts/gr-display-name-utils/gr-display-name-utils.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-07-10T13:34:15Z",
+      "side": 1,
+      "message": "Maybe this would be better in app/utils folder?",
+      "revId": "069c7b3040dde83b54f2dc35c1356e727fe06e4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

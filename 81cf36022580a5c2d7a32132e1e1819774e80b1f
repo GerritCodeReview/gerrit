@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71e7295a_1e131f47",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-07-10T09:52:54Z",
+      "side": 1,
+      "message": "This was suggested by Luca in https://gerrit-review.googlesource.com/c/plugins/healthcheck/+/274832\n\nAs a total Guice Newbie, I am not sure whether what I did makes sense, but it works. Please guide me to the best solution ;-).",
+      "revId": "81cf36022580a5c2d7a32132e1e1819774e80b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

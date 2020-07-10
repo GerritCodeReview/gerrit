@@ -20,12 +20,11 @@ import '../../../styles/shared-styles.js';
 import '../../shared/gr-date-formatter/gr-date-formatter.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../shared/gr-account-link/gr-account-link.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-group-audit-log_html.js';
-import {ListViewBehavior} from '../../../behaviors/gr-list-view-behavior/gr-list-view-behavior.js';
+import {ListViewMixin} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 const GROUP_EVENTS = ['ADD_GROUP', 'REMOVE_GROUP'];
@@ -33,9 +32,7 @@ const GROUP_EVENTS = ['ADD_GROUP', 'REMOVE_GROUP'];
 /**
  * @extends PolymerElement
  */
-class GrGroupAuditLog extends mixinBehaviors( [
-  ListViewBehavior,
-], GestureEventListeners(
+class GrGroupAuditLog extends ListViewMixin(GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {
   static get template() { return htmlTemplate; }

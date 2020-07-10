@@ -16,24 +16,22 @@
  */
 
 import '../../test/common-test-setup-karma.js';
-import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
-import {ListViewBehavior} from './gr-list-view-behavior.js';
+import {ListViewMixin} from './gr-list-view-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 
 const basicFixture = fixtureFromElement(
-    'gr-list-view-behavior-test-element');
+    'gr-list-view-mixin-test-element');
 
-suite('gr-list-view-behavior tests', () => {
+class GrListViewMixinTestElement extends
+  ListViewMixin(PolymerElement) {
+  static get is() { return 'gr-list-view-mixin-test-element'; }
+}
+
+customElements.define(GrListViewMixinTestElement.is,
+    GrListViewMixinTestElement);
+
+suite('gr-list-view-mixin tests', () => {
   let element;
-  // eslint-disable-next-line no-unused-vars
-  let overlay;
-
-  suiteSetup(() => {
-    // Define a Polymer element that uses this behavior.
-    Polymer({
-      is: 'gr-list-view-behavior-test-element',
-      behaviors: [ListViewBehavior],
-    });
-  });
 
   setup(() => {
     element = basicFixture.instantiate();

@@ -15,117 +15,106 @@
  * limitations under the License.
  */
 
-import {SpecialFilePath} from '../../constants/constants.js';
+import {SpecialFilePath} from '../constants/constants.js';
 
-/** @polymerBehavior Gerrit.PathListBehavior */
-export const PathListBehavior = {
+/**
+ * @param {string} a
+ * @param {string} b
+ * @return {number}
+ */
+export function specialFilePathCompare(a, b) {
+  // The commit message always goes first.
+  if (a === SpecialFilePath.COMMIT_MESSAGE) {
+    return -1;
+  }
+  if (b === SpecialFilePath.COMMIT_MESSAGE) {
+    return 1;
+  }
 
-  /**
-   * @param {string} a
-   * @param {string} b
-   * @return {number}
-   */
-  specialFilePathCompare(a, b) {
-    // The commit message always goes first.
-    if (a === SpecialFilePath.COMMIT_MESSAGE) {
+  // The merge list always comes next.
+  if (a === SpecialFilePath.MERGE_LIST) {
+    return -1;
+  }
+  if (b === SpecialFilePath.MERGE_LIST) {
+    return 1;
+  }
+
+  const aLastDotIndex = a.lastIndexOf('.');
+  const aExt = a.substr(aLastDotIndex + 1);
+  const aFile = a.substr(0, aLastDotIndex) || a;
+
+  const bLastDotIndex = b.lastIndexOf('.');
+  const bExt = b.substr(bLastDotIndex + 1);
+  const bFile = b.substr(0, bLastDotIndex) || b;
+
+  // Sort header files above others with the same base name.
+  const headerExts = ['h', 'hxx', 'hpp'];
+  if (aFile.length > 0 && aFile === bFile) {
+    if (headerExts.includes(aExt) && headerExts.includes(bExt)) {
+      return a.localeCompare(b);
+    }
+    if (headerExts.includes(aExt)) {
       return -1;
     }
-    if (b === SpecialFilePath.COMMIT_MESSAGE) {
+    if (headerExts.includes(bExt)) {
       return 1;
     }
+  }
+  return aFile.localeCompare(bFile) || a.localeCompare(b);
+}
 
-    // The merge list always comes next.
-    if (a === SpecialFilePath.MERGE_LIST) {
-      return -1;
-    }
-    if (b === SpecialFilePath.MERGE_LIST) {
-      return 1;
-    }
+export function shouldHideFile(file) {
+  return file === SpecialFilePath.PATCHSET_LEVEL_COMMENTS;
+}
 
-    const aLastDotIndex = a.lastIndexOf('.');
-    const aExt = a.substr(aLastDotIndex + 1);
-    const aFile = a.substr(0, aLastDotIndex) || a;
+export function addUnmodifiedFiles(files, commentedPaths) {
+  Object.keys(commentedPaths).forEach(commentedPath => {
+    if (files.hasOwnProperty(commentedPath) ||
+      shouldHideFile(commentedPath)) { return; }
+    files[commentedPath] = {status: 'U'};
+  });
+}
 
-    const bLastDotIndex = b.lastIndexOf('.');
-    const bExt = b.substr(bLastDotIndex + 1);
-    const bFile = b.substr(0, bLastDotIndex) || b;
+export function computeDisplayPath(path) {
+  if (path === SpecialFilePath.COMMIT_MESSAGE) {
+    return 'Commit message';
+  } else if (path === SpecialFilePath.MERGE_LIST) {
+    return 'Merge list';
+  }
+  return path;
+}
 
-    // Sort header files above others with the same base name.
-    const headerExts = ['h', 'hxx', 'hpp'];
-    if (aFile.length > 0 && aFile === bFile) {
-      if (headerExts.includes(aExt) && headerExts.includes(bExt)) {
-        return a.localeCompare(b);
-      }
-      if (headerExts.includes(aExt)) {
-        return -1;
-      }
-      if (headerExts.includes(bExt)) {
-        return 1;
-      }
-    }
-    return aFile.localeCompare(bFile) || a.localeCompare(b);
-  },
+export function isMagicPath(path) {
+  return !!path &&
+      (path === SpecialFilePath.COMMIT_MESSAGE || path ===
+          SpecialFilePath.MERGE_LIST);
+}
 
-  shouldHideFile(file) {
-    return file === SpecialFilePath.PATCHSET_LEVEL_COMMENTS;
-  },
+export function computeTruncatedPath(path) {
+  return truncatePath(
+      computeDisplayPath(path));
+}
 
-  addUnmodifiedFiles(files, commentedPaths) {
-    Object.keys(commentedPaths).forEach(commentedPath => {
-      if (files.hasOwnProperty(commentedPath) ||
-        this.shouldHideFile(commentedPath)) { return; }
-      files[commentedPath] = {status: 'U'};
-    });
-  },
+/**
+ * Truncates URLs to display filename only
+ * Example
+ * // returns '.../text.html'
+ * util.truncatePath.('dir/text.html');
+ * Example
+ * // returns 'text.html'
+ * util.truncatePath.('text.html');
+ *
+ * @param {string} path
+ * @param {number=} opt_threshold
+ * @return {string} Returns the truncated value of a URL.
+ */
+export function truncatePath(path, opt_threshold) {
+  const threshold = opt_threshold || 1;
+  const pathPieces = path.split('/');
 
-  computeDisplayPath(path) {
-    if (path === SpecialFilePath.COMMIT_MESSAGE) {
-      return 'Commit message';
-    } else if (path === SpecialFilePath.MERGE_LIST) {
-      return 'Merge list';
-    }
-    return path;
-  },
+  if (pathPieces.length <= threshold) { return path; }
 
-  isMagicPath(path) {
-    return !!path &&
-        (path === SpecialFilePath.COMMIT_MESSAGE || path ===
-            SpecialFilePath.MERGE_LIST);
-  },
-
-  computeTruncatedPath(path) {
-    return PathListBehavior.truncatePath(
-        PathListBehavior.computeDisplayPath(path));
-  },
-
-  /**
-   * Truncates URLs to display filename only
-   * Example
-   * // returns '.../text.html'
-   * util.truncatePath.('dir/text.html');
-   * Example
-   * // returns 'text.html'
-   * util.truncatePath.('text.html');
-   *
-   * @param {string} path
-   * @param {number=} opt_threshold
-   * @return {string} Returns the truncated value of a URL.
-   */
-  truncatePath(path, opt_threshold) {
-    const threshold = opt_threshold || 1;
-    const pathPieces = path.split('/');
-
-    if (pathPieces.length <= threshold) { return path; }
-
-    const index = pathPieces.length - threshold;
-    // Character is an ellipsis.
-    return `\u2026/${pathPieces.slice(index).join('/')}`;
-  },
-};
-
-// TODO(dmfilippov) Remove the following lines with assignments
-// Plugins can use the behavior because it was accessible with
-// the global Gerrit... variable. To avoid breaking changes in plugins
-// temporary assign global variables.
-window.Gerrit = window.Gerrit || {};
-window.Gerrit.PathListBehavior = PathListBehavior;
+  const index = pathPieces.length - threshold;
+  // Character is an ellipsis.
+  return `\u2026/${pathPieces.slice(index).join('/')}`;
+}

@@ -34,7 +34,6 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-file-list_html.js';
 import {asyncForeach} from '../../../utils/async-util.js';
-import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {GrFileListConstants} from '../gr-file-list-constants.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
@@ -45,6 +44,11 @@ import {appContext} from '../../../services/app-context.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
 import {descendedFromClass} from '../../../utils/dom-util.js';
 import {getRevisionByPatchNum} from '../../../utils/patch-set-util.js';
+import {
+  addUnmodifiedFiles,
+  isMagicPath, specialFilePathCompare,
+} from '../../../utils/path-list-util.js';
+import {PathListMixin} from '../../../mixins/gr-path-list-mixin/gr-path-list-mixin.js';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -92,10 +96,9 @@ const FILE_ROW_CLASS = 'file-row';
  */
 class GrFileList extends mixinBehaviors( [
   KeyboardShortcutBehavior,
-  PathListBehavior,
-], GestureEventListeners(
+], PathListMixin(GestureEventListeners(
     LegacyElementMixin(
-        PolymerElement))) {
+        PolymerElement)))) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-file-list'; }
@@ -418,7 +421,7 @@ class GrFileList extends mixinBehaviors( [
 
   _calculatePatchChange(files) {
     const magicFilesExcluded = files.filter(files =>
-      !this.isMagicPath(files.__path)
+      !isMagicPath(files.__path)
     );
 
     return magicFilesExcluded.reduce((acc, obj) => {
@@ -656,14 +659,12 @@ class GrFileList extends mixinBehaviors( [
   }
 
   /**
-   * The closure compiler doesn't realize this.specialFilePathCompare is
-   * valid.
    *
    * @returns {!Array<FileInfo>}
    */
   _normalizeChangeFilesResponse(response) {
     if (!response) { return []; }
-    const paths = Object.keys(response).sort(this.specialFilePathCompare);
+    const paths = Object.keys(response).sort(specialFilePathCompare);
     const files = [];
     for (let i = 0; i < paths.length; i++) {
       const info = response[paths[i]];
@@ -1074,7 +1075,7 @@ class GrFileList extends mixinBehaviors( [
 
     const commentedPaths = changeComments.getPaths(patchRange);
     const files = Object.assign({}, filesByPath);
-    this.addUnmodifiedFiles(files, commentedPaths);
+    addUnmodifiedFiles(files, commentedPaths);
     const reviewedSet = new Set(reviewed || []);
     for (const filePath in files) {
       if (!files.hasOwnProperty(filePath)) { continue; }

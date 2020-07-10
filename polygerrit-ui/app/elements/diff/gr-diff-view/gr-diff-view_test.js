@@ -20,7 +20,7 @@ import './gr-diff-view.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {ChangeStatus} from '../../../constants/constants.js';
-import {TestKeyboardShortcutBinder} from '../../../test/test-utils';
+import {generateChange, TestKeyboardShortcutBinder} from '../../../test/test-utils';
 import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
@@ -284,12 +284,12 @@ suite('gr-diff-view tests', () => {
     });
 
     test('diff against latest', () => {
+      element._change = generateChange({revisionsCount: 12});
       element._patchRange = {
         basePatchNum: '5',
         patchNum: '10',
       };
       sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
-      sinon.stub(element, 'computeLatestPatchNum').returns(12);
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element._handleDiffAgainstLatest(new CustomEvent(''));
       const args = diffNavStub.getCall(0).args;
@@ -298,12 +298,11 @@ suite('gr-diff-view tests', () => {
     });
 
     test('_handleDiffBaseAgainstLeft', () => {
-      element._changeNum = '1';
+      element._change = generateChange({revisionsCount: 10});
       element._patchRange = {
         patchNum: 3,
         basePatchNum: 1,
       };
-      sinon.stub(element, 'computeLatestPatchNum').returns(10);
       sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element._handleDiffBaseAgainstLeft(new CustomEvent(''));
@@ -314,12 +313,11 @@ suite('gr-diff-view tests', () => {
     });
 
     test('_handleDiffRightAgainstLatest', () => {
-      element._changeNum = '1';
+      element._change = generateChange({revisionsCount: 10});
       element._patchRange = {
         basePatchNum: 1,
         patchNum: 3,
       };
-      sinon.stub(element, 'computeLatestPatchNum').returns(10);
       sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element._handleDiffRightAgainstLatest(new CustomEvent(''));
@@ -330,12 +328,11 @@ suite('gr-diff-view tests', () => {
     });
 
     test('_handleDiffBaseAgainstLatest', () => {
-      element._changeNum = '1';
+      element._change = generateChange({revisionsCount: 10});
       element._patchRange = {
         basePatchNum: 1,
         patchNum: 3,
       };
-      sinon.stub(element, 'computeLatestPatchNum').returns(10);
       sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element._handleDiffBaseAgainstLatest(new CustomEvent(''));

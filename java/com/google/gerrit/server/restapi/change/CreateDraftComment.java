@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.server.CommentContextException;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RevisionResource;
@@ -69,7 +70,8 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
 
   @Override
   public Response<CommentInfo> apply(RevisionResource rsrc, DraftInput in)
-      throws RestApiException, UpdateException, PermissionBackendException {
+      throws RestApiException, UpdateException, PermissionBackendException,
+          CommentContextException {
     if (Strings.isNullOrEmpty(in.path)) {
       throw new BadRequestException("path must be non-empty");
     } else if (in.message == null || in.message.trim().isEmpty()) {

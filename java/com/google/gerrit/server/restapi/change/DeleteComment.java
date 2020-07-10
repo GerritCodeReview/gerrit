@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.server.CommentContextException;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.HumanCommentResource;
@@ -73,7 +74,7 @@ public class DeleteComment implements RestModifyView<HumanCommentResource, Delet
   @Override
   public Response<CommentInfo> apply(HumanCommentResource rsrc, DeleteCommentInput input)
       throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException,
-          UpdateException {
+          UpdateException, CommentContextException {
     CurrentUser user = userProvider.get();
     permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
 

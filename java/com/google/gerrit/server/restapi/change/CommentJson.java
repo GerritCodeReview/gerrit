@@ -34,6 +34,8 @@ import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.server.CommentContextException;
+import com.google.gerrit.server.CommentContextLoader;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
@@ -48,6 +50,7 @@ public class CommentJson {
 
   private boolean fillAccounts = true;
   private boolean fillPatchSet;
+  private CommentContextLoader commentContextLoader;
 
   @Inject
   CommentJson(AccountLoader.Factory accountLoaderFactory) {
@@ -64,6 +67,11 @@ public class CommentJson {
     return this;
   }
 
+  CommentJson setCommentContextLoader(CommentContextLoader commentContextLoader) {
+    this.commentContextLoader = commentContextLoader;
+    return this;
+  }
+
   public HumanCommentFormatter newHumanCommentFormatter() {
     return new HumanCommentFormatter();
   }
@@ -73,16 +81,20 @@ public class CommentJson {
   }
 
   private abstract class BaseCommentFormatter<F extends Comment, T extends CommentInfo> {
-    public T format(F comment) throws PermissionBackendException {
+    public T format(F comment) throws PermissionBackendException, CommentContextException {
       AccountLoader loader = fillAccounts ? accountLoaderFactory.create(true) : null;
       T info = toInfo(comment, loader);
       if (loader != null) {
         loader.fill();
       }
+      if (commentContextLoader != null) {
+        commentContextLoader.fill();
+      }
       return info;
     }
 
-    public Map<String, List<T>> format(Iterable<F> comments) throws PermissionBackendException {
+    public Map<String, List<T>> format(Iterable<F> comments)
+        throws PermissionBackendException, CommentContextException {
       AccountLoader loader = fillAccounts ? accountLoaderFactory.create(true) : null;
 
       Map<String, List<T>> out = new TreeMap<>();
@@ -103,10 +115,14 @@ public class CommentJson {
       if (loader != null) {
         loader.fill();
       }
+      if (commentContextLoader != null) {
+        commentContextLoader.fill();
+      }
       return out;
     }
 
-    public ImmutableList<T> formatAsList(Iterable<F> comments) throws PermissionBackendException {
+    public ImmutableList<T> formatAsList(Iterable<F> comments)
+        throws PermissionBackendException, CommentContextException {
       AccountLoader loader = fillAccounts ? accountLoaderFactory.create(true) : null;
 
       ImmutableList<T> out =
@@ -117,6 +133,9 @@ public class CommentJson {
 
       if (loader != null) {
         loader.fill();
+      }
+      if (commentContextLoader != null) {
+        commentContextLoader.fill();
       }
       return out;
     }
@@ -148,6 +167,9 @@ public class CommentJson {
         r.author = loader.get(c.author.getId());
       }
       r.commitId = c.getCommitId().getName();
+      if (commentContextLoader != null) {
+        r.contextLines = commentContextLoader.getContext(r);
+      }
     }
 
     protected Range toRange(Comment.Range commentRange) {

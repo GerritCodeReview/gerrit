@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.CommentContextException;
 import com.google.gerrit.server.change.DraftCommentResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
@@ -34,7 +35,8 @@ public class GetDraftComment implements RestReadView<DraftCommentResource> {
   }
 
   @Override
-  public Response<CommentInfo> apply(DraftCommentResource rsrc) throws PermissionBackendException {
+  public Response<CommentInfo> apply(DraftCommentResource rsrc)
+      throws PermissionBackendException, CommentContextException {
     return Response.ok(commentJson.get().newHumanCommentFormatter().format(rsrc.getComment()));
   }
 }

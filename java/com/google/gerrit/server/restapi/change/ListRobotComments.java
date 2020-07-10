@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.CommentContextException;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -51,17 +52,18 @@ public class ListRobotComments implements RestReadView<RevisionResource> {
 
   @Override
   public Response<Map<String, List<RobotCommentInfo>>> apply(RevisionResource rsrc)
-      throws PermissionBackendException {
+      throws PermissionBackendException, CommentContextException {
     return Response.ok(getAsMap(listComments(rsrc), rsrc));
   }
 
   public ImmutableList<RobotCommentInfo> getComments(RevisionResource rsrc)
-      throws PermissionBackendException {
+      throws PermissionBackendException, CommentContextException {
     return getAsList(listComments(rsrc), rsrc);
   }
 
   private ImmutableList<RobotCommentInfo> getAsList(
-      Iterable<RobotComment> comments, RevisionResource rsrc) throws PermissionBackendException {
+      Iterable<RobotComment> comments, RevisionResource rsrc)
+      throws PermissionBackendException, CommentContextException {
     ImmutableList<RobotCommentInfo> commentInfos = getCommentFormatter().formatAsList(comments);
     List<ChangeMessage> changeMessages = changeMessagesUtil.byChange(rsrc.getNotes());
     CommentsUtil.linkCommentsToChangeMessages(commentInfos, changeMessages, false);
@@ -69,7 +71,8 @@ public class ListRobotComments implements RestReadView<RevisionResource> {
   }
 
   private Map<String, List<RobotCommentInfo>> getAsMap(
-      Iterable<RobotComment> comments, RevisionResource rsrc) throws PermissionBackendException {
+      Iterable<RobotComment> comments, RevisionResource rsrc)
+      throws PermissionBackendException, CommentContextException {
     Map<String, List<RobotCommentInfo>> commentInfosMap = getCommentFormatter().format(comments);
     List<RobotCommentInfo> commentInfos =
         commentInfosMap.values().stream().flatMap(List::stream).collect(toList());

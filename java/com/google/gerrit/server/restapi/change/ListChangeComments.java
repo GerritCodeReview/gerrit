@@ -19,47 +19,67 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.HumanComment;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.ContextLineInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.CommentContextException;
+import com.google.gerrit.server.CommentContextLoader;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.util.List;
 import java.util.Map;
+import org.kohsuke.args4j.Option;
 
-@Singleton
 public class ListChangeComments implements RestReadView<ChangeResource> {
   private final ChangeMessagesUtil changeMessagesUtil;
   private final ChangeData.Factory changeDataFactory;
   private final Provider<CommentJson> commentJson;
   private final CommentsUtil commentsUtil;
+  private final CommentContextLoader.Factory commentContextFactory;
+
+  private boolean includeContext;
+
+  /**
+   * Optional parameter. If set, the contextLines field of the {@link ContextLineInfo} of the
+   * response will contain the lines of the source file where the comment was written.
+   *
+   * @param context If true, comment context will be attached to the response
+   */
+  @Option(name = "--enable-context")
+  public void setContext(boolean context) {
+    this.includeContext = context;
+  }
 
   @Inject
   ListChangeComments(
       ChangeData.Factory changeDataFactory,
       Provider<CommentJson> commentJson,
       CommentsUtil commentsUtil,
-      ChangeMessagesUtil changeMessagesUtil) {
+      ChangeMessagesUtil changeMessagesUtil,
+      CommentContextLoader.Factory commentContextFactory) {
     this.changeDataFactory = changeDataFactory;
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
     this.changeMessagesUtil = changeMessagesUtil;
+    this.commentContextFactory = commentContextFactory;
   }
 
   @Override
   public Response<Map<String, List<CommentInfo>>> apply(ChangeResource rsrc)
-      throws AuthException, PermissionBackendException {
+      throws AuthException, PermissionBackendException, CommentContextException {
     return Response.ok(getAsMap(listComments(rsrc), rsrc));
   }
 
-  public List<CommentInfo> getComments(ChangeResource rsrc) throws PermissionBackendException {
+  public List<CommentInfo> getComments(ChangeResource rsrc)
+      throws PermissionBackendException, CommentContextException {
     return getAsList(listComments(rsrc), rsrc);
   }
 
@@ -69,16 +89,19 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
   }
 
   private ImmutableList<CommentInfo> getAsList(Iterable<HumanComment> comments, ChangeResource rsrc)
-      throws PermissionBackendException {
-    ImmutableList<CommentInfo> commentInfos = getCommentFormatter().formatAsList(comments);
+      throws PermissionBackendException, CommentContextException {
+    ImmutableList<CommentInfo> commentInfos =
+        getCommentFormatter(rsrc.getProject()).formatAsList(comments);
     List<ChangeMessage> changeMessages = changeMessagesUtil.byChange(rsrc.getNotes());
     CommentsUtil.linkCommentsToChangeMessages(commentInfos, changeMessages, true);
     return commentInfos;
   }
 
   private Map<String, List<CommentInfo>> getAsMap(
-      Iterable<HumanComment> comments, ChangeResource rsrc) throws PermissionBackendException {
-    Map<String, List<CommentInfo>> commentInfosMap = getCommentFormatter().format(comments);
+      Iterable<HumanComment> comments, ChangeResource rsrc)
+      throws PermissionBackendException, CommentContextException {
+    Map<String, List<CommentInfo>> commentInfosMap =
+        getCommentFormatter(rsrc.getProject()).format(comments);
     List<CommentInfo> commentInfos =
         commentInfosMap.values().stream().flatMap(List::stream).collect(toList());
     List<ChangeMessage> changeMessages = changeMessagesUtil.byChange(rsrc.getNotes());
@@ -86,7 +109,12 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
     return commentInfosMap;
   }
 
-  private CommentJson.HumanCommentFormatter getCommentFormatter() {
-    return commentJson.get().setFillAccounts(true).setFillPatchSet(true).newHumanCommentFormatter();
+  private CommentJson.HumanCommentFormatter getCommentFormatter(Project.NameKey project) {
+    return commentJson
+        .get()
+        .setFillAccounts(true)
+        .setFillPatchSet(true)
+        .setCommentContextLoader(includeContext ? commentContextFactory.create(project) : null)
+        .newHumanCommentFormatter();
   }
 }

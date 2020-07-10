@@ -4178,7 +4178,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .startsWith(subject);
 
     List<CommentInfo> comments =
-        Iterables.getOnlyElement(gApi.changes().id(id).comments().values());
+        Iterables.getOnlyElement(gApi.changes().id(id).comments(false).values());
     assertThat(Iterables.getOnlyElement(comments).message).isEqualTo(ci.message);
   }
 

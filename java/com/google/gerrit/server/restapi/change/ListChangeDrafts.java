@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.CommentContextException;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -53,7 +54,7 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
 
   @Override
   public Response<Map<String, List<CommentInfo>>> apply(ChangeResource rsrc)
-      throws AuthException, PermissionBackendException {
+      throws AuthException, PermissionBackendException, CommentContextException {
     if (!rsrc.getUser().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
@@ -61,7 +62,7 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
   }
 
   public List<CommentInfo> getComments(ChangeResource rsrc)
-      throws AuthException, PermissionBackendException {
+      throws AuthException, PermissionBackendException, CommentContextException {
     if (!rsrc.getUser().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }

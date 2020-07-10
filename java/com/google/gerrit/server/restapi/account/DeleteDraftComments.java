@@ -35,6 +35,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.CommentContextException;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
@@ -177,7 +178,7 @@ public class DeleteDraftComments
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws PatchListNotAvailableException, PermissionBackendException {
+        throws PatchListNotAvailableException, PermissionBackendException, CommentContextException {
       ImmutableList.Builder<CommentInfo> comments = ImmutableList.builder();
       boolean dirty = false;
       for (HumanComment c : commentsUtil.draftByChangeAuthor(ctx.getNotes(), accountId)) {

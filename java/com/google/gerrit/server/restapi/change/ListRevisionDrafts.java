@@ -19,6 +19,7 @@ import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.CommentContextException;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -50,7 +51,7 @@ public class ListRevisionDrafts implements RestReadView<RevisionResource> {
 
   @Override
   public Response<Map<String, List<CommentInfo>>> apply(RevisionResource rsrc)
-      throws PermissionBackendException {
+      throws PermissionBackendException, CommentContextException {
     return Response.ok(
         commentJson
             .get()
@@ -60,7 +61,7 @@ public class ListRevisionDrafts implements RestReadView<RevisionResource> {
   }
 
   public ImmutableList<CommentInfo> getComments(RevisionResource rsrc)
-      throws PermissionBackendException {
+      throws PermissionBackendException, CommentContextException {
     return commentJson
         .get()
         .setFillAccounts(includeAuthorInfo())

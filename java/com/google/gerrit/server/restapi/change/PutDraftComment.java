@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.server.CommentContextException;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.DraftCommentResource;
@@ -74,7 +75,8 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
 
   @Override
   public Response<CommentInfo> apply(DraftCommentResource rsrc, DraftInput in)
-      throws RestApiException, UpdateException, PermissionBackendException {
+      throws RestApiException, UpdateException, PermissionBackendException,
+          CommentContextException {
     if (in == null || in.message == null || in.message.trim().isEmpty()) {
       return delete.apply(rsrc, null);
     } else if (in.id != null && !rsrc.getId().equals(in.id)) {

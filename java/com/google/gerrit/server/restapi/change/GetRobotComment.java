@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.CommentContextException;
 import com.google.gerrit.server.change.RobotCommentResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
@@ -35,7 +36,7 @@ public class GetRobotComment implements RestReadView<RobotCommentResource> {
 
   @Override
   public Response<RobotCommentInfo> apply(RobotCommentResource rsrc)
-      throws PermissionBackendException {
+      throws PermissionBackendException, CommentContextException {
     return Response.ok(commentJson.get().newRobotCommentFormatter().format(rsrc.getComment()));
   }
 }

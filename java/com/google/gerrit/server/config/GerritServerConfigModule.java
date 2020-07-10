@@ -78,5 +78,8 @@ public class GerritServerConfigModule extends AbstractModule {
         .annotatedWith(GerritServerConfig.class)
         .toProvider(GerritServerConfigProvider.class);
     bind(SecureStore.class).toProvider(SecureStoreProvider.class).in(SINGLETON);
+    bind(Boolean.class)
+        .annotatedWith(GerritIsReplica.class)
+        .toProvider(GerritIsReplicaProvider.class);
   }
 }

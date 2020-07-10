@@ -115,8 +115,8 @@ suite('gr-reply-dialog tests', () => {
     eraseDraftCommentStub = sinon.stub(element.$.storage,
         'eraseDraftComment');
 
-    sinon.stub(element, 'fetchChangeUpdates')
-        .returns(Promise.resolve({isLatest: true}));
+    // sinon.stub(patchSetUtilMockProxy, 'fetchChangeUpdates')
+    //     .returns(Promise.resolve({isLatest: true}));
 
     // Allow the elements created by dom-repeat to be stamped.
     flushAsynchronousOperations();

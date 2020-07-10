@@ -37,6 +37,20 @@ const SIGN_IN_HEIGHT_PX = 500;
 const TOO_MANY_FILES = 'too many files to find conflicts';
 const AUTHENTICATION_REQUIRED = 'Authentication required\n';
 
+const ERROR_TYPES = {
+  AUTH: 'AUTH',
+  NETWORK: 'NETWORK',
+  GENERIC: 'GENERIC',
+};
+
+const ERROR_TYPES_PRIORITY = {
+  AUTH: 3,
+  NETWORK: 2,
+  GENERIC: 1,
+};
+
+export const __testOnly_ERROR_TYPES = ERROR_TYPES;
+
 /**
  * @extends PolymerElement
  */
@@ -224,17 +238,22 @@ class GrErrorManager extends GestureEventListeners(
     console.error(e.detail.error.message);
   }
 
+  _canOverride(incoming = ERROR_TYPES.GENERIC, existing = ERROR_TYPES.GENERIC) {
+    return ERROR_TYPES_PRIORITY[incoming] >= ERROR_TYPES_PRIORITY[existing];
+  }
+
   /**
    * @param {string} text
    * @param {?string=} opt_actionText
    * @param {?Function=} opt_actionCallback
    * @param {?boolean=} opt_dismissOnNavigation
+   * @param {?string=} opt_type
    */
   _showAlert(text, opt_actionText, opt_actionCallback,
-      opt_dismissOnNavigation) {
+      opt_dismissOnNavigation, opt_type) {
     if (this._alertElement) {
-      // do not override auth alerts
-      if (this._alertElement.type === 'AUTH') return;
+      // check priority before hiding
+      if (!this._canOverride(opt_type, this._alertElement.type)) return;
       this._hideAlert();
     }
 
@@ -276,7 +295,7 @@ class GrErrorManager extends GestureEventListeners(
     }
 
     this._alertElement = this._createToastAlert();
-    this._alertElement.type = 'AUTH';
+    this._alertElement.type = ERROR_TYPES.AUTH;
     this._alertElement.show(errorText, actionText,
         this._createLoginPopup.bind(this));
 

@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2020 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,32 +14,34 @@
 
 package com.google.gerrit.extensions.common;
 
-import com.google.gerrit.extensions.client.Comment;
-import java.util.List;
 import java.util.Objects;
 
-public class CommentInfo extends Comment {
-  public AccountInfo author;
-  public String tag;
-  public String changeMessageId;
+/**
+ * An entity class representing 1 line of context {line number, line text} of the source file where
+ * a comment was written.
+ */
+public class ContextLineInfo {
+  public int lineNumber;
+  public String contextLine;
 
-  /**
-   * A list of {@link ContextLineInfo}, that is, a list of pairs of {line_num, line_text} of the
-   * actual source file content surrounding and including the lines where the comment was written.
-   */
-  public List<ContextLineInfo> contextLines;
+  public ContextLineInfo() {}
+
+  public ContextLineInfo(int lineNumber, String contextLine) {
+    this.lineNumber = lineNumber;
+    this.contextLine = contextLine;
+  }
 
   @Override
   public boolean equals(Object o) {
-    if (super.equals(o)) {
-      CommentInfo ci = (CommentInfo) o;
-      return Objects.equals(author, ci.author) && Objects.equals(tag, ci.tag);
+    if (o instanceof ContextLineInfo) {
+      ContextLineInfo l = (ContextLineInfo) o;
+      return lineNumber == l.lineNumber && contextLine.equals(l.contextLine);
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(super.hashCode(), author, tag);
+    return Objects.hash(lineNumber, contextLine);
   }
 }

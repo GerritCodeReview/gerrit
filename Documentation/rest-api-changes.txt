@@ -6545,6 +6545,11 @@ that this comment is linked to.
 |`commit_id` |optional|
 Hex commit SHA1 (40 characters string) of the commit of the patchset to which
 this comment applies.
+|`context_lines` |optional|
+A list of link:#context-line[ContextLine] containing the lines of the source
+file where the comment was written.
+Available only if the "enable_context" parameter is set.
+
 |===========================
 
 [[comment-input]]
@@ -6614,6 +6619,18 @@ to 0 will not include any characters on line 5,
 |`start_character`   ||The character position in the start line. (0-based)
 |`end_line`          ||The end line number of the range. (1-based)
 |`end_character`     ||The character position in the end line. (0-based)
+|===========================
+
+[[context-line]]
+=== ContextLine
+The `ContextLine` entity contains the line number and line text of a single
+line of the source file content.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name          ||Description
+|`line_number`       ||The line number of the source line.
+|`context_line`      ||String containing the line text.
 |===========================
 
 [[commit-info]]

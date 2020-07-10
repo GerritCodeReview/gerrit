@@ -56,7 +56,7 @@ public class TestCommentHelper {
   }
 
   public Collection<CommentInfo> getPublishedComments(String changeId) throws Exception {
-    return gApi.changes().id(changeId).comments().values().stream()
+    return gApi.changes().id(changeId).comments(false).values().stream()
         .flatMap(Collection::stream)
         .collect(toList());
   }

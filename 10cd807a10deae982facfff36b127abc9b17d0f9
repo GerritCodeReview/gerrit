@@ -81,6 +81,30 @@
       "revId": "10cd807a10deae982facfff36b127abc9b17d0f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e966f5d2_551f342b",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-10T16:05:52Z",
+      "side": 1,
+      "message": "That\u0027s much clearer now, thanks.",
+      "parentUuid": "66971dd8_44df48fb",
+      "range": {
+        "startLine": 940,
+        "startChar": 14,
+        "endLine": 941,
+        "endChar": 45
+      },
+      "revId": "10cd807a10deae982facfff36b127abc9b17d0f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

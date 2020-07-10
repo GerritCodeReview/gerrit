@@ -644,7 +644,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
   }
 
   private List<CommentInfo> getCommentsFromServer(Change.Id changeId) throws RestApiException {
-    return gApi.changes().id(changeId.get()).commentsAsList();
+    return gApi.changes().id(changeId.get()).commentsAsList(false);
   }
 
   private List<CommentInfo> getDraftCommentsFromServer(Change.Id changeId) throws RestApiException {
@@ -653,7 +653,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   private CommentInfo getCommentFromServer(Change.Id changeId, String uuid)
       throws RestApiException {
-    return gApi.changes().id(changeId.get()).commentsAsList().stream()
+    return gApi.changes().id(changeId.get()).commentsAsList(false).stream()
         .filter(comment -> comment.id.equals(uuid))
         .findAny()
         .orElseThrow(

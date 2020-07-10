@@ -20,6 +20,7 @@ import './gr-file-list-header.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GrFileListConstants} from '../gr-file-list-constants.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {patchSetUtilMockProxy} from '../../../utils/patch-set-util.js';
 
 const basicFixture = fixtureFromElement('gr-file-list-header');
 
@@ -258,7 +259,7 @@ suite('gr-file-list-header tests', () => {
 
     test('patch specific elements', () => {
       element.editMode = true;
-      sinon.stub(element, 'computeLatestPatchNum').returns('2');
+      sinon.stub(patchSetUtilMockProxy, 'computeLatestPatchNum').returns('2');
       flushAsynchronousOperations();
 
       assert.isFalse(isVisible(element.$.diffPrefsContainer));

@@ -338,3 +338,10 @@ message ProjectProto {
   string local_default_dashboard = 9;
   string config_ref_state = 10;
 }
+
+// Serialized form of com.google.gerrit.common.data.GroupReference.
+// Next ID: 3
+message GroupReferenceProto {
+  string uuid = 1;
+  string name = 2;
+}

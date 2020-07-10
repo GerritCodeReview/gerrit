@@ -506,7 +506,7 @@ public class ImpersonationIT extends AbstractDaemonTest {
     assertThat(m.author._accountId).isEqualTo(user.id().get());
 
     CommentInfo c =
-        Iterables.getOnlyElement(gApi.changes().id(r.getChangeId()).comments().get(di.path));
+        Iterables.getOnlyElement(gApi.changes().id(r.getChangeId()).comments(false).get(di.path));
     assertThat(c.author._accountId).isEqualTo(user.id().get());
     assertThat(c.message).isEqualTo(di.message);
 

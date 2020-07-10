@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GrDisplayNameUtils} from '../gr-display-name-utils/gr-display-name-utils.js';
+import {getAccountDisplayName, getGroupDisplayName} from '../../utils/display-name-util.js';
 
 /**
  * @enum {string}
@@ -80,7 +80,7 @@ export class GrReviewerSuggestionsProvider {
     if (suggestion.account) {
       // Reviewer is an account suggestion from getChangeSuggestedReviewers.
       return {
-        name: GrDisplayNameUtils.getAccountDisplayName(this._config,
+        name: getAccountDisplayName(this._config,
             suggestion.account),
         value: suggestion,
       };
@@ -89,7 +89,7 @@ export class GrReviewerSuggestionsProvider {
     if (suggestion.group) {
       // Reviewer is a group suggestion from getChangeSuggestedReviewers.
       return {
-        name: GrDisplayNameUtils.getGroupDisplayName(suggestion.group),
+        name: getGroupDisplayName(suggestion.group),
         value: suggestion,
       };
     }
@@ -97,7 +97,7 @@ export class GrReviewerSuggestionsProvider {
     if (suggestion._account_id) {
       // Reviewer is an account suggestion from getSuggestedAccounts.
       return {
-        name: GrDisplayNameUtils.getAccountDisplayName(this._config,
+        name: getAccountDisplayName(this._config,
             suggestion),
         value: {account: suggestion, count: 1},
       };

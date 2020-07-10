@@ -19,23 +19,20 @@ import '../../shared/gr-dropdown/gr-dropdown.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-avatar/gr-avatar.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-account-dropdown_html.js';
-import {DisplayNameBehavior} from '../../../behaviors/gr-display-name-behavior/gr-display-name-behavior.js';
+import {getUserName} from '../../../utils/display-name-util.js';
 
 const INTERPOLATE_URL_PATTERN = /\${([\w]+)}/g;
 
 /**
  * @extends PolymerElement
  */
-class GrAccountDropdown extends mixinBehaviors( [
-  DisplayNameBehavior,
-], GestureEventListeners(
+class GrAccountDropdown extends GestureEventListeners(
     LegacyElementMixin(
-        PolymerElement))) {
+        PolymerElement)) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-account-dropdown'; }
@@ -128,7 +125,7 @@ class GrAccountDropdown extends mixinBehaviors( [
   }
 
   _accountName(account) {
-    return this.getUserName(this.config, account);
+    return getUserName(this.config, account);
   }
 }
 

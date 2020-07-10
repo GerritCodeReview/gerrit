@@ -16,13 +16,12 @@
  */
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../gr-search-bar/gr-search-bar.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-smart-search_html.js';
-import {DisplayNameBehavior} from '../../../behaviors/gr-display-name-behavior/gr-display-name-behavior.js';
 import {GerritNav} from '../gr-navigation/gr-navigation.js';
+import {getUserName} from '../../../utils/display-name-util.js';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 const SELF_EXPRESSION = 'self';
@@ -31,11 +30,9 @@ const ME_EXPRESSION = 'me';
 /**
  * @extends PolymerElement
  */
-class GrSmartSearch extends mixinBehaviors( [
-  DisplayNameBehavior,
-], GestureEventListeners(
+class GrSmartSearch extends GestureEventListeners(
     LegacyElementMixin(
-        PolymerElement))) {
+        PolymerElement)) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-smart-search'; }
@@ -166,7 +163,7 @@ class GrSmartSearch extends mixinBehaviors( [
 
   _mapAccountsHelper(accounts, predicate) {
     return accounts.map(account => {
-      const userName = this.getUserName(this._serverConfig, account);
+      const userName = getUserName(this._serverConfig, account);
       return {
         label: account.name || '',
         text: account.email ?

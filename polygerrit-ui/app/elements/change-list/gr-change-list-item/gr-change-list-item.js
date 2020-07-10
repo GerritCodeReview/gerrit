@@ -36,7 +36,7 @@ import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path
 import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {GrDisplayNameUtils} from '../../../scripts/gr-display-name-utils/gr-display-name-utils.js';
+import {getDisplayName} from '../../../utils/display-name-util.js';
 import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {appContext} from '../../../services/app-context.js';
@@ -264,7 +264,7 @@ class GrChangeListItem extends mixinBehaviors( [
   _computeAdditionalReviewersTitle(change, config) {
     if (!change || !config) return '';
     return this._computeAdditionalReviewers(change)
-        .map(user => GrDisplayNameUtils.getDisplayName(config, user))
+        .map(user => getDisplayName(config, user))
         .join(', ');
   }
 

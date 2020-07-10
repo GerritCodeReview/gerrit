@@ -37,7 +37,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-comment_html.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {getRootElement} from '../../../scripts/rootElement.js';
-import {GrDisplayNameUtils} from '../../../scripts/gr-display-name-utils/gr-display-name-utils.js';
+import {getDisplayName} from '../../../utils/display-name-util.js';
 import {appContext} from '../../../services/app-context.js';
 
 const STORAGE_DEBOUNCE_INTERVAL = 400;
@@ -849,7 +849,7 @@ class GrComment extends mixinBehaviors( [
       return comment.robot_id;
     }
     if (comment.author) {
-      return GrDisplayNameUtils.getDisplayName(serverConfig, comment.author);
+      return getDisplayName(serverConfig, comment.author);
     }
     return '';
   }

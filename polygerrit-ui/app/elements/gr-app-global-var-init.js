@@ -22,7 +22,7 @@
  * expose these variables until plugins switch to direct import from polygerrit.
  */
 
-import {GrDisplayNameUtils} from '../scripts/gr-display-name-utils/gr-display-name-utils.js';
+import {getAccountDisplayName, getDisplayName, getGroupDisplayName, getUserName} from '../utils/display-name-util.js';
 import {GrAnnotation} from './diff/gr-diff-highlight/gr-annotation.js';
 import {GrAttributeHelper} from './plugins/gr-attribute-helper/gr-attribute-helper.js';
 import {GrDiffLine} from './diff/gr-diff/gr-diff-line.js';
@@ -74,7 +74,12 @@ import {CoverageType} from '../types/types.js';
 import {_setHiddenScroll, getHiddenScroll} from '../scripts/hiddenscroll.js';
 
 export function initGlobalVariables() {
-  window.GrDisplayNameUtils = GrDisplayNameUtils;
+  window.GrDisplayNameUtils = {
+    getUserName,
+    getDisplayName,
+    getAccountDisplayName,
+    getGroupDisplayName,
+  };
   window.GrAnnotation = GrAnnotation;
   window.GrAttributeHelper = GrAttributeHelper;
   window.GrDiffLine = GrDiffLine;

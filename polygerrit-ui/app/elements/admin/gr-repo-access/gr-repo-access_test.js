@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-repo-access.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {toSortedPermissionsArray} from '../../../utils/access-util.js';
 
 const basicFixture = fixtureFromElement('gr-repo-access');
 
@@ -135,7 +136,7 @@ suite('gr-repo-access tests', () => {
       assert.isNotOk(element._inheritsFrom);
       assert.deepEqual(element._local, accessRes.local);
       assert.deepEqual(element._sections,
-          element.toSortedArray(accessRes.local));
+          toSortedPermissionsArray(accessRes.local));
       assert.deepEqual(element._labels, repoRes.labels);
       assert.equal(getComputedStyle(element.shadowRoot
           .querySelector('.weblinks')).display,
@@ -144,7 +145,7 @@ suite('gr-repo-access tests', () => {
     })
         .then(() => {
           assert.deepEqual(element._sections,
-              element.toSortedArray(accessRes2.local));
+              toSortedPermissionsArray(accessRes2.local));
           assert.equal(getComputedStyle(element.shadowRoot
               .querySelector('.weblinks')).display,
           'none');
@@ -307,7 +308,7 @@ suite('gr-repo-access tests', () => {
       // by any tests.
       element._local = JSON.parse(JSON.stringify(accessRes.local));
       element._ownerOf = [];
-      element._sections = element.toSortedArray(element._local);
+      element._sections = toSortedPermissionsArray(element._local);
       element._groups = JSON.parse(JSON.stringify(accessRes.groups));
       element._capabilities = JSON.parse(JSON.stringify(capabilitiesRes));
       element._labels = JSON.parse(JSON.stringify(repoRes.labels));

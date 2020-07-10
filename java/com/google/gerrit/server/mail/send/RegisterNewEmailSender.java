@@ -60,6 +60,9 @@ public class RegisterNewEmailSender extends OutgoingEmail {
   @Override
   protected void format() throws EmailException {
     appendText(textTemplate("RegisterNewEmail"));
+    if (useHtml()) {
+      appendHtml(soyHtmlTemplate("RegisterNewEmailHtml"));
+    }
   }
 
   public boolean isAllowed() {
@@ -78,5 +81,10 @@ public class RegisterNewEmailSender extends OutgoingEmail {
       emailToken = requireNonNull(tokenVerifier.encode(user.getAccountId(), addr), "token");
     }
     return emailToken;
+  }
+
+  @Override
+  protected boolean supportsHtml() {
+    return true;
   }
 }

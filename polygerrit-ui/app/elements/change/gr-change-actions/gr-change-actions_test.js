@@ -20,6 +20,7 @@ import './gr-change-actions.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {patchSetUtilMockProxy} from '../../../utils/patch-set-util.js';
 
 const basicFixture = fixtureFromElement('gr-change-actions');
 
@@ -271,8 +272,6 @@ suite('gr-change-actions tests', () => {
       const showSpy = sinon.spy(element, '_showActionDialog');
       sinon.stub(element.$.restAPI, 'getFromProjectLookup')
           .returns(Promise.resolve('test'));
-      sinon.stub(element, 'fetchChangeUpdates').callsFake(
-          () => Promise.resolve({isLatest: true}));
       sinon.stub(element.$.overlay, 'open').returns(Promise.resolve());
       element.change = {
         revisions: {
@@ -295,8 +294,6 @@ suite('gr-change-actions tests', () => {
       sinon.stub(element.$.confirmSubmitDialog, 'resetFocus').callsFake( done);
       sinon.stub(element.$.restAPI, 'getFromProjectLookup')
           .returns(Promise.resolve('test'));
-      sinon.stub(element, 'fetchChangeUpdates').callsFake(
-          () => Promise.resolve({isLatest: true}));
       sinon.stub(element.$.overlay, 'open').returns(Promise.resolve());
       element.change = {
         revisions: {
@@ -1816,7 +1813,7 @@ suite('gr-change-actions tests', () => {
       suite('happy path', () => {
         let sendStub;
         setup(() => {
-          sinon.stub(element, 'fetchChangeUpdates')
+          sinon.stub(patchSetUtilMockProxy, 'fetchChangeUpdates')
               .returns(Promise.resolve({isLatest: true}));
           sendStub = sinon.stub(element.$.restAPI, 'executeChangeAction')
               .returns(Promise.resolve({}));
@@ -1824,7 +1821,7 @@ suite('gr-change-actions tests', () => {
               'getResponseObject');
           sinon.stub(GerritNav,
               'navigateToChange').returns(Promise.resolve(true));
-          sinon.stub(element, 'computeLatestPatchNum')
+          sinon.stub(patchSetUtilMockProxy, 'computeLatestPatchNum')
               .returns(element.latestPatchNum);
         });
 
@@ -1936,7 +1933,7 @@ suite('gr-change-actions tests', () => {
 
       suite('failure modes', () => {
         test('non-latest', () => {
-          sinon.stub(element, 'fetchChangeUpdates')
+          sinon.stub(patchSetUtilMockProxy, 'fetchChangeUpdates')
               .returns(Promise.resolve({isLatest: false}));
           const sendStub = sinon.stub(element.$.restAPI,
               'executeChangeAction');
@@ -1951,7 +1948,7 @@ suite('gr-change-actions tests', () => {
         });
 
         test('send fails', () => {
-          sinon.stub(element, 'fetchChangeUpdates')
+          sinon.stub(patchSetUtilMockProxy, 'fetchChangeUpdates')
               .returns(Promise.resolve({isLatest: true}));
           const sendStub = sinon.stub(element.$.restAPI,
               'executeChangeAction').callsFake(

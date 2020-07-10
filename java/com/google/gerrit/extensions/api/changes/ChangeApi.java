@@ -321,13 +321,41 @@ public interface ChangeApi {
   AccountInfo deleteAssignee() throws RestApiException;
 
   /**
+   * Get all published comments on a change. The {@link CommentInput#enableContext} is set to false
+   * by default.
+   *
+   * @return comments in a map keyed by path; comments have the {@code revision} field set to
+   *     indicate their patch set.
+   * @throws RestApiException
+   */
+  default Map<String, List<CommentInfo>> comments() throws RestApiException {
+    CommentInput input = new CommentInput();
+    input.enableContext = false;
+    return comments(input);
+  }
+
+  /**
    * Get all published comments on a change.
    *
    * @return comments in a map keyed by path; comments have the {@code revision} field set to
    *     indicate their patch set.
    * @throws RestApiException
    */
-  Map<String, List<CommentInfo>> comments() throws RestApiException;
+  Map<String, List<CommentInfo>> comments(CommentInput commentInput) throws RestApiException;
+
+  /**
+   * Get all published comments on a change as a list. The {@link CommentInput#enableContext} is set
+   * to false by default.
+   *
+   * @return comments as a list; comments have the {@code revision} field set to indicate their
+   *     patch set.
+   * @throws RestApiException
+   */
+  default List<CommentInfo> commentsAsList() throws RestApiException {
+    CommentInput input = new CommentInput();
+    input.enableContext = false;
+    return commentsAsList(input);
+  }
 
   /**
    * Get all published comments on a change as a list.
@@ -336,7 +364,7 @@ public interface ChangeApi {
    *     patch set.
    * @throws RestApiException
    */
-  List<CommentInfo> commentsAsList() throws RestApiException;
+  List<CommentInfo> commentsAsList(CommentInput input) throws RestApiException;
 
   /**
    * Get all robot comments on a change.
@@ -608,7 +636,17 @@ public interface ChangeApi {
     }
 
     @Override
+    public Map<String, List<CommentInfo>> comments(CommentInput input) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
     public List<CommentInfo> commentsAsList() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<CommentInfo> commentsAsList(CommentInput input) throws RestApiException {
       throw new NotImplementedException();
     }
 

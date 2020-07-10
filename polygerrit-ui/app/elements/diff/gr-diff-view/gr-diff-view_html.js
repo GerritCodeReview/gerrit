@@ -371,7 +371,7 @@ export const htmlTemplate = html`
       >
         &lt;</a
       >
-      <div class="fullFileName mobile">[[computeDisplayPath(_path)]]</div>
+      <div class="fullFileName mobile">[[_computeDisplayPath(_path)]]</div>
       <a
         class="mobileNavLink"
         href$="[[_computeNavLinkURL(_change, _path, _fileList, 1, 1)]]"

@@ -20,17 +20,16 @@ import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
 import '../gr-diff/gr-diff.js';
 import '../gr-syntax-layer/gr-syntax-layer.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-diff-host_html.js';
-import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {GrDiffBuilder} from '../gr-diff-builder/gr-diff-builder.js';
 import {parseDate} from '../../../utils/date-util.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {DiffSide, rangesEqual} from '../gr-diff/gr-diff-utils.js';
 import {appContext} from '../../../services/app-context.js';
+import {getParentIndex, isMergeParent} from '../../../utils/patch-set-util.js';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -85,11 +84,9 @@ function isImageDiff(diff) {
  *
  * @extends PolymerElement
  */
-class GrDiffHost extends mixinBehaviors( [
-  PatchSetBehavior,
-], GestureEventListeners(
+class GrDiffHost extends GestureEventListeners(
     LegacyElementMixin(
-        PolymerElement))) {
+        PolymerElement)) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-diff-host'; }
@@ -967,8 +964,8 @@ class GrDiffHost extends mixinBehaviors( [
    * @return {number|null}
    */
   _computeParentIndex(patchRangeRecord) {
-    return this.isMergeParent(patchRangeRecord.base.basePatchNum) ?
-      this.getParentIndex(patchRangeRecord.base.basePatchNum) : null;
+    return isMergeParent(patchRangeRecord.base.basePatchNum) ?
+      getParentIndex(patchRangeRecord.base.basePatchNum) : null;
   }
 
   _handleCommentSave(e) {

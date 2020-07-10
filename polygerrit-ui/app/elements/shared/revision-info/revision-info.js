@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
+import {patchNumEquals} from '../../../utils/patch-set-util.js';
 
 /**
  * @constructor
@@ -76,6 +76,6 @@ RevisionInfo.prototype.getParentCount = function(patchNum) {
  */
 RevisionInfo.prototype.getParentId = function(patchNum, parentIndex) {
   const rev = Object.values(this._change.revisions).find(rev =>
-    PatchSetBehavior.patchNumEquals(rev._number, patchNum));
+    patchNumEquals(rev._number, patchNum));
   return rev.commit.parents[parentIndex].commit;
 };

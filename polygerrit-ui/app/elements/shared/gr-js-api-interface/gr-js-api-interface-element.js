@@ -14,12 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {pluginLoader} from './gr-plugin-loader.js';
+import {patchNumEquals} from '../../../utils/patch-set-util.js';
 
 // Note: for new events, naming convention should be: `a-b`
 const EventType = {
@@ -46,11 +45,9 @@ const Element = {
 /**
  * @extends PolymerElement
  */
-class GrJsApiInterface extends mixinBehaviors( [
-  PatchSetBehavior,
-], GestureEventListeners(
+class GrJsApiInterface extends GestureEventListeners(
     LegacyElementMixin(
-        PolymerElement))) {
+        PolymerElement)) {
   static get is() { return 'gr-js-api-interface'; }
 
   constructor() {
@@ -170,7 +167,7 @@ class GrJsApiInterface extends mixinBehaviors( [
 
     let revision;
     for (const rev of Object.values(change.revisions || {})) {
-      if (this.patchNumEquals(rev._number, patchNum)) {
+      if (patchNumEquals(rev._number, patchNum)) {
         revision = rev;
         break;
       }

@@ -16,12 +16,21 @@
  */
 
 import '../../test/common-test-setup-karma.js';
-import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
-import {TooltipBehavior} from './gr-tooltip-behavior.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {TooltipMixin} from './gr-tooltip-mixin.js';
 
-const basicFixture = fixtureFromElement('tooltip-behavior-element');
+const basicFixture = fixtureFromElement('gr-tooltip-mixin-element');
 
-suite('gr-tooltip-behavior tests', () => {
+class GrTooltipMixinTestElement extends TooltipMixin(PolymerElement) {
+  static get is() {
+    return 'gr-tooltip-mixin-element';
+  }
+}
+
+customElements.define(GrTooltipMixinTestElement.is,
+    GrTooltipMixinTestElement);
+
+suite('gr-tooltip-mixin tests', () => {
   let element;
 
   function makeTooltip(tooltipRect, parentRect) {
@@ -34,14 +43,6 @@ suite('gr-tooltip-behavior tests', () => {
       },
     };
   }
-
-  suiteSetup(() => {
-    // Define a Polymer element that uses this behavior.
-    Polymer({
-      is: 'tooltip-behavior-element',
-      behaviors: [TooltipBehavior],
-    });
-  });
 
   setup(() => {
     element = basicFixture.instantiate();

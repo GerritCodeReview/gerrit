@@ -158,7 +158,7 @@ class ChangeApiImpl implements ChangeApi {
   private final GetAssignee getAssignee;
   private final GetPastAssignees getPastAssignees;
   private final DeleteAssignee deleteAssignee;
-  private final ListChangeComments listComments;
+  private final Provider<ListChangeComments> listCommentsProvider;
   private final ListChangeRobotComments listChangeRobotComments;
   private final ListChangeDrafts listDrafts;
   private final ChangeEditApiImpl.Factory changeEditApi;
@@ -211,7 +211,7 @@ class ChangeApiImpl implements ChangeApi {
       GetAssignee getAssignee,
       GetPastAssignees getPastAssignees,
       DeleteAssignee deleteAssignee,
-      ListChangeComments listComments,
+      Provider<ListChangeComments> listCommentsProvider,
       ListChangeRobotComments listChangeRobotComments,
       ListChangeDrafts listDrafts,
       ChangeEditApiImpl.Factory changeEditApi,
@@ -262,7 +262,7 @@ class ChangeApiImpl implements ChangeApi {
     this.getAssignee = getAssignee;
     this.getPastAssignees = getPastAssignees;
     this.deleteAssignee = deleteAssignee;
-    this.listComments = listComments;
+    this.listCommentsProvider = listCommentsProvider;
     this.listChangeRobotComments = listChangeRobotComments;
     this.listDrafts = listDrafts;
     this.changeEditApi = changeEditApi;
@@ -601,6 +601,8 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public Map<String, List<CommentInfo>> comments() throws RestApiException {
     try {
+      ListChangeComments listComments = listCommentsProvider.get();
+      listComments.setContext(false);
       return listComments.apply(change).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get comments", e);
@@ -610,6 +612,30 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public List<CommentInfo> commentsAsList() throws RestApiException {
     try {
+      ListChangeComments listComments = listCommentsProvider.get();
+      listComments.setContext(false);
+      return listComments.getComments(change);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get comments", e);
+    }
+  }
+
+  @Override
+  public Map<String, List<CommentInfo>> comments(boolean enableContext) throws RestApiException {
+    try {
+      ListChangeComments listComments = listCommentsProvider.get();
+      listComments.setContext(enableContext);
+      return listComments.apply(change).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get comments", e);
+    }
+  }
+
+  @Override
+  public List<CommentInfo> commentsAsList(boolean enableContext) throws RestApiException {
+    try {
+      ListChangeComments listComments = listCommentsProvider.get();
+      listComments.setContext(enableContext);
       return listComments.getComments(change);
     } catch (Exception e) {
       throw asRestApiException("Cannot get comments", e);

@@ -14,16 +14,19 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static java.util.stream.Collectors.toList;
-
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.CommentContextUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -31,26 +34,47 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.kohsuke.args4j.Option;
 
 @Singleton
 public class ListChangeComments implements RestReadView<ChangeResource> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final ChangeMessagesUtil changeMessagesUtil;
   private final ChangeData.Factory changeDataFactory;
   private final Provider<CommentJson> commentJson;
   private final CommentsUtil commentsUtil;
+  private final CommentContextUtil commentContextUtil;
+
+  private boolean includeContext;
+
+  /**
+   * Optional parameter. If set, the comments of the response will contain context lines of the
+   * source code around and including the line/range where the comment was written.
+   *
+   * @param context If true, comment context will be attached to the response
+   */
+  @Option(name = "--enable-context")
+  public void setContext(boolean context) {
+    this.includeContext = context;
+  }
 
   @Inject
   ListChangeComments(
       ChangeData.Factory changeDataFactory,
       Provider<CommentJson> commentJson,
       CommentsUtil commentsUtil,
-      ChangeMessagesUtil changeMessagesUtil) {
+      ChangeMessagesUtil changeMessagesUtil,
+      CommentContextUtil commentContextUtil) {
     this.changeDataFactory = changeDataFactory;
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
     this.changeMessagesUtil = changeMessagesUtil;
+    this.commentContextUtil = commentContextUtil;
   }
 
   @Override
@@ -71,19 +95,47 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
   private ImmutableList<CommentInfo> getAsList(Iterable<HumanComment> comments, ChangeResource rsrc)
       throws PermissionBackendException {
     ImmutableList<CommentInfo> commentInfos = getCommentFormatter().formatAsList(comments);
-    List<ChangeMessage> changeMessages = changeMessagesUtil.byChange(rsrc.getNotes());
-    CommentsUtil.linkCommentsToChangeMessages(commentInfos, changeMessages, true);
+    ImmutableMap.Builder<CommentInfo, String> commentPaths = ImmutableMap.builder();
+    commentInfos.forEach(c -> commentPaths.put(c, c.path));
+    enrichCommentInfos(commentPaths.build(), rsrc);
     return commentInfos;
   }
 
   private Map<String, List<CommentInfo>> getAsMap(
       Iterable<HumanComment> comments, ChangeResource rsrc) throws PermissionBackendException {
     Map<String, List<CommentInfo>> commentInfosMap = getCommentFormatter().format(comments);
-    List<CommentInfo> commentInfos =
-        commentInfosMap.values().stream().flatMap(List::stream).collect(toList());
-    List<ChangeMessage> changeMessages = changeMessagesUtil.byChange(rsrc.getNotes());
-    CommentsUtil.linkCommentsToChangeMessages(commentInfos, changeMessages, true);
+    ImmutableMap.Builder<CommentInfo, String> commentPaths = ImmutableMap.builder();
+    commentInfosMap.forEach(
+        (String path, List<CommentInfo> cs) -> {
+          cs.stream().forEach(c -> commentPaths.put(c, path));
+        });
+    enrichCommentInfos(commentPaths.build(), rsrc);
     return commentInfosMap;
+  }
+
+  /**
+   * Append extra fields to the comment infos. This method adds the change message ID and the
+   * comment context to all comments.
+   *
+   * @param commentPaths an {@link ImmutableMap} of commentInfos to their paths
+   * @param rsrc the change resource
+   */
+  private void enrichCommentInfos(
+      ImmutableMap<CommentInfo, String> commentPaths, ChangeResource rsrc) {
+    List<ChangeMessage> changeMessages = changeMessagesUtil.byChange(rsrc.getNotes());
+    List<CommentInfo> commentInfos = new ArrayList<>(commentPaths.keySet());
+    CommentsUtil.linkCommentsToChangeMessages(commentInfos, changeMessages, true);
+    if (includeContext) {
+      for (Map.Entry<CommentInfo, String> entry : commentPaths.entrySet()) {
+        CommentInfo commentInfo = entry.getKey();
+        String path = entry.getValue();
+        try {
+          commentContextUtil.attachContextToComment(commentInfo, path, rsrc.getProject());
+        } catch (IOException | BadRequestException | ResourceNotFoundException e) {
+          logger.atWarning().log("Failed to retrieve context for comment " + commentInfo.id);
+        }
+      }
+    }
   }
 
   private CommentJson.HumanCommentFormatter getCommentFormatter() {

@@ -15,8 +15,7 @@
  * limitations under the License.
  */
 
-import {getBaseUrl} from '../../utils/url-util.js';
-import {URLEncodingBehavior} from '../gr-url-encoding-behavior/gr-url-encoding-behavior.js';
+import {encodeURL, getBaseUrl} from '../../utils/url-util.js';
 
 /** @polymerBehavior ListViewBehavior */
 export const ListViewBehavior = [{
@@ -29,7 +28,7 @@ export const ListViewBehavior = [{
   },
 
   getUrl(path, item) {
-    return getBaseUrl() + path + this.encodeURL(item, true);
+    return getBaseUrl() + path + encodeURL(item, true);
   },
 
   /**
@@ -52,7 +51,6 @@ export const ListViewBehavior = [{
     return 0;
   },
 },
-URLEncodingBehavior,
 ];
 
 // eslint-disable-next-line no-unused-vars

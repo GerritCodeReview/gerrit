@@ -18,23 +18,19 @@ import '@polymer/iron-input/iron-input.js';
 import '../../../styles/gr-form-styles.js';
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-create-group-dialog_html.js';
-import {getBaseUrl} from '../../../utils/url-util.js';
-import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
+import {encodeURL, getBaseUrl} from '../../../utils/url-util.js';
 import page from 'page/page.mjs';
 
 /**
  * @extends PolymerElement
  */
-class GrCreateGroupDialog extends mixinBehaviors( [
-  URLEncodingBehavior,
-], GestureEventListeners(
+class GrCreateGroupDialog extends GestureEventListeners(
     LegacyElementMixin(
-        PolymerElement))) {
+        PolymerElement)) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-create-group-dialog'; }
@@ -62,8 +58,7 @@ class GrCreateGroupDialog extends mixinBehaviors( [
   }
 
   _computeGroupUrl(groupId) {
-    return getBaseUrl() + '/admin/groups/' +
-        this.encodeURL(groupId, true);
+    return getBaseUrl() + '/admin/groups/' + encodeURL(groupId, true);
   }
 
   _updateGroupName(name) {

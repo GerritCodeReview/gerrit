@@ -28,10 +28,10 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-editor-view_html.js';
-import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
+import {computeTruncatedPath} from '../../../utils/path-list-util.js';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const SAVING_MESSAGE = 'Saving changes...';
@@ -45,7 +45,6 @@ const STORAGE_DEBOUNCE_INTERVAL_MS = 100;
  */
 class GrEditorView extends mixinBehaviors( [
   KeyboardShortcutBehavior,
-  PathListBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {
@@ -145,7 +144,7 @@ class GrEditorView extends mixinBehaviors( [
     // null). Fire title-change in an async so that, if attachment to the DOM
     // has been queued, the event can bubble up to the handler in gr-app.
     this.async(() => {
-      const title = `Editing ${this.computeTruncatedPath(this._path)}`;
+      const title = `Editing ${computeTruncatedPath(this._path)}`;
       this.dispatchEvent(new CustomEvent('title-change', {
         detail: {title},
         composed: true, bubbles: true,

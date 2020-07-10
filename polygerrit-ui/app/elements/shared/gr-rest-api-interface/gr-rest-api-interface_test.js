@@ -256,59 +256,6 @@ suite('gr-rest-api-interface tests', () => {
         });
   });
 
-  test('special file path sorting', () => {
-    assert.deepEqual(
-        ['.b', '/COMMIT_MSG', '.a', 'file'].sort(
-            element.specialFilePathCompare),
-        ['/COMMIT_MSG', '.a', '.b', 'file']);
-
-    assert.deepEqual(
-        ['.b', '/COMMIT_MSG', 'foo/bar/baz.cc', 'foo/bar/baz.h'].sort(
-            element.specialFilePathCompare),
-        ['/COMMIT_MSG', '.b', 'foo/bar/baz.h', 'foo/bar/baz.cc']);
-
-    assert.deepEqual(
-        ['.b', '/COMMIT_MSG', 'foo/bar/baz.cc', 'foo/bar/baz.hpp'].sort(
-            element.specialFilePathCompare),
-        ['/COMMIT_MSG', '.b', 'foo/bar/baz.hpp', 'foo/bar/baz.cc']);
-
-    assert.deepEqual(
-        ['.b', '/COMMIT_MSG', 'foo/bar/baz.cc', 'foo/bar/baz.hxx'].sort(
-            element.specialFilePathCompare),
-        ['/COMMIT_MSG', '.b', 'foo/bar/baz.hxx', 'foo/bar/baz.cc']);
-
-    assert.deepEqual(
-        ['foo/bar.h', 'foo/bar.hxx', 'foo/bar.hpp'].sort(
-            element.specialFilePathCompare),
-        ['foo/bar.h', 'foo/bar.hpp', 'foo/bar.hxx']);
-
-    // Regression test for Issue 4448.
-    assert.deepEqual(
-        [
-          'minidump/minidump_memory_writer.cc',
-          'minidump/minidump_memory_writer.h',
-          'minidump/minidump_thread_writer.cc',
-          'minidump/minidump_thread_writer.h',
-        ].sort(element.specialFilePathCompare),
-        [
-          'minidump/minidump_memory_writer.h',
-          'minidump/minidump_memory_writer.cc',
-          'minidump/minidump_thread_writer.h',
-          'minidump/minidump_thread_writer.cc',
-        ]);
-
-    // Regression test for Issue 4545.
-    assert.deepEqual(
-        [
-          'task_test.go',
-          'task.go',
-        ].sort(element.specialFilePathCompare),
-        [
-          'task.go',
-          'task_test.go',
-        ]);
-  });
-
   test('server error', done => {
     const getResponseObjectStub = sinon.stub(element, 'getResponseObject');
     window.fetch.returns(Promise.resolve({ok: false}));

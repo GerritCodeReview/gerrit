@@ -32,13 +32,13 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-list-item_html.js';
 import {ChangeTableMixin} from '../../../mixins/gr-change-table-mixin/gr-change-table-mixin.js';
-import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {getDisplayName} from '../../../utils/display-name-util.js';
 import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {appContext} from '../../../services/app-context.js';
+import {truncatePath} from '../../../utils/path-list-util.js';
 
 const CHANGE_SIZE = {
   XS: 10,
@@ -55,7 +55,6 @@ const PRIMARY_REVIEWERS_COUNT = 2;
  * @extends PolymerElement
  */
 class GrChangeListItem extends ChangeTableMixin(mixinBehaviors( [
-  PathListBehavior,
   RESTClientBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
@@ -207,7 +206,7 @@ class GrChangeListItem extends ChangeTableMixin(mixinBehaviors( [
     if (!change || !change.project) { return ''; }
     let str = '';
     if (change.internalHost) { str += change.internalHost + '/'; }
-    str += truncate ? this.truncatePath(change.project, 2) : change.project;
+    str += truncate ? truncatePath(change.project, 2) : change.project;
     return str;
   }
 

@@ -20,13 +20,12 @@ import '../../../styles/shared-styles.js';
 import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-select/gr-select.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-rule-editor_html.js';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util.js';
-import {AccessBehavior} from '../../../behaviors/gr-access-behavior/gr-access-behavior.js';
+import {AccessPermissions} from '../../../utils/access-util.js';
 
 /**
  * Fired when the rule has been modified or removed.
@@ -78,11 +77,9 @@ const FORCE_EDIT_OPTIONS = [
 /**
  * @extends PolymerElement
  */
-class GrRuleEditor extends mixinBehaviors( [
-  AccessBehavior,
-], GestureEventListeners(
+class GrRuleEditor extends GestureEventListeners(
     LegacyElementMixin(
-        PolymerElement))) {
+        PolymerElement)) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-rule-editor'; }
@@ -156,12 +153,12 @@ class GrRuleEditor extends mixinBehaviors( [
   }
 
   _computeForce(permission, action) {
-    if (this.permissionValues.push.id === permission &&
+    if (AccessPermissions.push.id === permission &&
         action !== Action.DENY) {
       return true;
     }
 
-    return this.permissionValues.editTopicName.id === permission;
+    return AccessPermissions.editTopicName.id === permission;
   }
 
   _computeForceClass(permission, action) {
@@ -199,7 +196,7 @@ class GrRuleEditor extends mixinBehaviors( [
   }
 
   _computeForceOptions(permission, action) {
-    if (permission === this.permissionValues.push.id) {
+    if (permission === AccessPermissions.push.id) {
       if (action === Action.ALLOW) {
         return ForcePushOptions.ALLOW;
       } else if (action === Action.BLOCK) {
@@ -207,7 +204,7 @@ class GrRuleEditor extends mixinBehaviors( [
       } else {
         return [];
       }
-    } else if (permission === this.permissionValues.editTopicName.id) {
+    } else if (permission === AccessPermissions.editTopicName.id) {
       return FORCE_EDIT_OPTIONS;
     }
     return [];

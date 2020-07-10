@@ -114,7 +114,7 @@ export const htmlTemplate = html`
       <div class="sectionContent">
         <template is="dom-repeat" items="{{_permissions}}" as="permission">
           <gr-permission
-            name="[[_computePermissionName(section.id, permission, permissionValues, capabilities)]]"
+            name="[[_computePermissionName(section.id, permission, capabilities)]]"
             permission="{{permission}}"
             labels="[[labels]]"
             section="[[section.id]]"

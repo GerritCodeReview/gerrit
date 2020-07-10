@@ -339,6 +339,26 @@ public interface ChangeApi {
   List<CommentInfo> commentsAsList() throws RestApiException;
 
   /**
+   * Get all published comments on a change. If the context parameter is enabled, the context lines
+   * will be added as a field to the output.
+   *
+   * @return comments in a map keyed by path; comments have the {@code revision} field set to
+   *     indicate their patch set.
+   * @throws RestApiException
+   */
+  Map<String, List<CommentInfo>> comments(boolean enableContext) throws RestApiException;
+
+  /**
+   * Get all published comments on a change as a list. If the context parameter is enabled, the
+   * context lines will be added as a field to the output.
+   *
+   * @return comments as a list; comments have the {@code revision} field set to indicate their
+   *     patch set.
+   * @throws RestApiException
+   */
+  List<CommentInfo> commentsAsList(boolean enableContext) throws RestApiException;
+
+  /**
    * Get all robot comments on a change.
    *
    * @return robot comments in a map keyed by path; robot comments have the {@code revision} field
@@ -609,6 +629,16 @@ public interface ChangeApi {
 
     @Override
     public List<CommentInfo> commentsAsList() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Map<String, List<CommentInfo>> comments(boolean enableContext) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<CommentInfo> commentsAsList(boolean enableContext) throws RestApiException {
       throw new NotImplementedException();
     }
 

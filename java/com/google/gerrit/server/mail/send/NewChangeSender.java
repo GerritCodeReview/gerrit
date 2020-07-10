@@ -102,9 +102,4 @@ public abstract class NewChangeSender extends ChangeEmail {
     soyContext.put("ownerName", getNameFor(change.getOwner()));
     soyContextEmailData.put("reviewerNames", getReviewerNames());
   }
-
-  @Override
-  protected boolean supportsHtml() {
-    return true;
-  }
 }

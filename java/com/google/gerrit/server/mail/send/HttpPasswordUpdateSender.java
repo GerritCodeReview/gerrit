@@ -76,11 +76,6 @@ public class HttpPasswordUpdateSender extends OutgoingEmail {
     soyContextEmailData.put("operation", operation);
   }
 
-  @Override
-  protected boolean supportsHtml() {
-    return true;
-  }
-
   private String getEmail() {
     return user.getAccount().preferredEmail();
   }

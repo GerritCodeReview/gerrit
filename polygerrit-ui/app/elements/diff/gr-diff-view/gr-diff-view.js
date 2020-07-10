@@ -38,7 +38,6 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-diff-view_html.js';
-import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
@@ -51,6 +50,10 @@ import {
   patchNumEquals,
   SPECIAL_PATCH_SET_NUM,
 } from '../../../utils/patch-set-util.js';
+import {
+  addUnmodifiedFiles, computeDisplayPath, computeTruncatedPath,
+  isMagicPath, specialFilePathCompare,
+} from '../../../utils/path-list-util.js';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -73,7 +76,6 @@ const DiffViewMode = {
  */
 class GrDiffView extends mixinBehaviors( [
   KeyboardShortcutBehavior,
-  PathListBehavior,
   RESTClientBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
@@ -394,9 +396,9 @@ class GrDiffView extends mixinBehaviors( [
       if (!changeFiles) return;
       const commentedPaths = changeComments.getPaths(patchRange);
       const files = Object.assign({}, changeFiles);
-      this.addUnmodifiedFiles(files, commentedPaths);
+      addUnmodifiedFiles(files, commentedPaths);
       this._files = {
-        sortedFileList: Object.keys(files).sort(this.specialFilePathCompare),
+        sortedFileList: Object.keys(files).sort(specialFilePathCompare),
         changeFilesByPath: files,
       };
     });
@@ -768,7 +770,7 @@ class GrDiffView extends mixinBehaviors( [
     // has been queued, the event can bubble up to the handler in gr-app.
     this.async(() => {
       this.dispatchEvent(new CustomEvent('title-change', {
-        detail: {title: this.computeTruncatedPath(this._path)},
+        detail: {title: computeTruncatedPath(this._path)},
         composed: true, bubbles: true,
       }));
     });
@@ -900,7 +902,7 @@ class GrDiffView extends mixinBehaviors( [
   _pathChanged(path) {
     if (path) {
       this.dispatchEvent(new CustomEvent('title-change', {
-        detail: {title: this.computeTruncatedPath(path)},
+        detail: {title: computeTruncatedPath(path)},
         composed: true, bubbles: true,
       }));
     }
@@ -984,8 +986,8 @@ class GrDiffView extends mixinBehaviors( [
     const dropdownContent = [];
     for (const path of files.sortedFileList) {
       dropdownContent.push({
-        text: this.computeDisplayPath(path),
-        mobileText: this.computeTruncatedPath(path),
+        text: computeDisplayPath(path),
+        mobileText: computeTruncatedPath(path),
         value: path,
         bottomText: this._computeCommentString(changeComments, patchNum,
             path, files.changeFilesByPath[path]),
@@ -1385,7 +1387,7 @@ class GrDiffView extends mixinBehaviors( [
   }
 
   _computeBlameLoaderClass(isImageDiff, path) {
-    return !this.isMagicPath(path) && !isImageDiff ? 'show' : '';
+    return !isMagicPath(path) && !isImageDiff ? 'show' : '';
   }
 
   _getRevisionInfo(change) {
@@ -1454,6 +1456,13 @@ class GrDiffView extends mixinBehaviors( [
    */
   _computeAllPatchSets(change) {
     return computeAllPatchSets(change);
+  }
+
+  /**
+   * Wrapper for using in the element template and computed properties
+   */
+  _computeDisplayPath(path) {
+    return computeDisplayPath(path);
   }
 }
 

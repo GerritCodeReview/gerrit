@@ -409,16 +409,16 @@ export const htmlTemplate = html`
               href$="[[_computeDiffURL(change, patchRange, file.__path, editMode)]]"
             >
               <span
-                title$="[[computeDisplayPath(file.__path)]]"
+                title$="[[_computeDisplayPath(file.__path)]]"
                 class="fullFileName"
               >
-                [[computeDisplayPath(file.__path)]]
+                [[_computeDisplayPath(file.__path)]]
               </span>
               <span
-                title$="[[computeDisplayPath(file.__path)]]"
+                title$="[[_computeDisplayPath(file.__path)]]"
                 class="truncatedFileName"
               >
-                [[computeTruncatedPath(file.__path)]]
+                [[_computeTruncatedPath(file.__path)]]
               </span>
               <span
                 class$="[[_computeStatusClass(file)]]"

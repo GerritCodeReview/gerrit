@@ -131,9 +131,4 @@ public class MergedSender extends ReplyToChangeSender {
     super.setupSoyContext();
     soyContextEmailData.put("approvals", getApprovals());
   }
-
-  @Override
-  protected boolean supportsHtml() {
-    return true;
-  }
 }

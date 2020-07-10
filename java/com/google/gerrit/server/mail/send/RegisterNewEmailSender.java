@@ -82,9 +82,4 @@ public class RegisterNewEmailSender extends OutgoingEmail {
     }
     return emailToken;
   }
-
-  @Override
-  protected boolean supportsHtml() {
-    return true;
-  }
 }

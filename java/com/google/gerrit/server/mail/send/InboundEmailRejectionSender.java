@@ -90,9 +90,4 @@ public class InboundEmailRejectionSender extends OutgoingEmail {
     super.setupSoyContext();
     footers.add(MailHeader.MESSAGE_TYPE.withDelimiter() + messageClass);
   }
-
-  @Override
-  protected boolean supportsHtml() {
-    return true;
-  }
 }

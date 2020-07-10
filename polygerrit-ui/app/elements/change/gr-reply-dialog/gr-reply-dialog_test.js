@@ -21,6 +21,7 @@ import './gr-reply-dialog.js';
 import {mockPromise} from '../../../test/test-utils.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
 import {appContext} from '../../../services/app-context.js';
+import {patchSetUtilMockProxy} from '../../../utils/patch-set-util.js';
 
 const basicFixture = fixtureFromElement('gr-reply-dialog');
 
@@ -115,7 +116,7 @@ suite('gr-reply-dialog tests', () => {
     eraseDraftCommentStub = sinon.stub(element.$.storage,
         'eraseDraftComment');
 
-    sinon.stub(element, 'fetchChangeUpdates')
+    sinon.stub(patchSetUtilMockProxy, 'fetchChangeUpdates')
         .returns(Promise.resolve({isLatest: true}));
 
     // Allow the elements created by dom-repeat to be stamped.

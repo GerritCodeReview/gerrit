@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-access-section.js';
+import {AccessPermissions, toSortedPermissionsArray} from '../../../utils/access-util.js';
 
 const fixture = fixtureFromElement('gr-access-section');
 
@@ -117,20 +118,14 @@ suite('gr-access-section tests', () => {
     });
 
     test('_computePermissions', () => {
-      sinon.stub(element, 'toSortedArray').returns(
-          [{
-            id: 'push',
-            value: {
-              rules: {},
-            },
-          },
-          {
-            id: 'read',
-            value: {
-              rules: {},
-            },
-          },
-          ]);
+      const capabilities = {
+        push: {
+          rules: {},
+        },
+        read: {
+          rules: {},
+        },
+      };
 
       const expectedPermissions = [{
         id: 'push',
@@ -159,22 +154,16 @@ suite('gr-access-section tests', () => {
       // For global capabilities, just return the sorted array filtered by
       // existing permissions.
       let name = 'GLOBAL_CAPABILITIES';
-      assert.deepEqual(element._computePermissions(name, element.capabilities,
+      assert.deepEqual(element._computePermissions(name, capabilities,
           element.labels), expectedPermissions);
-
-      // Uses the capabilities array to come up with possible values.
-      assert.isTrue(element.toSortedArray.lastCall.
-          calledWithExactly(element.capabilities));
 
       // For everything else, include possible label values before filtering.
       name = 'refs/for/*';
-      assert.deepEqual(element._computePermissions(name, element.capabilities,
-          element.labels), labelOptions.concat(expectedPermissions));
-
-      // Uses permissionValues (defined in gr-access-behavior) to come up with
-      // possible values.
-      assert.isTrue(element.toSortedArray.lastCall.
-          calledWithExactly(element.permissionValues));
+      assert.deepEqual(
+          element._computePermissions(name, capabilities, element.labels),
+          labelOptions
+              .concat(toSortedPermissionsArray(AccessPermissions))
+              .filter(permission => permission.id !== 'read'));
     });
 
     test('_computePermissionName', () => {
@@ -184,7 +173,7 @@ suite('gr-access-section tests', () => {
         value: {},
       };
       assert.equal(element._computePermissionName(name, permission,
-          element.permissionValues, element.capabilities),
+          element.capabilities),
       element.capabilities[permission.id].name);
 
       name = 'refs/for/*';
@@ -194,8 +183,8 @@ suite('gr-access-section tests', () => {
       };
 
       assert.equal(element._computePermissionName(
-          name, permission, element.permissionValues, element.capabilities),
-      element.permissionValues[permission.id].name);
+          name, permission, element.capabilities),
+      AccessPermissions[permission.id].name);
 
       name = 'refs/for/*';
       permission = {
@@ -206,7 +195,7 @@ suite('gr-access-section tests', () => {
       };
 
       assert.equal(element._computePermissionName(name, permission,
-          element.permissionValues, element.capabilities),
+          element.capabilities),
       'Label Code-Review');
 
       permission = {
@@ -217,7 +206,7 @@ suite('gr-access-section tests', () => {
       };
 
       assert.equal(element._computePermissionName(name, permission,
-          element.permissionValues, element.capabilities),
+          element.capabilities),
       'Label Code-Review(On Behalf Of)');
     });
 

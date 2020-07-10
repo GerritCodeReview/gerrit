@@ -16,7 +16,12 @@
  */
 
 import '../test/common-test-setup-karma.js';
-import {getBaseUrl, getDocsBaseUrl, _testOnly_clearDocsBaseUrlCache} from './url-util.js';
+import {
+  getBaseUrl,
+  getDocsBaseUrl,
+  _testOnly_clearDocsBaseUrlCache,
+  encodeURL, singleDecodeURL,
+} from './url-util.js';
 
 suite('url-util tests', () => {
   suite('getBaseUrl tests', () => {
@@ -80,6 +85,43 @@ suite('url-util tests', () => {
       assert.isTrue(
           mockRestApi.probePath.calledWith('/Documentation/index.html'));
       assert.isNotOk(docsBaseUrl);
+    });
+  });
+
+  suite('url encoding and decoding tests', () => {
+    suite('encodeURL', () => {
+      test('double encodes', () => {
+        assert.equal(encodeURL('abc?123'), 'abc%253F123');
+        assert.equal(encodeURL('def/ghi'), 'def%252Fghi');
+        assert.equal(encodeURL('jkl'), 'jkl');
+        assert.equal(encodeURL(''), '');
+      });
+
+      test('does not convert colons', () => {
+        assert.equal(encodeURL('mno:pqr'), 'mno:pqr');
+      });
+
+      test('converts spaces to +', () => {
+        assert.equal(encodeURL('words with spaces'), 'words+with+spaces');
+      });
+
+      test('does not convert slashes when configured', () => {
+        assert.equal(encodeURL('stu/vwx', true), 'stu/vwx');
+      });
+
+      test('does not convert slashes when configured', () => {
+        assert.equal(encodeURL('stu/vwx', true), 'stu/vwx');
+      });
+    });
+
+    suite('singleDecodeUrl', () => {
+      test('single decodes', () => {
+        assert.equal(singleDecodeURL('abc%3Fdef'), 'abc?def');
+      });
+
+      test('converts + to space', () => {
+        assert.equal(singleDecodeURL('ghi+jkl'), 'ghi jkl');
+      });
     });
   });
 });

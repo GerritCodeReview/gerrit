@@ -21,12 +21,10 @@ import '../gr-change-list/gr-change-list.js';
 import '../gr-repo-header/gr-repo-header.js';
 import '../gr-user-header/gr-user-header.js';
 import '../../../styles/shared-styles.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-list-view_html.js';
-import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import page from 'page/page.mjs';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
@@ -45,11 +43,9 @@ const LIMIT_OPERATOR_PATTERN = /\blimit:(\d+)/i;
 /**
  * @extends PolymerElement
  */
-class GrChangeListView extends mixinBehaviors( [
-  URLEncodingBehavior,
-], GestureEventListeners(
+class GrChangeListView extends GestureEventListeners(
     LegacyElementMixin(
-        PolymerElement))) {
+        PolymerElement)) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-change-list-view'; }

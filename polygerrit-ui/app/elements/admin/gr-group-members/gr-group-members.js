@@ -25,13 +25,11 @@ import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-overlay/gr-overlay.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-group-members_html.js';
 import {getBaseUrl} from '../../../utils/url-util.js';
-import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 
 const SUGGESTIONS_LIMIT = 15;
 const SAVING_ERROR_TEXT = 'Group may not exist, or you may not have '+
@@ -42,11 +40,9 @@ const URL_REGEX = '^(?:[a-z]+:)?//';
 /**
  * @extends PolymerElement
  */
-class GrGroupMembers extends mixinBehaviors( [
-  URLEncodingBehavior,
-], GestureEventListeners(
+class GrGroupMembers extends GestureEventListeners(
     LegacyElementMixin(
-        PolymerElement))) {
+        PolymerElement)) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-group-members'; }

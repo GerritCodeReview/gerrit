@@ -20,7 +20,6 @@ import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GrEtagDecorator} from './gr-etag-decorator.js';
@@ -29,6 +28,12 @@ import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser.js';
 import {parseDate} from '../../../utils/date-util.js';
 import {authService} from './gr-auth.js';
 import {getBaseUrl} from '../../../utils/url-util.js';
+import {
+  getParentIndex,
+  isMergeParent,
+  patchNumEquals,
+  SPECIAL_PATCH_SET_NUM,
+} from '../../../utils/patch-set-util.js';
 
 const DiffViewMode = {
   SIDE_BY_SIDE: 'SIDE_BY_SIDE',
@@ -38,7 +43,6 @@ const JSON_PREFIX = ')]}\'';
 const MAX_PROJECT_RESULTS = 25;
 // This value is somewhat arbitrary and not based on research or calculations.
 const MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX = 850;
-const PARENT_PATCH_NUM = 'PARENT';
 
 const Requests = {
   SEND_DIFF_DRAFT: 'sendDiffDraft',
@@ -89,7 +93,6 @@ export function _testOnlyResetGrRestApiSharedObjects() {
  */
 class GrRestApiInterface extends mixinBehaviors( [
   PathListBehavior,
-  PatchSetBehavior,
   RESTClientBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
@@ -1187,9 +1190,10 @@ class GrRestApiInterface extends mixinBehaviors( [
    */
   getChangeFiles(changeNum, patchRange, opt_parentIndex) {
     let params = undefined;
-    if (this.isMergeParent(patchRange.basePatchNum)) {
-      params = {parent: this.getParentIndex(patchRange.basePatchNum)};
-    } else if (!this.patchNumEquals(patchRange.basePatchNum, 'PARENT')) {
+    if (isMergeParent(patchRange.basePatchNum)) {
+      params = {parent: getParentIndex(patchRange.basePatchNum)};
+    } else if (!patchNumEquals(patchRange.basePatchNum,
+        SPECIAL_PATCH_SET_NUM.PARENT)) {
       params = {base: patchRange.basePatchNum};
     }
     return this._getChangeURLAndFetch({
@@ -1240,7 +1244,7 @@ class GrRestApiInterface extends mixinBehaviors( [
    * @return {!Promise<!Array<!Object>>}
    */
   getChangeOrEditFiles(changeNum, patchRange) {
-    if (this.patchNumEquals(patchRange.patchNum, this.EDIT_NAME)) {
+    if (patchNumEquals(patchRange.patchNum, SPECIAL_PATCH_SET_NUM.EDIT)) {
       return this.getChangeEditFiles(changeNum, patchRange).then(res =>
         res.files);
     }
@@ -1779,7 +1783,7 @@ class GrRestApiInterface extends mixinBehaviors( [
       }
       return res;
     };
-    const promise = this.patchNumEquals(patchNum, this.EDIT_NAME) ?
+    const promise = patchNumEquals(patchNum, SPECIAL_PATCH_SET_NUM.EDIT) ?
       this._getFileInChangeEdit(changeNum, path) :
       this._getFileInRevision(changeNum, path, patchNum, suppress404s);
 
@@ -2027,9 +2031,9 @@ class GrRestApiInterface extends mixinBehaviors( [
       intraline: null,
       whitespace: opt_whitespace || 'IGNORE_NONE',
     };
-    if (this.isMergeParent(basePatchNum)) {
-      params.parent = this.getParentIndex(basePatchNum);
-    } else if (!this.patchNumEquals(basePatchNum, PARENT_PATCH_NUM)) {
+    if (isMergeParent(basePatchNum)) {
+      params.parent = getParentIndex(basePatchNum);
+    } else if (!patchNumEquals(basePatchNum, SPECIAL_PATCH_SET_NUM.PARENT)) {
       params.base = basePatchNum;
     }
     const endpoint = `/files/${encodeURIComponent(path)}/diff`;
@@ -2043,7 +2047,7 @@ class GrRestApiInterface extends mixinBehaviors( [
     };
 
     // Invalidate the cache if its edit patch to make sure we always get latest.
-    if (patchNum === this.EDIT_NAME) {
+    if (patchNum === SPECIAL_PATCH_SET_NUM.EDIT) {
       if (!req.fetchOptions) req.fetchOptions = {};
       if (!req.fetchOptions.headers) req.fetchOptions.headers = new Headers();
       req.fetchOptions.headers.append('Cache-Control', 'no-cache');
@@ -2148,8 +2152,8 @@ class GrRestApiInterface extends mixinBehaviors( [
     if (!opt_basePatchNum && !opt_patchNum && !opt_path) {
       return fetchComments();
     }
-    function onlyParent(c) { return c.side == PARENT_PATCH_NUM; }
-    function withoutParent(c) { return c.side != PARENT_PATCH_NUM; }
+    function onlyParent(c) { return c.side == SPECIAL_PATCH_SET_NUM.PARENT; }
+    function withoutParent(c) { return c.side != SPECIAL_PATCH_SET_NUM.PARENT; }
     function setPath(c) { c.path = opt_path; }
 
     const promises = [];
@@ -2164,7 +2168,7 @@ class GrRestApiInterface extends mixinBehaviors( [
       // in a single pass.
       comments = this._setRanges(comments);
 
-      if (opt_basePatchNum == PARENT_PATCH_NUM) {
+      if (opt_basePatchNum == SPECIAL_PATCH_SET_NUM.PARENT) {
         baseComments = comments.filter(onlyParent);
         baseComments.forEach(setPath);
       }
@@ -2174,7 +2178,7 @@ class GrRestApiInterface extends mixinBehaviors( [
     });
     promises.push(fetchPromise);
 
-    if (opt_basePatchNum != PARENT_PATCH_NUM) {
+    if (opt_basePatchNum != SPECIAL_PATCH_SET_NUM.PARENT) {
       fetchPromise = fetchComments(opt_basePatchNum).then(response => {
         baseComments = (response[opt_path] || [])
             .filter(withoutParent);

@@ -23,14 +23,17 @@ import '../gr-syntax-themes/gr-syntax-theme.js';
 import '../gr-ranged-comment-themes/gr-ranged-comment-theme.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {htmlTemplate} from './gr-diff_html.js';
-import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {GrDiffLine} from './gr-diff-line.js';
 import {DiffSide, rangesEqual} from './gr-diff-utils.js';
 import {getHiddenScroll} from '../../../scripts/hiddenscroll.js';
+import {
+  isMergeParent,
+  patchNumEquals,
+  SPECIAL_PATCH_SET_NUM,
+} from '../../../utils/patch-set-util.js';
 
 const ERR_COMMENT_ON_EDIT = 'You cannot comment on an edit.';
 const ERR_COMMENT_ON_EDIT_BASE = 'You cannot comment on the base patch set ' +
@@ -69,11 +72,9 @@ const RENDER_DIFF_TABLE_DEBOUNCE_NAME = 'renderDiffTable';
 /**
  * @extends PolymerElement
  */
-class GrDiff extends mixinBehaviors( [
-  PatchSetBehavior,
-], GestureEventListeners(
+class GrDiff extends GestureEventListeners(
     LegacyElementMixin(
-        PolymerElement))) {
+        PolymerElement)) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-diff'; }
@@ -566,9 +567,9 @@ class GrDiff extends mixinBehaviors( [
       this.patchRange.basePatchNum :
       this.patchRange.patchNum;
 
-    const isEdit = this.patchNumEquals(patchNum, this.EDIT_NAME);
-    const isEditBase = this.patchNumEquals(patchNum, this.PARENT_NAME) &&
-        this.patchNumEquals(this.patchRange.patchNum, this.EDIT_NAME);
+    const isEdit = patchNumEquals(patchNum, SPECIAL_PATCH_SET_NUM.EDIT);
+    const isEditBase = patchNumEquals(patchNum, SPECIAL_PATCH_SET_NUM.PARENT) &&
+        patchNumEquals(this.patchRange.patchNum, SPECIAL_PATCH_SET_NUM.EDIT);
 
     if (isEdit) {
       this.dispatchEvent(new CustomEvent('show-alert', {
@@ -657,7 +658,7 @@ class GrDiff extends mixinBehaviors( [
     if ((lineEl.classList.contains(DiffSide.LEFT) ||
         contentEl.classList.contains('remove')) &&
         this.patchRange.basePatchNum !== 'PARENT' &&
-        !this.isMergeParent(this.patchRange.basePatchNum)) {
+        !isMergeParent(this.patchRange.basePatchNum)) {
       patchNum = this.patchRange.basePatchNum;
     }
     return patchNum;
@@ -668,7 +669,7 @@ class GrDiff extends mixinBehaviors( [
     return (lineEl.classList.contains(DiffSide.LEFT) ||
         contentEl.classList.contains('remove')) &&
         (this.patchRange.basePatchNum === 'PARENT' ||
-            this.isMergeParent(this.patchRange.basePatchNum));
+            isMergeParent(this.patchRange.basePatchNum));
   }
 
   /** @return {string} */

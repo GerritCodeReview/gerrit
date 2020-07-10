@@ -30,6 +30,7 @@ import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr
 
 import 'lodash/lodash.js';
 import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
+import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 const fixture = fixtureFromElement('gr-change-view');
@@ -1516,7 +1517,7 @@ suite('gr-change-view tests', () => {
       assert.equal(Object.keys(revs).length, 2);
       assert.deepEqual(revs['foo'], {commit: {commit: 'foo'}});
       assert.deepEqual(revs['bar'], {
-        _number: element.EDIT_NAME,
+        _number: SPECIAL_PATCH_SET_NUM.EDIT,
         basePatchNum: 1,
         commit: {commit: 'bar'},
         fetch: undefined,
@@ -2053,7 +2054,7 @@ suite('gr-change-view tests', () => {
     };
     element._processEdit(mockChange = _.cloneDeep(change), edit);
     assert.notDeepEqual(mockChange, change);
-    assert.equal(mockChange.revisions.bar._number, element.EDIT_NAME);
+    assert.equal(mockChange.revisions.bar._number, SPECIAL_PATCH_SET_NUM.EDIT);
     assert.equal(mockChange.current_revision, change.current_revision);
     assert.deepEqual(mockChange.revisions.bar.commit, {commit: 'bar'});
     assert.notOk(mockChange.revisions.bar.actions);
@@ -2217,11 +2218,12 @@ suite('gr-change-view tests', () => {
     test('edit exists in revisions', done => {
       sinon.stub(GerritNav, 'navigateToChange').callsFake((...args) => {
         assert.equal(args.length, 2);
-        assert.equal(args[1], element.EDIT_NAME); // patchNum
+        assert.equal(args[1], SPECIAL_PATCH_SET_NUM.EDIT); // patchNum
         done();
       });
 
-      element.set('_change.revisions.rev2', {_number: element.EDIT_NAME});
+      element.set('_change.revisions.rev2',
+          {_number: SPECIAL_PATCH_SET_NUM.EDIT});
       flushAsynchronousOperations();
 
       fireEdit();

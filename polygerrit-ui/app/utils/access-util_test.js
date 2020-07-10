@@ -15,28 +15,11 @@
  * limitations under the License.
  */
 
-import '../../test/common-test-setup-karma.js';
-import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
-import {AccessBehavior} from './gr-access-behavior.js';
-
-const basicFixture = fixtureFromElement('gr-access-behavior-test-element');
+import '../test/common-test-setup-karma.js';
+import {toSortedPermissionsArray} from './access-util.js';
 
 suite('gr-access-behavior tests', () => {
-  let element;
-
-  suiteSetup(() => {
-    // Define a Polymer element that uses this behavior.
-    Polymer({
-      is: 'gr-access-behavior-test-element',
-      behaviors: [AccessBehavior],
-    });
-  });
-
-  setup(() => {
-    element = basicFixture.instantiate();
-  });
-
-  test('toSortedArray', () => {
+  test('toSortedPermissionsArray', () => {
     const rules = {
       'global:Project-Owners': {
         action: 'ALLOW', force: false,
@@ -53,7 +36,7 @@ suite('gr-access-behavior tests', () => {
         action: 'ALLOW', force: false,
       }},
     ];
-    assert.deepEqual(element.toSortedArray(rules), expectedResult);
+    assert.deepEqual(toSortedPermissionsArray(rules), expectedResult);
   });
 });
 

@@ -133,6 +133,7 @@ public class SitePathInitializer {
     extractMailExample("NewChange.soy");
     extractMailExample("NewChangeHtml.soy");
     extractMailExample("RegisterNewEmail.soy");
+    extractMailExample("RegisterNewEmailHtml.soy");
     extractMailExample("ReplacePatchSet.soy");
     extractMailExample("ReplacePatchSetHtml.soy");
     extractMailExample("Restored.soy");

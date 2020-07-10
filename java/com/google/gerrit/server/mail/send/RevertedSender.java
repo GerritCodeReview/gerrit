@@ -50,9 +50,4 @@ public class RevertedSender extends ReplyToChangeSender {
       appendHtml(soyHtmlTemplate("RevertedHtml"));
     }
   }
-
-  @Override
-  protected boolean supportsHtml() {
-    return true;
-  }
 }

@@ -93,9 +93,4 @@ public class DeleteReviewerSender extends ReplyToChangeSender {
     super.setupSoyContext();
     soyContextEmailData.put("reviewerNames", getReviewerNames());
   }
-
-  @Override
-  protected boolean supportsHtml() {
-    return true;
-  }
 }

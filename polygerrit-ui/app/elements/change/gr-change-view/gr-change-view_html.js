@@ -403,11 +403,11 @@ export const htmlTemplate = html`
             change-num="[[_changeNum]]"
             change-status="[[_change.status]]"
             commit-num="[[_commitInfo.commit]]"
-            latest-patch-num="[[computeLatestPatchNum(_allPatchSets)]]"
+            latest-patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
             commit-message="[[_latestCommitMessage]]"
-            edit-patchset-loaded="[[hasEditPatchsetLoaded(_patchRange.*)]]"
+            edit-patchset-loaded="[[_hasEditPatchsetLoaded(_patchRange.*)]]"
             edit-mode="[[_editMode]]"
-            edit-based-on-current-patch-set="[[hasEditBasedOnCurrentPatchSet(_allPatchSets)]]"
+            edit-based-on-current-patch-set="[[_hasEditBasedOnCurrentPatchSet(_allPatchSets)]]"
             private-by-default="[[_projectConfig.private_by_default]]"
             on-reload-change="_handleReloadChange"
             on-edit-tap="_handleEditTap"
@@ -517,7 +517,7 @@ export const htmlTemplate = html`
                 mergeable="[[_mergeable]]"
                 has-parent="{{hasParent}}"
                 on-update="_updateRelatedChangeMaxHeight"
-                patch-num="[[computeLatestPatchNum(_allPatchSets)]]"
+                patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
                 on-new-section-loaded="_computeShowRelatedToggle"
               >
               </gr-related-changes-list>
@@ -756,7 +756,7 @@ export const htmlTemplate = html`
     <gr-reply-dialog
       id="replyDialog"
       change="{{_change}}"
-      patch-num="[[computeLatestPatchNum(_allPatchSets)]]"
+      patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
       permitted-labels="[[_change.permitted_labels]]"
       draft-comment-threads="[[_draftCommentThreads]]"
       project-config="[[_projectConfig]]"

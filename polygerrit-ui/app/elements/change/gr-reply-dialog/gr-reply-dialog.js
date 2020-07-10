@@ -33,7 +33,6 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-reply-dialog_html.js';
-import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GrReviewerSuggestionsProvider, SUGGESTIONS_PROVIDERS_USERS_TYPES} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
@@ -41,6 +40,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {appContext} from '../../../services/app-context.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
 import {ExperimentIds} from '../../../services/flags.js';
+import {fetchChangeUpdates} from '../../../utils/patch-set-util.js';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -82,7 +82,6 @@ const SEND_REPLY_TIMING_LABEL = 'SendReply';
  */
 class GrReplyDialog extends mixinBehaviors( [
   KeyboardShortcutBehavior,
-  PatchSetBehavior,
   RESTClientBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
@@ -346,7 +345,7 @@ class GrReplyDialog extends mixinBehaviors( [
 
   open(opt_focusTarget) {
     this.knownLatestState = LatestPatchState.CHECKING;
-    this.fetchChangeUpdates(this.change, this.$.restAPI)
+    fetchChangeUpdates(this.change, this.$.restAPI)
         .then(result => {
           this.knownLatestState = result.isLatest ?
             LatestPatchState.LATEST : LatestPatchState.NOT_LATEST;

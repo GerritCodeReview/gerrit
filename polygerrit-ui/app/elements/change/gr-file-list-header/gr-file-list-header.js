@@ -31,10 +31,14 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-file-list-header_html.js';
-import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {GrFileListConstants} from '../gr-file-list-constants.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {
+  computeLatestPatchNum,
+  getRevisionByPatchNum,
+  patchNumEquals,
+} from '../../../utils/patch-set-util.js';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -44,7 +48,6 @@ const MERGED_STATUS = 'MERGED';
  * @extends PolymerElement
  */
 class GrFileListHeader extends mixinBehaviors( [
-  PatchSetBehavior,
   KeyboardShortcutBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
@@ -173,7 +176,7 @@ class GrFileListHeader extends mixinBehaviors( [
       return;
     }
 
-    const rev = this.getRevisionByPatchNum(change.revisions, patchNum);
+    const rev = getRevisionByPatchNum(change.revisions, patchNum);
     this._patchsetDescription = (rev && rev.description) ?
       rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
   }
@@ -211,7 +214,7 @@ class GrFileListHeader extends mixinBehaviors( [
   _updateDescription(desc, e) {
     const target = dom(e).rootTarget;
     if (target) { target.disabled = true; }
-    const rev = this.getRevisionByPatchNum(this.change.revisions,
+    const rev = getRevisionByPatchNum(this.change.revisions,
         this.patchNum);
     const sha = this._getPatchsetHash(this.change.revisions, rev);
     return this.$.restAPI.setDescription(this.changeNum, this.patchNum, desc)
@@ -238,8 +241,8 @@ class GrFileListHeader extends mixinBehaviors( [
 
   _handlePatchChange(e) {
     const {basePatchNum, patchNum} = e.detail;
-    if (this.patchNumEquals(basePatchNum, this.basePatchNum) &&
-        this.patchNumEquals(patchNum, this.patchNum)) { return; }
+    if (patchNumEquals(basePatchNum, this.basePatchNum) &&
+        patchNumEquals(patchNum, this.patchNum)) { return; }
     GerritNav.navigateToChange(this.change, patchNum, basePatchNum);
   }
 
@@ -269,8 +272,8 @@ class GrFileListHeader extends mixinBehaviors( [
   }
 
   _computePatchInfoClass(patchNum, allPatchSets) {
-    const latestNum = this.computeLatestPatchNum(allPatchSets);
-    if (this.patchNumEquals(patchNum, latestNum)) {
+    const latestNum = computeLatestPatchNum(allPatchSets);
+    if (patchNumEquals(patchNum, latestNum)) {
       return '';
     }
     return 'patchInfoOldPatchSet';

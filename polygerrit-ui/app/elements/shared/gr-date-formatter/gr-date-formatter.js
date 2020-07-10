@@ -16,12 +16,11 @@
  */
 import '../gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../../styles/shared-styles.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-date-formatter_html.js';
-import {TooltipBehavior} from '../../../behaviors/gr-tooltip-behavior/gr-tooltip-behavior.js';
+import {TooltipMixin} from '../../../mixins/gr-tooltip-mixin/gr-tooltip-mixin.js';
 import {parseDate, fromNow, isValidDate, isWithinDay, isWithinHalfYear, formatDate, utcOffsetString} from '../../../utils/date-util.js';
 
 const TimeFormats = {
@@ -57,11 +56,9 @@ const DateFormats = {
 /**
  * @extends PolymerElement
  */
-class GrDateFormatter extends mixinBehaviors( [
-  TooltipBehavior,
-], GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))) {
+class GrDateFormatter extends TooltipMixin(
+    GestureEventListeners(
+        LegacyElementMixin(PolymerElement))) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-date-formatter'; }

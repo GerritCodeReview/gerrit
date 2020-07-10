@@ -112,6 +112,30 @@
     },
     {
       "key": {
+        "uuid": "ac3cbf9a_06c263ae",
+        "filename": "tools/workspace_status_release.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-10T06:55:19Z",
+      "side": 1,
+      "message": "I prefer KISS. We don\u0027t tag plugins with v2.16.21.42. I prefer simplicity and readability over yet another theoretical tag detection on patch level position, that may or may not be even used in the past and not in the future.\n\nIf you squash this series to one single change apply all my simplification suggestion in all changes in this series that I suggested what wouldn\u0027t work? \n\nAnd even then if you find one single tag that wouldn\u0027t detected, would it even worth to put that complexity and yet another loops over loops to detect that tag in plugin foo? Ans as the last option that plugin foo could implement their own workspace_status_release.py and move that patch level position detection in its own implementation. I would prefer to keep core as simple as possible.",
+      "parentUuid": "dd364152_bbfe2ab6",
+      "range": {
+        "startLine": 69,
+        "startChar": 34,
+        "endLine": 69,
+        "endChar": 49
+      },
+      "revId": "292347a1c2db2f45f9040f930a90856f5e626b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b6ee2964_04275a6f",
         "filename": "tools/workspace_status_release.py",
         "patchSetId": 7

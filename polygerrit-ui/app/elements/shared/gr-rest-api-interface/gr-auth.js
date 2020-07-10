@@ -51,7 +51,10 @@ export class Auth {
       (Date.now() - this._last_auth_check_time > MAX_AUTH_CHECK_WAIT_TIME_MS)
     ) {
       // Refetch after last check expired
-      this._authCheckPromise = fetch(`${this.baseUrl}/auth-check`);
+      this._authCheckPromise = fetch(
+          `${this.baseUrl}/auth-check`,
+          {mode: 'no-cors'}
+      );
       this._last_auth_check_time = Date.now();
     }
 

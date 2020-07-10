@@ -18,14 +18,19 @@ import '../../../styles/shared-styles.js';
 import '../../shared/gr-dropdown-list/gr-dropdown-list.js';
 import '../../shared/gr-select/gr-select.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-patch-range-select_html.js';
-import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
 import {appContext} from '../../../services/app-context.js';
+import {
+  computeLatestPatchNum, findSortedIndex, getParentIndex,
+  getRevisionByPatchNum,
+  isMergeParent,
+  patchNumEquals, sortRevisions,
+  SPECIAL_PATCH_SET_NUM,
+} from '../../../utils/patch-set-util.js';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -39,11 +44,9 @@ const PATCH_DESC_MAX_LENGTH = 500;
  * @property {string} basePatchNum
  * @extends PolymerElement
  */
-class GrPatchRangeSelect extends mixinBehaviors( [
-  PatchSetBehavior,
-], GestureEventListeners(
+class GrPatchRangeSelect extends GestureEventListeners(
     LegacyElementMixin(
-        PolymerElement))) {
+        PolymerElement)) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-patch-range-select'; }
@@ -194,7 +197,7 @@ class GrPatchRangeSelect extends mixinBehaviors( [
 
   _updateSortedRevisions(revisionsRecord) {
     const revisions = revisionsRecord.base;
-    this._sortedRevisions = this.sortRevisions(Object.values(revisions));
+    this._sortedRevisions = sortRevisions(Object.values(revisions));
   }
 
   /**
@@ -207,8 +210,8 @@ class GrPatchRangeSelect extends mixinBehaviors( [
    * @param {!Array} sortedRevisions
    */
   _computeLeftDisabled(basePatchNum, patchNum, sortedRevisions) {
-    return this.findSortedIndex(basePatchNum, sortedRevisions) <=
-        this.findSortedIndex(patchNum, sortedRevisions);
+    return findSortedIndex(basePatchNum, sortedRevisions) <=
+        findSortedIndex(patchNum, sortedRevisions);
   }
 
   /**
@@ -228,16 +231,18 @@ class GrPatchRangeSelect extends mixinBehaviors( [
    * @return {boolean}
    */
   _computeRightDisabled(basePatchNum, patchNum, sortedRevisions) {
-    if (this.patchNumEquals(basePatchNum, 'PARENT')) { return false; }
-
-    if (this.isMergeParent(basePatchNum)) {
-      // Note: parent indices use 1-offset.
-      return this.revisionInfo.getParentCount(patchNum) <
-          this.getParentIndex(basePatchNum);
+    if (patchNumEquals(basePatchNum, SPECIAL_PATCH_SET_NUM.PARENT)) {
+      return false;
     }
 
-    return this.findSortedIndex(basePatchNum, sortedRevisions) <=
-        this.findSortedIndex(patchNum, sortedRevisions);
+    if (isMergeParent(basePatchNum)) {
+      // Note: parent indices use 1-offset.
+      return this.revisionInfo.getParentCount(patchNum) <
+          getParentIndex(basePatchNum);
+    }
+
+    return findSortedIndex(basePatchNum, sortedRevisions) <=
+        findSortedIndex(patchNum, sortedRevisions);
   }
 
   _computePatchSetCommentsString(changeComments, patchNum) {
@@ -267,7 +272,7 @@ class GrPatchRangeSelect extends mixinBehaviors( [
    * @param {boolean=} opt_addFrontSpace
    */
   _computePatchSetDescription(revisions, patchNum, opt_addFrontSpace) {
-    const rev = this.getRevisionByPatchNum(revisions, patchNum);
+    const rev = getRevisionByPatchNum(revisions, patchNum);
     return (rev && rev.description) ?
       (opt_addFrontSpace ? ' ' : '') +
         rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
@@ -278,7 +283,7 @@ class GrPatchRangeSelect extends mixinBehaviors( [
    * @param {number|string} patchNum
    */
   _computePatchSetDate(revisions, patchNum) {
-    const rev = this.getRevisionByPatchNum(revisions, patchNum);
+    const rev = getRevisionByPatchNum(revisions, patchNum);
     return rev ? rev.created : undefined;
   }
 
@@ -289,7 +294,7 @@ class GrPatchRangeSelect extends mixinBehaviors( [
   _handlePatchChange(e) {
     const detail = {patchNum: this.patchNum, basePatchNum: this.basePatchNum};
     const target = dom(e).localTarget;
-    const latestPatchNum = this.computeLatestPatchNum(this.availablePatches);
+    const latestPatchNum = computeLatestPatchNum(this.availablePatches);
     if (target === this.$.patchNumDropdown) {
       if (detail.patchNum === e.detail.value) return;
       this.reporting.reportInteraction('right-patchset-changed',
@@ -302,7 +307,7 @@ class GrPatchRangeSelect extends mixinBehaviors( [
           });
       detail.patchNum = e.detail.value;
     } else {
-      if (this.patchNumEquals(detail.basePatchNum, e.detail.value)) return;
+      if (patchNumEquals(detail.basePatchNum, e.detail.value)) return;
       this.reporting.reportInteraction('left-patchset-changed',
           {
             previous: detail.basePatchNum,

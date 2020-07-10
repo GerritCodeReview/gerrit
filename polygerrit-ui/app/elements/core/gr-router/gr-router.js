@@ -22,9 +22,9 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import page from 'page/page.mjs';
 import {htmlTemplate} from './gr-router_html.js';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util.js';
-import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {GerritNav} from '../gr-navigation/gr-navigation.js';
 import {appContext} from '../../../services/app-context.js';
+import {patchNumEquals} from '../../../utils/patch-set-util.js';
 
 const RoutePattern = {
   ROOT: '/',
@@ -216,7 +216,6 @@ if (!app) {
  * @extends PolymerElement
  */
 class GrRouter extends mixinBehaviors( [
-  PatchSetBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {
@@ -605,7 +604,7 @@ class GrRouter extends mixinBehaviors( [
     // Diffing a patch against itself is invalid, so if the base and revision
     // patches are equal clear the base.
     if (hasBasePatchNum &&
-        this.patchNumEquals(params.basePatchNum, params.patchNum)) {
+        patchNumEquals(params.basePatchNum, params.patchNum)) {
       needsRedirect = true;
       params.basePatchNum = null;
     } else if (hasBasePatchNum && !hasPatchNum) {

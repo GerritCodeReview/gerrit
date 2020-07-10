@@ -15,13 +15,16 @@
  * limitations under the License.
  */
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-comment-api_html.js';
-import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {parseDate} from '../../../utils/date-util.js';
+import {
+  getParentIndex,
+  isMergeParent,
+  patchNumEquals,
+} from '../../../utils/patch-set-util.js';
 
 const PARENT = 'PARENT';
 
@@ -37,14 +40,6 @@ const PARENT = 'PARENT';
  */
 class ChangeComments {
   constructor(comments, robotComments, drafts, changeNum) {
-    // TODO(taoalpha): replace these with exported methods from patchset behavior
-    this._patchNumEquals =
-      PatchSetBehavior.patchNumEquals;
-    this._isMergeParent =
-      PatchSetBehavior.isMergeParent;
-    this._getParentIndex =
-      PatchSetBehavior.getParentIndex;
-
     this._comments = this._addPath(comments);
     this._robotComments = this._addPath(robotComments);
     this._drafts = this._addPath(drafts);
@@ -225,7 +220,7 @@ class ChangeComments {
     }
     if (opt_patchNum) {
       allComments = allComments.filter(c =>
-        this._patchNumEquals(c.patch_set, opt_patchNum)
+        patchNumEquals(c.patch_set, opt_patchNum)
       );
     }
     return allComments.map(c => { return {...c}; });
@@ -271,7 +266,7 @@ class ChangeComments {
     let comments = this._drafts[path] || [];
     if (opt_patchNum) {
       comments = comments.filter(c =>
-        this._patchNumEquals(c.patch_set, opt_patchNum)
+        patchNumEquals(c.patch_set, opt_patchNum)
       );
     }
     return comments.map(c => { return {...c, __draft: true}; });
@@ -530,20 +525,20 @@ class ChangeComments {
   // appears on a specific parent then only show the comment if the parent
   // index of the comment matches that of the range.
     if (comment.parent && comment.side === PARENT) {
-      return this._isMergeParent(range.basePatchNum) &&
-        comment.parent === this._getParentIndex(range.basePatchNum);
+      return isMergeParent(range.basePatchNum) &&
+        comment.parent === getParentIndex(range.basePatchNum);
     }
 
     // If the base of the range is the parent of the patch:
     if (range.basePatchNum === PARENT &&
       comment.side === PARENT &&
-      this._patchNumEquals(comment.patch_set, range.patchNum)) {
+      patchNumEquals(comment.patch_set, range.patchNum)) {
       return true;
     }
     // If the base of the range is not the parent of the patch:
     return range.basePatchNum !== PARENT &&
         comment.side !== PARENT &&
-        this._patchNumEquals(comment.patch_set, range.basePatchNum);
+        patchNumEquals(comment.patch_set, range.basePatchNum);
   }
 
   /**
@@ -557,7 +552,7 @@ class ChangeComments {
   _isInRevisionOfPatchRange(comment,
       range) {
     return comment.side !== PARENT &&
-      this._patchNumEquals(comment.patch_set, range.patchNum);
+      patchNumEquals(comment.patch_set, range.patchNum);
   }
 
   /**
@@ -576,11 +571,9 @@ class ChangeComments {
 /**
  * @extends PolymerElement
  */
-class GrCommentApi extends mixinBehaviors( [
-  PatchSetBehavior,
-], GestureEventListeners(
+class GrCommentApi extends GestureEventListeners(
     LegacyElementMixin(
-        PolymerElement))) {
+        PolymerElement)) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-comment-api'; }

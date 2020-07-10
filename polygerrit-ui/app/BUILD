@@ -10,6 +10,7 @@ src_dirs = [
     "elements",
     "embed",
     "gr-diff",
+    "mixins",
     "samples",
     "scripts",
     "services",

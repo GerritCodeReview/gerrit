@@ -15,99 +15,108 @@
  * limitations under the License.
  */
 
-/** @polymerBehavior Gerrit.ChangeTableBehavior */
-export const ChangeTableBehavior = {
-  properties: {
-    columnNames: {
-      type: Array,
-      value: [
-        'Subject',
-        'Status',
-        'Owner',
-        'Assignee',
-        'Reviewers',
-        'Comments',
-        'Repo',
-        'Branch',
-        'Updated',
-        'Size',
-      ],
-      readOnly: true,
-    },
-  },
+import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin.js';
 
+/**
+ * @polymer
+ * @mixinFunction
+ */
+export const ChangeTableMixin = dedupingMixin(superClass => {
   /**
-   * Returns the complement to the given column array
-   *
-   * @param {Array} columns
-   * @return {!Array}
+   * @polymer
+   * @mixinClass
    */
-  getComplementColumns(columns) {
-    return this.columnNames.filter(column => !columns.includes(column));
-  },
-
-  /**
-   * @param {string} columnToCheck
-   * @param {!Array} columnsToDisplay
-   * @return {boolean}
-   */
-  isColumnHidden(columnToCheck, columnsToDisplay) {
-    if ([columnsToDisplay, columnToCheck].includes(undefined)) {
-      return false;
+  class Mixin extends superClass {
+    static get properties() {
+      return {
+        columnNames: {
+          type: Array,
+          value: [
+            'Subject',
+            'Status',
+            'Owner',
+            'Assignee',
+            'Reviewers',
+            'Comments',
+            'Repo',
+            'Branch',
+            'Updated',
+            'Size',
+          ],
+          readOnly: true,
+        },
+      };
     }
-    return !columnsToDisplay.includes(columnToCheck);
-  },
 
-  /**
-   * Is the column disabled by a server config or experiment? For example the
-   * assignee feature might be disabled and thus the corresponding column is
-   * also disabled.
-   *
-   * @param {string} column
-   * @param {Object} config
-   * @param {!Array<string>} experiments
-   * @return {boolean}
-   */
-  isColumnEnabled(column, config, experiments) {
-    if (!config || !config.change) return true;
-    if (column === 'Assignee') return !!config.change.enable_assignee;
-    if (column === 'Comments') return experiments.includes('comments-column');
-    if (column === 'Reviewers') return !!config.change.enable_attention_set;
-    return true;
-  },
+    /**
+     * Returns the complement to the given column array
+     *
+     * @param {Array} columns
+     * @return {!Array}
+     */
+    getComplementColumns(columns) {
+      return this.columnNames.filter(column => !columns.includes(column));
+    }
 
-  /**
-   * @param {!Array<string>} columns
-   * @param {Object} config
-   * @param {!Array<string>} experiments
-   * @return {!Array<string>} enabled columns, see isColumnEnabled().
-   */
-  getEnabledColumns(columns, config, experiments) {
-    return columns.filter(
-        col => this.isColumnEnabled(col, config, experiments));
-  },
+    /**
+     * @param {string} columnToCheck
+     * @param {!Array} columnsToDisplay
+     * @return {boolean}
+     */
+    isColumnHidden(columnToCheck, columnsToDisplay) {
+      if ([columnsToDisplay, columnToCheck].includes(undefined)) {
+        return false;
+      }
+      return !columnsToDisplay.includes(columnToCheck);
+    }
 
-  /**
-   * The Project column was renamed to Repo, but some users may have
-   * preferences that use its old name. If that column is found, rename it
-   * before use.
-   *
-   * @param {!Array<string>} columns
-   * @return {!Array<string>} If the column was renamed, returns a new array
-   *     with the corrected name. Otherwise, it returns the original param.
-   */
-  getVisibleColumns(columns) {
-    const projectIndex = columns.indexOf('Project');
-    if (projectIndex === -1) { return columns; }
-    const newColumns = columns.slice(0);
-    newColumns[projectIndex] = 'Repo';
-    return newColumns;
-  },
-};
+    /**
+     * Is the column disabled by a server config or experiment? For example the
+     * assignee feature might be disabled and thus the corresponding column is
+     * also disabled.
+     *
+     * @param {string} column
+     * @param {Object} config
+     * @param {!Array<string>} experiments
+     * @return {boolean}
+     */
+    isColumnEnabled(column, config, experiments) {
+      if (!config || !config.change) return true;
+      if (column === 'Assignee') return !!config.change.enable_assignee;
+      if (column === 'Comments') return experiments.includes('comments-column');
+      if (column === 'Reviewers') return !!config.change.enable_attention_set;
+      return true;
+    }
 
-// TODO(dmfilippov) Remove the following lines with assignments
-// Plugins can use the behavior because it was accessible with
-// the global Gerrit... variable. To avoid breaking changes in plugins
-// temporary assign global variables.
-window.Gerrit = window.Gerrit || {};
-window.Gerrit.ChangeTableBehavior = ChangeTableBehavior;
+    /**
+     * @param {!Array<string>} columns
+     * @param {Object} config
+     * @param {!Array<string>} experiments
+     * @return {!Array<string>} enabled columns, see isColumnEnabled().
+     */
+    getEnabledColumns(columns, config, experiments) {
+      return columns.filter(
+          col => this.isColumnEnabled(col, config, experiments));
+    }
+
+    /**
+     * The Project column was renamed to Repo, but some users may have
+     * preferences that use its old name. If that column is found, rename it
+     * before use.
+     *
+     * @param {!Array<string>} columns
+     * @return {!Array<string>} If the column was renamed, returns a new array
+     *     with the corrected name. Otherwise, it returns the original param.
+     */
+    getVisibleColumns(columns) {
+      const projectIndex = columns.indexOf('Project');
+      if (projectIndex === -1) { return columns; }
+      const newColumns = columns.slice(0);
+      newColumns[projectIndex] = 'Repo';
+      return newColumns;
+    }
+  }
+
+  return Mixin;
+});
+

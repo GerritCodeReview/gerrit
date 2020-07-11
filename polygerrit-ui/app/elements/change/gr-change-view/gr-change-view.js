@@ -46,13 +46,11 @@ import '../gr-reply-dialog/gr-reply-dialog.js';
 import '../gr-thread-list/gr-thread-list.js';
 import '../gr-upload-help-dialog/gr-upload-help-dialog.js';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-view_html.js';
 import {KeyboardShortcutMixin, Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
-import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GrEditConstants} from '../../edit/gr-edit-constants.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
 import {getComputedStyleValue} from '../../../utils/dom-util.js';
@@ -71,6 +69,7 @@ import {
   SPECIAL_PATCH_SET_NUM,
 } from '../../../utils/patch-set-util.js';
 import {PatchSetMixin} from '../../../mixins/gr-patch-set-mixin/gr-patch-set-mixin.js';
+import {changeStatuses, changeStatusString} from '../../../utils/change-util.js';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -131,15 +130,11 @@ const ROBOT_COMMENTS_LIMIT = 10;
  */
 
 /**
- * @appliesMixin RESTClientMixin
  * @appliesMixin PatchSetMixin
  * @extends PolymerElement
  */
-class GrChangeView extends mixinBehaviors( [
-  RESTClientBehavior,
-], KeyboardShortcutMixin(PatchSetMixin(GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))))) {
+class GrChangeView extends KeyboardShortcutMixin(PatchSetMixin(
+    GestureEventListeners(LegacyElementMixin(PolymerElement)))) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-change-view'; }
@@ -324,7 +319,7 @@ class GrChangeView extends mixinBehaviors( [
       },
       _changeStatus: {
         type: String,
-        computed: 'changeStatusString(_change)',
+        computed: '_changeStatusString(_change)',
       },
       _changeStatuses: {
         type: String,
@@ -553,6 +548,10 @@ class GrChangeView extends mixinBehaviors( [
     return this.shadowRoot.querySelector('gr-thread-list');
   }
 
+  _changeStatusString(change) {
+    return changeStatusString(change);
+  }
+
   /**
    * @param {boolean=} opt_reset
    */
@@ -736,7 +735,7 @@ class GrChangeView extends mixinBehaviors( [
       mergeable: !!mergeable,
       submitEnabled: !!submitEnabled,
     };
-    return this.changeStatuses(change, options);
+    return changeStatuses(change, options);
   }
 
   _computeHideEditCommitMessage(

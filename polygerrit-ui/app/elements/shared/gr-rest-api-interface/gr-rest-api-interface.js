@@ -16,11 +16,9 @@
  */
 /* NB: Order is important, because of namespaced classes. */
 
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GrEtagDecorator} from './gr-etag-decorator.js';
 import {SiteBasedCache, FetchPromisesCache, GrRestApiHelper} from './gr-rest-apis/gr-rest-api-helper.js';
 import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser.js';
@@ -33,6 +31,7 @@ import {
   patchNumEquals,
   SPECIAL_PATCH_SET_NUM,
 } from '../../../utils/patch-set-util.js';
+import {ListChangesOption, listChangesOptionsToHex} from '../../../utils/change-util.js';
 
 const DiffViewMode = {
   SIDE_BY_SIDE: 'SIDE_BY_SIDE',
@@ -90,11 +89,8 @@ export function _testOnlyResetGrRestApiSharedObjects() {
 /**
  * @extends PolymerElement
  */
-class GrRestApiInterface extends mixinBehaviors( [
-  RESTClientBehavior,
-], GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))) {
+class GrRestApiInterface extends GestureEventListeners(
+    LegacyElementMixin(PolymerElement)) {
   static get is() { return 'gr-rest-api-interface'; }
   /**
    * Fired when an server error occurs.
@@ -1059,16 +1055,16 @@ class GrRestApiInterface extends mixinBehaviors( [
 
   _getChangesOptionsHex(config) {
     const options = [
-      this.ListChangesOption.LABELS,
-      this.ListChangesOption.DETAILED_ACCOUNTS,
+      ListChangesOption.LABELS,
+      ListChangesOption.DETAILED_ACCOUNTS,
     ];
     if (config && config.change && config.change.enable_attention_set) {
-      options.push(this.ListChangesOption.DETAILED_LABELS);
+      options.push(ListChangesOption.DETAILED_LABELS);
     } else {
-      options.push(this.ListChangesOption.REVIEWED);
+      options.push(ListChangesOption.REVIEWED);
     }
 
-    return this.listChangesOptionsToHex(...options);
+    return listChangesOptionsToHex(...options);
   }
 
   _getChangeOptionsHex(config) {
@@ -1080,20 +1076,20 @@ class GrRestApiInterface extends mixinBehaviors( [
     // This list MUST be kept in sync with
     // ChangeIT#changeDetailsDoesNotRequireIndex
     const options = [
-      this.ListChangesOption.ALL_COMMITS,
-      this.ListChangesOption.ALL_REVISIONS,
-      this.ListChangesOption.CHANGE_ACTIONS,
-      this.ListChangesOption.DETAILED_LABELS,
-      this.ListChangesOption.DOWNLOAD_COMMANDS,
-      this.ListChangesOption.MESSAGES,
-      this.ListChangesOption.SUBMITTABLE,
-      this.ListChangesOption.WEB_LINKS,
-      this.ListChangesOption.SKIP_DIFFSTAT,
+      ListChangesOption.ALL_COMMITS,
+      ListChangesOption.ALL_REVISIONS,
+      ListChangesOption.CHANGE_ACTIONS,
+      ListChangesOption.DETAILED_LABELS,
+      ListChangesOption.DOWNLOAD_COMMANDS,
+      ListChangesOption.MESSAGES,
+      ListChangesOption.SUBMITTABLE,
+      ListChangesOption.WEB_LINKS,
+      ListChangesOption.SKIP_DIFFSTAT,
     ];
     if (config.receive && config.receive.enable_signed_push) {
-      options.push(this.ListChangesOption.PUSH_CERTIFICATES);
+      options.push(ListChangesOption.PUSH_CERTIFICATES);
     }
-    return this.listChangesOptionsToHex(...options);
+    return listChangesOptionsToHex(...options);
   }
 
   /**
@@ -1106,10 +1102,10 @@ class GrRestApiInterface extends mixinBehaviors( [
     if (window.DEFAULT_DETAIL_HEXES && window.DEFAULT_DETAIL_HEXES.diffPage) {
       optionsHex = window.DEFAULT_DETAIL_HEXES.diffPage;
     } else {
-      optionsHex = this.listChangesOptionsToHex(
-          this.ListChangesOption.ALL_COMMITS,
-          this.ListChangesOption.ALL_REVISIONS,
-          this.ListChangesOption.SKIP_DIFFSTAT
+      optionsHex = listChangesOptionsToHex(
+          ListChangesOption.ALL_COMMITS,
+          ListChangesOption.ALL_REVISIONS,
+          ListChangesOption.SKIP_DIFFSTAT
       );
     }
     return this._getChangeDetail(changeNum, optionsHex, opt_errFn,
@@ -1615,9 +1611,9 @@ class GrRestApiInterface extends mixinBehaviors( [
   }
 
   getChangeConflicts(changeNum) {
-    const options = this.listChangesOptionsToHex(
-        this.ListChangesOption.CURRENT_REVISION,
-        this.ListChangesOption.CURRENT_COMMIT
+    const options = listChangesOptionsToHex(
+        ListChangesOption.CURRENT_REVISION,
+        ListChangesOption.CURRENT_COMMIT
     );
     const params = {
       O: options,
@@ -1631,9 +1627,9 @@ class GrRestApiInterface extends mixinBehaviors( [
   }
 
   getChangeCherryPicks(project, changeID, changeNum) {
-    const options = this.listChangesOptionsToHex(
-        this.ListChangesOption.CURRENT_REVISION,
-        this.ListChangesOption.CURRENT_COMMIT
+    const options = listChangesOptionsToHex(
+        ListChangesOption.CURRENT_REVISION,
+        ListChangesOption.CURRENT_COMMIT
     );
     const query = [
       'project:' + project,
@@ -1653,11 +1649,11 @@ class GrRestApiInterface extends mixinBehaviors( [
   }
 
   getChangesWithSameTopic(topic, changeNum) {
-    const options = this.listChangesOptionsToHex(
-        this.ListChangesOption.LABELS,
-        this.ListChangesOption.CURRENT_REVISION,
-        this.ListChangesOption.CURRENT_COMMIT,
-        this.ListChangesOption.DETAILED_LABELS
+    const options = listChangesOptionsToHex(
+        ListChangesOption.LABELS,
+        ListChangesOption.CURRENT_REVISION,
+        ListChangesOption.CURRENT_COMMIT,
+        ListChangesOption.DETAILED_LABELS
     );
     const query = [
       'status:open',

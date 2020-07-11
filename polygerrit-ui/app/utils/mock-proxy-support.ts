@@ -15,30 +15,32 @@
  * limitations under the License.
  */
 
-class TestProxyRegistry {
-  constructor() {
-    this.mockProxy = {};
-  }
+interface ProxyRegistry {
+  mockProxy: {[name: string]: Function};
+  add<T extends (...args: any[]) => any>(func: T): T;
+}
 
-  add(func) {
+class TestProxyRegistry implements ProxyRegistry {
+  public mockProxy: {[name: string]: Function} = {};
+
+  add<T extends (...args: any[]) => any>(func: T): T {
     this.mockProxy[func.name.slice(1)] = func;
-    return (...args) =>
+    const mockFunc = (...args: any[]) =>
       this.mockProxy[func.name.slice(1)].call(null, ...args);
+    return mockFunc as T;
   }
 }
 
-class AppProxyRegistry {
-  constructor() {
-    this.mockProxy = {};
-  }
+class AppProxyRegistry implements ProxyRegistry {
+  public mockProxy = {};
 
-  add(func) {
+  add<T extends (...args: any[]) => any>(func: T): T {
     return func;
   }
 }
 
-export function createProxyRegistry() {
-  return window.__karma__ ?
-    new TestProxyRegistry() :
-    new AppProxyRegistry();
+const isTestRun = '__karma__' in window;
+
+export function createProxyRegistry(): ProxyRegistry {
+  return isTestRun ? new TestProxyRegistry() : new AppProxyRegistry();
 }

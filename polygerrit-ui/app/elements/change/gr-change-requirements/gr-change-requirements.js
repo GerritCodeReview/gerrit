@@ -20,21 +20,16 @@ import '../../shared/gr-icons/gr-icons.js';
 import '../../shared/gr-label/gr-label.js';
 import '../../shared/gr-label-info/gr-label-info.js';
 import '../../shared/gr-limited-text/gr-limited-text.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-requirements_html.js';
-import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 
 /**
  * @extends PolymerElement
  */
-class GrChangeRequirements extends mixinBehaviors( [
-  RESTClientBehavior,
-], GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))) {
+class GrChangeRequirements extends GestureEventListeners(
+    LegacyElementMixin(PolymerElement)) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-change-requirements'; }

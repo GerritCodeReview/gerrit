@@ -24,25 +24,21 @@ import '../gr-create-commands-dialog/gr-create-commands-dialog.js';
 import '../gr-create-change-help/gr-create-change-help.js';
 import '../gr-create-destination-dialog/gr-create-destination-dialog.js';
 import '../gr-user-header/gr-user-header.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-dashboard-view_html.js';
-import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {appContext} from '../../../services/app-context.js';
+import {changeIsOpen} from '../../../utils/change-util.js';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\$\{project\}/g;
 
 /**
  * @extends PolymerElement
  */
-class GrDashboardView extends mixinBehaviors( [
-  RESTClientBehavior,
-], GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))) {
+class GrDashboardView extends GestureEventListeners(
+    LegacyElementMixin(PolymerElement)) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-dashboard-view'; }
@@ -300,7 +296,7 @@ class GrDashboardView extends mixinBehaviors( [
     if (!draftSection || !draftSection.results.length) { return; }
 
     const closedChanges = draftSection.results
-        .filter(change => !this.changeIsOpen(change));
+        .filter(change => !changeIsOpen(change));
     if (!closedChanges.length) { return; }
 
     this._showDraftsBanner = true;

@@ -20,6 +20,10 @@ import './gr-rest-api-interface.js';
 import {mockPromise} from '../../../test/test-utils.js';
 import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser.js';
 import {authService} from './gr-auth.js';
+import {
+  changeUtilMockProxy,
+  ListChangesOption
+} from '../../../utils/change-util.js';
 
 const basicFixture = fixtureFromElement('gr-rest-api-interface');
 
@@ -899,24 +903,23 @@ suite('gr-rest-api-interface tests', () => {
       let toHexStub;
 
       setup(() => {
-        toHexStub = sinon.stub(element, 'listChangesOptionsToHex').callsFake(
-            options => 'deadbeef');
+        toHexStub = sinon.stub(changeUtilMockProxy, 'listChangesOptionsToHex')
+            .callsFake(options => 'deadbeef');
         sinon.stub(element, '_getChangeDetail').callsFake(
             async (changeNum, options) => { return {changeNum, options}; });
       });
 
       test('signed pushes disabled', async () => {
-        const {PUSH_CERTIFICATES} = element.ListChangesOption;
         sinon.stub(element, 'getConfig').callsFake( async () => { return {}; });
         const {changeNum, options} = await element.getChangeDetail(123);
         assert.strictEqual(123, changeNum);
         assert.strictEqual('deadbeef', options);
         assert.isTrue(toHexStub.calledOnce);
-        assert.isFalse(toHexStub.lastCall.args.includes(PUSH_CERTIFICATES));
+        assert.isFalse(toHexStub.lastCall.args.includes(
+            ListChangesOption.PUSH_CERTIFICATES));
       });
 
       test('signed pushes enabled', async () => {
-        const {PUSH_CERTIFICATES} = element.ListChangesOption;
         sinon.stub(element, 'getConfig').callsFake( async () => {
           return {receive: {enable_signed_push: true}};
         });
@@ -924,7 +927,8 @@ suite('gr-rest-api-interface tests', () => {
         assert.strictEqual(123, changeNum);
         assert.strictEqual('deadbeef', options);
         assert.isTrue(toHexStub.calledOnce);
-        assert.isTrue(toHexStub.lastCall.args.includes(PUSH_CERTIFICATES));
+        assert.isTrue(toHexStub.lastCall.args.includes(
+            ListChangesOption.PUSH_CERTIFICATES));
       });
     });
 

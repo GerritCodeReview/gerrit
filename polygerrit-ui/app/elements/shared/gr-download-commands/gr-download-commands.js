@@ -18,21 +18,16 @@ import '@polymer/paper-tabs/paper-tabs.js';
 import '../gr-shell-command/gr-shell-command.js';
 import '../gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../../styles/shared-styles.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-download-commands_html.js';
-import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 
 /**
  * @extends PolymerElement
  */
-class GrDownloadCommands extends mixinBehaviors( [
-  RESTClientBehavior,
-], GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))) {
+class GrDownloadCommands extends GestureEventListeners(
+    LegacyElementMixin(PolymerElement)) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-download-commands'; }

@@ -32,12 +32,10 @@ import '../gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dial
 import '../gr-confirm-submit-dialog/gr-confirm-submit-dialog.js';
 import '../../../styles/shared-styles.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-actions_html.js';
-import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {appContext} from '../../../services/app-context.js';
@@ -45,6 +43,11 @@ import {
   fetchChangeUpdates,
   patchNumEquals,
 } from '../../../utils/patch-set-util.js';
+import {
+  changeIsOpen,
+  ListChangesOption,
+  listChangesOptionsToHex,
+} from '../../../utils/change-util.js';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -244,11 +247,8 @@ const SKIP_ACTION_KEYS_ATTENTION_SET = [
 /**
  * @extends PolymerElement
  */
-class GrChangeActions extends mixinBehaviors( [
-  RESTClientBehavior,
-], GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))) {
+class GrChangeActions extends GestureEventListeners(
+    LegacyElementMixin(PolymerElement)) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-change-actions'; }
@@ -734,7 +734,7 @@ class GrChangeActions extends mixinBehaviors( [
     if (this.actions && editPatchsetLoaded) {
       // Only show actions that mutate an edit if an actual edit patch set
       // is loaded.
-      if (this.changeIsOpen(this.change)) {
+      if (changeIsOpen(this.change)) {
         if (editBasedOnCurrentPatchSet) {
           if (!this.actions.publishEdit) {
             this.set('actions.publishEdit', PUBLISH_EDIT);
@@ -756,7 +756,7 @@ class GrChangeActions extends mixinBehaviors( [
       this._deleteAndNotify('deleteEdit');
     }
 
-    if (this.actions && this.changeIsOpen(this.change)) {
+    if (this.actions && changeIsOpen(this.change)) {
       // Only show edit button if there is no edit patchset loaded and the
       // file list is not in edit mode.
       if (editPatchsetLoaded || editMode) {
@@ -1464,8 +1464,8 @@ class GrChangeActions extends mixinBehaviors( [
     this.$.confirmCherrypick.branch = '';
     const query = `topic: "${this.change.topic}"`;
     const options =
-      this.listChangesOptionsToHex(this.ListChangesOption.MESSAGES,
-          this.ListChangesOption.ALL_REVISIONS);
+      listChangesOptionsToHex(ListChangesOption.MESSAGES,
+          ListChangesOption.ALL_REVISIONS);
     this.$.restAPI.getChanges('', query, undefined, options)
         .then(changes => {
           this.$.confirmCherrypick.updateChanges(changes);

@@ -16,38 +16,45 @@
  */
 
 import '../../test/common-test-setup-karma.js';
-import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
-import {KeyboardShortcutBehavior, KeyboardShortcutBinder} from './keyboard-shortcut-behavior.js';
+import {
+  KeyboardShortcutMixin, Shortcut,
+  ShortcutManager, ShortcutSection, SPECIAL_SHORTCUT,
+} from './keyboard-shortcut-mixin.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 
 const basicFixture =
-    fixtureFromElement('keyboard-shortcut-behavior-test-element');
+    fixtureFromElement('keyboard-shortcut-mixin-test-element');
 
 const withinOverlayFixture = fixtureFromTemplate(html`
 <gr-overlay>
-  <keyboard-shortcut-behavior-test-element>      
-  </keyboard-shortcut-behavior-test-element>
+  <keyboard-shortcut-mixin-test-element>      
+  </keyboard-shortcut-mixin-test-element>
 </gr-overlay>
 `);
 
-suite('keyboard-shortcut-behavior tests', () => {
-  const kb = KeyboardShortcutBinder;
+class GrKeyboardShortcutMixinTestElement extends
+  KeyboardShortcutMixin(PolymerElement) {
+  static get is() {
+    return 'keyboard-shortcut-mixin-test-element';
+  }
 
+  get keyBindings() {
+    return {
+      k: '_handleKey',
+      enter: '_handleKey',
+    };
+  }
+
+  _handleKey() {}
+}
+
+customElements.define(GrKeyboardShortcutMixinTestElement.is,
+    GrKeyboardShortcutMixinTestElement);
+
+suite('keyboard-shortcut-mixin tests', () => {
   let element;
   let overlay;
-
-  suiteSetup(() => {
-    // Define a Polymer element that uses this behavior.
-    Polymer({
-      is: 'keyboard-shortcut-behavior-test-element',
-      behaviors: [KeyboardShortcutBehavior],
-      keyBindings: {
-        k: '_handleKey',
-        enter: '_handleKey',
-      },
-      _handleKey() {},
-    });
-  });
 
   setup(() => {
     element = basicFixture.instantiate();
@@ -56,8 +63,8 @@ suite('keyboard-shortcut-behavior tests', () => {
 
   suite('ShortcutManager', () => {
     test('bindings management', () => {
-      const mgr = new kb.ShortcutManager();
-      const {NEXT_FILE} = kb.Shortcut;
+      const mgr = new ShortcutManager();
+      const NEXT_FILE = Shortcut.NEXT_FILE;
 
       assert.isUndefined(mgr.getBindingsForShortcut(NEXT_FILE));
       mgr.bindShortcut(NEXT_FILE, ']', '}', 'right');
@@ -74,7 +81,7 @@ suite('keyboard-shortcut-behavior tests', () => {
       }
 
       test('single combo description', () => {
-        const mgr = new kb.ShortcutManager();
+        const mgr = new ShortcutManager();
         assert.deepEqual(mgr.describeBinding('a'), ['a']);
         assert.deepEqual(mgr.describeBinding('a:keyup'), ['a']);
         assert.deepEqual(mgr.describeBinding('ctrl+a'), ['Ctrl', 'a']);
@@ -84,28 +91,27 @@ suite('keyboard-shortcut-behavior tests', () => {
       });
 
       test('combo set description', () => {
-        const {GO_KEY, DOC_ONLY, ShortcutManager} = kb;
-        const {GO_TO_OPENED_CHANGES, NEXT_FILE, PREV_FILE} = kb.Shortcut;
-
         const mgr = new ShortcutManager();
-        assert.isNull(mgr.describeBindings(NEXT_FILE));
+        assert.isNull(mgr.describeBindings(Shortcut.NEXT_FILE));
 
-        mgr.bindShortcut(GO_TO_OPENED_CHANGES, GO_KEY, 'o');
+        mgr.bindShortcut(Shortcut.GO_TO_OPENED_CHANGES,
+            SPECIAL_SHORTCUT.GO_KEY, 'o');
         assert.deepEqual(
-            mgr.describeBindings(GO_TO_OPENED_CHANGES),
+            mgr.describeBindings(Shortcut.GO_TO_OPENED_CHANGES),
             [['g', 'o']]);
 
-        mgr.bindShortcut(NEXT_FILE, DOC_ONLY, ']', 'ctrl+shift+right:keyup');
+        mgr.bindShortcut(Shortcut.NEXT_FILE, SPECIAL_SHORTCUT.DOC_ONLY,
+            ']', 'ctrl+shift+right:keyup');
         assert.deepEqual(
-            mgr.describeBindings(NEXT_FILE),
+            mgr.describeBindings(Shortcut.NEXT_FILE),
             [[']'], ['Ctrl', 'Shift', '→']]);
 
-        mgr.bindShortcut(PREV_FILE, '[');
-        assert.deepEqual(mgr.describeBindings(PREV_FILE), [['[']]);
+        mgr.bindShortcut(Shortcut.PREV_FILE, '[');
+        assert.deepEqual(mgr.describeBindings(Shortcut.PREV_FILE), [['[']]);
       });
 
       test('combo set description width', () => {
-        const mgr = new kb.ShortcutManager();
+        const mgr = new ShortcutManager();
         assert.strictEqual(mgr.comboSetDisplayWidth([['u']]), 1);
         assert.strictEqual(mgr.comboSetDisplayWidth([['g', 'o']]), 2);
         assert.strictEqual(mgr.comboSetDisplayWidth([['Shift', 'r']]), 6);
@@ -116,7 +122,7 @@ suite('keyboard-shortcut-behavior tests', () => {
       });
 
       test('distribute shortcut help', () => {
-        const mgr = new kb.ShortcutManager();
+        const mgr = new ShortcutManager();
         assert.deepEqual(mgr.distributeBindingDesc([['o']]), [[['o']]]);
         assert.deepEqual(
             mgr.distributeBindingDesc([['g', 'o']]),
@@ -147,15 +153,11 @@ suite('keyboard-shortcut-behavior tests', () => {
       });
 
       test('active shortcuts by section', () => {
-        const {NEXT_FILE, NEXT_LINE, GO_TO_OPENED_CHANGES, SEARCH} =
-            kb.Shortcut;
-        const {DIFFS, EVERYWHERE, NAVIGATION} = kb.ShortcutSection;
-
-        const mgr = new kb.ShortcutManager();
-        mgr.bindShortcut(NEXT_FILE, ']');
-        mgr.bindShortcut(NEXT_LINE, 'j');
-        mgr.bindShortcut(GO_TO_OPENED_CHANGES, 'g+o');
-        mgr.bindShortcut(SEARCH, '/');
+        const mgr = new ShortcutManager();
+        mgr.bindShortcut(Shortcut.NEXT_FILE, ']');
+        mgr.bindShortcut(Shortcut.NEXT_LINE, 'j');
+        mgr.bindShortcut(Shortcut.GO_TO_OPENED_CHANGES, 'g+o');
+        mgr.bindShortcut(Shortcut.SEARCH, '/');
 
         assert.deepEqual(
             mapToObject(mgr.activeShortcutsBySection()),
@@ -164,96 +166,91 @@ suite('keyboard-shortcut-behavior tests', () => {
         mgr.attachHost({
           keyboardShortcuts() {
             return {
-              [NEXT_FILE]: null,
+              [Shortcut.NEXT_FILE]: null,
             };
           },
         });
         assert.deepEqual(
             mapToObject(mgr.activeShortcutsBySection()),
             {
-              [NAVIGATION]: [
-                {shortcut: NEXT_FILE, text: 'Go to next file'},
+              [ShortcutSection.NAVIGATION]: [
+                {shortcut: Shortcut.NEXT_FILE, text: 'Go to next file'},
               ],
             });
 
         mgr.attachHost({
           keyboardShortcuts() {
             return {
-              [NEXT_LINE]: null,
+              [Shortcut.NEXT_LINE]: null,
             };
           },
         });
         assert.deepEqual(
             mapToObject(mgr.activeShortcutsBySection()),
             {
-              [DIFFS]: [
-                {shortcut: NEXT_LINE, text: 'Go to next line'},
+              [ShortcutSection.DIFFS]: [
+                {shortcut: Shortcut.NEXT_LINE, text: 'Go to next line'},
               ],
-              [NAVIGATION]: [
-                {shortcut: NEXT_FILE, text: 'Go to next file'},
+              [ShortcutSection.NAVIGATION]: [
+                {shortcut: Shortcut.NEXT_FILE, text: 'Go to next file'},
               ],
             });
 
         mgr.attachHost({
           keyboardShortcuts() {
             return {
-              [SEARCH]: null,
-              [GO_TO_OPENED_CHANGES]: null,
+              [Shortcut.SEARCH]: null,
+              [Shortcut.GO_TO_OPENED_CHANGES]: null,
             };
           },
         });
         assert.deepEqual(
             mapToObject(mgr.activeShortcutsBySection()),
             {
-              [DIFFS]: [
-                {shortcut: NEXT_LINE, text: 'Go to next line'},
+              [ShortcutSection.DIFFS]: [
+                {shortcut: Shortcut.NEXT_LINE, text: 'Go to next line'},
               ],
-              [EVERYWHERE]: [
-                {shortcut: SEARCH, text: 'Search'},
+              [ShortcutSection.EVERYWHERE]: [
+                {shortcut: Shortcut.SEARCH, text: 'Search'},
                 {
-                  shortcut: GO_TO_OPENED_CHANGES,
+                  shortcut: Shortcut.GO_TO_OPENED_CHANGES,
                   text: 'Go to Opened Changes',
                 },
               ],
-              [NAVIGATION]: [
-                {shortcut: NEXT_FILE, text: 'Go to next file'},
+              [ShortcutSection.NAVIGATION]: [
+                {shortcut: Shortcut.NEXT_FILE, text: 'Go to next file'},
               ],
             });
       });
 
       test('directory view', () => {
-        const {
-          NEXT_FILE, NEXT_LINE, GO_TO_OPENED_CHANGES, SEARCH,
-          SAVE_COMMENT,
-        } = kb.Shortcut;
-        const {DIFFS, EVERYWHERE, NAVIGATION} = kb.ShortcutSection;
-        const {GO_KEY, ShortcutManager} = kb;
-
         const mgr = new ShortcutManager();
-        mgr.bindShortcut(NEXT_FILE, ']');
-        mgr.bindShortcut(NEXT_LINE, 'j');
-        mgr.bindShortcut(GO_TO_OPENED_CHANGES, GO_KEY, 'o');
-        mgr.bindShortcut(SEARCH, '/');
+        mgr.bindShortcut(Shortcut.NEXT_FILE, ']');
+        mgr.bindShortcut(Shortcut.NEXT_LINE, 'j');
+        mgr.bindShortcut(Shortcut.GO_TO_OPENED_CHANGES,
+            SPECIAL_SHORTCUT.GO_KEY, 'o');
+        mgr.bindShortcut(Shortcut.SEARCH, '/');
         mgr.bindShortcut(
-            SAVE_COMMENT, 'ctrl+enter', 'meta+enter', 'ctrl+s', 'meta+s');
+            Shortcut.SAVE_COMMENT, 'ctrl+enter', 'meta+enter',
+            'ctrl+s', 'meta+s');
 
         assert.deepEqual(mapToObject(mgr.directoryView()), {});
 
         mgr.attachHost({
           keyboardShortcuts() {
             return {
-              [GO_TO_OPENED_CHANGES]: null,
-              [NEXT_FILE]: null,
-              [NEXT_LINE]: null,
-              [SAVE_COMMENT]: null,
-              [SEARCH]: null,
+              [Shortcut.GO_TO_OPENED_CHANGES]: null,
+              [Shortcut.NEXT_FILE]: null,
+              [Shortcut.NEXT_LINE]: null,
+              [Shortcut.SAVE_COMMENT]: null,
+              [Shortcut.SEARCH]: null,
             };
           },
         });
         assert.deepEqual(
             mapToObject(mgr.directoryView()),
             {
-              [DIFFS]: [
+              [ShortcutSection.DIFFS]: [
                 {binding: [['j']], text: 'Go to next line'},
                 {
                   binding: [['Ctrl', 'Enter'], ['Meta', 'Enter']],
@@ -264,11 +261,11 @@ suite('keyboard-shortcut-behavior tests', () => {
                   text: 'Save comment',
                 },
               ],
-              [EVERYWHERE]: [
+              [ShortcutSection.EVERYWHERE]: [
                 {binding: [['/']], text: 'Search'},
                 {binding: [['g', 'o']], text: 'Go to Opened Changes'},
               ],
-              [NAVIGATION]: [
+              [ShortcutSection.NAVIGATION]: [
                 {binding: [[']']], text: 'Go to next file'},
               ],
             });
@@ -309,7 +306,7 @@ suite('keyboard-shortcut-behavior tests', () => {
   test('blocks kb shortcuts for anything in a gr-overlay', done => {
     const divEl = document.createElement('div');
     const element =
-        overlay.querySelector('keyboard-shortcut-behavior-test-element');
+        overlay.querySelector('keyboard-shortcut-mixin-test-element');
     element.appendChild(divEl);
     element._handleKey = e => {
       assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
@@ -321,7 +318,7 @@ suite('keyboard-shortcut-behavior tests', () => {
   test('blocks enter shortcut on an anchor', done => {
     const anchorEl = document.createElement('a');
     const element =
-        overlay.querySelector('keyboard-shortcut-behavior-test-element');
+        overlay.querySelector('keyboard-shortcut-mixin-test-element');
     element.appendChild(anchorEl);
     element._handleKey = e => {
       assert.isTrue(element.shouldSuppressKeyboardShortcut(e));

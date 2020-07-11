@@ -31,6 +31,7 @@ import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr
 import 'lodash/lodash.js';
 import {generateChange, TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
 import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
+import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 const fixture = fixtureFromElement('gr-change-view');
@@ -42,17 +43,17 @@ suite('gr-change-view tests', () => {
 
   suiteSetup(() => {
     const kb = TestKeyboardShortcutBinder.push();
-    kb.bindShortcut(kb.Shortcut.SEND_REPLY, 'ctrl+enter');
-    kb.bindShortcut(kb.Shortcut.REFRESH_CHANGE, 'shift+r');
-    kb.bindShortcut(kb.Shortcut.OPEN_REPLY_DIALOG, 'a');
-    kb.bindShortcut(kb.Shortcut.OPEN_DOWNLOAD_DIALOG, 'd');
-    kb.bindShortcut(kb.Shortcut.TOGGLE_DIFF_MODE, 'm');
-    kb.bindShortcut(kb.Shortcut.TOGGLE_CHANGE_STAR, 's');
-    kb.bindShortcut(kb.Shortcut.UP_TO_DASHBOARD, 'u');
-    kb.bindShortcut(kb.Shortcut.EXPAND_ALL_MESSAGES, 'x');
-    kb.bindShortcut(kb.Shortcut.COLLAPSE_ALL_MESSAGES, 'z');
-    kb.bindShortcut(kb.Shortcut.OPEN_DIFF_PREFS, ',');
-    kb.bindShortcut(kb.Shortcut.EDIT_TOPIC, 't');
+    kb.bindShortcut(Shortcut.SEND_REPLY, 'ctrl+enter');
+    kb.bindShortcut(Shortcut.REFRESH_CHANGE, 'shift+r');
+    kb.bindShortcut(Shortcut.OPEN_REPLY_DIALOG, 'a');
+    kb.bindShortcut(Shortcut.OPEN_DOWNLOAD_DIALOG, 'd');
+    kb.bindShortcut(Shortcut.TOGGLE_DIFF_MODE, 'm');
+    kb.bindShortcut(Shortcut.TOGGLE_CHANGE_STAR, 's');
+    kb.bindShortcut(Shortcut.UP_TO_DASHBOARD, 'u');
+    kb.bindShortcut(Shortcut.EXPAND_ALL_MESSAGES, 'x');
+    kb.bindShortcut(Shortcut.COLLAPSE_ALL_MESSAGES, 'z');
+    kb.bindShortcut(Shortcut.OPEN_DIFF_PREFS, ',');
+    kb.bindShortcut(Shortcut.EDIT_TOPIC, 't');
   });
 
   suiteTeardown(() => {

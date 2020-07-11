@@ -52,23 +52,23 @@ preferences. Key bindings are defined in the following forms:
 
   // Ordinary shortcut with a single binding.
   this.bindShortcut(
-      this.Shortcut.TOGGLE_LEFT_PANE, 'shift+a');
+      Shortcut.TOGGLE_LEFT_PANE, 'shift+a');
 
   // Ordinary shortcut with multiple bindings.
   this.bindShortcut(
-      this.Shortcut.CURSOR_NEXT_FILE, 'j', 'down');
+      Shortcut.CURSOR_NEXT_FILE, 'j', 'down');
 
   // A "go-key" keyboard shortcut, which is combined with a previously and
   // continuously pressed "go" key (the go-key is hard-coded as 'g').
   this.bindShortcut(
-      this.Shortcut.GO_TO_OPENED_CHANGES, this.GO_KEY, 'o');
+      Shortcut.GO_TO_OPENED_CHANGES, SPECIAL_SHORTCUT.GO_KEY, 'o');
 
   // A "doc-only" keyboard shortcut. This declares the key-binding for help
   // dialog purposes, but doesn't actually implement the binding. It is up
   // to some element to implement this binding using iron-a11y-keys-behavior's
   // keyBindings property.
   this.bindShortcut(
-      this.Shortcut.EXPAND_ALL_COMMENT_THREADS, this.DOC_ONLY, 'e');
+      Shortcut.EXPAND_ALL_COMMENT_THREADS, SPECIAL_SHORTCUT.DOC_ONLY, 'e');
 
 Part (4), the listener definitions, are declared by the view or element that
 implements the shortcut behavior. This is done by implementing a method named
@@ -78,7 +78,7 @@ names, like this:
 
   keyboardShortcuts() {
     return {
-      [this.Shortcut.TOGGLE_LEFT_PANE]: '_handleToggleLeftPane',
+      [Shortcut.TOGGLE_LEFT_PANE]: '_handleToggleLeftPane',
     };
   },
 
@@ -98,10 +98,14 @@ shortcuts are.
 
 import {IronA11yKeysBehavior} from '@polymer/iron-a11y-keys-behavior/iron-a11y-keys-behavior.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
+import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin.js';
 
-const DOC_ONLY = 'DOC_ONLY';
-const GO_KEY = 'GO_KEY';
-const V_KEY = 'V_KEY';
+export const SPECIAL_SHORTCUT = {
+  DOC_ONLY: 'DOC_ONLY',
+  GO_KEY: 'GO_KEY',
+  V_KEY: 'V_KEY',
+};
 
 // The maximum age of a keydown event to be used in a jump navigation. This
 // is only for cases when the keyup event is lost.
@@ -109,7 +113,7 @@ const GO_KEY_TIMEOUT_MS = 1000;
 
 const V_KEY_TIMEOUT_MS = 1000;
 
-const ShortcutSection = {
+export const ShortcutSection = {
   ACTIONS: 'Actions',
   DIFFS: 'Diffs',
   EVERYWHERE: 'Everywhere',
@@ -118,7 +122,7 @@ const ShortcutSection = {
   REPLY_DIALOG: 'Reply dialog',
 };
 
-const Shortcut = {
+export const Shortcut = {
   OPEN_SHORTCUT_HELP_DIALOG: 'OPEN_SHORTCUT_HELP_DIALOG',
   GO_TO_USER_DASHBOARD: 'GO_TO_USER_DASHBOARD',
   GO_TO_OPENED_CHANGES: 'GO_TO_OPENED_CHANGES',
@@ -341,7 +345,7 @@ const getKeyboardEvent = function(e) {
   return e;
 };
 
-class ShortcutManager {
+export class ShortcutManager {
   constructor() {
     this.activeHosts = new Map();
     this.bindings = new Map();
@@ -462,20 +466,20 @@ class ShortcutManager {
   describeBindings(shortcut) {
     const bindings = this.bindings.get(shortcut);
     if (!bindings) { return null; }
-    if (bindings[0] === GO_KEY) {
+    if (bindings[0] === SPECIAL_SHORTCUT.GO_KEY) {
       return bindings.slice(1).map(
           binding => this._describeKey(binding)
       )
           .map(binding => ['g'].concat(binding));
     }
-    if (bindings[0] === V_KEY) {
+    if (bindings[0] === SPECIAL_SHORTCUT.V_KEY) {
       return bindings.slice(1).map(
           binding => this._describeKey(binding)
       )
           .map(binding => ['v'].concat(binding));
     }
     return bindings
-        .filter(binding => binding !== DOC_ONLY)
+        .filter(binding => binding !== SPECIAL_SHORTCUT.DOC_ONLY)
         .map(binding => this.describeBinding(binding));
   }
 
@@ -519,47 +523,46 @@ class ShortcutManager {
 
 const shortcutManager = new ShortcutManager();
 
-/** @polymerBehavior Gerrit.KeyboardShortcutBehavior*/
-export const KeyboardShortcutBehavior = [
-  IronA11yKeysBehavior,
-  {
-    // Exports for convenience. Note: Closure compiler crashes when
-    // object-shorthand syntax is used here.
-    // eslint-disable-next-line object-shorthand
-    DOC_ONLY: DOC_ONLY,
-    // eslint-disable-next-line object-shorthand
-    GO_KEY: GO_KEY,
-    // eslint-disable-next-line object-shorthand
-    V_KEY: V_KEY,
-    // eslint-disable-next-line object-shorthand
-    Shortcut: Shortcut,
-    // eslint-disable-next-line object-shorthand
-    ShortcutSection: ShortcutSection,
-
-    properties: {
-      _shortcut_go_key_last_pressed: {
-        type: Number,
-        value: null,
-      },
-      _shortcut_go_table: {
-        type: Array,
-        value() { return new Map(); },
-      },
-      _shortcut_v_table: {
-        type: Array,
-        value() { return new Map(); },
-      },
-    },
+/**
+ * @polymer
+ * @mixinFunction
+ */
+const InternalKeyboardShortcutMixin = dedupingMixin(superClass => {
+  /**
+   * @polymer
+   * @mixinClass
+   */
+  class Mixin extends superClass {
+    static get properties() {
+      return {
+        _shortcut_go_key_last_pressed: {
+          type: Number,
+          value: null,
+        },
+        _shortcut_go_table: {
+          type: Array,
+          value() {
+            return new Map();
+          },
+        },
+        _shortcut_v_table: {
+          type: Array,
+          value() {
+            return new Map();
+          },
+        },
+      };
+    }
 
     modifierPressed(e) {
       e = getKeyboardEvent(e);
       return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey ||
         !!this._inGoKeyMode() || !!this._inVKeyMode();
-    },
+    }
 
     isModifierPressed(e, modifier) {
       return getKeyboardEvent(e)[modifier];
-    },
+    }
 
     shouldSuppressKeyboardShortcut(e) {
       e = getKeyboardEvent(e);
@@ -582,40 +585,40 @@ export const KeyboardShortcutBehavior = [
         composed: true, bubbles: true,
       }));
       return false;
-    },
+    }
 
     // Alias for getKeyboardEvent.
     /** @return {!Event} */
     getKeyboardEvent(e) {
       return getKeyboardEvent(e);
-    },
+    }
 
     getRootTarget(e) {
       return dom(getKeyboardEvent(e)).rootTarget;
-    },
+    }
 
     bindShortcut(shortcut, ...bindings) {
       shortcutManager.bindShortcut(shortcut, ...bindings);
-    },
+    }
 
     createTitle(shortcutName, section) {
       const desc = shortcutManager.getDescription(section, shortcutName);
       const shortcut = shortcutManager.getShortcut(shortcutName);
       return (desc && shortcut) ? `${desc} (shortcut: ${shortcut})` : '';
-    },
+    }
 
     _addOwnKeyBindings(shortcut, handler) {
       const bindings = shortcutManager.getBindingsForShortcut(shortcut);
       if (!bindings) {
         return;
       }
-      if (bindings[0] === DOC_ONLY) {
+      if (bindings[0] === SPECIAL_SHORTCUT.DOC_ONLY) {
         return;
       }
-      if (bindings[0] === GO_KEY) {
+      if (bindings[0] === SPECIAL_SHORTCUT.GO_KEY) {
         bindings.slice(1).forEach(binding =>
           this._shortcut_go_table.set(binding, handler));
-      } else if (bindings[0] === V_KEY) {
+      } else if (bindings[0] === SPECIAL_SHORTCUT.V_KEY) {
         // for each binding added with the go/v key, we set the handler to be
         // handleVKeyAction. handleVKeyAction then looks up in th
         // shortcut_table to see what the relevant handler should be
@@ -624,10 +627,15 @@ export const KeyboardShortcutBehavior = [
       } else {
         this.addOwnKeyBinding(bindings.join(' '), handler);
       }
-    },
+    }
+
+    ready() {
+      super.ready();
+    }
 
     /** @override */
-    attached() {
+    connectedCallback() {
+      super.connectedCallback();
       const shortcuts = shortcutManager.attachHost(this);
       if (!shortcuts) { return; }
 
@@ -655,42 +663,43 @@ export const KeyboardShortcutBehavior = [
           this.addOwnKeyBinding(key, '_handleVAction');
         });
       }
-    },
+    }
 
     /** @override */
-    detached() {
+    disconnectedCallback() {
+      super.disconnectedCallback();
       if (shortcutManager.detachHost(this)) {
         this.removeOwnKeyBindings();
       }
-    },
+    }
 
     keyboardShortcuts() {
       return {};
-    },
+    }
 
     addKeyboardShortcutDirectoryListener(listener) {
       shortcutManager.addListener(listener);
-    },
+    }
 
     removeKeyboardShortcutDirectoryListener(listener) {
       shortcutManager.removeListener(listener);
-    },
+    }
 
     _handleVKeyDown(e) {
       this._shortcut_v_key_last_pressed = Date.now();
-    },
+    }
 
     _handleVKeyUp(e) {
       setTimeout(() => {
         this._shortcut_v_key_last_pressed = null;
       }, V_KEY_TIMEOUT_MS);
-    },
+    }
 
     _inVKeyMode() {
       return this._shortcut_v_key_last_pressed &&
           (Date.now() - this._shortcut_v_key_last_pressed <=
               V_KEY_TIMEOUT_MS);
-    },
+    }
 
     _handleVAction(e) {
       if (!this._inVKeyMode() ||
@@ -701,11 +710,11 @@ export const KeyboardShortcutBehavior = [
       e.preventDefault();
       const handler = this._shortcut_v_table.get(e.detail.key);
       this[handler](e);
-    },
+    }
 
     _handleGoKeyDown(e) {
       this._shortcut_go_key_last_pressed = Date.now();
-    },
+    }
 
     _handleGoKeyUp(e) {
       // Set go_key_last_pressed to null `GO_KEY_TIMEOUT_MS` after keyup event
@@ -713,13 +722,13 @@ export const KeyboardShortcutBehavior = [
       setTimeout(() => {
         this._shortcut_go_key_last_pressed = null;
       }, GO_KEY_TIMEOUT_MS);
-    },
+    }
 
     _inGoKeyMode() {
       return this._shortcut_go_key_last_pressed &&
           (Date.now() - this._shortcut_go_key_last_pressed <=
               GO_KEY_TIMEOUT_MS);
-    },
+    }
 
     _handleGoAction(e) {
       if (!this._inGoKeyMode() ||
@@ -730,31 +739,24 @@ export const KeyboardShortcutBehavior = [
       e.preventDefault();
       const handler = this._shortcut_go_table.get(e.detail.key);
       this[handler](e);
-    },
-  },
-];
+    }
+  }
 
-export const KeyboardShortcutBinder = {
-  DOC_ONLY,
-  GO_KEY,
-  V_KEY,
-  Shortcut,
-  ShortcutManager,
-  ShortcutSection,
+  return Mixin;
+});
 
-  bindShortcut(shortcut, ...bindings) {
-    shortcutManager.bindShortcut(shortcut, ...bindings);
-  },
-};
+// The following doesn't work (IronA11yKeysBehavior crashes):
+// const KeyboardShortcutMixin = dedupingMixin(superClass => {
+//    class Mixin extends mixinBehaviors([IronA11yKeysBehavior], superClass) {
+//    ...
+//    }
+//    return Mixin;
+// }
+// This is a workaround
+export const KeyboardShortcutMixin = superClass =>
+  InternalKeyboardShortcutMixin(
+      mixinBehaviors([IronA11yKeysBehavior], superClass));
 
 export function _testOnly_getShortcutManagerInstance() {
   return shortcutManager;
 }
-
-// TODO(dmfilippov) Remove the following lines with assignments
-// Plugins can use the behavior because it was accessible with
-// the global Gerrit... variable. To avoid breaking changes in plugins
-// temporary assign global variables.
-window.Gerrit = window.Gerrit || {};
-window.Gerrit.KeyboardShortcutBehavior = KeyboardShortcutBehavior;
-window.Gerrit.KeyboardShortcutBinder = KeyboardShortcutBinder;

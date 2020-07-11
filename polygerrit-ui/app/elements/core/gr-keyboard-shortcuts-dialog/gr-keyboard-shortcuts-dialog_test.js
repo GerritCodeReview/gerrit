@@ -17,12 +17,11 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-keyboard-shortcuts-dialog.js';
-import {KeyboardShortcutBinder} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {ShortcutSection} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 
 const basicFixture = fixtureFromElement('gr-keyboard-shortcuts-dialog');
 
 suite('gr-keyboard-shortcuts-dialog tests', () => {
-  const kb = KeyboardShortcutBinder;
   let element;
 
   setup(() => {
@@ -42,13 +41,13 @@ suite('gr-keyboard-shortcuts-dialog tests', () => {
 
     test('everywhere goes on left', () => {
       update(new Map([
-        [kb.ShortcutSection.EVERYWHERE, ['everywhere shortcuts']],
+        [ShortcutSection.EVERYWHERE, ['everywhere shortcuts']],
       ]));
       assert.deepEqual(
           element._left,
           [
             {
-              section: kb.ShortcutSection.EVERYWHERE,
+              section: ShortcutSection.EVERYWHERE,
               shortcuts: ['everywhere shortcuts'],
             },
           ]);
@@ -57,13 +56,13 @@ suite('gr-keyboard-shortcuts-dialog tests', () => {
 
     test('navigation goes on left', () => {
       update(new Map([
-        [kb.ShortcutSection.NAVIGATION, ['navigation shortcuts']],
+        [ShortcutSection.NAVIGATION, ['navigation shortcuts']],
       ]));
       assert.deepEqual(
           element._left,
           [
             {
-              section: kb.ShortcutSection.NAVIGATION,
+              section: ShortcutSection.NAVIGATION,
               shortcuts: ['navigation shortcuts'],
             },
           ]);
@@ -72,13 +71,13 @@ suite('gr-keyboard-shortcuts-dialog tests', () => {
 
     test('actions go on right', () => {
       update(new Map([
-        [kb.ShortcutSection.ACTIONS, ['actions shortcuts']],
+        [ShortcutSection.ACTIONS, ['actions shortcuts']],
       ]));
       assert.deepEqual(
           element._right,
           [
             {
-              section: kb.ShortcutSection.ACTIONS,
+              section: ShortcutSection.ACTIONS,
               shortcuts: ['actions shortcuts'],
             },
           ]);
@@ -87,13 +86,13 @@ suite('gr-keyboard-shortcuts-dialog tests', () => {
 
     test('reply dialog goes on right', () => {
       update(new Map([
-        [kb.ShortcutSection.REPLY_DIALOG, ['reply dialog shortcuts']],
+        [ShortcutSection.REPLY_DIALOG, ['reply dialog shortcuts']],
       ]));
       assert.deepEqual(
           element._right,
           [
             {
-              section: kb.ShortcutSection.REPLY_DIALOG,
+              section: ShortcutSection.REPLY_DIALOG,
               shortcuts: ['reply dialog shortcuts'],
             },
           ]);
@@ -102,13 +101,13 @@ suite('gr-keyboard-shortcuts-dialog tests', () => {
 
     test('file list goes on right', () => {
       update(new Map([
-        [kb.ShortcutSection.FILE_LIST, ['file list shortcuts']],
+        [ShortcutSection.FILE_LIST, ['file list shortcuts']],
       ]));
       assert.deepEqual(
           element._right,
           [
             {
-              section: kb.ShortcutSection.FILE_LIST,
+              section: ShortcutSection.FILE_LIST,
               shortcuts: ['file list shortcuts'],
             },
           ]);
@@ -117,13 +116,13 @@ suite('gr-keyboard-shortcuts-dialog tests', () => {
 
     test('diffs go on right', () => {
       update(new Map([
-        [kb.ShortcutSection.DIFFS, ['diffs shortcuts']],
+        [ShortcutSection.DIFFS, ['diffs shortcuts']],
       ]));
       assert.deepEqual(
           element._right,
           [
             {
-              section: kb.ShortcutSection.DIFFS,
+              section: ShortcutSection.DIFFS,
               shortcuts: ['diffs shortcuts'],
             },
           ]);
@@ -132,20 +131,20 @@ suite('gr-keyboard-shortcuts-dialog tests', () => {
 
     test('multiple sections on each side', () => {
       update(new Map([
-        [kb.ShortcutSection.ACTIONS, ['actions shortcuts']],
-        [kb.ShortcutSection.DIFFS, ['diffs shortcuts']],
-        [kb.ShortcutSection.EVERYWHERE, ['everywhere shortcuts']],
-        [kb.ShortcutSection.NAVIGATION, ['navigation shortcuts']],
+        [ShortcutSection.ACTIONS, ['actions shortcuts']],
+        [ShortcutSection.DIFFS, ['diffs shortcuts']],
+        [ShortcutSection.EVERYWHERE, ['everywhere shortcuts']],
+        [ShortcutSection.NAVIGATION, ['navigation shortcuts']],
       ]));
       assert.deepEqual(
           element._left,
           [
             {
-              section: kb.ShortcutSection.EVERYWHERE,
+              section: ShortcutSection.EVERYWHERE,
               shortcuts: ['everywhere shortcuts'],
             },
             {
-              section: kb.ShortcutSection.NAVIGATION,
+              section: ShortcutSection.NAVIGATION,
               shortcuts: ['navigation shortcuts'],
             },
           ]);
@@ -153,11 +152,11 @@ suite('gr-keyboard-shortcuts-dialog tests', () => {
           element._right,
           [
             {
-              section: kb.ShortcutSection.ACTIONS,
+              section: ShortcutSection.ACTIONS,
               shortcuts: ['actions shortcuts'],
             },
             {
-              section: kb.ShortcutSection.DIFFS,
+              section: ShortcutSection.DIFFS,
               shortcuts: ['diffs shortcuts'],
             },
           ]);

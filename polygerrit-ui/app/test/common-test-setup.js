@@ -28,7 +28,7 @@ import {_testOnlyResetRestApi} from '../elements/shared/gr-js-api-interface/gr-p
 import {_testOnlyResetGrRestApiSharedObjects} from '../elements/shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {cleanupTestUtils, TestKeyboardShortcutBinder} from './test-utils.js';
 import {flushDebouncers} from '@polymer/polymer/lib/utils/debounce';
-import {_testOnly_getShortcutManagerInstance} from '../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {_testOnly_getShortcutManagerInstance} from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import sinon from 'sinon/pkg/sinon-esm.js';
 window.sinon = sinon;
 

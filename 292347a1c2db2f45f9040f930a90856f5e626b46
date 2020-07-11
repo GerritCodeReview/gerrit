@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "21bb08e7_0e539aac",
+        "filename": "tools/workspace_status_release.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-11T07:54:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0761f4b0_8ad6d74b",
+      "range": {
+        "startLine": 56,
+        "startChar": 37,
+        "endLine": 56,
+        "endChar": 42
+      },
+      "revId": "292347a1c2db2f45f9040f930a90856f5e626b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11e1ccf8_cc20b482",
         "filename": "tools/workspace_status_release.py",
         "patchSetId": 7
@@ -62,6 +86,30 @@
       "revId": "292347a1c2db2f45f9040f930a90856f5e626b46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac69a226_9437cc3f",
+        "filename": "tools/workspace_status_release.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-11T07:54:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11e1ccf8_cc20b482",
+      "range": {
+        "startLine": 65,
+        "startChar": 38,
+        "endLine": 65,
+        "endChar": 43
+      },
+      "revId": "292347a1c2db2f45f9040f930a90856f5e626b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -136,6 +184,30 @@
     },
     {
       "key": {
+        "uuid": "84243955_8365d7a2",
+        "filename": "tools/workspace_status_release.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-11T07:54:34Z",
+      "side": 1,
+      "message": "\u003e If you squash this series to one single change apply all my simplification suggestion in all changes in this series that I suggested what wouldn\u0027t work? \n\nYour code is matching `$MAJOR.$MINOR*` (no dot before *) So when building for `stable-3.1`, the code you proposed would also match `stable-3.11`.\n\nI took your suggestions (E.g.: no more matching below patch level) to build PS8 but took care to use\n`$MAJOR.$MINOR.*` (dot before *) to avoid matching `stable-3.11` when on `stable-3.1`.",
+      "parentUuid": "ac3cbf9a_06c263ae",
+      "range": {
+        "startLine": 69,
+        "startChar": 34,
+        "endLine": 69,
+        "endChar": 49
+      },
+      "revId": "292347a1c2db2f45f9040f930a90856f5e626b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6ee2964_04275a6f",
         "filename": "tools/workspace_status_release.py",
         "patchSetId": 7
@@ -159,6 +231,30 @@
     },
     {
       "key": {
+        "uuid": "455b582d_0f472260",
+        "filename": "tools/workspace_status_release.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-11T07:54:34Z",
+      "side": 1,
+      "message": "That\u0027s of course correct.\n\n(We have two plugin repos (rabbitmq and autosubmitter), that have some tags that do not match `v[0-9].*` but these are really old tags)\n\nBut that your not seeing differences is probably because you might only building branch tips from official repos.\n\nWhen building for third party sites, it is sometimes necessary to build wars/jars that strayed a bit from the official branch tips, because the needed changes are still in review.. That means that on plugins without version tags\n(i.e.: most plugins), there are no suitable `v...` tags and neither are there suitbale `stable-*` branches to build\nfrom. But what might be there are tags that mark deployed versions. Like `wmf-deployed-2020-07-04`.\nWhen going straight with\n\n\u003e return revision_with_match(\u0027v[0-9].*\u0027)\n\nyou would not match `wmf-2020-07-04`.\n\nWhen doing it in two steps. 1st matching for \u0027v[0-9]*\u0027 and 2nd describing without a match, you\u0027ll also\ncatch `wmf-2020-07-04` tags.",
+      "parentUuid": "b6ee2964_04275a6f",
+      "range": {
+        "startLine": 72,
+        "startChar": 4,
+        "endLine": 79,
+        "endChar": 36
+      },
+      "revId": "292347a1c2db2f45f9040f930a90856f5e626b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c302dcb9_2a67d17a",
         "filename": "tools/workspace_status_release.py",
         "patchSetId": 7
@@ -179,6 +275,30 @@
       "revId": "292347a1c2db2f45f9040f930a90856f5e626b46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b4f155c_de7bd4df",
+        "filename": "tools/workspace_status_release.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-11T07:54:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c302dcb9_2a67d17a",
+      "range": {
+        "startLine": 97,
+        "startChar": 14,
+        "endLine": 97,
+        "endChar": 15
+      },
+      "revId": "292347a1c2db2f45f9040f930a90856f5e626b46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

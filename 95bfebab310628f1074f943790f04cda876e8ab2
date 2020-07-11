@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fba76c3_0eb96acb",
+        "filename": "tools/workspace_status_release.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-11T07:54:34Z",
+      "side": 1,
+      "message": "On https://gerrit-review.googlesource.com/c/gerrit/+/269694/7/tools/workspace_status_release.py#89\ndavido suggested to get rid of ref_kind and remotes.\n\nThat would work, given you have a local branch for the relevant remotes, and that the local branches\ndid not stray from the remote branches.\n\nThat\u0027s not always the case when building for 3rd party sites. It seems not everyone is properly\nusing feature branches for each small fix.Sometime by accident. Sometime by laziness. To arrive\nwith better names in these cases, we include the remotes.\n\nSo if for example remotes/origin/master of some plugin is at commit 0123456.\nAnd our colleague\u0027s local master branch is on the child commit abdcef7.\nThat commit abcdef7 is still under review.\n\nNow your colleague builds the plugin. What version name should the plugin show?\n\nGoing straight for local branches, our colleague ends up with a version master-0-gabcdef7.\nSeeing the plugin with version `master-0-gabcdef7` in the plugin list, we have a hard time\nto see what\u0027s going on, because it abcdef7 looks like a commit on the master branch. But\nour master branches don\u0027t show that.\n\nIf we instead first looked at the remote branches, our colleague would arrive at a version of\n`master-1-gabcdef7`. That gives us the clue that the plugin strayed from the official master\nbranch a bit.\n\nThat kind of information is useful when trying to hunt down how artifacts got built.",
+      "revId": "95bfebab310628f1074f943790f04cda876e8ab2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05e721aa_a8a3f149",
+        "filename": "tools/workspace_status_release.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-11T07:54:34Z",
+      "side": 1,
+      "message": "This helps on stable-3.0 to stamp for example the `codemirror-editor` jar as v3.0.11 (instead of previously v3.1.7)",
+      "range": {
+        "startLine": 104,
+        "startChar": 12,
+        "endLine": 108,
+        "endChar": 34
+      },
+      "revId": "95bfebab310628f1074f943790f04cda876e8ab2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9abf842a_c8fc8411",
+        "filename": "tools/workspace_status_release.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-11T07:54:34Z",
+      "side": 1,
+      "message": "This helps on stable-3.2 (which is on v3.2.2) to keep stamping for example the `github` plugin as v3.2.1, as it lacks a v3.2.2 tag.",
+      "range": {
+        "startLine": 114,
+        "startChar": 0,
+        "endLine": 116,
+        "endChar": 34
+      },
+      "revId": "95bfebab310628f1074f943790f04cda876e8ab2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b88fb46_084a4120",
+        "filename": "tools/workspace_status_release.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-11T07:54:34Z",
+      "side": 1,
+      "message": "This helps on stable-3.1 to tag the `rabbitmq` plugin as `v3.1` (instead of previously `v3.2`, as it omits patch level numbers in tags.",
+      "range": {
+        "startLine": 119,
+        "startChar": 12,
+        "endLine": 121,
+        "endChar": 34
+      },
+      "revId": "95bfebab310628f1074f943790f04cda876e8ab2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f6b85bb_64ca3f77",
+        "filename": "tools/workspace_status_release.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-11T07:54:34Z",
+      "side": 1,
+      "message": "This helps on stable-3.2 branch to tag the `its-base` plugin as `stable-3.2-0-ga757fd9` (instead of previously `v2.15-157-ga757fd9`)",
+      "range": {
+        "startLine": 124,
+        "startChar": 15,
+        "endLine": 128,
+        "endChar": 38
+      },
+      "revId": "95bfebab310628f1074f943790f04cda876e8ab2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5a623e3_31824132",
+        "filename": "tools/workspace_status_release.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-11T07:54:34Z",
+      "side": 1,
+      "message": "This helps on master branch to tag the `owners` plugin as `master-0-g17817c9` instead of previously `v2.15.3-86-g17817c9`.",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 26
+      },
+      "revId": "95bfebab310628f1074f943790f04cda876e8ab2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "698f42fb_c536efe4",
+        "filename": "tools/workspace_status_release.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-11T07:54:34Z",
+      "side": 1,
+      "message": "This is useful to prefer version tags if they exist over non-version tags.\n\nnon-version tags only exist on two upstream plugins. But they might exist for\nusers in their clones. Like deployment tags to their site.",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 0
+      },
+      "revId": "95bfebab310628f1074f943790f04cda876e8ab2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6ad6555_cba05344",
+        "filename": "tools/workspace_status_release.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-11T07:54:34Z",
+      "side": 1,
+      "message": "Kept JGit tagging here, as change is now on stable-3.1 branch.\n\n(If we were on stable-3.0, then the jgit part would need to be a second commit\nthat we could merge only once stable-3.0 got merged into stable-3.1, which\nwould unnecessarily complicate things without much benefit.)",
+      "range": {
+        "startLine": 184,
+        "startChar": 18,
+        "endLine": 184,
+        "endChar": 25
+      },
+      "revId": "95bfebab310628f1074f943790f04cda876e8ab2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

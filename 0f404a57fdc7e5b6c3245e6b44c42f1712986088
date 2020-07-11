@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eff84dad_305919d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-11T22:43:10Z",
+      "side": 1,
+      "message": "Not sure making them configurable per ref is the right thing to do.\n\nBut we need to lock out project owners from reflog reading. And that\nwas seemingly not possible. As the REST API for reading reflogs is\nper ref, and the configuration in the UI is also per ref. So making\nthe permission per ref seemed like a good fit.",
+      "revId": "0f404a57fdc7e5b6c3245e6b44c42f1712986088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb8875db_cc1ee7fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-11T22:43:10Z",
+      "side": 1,
+      "message": "That\u0027s a bit of a bold statement.\n\nIt certainly holds for us. But it might be over-the-top for others.\n\n(But keeping the old default would require a Schema update, as it would have to mess with refs/* ... wouldn\u0027t it?)",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 48
+      },
+      "revId": "0f404a57fdc7e5b6c3245e6b44c42f1712986088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77405ab2_12ab7b19",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-11T22:43:10Z",
+      "side": 1,
+      "message": "Not sure this is the correct issue.\n\nI\u0027ve been told that Issue 10810 is about leaking IP addresses. But I do not have access to that issue.\nSo please let me know if it\u0027s the wrong one.",
+      "range": {
+        "startLine": 23,
+        "startChar": 5,
+        "endLine": 23,
+        "endChar": 16
+      },
+      "revId": "0f404a57fdc7e5b6c3245e6b44c42f1712986088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

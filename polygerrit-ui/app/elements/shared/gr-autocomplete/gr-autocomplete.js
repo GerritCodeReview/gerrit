@@ -20,12 +20,11 @@ import '../gr-cursor-manager/gr-cursor-manager.js';
 import '../gr-icons/gr-icons.js';
 import '../../../styles/shared-styles.js';
 import {flush, dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-autocomplete_html.js';
-import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 const DEBOUNCE_WAIT_MS = 200;
@@ -33,11 +32,9 @@ const DEBOUNCE_WAIT_MS = 200;
 /**
  * @extends PolymerElement
  */
-class GrAutocomplete extends mixinBehaviors( [
-  KeyboardShortcutBehavior,
-], GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))) {
+class GrAutocomplete extends KeyboardShortcutMixin(
+    GestureEventListeners(
+        LegacyElementMixin(PolymerElement))) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-autocomplete'; }

@@ -38,7 +38,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-diff-view_html.js';
-import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {KeyboardShortcutMixin, Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
@@ -75,11 +75,10 @@ const DiffViewMode = {
  * @extends PolymerElement
  */
 class GrDiffView extends mixinBehaviors( [
-  KeyboardShortcutBehavior,
   RESTClientBehavior,
-], GestureEventListeners(
+], KeyboardShortcutMixin(GestureEventListeners(
     LegacyElementMixin(
-        PolymerElement))) {
+        PolymerElement)))) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-diff-view'; }
@@ -275,47 +274,47 @@ class GrDiffView extends mixinBehaviors( [
 
   keyboardShortcuts() {
     return {
-      [this.Shortcut.LEFT_PANE]: '_handleLeftPane',
-      [this.Shortcut.RIGHT_PANE]: '_handleRightPane',
-      [this.Shortcut.NEXT_LINE]: '_handleNextLineOrFileWithComments',
-      [this.Shortcut.PREV_LINE]: '_handlePrevLineOrFileWithComments',
-      [this.Shortcut.VISIBLE_LINE]: '_handleVisibleLine',
-      [this.Shortcut.NEXT_FILE_WITH_COMMENTS]:
+      [Shortcut.LEFT_PANE]: '_handleLeftPane',
+      [Shortcut.RIGHT_PANE]: '_handleRightPane',
+      [Shortcut.NEXT_LINE]: '_handleNextLineOrFileWithComments',
+      [Shortcut.PREV_LINE]: '_handlePrevLineOrFileWithComments',
+      [Shortcut.VISIBLE_LINE]: '_handleVisibleLine',
+      [Shortcut.NEXT_FILE_WITH_COMMENTS]:
           '_handleNextLineOrFileWithComments',
-      [this.Shortcut.PREV_FILE_WITH_COMMENTS]:
+      [Shortcut.PREV_FILE_WITH_COMMENTS]:
           '_handlePrevLineOrFileWithComments',
-      [this.Shortcut.NEW_COMMENT]: '_handleNewComment',
-      [this.Shortcut.SAVE_COMMENT]: null, // DOC_ONLY binding
-      [this.Shortcut.NEXT_FILE]: '_handleNextFile',
-      [this.Shortcut.PREV_FILE]: '_handlePrevFile',
-      [this.Shortcut.NEXT_CHUNK]: '_handleNextChunkOrCommentThread',
-      [this.Shortcut.NEXT_COMMENT_THREAD]: '_handleNextChunkOrCommentThread',
-      [this.Shortcut.PREV_CHUNK]: '_handlePrevChunkOrCommentThread',
-      [this.Shortcut.PREV_COMMENT_THREAD]: '_handlePrevChunkOrCommentThread',
-      [this.Shortcut.OPEN_REPLY_DIALOG]:
+      [Shortcut.NEW_COMMENT]: '_handleNewComment',
+      [Shortcut.SAVE_COMMENT]: null, // DOC_ONLY binding
+      [Shortcut.NEXT_FILE]: '_handleNextFile',
+      [Shortcut.PREV_FILE]: '_handlePrevFile',
+      [Shortcut.NEXT_CHUNK]: '_handleNextChunkOrCommentThread',
+      [Shortcut.NEXT_COMMENT_THREAD]: '_handleNextChunkOrCommentThread',
+      [Shortcut.PREV_CHUNK]: '_handlePrevChunkOrCommentThread',
+      [Shortcut.PREV_COMMENT_THREAD]: '_handlePrevChunkOrCommentThread',
+      [Shortcut.OPEN_REPLY_DIALOG]:
           '_handleOpenReplyDialogOrToggleLeftPane',
-      [this.Shortcut.TOGGLE_LEFT_PANE]:
+      [Shortcut.TOGGLE_LEFT_PANE]:
           '_handleOpenReplyDialogOrToggleLeftPane',
-      [this.Shortcut.UP_TO_CHANGE]: '_handleUpToChange',
-      [this.Shortcut.OPEN_DIFF_PREFS]: '_handleCommaKey',
-      [this.Shortcut.TOGGLE_DIFF_MODE]: '_handleToggleDiffMode',
-      [this.Shortcut.TOGGLE_FILE_REVIEWED]: '_handleToggleFileReviewed',
-      [this.Shortcut.EXPAND_ALL_DIFF_CONTEXT]: '_handleExpandAllDiffContext',
-      [this.Shortcut.NEXT_UNREVIEWED_FILE]: '_handleNextUnreviewedFile',
-      [this.Shortcut.TOGGLE_BLAME]: '_handleToggleBlame',
-      [this.Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS]:
+      [Shortcut.UP_TO_CHANGE]: '_handleUpToChange',
+      [Shortcut.OPEN_DIFF_PREFS]: '_handleCommaKey',
+      [Shortcut.TOGGLE_DIFF_MODE]: '_handleToggleDiffMode',
+      [Shortcut.TOGGLE_FILE_REVIEWED]: '_handleToggleFileReviewed',
+      [Shortcut.EXPAND_ALL_DIFF_CONTEXT]: '_handleExpandAllDiffContext',
+      [Shortcut.NEXT_UNREVIEWED_FILE]: '_handleNextUnreviewedFile',
+      [Shortcut.TOGGLE_BLAME]: '_handleToggleBlame',
+      [Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS]:
           '_handleToggleHideAllCommentThreads',
-      [this.Shortcut.DIFF_AGAINST_BASE]: '_handleDiffAgainstBase',
-      [this.Shortcut.DIFF_AGAINST_LATEST]: '_handleDiffAgainstLatest',
-      [this.Shortcut.DIFF_BASE_AGAINST_LEFT]: '_handleDiffBaseAgainstLeft',
-      [this.Shortcut.DIFF_RIGHT_AGAINST_LATEST]:
+      [Shortcut.DIFF_AGAINST_BASE]: '_handleDiffAgainstBase',
+      [Shortcut.DIFF_AGAINST_LATEST]: '_handleDiffAgainstLatest',
+      [Shortcut.DIFF_BASE_AGAINST_LEFT]: '_handleDiffBaseAgainstLeft',
+      [Shortcut.DIFF_RIGHT_AGAINST_LATEST]:
         '_handleDiffRightAgainstLatest',
-      [this.Shortcut.DIFF_BASE_AGAINST_LATEST]:
+      [Shortcut.DIFF_BASE_AGAINST_LATEST]:
         '_handleDiffBaseAgainstLatest',
 
       // Final two are actually handled by gr-comment-thread.
-      [this.Shortcut.EXPAND_ALL_COMMENT_THREADS]: null,
-      [this.Shortcut.COLLAPSE_ALL_COMMENT_THREADS]: null,
+      [Shortcut.EXPAND_ALL_COMMENT_THREADS]: null,
+      [Shortcut.COLLAPSE_ALL_COMMENT_THREADS]: null,
     };
   }
 

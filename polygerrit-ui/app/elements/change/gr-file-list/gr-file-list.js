@@ -28,13 +28,12 @@ import '../../shared/gr-select/gr-select.js';
 import '../../shared/gr-tooltip-content/gr-tooltip-content.js';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard.js';
 import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-file-list_html.js';
 import {asyncForeach} from '../../../utils/async-util.js';
-import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {KeyboardShortcutMixin, Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {GrFileListConstants} from '../gr-file-list-constants.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
@@ -96,11 +95,9 @@ const FILE_ROW_CLASS = 'file-row';
 /**
  * @extends PolymerElement
  */
-class GrFileList extends mixinBehaviors( [
-  KeyboardShortcutBehavior,
-], GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))) {
+class GrFileList extends KeyboardShortcutMixin(
+    GestureEventListeners(
+        LegacyElementMixin(PolymerElement))) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-file-list'; }
@@ -273,28 +270,28 @@ class GrFileList extends mixinBehaviors( [
 
   keyboardShortcuts() {
     return {
-      [this.Shortcut.LEFT_PANE]: '_handleLeftPane',
-      [this.Shortcut.RIGHT_PANE]: '_handleRightPane',
-      [this.Shortcut.TOGGLE_INLINE_DIFF]: '_handleToggleInlineDiff',
-      [this.Shortcut.TOGGLE_ALL_INLINE_DIFFS]: '_handleToggleAllInlineDiffs',
-      [this.Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS]:
+      [Shortcut.LEFT_PANE]: '_handleLeftPane',
+      [Shortcut.RIGHT_PANE]: '_handleRightPane',
+      [Shortcut.TOGGLE_INLINE_DIFF]: '_handleToggleInlineDiff',
+      [Shortcut.TOGGLE_ALL_INLINE_DIFFS]: '_handleToggleAllInlineDiffs',
+      [Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS]:
         '_handleToggleHideAllCommentThreads',
-      [this.Shortcut.CURSOR_NEXT_FILE]: '_handleCursorNext',
-      [this.Shortcut.CURSOR_PREV_FILE]: '_handleCursorPrev',
-      [this.Shortcut.NEXT_LINE]: '_handleCursorNext',
-      [this.Shortcut.PREV_LINE]: '_handleCursorPrev',
-      [this.Shortcut.NEW_COMMENT]: '_handleNewComment',
-      [this.Shortcut.OPEN_LAST_FILE]: '_handleOpenLastFile',
-      [this.Shortcut.OPEN_FIRST_FILE]: '_handleOpenFirstFile',
-      [this.Shortcut.OPEN_FILE]: '_handleOpenFile',
-      [this.Shortcut.NEXT_CHUNK]: '_handleNextChunk',
-      [this.Shortcut.PREV_CHUNK]: '_handlePrevChunk',
-      [this.Shortcut.TOGGLE_FILE_REVIEWED]: '_handleToggleFileReviewed',
-      [this.Shortcut.TOGGLE_LEFT_PANE]: '_handleToggleLeftPane',
+      [Shortcut.CURSOR_NEXT_FILE]: '_handleCursorNext',
+      [Shortcut.CURSOR_PREV_FILE]: '_handleCursorPrev',
+      [Shortcut.NEXT_LINE]: '_handleCursorNext',
+      [Shortcut.PREV_LINE]: '_handleCursorPrev',
+      [Shortcut.NEW_COMMENT]: '_handleNewComment',
+      [Shortcut.OPEN_LAST_FILE]: '_handleOpenLastFile',
+      [Shortcut.OPEN_FIRST_FILE]: '_handleOpenFirstFile',
+      [Shortcut.OPEN_FILE]: '_handleOpenFile',
+      [Shortcut.NEXT_CHUNK]: '_handleNextChunk',
+      [Shortcut.PREV_CHUNK]: '_handlePrevChunk',
+      [Shortcut.TOGGLE_FILE_REVIEWED]: '_handleToggleFileReviewed',
+      [Shortcut.TOGGLE_LEFT_PANE]: '_handleToggleLeftPane',
 
       // Final two are actually handled by gr-comment-thread.
-      [this.Shortcut.EXPAND_ALL_COMMENT_THREADS]: null,
-      [this.Shortcut.COLLAPSE_ALL_COMMENT_THREADS]: null,
+      [Shortcut.EXPAND_ALL_COMMENT_THREADS]: null,
+      [Shortcut.COLLAPSE_ALL_COMMENT_THREADS]: null,
     };
   }
 

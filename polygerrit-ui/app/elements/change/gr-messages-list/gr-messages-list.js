@@ -20,12 +20,14 @@ import '../../shared/gr-icons/gr-icons.js';
 import '../gr-message/gr-message.js';
 import '../../../styles/shared-styles.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-messages-list_html.js';
-import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {
+  KeyboardShortcutMixin,
+  Shortcut, ShortcutSection,
+} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {parseDate} from '../../../utils/date-util.js';
 import {MessageTag} from '../../../constants/constants.js';
 import {appContext} from '../../../services/app-context.js';
@@ -151,11 +153,10 @@ export const TEST_ONLY = {
 /**
  * @extends PolymerElement
  */
-class GrMessagesList extends mixinBehaviors( [
-  KeyboardShortcutBehavior,
-], GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))) {
+class GrMessagesList extends KeyboardShortcutMixin(
+    GestureEventListeners(
+        LegacyElementMixin(
+            PolymerElement))) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-messages-list'; }
@@ -335,11 +336,11 @@ class GrMessagesList extends mixinBehaviors( [
   _computeExpandAllTitle(_expandAllState) {
     if (_expandAllState === ExpandAllState.COLLAPSED_ALL) {
       return this.createTitle(
-          this.Shortcut.COLLAPSE_ALL_MESSAGES, this.ShortcutSection.ACTIONS);
+          Shortcut.COLLAPSE_ALL_MESSAGES, ShortcutSection.ACTIONS);
     }
     if (_expandAllState === ExpandAllState.EXPAND_ALL) {
       return this.createTitle(
-          this.Shortcut.EXPAND_ALL_MESSAGES, this.ShortcutSection.ACTIONS);
+          Shortcut.EXPAND_ALL_MESSAGES, ShortcutSection.ACTIONS);
     }
     return '';
   }

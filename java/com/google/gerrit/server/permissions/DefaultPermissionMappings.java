@@ -85,6 +85,7 @@ public class DefaultPermissionMappings {
           .put(RefPermission.CREATE_TAG, Permission.CREATE_TAG)
           .put(RefPermission.CREATE_SIGNED_TAG, Permission.CREATE_SIGNED_TAG)
           .put(RefPermission.READ_PRIVATE_CHANGES, Permission.VIEW_PRIVATE_CHANGES)
+          .put(RefPermission.READ_REFLOG, Permission.READ_REFLOG)
           .build();
 
   private static final ImmutableBiMap<ChangePermission, String> CHANGE_PERMISSIONS =

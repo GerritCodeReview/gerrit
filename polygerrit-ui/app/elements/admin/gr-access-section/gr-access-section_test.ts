@@ -131,6 +131,7 @@ suite('gr-access-section tests', () => {
                     <option value="owner">Owner</option>
                     <option value="push">Push</option>
                     <option value="pushMerge">Push Merge Commit</option>
+                    <option value="readReflog">Read Reflog</option>
                     <option value="rebase">Rebase</option>
                     <option value="removeReviewer">Remove Reviewer</option>
                     <option value="revert">Revert</option>

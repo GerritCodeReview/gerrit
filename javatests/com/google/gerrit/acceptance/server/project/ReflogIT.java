@@ -133,7 +133,7 @@ public class ReflogIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void ownerUserIsAllowedToGetReflog() throws Exception {
+  public void ownerUserIsNotAllowedToGetReflog() throws Exception {
     GroupApi groupApi = gApi.groups().create(name("get-reflog"));
     groupApi.addMembers("user");
 
@@ -141,6 +141,23 @@ public class ReflogIT extends AbstractDaemonTest {
         .project(project)
         .forUpdate()
         .add(allow(Permission.OWNER).ref("refs/*").group(AccountGroup.uuid(groupApi.get().id)))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+    assertThrows(
+        AuthException.class, () -> gApi.projects().name(project.get()).branch("master").reflog());
+  }
+
+  @Test
+  public void userWithReadReflogPermissionIsAllowedToGetReflog() throws Exception {
+    GroupApi groupApi = gApi.groups().create(name("get-reflog"));
+    groupApi.addMembers("user");
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allow(Permission.READ_REFLOG).ref("refs/*").group(AccountGroup.uuid(groupApi.get().id)))
         .update();
 
     requestScopeOperations.setApiUser(user.id());

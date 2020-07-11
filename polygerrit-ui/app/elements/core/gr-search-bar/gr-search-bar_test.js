@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-search-bar.js';
 import '../../../scripts/util.js';
 import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
+import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 
 const basicFixture = fixtureFromElement('gr-search-bar');
 
@@ -27,7 +28,7 @@ suite('gr-search-bar tests', () => {
 
   suiteSetup(() => {
     const kb = TestKeyboardShortcutBinder.push();
-    kb.bindShortcut(kb.Shortcut.SEARCH, '/');
+    kb.bindShortcut(Shortcut.SEARCH, '/');
   });
 
   suiteTeardown(() => {

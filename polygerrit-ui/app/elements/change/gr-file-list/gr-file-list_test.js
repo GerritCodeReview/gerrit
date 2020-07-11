@@ -26,6 +26,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {runA11yAudit} from '../../../test/a11y-test-utils.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
+import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 
 const commentApiMock = createCommentApiMockWithTemplateElement(
     'gr-file-list-comment-api-mock', html`
@@ -52,22 +53,22 @@ suite('gr-file-list tests', () => {
 
   suiteSetup(() => {
     const kb = TestKeyboardShortcutBinder.push();
-    kb.bindShortcut(kb.Shortcut.LEFT_PANE, 'shift+left');
-    kb.bindShortcut(kb.Shortcut.RIGHT_PANE, 'shift+right');
-    kb.bindShortcut(kb.Shortcut.TOGGLE_INLINE_DIFF, 'i:keyup');
-    kb.bindShortcut(kb.Shortcut.TOGGLE_ALL_INLINE_DIFFS, 'shift+i:keyup');
-    kb.bindShortcut(kb.Shortcut.CURSOR_NEXT_FILE, 'j', 'down');
-    kb.bindShortcut(kb.Shortcut.CURSOR_PREV_FILE, 'k', 'up');
-    kb.bindShortcut(kb.Shortcut.NEXT_LINE, 'j', 'down');
-    kb.bindShortcut(kb.Shortcut.PREV_LINE, 'k', 'up');
-    kb.bindShortcut(kb.Shortcut.NEW_COMMENT, 'c');
-    kb.bindShortcut(kb.Shortcut.OPEN_LAST_FILE, '[');
-    kb.bindShortcut(kb.Shortcut.OPEN_FIRST_FILE, ']');
-    kb.bindShortcut(kb.Shortcut.OPEN_FILE, 'o');
-    kb.bindShortcut(kb.Shortcut.NEXT_CHUNK, 'n');
-    kb.bindShortcut(kb.Shortcut.PREV_CHUNK, 'p');
-    kb.bindShortcut(kb.Shortcut.TOGGLE_FILE_REVIEWED, 'r');
-    kb.bindShortcut(kb.Shortcut.TOGGLE_LEFT_PANE, 'shift+a');
+    kb.bindShortcut(Shortcut.LEFT_PANE, 'shift+left');
+    kb.bindShortcut(Shortcut.RIGHT_PANE, 'shift+right');
+    kb.bindShortcut(Shortcut.TOGGLE_INLINE_DIFF, 'i:keyup');
+    kb.bindShortcut(Shortcut.TOGGLE_ALL_INLINE_DIFFS, 'shift+i:keyup');
+    kb.bindShortcut(Shortcut.CURSOR_NEXT_FILE, 'j', 'down');
+    kb.bindShortcut(Shortcut.CURSOR_PREV_FILE, 'k', 'up');
+    kb.bindShortcut(Shortcut.NEXT_LINE, 'j', 'down');
+    kb.bindShortcut(Shortcut.PREV_LINE, 'k', 'up');
+    kb.bindShortcut(Shortcut.NEW_COMMENT, 'c');
+    kb.bindShortcut(Shortcut.OPEN_LAST_FILE, '[');
+    kb.bindShortcut(Shortcut.OPEN_FIRST_FILE, ']');
+    kb.bindShortcut(Shortcut.OPEN_FILE, 'o');
+    kb.bindShortcut(Shortcut.NEXT_CHUNK, 'n');
+    kb.bindShortcut(Shortcut.PREV_CHUNK, 'p');
+    kb.bindShortcut(Shortcut.TOGGLE_FILE_REVIEWED, 'r');
+    kb.bindShortcut(Shortcut.TOGGLE_LEFT_PANE, 'shift+a');
   });
 
   suiteTeardown(() => {

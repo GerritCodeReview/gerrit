@@ -51,7 +51,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-view_html.js';
-import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {KeyboardShortcutMixin, Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GrEditConstants} from '../../edit/gr-edit-constants.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
@@ -136,11 +136,10 @@ const ROBOT_COMMENTS_LIMIT = 10;
  * @extends PolymerElement
  */
 class GrChangeView extends mixinBehaviors( [
-  KeyboardShortcutBehavior,
   RESTClientBehavior,
-], PatchSetMixin(GestureEventListeners(
+], KeyboardShortcutMixin(PatchSetMixin(GestureEventListeners(
     LegacyElementMixin(
-        PolymerElement)))) {
+        PolymerElement))))) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-change-view'; }
@@ -430,26 +429,26 @@ class GrChangeView extends mixinBehaviors( [
 
   keyboardShortcuts() {
     return {
-      [this.Shortcut.SEND_REPLY]: null, // DOC_ONLY binding
-      [this.Shortcut.EMOJI_DROPDOWN]: null, // DOC_ONLY binding
-      [this.Shortcut.REFRESH_CHANGE]: '_handleRefreshChange',
-      [this.Shortcut.OPEN_REPLY_DIALOG]: '_handleOpenReplyDialog',
-      [this.Shortcut.OPEN_DOWNLOAD_DIALOG]:
+      [Shortcut.SEND_REPLY]: null, // DOC_ONLY binding
+      [Shortcut.EMOJI_DROPDOWN]: null, // DOC_ONLY binding
+      [Shortcut.REFRESH_CHANGE]: '_handleRefreshChange',
+      [Shortcut.OPEN_REPLY_DIALOG]: '_handleOpenReplyDialog',
+      [Shortcut.OPEN_DOWNLOAD_DIALOG]:
           '_handleOpenDownloadDialogShortcut',
-      [this.Shortcut.TOGGLE_DIFF_MODE]: '_handleToggleDiffMode',
-      [this.Shortcut.TOGGLE_CHANGE_STAR]: '_handleToggleChangeStar',
-      [this.Shortcut.UP_TO_DASHBOARD]: '_handleUpToDashboard',
-      [this.Shortcut.EXPAND_ALL_MESSAGES]: '_handleExpandAllMessages',
-      [this.Shortcut.COLLAPSE_ALL_MESSAGES]: '_handleCollapseAllMessages',
-      [this.Shortcut.EXPAND_ALL_DIFF_CONTEXT]: '_expandAllDiffs',
-      [this.Shortcut.OPEN_DIFF_PREFS]: '_handleOpenDiffPrefsShortcut',
-      [this.Shortcut.EDIT_TOPIC]: '_handleEditTopic',
-      [this.Shortcut.DIFF_AGAINST_BASE]: '_handleDiffAgainstBase',
-      [this.Shortcut.DIFF_AGAINST_LATEST]: '_handleDiffAgainstLatest',
-      [this.Shortcut.DIFF_BASE_AGAINST_LEFT]: '_handleDiffBaseAgainstLeft',
-      [this.Shortcut.DIFF_RIGHT_AGAINST_LATEST]:
+      [Shortcut.TOGGLE_DIFF_MODE]: '_handleToggleDiffMode',
+      [Shortcut.TOGGLE_CHANGE_STAR]: '_handleToggleChangeStar',
+      [Shortcut.UP_TO_DASHBOARD]: '_handleUpToDashboard',
+      [Shortcut.EXPAND_ALL_MESSAGES]: '_handleExpandAllMessages',
+      [Shortcut.COLLAPSE_ALL_MESSAGES]: '_handleCollapseAllMessages',
+      [Shortcut.EXPAND_ALL_DIFF_CONTEXT]: '_expandAllDiffs',
+      [Shortcut.OPEN_DIFF_PREFS]: '_handleOpenDiffPrefsShortcut',
+      [Shortcut.EDIT_TOPIC]: '_handleEditTopic',
+      [Shortcut.DIFF_AGAINST_BASE]: '_handleDiffAgainstBase',
+      [Shortcut.DIFF_AGAINST_LATEST]: '_handleDiffAgainstLatest',
+      [Shortcut.DIFF_BASE_AGAINST_LEFT]: '_handleDiffBaseAgainstLeft',
+      [Shortcut.DIFF_RIGHT_AGAINST_LATEST]:
         '_handleDiffRightAgainstLatest',
-      [this.Shortcut.DIFF_BASE_AGAINST_LATEST]:
+      [Shortcut.DIFF_BASE_AGAINST_LATEST]:
         '_handleDiffBaseAgainstLatest',
     };
   }

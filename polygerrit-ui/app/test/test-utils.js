@@ -78,6 +78,7 @@ function registerTestCleanup(cleanupCallback) {
 
 export function cleanupTestUtils() {
   cleanups.forEach(cleanup => cleanup());
+  cleanups.splice(0);
 }
 
 export function stubBaseUrl(newUrl) {

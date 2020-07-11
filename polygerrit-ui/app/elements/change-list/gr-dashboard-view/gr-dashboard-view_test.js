@@ -19,6 +19,8 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-dashboard-view.js';
 import {isHidden} from '../../../test/test-utils.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {changeIsOpen} from '../../../utils/change-util.js';
+import {ChangeStatus} from '../../../constants/constants.js';
 
 const basicFixture = fixtureFromElement('gr-dashboard-view');
 
@@ -66,16 +68,17 @@ suite('gr-dashboard-view tests', () => {
 
       test('no drafts on open changes', () => {
         element.params = {user: 'self'};
-        element._results = [{query: 'has:draft', results: [{status: '_'}]}];
-        sinon.stub(element, 'changeIsOpen').returns(true);
+        const openChange = {status: ChangeStatus.NEW};
+        element._results = [{query: 'has:draft', results: [openChange]}];
         element._maybeShowDraftsBanner();
         assert.isFalse(element._showDraftsBanner);
       });
 
-      test('no drafts on open changes', () => {
+      test('no drafts on not open changes', () => {
         element.params = {user: 'self'};
-        element._results = [{query: 'has:draft', results: [{status: '_'}]}];
-        sinon.stub(element, 'changeIsOpen').returns(false);
+        const notOpenChange = {status: '_'};
+        element._results = [{query: 'has:draft', results: [notOpenChange]}];
+        assert.isFalse(changeIsOpen(element._results[0].results[0]));
         element._maybeShowDraftsBanner();
         assert.isTrue(element._showDraftsBanner);
       });

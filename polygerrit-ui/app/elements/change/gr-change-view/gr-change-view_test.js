@@ -1024,8 +1024,6 @@ suite('gr-change-view tests', () => {
   });
 
   test('_changeStatuses', () => {
-    sinon.stub(element, 'changeStatuses').returns(
-        ['Merged', 'WIP']);
     element._loading = false;
     element._change = {
       change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
@@ -1036,6 +1034,8 @@ suite('gr-change-view tests', () => {
         rev3: {_number: 3},
       },
       current_revision: 'rev3',
+      status: ChangeStatus.MERGED,
+      work_in_progress: true,
       labels: {
         test: {
           all: [],

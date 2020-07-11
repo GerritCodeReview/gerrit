@@ -27,7 +27,7 @@ import com.google.gerrit.server.args4j.InstantHandler;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.BranchResource;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -94,8 +94,8 @@ public class GetReflog implements RestReadView<BranchResource> {
       throws RestApiException, IOException, PermissionBackendException {
     permissionBackend
         .user(rsrc.getUser())
-        .project(rsrc.getNameKey())
-        .check(ProjectPermission.READ_REFLOG);
+        .ref(rsrc.getBranchKey())
+        .check(RefPermission.READ_REFLOG);
 
     try (Repository repo = repoManager.openRepository(rsrc.getNameKey())) {
       ReflogReader r;

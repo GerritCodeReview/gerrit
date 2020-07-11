@@ -62,6 +62,23 @@
       "revId": "0f404a57fdc7e5b6c3245e6b44c42f1712986088",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc5f3205_2f86f2be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-11T23:43:08Z",
+      "side": 1,
+      "message": "While this change works, it would need more time to bring it into good shape.\nPermission Documentation is missing.\nTests are missing.\nSchema upgrade code is missing.\nThis would probably need quite some more work. Hence, abandoning.\n\nA simple fix for the Issue in our case would be to simply take the current\nProjectControl Permission and deny `READ_REFLOG` unconditionally.",
+      "revId": "0f404a57fdc7e5b6c3245e6b44c42f1712986088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

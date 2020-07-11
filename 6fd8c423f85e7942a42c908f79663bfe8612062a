@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "919f53ad_e3820191",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-11T13:33:42Z",
+      "side": 1,
+      "message": "Done in PS3",
+      "parentUuid": "4ae474be_9a7222d8",
+      "range": {
+        "startLine": 9,
+        "startChar": 25,
+        "endLine": 9,
+        "endChar": 28
+      },
+      "revId": "6fd8c423f85e7942a42c908f79663bfe8612062a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19a2e0e7_7d352418",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -74,6 +98,24 @@
       "revId": "6fd8c423f85e7942a42c908f79663bfe8612062a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8940dc8_c66b7f11",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-11T13:33:42Z",
+      "side": 1,
+      "message": "Maybe I misunderstood your original comment.\n\nAt any rate, I now switched the visibility detection to\n`gr-plugin-endpoints.js` (`getDetails`), while still checking for the\n`hidden` attribute. This makes the code more compact and it looks more\nrobust. While it also allows to dynamically hide the whole related\nchanges list.",
+      "parentUuid": "9ddd1a2c_dbe614b9",
+      "revId": "6fd8c423f85e7942a42c908f79663bfe8612062a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -33,6 +33,24 @@
       "revId": "977ab26f8970bcd56aac6683a6126cba03b73c13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "442a8024_662952b9",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2020-07-11T00:21:31Z",
+      "side": 1,
+      "message": "Thanks for the feedback. Can you please review the latest patchset? We have attempted to address the concern.",
+      "parentUuid": "231e8a35_7a297153",
+      "revId": "977ab26f8970bcd56aac6683a6126cba03b73c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

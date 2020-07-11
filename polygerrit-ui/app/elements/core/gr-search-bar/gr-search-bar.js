@@ -18,12 +18,11 @@ import '../../shared/gr-autocomplete/gr-autocomplete.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../../styles/shared-styles.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-search-bar_html.js';
-import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {KeyboardShortcutMixin, Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 
 // Possible static search options for auto complete, without negations.
 const SEARCH_OPERATORS = [
@@ -114,11 +113,8 @@ const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+\s*/g;
 /**
  * @extends PolymerElement
  */
-class GrSearchBar extends mixinBehaviors( [
-  KeyboardShortcutBehavior,
-], GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))) {
+class GrSearchBar extends KeyboardShortcutMixin(GestureEventListeners(
+    LegacyElementMixin(PolymerElement))) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-search-bar'; }
@@ -203,7 +199,7 @@ class GrSearchBar extends mixinBehaviors( [
 
   keyboardShortcuts() {
     return {
-      [this.Shortcut.SEARCH]: '_handleSearch',
+      [Shortcut.SEARCH]: '_handleSearch',
     };
   }
 

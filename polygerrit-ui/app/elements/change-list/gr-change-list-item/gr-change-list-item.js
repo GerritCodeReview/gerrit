@@ -26,19 +26,18 @@ import '../../shared/gr-tooltip-content/gr-tooltip-content.js';
 import '../../../styles/shared-styles.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-list-item_html.js';
 import {ChangeTableMixin} from '../../../mixins/gr-change-table-mixin/gr-change-table-mixin.js';
-import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {getDisplayName} from '../../../utils/display-name-util.js';
 import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {appContext} from '../../../services/app-context.js';
 import {truncatePath} from '../../../utils/path-list-util.js';
+import {changeStatuses} from '../../../utils/change-util.js';
 
 const CHANGE_SIZE = {
   XS: 10,
@@ -51,14 +50,10 @@ const CHANGE_SIZE = {
 const PRIMARY_REVIEWERS_COUNT = 2;
 
 /**
- * @appliesMixin RESTClientMixin
  * @extends PolymerElement
  */
-class GrChangeListItem extends ChangeTableMixin(mixinBehaviors( [
-  RESTClientBehavior,
-], GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)))) {
+class GrChangeListItem extends ChangeTableMixin(GestureEventListeners(
+    LegacyElementMixin(PolymerElement))) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-change-list-item'; }
@@ -86,7 +81,7 @@ class GrChangeListItem extends ChangeTableMixin(mixinBehaviors( [
       },
       statuses: {
         type: Array,
-        computed: 'changeStatuses(change)',
+        computed: '_changeStatuses(change)',
       },
       showStar: {
         type: Boolean,
@@ -115,6 +110,10 @@ class GrChangeListItem extends ChangeTableMixin(mixinBehaviors( [
       this._dynamicCellEndpoints = pluginEndpoints.getDynamicEndpoints(
           'change-list-item-cell');
     });
+  }
+
+  _changeStatuses(change) {
+    return changeStatuses(change);
   }
 
   _computeChangeURL(change) {

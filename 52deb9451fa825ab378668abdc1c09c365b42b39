@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a6da418b_fb7565f0",
+        "filename": "tools/workspace_status_release.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-11T07:31:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cefa444_2cd875cb",
+      "range": {
+        "startLine": 81,
+        "startChar": 30,
+        "endLine": 81,
+        "endChar": 49
+      },
+      "revId": "52deb9451fa825ab378668abdc1c09c365b42b39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7828511_0b2a1c03",
         "filename": "tools/workspace_status_release.py",
         "patchSetId": 7
@@ -45,6 +69,30 @@
       "revId": "52deb9451fa825ab378668abdc1c09c365b42b39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9664de74_1356884e",
+        "filename": "tools/workspace_status_release.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-11T07:31:57Z",
+      "side": 1,
+      "message": "Since changes got squashed per request, let\u0027s continue this on the squashed change\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/269693/8/tools/workspace_status_release.py#82",
+      "parentUuid": "b7828511_0b2a1c03",
+      "range": {
+        "startLine": 82,
+        "startChar": 12,
+        "endLine": 89,
+        "endChar": 30
+      },
+      "revId": "52deb9451fa825ab378668abdc1c09c365b42b39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

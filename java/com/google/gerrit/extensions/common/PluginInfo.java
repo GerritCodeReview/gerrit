@@ -17,13 +17,21 @@ package com.google.gerrit.extensions.common;
 public class PluginInfo {
   public final String id;
   public final String version;
+  public final String apiVersion;
   public final String indexUrl;
   public final String filename;
   public final Boolean disabled;
 
-  public PluginInfo(String id, String version, String indexUrl, String filename, Boolean disabled) {
+  public PluginInfo(
+      String id,
+      String version,
+      String apiVersion,
+      String indexUrl,
+      String filename,
+      Boolean disabled) {
     this.id = id;
     this.version = version;
+    this.apiVersion = apiVersion;
     this.indexUrl = indexUrl;
     this.filename = filename;
     this.disabled = disabled;

@@ -441,6 +441,7 @@ class GrChangeView extends mixinBehaviors( [
       [this.Shortcut.UP_TO_DASHBOARD]: '_handleUpToDashboard',
       [this.Shortcut.EXPAND_ALL_MESSAGES]: '_handleExpandAllMessages',
       [this.Shortcut.COLLAPSE_ALL_MESSAGES]: '_handleCollapseAllMessages',
+      [this.Shortcut.EXPAND_ALL_DIFF_CONTEXT]: '_expandAllDiffs',
       [this.Shortcut.OPEN_DIFF_PREFS]: '_handleOpenDiffPrefsShortcut',
       [this.Shortcut.EDIT_TOPIC]: '_handleEditTopic',
     };

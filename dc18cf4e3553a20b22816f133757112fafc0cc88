@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3cc80758_723b25a1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-11T07:31:30Z",
+      "side": 1,
+      "message": "Squashed into Ib1681b2730cf2c443a3cb55fe6e282f6484e18ed. And since this script\nis not required for building, I skipped stable-3.0 and put it directly on\nstable-3.1. So we can keep the JGit stamping as well.",
+      "parentUuid": "b9ff8cfb_04a0605c",
+      "revId": "dc18cf4e3553a20b22816f133757112fafc0cc88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "576ba2a4_458bfbee",
         "filename": "tools/workspace_status_release.py",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "dc18cf4e3553a20b22816f133757112fafc0cc88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65b8a8b7_27bfe7f9",
+        "filename": "tools/workspace_status_release.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-11T07:31:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "576ba2a4_458bfbee",
+      "range": {
+        "startLine": 134,
+        "startChar": 18,
+        "endLine": 134,
+        "endChar": 25
+      },
+      "revId": "dc18cf4e3553a20b22816f133757112fafc0cc88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

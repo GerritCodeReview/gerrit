@@ -96,9 +96,6 @@ public enum ProjectPermission implements CoreOrPluginProjectPermission {
   /** Allow banning commits from Gerrit preventing pushes of these commits. */
   BAN_COMMIT,
 
-  /** Allow accessing the project's reflog. */
-  READ_REFLOG,
-
   /** Can push to at least one reference within the repository. */
   PUSH_AT_LEAST_ONE_REF("push to at least one ref");
 

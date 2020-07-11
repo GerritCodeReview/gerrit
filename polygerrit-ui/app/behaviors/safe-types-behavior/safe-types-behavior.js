@@ -68,11 +68,3 @@ SafeTypes.safeTypesBridge = function(value, type) {
   // Otherwise fail.
   throw new Error(`Refused to bind value as ${type}: ${value}`);
 };
-
-// TODO(dmfilippov) Remove the following lines with assignments
-// Plugins can use the behavior because it was accessible with
-// the global Gerrit... variable. To avoid breaking changes in plugins
-// temporary assign global variables.
-window.Gerrit = window.Gerrit || {};
-window.Gerrit.SafeTypes = SafeTypes;
-

@@ -33,13 +33,11 @@ import '../gr-diff-mode-selector/gr-diff-mode-selector.js';
 import '../gr-diff-preferences-dialog/gr-diff-preferences-dialog.js';
 import '../gr-patch-range-select/gr-patch-range-select.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-diff-view_html.js';
 import {KeyboardShortcutMixin, Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
-import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {RevisionInfo} from '../../shared/revision-info/revision-info.js';
@@ -55,6 +53,7 @@ import {
   isMagicPath, specialFilePathCompare,
 } from '../../../utils/path-list-util.js';
 import {PathListMixin} from '../../../mixins/gr-path-list-mixin/gr-path-list-mixin.js';
+import {changeBaseURL, changeIsOpen} from '../../../utils/change-util.js';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -76,11 +75,8 @@ const DiffViewMode = {
  * @appliesMixin PatchSetMixin
  * @extends PolymerElement
  */
-class GrDiffView extends mixinBehaviors( [
-  RESTClientBehavior,
-], KeyboardShortcutMixin(PathListMixin(PatchSetMixin(GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)))))) {
+class GrDiffView extends KeyboardShortcutMixin(PathListMixin(
+    PatchSetMixin(GestureEventListeners(LegacyElementMixin(PolymerElement))))) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-diff-view'; }
@@ -1140,7 +1136,7 @@ class GrDiffView extends mixinBehaviors( [
       patchNum = patchRange.basePatchNum;
     }
 
-    let url = this.changeBaseURL(project, changeNum, patchNum) +
+    let url = changeBaseURL(project, changeNum, patchNum) +
         `/files/${encodeURIComponent(path)}/download`;
 
     if (isBase && comparedAgainsParent) {
@@ -1151,7 +1147,7 @@ class GrDiffView extends mixinBehaviors( [
   }
 
   _computeDownloadPatchLink(project, changeNum, patchRange, path) {
-    let url = this.changeBaseURL(project, changeNum, patchRange.patchNum);
+    let url = changeBaseURL(project, changeNum, patchRange.patchNum);
     url += '/patch?zip&path=' + encodeURIComponent(path);
     return url;
   }
@@ -1449,7 +1445,7 @@ class GrDiffView extends mixinBehaviors( [
         .some(arg => arg === undefined)) {
       return false;
     }
-    return loggedIn && this.changeIsOpen(changeChangeRecord.base);
+    return loggedIn && changeIsOpen(changeChangeRecord.base);
   }
 }
 

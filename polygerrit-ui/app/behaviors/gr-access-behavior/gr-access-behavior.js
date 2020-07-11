@@ -98,6 +98,10 @@ export const AccessBehavior = {
           id: 'read',
           name: 'Read',
         },
+        readReflog: {
+          id: 'readReflog',
+          name: 'Read Reflog',
+        },
         rebase: {
           id: 'rebase',
           name: 'Rebase',

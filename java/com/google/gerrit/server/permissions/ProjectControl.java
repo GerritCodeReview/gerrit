@@ -450,7 +450,6 @@ class ProjectControl {
           return controlForRef(RefNames.REFS_CONFIG).isVisible();
 
         case BAN_COMMIT:
-        case READ_REFLOG:
         case WRITE_CONFIG:
           return isOwner();
       }

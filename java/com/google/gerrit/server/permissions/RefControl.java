@@ -534,6 +534,9 @@ class RefControl {
           case READ_PRIVATE_CHANGES:
             pde.setAdvice("You need 'Read Private Changes' to see private changes.");
             break;
+          case READ_REFLOG:
+            pde.setAdvice("You need 'Read Reflog' to read the reflog.");
+            break;
           case SET_HEAD:
             pde.setAdvice("You need 'Set HEAD' rights to set the default branch.");
             break;
@@ -622,6 +625,9 @@ class RefControl {
               && canForgeCommitter()
               && canForgeGerritServerIdentity()
               && canUploadMerges();
+
+        case READ_REFLOG:
+          return canPerform(Permission.READ_REFLOG);
       }
       throw new PermissionBackendException(perm + " unsupported");
     }

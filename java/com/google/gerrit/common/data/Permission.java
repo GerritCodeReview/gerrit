@@ -42,6 +42,7 @@ public class Permission implements Comparable<Permission> {
   public static final String PUSH = "push";
   public static final String PUSH_MERGE = "pushMerge";
   public static final String READ = "read";
+  public static final String READ_REFLOG = "readReflog";
   public static final String REBASE = "rebase";
   public static final String REMOVE_REVIEWER = "removeReviewer";
   public static final String REVERT = "revert";
@@ -76,6 +77,7 @@ public class Permission implements Comparable<Permission> {
     NAMES_LC.add(PUSH.toLowerCase());
     NAMES_LC.add(PUSH_MERGE.toLowerCase());
     NAMES_LC.add(READ.toLowerCase());
+    NAMES_LC.add(READ_REFLOG.toLowerCase());
     NAMES_LC.add(REBASE.toLowerCase());
     NAMES_LC.add(REMOVE_REVIEWER.toLowerCase());
     NAMES_LC.add(REVERT.toLowerCase());

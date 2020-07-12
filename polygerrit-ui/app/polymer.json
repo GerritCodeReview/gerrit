@@ -1,8 +1,8 @@
 {
   "shell": "elements/gr-app.js",
   "sources": [
-    "behaviors/**/*",
     "elements/**/*",
+    "mixins/**/*",
     "scripts/**/*",
     "styles/*",
     "types/**/*"

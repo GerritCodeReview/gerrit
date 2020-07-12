@@ -48,6 +48,8 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
 import java.util.HashMap;
@@ -73,6 +75,7 @@ public class AccessIT extends AbstractDaemonTest {
   @Inject private DynamicSet<FileHistoryWebLink> fileHistoryWebLinkDynamicSet;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private PermissionBackend pb;
 
   private Project.NameKey newProjectName;
 
@@ -199,8 +202,7 @@ public class AccessIT extends AbstractDaemonTest {
     ChangeInfo c = gApi.changes().id(out._number).get(MESSAGES);
     assertThat(c.messages.stream().map(m -> m.message)).containsExactly("Uploaded patch set 1");
 
-    ReviewInput reviewIn = new ReviewInput();
-    reviewIn.label("Code-Review", (short) 2);
+    ReviewInput reviewIn = ReviewInput.approve();
     gApi.changes().id(out._number).current().review(reviewIn);
     gApi.changes().id(out._number).current().submit();
 
@@ -667,6 +669,37 @@ public class AccessIT extends AbstractDaemonTest {
     exception.expect(BadRequestException.class);
     exception.expectMessage("Invalid Name: " + invalidRef);
     pApi().accessChange(accessInput);
+  }
+
+  @Test
+  public void checkSubmitPermission() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    assertThat(
+            pb.absentUser(user.id())
+                .project(newProjectName)
+                .ref(REFS_HEADS)
+                .test(RefPermission.SUBMIT))
+        .isFalse();
+
+    requestScopeOperations.setApiUser(admin.id());
+    ProjectAccessInput accessInput = newProjectAccessInput();
+    AccessSectionInfo submitSectionInfo = newAccessSectionInfo();
+    PermissionInfo submit = newPermissionInfo();
+
+    PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
+    submit.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), pri);
+    submitSectionInfo.permissions.put(Permission.SUBMIT, submit);
+
+    accessInput.add.put(REFS_HEADS, submitSectionInfo);
+    gApi.projects().name(newProjectName.get()).access(accessInput);
+
+    requestScopeOperations.setApiUser(user.id());
+    assertThat(
+            pb.absentUser(user.id())
+                .project(newProjectName)
+                .ref(REFS_HEADS)
+                .test(RefPermission.SUBMIT))
+        .isTrue();
   }
 
   private ProjectApi pApi() throws Exception {

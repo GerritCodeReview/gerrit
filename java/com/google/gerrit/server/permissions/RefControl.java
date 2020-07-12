@@ -544,6 +544,10 @@ class RefControl {
                 "You need 'Submit' rights on refs/for/ to submit changes during change upload.");
             break;
 
+          case SUBMIT:
+            pde.setAdvice("You need 'Submit' rights to submit changes on this ref.");
+            break;
+
           case WRITE_CONFIG:
             pde.setAdvice("You need 'Write' rights on refs/meta/config.");
             break;
@@ -603,6 +607,8 @@ class RefControl {
 
         case UPDATE_BY_SUBMIT:
           return projectControl.controlForRef(MagicBranch.NEW_CHANGE + refName).canSubmit(true);
+        case SUBMIT:
+          return canSubmit(true);
 
         case READ_PRIVATE_CHANGES:
           return canPerform(Permission.VIEW_PRIVATE_CHANGES);

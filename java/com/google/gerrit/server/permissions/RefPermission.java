@@ -17,6 +17,7 @@ package com.google.gerrit.server.permissions;
 import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.extensions.api.access.GerritPermission;
+import com.google.gerrit.server.git.validators.CommitValidationListener;
 
 public enum RefPermission implements GerritPermission {
   READ,
@@ -61,6 +62,15 @@ public enum RefPermission implements GerritPermission {
    * for each commit, automatic server side rebase, and post-update review are enabled.
    */
   UPDATE_BY_SUBMIT,
+
+  /**
+   * Can submit changes for this ref.
+   *
+   * <p>This is the same as {@link ChangePermission#SUBMIT} except that it can be used without
+   * having a change instance. This could be useful when checking for submit permission in a {@link
+   * CommitValidationListener} implementation to perform or skip additional tests.
+   */
+  SUBMIT,
 
   /**
    * Can read all private changes on the ref. Typically granted to CI systems if they should run on

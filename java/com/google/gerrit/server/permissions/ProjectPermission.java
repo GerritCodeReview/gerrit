@@ -81,6 +81,9 @@ public enum ProjectPermission implements CoreOrPluginProjectPermission {
    */
   CREATE_CHANGE,
 
+  /** Can submit changes in the project. */
+  SUBMIT_CHANGE,
+
   /** Can run receive pack. */
   RUN_RECEIVE_PACK("run receive-pack"),
 

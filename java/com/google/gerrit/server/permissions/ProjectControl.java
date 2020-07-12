@@ -432,6 +432,8 @@ class ProjectControl {
           return canAddTagRefs();
         case CREATE_CHANGE:
           return canCreateChanges();
+        case SUBMIT_CHANGE:
+          return controlForRef(RefNames.REFS_HEADS + "*").canSubmit(true);
 
         case RUN_RECEIVE_PACK:
           return canRunReceivePack();

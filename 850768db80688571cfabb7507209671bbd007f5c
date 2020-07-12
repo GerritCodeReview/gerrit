@@ -22,6 +22,30 @@
       "revId": "850768db80688571cfabb7507209671bbd007f5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ad6ce5d_eea6311c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-12T08:22:15Z",
+      "side": 1,
+      "message": "\u003e The \u0027into\u0027 suffix is only omitted when merging into the master branch.\n\nAh! I saw it in some merges in the past, but not all. So I figured that the rule is\n\n  \"Edit the target branch away\" (and we sometimes forget to).\n\nSo I removed it. I did not get that it depends on the target branch. Thanks for\nclarifying.",
+      "parentUuid": "e38d7d10_b46a774f",
+      "range": {
+        "startLine": 8,
+        "startChar": 13,
+        "endLine": 8,
+        "endChar": 25
+      },
+      "revId": "850768db80688571cfabb7507209671bbd007f5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

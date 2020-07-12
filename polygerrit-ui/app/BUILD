@@ -5,7 +5,6 @@ package(default_visibility = ["//visibility:public"])
 
 # This list must be in sync with the "include" list in the tsconfig.json file
 src_dirs = [
-    "behaviors",
     "constants",
     "elements",
     "embed",

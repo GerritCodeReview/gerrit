@@ -17,9 +17,6 @@
 
 const SAFE_URL_PATTERN = /^(https?:\/\/|mailto:|[^:/?#]*(?:[/?#]|$))/i;
 
-/** @polymerBehavior Gerrit.SafeTypes */
-export const SafeTypes = {};
-
 /**
  * Wraps a string to be used as a URL. An error is thrown if the string cannot
  * be considered safe.
@@ -27,35 +24,39 @@ export const SafeTypes = {};
  * @constructor
  * @param {string} url the unwrapped, potentially unsafe URL.
  */
-SafeTypes.SafeUrl = function(url) {
-  if (!SAFE_URL_PATTERN.test(url)) {
-    throw new Error(`URL not marked as safe: ${url}`);
+class SafeUrl {
+  constructor(url) {
+    if (!SAFE_URL_PATTERN.test(url)) {
+      throw new Error(`URL not marked as safe: ${url}`);
+    }
+    this._url = url;
   }
-  this._url = url;
-};
+
+  toString() {
+    return this._url;
+  }
+}
+
+export const _testOnly_SafeUrl = SafeUrl;
 
 /**
  * Get the string representation of the safe URL.
  *
  * @returns {string}
  */
-SafeTypes.SafeUrl.prototype.asString = function() {
-  return this._url;
-};
-
-SafeTypes.safeTypesBridge = function(value, type) {
+export function safeTypesBridge(value, type) {
   // If the value is being bound to a URL, ensure the value is wrapped in the
   // SafeUrl type first. If the URL is not safe, allow the SafeUrl constructor
   // to surface the error.
   if (type === 'URL') {
     let safeValue = null;
-    if (value instanceof SafeTypes.SafeUrl) {
+    if (value instanceof SafeUrl) {
       safeValue = value;
     } else if (typeof value === 'string') {
-      safeValue = new SafeTypes.SafeUrl(value);
+      safeValue = new SafeUrl(value);
     }
     if (safeValue) {
-      return safeValue.asString();
+      return safeValue.toString();
     }
   }
 
@@ -67,4 +68,4 @@ SafeTypes.safeTypesBridge = function(value, type) {
 
   // Otherwise fail.
   throw new Error(`Refused to bind value as ${type}: ${value}`);
-};
+}

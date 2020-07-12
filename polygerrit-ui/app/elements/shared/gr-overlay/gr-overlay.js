@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {IronOverlayBehaviorImpl, IronOverlayBehavior} from '@polymer/iron-overlay-behavior/iron-overlay-behavior.js';
+import {IronOverlayBehaviorImpl} from '@polymer/iron-overlay-behavior/iron-overlay-behavior.js';
 import '../../../styles/shared-styles.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-overlay_html.js';
+import {IronOverlayMixin} from '../../../mixins/iron-overlay-mixin/iron-overlay-mixin.js';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -29,11 +29,8 @@ const BREAKPOINT_FULLSCREEN_OVERLAY = '50em';
 /**
  * @extends PolymerElement
  */
-class GrOverlay extends mixinBehaviors( [
-  IronOverlayBehavior,
-], GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))) {
+class GrOverlay extends IronOverlayMixin(GestureEventListeners(
+    LegacyElementMixin(PolymerElement))) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-overlay'; }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e38d7d10_b46a774f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-12T00:12:05Z",
+      "side": 1,
+      "message": "\u0027stable-3.0\u0027 into stable-3.1\n\nI forgot to mention this nit before merging this change. The \u0027into\u0027 suffix is only omitted when merging into the master branch.",
+      "range": {
+        "startLine": 8,
+        "startChar": 13,
+        "endLine": 8,
+        "endChar": 25
+      },
+      "revId": "850768db80688571cfabb7507209671bbd007f5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

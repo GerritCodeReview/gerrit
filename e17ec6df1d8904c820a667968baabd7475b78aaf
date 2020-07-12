@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c60f2d5e_0ebb24e7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-12T08:31:09Z",
+      "side": 1,
+      "message": "Done in PS2",
+      "parentUuid": "ca623379_ac1eefff",
+      "range": {
+        "startLine": 8,
+        "startChar": 13,
+        "endLine": 8,
+        "endChar": 25
+      },
+      "revId": "e17ec6df1d8904c820a667968baabd7475b78aaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7571a27e_51bdee6e",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -56,6 +80,24 @@
       "revId": "e17ec6df1d8904c820a667968baabd7475b78aaf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66f791a7_3794c716",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-12T08:31:09Z",
+      "side": 1,
+      "message": "Yes, these changes are from commits in this merge.\n(I50bd8e35e48584111107c690781a5d4b2c37815c and I22789452dccafe05bf6c6b1606023b937be6690f)\nThe ES6 module conversion happened only on stable-3.2 and later branches.\nSo changes in gr-plugin-list.html (ends in `.html`) on stable-3.1 need to be brought to\ngr-plugin-list_html.js (ends in `_html.js`) on stable-3.2.\n\nSee Ic078c03c9ead018c80142ce1976d7192cb631964.\n\nI\u0027ve updated the commit message accordingly.",
+      "parentUuid": "6fa5b76b_b2150a7c",
+      "revId": "e17ec6df1d8904c820a667968baabd7475b78aaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

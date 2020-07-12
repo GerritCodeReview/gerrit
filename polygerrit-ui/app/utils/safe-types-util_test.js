@@ -15,29 +15,13 @@
  * limitations under the License.
  */
 
-import '../../test/common-test-setup-karma.js';
-import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
-import {SafeTypes} from './safe-types-behavior.js';
+import '../test/common-test-setup-karma.js';
+import {safeTypesBridge, SafeUrl} from './safe-types-util.js';
 
-const basicFixture = fixtureFromElement('safe-types-element');
-
-suite('gr-tooltip-behavior tests', () => {
-  let element;
-
-  suiteSetup(() => {
-    Polymer({
-      is: 'safe-types-element',
-      behaviors: [SafeTypes],
-    });
-  });
-
-  setup(() => {
-    element = basicFixture.instantiate();
-  });
-
+suite('safe-types-util tests', () => {
   test('SafeUrl accepts valid urls', () => {
     function accepts(url) {
-      const safeUrl = new element.SafeUrl(url);
+      const safeUrl = new SafeUrl(url);
       assert.isOk(safeUrl);
       assert.equal(url, safeUrl.asString());
     }
@@ -52,7 +36,7 @@ suite('gr-tooltip-behavior tests', () => {
 
   test('SafeUrl rejects invalid urls', () => {
     function rejects(url) {
-      assert.throws(() => { new element.SafeUrl(url); });
+      assert.throws(() => { new SafeUrl(url); });
     }
     rejects('javascript://alert("evil");');
     rejects('ftp:example.com');
@@ -61,12 +45,12 @@ suite('gr-tooltip-behavior tests', () => {
 
   suite('safeTypesBridge', () => {
     function acceptsString(value, type) {
-      assert.equal(SafeTypes.safeTypesBridge(value, type),
+      assert.equal(safeTypesBridge(value, type),
           value);
     }
 
     function rejects(value, type) {
-      assert.throws(() => { SafeTypes.safeTypesBridge(value, type); });
+      assert.throws(() => { safeTypesBridge(value, type); });
     }
 
     test('accepts valid URL strings', () => {
@@ -80,8 +64,8 @@ suite('gr-tooltip-behavior tests', () => {
 
     test('accepts SafeUrl values', () => {
       const url = '/abc/123';
-      const safeUrl = new element.SafeUrl(url);
-      assert.equal(SafeTypes.safeTypesBridge(safeUrl, 'URL'), url);
+      const safeUrl = new SafeUrl(url);
+      assert.equal(safeTypesBridge(safeUrl, 'URL'), url);
     });
 
     test('rejects non-string or non-SafeUrl types', () => {
@@ -101,4 +85,3 @@ suite('gr-tooltip-behavior tests', () => {
     });
   });
 });
-

@@ -22,7 +22,6 @@ import './test-app-context-init.js';
 import 'polymer-resin/standalone/polymer-resin.js';
 import '@polymer/iron-test-helpers/iron-test-helpers.js';
 import './test-router.js';
-import {SafeTypes} from '../behaviors/safe-types-behavior/safe-types-behavior.js';
 import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnlyResetRestApi} from '../elements/shared/gr-js-api-interface/gr-plugin-rest-api.js';
 import {_testOnlyResetGrRestApiSharedObjects} from '../elements/shared/gr-rest-api-interface/gr-rest-api-interface.js';
@@ -30,6 +29,7 @@ import {cleanupTestUtils, TestKeyboardShortcutBinder} from './test-utils.js';
 import {flushDebouncers} from '@polymer/polymer/lib/utils/debounce';
 import {_testOnly_getShortcutManagerInstance} from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import sinon from 'sinon/pkg/sinon-esm.js';
+import {safeTypesBridge} from '../utils/safe-types-util.js';
 window.sinon = sinon;
 
 security.polymer_resin.install({
@@ -45,7 +45,7 @@ security.polymer_resin.install({
         JSON.stringify(args));
     }
   },
-  safeTypesBridge: SafeTypes.safeTypesBridge,
+  safeTypesBridge,
 });
 
 const cleanups = [];

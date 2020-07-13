@@ -16,7 +16,7 @@ package com.google.gerrit.server.mail;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.mail.Address;
+import com.google.gerrit.entities.Address;
 import com.google.gerrit.mail.MailMessage;
 import java.time.Instant;
 import org.junit.Test;

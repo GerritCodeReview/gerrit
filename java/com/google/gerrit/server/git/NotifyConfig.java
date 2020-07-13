@@ -18,7 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.mail.Address;
+import com.google.gerrit.entities.Address;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import java.util.EnumSet;
 import java.util.Set;

@@ -388,3 +388,10 @@ message ContributorAgreementProto {
   repeated string exclude_regular_expressions = 6;
   repeated string match_regular_expressions = 7;
 }
+
+// Serialized form of com.google.gerrit.entities.Address.
+// Next ID: 3
+message AddressProto {
+  string name = 1;
+  string email = 2;
+}

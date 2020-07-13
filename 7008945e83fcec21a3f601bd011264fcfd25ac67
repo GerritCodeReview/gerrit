@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58b63d0a_cc5bc9e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-13T20:15:39Z",
+      "side": 1,
+      "message": "(Trying to clear the resolution warning upon submission.)",
+      "revId": "7008945e83fcec21a3f601bd011264fcfd25ac67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

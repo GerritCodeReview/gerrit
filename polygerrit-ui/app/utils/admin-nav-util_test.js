@@ -15,35 +15,20 @@
  * limitations under the License.
  */
 
-import '../../test/common-test-setup-karma.js';
-import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
-import {AdminNavBehavior} from './gr-admin-nav-behavior.js';
-
-const basicFixture = fixtureFromElement('gr-admin-nav-behavior-test-element');
+import '../test/common-test-setup-karma.js';
+import {getAdminLinks} from './admin-nav-util.js';
 
 suite('gr-admin-nav-behavior tests', () => {
-  let element;
   let capabilityStub;
   let menuLinkStub;
 
-  suiteSetup(() => {
-    // Define a Polymer element that uses this behavior.
-    Polymer({
-      is: 'gr-admin-nav-behavior-test-element',
-      behaviors: [
-        AdminNavBehavior,
-      ],
-    });
-  });
-
   setup(() => {
-    element = basicFixture.instantiate();
     capabilityStub = sinon.stub();
     menuLinkStub = sinon.stub().returns([]);
   });
 
   const testAdminLinks = (account, options, expected, done) => {
-    element.getAdminLinks(account,
+    getAdminLinks(account,
         capabilityStub,
         menuLinkStub,
         options)

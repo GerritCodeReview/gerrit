@@ -21,14 +21,13 @@ import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../gr-account-dropdown/gr-account-dropdown.js';
 import '../gr-smart-search/gr-smart-search.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-main-header_html.js';
 import {getBaseUrl, getDocsBaseUrl} from '../../../utils/url-util.js';
-import {AdminNavBehavior} from '../../../behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {getAdminLinks} from '../../../utils/admin-nav-util.js';
 
 const DEFAULT_LINKS = [{
   title: 'Changes',
@@ -85,11 +84,9 @@ const AUTH_TYPES_WITH_REGISTER_URL = new Set([
 /**
  * @extends PolymerElement
  */
-class GrMainHeader extends mixinBehaviors( [
-  AdminNavBehavior,
-], GestureEventListeners(
+class GrMainHeader extends GestureEventListeners(
     LegacyElementMixin(
-        PolymerElement))) {
+        PolymerElement)) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-main-header'; }
@@ -272,7 +269,7 @@ class GrMainHeader extends mixinBehaviors( [
       this.loading = false;
       this._topMenus = result[1];
 
-      return this.getAdminLinks(account,
+      return getAdminLinks(account,
           this.$.restAPI.getAccountCapabilities.bind(this.$.restAPI),
           this.$.jsAPI.getAdminMenuLinks.bind(this.$.jsAPI))
           .then(res => {

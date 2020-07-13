@@ -52,6 +52,23 @@
       "revId": "f61bf9b98bc270dab3c0b29f890c247a657ee26c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2756f318_52a70d6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-13T09:20:36Z",
+      "side": 1,
+      "message": "Does anyone still have concerns with this change? Looks good to me.",
+      "revId": "f61bf9b98bc270dab3c0b29f890c247a657ee26c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

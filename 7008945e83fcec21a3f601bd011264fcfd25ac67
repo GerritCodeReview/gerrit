@@ -16,6 +16,23 @@
       "revId": "7008945e83fcec21a3f601bd011264fcfd25ac67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "505b321d_dc6274a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-13T20:19:48Z",
+      "side": 1,
+      "message": "It seems that Bazel team discovered a regression for building with RBE using Docker and working on patch release 3.4.1: [1]. So we should probably wait with merging this series up to master, and upgrade Bazel to 3.4.1 first.\n\n[1] https://github.com/bazelbuild/bazel/issues/11756",
+      "revId": "7008945e83fcec21a3f601bd011264fcfd25ac67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

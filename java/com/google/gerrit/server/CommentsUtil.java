@@ -16,6 +16,7 @@ package com.google.gerrit.server;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
@@ -23,6 +24,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
+import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
@@ -174,6 +176,18 @@ public class CommentsUtil {
             robotRunId);
     ctx.getUser().updateRealAccountId(c::setRealAuthor);
     return c;
+  }
+
+  public Optional<HumanComment> getPublishedHumanComment(
+      ChangeNotes notes, String uuid, String hashedPath, int psId) {
+    return publishedHumanCommentsByChange(notes).stream()
+        .filter(
+            c ->
+                uuid.equals(c.key.uuid)
+                    && psId == c.key.patchSetId
+                    && hashedPath.equals(
+                        Hashing.murmur3_128().hashString(c.key.filename, UTF_8).toString()))
+        .findFirst();
   }
 
   public Optional<HumanComment> getPublishedHumanComment(ChangeNotes notes, Comment.Key key) {

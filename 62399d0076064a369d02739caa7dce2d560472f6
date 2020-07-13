@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9f27cea_4374b72e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-13T21:34:26Z",
+      "side": 1,
+      "message": "Bazel version 3.4.0 appears to have a regression: [1] so that the patch release is in preparation.\n\n[1] https://github.com/bazelbuild/bazel/issues/11756",
+      "revId": "62399d0076064a369d02739caa7dce2d560472f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

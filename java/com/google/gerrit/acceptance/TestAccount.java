@@ -22,7 +22,7 @@ import com.google.common.collect.Streams;
 import com.google.common.net.InetAddresses;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.mail.Address;
+import com.google.gerrit.entities.Address;
 import java.net.InetSocketAddress;
 import java.util.Arrays;
 import org.apache.http.client.utils.URIBuilder;

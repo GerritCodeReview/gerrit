@@ -18,10 +18,10 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.Assisted;

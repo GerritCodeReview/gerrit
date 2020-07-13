@@ -18,13 +18,13 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.entities.Address;
+import com.google.gerrit.entities.EmailHeader;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
-import com.google.gerrit.mail.Address;
-import com.google.gerrit.mail.EmailHeader;
 import com.google.gerrit.testing.FakeEmailSender;
 import java.net.URL;
 import org.eclipse.jgit.lib.Repository;

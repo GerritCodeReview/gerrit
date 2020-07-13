@@ -18,9 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.mail.Address;
 import com.google.gerrit.mail.MailMessage;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.util.time.TimeUtil;

@@ -51,9 +51,4 @@ public class RestoredSender extends ReplyToChangeSender {
       appendHtml(soyHtmlTemplate("RestoredHtml"));
     }
   }
-
-  @Override
-  protected boolean supportsHtml() {
-    return true;
-  }
 }

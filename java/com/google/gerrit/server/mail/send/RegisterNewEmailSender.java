@@ -60,6 +60,9 @@ public class RegisterNewEmailSender extends OutgoingEmail {
   @Override
   protected void format() throws EmailException {
     appendText(textTemplate("RegisterNewEmail"));
+    if (useHtml()) {
+      appendHtml(soyHtmlTemplate("RegisterNewEmailHtml"));
+    }
   }
 
   public boolean isAllowed() {

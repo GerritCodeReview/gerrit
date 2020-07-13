@@ -97,11 +97,6 @@ public class DeleteKeySender extends OutgoingEmail {
     soyContextEmailData.put("userNameEmail", getUserNameEmailFor(user.getAccountId()));
   }
 
-  @Override
-  protected boolean supportsHtml() {
-    return true;
-  }
-
   private String getEmail() {
     return user.getAccount().preferredEmail();
   }

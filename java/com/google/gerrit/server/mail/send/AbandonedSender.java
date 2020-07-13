@@ -51,9 +51,4 @@ public class AbandonedSender extends ReplyToChangeSender {
       appendHtml(soyHtmlTemplate("AbandonedHtml"));
     }
   }
-
-  @Override
-  protected boolean supportsHtml() {
-    return true;
-  }
 }

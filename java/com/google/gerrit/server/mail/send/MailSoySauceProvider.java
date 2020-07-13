@@ -69,6 +69,7 @@ public class MailSoySauceProvider implements Provider<SoySauce> {
     "NoReplyFooterHtml.soy",
     "Private.soy",
     "RegisterNewEmail.soy",
+    "RegisterNewEmailHtml.soy",
     "ReplacePatchSet.soy",
     "ReplacePatchSetHtml.soy",
     "Restored.soy",

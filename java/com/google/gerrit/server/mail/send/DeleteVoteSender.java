@@ -51,9 +51,4 @@ public class DeleteVoteSender extends ReplyToChangeSender {
       appendHtml(soyHtmlTemplate("DeleteVoteHtml"));
     }
   }
-
-  @Override
-  protected boolean supportsHtml() {
-    return true;
-  }
 }

@@ -109,10 +109,10 @@ actions made by the user in the Web UI such as cherry picking a commit or
 reverting a change.  It is a `ChangeEmail`: see `ChangeSubject.soy` and
 ChangeFooter.
 
-=== RegisterNewEmail.soy
+=== RegisterNewEmail.soy and RegisterNewEmailHtml.soy
 
-The `RegisterNewEmail.soy` template will determine the contents of the email
-related to registering new email accounts.
+Those templates will determine the contents of the email related to registering
+new email accounts.
 
 === ReplacePatchSet.soy and ReplacePatchSetHtml.soy
 

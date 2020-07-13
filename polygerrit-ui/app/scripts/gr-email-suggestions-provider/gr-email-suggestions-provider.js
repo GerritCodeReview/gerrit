@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GrDisplayNameUtils} from '../gr-display-name-utils/gr-display-name-utils.js';
+import {getAccountDisplayName} from '../../utils/display-name-util.js';
 
 export class GrEmailSuggestionsProvider {
   constructor(restAPI) {
@@ -31,7 +31,7 @@ export class GrEmailSuggestionsProvider {
 
   makeSuggestionItem(account) {
     return {
-      name: GrDisplayNameUtils.getAccountDisplayName(null, account),
+      name: getAccountDisplayName(null, account),
       value: {account, count: 1},
     };
   }

@@ -3,6 +3,7 @@
   "sources": [
     "behaviors/**/*",
     "elements/**/*",
+    "mixins/**/*",
     "scripts/**/*",
     "styles/*",
     "types/**/*"

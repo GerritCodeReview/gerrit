@@ -29,7 +29,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-list_html.js';
 import {appContext} from '../../../services/app-context.js';
-import {ChangeTableBehavior} from '../../../behaviors/gr-change-table-behavior/gr-change-table-behavior.js';
+import {ChangeTableMixin} from '../../../mixins/gr-change-table-mixin/gr-change-table-mixin.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
 import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
@@ -44,13 +44,12 @@ const MAX_SHORTCUT_CHARS = 5;
 /**
  * @extends PolymerElement
  */
-class GrChangeList extends mixinBehaviors( [
-  ChangeTableBehavior,
+class GrChangeList extends ChangeTableMixin(mixinBehaviors( [
   KeyboardShortcutBehavior,
   RESTClientBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
-        PolymerElement))) {
+        PolymerElement)))) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-change-list'; }

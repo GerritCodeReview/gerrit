@@ -602,12 +602,12 @@ public class RevertSubmission
       changeReverted.fire(
           change, changeNotesFactory.createChecked(revertChangeId).getChange(), ctx.getWhen());
       try {
-        RevertedSender cm = revertedSenderFactory.create(ctx.getProject(), change.getId());
-        cm.setFrom(ctx.getAccountId());
-        cm.setNotify(ctx.getNotify(change.getId()));
-        cm.setMessageId(
+        RevertedSender emailSender = revertedSenderFactory.create(ctx.getProject(), change.getId());
+        emailSender.setFrom(ctx.getAccountId());
+        emailSender.setNotify(ctx.getNotify(change.getId()));
+        emailSender.setMessageId(
             messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
-        cm.send();
+        emailSender.send();
       } catch (Exception err) {
         logger.atSevere().withCause(err).log(
             "Cannot send email for revert change %s", change.getId());

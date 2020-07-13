@@ -229,13 +229,14 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
       try {
         NotifyResolver.Result notify = ctx.getNotify(change.getId());
         if (notify.shouldNotify()) {
-          ReplyToChangeSender cm = deleteVoteSenderFactory.create(ctx.getProject(), change.getId());
-          cm.setFrom(user.getAccountId());
-          cm.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
-          cm.setNotify(notify);
-          cm.setMessageId(
+          ReplyToChangeSender emailSender =
+              deleteVoteSenderFactory.create(ctx.getProject(), change.getId());
+          emailSender.setFrom(user.getAccountId());
+          emailSender.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
+          emailSender.setNotify(notify);
+          emailSender.setMessageId(
               messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
-          cm.send();
+          emailSender.send();
         }
       } catch (Exception e) {
         logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());

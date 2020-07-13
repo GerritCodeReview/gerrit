@@ -465,23 +465,24 @@ public class ChangeInserter implements InsertChangeOp {
             @Override
             public void run() {
               try {
-                CreateChangeSender cm =
+                CreateChangeSender emailSender =
                     createChangeSenderFactory.create(change.getProject(), change.getId());
-                cm.setFrom(change.getOwner());
-                cm.setPatchSet(patchSet, patchSetInfo);
-                cm.setNotify(notify);
-                cm.addReviewers(
+                emailSender.setFrom(change.getOwner());
+                emailSender.setPatchSet(patchSet, patchSetInfo);
+                emailSender.setNotify(notify);
+                emailSender.addReviewers(
                     reviewerAdditions.flattenResults(AddReviewersOp.Result::addedReviewers).stream()
                         .map(PatchSetApproval::accountId)
                         .collect(toImmutableSet()));
-                cm.addReviewersByEmail(
+                emailSender.addReviewersByEmail(
                     reviewerAdditions.flattenResults(AddReviewersOp.Result::addedReviewersByEmail));
-                cm.addExtraCC(reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCs));
-                cm.addExtraCCByEmail(
+                emailSender.addExtraCC(
+                    reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCs));
+                emailSender.addExtraCCByEmail(
                     reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCsByEmail));
-                cm.setMessageId(
+                emailSender.setMessageId(
                     messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
-                cm.send();
+                emailSender.send();
               } catch (Exception e) {
                 logger.atSevere().withCause(e).log(
                     "Cannot send email for new change %s", change.getId());

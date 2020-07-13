@@ -288,15 +288,17 @@ public class PatchSetInserter implements BatchUpdateOp {
     if (notify.shouldNotify() && sendEmail) {
       requireNonNull(changeMessage);
       try {
-        ReplacePatchSetSender cm = replacePatchSetFactory.create(ctx.getProject(), change.getId());
-        cm.setFrom(ctx.getAccountId());
-        cm.setPatchSet(patchSet, patchSetInfo);
-        cm.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
-        cm.addReviewers(oldReviewers.byState(REVIEWER));
-        cm.addExtraCC(oldReviewers.byState(CC));
-        cm.setNotify(notify);
-        cm.setMessageId(messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
-        cm.send();
+        ReplacePatchSetSender emailSender =
+            replacePatchSetFactory.create(ctx.getProject(), change.getId());
+        emailSender.setFrom(ctx.getAccountId());
+        emailSender.setPatchSet(patchSet, patchSetInfo);
+        emailSender.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
+        emailSender.addReviewers(oldReviewers.byState(REVIEWER));
+        emailSender.addExtraCC(oldReviewers.byState(CC));
+        emailSender.setNotify(notify);
+        emailSender.setMessageId(
+            messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
+        emailSender.send();
       } catch (Exception err) {
         logger.atSevere().withCause(err).log(
             "Cannot send email for new patch set on change %s", change.getId());

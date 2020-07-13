@@ -189,13 +189,13 @@ public class MergedByPushOp implements BatchUpdateOp {
                   @Override
                   public void run() {
                     try {
-                      MergedSender cm =
+                      MergedSender emailSender =
                           mergedSenderFactory.create(ctx.getProject(), psId.changeId());
-                      cm.setFrom(ctx.getAccountId());
-                      cm.setPatchSet(patchSet, info);
-                      cm.setMessageId(
+                      emailSender.setFrom(ctx.getAccountId());
+                      emailSender.setPatchSet(patchSet, info);
+                      emailSender.setMessageId(
                           messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
-                      cm.send();
+                      emailSender.send();
                     } catch (Exception e) {
                       logger.atSevere().withCause(e).log(
                           "Cannot send email for submitted patch set %s", psId);

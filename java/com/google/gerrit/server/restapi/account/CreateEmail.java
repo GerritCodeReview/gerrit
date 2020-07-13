@@ -161,12 +161,12 @@ public class CreateEmail
       }
     } else {
       try {
-        RegisterNewEmailSender sender = registerNewEmailFactory.create(email);
-        if (!sender.isAllowed()) {
+        RegisterNewEmailSender emailSender = registerNewEmailFactory.create(email);
+        if (!emailSender.isAllowed()) {
           throw new MethodNotAllowedException("Not allowed to add email address " + email);
         }
-        sender.setMessageId(messageIdGenerator.fromAccountUpdate(user.getAccountId()));
-        sender.send();
+        emailSender.setMessageId(messageIdGenerator.fromAccountUpdate(user.getAccountId()));
+        emailSender.send();
         info.pendingConfirmation = true;
       } catch (EmailException | RuntimeException e) {
         logger.atSevere().withCause(e).log("Cannot send email verification message to %s", email);

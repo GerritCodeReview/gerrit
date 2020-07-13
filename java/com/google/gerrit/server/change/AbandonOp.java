@@ -114,14 +114,16 @@ public class AbandonOp implements BatchUpdateOp {
   public void postUpdate(Context ctx) {
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
     try {
-      ReplyToChangeSender cm = abandonedSenderFactory.create(ctx.getProject(), change.getId());
+      ReplyToChangeSender emailSender =
+          abandonedSenderFactory.create(ctx.getProject(), change.getId());
       if (accountState != null) {
-        cm.setFrom(accountState.account().id());
+        emailSender.setFrom(accountState.account().id());
       }
-      cm.setChangeMessage(message.getMessage(), ctx.getWhen());
-      cm.setNotify(notify);
-      cm.setMessageId(messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
-      cm.send();
+      emailSender.setChangeMessage(message.getMessage(), ctx.getWhen());
+      emailSender.setNotify(notify);
+      emailSender.setMessageId(
+          messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
+      emailSender.send();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
     }

@@ -150,12 +150,13 @@ public class Restore
     @Override
     public void postUpdate(Context ctx) {
       try {
-        ReplyToChangeSender cm = restoredSenderFactory.create(ctx.getProject(), change.getId());
-        cm.setFrom(ctx.getAccountId());
-        cm.setChangeMessage(message.getMessage(), ctx.getWhen());
-        cm.setMessageId(
+        ReplyToChangeSender emailSender =
+            restoredSenderFactory.create(ctx.getProject(), change.getId());
+        emailSender.setFrom(ctx.getAccountId());
+        emailSender.setChangeMessage(message.getMessage(), ctx.getWhen());
+        emailSender.setMessageId(
             messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
-        cm.send();
+        emailSender.send();
       } catch (Exception e) {
         logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
       }

@@ -15,11 +15,11 @@
 package com.google.gerrit.server.mail.send;
 
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
-import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;

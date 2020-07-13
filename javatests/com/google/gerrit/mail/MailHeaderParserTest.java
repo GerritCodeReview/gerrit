@@ -16,6 +16,7 @@ package com.google.gerrit.mail;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.entities.Address;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.Month;

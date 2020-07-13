@@ -17,6 +17,7 @@ package com.google.gerrit.mail;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.gerrit.entities.Address;
 import org.junit.Test;
 
 public class AddressTest {

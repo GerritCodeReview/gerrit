@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.mail.Address;
+import com.google.gerrit.entities.Address;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.util.time.TimeUtil;

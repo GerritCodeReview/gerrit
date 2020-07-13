@@ -22,6 +22,30 @@
       "revId": "48c102a56ef0ff24a72117526477360d5312873f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2f00ae5_5662b318",
+        "filename": "java/com/google/gerrit/server/change/AbandonOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-13T11:36:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a89e7e73_2fde4a9e",
+      "range": {
+        "startLine": 117,
+        "startChar": 26,
+        "endLine": 117,
+        "endChar": 32
+      },
+      "revId": "48c102a56ef0ff24a72117526477360d5312873f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

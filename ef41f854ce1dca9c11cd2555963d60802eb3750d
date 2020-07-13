@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b8564b31_74d2a7a0",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6136,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-13T10:04:45Z",
+      "side": 1,
+      "message": "No: notify and notify_details are the same across 10~ Input entities, so I\u0027d like to stay consistent. Feel free to make a follow-up to change all of those input entities, though ;)",
+      "parentUuid": "e0525cd1_14c31ca3",
+      "revId": "ef41f854ce1dca9c11cd2555963d60802eb3750d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b580932d_b7f5bcc1",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2020-07-10T16:36:25Z",
       "side": 1,
       "message": "Should this be linked?",
+      "range": {
+        "startLine": 6140,
+        "startChar": 12,
+        "endLine": 6140,
+        "endChar": 26
+      },
+      "revId": "ef41f854ce1dca9c11cd2555963d60802eb3750d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d12fb346_a1e4193d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6140,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-13T10:04:45Z",
+      "side": 1,
+      "message": "I can\u0027t see where to link it to. However, in NotifyInfo recipient type is explained so I think it\u0027s fine.\nAs a follow-up change we can add a new title for \"recipient type\" and link it (and also all the other instances of notify_details, there are plenty).\nLet me know if this would be helpful :)",
+      "parentUuid": "b580932d_b7f5bcc1",
       "range": {
         "startLine": 6140,
         "startChar": 12,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "f17d2442_07bcb1c6",
+        "filename": "java/com/google/gerrit/server/change/AddToAttentionSetOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-13T10:04:45Z",
+      "side": 1,
+      "message": "I wish I could have used the real \"notify\" but the batch update\u0027s notify is often different than this notify (since we really don\u0027t want to send an email, even if the users specified notify\u003dall (since they referred to the postReview\u0027s other emails).\n\nI\u0027m not sure it matches the API with this change, since the purpose is not exactly the same, but I don\u0027t mind.",
+      "parentUuid": "5f8caf29_8133aa5e",
+      "range": {
+        "startLine": 69,
+        "startChar": 24,
+        "endLine": 69,
+        "endChar": 34
+      },
+      "revId": "ef41f854ce1dca9c11cd2555963d60802eb3750d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4443e43_f6a164c9",
         "filename": "java/com/google/gerrit/server/change/AddToAttentionSetOp.java",
         "patchSetId": 2
@@ -79,6 +145,24 @@
       "revId": "ef41f854ce1dca9c11cd2555963d60802eb3750d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcde8414_4e04e649",
+        "filename": "java/com/google/gerrit/server/change/AddToAttentionSetOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-13T10:04:45Z",
+      "side": 1,
+      "message": "But I copied your code! ;)\nGood idea though, done.",
+      "parentUuid": "f4443e43_f6a164c9",
+      "revId": "ef41f854ce1dca9c11cd2555963d60802eb3750d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "3db1cd3b_f13a23e0",
+        "filename": "java/com/google/gerrit/server/change/AddToAttentionSetOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-13T10:04:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bbfe177_69d2cff4",
+      "range": {
+        "startLine": 107,
+        "startChar": 30,
+        "endLine": 107,
+        "endChar": 32
+      },
+      "revId": "ef41f854ce1dca9c11cd2555963d60802eb3750d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "993e5c6a_84053789",
         "filename": "java/com/google/gerrit/server/change/RemoveFromAttentionSetOp.java",
         "patchSetId": 2
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "d19157ba_69ab6d55",
+        "filename": "java/com/google/gerrit/server/change/RemoveFromAttentionSetOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-13T10:04:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "993e5c6a_84053789",
+      "range": {
+        "startLine": 87,
+        "startChar": 70,
+        "endLine": 87,
+        "endChar": 76
+      },
+      "revId": "ef41f854ce1dca9c11cd2555963d60802eb3750d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f53b39f_8308be82",
         "filename": "java/com/google/gerrit/server/change/RemoveFromAttentionSetOp.java",
         "patchSetId": 2
@@ -142,6 +274,24 @@
       "revId": "ef41f854ce1dca9c11cd2555963d60802eb3750d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef394597_34eb903c",
+        "filename": "java/com/google/gerrit/server/change/RemoveFromAttentionSetOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-13T10:04:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f53b39f_8308be82",
+      "revId": "ef41f854ce1dca9c11cd2555963d60802eb3750d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -168,6 +318,30 @@
     },
     {
       "key": {
+        "uuid": "f7c9e59a_112c491d",
+        "filename": "java/com/google/gerrit/server/mail/send/RemoveFromAttentionSetSender.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-13T10:04:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed8287ae_ad9a1fd7",
+      "range": {
+        "startLine": 22,
+        "startChar": 24,
+        "endLine": 22,
+        "endChar": 36
+      },
+      "revId": "ef41f854ce1dca9c11cd2555963d60802eb3750d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "844df7e7_a97d4e78",
         "filename": "resources/com/google/gerrit/server/mail/AddToAttentionSet.soy",
         "patchSetId": 2
@@ -191,6 +365,30 @@
     },
     {
       "key": {
+        "uuid": "035bb4a1_697a43a0",
+        "filename": "resources/com/google/gerrit/server/mail/AddToAttentionSet.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-13T10:04:45Z",
+      "side": 1,
+      "message": "Yes it should be accurate. This is only written when $fromName \u003d\u003d $attentionSetUser (below in \"else\" the generic \"was added by\").",
+      "parentUuid": "844df7e7_a97d4e78",
+      "range": {
+        "startLine": 31,
+        "startChar": 14,
+        "endLine": 31,
+        "endChar": 30
+      },
+      "revId": "ef41f854ce1dca9c11cd2555963d60802eb3750d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f889d4b7_797f4321",
         "filename": "resources/com/google/gerrit/server/mail/AddToAttentionSet.soy",
         "patchSetId": 2
@@ -211,6 +409,30 @@
       "revId": "ef41f854ce1dca9c11cd2555963d60802eb3750d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9692f80b_38f4d181",
+        "filename": "resources/com/google/gerrit/server/mail/AddToAttentionSet.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-13T10:04:45Z",
+      "side": 1,
+      "message": "I don\u0027t think they are cryptic, maybe not very detailed.\nI\u0027ll have a look later and see if I can improve them, but \"added as reviewer\" and \"change abanonded/submitted\" and \"X replied\" sound okay. Could be better, though.",
+      "parentUuid": "f889d4b7_797f4321",
+      "range": {
+        "startLine": 35,
+        "startChar": 22,
+        "endLine": 35,
+        "endChar": 31
+      },
+      "revId": "ef41f854ce1dca9c11cd2555963d60802eb3750d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

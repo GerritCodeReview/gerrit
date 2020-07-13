@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9bacd6e9_d3b4072e",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-13T10:04:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8ecf3cb_fc98cd9e",
+      "range": {
+        "startLine": 158,
+        "startChar": 39,
+        "endLine": 158,
+        "endChar": 42
+      },
+      "revId": "2f4614a6669479a91954e3b44400ed2f862cf68b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4abc5c4a_4320a733",
         "filename": "resources/com/google/gerrit/server/mail/AddToAttentionSetHtml.soy",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "826eb148_85d25ab9",
+        "filename": "resources/com/google/gerrit/server/mail/AddToAttentionSetHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-13T10:04:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4abc5c4a_4320a733",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "2f4614a6669479a91954e3b44400ed2f862cf68b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f86e86d4_b5ac6c31",
         "filename": "resources/com/google/gerrit/server/mail/RemoveFromAttentionSetHtml.soy",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "2f4614a6669479a91954e3b44400ed2f862cf68b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e8c5364_4ea39939",
+        "filename": "resources/com/google/gerrit/server/mail/RemoveFromAttentionSetHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-13T10:04:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f86e86d4_b5ac6c31",
+      "range": {
+        "startLine": 2,
+        "startChar": 17,
+        "endLine": 2,
+        "endChar": 21
+      },
+      "revId": "2f4614a6669479a91954e3b44400ed2f862cf68b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

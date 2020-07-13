@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b9cb90f8_45c015ab",
+        "filename": "polygerrit-ui/app/mixins/gr-patch-set-mixin/gr-patch-set-mixin.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-13T10:27:31Z",
+      "side": 1,
+      "message": "strange formatting, why these two on one line, but others on separate lines?",
+      "revId": "f29e1253e884ac8e2976ce7a62e37b0fc3d6a941",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11cebb5c_887f6fc8",
+        "filename": "polygerrit-ui/app/mixins/gr-patch-set-mixin/gr-patch-set-mixin.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-13T10:27:31Z",
+      "side": 1,
+      "message": "For now this is ok, but ultimately I would prefer to not have such Mixin wrappers. For usage in templates each component will have to write its own wrapper. And for computed properties I am surprised that util functions cannot be used???",
+      "revId": "f29e1253e884ac8e2976ce7a62e37b0fc3d6a941",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0281eb8f_2105dac3",
+        "filename": "polygerrit-ui/app/mixins/gr-patch-set-mixin/gr-patch-set-mixin.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-13T10:27:31Z",
+      "side": 1,
+      "message": "maybe also remove this comment",
+      "revId": "f29e1253e884ac8e2976ce7a62e37b0fc3d6a941",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -91,13 +91,14 @@ class EmailMerge implements Runnable, RequestContext {
   public void run() {
     RequestContext old = requestContext.setContext(this);
     try {
-      MergedSender cm = mergedSenderFactory.create(project, change.getId());
+      MergedSender sender = mergedSenderFactory.create(project, change.getId());
       if (submitter != null) {
-        cm.setFrom(submitter);
+        sender.setFrom(submitter);
       }
-      cm.setNotify(notify);
-      cm.setMessageId(messageIdGenerator.fromChangeUpdate(repoView, change.currentPatchSetId()));
-      cm.send();
+      sender.setNotify(notify);
+      sender.setMessageId(
+          messageIdGenerator.fromChangeUpdate(repoView, change.currentPatchSetId()));
+      sender.send();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email merged notification for %s", change.getId());
     } finally {

@@ -224,10 +224,10 @@ public class MailProcessor {
 
   private void sendRejectionEmail(MailMessage message, InboundEmailRejectionSender.Error reason) {
     try {
-      InboundEmailRejectionSender em =
+      InboundEmailRejectionSender sender =
           emailRejectionSender.create(message.from(), message.id(), reason);
-      em.setMessageId(messageIdGenerator.fromMailMessage(message));
-      em.send();
+      sender.setMessageId(messageIdGenerator.fromMailMessage(message));
+      sender.send();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot send email to warn for an error");
     }

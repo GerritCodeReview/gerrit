@@ -309,12 +309,12 @@ public class CommitUtil {
     public void postUpdate(Context ctx) throws Exception {
       changeReverted.fire(change, ins.getChange(), ctx.getWhen());
       try {
-        RevertedSender cm = revertedSenderFactory.create(ctx.getProject(), change.getId());
-        cm.setFrom(ctx.getAccountId());
-        cm.setNotify(ctx.getNotify(change.getId()));
-        cm.setMessageId(
+        RevertedSender sender = revertedSenderFactory.create(ctx.getProject(), change.getId());
+        sender.setFrom(ctx.getAccountId());
+        sender.setNotify(ctx.getNotify(change.getId()));
+        sender.setMessageId(
             messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
-        cm.send();
+        sender.send();
       } catch (Exception err) {
         logger.atSevere().withCause(err).log(
             "Cannot send email for revert change %s", change.getId());

@@ -465,23 +465,24 @@ public class ChangeInserter implements InsertChangeOp {
             @Override
             public void run() {
               try {
-                CreateChangeSender cm =
+                CreateChangeSender sender =
                     createChangeSenderFactory.create(change.getProject(), change.getId());
-                cm.setFrom(change.getOwner());
-                cm.setPatchSet(patchSet, patchSetInfo);
-                cm.setNotify(notify);
-                cm.addReviewers(
+                sender.setFrom(change.getOwner());
+                sender.setPatchSet(patchSet, patchSetInfo);
+                sender.setNotify(notify);
+                sender.addReviewers(
                     reviewerAdditions.flattenResults(AddReviewersOp.Result::addedReviewers).stream()
                         .map(PatchSetApproval::accountId)
                         .collect(toImmutableSet()));
-                cm.addReviewersByEmail(
+                sender.addReviewersByEmail(
                     reviewerAdditions.flattenResults(AddReviewersOp.Result::addedReviewersByEmail));
-                cm.addExtraCC(reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCs));
-                cm.addExtraCCByEmail(
+                sender.addExtraCC(
+                    reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCs));
+                sender.addExtraCCByEmail(
                     reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCsByEmail));
-                cm.setMessageId(
+                sender.setMessageId(
                     messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
-                cm.send();
+                sender.send();
               } catch (Exception e) {
                 logger.atSevere().withCause(e).log(
                     "Cannot send email for new change %s", change.getId());

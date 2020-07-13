@@ -83,17 +83,17 @@ public class AddReviewersEmail {
         sendEmailsExecutor.submit(
             () -> {
               try {
-                AddReviewerSender cm = addReviewerSenderFactory.create(projectNameKey, cId);
-                cm.setNotify(notify);
-                cm.setFrom(userId);
-                cm.addReviewers(immutableToMail);
-                cm.addReviewersByEmail(immutableAddedByEmail);
-                cm.addExtraCC(immutableToCopy);
-                cm.addExtraCCByEmail(immutableCopiedByEmail);
-                cm.setMessageId(
+                AddReviewerSender sender = addReviewerSenderFactory.create(projectNameKey, cId);
+                sender.setNotify(notify);
+                sender.setFrom(userId);
+                sender.addReviewers(immutableToMail);
+                sender.addReviewersByEmail(immutableAddedByEmail);
+                sender.addExtraCC(immutableToCopy);
+                sender.addExtraCCByEmail(immutableCopiedByEmail);
+                sender.setMessageId(
                     messageIdGenerator.fromChangeUpdate(
                         change.getProject(), change.currentPatchSetId()));
-                cm.send();
+                sender.send();
               } catch (Exception err) {
                 logger.atSevere().withCause(err).log(
                     "Cannot send email to new reviewers of change %s", change.getId());

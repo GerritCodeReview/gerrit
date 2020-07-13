@@ -355,3 +355,11 @@ message PermissionRuleProto {
   int32 max = 4;
   GroupReferenceProto group = 5;
 }
+
+// Serialized form of com.google.gerrit.common.data.Permission.
+// Next ID: 4
+message PermissionProto {
+  string name = 1;
+  bool exclusive_group = 2;
+  repeated PermissionRuleProto rules = 3;
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7275a8c1_4f611408",
+        "filename": "polygerrit-ui/app/mixins/gr-patch-set-mixin/gr-patch-set-mixin.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-13T14:00:06Z",
+      "side": 1,
+      "message": "This is done by IntelliJ, I don\u0027t know why. Anyway, I am going to remove this mixin and instead add wrapper into each component.",
+      "parentUuid": "b9cb90f8_45c015ab",
+      "revId": "f29e1253e884ac8e2976ce7a62e37b0fc3d6a941",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11cebb5c_887f6fc8",
         "filename": "polygerrit-ui/app/mixins/gr-patch-set-mixin/gr-patch-set-mixin.js",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "4071e824_02faf222",
+        "filename": "polygerrit-ui/app/mixins/gr-patch-set-mixin/gr-patch-set-mixin.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-13T14:00:06Z",
+      "side": 1,
+      "message": "\u003e\u003eFor now this is ok, but ultimately I would prefer to not have such Mixin wrappers\nIf we are going to remove such wrappers, I will do it immediately. Don\u0027t want to replace one technical debt with another one.\n\n\u003e\u003eAnd for computed properties I am surprised that util functions cannot be used???\nI could only find how to define a computed property as a string. In this case Polymer doesn\u0027t know where to find a utility function and can\u0027t use it.",
+      "parentUuid": "11cebb5c_887f6fc8",
+      "revId": "f29e1253e884ac8e2976ce7a62e37b0fc3d6a941",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0281eb8f_2105dac3",
         "filename": "polygerrit-ui/app/mixins/gr-patch-set-mixin/gr-patch-set-mixin.js",
         "patchSetId": 5
@@ -50,6 +86,24 @@
       "revId": "f29e1253e884ac8e2976ce7a62e37b0fc3d6a941",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3095a1bf_a76f6fd1",
+        "filename": "polygerrit-ui/app/mixins/gr-patch-set-mixin/gr-patch-set-mixin.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-13T14:00:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0281eb8f_2105dac3",
+      "revId": "f29e1253e884ac8e2976ce7a62e37b0fc3d6a941",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

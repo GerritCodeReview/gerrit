@@ -103,6 +103,29 @@
       "revId": "f61bf9b98bc270dab3c0b29f890c247a657ee26c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c47a3687_8647f729",
+        "filename": "java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-13T09:43:02Z",
+      "side": 1,
+      "message": "Should this be alphabetically sorted?",
+      "range": {
+        "startLine": 106,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 8
+      },
+      "revId": "f61bf9b98bc270dab3c0b29f890c247a657ee26c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

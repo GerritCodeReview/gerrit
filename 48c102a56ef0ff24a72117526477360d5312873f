@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a89e7e73_2fde4a9e",
+        "filename": "java/com/google/gerrit/server/change/AbandonOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-13T11:21:37Z",
+      "side": 1,
+      "message": "If we are already expanding names, \"emailSender\" sounds like an even better fit to me (a sender can be anything including notification senders).",
+      "range": {
+        "startLine": 117,
+        "startChar": 26,
+        "endLine": 117,
+        "endChar": 32
+      },
+      "revId": "48c102a56ef0ff24a72117526477360d5312873f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

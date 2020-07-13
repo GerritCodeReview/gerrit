@@ -19,11 +19,13 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.auto.value.AutoValue;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.LabeledContextLineInfo;
 import com.google.gerrit.proto.Protos;
@@ -40,7 +42,10 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
@@ -75,18 +80,32 @@ public class CommentContextCacheImpl implements CommentContextCache {
   @Override
   public List<LabeledContextLineInfo> get(
       Project.NameKey project, Change.Id changeId, CommentInfo comment) throws ExecutionException {
-    return get(
-        project,
-        PatchSet.id(changeId, comment.patchSet),
-        comment.id,
-        comment.path);
+    return get(project, PatchSet.id(changeId, comment.patchSet), comment.id, comment.path);
+  }
+
+  @Override
+  public Map<CommentInfo, List<LabeledContextLineInfo>> getAll(
+      NameKey project, Change.Id changeId, Collection<CommentInfo> comments)
+      throws ExecutionException {
+    List<Key> keys = new ArrayList<>();
+    for (CommentInfo comment : comments) {
+      PatchSet.Id ps = PatchSet.id(changeId, comment.patchSet);
+      String hashedPath = Hashing.murmur3_128().hashString(comment.path, UTF_8).toString();
+      keys.add(Key.create(project, ps, comment.id, hashedPath));
+    }
+    ImmutableMap<Key, List<LabeledContextLineInfo>> all = contextCache.getAll(keys);
+    ImmutableMap.Builder result = ImmutableMap.builder();
+    for (CommentInfo comment : comments) {
+      PatchSet.Id ps = PatchSet.id(changeId, comment.patchSet);
+      String hashedPath = Hashing.murmur3_128().hashString(comment.path, UTF_8).toString();
+      Key k = Key.create(project, ps, comment.id, hashedPath);
+      result.put(comment, all.get(k));
+    }
+    return result.build();
   }
 
   private List<LabeledContextLineInfo> get(
-      Project.NameKey project,
-      PatchSet.Id psId,
-      String commentId,
-      String path)
+      Project.NameKey project, PatchSet.Id psId, String commentId, String path)
       throws ExecutionException {
     String pathHash = Hashing.murmur3_128().hashString(path, UTF_8).toString();
     Key k = Key.create(project, psId, commentId, pathHash);
@@ -96,12 +115,8 @@ public class CommentContextCacheImpl implements CommentContextCache {
   @AutoValue
   abstract static class Key {
     static CommentContextCacheImpl.Key create(
-        Project.NameKey projectKey,
-        PatchSet.Id psId,
-        String commentId,
-        String pathHash) {
-      return new AutoValue_CommentContextCacheImpl_Key(
-          projectKey, psId, commentId, pathHash);
+        Project.NameKey projectKey, PatchSet.Id psId, String commentId, String pathHash) {
+      return new AutoValue_CommentContextCacheImpl_Key(projectKey, psId, commentId, pathHash);
     }
 
     abstract Project.NameKey projectKey();
@@ -196,11 +211,7 @@ public class CommentContextCacheImpl implements CommentContextCache {
         endLine = comment.lineNbr + 1;
       }
       return commentContextUtil.getContext(
-          key.projectKey(),
-          comment.getCommitId(),
-          comment.key.filename,
-          startLine,
-          endLine);
+          key.projectKey(), comment.getCommitId(), comment.key.filename, startLine, endLine);
     }
   }
 }

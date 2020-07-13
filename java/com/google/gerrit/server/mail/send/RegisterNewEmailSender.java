@@ -16,9 +16,9 @@ package com.google.gerrit.server.mail.send;
 
 import static java.util.Objects.requireNonNull;
 
+import com.google.gerrit.entities.Address;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
-import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.mail.EmailTokenVerifier;
 import com.google.inject.Inject;

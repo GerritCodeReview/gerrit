@@ -13,7 +13,7 @@
 // limitations under the License.
 package com.google.gerrit.mail.data;
 
-import com.google.gerrit.mail.Address;
+import com.google.gerrit.entities.Address;
 import com.google.gerrit.mail.MailMessage;
 import java.time.LocalDateTime;
 import java.time.Month;

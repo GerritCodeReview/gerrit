@@ -17,6 +17,7 @@ package com.google.gerrit.mail;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import java.sql.Timestamp;

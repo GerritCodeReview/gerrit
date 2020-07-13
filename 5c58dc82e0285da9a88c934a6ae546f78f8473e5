@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "af06ec84_38f3b7bb",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-13T14:19:28Z",
+      "side": 1,
+      "message": "I updated tests to avoid mocking",
+      "parentUuid": "1026b9f2_fcb0f4d6",
+      "revId": "5c58dc82e0285da9a88c934a6ae546f78f8473e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "308d9785_cf7e240a",
         "filename": "polygerrit-ui/app/utils/mock-proxy-support.ts",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "5c58dc82e0285da9a88c934a6ae546f78f8473e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e020c76e_a3884dbb",
+        "filename": "polygerrit-ui/app/utils/mock-proxy-support.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-13T14:19:28Z",
+      "side": 1,
+      "message": "I updated tests to avoid mocking",
+      "parentUuid": "308d9785_cf7e240a",
+      "revId": "5c58dc82e0285da9a88c934a6ae546f78f8473e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

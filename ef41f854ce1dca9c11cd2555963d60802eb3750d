@@ -126,6 +126,30 @@
     },
     {
       "key": {
+        "uuid": "b2316b25_2cde84f4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6140,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-13T13:13:30Z",
+      "side": 1,
+      "message": "I\u0027ve looked into where I can link it a bit more. One idea is:\nhttps://gerrit-review.googlesource.com/Documentation/user-notify.html\n\nAnother idea is somewhere in changes, but I have no good place to create a new title for it since the changes documentation only have \"endpoints\", \"ids\" and \"json entities\".\n\nAny of the two places make sense or just keep it as is? I think adding a new title just for recipient type is an overkill, when it\u0027s documented in NotifyInfo.",
+      "parentUuid": "6a16a8c6_ec734815",
+      "range": {
+        "startLine": 6140,
+        "startChar": 12,
+        "endLine": 6140,
+        "endChar": 26
+      },
+      "revId": "ef41f854ce1dca9c11cd2555963d60802eb3750d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f8caf29_8133aa5e",
         "filename": "java/com/google/gerrit/server/change/AddToAttentionSetOp.java",
         "patchSetId": 2

@@ -18,20 +18,17 @@ import '../../../styles/gr-table-styles.js';
 import '../../../styles/shared-styles.js';
 import '../../shared/gr-list-view/gr-list-view.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-documentation-search_html.js';
-import {ListViewBehavior} from '../../../behaviors/gr-list-view-behavior/gr-list-view-behavior.js';
+import {ListViewMixin} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin.js';
 import {getBaseUrl} from '../../../utils/url-util.js';
 
 /**
  * @extends PolymerElement
  */
-class GrDocumentationSearch extends mixinBehaviors( [
-  ListViewBehavior,
-], GestureEventListeners(
+class GrDocumentationSearch extends ListViewMixin(GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {
   static get template() { return htmlTemplate; }

@@ -21,7 +21,9 @@ export const htmlTemplate = html`
     /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
   </style>
   <style include="gr-table-styles">
-    /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    .placeholder {
+      color: var(--deemphasized-text-color);
+    }
   </style>
   <gr-list-view
     filter="[[_filter]]"
@@ -36,6 +38,7 @@ export const htmlTemplate = html`
         <tr class="headerRow">
           <th class="name topHeader">Plugin Name</th>
           <th class="version topHeader">Version</th>
+          <th class="apiVersion topHeader">API Version</th>
           <th class="status topHeader">Status</th>
         </tr>
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
@@ -53,7 +56,22 @@ export const htmlTemplate = html`
                 [[item.id]]
               </template>
             </td>
-            <td class="version">[[item.version]]</td>
+            <td class="version">
+              <template is="dom-if" if="[[item.version]]">
+                [[item.version]]
+              </template>
+              <template is="dom-if" if="[[!item.version]]">
+                <span class="placeholder">--</span>
+              </template>
+            </td>
+            <td class="apiVersion">
+              <template is="dom-if" if="[[item.api_version]]">
+                [[item.api_version]]
+              </template>
+              <template is="dom-if" if="[[!item.api_version]]">
+                <span class="placeholder">--</span>
+              </template>
+            </td>
             <td class="status">[[_status(item)]]</td>
           </tr>
         </template>

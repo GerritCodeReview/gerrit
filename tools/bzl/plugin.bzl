@@ -68,7 +68,7 @@ def gerrit_plugin(
             "export TZ",
             "GEN_VERSION=$$(cat bazel-out/stable-status.txt | grep -w STABLE_BUILD_%s_LABEL | cut -d ' ' -f 2)" % dir_name.upper(),
             "cd $$TMP",
-            "unzip -q $$ROOT/$<",
+            "unzip -qo $$ROOT/$<",
             "echo \"Implementation-Version: $$GEN_VERSION\n$$(cat META-INF/MANIFEST.MF)\" > META-INF/MANIFEST.MF",
             "find . -exec touch '{}' ';'",
             "zip -Xqr $$ROOT/$@ .",

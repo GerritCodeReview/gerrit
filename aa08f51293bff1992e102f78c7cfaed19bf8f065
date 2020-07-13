@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "ea4c21bb_7cdafa63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-13T09:30:13Z",
+      "side": 1,
+      "message": "LGTM. Tao, can you also review and give a +2?\n\nDavid, any further concerns?",
+      "revId": "aa08f51293bff1992e102f78c7cfaed19bf8f065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab66fbc3_6ed310c2",
         "filename": "polygerrit-ui/app/elements/gr-app-element.js",
         "patchSetId": 10
@@ -19,6 +36,47 @@
         "endLine": 208,
         "endChar": 7
       },
+      "revId": "aa08f51293bff1992e102f78c7cfaed19bf8f065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "741d9e1b_df0bb5ec",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-13T09:30:13Z",
+      "side": 1,
+      "message": "restAPI.getPreferences() is cached.\n\nAlso, this is already inlined in the index.html response, so there is zero delay here, just like a setTimeout().",
+      "parentUuid": "ab66fbc3_6ed310c2",
+      "range": {
+        "startLine": 204,
+        "startChar": 4,
+        "endLine": 208,
+        "endChar": 7
+      },
+      "revId": "aa08f51293bff1992e102f78c7cfaed19bf8f065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04817acf_7e167f60",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-13T09:30:13Z",
+      "side": 1,
+      "message": "I think this should rather be an \"else\" instead of \"else if\".",
       "revId": "aa08f51293bff1992e102f78c7cfaed19bf8f065",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -45,6 +103,30 @@
       "revId": "aa08f51293bff1992e102f78c7cfaed19bf8f065",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cd3f4a7_302a8f76",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view_html.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-13T09:30:13Z",
+      "side": 1,
+      "message": "I would prefer \"light\" and \"dark\".",
+      "parentUuid": "5054a7e6_6fe2c7d0",
+      "range": {
+        "startLine": 128,
+        "startChar": 38,
+        "endLine": 128,
+        "endChar": 49
+      },
+      "revId": "aa08f51293bff1992e102f78c7cfaed19bf8f065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

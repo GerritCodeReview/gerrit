@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.entities.BranchOrderSection;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -29,7 +30,6 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.change.RevisionResource;
-import com.google.gerrit.server.git.BranchOrderSection;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.index.change.ChangeIndexer;

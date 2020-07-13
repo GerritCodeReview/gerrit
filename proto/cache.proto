@@ -370,3 +370,9 @@ message AccessSectionProto {
   string name = 1;
   repeated PermissionProto permissions = 2;
 }
+
+// Serialized form of com.google.gerrit.server.git.BranchOrderSection.
+// Next ID: 2
+message BranchOrderSectionProto {
+  repeated string branches_in_order = 1;
+}

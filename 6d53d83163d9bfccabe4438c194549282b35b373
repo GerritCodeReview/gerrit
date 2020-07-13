@@ -16,6 +16,24 @@
       "revId": "6d53d83163d9bfccabe4438c194549282b35b373",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e30a71d7_9ab81254",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-13T07:06:26Z",
+      "side": 1,
+      "message": "Yes, at least 3.2, probably even earlier.\n\nThis change is also missing documentation and tests. I didn\u0027t have enough time during the weekend to finalize this proposal, but would like to get a feedback ASAP (and also have a plan to unblock Eclipse Foundation Gerrit installation).",
+      "parentUuid": "a4d16853_22646e23",
+      "revId": "6d53d83163d9bfccabe4438c194549282b35b373",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -34,7 +34,6 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-file-list_html.js';
 import {asyncForeach} from '../../../utils/async-util.js';
-import {DomUtilBehavior} from '../../../behaviors/dom-util-behavior/dom-util-behavior.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
 import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
 import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
@@ -45,6 +44,7 @@ import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoi
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {appContext} from '../../../services/app-context.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
+import {descendedFromClass} from '../../../utils/dom-util.js';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -91,7 +91,6 @@ const FILE_ROW_CLASS = 'file-row';
  * @extends PolymerElement
  */
 class GrFileList extends mixinBehaviors( [
-  DomUtilBehavior,
   KeyboardShortcutBehavior,
   PatchSetBehavior,
   PathListBehavior,
@@ -731,10 +730,10 @@ class GrFileList extends mixinBehaviors( [
     // If a path cannot be interpreted from the click target (meaning it's not
     // somewhere in the row, e.g. diff content) or if the user clicked the
     // link, defer to the native behavior.
-    if (!path || this.descendedFromClass(e.target, 'pathLink')) { return; }
+    if (!path || descendedFromClass(e.target, 'pathLink')) { return; }
 
     // Disregard the event if the click target is in the edit controls.
-    if (this.descendedFromClass(e.target, 'editFileControls')) { return; }
+    if (descendedFromClass(e.target, 'editFileControls')) { return; }
 
     e.preventDefault();
     this.$.fileCursor.setCursor(fileRow.element);

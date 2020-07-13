@@ -19,9 +19,9 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
-import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.GroupDescription;
 import java.sql.Timestamp;
 
 public class InternalGroupDescription implements GroupDescription.Internal {

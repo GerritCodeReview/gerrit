@@ -17,20 +17,19 @@ package com.google.gerrit.server.mail.send;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Address;
+import com.google.gerrit.entities.GroupDescription;
+import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.NotifyConfig;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
-import com.google.gerrit.server.git.NotifyConfig;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -61,13 +60,15 @@ public class ProjectWatch {
   }
 
   /** Returns all watchers that are relevant */
-  public final Watchers getWatchers(NotifyType type, boolean includeWatchersFromNotifyConfig) {
+  public final Watchers getWatchers(
+      NotifyConfig.NotifyType type, boolean includeWatchersFromNotifyConfig) {
     Watchers matching = new Watchers();
     Set<Account.Id> projectWatchers = new HashSet<>();
 
     for (AccountState a : args.accountQueryProvider.get().byWatchedProject(project)) {
       Account.Id accountId = a.account().id();
-      for (Map.Entry<ProjectWatchKey, ImmutableSet<NotifyType>> e : a.projectWatches().entrySet()) {
+      for (Map.Entry<ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>> e :
+          a.projectWatches().entrySet()) {
         if (project.equals(e.getKey().project())
             && add(matching, accountId, e.getKey(), e.getValue(), type)) {
           // We only want to prevent matching All-Projects if this filter hits
@@ -77,7 +78,8 @@ public class ProjectWatch {
     }
 
     for (AccountState a : args.accountQueryProvider.get().byWatchedProject(args.allProjectsName)) {
-      for (Map.Entry<ProjectWatchKey, ImmutableSet<NotifyType>> e : a.projectWatches().entrySet()) {
+      for (Map.Entry<ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>> e :
+          a.projectWatches().entrySet()) {
         if (args.allProjectsName.equals(e.getKey().project())) {
           Account.Id accountId = a.account().id();
           if (!projectWatchers.contains(accountId)) {
@@ -212,8 +214,8 @@ public class ProjectWatch {
       Watchers matching,
       Account.Id accountId,
       ProjectWatchKey key,
-      Set<NotifyType> watchedTypes,
-      NotifyType type) {
+      Set<NotifyConfig.NotifyType> watchedTypes,
+      NotifyConfig.NotifyType type) {
     logger.atFine().log("Checking project watch %s of account %s", key, accountId);
 
     IdentifiedUser user = args.identifiedUserFactory.create(accountId);

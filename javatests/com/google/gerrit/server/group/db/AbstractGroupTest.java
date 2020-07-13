@@ -17,9 +17,9 @@ package com.google.gerrit.server.group.db;
 import static com.google.gerrit.extensions.common.testing.CommitInfoSubject.assertThat;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.server.config.AllUsersName;

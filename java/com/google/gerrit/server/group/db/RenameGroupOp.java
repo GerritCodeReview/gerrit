@@ -17,8 +17,8 @@ package com.google.gerrit.server.group.db;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.DefaultQueueOp;
 import com.google.gerrit.server.git.WorkQueue;

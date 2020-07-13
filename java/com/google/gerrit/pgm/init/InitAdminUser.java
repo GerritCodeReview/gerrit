@@ -17,8 +17,8 @@ package com.google.gerrit.pgm.init;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.pgm.init.api.ConsoleUI;

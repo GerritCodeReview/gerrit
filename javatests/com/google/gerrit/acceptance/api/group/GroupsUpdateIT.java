@@ -18,9 +18,9 @@ import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.ServerInitiated;

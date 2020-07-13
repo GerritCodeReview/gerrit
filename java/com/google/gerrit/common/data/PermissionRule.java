@@ -15,6 +15,7 @@
 package com.google.gerrit.common.data;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.entities.GroupReference;
 
 @AutoValue
 public abstract class PermissionRule implements Comparable<PermissionRule> {

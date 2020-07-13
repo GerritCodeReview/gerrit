@@ -19,8 +19,8 @@ import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.account.ProjectWatches.NotifyValue;
 import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import com.google.gerrit.server.git.ValidationError;

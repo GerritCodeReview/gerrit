@@ -27,7 +27,7 @@ suite('gr-limited-text tests', () => {
     element = basicFixture.instantiate();
   });
 
-  test('_updateTitle', () => {
+  test('tooltip without title input', () => {
     const updateSpy = sinon.spy(element, '_updateTitle');
     element.text = 'abc 123';
     flushAsynchronousOperations();
@@ -43,26 +43,42 @@ suite('gr-limited-text tests', () => {
 
     element.limit = 3;
     flushAsynchronousOperations();
-    assert.isTrue(updateSpy.calledThrice);
+    assert.equal(updateSpy.callCount, 3);
     assert.equal(element.getAttribute('title'), 'abc 123');
+    assert.equal(element.title, 'abc 123');
     assert.isTrue(element.hasTooltip);
 
-    element.tooltipLimit = 3;
-    flushAsynchronousOperations();
-    assert.equal(element.getAttribute('title'), 'abc');
-
-    element.tooltipLimit = 1024;
     element.limit = 100;
     flushAsynchronousOperations();
-    assert.equal(updateSpy.callCount, 6);
-    assert.isNotOk(element.getAttribute('title'));
+    assert.equal(updateSpy.callCount, 4);
     assert.isFalse(element.hasTooltip);
 
     element.limit = null;
     flushAsynchronousOperations();
-    assert.equal(updateSpy.callCount, 7);
+    assert.equal(updateSpy.callCount, 5);
     assert.isNotOk(element.getAttribute('title'));
     assert.isFalse(element.hasTooltip);
+  });
+
+  test('with tooltip input', () => {
+    const updateSpy = sinon.spy(element, '_updateTitle');
+    element.tooltip = 'abc 123';
+    flushAsynchronousOperations();
+    assert.isTrue(updateSpy.calledOnce);
+    assert.isTrue(element.hasTooltip);
+    assert.equal(element.getAttribute('title'), 'abc 123');
+    assert.equal(element.title, 'abc 123');
+
+    element.text = 'abc';
+    flushAsynchronousOperations();
+    assert.equal(element.getAttribute('title'), 'abc 123');
+    assert.isTrue(element.hasTooltip);
+
+    element.text = 'abcdef';
+    element.limit = 3;
+    flushAsynchronousOperations();
+    assert.equal(element.getAttribute('title'), 'abcdef (abc 123)');
+    assert.isTrue(element.hasTooltip);
   });
 
   test('_computeDisplayText', () => {
@@ -77,7 +93,7 @@ suite('gr-limited-text tests', () => {
     element.disableTooltip = true;
     element.limit = 10;
     flushAsynchronousOperations();
-    assert.equal(element.getAttribute('title'), null);
+    assert.equal(element.getAttribute('title'), '');
   });
 });
 

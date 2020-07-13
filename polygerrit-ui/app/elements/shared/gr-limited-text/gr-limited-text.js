@@ -41,12 +41,20 @@ class GrLimitedText extends mixinBehaviors( [
   static get properties() {
     return {
     /** The un-truncated text to display. */
-      text: String,
+      text: {
+        type: String,
+        value: '',
+      },
 
       /** The maximum length for the text to display before truncating. */
       limit: {
         type: Number,
         value: null,
+      },
+
+      tooltip: {
+        type: String,
+        value: '',
       },
 
       /** Boolean property used by TooltipBehavior. */
@@ -63,20 +71,12 @@ class GrLimitedText extends mixinBehaviors( [
         type: Boolean,
         value: false,
       },
-
-      /**
-       * The maximum number of characters to display in the tooltip.
-       */
-      tooltipLimit: {
-        type: Number,
-        value: 1024,
-      },
     };
   }
 
   static get observers() {
     return [
-      '_updateTitle(text, limit, tooltipLimit)',
+      '_updateTitle(text, tooltip, limit)',
     ];
   }
 
@@ -84,17 +84,22 @@ class GrLimitedText extends mixinBehaviors( [
    * The text or limit have changed. Recompute whether a tooltip needs to be
    * enabled.
    */
-  _updateTitle(text, limit, tooltipLimit) {
+  _updateTitle(text, tooltip, limit) {
     // Polymer 2: check for undefined
-    if ([text, limit, tooltipLimit].some(arg => arg === undefined)) {
+    if ([text, limit, tooltip].includes(undefined)) {
       return;
     }
 
-    this.hasTooltip = !!limit && !!text && text.length > limit;
+    this.hasTooltip = !!tooltip || (!!limit && text.length > limit);
     if (this.hasTooltip && !this.disableTooltip) {
-      this.setAttribute('title', text.substr(0, tooltipLimit));
+      // Combine the text and title if over-length
+      if (limit && text.length > limit) {
+        this.title = `${text}${tooltip? ` (${tooltip})` : ''}`;
+      } else {
+        this.title = tooltip;
+      }
     } else {
-      this.removeAttribute('title');
+      this.title = '';
     }
   }
 

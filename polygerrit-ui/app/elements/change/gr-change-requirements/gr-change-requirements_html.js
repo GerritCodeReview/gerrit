@@ -95,6 +95,7 @@ export const htmlTemplate = html`
         <gr-limited-text
           class="name"
           limit="40"
+          tooltip="[[item.tooltip]]"
           text="[[item.fallback_text]]"
         ></gr-limited-text>
       </div>

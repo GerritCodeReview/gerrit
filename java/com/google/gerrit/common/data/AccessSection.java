@@ -161,6 +161,6 @@ public abstract class AccessSection implements Comparable<AccessSection> {
 
     protected abstract ImmutableList<Permission> getPermissions();
 
-    protected abstract Builder setPermissions(ImmutableList<Permission> permissions);
+    abstract Builder setPermissions(ImmutableList<Permission> permissions);
   }
 }

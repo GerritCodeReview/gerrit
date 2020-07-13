@@ -15,29 +15,25 @@
 package com.google.gerrit.server.cache.serialize.entities;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.server.cache.serialize.entities.PermissionSerializer.deserialize;
-import static com.google.gerrit.server.cache.serialize.entities.PermissionSerializer.serialize;
+import static com.google.gerrit.server.cache.serialize.entities.AccessSectionSerializer.deserialize;
+import static com.google.gerrit.server.cache.serialize.entities.AccessSectionSerializer.serialize;
 
-import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.common.data.AccessSection;
 import org.junit.Test;
 
-public class PermissionSerializerTest {
-  static final Permission ALL_VALUES_SET =
-      Permission.builder(Permission.ABANDON)
-          .setExclusiveGroup(true)
-          .add(PermissionRule.builder(GroupReference.create("group")))
-          .build();
-
+public class AccessSectionSerializerTest {
   @Test
   public void roundTrip() {
-    assertThat(deserialize(serialize(ALL_VALUES_SET))).isEqualTo(ALL_VALUES_SET);
+    AccessSection autoValue =
+        AccessSection.builder("refs/test")
+            .addPermission(PermissionSerializerTest.ALL_VALUES_SET.toBuilder())
+            .build();
+    assertThat(deserialize(serialize(autoValue))).isEqualTo(autoValue);
   }
 
   @Test
   public void roundTripWithMinimalValues() {
-    Permission permission = Permission.builder(Permission.ABANDON).build();
-    assertThat(deserialize(serialize(permission))).isEqualTo(permission);
+    AccessSection autoValue = AccessSection.builder("refs/test").build();
+    assertThat(deserialize(serialize(autoValue))).isEqualTo(autoValue);
   }
 }

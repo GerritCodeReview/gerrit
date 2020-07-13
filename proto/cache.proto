@@ -363,3 +363,10 @@ message PermissionProto {
   bool exclusive_group = 2;
   repeated PermissionRuleProto rules = 3;
 }
+
+// Serialized form of com.google.gerrit.common.data.AccessSection.
+// Next ID: 3
+message AccessSectionProto {
+  string name = 1;
+  repeated PermissionProto permissions = 2;
+}

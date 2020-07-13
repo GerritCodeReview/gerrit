@@ -20,6 +20,13 @@ public class LabeledContextLineInfo {
   public int lineNumber;
   public String contextLine;
 
+  public LabeledContextLineInfo() {}
+
+  public LabeledContextLineInfo(int lineNumber, String contextLine) {
+    this.lineNumber = lineNumber;
+    this.contextLine = contextLine;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (o instanceof LabeledContextLineInfo) {

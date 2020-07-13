@@ -19,25 +19,24 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.HumanComment;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.CommentContextUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.comment.CommentContextCache;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 import org.kohsuke.args4j.Option;
 
 @Singleton
@@ -48,7 +47,7 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
   private final ChangeData.Factory changeDataFactory;
   private final Provider<CommentJson> commentJson;
   private final CommentsUtil commentsUtil;
-  private final CommentContextUtil commentContextUtil;
+  private final CommentContextCache contextCache;
 
   private boolean includeContext;
 
@@ -69,12 +68,12 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
       Provider<CommentJson> commentJson,
       CommentsUtil commentsUtil,
       ChangeMessagesUtil changeMessagesUtil,
-      CommentContextUtil commentContextUtil) {
+      CommentContextCache contextCache) {
     this.changeDataFactory = changeDataFactory;
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
     this.changeMessagesUtil = changeMessagesUtil;
-    this.commentContextUtil = commentContextUtil;
+    this.contextCache = contextCache;
   }
 
   @Override
@@ -128,11 +127,26 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
     if (includeContext) {
       for (Map.Entry<CommentInfo, String> entry : commentPaths.entrySet()) {
         CommentInfo commentInfo = entry.getKey();
-        String path = entry.getValue();
+        Integer startLine = null;
+        Integer endLine = null;
+        if (commentInfo.range != null) {
+          startLine = commentInfo.range.startLine;
+          endLine = commentInfo.range.endLine + 1;
+        } else if (commentInfo.line != null) {
+          startLine = commentInfo.line;
+          endLine = commentInfo.line + 1;
+        }
         try {
-          commentContextUtil.attachContextToComment(commentInfo, path, rsrc.getProject());
-        } catch (IOException | BadRequestException | ResourceNotFoundException e) {
-          logger.atWarning().log("Failed to retrieve context for comment " + commentInfo.id);
+          commentInfo.contextLines =
+              contextCache.get(
+                  rsrc.getProject(),
+                  PatchSet.id(rsrc.getChange().getId(), commentInfo.patchSet),
+                  commentInfo.id,
+                  commentInfo.path,
+                  startLine,
+                  endLine);
+        } catch (ExecutionException e) {
+          e.printStackTrace();
         }
       }
     }

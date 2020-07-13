@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.group;
 
-import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;

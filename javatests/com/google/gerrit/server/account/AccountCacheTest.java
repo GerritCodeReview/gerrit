@@ -19,6 +19,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.truth.Truth;
 import com.google.common.truth.extensions.proto.ProtoTruth;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.NotifyConfig;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.cache.proto.Cache;
 import com.google.gerrit.server.config.CachedPreferences;
@@ -103,7 +104,7 @@ public class AccountCacheTest {
     CachedAccountDetails original =
         CachedAccountDetails.create(
             ACCOUNT,
-            ImmutableMap.of(key, ImmutableSet.of(ProjectWatches.NotifyType.ALL_COMMENTS)),
+            ImmutableMap.of(key, ImmutableSet.of(NotifyConfig.NotifyType.ALL_COMMENTS)),
             CachedPreferences.fromString(""));
 
     byte[] serialized = SERIALIZER.serialize(original);
@@ -127,7 +128,7 @@ public class AccountCacheTest {
     CachedAccountDetails original =
         CachedAccountDetails.create(
             ACCOUNT,
-            ImmutableMap.of(key, ImmutableSet.of(ProjectWatches.NotifyType.ALL_COMMENTS)),
+            ImmutableMap.of(key, ImmutableSet.of(NotifyConfig.NotifyType.ALL_COMMENTS)),
             CachedPreferences.fromString(""));
 
     byte[] serialized = SERIALIZER.serialize(original);

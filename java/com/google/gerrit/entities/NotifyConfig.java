@@ -12,17 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.git;
+package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.common.data.GroupReference;
-import com.google.gerrit.entities.Address;
-import com.google.gerrit.server.account.ProjectWatches.NotifyType;
+import com.google.gerrit.common.Nullable;
 import java.util.EnumSet;
 import java.util.Set;
-import org.eclipse.jgit.annotations.Nullable;
 
 @AutoValue
 public abstract class NotifyConfig implements Comparable<NotifyConfig> {
@@ -32,7 +29,17 @@ public abstract class NotifyConfig implements Comparable<NotifyConfig> {
     BCC
   }
 
-  @Nullable
+  public enum NotifyType {
+    // sort by name, except 'ALL' which should stay last
+    ABANDONED_CHANGES,
+    ALL_COMMENTS,
+    NEW_CHANGES,
+    NEW_PATCHSETS,
+    SUBMITTED_CHANGES,
+
+    ALL
+  }
+
   public abstract String getName();
 
   public abstract ImmutableSet<NotifyType> getNotify();

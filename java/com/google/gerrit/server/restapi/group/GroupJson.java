@@ -19,8 +19,8 @@ import static com.google.gerrit.extensions.client.ListGroupsOption.MEMBERS;
 
 import com.google.common.base.Strings;
 import com.google.common.base.Suppliers;
-import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;

@@ -31,6 +31,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.NotifyConfig;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.ValidationError;
 import java.util.ArrayList;
@@ -89,17 +90,6 @@ public class ProjectWatches {
     public abstract @Nullable String filter();
   }
 
-  public enum NotifyType {
-    // sort by name, except 'ALL' which should stay last
-    ABANDONED_CHANGES,
-    ALL_COMMENTS,
-    NEW_CHANGES,
-    NEW_PATCHSETS,
-    SUBMITTED_CHANGES,
-
-    ALL
-  }
-
   public static final String FILTER_ALL = "*";
 
   public static final String WATCH_CONFIG = "watch.config";
@@ -110,7 +100,7 @@ public class ProjectWatches {
   private final Config cfg;
   private final ValidationError.Sink validationErrorSink;
 
-  private ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches;
+  private ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>> projectWatches;
 
   ProjectWatches(Account.Id accountId, Config cfg, ValidationError.Sink validationErrorSink) {
     this.accountId = requireNonNull(accountId, "accountId");
@@ -118,7 +108,7 @@ public class ProjectWatches {
     this.validationErrorSink = requireNonNull(validationErrorSink, "validationErrorSink");
   }
 
-  public ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> getProjectWatches() {
+  public ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>> getProjectWatches() {
     if (projectWatches == null) {
       parse();
     }
@@ -152,9 +142,9 @@ public class ProjectWatches {
    * @return the parsed project watches
    */
   @VisibleForTesting
-  public static ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> parse(
+  public static ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>> parse(
       Account.Id accountId, Config cfg, ValidationError.Sink validationErrorSink) {
-    Map<ProjectWatchKey, Set<NotifyType>> projectWatches = new HashMap<>();
+    Map<ProjectWatchKey, Set<NotifyConfig.NotifyType>> projectWatches = new HashMap<>();
     for (String projectName : cfg.getSubsections(PROJECT)) {
       String[] notifyValues = cfg.getStringList(PROJECT, projectName, KEY_NOTIFY);
       for (String nv : notifyValues) {
@@ -171,7 +161,7 @@ public class ProjectWatches {
         ProjectWatchKey key =
             ProjectWatchKey.create(Project.nameKey(projectName), notifyValue.filter());
         if (!projectWatches.containsKey(key)) {
-          projectWatches.put(key, EnumSet.noneOf(NotifyType.class));
+          projectWatches.put(key, EnumSet.noneOf(NotifyConfig.NotifyType.class));
         }
         projectWatches.get(key).addAll(notifyValue.notifyTypes());
       }
@@ -179,7 +169,7 @@ public class ProjectWatches {
     return immutableCopyOf(projectWatches);
   }
 
-  public Config save(Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {
+  public Config save(Map<ProjectWatchKey, Set<NotifyConfig.NotifyType>> projectWatches) {
     this.projectWatches = immutableCopyOf(projectWatches);
 
     for (String projectName : cfg.getSubsections(PROJECT)) {
@@ -188,7 +178,7 @@ public class ProjectWatches {
 
     ListMultimap<String, String> notifyValuesByProject =
         MultimapBuilder.hashKeys().arrayListValues().build();
-    for (Map.Entry<ProjectWatchKey, Set<NotifyType>> e : projectWatches.entrySet()) {
+    for (Map.Entry<ProjectWatchKey, Set<NotifyConfig.NotifyType>> e : projectWatches.entrySet()) {
       NotifyValue notifyValue = NotifyValue.create(e.getKey().filter(), e.getValue());
       notifyValuesByProject.put(e.getKey().project().get(), notifyValue.toString());
     }
@@ -200,9 +190,10 @@ public class ProjectWatches {
     return cfg;
   }
 
-  private static ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> immutableCopyOf(
-      Map<ProjectWatchKey, Set<NotifyType>> projectWatches) {
-    ImmutableMap.Builder<ProjectWatchKey, ImmutableSet<NotifyType>> b = ImmutableMap.builder();
+  private static ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>>
+      immutableCopyOf(Map<ProjectWatchKey, Set<NotifyConfig.NotifyType>> projectWatches) {
+    ImmutableMap.Builder<ProjectWatchKey, ImmutableSet<NotifyConfig.NotifyType>> b =
+        ImmutableMap.builder();
     projectWatches.entrySet().stream()
         .forEach(e -> b.put(e.getKey(), ImmutableSet.copyOf(e.getValue())));
     return b.build();
@@ -231,13 +222,14 @@ public class ProjectWatches {
         filter = null;
       }
 
-      Set<NotifyType> notifyTypes = EnumSet.noneOf(NotifyType.class);
+      Set<NotifyConfig.NotifyType> notifyTypes = EnumSet.noneOf(NotifyConfig.NotifyType.class);
       if (i + 1 < notifyValue.length() - 2) {
         for (String nt :
             Splitter.on(',')
                 .trimResults()
                 .splitToList(notifyValue.substring(i + 1, notifyValue.length() - 1))) {
-          NotifyType notifyType = Enums.getIfPresent(NotifyType.class, nt).orNull();
+          NotifyConfig.NotifyType notifyType =
+              Enums.getIfPresent(NotifyConfig.NotifyType.class, nt).orNull();
           if (notifyType == null) {
             validationErrorSink.error(
                 ValidationError.create(
@@ -254,18 +246,19 @@ public class ProjectWatches {
       return create(filter, notifyTypes);
     }
 
-    public static NotifyValue create(@Nullable String filter, Collection<NotifyType> notifyTypes) {
+    public static NotifyValue create(
+        @Nullable String filter, Collection<NotifyConfig.NotifyType> notifyTypes) {
       return new AutoValue_ProjectWatches_NotifyValue(
           Strings.emptyToNull(filter), Sets.immutableEnumSet(notifyTypes));
     }
 
     public abstract @Nullable String filter();
 
-    public abstract ImmutableSet<NotifyType> notifyTypes();
+    public abstract ImmutableSet<NotifyConfig.NotifyType> notifyTypes();
 
     @Override
     public final String toString() {
-      List<NotifyType> notifyTypes = new ArrayList<>(notifyTypes());
+      List<NotifyConfig.NotifyType> notifyTypes = new ArrayList<>(notifyTypes());
       StringBuilder notifyValue = new StringBuilder();
       notifyValue.append(firstNonNull(filter(), FILTER_ALL)).append(" [");
       Joiner.on(", ").appendTo(notifyValue, notifyTypes);

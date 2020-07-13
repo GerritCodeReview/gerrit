@@ -395,3 +395,14 @@ message AddressProto {
   string name = 1;
   string email = 2;
 }
+
+// Serialized form of com.google.gerrit.entities.NotifyConfig.
+// Next ID: 7
+message NotifyConfigProto {
+  string name = 1;
+  repeated string type = 2; // ENUM as String
+  string filter = 3;
+  string header = 4; // ENUM as String
+  repeated GroupReferenceProto groups = 5;
+  repeated AddressProto addresses = 6;
+}

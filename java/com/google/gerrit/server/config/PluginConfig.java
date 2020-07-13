@@ -17,7 +17,7 @@ package com.google.gerrit.server.config;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
-import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
 import java.util.Arrays;

@@ -15,8 +15,8 @@
 package com.google.gerrit.server.restapi.group;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.extensions.common.NameInput;

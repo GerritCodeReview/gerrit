@@ -16,8 +16,8 @@ package com.google.gerrit.server.schema;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.metrics.MetricMaker;

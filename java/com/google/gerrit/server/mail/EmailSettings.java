@@ -37,6 +37,7 @@ public class EmailSettings {
   public final String password;
   public final Encryption encryption;
   public final long fetchInterval; // in milliseconds
+  public final boolean sendNewPatchsetEmails;
 
   @Inject
   EmailSettings(@GerritServerConfig Config cfg) {
@@ -58,5 +59,6 @@ public class EmailSettings {
             "fetchInterval",
             TimeUnit.MILLISECONDS.convert(60, TimeUnit.SECONDS),
             TimeUnit.MILLISECONDS);
+    sendNewPatchsetEmails = cfg.getBoolean("change", null, "sendNewPatchsetEmails", true);
   }
 }

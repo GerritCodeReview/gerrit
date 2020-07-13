@@ -1274,7 +1274,9 @@ The default is false.
 [[change.enableAttentionSet]]change.enableAttentionSet::
 +
 If set to true, then all UI features for using and interacting with the
-attention set are enabled.
+attention set are enabled. Also, emails will not be sent to owners,
+reviewers, and cc for creating a new patchset unless they are project
+watchers or have starred the change.
 +
 The default is false for now, but will be changed to true in Q2 2020.
 

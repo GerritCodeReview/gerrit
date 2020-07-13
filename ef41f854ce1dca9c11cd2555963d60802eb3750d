@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d5de5f11_caec3a3b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6136,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-13T11:22:36Z",
+      "side": 1,
+      "message": "Ack, I hadn\u0027t realized at this point that this was prior art.",
+      "parentUuid": "b8564b31_74d2a7a0",
+      "revId": "ef41f854ce1dca9c11cd2555963d60802eb3750d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b580932d_b7f5bcc1",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2
@@ -81,6 +99,30 @@
       "revId": "ef41f854ce1dca9c11cd2555963d60802eb3750d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a16a8c6_ec734815",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6140,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-13T11:22:36Z",
+      "side": 1,
+      "message": "I think so; it just reads strange when the key type is not linked but the value type is. It feels like \"recipient type\" is totally obvious :-)",
+      "parentUuid": "d12fb346_a1e4193d",
+      "range": {
+        "startLine": 6140,
+        "startChar": 12,
+        "endLine": 6140,
+        "endChar": 26
+      },
+      "revId": "ef41f854ce1dca9c11cd2555963d60802eb3750d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -433,6 +475,30 @@
       "revId": "ef41f854ce1dca9c11cd2555963d60802eb3750d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "210a34f0_dd8e4590",
+        "filename": "resources/com/google/gerrit/server/mail/AddToAttentionSet.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-13T11:22:36Z",
+      "side": 1,
+      "message": "Right, those do sound OK. But how do we translate them?",
+      "parentUuid": "9692f80b_38f4d181",
+      "range": {
+        "startLine": 35,
+        "startChar": 22,
+        "endLine": 35,
+        "endChar": 31
+      },
+      "revId": "ef41f854ce1dca9c11cd2555963d60802eb3750d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

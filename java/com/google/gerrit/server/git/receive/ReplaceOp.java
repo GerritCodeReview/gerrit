@@ -55,6 +55,7 @@ import com.google.gerrit.server.change.ReviewerAdder;
 import com.google.gerrit.server.change.ReviewerAdder.InternalAddReviewerInput;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAdditionList;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
@@ -88,6 +89,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -131,6 +133,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private final ReviewerAdder reviewerAdder;
   private final Change change;
   private final MessageIdGenerator messageIdGenerator;
+  private final Config cfg;
 
   private final ProjectState projectState;
   private final BranchNameKey dest;
@@ -175,6 +178,7 @@ public class ReplaceOp implements BatchUpdateOp {
       ReviewerAdder reviewerAdder,
       Change change,
       MessageIdGenerator messageIdGenerator,
+      @GerritServerConfig Config cfg,
       @Assisted ProjectState projectState,
       @Assisted BranchNameKey dest,
       @Assisted boolean checkMergedInto,
@@ -202,6 +206,7 @@ public class ReplaceOp implements BatchUpdateOp {
     this.reviewerAdder = reviewerAdder;
     this.change = change;
     this.messageIdGenerator = messageIdGenerator;
+    this.cfg = cfg;
 
     this.projectState = projectState;
     this.dest = dest;
@@ -490,7 +495,7 @@ public class ReplaceOp implements BatchUpdateOp {
     reviewerAdditions.postUpdate(ctx);
     if (changeKind != ChangeKind.TRIVIAL_REBASE) {
       // TODO(dborowitz): Merge email templates so we only have to send one.
-      Runnable e = new ReplaceEmailTask(ctx);
+      Runnable e = new ReplaceEmailTask(ctx, cfg);
       if (requestScopePropagator != null) {
         @SuppressWarnings("unused")
         Future<?> possiblyIgnoredError = sendEmailExecutor.submit(requestScopePropagator.wrap(e));
@@ -512,13 +517,19 @@ public class ReplaceOp implements BatchUpdateOp {
 
   private class ReplaceEmailTask implements Runnable {
     private final Context ctx;
+    private final Config cfg;
 
-    private ReplaceEmailTask(Context ctx) {
+    private ReplaceEmailTask(Context ctx, Config cfg) {
       this.ctx = ctx;
+      this.cfg = cfg;
     }
 
     @Override
     public void run() {
+      if (cfg.getBoolean("change", null, "enableAttentionSet", false)) {
+        // If attention set is enabled, no need to send this email.
+        return;
+      }
       try {
         ReplacePatchSetSender emailSender =
             replacePatchSetFactory.create(projectState.getNameKey(), notes.getChangeId());

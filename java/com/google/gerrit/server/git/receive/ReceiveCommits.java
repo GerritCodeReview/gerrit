@@ -2508,6 +2508,8 @@ class ReceiveCommits {
 
     private void setChangeId(int id) {
       try (TraceTimer traceTimer = newTimer(CreateRequest.class, "setChangeId")) {
+        boolean isAttentionSetEnabled =
+            config.getBoolean("change", null, "enableAttentionSet", false);
         changeId = Change.id(id);
         ins =
             changeInserterFactory
@@ -2515,6 +2517,7 @@ class ReceiveCommits {
                 .setTopic(magicBranch.topic)
                 .setPrivate(setChangeAsPrivate)
                 .setWorkInProgress(magicBranch.shouldSetWorkInProgressOnNewChanges())
+                .setSendMail(!isAttentionSetEnabled)
                 // Changes already validated in validateNewCommits.
                 .setValidate(false);
 
@@ -2557,6 +2560,8 @@ class ReceiveCommits {
           }
 
           bu.setNotify(magicBranch.getNotifyForNewChange());
+          boolean isAttentionSetEnabled =
+              config.getBoolean("change", null, "enableAttentionSet", false);
           bu.insertChange(
               ins.setReviewersAndCcsAsStrings(
                       magicBranch.getCombinedReviewers(fromFooters),
@@ -2564,7 +2569,7 @@ class ReceiveCommits {
                   .setApprovals(approvals)
                   .setMessage(msg.toString())
                   .setRequestScopePropagator(requestScopePropagator)
-                  .setSendMail(true)
+                  .setSendMail(!isAttentionSetEnabled)
                   .setPatchSetDescription(magicBranch.message));
           if (!magicBranch.hashtags.isEmpty()) {
             // Any change owner is allowed to add hashtags when creating a change.

@@ -179,6 +179,7 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.util.time.TimeUtil;
+import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
@@ -4703,6 +4704,34 @@ public class ChangeIT extends AbstractDaemonTest {
   public void changeQueryDoesNotReturnMergeableWhenGerritDoesNotIndexMergeable() throws Exception {
     String changeId = createChange().getChangeId();
     assertThat(gApi.changes().query(changeId).get().get(0).mergeable).isNull();
+  }
+
+  @Test
+  public void notificationsOnPushNewChange() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    watch(project.get());
+
+    // check that watcher is notified
+    requestScopeOperations.setApiUser(admin.id());
+    createChange();
+
+    List<FakeEmailSender.Message> messages = sender.getMessages();
+    FakeEmailSender.Message m = Iterables.getOnlyElement(messages);
+    assertThat(m.rcpt()).containsExactly(user.getNameEmail());
+    assertThat(m.body()).contains(admin.fullName() + " has uploaded this change for review.");
+  }
+
+  @Test
+  @GerritConfig(name = "change.enableAttentionSet", value = "true")
+  public void notificationsOnPushNewChangeNotSentWhenAttentionSetEnabled() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    watch(project.get());
+
+    // check that watcher is not notified
+    requestScopeOperations.setApiUser(admin.id());
+    createChange();
+
+    assertThat(sender.getMessages()).isEmpty();
   }
 
   private PushOneCommit.Result createWorkInProgressChange() throws Exception {

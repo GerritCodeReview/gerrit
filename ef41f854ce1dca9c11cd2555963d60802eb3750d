@@ -499,6 +499,30 @@
       "revId": "ef41f854ce1dca9c11cd2555963d60802eb3750d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "388a00b1_74d9b42d",
+        "filename": "resources/com/google/gerrit/server/mail/AddToAttentionSet.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-13T11:31:05Z",
+      "side": 1,
+      "message": "What do you mean \"translate\"? Those will be posted in the email as is.",
+      "parentUuid": "210a34f0_dd8e4590",
+      "range": {
+        "startLine": 35,
+        "startChar": 22,
+        "endLine": 35,
+        "endChar": 31
+      },
+      "revId": "ef41f854ce1dca9c11cd2555963d60802eb3750d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

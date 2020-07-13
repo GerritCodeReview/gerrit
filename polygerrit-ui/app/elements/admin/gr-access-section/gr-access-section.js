@@ -23,11 +23,10 @@ import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../gr-permission/gr-permission.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {htmlTemplate} from './gr-access-section_html.js';
-import {AccessBehavior} from '../../../behaviors/gr-access-behavior/gr-access-behavior.js';
+import {AccessPermissions, toSortedPermissionsArray} from '../../../utils/access-util.js';
 
 /**
  * Fired when the section has been modified or removed.
@@ -52,11 +51,9 @@ const LABEL = 'Label';
 /**
  * @extends PolymerElement
  */
-class GrAccessSection extends mixinBehaviors( [
-  AccessBehavior,
-], GestureEventListeners(
+class GrAccessSection extends GestureEventListeners(
     LegacyElementMixin(
-        PolymerElement))) {
+        PolymerElement)) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-access-section'; }
@@ -100,7 +97,7 @@ class GrAccessSection extends mixinBehaviors( [
   }
 
   _updateSection(section) {
-    this._permissions = this.toSortedArray(section.value.permissions);
+    this._permissions = toSortedPermissionsArray(section.value.permissions);
     this._originalId = section.id;
   }
 
@@ -149,11 +146,11 @@ class GrAccessSection extends mixinBehaviors( [
       return [];
     }
     if (name === GLOBAL_NAME) {
-      allPermissions = this.toSortedArray(capabilities);
+      allPermissions = toSortedPermissionsArray(capabilities);
     } else {
       const labelOptions = this._computeLabelOptions(labels);
       allPermissions = labelOptions.concat(
-          this.toSortedArray(this.permissionValues));
+          toSortedPermissionsArray(AccessPermissions));
     }
     return allPermissions
         .filter(permission => !this.section.value.permissions[permission.id]);
@@ -191,11 +188,11 @@ class GrAccessSection extends mixinBehaviors( [
     return labelOptions;
   }
 
-  _computePermissionName(name, permission, permissionValues, capabilities) {
+  _computePermissionName(name, permission, capabilities) {
     if (name === GLOBAL_NAME) {
       return capabilities[permission.id].name;
-    } else if (permissionValues[permission.id]) {
-      return permissionValues[permission.id].name;
+    } else if (AccessPermissions[permission.id]) {
+      return AccessPermissions[permission.id].name;
     } else if (permission.value.label) {
       let behalfOf = '';
       if (permission.id.startsWith('labelAs-')) {

@@ -24,12 +24,11 @@ import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../gr-rule-editor/gr-rule-editor.js';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-permission_html.js';
-import {AccessBehavior} from '../../../behaviors/gr-access-behavior/gr-access-behavior.js';
+import {toSortedPermissionsArray} from '../../../utils/access-util.js';
 
 const MAX_AUTOCOMPLETE_RESULTS = 20;
 
@@ -49,11 +48,9 @@ const RANGE_NAMES = [
  * @event added-permission-removed
  * @extends PolymerElement
  */
-class GrPermission extends mixinBehaviors( [
-  AccessBehavior,
-], GestureEventListeners(
+class GrPermission extends GestureEventListeners(
     LegacyElementMixin(
-        PolymerElement))) {
+        PolymerElement)) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-permission'; }
@@ -182,7 +179,7 @@ class GrPermission extends mixinBehaviors( [
   }
 
   _sortPermission(permission) {
-    this._rules = this.toSortedArray(permission.value.rules);
+    this._rules = toSortedPermissionsArray(permission.value.rules);
   }
 
   _computeSectionClass(editing, deleted) {

@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e810ea71_12b2b850",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-13T13:04:29Z",
+      "side": 1,
+      "message": "singular",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 7
+      },
+      "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bf77a8c_7140cbd1",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-13T13:04:29Z",
+      "side": 1,
+      "message": "This needs to be updated to reflect that you export a 3-tuple:\n\nfile(\"file-name\", \"A\", \"SUBMODULE\")\nfile(\"file-name2\", \"M\", \"REGULAR\")\n\nAlso, we need to explain what SUBMODULE/REGULAR, A, M etc means and what the 1,2,3 arguments of the tuples are.\n\nFacts are always singular. commit_label is a very good example where we export a list of facts (commit_label(...)) that makes it into a list (commit_labels). But the list is almost never referenced in the code at least not with [].",
+      "range": {
+        "startLine": 57,
+        "startChar": 24,
+        "endLine": 57,
+        "endChar": 75
+      },
+      "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e0d708f_a551c357",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-13T13:04:29Z",
+      "side": 1,
+      "message": "3",
+      "range": {
+        "startLine": 57,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 9
+      },
+      "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cc1c7fe_c4f4f3d7",
+        "filename": "java/gerrit/PRED_files_1.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-13T13:04:29Z",
+      "side": 1,
+      "message": "Please use\n\nprivate static final SymbolTerm sym_file \u003d SymbolTerm.intern(\"file\", 3);\n\nLike we do in commit_label",
+      "range": {
+        "startLine": 62,
+        "startChar": 33,
+        "endLine": 62,
+        "endChar": 37
+      },
+      "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bc19724_e81b465d",
+        "filename": "java/gerrit/PRED_files_1.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-13T13:04:29Z",
+      "side": 1,
+      "message": "In think Jonathan got confused by the documentation update of this change. The logic here is actually correct, the doc is just wrong.\n\nThis exports a list of facts\n\nfile(\"test.txt\", \"A\", \"REGULAR\")\nfile(\"plugins/foo\", \"M\", \"SUBMODULE\")\n\nThat is correct Prolog style. The documentation just painted a different picture because it made it look like this exports\nfiles([file(\"test.txt\", \"A\", \"REGULAR\"), file(\"test.txt\", \"A\", \"REGULAR\")])\n\nwhich is not true.",
+      "range": {
+        "startLine": 67,
+        "startChar": 8,
+        "endLine": 67,
+        "endChar": 57
+      },
+      "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3397146b_ecd4573f",
+        "filename": "java/gerrit/PRED_files_1.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-13T13:04:29Z",
+      "side": 1,
+      "message": "Does this have to be recursive? I think we aren\u0027t recusing but just checking a single file.",
+      "range": {
+        "startLine": 82,
+        "startChar": 17,
+        "endLine": 82,
+        "endChar": 34
+      },
+      "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50ea6229_bb8e8bea",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-13T13:04:29Z",
+      "side": 1,
+      "message": "nit: lower case\n\nblockSubmissionForChangesModifyingSpecifiedSubmodule",
+      "range": {
+        "startLine": 641,
+        "startChar": 13,
+        "endLine": 641,
+        "endChar": 15
+      },
+      "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a42b314b_37181915",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-13T13:04:29Z",
+      "side": 1,
+      "message": "It should be possible to express this without a list operator. Consider commit_label. There is an example in ChangeIT l.3795",
+      "range": {
+        "startLine": 649,
+        "startChar": 50,
+        "endLine": 649,
+        "endChar": 51
+      },
+      "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aae67c5b_ffd4e0db",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-13T13:04:29Z",
+      "side": 1,
+      "message": "Can you add another new file to the change here just to be sure that this really covers the case of block \"any submodule modification\".",
+      "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d357f317_c0bb7c95",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-13T13:04:29Z",
+      "side": 1,
+      "message": "We want to check the opposite (change not submittable when submodule changed). The test name also promises that :-)\n\nCan you test the positive case as well (change submittable when submodule not changed).",
+      "range": {
+        "startLine": 674,
+        "startChar": 44,
+        "endLine": 674,
+        "endChar": 50
+      },
+      "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

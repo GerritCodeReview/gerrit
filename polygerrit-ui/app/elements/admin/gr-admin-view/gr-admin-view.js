@@ -40,7 +40,6 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-admin-view_html.js';
 import {getBaseUrl} from '../../../utils/url-util.js';
 import {AdminNavBehavior} from '../../../behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.js';
-import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
@@ -51,7 +50,6 @@ const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
  */
 class GrAdminView extends mixinBehaviors( [
   AdminNavBehavior,
-  URLEncodingBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {

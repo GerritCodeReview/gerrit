@@ -70,3 +70,29 @@ export function getDocsBaseUrl(
 export function _testOnly_clearDocsBaseUrlCache() {
   getDocsBaseUrlCachedPromise = undefined;
 }
+
+/**
+ * Pretty-encodes a URL. Double-encodes the string, and then replaces
+ *   benevolent characters for legibility.
+ */
+export function encodeURL(url: string, replaceSlashes?: boolean): string {
+  // @see Issue 4255 regarding double-encoding.
+  let output = encodeURIComponent(encodeURIComponent(url));
+  // @see Issue 4577 regarding more readable URLs.
+  output = output.replace(/%253A/g, ':');
+  output = output.replace(/%2520/g, '+');
+  if (replaceSlashes) {
+    output = output.replace(/%252F/g, '/');
+  }
+  return output;
+}
+
+/**
+ * Single decode for URL components. Will decode plus signs ('+') to spaces.
+ * Note: because this function decodes once, it is not the inverse of
+ * encodeURL.
+ */
+export function singleDecodeURL(url: string): string {
+  const withoutPlus = url.replace(/\+/g, '%20');
+  return decodeURIComponent(withoutPlus);
+}

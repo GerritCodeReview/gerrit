@@ -21,9 +21,8 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import page from 'page/page.mjs';
 import {htmlTemplate} from './gr-router_html.js';
-import {getBaseUrl} from '../../../utils/url-util.js';
+import {encodeURL, getBaseUrl} from '../../../utils/url-util.js';
 import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
-import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
 import {GerritNav} from '../gr-navigation/gr-navigation.js';
 import {appContext} from '../../../services/app-context.js';
 
@@ -218,7 +217,6 @@ if (!app) {
  */
 class GrRouter extends mixinBehaviors( [
   PatchSetBehavior,
-  URLEncodingBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {
@@ -381,34 +379,34 @@ class GrRouter extends mixinBehaviors( [
     }
 
     if (params.query) {
-      return '/q/' + this.encodeURL(params.query, true) + offsetExpr;
+      return '/q/' + encodeURL(params.query, true) + offsetExpr;
     }
 
     const operators = [];
     if (params.owner) {
-      operators.push('owner:' + this.encodeURL(params.owner, false));
+      operators.push('owner:' + encodeURL(params.owner, false));
     }
     if (params.project) {
-      operators.push('project:' + this.encodeURL(params.project, false));
+      operators.push('project:' + encodeURL(params.project, false));
     }
     if (params.branch) {
-      operators.push('branch:' + this.encodeURL(params.branch, false));
+      operators.push('branch:' + encodeURL(params.branch, false));
     }
     if (params.topic) {
-      operators.push('topic:"' + this.encodeURL(params.topic, false) + '"');
+      operators.push('topic:"' + encodeURL(params.topic, false) + '"');
     }
     if (params.hashtag) {
       operators.push('hashtag:"' +
-          this.encodeURL(params.hashtag.toLowerCase(), false) + '"');
+          encodeURL(params.hashtag.toLowerCase(), false) + '"');
     }
     if (params.statuses) {
       if (params.statuses.length === 1) {
         operators.push(
-            'status:' + this.encodeURL(params.statuses[0], false));
+            'status:' + encodeURL(params.statuses[0], false));
       } else if (params.statuses.length > 1) {
         operators.push(
             '(' +
-            params.statuses.map(s => `status:${this.encodeURL(s, false)}`)
+            params.statuses.map(s => `status:${encodeURL(s, false)}`)
                 .join(' OR ') +
             ')');
       }
@@ -434,7 +432,7 @@ class GrRouter extends mixinBehaviors( [
       suffix += params.messageHash;
     }
     if (params.project) {
-      const encodedProject = this.encodeURL(params.project, true);
+      const encodedProject = encodeURL(params.project, true);
       return `/c/${encodedProject}/+/${params.changeNum}${suffix}`;
     } else {
       return `/c/${params.changeNum}${suffix}`;
@@ -458,7 +456,7 @@ class GrRouter extends mixinBehaviors( [
       return `/dashboard/${user}?${queryParams.join('&')}`;
     } else if (repoName) {
       // Project dashboard.
-      const encodedRepo = this.encodeURL(repoName, true);
+      const encodedRepo = encodeURL(repoName, true);
       return `/p/${encodedRepo}/+/dashboard/${params.dashboard}`;
     } else {
       // User dashboard.
@@ -491,7 +489,7 @@ class GrRouter extends mixinBehaviors( [
     let range = this._getPatchRangeExpression(params);
     if (range.length) { range = '/' + range; }
 
-    let suffix = `${range}/${this.encodeURL(params.path, true)}`;
+    let suffix = `${range}/${encodeURL(params.path, true)}`;
 
     if (params.view === GerritNav.View.EDIT) { suffix += ',edit'; }
 
@@ -502,7 +500,7 @@ class GrRouter extends mixinBehaviors( [
     }
 
     if (params.project) {
-      const encodedProject = this.encodeURL(params.project, true);
+      const encodedProject = encodeURL(params.project, true);
       return `/c/${encodedProject}/+/${params.changeNum}${suffix}`;
     } else {
       return `/c/${params.changeNum}${suffix}`;
@@ -514,7 +512,7 @@ class GrRouter extends mixinBehaviors( [
    * @return {string}
    */
   _generateGroupUrl(params) {
-    let url = `/admin/groups/${this.encodeURL(params.groupId + '', true)}`;
+    let url = `/admin/groups/${encodeURL(params.groupId + '', true)}`;
     if (params.detail === GerritNav.GroupDetailView.MEMBERS) {
       url += ',members';
     } else if (params.detail === GerritNav.GroupDetailView.LOG) {
@@ -528,7 +526,7 @@ class GrRouter extends mixinBehaviors( [
    * @return {string}
    */
   _generateRepoUrl(params) {
-    let url = `/admin/repos/${this.encodeURL(params.repoName + '', true)}`;
+    let url = `/admin/repos/${encodeURL(params.repoName + '', true)}`;
     if (params.detail === GerritNav.RepoDetailView.ACCESS) {
       url += ',access';
     } else if (params.detail === GerritNav.RepoDetailView.BRANCHES) {

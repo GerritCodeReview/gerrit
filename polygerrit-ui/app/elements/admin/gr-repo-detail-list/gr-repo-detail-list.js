@@ -35,7 +35,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-repo-detail-list_html.js';
 import {ListViewBehavior} from '../../../behaviors/gr-list-view-behavior/gr-list-view-behavior.js';
-import {URLEncodingBehavior} from '../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.js';
+import {encodeURL} from '../../../utils/url-util.js';
 
 const DETAIL_TYPES = {
   BRANCHES: 'branches',
@@ -50,7 +50,6 @@ const PGP_START = '-----BEGIN PGP SIGNATURE-----';
  */
 class GrRepoDetailList extends mixinBehaviors( [
   ListViewBehavior,
-  URLEncodingBehavior,
 ], GestureEventListeners(
     LegacyElementMixin(
         PolymerElement))) {
@@ -170,7 +169,7 @@ class GrRepoDetailList extends mixinBehaviors( [
   }
 
   _getPath(repo) {
-    return `/admin/repos/${this.encodeURL(repo, false)},` +
+    return `/admin/repos/${encodeURL(repo, false)},` +
         `${this.detailType}`;
   }
 

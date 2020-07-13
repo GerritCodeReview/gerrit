@@ -69,6 +69,40 @@
       "revId": "f61bf9b98bc270dab3c0b29f890c247a657ee26c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37e356cc_9554c3db",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 2767,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-13T09:28:58Z",
+      "side": 1,
+      "message": "capitalize",
+      "revId": "f61bf9b98bc270dab3c0b29f890c247a657ee26c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "205034a0_490845e2",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 2832,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-13T09:28:58Z",
+      "side": 1,
+      "message": "capitalize",
+      "revId": "f61bf9b98bc270dab3c0b29f890c247a657ee26c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

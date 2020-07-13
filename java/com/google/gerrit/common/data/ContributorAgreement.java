@@ -18,6 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
+import java.util.List;
 
 /** Portion of a {@link Project} describing a single contributor agreement. */
 @AutoValue
@@ -71,9 +72,9 @@ public abstract class ContributorAgreement implements Comparable<ContributorAgre
 
     public abstract Builder setAgreementUrl(@Nullable String agreementUrl);
 
-    public abstract Builder setExcludeProjectsRegexes(ImmutableList<String> excludeProjectsRegexes);
+    public abstract Builder setExcludeProjectsRegexes(List<String> excludeProjectsRegexes);
 
-    public abstract Builder setMatchProjectsRegexes(ImmutableList<String> matchProjectsRegexes);
+    public abstract Builder setMatchProjectsRegexes(List<String> matchProjectsRegexes);
 
     public abstract ContributorAgreement build();
   }

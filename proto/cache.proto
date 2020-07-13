@@ -376,3 +376,15 @@ message AccessSectionProto {
 message BranchOrderSectionProto {
   repeated string branches_in_order = 1;
 }
+
+// Serialized form of com.google.gerrit.common.data.ContributorAgreement.
+// Next ID: 8
+message ContributorAgreementProto {
+  string name = 1;
+  string description = 2;
+  repeated PermissionRuleProto accepted = 3;
+  GroupReferenceProto auto_verify = 4;
+  string url = 5;
+  repeated string exclude_regular_expressions = 6;
+  repeated string match_regular_expressions = 7;
+}

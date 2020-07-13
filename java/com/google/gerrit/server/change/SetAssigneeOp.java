@@ -122,13 +122,13 @@ public class SetAssigneeOp implements BatchUpdateOp {
   @Override
   public void postUpdate(Context ctx) {
     try {
-      SetAssigneeSender cm =
+      SetAssigneeSender emailSender =
           setAssigneeSenderFactory.create(
               change.getProject(), change.getId(), newAssignee.getAccountId());
-      cm.setFrom(user.get().getAccountId());
-      cm.setMessageId(
+      emailSender.setFrom(user.get().getAccountId());
+      emailSender.setMessageId(
           messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()));
-      cm.send();
+      emailSender.send();
     } catch (Exception err) {
       logger.atSevere().withCause(err).log(
           "Cannot send email to new assignee of change %s", change.getId());

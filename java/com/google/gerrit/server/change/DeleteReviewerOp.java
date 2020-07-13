@@ -224,12 +224,14 @@ public class DeleteReviewerOp implements BatchUpdateOp {
       // The user knows they removed themselves, don't bother emailing them.
       return;
     }
-    DeleteReviewerSender cm = deleteReviewerSenderFactory.create(projectName, change.getId());
-    cm.setFrom(userId);
-    cm.addReviewers(Collections.singleton(reviewer.account().id()));
-    cm.setChangeMessage(changeMessage.getMessage(), changeMessage.getWrittenOn());
-    cm.setNotify(notify);
-    cm.setMessageId(messageIdGenerator.fromChangeUpdate(repoView, change.currentPatchSetId()));
-    cm.send();
+    DeleteReviewerSender emailSender =
+        deleteReviewerSenderFactory.create(projectName, change.getId());
+    emailSender.setFrom(userId);
+    emailSender.addReviewers(Collections.singleton(reviewer.account().id()));
+    emailSender.setChangeMessage(changeMessage.getMessage(), changeMessage.getWrittenOn());
+    emailSender.setNotify(notify);
+    emailSender.setMessageId(
+        messageIdGenerator.fromChangeUpdate(repoView, change.currentPatchSetId()));
+    emailSender.send();
   }
 }

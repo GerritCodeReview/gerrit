@@ -128,16 +128,17 @@ public class EmailReviewComments implements Runnable, RequestContext {
   public void run() {
     RequestContext old = requestContext.setContext(this);
     try {
-      CommentSender cm = commentSenderFactory.create(notes.getProjectName(), notes.getChangeId());
-      cm.setFrom(user.getAccountId());
-      cm.setPatchSet(patchSet, patchSetInfoFactory.get(notes.getProjectName(), patchSet));
-      cm.setChangeMessage(message.getMessage(), message.getWrittenOn());
-      cm.setComments(comments);
-      cm.setPatchSetComment(patchSetComment);
-      cm.setLabels(labels);
-      cm.setNotify(notify);
-      cm.setMessageId(messageIdGenerator.fromChangeUpdate(repoView, patchSet.id()));
-      cm.send();
+      CommentSender emailSender =
+          commentSenderFactory.create(notes.getProjectName(), notes.getChangeId());
+      emailSender.setFrom(user.getAccountId());
+      emailSender.setPatchSet(patchSet, patchSetInfoFactory.get(notes.getProjectName(), patchSet));
+      emailSender.setChangeMessage(message.getMessage(), message.getWrittenOn());
+      emailSender.setComments(comments);
+      emailSender.setPatchSetComment(patchSetComment);
+      emailSender.setLabels(labels);
+      emailSender.setNotify(notify);
+      emailSender.setMessageId(messageIdGenerator.fromChangeUpdate(repoView, patchSet.id()));
+      emailSender.send();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email comments for %s", patchSet.id());
     } finally {

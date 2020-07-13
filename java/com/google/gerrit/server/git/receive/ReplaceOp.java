@@ -520,26 +520,27 @@ public class ReplaceOp implements BatchUpdateOp {
     @Override
     public void run() {
       try {
-        ReplacePatchSetSender cm =
+        ReplacePatchSetSender emailSender =
             replacePatchSetFactory.create(projectState.getNameKey(), notes.getChangeId());
-        cm.setFrom(ctx.getAccount().account().id());
-        cm.setPatchSet(newPatchSet, info);
-        cm.setChangeMessage(msg.getMessage(), ctx.getWhen());
-        cm.setNotify(ctx.getNotify(notes.getChangeId()));
-        cm.addReviewers(
+        emailSender.setFrom(ctx.getAccount().account().id());
+        emailSender.setPatchSet(newPatchSet, info);
+        emailSender.setChangeMessage(msg.getMessage(), ctx.getWhen());
+        emailSender.setNotify(ctx.getNotify(notes.getChangeId()));
+        emailSender.addReviewers(
             Streams.concat(
                     oldRecipients.getReviewers().stream(),
                     reviewerAdditions.flattenResults(AddReviewersOp.Result::addedReviewers).stream()
                         .map(PatchSetApproval::accountId))
                 .collect(toImmutableSet()));
-        cm.addExtraCC(
+        emailSender.addExtraCC(
             Streams.concat(
                     oldRecipients.getCcOnly().stream(),
                     reviewerAdditions.flattenResults(AddReviewersOp.Result::addedCCs).stream())
                 .collect(toImmutableSet()));
-        cm.setMessageId(messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSetId));
+        emailSender.setMessageId(
+            messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSetId));
         // TODO(dborowitz): Support byEmail
-        cm.send();
+        emailSender.send();
       } catch (Exception e) {
         logger.atSevere().withCause(e).log(
             "Cannot send email for new patch set %s", newPatchSet.id());

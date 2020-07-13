@@ -483,7 +483,7 @@ func (_ *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 var (
 	tsStartingCompilation     = "- Starting compilation in watch mode..."
 	tsFileChangeDetectedMsg   = "- File change detected. Starting incremental compilation..."
-	tsStartWatchingMsg        = regexp.MustCompile(`^.* - Found \d errors\. Watching for file changes\.$`)
+	tsStartWatchingMsg        = regexp.MustCompile(`^.* - Found \d+ errors\. Watching for file changes\.$`)
 	waitForNextChangeInterval = 1 * time.Second
 )
 

@@ -51,8 +51,8 @@ public abstract class CachedProjectConfig {
   }
 
   /**
-   * Returns the group reference for a {@link AccountGroup.UUID}, if the group is used by at least
-   * one rule.
+   * Returns the group reference for a {@link com.google.gerrit.entities.AccountGroup.UUID}, if the
+   * group is used by at least one rule.
    */
   public Optional<GroupReference> getGroup(AccountGroup.UUID uuid) {
     return Optional.ofNullable(getGroups().get(uuid));
@@ -91,7 +91,10 @@ public abstract class CachedProjectConfig {
   /** Returns configured {@link ConfiguredMimeTypes}s. */
   public abstract ConfiguredMimeTypes getMimeTypes();
 
-  /** Returns {@link SubscribeSection} keyed by the {@link Project.NameKey} they reference. */
+  /**
+   * Returns {@link SubscribeSection} keyed by the {@link
+   * com.google.gerrit.entities.Project.NameKey} they reference.
+   */
   public abstract ImmutableMap<Project.NameKey, SubscribeSection> getSubscribeSections();
 
   /** Returns {@link StoredCommentLinkInfo} keyed by their name. */

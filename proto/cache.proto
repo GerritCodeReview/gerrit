@@ -338,3 +338,20 @@ message ProjectProto {
   string local_default_dashboard = 9;
   string config_ref_state = 10;
 }
+
+// Serialized form of com.google.gerrit.common.data.GroupReference.
+// Next ID: 3
+message GroupReferenceProto {
+  string uuid = 1;
+  string name = 2;
+}
+
+// Serialized form of com.google.gerrit.common.data.PermissionRule.
+// Next ID: 6
+message PermissionRuleProto {
+  string action = 1; // ENUM as String
+  bool force = 2;
+  int32 min = 3;
+  int32 max = 4;
+  GroupReferenceProto group = 5;
+}

@@ -34,6 +34,24 @@
       "revId": "43f3e910a4e4a5c71d401f741c7b7e52d1073f5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a773fd7b_deec9203",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-13T09:54:52Z",
+      "side": 1,
+      "message": "If you are waiting for an external event to happen, then I would recommend that you remove everyone from the attention set. If you remove yourself or not, is up to you.\n\nSetting WIP is also a good option. FYI: That would also automatically remove everyone from the attention set.",
+      "parentUuid": "3dc907db_60c71a45",
+      "revId": "43f3e910a4e4a5c71d401f741c7b7e52d1073f5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

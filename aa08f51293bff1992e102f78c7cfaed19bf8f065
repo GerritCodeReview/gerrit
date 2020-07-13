@@ -19,6 +19,46 @@
     },
     {
       "key": {
+        "uuid": "4954c2fd_07af8b9e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-13T09:36:59Z",
+      "side": 1,
+      "message": "overall looks good to me. Not sure how big a factor the extra round trip may contribute to on the landing page flashing for those who chose dark theme.",
+      "revId": "aa08f51293bff1992e102f78c7cfaed19bf8f065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28b4facb_768a065a",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-13T09:36:59Z",
+      "side": 1,
+      "message": "maybe define it in a constant instead. `constants.js`",
+      "range": {
+        "startLine": 205,
+        "startChar": 34,
+        "endLine": 205,
+        "endChar": 38
+      },
+      "revId": "aa08f51293bff1992e102f78c7cfaed19bf8f065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ab66fbc3_6ed310c2",
         "filename": "polygerrit-ui/app/elements/gr-app-element.js",
         "patchSetId": 10
@@ -63,6 +103,30 @@
       "revId": "aa08f51293bff1992e102f78c7cfaed19bf8f065",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f27726b7_7e40409c",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-13T09:36:59Z",
+      "side": 1,
+      "message": "i think the flashing problem for dark theme (white blank page) will be more obviously for first load after this change due to the round trip.",
+      "parentUuid": "741d9e1b_df0bb5ec",
+      "range": {
+        "startLine": 204,
+        "startChar": 4,
+        "endLine": 208,
+        "endChar": 7
+      },
+      "revId": "aa08f51293bff1992e102f78c7cfaed19bf8f065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

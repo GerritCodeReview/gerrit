@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1026b9f2_fcb0f4d6",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-13T10:44:38Z",
+      "side": 1,
+      "message": "It would be nice, if the name would bring across that this is about testing only.",
+      "revId": "5c58dc82e0285da9a88c934a6ae546f78f8473e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "308d9785_cf7e240a",
+        "filename": "polygerrit-ui/app/utils/mock-proxy-support.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-13T10:44:38Z",
+      "side": 1,
+      "message": "Add a comment and emphasize that using the registry is a stop-gap solution, not a recommended best practice.",
+      "revId": "5c58dc82e0285da9a88c934a6ae546f78f8473e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

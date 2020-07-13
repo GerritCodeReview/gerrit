@@ -23,9 +23,8 @@ public class GroupReferenceSerializer {
   public static GroupReference deserialize(Cache.GroupReferenceProto proto) {
     if (!proto.getUuid().isEmpty()) {
       return GroupReference.create(AccountGroup.uuid(proto.getUuid()), proto.getName());
-    } else {
-      return GroupReference.create(proto.getName());
     }
+    return GroupReference.create(proto.getName());
   }
 
   public static Cache.GroupReferenceProto serialize(GroupReference autoValue) {

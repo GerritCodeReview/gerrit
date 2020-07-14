@@ -102,6 +102,7 @@
     {if $userIsAuthenticated}
       <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/drafts" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
     {/if}
+    <link rel="preload" href="{$staticResourcePath}/bower_components/highlightjs/highlight.min.js" as="script"/>
   {/if}
 
   {if $useGoogleFonts}

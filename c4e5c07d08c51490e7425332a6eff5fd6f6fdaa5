@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d08230bf_75fb540c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-14T13:24:46Z",
+      "side": 1,
+      "message": "I\u0027ve removed the topic, so that we can merge this change to Gerrit first and then use the new annotation from the healthcheck plugin.",
+      "revId": "c4e5c07d08c51490e7425332a6eff5fd6f6fdaa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

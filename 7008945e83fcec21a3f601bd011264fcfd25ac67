@@ -33,6 +33,24 @@
       "revId": "7008945e83fcec21a3f601bd011264fcfd25ac67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d1e188a_c3cf9057",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-14T14:01:03Z",
+      "side": 1,
+      "message": "The said 3.4.1 release just came out and [1] is now closed and fixed in it. I’m in my car (AFK) for the next hour or two, so I cannot push a change for now. Will do so later if need be.",
+      "parentUuid": "505b321d_dc6274a3",
+      "revId": "7008945e83fcec21a3f601bd011264fcfd25ac67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

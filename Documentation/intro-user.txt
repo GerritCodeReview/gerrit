@@ -590,8 +590,9 @@ This will only change the state from WIP to ready, without opening the
 reply-modal.
 
 Change owners, project owners, site administrators and members of a group that
-was granted "Toggle Work In Progress state" permission can mark changes as
-`work-in-progress` and `ready`.
+was granted link:access-control.html#category_toggle_work_in_progress_state[
+Toggle Work In Progress state] permission can mark changes as `work-in-progress`
+and `ready`.
 
 [[private-changes]]
 == Private Changes

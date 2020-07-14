@@ -94,6 +94,30 @@
       "revId": "b4481420d4a629b0303aa89aaf60a856f4254f80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f23d4067_e1f5e067",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-14T13:01:14Z",
+      "side": 1,
+      "message": "\u003e E.g. are committers project owners? (WRITE_CONFIG is granted).\n\nI am not author of this plugin, and I don\u0027t know what actualy the intention is. In fact, I considered exactly this check WRITE_CONFIG instead of checking SUBMIT permission on \"refs/heads/*\", and even uploaded this PR: [1], that I however abandoned, as it is semantical change \"compared\" to plugin implementation in 2.14 branch.\n\nNote, that I am not involved in development or infrastructure team of Eclipse Foundation. I am just a seasoned contributor, and trynig to unblock their installation being inherently broken after migration to 3.x because working feature was lost during refactoring.\n\nWhatever fancy suggestion we can come up with, it doesn\u0027t change the fact the Gerrit project did incompatible change during migration to permission backend.\n\nI\u0027m going to comment on their issue and the option we have.\n\nI still think that this is non-invasiv change and could be release ASAP and if needed reverted later, after they have migrated to a better approach of detecting  submitter role.\n\n[1] https://github.com/EclipseFdn/gerrit-eca-plugin/pull/19",
+      "parentUuid": "f3d1a9e4_476398d3",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 0
+      },
+      "revId": "b4481420d4a629b0303aa89aaf60a856f4254f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

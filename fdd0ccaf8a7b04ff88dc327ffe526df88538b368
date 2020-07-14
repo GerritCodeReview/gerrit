@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "8c1a90bc_f9915477",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-07-14T13:28:25Z",
+      "side": 1,
+      "message": "Thanks. Sorry for not responding earlier. I was stuck on other tasks. Thanks for reviewing!",
+      "parentUuid": "a4f5e00c_b7718ab2",
+      "revId": "fdd0ccaf8a7b04ff88dc327ffe526df88538b368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3db3c817_c0c2e87c",
         "filename": "javatests/com/google/gerrit/acceptance/server/config/GerritIsReplicaIT.java",
         "patchSetId": 4
@@ -47,6 +65,30 @@
       "writtenOn": "2020-07-13T08:39:45Z",
       "side": 1,
       "message": "nit: as a follow-up, we should rename this method in AbstractDaemonTest as \u0027restartAsReplica\u0027",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 18
+      },
+      "revId": "fdd0ccaf8a7b04ff88dc327ffe526df88538b368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "579fa162_7a8b145c",
+        "filename": "javatests/com/google/gerrit/acceptance/server/config/GerritIsReplicaIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-07-14T13:28:25Z",
+      "side": 1,
+      "message": "Yes, indeed. I was also planning to do according changes in the healthcheck plugin.",
+      "parentUuid": "3db3c817_c0c2e87c",
       "range": {
         "startLine": 43,
         "startChar": 4,

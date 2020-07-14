@@ -68,6 +68,24 @@
       "revId": "7b7dc18775037397d674f733ddb53b4f1b253a8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b7f9665_9a4b63f5",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_html.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-14T12:13:05Z",
+      "side": 1,
+      "message": "i see, then maybe just add a listener in `attached` (js) instead ? might be easier to understand :)",
+      "parentUuid": "26fddc86_472e4d4d",
+      "revId": "7b7dc18775037397d674f733ddb53b4f1b253a8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

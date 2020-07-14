@@ -233,7 +233,7 @@ suite('gr-change-list-item tests', () => {
     assert.equal(element._computeSizeTooltip({
       insertions: 1,
       deletions: 2,
-    }), '+1, -2');
+    }), 'added 1, removed 2 lines');
   });
 
   test('TShirt sizing', () => {

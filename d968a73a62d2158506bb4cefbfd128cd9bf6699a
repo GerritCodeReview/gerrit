@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "103af4d7_fbc1b3ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-14T19:00:44Z",
+      "side": 1,
+      "message": "Marking as resolved as the comment does not contain anything actionable for Gal that he could improve in this change.",
+      "parentUuid": "15777f16_a720dc02",
+      "revId": "d968a73a62d2158506bb4cefbfd128cd9bf6699a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "238f1209_721a60d0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

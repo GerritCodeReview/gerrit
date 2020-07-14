@@ -66,6 +66,8 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.AttentionSetUtil;
 import com.google.gerrit.server.util.LabelVote;
@@ -119,6 +121,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private final RobotCommentUpdate.Factory robotCommentUpdateFactory;
   private final DeleteCommentRewriter.Factory deleteCommentRewriterFactory;
+  private final AccountLoader.Factory accountLoader;
 
   private final Table<String, Account.Id, Optional<Short>> approvals;
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
@@ -164,6 +167,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
       ProjectCache projectCache,
+      AccountLoader.Factory accountLoader,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user,
       @Assisted Date when,
@@ -174,6 +178,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         draftUpdateFactory,
         robotCommentUpdateFactory,
         deleteCommentRewriterFactory,
+        accountLoader,
         notes,
         user,
         when,
@@ -197,6 +202,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
+      AccountLoader.Factory accountLoader,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user,
       @Assisted Date when,
@@ -207,6 +213,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
     this.deleteCommentRewriterFactory = deleteCommentRewriterFactory;
+    this.accountLoader = accountLoader;
     this.approvals = approvals(labelNameComparator);
   }
 
@@ -828,6 +835,16 @@ public class ChangeUpdate extends AbstractChangeUpdate {
           && !currentUsersInAttentionSet.contains(attentionSetUpdate.account())) {
         // Skip users that are not in the attention set: no need to remove them.
         continue;
+      }
+      try {
+        if (Boolean.TRUE.equals(
+                accountLoader.create(true).fillOne(attentionSetUpdate.account()).isRobot)
+            && attentionSetUpdate.operation() == AttentionSetUpdate.Operation.ADD) {
+          // Skip adding robots to the attention set.
+          continue;
+        }
+      } catch (PermissionBackendException ex) {
+        // Couldn't access the account, assume that account is not a robot.
       }
       addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));
     }

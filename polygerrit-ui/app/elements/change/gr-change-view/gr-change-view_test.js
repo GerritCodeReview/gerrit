@@ -1726,6 +1726,20 @@ suite('gr-change-view tests', () => {
           })));
     });
 
+    test('show reply dialog on open-reply-dialog event', done => {
+      sinon.stub(element, '_openReplyDialog');
+      element.dispatchEvent(
+          new CustomEvent('open-reply-dialog', {
+            composed: true,
+            bubbles: true,
+            detail: {},
+          }));
+      flush(() => {
+        assert.isTrue(element._openReplyDialog.calledOnce);
+        done();
+      });
+    });
+
     test('reply from comment adds quote text', () => {
       const e = {detail: {message: {message: 'quote text'}}};
       element._handleMessageReply(e);

@@ -26,6 +26,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {runA11yAudit} from '../../../test/a11y-test-utils.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
+import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 
 const commentApiMock = createCommentApiMockWithTemplateElement(
     'gr-file-list-comment-api-mock', html`
@@ -52,22 +53,22 @@ suite('gr-file-list tests', () => {
 
   suiteSetup(() => {
     const kb = TestKeyboardShortcutBinder.push();
-    kb.bindShortcut(kb.Shortcut.LEFT_PANE, 'shift+left');
-    kb.bindShortcut(kb.Shortcut.RIGHT_PANE, 'shift+right');
-    kb.bindShortcut(kb.Shortcut.TOGGLE_INLINE_DIFF, 'i:keyup');
-    kb.bindShortcut(kb.Shortcut.TOGGLE_ALL_INLINE_DIFFS, 'shift+i:keyup');
-    kb.bindShortcut(kb.Shortcut.CURSOR_NEXT_FILE, 'j', 'down');
-    kb.bindShortcut(kb.Shortcut.CURSOR_PREV_FILE, 'k', 'up');
-    kb.bindShortcut(kb.Shortcut.NEXT_LINE, 'j', 'down');
-    kb.bindShortcut(kb.Shortcut.PREV_LINE, 'k', 'up');
-    kb.bindShortcut(kb.Shortcut.NEW_COMMENT, 'c');
-    kb.bindShortcut(kb.Shortcut.OPEN_LAST_FILE, '[');
-    kb.bindShortcut(kb.Shortcut.OPEN_FIRST_FILE, ']');
-    kb.bindShortcut(kb.Shortcut.OPEN_FILE, 'o');
-    kb.bindShortcut(kb.Shortcut.NEXT_CHUNK, 'n');
-    kb.bindShortcut(kb.Shortcut.PREV_CHUNK, 'p');
-    kb.bindShortcut(kb.Shortcut.TOGGLE_FILE_REVIEWED, 'r');
-    kb.bindShortcut(kb.Shortcut.TOGGLE_LEFT_PANE, 'shift+a');
+    kb.bindShortcut(Shortcut.LEFT_PANE, 'shift+left');
+    kb.bindShortcut(Shortcut.RIGHT_PANE, 'shift+right');
+    kb.bindShortcut(Shortcut.TOGGLE_INLINE_DIFF, 'i:keyup');
+    kb.bindShortcut(Shortcut.TOGGLE_ALL_INLINE_DIFFS, 'shift+i:keyup');
+    kb.bindShortcut(Shortcut.CURSOR_NEXT_FILE, 'j', 'down');
+    kb.bindShortcut(Shortcut.CURSOR_PREV_FILE, 'k', 'up');
+    kb.bindShortcut(Shortcut.NEXT_LINE, 'j', 'down');
+    kb.bindShortcut(Shortcut.PREV_LINE, 'k', 'up');
+    kb.bindShortcut(Shortcut.NEW_COMMENT, 'c');
+    kb.bindShortcut(Shortcut.OPEN_LAST_FILE, '[');
+    kb.bindShortcut(Shortcut.OPEN_FIRST_FILE, ']');
+    kb.bindShortcut(Shortcut.OPEN_FILE, 'o');
+    kb.bindShortcut(Shortcut.NEXT_CHUNK, 'n');
+    kb.bindShortcut(Shortcut.PREV_CHUNK, 'p');
+    kb.bindShortcut(Shortcut.TOGGLE_FILE_REVIEWED, 'r');
+    kb.bindShortcut(Shortcut.TOGGLE_LEFT_PANE, 'shift+a');
   });
 
   suiteTeardown(() => {
@@ -925,27 +926,6 @@ suite('gr-file-list tests', () => {
           .querySelector('.editFileControls'));
       assert.isTrue(clickSpy.calledOnce);
       assert.isFalse(toggleExpandSpy.called);
-    });
-
-    test('patch set from revisions', () => {
-      const expected = [
-        {num: 4, desc: 'test', sha: 'rev4'},
-        {num: 3, desc: 'test', sha: 'rev3'},
-        {num: 2, desc: 'test', sha: 'rev2'},
-        {num: 1, desc: 'test', sha: 'rev1'},
-      ];
-      const patchNums = element.computeAllPatchSets({
-        revisions: {
-          rev3: {_number: 3, description: 'test', date: 3},
-          rev1: {_number: 1, description: 'test', date: 1},
-          rev4: {_number: 4, description: 'test', date: 4},
-          rev2: {_number: 2, description: 'test', date: 2},
-        },
-      });
-      assert.equal(patchNums.length, expected.length);
-      for (let i = 0; i < expected.length; i++) {
-        assert.deepEqual(patchNums[i], expected[i]);
-      }
     });
 
     test('checkbox shows/hides diff inline', () => {

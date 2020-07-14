@@ -24,7 +24,7 @@ import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr
 const basicFixture = fixtureFromElement('gr-reply-dialog');
 const pluginApi = _testOnly_initGerritPluginApi();
 
-suite('gr-reply-dialog tests', () => {
+suite('gr-reply-dialog-it tests', () => {
   let element;
   let changeNum;
   let patchNum;
@@ -67,8 +67,6 @@ suite('gr-reply-dialog tests', () => {
         '+1',
       ],
     };
-    sinon.stub(element, 'fetchChangeUpdates')
-        .returns(Promise.resolve({isLatest: true}));
   };
 
   setup(() => {
@@ -82,7 +80,6 @@ suite('gr-reply-dialog tests', () => {
 
     element = basicFixture.instantiate();
     setupElement(element);
-
     // Allow the elements created by dom-repeat to be stamped.
     flushAsynchronousOperations();
   });

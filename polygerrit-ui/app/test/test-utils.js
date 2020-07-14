@@ -18,7 +18,7 @@
 import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader.js';
 import {testOnly_resetInternalState} from '../elements/shared/gr-js-api-interface/gr-api-utils.js';
 import {_testOnly_resetEndpoints} from '../elements/shared/gr-js-api-interface/gr-plugin-endpoints.js';
-import {KeyboardShortcutBinder, _testOnly_getShortcutManagerInstance} from '../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {_testOnly_getShortcutManagerInstance} from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 
 export const mockPromise = () => {
   let res;
@@ -40,7 +40,7 @@ export class TestKeyboardShortcutBinder {
     }
     const testBinder = new TestKeyboardShortcutBinder();
     this.stack.push(testBinder);
-    return KeyboardShortcutBinder;
+    return _testOnly_getShortcutManagerInstance();
   }
 
   static pop() {
@@ -78,10 +78,48 @@ function registerTestCleanup(cleanupCallback) {
 
 export function cleanupTestUtils() {
   cleanups.forEach(cleanup => cleanup());
+  cleanups.splice(0);
 }
 
 export function stubBaseUrl(newUrl) {
   const originalCanonicalPath = window.CANONICAL_PATH;
   window.CANONICAL_PATH = newUrl;
   registerTestCleanup(() => window.CANONICAL_PATH = originalCanonicalPath);
+}
+
+export function generateChange(options) {
+  const change = {
+    _number: 42,
+  };
+  const revisionIdStart = 1;
+  const messageIdStart = 1000;
+  // We want to distinguish between empty arrays/objects and undefined
+  // If an option is not set - the appropriate property is not set
+  // If an options is set - the property always set
+  if (typeof options.revisionsCount !== 'undefined') {
+    const revisions = {};
+    for (let i = 0; i < options.revisionsCount; i++) {
+      const revisionId = (i + revisionIdStart).toString(16);
+      revisions[revisionId] = {
+        _number: i+1,
+        commit: {parents: []},
+      };
+    }
+    change.revisions = revisions;
+  }
+  if (typeof options.messagesCount !== 'undefined') {
+    const messages = [];
+    for (let i = 0; i < options.messagesCount; i++) {
+      messages.push({
+        id: (i + messageIdStart).toString(16),
+        date: new Date(2020, 1, 1),
+        message: `This is a message N${i + 1}`,
+      });
+    }
+    change.messages = messages;
+  }
+  if (options.status) {
+    change.status = options.status;
+  }
+  return change;
 }

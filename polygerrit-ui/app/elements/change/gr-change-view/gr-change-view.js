@@ -46,14 +46,11 @@ import '../gr-reply-dialog/gr-reply-dialog.js';
 import '../gr-thread-list/gr-thread-list.js';
 import '../gr-upload-help-dialog/gr-upload-help-dialog.js';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-view_html.js';
-import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
-import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
-import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
+import {KeyboardShortcutMixin, Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {GrEditConstants} from '../../edit/gr-edit-constants.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
 import {getComputedStyleValue} from '../../../utils/dom-util.js';
@@ -66,6 +63,16 @@ import {PrimaryTab, SecondaryTab} from '../../../constants/constants.js';
 import {NO_ROBOT_COMMENTS_THREADS_MSG} from '../../../constants/messages.js';
 import {appContext} from '../../../services/app-context.js';
 import {ChangeStatus} from '../../../constants/constants.js';
+import {
+  computeAllPatchSets,
+  computeLatestPatchNum,
+  fetchChangeUpdates,
+  hasEditBasedOnCurrentPatchSet,
+  hasEditPatchsetLoaded,
+  patchNumEquals,
+  SPECIAL_PATCH_SET_NUM,
+} from '../../../utils/patch-set-util.js';
+import {changeStatuses, changeStatusString} from '../../../utils/change-util.js';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -126,17 +133,10 @@ const ROBOT_COMMENTS_LIMIT = 10;
  */
 
 /**
- * @appliesMixin RESTClientMixin
- * @appliesMixin PatchSetMixin
  * @extends PolymerElement
  */
-class GrChangeView extends mixinBehaviors( [
-  KeyboardShortcutBehavior,
-  PatchSetBehavior,
-  RESTClientBehavior,
-], GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))) {
+class GrChangeView extends KeyboardShortcutMixin(
+    GestureEventListeners(LegacyElementMixin(PolymerElement))) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-change-view'; }
@@ -294,7 +294,7 @@ class GrChangeView extends mixinBehaviors( [
       _currentRevisionActions: Object,
       _allPatchSets: {
         type: Array,
-        computed: 'computeAllPatchSets(_change, _change.revisions.*)',
+        computed: '_computeAllPatchSets(_change, _change.revisions.*)',
       },
       _loggedIn: {
         type: Boolean,
@@ -321,7 +321,7 @@ class GrChangeView extends mixinBehaviors( [
       },
       _changeStatus: {
         type: String,
-        computed: 'changeStatusString(_change)',
+        computed: '_changeStatusString(_change)',
       },
       _changeStatuses: {
         type: String,
@@ -426,26 +426,26 @@ class GrChangeView extends mixinBehaviors( [
 
   keyboardShortcuts() {
     return {
-      [this.Shortcut.SEND_REPLY]: null, // DOC_ONLY binding
-      [this.Shortcut.EMOJI_DROPDOWN]: null, // DOC_ONLY binding
-      [this.Shortcut.REFRESH_CHANGE]: '_handleRefreshChange',
-      [this.Shortcut.OPEN_REPLY_DIALOG]: '_handleOpenReplyDialog',
-      [this.Shortcut.OPEN_DOWNLOAD_DIALOG]:
+      [Shortcut.SEND_REPLY]: null, // DOC_ONLY binding
+      [Shortcut.EMOJI_DROPDOWN]: null, // DOC_ONLY binding
+      [Shortcut.REFRESH_CHANGE]: '_handleRefreshChange',
+      [Shortcut.OPEN_REPLY_DIALOG]: '_handleOpenReplyDialog',
+      [Shortcut.OPEN_DOWNLOAD_DIALOG]:
           '_handleOpenDownloadDialogShortcut',
-      [this.Shortcut.TOGGLE_DIFF_MODE]: '_handleToggleDiffMode',
-      [this.Shortcut.TOGGLE_CHANGE_STAR]: '_handleToggleChangeStar',
-      [this.Shortcut.UP_TO_DASHBOARD]: '_handleUpToDashboard',
-      [this.Shortcut.EXPAND_ALL_MESSAGES]: '_handleExpandAllMessages',
-      [this.Shortcut.COLLAPSE_ALL_MESSAGES]: '_handleCollapseAllMessages',
-      [this.Shortcut.EXPAND_ALL_DIFF_CONTEXT]: '_expandAllDiffs',
-      [this.Shortcut.OPEN_DIFF_PREFS]: '_handleOpenDiffPrefsShortcut',
-      [this.Shortcut.EDIT_TOPIC]: '_handleEditTopic',
-      [this.Shortcut.DIFF_AGAINST_BASE]: '_handleDiffAgainstBase',
-      [this.Shortcut.DIFF_AGAINST_LATEST]: '_handleDiffAgainstLatest',
-      [this.Shortcut.DIFF_BASE_AGAINST_LEFT]: '_handleDiffBaseAgainstLeft',
-      [this.Shortcut.DIFF_RIGHT_AGAINST_LATEST]:
+      [Shortcut.TOGGLE_DIFF_MODE]: '_handleToggleDiffMode',
+      [Shortcut.TOGGLE_CHANGE_STAR]: '_handleToggleChangeStar',
+      [Shortcut.UP_TO_DASHBOARD]: '_handleUpToDashboard',
+      [Shortcut.EXPAND_ALL_MESSAGES]: '_handleExpandAllMessages',
+      [Shortcut.COLLAPSE_ALL_MESSAGES]: '_handleCollapseAllMessages',
+      [Shortcut.EXPAND_ALL_DIFF_CONTEXT]: '_expandAllDiffs',
+      [Shortcut.OPEN_DIFF_PREFS]: '_handleOpenDiffPrefsShortcut',
+      [Shortcut.EDIT_TOPIC]: '_handleEditTopic',
+      [Shortcut.DIFF_AGAINST_BASE]: '_handleDiffAgainstBase',
+      [Shortcut.DIFF_AGAINST_LATEST]: '_handleDiffAgainstLatest',
+      [Shortcut.DIFF_BASE_AGAINST_LEFT]: '_handleDiffBaseAgainstLeft',
+      [Shortcut.DIFF_RIGHT_AGAINST_LATEST]:
         '_handleDiffRightAgainstLatest',
-      [this.Shortcut.DIFF_BASE_AGAINST_LATEST]:
+      [Shortcut.DIFF_BASE_AGAINST_LATEST]:
         '_handleDiffBaseAgainstLatest',
     };
   }
@@ -548,6 +548,10 @@ class GrChangeView extends mixinBehaviors( [
 
   get threadList() {
     return this.shadowRoot.querySelector('gr-thread-list');
+  }
+
+  _changeStatusString(change) {
+    return changeStatusString(change);
   }
 
   /**
@@ -733,7 +737,7 @@ class GrChangeView extends mixinBehaviors( [
       mergeable: !!mergeable,
       submitEnabled: !!submitEnabled,
     };
-    return this.changeStatuses(change, options);
+    return changeStatuses(change, options);
   }
 
   _computeHideEditCommitMessage(
@@ -1046,7 +1050,7 @@ class GrChangeView extends mixinBehaviors( [
     // in the patch range, then don't do a full reload.
     if (!changeChanged && patchChanged) {
       if (patchRange.patchNum == null) {
-        patchRange.patchNum = this.computeLatestPatchNum(this._allPatchSets);
+        patchRange.patchNum = computeLatestPatchNum(this._allPatchSets);
       }
       this._reloadPatchNumDependentResources().then(() => {
         this._sendShowChangeEvent();
@@ -1217,7 +1221,7 @@ class GrChangeView extends mixinBehaviors( [
     const parent = this._getBasePatchNum(change, this._patchRange);
 
     this.set('_patchRange.patchNum', this._patchRange.patchNum ||
-            this.computeLatestPatchNum(this._allPatchSets));
+            computeLatestPatchNum(this._allPatchSets));
 
     this.set('_patchRange.basePatchNum', parent);
 
@@ -1402,7 +1406,8 @@ class GrChangeView extends mixinBehaviors( [
 
   _handleDiffAgainstBase(e) {
     if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-    if (this.patchNumEquals(this._patchRange.basePatchNum, 'PARENT')) {
+    if (patchNumEquals(this._patchRange.basePatchNum,
+        SPECIAL_PATCH_SET_NUM.PARENT)) {
       this.dispatchEvent(new CustomEvent('show-alert', {
         detail: {
           message: 'Base is already selected.',
@@ -1416,7 +1421,8 @@ class GrChangeView extends mixinBehaviors( [
 
   _handleDiffBaseAgainstLeft(e) {
     if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-    if (this.patchNumEquals(this._patchRange.basePatchNum, 'PARENT')) {
+    if (patchNumEquals(this._patchRange.basePatchNum,
+        SPECIAL_PATCH_SET_NUM.PARENT)) {
       this.dispatchEvent(new CustomEvent('show-alert', {
         detail: {
           message: 'Left is already base.',
@@ -1430,8 +1436,8 @@ class GrChangeView extends mixinBehaviors( [
 
   _handleDiffAgainstLatest(e) {
     if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-    const latestPatchNum = this.computeLatestPatchNum(this._allPatchSets);
-    if (this.patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
+    const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
+    if (patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
       this.dispatchEvent(new CustomEvent('show-alert', {
         detail: {
           message: 'Latest is already selected.',
@@ -1446,8 +1452,8 @@ class GrChangeView extends mixinBehaviors( [
 
   _handleDiffRightAgainstLatest(e) {
     if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-    const latestPatchNum = this.computeLatestPatchNum(this._allPatchSets);
-    if (this.patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
+    const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
+    if (patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
       this.dispatchEvent(new CustomEvent('show-alert', {
         detail: {
           message: 'Right is already latest.',
@@ -1462,9 +1468,10 @@ class GrChangeView extends mixinBehaviors( [
 
   _handleDiffBaseAgainstLatest(e) {
     if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-    const latestPatchNum = this.computeLatestPatchNum(this._allPatchSets);
-    if (this.patchNumEquals(this._patchRange.patchNum, latestPatchNum) &&
-      this.patchNumEquals(this._patchRange.basePatchNum, 'PARENT')) {
+    const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
+    if (patchNumEquals(this._patchRange.patchNum, latestPatchNum) &&
+      patchNumEquals(this._patchRange.basePatchNum,
+          SPECIAL_PATCH_SET_NUM.PARENT)) {
       this.dispatchEvent(new CustomEvent('show-alert', {
         detail: {
           message: 'Already diffing base against latest.',
@@ -1618,7 +1625,7 @@ class GrChangeView extends mixinBehaviors( [
   _processEdit(change, edit) {
     if (!edit) { return; }
     change.revisions[edit.commit.commit] = {
-      _number: this.EDIT_NAME,
+      _number: SPECIAL_PATCH_SET_NUM.EDIT,
       basePatchNum: edit.base_patch_set_number,
       commit: edit.commit,
       fetch: edit.fetch,
@@ -1628,7 +1635,7 @@ class GrChangeView extends mixinBehaviors( [
     if (!this._patchRange.patchNum &&
         change.current_revision === edit.base_revision) {
       change.current_revision = edit.commit.commit;
-      this.set('_patchRange.patchNum', this.EDIT_NAME);
+      this.set('_patchRange.patchNum', SPECIAL_PATCH_SET_NUM.EDIT);
       // Because edits are fibbed as revisions and added to the revisions
       // array, and revision actions are always derived from the 'latest'
       // patch set, we must copy over actions from the patch set base.
@@ -1674,7 +1681,7 @@ class GrChangeView extends mixinBehaviors( [
 
           this._change = change;
           if (!this._patchRange || !this._patchRange.patchNum ||
-              this.patchNumEquals(this._patchRange.patchNum,
+              patchNumEquals(this._patchRange.patchNum,
                   currentRevision._number)) {
             // CommitInfo.commit is optional, and may need patching.
             if (!currentRevision.commit.commit) {
@@ -1717,7 +1724,7 @@ class GrChangeView extends mixinBehaviors( [
 
   _getLatestCommitMessage() {
     return this.$.restAPI.getChangeCommitInfo(this._changeNum,
-        this.computeLatestPatchNum(this._allPatchSets)).then(commitInfo => {
+        computeLatestPatchNum(this._allPatchSets)).then(commitInfo => {
       if (!commitInfo) return Promise.resolve();
       this._latestCommitMessage =
                   this._prepareCommitMsgForLinkify(commitInfo.message);
@@ -2109,7 +2116,7 @@ class GrChangeView extends mixinBehaviors( [
     }
 
     this._updateCheckTimerHandle = this.async(() => {
-      this.fetchChangeUpdates(this._change, this.$.restAPI).then(result => {
+      fetchChangeUpdates(this._change, this.$.restAPI).then(result => {
         let toastMessage = null;
         if (!result.isLatest) {
           toastMessage = ReloadToastMessage.NEWER_REVISION;
@@ -2179,7 +2186,7 @@ class GrChangeView extends mixinBehaviors( [
     if (paramsRecord.base && paramsRecord.base.edit) { return true; }
 
     const patchRange = patchRangeRecord.base || {};
-    return this.patchNumEquals(patchRange.patchNum, this.EDIT_NAME);
+    return patchNumEquals(patchRange.patchNum, SPECIAL_PATCH_SET_NUM.EDIT);
   }
 
   _handleFileActionTap(e) {
@@ -2232,18 +2239,18 @@ class GrChangeView extends mixinBehaviors( [
    */
   _handleEditTap() {
     const editInfo = Object.values(this._change.revisions).find(info =>
-      info._number === this.EDIT_NAME);
+      info._number === SPECIAL_PATCH_SET_NUM.EDIT);
 
     if (editInfo) {
-      GerritNav.navigateToChange(this._change, this.EDIT_NAME);
+      GerritNav.navigateToChange(this._change, SPECIAL_PATCH_SET_NUM.EDIT);
       return;
     }
 
     // Avoid putting patch set in the URL unless a non-latest patch set is
     // selected.
     let patchNum;
-    if (!this.patchNumEquals(this._patchRange.patchNum,
-        this.computeLatestPatchNum(this._allPatchSets))) {
+    if (!patchNumEquals(this._patchRange.patchNum,
+        computeLatestPatchNum(this._allPatchSets))) {
       patchNum = this._patchRange.patchNum;
     }
     GerritNav.navigateToChange(this._change, patchNum, null, true);
@@ -2272,6 +2279,34 @@ class GrChangeView extends mixinBehaviors( [
 
   _computeDiffPrefsDisabled(disableDiffPrefs, loggedIn) {
     return disableDiffPrefs || !loggedIn;
+  }
+
+  /**
+   * Wrapper for using in the element template and computed properties
+   */
+  _computeLatestPatchNum(allPatchSets) {
+    return computeLatestPatchNum(allPatchSets);
+  }
+
+  /**
+   * Wrapper for using in the element template and computed properties
+   */
+  _hasEditBasedOnCurrentPatchSet(allPatchSets) {
+    return hasEditBasedOnCurrentPatchSet(allPatchSets);
+  }
+
+  /**
+   * Wrapper for using in the element template and computed properties
+   */
+  _hasEditPatchsetLoaded(patchRangeRecord) {
+    return hasEditPatchsetLoaded(patchRangeRecord);
+  }
+
+  /**
+   * Wrapper for using in the element template and computed properties
+   */
+  _computeAllPatchSets(change) {
+    return computeAllPatchSets(change);
   }
 }
 

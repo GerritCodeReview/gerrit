@@ -40,24 +40,25 @@ import './settings/gr-settings-view/gr-settings-view.js';
 import './shared/gr-fixed-panel/gr-fixed-panel.js';
 import './shared/gr-lib-loader/gr-lib-loader.js';
 import './shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-app-element_html.js';
 import {getBaseUrl} from '../utils/url-util.js';
-import {KeyboardShortcutBehavior} from '../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
+import {
+  KeyboardShortcutMixin,
+  Shortcut,
+  SPECIAL_SHORTCUT,
+} from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {GerritNav} from './core/gr-navigation/gr-navigation.js';
 import {appContext} from '../services/app-context.js';
 
 /**
  * @extends PolymerElement
  */
-class GrAppElement extends mixinBehaviors( [
-  KeyboardShortcutBehavior,
-], GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))) {
+class GrAppElement extends KeyboardShortcutMixin(
+    GestureEventListeners(
+        LegacyElementMixin(PolymerElement))) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-app-element'; }
@@ -147,12 +148,12 @@ class GrAppElement extends mixinBehaviors( [
 
   keyboardShortcuts() {
     return {
-      [this.Shortcut.OPEN_SHORTCUT_HELP_DIALOG]: '_showKeyboardShortcuts',
-      [this.Shortcut.GO_TO_USER_DASHBOARD]: '_goToUserDashboard',
-      [this.Shortcut.GO_TO_OPENED_CHANGES]: '_goToOpenedChanges',
-      [this.Shortcut.GO_TO_MERGED_CHANGES]: '_goToMergedChanges',
-      [this.Shortcut.GO_TO_ABANDONED_CHANGES]: '_goToAbandonedChanges',
-      [this.Shortcut.GO_TO_WATCHED_CHANGES]: '_goToWatchedChanges',
+      [Shortcut.OPEN_SHORTCUT_HELP_DIALOG]: '_showKeyboardShortcuts',
+      [Shortcut.GO_TO_USER_DASHBOARD]: '_goToUserDashboard',
+      [Shortcut.GO_TO_OPENED_CHANGES]: '_goToOpenedChanges',
+      [Shortcut.GO_TO_MERGED_CHANGES]: '_goToMergedChanges',
+      [Shortcut.GO_TO_ABANDONED_CHANGES]: '_goToAbandonedChanges',
+      [Shortcut.GO_TO_WATCHED_CHANGES]: '_goToWatchedChanges',
     };
   }
 
@@ -231,143 +232,146 @@ class GrAppElement extends mixinBehaviors( [
   }
 
   _bindKeyboardShortcuts() {
-    this.bindShortcut(this.Shortcut.SEND_REPLY,
-        this.DOC_ONLY, 'ctrl+enter', 'meta+enter');
-    this.bindShortcut(this.Shortcut.EMOJI_DROPDOWN,
-        this.DOC_ONLY, ':');
+    this.bindShortcut(Shortcut.SEND_REPLY,
+        SPECIAL_SHORTCUT.DOC_ONLY, 'ctrl+enter', 'meta+enter');
+    this.bindShortcut(Shortcut.EMOJI_DROPDOWN,
+        SPECIAL_SHORTCUT.DOC_ONLY, ':');
 
     this.bindShortcut(
-        this.Shortcut.OPEN_SHORTCUT_HELP_DIALOG, '?');
+        Shortcut.OPEN_SHORTCUT_HELP_DIALOG, '?');
     this.bindShortcut(
-        this.Shortcut.GO_TO_USER_DASHBOARD, this.GO_KEY, 'i');
+        Shortcut.GO_TO_USER_DASHBOARD, SPECIAL_SHORTCUT.GO_KEY, 'i');
     this.bindShortcut(
-        this.Shortcut.GO_TO_OPENED_CHANGES, this.GO_KEY, 'o');
+        Shortcut.GO_TO_OPENED_CHANGES, SPECIAL_SHORTCUT.GO_KEY, 'o');
     this.bindShortcut(
-        this.Shortcut.GO_TO_MERGED_CHANGES, this.GO_KEY, 'm');
+        Shortcut.GO_TO_MERGED_CHANGES, SPECIAL_SHORTCUT.GO_KEY, 'm');
     this.bindShortcut(
-        this.Shortcut.GO_TO_ABANDONED_CHANGES, this.GO_KEY, 'a');
+        Shortcut.GO_TO_ABANDONED_CHANGES, SPECIAL_SHORTCUT.GO_KEY, 'a');
     this.bindShortcut(
-        this.Shortcut.GO_TO_WATCHED_CHANGES, this.GO_KEY, 'w');
+        Shortcut.GO_TO_WATCHED_CHANGES, SPECIAL_SHORTCUT.GO_KEY, 'w');
 
     this.bindShortcut(
-        this.Shortcut.CURSOR_NEXT_CHANGE, 'j');
+        Shortcut.CURSOR_NEXT_CHANGE, 'j');
     this.bindShortcut(
-        this.Shortcut.CURSOR_PREV_CHANGE, 'k');
+        Shortcut.CURSOR_PREV_CHANGE, 'k');
     this.bindShortcut(
-        this.Shortcut.OPEN_CHANGE, 'o');
+        Shortcut.OPEN_CHANGE, 'o');
     this.bindShortcut(
-        this.Shortcut.NEXT_PAGE, 'n', ']');
+        Shortcut.NEXT_PAGE, 'n', ']');
     this.bindShortcut(
-        this.Shortcut.PREV_PAGE, 'p', '[');
+        Shortcut.PREV_PAGE, 'p', '[');
     this.bindShortcut(
-        this.Shortcut.TOGGLE_CHANGE_REVIEWED, 'r:keyup');
+        Shortcut.TOGGLE_CHANGE_REVIEWED, 'r:keyup');
     this.bindShortcut(
-        this.Shortcut.TOGGLE_CHANGE_STAR, 's:keyup');
+        Shortcut.TOGGLE_CHANGE_STAR, 's:keyup');
     this.bindShortcut(
-        this.Shortcut.REFRESH_CHANGE_LIST, 'shift+r:keyup');
+        Shortcut.REFRESH_CHANGE_LIST, 'shift+r:keyup');
     this.bindShortcut(
-        this.Shortcut.EDIT_TOPIC, 't');
+        Shortcut.EDIT_TOPIC, 't');
 
     this.bindShortcut(
-        this.Shortcut.OPEN_REPLY_DIALOG, 'a:keyup');
+        Shortcut.OPEN_REPLY_DIALOG, 'a:keyup');
     this.bindShortcut(
-        this.Shortcut.OPEN_DOWNLOAD_DIALOG, 'd:keyup');
+        Shortcut.OPEN_DOWNLOAD_DIALOG, 'd:keyup');
     this.bindShortcut(
-        this.Shortcut.EXPAND_ALL_MESSAGES, 'x');
+        Shortcut.EXPAND_ALL_MESSAGES, 'x');
     this.bindShortcut(
-        this.Shortcut.COLLAPSE_ALL_MESSAGES, 'z');
+        Shortcut.COLLAPSE_ALL_MESSAGES, 'z');
     this.bindShortcut(
-        this.Shortcut.REFRESH_CHANGE, 'shift+r:keyup');
+        Shortcut.REFRESH_CHANGE, 'shift+r:keyup');
     this.bindShortcut(
-        this.Shortcut.UP_TO_DASHBOARD, 'u');
+        Shortcut.UP_TO_DASHBOARD, 'u');
     this.bindShortcut(
-        this.Shortcut.UP_TO_CHANGE, 'u');
+        Shortcut.UP_TO_CHANGE, 'u');
     this.bindShortcut(
-        this.Shortcut.TOGGLE_DIFF_MODE, 'm:keyup');
+        Shortcut.TOGGLE_DIFF_MODE, 'm:keyup');
     this.bindShortcut(
-        this.Shortcut.DIFF_AGAINST_BASE, this.V_KEY, 'down', 's');
+        Shortcut.DIFF_AGAINST_BASE, SPECIAL_SHORTCUT.V_KEY, 'down', 's');
     this.bindShortcut(
-        this.Shortcut.DIFF_AGAINST_LATEST, this.V_KEY, 'up', 'w');
+        Shortcut.DIFF_AGAINST_LATEST, SPECIAL_SHORTCUT.V_KEY, 'up', 'w');
     this.bindShortcut(
-        this.Shortcut.DIFF_BASE_AGAINST_LEFT, this.V_KEY, 'left', 'a');
+        Shortcut.DIFF_BASE_AGAINST_LEFT,
+        SPECIAL_SHORTCUT.V_KEY, 'left', 'a');
     this.bindShortcut(
-        this.Shortcut.DIFF_RIGHT_AGAINST_LATEST, this.V_KEY, 'right', 'd');
+        Shortcut.DIFF_RIGHT_AGAINST_LATEST,
+        SPECIAL_SHORTCUT.V_KEY, 'right', 'd');
     this.bindShortcut(
-        this.Shortcut.DIFF_BASE_AGAINST_LATEST, this.V_KEY, 'b');
+        Shortcut.DIFF_BASE_AGAINST_LATEST, SPECIAL_SHORTCUT.V_KEY, 'b');
 
     this.bindShortcut(
-        this.Shortcut.NEXT_LINE, 'j', 'down');
+        Shortcut.NEXT_LINE, 'j', 'down');
     this.bindShortcut(
-        this.Shortcut.PREV_LINE, 'k', 'up');
+        Shortcut.PREV_LINE, 'k', 'up');
     if (this._isCursorManagerSupportMoveToVisibleLine()) {
       this.bindShortcut(
-          this.Shortcut.VISIBLE_LINE, '.');
+          Shortcut.VISIBLE_LINE, '.');
     }
     this.bindShortcut(
-        this.Shortcut.NEXT_CHUNK, 'n');
+        Shortcut.NEXT_CHUNK, 'n');
     this.bindShortcut(
-        this.Shortcut.PREV_CHUNK, 'p');
+        Shortcut.PREV_CHUNK, 'p');
     this.bindShortcut(
-        this.Shortcut.EXPAND_ALL_DIFF_CONTEXT, 'shift+x');
+        Shortcut.EXPAND_ALL_DIFF_CONTEXT, 'shift+x');
     this.bindShortcut(
-        this.Shortcut.NEXT_COMMENT_THREAD, 'shift+n');
+        Shortcut.NEXT_COMMENT_THREAD, 'shift+n');
     this.bindShortcut(
-        this.Shortcut.PREV_COMMENT_THREAD, 'shift+p');
+        Shortcut.PREV_COMMENT_THREAD, 'shift+p');
     this.bindShortcut(
-        this.Shortcut.EXPAND_ALL_COMMENT_THREADS, this.DOC_ONLY, 'e');
+        Shortcut.EXPAND_ALL_COMMENT_THREADS,
+        SPECIAL_SHORTCUT.DOC_ONLY, 'e');
     this.bindShortcut(
-        this.Shortcut.COLLAPSE_ALL_COMMENT_THREADS,
-        this.DOC_ONLY, 'shift+e');
+        Shortcut.COLLAPSE_ALL_COMMENT_THREADS,
+        SPECIAL_SHORTCUT.DOC_ONLY, 'shift+e');
     this.bindShortcut(
-        this.Shortcut.LEFT_PANE, 'shift+left');
+        Shortcut.LEFT_PANE, 'shift+left');
     this.bindShortcut(
-        this.Shortcut.RIGHT_PANE, 'shift+right');
+        Shortcut.RIGHT_PANE, 'shift+right');
     this.bindShortcut(
-        this.Shortcut.TOGGLE_LEFT_PANE, 'shift+a');
+        Shortcut.TOGGLE_LEFT_PANE, 'shift+a');
     this.bindShortcut(
-        this.Shortcut.NEW_COMMENT, 'c');
+        Shortcut.NEW_COMMENT, 'c');
     this.bindShortcut(
-        this.Shortcut.SAVE_COMMENT,
+        Shortcut.SAVE_COMMENT,
         'ctrl+enter', 'meta+enter', 'ctrl+s', 'meta+s');
     this.bindShortcut(
-        this.Shortcut.OPEN_DIFF_PREFS, ',');
+        Shortcut.OPEN_DIFF_PREFS, ',');
     this.bindShortcut(
-        this.Shortcut.TOGGLE_DIFF_REVIEWED, 'r:keyup');
+        Shortcut.TOGGLE_DIFF_REVIEWED, 'r:keyup');
 
     this.bindShortcut(
-        this.Shortcut.NEXT_FILE, ']');
+        Shortcut.NEXT_FILE, ']');
     this.bindShortcut(
-        this.Shortcut.PREV_FILE, '[');
+        Shortcut.PREV_FILE, '[');
     this.bindShortcut(
-        this.Shortcut.NEXT_FILE_WITH_COMMENTS, 'shift+j');
+        Shortcut.NEXT_FILE_WITH_COMMENTS, 'shift+j');
     this.bindShortcut(
-        this.Shortcut.PREV_FILE_WITH_COMMENTS, 'shift+k');
+        Shortcut.PREV_FILE_WITH_COMMENTS, 'shift+k');
     this.bindShortcut(
-        this.Shortcut.CURSOR_NEXT_FILE, 'j', 'down');
+        Shortcut.CURSOR_NEXT_FILE, 'j', 'down');
     this.bindShortcut(
-        this.Shortcut.CURSOR_PREV_FILE, 'k', 'up');
+        Shortcut.CURSOR_PREV_FILE, 'k', 'up');
     this.bindShortcut(
-        this.Shortcut.OPEN_FILE, 'o', 'enter');
+        Shortcut.OPEN_FILE, 'o', 'enter');
     this.bindShortcut(
-        this.Shortcut.TOGGLE_FILE_REVIEWED, 'r:keyup');
+        Shortcut.TOGGLE_FILE_REVIEWED, 'r:keyup');
     this.bindShortcut(
-        this.Shortcut.NEXT_UNREVIEWED_FILE, 'shift+m');
+        Shortcut.NEXT_UNREVIEWED_FILE, 'shift+m');
     this.bindShortcut(
-        this.Shortcut.TOGGLE_ALL_INLINE_DIFFS, 'shift+i:keyup');
+        Shortcut.TOGGLE_ALL_INLINE_DIFFS, 'shift+i:keyup');
     this.bindShortcut(
-        this.Shortcut.TOGGLE_INLINE_DIFF, 'i:keyup');
+        Shortcut.TOGGLE_INLINE_DIFF, 'i:keyup');
     this.bindShortcut(
-        this.Shortcut.TOGGLE_BLAME, 'b');
+        Shortcut.TOGGLE_BLAME, 'b');
     this.bindShortcut(
-        this.Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, 'h');
+        Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, 'h');
 
     this.bindShortcut(
-        this.Shortcut.OPEN_FIRST_FILE, ']');
+        Shortcut.OPEN_FIRST_FILE, ']');
     this.bindShortcut(
-        this.Shortcut.OPEN_LAST_FILE, '[');
+        Shortcut.OPEN_LAST_FILE, '[');
 
     this.bindShortcut(
-        this.Shortcut.SEARCH, '/');
+        Shortcut.SEARCH, '/');
   }
 
   _isCursorManagerSupportMoveToVisibleLine() {

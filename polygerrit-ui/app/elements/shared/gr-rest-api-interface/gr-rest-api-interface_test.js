@@ -20,6 +20,7 @@ import './gr-rest-api-interface.js';
 import {mockPromise} from '../../../test/test-utils.js';
 import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser.js';
 import {authService} from './gr-auth.js';
+import {ListChangesOption} from '../../../utils/change-util.js';
 
 const basicFixture = fixtureFromElement('gr-rest-api-interface');
 
@@ -254,59 +255,6 @@ suite('gr-rest-api-interface tests', () => {
           });
           done();
         });
-  });
-
-  test('special file path sorting', () => {
-    assert.deepEqual(
-        ['.b', '/COMMIT_MSG', '.a', 'file'].sort(
-            element.specialFilePathCompare),
-        ['/COMMIT_MSG', '.a', '.b', 'file']);
-
-    assert.deepEqual(
-        ['.b', '/COMMIT_MSG', 'foo/bar/baz.cc', 'foo/bar/baz.h'].sort(
-            element.specialFilePathCompare),
-        ['/COMMIT_MSG', '.b', 'foo/bar/baz.h', 'foo/bar/baz.cc']);
-
-    assert.deepEqual(
-        ['.b', '/COMMIT_MSG', 'foo/bar/baz.cc', 'foo/bar/baz.hpp'].sort(
-            element.specialFilePathCompare),
-        ['/COMMIT_MSG', '.b', 'foo/bar/baz.hpp', 'foo/bar/baz.cc']);
-
-    assert.deepEqual(
-        ['.b', '/COMMIT_MSG', 'foo/bar/baz.cc', 'foo/bar/baz.hxx'].sort(
-            element.specialFilePathCompare),
-        ['/COMMIT_MSG', '.b', 'foo/bar/baz.hxx', 'foo/bar/baz.cc']);
-
-    assert.deepEqual(
-        ['foo/bar.h', 'foo/bar.hxx', 'foo/bar.hpp'].sort(
-            element.specialFilePathCompare),
-        ['foo/bar.h', 'foo/bar.hpp', 'foo/bar.hxx']);
-
-    // Regression test for Issue 4448.
-    assert.deepEqual(
-        [
-          'minidump/minidump_memory_writer.cc',
-          'minidump/minidump_memory_writer.h',
-          'minidump/minidump_thread_writer.cc',
-          'minidump/minidump_thread_writer.h',
-        ].sort(element.specialFilePathCompare),
-        [
-          'minidump/minidump_memory_writer.h',
-          'minidump/minidump_memory_writer.cc',
-          'minidump/minidump_thread_writer.h',
-          'minidump/minidump_thread_writer.cc',
-        ]);
-
-    // Regression test for Issue 4545.
-    assert.deepEqual(
-        [
-          'task_test.go',
-          'task.go',
-        ].sort(element.specialFilePathCompare),
-        [
-          'task.go',
-          'task_test.go',
-        ]);
   });
 
   test('server error', done => {
@@ -949,35 +897,27 @@ suite('gr-rest-api-interface tests', () => {
 
   suite('getChangeDetail', () => {
     suite('change detail options', () => {
-      let toHexStub;
-
       setup(() => {
-        toHexStub = sinon.stub(element, 'listChangesOptionsToHex').callsFake(
-            options => 'deadbeef');
         sinon.stub(element, '_getChangeDetail').callsFake(
             async (changeNum, options) => { return {changeNum, options}; });
       });
 
       test('signed pushes disabled', async () => {
-        const {PUSH_CERTIFICATES} = element.ListChangesOption;
         sinon.stub(element, 'getConfig').callsFake( async () => { return {}; });
         const {changeNum, options} = await element.getChangeDetail(123);
         assert.strictEqual(123, changeNum);
-        assert.strictEqual('deadbeef', options);
-        assert.isTrue(toHexStub.calledOnce);
-        assert.isFalse(toHexStub.lastCall.args.includes(PUSH_CERTIFICATES));
+        assert.isNotOk(
+            parseInt(options, 16) & (1 << ListChangesOption.PUSH_CERTIFICATES));
       });
 
       test('signed pushes enabled', async () => {
-        const {PUSH_CERTIFICATES} = element.ListChangesOption;
         sinon.stub(element, 'getConfig').callsFake( async () => {
           return {receive: {enable_signed_push: true}};
         });
         const {changeNum, options} = await element.getChangeDetail(123);
         assert.strictEqual(123, changeNum);
-        assert.strictEqual('deadbeef', options);
-        assert.isTrue(toHexStub.calledOnce);
-        assert.isTrue(toHexStub.lastCall.args.includes(PUSH_CERTIFICATES));
+        assert.ok(
+            parseInt(options, 16) & (1 << ListChangesOption.PUSH_CERTIFICATES));
       });
     });
 

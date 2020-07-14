@@ -15,55 +15,35 @@
  * limitations under the License.
  */
 
-import '../../test/common-test-setup-karma.js';
-import {Polymer} from '@polymer/polymer/lib/legacy/polymer-fn.js';
-import {RESTClientBehavior} from './rest-client-behavior.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import '../test/common-test-setup-karma.js';
+import {
+  changeBaseURL,
+  changePath,
+  changeStatuses,
+  changeStatusString,
+} from './change-util.js';
 
-const basicFixture = fixtureFromElement('rest-client-behavior-test-element');
-
-const withinOverlayFixture = fixtureFromTemplate(html`
-<gr-overlay>
-  <rest-client-behavior-test-element></rest-client-behavior-test-element>
-</gr-overlay>
-`);
-
-suite('rest-client-behavior tests', () => {
-  let element;
-  // eslint-disable-next-line no-unused-vars
-  let overlay;
+suite('change-util tests', () => {
   let originalCanonicalPath;
 
   suiteSetup(() => {
     originalCanonicalPath = window.CANONICAL_PATH;
     window.CANONICAL_PATH = '/r';
-    // Define a Polymer element that uses this behavior.
-    Polymer({
-      is: 'rest-client-behavior-test-element',
-      behaviors: [
-        RESTClientBehavior,
-      ],
-    });
   });
 
   suiteTeardown(() => {
     window.CANONICAL_PATH = originalCanonicalPath;
   });
 
-  setup(() => {
-    element = basicFixture.instantiate();
-    overlay = withinOverlayFixture.instantiate();
-  });
-
   test('changeBaseURL', () => {
     assert.deepEqual(
-        element.changeBaseURL('test/project', '1', '2'),
+        changeBaseURL('test/project', '1', '2'),
         '/r/changes/test%2Fproject~1/revisions/2'
     );
   });
 
   test('changePath', () => {
-    assert.deepEqual(element.changePath('1'), '/r/c/1');
+    assert.deepEqual(changePath('1'), '/r/c/1');
   });
 
   test('Open status', () => {
@@ -77,41 +57,41 @@ suite('rest-client-behavior tests', () => {
       labels: {},
       mergeable: true,
     };
-    let statuses = element.changeStatuses(change);
-    const statusString = element.changeStatusString(change);
+    let statuses = changeStatuses(change);
+    const statusString = changeStatusString(change);
     assert.deepEqual(statuses, []);
     assert.equal(statusString, '');
 
     change.submittable = false;
-    statuses = element.changeStatuses(change,
+    statuses = changeStatuses(change,
         {includeDerived: true});
     assert.deepEqual(statuses, ['Active']);
 
     // With no missing labels but no submitEnabled option.
     change.submittable = true;
-    statuses = element.changeStatuses(change,
+    statuses = changeStatuses(change,
         {includeDerived: true});
     assert.deepEqual(statuses, ['Active']);
 
     // Without missing labels and enabled submit
-    statuses = element.changeStatuses(change,
+    statuses = changeStatuses(change,
         {includeDerived: true, submitEnabled: true});
     assert.deepEqual(statuses, ['Ready to submit']);
 
     change.mergeable = false;
     change.submittable = true;
-    statuses = element.changeStatuses(change,
+    statuses = changeStatuses(change,
         {includeDerived: true});
     assert.deepEqual(statuses, ['Merge Conflict']);
 
     delete change.mergeable;
     change.submittable = true;
-    statuses = element.changeStatuses(change,
+    statuses = changeStatuses(change,
         {includeDerived: true, mergeable: true, submitEnabled: true});
     assert.deepEqual(statuses, ['Ready to submit']);
 
     change.submittable = true;
-    statuses = element.changeStatuses(change,
+    statuses = changeStatuses(change,
         {includeDerived: true, mergeable: false});
     assert.deepEqual(statuses, ['Merge Conflict']);
   });
@@ -127,8 +107,8 @@ suite('rest-client-behavior tests', () => {
       labels: {},
       mergeable: false,
     };
-    const statuses = element.changeStatuses(change);
-    const statusString = element.changeStatusString(change);
+    const statuses = changeStatuses(change);
+    const statusString = changeStatusString(change);
     assert.deepEqual(statuses, ['Merge Conflict']);
     assert.equal(statusString, 'Merge Conflict');
   });
@@ -143,8 +123,8 @@ suite('rest-client-behavior tests', () => {
       status: 'NEW',
       labels: {},
     };
-    const statuses = element.changeStatuses(change);
-    const statusString = element.changeStatusString(change);
+    const statuses = changeStatuses(change);
+    const statusString = changeStatusString(change);
     assert.deepEqual(statuses, []);
     assert.equal(statusString, '');
   });
@@ -159,8 +139,8 @@ suite('rest-client-behavior tests', () => {
       status: 'MERGED',
       labels: {},
     };
-    const statuses = element.changeStatuses(change);
-    const statusString = element.changeStatusString(change);
+    const statuses = changeStatuses(change);
+    const statusString = changeStatusString(change);
     assert.deepEqual(statuses, ['Merged']);
     assert.equal(statusString, 'Merged');
   });
@@ -175,8 +155,8 @@ suite('rest-client-behavior tests', () => {
       status: 'ABANDONED',
       labels: {},
     };
-    const statuses = element.changeStatuses(change);
-    const statusString = element.changeStatusString(change);
+    const statuses = changeStatuses(change);
+    const statusString = changeStatusString(change);
     assert.deepEqual(statuses, ['Abandoned']);
     assert.equal(statusString, 'Abandoned');
   });
@@ -194,8 +174,8 @@ suite('rest-client-behavior tests', () => {
       labels: {},
       mergeable: true,
     };
-    const statuses = element.changeStatuses(change);
-    const statusString = element.changeStatusString(change);
+    const statuses = changeStatuses(change);
+    const statusString = changeStatusString(change);
     assert.deepEqual(statuses, ['WIP', 'Private']);
     assert.equal(statusString, 'WIP, Private');
   });
@@ -213,8 +193,8 @@ suite('rest-client-behavior tests', () => {
       labels: {},
       mergeable: false,
     };
-    const statuses = element.changeStatuses(change);
-    const statusString = element.changeStatusString(change);
+    const statuses = changeStatuses(change);
+    const statusString = changeStatusString(change);
     assert.deepEqual(statuses, ['Merge Conflict', 'WIP', 'Private']);
     assert.equal(statusString, 'Merge Conflict, WIP, Private');
   });

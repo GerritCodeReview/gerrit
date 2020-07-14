@@ -23,18 +23,17 @@ import '../../../styles/shared-styles.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-list_html.js';
 import {appContext} from '../../../services/app-context.js';
 import {ChangeTableMixin} from '../../../mixins/gr-change-table-mixin/gr-change-table-mixin.js';
-import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
-import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
+import {KeyboardShortcutMixin, Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {changeIsOpen} from '../../../utils/change-util.js';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
@@ -44,12 +43,9 @@ const MAX_SHORTCUT_CHARS = 5;
 /**
  * @extends PolymerElement
  */
-class GrChangeList extends ChangeTableMixin(mixinBehaviors( [
-  KeyboardShortcutBehavior,
-  RESTClientBehavior,
-], GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)))) {
+class GrChangeList extends ChangeTableMixin(
+    KeyboardShortcutMixin(GestureEventListeners(
+        LegacyElementMixin(PolymerElement)))) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-change-list'; }
@@ -137,14 +133,14 @@ class GrChangeList extends ChangeTableMixin(mixinBehaviors( [
 
   keyboardShortcuts() {
     return {
-      [this.Shortcut.CURSOR_NEXT_CHANGE]: '_nextChange',
-      [this.Shortcut.CURSOR_PREV_CHANGE]: '_prevChange',
-      [this.Shortcut.NEXT_PAGE]: '_nextPage',
-      [this.Shortcut.PREV_PAGE]: '_prevPage',
-      [this.Shortcut.OPEN_CHANGE]: '_openChange',
-      [this.Shortcut.TOGGLE_CHANGE_REVIEWED]: '_toggleChangeReviewed',
-      [this.Shortcut.TOGGLE_CHANGE_STAR]: '_toggleChangeStar',
-      [this.Shortcut.REFRESH_CHANGE_LIST]: '_refreshChangeList',
+      [Shortcut.CURSOR_NEXT_CHANGE]: '_nextChange',
+      [Shortcut.CURSOR_PREV_CHANGE]: '_prevChange',
+      [Shortcut.NEXT_PAGE]: '_nextPage',
+      [Shortcut.PREV_PAGE]: '_prevPage',
+      [Shortcut.OPEN_CHANGE]: '_openChange',
+      [Shortcut.TOGGLE_CHANGE_REVIEWED]: '_toggleChangeReviewed',
+      [Shortcut.TOGGLE_CHANGE_STAR]: '_toggleChangeStar',
+      [Shortcut.REFRESH_CHANGE_LIST]: '_refreshChangeList',
     };
   }
 
@@ -300,7 +296,7 @@ class GrChangeList extends ChangeTableMixin(mixinBehaviors( [
         !!config && !!config.change && config.change.enable_attention_set;
     return !isAttentionSetEnabled && showReviewedState && !change.reviewed &&
         !change.work_in_progress &&
-        this.changeIsOpen(change) &&
+        changeIsOpen(change) &&
         (!account || account._account_id != change.owner._account_id);
   }
 

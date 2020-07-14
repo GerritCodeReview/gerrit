@@ -20,7 +20,9 @@ import './gr-diff-view.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {ChangeStatus} from '../../../constants/constants.js';
-import {TestKeyboardShortcutBinder} from '../../../test/test-utils';
+import {generateChange, TestKeyboardShortcutBinder} from '../../../test/test-utils';
+import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
+import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
 
@@ -32,32 +34,32 @@ suite('gr-diff-view tests', () => {
 
     suiteSetup(() => {
       const kb = TestKeyboardShortcutBinder.push();
-      kb.bindShortcut(kb.Shortcut.LEFT_PANE, 'shift+left');
-      kb.bindShortcut(kb.Shortcut.RIGHT_PANE, 'shift+right');
-      kb.bindShortcut(kb.Shortcut.NEXT_LINE, 'j', 'down');
-      kb.bindShortcut(kb.Shortcut.PREV_LINE, 'k', 'up');
-      kb.bindShortcut(kb.Shortcut.NEXT_FILE_WITH_COMMENTS, 'shift+j');
-      kb.bindShortcut(kb.Shortcut.PREV_FILE_WITH_COMMENTS, 'shift+k');
-      kb.bindShortcut(kb.Shortcut.NEW_COMMENT, 'c');
-      kb.bindShortcut(kb.Shortcut.SAVE_COMMENT, 'ctrl+s');
-      kb.bindShortcut(kb.Shortcut.NEXT_FILE, ']');
-      kb.bindShortcut(kb.Shortcut.PREV_FILE, '[');
-      kb.bindShortcut(kb.Shortcut.NEXT_CHUNK, 'n');
-      kb.bindShortcut(kb.Shortcut.NEXT_COMMENT_THREAD, 'shift+n');
-      kb.bindShortcut(kb.Shortcut.PREV_CHUNK, 'p');
-      kb.bindShortcut(kb.Shortcut.PREV_COMMENT_THREAD, 'shift+p');
-      kb.bindShortcut(kb.Shortcut.OPEN_REPLY_DIALOG, 'a');
-      kb.bindShortcut(kb.Shortcut.TOGGLE_LEFT_PANE, 'shift+a');
-      kb.bindShortcut(kb.Shortcut.UP_TO_CHANGE, 'u');
-      kb.bindShortcut(kb.Shortcut.OPEN_DIFF_PREFS, ',');
-      kb.bindShortcut(kb.Shortcut.TOGGLE_DIFF_MODE, 'm');
-      kb.bindShortcut(kb.Shortcut.TOGGLE_FILE_REVIEWED, 'r');
-      kb.bindShortcut(kb.Shortcut.EXPAND_ALL_DIFF_CONTEXT, 'shift+x');
-      kb.bindShortcut(kb.Shortcut.EXPAND_ALL_COMMENT_THREADS, 'e');
-      kb.bindShortcut(kb.Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, 'h');
-      kb.bindShortcut(kb.Shortcut.COLLAPSE_ALL_COMMENT_THREADS, 'shift+e');
-      kb.bindShortcut(kb.Shortcut.NEXT_UNREVIEWED_FILE, 'shift+m');
-      kb.bindShortcut(kb.Shortcut.TOGGLE_BLAME, 'b');
+      kb.bindShortcut(Shortcut.LEFT_PANE, 'shift+left');
+      kb.bindShortcut(Shortcut.RIGHT_PANE, 'shift+right');
+      kb.bindShortcut(Shortcut.NEXT_LINE, 'j', 'down');
+      kb.bindShortcut(Shortcut.PREV_LINE, 'k', 'up');
+      kb.bindShortcut(Shortcut.NEXT_FILE_WITH_COMMENTS, 'shift+j');
+      kb.bindShortcut(Shortcut.PREV_FILE_WITH_COMMENTS, 'shift+k');
+      kb.bindShortcut(Shortcut.NEW_COMMENT, 'c');
+      kb.bindShortcut(Shortcut.SAVE_COMMENT, 'ctrl+s');
+      kb.bindShortcut(Shortcut.NEXT_FILE, ']');
+      kb.bindShortcut(Shortcut.PREV_FILE, '[');
+      kb.bindShortcut(Shortcut.NEXT_CHUNK, 'n');
+      kb.bindShortcut(Shortcut.NEXT_COMMENT_THREAD, 'shift+n');
+      kb.bindShortcut(Shortcut.PREV_CHUNK, 'p');
+      kb.bindShortcut(Shortcut.PREV_COMMENT_THREAD, 'shift+p');
+      kb.bindShortcut(Shortcut.OPEN_REPLY_DIALOG, 'a');
+      kb.bindShortcut(Shortcut.TOGGLE_LEFT_PANE, 'shift+a');
+      kb.bindShortcut(Shortcut.UP_TO_CHANGE, 'u');
+      kb.bindShortcut(Shortcut.OPEN_DIFF_PREFS, ',');
+      kb.bindShortcut(Shortcut.TOGGLE_DIFF_MODE, 'm');
+      kb.bindShortcut(Shortcut.TOGGLE_FILE_REVIEWED, 'r');
+      kb.bindShortcut(Shortcut.EXPAND_ALL_DIFF_CONTEXT, 'shift+x');
+      kb.bindShortcut(Shortcut.EXPAND_ALL_COMMENT_THREADS, 'e');
+      kb.bindShortcut(Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, 'h');
+      kb.bindShortcut(Shortcut.COLLAPSE_ALL_COMMENT_THREADS, 'shift+e');
+      kb.bindShortcut(Shortcut.NEXT_UNREVIEWED_FILE, 'shift+m');
+      kb.bindShortcut(Shortcut.TOGGLE_BLAME, 'b');
     });
 
     suiteTeardown(() => {
@@ -283,12 +285,12 @@ suite('gr-diff-view tests', () => {
     });
 
     test('diff against latest', () => {
+      element._change = generateChange({revisionsCount: 12});
       element._patchRange = {
         basePatchNum: '5',
         patchNum: '10',
       };
       sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
-      sinon.stub(element, 'computeLatestPatchNum').returns(12);
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element._handleDiffAgainstLatest(new CustomEvent(''));
       const args = diffNavStub.getCall(0).args;
@@ -297,12 +299,11 @@ suite('gr-diff-view tests', () => {
     });
 
     test('_handleDiffBaseAgainstLeft', () => {
-      element._changeNum = '1';
+      element._change = generateChange({revisionsCount: 10});
       element._patchRange = {
         patchNum: 3,
         basePatchNum: 1,
       };
-      sinon.stub(element, 'computeLatestPatchNum').returns(10);
       sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element._handleDiffBaseAgainstLeft(new CustomEvent(''));
@@ -313,12 +314,11 @@ suite('gr-diff-view tests', () => {
     });
 
     test('_handleDiffRightAgainstLatest', () => {
-      element._changeNum = '1';
+      element._change = generateChange({revisionsCount: 10});
       element._patchRange = {
         basePatchNum: 1,
         patchNum: 3,
       };
-      sinon.stub(element, 'computeLatestPatchNum').returns(10);
       sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element._handleDiffRightAgainstLatest(new CustomEvent(''));
@@ -329,12 +329,11 @@ suite('gr-diff-view tests', () => {
     });
 
     test('_handleDiffBaseAgainstLatest', () => {
-      element._changeNum = '1';
+      element._change = generateChange({revisionsCount: 10});
       element._patchRange = {
         basePatchNum: 1,
         patchNum: 3,
       };
-      sinon.stub(element, 'computeLatestPatchNum').returns(10);
       sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element._handleDiffBaseAgainstLatest(new CustomEvent(''));
@@ -912,7 +911,7 @@ suite('gr-diff-view tests', () => {
     test('file review status with edit loaded', () => {
       const saveReviewedStub = sinon.stub(element, '_saveReviewedState');
 
-      element._patchRange = {patchNum: element.EDIT_NAME};
+      element._patchRange = {patchNum: SPECIAL_PATCH_SET_NUM.EDIT};
       flushAsynchronousOperations();
 
       assert.isTrue(element._editMode);
@@ -1382,7 +1381,7 @@ suite('gr-diff-view tests', () => {
         element._patchRange = {patchNum: '1'};
         // Reviewed checkbox should be shown.
         assert.isTrue(isVisible(element.$.reviewed));
-        element.set('_patchRange.patchNum', element.EDIT_NAME);
+        element.set('_patchRange.patchNum', SPECIAL_PATCH_SET_NUM.EDIT);
         flushAsynchronousOperations();
 
         assert.isFalse(isVisible(element.$.reviewed));

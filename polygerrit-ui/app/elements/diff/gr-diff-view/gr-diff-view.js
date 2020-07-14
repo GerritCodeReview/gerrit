@@ -33,19 +33,26 @@ import '../gr-diff-mode-selector/gr-diff-mode-selector.js';
 import '../gr-diff-preferences-dialog/gr-diff-preferences-dialog.js';
 import '../gr-patch-range-select/gr-patch-range-select.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-diff-view_html.js';
-import {PatchSetBehavior} from '../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.js';
-import {PathListBehavior} from '../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.js';
-import {KeyboardShortcutBehavior} from '../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.js';
-import {RESTClientBehavior} from '../../../behaviors/rest-client-behavior/rest-client-behavior.js';
+import {KeyboardShortcutMixin, Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {RevisionInfo} from '../../shared/revision-info/revision-info.js';
 import {appContext} from '../../../services/app-context.js';
+import {
+  computeAllPatchSets,
+  computeLatestPatchNum,
+  patchNumEquals,
+  SPECIAL_PATCH_SET_NUM,
+} from '../../../utils/patch-set-util.js';
+import {
+  addUnmodifiedFiles, computeDisplayPath, computeTruncatedPath,
+  isMagicPath, specialFilePathCompare,
+} from '../../../utils/path-list-util.js';
+import {changeBaseURL, changeIsOpen} from '../../../utils/change-util.js';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -64,17 +71,10 @@ const DiffViewMode = {
 };
 
 /**
- * @appliesMixin PatchSetMixin
  * @extends PolymerElement
  */
-class GrDiffView extends mixinBehaviors( [
-  KeyboardShortcutBehavior,
-  PatchSetBehavior,
-  PathListBehavior,
-  RESTClientBehavior,
-], GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))) {
+class GrDiffView extends KeyboardShortcutMixin(
+    GestureEventListeners(LegacyElementMixin(PolymerElement))) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-diff-view'; }
@@ -226,7 +226,7 @@ class GrDiffView extends mixinBehaviors( [
       },
       _allPatchSets: {
         type: Array,
-        computed: 'computeAllPatchSets(_change, _change.revisions.*)',
+        computed: '_computeAllPatchSets(_change, _change.revisions.*)',
       },
       _revisionInfo: {
         type: Object,
@@ -270,47 +270,47 @@ class GrDiffView extends mixinBehaviors( [
 
   keyboardShortcuts() {
     return {
-      [this.Shortcut.LEFT_PANE]: '_handleLeftPane',
-      [this.Shortcut.RIGHT_PANE]: '_handleRightPane',
-      [this.Shortcut.NEXT_LINE]: '_handleNextLineOrFileWithComments',
-      [this.Shortcut.PREV_LINE]: '_handlePrevLineOrFileWithComments',
-      [this.Shortcut.VISIBLE_LINE]: '_handleVisibleLine',
-      [this.Shortcut.NEXT_FILE_WITH_COMMENTS]:
+      [Shortcut.LEFT_PANE]: '_handleLeftPane',
+      [Shortcut.RIGHT_PANE]: '_handleRightPane',
+      [Shortcut.NEXT_LINE]: '_handleNextLineOrFileWithComments',
+      [Shortcut.PREV_LINE]: '_handlePrevLineOrFileWithComments',
+      [Shortcut.VISIBLE_LINE]: '_handleVisibleLine',
+      [Shortcut.NEXT_FILE_WITH_COMMENTS]:
           '_handleNextLineOrFileWithComments',
-      [this.Shortcut.PREV_FILE_WITH_COMMENTS]:
+      [Shortcut.PREV_FILE_WITH_COMMENTS]:
           '_handlePrevLineOrFileWithComments',
-      [this.Shortcut.NEW_COMMENT]: '_handleNewComment',
-      [this.Shortcut.SAVE_COMMENT]: null, // DOC_ONLY binding
-      [this.Shortcut.NEXT_FILE]: '_handleNextFile',
-      [this.Shortcut.PREV_FILE]: '_handlePrevFile',
-      [this.Shortcut.NEXT_CHUNK]: '_handleNextChunkOrCommentThread',
-      [this.Shortcut.NEXT_COMMENT_THREAD]: '_handleNextChunkOrCommentThread',
-      [this.Shortcut.PREV_CHUNK]: '_handlePrevChunkOrCommentThread',
-      [this.Shortcut.PREV_COMMENT_THREAD]: '_handlePrevChunkOrCommentThread',
-      [this.Shortcut.OPEN_REPLY_DIALOG]:
+      [Shortcut.NEW_COMMENT]: '_handleNewComment',
+      [Shortcut.SAVE_COMMENT]: null, // DOC_ONLY binding
+      [Shortcut.NEXT_FILE]: '_handleNextFile',
+      [Shortcut.PREV_FILE]: '_handlePrevFile',
+      [Shortcut.NEXT_CHUNK]: '_handleNextChunkOrCommentThread',
+      [Shortcut.NEXT_COMMENT_THREAD]: '_handleNextChunkOrCommentThread',
+      [Shortcut.PREV_CHUNK]: '_handlePrevChunkOrCommentThread',
+      [Shortcut.PREV_COMMENT_THREAD]: '_handlePrevChunkOrCommentThread',
+      [Shortcut.OPEN_REPLY_DIALOG]:
           '_handleOpenReplyDialogOrToggleLeftPane',
-      [this.Shortcut.TOGGLE_LEFT_PANE]:
+      [Shortcut.TOGGLE_LEFT_PANE]:
           '_handleOpenReplyDialogOrToggleLeftPane',
-      [this.Shortcut.UP_TO_CHANGE]: '_handleUpToChange',
-      [this.Shortcut.OPEN_DIFF_PREFS]: '_handleCommaKey',
-      [this.Shortcut.TOGGLE_DIFF_MODE]: '_handleToggleDiffMode',
-      [this.Shortcut.TOGGLE_FILE_REVIEWED]: '_handleToggleFileReviewed',
-      [this.Shortcut.EXPAND_ALL_DIFF_CONTEXT]: '_handleExpandAllDiffContext',
-      [this.Shortcut.NEXT_UNREVIEWED_FILE]: '_handleNextUnreviewedFile',
-      [this.Shortcut.TOGGLE_BLAME]: '_handleToggleBlame',
-      [this.Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS]:
+      [Shortcut.UP_TO_CHANGE]: '_handleUpToChange',
+      [Shortcut.OPEN_DIFF_PREFS]: '_handleCommaKey',
+      [Shortcut.TOGGLE_DIFF_MODE]: '_handleToggleDiffMode',
+      [Shortcut.TOGGLE_FILE_REVIEWED]: '_handleToggleFileReviewed',
+      [Shortcut.EXPAND_ALL_DIFF_CONTEXT]: '_handleExpandAllDiffContext',
+      [Shortcut.NEXT_UNREVIEWED_FILE]: '_handleNextUnreviewedFile',
+      [Shortcut.TOGGLE_BLAME]: '_handleToggleBlame',
+      [Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS]:
           '_handleToggleHideAllCommentThreads',
-      [this.Shortcut.DIFF_AGAINST_BASE]: '_handleDiffAgainstBase',
-      [this.Shortcut.DIFF_AGAINST_LATEST]: '_handleDiffAgainstLatest',
-      [this.Shortcut.DIFF_BASE_AGAINST_LEFT]: '_handleDiffBaseAgainstLeft',
-      [this.Shortcut.DIFF_RIGHT_AGAINST_LATEST]:
+      [Shortcut.DIFF_AGAINST_BASE]: '_handleDiffAgainstBase',
+      [Shortcut.DIFF_AGAINST_LATEST]: '_handleDiffAgainstLatest',
+      [Shortcut.DIFF_BASE_AGAINST_LEFT]: '_handleDiffBaseAgainstLeft',
+      [Shortcut.DIFF_RIGHT_AGAINST_LATEST]:
         '_handleDiffRightAgainstLatest',
-      [this.Shortcut.DIFF_BASE_AGAINST_LATEST]:
+      [Shortcut.DIFF_BASE_AGAINST_LATEST]:
         '_handleDiffBaseAgainstLatest',
 
       // Final two are actually handled by gr-comment-thread.
-      [this.Shortcut.EXPAND_ALL_COMMENT_THREADS]: null,
-      [this.Shortcut.COLLAPSE_ALL_COMMENT_THREADS]: null,
+      [Shortcut.EXPAND_ALL_COMMENT_THREADS]: null,
+      [Shortcut.COLLAPSE_ALL_COMMENT_THREADS]: null,
     };
   }
 
@@ -391,9 +391,9 @@ class GrDiffView extends mixinBehaviors( [
       if (!changeFiles) return;
       const commentedPaths = changeComments.getPaths(patchRange);
       const files = Object.assign({}, changeFiles);
-      this.addUnmodifiedFiles(files, commentedPaths);
+      addUnmodifiedFiles(files, commentedPaths);
       this._files = {
-        sortedFileList: Object.keys(files).sort(this.specialFilePathCompare),
+        sortedFileList: Object.keys(files).sort(specialFilePathCompare),
         changeFilesByPath: files,
       };
     });
@@ -765,7 +765,7 @@ class GrDiffView extends mixinBehaviors( [
     // has been queued, the event can bubble up to the handler in gr-app.
     this.async(() => {
       this.dispatchEvent(new CustomEvent('title-change', {
-        detail: {title: this.computeTruncatedPath(this._path)},
+        detail: {title: computeTruncatedPath(this._path)},
         composed: true, bubbles: true,
       }));
     });
@@ -820,7 +820,7 @@ class GrDiffView extends mixinBehaviors( [
           const edit = r[4];
           if (edit) {
             this.set('_change.revisions.' + edit.commit.commit, {
-              _number: this.EDIT_NAME,
+              _number: SPECIAL_PATCH_SET_NUM.EDIT,
               basePatchNum: edit.base_patch_set_number,
               commit: edit.commit,
             });
@@ -897,7 +897,7 @@ class GrDiffView extends mixinBehaviors( [
   _pathChanged(path) {
     if (path) {
       this.dispatchEvent(new CustomEvent('title-change', {
-        detail: {title: this.computeTruncatedPath(path)},
+        detail: {title: computeTruncatedPath(path)},
         composed: true, bubbles: true,
       }));
     }
@@ -981,8 +981,8 @@ class GrDiffView extends mixinBehaviors( [
     const dropdownContent = [];
     for (const path of files.sortedFileList) {
       dropdownContent.push({
-        text: this.computeDisplayPath(path),
-        mobileText: this.computeTruncatedPath(path),
+        text: computeDisplayPath(path),
+        mobileText: computeTruncatedPath(path),
         value: path,
         bottomText: this._computeCommentString(changeComments, patchNum,
             path, files.changeFilesByPath[path]),
@@ -1034,8 +1034,8 @@ class GrDiffView extends mixinBehaviors( [
 
   _handlePatchChange(e) {
     const {basePatchNum, patchNum} = e.detail;
-    if (this.patchNumEquals(basePatchNum, this._patchRange.basePatchNum) &&
-        this.patchNumEquals(patchNum, this._patchRange.patchNum)) { return; }
+    if (patchNumEquals(basePatchNum, this._patchRange.basePatchNum) &&
+        patchNumEquals(patchNum, this._patchRange.patchNum)) { return; }
     GerritNav.navigateToDiff(
         this._change, this._path, patchNum, basePatchNum);
   }
@@ -1134,7 +1134,7 @@ class GrDiffView extends mixinBehaviors( [
       patchNum = patchRange.basePatchNum;
     }
 
-    let url = this.changeBaseURL(project, changeNum, patchNum) +
+    let url = changeBaseURL(project, changeNum, patchNum) +
         `/files/${encodeURIComponent(path)}/download`;
 
     if (isBase && comparedAgainsParent) {
@@ -1145,7 +1145,7 @@ class GrDiffView extends mixinBehaviors( [
   }
 
   _computeDownloadPatchLink(project, changeNum, patchRange, path) {
-    let url = this.changeBaseURL(project, changeNum, patchRange.patchNum);
+    let url = changeBaseURL(project, changeNum, patchRange.patchNum);
     url += '/patch?zip&path=' + encodeURIComponent(path);
     return url;
   }
@@ -1239,7 +1239,7 @@ class GrDiffView extends mixinBehaviors( [
    */
   _computeEditMode(patchRangeRecord) {
     const patchRange = patchRangeRecord.base || {};
-    return this.patchNumEquals(patchRange.patchNum, this.EDIT_NAME);
+    return patchNumEquals(patchRange.patchNum, SPECIAL_PATCH_SET_NUM.EDIT);
   }
 
   /**
@@ -1299,7 +1299,8 @@ class GrDiffView extends mixinBehaviors( [
 
   _handleDiffAgainstBase(e) {
     if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-    if (this.patchNumEquals(this._patchRange.basePatchNum, 'PARENT')) {
+    if (patchNumEquals(this._patchRange.basePatchNum,
+        SPECIAL_PATCH_SET_NUM.PARENT)) {
       this.dispatchEvent(new CustomEvent('show-alert', {
         detail: {
           message: 'Base is already selected.',
@@ -1314,7 +1315,8 @@ class GrDiffView extends mixinBehaviors( [
 
   _handleDiffBaseAgainstLeft(e) {
     if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-    if (this.patchNumEquals(this._patchRange.basePatchNum, 'PARENT')) {
+    if (patchNumEquals(this._patchRange.basePatchNum,
+        SPECIAL_PATCH_SET_NUM.PARENT)) {
       this.dispatchEvent(new CustomEvent('show-alert', {
         detail: {
           message: 'Left is already base.',
@@ -1330,8 +1332,8 @@ class GrDiffView extends mixinBehaviors( [
   _handleDiffAgainstLatest(e) {
     if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
-    const latestPatchNum = this.computeLatestPatchNum(this._allPatchSets);
-    if (this.patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
+    const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
+    if (patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
       this.dispatchEvent(new CustomEvent('show-alert', {
         detail: {
           message: 'Latest is already selected.',
@@ -1348,8 +1350,8 @@ class GrDiffView extends mixinBehaviors( [
 
   _handleDiffRightAgainstLatest(e) {
     if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-    const latestPatchNum = this.computeLatestPatchNum(this._allPatchSets);
-    if (this.patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
+    const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
+    if (patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
       this.dispatchEvent(new CustomEvent('show-alert', {
         detail: {
           message: 'Right is already latest.',
@@ -1364,9 +1366,10 @@ class GrDiffView extends mixinBehaviors( [
 
   _handleDiffBaseAgainstLatest(e) {
     if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-    const latestPatchNum = this.computeLatestPatchNum(this._allPatchSets);
-    if (this.patchNumEquals(this._patchRange.patchNum, latestPatchNum) &&
-      this.patchNumEquals(this._patchRange.basePatchNum, 'PARENT')) {
+    const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
+    if (patchNumEquals(this._patchRange.patchNum, latestPatchNum) &&
+      patchNumEquals(this._patchRange.basePatchNum,
+          SPECIAL_PATCH_SET_NUM.PARENT)) {
       this.dispatchEvent(new CustomEvent('show-alert', {
         detail: {
           message: 'Already diffing base against latest.',
@@ -1379,7 +1382,7 @@ class GrDiffView extends mixinBehaviors( [
   }
 
   _computeBlameLoaderClass(isImageDiff, path) {
-    return !this.isMagicPath(path) && !isImageDiff ? 'show' : '';
+    return !isMagicPath(path) && !isImageDiff ? 'show' : '';
   }
 
   _getRevisionInfo(change) {
@@ -1440,7 +1443,21 @@ class GrDiffView extends mixinBehaviors( [
         .some(arg => arg === undefined)) {
       return false;
     }
-    return loggedIn && this.changeIsOpen(changeChangeRecord.base);
+    return loggedIn && changeIsOpen(changeChangeRecord.base);
+  }
+
+  /**
+   * Wrapper for using in the element template and computed properties
+   */
+  _computeAllPatchSets(change) {
+    return computeAllPatchSets(change);
+  }
+
+  /**
+   * Wrapper for using in the element template and computed properties
+   */
+  _computeDisplayPath(path) {
+    return computeDisplayPath(path);
   }
 }
 

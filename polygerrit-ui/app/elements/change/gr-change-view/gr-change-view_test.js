@@ -29,7 +29,9 @@ import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 
 import 'lodash/lodash.js';
-import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
+import {generateChange, TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
+import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
+import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 const fixture = fixtureFromElement('gr-change-view');
@@ -41,17 +43,17 @@ suite('gr-change-view tests', () => {
 
   suiteSetup(() => {
     const kb = TestKeyboardShortcutBinder.push();
-    kb.bindShortcut(kb.Shortcut.SEND_REPLY, 'ctrl+enter');
-    kb.bindShortcut(kb.Shortcut.REFRESH_CHANGE, 'shift+r');
-    kb.bindShortcut(kb.Shortcut.OPEN_REPLY_DIALOG, 'a');
-    kb.bindShortcut(kb.Shortcut.OPEN_DOWNLOAD_DIALOG, 'd');
-    kb.bindShortcut(kb.Shortcut.TOGGLE_DIFF_MODE, 'm');
-    kb.bindShortcut(kb.Shortcut.TOGGLE_CHANGE_STAR, 's');
-    kb.bindShortcut(kb.Shortcut.UP_TO_DASHBOARD, 'u');
-    kb.bindShortcut(kb.Shortcut.EXPAND_ALL_MESSAGES, 'x');
-    kb.bindShortcut(kb.Shortcut.COLLAPSE_ALL_MESSAGES, 'z');
-    kb.bindShortcut(kb.Shortcut.OPEN_DIFF_PREFS, ',');
-    kb.bindShortcut(kb.Shortcut.EDIT_TOPIC, 't');
+    kb.bindShortcut(Shortcut.SEND_REPLY, 'ctrl+enter');
+    kb.bindShortcut(Shortcut.REFRESH_CHANGE, 'shift+r');
+    kb.bindShortcut(Shortcut.OPEN_REPLY_DIALOG, 'a');
+    kb.bindShortcut(Shortcut.OPEN_DOWNLOAD_DIALOG, 'd');
+    kb.bindShortcut(Shortcut.TOGGLE_DIFF_MODE, 'm');
+    kb.bindShortcut(Shortcut.TOGGLE_CHANGE_STAR, 's');
+    kb.bindShortcut(Shortcut.UP_TO_DASHBOARD, 'u');
+    kb.bindShortcut(Shortcut.EXPAND_ALL_MESSAGES, 'x');
+    kb.bindShortcut(Shortcut.COLLAPSE_ALL_MESSAGES, 'z');
+    kb.bindShortcut(Shortcut.OPEN_DIFF_PREFS, ',');
+    kb.bindShortcut(Shortcut.EDIT_TOPIC, 't');
   });
 
   suiteTeardown(() => {
@@ -339,57 +341,54 @@ suite('gr-change-view tests', () => {
   });
 
   test('_handleDiffAgainstBase', () => {
-    element._changeNum = '1';
+    element._change = generateChange({revisionsCount: 10});
     element._patchRange = {
       patchNum: 3,
       basePatchNum: 1,
     };
-    sinon.stub(element, 'computeLatestPatchNum').returns(10);
     sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffAgainstBase(new CustomEvent(''));
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
+    assert.equal(args[0], element._change);
     assert.equal(args[1], 3);
-    assert.isNotOk(args[0]);
   });
 
   test('_handleDiffAgainstLatest', () => {
-    element._changeNum = '1';
+    element._change = generateChange({revisionsCount: 10});
     element._patchRange = {
       basePatchNum: 1,
       patchNum: 3,
     };
-    sinon.stub(element, 'computeLatestPatchNum').returns(10);
     sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffAgainstLatest(new CustomEvent(''));
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
+    assert.equal(args[0], element._change);
     assert.equal(args[1], 10);
     assert.equal(args[2], 1);
   });
 
   test('_handleDiffBaseAgainstLeft', () => {
-    element._changeNum = '1';
+    element._change = generateChange({revisionsCount: 10});
     element._patchRange = {
       patchNum: 3,
       basePatchNum: 1,
     };
-    sinon.stub(element, 'computeLatestPatchNum').returns(10);
     sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffBaseAgainstLeft(new CustomEvent(''));
     assert(navigateToChangeStub.called);
     const args = navigateToChangeStub.getCall(0).args;
+    assert.equal(args[0], element._change);
     assert.equal(args[1], 1);
-    assert.isNotOk(args[0]);
   });
 
   test('_handleDiffRightAgainstLatest', () => {
-    element._changeNum = '1';
+    element._change = generateChange({revisionsCount: 10});
     element._patchRange = {
       basePatchNum: 1,
       patchNum: 3,
     };
-    sinon.stub(element, 'computeLatestPatchNum').returns(10);
     sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffRightAgainstLatest(new CustomEvent(''));
     assert(navigateToChangeStub.called);
@@ -399,12 +398,11 @@ suite('gr-change-view tests', () => {
   });
 
   test('_handleDiffBaseAgainstLatest', () => {
-    element._changeNum = '1';
+    element._change = generateChange({revisionsCount: 10});
     element._patchRange = {
       basePatchNum: 1,
       patchNum: 3,
     };
-    sinon.stub(element, 'computeLatestPatchNum').returns(10);
     sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
     element._handleDiffBaseAgainstLatest(new CustomEvent(''));
     assert(navigateToChangeStub.called);
@@ -552,9 +550,18 @@ suite('gr-change-view tests', () => {
 
     test('A toggles overlay when logged in', done => {
       sinon.stub(element, '_getLoggedIn').returns(Promise.resolve(true));
-      sinon.stub(element.$.replyDialog, 'fetchChangeUpdates')
-          .returns(Promise.resolve({isLatest: true}));
-      element._change = {labels: {}};
+      element._change = generateChange({
+        revisionsCount: 1,
+        messagesCount: 1,
+      });
+      element._change.labels = {};
+      sinon.stub(element.$.restAPI, 'getChangeDetail')
+          .callsFake(() => Promise.resolve(generateChange({
+            // element has latest info
+            revisionsCount: 1,
+            messagesCount: 1,
+          })));
+
       const openSpy = sinon.spy(element, '_openReplyDialog');
 
       MockInteractions.pressAndReleaseKeyOn(element, 65, null, 'a');
@@ -1017,8 +1024,6 @@ suite('gr-change-view tests', () => {
   });
 
   test('_changeStatuses', () => {
-    sinon.stub(element, 'changeStatuses').returns(
-        ['Merged', 'WIP']);
     element._loading = false;
     element._change = {
       change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
@@ -1029,6 +1034,8 @@ suite('gr-change-view tests', () => {
         rev3: {_number: 3},
       },
       current_revision: 'rev3',
+      status: ChangeStatus.MERGED,
+      work_in_progress: true,
       labels: {
         test: {
           all: [],
@@ -1516,7 +1523,7 @@ suite('gr-change-view tests', () => {
       assert.equal(Object.keys(revs).length, 2);
       assert.deepEqual(revs['foo'], {commit: {commit: 'foo'}});
       assert.deepEqual(revs['bar'], {
-        _number: element.EDIT_NAME,
+        _number: SPECIAL_PATCH_SET_NUM.EDIT,
         basePatchNum: 1,
         commit: {commit: 'bar'},
         fetch: undefined,
@@ -1706,9 +1713,17 @@ suite('gr-change-view tests', () => {
   suite('reply dialog tests', () => {
     setup(() => {
       sinon.stub(element.$.replyDialog, '_draftChanged');
-      sinon.stub(element.$.replyDialog, 'fetchChangeUpdates').callsFake(
-          () => Promise.resolve({isLatest: true}));
-      element._change = {labels: {}};
+      element._change = generateChange({
+        revisionsCount: 1,
+        messagesCount: 1,
+      });
+      element._change.labels = {};
+      sinon.stub(element.$.restAPI, 'getChangeDetail')
+          .callsFake(() => Promise.resolve(generateChange({
+            // element has latest info
+            revisionsCount: 1,
+            messagesCount: 1,
+          })));
     });
 
     test('reply from comment adds quote text', () => {
@@ -1755,8 +1770,17 @@ suite('gr-change-view tests', () => {
 
   suite('commit message expand/collapse', () => {
     setup(() => {
-      sinon.stub(element, 'fetchChangeUpdates').callsFake(
-          () => Promise.resolve({isLatest: false}));
+      element._change = generateChange({
+        revisionsCount: 1,
+        messagesCount: 1,
+      });
+      element._change.labels = {};
+      sinon.stub(element.$.restAPI, 'getChangeDetail')
+          .callsFake(() => Promise.resolve(generateChange({
+            // new patchset was uploaded
+            revisionsCount: 2,
+            messagesCount: 1,
+          })));
     });
 
     test('commitCollapseToggle hidden for short commit message', () => {
@@ -1912,31 +1936,51 @@ suite('gr-change-view tests', () => {
           if (element.async.callCount > 1) { return; }
           f.call(element);
         });
+        element._change = generateChange({
+          revisionsCount: 1,
+          messagesCount: 1,
+        });
       });
 
       test('_startUpdateCheckTimer negative delay', () => {
-        sinon.stub(element, 'fetchChangeUpdates');
+        const getChangeDetailStub =
+            sinon.stub(element.$.restAPI, 'getChangeDetail')
+                .callsFake(() => Promise.resolve(generateChange({
+                  // element has latest info
+                  revisionsCount: 1,
+                  messagesCount: 1,
+                })));
 
         element._serverConfig = {change: {update_delay: -1}};
 
         assert.isTrue(element._startUpdateCheckTimer.called);
-        assert.isFalse(element.fetchChangeUpdates.called);
+        assert.isFalse(getChangeDetailStub.called);
       });
 
       test('_startUpdateCheckTimer up-to-date', () => {
-        sinon.stub(element, 'fetchChangeUpdates').callsFake(
-            () => Promise.resolve({isLatest: true}));
+        const getChangeDetailStub =
+            sinon.stub(element.$.restAPI, 'getChangeDetail')
+                .callsFake(() => Promise.resolve(generateChange({
+                  // element has latest info
+                  revisionsCount: 1,
+                  messagesCount: 1,
+                })));
 
         element._serverConfig = {change: {update_delay: 12345}};
 
         assert.isTrue(element._startUpdateCheckTimer.called);
-        assert.isTrue(element.fetchChangeUpdates.called);
+        assert.isTrue(getChangeDetailStub.called);
         assert.equal(element.async.lastCall.args[1], 12345 * 1000);
       });
 
       test('_startUpdateCheckTimer out-of-date shows an alert', done => {
-        sinon.stub(element, 'fetchChangeUpdates').callsFake(
-            () => Promise.resolve({isLatest: false}));
+        sinon.stub(element.$.restAPI, 'getChangeDetail')
+            .callsFake(() => Promise.resolve(generateChange({
+              // new patchset was uploaded
+              revisionsCount: 2,
+              messagesCount: 1,
+            })));
+
         element.addEventListener('show-alert', e => {
           assert.equal(e.detail.message,
               'A newer patch set has been uploaded');
@@ -1946,11 +1990,14 @@ suite('gr-change-view tests', () => {
       });
 
       test('_startUpdateCheckTimer new status shows an alert', done => {
-        sinon.stub(element, 'fetchChangeUpdates')
-            .returns(Promise.resolve({
-              isLatest: true,
-              newStatus: ChangeStatus.MERGED,
-            }));
+        sinon.stub(element.$.restAPI, 'getChangeDetail')
+            .callsFake(() => Promise.resolve(generateChange({
+              // element has latest info
+              revisionsCount: 1,
+              messagesCount: 1,
+              status: ChangeStatus.MERGED,
+            })));
+
         element.addEventListener('show-alert', e => {
           assert.equal(e.detail.message, 'This change has been merged');
           done();
@@ -1959,11 +2006,12 @@ suite('gr-change-view tests', () => {
       });
 
       test('_startUpdateCheckTimer new messages shows an alert', done => {
-        sinon.stub(element, 'fetchChangeUpdates')
-            .returns(Promise.resolve({
-              isLatest: true,
-              newMessages: true,
-            }));
+        sinon.stub(element.$.restAPI, 'getChangeDetail')
+            .callsFake(() => Promise.resolve(generateChange({
+              revisionsCount: 1,
+              // element has new message
+              messagesCount: 2,
+            })));
         element.addEventListener('show-alert', e => {
           assert.equal(e.detail.message,
               'There are new messages on this change');
@@ -2053,7 +2101,7 @@ suite('gr-change-view tests', () => {
     };
     element._processEdit(mockChange = _.cloneDeep(change), edit);
     assert.notDeepEqual(mockChange, change);
-    assert.equal(mockChange.revisions.bar._number, element.EDIT_NAME);
+    assert.equal(mockChange.revisions.bar._number, SPECIAL_PATCH_SET_NUM.EDIT);
     assert.equal(mockChange.current_revision, change.current_revision);
     assert.deepEqual(mockChange.revisions.bar.commit, {commit: 'bar'});
     assert.notOk(mockChange.revisions.bar.actions);
@@ -2217,11 +2265,12 @@ suite('gr-change-view tests', () => {
     test('edit exists in revisions', done => {
       sinon.stub(GerritNav, 'navigateToChange').callsFake((...args) => {
         assert.equal(args.length, 2);
-        assert.equal(args[1], element.EDIT_NAME); // patchNum
+        assert.equal(args[1], SPECIAL_PATCH_SET_NUM.EDIT); // patchNum
         done();
       });
 
-      element.set('_change.revisions.rev2', {_number: element.EDIT_NAME});
+      element.set('_change.revisions.rev2',
+          {_number: SPECIAL_PATCH_SET_NUM.EDIT});
       flushAsynchronousOperations();
 
       fireEdit();
@@ -2262,7 +2311,6 @@ suite('gr-change-view tests', () => {
   test('_handleStopEditTap', done => {
     sinon.stub(element.$.metadata, '_computeLabelNames');
     navigateToChangeStub.restore();
-    sinon.stub(element, 'computeLatestPatchNum').returns(1);
     sinon.stub(GerritNav, 'navigateToChange').callsFake((...args) => {
       assert.equal(args.length, 2);
       assert.equal(args[1], 1); // patchNum

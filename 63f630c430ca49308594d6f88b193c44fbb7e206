@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5254462_aeda2ae1",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-14T12:20:28Z",
+      "side": 1,
+      "message": "one more question, is this necessary ? will you expect any of these change when the `new-section-loaded` event fired from the plugin ? and as you mentioned in the commit message, the event will be propagated upward just like the event fired from this component, so that may change any of these inputs, the `_resultsChanged` should be triggered automatically. If no change to these inputs, then calling `_resultsChanged` seems won\u0027t have any difference ? If your goal is to recompute `hidden`, maybe have that part separated into a different method and only call that method instead ?",
+      "revId": "63f630c430ca49308594d6f88b193c44fbb7e206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

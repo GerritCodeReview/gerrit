@@ -52,6 +52,23 @@
       "revId": "f9291b5c7f28ed57a91224f6362fe13e65a781d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "afa74714_667784e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2020-07-14T23:39:46Z",
+      "side": 1,
+      "message": "I added some trace to gerrit.sh and noticed that the config value is being considered when Gerrit is started.\n\n        $ cat etc/gerrit.config | grep openFilesLimitAddendum\n\t        openFilesLimitAddendum \u003d 1024\n\n\t$ /Users/kaushikl/upstream_testsite/bin/gerrit.sh start\n\t++ expr 2 \u0027*\u0027 128\n\t+ GERRIT_FDS\u003d256\n\t++ get_config --int container.openFilesLimitAddendum\n\t++ test -f /Users/kaushikl/upstream_testsite/etc/gerrit.config\n\t++ test x--int \u003d x--int\n\t+++ git config --file /Users/kaushikl/upstream_testsite/etc/gerrit.config --int container.openFilesLimitAddendum\n\t++ n\u003d1024\n\t++ test x0 \u003d x1024\n\t++ echo 1024\n\t+ GERRIT_FDS_ADDENDUM\u003d1024\n\t+ test -n 1024\n\t++ expr 256 + 1024\n\t+ GERRIT_FDS\u003d1280\n\t+ test 1280 -lt 1024\n\t++ get_config --get container.startupTimeout\n\t++ test -f /Users/kaushikl/upstream_testsite/etc/gerrit.config\n\t++ test x--get \u003d x--int\n\t++ git config --file /Users/kaushikl/upstream_testsite/etc/gerrit.config --get container.startupTimeout\n\t+ GERRIT_STARTUP_TIMEOUT\u003d\n\t+ test -z \u0027\u0027\n\t+ GERRIT_STARTUP_TIMEOUT\u003d90\n\t++ get_config --get container.user\n\t++ test -f /Users/kaushikl/upstream_testsite/etc/gerrit.config\n\t++ test x--get \u003d x--int\n\t++ git config --file /Users/kaushikl/upstream_testsite/etc/gerrit.config --get container.user\n\t+ GERRIT_USER\u003dkaushikl\n\t+ ulimit -c 0\n\t+ ulimit -d unlimited\n\t+ ulimit -f unlimited\n\t+ ulimit -m\n\t+ ulimit -m unlimited\n\t+ ulimit -n 1280\n\t+ ulimit -t unlimited\n\t+ ulimit -v unlimited\n\t+ ulimit -x\n\t+ set +x\n\tStarting Gerrit Code Review: OK\n\nHere\u0027s when the new config value doesn\u0027t exist:\n\n\t$ cat etc/gerrit.config | grep openFilesLimitAddendum\n\n\t$ /Users/kaushikl/upstream_testsite/bin/gerrit.sh start\n\t++ expr 2 \u0027*\u0027 128\n\t+ GERRIT_FDS\u003d256\n\t++ get_config --int container.openFilesLimitAddendum\n\t++ test -f /Users/kaushikl/upstream_testsite/etc/gerrit.config\n\t++ test x--int \u003d x--int\n\t+++ git config --file /Users/kaushikl/upstream_testsite/etc/gerrit.config --int container.openFilesLimitAddendum\n\t++ n\u003d\n\t++ test x0 \u003d x\n\t++ echo \u0027\u0027\n\t+ GERRIT_FDS_ADDENDUM\u003d\n\t+ test -n \u0027\u0027\n\t+ test 256 -lt 1024\n\t+ GERRIT_FDS\u003d1024\n\t++ get_config --get container.startupTimeout\n\t++ test -f /Users/kaushikl/upstream_testsite/etc/gerrit.config\n\t++ test x--get \u003d x--int\n\t++ git config --file /Users/kaushikl/upstream_testsite/etc/gerrit.config --get container.startupTimeout\n\t+ GERRIT_STARTUP_TIMEOUT\u003d\n\t+ test -z \u0027\u0027\n\t+ GERRIT_STARTUP_TIMEOUT\u003d90\n\t++ get_config --get container.user\n\t++ test -f /Users/kaushikl/upstream_testsite/etc/gerrit.config\n\t++ test x--get \u003d x--int\n\t++ git config --file /Users/kaushikl/upstream_testsite/etc/gerrit.config --get container.user\n\t+ GERRIT_USER\u003dkaushikl\n\t+ ulimit -c 0\n\t+ ulimit -d unlimited\n\t+ ulimit -f unlimited\n\t+ ulimit -m\n\t+ ulimit -m unlimited\n\t+ ulimit -n 1024\n\t+ ulimit -t unlimited\n\t+ ulimit -v unlimited\n\t+ ulimit -x\n\t+ set +x\n\tStarting Gerrit Code Review: OK\n\n",
+      "revId": "f9291b5c7f28ed57a91224f6362fe13e65a781d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright (C) 2018 The Android Open Source Project
+ * Copyright (C) 2017 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,22 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+// Mark the file as a module. Otherwise typescript assumes this is a script
+// and $_documentContainer is a global variable.
+// See: https://www.typescriptlang.org/docs/handbook/modules.html
+export {};
+
 const $_documentContainer = document.createElement('template');
 
-$_documentContainer.innerHTML = `<dom-module id="gr-subpage-styles">
+$_documentContainer.innerHTML = `<dom-module id="gr-voting-styles">
   <template>
     <style>
-      main {
-        margin: var(--spacing-l);
-      }
-      .loading {
-        display: none;
-      }
-      #loading.loading {
-        display: block;
-      }
-      #loading:not(.loading) {
-        display: none;
+      :host {
+        --vote-chip-styles: {
+          border: 1px solid rgba(0,0,0,.12);
+          border-radius: 1em;
+          box-shadow: none;
+          box-sizing: border-box;
+          min-width: 3em;
+          color: var(--vote-text-color);
+        }
       }
     </style>
   </template>
@@ -42,4 +46,3 @@ document.head.appendChild($_documentContainer.content);
   from HTML and may be out of place here. Review them and
   then delete this comment!
 */
-

@@ -42,7 +42,7 @@ java_package_configuration(
         "-Xep:ElementsCountedInLoop:ERROR",
         "-Xep:EqualsHashCode:ERROR",
         "-Xep:EqualsIncompatibleType:ERROR",
-        "-Xep:ExpectedExceptionChecker:ERROR",
+        "-Xep:ExpectedExceptionChecker:OFF",
         "-Xep:Finally:ERROR",
         "-Xep:FloatingPointLiteralPrecision:ERROR",
         "-Xep:FragmentInjection:ERROR",

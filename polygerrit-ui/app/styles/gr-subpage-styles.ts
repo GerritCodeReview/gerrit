@@ -14,35 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+// Mark the file as a module. Otherwise typescript assumes this is a script
+// and $_documentContainer is a global variable.
+// See: https://www.typescriptlang.org/docs/handbook/modules.html
+export {};
+
 const $_documentContainer = document.createElement('template');
 
-$_documentContainer.innerHTML = `<dom-module id="dashboard-header-styles">
+$_documentContainer.innerHTML = `<dom-module id="gr-subpage-styles">
   <template>
     <style>
-      :host {
-        background-color: var(--view-background-color);
+      main {
+        margin: var(--spacing-l);
+      }
+      .loading {
+        display: none;
+      }
+      #loading.loading {
         display: block;
-        min-height: 9em;
-        width: 100%;
       }
-      gr-avatar {
-        display: inline-block;
-        height: 7em;
-        left: 1em;
-        margin: 1em;
-        top: 1em;
-        width: 7em;
-      }
-      .info {
-        display: inline-block;
-        padding: var(--spacing-l);
-        vertical-align: top;
-      }
-      .info > div > span {
-        display: inline-block;
-        font-weight: var(--font-weight-bold);
-        text-align: right;
-        width: 4em;
+      #loading:not(.loading) {
+        display: none;
       }
     </style>
   </template>
@@ -55,4 +48,3 @@ document.head.appendChild($_documentContainer.content);
   from HTML and may be out of place here. Review them and
   then delete this comment!
 */
-

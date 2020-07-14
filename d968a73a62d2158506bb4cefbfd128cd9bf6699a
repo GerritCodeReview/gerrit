@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "15777f16_a720dc02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-07-14T18:12:47Z",
+      "side": 1,
+      "message": "\u003e I am overseeing the implementation of the attention set\n\nyou still don\u0027t get to speak for him regarding his understanding of my commentary.\n\n\u003e what we might be missing.\n\ni already told you, in multiple ways. judging by your (non-)actions, you clearly don\u0027t care.\n\ni\u0027ll remind you that the design doc also contains these sentences:\n\n\u003e \u003e While sending less spammy email notifications may be a nice-to-have side effect, the goal of this design is not to fix or improve notifications in general.\n\nobviously just appeasement for me?\n\n\u003e \u003e Tracking changes that you are generally interested in without being a reviewer (e.g. as CC or starred changes) is a separate use case that we are not trying to actively address.\n\nyeah. too bad that you\u0027re *breaking* it right now.",
+      "parentUuid": "33b5c4e9_a67d8453",
+      "revId": "d968a73a62d2158506bb4cefbfd128cd9bf6699a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "238f1209_721a60d0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

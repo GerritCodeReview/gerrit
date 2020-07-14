@@ -150,6 +150,30 @@
     },
     {
       "key": {
+        "uuid": "7a07300c_e687c0f2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6140,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-14T06:42:11Z",
+      "side": 1,
+      "message": "user-notify.html seems like a good place. Thanks!",
+      "parentUuid": "b2316b25_2cde84f4",
+      "range": {
+        "startLine": 6140,
+        "startChar": 12,
+        "endLine": 6140,
+        "endChar": 26
+      },
+      "revId": "ef41f854ce1dca9c11cd2555963d60802eb3750d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f8caf29_8133aa5e",
         "filename": "java/com/google/gerrit/server/change/AddToAttentionSetOp.java",
         "patchSetId": 2
@@ -547,6 +571,30 @@
       "revId": "ef41f854ce1dca9c11cd2555963d60802eb3750d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf0dd2be_fb4326c7",
+        "filename": "resources/com/google/gerrit/server/mail/AddToAttentionSet.soy",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-14T06:42:11Z",
+      "side": 1,
+      "message": "Never mind, I\u0027m so used to these messages being translated that I forgot we don\u0027t do that :-)",
+      "parentUuid": "388a00b1_74d9b42d",
+      "range": {
+        "startLine": 35,
+        "startChar": 22,
+        "endLine": 35,
+        "endChar": 31
+      },
+      "revId": "ef41f854ce1dca9c11cd2555963d60802eb3750d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "abdd7b61_db747175",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-14T09:19:44Z",
+      "side": 1,
+      "message": "... sorry, I meant 40 chars",
+      "revId": "2ec7bee3137b37ba881ef9aa55ee13fad27f3bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7e24e42_aadefa48",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2

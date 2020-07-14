@@ -19,7 +19,7 @@ import static com.google.gerrit.server.permissions.LabelPermission.ForUser.SELF;
 import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.LabelValue;
+import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.server.util.LabelVote;
 
 /** Permission representing a label. */

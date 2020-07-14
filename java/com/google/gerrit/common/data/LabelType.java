@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.entities.PatchSetApproval;
 import java.util.ArrayList;
 import java.util.Collection;

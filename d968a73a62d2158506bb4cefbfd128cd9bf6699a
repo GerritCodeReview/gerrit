@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "353e5a3b_149b165c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-07-14T09:52:53Z",
+      "side": 1,
+      "message": "there is already the event stream which all relevant pieces (should) report to. putting a notification mail dispatcher on top of that would naively seem like the obvious choice. \"more modular\" seems at least attainable.",
+      "parentUuid": "4c5ad654_627a5369",
+      "revId": "d968a73a62d2158506bb4cefbfd128cd9bf6699a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "57080fcf_a5186e35",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 1

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ceaadbb0_cd9ff05a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-14T19:24:21Z",
+      "side": 1,
+      "message": "This change includes a manual conflict resolution (compared to Auto Merge). Thanks for reviewing it.",
+      "revId": "d04a7efc13a31044f77fbb24e309be070aaca3c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

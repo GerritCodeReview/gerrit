@@ -51,6 +51,24 @@
       "revId": "7008945e83fcec21a3f601bd011264fcfd25ac67",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46ad6585_e23fea51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-14T14:11:48Z",
+      "side": 1,
+      "message": "Here is the upgrade to Bazel 3.4.1: [1]. Could you approve it?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/275152",
+      "parentUuid": "3d1e188a_c3cf9057",
+      "revId": "7008945e83fcec21a3f601bd011264fcfd25ac67",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

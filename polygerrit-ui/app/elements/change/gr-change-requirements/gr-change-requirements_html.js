@@ -82,9 +82,21 @@ export const htmlTemplate = html`
     .spacer {
       height: var(--spacing-m);
     }
+    gr-endpoint-decorator.submit-requirement-endpoints {
+      display: table-row;
+    }
+    gr-endpoint-decorator.submit-requirement-endpoints gr-endpoint-param {
+      display: none;
+    }
   </style>
   <template is="dom-repeat" items="[[_requirements]]">
-    <section>
+    <gr-endpoint-decorator
+      class="submit-requirement-endpoints"
+      name$="[[_computeSubmitRequirementEndpoint(item)]]"
+    >
+      <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
+      <gr-endpoint-param name="requirement" value="[[item]]">
+      </gr-endpoint-param>
       <div class="title requirement">
         <span class$="status [[item.style]]">
           <iron-icon
@@ -99,7 +111,10 @@ export const htmlTemplate = html`
           text="[[item.fallback_text]]"
         ></gr-limited-text>
       </div>
-    </section>
+      <div class="value">
+        <gr-endpoint-slot name="value"></gr-endpoint-slot>
+      </div>
+    </gr-endpoint-decorator>
   </template>
   <template is="dom-repeat" items="[[_requiredLabels]]">
     <section>

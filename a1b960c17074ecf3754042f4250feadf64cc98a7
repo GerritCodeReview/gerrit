@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "30c7f35f_619be522",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-14T13:19:46Z",
+      "side": 1,
+      "message": "Why not `copyOfReviewers`? :-) Or `copyOfReviewerForEndpoint`.",
+      "parentUuid": "e78d62dd_c27dd850",
+      "revId": "a1b960c17074ecf3754042f4250feadf64cc98a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6bfb408_2e046ace",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 1

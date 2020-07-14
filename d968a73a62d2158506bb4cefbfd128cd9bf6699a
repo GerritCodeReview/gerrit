@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "99638afe_7b1ddb28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-14T09:42:18Z",
+      "side": 1,
+      "message": "The approved design doc contains \"Email notifications about uploaded patch sets will not be sent anymore.\" So this change just implements what was agreed upon.\n\nPointing to change 245069 and all its comments is not helpful. It is almost impossible for Gal to find exactly what you are referring to. FWIW I don\u0027t remember that we \"established\" that better notification config options are a prerequisite for the attention set feature.",
+      "parentUuid": "021f28f0_7cbcd7b1",
+      "revId": "d968a73a62d2158506bb4cefbfd128cd9bf6699a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "238f1209_721a60d0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

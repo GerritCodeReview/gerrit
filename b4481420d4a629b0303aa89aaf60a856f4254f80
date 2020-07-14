@@ -142,6 +142,30 @@
       "revId": "b4481420d4a629b0303aa89aaf60a856f4254f80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a7efa76_b1ccf43c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-14T13:25:19Z",
+      "side": 1,
+      "message": "\u003e I\u0027m going to comment on their issue and the option we have.\n\nhttps://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d564939#c23",
+      "parentUuid": "581e6f13_194b784a",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 0
+      },
+      "revId": "b4481420d4a629b0303aa89aaf60a856f4254f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

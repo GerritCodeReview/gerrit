@@ -432,7 +432,7 @@ export const htmlTemplate = html`
 
           <template
             is="dom-if"
-            if="[[showNoChangeMessage(loading, prefs, _diffLength)]]"
+            if="[[showNoChangeMessage(loading, prefs, _diffLength, diff)]]"
           >
             <div class="whitespace-change-only-message">
               This file only contains whitespace changes. Modify the whitespace

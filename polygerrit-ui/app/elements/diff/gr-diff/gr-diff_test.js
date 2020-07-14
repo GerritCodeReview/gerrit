@@ -979,6 +979,8 @@ suite('gr-diff tests', () => {
   });
   const setupSampleDiff = function(params) {
     const {ignore_whitespace, content} = params;
+    // binary can't be undefined, use false if not set
+    const binary = params.binary || false;
     element = basicFixture.instantiate();
     element.prefs = {
       ignore_whitespace: ignore_whitespace || 'IGNORE_ALL',
@@ -1007,7 +1009,7 @@ suite('gr-diff tests', () => {
         'file differ',
       ],
       content,
-      binary: false,
+      binary,
     };
     element._renderDiffTable();
     flushAsynchronousOperations();
@@ -1081,7 +1083,18 @@ suite('gr-diff tests', () => {
       assert.isTrue(element.showNoChangeMessage(
           /* loading= */ false,
           element.prefs,
-          element._diffLength
+          element._diffLength,
+          element.diff
+      ));
+    });
+
+    test('do not show the message for binary files', () => {
+      setupSampleDiff({content: [{skip: 100}], binary: true});
+      assert.isFalse(element.showNoChangeMessage(
+          /* loading= */ false,
+          element.prefs,
+          element._diffLength,
+          element.diff
       ));
     });
 
@@ -1090,7 +1103,8 @@ suite('gr-diff tests', () => {
       assert.isFalse(element.showNoChangeMessage(
           /* loading= */ true,
           element.prefs,
-          element._diffLength
+          element._diffLength,
+          element.diff
       ));
     });
 
@@ -1109,7 +1123,8 @@ suite('gr-diff tests', () => {
       assert.isFalse(element.showNoChangeMessage(
           /* loading= */ false,
           element.prefs,
-          element._diffLength
+          element._diffLength,
+          element.diff
       ));
     });
 
@@ -1127,7 +1142,8 @@ suite('gr-diff tests', () => {
       assert.isFalse(element.showNoChangeMessage(
           /* loading= */ false,
           element.prefs,
-          element._diffLength
+          element._diffLength,
+          element.diff
       ));
     });
   });

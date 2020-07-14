@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "4c5ad654_627a5369",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-14T09:23:23Z",
+      "side": 1,
+      "message": "Do you have a suggestion for improving this? I understand the concern and while reviewing the code I wondered if there is a more modular way of implementing attention set related logic. But it\u0027s deeply hooked into low level events and I see no easy solution. One idea would be to use events, but IIUC that won\u0027t be available in time.",
+      "parentUuid": "238f1209_721a60d0",
+      "revId": "d968a73a62d2158506bb4cefbfd128cd9bf6699a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "57080fcf_a5186e35",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 1

@@ -66,6 +66,57 @@
     },
     {
       "key": {
+        "uuid": "8d011524_08139719",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 47
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-14T08:26:01Z",
+      "side": 1,
+      "message": "It looks like the parent change needs to be reviewed first, before we can continue with this change.",
+      "revId": "ae534a103d94a9069574ebdc39cf0ecd924221c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90d0c5bb_04ca6dad",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.js",
+        "patchSetId": 47
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-14T08:26:01Z",
+      "side": 1,
+      "message": "Why are these two methods not using _getUrlFor(), which refers to _generateUrl()?",
+      "revId": "ae534a103d94a9069574ebdc39cf0ecd924221c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "068034da_ae2440ef",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 47
+      },
+      "lineNbr": 1398,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-14T08:26:01Z",
+      "side": 1,
+      "message": "Is this true, if and only if `commentId` is set? Then it would not be needed.",
+      "revId": "ae534a103d94a9069574ebdc39cf0ecd924221c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0918909a_cbd2691b",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 47

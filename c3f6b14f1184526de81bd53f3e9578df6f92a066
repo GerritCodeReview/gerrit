@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "786a8e3a_8f4692d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-14T08:41:16Z",
+      "side": 1,
+      "message": "@DavidO are we good to go and merge this change? I am planning to make a release soon of v3.0.x/v3.1.x/v3.2.x",
+      "revId": "c3f6b14f1184526de81bd53f3e9578df6f92a066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

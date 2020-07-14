@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b5d68609_730b1e26",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-14T13:56:59Z",
+      "side": 1,
+      "message": "if you have diff here, probably don\u0027t need `diffLength` any more, you can just get the length with `getDiffLength(diff)`",
+      "range": {
+        "startLine": 295,
+        "startChar": 50,
+        "endLine": 295,
+        "endChar": 54
+      },
+      "revId": "8ba9e3066583cde7bfc5bf8f08cdef85d633cf0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

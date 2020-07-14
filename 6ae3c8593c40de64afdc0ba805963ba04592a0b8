@@ -34,6 +34,24 @@
       "revId": "6ae3c8593c40de64afdc0ba805963ba04592a0b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62e61119_a0ed4281",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-07-14T13:26:27Z",
+      "side": 1,
+      "message": "You can paraphrase the buganizer report as a reason. The right place to put that info is in the commit message, so people can later understand why this change was made.",
+      "parentUuid": "5d666e65_959f22f0",
+      "revId": "6ae3c8593c40de64afdc0ba805963ba04592a0b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

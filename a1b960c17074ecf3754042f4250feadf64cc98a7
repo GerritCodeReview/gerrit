@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "6dc1493b_db5e8269",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-14T13:23:30Z",
+      "side": 1,
+      "message": "lol that\u0027s a bit weird, but I can change that if neccessary. I actually tried to change decorator to listen on all changes on the input so it can automatically propagate to plugins either by a new copy of all or patch update on inner properties. But that is leading to multiple fires (a lot), like for array mutations, it will always fire with a `length` property change... :( so I decide to go with an easier one for now",
+      "parentUuid": "30c7f35f_619be522",
+      "revId": "a1b960c17074ecf3754042f4250feadf64cc98a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6bfb408_2e046ace",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 1

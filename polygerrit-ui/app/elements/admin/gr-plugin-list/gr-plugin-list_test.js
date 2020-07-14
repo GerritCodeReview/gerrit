@@ -25,12 +25,17 @@ let counter;
 const pluginGenerator = () => {
   const plugin = {
     id: `test${++counter}`,
-    version: '3.0-SNAPSHOT',
     disabled: false,
   };
 
   if (counter !== 2) {
     plugin.index_url = `plugins/test${counter}/`;
+  }
+  if (counter !== 3) {
+    plugin.version = `version-${counter}`;
+  }
+  if (counter !== 4) {
+    plugin.api_version = `api-version-${counter}`;
   }
   return plugin;
 };
@@ -61,10 +66,11 @@ suite('gr-plugin-list tests', () => {
 
     test('plugin in the list is formatted correctly', done => {
       flush(() => {
-        assert.equal(element._plugins[2].id, 'test3');
-        assert.equal(element._plugins[2].index_url, 'plugins/test3/');
-        assert.equal(element._plugins[2].version, '3.0-SNAPSHOT');
-        assert.equal(element._plugins[2].disabled, false);
+        assert.equal(element._plugins[4].id, 'test5');
+        assert.equal(element._plugins[4].index_url, 'plugins/test5/');
+        assert.equal(element._plugins[4].version, 'version-5');
+        assert.equal(element._plugins[4].api_version, 'api-version-5');
+        assert.equal(element._plugins[4].disabled, false);
         done();
       });
     });
@@ -76,6 +82,25 @@ suite('gr-plugin-list tests', () => {
         assert.equal(names[1].querySelector('a').innerText, 'test1');
         assert.isNotOk(names[2].querySelector('a'));
         assert.equal(names[2].innerText, 'test2');
+        done();
+      });
+    });
+
+    test('versions', done => {
+      flush(() => {
+        const versions = Polymer.dom(element.root).querySelectorAll('.version');
+        assert.equal(versions[2].innerText, 'version-2');
+        assert.equal(versions[3].innerText, '--');
+        done();
+      });
+    });
+
+    test('api versions', done => {
+      flush(() => {
+        const apiVersions = Polymer.dom(element.root).querySelectorAll(
+            '.apiVersion');
+        assert.equal(apiVersions[3].innerText, 'api-version-3');
+        assert.equal(apiVersions[4].innerText, '--');
         done();
       });
     });

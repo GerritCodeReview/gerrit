@@ -1005,7 +1005,15 @@ class ReceiveCommits {
   private String buildError(String error, List<String> branches) {
     StringBuilder sb = new StringBuilder();
     if (branches.size() == 1) {
-      sb.append("branch ").append(branches.get(0)).append(":\n");
+      String branch = branches.get(0);
+      sb.append("branch ").append(branch).append(":\n");
+      // As of 2020, there are still many git-review <1.27 installations in the wild.
+      // These users will see failures as their old git-review assumes that
+      // `refs/publish/...` is still magic, which it isn't. As Gerrit's default error messages are
+      // misleading for these users, we hint them at upgrading their git-review.
+      if (branch.startsWith("refs/publish/")) {
+        sb.append("If you are using git-review, update to at least git-review 1.27. Otherwise:\n");
+      }
       sb.append(error);
       return sb.toString();
     }

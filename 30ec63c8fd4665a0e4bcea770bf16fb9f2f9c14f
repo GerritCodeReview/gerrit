@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1618ccf6_8b7d5684",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-14T10:23:56Z",
+      "side": 1,
+      "message": "Can you move this rule to gr-endpoint-param or gr-endpoint-decorator? I assume we never want to display this, right?",
+      "range": {
+        "startLine": 88,
+        "startChar": 3,
+        "endLine": 90,
+        "endChar": 5
+      },
+      "revId": "30ec63c8fd4665a0e4bcea770bf16fb9f2f9c14f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36b9d293_be5e1203",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-14T10:23:56Z",
+      "side": 1,
+      "message": "Can \u003cgr-endpoint-decorator\u003e be wrapped by a \u003csection\u003e?\n\nThen maybe you don\u0027t need the css rule for display:table-row?",
+      "revId": "30ec63c8fd4665a0e4bcea770bf16fb9f2f9c14f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

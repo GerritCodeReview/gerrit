@@ -192,10 +192,12 @@ suite('gr-change-list-view tests', () => {
       const change = {_number: 1};
       sinon.stub(element, '_getChanges')
           .returns(Promise.resolve([change]));
-      sinon.stub(GerritNav, 'navigateToChange').callsFake( url => {
-        assert.equal(url, change);
-        done();
-      });
+      sinon.stub(GerritNav, 'navigateToChange').callsFake(
+          (url, opt_patchNum, opt_basePatchNum, opt_isEdit, opt_redirect) => {
+            assert.equal(url, change);
+            assert.isTrue(opt_redirect);
+            done();
+          });
 
       element.params = {view: GerritNav.View.SEARCH, query: CHANGE_ID};
     });
@@ -204,10 +206,12 @@ suite('gr-change-list-view tests', () => {
       const change = {_number: 1};
       sinon.stub(element, '_getChanges')
           .returns(Promise.resolve([change]));
-      sinon.stub(GerritNav, 'navigateToChange').callsFake( url => {
-        assert.equal(url, change);
-        done();
-      });
+      sinon.stub(GerritNav, 'navigateToChange').callsFake(
+          (url, opt_patchNum, opt_basePatchNum, opt_isEdit, opt_redirect) => {
+            assert.equal(url, change);
+            assert.isTrue(opt_redirect);
+            done();
+          });
 
       element.params = {view: GerritNav.View.SEARCH, query: '1'};
     });
@@ -216,10 +220,12 @@ suite('gr-change-list-view tests', () => {
       const change = {_number: 1};
       sinon.stub(element, '_getChanges')
           .returns(Promise.resolve([change]));
-      sinon.stub(GerritNav, 'navigateToChange').callsFake( url => {
-        assert.equal(url, change);
-        done();
-      });
+      sinon.stub(GerritNav, 'navigateToChange').callsFake(
+          (url, opt_patchNum, opt_basePatchNum, opt_isEdit, opt_redirect) => {
+            assert.equal(url, change);
+            assert.isTrue(opt_redirect);
+            done();
+          });
 
       element.params = {view: GerritNav.View.SEARCH, query: COMMIT_HASH};
     });

@@ -724,7 +724,13 @@ class GrRouter extends GestureEventListeners(
     }
 
     GerritNav.setup(
-        url => { page.show(url); },
+        (url, opt_redirect) => {
+          if (opt_redirect) {
+            page.redirect(url);
+          } else {
+            page.show(url);
+          }
+        },
         this._generateUrl.bind(this),
         params => this._generateWeblinks(params),
         x => x

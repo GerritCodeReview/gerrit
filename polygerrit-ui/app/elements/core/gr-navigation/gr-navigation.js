@@ -228,8 +228,10 @@ export const GerritNav = {
   /**
    * Setup router implementation.
    *
-   * @param {function(!string)} navigate the router-abstracted equivalent of
-   *     `window.location.href = ...`. Takes a string.
+   * @param {function(!string, boolean=)} navigate the router-abstracted equivalent of
+   *     `window.location.href = ...` or window.location.replace(...). The
+   *     string is a new location and boolean defines is it redirect or not
+   *     (true means redirect, i.e. equivalent of window.location.replace).
    * @param {function(!Object): string} generateUrl generates a URL given
    *     navigation parameters, detailed in the file header.
    * @param {function(!Object): string} generateWeblinks weblinks generator
@@ -417,10 +419,15 @@ export const GerritNav = {
    * @param {number|string=} opt_basePatchNum The string 'PARENT' can be
    *     used for none.
    * @param {boolean=} opt_isEdit
+   * @param {boolean=} opt_redirect redirect to a change - if true, the current
+   *     location (i.e. page which makes redirect) is not added to a history.
+   *     I.e. back/forward buttons skip current location
+   *
    */
-  navigateToChange(change, opt_patchNum, opt_basePatchNum, opt_isEdit) {
+  navigateToChange(change, opt_patchNum, opt_basePatchNum, opt_isEdit,
+      opt_redirect) {
     this._navigate(this.getUrlForChange(change, opt_patchNum,
-        opt_basePatchNum, opt_isEdit));
+        opt_basePatchNum, opt_isEdit), opt_redirect);
   },
 
   /**

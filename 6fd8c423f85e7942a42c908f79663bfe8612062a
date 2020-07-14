@@ -116,6 +116,24 @@
       "revId": "6fd8c423f85e7942a42c908f79663bfe8612062a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2e26b1f_6d1cadf6",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-14T12:10:30Z",
+      "side": 1,
+      "message": "ya `If the plugin plays along, it\u0027s not that hard.`, with the flexibility gerrit has for plugins, it\u0027s hard to control what plugin do. But ya we can try our best.",
+      "parentUuid": "c8940dc8_c66b7f11",
+      "revId": "6fd8c423f85e7942a42c908f79663bfe8612062a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

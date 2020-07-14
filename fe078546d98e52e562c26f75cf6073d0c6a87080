@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb0e649d_fdda88ae",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-14T12:10:30Z",
+      "side": 1,
+      "message": "maybe use `getAllAttached` instead, we try to avoid using `_` since they should be private :)",
+      "range": {
+        "startLine": 365,
+        "startChar": 26,
+        "endLine": 365,
+        "endChar": 36
+      },
+      "revId": "fe078546d98e52e562c26f75cf6073d0c6a87080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

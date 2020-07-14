@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "d4da90d6_201e2c08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-07-14T10:26:22Z",
+      "side": 1,
+      "message": "\u003e The approved design doc contains [...]\n\u003e I don\u0027t remember that we \"established\" [...]\n\nthat you consistently refused to acknowledge the relevance of my use case doesn\u0027t change the fact that i established it as a reality.\n\n\u003e It is almost impossible for Gal to find exactly what you are referring to.\n\ni would prefer it if you let gal himself judge that. he can still ask for an executive summary if he\u0027s unwilling or unable to find his way, but i think it would make sense if he familiarizes himself with the entirety of my alternative approaches.",
+      "parentUuid": "99638afe_7b1ddb28",
+      "revId": "d968a73a62d2158506bb4cefbfd128cd9bf6699a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "238f1209_721a60d0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

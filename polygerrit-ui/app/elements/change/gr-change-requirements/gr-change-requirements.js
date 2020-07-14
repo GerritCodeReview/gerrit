@@ -91,6 +91,7 @@ class GrChangeRequirements extends mixinBehaviors( [
     }
     if (change.work_in_progress) {
       _requirements.push({
+        type: 'wip',
         fallback_text: 'Work-in-progress',
         tooltip: 'Change must not be in \'Work in Progress\' state.',
       });
@@ -164,6 +165,10 @@ class GrChangeRequirements extends mixinBehaviors( [
 
   _handleShowHide(e) {
     this._showOptionalLabels = !this._showOptionalLabels;
+  }
+
+  _computeSubmitRequirementEndpoint(item) {
+    return `submit-requirement-item-${item.type}`;
   }
 }
 

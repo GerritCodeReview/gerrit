@@ -1,6 +1,6 @@
 /**
  * @license
- * Copyright (C) 2017 The Android Open Source Project
+ * Copyright (C) 2019 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,35 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+// Mark the file as a module. Otherwise typescript assumes this is a script
+// and $_documentContainer is a global variable.
+// See: https://www.typescriptlang.org/docs/handbook/modules.html
+export {};
+
 const $_documentContainer = document.createElement('template');
 
-$_documentContainer.innerHTML = `<dom-module id="gr-change-metadata-shared-styles">
+$_documentContainer.innerHTML = `<dom-module id="gr-ranged-comment-theme">
   <template>
-    <style include="shared-styles">
-      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
-    </style>
     <style>
-      section {
-        display: table-row;
+      .range {
+        background-color: var(--diff-highlight-range-color);
+        display: inline;
       }
-
-      section:not(:first-of-type) .title,
-      section:not(:first-of-type) .value {
-        padding-top: var(--spacing-s);
-      }
-
-      .title,
-      .value {
-        display: table-cell;
-        vertical-align: top;
-      }
-
-      .title {
-        color: var(--deemphasized-text-color);
-        max-width: 20em;
-        padding-left: var(--metadata-horizontal-padding);
-        padding-right: var(--metadata-horizontal-padding);
-        word-break: break-word;
+      .rangeHighlight {
+        background-color: var(--diff-highlight-range-hover-color);
+        display: inline;
       }
     </style>
   </template>
@@ -55,4 +44,3 @@ document.head.appendChild($_documentContainer.content);
   from HTML and may be out of place here. Review them and
   then delete this comment!
 */
-

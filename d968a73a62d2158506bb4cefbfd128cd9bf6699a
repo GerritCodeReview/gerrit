@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "021f28f0_7cbcd7b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-07-14T09:08:06Z",
+      "side": 1,
+      "message": "aaaaand there we go: you\u0027re doing exactly the thing that we established during the design phase you cannot do without providing some level of configurability to keep aggressive notifications working on a per-user level. my comments on https://gerrit-review.googlesource.com/c/homepage/+/245069 have all the details.",
+      "revId": "d968a73a62d2158506bb4cefbfd128cd9bf6699a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "238f1209_721a60d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-07-14T09:08:06Z",
+      "side": 1,
+      "message": "scattering the notification logic all over the place, using multiple mechanisms to implement it, will certainly make the code hard to comprehend and maintain.",
+      "revId": "d968a73a62d2158506bb4cefbfd128cd9bf6699a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "57080fcf_a5186e35",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 1

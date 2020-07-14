@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "a4f5e00c_b7718ab2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-14T13:24:05Z",
+      "side": 1,
+      "message": "Looks great, thanks Thomas.",
+      "revId": "fdd0ccaf8a7b04ff88dc327ffe526df88538b368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3db3c817_c0c2e87c",
         "filename": "javatests/com/google/gerrit/acceptance/server/config/GerritIsReplicaIT.java",
         "patchSetId": 4

@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "33b5c4e9_a67d8453",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-14T13:02:38Z",
+      "side": 1,
+      "message": "I am overseeing the implementation of the attention set, so if you want to discuss whether something is going to be implemented, then you have to talk to me or the ESC, not Gal. Please keep your comments focused on the implementation, not the design that was already extensively discussed and approved.\n\nLet me assure you that we are rolling out the attention set feature very carefully. We are listening closely to all users that give us feedback. After gerrit-review we will enabled the feature on one bigger host only, and then conduct user interviews. So I think we will be able to judge which use cases are important to users and what we might be missing.",
+      "parentUuid": "d4da90d6_201e2c08",
+      "revId": "d968a73a62d2158506bb4cefbfd128cd9bf6699a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "238f1209_721a60d0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -123,6 +141,24 @@
       "revId": "d968a73a62d2158506bb4cefbfd128cd9bf6699a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e356bb4_550ba43d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-14T13:02:38Z",
+      "side": 1,
+      "message": "We do have refactoring and improving events and notifications on our roadmap. But I don\u0027t think this 25 lines change has to be blocked on a major refactoring.",
+      "parentUuid": "353e5a3b_149b165c",
+      "revId": "d968a73a62d2158506bb4cefbfd128cd9bf6699a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

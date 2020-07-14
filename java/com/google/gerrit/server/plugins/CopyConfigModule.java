@@ -17,6 +17,8 @@ package com.google.gerrit.server.plugins;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.GerritPersonIdentProvider;
 import com.google.gerrit.server.config.AnonymousCowardName;
+import com.google.gerrit.server.config.GerritIsReplica;
+import com.google.gerrit.server.config.GerritIsReplicaProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
@@ -99,6 +101,14 @@ class CopyConfigModule extends AbstractModule {
   @Provides
   SecureStore getSecureStore() {
     return secureStore;
+  }
+
+  @Inject private GerritIsReplicaProvider isReplicaProvider;
+
+  @Provides
+  @GerritIsReplica
+  boolean getIsReplica() {
+    return isReplicaProvider.get();
   }
 
   @Inject

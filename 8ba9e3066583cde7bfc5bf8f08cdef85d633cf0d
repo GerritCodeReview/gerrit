@@ -22,6 +22,30 @@
       "revId": "8ba9e3066583cde7bfc5bf8f08cdef85d633cf0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62d271fb_0344aeee",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-14T14:38:25Z",
+      "side": 1,
+      "message": "getDiffLength iterates other diff.content on each call. It shouldn\u0027t be very expensive, but at the same time diffLength is used in other methods in the gr-diff element. I think it is better to use precalculated value instead of recalculate it in every place where it is used.",
+      "parentUuid": "b5d68609_730b1e26",
+      "range": {
+        "startLine": 295,
+        "startChar": 50,
+        "endLine": 295,
+        "endChar": 54
+      },
+      "revId": "8ba9e3066583cde7bfc5bf8f08cdef85d633cf0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

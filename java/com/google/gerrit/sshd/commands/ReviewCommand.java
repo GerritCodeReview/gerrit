@@ -23,7 +23,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.CharStreams;
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.LabelValue;
+import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.GerritApi;

@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "0d3e02d5_2327e3ec",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6534,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-14T09:30:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7e24e42_aadefa48",
+      "range": {
+        "startLine": 6534,
+        "startChar": 14,
+        "endLine": 6534,
+        "endChar": 15
+      },
+      "revId": "2ec7bee3137b37ba881ef9aa55ee13fad27f3bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "584c4b1a_b9bc66f8",
         "filename": "java/com/google/gerrit/extensions/client/Comment.java",
         "patchSetId": 2
@@ -62,6 +86,30 @@
       "revId": "2ec7bee3137b37ba881ef9aa55ee13fad27f3bb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b1cf4c9_80fc1677",
+        "filename": "java/com/google/gerrit/extensions/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-14T09:30:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "584c4b1a_b9bc66f8",
+      "range": {
+        "startLine": 42,
+        "startChar": 22,
+        "endLine": 42,
+        "endChar": 23
+      },
+      "revId": "2ec7bee3137b37ba881ef9aa55ee13fad27f3bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

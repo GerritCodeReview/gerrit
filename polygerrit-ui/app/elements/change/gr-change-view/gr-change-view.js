@@ -476,6 +476,9 @@ class GrChangeView extends mixinBehaviors( [
 
     this.addEventListener('diff-comments-modified',
         () => this._handleReloadCommentThreads());
+
+    this.addEventListener('open-reply-dialog',
+        e => this._openReplyDialog());
   }
 
   /** @override */

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d5e0cdf_60e74806",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-07-14T19:02:18Z",
+      "side": 1,
+      "message": "the gerrit project doesn\u0027t appear to have a formal commit policy, but generally it\u0027s a good idea to write the summary in the imperative (or simple past; in any case it should be used consistently). the \"why\" should be documented below when it\u0027s non-obvious.",
+      "revId": "3590b0c81b98a871ebb696479ab0bd81c46d761a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

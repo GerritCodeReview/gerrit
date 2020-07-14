@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7e24e42_aadefa48",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6534,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-14T09:18:34Z",
+      "side": 1,
+      "message": "Hex commit SHA1 (20 character string) ...\n\nAlways better to be explicit about what exactly this looks like",
+      "range": {
+        "startLine": 6534,
+        "startChar": 14,
+        "endLine": 6534,
+        "endChar": 15
+      },
+      "revId": "2ec7bee3137b37ba881ef9aa55ee13fad27f3bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "584c4b1a_b9bc66f8",
+        "filename": "java/com/google/gerrit/extensions/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-14T09:18:34Z",
+      "side": 1,
+      "message": "as 20 characters hex",
+      "range": {
+        "startLine": 42,
+        "startChar": 22,
+        "endLine": 42,
+        "endChar": 23
+      },
+      "revId": "2ec7bee3137b37ba881ef9aa55ee13fad27f3bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

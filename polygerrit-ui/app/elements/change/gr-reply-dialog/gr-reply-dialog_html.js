@@ -178,6 +178,8 @@ export const htmlTemplate = html`
     <section class="peopleContainer">
       <gr-endpoint-decorator name="reply-reviewers">
         <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
+        <gr-endpoint-param name="reviewers" value="[[_allReviewers]]">
+        </gr-endpoint-param>
         <div class="peopleList">
           <div class="peopleListLabel">Reviewers</div>
           <gr-account-list

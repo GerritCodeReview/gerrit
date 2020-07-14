@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15c536ed_22e93b98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-14T21:37:52Z",
+      "side": 1,
+      "message": "Seems like Guice doesn\u0027t want to inject neither AccountLoader nor AccountResolver properly - I\u0027ll look into it later.",
+      "revId": "9f50c8dd16245b4f3af350f92dae0b456f1182a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

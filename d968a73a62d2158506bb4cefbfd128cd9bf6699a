@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "64f7b865_b28a87ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-14T09:27:13Z",
+      "side": 1,
+      "message": "To clarify, I take your comment to refer to the backend implementation as a whole rather than this particular change.",
+      "parentUuid": "4c5ad654_627a5369",
+      "revId": "d968a73a62d2158506bb4cefbfd128cd9bf6699a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "57080fcf_a5186e35",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 1

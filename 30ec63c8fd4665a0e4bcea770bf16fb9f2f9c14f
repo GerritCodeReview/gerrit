@@ -81,6 +81,24 @@
       "revId": "30ec63c8fd4665a0e4bcea770bf16fb9f2f9c14f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3333822a_d6a2746e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-14T13:16:00Z",
+      "side": 1,
+      "message": "Hmmm, but why? :-) If you cannot find the root cause, then let\u0027s leave it. It is not that important to me.\n\nBut can you combine the two rules into one?\n\nBefore:\n\n    gr-endpoint-decorator.submit-requirement-endpoints {\n      display: table-row;\n    }\n    section {\n      display: table-row;\n    }\n\nAfter:\n\n    gr-endpoint-decorator.submit-requirement-endpoints,\n    section {\n      display: table-row;\n    }\n\nOtherwise I would be worried that adding something to `.section` would be forgotten to also be added to the other rule.",
+      "parentUuid": "c80bc450_8dd2d329",
+      "revId": "30ec63c8fd4665a0e4bcea770bf16fb9f2f9c14f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -118,6 +118,30 @@
       "revId": "b4481420d4a629b0303aa89aaf60a856f4254f80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "581e6f13_194b784a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-07-14T13:02:42Z",
+      "side": 1,
+      "message": "At Eclipse permissions are managed centrally by Gerrit administrators.\nCommitters don\u0027t have the owner privilege on their repositories.\n\nEach Eclipse project using Gerrit has a permission-only project granting committer permissions to an ldap group having project committers as members. \nE.g. for jgit this group is named ldap/technology.jgit. \"technology\" is the top level project above \"jgit\" in the Eclipse project hierarchy.\nAll repositories of a project inherit permissions from that permission-only project.\n\nThe CLA check is implemented externally and the eca-plugin davido mentioned calls an external service to check if a user has signed the CLA.",
+      "parentUuid": "f3d1a9e4_476398d3",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 0
+      },
+      "revId": "b4481420d4a629b0303aa89aaf60a856f4254f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

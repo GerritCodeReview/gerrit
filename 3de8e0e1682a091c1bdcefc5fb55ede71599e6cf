@@ -39,6 +39,30 @@
       "revId": "3de8e0e1682a091c1bdcefc5fb55ede71599e6cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d21cc7f_d3dc4f75",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-14T13:44:19Z",
+      "side": 1,
+      "message": "In other places GerritNav.navigateToChange must not do a redirect. In many places we call this function when user click on an item - and in this case navigateToChange should preserve current page in the history.\nThe only known problem with history is here, when a page makes redirect immediately after open and without user interaction",
+      "parentUuid": "f3f8918a_83e02e43",
+      "range": {
+        "startLine": 189,
+        "startChar": 20,
+        "endLine": 189,
+        "endChar": 68
+      },
+      "revId": "3de8e0e1682a091c1bdcefc5fb55ede71599e6cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

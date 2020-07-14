@@ -14,20 +14,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+// Mark the file as a module. Otherwise typescript assumes this is a script
+// and $_documentContainer is a global variable.
+// See: https://www.typescriptlang.org/docs/handbook/modules.html
+export {};
+
 const $_documentContainer = document.createElement('template');
 
-$_documentContainer.innerHTML = `<dom-module id="gr-voting-styles">
+$_documentContainer.innerHTML = `<dom-module id="gr-change-metadata-shared-styles">
   <template>
+    <style include="shared-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
     <style>
-      :host {
-        --vote-chip-styles: {
-          border: 1px solid rgba(0,0,0,.12);
-          border-radius: 1em;
-          box-shadow: none;
-          box-sizing: border-box;
-          min-width: 3em;
-          color: var(--vote-text-color);
-        }
+      section {
+        display: table-row;
+      }
+
+      section:not(:first-of-type) .title,
+      section:not(:first-of-type) .value {
+        padding-top: var(--spacing-s);
+      }
+
+      .title,
+      .value {
+        display: table-cell;
+        vertical-align: top;
+      }
+
+      .title {
+        color: var(--deemphasized-text-color);
+        max-width: 20em;
+        padding-left: var(--metadata-horizontal-padding);
+        padding-right: var(--metadata-horizontal-padding);
+        word-break: break-word;
       }
     </style>
   </template>
@@ -40,4 +61,3 @@ document.head.appendChild($_documentContainer.content);
   from HTML and may be out of place here. Review them and
   then delete this comment!
 */
-

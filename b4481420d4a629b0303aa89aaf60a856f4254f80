@@ -46,6 +46,30 @@
       "revId": "b4481420d4a629b0303aa89aaf60a856f4254f80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae67c447_92fc5aa0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-14T12:50:01Z",
+      "side": 1,
+      "message": "\u003e To determine that Alice is committer and Bob is not a committer of the project Foo, SUBMIT permission is checked. \n\nSo if I have \"submit\" permission, I am a committer (no CLA) and if not a contributor (needs CLA) and you need this for gating the CLA check. Is there another link between \"committer\" and a permission you could check instead? E.g. are committers project owners? (WRITE_CONFIG is granted).\n\nCould you make a simple group membership check instead?\nif (uploader is member of \"submitter group\") {\n  // don\u0027t check CLA\n} {\n  //check CLA\n}\n\nIn other words I am trying to understand where the ground truth of \"who is a committer\" is stored. Usually it\u0027s group membership, not a permission that distinguishes such users.\n\nHave you considered adding \"committers\" to the autoVerify group of the CLA? This makes the CLA check pass without them having to sign it.\n\n[1] https://github.com/EclipseFdn/gerrit-eca-plugin",
+      "parentUuid": "6ff415cc_3d16106b",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 0
+      },
+      "revId": "b4481420d4a629b0303aa89aaf60a856f4254f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

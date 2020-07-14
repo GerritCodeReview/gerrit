@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57080fcf_a5186e35",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2512,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-14T07:28:08Z",
+      "side": 1,
+      "message": "Nit: Maybe just\n\n   boolean isAttentionSetEnabled \u003d config.getBoolean(...\n\nhere. And\n\n  .setSendMail(!isAttentionSetEnabled)\n\nbelow.",
+      "revId": "d968a73a62d2158506bb4cefbfd128cd9bf6699a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3474f565_7d0d6a47",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2513,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-14T07:28:08Z",
+      "side": 1,
+      "message": "Maybe remove the comment? It just reiterates what the code says.",
+      "revId": "d968a73a62d2158506bb4cefbfd128cd9bf6699a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56f55371_50caeaca",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-14T07:28:08Z",
+      "side": 1,
+      "message": "How does this work with canary configs?\n\nWe were planning to turn attention set on for all canary hosts in a week or so. That will work fine for the frontend, but does that also work for the backend? If `cfg` is the canary config for x% of backend traffic, then this approach does not really work. I think we have to either make sure that `cfg` is always prod or use a completely different approach. WDYT?",
+      "revId": "d968a73a62d2158506bb4cefbfd128cd9bf6699a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

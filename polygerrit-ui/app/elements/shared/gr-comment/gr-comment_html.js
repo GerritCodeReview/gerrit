@@ -242,14 +242,15 @@ export const htmlTemplate = html`
         <span class="authorName">
           [[_computeAuthorName(comment, _serverConfig)]]
         </span>
-        <span class="draftLabel">DRAFT</span>
         <gr-tooltip-content
           class="draftTooltip"
           has-tooltip=""
           title="This draft is only visible to you. To publish drafts, click the 'Reply' or 'Start review' button at the top of the change or press the 'A' key."
           max-width="20em"
           show-icon=""
-        ></gr-tooltip-content>
+        >
+          <span class="draftLabel">DRAFT</span>
+        </gr-tooltip-content>
       </div>
       <div class="headerMiddle">
         <span class="collapsedContent">[[comment.message]]</span>
@@ -277,12 +278,14 @@ export const htmlTemplate = html`
         <span class="patchset-text"> Patchset [[patchNum]]</span>
       </template>
       <span class="separator"></span>
-      <span class="date" tabindex="0" on-click="_handleAnchorClick">
-        <gr-date-formatter
-          has-tooltip=""
-          date-str="[[comment.updated]]"
-        ></gr-date-formatter>
-      </span>
+      <template is="dom-if" if="[[comment.updated]]">
+        <span class="date" tabindex="0" on-click="_handleAnchorClick">
+          <gr-date-formatter
+            has-tooltip=""
+            date-str="[[comment.updated]]"
+          ></gr-date-formatter>
+        </span>
+      </template>
       <div class="show-hide" tabindex="0">
         <label
           class="show-hide"

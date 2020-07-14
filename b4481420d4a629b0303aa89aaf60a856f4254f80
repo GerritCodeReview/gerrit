@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cad4668d_b877f902",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-14T07:07:10Z",
+      "side": 1,
+      "message": "This sounds to me like it was only ever a preflight check. Is the eca plugin auto-submitting at the end of the push? Why is it not OK to create a change that the uploader can\u0027t submit (but someone else might)?\n\nThe refactoring happened over 3 years ago, and no one complained until now, so I am trying to understand the use case fully.\n\nChecking \"Submit\" on a ref feels unidiomatic because you can\u0027t submit a ref, you can only submit a change. If we have to we could name it SUBMIT_TO, so that you can check if a user can \"submit to\" a ref.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 0
+      },
+      "revId": "b4481420d4a629b0303aa89aaf60a856f4254f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

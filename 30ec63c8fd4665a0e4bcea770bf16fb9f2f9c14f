@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "71a7d428_499e527c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-14T10:39:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1618ccf6_8b7d5684",
+      "range": {
+        "startLine": 88,
+        "startChar": 3,
+        "endLine": 90,
+        "endChar": 5
+      },
+      "revId": "30ec63c8fd4665a0e4bcea770bf16fb9f2f9c14f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36b9d293_be5e1203",
         "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements_html.js",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "30ec63c8fd4665a0e4bcea770bf16fb9f2f9c14f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c80bc450_8dd2d329",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements_html.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-14T10:39:46Z",
+      "side": 1,
+      "message": "tried, `gr-endpoint-decorator` is still there and it will mess up with the layout.",
+      "parentUuid": "36b9d293_be5e1203",
+      "revId": "30ec63c8fd4665a0e4bcea770bf16fb9f2f9c14f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

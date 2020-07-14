@@ -406,3 +406,10 @@ message NotifyConfigProto {
   repeated GroupReferenceProto groups = 5;
   repeated AddressProto addresses = 6;
 }
+
+// Serialized form of com.google.gerrit.common.data.LabelValue.
+// Next ID: 3
+message LabelValueProto {
+  string text = 1;
+  int32 value = 2;
+}

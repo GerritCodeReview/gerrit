@@ -17,6 +17,7 @@ package com.google.gerrit.common.data;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.LabelValue;
 import org.junit.Test;
 
 public class LabelTypeTest {

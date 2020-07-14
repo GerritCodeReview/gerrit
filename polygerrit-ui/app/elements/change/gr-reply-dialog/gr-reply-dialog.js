@@ -292,6 +292,15 @@ class GrReplyDialog extends mixinBehaviors( [
         type: Boolean,
         value: true,
       },
+
+      /**
+       * A copy of added reviewers, a new copy is created when any change
+       * made to the reviewers.
+       */
+      _allReviewers: {
+        type: Array,
+        computed: '_computeAllReviewers(_reviewers.*)',
+      },
     };
   }
 
@@ -1108,6 +1117,10 @@ class GrReplyDialog extends mixinBehaviors( [
       actions.push('REMOVE' + self + role);
     }
     this.reporting.reportInteraction('attention-set-actions', {actions});
+  }
+
+  _computeAllReviewers() {
+    return [...this._reviewers];
   }
 }
 

@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dbb79857_703f15fd",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-14T08:25:05Z",
+      "side": 1,
+      "message": "This needs a longer comment explaining why we need this. How is this different from the DIFF pattern/route? It should also be clear that it will still send the user to the diff page.",
+      "revId": "7735e757490cde2c9d973048dfdfd5aa57146aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b727579c_409463a8",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-14T08:25:05Z",
+      "side": 1,
+      "message": "Both patterns should have a $ at the end like the others, I think.",
+      "revId": "7735e757490cde2c9d973048dfdfd5aa57146aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c48055d5_70a7cdab",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-14T08:25:05Z",
+      "side": 1,
+      "message": "Maybe comment/\u003cpatchNum\u003e instead of \u003cpatchNum\u003e/comment?",
+      "range": {
+        "startLine": 141,
+        "startChar": 40,
+        "endLine": 141,
+        "endChar": 58
+      },
+      "revId": "7735e757490cde2c9d973048dfdfd5aa57146aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79cafcda_111b40e8",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-14T08:25:05Z",
+      "side": 1,
+      "message": "This needs a longer comment explaining why we need this. How is this different from the DIFF pattern/route? It should also be clear that it will still send the user to the diff page.",
+      "revId": "7735e757490cde2c9d973048dfdfd5aa57146aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c550d2f_b497dc99",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-14T08:25:05Z",
+      "side": 1,
+      "message": "If we have the commentId, then why do we need the patchNum?",
+      "range": {
+        "startLine": 141,
+        "startChar": 40,
+        "endLine": 141,
+        "endChar": 50
+      },
+      "revId": "7735e757490cde2c9d973048dfdfd5aa57146aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eed2e381_43fe7d7b",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-14T08:25:05Z",
+      "side": 1,
+      "message": "Would it also be an option to just allow something like `!2` here instead of introducing a new pattern?",
+      "range": {
+        "startLine": 145,
+        "startChar": 32,
+        "endLine": 145,
+        "endChar": 70
+      },
+      "revId": "7735e757490cde2c9d973048dfdfd5aa57146aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

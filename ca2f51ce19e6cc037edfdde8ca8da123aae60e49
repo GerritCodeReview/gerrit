@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "689564ec_bcc7ca3d",
+        "filename": "java/com/google/gerrit/server/change/AddToAttentionSetOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-14T14:23:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9611c9af_08f3aa80",
+      "revId": "ca2f51ce19e6cc037edfdde8ca8da123aae60e49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5bdb2872_c09661aa",
         "filename": "java/com/google/gerrit/server/change/AddToAttentionSetOp.java",
         "patchSetId": 7
@@ -59,6 +77,30 @@
     },
     {
       "key": {
+        "uuid": "c974605a_db349292",
+        "filename": "java/com/google/gerrit/server/change/AddToAttentionSetOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-14T14:23:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5bdb2872_c09661aa",
+      "range": {
+        "startLine": 85,
+        "startChar": 8,
+        "endLine": 86,
+        "endChar": 20
+      },
+      "revId": "ca2f51ce19e6cc037edfdde8ca8da123aae60e49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9544374d_06cb4a41",
         "filename": "java/com/google/gerrit/server/change/RemoveFromAttentionSetOp.java",
         "patchSetId": 7
@@ -73,6 +115,24 @@
       "revId": "ca2f51ce19e6cc037edfdde8ca8da123aae60e49",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e041740_a5e1ed89",
+        "filename": "java/com/google/gerrit/server/change/RemoveFromAttentionSetOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-14T14:23:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9544374d_06cb4a41",
+      "revId": "ca2f51ce19e6cc037edfdde8ca8da123aae60e49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -99,6 +159,30 @@
     },
     {
       "key": {
+        "uuid": "4531cd89_5462b295",
+        "filename": "java/com/google/gerrit/server/change/RemoveFromAttentionSetOp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-14T14:23:27Z",
+      "side": 1,
+      "message": "Not exactly, since here I want to check either this account doesn\u0027t exist at all in the AS, or it exists with REMOVE.",
+      "parentUuid": "cf4a1298_b1310fff",
+      "range": {
+        "startLine": 84,
+        "startChar": 13,
+        "endLine": 84,
+        "endChar": 19
+      },
+      "revId": "ca2f51ce19e6cc037edfdde8ca8da123aae60e49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3b45e596_79522923",
         "filename": "java/com/google/gerrit/server/util/AttentionSetUtil.java",
         "patchSetId": 7
@@ -119,6 +203,30 @@
       "revId": "ca2f51ce19e6cc037edfdde8ca8da123aae60e49",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72d5b44a_c5968295",
+        "filename": "java/com/google/gerrit/server/util/AttentionSetUtil.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-14T14:23:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b45e596_79522923",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 9
+      },
+      "revId": "ca2f51ce19e6cc037edfdde8ca8da123aae60e49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

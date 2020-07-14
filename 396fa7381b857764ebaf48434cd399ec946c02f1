@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2d5d741_7a4bdde2",
+        "filename": "tools/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-14T17:01:14Z",
+      "side": 1,
+      "message": "This change should be omitted and mentioned in the commit message.",
+      "revId": "396fa7381b857764ebaf48434cd399ec946c02f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

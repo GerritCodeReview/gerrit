@@ -186,7 +186,9 @@ class GrChangeListView extends GestureEventListeners(
             for (const query in LookupQueryPatterns) {
               if (LookupQueryPatterns.hasOwnProperty(query) &&
               this._query.match(LookupQueryPatterns[query])) {
-                GerritNav.navigateToChange(changes[0]);
+                // "Back"/"Forward" buttons work correctly only with
+                // opt_redirect options
+                GerritNav.navigateToChange(changes[0], null, null, null, true);
                 return;
               }
             }

@@ -292,10 +292,11 @@ class GrDiff extends GestureEventListeners(
     this._unobserveNodes();
   }
 
-  showNoChangeMessage(loading, prefs, diffLength) {
+  showNoChangeMessage(loading, prefs, diffLength, diff) {
     return !loading &&
-      prefs && prefs.ignore_whitespace !== 'IGNORE_NONE' &&
-      diffLength === 0;
+        diff && !diff.binary &&
+        prefs && prefs.ignore_whitespace !== 'IGNORE_NONE' &&
+        diffLength === 0;
   }
 
   _enableSelectionObserver(loggedIn, isAttached) {

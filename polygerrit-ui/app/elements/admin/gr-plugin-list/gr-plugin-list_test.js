@@ -88,7 +88,7 @@ suite('gr-plugin-list tests', () => {
 
     test('versions', done => {
       flush(() => {
-        const versions = Polymer.dom(element.root).querySelectorAll('.version');
+        const versions = element.root.querySelectorAll('.version');
         assert.equal(versions[2].innerText, 'version-2');
         assert.equal(versions[3].innerText, '--');
         done();
@@ -97,7 +97,7 @@ suite('gr-plugin-list tests', () => {
 
     test('api versions', done => {
       flush(() => {
-        const apiVersions = Polymer.dom(element.root).querySelectorAll(
+        const apiVersions = element.root.querySelectorAll(
             '.apiVersion');
         assert.equal(apiVersions[3].innerText, 'api-version-3');
         assert.equal(apiVersions[4].innerText, '--');

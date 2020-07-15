@@ -145,6 +145,24 @@
     },
     {
       "key": {
+        "uuid": "251f9c90_dfaa4eaa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-07-15T10:16:07Z",
+      "side": 1,
+      "message": "well sure:\nben\u0027s behavior as publicly presented strongly suggests an unhealthy, authoritarian relationship to gal. even if he made these comments with explicit full consent from gal, he should have had the wisdom to communicate things differently. his boss definitely should hear about that.",
+      "parentUuid": "e0190598_f4809d6f",
+      "revId": "d968a73a62d2158506bb4cefbfd128cd9bf6699a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "238f1209_721a60d0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

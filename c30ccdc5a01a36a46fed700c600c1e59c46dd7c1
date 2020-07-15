@@ -16,6 +16,24 @@
       "revId": "c30ccdc5a01a36a46fed700c600c1e59c46dd7c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b0d646b_6f931bee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-15T07:42:43Z",
+      "side": 1,
+      "message": "May I ask a more detailed reason why we need to add this for the auth-check call ? I will include it in the commit message",
+      "parentUuid": "cb5c2aa8_41111a97",
+      "revId": "c30ccdc5a01a36a46fed700c600c1e59c46dd7c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

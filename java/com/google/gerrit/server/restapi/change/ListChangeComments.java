@@ -42,7 +42,6 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
   private final ChangeData.Factory changeDataFactory;
   private final Provider<CommentJson> commentJson;
   private final CommentsUtil commentsUtil;
-  private final CommentContextLoader.Factory commentContextFactory;
 
   private boolean includeContext;
 
@@ -62,13 +61,11 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
       ChangeData.Factory changeDataFactory,
       Provider<CommentJson> commentJson,
       CommentsUtil commentsUtil,
-      ChangeMessagesUtil changeMessagesUtil,
-      CommentContextLoader.Factory commentContextFactory) {
+      ChangeMessagesUtil changeMessagesUtil) {
     this.changeDataFactory = changeDataFactory;
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
     this.changeMessagesUtil = changeMessagesUtil;
-    this.commentContextFactory = commentContextFactory;
   }
 
   @Override
@@ -88,8 +85,7 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
 
   private ImmutableList<CommentInfo> getAsList(Iterable<HumanComment> comments, ChangeResource rsrc)
       throws PermissionBackendException {
-    ImmutableList<CommentInfo> commentInfos =
-        getCommentFormatter(rsrc.getProject()).formatAsList(comments);
+    ImmutableList<CommentInfo> commentInfos = getCommentFormatter(rsrc).formatAsList(comments);
     List<ChangeMessage> changeMessages = changeMessagesUtil.byChange(rsrc.getNotes());
     CommentsUtil.linkCommentsToChangeMessages(commentInfos, changeMessages, true);
     return commentInfos;
@@ -97,8 +93,7 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
 
   private Map<String, List<CommentInfo>> getAsMap(
       Iterable<HumanComment> comments, ChangeResource rsrc) throws PermissionBackendException {
-    Map<String, List<CommentInfo>> commentInfosMap =
-        getCommentFormatter(rsrc.getProject()).format(comments);
+    Map<String, List<CommentInfo>> commentInfosMap = getCommentFormatter(rsrc).format(comments);
     List<CommentInfo> commentInfos =
         commentInfosMap.values().stream().flatMap(List::stream).collect(toList());
     List<ChangeMessage> changeMessages = changeMessagesUtil.byChange(rsrc.getNotes());
@@ -106,12 +101,14 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
     return commentInfosMap;
   }
 
-  private CommentJson.HumanCommentFormatter getCommentFormatter(Project.NameKey project) {
+  private CommentJson.HumanCommentFormatter getCommentFormatter(ChangeResource rsrc) {
     return commentJson
         .get()
         .setFillAccounts(true)
         .setFillPatchSet(true)
-        .setEnableContext(includeContext, project)
+        .setFillCommentContext(includeContext)
+        .setProjectKey(rsrc.getProject())
+        .setChangeId(rsrc.getId())
         .newHumanCommentFormatter();
   }
 }

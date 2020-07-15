@@ -60,12 +60,6 @@ const importLocalFontMetaUrlResolver = function() {
 export default {
   treeshake: false,
   onwarn: warning => {
-    if(warning.code === 'CIRCULAR_DEPENDENCY') {
-      // Temporary allow CIRCULAR_DEPENDENCY.
-      // See https://bugs.chromium.org/p/gerrit/issues/detail?id=12090
-      // Delete this code after bug is fixed.
-      return;
-    }
     // No warnings from rollupjs are allowed.
     // Most of the warnings are real error in our code (for example,
     // if some import couldn't be resolved we can't continue, but rollup

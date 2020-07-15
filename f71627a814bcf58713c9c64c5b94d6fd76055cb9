@@ -45,6 +45,54 @@
       "revId": "f71627a814bcf58713c9c64c5b94d6fd76055cb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "459d0e7f_572aaae3",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-15T11:44:41Z",
+      "side": 1,
+      "message": "that\u0027s a good point.",
+      "parentUuid": "63278ce1_1a1fc7f5",
+      "range": {
+        "startLine": 241,
+        "startChar": 31,
+        "endLine": 241,
+        "endChar": 49
+      },
+      "revId": "f71627a814bcf58713c9c64c5b94d6fd76055cb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "909b0222_f0173791",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-15T11:44:41Z",
+      "side": 1,
+      "message": "`gr-app-element` only destroyed when entire website destroyed, still need that ?",
+      "parentUuid": "cd041550_ee80f07d",
+      "range": {
+        "startLine": 241,
+        "startChar": 4,
+        "endLine": 241,
+        "endChar": 29
+      },
+      "revId": "f71627a814bcf58713c9c64c5b94d6fd76055cb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

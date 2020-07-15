@@ -34,6 +34,24 @@
       "revId": "c30ccdc5a01a36a46fed700c600c1e59c46dd7c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd1b6f98_5d930b0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-15T10:08:51Z",
+      "side": 1,
+      "message": "+1 I don\u0027t understand what \u0027no-cors\u0027 does. Would be great, if the commit message explained that.",
+      "parentUuid": "0b0d646b_6f931bee",
+      "revId": "c30ccdc5a01a36a46fed700c600c1e59c46dd7c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

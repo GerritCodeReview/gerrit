@@ -22,6 +22,30 @@
       "revId": "12ddb05449734785e70e249dec98812bc2c92e6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c38a15a5_d20c902e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-15T14:07:06Z",
+      "side": 1,
+      "message": "I will do that in a follow up change, this is just to convert this to class without changing anything yet. I have changes to remove `window.Plugin` as well, and it actually requires either import the `element` here or move this out, I will move this out in that change instead.",
+      "parentUuid": "8b055a52_b49f6128",
+      "range": {
+        "startLine": 316,
+        "startChar": 0,
+        "endLine": 316,
+        "endChar": 24
+      },
+      "revId": "12ddb05449734785e70e249dec98812bc2c92e6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

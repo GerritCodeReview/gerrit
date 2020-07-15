@@ -166,6 +166,23 @@
       "revId": "b4481420d4a629b0303aa89aaf60a856f4254f80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ca4b400_4b54fb9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-15T06:29:59Z",
+      "side": 1,
+      "message": "There is ongoing discussion on the upstream issue linked to this CL, so that we should wait with the review process here.",
+      "revId": "b4481420d4a629b0303aa89aaf60a856f4254f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

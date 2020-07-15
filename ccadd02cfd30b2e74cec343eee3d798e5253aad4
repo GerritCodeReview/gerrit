@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "4a7a2eb8_59919cb9",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-15T11:52:37Z",
+      "side": 1,
+      "message": "ya I am just not sure the interface, since we may want to expose more services as more introduced, and exposing all on `pluginApi` at a top level may be not the best way",
+      "parentUuid": "48fd23a4_c8bf4f36",
+      "range": {
+        "startLine": 237,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 34
+      },
+      "revId": "ccadd02cfd30b2e74cec343eee3d798e5253aad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "00808b5f_3ed3bd62",
         "filename": "polygerrit-ui/app/elements/gr-app-element.js",
         "patchSetId": 1

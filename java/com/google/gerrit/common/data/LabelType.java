@@ -229,7 +229,7 @@ public abstract class LabelType {
 
     public abstract Builder setIgnoreSelfApproval(boolean ignoreSelfApproval);
 
-    public abstract Builder setRefPatterns(@Nullable ImmutableList<String> refPatterns);
+    public abstract Builder setRefPatterns(@Nullable List<String> refPatterns);
 
     public abstract Builder setValues(List<LabelValue> values);
 

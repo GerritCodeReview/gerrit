@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e52b0413_120b3659",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-15T11:39:33Z",
+      "side": 1,
+      "message": "Can we instead expose reporting as a part of gerrit plugin api?\nWhat if plugin wants to report something before this callback is called, for example during install phase (not sure, is it possible at all or not).",
+      "range": {
+        "startLine": 237,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 34
+      },
+      "revId": "ccadd02cfd30b2e74cec343eee3d798e5253aad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00808b5f_3ed3bd62",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-15T11:39:33Z",
+      "side": 1,
+      "message": "How a plugin should use this event? I.e. eventListener is added to gr-app-element and plugin must fire the event on gr-app-element or a child element.\nFor example, in our plugin sample polygerrit-ui/app/samples/suggest-vote.js I don\u0027t see how can I get a gr-app-element except using document.querySelector...\nMaybe add an example?",
+      "range": {
+        "startLine": 239,
+        "startChar": 4,
+        "endLine": 239,
+        "endChar": 46
+      },
+      "revId": "ccadd02cfd30b2e74cec343eee3d798e5253aad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

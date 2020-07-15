@@ -972,6 +972,11 @@ The cache is persisted to disk across server restarts as it can
 be expensive to compute (60 or more seconds for a large history
 like the Linux kernel repository).
 
+cache `"comment_context"`::
++
+Caches the context lines of comments, which are the lines of the source file
+surrounding and including the lines where the comment was written.
+
 cache `"groups"`::
 +
 Caches the basic group information of internal groups by group ID,

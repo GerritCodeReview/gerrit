@@ -18,6 +18,8 @@ import static java.util.stream.Collectors.groupingBy;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.ContextLine;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -48,7 +50,7 @@ public class CommentContextLoader {
 
   private final GitRepositoryManager repoManager;
   private final Project.NameKey project;
-  private Map<ContextData, List<ContextLineInfo>> candidates;
+  private Map<ContextData, List<ContextLine>> candidates;
 
   public interface Factory {
     CommentContextLoader create(Project.NameKey project);
@@ -72,14 +74,11 @@ public class CommentContextLoader {
    * @param comment the comment entity for which we want to load the context
    * @return a list of {@link ContextLineInfo}
    */
-  public List<ContextLineInfo> getContext(CommentInfo comment) {
+  public List<ContextLine> getContext(Comment comment, ObjectId commitId) {
     ContextData key =
         ContextData.create(
-            comment.id,
-            ObjectId.fromString(comment.commitId),
-            comment.path,
-            getStartAndEndLines(comment));
-    List<ContextLineInfo> context = candidates.get(key);
+            comment.key.uuid, commitId, comment.key.filename, getStartAndEndLines(comment));
+    List<ContextLine> context = candidates.get(key);
     if (context == null) {
       context = new ArrayList<>();
       candidates.put(key, context);
@@ -114,10 +113,10 @@ public class CommentContextLoader {
             }
             ObjectId id = tw.getObjectId(0);
             Text src = new Text(repo.open(id, Constants.OBJ_BLOB));
-            List<ContextLineInfo> contextLines = candidates.get(k);
+            List<ContextLine> contextLines = candidates.get(k);
             Range r = k.range().get();
             for (int i = r.start(); i <= r.end(); i++) {
-              contextLines.add(new ContextLineInfo(i, src.getString(i - 1)));
+              contextLines.add(ContextLine.create(i, src.getString(i - 1)));
             }
           }
         }
@@ -127,11 +126,11 @@ public class CommentContextLoader {
     }
   }
 
-  private static Optional<Range> getStartAndEndLines(CommentInfo comment) {
+  private static Optional<Range> getStartAndEndLines(Comment comment) {
     if (comment.range != null) {
       return Optional.of(Range.create(comment.range.startLine, comment.range.endLine));
-    } else if (comment.line != null) {
-      return Optional.of(Range.create(comment.line, comment.line));
+    } else if (comment.lineNbr > 0) {
+      return Optional.of(Range.create(comment.lineNbr, comment.lineNbr));
     }
     return Optional.empty();
   }

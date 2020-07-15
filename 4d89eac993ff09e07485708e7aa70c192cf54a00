@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "35f4e920_1536c0b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-07-15T17:31:28Z",
+      "side": 1,
+      "message": "\u003e That\u0027s an interesting idea. Honestly, I didn\u0027t know that group existed.\n\u003e \n\u003e I see that the docs mention it [1], but it\u0027s not very prominent in the code. I only found it in SchemaCreator and a bunch of tests.\n\u003e \n\u003e Let me think this through more deeply tomorrow and get back to you on that.\n\u003e \n\u003e Do you use the Non-Interactive group in any of your setups? If so, for what (what is done differently when a user is a member) and how is your experience with that so far?\n\u003e \n\u003e [1] https://gerrit-review.googlesource.com/Documentation/access-control.html#non-interactive_users\n\nI think the only other significant reference to it is in sshd.batchThreads [2]. We don\u0027t use that functionality, but I\u0027ve seen it mentioned on the list [3]. Honestly it seems like more people run into it by accident than on purpose though, so I\u0027m not sure it\u0027s something to build on top of. In some ways it could be perceived as highlighting the concern Martin has below. Users/Admins add accounts to this group not really understanding what it does because it has such a generic name, then later run into problems because of seemingly \"magic\" behavior. In hindsight, a group named \"Batch threads users\" probably would have been smarter. It\u0027s easy enough for admins to include groups in groups, so if you have multiple \"feature groups\", re-including all your robot accounts in each feature group is pretty trivial (assuming you want all of them in each feature group, if not, then the pre-feature group gives you that granularity).\n\nThere could be some challenges in using groups this way (performance maybe?) that would push towards using flags on accounts instead. That would have the downside of having to set the flags individually per-feature and not be able to manage all your robot accounts as a group. Maybe we can overcome that, but groups do seem like a natural way to manage sets of accounts with similar attributes.\n\nI\u0027m curious to read what you come up with tomorrow.\n\n[2] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#sshd.batchThreads\n[3] https://groups.google.com/forum/#!searchin/repo-discuss/sshd.batchThreads%7Csort:date",
+      "parentUuid": "033d885f_fd0f089f",
+      "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "23bfebdb_83de136b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

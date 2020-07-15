@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1be132fe_9a1d49d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-07-15T16:51:36Z",
+      "side": 1,
+      "message": "I agree with the motivations for this change, but I\u0027m not sure we should jump to a boolean switch as the best solution. For example, we already have the Non-Interactive users group, could checking for inclusion in that group provide an equally good solution?\n\nIf we\u0027re going to start having a distinction about users with data in the account, I think we want to consider more broadly what all we could do with that and build up a framework to support it.",
+      "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

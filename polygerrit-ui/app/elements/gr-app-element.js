@@ -231,6 +231,22 @@ class GrAppElement extends KeyboardShortcutMixin(
     };
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+
+    // For plugins or components don't have access to reporting service
+    // report through custom event
+    // Listen on document so for plugins adding dom to body directly
+    // can also work just fine
+    document.addEventListener('interaction-report', e => {
+      if (e && e.detail && e.detail.name) {
+        this.reporting.reportInteraction(
+            e.detail.name, e.detail.eventDetail || {}
+        );
+      }
+    });
+  }
+
   _bindKeyboardShortcuts() {
     this.bindShortcut(Shortcut.SEND_REPLY,
         SPECIAL_SHORTCUT.DOC_ONLY, 'ctrl+enter', 'meta+enter');

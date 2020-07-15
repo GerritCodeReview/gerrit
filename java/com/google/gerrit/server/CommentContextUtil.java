@@ -17,11 +17,11 @@ package com.google.gerrit.server;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.LabeledContextLineInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.patch.Text;
 import com.google.gerrit.server.project.ProjectCache;
@@ -43,24 +43,23 @@ public class CommentContextUtil {
     this.projectCache = projectCache;
   }
 
-  public void attachContextToComment(CommentInfo comment, String path, Project.NameKey project)
-      throws IOException, BadRequestException, ResourceNotFoundException {
+  public List<LabeledContextLineInfo> getContext(
+      Project.NameKey project, ObjectId commitId, String path, Integer startLine, Integer endLine)
+      throws IOException, RestApiException {
     ProjectState projectState = projectCache.get(project).orElse(null);
     if (projectState == null) {
-      return;
+      return ImmutableList.of();
     }
     if (!Patch.isMagic(path)) {
-      Text src = readSourceContent(projectState, ObjectId.fromString(comment.commitId), path);
-      ImmutableList<Integer> region = getStartAndEndLines(comment);
-      Integer startLine = region.get(0);
-      Integer endLine = region.get(1);
+      Text src = readSourceContent(projectState, commitId, path);
       List<LabeledContextLineInfo> contextLines = new ArrayList<>();
       while (startLine <= endLine) {
         contextLines.add(new LabeledContextLineInfo(startLine, src.getString(startLine - 1)));
         startLine += 1;
       }
-      comment.contextLines = contextLines;
+      return contextLines;
     }
+    return ImmutableList.of();
   }
 
   private Text readSourceContent(ProjectState projectState, ObjectId commitId, String path)
@@ -69,18 +68,5 @@ public class CommentContextUtil {
     ByteArrayOutputStream buf = new ByteArrayOutputStream((int) content.getContentLength());
     content.writeTo(buf);
     return new Text(buf.toByteArray());
-  }
-
-  private ImmutableList<Integer> getStartAndEndLines(CommentInfo comment) {
-    Integer startLine = null;
-    Integer endLine = null;
-    if (comment.range != null) {
-      startLine = comment.range.startLine;
-      endLine = comment.range.endLine;
-    } else if (comment.line != null) {
-      startLine = comment.line;
-      endLine = comment.line;
-    }
-    return ImmutableList.of(startLine, endLine);
   }
 }

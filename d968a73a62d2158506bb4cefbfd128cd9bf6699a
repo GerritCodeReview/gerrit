@@ -181,6 +181,24 @@
     },
     {
       "key": {
+        "uuid": "34880201_a83b727c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-07-15T13:46:08Z",
+      "side": 1,
+      "message": "\u003e Ben spent many months on designing the attention set\n\nyeah, he sure seems protective of it. ;)\n\n\u003e as far as I can tell your suggestions require multiple engineering days to implement\n\nthat\u0027s kinda exactly the reason why i\u0027m asking for the problems to be acknowledged and accounted for asap, lest i end up screwed.\ni don\u0027t think solving the issues will be particularly disruptive to the overall design, but it\u0027s generally just bad practice to pretend that the issues don\u0027t exist, because pushing ahead with the initial plan no matter what generally makes it harder/more expensive to arrive at a coherent final solution.",
+      "parentUuid": "da5eefbd_898c126e",
+      "revId": "d968a73a62d2158506bb4cefbfd128cd9bf6699a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "238f1209_721a60d0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

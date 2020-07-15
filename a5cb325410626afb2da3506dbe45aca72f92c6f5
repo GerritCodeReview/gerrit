@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8e9d5b44_191994fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-15T08:25:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84a32b2a_17b22080",
+      "range": {
+        "startLine": 16,
+        "startChar": 9,
+        "endLine": 16,
+        "endChar": 24
+      },
+      "revId": "a5cb325410626afb2da3506dbe45aca72f92c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "335a0dd0_5a8a5606",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "a5cb325410626afb2da3506dbe45aca72f92c6f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed8ec5b0_3ba5731b",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-15T08:25:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "335a0dd0_5a8a5606",
+      "range": {
+        "startLine": 499,
+        "startChar": 4,
+        "endLine": 499,
+        "endChar": 14
+      },
+      "revId": "a5cb325410626afb2da3506dbe45aca72f92c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "3c798db8_52369e18",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-15T08:25:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fe47304_da4b1a4f",
+      "range": {
+        "startLine": 519,
+        "startChar": 4,
+        "endLine": 519,
+        "endChar": 17
+      },
+      "revId": "a5cb325410626afb2da3506dbe45aca72f92c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad9643b5_eaf22453",
         "filename": "Documentation/rest-api-accounts.txt",
         "patchSetId": 4
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "6e3461d3_a2f221d9",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-15T08:25:36Z",
+      "side": 1,
+      "message": "Hm, you are right, the semantics of this is strange. I made it consistent with Set Active/Delete Active. Now it\u0027s consistently strange :-)\n\nWe could spare the whole return code dance and make this idempotent by always returning 204 regardless of if the bit was flipped or not. The end state in the data is the same if it was set already.\n\nI wouldn\u0027t do it in this change, though. If we go for that, we should also change Set/Delete active in a follow-up change.",
+      "parentUuid": "ad9643b5_eaf22453",
+      "range": {
+        "startLine": 536,
+        "startChar": 59,
+        "endLine": 536,
+        "endChar": 75
+      },
+      "revId": "a5cb325410626afb2da3506dbe45aca72f92c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58267f55_90eb3090",
         "filename": "java/com/google/gerrit/acceptance/testsuite/account/TestAccount.java",
         "patchSetId": 4
@@ -108,6 +204,24 @@
       "revId": "a5cb325410626afb2da3506dbe45aca72f92c6f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd588858_09a366f2",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/TestAccount.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-15T08:25:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58267f55_90eb3090",
+      "revId": "a5cb325410626afb2da3506dbe45aca72f92c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -134,6 +248,30 @@
     },
     {
       "key": {
+        "uuid": "23e1888d_c6a996dc",
+        "filename": "java/com/google/gerrit/entities/Account.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-15T08:25:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "600e5b7a_fc60e5e3",
+      "range": {
+        "startLine": 154,
+        "startChar": 46,
+        "endLine": 154,
+        "endChar": 57
+      },
+      "revId": "a5cb325410626afb2da3506dbe45aca72f92c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2913d225_a1d2442d",
         "filename": "java/com/google/gerrit/entities/Account.java",
         "patchSetId": 4
@@ -154,6 +292,30 @@
       "revId": "a5cb325410626afb2da3506dbe45aca72f92c6f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f09d91a8_57383ba8",
+        "filename": "java/com/google/gerrit/entities/Account.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-15T08:25:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2913d225_a1d2442d",
+      "range": {
+        "startLine": 274,
+        "startChar": 47,
+        "endLine": 274,
+        "endChar": 52
+      },
+      "revId": "a5cb325410626afb2da3506dbe45aca72f92c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -180,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "34687f5a_c9e160fd",
+        "filename": "java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-15T08:25:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9913a961_9d8c042e",
+      "range": {
+        "startLine": 48,
+        "startChar": 26,
+        "endLine": 48,
+        "endChar": 31
+      },
+      "revId": "a5cb325410626afb2da3506dbe45aca72f92c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76f661fe_ea91cbbb",
         "filename": "java/com/google/gerrit/server/account/AccountDirectory.java",
         "patchSetId": 4
@@ -197,6 +383,24 @@
     },
     {
       "key": {
+        "uuid": "c97e1c93_08bc196a",
+        "filename": "java/com/google/gerrit/server/account/AccountDirectory.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-15T08:25:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76f661fe_ea91cbbb",
+      "revId": "a5cb325410626afb2da3506dbe45aca72f92c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9d422ee3_ffc247bd",
         "filename": "java/com/google/gerrit/server/account/AccountProperties.java",
         "patchSetId": 4
@@ -211,6 +415,24 @@
       "revId": "a5cb325410626afb2da3506dbe45aca72f92c6f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "185750dc_d0cc504b",
+        "filename": "java/com/google/gerrit/server/account/AccountProperties.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-15T08:25:36Z",
+      "side": 1,
+      "message": "These are just the semantics of a git config where false \u003d\u003d null so a third state doesn\u0027t exist.\n\nAdapted the JavaDoc a bit.",
+      "parentUuid": "9d422ee3_ffc247bd",
+      "revId": "a5cb325410626afb2da3506dbe45aca72f92c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -237,6 +459,30 @@
     },
     {
       "key": {
+        "uuid": "0cf019cf_2daa88b7",
+        "filename": "java/com/google/gerrit/server/account/AccountProperties.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-15T08:25:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05b8c793_99a61272",
+      "range": {
+        "startLine": 167,
+        "startChar": 41,
+        "endLine": 167,
+        "endChar": 47
+      },
+      "revId": "a5cb325410626afb2da3506dbe45aca72f92c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "977147c9_9ade35d3",
         "filename": "java/com/google/gerrit/server/account/AccountProperties.java",
         "patchSetId": 4
@@ -257,6 +503,30 @@
       "revId": "a5cb325410626afb2da3506dbe45aca72f92c6f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddf245d2_7fd947f4",
+        "filename": "java/com/google/gerrit/server/account/AccountProperties.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-15T08:25:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "977147c9_9ade35d3",
+      "range": {
+        "startLine": 169,
+        "startChar": 53,
+        "endLine": 169,
+        "endChar": 59
+      },
+      "revId": "a5cb325410626afb2da3506dbe45aca72f92c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -283,6 +553,30 @@
     },
     {
       "key": {
+        "uuid": "1fa103f5_1a492baf",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteIsRobot.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-15T08:25:36Z",
+      "side": 1,
+      "message": "Done.\n\nThe endpoints already share code at large. What is left is just the boiler plate for having a separate endpoint that offers a DELETE in REST over HTTP. The class here is just calling out to the account updater and permission backend. I would avoid putting these calls in their own util because that usually just creates confusion and doesn\u0027t add that much value.",
+      "parentUuid": "8cc27799_290aaa1f",
+      "range": {
+        "startLine": 72,
+        "startChar": 13,
+        "endLine": 72,
+        "endChar": 16
+      },
+      "revId": "a5cb325410626afb2da3506dbe45aca72f92c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "247f78d9_0bcd1035",
         "filename": "java/com/google/gerrit/server/restapi/account/DeleteIsRobot.java",
         "patchSetId": 4
@@ -306,6 +600,30 @@
     },
     {
       "key": {
+        "uuid": "25fbce2f_8cd8b979",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteIsRobot.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-15T08:25:36Z",
+      "side": 1,
+      "message": "It can be simplified if we stop caring about the return code (see my earlier comment). This code is required if we do care about the return code.",
+      "parentUuid": "247f78d9_0bcd1035",
+      "range": {
+        "startLine": 74,
+        "startChar": 12,
+        "endLine": 79,
+        "endChar": 15
+      },
+      "revId": "a5cb325410626afb2da3506dbe45aca72f92c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb7e4198_204933ee",
         "filename": "java/com/google/gerrit/server/restapi/account/DeleteIsRobot.java",
         "patchSetId": 4
@@ -326,6 +644,30 @@
       "revId": "a5cb325410626afb2da3506dbe45aca72f92c6f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14279c6d_9100c417",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteIsRobot.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-15T08:25:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb7e4198_204933ee",
+      "range": {
+        "startLine": 82,
+        "startChar": 53,
+        "endLine": 82,
+        "endChar": 60
+      },
+      "revId": "a5cb325410626afb2da3506dbe45aca72f92c6f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

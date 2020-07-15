@@ -97,6 +97,7 @@ suite('gr-comment tests', () => {
       element.side = 'PARENT';
       const stub = sinon.stub();
       element.addEventListener('comment-anchor-tap', stub);
+      flushAsynchronousOperations();
       const dateEl = element.shadowRoot
           .querySelector('.date');
       assert.ok(dateEl);

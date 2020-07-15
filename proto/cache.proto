@@ -489,3 +489,22 @@ message CachedProjectConfigProto {
     repeated string section = 1;
   }
 }
+
+// Serialized form of com.google.gerrit.server.comment.CommentContextCacheImpl.Key
+// Next ID: 5
+message CommentContextKeyProto {
+  string project = 1;
+  string patch_set_id = 2;
+  string uuid = 3;
+  string path_hash = 4; // hashed with the murmur3_128 hash function
+}
+
+// Serialized form of a list of com.google.gerrit.extensions.common.ContextLineInfo
+// Next ID: 2
+message AllCommentContextProto {
+  message CommentContextProto {
+    int32 line_number = 1;
+    string context_line = 2;
+  }
+  repeated CommentContextProto context = 1;
+}

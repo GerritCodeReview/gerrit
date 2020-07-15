@@ -19,7 +19,6 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.HumanComment;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.ContextLineInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -27,7 +26,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentContextException;
-import com.google.gerrit.server.CommentContextLoader;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -43,7 +41,6 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
   private final ChangeData.Factory changeDataFactory;
   private final Provider<CommentJson> commentJson;
   private final CommentsUtil commentsUtil;
-  private final CommentContextLoader.Factory commentContextFactory;
 
   private boolean includeContext;
 
@@ -63,13 +60,11 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
       ChangeData.Factory changeDataFactory,
       Provider<CommentJson> commentJson,
       CommentsUtil commentsUtil,
-      ChangeMessagesUtil changeMessagesUtil,
-      CommentContextLoader.Factory commentContextFactory) {
+      ChangeMessagesUtil changeMessagesUtil) {
     this.changeDataFactory = changeDataFactory;
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
     this.changeMessagesUtil = changeMessagesUtil;
-    this.commentContextFactory = commentContextFactory;
   }
 
   @Override
@@ -90,8 +85,7 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
 
   private ImmutableList<CommentInfo> getAsList(Iterable<HumanComment> comments, ChangeResource rsrc)
       throws PermissionBackendException, CommentContextException {
-    ImmutableList<CommentInfo> commentInfos =
-        getCommentFormatter(rsrc.getProject()).formatAsList(comments);
+    ImmutableList<CommentInfo> commentInfos = getCommentFormatter(rsrc).formatAsList(comments);
     List<ChangeMessage> changeMessages = changeMessagesUtil.byChange(rsrc.getNotes());
     CommentsUtil.linkCommentsToChangeMessages(commentInfos, changeMessages, true);
     return commentInfos;
@@ -100,8 +94,7 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
   private Map<String, List<CommentInfo>> getAsMap(
       Iterable<HumanComment> comments, ChangeResource rsrc)
       throws PermissionBackendException, CommentContextException {
-    Map<String, List<CommentInfo>> commentInfosMap =
-        getCommentFormatter(rsrc.getProject()).format(comments);
+    Map<String, List<CommentInfo>> commentInfosMap = getCommentFormatter(rsrc).format(comments);
     List<CommentInfo> commentInfos =
         commentInfosMap.values().stream().flatMap(List::stream).collect(toList());
     List<ChangeMessage> changeMessages = changeMessagesUtil.byChange(rsrc.getNotes());
@@ -109,12 +102,14 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
     return commentInfosMap;
   }
 
-  private CommentJson.HumanCommentFormatter getCommentFormatter(Project.NameKey project) {
+  private CommentJson.HumanCommentFormatter getCommentFormatter(ChangeResource rsrc) {
     return commentJson
         .get()
         .setFillAccounts(true)
         .setFillPatchSet(true)
-        .setCommentContextLoader(includeContext ? commentContextFactory.create(project) : null)
+        .setFillCommentContext(includeContext)
+        .setProjectKey(rsrc.getProject())
+        .setChangeId(rsrc.getId())
         .newHumanCommentFormatter();
   }
 }

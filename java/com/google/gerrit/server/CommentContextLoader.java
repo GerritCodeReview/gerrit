@@ -17,9 +17,9 @@ package com.google.gerrit.server;
 import static java.util.stream.Collectors.groupingBy;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.ContextLine;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.common.CommentInfo;
-import com.google.gerrit.extensions.common.ContextLineInfo;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.Text;
 import com.google.inject.Inject;
@@ -39,7 +39,7 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 public class CommentContextLoader {
   private final GitRepositoryManager repoManager;
   private final Project.NameKey project;
-  private Map<ContextData, List<ContextLineInfo>> candidates;
+  private Map<ContextData, List<ContextLine>> candidates;
 
   public interface Factory {
     CommentContextLoader create(Project.NameKey project);
@@ -52,11 +52,11 @@ public class CommentContextLoader {
     this.candidates = new HashMap<>();
   }
 
-  public List<ContextLineInfo> getContext(CommentInfo comment) {
+  public List<ContextLine> getContext(Comment comment, ObjectId commitId) {
     ContextData key =
         ContextData.create(
-            comment.id, comment.commitId, comment.path, getStartAndEndLines(comment));
-    List<ContextLineInfo> context = candidates.get(key);
+            comment.key.uuid, commitId, comment.key.filename, getStartAndEndLines(comment));
+    List<ContextLine> context = candidates.get(key);
     if (context == null) {
       context = new ArrayList<>();
       candidates.put(key, context);
@@ -66,20 +66,20 @@ public class CommentContextLoader {
 
   public void fill() throws CommentContextException {
     // Group comments by commit ID so that each commit is parsed only once
-    Map<String, List<ContextData>> group =
+    Map<ObjectId, List<ContextData>> group =
         candidates.keySet().stream().collect(groupingBy(ContextData::commitId));
 
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
-      for (String commitId : group.keySet()) {
-        RevCommit commit = rw.parseCommit(ObjectId.fromString(commitId));
+      for (ObjectId commitId : group.keySet()) {
+        RevCommit commit = rw.parseCommit(commitId);
         for (ContextData k : group.get(commitId)) {
           try (TreeWalk tw = TreeWalk.forPath(rw.getObjectReader(), k.path(), commit.getTree())) {
             ObjectId id = tw != null ? tw.getObjectId(0) : ObjectId.zeroId();
             Text src = new Text(repo.open(id, Constants.OBJ_BLOB));
-            List<ContextLineInfo> contextLines = candidates.get(k);
+            List<ContextLine> contextLines = candidates.get(k);
             for (int i = k.range().start(); i <= k.range().end(); i++) {
-              contextLines.add(new ContextLineInfo(i, src.getString(i - 1)));
+              contextLines.add(ContextLine.create(i, src.getString(i - 1)));
             }
           }
         }
@@ -89,11 +89,11 @@ public class CommentContextLoader {
     }
   }
 
-  private static Range getStartAndEndLines(CommentInfo comment) {
+  private static Range getStartAndEndLines(Comment comment) {
     if (comment.range != null) {
       return Range.create(comment.range.startLine, comment.range.endLine);
-    } else if (comment.line != null) {
-      return Range.create(comment.line, comment.line);
+    } else if (comment.lineNbr > 0) {
+      return Range.create(comment.lineNbr, comment.lineNbr);
     }
     return Range.create(0, -1);
   }
@@ -111,13 +111,13 @@ public class CommentContextLoader {
 
   @AutoValue
   abstract static class ContextData {
-    static ContextData create(String id, String commitId, String path, Range range) {
+    static ContextData create(String id, ObjectId commitId, String path, Range range) {
       return new AutoValue_CommentContextLoader_ContextData(id, commitId, path, range);
     }
 
     abstract String id();
 
-    abstract String commitId();
+    abstract ObjectId commitId();
 
     abstract String path();
 

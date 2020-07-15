@@ -348,7 +348,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       // Return non-null theme path without checking for file existence. Even if the file doesn't
       // exist under the site path, it may be served from a CDN (in which case it's up to the admin
       // to also pass a proper asset path to the index Soy template).
-      return DEFAULT_THEME;
+      return DEFAULT_THEME_JS;
     }
     return null;
   }

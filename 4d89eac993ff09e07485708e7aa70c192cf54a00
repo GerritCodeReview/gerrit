@@ -16,6 +16,24 @@
       "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "510539ec_72834ec5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-07-15T16:52:48Z",
+      "side": 1,
+      "message": "\u003e I agree with the motivations for this change, but I\u0027m not sure we should jump to a boolean switch as the best solution. For example, we already have the Non-Interactive users group, could checking for inclusion in that group provide an equally good solution?\n\nI should add, if inclusion in that group is not equally good, how do you expect the two features to co-exist?",
+      "parentUuid": "1be132fe_9a1d49d9",
+      "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b055a52_b49f6128",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-15T13:59:29Z",
+      "side": 1,
+      "message": "Let\u0027s not do it with classes.\nInstead add to gr-js-api-interface-element.js\nexport const sharedAPIElement \u003d document.createElement(\u0027gr-js-api-interface\u0027);\nand then import it in this file and in the gr-change-reply-js-api.js file",
+      "range": {
+        "startLine": 316,
+        "startChar": 0,
+        "endLine": 316,
+        "endChar": 24
+      },
+      "revId": "12ddb05449734785e70e249dec98812bc2c92e6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "fe078546d98e52e562c26f75cf6073d0c6a87080",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45065783_0abad062",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-15T14:55:30Z",
+      "side": 1,
+      "message": "Oh! Nice!\n\nDone in PS4.",
+      "parentUuid": "cb0e649d_fdda88ae",
+      "range": {
+        "startLine": 365,
+        "startChar": 26,
+        "endLine": 365,
+        "endChar": 36
+      },
+      "revId": "fe078546d98e52e562c26f75cf6073d0c6a87080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

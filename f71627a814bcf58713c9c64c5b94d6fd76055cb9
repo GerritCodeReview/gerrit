@@ -117,6 +117,30 @@
       "revId": "f71627a814bcf58713c9c64c5b94d6fd76055cb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3f8e312_3b4704b4",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-15T11:53:33Z",
+      "side": 1,
+      "message": "oh good point, once solution finalized, will do the clean up.",
+      "parentUuid": "f4d3388e_d720fd43",
+      "range": {
+        "startLine": 241,
+        "startChar": 4,
+        "endLine": 241,
+        "endChar": 29
+      },
+      "revId": "f71627a814bcf58713c9c64c5b94d6fd76055cb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

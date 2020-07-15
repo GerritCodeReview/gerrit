@@ -214,7 +214,7 @@ class GrChangeListItem extends ChangeTableMixin(GestureEventListeners(
         isNaN(change.insertions + change.deletions)) {
       return 'Size unknown';
     } else {
-      return `+${change.insertions}, -${change.deletions}`;
+      return `added ${change.insertions}, removed ${change.deletions} lines`;
     }
   }
 

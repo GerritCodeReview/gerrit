@@ -200,7 +200,7 @@ export const htmlTemplate = html`
           change="[[change]]"
           account="[[reviewer]]"
         ></gr-account-link
-        ><span class="lastChildHidden">, </span>
+        ><span class="lastChildHidden" aria-hidden="true">, </span>
       </template>
       <template is="dom-if" if="[[_computeAdditionalReviewersCount(change)]]">
         <span title="[[_computeAdditionalReviewersTitle(change, config)]]">

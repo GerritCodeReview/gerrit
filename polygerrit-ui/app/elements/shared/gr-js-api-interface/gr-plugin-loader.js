@@ -16,15 +16,13 @@ import {appContext} from '../../../services/app-context.js';
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import './gr-api-utils.js';
 import {importHref} from '../../../scripts/import-href.js';
-
 import {
   PLUGIN_LOADING_TIMEOUT_MS,
   PRELOADED_PROTOCOL,
   getPluginNameFromUrl,
 } from './gr-api-utils.js';
-
+import {Plugin} from './gr-public-js-api.js';
 import {getBaseUrl} from '../../../utils/url-util.js';
 
 /**

@@ -500,3 +500,25 @@ message ProjectCacheKeyProto {
   bytes global_config_revision = 3; // Hash of All-Projects-projects.config. This
                                     // will only be populated for All-Projects.
 }
+
+// Serialized form of com.google.gerrit.server.comment.CommentContextCacheImpl.Key
+// Next ID: 6
+message CommentContextKeyProto {
+  string project = 1;
+  string change_id = 2;
+  int32 patchset = 3;
+  string commentId = 4;
+
+  // hashed with the murmur3_128 hash function
+  string path_hash = 5;
+}
+
+// Serialized form of a list of com.google.gerrit.extensions.common.ContextLineInfo
+// Next ID: 2
+message AllCommentContextProto {
+  message CommentContextProto {
+    int32 line_number = 1;
+    string context_line = 2;
+  }
+  repeated CommentContextProto context = 1;
+}

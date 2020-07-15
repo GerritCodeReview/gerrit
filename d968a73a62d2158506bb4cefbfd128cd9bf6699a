@@ -163,6 +163,24 @@
     },
     {
       "key": {
+        "uuid": "da5eefbd_898c126e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-15T12:04:49Z",
+      "side": 1,
+      "message": "Oswald, thanks for your concern of my relationship with Ben.\nBen spent many months on designing the attention set, and it got approved, so I don\u0027t think it\u0027s reasonable for me to change what was agreed upon by Ben and at least 5 other collaborators. Of course, I\u0027m open to minor changes and improvements, but as far as I can tell your suggestions require multiple engineering days to implement, and are not on our short-term plans.\n\nI assure you that we agree on many implementation details together and he treats me fairly.",
+      "parentUuid": "251f9c90_dfaa4eaa",
+      "revId": "d968a73a62d2158506bb4cefbfd128cd9bf6699a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "238f1209_721a60d0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

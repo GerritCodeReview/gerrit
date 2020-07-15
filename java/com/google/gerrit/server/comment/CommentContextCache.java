@@ -18,9 +18,14 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.LabeledContextLineInfo;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public interface CommentContextCache {
-  List<LabeledContextLineInfo> get(
-      Project.NameKey project, Change.Id changeId, CommentInfo comment);
+  List<LabeledContextLineInfo> get(Project.NameKey project, Change.Id changeId, CommentInfo comment);
+
+  Map<CommentInfo, List<LabeledContextLineInfo>> getAll(
+      Project.NameKey project, Change.Id changeId, Collection<CommentInfo> comments);
 }

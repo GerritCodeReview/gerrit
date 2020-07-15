@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cdf70950_0f5f5fd4",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-15T11:43:21Z",
+      "side": 1,
+      "message": "I thought about exporting the `reporting` service or the `appContext` entirely to plugin, but I am not sure if that\u0027s too much. This is only for interaction report, so it\u0027s expected to be limited to dom interactions related events. not sure how you will have dom interaction at install phase ?",
+      "parentUuid": "e52b0413_120b3659",
+      "range": {
+        "startLine": 237,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 34
+      },
+      "revId": "ccadd02cfd30b2e74cec343eee3d798e5253aad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "00808b5f_3ed3bd62",
         "filename": "polygerrit-ui/app/elements/gr-app-element.js",
         "patchSetId": 1
@@ -59,6 +83,30 @@
       "writtenOn": "2020-07-15T11:42:58Z",
       "side": 1,
       "message": "Oh, you already changed it in Patchset 2.",
+      "parentUuid": "00808b5f_3ed3bd62",
+      "range": {
+        "startLine": 239,
+        "startChar": 4,
+        "endLine": 239,
+        "endChar": 46
+      },
+      "revId": "ccadd02cfd30b2e74cec343eee3d798e5253aad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e2eb2df_cc9ffe21",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-15T11:43:21Z",
+      "side": 1,
+      "message": "changed to `document` already.",
       "parentUuid": "00808b5f_3ed3bd62",
       "range": {
         "startLine": 239,

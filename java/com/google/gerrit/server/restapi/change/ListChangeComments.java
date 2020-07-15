@@ -17,8 +17,10 @@ package com.google.gerrit.server.restapi.change;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.HumanComment;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.LabeledContextLineInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -125,14 +127,16 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
     List<CommentInfo> commentInfos = new ArrayList<>(commentPaths.keySet());
     CommentsUtil.linkCommentsToChangeMessages(commentInfos, changeMessages, true);
     if (includeContext) {
-      for (Map.Entry<CommentInfo, String> entry : commentPaths.entrySet()) {
-        CommentInfo commentInfo = entry.getKey();
-        try {
-          commentInfo.contextLines =
-              contextCache.get(rsrc.getProject(), rsrc.getChange().getId(), commentInfo);
-        } catch (ExecutionException e) {
-          logger.atWarning().log("Failed to retrieve context for comment " + commentInfo.id);
+      try {
+        Change.Id changeId = rsrc.getChange().getId();
+        Project.NameKey project = rsrc.getProject();
+        Map<CommentInfo, List<LabeledContextLineInfo>> allContext =
+            contextCache.getAll(project, changeId, commentInfos);
+        for (CommentInfo comment : commentInfos) {
+          comment.contextLines = allContext.get(comment);
         }
+      } catch (ExecutionException e) {
+        e.printStackTrace();
       }
     }
   }

@@ -17,14 +17,13 @@ package com.google.gerrit.server;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.LabeledContextLineInfo;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.Text;
 import com.google.inject.Inject;
-import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,24 +38,20 @@ public class CommentContextLoader {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final GitRepositoryManager repoManager;
-  private final Project.NameKey project;
-
-  public interface Factory {
-    CommentContextLoader create(Project.NameKey project);
-  }
 
   @Inject
-  public CommentContextLoader(GitRepositoryManager repoManager, @Assisted Project.NameKey project) {
+  public CommentContextLoader(GitRepositoryManager repoManager) {
     this.repoManager = repoManager;
-    this.project = project;
   }
 
-  public List<LabeledContextLineInfo> getContext(CommentInfo comment, String path) {
+  public List<LabeledContextLineInfo> getContext(Project.NameKey project, Comment comment) {
+    String path = comment.key.filename;
     if (Patch.isMagic(path)) {
       return ImmutableList.of();
     }
     try {
-      Text src = readSourceContent(project, ObjectId.fromString(comment.commitId), path);
+      ObjectId commitId = comment.getCommitId();
+      Text src = readSourceContent(project, commitId, path);
       Range range = getStartAndEndLines(comment);
       List<LabeledContextLineInfo> contextLines = new ArrayList<>();
       for (int i = range.start(); i <= range.end(); i++) {
@@ -64,7 +59,7 @@ public class CommentContextLoader {
       }
       return contextLines;
     } catch (IOException e) {
-      logger.atWarning().log("Failed to retrieve context for comment " + comment.id);
+      logger.atWarning().log("Failed to retrieve context for comment " + comment.key.uuid);
     }
     return ImmutableList.of();
   }
@@ -81,15 +76,15 @@ public class CommentContextLoader {
     }
   }
 
-  private Range getStartAndEndLines(CommentInfo comment) {
+  private Range getStartAndEndLines(Comment comment) {
     Integer startLine = null;
     Integer endLine = null;
     if (comment.range != null) {
       startLine = comment.range.startLine;
       endLine = comment.range.endLine;
-    } else if (comment.line != null) {
-      startLine = comment.line;
-      endLine = comment.line;
+    } else if (comment.lineNbr > 0) {
+      startLine = comment.lineNbr;
+      endLine = comment.lineNbr;
     }
     return Range.create(startLine, endLine);
   }

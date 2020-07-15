@@ -16,6 +16,24 @@
       "revId": "63f630c430ca49308594d6f88b193c44fbb7e206",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6eecab2_16c45391",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-15T22:35:56Z",
+      "side": 1,
+      "message": "I don\u0027t expect any of these arguments  to change if the plugin fires the\n`new-section-loaded` event. But all of them are needed to decide if the element\nshould be visible or not.\n\nI\u0027ve split the `setting this.hidden` part and the event firing part in PS7.\nWas this the split you had in mind, or was it something else?",
+      "parentUuid": "c5254462_aeda2ae1",
+      "revId": "63f630c430ca49308594d6f88b193c44fbb7e206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

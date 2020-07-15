@@ -22,20 +22,24 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.ContextLine;
 import com.google.gerrit.entities.FixReplacement;
 import com.google.gerrit.entities.FixSuggestion;
 import com.google.gerrit.entities.HumanComment;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.ContextLineInfo;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.server.CommentContextLoader;
 import com.google.gerrit.server.account.AccountLoader;
+import com.google.gerrit.server.comment.CommentContextCache;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import java.util.ArrayList;
@@ -46,14 +50,19 @@ import java.util.TreeMap;
 public class CommentJson {
 
   private final AccountLoader.Factory accountLoaderFactory;
+  private final CommentContextCache commentContextCache;
+
+  private Project.NameKey project;
+  private Change.Id changeId;
 
   private boolean fillAccounts = true;
   private boolean fillPatchSet;
-  @Nullable private CommentContextLoader commentContextLoader;
+  private boolean fillCommentContext;
 
   @Inject
-  CommentJson(AccountLoader.Factory accountLoaderFactory) {
+  CommentJson(AccountLoader.Factory accountLoaderFactory, CommentContextCache commentContextCache) {
     this.accountLoaderFactory = accountLoaderFactory;
+    this.commentContextCache = commentContextCache;
   }
 
   CommentJson setFillAccounts(boolean fillAccounts) {
@@ -66,8 +75,18 @@ public class CommentJson {
     return this;
   }
 
-  CommentJson setCommentContextLoader(@Nullable CommentContextLoader commentContextLoader) {
-    this.commentContextLoader = commentContextLoader;
+  CommentJson setFillCommentContext(boolean fillCommentContext) {
+    this.fillCommentContext = fillCommentContext;
+    return this;
+  }
+
+  CommentJson setProjectKey(Project.NameKey project) {
+    this.project = project;
+    return this;
+  }
+
+  CommentJson setChangeId(Change.Id changeId) {
+    this.changeId = changeId;
     return this;
   }
 
@@ -85,9 +104,6 @@ public class CommentJson {
       T info = toInfo(comment, loader);
       if (loader != null) {
         loader.fill();
-      }
-      if (commentContextLoader != null) {
-        commentContextLoader.fill();
       }
       return info;
     }
@@ -113,9 +129,6 @@ public class CommentJson {
       if (loader != null) {
         loader.fill();
       }
-      if (commentContextLoader != null) {
-        commentContextLoader.fill();
-      }
       return out;
     }
 
@@ -130,9 +143,6 @@ public class CommentJson {
 
       if (loader != null) {
         loader.fill();
-      }
-      if (commentContextLoader != null) {
-        commentContextLoader.fill();
       }
       return out;
     }
@@ -164,9 +174,14 @@ public class CommentJson {
         r.author = loader.get(c.author.getId());
       }
       r.commitId = c.getCommitId().getName();
-      if (commentContextLoader != null) {
-        r.contextLines = commentContextLoader.getContext(r);
+      if (fillCommentContext) {
+        List<ContextLine> contextLines = commentContextCache.get(project, changeId, r);
+        r.contextLines = contextLines.stream().map(ctx -> toContextLine(ctx)).collect(toList());
       }
+    }
+
+    protected ContextLineInfo toContextLine(ContextLine c) {
+      return new ContextLineInfo(c.lineNumber(), c.contextLine());
     }
 
     protected Range toRange(Comment.Range commentRange) {

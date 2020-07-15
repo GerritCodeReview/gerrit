@@ -114,6 +114,7 @@ import com.google.gerrit.server.change.LabelsJson;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.change.ReviewerSuggestion;
 import com.google.gerrit.server.change.RevisionJson;
+import com.google.gerrit.server.comment.CommentContextCacheImpl;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.events.EventListener;
 import com.google.gerrit.server.events.EventsMetrics;
@@ -248,6 +249,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(TagCache.module());
     install(OAuthTokenCache.module());
     install(PureRevertCache.module());
+    install(CommentContextCacheImpl.module());
 
     install(new AccessControlModule());
     install(new CmdLineParserModule());

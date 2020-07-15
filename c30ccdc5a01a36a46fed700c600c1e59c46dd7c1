@@ -52,6 +52,24 @@
       "revId": "c30ccdc5a01a36a46fed700c600c1e59c46dd7c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c32a4c4_8889cce3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2020-07-15T15:47:37Z",
+      "side": 1,
+      "message": "Some authentication methods return a redirect on auth failure. If that redirect goes to the same host, no problem. If it goes to another host and that host is set up to allow cross-origin requests, still no problem. But if it goes to another host that is not set up to allow cross-origin requests, the result is\n\n```\nfoo,access:1 Access to fetch at \u0027https://accounts.google.com/ServiceLogin?REDACTED\u0027 (redirected from \u0027https://REDACTED.googlesource.com/auth-check\u0027) from origin \u0027https://REDACTED.googlesource.com\u0027 has been blocked by CORS policy: No \u0027Access-Control-Allow-Origin\u0027 header is present on the requested resource. If an opaque response serves your needs, set the request\u0027s mode to \u0027no-cors\u0027 to fetch the resource with CORS disabled.\naccounts.google.com/ServiceLogin?REDACTED:1 Failed to load resource: net::ERR_FAILED\ngr-app.js:2415 Uncaught (in promise) TypeError: Cannot read property \u0027emit\u0027 of null\n    at Auth$$module$third_party$javascript$polygerrit$elements$shared$gr_rest_api_interface$gr_auth._setStatus (gr-app.js:2415)\n    at gr-app.js:2414\n/groups/?s\u003dA\u0026n\u003d20:1 Failed to load resource: the server responded with a status of 400 ()\n```\n\nIn other words, instead of producing the NOT_AUTHED result that we want, it throws an exception. Passing \u0027no-cors\u0027 means that when we see such a redirect, we get the NOT_AUTHED result that we wanted so the user can reauthenticate.",
+      "parentUuid": "fd1b6f98_5d930b0c",
+      "revId": "c30ccdc5a01a36a46fed700c600c1e59c46dd7c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

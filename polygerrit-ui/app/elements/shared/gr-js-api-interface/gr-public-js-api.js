@@ -32,6 +32,7 @@ import {GrSettingsApi} from '../../plugins/gr-settings-api/gr-settings-api.js';
 import {GrStylesApi} from '../../plugins/gr-styles-api/gr-styles-api.js';
 import {GrPluginActionContext} from './gr-plugin-action-context.js';
 import {pluginEndpoints} from './gr-plugin-endpoints.js';
+import {sharedApiElement} from './gr-js-api-interface-element.js';
 
 import {
   PRELOADED_PROTOCOL,
@@ -162,7 +163,7 @@ export class Plugin {
   }
 
   on(eventName, callback) {
-    Plugin._sharedAPIElement.addEventCallback(eventName, callback);
+    sharedApiElement.addEventCallback(eventName, callback);
   }
 
   url(opt_path) {
@@ -219,8 +220,8 @@ export class Plugin {
   changeActions() {
     return new GrChangeActionsInterface(
         this,
-        Plugin._sharedAPIElement.getElement(
-            Plugin._sharedAPIElement.Element.CHANGE_ACTIONS
+        sharedApiElement.getElement(
+            sharedApiElement.Element.CHANGE_ACTIONS
         )
     );
   }
@@ -312,8 +313,6 @@ export class Plugin {
     return `${this.getPluginName()}-screen-${screenName}`;
   }
 }
-
-Plugin._sharedAPIElement = document.createElement('gr-js-api-interface');
 
 // TODO: should be removed soon after all core plugins moved away from it.
 const deprecatedAPI = {
@@ -432,6 +431,3 @@ const deprecatedAPI = {
     );
   },
 };
-
-// TODO: Remove once no longer rely on global Plugin
-window.Plugin = Plugin;

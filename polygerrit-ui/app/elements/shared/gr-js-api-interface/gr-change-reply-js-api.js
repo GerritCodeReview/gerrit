@@ -15,18 +15,19 @@
  * limitations under the License.
  */
 
+import {sharedApiElement} from './gr-js-api-interface-element.js';
+
 /**
  * GrChangeReplyInterface, provides a set of handy methods on reply dialog.
  */
 export class GrChangeReplyInterface {
   constructor(plugin) {
     this.plugin = plugin;
-    this._sharedApiEl = Plugin._sharedAPIElement;
   }
 
   get _el() {
-    return this._sharedApiEl.getElement(
-        this._sharedApiEl.Element.REPLY_DIALOG);
+    return sharedApiElement.getElement(
+        sharedApiElement.Element.REPLY_DIALOG);
   }
 
   getLabelValue(label) {

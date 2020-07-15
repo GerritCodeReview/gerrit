@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "48fd23a4_c8bf4f36",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-15T11:46:56Z",
+      "side": 1,
+      "message": "I agree, that exporting reporting service is too much.\nMaybe just an object with a single method reportInteraction, so it can be used like:\npluginApi.reporting.reportInteraction(...)\nLater we can add more methods, if needed.",
+      "parentUuid": "cdf70950_0f5f5fd4",
+      "range": {
+        "startLine": 237,
+        "startChar": 0,
+        "endLine": 238,
+        "endChar": 34
+      },
+      "revId": "ccadd02cfd30b2e74cec343eee3d798e5253aad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "00808b5f_3ed3bd62",
         "filename": "polygerrit-ui/app/elements/gr-app-element.js",
         "patchSetId": 1

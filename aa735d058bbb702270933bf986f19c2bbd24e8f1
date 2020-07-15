@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e54c8ae_d1212ffd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-15T13:32:26Z",
+      "side": 1,
+      "message": "Restoring CRVW+2 from previous patch set.\n\nI had to fix formatting issue in polygerrit-ui/app/BUILD (superfluous line).",
+      "revId": "aa735d058bbb702270933bf986f19c2bbd24e8f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

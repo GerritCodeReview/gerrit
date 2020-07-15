@@ -141,6 +141,23 @@
       "revId": "f71627a814bcf58713c9c64c5b94d6fd76055cb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e928d44_3febaaed",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-15T11:55:34Z",
+      "side": 1,
+      "message": "This is a new pattern that is inconsistent with all other plugin\u003c-\u003ecore communication. The standard pattern is calling e.g. plugin.restApi() and then using the returned object to make calls.\n\nI am not generally opposed to communicating through events, but I find the plugin\u003c-\u003ecore interaction is already quite complex. Introducing such a new pattern would also warrant a plan/design about how we think this should be evolving. For example should these events be documented and be moved to some other code location?",
+      "revId": "f71627a814bcf58713c9c64c5b94d6fd76055cb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

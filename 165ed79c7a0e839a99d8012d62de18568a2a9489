@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b5829076_cd01044b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-15T05:58:03Z",
+      "side": 1,
+      "message": "Note to the reviewers: the failure is expected:\n\n  bazelisk test //polygerrit-ui/app:all --test_tag_filters\u003dtemplate --test_output errors\n  [...]\n  ERROR: No test targets were found, yet testing was requested\n\nThis would be fixed, when the CI change will be submitted.",
+      "revId": "165ed79c7a0e839a99d8012d62de18568a2a9489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

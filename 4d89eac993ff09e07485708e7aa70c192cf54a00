@@ -34,6 +34,23 @@
       "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23bfebdb_83de136b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-07-15T16:53:35Z",
+      "side": 1,
+      "message": "I am concerned that this attempts to be too clever. While it may makes somethings easier or better when it just works, it may make things more complicated when it doesn\u0027t. I think it would generally be better to allow each individual feature to be configured with a group(s) for which it alters its behavior. This would give much finer control when needed, but would still allow for simpler solutions like this by simply having a configurable default \"robot\" group that features could point to for disabling a feature.",
+      "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

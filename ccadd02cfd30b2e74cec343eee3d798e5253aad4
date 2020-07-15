@@ -45,6 +45,30 @@
       "revId": "ccadd02cfd30b2e74cec343eee3d798e5253aad4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "117f0714_f1d33ea0",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-15T11:42:58Z",
+      "side": 1,
+      "message": "Oh, you already changed it in Patchset 2.",
+      "parentUuid": "00808b5f_3ed3bd62",
+      "range": {
+        "startLine": 239,
+        "startChar": 4,
+        "endLine": 239,
+        "endChar": 46
+      },
+      "revId": "ccadd02cfd30b2e74cec343eee3d798e5253aad4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

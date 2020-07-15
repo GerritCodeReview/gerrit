@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63278ce1_1a1fc7f5",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-15T11:42:58Z",
+      "side": 1,
+      "message": "This is a global event, may be use more gerrit-specific name to avoid possible conflicts with other third-party libraries (like \u0027gerrit-interaction-report\u0027)",
+      "range": {
+        "startLine": 241,
+        "startChar": 31,
+        "endLine": 241,
+        "endChar": 49
+      },
+      "revId": "f71627a814bcf58713c9c64c5b94d6fd76055cb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd041550_ee80f07d",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-15T11:42:58Z",
+      "side": 1,
+      "message": "Please, remove listener in disconnectedCallback. Otherwise, the element remains in memory after disconnect and this can affect our tests.",
+      "range": {
+        "startLine": 241,
+        "startChar": 4,
+        "endLine": 241,
+        "endChar": 29
+      },
+      "revId": "f71627a814bcf58713c9c64c5b94d6fd76055cb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "012bc3f1_0f9df17a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-16T16:59:38Z",
+      "side": 1,
+      "message": "For me the key difference is that _checkIfCompleted is called when a plugin is loaded or get a timeout. I.e. _checkIfCompleted is called when a plugin state has been changed and it can update state of the pluginEndpoints as a reaction to plugins state changes.\n\nAnd it is unexpected if pluginEndpoints state is updated when a developer quires state of pluginLoader using arePluginsLoaded method.",
+      "parentUuid": "eeea2d1f_bf1dc342",
+      "range": {
+        "startLine": 208,
+        "startChar": 4,
+        "endLine": 208,
+        "endChar": 38
+      },
+      "revId": "154e108d92bdd132cc3fc16ba4890e2e6a7ea1f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7f85f8e_46069d0a",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
         "patchSetId": 2

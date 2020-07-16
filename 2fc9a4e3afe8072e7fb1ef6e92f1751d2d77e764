@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e13e1f4_c9ad0066",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-16T13:09:48Z",
+      "side": 1,
+      "message": "Will rebase after https://gerrit-review.googlesource.com/c/gerrit/+/275577 merged which should fix the style",
+      "revId": "2fc9a4e3afe8072e7fb1ef6e92f1751d2d77e764",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

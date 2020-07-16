@@ -16,6 +16,24 @@
       "revId": "89a6b77aba6e5b7a0c7ae8c54afdb6265b266546",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "07fbde88_bc0a2fdf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-16T09:43:04Z",
+      "side": 1,
+      "message": "Yes, it is ready to submit.\nIt is a very simple change, basically just renaming (in the commit message I wrote everything what I\u0027ve done)",
+      "parentUuid": "275eb0ad_c93f9559",
+      "revId": "89a6b77aba6e5b7a0c7ae8c54afdb6265b266546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -6,6 +6,12 @@
       "started": "2020-07-16T18:32:14Z",
       "created": "2020-07-16T18:32:14Z",
       "updated": "2020-07-16T18:32:15Z"
+    },
+    "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
+      "state": "RUNNING",
+      "started": "2020-07-16T18:32:53Z",
+      "created": "2020-07-16T18:32:53Z",
+      "updated": "2020-07-16T18:32:53Z"
     }
   }
 }

@@ -1,7 +1,8 @@
 {
   "checks": {
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "RUNNING",
+      "state": "FAILED",
+      "message": "uuid \"gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928\" has unknown language",
       "started": "2020-07-16T18:33:09Z",
       "created": "2020-07-16T18:33:10Z",
       "updated": "2020-07-16T18:33:10Z"

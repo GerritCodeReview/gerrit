@@ -62,6 +62,7 @@ class GerritSimulation extends Simulation {
       var in = replaceOverride(url.toString)
       in = replaceProperty("hostname", "localhost", in)
       in = replaceProperty("http_port", 8080, in)
+      in = replaceProperty("http_scheme", "http", in)
       replaceProperty("ssh_port", 29418, in)
     case ("number", number) =>
       val precedes = replaceKeyWith("_number", 0, number.toString)

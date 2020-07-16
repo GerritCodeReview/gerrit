@@ -1,5 +1,5 @@
 [
   {
-    "url": "http://HOSTNAME:HTTP_PORT/a/projects/PROJECT/delete-project~delete"
+    "url": "HTTP_SCHEME://HOSTNAME:HTTP_PORT/a/projects/PROJECT/delete-project~delete"
   }
 ]

@@ -4,7 +4,7 @@
     "cmd": "clone"
   },
   {
-    "url": "http://HOSTNAME:HTTP_PORT/_PROJECT",
+    "url": "HTTP_SCHEME://HOSTNAME:HTTP_PORT/_PROJECT",
     "cmd": "clone"
   }
 ]

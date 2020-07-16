@@ -21,7 +21,7 @@ import static com.google.gerrit.server.permissions.DefaultPermissionMappings.plu
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.common.data.PermissionRange;
+import com.google.gerrit.entities.PermissionRange;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.api.access.PluginPermission;
 import com.google.gerrit.extensions.config.CapabilityDefinition;

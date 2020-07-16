@@ -12,6 +12,7 @@ junit_tests(
         "//java/com/google/gerrit/server/cache/testing",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
+        "//lib:jgit",
         "//lib:protobuf",
         "//lib/truth",
         "//lib/truth:truth-proto-extension",

@@ -2,8 +2,8 @@
 
 package gerrit;
 
-import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.entities.LabelType;
+import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.StoredValues;

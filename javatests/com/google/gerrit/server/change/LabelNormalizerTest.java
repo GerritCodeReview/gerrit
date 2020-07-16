@@ -15,7 +15,7 @@
 package com.google.gerrit.server.change;
 
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
-import static com.google.gerrit.common.data.Permission.forLabel;
+import static com.google.gerrit.entities.Permission.forLabel;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
@@ -23,11 +23,11 @@ import static org.junit.Assert.assertEquals;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
-import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.common.ChangeInfo;

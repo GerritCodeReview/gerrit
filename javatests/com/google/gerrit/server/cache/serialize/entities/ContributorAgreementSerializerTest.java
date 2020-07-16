@@ -19,9 +19,9 @@ import static com.google.gerrit.server.cache.serialize.entities.ContributorAgree
 import static com.google.gerrit.server.cache.serialize.entities.ContributorAgreementSerializer.serialize;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.common.data.ContributorAgreement;
-import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.entities.ContributorAgreement;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.PermissionRule;
 import org.junit.Test;
 
 public class ContributorAgreementSerializerTest {

@@ -16,8 +16,8 @@ package com.google.gerrit.server.rules;
 
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
-import com.google.gerrit.common.data.SubmitRecord;
-import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;

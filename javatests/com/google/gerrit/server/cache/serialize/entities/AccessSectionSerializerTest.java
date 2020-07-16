@@ -18,17 +18,18 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.cache.serialize.entities.AccessSectionSerializer.deserialize;
 import static com.google.gerrit.server.cache.serialize.entities.AccessSectionSerializer.serialize;
 
-import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.entities.AccessSection;
 import org.junit.Test;
 
 public class AccessSectionSerializerTest {
+  static final AccessSection ALL_VALUES_SET =
+      AccessSection.builder("refs/test")
+          .addPermission(PermissionSerializerTest.ALL_VALUES_SET.toBuilder())
+          .build();
+
   @Test
   public void roundTrip() {
-    AccessSection autoValue =
-        AccessSection.builder("refs/test")
-            .addPermission(PermissionSerializerTest.ALL_VALUES_SET.toBuilder())
-            .build();
-    assertThat(deserialize(serialize(autoValue))).isEqualTo(autoValue);
+    assertThat(deserialize(serialize(ALL_VALUES_SET))).isEqualTo(ALL_VALUES_SET);
   }
 
   @Test

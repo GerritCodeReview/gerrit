@@ -23,11 +23,12 @@ import com.google.gerrit.entities.GroupReference;
 import org.junit.Test;
 
 public class GroupReferenceSerializerTest {
+  static final GroupReference ALL_VALUES_SET =
+      GroupReference.create(AccountGroup.uuid("uuid"), "name");
+
   @Test
   public void roundTrip() {
-    GroupReference groupReferenceAutoValue =
-        GroupReference.create(AccountGroup.uuid("uuid"), "name");
-    assertThat(deserialize(serialize(groupReferenceAutoValue))).isEqualTo(groupReferenceAutoValue);
+    assertThat(deserialize(serialize(ALL_VALUES_SET))).isEqualTo(ALL_VALUES_SET);
   }
 
   @Test

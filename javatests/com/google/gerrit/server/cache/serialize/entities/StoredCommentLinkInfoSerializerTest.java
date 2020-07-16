@@ -22,15 +22,16 @@ import com.google.gerrit.entities.StoredCommentLinkInfo;
 import org.junit.Test;
 
 public class StoredCommentLinkInfoSerializerTest {
+  static final StoredCommentLinkInfo HTML_ONLY =
+      StoredCommentLinkInfo.builder("name")
+          .setEnabled(true)
+          .setHtml("<p>html")
+          .setMatch("*")
+          .build();
+
   @Test
   public void htmlOnly_roundTrip() {
-    StoredCommentLinkInfo autoValue =
-        StoredCommentLinkInfo.builder("name")
-            .setEnabled(true)
-            .setHtml("<p>html")
-            .setMatch("*")
-            .build();
-    assertThat(deserialize(serialize(autoValue))).isEqualTo(autoValue);
+    assertThat(deserialize(serialize(HTML_ONLY))).isEqualTo(HTML_ONLY);
   }
 
   @Test

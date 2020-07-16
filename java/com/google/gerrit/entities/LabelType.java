@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common.data;
+package com.google.gerrit.entities;
 
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
@@ -21,9 +21,6 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.entities.LabelId;
-import com.google.gerrit.entities.LabelValue;
-import com.google.gerrit.entities.PatchSetApproval;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

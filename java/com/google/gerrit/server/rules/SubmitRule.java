@@ -13,7 +13,7 @@
 // limitations under the License.
 package com.google.gerrit.server.rules;
 
-import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.server.query.change.ChangeData;
 import java.util.Optional;

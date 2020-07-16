@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "275eb0ad_c93f9559",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-16T09:00:38Z",
+      "side": 1,
+      "message": "is ready to submit ? or you want to wait after the discussion on ts conventions ?",
+      "revId": "89a6b77aba6e5b7a0c7ae8c54afdb6265b266546",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

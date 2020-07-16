@@ -25,6 +25,7 @@ import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.BranchOrderSection;
+import com.google.gerrit.entities.ConfiguredMimeTypes;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.NotifyConfig;
 import com.google.gerrit.entities.Project;

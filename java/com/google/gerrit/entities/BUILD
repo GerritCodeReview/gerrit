@@ -16,6 +16,7 @@ java_library(
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/errorprone:annotations",
+        "//lib/flogger:api",
         "//proto:cache_java_proto",
         "//proto:entities_java_proto",
     ],

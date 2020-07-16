@@ -91,6 +91,24 @@
     },
     {
       "key": {
+        "uuid": "4cc50aa6_eeba0792",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-07-16T17:08:02Z",
+      "side": 1,
+      "message": "\u003e Thanks for your input!\n\nPerhaps I feel stronger about this now than I did when I put thoughts into writing above, but I think the general theme of mine and Martin\u0027s input was missed. The idea of a \"robot account\" is not one I/we support. Gerrit has a wonderful system where accounts are differentiated by what permissions/capabilities they have. We should continue to grow and empower that system. Doing otherwise should require some extraordinary justification.\n\n[snip]\n\n\u003e \n\u003e I do think that we shouldn\u0027t use groups to flag-gate features, especially not on a fine-grained level. Making a distinction between humans and bots is the most I would want to do here because it really complicates behavior and debugging. If someone shouldn\u0027t be allowed to use a feature, that should be expressed with permissions.\n\nI think this hits it on the head. If you are looking to express permissions (and it sounds like you are) then use permissions? Those already \"just work\" with groups, so this discussion becomes trivial. If we take the Non-Interactive Users group as a case study, if instead we had a permission that restricts the number of threads a user can run it would be SO useful. Then I could set different groups to have different threads. Amazing. (Pretty sure people have wanted this in Gerrit for years now). Even if you just went for 1:1 with current functionality, a capability that you grant to group(s) that designates them as \"Batch Thread Users\" would still be much more discoverable and a more natural fit than the current feature.\n\nMagic groups are great for things like \"Registered Users\" and \"Anonymous Users\". Going beyond that they lose a lot of appeal.\n\n\u003e \n\u003e Do you have a strong preference either way?\n\nI do. I think both are poor options because neither addresses the concern of \"robot\" being a bucket that features become tied to.\n\nI\u0027m concerned adding a bit is a wheel reinvention and a \"shortcut\" past thinking about what the behaviors/features/permissions are that you want to control. Identify those permissions, make them things you can grant/deny, and I suspect you\u0027ll have all the power you need (and you\u0027ll have opened up paths for others to build upon in the future too!).",
+      "parentUuid": "4728bb6f_bd14dd42",
+      "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "23bfebdb_83de136b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

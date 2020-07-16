@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.data;
 
+import com.google.gerrit.entities.SubmitRecord;
+
 /**
- * Represents a {@link com.google.gerrit.common.data.SubmitRecord.Label} that does not depend on
- * Gerrit internal classes, to be serialized.
+ * Represents a {@link SubmitRecord.Label} that does not depend on Gerrit internal classes, to be
+ * serialized.
  */
 public class SubmitLabelAttribute {
   public String label;

@@ -12,12 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common.data;
+package com.google.gerrit.entities;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.entities.AccountGroup;
-import com.google.gerrit.entities.GroupReference;
 import org.junit.Before;
 import org.junit.Test;
 

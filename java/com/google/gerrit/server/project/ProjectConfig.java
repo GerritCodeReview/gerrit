@@ -17,7 +17,7 @@ package com.google.gerrit.server.project;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.gerrit.common.data.Permission.isPermission;
+import static com.google.gerrit.entities.Permission.isPermission;
 import static com.google.gerrit.entities.Project.DEFAULT_SUBMIT_TYPE;
 import static com.google.gerrit.server.permissions.PluginPermissionsUtil.isValidPluginPermission;
 import static java.util.Objects.requireNonNull;
@@ -28,34 +28,35 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Shorts;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
-import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.common.data.LabelFunction;
-import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.common.data.PermissionRule.Action;
-import com.google.gerrit.common.data.SubscribeSection;
+import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.AccountsSection;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchOrderSection;
+import com.google.gerrit.entities.CachedProjectConfig;
 import com.google.gerrit.entities.ConfiguredMimeTypes;
+import com.google.gerrit.entities.ContributorAgreement;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.LabelFunction;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.entities.NotifyConfig;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
+import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.PermissionRule;
+import com.google.gerrit.entities.PermissionRule.Action;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.StoredCommentLinkInfo;
+import com.google.gerrit.entities.SubscribeSection;
 import com.google.gerrit.exceptions.InvalidNameException;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
@@ -256,24 +257,27 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   /** Returns an immutable, thread-safe representation of this object that can be cached. */
   public CachedProjectConfig getCacheable() {
-    return CachedProjectConfig.builder()
-        .setProject(project)
-        .setAccountsSection(accountsSection)
-        .setGroups(ImmutableMap.copyOf(groupList.byUUID()))
-        .setAccessSections(ImmutableMap.copyOf(accessSections))
-        .setBranchOrderSection(Optional.ofNullable(branchOrderSection))
-        .setContributorAgreements(ImmutableMap.copyOf(contributorAgreements))
-        .setNotifySections(ImmutableMap.copyOf(notifySections))
-        .setLabelSections(ImmutableMap.copyOf(labelSections))
-        .setMimeTypes(mimeTypes)
-        .setSubscribeSections(ImmutableMap.copyOf(subscribeSections))
-        .setCommentLinkSections(ImmutableMap.copyOf(commentLinkSections))
-        .setRulesId(Optional.ofNullable(rulesId))
-        .setRevision(Optional.ofNullable(getRevision()))
-        .setMaxObjectSizeLimit(maxObjectSizeLimit)
-        .setCheckReceivedObjects(checkReceivedObjects)
-        .setExtensionPanelSections(extensionPanelSections)
-        .build();
+    CachedProjectConfig.Builder builder =
+        CachedProjectConfig.builder()
+            .setProject(project)
+            .setAccountsSection(accountsSection)
+            .setBranchOrderSection(Optional.ofNullable(branchOrderSection))
+            .setMimeTypes(mimeTypes)
+            .setRulesId(Optional.ofNullable(rulesId))
+            .setRevision(Optional.ofNullable(getRevision()))
+            .setMaxObjectSizeLimit(maxObjectSizeLimit)
+            .setCheckReceivedObjects(checkReceivedObjects)
+            .setExtensionPanelSections(extensionPanelSections);
+
+    groupList.byUUID().values().forEach(g -> builder.addGroup(g));
+    accessSections.values().forEach(a -> builder.addAccessSection(a));
+    contributorAgreements.values().forEach(c -> builder.addContributorAgreement(c));
+    notifySections.values().forEach(n -> builder.addNotifySection(n));
+    subscribeSections.values().forEach(s -> builder.addSubscribeSection(s));
+    commentLinkSections.values().forEach(c -> builder.addCommentLinkSection(c));
+    labelSections.values().forEach(l -> builder.addLabelSection(l));
+
+    return builder.build();
   }
 
   public static StoredCommentLinkInfo buildCommentLink(Config cfg, String name, boolean allowRaw)

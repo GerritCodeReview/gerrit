@@ -26,26 +26,25 @@ import com.google.gerrit.extensions.client.SubmitType;
 import org.junit.Test;
 
 public class ProjectSerializerTest {
+  static final Project ALL_VALUES_SET =
+      Project.builder(Project.nameKey("test"))
+          .setDescription("desc")
+          .setSubmitType(SubmitType.FAST_FORWARD_ONLY)
+          .setState(ProjectState.HIDDEN)
+          .setParent(Project.nameKey("parent"))
+          .setMaxObjectSizeLimit("11K")
+          .setDefaultDashboard("dashboard1")
+          .setLocalDefaultDashboard("dashboard2")
+          .setConfigRefState("1337")
+          .setBooleanConfig(BooleanProjectConfig.ENABLE_REVIEWER_BY_EMAIL, InheritableBoolean.TRUE)
+          .setBooleanConfig(
+              BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,
+              InheritableBoolean.INHERIT)
+          .build();
+
   @Test
   public void roundTrip() {
-    Project projectAutoValue =
-        Project.builder(Project.nameKey("test"))
-            .setDescription("desc")
-            .setSubmitType(SubmitType.FAST_FORWARD_ONLY)
-            .setState(ProjectState.HIDDEN)
-            .setParent(Project.nameKey("parent"))
-            .setMaxObjectSizeLimit("11K")
-            .setDefaultDashboard("dashboard1")
-            .setLocalDefaultDashboard("dashboard2")
-            .setConfigRefState("1337")
-            .setBooleanConfig(
-                BooleanProjectConfig.ENABLE_REVIEWER_BY_EMAIL, InheritableBoolean.TRUE)
-            .setBooleanConfig(
-                BooleanProjectConfig.CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET,
-                InheritableBoolean.INHERIT)
-            .build();
-
-    assertThat(deserialize(serialize(projectAutoValue))).isEqualTo(projectAutoValue);
+    assertThat(deserialize(serialize(ALL_VALUES_SET))).isEqualTo(ALL_VALUES_SET);
   }
 
   @Test

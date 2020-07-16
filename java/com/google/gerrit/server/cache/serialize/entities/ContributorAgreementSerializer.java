@@ -18,7 +18,7 @@ import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.base.Strings.nullToEmpty;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
-import com.google.gerrit.common.data.ContributorAgreement;
+import com.google.gerrit.entities.ContributorAgreement;
 import com.google.gerrit.server.cache.proto.Cache;
 
 /** Helper to (de)serialize values for caches. */

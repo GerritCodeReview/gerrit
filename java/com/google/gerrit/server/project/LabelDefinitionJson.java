@@ -16,7 +16,7 @@ package com.google.gerrit.server.project;
 
 import static java.util.stream.Collectors.toMap;
 
-import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;

@@ -19,7 +19,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.data.ContributorAgreement;
+import com.google.gerrit.entities.ContributorAgreement;
 import com.google.gerrit.extensions.common.AccountDefaultDisplayName;
 import com.google.gerrit.extensions.common.AccountsInfo;
 import com.google.gerrit.extensions.common.AuthInfo;

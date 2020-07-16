@@ -15,7 +15,7 @@
 package com.google.gerrit.server.restapi.config;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.data.ContributorAgreement;
+import com.google.gerrit.entities.ContributorAgreement;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.exceptions.StorageException;

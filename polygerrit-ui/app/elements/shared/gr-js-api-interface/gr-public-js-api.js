@@ -16,6 +16,7 @@
  */
 
 import {getBaseUrl} from '../../../utils/url-util.js';
+import {getSharedApiEl} from '../../../utils/dom-util.js';
 import {GrAttributeHelper} from '../../plugins/gr-attribute-helper/gr-attribute-helper.js';
 import {GrChangeActionsInterface} from './gr-change-actions-js-api.js';
 import {GrChangeReplyInterface} from './gr-change-reply-js-api.js';
@@ -32,14 +33,12 @@ import {GrSettingsApi} from '../../plugins/gr-settings-api/gr-settings-api.js';
 import {GrStylesApi} from '../../plugins/gr-styles-api/gr-styles-api.js';
 import {GrPluginActionContext} from './gr-plugin-action-context.js';
 import {pluginEndpoints} from './gr-plugin-endpoints.js';
-import {sharedApiElement} from './gr-js-api-interface-element.js';
 
 import {
   PRELOADED_PROTOCOL,
   getPluginNameFromUrl,
   send,
 } from './gr-api-utils.js';
-import {deprecatedDelete} from './gr-gerrit.js';
 
 const PANEL_ENDPOINTS_MAPPING = {
   CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK: 'change-view-integration',
@@ -85,6 +84,7 @@ export class Plugin {
 
     this._url = new URL(opt_url);
     this._name = getPluginNameFromUrl(this._url);
+    this.sharedApiElement = getSharedApiEl();
   }
 
   getPluginName() {
@@ -163,7 +163,7 @@ export class Plugin {
   }
 
   on(eventName, callback) {
-    sharedApiElement.addEventCallback(eventName, callback);
+    this.sharedApiElement.addEventCallback(eventName, callback);
   }
 
   url(opt_path) {
@@ -210,7 +210,15 @@ export class Plugin {
   }
 
   delete(url, opt_callback) {
-    return deprecatedDelete(this.url(url), opt_callback);
+    console.warn('.delete() is deprecated! Use plugin.restApi().delete()');
+    return this.restApi()
+        .delete(this.url(url))
+        .then(res => {
+          if (opt_callback) {
+            opt_callback(res);
+          }
+          return res;
+        });
   }
 
   annotationApi() {
@@ -220,14 +228,14 @@ export class Plugin {
   changeActions() {
     return new GrChangeActionsInterface(
         this,
-        sharedApiElement.getElement(
-            sharedApiElement.Element.CHANGE_ACTIONS
+        this.sharedApiElement.getElement(
+            this.sharedApiElement.Element.CHANGE_ACTIONS
         )
     );
   }
 
   changeReply() {
-    return new GrChangeReplyInterface(this);
+    return new GrChangeReplyInterface(this, this.sharedApiElement);
   }
 
   theme() {

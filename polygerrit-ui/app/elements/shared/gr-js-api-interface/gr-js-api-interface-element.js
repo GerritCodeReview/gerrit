@@ -327,6 +327,3 @@ class GrJsApiInterface extends GestureEventListeners(
 }
 
 customElements.define(GrJsApiInterface.is, GrJsApiInterface);
-
-// The shared api element used across components
-export const sharedApiElement = document.createElement('gr-js-api-interface');

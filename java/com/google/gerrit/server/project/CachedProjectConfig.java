@@ -29,6 +29,7 @@ import com.google.gerrit.entities.ConfiguredMimeTypes;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.NotifyConfig;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.StoredCommentLinkInfo;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;

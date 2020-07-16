@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.project;
+package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
+import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -34,7 +35,7 @@ public abstract class ConfiguredMimeTypes {
 
   protected abstract ImmutableList<TypeMatcher> matchers();
 
-  static ConfiguredMimeTypes create(String projectName, Config rc) {
+  public static ConfiguredMimeTypes create(String projectName, Config rc) {
     Set<String> types = rc.getSubsections(MIMETYPE);
     ImmutableList.Builder<TypeMatcher> matchers = ImmutableList.builder();
     if (!types.isEmpty()) {
@@ -67,21 +68,33 @@ public abstract class ConfiguredMimeTypes {
     return null;
   }
 
-  protected abstract static class TypeMatcher {
+  public abstract static class TypeMatcher {
     private final String type;
+    private final String pattern;
 
-    private TypeMatcher(String type) {
+    private TypeMatcher(String type, String pattern) {
       this.type = type;
+      this.pattern = pattern;
     }
+
+    public String getPattern() {
+      return pattern;
+    }
+
+    public String getType() {
+      return type;
+    }
+
+    public abstract boolean matchesRegularExpression();
 
     protected abstract boolean matches(String path);
   }
 
-  protected static class FnType extends TypeMatcher {
+  public static class FnType extends TypeMatcher {
     private final FileNameMatcher matcher;
 
-    private FnType(String type, String pattern) throws InvalidPatternException {
-      super(type);
+    public FnType(String type, String pattern) throws InvalidPatternException {
+      super(type, pattern);
       this.matcher = new FileNameMatcher(pattern, null);
     }
 
@@ -91,19 +104,59 @@ public abstract class ConfiguredMimeTypes {
       m.append(input);
       return m.isMatch();
     }
+
+    @Override
+    public boolean matchesRegularExpression() {
+      return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (!(o instanceof FnType)) {
+        return false;
+      }
+      FnType other = (FnType) o;
+      return Objects.equals(other.getType(), getType())
+          && Objects.equals(other.getPattern(), getPattern());
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(getType(), getPattern());
+    }
   }
 
-  protected static class ReType extends TypeMatcher {
+  public static class ReType extends TypeMatcher {
     private final Pattern re;
 
-    private ReType(String type, String pattern) throws PatternSyntaxException {
-      super(type);
+    public ReType(String type, String pattern) throws PatternSyntaxException {
+      super(type, pattern);
       this.re = Pattern.compile(pattern);
     }
 
     @Override
     protected boolean matches(String input) {
       return re.matcher(input).matches();
+    }
+
+    @Override
+    public boolean matchesRegularExpression() {
+      return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (!(o instanceof ReType)) {
+        return false;
+      }
+      ReType other = (ReType) o;
+      return Objects.equals(other.getType(), getType())
+          && Objects.equals(other.getPattern(), getPattern());
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(getType(), getPattern());
     }
   }
 }

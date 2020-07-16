@@ -23,12 +23,12 @@ import static com.google.gerrit.server.schema.AclUtil.grant;
 import static com.google.gerrit.server.schema.AclUtil.rule;
 
 import com.google.gerrit.common.Version;
-import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRule.Action;
+import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.LabelType;
+import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.PermissionRule.Action;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllProjectsName;

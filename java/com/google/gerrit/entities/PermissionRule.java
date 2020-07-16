@@ -12,10 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common.data;
+package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
-import com.google.gerrit.entities.GroupReference;
 
 @AutoValue
 public abstract class PermissionRule implements Comparable<PermissionRule> {

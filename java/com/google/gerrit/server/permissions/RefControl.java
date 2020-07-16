@@ -17,11 +17,11 @@ package com.google.gerrit.server.permissions;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRange;
-import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.PermissionRange;
+import com.google.gerrit.entities.PermissionRule;
+import com.google.gerrit.entities.PermissionRule.Action;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;

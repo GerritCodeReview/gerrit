@@ -19,7 +19,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
 
-/** Describes a group within a projects {@link com.google.gerrit.common.data.AccessSection}s. */
+/** Describes a group within a projects {@link AccessSection}s. */
 @AutoValue
 public abstract class GroupReference implements Comparable<GroupReference> {
 

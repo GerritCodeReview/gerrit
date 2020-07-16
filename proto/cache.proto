@@ -463,3 +463,29 @@ message StoredCommentLinkInfoProto {
   bool enabled = 5;
   bool override_only = 6;
 }
+
+// Serialized form of com.google.gerrit.entities.CachedProjectConfigProto.
+// Next ID: 17
+message CachedProjectConfigProto {
+  ProjectProto project = 1;
+  repeated GroupReferenceProto group_list = 2;
+  repeated PermissionRuleProto accounts_section = 3;
+  repeated AccessSectionProto access_sections = 4;
+  BranchOrderSectionProto branch_order_section = 5;
+  repeated ContributorAgreementProto contributor_agreements = 6;
+  repeated NotifyConfigProto notify_configs = 7;
+  repeated LabelTypeProto label_sections = 8;
+  repeated ConfiguredMimeTypeProto mime_types = 9;
+  repeated SubscribeSectionProto subscribe_sections = 10;
+  repeated StoredCommentLinkInfoProto comment_links = 11;
+  bytes rules_id = 12;
+  bytes revision = 13;
+  int64 max_object_size_limit = 14;
+  bool check_received_objects = 15;
+  map<string, ExtensionPanelSectionProto> extension_panels = 16;
+
+  // Next ID: 2
+  message ExtensionPanelSectionProto {
+    repeated string section = 1;
+  }
+}

@@ -11,6 +11,7 @@ java_library(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/git",
         "//java/com/google/gerrit/proto",
+        "//java/com/google/gerrit/server/cache/serialize",
         "//lib:guava",
         "//lib:jgit",
         "//lib:protobuf",

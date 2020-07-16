@@ -18,13 +18,13 @@ import static com.google.gerrit.entities.LabelValue.formatValue;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.LabelTypes;
-import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
+import com.google.gerrit.entities.LabelType;
+import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
+import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.ApprovalsUtil;

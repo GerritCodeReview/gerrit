@@ -23,10 +23,10 @@ import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil
 import static com.google.gerrit.truth.ConfigSubject.assertThat;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.server.GerritPersonIdent;

@@ -16,10 +16,10 @@ package com.google.gerrit.server.restapi.project;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Shorts;
-import com.google.gerrit.common.data.LabelFunction;
-import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.entities.LabelFunction;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
+import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.InvalidNameException;
 import com.google.gerrit.extensions.restapi.BadRequestException;

@@ -15,18 +15,18 @@
 package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.common.data.AccessSection.ALL;
-import static com.google.gerrit.common.data.AccessSection.REGEX_PREFIX;
+import static com.google.gerrit.entities.AccessSection.ALL;
+import static com.google.gerrit.entities.AccessSection.REGEX_PREFIX;
 import static com.google.gerrit.entities.RefNames.REFS_TAGS;
 import static com.google.gerrit.server.util.MagicBranch.NEW_CHANGE;
 
 import com.google.common.collect.Sets;
-import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;

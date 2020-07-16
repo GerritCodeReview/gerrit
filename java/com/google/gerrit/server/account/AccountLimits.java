@@ -15,8 +15,8 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.common.data.PermissionRange;
-import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.entities.PermissionRange;
+import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.index.query.QueryProcessor;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.QueueProvider;

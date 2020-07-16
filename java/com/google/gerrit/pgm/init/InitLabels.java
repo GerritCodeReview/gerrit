@@ -14,7 +14,7 @@
 
 package com.google.gerrit.pgm.init;
 
-import static com.google.gerrit.common.data.LabelFunction.MAX_WITH_BLOCK;
+import static com.google.gerrit.entities.LabelFunction.MAX_WITH_BLOCK;
 
 import com.google.gerrit.pgm.init.api.AllProjectsConfig;
 import com.google.gerrit.pgm.init.api.ConsoleUI;

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.permissions;
 
-import static com.google.gerrit.common.data.PermissionRule.Action.BLOCK;
+import static com.google.gerrit.entities.PermissionRule.Action.BLOCK;
 import static com.google.gerrit.server.project.RefPattern.containsParameters;
 import static com.google.gerrit.server.project.RefPattern.isRE;
 import static java.util.stream.Collectors.mapping;
@@ -23,11 +23,11 @@ import static java.util.stream.Collectors.toList;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.common.data.PermissionRule.Action;
+import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.PermissionRule;
+import com.google.gerrit.entities.PermissionRule.Action;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;

@@ -20,11 +20,11 @@ import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 import static java.util.concurrent.TimeUnit.MINUTES;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.index.query.Predicate;

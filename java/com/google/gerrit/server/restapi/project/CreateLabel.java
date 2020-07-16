@@ -15,8 +15,8 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.common.data.LabelFunction;
-import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.entities.LabelFunction;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.LabelDefinitionInput;

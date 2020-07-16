@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.cache.serialize.entities;
 
-import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.SubscribeSection;
 import com.google.gerrit.server.cache.proto.Cache;
 
 /** Helper to (de)serialize values for caches. */

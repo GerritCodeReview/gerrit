@@ -16,8 +16,8 @@ package com.google.gerrit.server.query.change;
 
 import static java.util.stream.Collectors.toList;
 
-import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.index.change.ChangeField;
 import java.util.Set;

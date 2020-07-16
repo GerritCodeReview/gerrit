@@ -16,10 +16,10 @@ package com.google.gerrit.server.mail.send;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
-import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.LabelType;
+import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.PatchSetApproval;

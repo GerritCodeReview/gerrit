@@ -16,8 +16,8 @@ package com.google.gerrit.server.cache.serialize.entities;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
-import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.entities.AccessSection;
+import com.google.gerrit.entities.Permission;
 import com.google.gerrit.server.cache.proto.Cache;
 
 /** Helper to (de)serialize values for caches. */

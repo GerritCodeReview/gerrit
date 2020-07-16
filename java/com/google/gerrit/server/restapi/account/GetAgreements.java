@@ -15,10 +15,10 @@
 package com.google.gerrit.server.restapi.account;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.data.ContributorAgreement;
-import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.ContributorAgreement;
+import com.google.gerrit.entities.PermissionRule;
+import com.google.gerrit.entities.PermissionRule.Action;
 import com.google.gerrit.extensions.common.AgreementInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;

@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.project.testing;
 
-import com.google.gerrit.common.data.LabelFunction;
-import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.entities.LabelFunction;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
 import java.util.Arrays;
 

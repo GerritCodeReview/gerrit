@@ -18,12 +18,12 @@ import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.CachedProjectConfig;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.DefaultQueueOp;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
-import com.google.gerrit.server.project.CachedProjectConfig;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;

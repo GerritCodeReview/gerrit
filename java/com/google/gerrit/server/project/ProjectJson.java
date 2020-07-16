@@ -19,7 +19,7 @@ import static java.util.stream.Collectors.toMap;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.LabelTypeInfo;

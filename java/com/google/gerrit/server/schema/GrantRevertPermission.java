@@ -18,9 +18,9 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.server.schema.AclUtil.grant;
 import static com.google.gerrit.server.schema.AclUtil.remove;
 
-import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;

@@ -24,7 +24,7 @@ import com.google.gerrit.acceptance.ChangeIndexedCounter;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
-import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.entities.Permission;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.server.restapi.config.IndexChanges;
 import com.google.inject.Inject;

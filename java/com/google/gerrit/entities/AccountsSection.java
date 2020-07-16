@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2010 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,16 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.data;
+package com.google.gerrit.entities;
 
-import com.google.gerrit.entities.SubmitRecord;
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
+import java.util.List;
 
-/**
- * Represents a {@link SubmitRecord.Label} that does not depend on Gerrit internal classes, to be
- * serialized.
- */
-public class SubmitLabelAttribute {
-  public String label;
-  public String status;
-  public AccountAttribute by;
+@AutoValue
+public abstract class AccountsSection {
+  public abstract ImmutableList<PermissionRule> getSameGroupVisibility();
+
+  public static AccountsSection create(List<PermissionRule> sameGroupVisibility) {
+    return new AutoValue_AccountsSection(ImmutableList.copyOf(sameGroupVisibility));
+  }
 }

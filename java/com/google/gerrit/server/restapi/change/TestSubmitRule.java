@@ -15,7 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.MoreObjects;
-import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInput;

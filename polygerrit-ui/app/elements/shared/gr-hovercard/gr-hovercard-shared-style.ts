@@ -22,8 +22,7 @@ export {};
 
 /** The shared styles for all hover cards. */
 const GrHoverCardSharedStyle = document.createElement('dom-module');
-GrHoverCardSharedStyle.innerHTML =
-  `<template>
+GrHoverCardSharedStyle.innerHTML = `<template>
     <style include="shared-styles">
       :host {
         position: absolute;

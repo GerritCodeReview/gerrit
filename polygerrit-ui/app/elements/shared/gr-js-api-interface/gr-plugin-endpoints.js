@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-import {pluginLoader} from './gr-plugin-loader.js';
 import {importHref} from '../../../scripts/import-href.js';
 
 /** @constructor */
@@ -25,6 +24,11 @@ export class GrPluginEndpoints {
     this._callbacks = {};
     this._dynamicPlugins = {};
     this._importedUrls = new Set();
+    this._pluginLoaded = false;
+  }
+
+  setPluginsReady() {
+    this._pluginLoaded = true;
   }
 
   onNewEndpoint(endpoint, callback) {
@@ -89,7 +93,12 @@ export class GrPluginEndpoints {
       this._endpoints[endpoint] = [];
     }
     const moduleInfo = this._getOrCreateModuleInfo(plugin, opts);
-    if (pluginLoader.arePluginsLoaded() && this._callbacks[endpoint]) {
+    // TODO: the logic below seems wrong when:
+    // multiple plugins register to the same endpoint
+    // one register before plugins ready
+    // the other done after, then only the later one will have the callbacks
+    // invoked.
+    if (this._pluginLoaded && this._callbacks[endpoint]) {
       this._callbacks[endpoint].forEach(callback => callback(moduleInfo));
     }
   }

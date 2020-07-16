@@ -158,8 +158,11 @@ suite('gr-js-api-interface tests', () => {
     const response = {status: 204};
     sendStub.returns(Promise.resolve(response));
     return plugin.delete('/url', r => {
-      assert.isTrue(sendStub.calledWithExactly(
-          'DELETE', 'http://test.com/plugins/testplugin/url'));
+      assert.equal(sendStub.lastCall.args[0], 'DELETE');
+      assert.equal(
+          sendStub.lastCall.args[1],
+          'http://test.com/plugins/testplugin/url'
+      );
       assert.strictEqual(r, response);
     });
   });
@@ -170,8 +173,11 @@ suite('gr-js-api-interface tests', () => {
     return plugin.delete('/url', r => {
       throw new Error('Should not resolve');
     }).catch(err => {
-      assert.isTrue(sendStub.calledWith(
-          'DELETE', 'http://test.com/plugins/testplugin/url'));
+      assert.equal(sendStub.lastCall.args[0], 'DELETE');
+      assert.equal(
+          sendStub.lastCall.args[1],
+          'http://test.com/plugins/testplugin/url'
+      );
       assert.equal('text', err.message);
     });
   });

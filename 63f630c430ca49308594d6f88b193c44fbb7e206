@@ -34,6 +34,24 @@
       "revId": "63f630c430ca49308594d6f88b193c44fbb7e206",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3245522e_fb7f3838",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-16T08:04:01Z",
+      "side": 1,
+      "message": "a bit different. Since the all the inputs won\u0027t change, I would imagine you just call the method with no input, so something like this for your `_handleNewSectionLoaded` or rename to `_computeHidden`\n```\n_computeHidden() {\n    if (!this.hidden) return;\n\n    // None of the built-in change lists had elements. So all of them are\n    // hidden. But since plugins might have injected visible content, we need\n    // to check for that and stay visible if we find any such visible content.\n    // (We consider plugins visible except if it\u0027s main element has the hidden\n    // attribute set to true.)\n    const plugins \u003d pluginEndpoints.getDetails(\u0027related-changes-section\u0027);\n    this.hidden \u003d !(plugins.some(plugin \u003d\u003e (\n      (!plugin.domHook)\n        || plugin.domHook.getAllAttached().some(\n            instance \u003d\u003e !instance.hidden))));\n}\n```\n\nand you can just call this in the end of `_resultsChanged`. Will that work for you ?",
+      "parentUuid": "e6eecab2_16c45391",
+      "revId": "63f630c430ca49308594d6f88b193c44fbb7e206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

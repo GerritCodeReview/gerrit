@@ -21,7 +21,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.LightweightPluginDaemonTest;
 import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.acceptance.rest.CreateTestPlugin.Input;
-import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.extensions.api.access.AccessSectionInfo;
 import com.google.gerrit.extensions.api.access.PermissionInfo;
 import com.google.gerrit.extensions.api.access.PermissionRuleInfo;

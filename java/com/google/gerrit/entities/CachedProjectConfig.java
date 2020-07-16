@@ -12,24 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.project;
+package com.google.gerrit.entities;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.ContributorAgreement;
-import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.SubscribeSection;
-import com.google.gerrit.entities.AccountGroup;
-import com.google.gerrit.entities.BranchNameKey;
-import com.google.gerrit.entities.BranchOrderSection;
-import com.google.gerrit.entities.ConfiguredMimeTypes;
-import com.google.gerrit.entities.GroupReference;
-import com.google.gerrit.entities.NotifyConfig;
-import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.StoredCommentLinkInfo;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +25,8 @@ import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
- * Cached representation of values parsed from {@link ProjectConfig}.
+ * Cached representation of values parsed from {@link
+ * com.google.gerrit.server.project.ProjectConfig}.
  *
  * <p>This class is immutable and thread-safe.
  */
@@ -53,8 +42,8 @@ public abstract class CachedProjectConfig {
   }
 
   /**
-   * Returns the group reference for a {@link com.google.gerrit.entities.AccountGroup.UUID}, if the
-   * group is used by at least one rule.
+   * Returns the group reference for a {@link AccountGroup.UUID}, if the group is used by at least
+   * one rule.
    */
   public Optional<GroupReference> getGroup(AccountGroup.UUID uuid) {
     return Optional.ofNullable(getGroups().get(uuid));
@@ -93,10 +82,7 @@ public abstract class CachedProjectConfig {
   /** Returns configured {@link ConfiguredMimeTypes}s. */
   public abstract ConfiguredMimeTypes getMimeTypes();
 
-  /**
-   * Returns {@link SubscribeSection} keyed by the {@link
-   * com.google.gerrit.entities.Project.NameKey} they reference.
-   */
+  /** Returns {@link SubscribeSection} keyed by the {@link Project.NameKey} they reference. */
   public abstract ImmutableMap<Project.NameKey, SubscribeSection> getSubscribeSections();
 
   /** Returns {@link StoredCommentLinkInfo} keyed by their name. */
@@ -126,32 +112,52 @@ public abstract class CachedProjectConfig {
     return new AutoValue_CachedProjectConfig.Builder();
   }
 
+  public abstract Builder toBuilder();
+
   @AutoValue.Builder
   public abstract static class Builder {
     public abstract Builder setProject(Project value);
 
-    public abstract Builder setGroups(ImmutableMap<AccountGroup.UUID, GroupReference> value);
-
     public abstract Builder setAccountsSection(AccountsSection value);
-
-    public abstract Builder setAccessSections(ImmutableMap<String, AccessSection> value);
 
     public abstract Builder setBranchOrderSection(Optional<BranchOrderSection> value);
 
-    public abstract Builder setContributorAgreements(
-        ImmutableMap<String, ContributorAgreement> value);
+    public Builder addGroup(GroupReference groupReference) {
+      groupsBuilder().put(groupReference.getUUID(), groupReference);
+      return this;
+    }
 
-    public abstract Builder setNotifySections(ImmutableMap<String, NotifyConfig> value);
+    public Builder addAccessSection(AccessSection accessSection) {
+      accessSectionsBuilder().put(accessSection.getName(), accessSection);
+      return this;
+    }
 
-    public abstract Builder setLabelSections(ImmutableMap<String, LabelType> value);
+    public Builder addContributorAgreement(ContributorAgreement contributorAgreement) {
+      contributorAgreementsBuilder().put(contributorAgreement.getName(), contributorAgreement);
+      return this;
+    }
+
+    public Builder addNotifySection(NotifyConfig notifyConfig) {
+      notifySectionsBuilder().put(notifyConfig.getName(), notifyConfig);
+      return this;
+    }
+
+    public Builder addLabelSection(LabelType labelType) {
+      labelSectionsBuilder().put(labelType.getName(), labelType);
+      return this;
+    }
 
     public abstract Builder setMimeTypes(ConfiguredMimeTypes value);
 
-    public abstract Builder setSubscribeSections(
-        ImmutableMap<Project.NameKey, SubscribeSection> value);
+    public Builder addSubscribeSection(SubscribeSection subscribeSection) {
+      subscribeSectionsBuilder().put(subscribeSection.project(), subscribeSection);
+      return this;
+    }
 
-    public abstract Builder setCommentLinkSections(
-        ImmutableMap<String, StoredCommentLinkInfo> value);
+    public Builder addCommentLinkSection(StoredCommentLinkInfo storedCommentLinkInfo) {
+      commentLinkSectionsBuilder().put(storedCommentLinkInfo.getName(), storedCommentLinkInfo);
+      return this;
+    }
 
     public abstract Builder setRulesId(Optional<ObjectId> value);
 
@@ -161,16 +167,37 @@ public abstract class CachedProjectConfig {
 
     public abstract Builder setCheckReceivedObjects(boolean value);
 
-    public abstract Builder setExtensionPanelSections(
-        ImmutableMap<String, ImmutableList<String>> value);
+    public abstract ImmutableMap.Builder<String, ImmutableList<String>>
+        extensionPanelSectionsBuilder();
 
     public Builder setExtensionPanelSections(Map<String, List<String>> value) {
-      ImmutableMap.Builder<String, ImmutableList<String>> b = ImmutableMap.builder();
-      value.entrySet().forEach(e -> b.put(e.getKey(), ImmutableList.copyOf(e.getValue())));
-      return setExtensionPanelSections(b.build());
+      value
+          .entrySet()
+          .forEach(
+              e ->
+                  extensionPanelSectionsBuilder()
+                      .put(e.getKey(), ImmutableList.copyOf(e.getValue())));
+      return this;
     }
 
     public abstract CachedProjectConfig build();
+
+    protected abstract ImmutableMap.Builder<AccountGroup.UUID, GroupReference> groupsBuilder();
+
+    protected abstract ImmutableMap.Builder<String, AccessSection> accessSectionsBuilder();
+
+    protected abstract ImmutableMap.Builder<String, ContributorAgreement>
+        contributorAgreementsBuilder();
+
+    protected abstract ImmutableMap.Builder<String, NotifyConfig> notifySectionsBuilder();
+
+    protected abstract ImmutableMap.Builder<String, LabelType> labelSectionsBuilder();
+
+    protected abstract ImmutableMap.Builder<Project.NameKey, SubscribeSection>
+        subscribeSectionsBuilder();
+
+    protected abstract ImmutableMap.Builder<String, StoredCommentLinkInfo>
+        commentLinkSectionsBuilder();
   }
 
   private static ImmutableList<SubscribeSection> filterSubscribeSectionsByBranch(

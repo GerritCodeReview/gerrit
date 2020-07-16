@@ -16,9 +16,9 @@ package com.google.gerrit.server;
 
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.entities.AccessSection;
+import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.events.ChangeMergedListener;
 import com.google.gerrit.server.config.AllProjectsName;

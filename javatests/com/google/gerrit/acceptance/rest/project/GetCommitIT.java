@@ -24,7 +24,7 @@ import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
-import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.entities.Permission;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.inject.Inject;
 import org.eclipse.jgit.junit.TestRepository;

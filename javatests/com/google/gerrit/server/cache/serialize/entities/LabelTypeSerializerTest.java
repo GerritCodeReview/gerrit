@@ -19,7 +19,7 @@ import static com.google.gerrit.server.cache.serialize.entities.LabelTypeSeriali
 import static com.google.gerrit.server.cache.serialize.entities.LabelTypeSerializer.serialize;
 
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelValue;
 import org.junit.Test;
 

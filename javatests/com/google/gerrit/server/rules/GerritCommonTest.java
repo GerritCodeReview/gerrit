@@ -19,7 +19,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.AbstractModule;

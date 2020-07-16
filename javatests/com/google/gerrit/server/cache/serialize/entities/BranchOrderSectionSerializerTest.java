@@ -23,9 +23,11 @@ import com.google.gerrit.entities.BranchOrderSection;
 import org.junit.Test;
 
 public class BranchOrderSectionSerializerTest {
+  static final BranchOrderSection ALL_VALUES_SET =
+      BranchOrderSection.create(ImmutableList.of("master", "stable"));
+
   @Test
   public void roundTrip() {
-    BranchOrderSection autoValue = BranchOrderSection.create(ImmutableList.of("master", "stable"));
-    assertThat(deserialize(serialize(autoValue))).isEqualTo(autoValue);
+    assertThat(deserialize(serialize(ALL_VALUES_SET))).isEqualTo(ALL_VALUES_SET);
   }
 }

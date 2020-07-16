@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common.data;
+package com.google.gerrit.entities;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
@@ -20,8 +20,6 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.entities.BranchNameKey;
-import com.google.gerrit.entities.Project;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

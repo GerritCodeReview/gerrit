@@ -21,10 +21,10 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.data.PermissionRule;
-import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.PermissionRule;
+import com.google.gerrit.entities.PermissionRule.Action;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.access.GlobalOrPluginPermission;
 import com.google.gerrit.extensions.api.access.PluginPermission;

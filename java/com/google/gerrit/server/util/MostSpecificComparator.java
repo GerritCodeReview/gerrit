@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.util;
 
-import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.server.project.RefPattern;
 import java.util.Comparator;
 import org.apache.commons.lang.StringUtils;

@@ -33,7 +33,7 @@ public abstract class ConfiguredMimeTypes {
   private static final String MIMETYPE = "mimetype";
   private static final String KEY_PATH = "path";
 
-  protected abstract ImmutableList<TypeMatcher> matchers();
+  public abstract ImmutableList<TypeMatcher> matchers();
 
   public static ConfiguredMimeTypes create(String projectName, Config rc) {
     Set<String> types = rc.getSubsections(MIMETYPE);
@@ -56,6 +56,10 @@ public abstract class ConfiguredMimeTypes {
       }
     }
     return new AutoValue_ConfiguredMimeTypes(matchers.build());
+  }
+
+  public static ConfiguredMimeTypes create(ImmutableList<TypeMatcher> matchers) {
+    return new AutoValue_ConfiguredMimeTypes(matchers);
   }
 
   @Nullable

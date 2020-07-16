@@ -34,6 +34,7 @@ public @interface UsedAt {
     GOOGLE,
     COLLABNET,
     PLUGIN_CHECKS,
+    PLUGIN_CODE_OWNERS,
     PLUGIN_DELETE_PROJECT,
     PLUGIN_SERVICEUSER,
     PLUGINS_ALL, // Use this project if a method/type is generally made available to all plugins.

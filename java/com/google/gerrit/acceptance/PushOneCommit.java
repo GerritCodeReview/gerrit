@@ -25,6 +25,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
+import com.google.gerrit.common.UsedAt.Project;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -90,6 +92,14 @@ public class PushOneCommit {
         TestRepository<?> testRepo,
         @Assisted String subject,
         @Assisted Map<String, String> files);
+
+    @UsedAt(Project.PLUGIN_CODE_OWNERS)
+    PushOneCommit create(
+        PersonIdent i,
+        TestRepository<?> testRepo,
+        @Assisted("subject") String subject,
+        @Assisted Map<String, String> files,
+        @Assisted("changeId") String changeId);
 
     PushOneCommit create(
         PersonIdent i,
@@ -227,15 +237,16 @@ public class PushOneCommit {
         changeId);
   }
 
-  private PushOneCommit(
+  @AssistedInject
+  PushOneCommit(
       ChangeNotes.Factory notesFactory,
       ApprovalsUtil approvalsUtil,
       Provider<InternalChangeQuery> queryProvider,
-      PersonIdent i,
-      TestRepository<?> testRepo,
-      String subject,
-      Map<String, String> files,
-      String changeId)
+      @Assisted PersonIdent i,
+      @Assisted TestRepository<?> testRepo,
+      @Assisted("subject") String subject,
+      @Assisted Map<String, String> files,
+      @Nullable @Assisted("changeId") String changeId)
       throws Exception {
     this.testRepo = testRepo;
     this.notesFactory = notesFactory;

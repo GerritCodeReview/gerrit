@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce02ae66_fc1990f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-16T16:14:11Z",
+      "side": 1,
+      "message": "I would like to delegate further review to Dmitrii. I will just upgrade to +2, unless he gets the +2 power before. :-)",
+      "revId": "1ea86ef89bfe5d2cf85f7c750c14bc1852a486ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

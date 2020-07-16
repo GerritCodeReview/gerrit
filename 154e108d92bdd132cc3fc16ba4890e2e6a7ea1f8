@@ -94,6 +94,23 @@
       "revId": "154e108d92bdd132cc3fc16ba4890e2e6a7ea1f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c7f85f8e_46069d0a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-16T16:14:11Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "154e108d92bdd132cc3fc16ba4890e2e6a7ea1f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

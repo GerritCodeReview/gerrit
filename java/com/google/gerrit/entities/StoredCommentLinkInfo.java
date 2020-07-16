@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.project;
+package com.google.gerrit.entities;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -68,7 +68,7 @@ public abstract class StoredCommentLinkInfo {
   }
 
   /** Creates and returns a new {@link StoredCommentLinkInfo} instance with the same values. */
-  static StoredCommentLinkInfo fromInfo(CommentLinkInfo src, boolean enabled) {
+  public static StoredCommentLinkInfo fromInfo(CommentLinkInfo src, boolean enabled) {
     return builder(src.name)
         .setMatch(src.match)
         .setLink(src.link)
@@ -79,7 +79,7 @@ public abstract class StoredCommentLinkInfo {
   }
 
   /** Returns an {@link CommentLinkInfo} instance with the same values. */
-  CommentLinkInfo toInfo() {
+  public CommentLinkInfo toInfo() {
     CommentLinkInfo info = new CommentLinkInfo();
     info.name = getName();
     info.match = getMatch();

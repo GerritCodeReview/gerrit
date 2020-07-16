@@ -24,6 +24,7 @@ import {
 } from './gr-api-utils.js';
 import {Plugin} from './gr-public-js-api.js';
 import {getBaseUrl} from '../../../utils/url-util.js';
+import {pluginEndpoints} from './gr-plugin-endpoints.js';
 
 /**
  * @enum {string}
@@ -208,10 +209,13 @@ export class PluginLoader {
   }
 
   _checkIfCompleted() {
-    if (this.arePluginsLoaded() && this._loadingResolver) {
-      this._loadingResolver();
-      this._loadingResolver = null;
-      this._loadingPromise = null;
+    if (this.arePluginsLoaded()) {
+      pluginEndpoints.setPluginsReady();
+      if (this._loadingResolver) {
+        this._loadingResolver();
+        this._loadingResolver = null;
+        this._loadingPromise = null;
+      }
     }
   }
 
@@ -409,6 +413,7 @@ export class PluginLoader {
     }
     if (!this._loadingPromise) {
       let timerId;
+      // this._loadingPromise = new Promise(r => setTimeout(r, 3000));
       this._loadingPromise =
         Promise.race([
           new Promise(resolve => this._loadingResolver = resolve),

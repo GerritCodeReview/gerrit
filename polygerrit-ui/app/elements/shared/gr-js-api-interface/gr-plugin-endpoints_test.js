@@ -19,7 +19,6 @@ import '../../../test/common-test-setup-karma.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import './gr-js-api-interface.js';
 import {GrPluginEndpoints} from './gr-plugin-endpoints.js';
-import {pluginLoader} from './gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 
 const pluginApi = _testOnly_initGerritPluginApi();
@@ -55,7 +54,6 @@ suite('gr-plugin-endpoints tests', () => {
           domHook,
         }
     );
-    sinon.stub(pluginLoader, 'arePluginsLoaded').returns(true);
     sinon.spy(instance, 'importUrl');
   });
 
@@ -132,6 +130,7 @@ suite('gr-plugin-endpoints tests', () => {
 
   test('onNewEndpoint', () => {
     const newModuleStub = sinon.stub();
+    instance.setPluginsReady();
     instance.onNewEndpoint('a-place', newModuleStub);
     instance.registerModule(
         pluginFoo,

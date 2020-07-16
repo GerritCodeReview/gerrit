@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4219a1f9_45a87bab",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-16T08:59:10Z",
+      "side": 1,
+      "message": "might worth adding a test for this :)",
+      "revId": "d554afe7beb031112bc8caca02a02b241d5d03d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -70,6 +70,30 @@
       "revId": "154e108d92bdd132cc3fc16ba4890e2e6a7ea1f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eeea2d1f_bf1dc342",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-16T14:57:18Z",
+      "side": 1,
+      "message": "hmm i don\u0027t really see a difference compared to having it in `arePluginsLoaded` or in the `if(this.arePluginsLoaded())` tbh. but i am fine to make the change.",
+      "parentUuid": "cc37d34a_ec70b4ae",
+      "range": {
+        "startLine": 208,
+        "startChar": 4,
+        "endLine": 208,
+        "endChar": 38
+      },
+      "revId": "154e108d92bdd132cc3fc16ba4890e2e6a7ea1f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

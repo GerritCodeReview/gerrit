@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "4728bb6f_bd14dd42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-16T16:38:16Z",
+      "side": 1,
+      "message": "Thanks for your input!\n\nI think the existing feature is really hard to discover and I don\u0027t think we should build on that. So whatever we do, it should be more discoverable. We can either go with the is_robot bit OR with groups, but we shouldn\u0027t add the bit now and leave the Non-Interactive group as-is. The two wouldn\u0027t play together well.\n\nSo we can either:\n\n1) Add an is_robot bit to the account AND add a SystemGroup (magic) that contains all users that are robots (just like RegisteredUsers contains all users).\n- Do what this change does\n- Set the bit for all members of Non-Interactive Users with a schema migration\n- Add code to populate a magic system group with all accounts that are robots\n\nPros:\n- Explict and visible\n- Latency is not an issue\n- Can be obtained from the cached account entity, so code is a bit easier\n\nCons:\n- Only users with MODIFY_ACCOUNT can mark users as robots. Otherwise anyone could gain privileges granted to the magic group by flipping a bit. Seems OK, though.\n\n2) Go just with a group (say \"Robot Users\"), no bit.\n- Create a new group OR rename the existing group\n- Serve an isRobot bit on the API in AccountInfo (there is a plan for the UI to show a robot accounts a bit different so that users know what they are dealing with)\n- Have some kind of facade to see if a user is a robot in the backend\n\nPros:\n- More flexible (you can include sub-groups)\n- No extra account state required\n- Finer ACLs: The Robots group has an owners group and any member can add new members\n\nCons:\n- Latency is OK if this is just an internal Gerrit group, but gets prohibitive when including external groups because we might need to do 100+ memberships checks when serving change query results to enrich AccountInfo with isRobot - something we don\u0027t have to do ATM. We would need to document that (bad, because admins might not read) or forbid it (bad, because why does that work differently from the rest).\n- I see the flexibility as a con here. It seems not really needed (why does one need group nesting?) and makes a simple feature harder.\n- Nesting might make it harder to see why someone is a robot\n\nHonestly, I am indifferent here, but I also don\u0027t think it matters much at this point, because both (1) and (2) can be transformed into the respective other implementation with a single schema migration if requirements change.\n\nMy tl;dr: I like (2) for the ACLing especially around who can mark accounts as robot accounts. I like (1) for being explicit and discoverable and having zero performance implications.\n\nI\u0027ve had some extensive discussions with Edwin and Joerg today. Joerg worked in the team that owns Google accounts and infrastructure and advised for the bit instead of the group, because what we express is the nature (type) of the account - so a property of the account - and that shouldn\u0027t be mixed up with the group system but stand by itself. He did suggested that we could create a magic group based on that property - which is part of the plan in (1) if we want to use it for permissions. Edwin was also indifferent but slightly leaning towards the group-based implementation IIRC because it\u0027s an established concept.\n\nI do think that we shouldn\u0027t use groups to flag-gate features, especially not on a fine-grained level. Making a distinction between humans and bots is the most I would want to do here because it really complicates behavior and debugging. If someone shouldn\u0027t be allowed to use a feature, that should be expressed with permissions.\n\nDo you have a strong preference either way?\n\nIf not, I think I would go with (1). I\u0027ve created a WIP change for the missing pieces and can follow up with completing that tomorrow.",
+      "parentUuid": "35f4e920_1536c0b5",
+      "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "23bfebdb_83de136b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

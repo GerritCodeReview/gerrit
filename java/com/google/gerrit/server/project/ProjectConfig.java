@@ -28,7 +28,6 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.primitives.Shorts;
@@ -44,9 +43,11 @@ import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.AccountsSection;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchOrderSection;
+import com.google.gerrit.entities.CachedProjectConfig;
 import com.google.gerrit.entities.ConfiguredMimeTypes;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
@@ -256,24 +257,27 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   /** Returns an immutable, thread-safe representation of this object that can be cached. */
   public CachedProjectConfig getCacheable() {
-    return CachedProjectConfig.builder()
-        .setProject(project)
-        .setAccountsSection(accountsSection)
-        .setGroups(ImmutableMap.copyOf(groupList.byUUID()))
-        .setAccessSections(ImmutableMap.copyOf(accessSections))
-        .setBranchOrderSection(Optional.ofNullable(branchOrderSection))
-        .setContributorAgreements(ImmutableMap.copyOf(contributorAgreements))
-        .setNotifySections(ImmutableMap.copyOf(notifySections))
-        .setLabelSections(ImmutableMap.copyOf(labelSections))
-        .setMimeTypes(mimeTypes)
-        .setSubscribeSections(ImmutableMap.copyOf(subscribeSections))
-        .setCommentLinkSections(ImmutableMap.copyOf(commentLinkSections))
-        .setRulesId(Optional.ofNullable(rulesId))
-        .setRevision(Optional.ofNullable(getRevision()))
-        .setMaxObjectSizeLimit(maxObjectSizeLimit)
-        .setCheckReceivedObjects(checkReceivedObjects)
-        .setExtensionPanelSections(extensionPanelSections)
-        .build();
+    CachedProjectConfig.Builder builder =
+        CachedProjectConfig.builder()
+            .setProject(project)
+            .setAccountsSection(accountsSection)
+            .setBranchOrderSection(Optional.ofNullable(branchOrderSection))
+            .setMimeTypes(mimeTypes)
+            .setRulesId(Optional.ofNullable(rulesId))
+            .setRevision(Optional.ofNullable(getRevision()))
+            .setMaxObjectSizeLimit(maxObjectSizeLimit)
+            .setCheckReceivedObjects(checkReceivedObjects)
+            .setExtensionPanelSections(extensionPanelSections);
+
+    groupList.byUUID().values().forEach(g -> builder.addGroup(g));
+    accessSections.values().forEach(a -> builder.addAccessSection(a));
+    contributorAgreements.values().forEach(c -> builder.addContributorAgreement(c));
+    notifySections.values().forEach(n -> builder.addNotifySection(n));
+    subscribeSections.values().forEach(s -> builder.addSubscribeSection(s));
+    commentLinkSections.values().forEach(c -> builder.addCommentLinkSection(c));
+    labelSections.values().forEach(l -> builder.addLabelSection(l));
+
+    return builder.build();
   }
 
   public static StoredCommentLinkInfo buildCommentLink(Config cfg, String name, boolean allowRaw)

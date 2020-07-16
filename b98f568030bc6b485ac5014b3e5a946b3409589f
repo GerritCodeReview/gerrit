@@ -16,6 +16,24 @@
       "revId": "b98f568030bc6b485ac5014b3e5a946b3409589f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7175a70_22d77cb0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-16T09:04:37Z",
+      "side": 1,
+      "message": "This is something new. Tao added it yesterday.",
+      "parentUuid": "e60ef247_389e78f0",
+      "revId": "b98f568030bc6b485ac5014b3e5a946b3409589f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7580a199_4398456c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-16T14:15:02Z",
+      "side": 1,
+      "message": "Maybe move to _checkIfCompleted?\nThe _checkIfCompleted is called after all important changes (timeout/loaded) and already contains some cleanup code and calls.\n\nWith the current implementation, users can get unexpected behavior:\nawait awaitPluginsLoaded();\n// users have to check arePluginsLoaded again before then next call\npluginEndpoints.registerModule()",
+      "range": {
+        "startLine": 208,
+        "startChar": 4,
+        "endLine": 208,
+        "endChar": 38
+      },
+      "revId": "154e108d92bdd132cc3fc16ba4890e2e6a7ea1f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

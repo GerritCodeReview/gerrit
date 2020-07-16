@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28c9b7af_1dfb0a67",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-16T18:55:11Z",
+      "side": 1,
+      "message": "Ping: the other changes in this Topic were all approved. (Thanks for that.)",
+      "revId": "a543a9331b99e3ee71a246e32c0db5273427dd8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

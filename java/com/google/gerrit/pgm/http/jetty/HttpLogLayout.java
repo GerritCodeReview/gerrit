@@ -72,6 +72,9 @@ public final class HttpLogLayout extends Layout {
     opt(buf, event, HttpLog.P_CONTENT_LENGTH);
 
     buf.append(' ');
+    opt(buf, event, HttpLog.P_LATENCY);
+
+    buf.append(' ');
     dq_opt(buf, event, HttpLog.P_REFERER);
 
     buf.append(' ');

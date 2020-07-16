@@ -48,6 +48,7 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
   protected static final String P_PROTOCOL = "Version";
   protected static final String P_STATUS = "Status";
   protected static final String P_CONTENT_LENGTH = "Content-Length";
+  protected static final String P_LATENCY = "Latency";
   protected static final String P_REFERER = "Referer";
   protected static final String P_USER_AGENT = "User-Agent";
 
@@ -109,6 +110,7 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
     set(event, P_PROTOCOL, req.getProtocol());
     set(event, P_STATUS, rsp.getStatus());
     set(event, P_CONTENT_LENGTH, rsp.getContentCount());
+    set(event, P_LATENCY, System.currentTimeMillis() - req.getTimeStamp());
     set(event, P_REFERER, req.getHeader("Referer"));
     set(event, P_USER_AGENT, req.getHeader("User-Agent"));
 

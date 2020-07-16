@@ -7,7 +7,8 @@
       "updated": "2019-10-08T06:44:21Z"
     },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "RUNNING",
+      "state": "FAILED",
+      "message": "uuid \"gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928\" has unknown language",
       "started": "2020-07-16T18:32:40Z",
       "created": "2019-10-08T06:44:22Z",
       "updated": "2020-07-16T18:32:40Z"

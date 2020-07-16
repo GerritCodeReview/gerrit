@@ -190,3 +190,13 @@ export function descendedFromClass(element, className, opt_stopElement) {
 export function strToClassName(str = '', prefix = 'generated_') {
   return `${prefix}${str.replace(/[^a-zA-Z0-9-_]/g, '_')}`;
 }
+
+// shared API element
+let _sharedApiEl;
+
+export function getSharedApiEl() {
+  if (!_sharedApiEl) {
+    _sharedApiEl = document.createElement('gr-js-api-interface');
+  }
+  return _sharedApiEl;
+}

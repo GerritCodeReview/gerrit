@@ -22,6 +22,30 @@
       "revId": "154e108d92bdd132cc3fc16ba4890e2e6a7ea1f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0c08f73_081f05c3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-16T14:25:49Z",
+      "side": 1,
+      "message": "not sure I follow you :) `registerModule` should only be called inside of the plugin when register custom or dynamic components, and all of them should be only called before `awaitPluginsLoaded` resolved, so not sure what will be the use case to call `registerModule` after `awaitPluginsLoaded` ?\n\nif you mean move it inside the `if` of the `_checkIfCompleted`, i think for pluginEndpoints, the ready state doesn\u0027t necessary need to wait for `_loadingResolver`, if no `awaitPluginsLoaded` called, when all plugins loaded, we still want to set ready for pluginEndpoints.",
+      "parentUuid": "7580a199_4398456c",
+      "range": {
+        "startLine": 208,
+        "startChar": 4,
+        "endLine": 208,
+        "endChar": 38
+      },
+      "revId": "154e108d92bdd132cc3fc16ba4890e2e6a7ea1f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

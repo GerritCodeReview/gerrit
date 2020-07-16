@@ -15,7 +15,7 @@
 package com.google.gerrit.acceptance.testsuite.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.common.data.AccessSection.GLOBAL_CAPABILITIES;
+import static com.google.gerrit.entities.AccessSection.GLOBAL_CAPABILITIES;
 import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
@@ -23,11 +23,11 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.testsuite.ThrowingConsumer;
 import com.google.gerrit.common.data.GlobalCapability;
-import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRange;
-import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.LabelType;
+import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.PermissionRange;
+import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.config.AllProjectsName;
 import java.util.Optional;

@@ -16,7 +16,7 @@ package com.google.gerrit.server.project;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.entities.PermissionRule;
 import java.util.List;
 
 @AutoValue

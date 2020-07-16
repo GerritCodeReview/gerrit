@@ -16,7 +16,7 @@ package com.google.gerrit.server.cache.serialize.entities;
 
 import com.google.common.base.Converter;
 import com.google.common.base.Enums;
-import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.server.cache.proto.Cache;
 
 /** Helper to (de)serialize values for caches. */

@@ -18,9 +18,9 @@ import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.data.SubmitRecord;
-import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;

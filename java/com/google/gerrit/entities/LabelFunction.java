@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.common.data;
+package com.google.gerrit.entities;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.entities.PatchSetApproval;
+import com.google.gerrit.entities.SubmitRecord.Label;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -88,8 +88,8 @@ public enum LabelFunction {
     return requiresMaxValue;
   }
 
-  public SubmitRecord.Label check(LabelType labelType, Iterable<PatchSetApproval> approvals) {
-    SubmitRecord.Label submitRecordLabel = new SubmitRecord.Label();
+  public Label check(LabelType labelType, Iterable<PatchSetApproval> approvals) {
+    Label submitRecordLabel = new Label();
     submitRecordLabel.label = labelType.getName();
 
     submitRecordLabel.status = SubmitRecord.Label.Status.MAY;

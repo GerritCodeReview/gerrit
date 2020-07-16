@@ -18,7 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.cache.serialize.entities.AccessSectionSerializer.deserialize;
 import static com.google.gerrit.server.cache.serialize.entities.AccessSectionSerializer.serialize;
 
-import com.google.gerrit.common.data.AccessSection;
+import com.google.gerrit.entities.AccessSection;
 import org.junit.Test;
 
 public class AccessSectionSerializerTest {

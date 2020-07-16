@@ -15,23 +15,22 @@
 package com.google.gerrit.server.cache.serialize.entities;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.server.cache.serialize.entities.SubscribeSectionSerializer.deserialize;
-import static com.google.gerrit.server.cache.serialize.entities.SubscribeSectionSerializer.serialize;
+import static com.google.gerrit.server.cache.serialize.entities.CachedProjectConfigSerializer.deserialize;
+import static com.google.gerrit.server.cache.serialize.entities.CachedProjectConfigSerializer.serialize;
 
-import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.SubscribeSection;
+import com.google.gerrit.entities.CachedProjectConfig;
 import org.junit.Test;
 
-public class SubscribeSectionSerializerTest {
+public class CachedProjectConfigSerializerTest {
+  static final CachedProjectConfig ALL_VALUES_SET =
+      CachedProjectConfig.builder()
+          .setProject(ProjectSerializerTest.ALL_VALUES_SET)
+          .setMaxObjectSizeLimit(123)
+          .setCheckReceivedObjects(true)
+          .build();
+
   @Test
   public void roundTrip() {
-    SubscribeSection autoValue =
-        SubscribeSection.builder(Project.nameKey("project"))
-            .addMultiMatchRefSpec("multi")
-            .addMultiMatchRefSpec("multi2")
-            .addMatchingRefSpec("matching1")
-            .addMatchingRefSpec("matching2")
-            .build();
-    assertThat(deserialize(serialize(autoValue))).isEqualTo(autoValue);
+    assertThat(deserialize(serialize(ALL_VALUES_SET))).isEqualTo(ALL_VALUES_SET);
   }
 }

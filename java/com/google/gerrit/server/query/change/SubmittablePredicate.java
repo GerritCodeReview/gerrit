@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
-import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.server.index.change.ChangeField;
 
 public class SubmittablePredicate extends ChangeIndexPredicate {

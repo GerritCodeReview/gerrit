@@ -436,3 +436,11 @@ message LabelTypeProto {
   bool can_override = 17;
   repeated string ref_patterns = 18;
 }
+
+// Serialized form of com.google.gerrit.server.project.ConfiguredMimeTypes.
+// Next ID: 4
+message ConfiguredMimeTypeProto {
+  string type = 1;
+  string pattern = 2;
+  bool is_regular_expression = 3;
+}

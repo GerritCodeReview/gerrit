@@ -16,8 +16,8 @@ package com.google.gerrit.server.config;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.util.RequestContext;

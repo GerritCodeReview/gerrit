@@ -17,5 +17,6 @@ junit_tests(
         "//lib/truth:truth-proto-extension",
         "//proto:cache_java_proto",
         "//proto/testing:test_java_proto",
+        "@jgit//org.eclipse.jgit:jgit",
     ],
 )

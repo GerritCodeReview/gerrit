@@ -18,12 +18,12 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.data.LabelFunction;
-import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.SubmitRecord;
-import com.google.gerrit.common.data.SubmitRequirement;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.LabelFunction;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSetApproval;
+import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.server.query.change.ChangeData;

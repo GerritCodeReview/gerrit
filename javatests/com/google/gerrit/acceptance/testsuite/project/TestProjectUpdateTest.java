@@ -26,7 +26,7 @@ import static com.google.gerrit.common.data.GlobalCapability.BATCH_CHANGES_LIMIT
 import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_BATCH_CHANGES_LIMIT;
 import static com.google.gerrit.common.data.GlobalCapability.DEFAULT_MAX_QUERY_LIMIT;
 import static com.google.gerrit.common.data.GlobalCapability.QUERY_LIMIT;
-import static com.google.gerrit.common.data.Permission.ABANDON;
+import static com.google.gerrit.entities.Permission.ABANDON;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 

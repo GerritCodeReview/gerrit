@@ -29,7 +29,7 @@ import com.google.common.base.MoreObjects;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
-import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
 import com.google.inject.Inject;
 import org.eclipse.jgit.lib.PersonIdent;

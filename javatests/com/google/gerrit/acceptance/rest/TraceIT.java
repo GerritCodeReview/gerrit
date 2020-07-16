@@ -31,7 +31,7 @@ import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.config.GerritConfig;
-import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.httpd.restapi.ParameterParser;

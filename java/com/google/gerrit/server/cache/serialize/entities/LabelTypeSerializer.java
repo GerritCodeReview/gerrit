@@ -20,8 +20,8 @@ import com.google.common.base.Converter;
 import com.google.common.base.Enums;
 import com.google.common.collect.ImmutableList;
 import com.google.common.primitives.Shorts;
-import com.google.gerrit.common.data.LabelFunction;
-import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.entities.LabelFunction;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.server.cache.proto.Cache;
 
 /** Helper to (de)serialize values for caches. */

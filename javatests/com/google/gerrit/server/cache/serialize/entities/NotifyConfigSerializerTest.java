@@ -25,18 +25,19 @@ import com.google.gerrit.entities.NotifyConfig;
 import org.junit.Test;
 
 public class NotifyConfigSerializerTest {
+  static final NotifyConfig ALL_VALUES_SET =
+      NotifyConfig.builder()
+          .setName("foo-bar")
+          .addAddress(Address.create("address@example.com"))
+          .addGroup(GroupReference.create("group-uuid"))
+          .setHeader(NotifyConfig.Header.CC)
+          .setFilter("filter")
+          .setNotify(ImmutableSet.of(NotifyConfig.NotifyType.ALL_COMMENTS))
+          .build();
+
   @Test
   public void roundTrip() {
-    NotifyConfig autoValue =
-        NotifyConfig.builder()
-            .setName("foo-bar")
-            .addAddress(Address.create("address@example.com"))
-            .addGroup(GroupReference.create("group-uuid"))
-            .setHeader(NotifyConfig.Header.CC)
-            .setFilter("filter")
-            .setNotify(ImmutableSet.of(NotifyConfig.NotifyType.ALL_COMMENTS))
-            .build();
-    assertThat(deserialize(serialize(autoValue))).isEqualTo(autoValue);
+    assertThat(deserialize(serialize(ALL_VALUES_SET))).isEqualTo(ALL_VALUES_SET);
   }
 
   @Test

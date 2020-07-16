@@ -54,6 +54,7 @@ import com.google.gerrit.entities.NotifyConfig;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.entities.StoredCommentLinkInfo;
 import com.google.gerrit.exceptions.InvalidNameException;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;

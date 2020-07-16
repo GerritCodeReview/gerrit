@@ -8,7 +8,8 @@
       "updated": "2020-07-16T18:32:57Z"
     },
     "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "RUNNING",
+      "state": "FAILED",
+      "message": "uuid \"gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928\" has unknown language",
       "started": "2020-07-16T18:33:28Z",
       "created": "2020-07-16T18:33:29Z",
       "updated": "2020-07-16T18:33:29Z"

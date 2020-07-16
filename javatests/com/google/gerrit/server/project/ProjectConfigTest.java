@@ -26,6 +26,7 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.AccountsSection;
 import com.google.gerrit.entities.BranchOrderSection;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.Project;

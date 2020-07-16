@@ -30,6 +30,7 @@ import com.google.gerrit.entities.BranchOrderSection;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.entities.StoredCommentLinkInfo;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfig;

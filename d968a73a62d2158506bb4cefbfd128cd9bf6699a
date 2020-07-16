@@ -305,6 +305,24 @@
     },
     {
       "key": {
+        "uuid": "92cdee27_12746ac4",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2512,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-16T09:58:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57080fcf_a5186e35",
+      "revId": "d968a73a62d2158506bb4cefbfd128cd9bf6699a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3474f565_7d0d6a47",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 1
@@ -322,6 +340,24 @@
     },
     {
       "key": {
+        "uuid": "a89f94b6_5a9b00c0",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2513,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-16T09:58:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3474f565_7d0d6a47",
+      "revId": "d968a73a62d2158506bb4cefbfd128cd9bf6699a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "56f55371_50caeaca",
         "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
         "patchSetId": 1
@@ -336,6 +372,24 @@
       "revId": "d968a73a62d2158506bb4cefbfd128cd9bf6699a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34563558_ab130b20",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-16T09:58:12Z",
+      "side": 1,
+      "message": "I\u0027ve ensured that this will work just fine :-)\nThe config is the relevant one for the host that runs the code (e.g if it\u0027s canary host, the config will be canary_config, if it\u0027s prod host, it will just be the prod config.",
+      "parentUuid": "56f55371_50caeaca",
+      "revId": "d968a73a62d2158506bb4cefbfd128cd9bf6699a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,5 +1,5 @@
 [
   {
-    "url": "http://HOSTNAME:HTTP_PORT1/a/projects/PROJECT/branches/master"
+    "url": "HTTP_SCHEME://HOSTNAME:HTTP_PORT1/a/projects/PROJECT/branches/master"
   }
 ]

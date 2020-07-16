@@ -452,3 +452,14 @@ message SubscribeSectionProto {
   repeated string multi_match_ref_specs = 2;
   repeated string matching_ref_specs = 3;
 }
+
+// Serialized form of com.google.gerrit.entities.StoredCommentLinkInfo.
+// Next ID: 7
+message StoredCommentLinkInfoProto {
+  string name = 1;
+  string match = 2;
+  string link = 3;
+  string html = 4;
+  bool enabled = 5;
+  bool override_only = 6;
+}

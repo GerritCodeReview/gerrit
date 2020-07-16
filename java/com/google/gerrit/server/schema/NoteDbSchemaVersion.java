@@ -15,6 +15,10 @@
 package com.google.gerrit.server.schema;
 
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.ServerInitiated;
+import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -39,6 +43,9 @@ interface NoteDbSchemaVersion {
     final ProjectConfig.Factory projectConfigFactory;
     final SystemGroupBackend systemGroupBackend;
     final PersonIdent serverUser;
+    final GroupMembers groupMembers;
+    final GroupCache groupCache;
+    final AccountsUpdate accountsUpdate;
 
     @Inject
     Arguments(
@@ -47,12 +54,18 @@ interface NoteDbSchemaVersion {
         AllUsersName allUsers,
         ProjectConfig.Factory projectConfigFactory,
         SystemGroupBackend systemGroupBackend,
+        GroupMembers groupMembers,
+        GroupCache groupCache,
+        @ServerInitiated AccountsUpdate accountsUpdate,
         @GerritPersonIdent PersonIdent serverUser) {
       this.repoManager = repoManager;
       this.allProjects = allProjects;
       this.allUsers = allUsers;
       this.projectConfigFactory = projectConfigFactory;
       this.systemGroupBackend = systemGroupBackend;
+      this.groupMembers = groupMembers;
+      this.groupCache = groupCache;
+      this.accountsUpdate = accountsUpdate;
       this.serverUser = serverUser;
     }
   }

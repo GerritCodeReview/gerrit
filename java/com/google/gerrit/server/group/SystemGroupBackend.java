@@ -70,8 +70,12 @@ public class SystemGroupBackend extends AbstractGroupBackend {
   public static final AccountGroup.UUID CHANGE_OWNER =
       AccountGroup.uuid(SYSTEM_GROUP_SCHEME + "Change-Owner");
 
+  /** Common UUID assigned to the "Robot Users" group. */
+  public static final AccountGroup.UUID ROBOT_USERS =
+      AccountGroup.uuid(SYSTEM_GROUP_SCHEME + "Robot-Users");
+
   private static final AccountGroup.UUID[] all = {
-    ANONYMOUS_USERS, REGISTERED_USERS, PROJECT_OWNERS, CHANGE_OWNER,
+    ANONYMOUS_USERS, REGISTERED_USERS, PROJECT_OWNERS, CHANGE_OWNER, ROBOT_USERS,
   };
 
   public static boolean isSystemGroup(AccountGroup.UUID uuid) {
@@ -183,7 +187,12 @@ public class SystemGroupBackend extends AbstractGroupBackend {
 
   @Override
   public GroupMembership membershipsOf(IdentifiedUser user) {
-    return new ListGroupMembership(ImmutableSet.of(ANONYMOUS_USERS, REGISTERED_USERS));
+    ImmutableSet.Builder<AccountGroup.UUID> groups =
+        ImmutableSet.<AccountGroup.UUID>builder().add(ANONYMOUS_USERS).add(REGISTERED_USERS);
+    if (user.getAccount().isRobot()) {
+      groups.add(ROBOT_USERS);
+    }
+    return new ListGroupMembership(groups.build());
   }
 
   public static class NameCheck implements StartupCheck {

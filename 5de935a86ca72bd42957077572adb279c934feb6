@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "5670fff7_3bd0746e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-17T14:52:52Z",
+      "side": 1,
+      "message": "By now, mockito continues to be upgraded upstream. It is currently up to v3.4.2 (and counting). In gerrit core, it is still at v2.24.0. Can something be done at Google to reconsider addressing this specific technical debt?",
+      "revId": "5de935a86ca72bd42957077572adb279c934feb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a347b24_9a988e9f",
         "filename": "WORKSPACE",
         "patchSetId": 3

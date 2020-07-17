@@ -16,6 +16,24 @@
       "revId": "6c01a0444e02051bd58cdb3ecd2e8a95fa323ce8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77a85317_c214dd57",
+        "filename": "java/com/google/gerrit/entities/ConfiguredMimeTypes.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-17T15:22:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58c0dce0_a48dc50d",
+      "revId": "6c01a0444e02051bd58cdb3ecd2e8a95fa323ce8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

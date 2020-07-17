@@ -286,38 +286,6 @@ export const htmlTemplate = html`
       <div id="pluginMessage">[[_pluginMessage]]</div>
     </section>
     <section
-      class="draftsContainer"
-      hidden$="[[_computeHideDraftList(draftCommentThreads)]]"
-    >
-      <div class="includeComments">
-        <input
-          type="checkbox"
-          id="includeComments"
-          checked="{{_includeComments::change}}"
-        />
-        <label for="includeComments"
-          >Publish [[_computeDraftsTitle(draftCommentThreads)]]</label
-        >
-      </div>
-      <gr-thread-list
-        id="commentList"
-        hidden$="[[!_includeComments]]"
-        threads="[[draftCommentThreads]]"
-        change="[[change]]"
-        change-num="[[change._number]]"
-        logged-in="true"
-        hide-toggle-buttons=""
-        on-thread-list-modified="_onThreadListModified"
-      >
-      </gr-thread-list>
-      <span
-        id="savingLabel"
-        class$="[[_computeSavingLabelClass(_savingComments)]]"
-      >
-        Saving comments...
-      </span>
-    </section>
-    <section
       hidden$="[[!_showAttentionSummary(serverConfig, _attentionModified)]]"
       class="attention"
     >
@@ -392,6 +360,38 @@ export const htmlTemplate = html`
           </gr-account-label>
         </template>
       </div>
+    </section>
+    <section
+      class="draftsContainer"
+      hidden$="[[_computeHideDraftList(draftCommentThreads)]]"
+    >
+      <div class="includeComments">
+        <input
+          type="checkbox"
+          id="includeComments"
+          checked="{{_includeComments::change}}"
+        />
+        <label for="includeComments"
+          >Publish [[_computeDraftsTitle(draftCommentThreads)]]</label
+        >
+      </div>
+      <gr-thread-list
+        id="commentList"
+        hidden$="[[!_includeComments]]"
+        threads="[[draftCommentThreads]]"
+        change="[[change]]"
+        change-num="[[change._number]]"
+        logged-in="true"
+        hide-toggle-buttons=""
+        on-thread-list-modified="_onThreadListModified"
+      >
+      </gr-thread-list>
+      <span
+        id="savingLabel"
+        class$="[[_computeSavingLabelClass(_savingComments)]]"
+      >
+        Saving comments...
+      </span>
     </section>
     <section class="actions">
       <div class="left">

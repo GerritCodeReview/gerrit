@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97b5898c_f5f4714e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2020-07-17T20:46:07Z",
+      "side": 1,
+      "message": "For a test site with ~11k changes(10k in project1, 1k in project2, 100 in project3)\n\nwith change:\nReindexed 11098 documents in changes index in 67.7s (163.8/s)\n\nwithout change:\nReindexed 11098 documents in changes index in 172.6s (64.3/s)",
+      "revId": "8c09beda773527b9ed539ff65f7a51a55ff26982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

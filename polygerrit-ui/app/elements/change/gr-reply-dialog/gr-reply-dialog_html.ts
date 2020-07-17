@@ -353,13 +353,14 @@ export const htmlTemplate = html`
       <div class="attentionDetailsTitle">
         <iron-icon class="attention-icon" icon="gr-icons:attention"></iron-icon>
         <span>Bring to attention of ...</span>
-        <span class="selectUsers">(select users)</span>
+        <span class="selectUsers">(click chips to select users)</span>
       </div>
       <div class="peopleList">
         <div class="peopleListLabel">Owner</div>
         <gr-account-label
           account="[[_owner]]"
           show-attention="[[_computeHasNewAttention(_owner, _newAttentionSet)]]"
+          force-attention="[[_computeHasNewAttention(_owner, _newAttentionSet)]]"
           blurred="[[!_computeHasNewAttention(_owner, _newAttentionSet)]]"
           hide-hovercard=""
           on-click="_handleAttentionClick"
@@ -372,6 +373,7 @@ export const htmlTemplate = html`
           <gr-account-label
             account="[[account]]"
             show-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"
+            force-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"
             blurred="[[!_computeHasNewAttention(account, _newAttentionSet)]]"
             hide-hovercard=""
             on-click="_handleAttentionClick"
@@ -385,6 +387,7 @@ export const htmlTemplate = html`
           <gr-account-label
             account="[[account]]"
             show-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"
+            force-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"
             blurred="[[!_computeHasNewAttention(account, _newAttentionSet)]]"
             hide-hovercard=""
             on-click="_handleAttentionClick"

@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "53e5b546_61392b2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-17T15:20:16Z",
+      "side": 1,
+      "message": "Maybe for context, we discovered this problem recently when we realized that bots were being added to the attention set and we didn\u0027t want that. If there had been a property isRobot() on the account it would likely not have happened. Adding an indirection between the account itself and its type adds significant complexity. Every piece of code will have to make a group lookup to determine how to treat a given account. This is not discoverable for developers. The type is a fundamental account property that should be stored with the account.\n\nDo you see a use case for account types other than human and robot?\n\nGroups allow hierarchies and those semantics are not suitable for account types. Accounts can have multiple independent types, e.g. any type of account can be a testing account, an account managed by someone else etc. FWIW at Google we recently did a big migration to fix this exact problem. So if the plan is to support more types than human and robot I strongly advise against any hierarchical structure. It combines complexity with inflexibility :-) I realize that we could have some mantra like \"groups used for account types must not be hierarchical\" but that is again complicated and undiscoverable.\n\nWhat are the advantages of using groups over using a flag?\n\nYou said \"If you are looking to express permissions (and it sounds like you are) then use permissions?\". It\u0027s not permissions we want to represent, but account types. Piggybacking on permissions or group membership adds an indirection and thus complexity.\n\nI can totally see how the idea of adding even just a boolean to a central data type like accounts raises eyebrows, and that\u0027s a good thing. But the complexity is already there, because we already have robot accounts, and not expressing it, or expressing it by means that are already established but not intended for this purpose, does not make the complexity go away.",
+      "parentUuid": "76a9dff6_d6a6a3fd",
+      "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "23bfebdb_83de136b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

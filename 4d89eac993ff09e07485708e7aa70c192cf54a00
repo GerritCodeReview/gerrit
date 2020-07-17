@@ -235,6 +235,24 @@
     },
     {
       "key": {
+        "uuid": "73b4d772_019d6fd5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-17T20:24:14Z",
+      "side": 1,
+      "message": "I understand that for someone who has been a Gerrit admin for a long time it is desirable to keep Gerrit as flexible and configurable as possible. New users and part-time admins maybe rather want something that \"just works\" out of the box.\n\nAs a frontend developer I can tell you that it is extremely hard to deliver a great user experience, if you know that every installation of Gerrit is very different. It is true that being opinionated limits your options, but it can also bring clarity.\n\nIt appears to me that this is a recurrent theme in our discussions that we had over the past two years: You value flexibility and configurability more, while others value simplicity and clarity more. Unfortunately, I don\u0027t think these fundamentally different perspectives can be easily reconciled. You have already mentioned it: This becomes a little bit like \"What is better, Apple or Linux?\", which can be an endless discussion.\n\nI hope that we will also have some non-Googlers expressing their thoughts and votes here, so that we can conclude this discussion.\n\nNote that the ESC had already planned a \"Vision\" workshop for the next Hackathon, which would have been nice to have in May. Settling for an overall direction between all maintainers with regards to exactly this discussion would have been part of it. It would have been really nice to see each other and debate this in person.",
+      "parentUuid": "5bce0e8e_7adefa3b",
+      "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "23bfebdb_83de136b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

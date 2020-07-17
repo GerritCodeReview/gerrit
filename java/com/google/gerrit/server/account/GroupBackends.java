@@ -18,7 +18,7 @@ import static java.util.Comparator.comparing;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.server.project.ProjectState;
 import java.util.Collection;
 import java.util.Comparator;

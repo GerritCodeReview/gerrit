@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.entities.PatchSetApproval;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -228,7 +229,7 @@ public abstract class LabelType {
 
     public abstract Builder setIgnoreSelfApproval(boolean ignoreSelfApproval);
 
-    public abstract Builder setRefPatterns(@Nullable ImmutableList<String> refPatterns);
+    public abstract Builder setRefPatterns(@Nullable List<String> refPatterns);
 
     public abstract Builder setValues(List<LabelValue> values);
 

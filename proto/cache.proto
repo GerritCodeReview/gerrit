@@ -395,3 +395,44 @@ message AddressProto {
   string name = 1;
   string email = 2;
 }
+
+// Serialized form of com.google.gerrit.entities.NotifyConfig.
+// Next ID: 7
+message NotifyConfigProto {
+  string name = 1;
+  repeated string type = 2; // ENUM as String
+  string filter = 3;
+  string header = 4; // ENUM as String
+  repeated GroupReferenceProto groups = 5;
+  repeated AddressProto addresses = 6;
+}
+
+// Serialized form of com.google.gerrit.entities.LabelValue.
+// Next ID: 3
+message LabelValueProto {
+  string text = 1;
+  int32 value = 2;
+}
+
+// Serialized form of com.google.gerrit.common.data.LabelType.
+// Next ID: 19
+message LabelTypeProto {
+  string name = 1;
+  string function = 2; // ENUM as String
+  bool copy_any_score = 3;
+  bool copy_min_score = 4;
+  bool copy_max_score = 5;
+  bool copy_all_scores_on_merge_first_parent_update = 6;
+  bool copy_all_scores_on_trivial_rebase = 7;
+  bool copy_all_scores_if_no_code_change = 8;
+  bool copy_all_scores_if_no_change = 9;
+  repeated int32 copy_values = 10;
+  bool allow_post_submit = 11;
+  bool ignore_self_approval = 12;
+  int32 default_value = 13;
+  repeated LabelValueProto values = 14;
+  int32 max_negative = 15;
+  int32 max_positive = 16;
+  bool can_override = 17;
+  repeated string ref_patterns = 18;
+}

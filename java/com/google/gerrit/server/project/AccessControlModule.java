@@ -17,8 +17,8 @@ package com.google.gerrit.server.project;
 import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.server.config.AdministrateServerGroups;
 import com.google.gerrit.server.config.AdministrateServerGroupsProvider;

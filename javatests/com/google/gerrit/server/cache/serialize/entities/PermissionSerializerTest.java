@@ -18,9 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.cache.serialize.entities.PermissionSerializer.deserialize;
 import static com.google.gerrit.server.cache.serialize.entities.PermissionSerializer.serialize;
 
-import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.entities.GroupReference;
 import org.junit.Test;
 
 public class PermissionSerializerTest {

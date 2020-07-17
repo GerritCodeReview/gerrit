@@ -15,7 +15,7 @@
 package gerrit;
 
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.LabelValue;
+import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.server.rules.StoredValues;
 import com.googlecode.prolog_cafe.exceptions.PrologException;
 import com.googlecode.prolog_cafe.lang.IntegerTerm;

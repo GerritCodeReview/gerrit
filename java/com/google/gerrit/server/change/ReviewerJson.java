@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.gerrit.common.data.LabelValue.formatValue;
+import static com.google.gerrit.entities.LabelValue.formatValue;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;

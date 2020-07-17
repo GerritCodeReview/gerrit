@@ -15,9 +15,9 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.data.GroupDescription;
-import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.GroupDescription;
+import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.project.ProjectState;

@@ -15,24 +15,16 @@
 package com.google.gerrit.server.cache.serialize.entities;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.server.cache.serialize.entities.GroupReferenceSerializer.deserialize;
-import static com.google.gerrit.server.cache.serialize.entities.GroupReferenceSerializer.serialize;
+import static com.google.gerrit.server.cache.serialize.entities.LabelValueSerializer.deserialize;
+import static com.google.gerrit.server.cache.serialize.entities.LabelValueSerializer.serialize;
 
-import com.google.gerrit.entities.AccountGroup;
-import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.LabelValue;
 import org.junit.Test;
 
-public class GroupReferenceSerializerTest {
+public class LabelValueSerializerTest {
   @Test
   public void roundTrip() {
-    GroupReference groupReferenceAutoValue =
-        GroupReference.create(AccountGroup.uuid("uuid"), "name");
-    assertThat(deserialize(serialize(groupReferenceAutoValue))).isEqualTo(groupReferenceAutoValue);
-  }
-
-  @Test
-  public void roundTripWithMinimalValues() {
-    GroupReference groupReferenceAutoValue = GroupReference.create("name");
-    assertThat(deserialize(serialize(groupReferenceAutoValue))).isEqualTo(groupReferenceAutoValue);
+    LabelValue autoValue = LabelValue.create((short) 123, "Approved!");
+    assertThat(deserialize(serialize(autoValue))).isEqualTo(autoValue);
   }
 }

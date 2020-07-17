@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
-import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;

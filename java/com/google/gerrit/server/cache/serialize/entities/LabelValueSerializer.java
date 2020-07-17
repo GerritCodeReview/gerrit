@@ -14,25 +14,22 @@
 
 package com.google.gerrit.server.cache.serialize.entities;
 
-import com.google.gerrit.entities.AccountGroup;
-import com.google.gerrit.entities.GroupReference;
+import com.google.common.primitives.Shorts;
+import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.server.cache.proto.Cache;
 
 /** Helper to (de)serialize values for caches. */
-public class GroupReferenceSerializer {
-  public static GroupReference deserialize(Cache.GroupReferenceProto proto) {
-    if (!proto.getUuid().isEmpty()) {
-      return GroupReference.create(AccountGroup.uuid(proto.getUuid()), proto.getName());
-    }
-    return GroupReference.create(proto.getName());
+public class LabelValueSerializer {
+  public static LabelValue deserialize(Cache.LabelValueProto proto) {
+    return LabelValue.create(Shorts.saturatedCast(proto.getValue()), proto.getText());
   }
 
-  public static Cache.GroupReferenceProto serialize(GroupReference autoValue) {
-    return Cache.GroupReferenceProto.newBuilder()
-        .setName(autoValue.getName())
-        .setUuid(autoValue.getUUID() == null ? "" : autoValue.getUUID().get())
+  public static Cache.LabelValueProto serialize(LabelValue autoValue) {
+    return Cache.LabelValueProto.newBuilder()
+        .setText(autoValue.getText())
+        .setValue(autoValue.getValue())
         .build();
   }
 
-  private GroupReferenceSerializer() {}
+  private LabelValueSerializer() {}
 }

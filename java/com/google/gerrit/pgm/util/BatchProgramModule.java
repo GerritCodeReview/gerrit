@@ -18,8 +18,8 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.extensions.config.FactoryModule;

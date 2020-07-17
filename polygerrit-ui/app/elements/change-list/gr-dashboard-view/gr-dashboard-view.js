@@ -107,6 +107,10 @@ class GrDashboardView extends GestureEventListeners(
   attached() {
     super.attached();
     this._loadPreferences();
+    this.addEventListener('reload', e => {
+      e.stopPropagation();
+      this._reload();
+    });
   }
 
   _loadPreferences() {

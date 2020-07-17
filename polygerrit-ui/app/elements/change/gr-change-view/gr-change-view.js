@@ -532,6 +532,10 @@ class GrChangeView extends KeyboardShortcutMixin(
         e => this._setActivePrimaryTab(e));
     this.addEventListener('show-secondary-tab',
         e => this._setActiveSecondaryTab(e));
+    this.addEventListener('reload', e => {
+      e.stopPropagation();
+      this._reload();
+    });
   }
 
   /** @override */

@@ -21,7 +21,6 @@ import '../gr-avatar/gr-avatar.js';
 import '../gr-button/gr-button.js';
 import '../gr-rest-api-interface/gr-rest-api-interface.js';
 import {hovercardBehaviorMixin} from '../gr-hovercard/gr-hovercard-behavior.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
@@ -130,7 +129,8 @@ class GrHovercardAccount extends GestureEventListeners(
         this._reportingDetails());
     this.$.restAPI.addToAttentionSet(this.change._number,
         this.account._account_id, 'manually added').then(obj => {
-      GerritNav.navigateToChange(this.change);
+      this.dispatchEventThroughTarget('hide-alert');
+      this.dispatchEventThroughTarget('reload');
     });
     this.hide();
   }
@@ -148,7 +148,8 @@ class GrHovercardAccount extends GestureEventListeners(
         this._reportingDetails());
     this.$.restAPI.removeFromAttentionSet(this.change._number,
         this.account._account_id, 'manually removed').then(obj => {
-      GerritNav.navigateToChange(this.change);
+      this.dispatchEventThroughTarget('hide-alert');
+      this.dispatchEventThroughTarget('reload');
     });
     this.hide();
   }

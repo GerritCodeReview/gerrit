@@ -161,6 +161,17 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
   }
 
   /**
+   * Hovercard elements are created outside of <gr-app>, so if you want to fire
+   * events, then you probably want to do that through the target element.
+   */
+  dispatchEventThroughTarget(eventName) {
+    this._target.dispatchEvent(new CustomEvent(eventName, {
+      bubbles: true,
+      composed: true,
+    }));
+  }
+
+  /**
    * Returns the target element that the hovercard is anchored to (the `id` of
    * the `for` property).
    *

@@ -107,6 +107,7 @@ export const htmlTemplate = html`
       >
         <div class="action">
           <gr-button
+            class="addToAttentionSet"
             link=""
             no-uppercase=""
             on-click="_handleClickAddToAttentionSet"
@@ -121,6 +122,7 @@ export const htmlTemplate = html`
       >
         <div class="action">
           <gr-button
+            class="removeFromAttentionSet"
             link=""
             no-uppercase=""
             on-click="_handleClickRemoveFromAttentionSet"

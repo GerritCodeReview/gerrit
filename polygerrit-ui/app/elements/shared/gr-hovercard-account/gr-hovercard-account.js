@@ -104,6 +104,20 @@ class GrHovercardAccount extends GestureEventListeners(
     return this.change.attention_set.hasOwnProperty(this.account._account_id);
   }
 
+  _computeReason(change) {
+    if (!change || !change.attention_set) return '';
+    const entry = change.attention_set[this.account._account_id];
+    if (!entry || !entry.reason) return '';
+    return entry.reason;
+  }
+
+  _computeLastUpdate(change) {
+    if (!change || !change.attention_set) return '';
+    const entry = change.attention_set[this.account._account_id];
+    if (!entry || !entry.last_update) return '';
+    return entry.last_update;
+  }
+
   _computeShowLabelNeedsAttention(config, highlightAttention, account, change) {
     return this.isAttentionSetEnabled && this.hasAttention;
   }

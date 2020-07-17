@@ -95,10 +95,20 @@ export const htmlTemplate = html`
         if="[[_computeShowLabelNeedsAttention(_config, highlightAttention, account, change)]]"
       >
         <div class="attention">
-          <iron-icon icon="gr-icons:attention"></iron-icon>
-          <span>
-            [[_computeText(account, _selfAccount)]] turn to take action.
-          </span>
+          <div>
+            <iron-icon icon="gr-icons:attention"></iron-icon>
+            <span>
+              [[_computeText(account, _selfAccount)]] turn to take action.
+            </span>
+          </div>
+          <div>
+            <span class="title">Reason:</span>
+            <span class="value">[[_computeReason(change)]]</span>,
+            <gr-date-formatter
+              has-tooltip=""
+              date-str="[[_computeLastUpdate(change)]]"
+            ></gr-date-formatter>
+          </div>
         </div>
       </template>
       <template

@@ -230,6 +230,23 @@
       "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "854716ac_2a5bfbb9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-07-17T17:20:47Z",
+      "side": 1,
+      "message": "This is not using existing functionality in Gerrit which attempts to achieve the same thing. Please get agreement on changing the existing functionality if you want this.\n\nAnother problem with this approach is that it is not LDAP friendly, the groups approach is.",
+      "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

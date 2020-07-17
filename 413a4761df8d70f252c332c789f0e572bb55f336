@@ -16,6 +16,23 @@
       "revId": "413a4761df8d70f252c332c789f0e572bb55f336",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2919243_168fd844",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2020-07-17T17:26:38Z",
+      "side": 1,
+      "message": "Here is some test data for the reindex optimization. For a test site with ~11k changes(10k in project1, 1k in project2, 100 in project3)\n\nwith change:\nReindexed 11097 documents in changes index in 91.2s (121.7/s)\n\nwithout change:\nReindexed 11097 documents in changes index in 245.3s (45.2/s)",
+      "revId": "413a4761df8d70f252c332c789f0e572bb55f336",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }
